@@ -15,16 +15,11 @@ namespace ai {
 
 class ReflectKick : public Skill {
 private:
-    const double TOWARDS_GOAL_FACTOR = 0.5;
+    const double TOWARDS_GOAL_FACTOR = 0.6;
     const double SECONDS_AHEAD = 0.095;
-    const int MAX_KICK_TICKS = 10;
-
-    double kickTicks = 0;
 
     Vector2 goalTarget;
     Vector2 reflectionPos;
-    Angle angleToGoalTarget;
-    Angle angleToBall;
     double robotAngle;
     bool kicked = false;
 

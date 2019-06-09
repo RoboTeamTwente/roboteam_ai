@@ -116,7 +116,7 @@ void Robot::setGenevaState(unsigned char state) {
         std::cout << "setting invalid geneva state (" << (int) state <<
                   ") for robot with id " << id << std::endl;
     }
-    else if (! workingGeneva) {
+    else if (! workingGeneva && state != 3) {
         std::cout << "setting geneva state (" << (int) state <<
                   ") for robot without working geneva with id " << id << std::endl;
     }
@@ -146,7 +146,7 @@ void Robot::setDribblerState(unsigned char dribbler) {
         std::cout << "setting invalid dribbler state (" << (int) dribbler <<
                   ") for robot with id " << id << std::endl;
     }
-    else if (! workingDribbler) {
+    else if (! workingDribbler && dribbler != 0) {
         std::cout << "setting dribbler state (" << (int) dribbler <<
                   ") for robot without working dribbler with id " << id << std::endl;
     }

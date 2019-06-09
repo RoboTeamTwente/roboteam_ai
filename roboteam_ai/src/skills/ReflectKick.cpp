@@ -13,17 +13,14 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ReflectKick::onInitialize() {
+    kicked = false;
     auto field = world::field->get_field();
-    goalTarget = getFarSideOfGoal();
+    goalTarget = world::field->get_their_goal_center(); //getFarSideOfGoal();
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
 
 ReflectKick::Status ReflectKick::onUpdate() {
-    // Get the angle between the kicker of the robot and the long corner of the goal (furthest corner from the robot)
-    angleToGoalTarget = (goalTarget - getKicker()).toAngle();
-    angleToBall = (ball->pos - getKicker()).toAngle();
-
     // Get the angle that the robot needs to stand at, depended on the TOWARDS_GOAL_FACTOR
     robotAngle = getAngle();
     ballStartPos = ball->pos;
@@ -39,8 +36,9 @@ ReflectKick::Status ReflectKick::onUpdate() {
             ballReceiveVelSet = true;
         }
 
-        command.kicker = 1;
-        command.kicker_forced = Constants::GRSIM()? 1 : 0;
+        command.kicker = true;
+        command.kicker_forced = true;
+        command.kicker_vel = Constants::DEFAULT_KICK_POWER();
         intercept();
     } else {
         command.w = robotAngle;
@@ -51,7 +49,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
     publishRobotCommand();
     coach::g_pass.setReadyToReceivePass(true);
 
-    if (kicked && (ballDeflected() || kickTicks >= MAX_KICK_TICKS)) {
+    if (kicked && ballDeflected()) {
         return Status::Success;
     }
     return Status::Running;
@@ -77,7 +75,7 @@ void ReflectKick::intercept() {
 }
 
 void ReflectKick::onTerminate(Status s) {
-    kickTicks=0;
+    coach::g_pass.resetPass(robot->id);
     kicked = false;
 }
 
@@ -100,18 +98,12 @@ Vector2 ReflectKick::getKicker() {
 }
 
 double ReflectKick::getAngle() {
-    Vector2 robotToGoalVector = (goalTarget - getKicker());
-    Vector2 robotToBallVector = (ball->pos - getKicker());
+    Vector2 robotToGoalVector = (goalTarget - getKicker()).stretchToLength(1.0);
+    Vector2 robotToBallVector = (ball->pos - getKicker()).stretchToLength(1.0);
     //Angle angle = (angleToGoalTarget + ((angleToBall - angleToGoalTarget) * (1 - TOWARDS_GOAL_FACTOR))).getAngle();
-    Angle angle = ((robotToGoalVector + robotToBallVector) * 0.5).toAngle();
+    Angle angle = ((robotToGoalVector * TOWARDS_GOAL_FACTOR + robotToBallVector * (1 - TOWARDS_GOAL_FACTOR))).toAngle();
     return angle;
 
-}
-
-bool ReflectKick::willHaveBall() {
-    Vector2 futureBallPos = ball->pos + ball->vel * SECONDS_AHEAD;
-    double ballDistance = robot->calculateDistanceToBall(futureBallPos);
-    return ballDistance < Constants::MAX_KICK_RANGE() && ballDistance >= 0;
 }
 
 bool ReflectKick::ballDeflected() {
