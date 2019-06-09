@@ -268,7 +268,7 @@ pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4)
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
 
-pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0.0, 0.0) : pidVals(5.0, 0.5, 0.0); }
+pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0.0, 0.0) : pidVals(5.0, 1.5, 0.0); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
