@@ -31,7 +31,6 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     }
 
     if (chip) {
-        std::cout << "chipping -> simulate shotcontroller to use geneva 3" << std::endl;
         currentDesiredGeneva = 3;
     }
 
