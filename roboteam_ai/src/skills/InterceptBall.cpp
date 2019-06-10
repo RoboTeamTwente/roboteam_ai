@@ -89,6 +89,7 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     else {
         if (! stayAtOrientation) {
             command.w = (ballStartPos - interceptPos).angle();
+            command.dribbler=25;
         }
         else {
             command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2);
