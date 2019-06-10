@@ -44,6 +44,7 @@ class InterceptBall : public Skill {
         int maxTicks;
         bool backwards;
         bool stayAtOrientation = false;
+        bool orientationLocked = false;
         control::BasicPosControl poscontroller;
         // Relevant to keeper only
         bool keeper;

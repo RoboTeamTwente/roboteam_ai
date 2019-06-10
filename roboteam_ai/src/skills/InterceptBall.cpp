@@ -51,10 +51,11 @@ InterceptBall::Status InterceptBall::onUpdate() {
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id,
             interface::Drawing::DOTS, 5, 5);
     // if we are not already rotating
-    if (currentProgression != INPOSITION && deltaPos.length() > TURNING_DISTANCE) {
+    if (deltaPos.length()< TURNING_DISTANCE&&!orientationLocked){
         // update if we want to rotate or not; if we have time to turn we do so, otherwise not.
         // this assumes we are at 90 to 180 degrees difference with the target angle; can be improved by measuring average turn time under keeper circumstances
-        stayAtOrientation = ball->vel.length()*TURN_TIME > (interceptPos - ball->pos).length();
+        stayAtOrientation=ball->vel.length()*TURN_TIME > (interceptPos - ball->pos).length();
+        orientationLocked=true;
     }
     tickCount ++;
     switch (currentProgression) {
@@ -81,7 +82,7 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     }
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-    if (deltaPos.length() > 0.05) {
+    if (deltaPos.length() > TURNING_DISTANCE) {
         auto blockAngle = Angle((interceptPos - robot->pos).angle());
         command.w = ! backwards ? blockAngle.getAngle() : Angle(blockAngle + M_PI).getAngle();
     }
