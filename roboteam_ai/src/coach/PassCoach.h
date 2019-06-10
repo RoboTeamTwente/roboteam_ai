@@ -36,7 +36,8 @@ public:
 
 private:
 
-    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
+        //HACK TO ENABLE MORE PASSING FOR PRESENTATION
+    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 5.0;
 
     const double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
     static double MIN_PASS_DISTANCE;
