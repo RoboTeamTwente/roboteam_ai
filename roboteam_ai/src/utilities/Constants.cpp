@@ -268,6 +268,8 @@ pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4)
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
 
+pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
+
 std::vector<RuleSet> Constants::ruleSets() {
     return {
             {"default",             8.0, 6.5, 0.0, ROBOT_RADIUS(),  true },

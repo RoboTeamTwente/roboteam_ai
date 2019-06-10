@@ -133,6 +133,7 @@ class Constants {
         static pidVals standardBasicPID();
         static pidVals standardKeeperPID();
         static pidVals standardKeeperInterceptPID();
+        static pidVals standardBallHandlePID();
     private:
         static bool isInitialized;
         static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
