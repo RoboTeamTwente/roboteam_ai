@@ -207,8 +207,8 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
     case PASS:
 //        velocity = distance > maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() : sqrt(distance)
 //                * rtt::ai::Constants::MAX_KICK_POWER() / sqrt(maxPowerDist) * 0.4;
-        velocity = distance >= maxPowerDist ? rtt::ai::Constants::MAX_KICK_POWER() :
-               pow(distance / maxPowerDist, 2) * rtt::ai::Constants::MAX_KICK_POWER();
+        velocity = distance >= maxPowerDist ? Constants::MAX_KICK_POWER() :
+                std::min(distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER() * 0.7);
         break;
     case MAX_SPEED:velocity = rtt::ai::Constants::MAX_KICK_POWER();
         break;
