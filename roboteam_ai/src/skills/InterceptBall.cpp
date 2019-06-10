@@ -51,11 +51,11 @@ InterceptBall::Status InterceptBall::onUpdate() {
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id,
             interface::Drawing::DOTS, 5, 5);
     // if we are not already rotating
-    if (deltaPos.length()< TURNING_DISTANCE&&!orientationLocked){
+    if (deltaPos.length() < TURNING_DISTANCE && ! orientationLocked) {
         // update if we want to rotate or not; if we have time to turn we do so, otherwise not.
         // this assumes we are at 90 to 180 degrees difference with the target angle; can be improved by measuring average turn time under keeper circumstances
-        stayAtOrientation=ball->vel.length()*TURN_TIME > (interceptPos - ball->pos).length();
-        orientationLocked=true;
+        stayAtOrientation = ball->vel.length()*TURN_TIME > (interceptPos - ball->pos).length();
+        orientationLocked = true;
     }
     tickCount ++;
     switch (currentProgression) {
@@ -82,17 +82,16 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     }
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
-    if (deltaPos.length() > TURNING_DISTANCE) {
-        auto blockAngle = Angle((interceptPos - robot->pos).angle());
-        command.w = ! backwards ? blockAngle.getAngle() : Angle(blockAngle + M_PI).getAngle();
-    }
-    else {
-        if (! stayAtOrientation) {
-            command.w = (ballStartPos - interceptPos).angle();
-            command.dribbler=25;
+
+    auto blockAngle = Angle((interceptPos - robot->pos).angle());
+    command.w = ! backwards ? blockAngle.getAngle() : Angle(blockAngle + M_PI).getAngle();
+    if (orientationLocked) {
+        if (stayAtOrientation){
+            command.w=Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle();
         }
         else {
-            command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2);
+            command.w = (ballStartPos - interceptPos).angle();
+            command.dribbler = 25;
         }
     }
     publishRobotCommand();
@@ -155,19 +154,20 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         Line shotLine(startBall, endBall);
         interceptionPoint = shotLine.project(robot->pos);
         //create an area in which the intersection point should be
-        auto DefenceArea=world::field->getDefenseArea(true);
-        if (!DefenceArea.contains(interceptionPoint)){
-            auto intersectPoints=DefenceArea.intersections(LineSegment(shotLine.start,shotLine.start+(shotLine.end-shotLine.start).scale(1000)));
-            if (intersectPoints.empty()){
+        auto DefenceArea = world::field->getDefenseArea(true);
+        if (! DefenceArea.contains(interceptionPoint)) {
+            auto intersectPoints = DefenceArea.intersections(
+                    LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
+            if (intersectPoints.empty()) {
                 return interceptionPoint;
             }
-            interceptionPoint=intersectPoints[0];
-            double bestDist=(robot->pos-interceptionPoint).length();
-            for (int j = 1; j < intersectPoints.size() ; ++ j) {
-                double dist=(intersectPoints[j]-robot->pos).length();
-                if (dist<bestDist){
-                    interceptionPoint=intersectPoints[j];
-                    bestDist=dist;
+            interceptionPoint = intersectPoints[0];
+            double bestDist = (robot->pos - interceptionPoint).length();
+            for (int j = 1; j < intersectPoints.size(); ++ j) {
+                double dist = (intersectPoints[j] - robot->pos).length();
+                if (dist < bestDist) {
+                    interceptionPoint = intersectPoints[j];
+                    bestDist = dist;
                 }
             }
         }
@@ -222,6 +222,7 @@ void InterceptBall::sendStopCommand() {
     if (! stayAtOrientation) {
         command.w = static_cast<float>((ballStartPos
                 - interceptPos).angle()); //Rotates orthogonal to the line of the ball
+        command.dribbler = 25;
     }
     else {
         command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle();
