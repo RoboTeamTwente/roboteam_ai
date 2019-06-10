@@ -54,10 +54,6 @@ void DribbleForwards::updateForwardsProgress() {
             forwardsProgress = TURNING;
             return;
         }
-        if ( fabs( (robot->pos - ball->pos).toAngle() - lockedAngle ) > 0.1*M_PI) {
-            forwardsProgress = TURNING;
-            return;
-        }
         if (robot->hasBall()) {
             forwardsDribbleLine = {robot->pos, finalTargetPos};
             forwardsProgress = DRIBBLE_FORWARD;

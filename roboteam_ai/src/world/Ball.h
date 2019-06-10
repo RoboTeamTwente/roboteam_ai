@@ -48,6 +48,7 @@ class Ball {
         double spin = 0.0;
         static bool exists;
         bool visible = false;
+        void filterBallVelocity(Ball &oldBall, const WorldData &worldData);
 };
 
 }

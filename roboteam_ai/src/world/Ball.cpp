@@ -8,6 +8,7 @@
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 
 namespace rtt {
 namespace ai {
@@ -26,6 +27,7 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
 }
 
 void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
+    filterBallVelocity(*oldBall, worldData);
     updateBallModel(*oldBall, worldData);
     updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
@@ -218,6 +220,18 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
 
 const Vector2 &Ball::getBallStillPosition() const {
     return ballStillPosition;
+}
+
+void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
+
+    auto &ball = worldData.ball;
+    double velocityDifference = (ball->vel - oldBall.vel).length();
+
+    double b = 8.0;
+    double c = 0.8;
+    double a = velocityDifference > b ? c : velocityDifference*c/b;
+    this->vel = (oldBall.vel*(1 - a) + ball->vel*a);
+
 }
 
 } //world

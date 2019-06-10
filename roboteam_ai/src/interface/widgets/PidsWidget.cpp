@@ -17,6 +17,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     Output::setKeeperPid(Constants::standardKeeperPID());
     Output::setKeeperInterceptPid(Constants::standardKeeperInterceptPID());
     Output::setShotControllerPID(Constants::standardShotControllerPID());
+    Output::setBallHandlePid(Constants::standardBallHandlePID());
 
      auto pidVLayout = new QVBoxLayout();
 
@@ -26,6 +27,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     auto keeperPidBox = new PidBox("Keeper");
     auto keeperInterceptPidBox = new PidBox("Keeper Intercept");
     auto shotControlPidbox = new PidBox("Shotcontroller ball approach");
+    auto ballHandlePidBox = new PidBox("Ball handle");
 
     // initialize them with the default values
     numTreePidBox->setPid(Output::getNumTreePid());
@@ -33,6 +35,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     keeperPidBox->setPid(Output::getKeeperPid());
     keeperInterceptPidBox->setPid(Output::getKeeperInterceptPid());
     shotControlPidbox->setPid(Output::getShotControllerPID());
+    ballHandlePidBox->setPid(Output::getBallHandlePid());
 
     QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
                      [=](const pidVals &pid) { Output::setNumTreePid(pid); });
@@ -49,12 +52,16 @@ PidsWidget::PidsWidget(QWidget * parent) {
     QObject::connect(shotControlPidbox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
             [=](const pidVals &pid) { Output::setShotControllerPID(pid); });
 
+    QObject::connect(ballHandlePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
+            [=](const pidVals &pid) { Output::setBallHandlePid(pid); });
+
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
     pidVLayout->addWidget(basicPidBox);
     pidVLayout->addWidget(keeperPidBox);
     pidVLayout->addWidget(keeperInterceptPidBox);
     pidVLayout->addWidget(shotControlPidbox);
+    pidVLayout->addWidget(ballHandlePidBox);
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
