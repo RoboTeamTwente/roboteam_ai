@@ -36,6 +36,7 @@ void InterceptBall::onInitialize() {
         currentProgression = BALLMISSED;
         backwards = false;
     }
+    orientationLocked=false;
 }
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
@@ -46,7 +47,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
 
     deltaPos = interceptPos - robot->pos;
     if (tickCount==0){
-        std::cout<<"driveDistance: "<< deltaPos<<" arrival time: "<< (ballStartPos-interceptPos).length()/ballStartVel.length()<<std::endl;
+        std::cout<<"driveDistance: "<< deltaPos.length()<<" arrival time: "<< (ballStartPos-interceptPos).length()/ballStartVel.length()<<std::endl;
     }
     checkProgression();
 
