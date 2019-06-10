@@ -40,10 +40,9 @@ void InterceptBall::onInitialize() {
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
-    if (keeper) {
-        interceptPos = computeInterceptPoint(ball->pos,
-                Vector2(ball->pos) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME());
-    }
+    interceptPos = computeInterceptPoint(ball->pos,
+            Vector2(ball->pos) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME());
+
     deltaPos = interceptPos - robot->pos;
     checkProgression();
 
@@ -151,31 +150,24 @@ void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
     Vector2 interceptionPoint;
     if (keeper) {
-        // Depends on two keeper Constants in Constants!
-        Arc keeperCircle = control::ControlUtils::createKeeperArc();
-        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = keeperCircle.intersectionWithLine(
-                startBall, endBall);
-        if (intersections.first && intersections.second) {
-            double dist1 = (Vector2(robot->pos) - *intersections.first).length();
-            double dist2 = (Vector2(robot->pos) - *intersections.second).length();
-            if (dist2 < dist1) {
-                interceptionPoint = *intersections.second;
+        Line shotLine(startBall, endBall);
+        interceptionPoint = shotLine.project(robot->pos);
+        //create an area in which the intersection point should be
+        auto DefenceArea=world::field->getDefenseArea(true);
+        if (!DefenceArea.contains(interceptionPoint)){
+            auto intersectPoints=DefenceArea.intersections(LineSegment(shotLine.start,shotLine.start+(shotLine.end-shotLine.start).scale(1000)));
+            if (intersectPoints.empty()){
+                return interceptionPoint;
             }
-            else {
-                interceptionPoint = *intersections.first;
+            interceptionPoint=intersectPoints[0];
+            double bestDist=(robot->pos-interceptionPoint).length();
+            for (int j = 1; j < intersectPoints.size() ; ++ j) {
+                double dist=(intersectPoints[j]-robot->pos).length();
+                if (dist<bestDist){
+                    interceptionPoint=intersectPoints[j];
+                    bestDist=dist;
+                }
             }
-        }
-        else if (intersections.first) {
-            interceptionPoint = *intersections.first;
-        }
-        else if (intersections.second) {
-            interceptionPoint = *intersections.second;
-        }
-        else {
-            // if the Line does not intercept it usually means the ball is coming from one of the corners-ish to the keeper
-            // For now we pick the closest point to the (predicted) line of the ball
-            Line shotLine(startBall, endBall);
-            interceptionPoint = shotLine.project(robot->pos);
         }
     }
     else {
