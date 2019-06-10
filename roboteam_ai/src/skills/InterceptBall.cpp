@@ -40,10 +40,14 @@ void InterceptBall::onInitialize() {
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
+
     interceptPos = computeInterceptPoint(ball->pos,
             Vector2(ball->pos) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME());
 
     deltaPos = interceptPos - robot->pos;
+    if (tickCount==0){
+        std::cout<<"driveDistance: "<< deltaPos<<" arrival time: "<< (ballStartPos-interceptPos).length()/ballStartVel.length()<<std::endl;
+    }
     checkProgression();
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id,
