@@ -51,7 +51,7 @@ cache:
   apt: true
   directories:
     - $HOME/.ccache
-    - $HOME/catkin_ws/src
+    - $HOME/catkin_ws
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
