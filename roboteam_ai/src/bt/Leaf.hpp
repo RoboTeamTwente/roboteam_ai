@@ -1,12 +1,18 @@
 #pragma once
 
 #include "Node.hpp"
-#include "roboteam_ai/src/world/WorldData.h"
-#include "roboteam_ai/src/world/World.h"
-#include "roboteam_ai/src/world/Field.h"
-
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
+
+// forward declare Robot and Ball
+namespace rtt {
+namespace ai {
+namespace world {
+    class Robot;
+    class Ball;
+}
+}
+}
 
 namespace bt {
 

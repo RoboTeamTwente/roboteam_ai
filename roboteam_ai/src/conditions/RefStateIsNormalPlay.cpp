@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/interface/api/Output.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "RefStateIsNormalPlay.h"
 #include "../utilities/Constants.h"
 

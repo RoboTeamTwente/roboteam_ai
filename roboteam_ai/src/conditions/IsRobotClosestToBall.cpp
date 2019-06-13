@@ -6,6 +6,8 @@
 
 #include "IsRobotClosestToBall.h"
 #include "../world/World.h"
+#include "../world/Ball.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {
@@ -22,7 +24,7 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
         ballPos += ballVel * t;
     }
 
-    RobotPtr robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, world::OUR_ROBOTS);
+    RobotPtr robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
     if (robotClosestToBall->id == robot->id) {
         return Status::Success;
     }
