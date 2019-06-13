@@ -127,6 +127,7 @@ script:
   - export PATH="/usr/lib/ccache/bin/:$PATH"
   - export CC="ccache gcc"
   - export CXX="ccache g++"
+  - export CCACHE_SLOPPINESS=pch_defines,time_macros
   - catkin_make --pkg roboteam_msgs roboteam_utils
   - cd ~/catkin_ws/src/roboteam_ai
   - mkdir cmake-build-debug && cd cmake-build-debug
