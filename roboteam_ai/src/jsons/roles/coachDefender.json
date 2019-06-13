@@ -6,7 +6,7 @@
           "3ax9xioc4ss07ek9": {
             "children": [
               "g5r2v4c300sas7rk",
-              "or2r2hxgurlx1143"
+              "yevksj2u1bmnun5e"
             ],
             "id": "3ax9xioc4ss07ek9",
             "properties": {},
@@ -52,11 +52,6 @@
             },
             "title": "Sequence"
           },
-          "djmcejc57fazsmrl": {
-            "id": "djmcejc57fazsmrl",
-            "properties": {},
-            "title": "Chip"
-          },
           "e4wuunxrr4clvfkz": {
             "id": "e4wuunxrr4clvfkz",
             "properties": {
@@ -79,13 +74,6 @@
             },
             "title": "Pass"
           },
-          "hl1oikmtkttlqc83": {
-            "id": "hl1oikmtkttlqc83",
-            "properties": {
-              "maxTime": ""
-            },
-            "title": "GetBall"
-          },
           "irdmv9l6uzbepi2s": {
             "children": [
               "sfmuusmuqgmgcgn7",
@@ -99,23 +87,6 @@
               "ROLE": "d3"
             },
             "title": "Selector"
-          },
-          "jicklkm3p99pe47t": {
-            "id": "jicklkm3p99pe47t",
-            "properties": {
-              "type": "freeKick"
-            },
-            "title": "GoBehindBall"
-          },
-          "or2r2hxgurlx1143": {
-            "children": [
-              "jicklkm3p99pe47t",
-              "hl1oikmtkttlqc83",
-              "djmcejc57fazsmrl"
-            ],
-            "id": "or2r2hxgurlx1143",
-            "properties": {},
-            "title": "MemSequence"
           },
           "osx0v2kzjz649sif": {
             "id": "osx0v2kzjz649sif",
@@ -167,6 +138,18 @@
               "ROLE": "d3"
             },
             "title": "ShouldHandleBall"
+          },
+          "yevksj2u1bmnun5e": {
+            "id": "yevksj2u1bmnun5e",
+            "properties": {
+              "BallPlacement": "",
+              "Position": "",
+              "distance": "",
+              "dribbleOnTerminate": "",
+              "forwardDirection": "",
+              "maxTicks": ""
+            },
+            "title": "Dribble"
           }
         },
         "root": "irdmv9l6uzbepi2s",
