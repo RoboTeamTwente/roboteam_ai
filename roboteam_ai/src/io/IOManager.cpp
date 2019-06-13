@@ -141,7 +141,17 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id, true);
             if (robot) {
+
+                // this is a failcheck; the geneva state will only be turned if it is possible (which is checked in robot)
                 robot->setGenevaState(cmd.geneva_state);
+                cmd.geneva_state = robot->getGenevaState();
+
+                // only kick and chipp when geneva is ready
+                cmd.kicker = cmd.kicker && robot->isGenevaReady();
+                cmd.chipper = cmd.chipper && robot->isGenevaReady();
+                cmd.kicker_forced = cmd.kicker && robot->isGenevaReady();
+                cmd.chipper_forced = cmd.chipper && robot->isGenevaReady();
+
                 robot->setDribblerState(cmd.dribbler);
             }
             // sometimes trees are terminated without having a role assigned.
