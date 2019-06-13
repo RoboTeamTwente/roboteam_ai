@@ -14,14 +14,19 @@ BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
 bt::Node::Status BallOutOfField::onUpdate() {
-    Vector2 ballPos = ball->pos;
+    Vector2 ballPos;
+    if (properties->hasDouble("secondsAhead")) {
+        ballPos = ball->pos + ball->vel * properties->getDouble("secondsAhead");
+    } else {
+        ballPos = ball->pos;
+    }
 
     // return success if the ball is out of the field
-    if (abs(ballPos.x) < world::field->get_field().field_length / 2 &&
-            abs(ballPos.y) < world::field->get_field().field_width / 2) {
+    if (!world::field->pointIsInField(ballPos)) {
+        return Status::Success;
+    } else {
         return Status::Failure;
-    } 
-    return Status::Success;
+    }
 }
 
 } // ai
