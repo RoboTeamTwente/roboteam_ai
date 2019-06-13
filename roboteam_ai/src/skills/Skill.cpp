@@ -22,15 +22,13 @@ void Skill::publishRobotCommand() {
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
     }
-    if (std::isnan(command.x_vel) || std::isnan(command.y_vel)) {
-        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
-    }
+
     limitRobotCommand();
 
     if (std::isnan(command.x_vel) || std::isnan(command.y_vel)) {
         std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
     }
-
+        
     // Make sure both kicker and chipper vel are set, so that it works for both GrSim and Serial
     if(command.kicker_vel > command.chipper_vel) {
         command.chipper_vel = command.kicker_vel;
@@ -97,7 +95,7 @@ void Skill::refreshRobotCommand() {
     roboteam_msgs::RobotCommand emptyCmd;
     emptyCmd.use_angle = 1;
     emptyCmd.id = robot ? robot->id : -1;
-    emptyCmd.geneva_state = 3;
+    emptyCmd.geneva_state = 0;
     command = emptyCmd;
 }
 
