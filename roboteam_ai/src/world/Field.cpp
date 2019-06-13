@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "Field.h"
 #include "World.h"
+#include <algorithm>
 
 namespace rtt {
 namespace ai {
