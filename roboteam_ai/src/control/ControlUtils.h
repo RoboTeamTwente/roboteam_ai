@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Arc.h>
 #include "../utilities/Constants.h"
+#include <cmath>
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;

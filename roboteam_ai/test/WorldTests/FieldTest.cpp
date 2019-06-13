@@ -154,7 +154,7 @@ TEST(FieldTest, it_detects_points_in_field_properly) {
 }
 
 TEST(FieldTest, it_calculates_obstacles) {
-    auto field = testhelpers::FieldHelper::generateField(12.0, 9.0, 1.0);
+    auto field = testhelpers::FieldHelper::generateField(12.0, 9.0, 1.2);
     rtt::ai::world::field->set_field(field);
     roboteam_msgs::WorldRobot robot;
     robot.id = 0;
