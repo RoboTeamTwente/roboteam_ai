@@ -7,7 +7,6 @@
 #include "roboteam_ai/src/treeinterp/BTImport.h"
 #include <iostream>
 #include "roboteam_ai/src/utilities/RobotDealer.h"
-#include "roboteam_ai/src/bt/bt.hpp"
 
 class Switches {
         private:

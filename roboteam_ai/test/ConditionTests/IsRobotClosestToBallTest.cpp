@@ -3,8 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../../src/bt/bt.hpp"
-#include "roboteam_msgs/World.h"
+#include <roboteam_msgs/World.h>
 #include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 #include "../../src/conditions/IsRobotClosestToBall.h"
