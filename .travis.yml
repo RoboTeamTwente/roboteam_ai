@@ -49,8 +49,8 @@ notifications:
   email: false
 cache:
   apt: true
+  ccache
   directories:
-    - $HOME/.ccache
     - $HOME/.ros
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
@@ -123,7 +123,6 @@ before_script:
 script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - source ~/catkin_ws/devel/setup.bash
-  - export PATH="/usr/lib/ccache/bin/:$PATH"
   - export CC="ccache gcc"
   - export CXX="ccache g++"
   - export CCACHE_SLOPPINESS=pch_defines,time_macros
