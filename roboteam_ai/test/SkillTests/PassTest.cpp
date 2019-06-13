@@ -51,7 +51,7 @@ TEST(PassTest, PassTest) {
     roboteam_msgs::WorldRobot robot2;
     robot2.id = 2;
 
-    robot2.pos.x = field.field_length / 2 - 1.0;
+    robot2.pos.x = field.field_length / 2.0 - 1.0;
     robot2.pos.y = 0;
     world.us.push_back(robot2);
     w::world->updateWorld(world);
