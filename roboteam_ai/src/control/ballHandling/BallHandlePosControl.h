@@ -43,14 +43,17 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle targetAngle;
         Angle lockedAngle = 0;
 
+        pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.0);
+        PID xGoToBallPID = PID(pidfGoToBall);
+        PID yGoToBallPID = PID(pidfGoToBall);
+        
         pidfVals pidfBallHandle = std::make_tuple(0.1, 0.0, 0.0, 0.8);
-        pidfVals pidfGoToBall = std::make_tuple(1.0, 0.0, 0.25, 1.0);
-        PID xGoToBallPID = PID(pidfBallHandle);
-        PID yGoToBallPID = PID(pidfBallHandle);
         PID xBallHandlePID = PID(pidfBallHandle);
         PID yBallHandlePID = PID(pidfBallHandle);
+
+        void updatePID(pidVals newPID);
     public:
-        RobotCommand updatePID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
+        RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
 
         enum TravelStrategy : short {
           FORWARDS,

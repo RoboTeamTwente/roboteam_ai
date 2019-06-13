@@ -47,7 +47,7 @@ Receive::Status Receive::onUpdate() {
         }
     }
 
-    //command.w = (ball->pos - robot->pos).toAngle().getAngle();
+    command.w = (ball->pos - robot->pos).toAngle().getAngle();
     publishRobotCommand();
     return Status::Running;
 

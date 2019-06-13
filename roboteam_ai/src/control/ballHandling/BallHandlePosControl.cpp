@@ -123,14 +123,14 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
         robotCommand.angle = lockedAngle;
         robotCommand.dribbler = 0;
         status = FINALIZING;
-        return updatePID(xBallHandlePID, yBallHandlePID, robotCommand);
+        return controlWithPID(xBallHandlePID, yBallHandlePID, robotCommand);
     }
     else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             cout << "Rotating robot to final angle" << endl;
         }
         status = FINALIZING;
-        return updatePID(xBallHandlePID, yBallHandlePID,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle));
     }
     else {
@@ -214,32 +214,32 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
     status = HANDLING_BALL;
     // check if we are doing something already
     if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
-        return updatePID(xBallHandlePID, yBallHandlePID,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
     }
 
     if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
-        return updatePID(xBallHandlePID, yBallHandlePID,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
     }
 
     switch (travelStrategy) {
     case FORWARDS:
-        return updatePID(xBallHandlePID, yBallHandlePID,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
 
     case BACKWARDS:
-        return updatePID(xBallHandlePID, yBallHandlePID,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
 
     default:
     case NO_PREFERENCE: {
         // choose based on distance from the ball to the target
         if (ballIsFarFromTarget) {
-            return updatePID(xBallHandlePID, yBallHandlePID,
+            return controlWithPID(xBallHandlePID, yBallHandlePID,
                     dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
         }
-        return updatePID(xBallHandlePID, yBallHandlePID,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
     }
     }
@@ -259,9 +259,11 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
     bool ballIsMoving = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
 
     if (ballIsMoving) {
-        return updatePID(xGoToBallPID, yGoToBallPID, goToMovingBall());
+        return controlWithPID(xGoToBallPID, yGoToBallPID,
+                goToMovingBall());
     }
-    return updatePID(xGoToBallPID, yGoToBallPID, goToIdleBall(targetBallPos, travelStrategy, ballIsFarFromTarget));
+    return controlWithPID(xGoToBallPID, yGoToBallPID,
+            goToIdleBall(targetBallPos, travelStrategy, ballIsFarFromTarget));
 }
 
 RobotCommand BallHandlePosControl::goToMovingBall() {
@@ -283,7 +285,7 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
 
     if (robotIsBehindBall && robotCanInterceptBall) {
         numTreesTarget = projectionPosition;
-        auto robotCommand = BasicPosControl::getRobotCommand(robot, numTreesTarget);
+        auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
 
         robotCommand.angle = (ball->pos - robot->pos).toAngle();
         if (fabs(robotAngleTowardsBallVel) > M_PI*0.05) {
@@ -332,11 +334,19 @@ RobotCommand BallHandlePosControl::goToIdleBall(
     return robotCommand;
 }
 
-RobotCommand BallHandlePosControl::updatePID(PID &xpid, PID &ypid, const RobotCommand &robotCommand) {
+RobotCommand BallHandlePosControl::controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand) {
     RobotCommand pidCommand = robotCommand;
     pidCommand.vel.x = xpid.getOutput(robot->vel.x, robotCommand.vel.x);
     pidCommand.vel.y = ypid.getOutput(robot->vel.y, robotCommand.vel.y);
     return pidCommand;
+}
+
+void BallHandlePosControl::updatePID(pidVals newPID) {
+    if (newPID != lastPid) {
+        lastPid = newPID;
+        xBallHandlePID.setPID(newPID);
+        yBallHandlePID.setPID(newPID);
+    }
 }
 
 } //control
