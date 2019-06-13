@@ -4,19 +4,13 @@
  *  This class also provides helper functions to interface with it.
  */
 
-
 #ifndef ROBOTEAM_AI_FIELD_H
 #define ROBOTEAM_AI_FIELD_H
 
-#include <roboteam_utils/Vector2.h>
-#include "roboteam_msgs/GeometryFieldSize.h"
-#include <mutex>
-#include <thread>
-#include <tuple>
-#include "WorldData.h"
-#include "Robot.h"
-#include <roboteam_ai/src/control/ControlUtils.h>
+
 #include <roboteam_utils/Polygon.h>
+#include <roboteam_msgs/GeometryFieldSize.h>
+#include "mutex"
 
 namespace rtt {
 namespace ai {
@@ -24,6 +18,7 @@ namespace world {
 
 using Line=std::pair<Vector2, Vector2>;
 
+class WorldData;
 class Field {
     private:
         roboteam_msgs::GeometryFieldSize field;

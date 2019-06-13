@@ -4,6 +4,7 @@
  */
 
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "BallOutOfField.h"
 
 namespace rtt {
