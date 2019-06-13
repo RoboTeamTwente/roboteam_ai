@@ -13,6 +13,7 @@ class IsInDefenseArea : public ai::Condition {
         bool outsideField;
         Vector2 point;
         float margin;
+        double secondsAhead;
     public:
         explicit IsInDefenseArea(std::string name = "IsInDefenseArea", bt::Blackboard::Ptr blackboard = nullptr);
         Status onUpdate() override;
