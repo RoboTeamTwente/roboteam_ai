@@ -60,7 +60,8 @@ TEST(PassTest, PassTest) {
     rtt::ai::coach::g_pass.resetPass(0);
 
     roboteam_msgs::WorldRobot opponent1;
-    opponent1.pos.x = 4.5;
+    opponent1.id = 2;
+    opponent1.pos.x = -0.5;
     opponent1.pos.y = 0;
 
     world.them.push_back(opponent1);

@@ -125,7 +125,7 @@ script:
   - export CC="ccache gcc"
   - export CXX="ccache g++"
   - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - export ROS_LANG_DISABLE=genlisp:roslisp:genpy:rospy:gennodejs:geneus
+  - export ROS_LANG_DISABLE=genlisp:roslisp:genpy:gennodejs:geneus
   - catkin_make --pkg roboteam_msgs roboteam_utils
   - cd ~/catkin_ws/src/roboteam_ai
   - mkdir cmake-build-debug && cd cmake-build-debug
