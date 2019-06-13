@@ -9,6 +9,7 @@
 #include "ControlUtils.h"
 #include "../world/World.h"
 #include "../world/WorldData.h"
+#include <cmath>
 
 namespace rtt {
 namespace ai {
