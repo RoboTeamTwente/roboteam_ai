@@ -275,12 +275,12 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 projectionPosition = ballLine.project(robot->pos);
     double robotToProjectionDistance = (projectionPosition - robot->pos).length();
     double ballToProjectionDistance = (projectionPosition - ball->pos).length();
-    const double averageRobotInterceptVelocity = 1.5; // ms-1
+    const double AVERAGE_ROBOT_INTERCEPT_VELOCITY = 1.41; // ms-1
 
     Angle robotAngleTowardsBallVel = (robot->pos - ball->pos).toAngle() - ball->vel.toAngle();
     bool robotIsBehindBall = fabs(robotAngleTowardsBallVel) < M_PI_4;
 
-    bool robotCanInterceptBall = robotToProjectionDistance/averageRobotInterceptVelocity <
+    bool robotCanInterceptBall = robotToProjectionDistance/AVERAGE_ROBOT_INTERCEPT_VELOCITY <
             ballToProjectionDistance/ball->vel.length();
 
     if (robotIsBehindBall && robotCanInterceptBall) {

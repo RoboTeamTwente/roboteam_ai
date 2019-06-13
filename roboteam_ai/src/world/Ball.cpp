@@ -26,8 +26,10 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
-void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
-    filterBallVelocity(*oldBall, worldData);
+void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData, bool applyBallFilter) {
+    if (applyBallFilter) {
+        filterBallVelocity(*oldBall, worldData);
+    }
     updateBallModel(*oldBall, worldData);
     updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
@@ -221,8 +223,8 @@ void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
     auto &ball = worldData.ball;
     double velocityDifference = (ball->vel - oldBall.vel).length();
 
-    double velForMaxFactor = 8.0;
-    double maxFactor = 0.8;
+    double velForMaxFactor = 10.0;
+    double maxFactor = 1.0;
     double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
 
     this->vel = (oldBall.vel*(1 - factor) + ball->vel*factor);

@@ -87,7 +87,7 @@ TEST(IsRobotClosestToBallTest, secondsAhead) {
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->updateWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
             rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsRobotClosestToBallTestTactic");
 

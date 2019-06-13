@@ -192,4 +192,17 @@ std::pair<roboteam_msgs::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(i
     return std::make_pair(msg, robotWithBallId);
 }
 
+void WorldHelper::resetWorld() {
+    roboteam_msgs::World worldMsg;
+    roboteam_msgs::WorldBall ball;
+    ball.pos.x = 9e9;
+    ball.pos.y = 9e9;
+    ball.vel.x = 9e9;
+    ball.vel.y = 9e9;
+    ball.existence = 99999;
+    ball.visible = true;
+    worldMsg.ball = ball;
+    rtt::ai::world::world->updateWorld(worldMsg);
+}
+
 } // testhelpers

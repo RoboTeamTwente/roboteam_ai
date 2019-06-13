@@ -12,18 +12,22 @@
 namespace testhelpers {
 
 class WorldHelper {
-public:
-    static double getRandomValue(double min, double max);
-    static rtt::Vector2 getRandomFieldPosition(roboteam_msgs::GeometryFieldSize field);
-    static rtt::Vector2 getRandomVelocity();
-    static bool allPositionsAreValid(const roboteam_msgs::World &worldMsg, bool withBall);
-    static roboteam_msgs::WorldRobot generateRandomRobot(int id, roboteam_msgs::GeometryFieldSize field);
-    static roboteam_msgs::WorldBall generateRandomBall(roboteam_msgs::GeometryFieldSize field);
-    static rtt::Vector2 getLocationRightBeforeRobot(roboteam_msgs::WorldRobot robot);
-    static roboteam_msgs::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
-    static std::vector<roboteam_msgs::WorldRobot> generateRandomRobots(int amount, const roboteam_msgs::GeometryFieldSize &field);
-    static roboteam_msgs::World getWorldMsg(int amountUs, int amountThem, bool withBall, const roboteam_msgs::GeometryFieldSize &field);
-    static std::pair<roboteam_msgs::World, int> getWorldMsgWhereRobotHasBall(int amountUs, int amountThem, bool weHaveBall, roboteam_msgs::GeometryFieldSize field);
+    public:
+        static void resetWorld();
+        static double getRandomValue(double min, double max);
+        static rtt::Vector2 getRandomFieldPosition(roboteam_msgs::GeometryFieldSize field);
+        static rtt::Vector2 getRandomVelocity();
+        static bool allPositionsAreValid(const roboteam_msgs::World &worldMsg, bool withBall);
+        static roboteam_msgs::WorldRobot generateRandomRobot(int id, roboteam_msgs::GeometryFieldSize field);
+        static roboteam_msgs::WorldBall generateRandomBall(roboteam_msgs::GeometryFieldSize field);
+        static rtt::Vector2 getLocationRightBeforeRobot(roboteam_msgs::WorldRobot robot);
+        static roboteam_msgs::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
+        static std::vector<roboteam_msgs::WorldRobot> generateRandomRobots(int amount,
+                const roboteam_msgs::GeometryFieldSize &field);
+        static roboteam_msgs::World getWorldMsg(int amountUs, int amountThem, bool withBall,
+                const roboteam_msgs::GeometryFieldSize &field);
+        static std::pair<roboteam_msgs::World, int> getWorldMsgWhereRobotHasBall(int amountUs, int amountThem,
+                bool weHaveBall, roboteam_msgs::GeometryFieldSize field);
 };
 
 }
