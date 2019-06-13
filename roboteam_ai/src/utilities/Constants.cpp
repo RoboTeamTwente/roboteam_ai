@@ -30,10 +30,6 @@ bool Constants::GRSIM() {
 
 double Constants::FRONT_LENGTH() { return 0.118; }
 
-double Constants::ROBOT_RADIUS_MAX() { return 0.091; }
-
-double Constants::ROBOT_RADIUS() { return 0.089; }
-
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
 
 bool Constants::SHOW_LONGEST_TICK() { return false; }
@@ -47,8 +43,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -60,10 +56,6 @@ double Constants::MIN_ANGLE() { return - M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-double Constants::MAX_VEL() { return GRSIM() ? 8.0 : 4.0; }
-
-double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
-
 double Constants::MIN_VEL() { return 0.2; }
 
 double Constants::MAX_ACC_UPPER() { return 5.0; }
@@ -74,27 +66,17 @@ double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER()*1.2; } //magic number
 
 double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER()*1.2; } //magic number
 
-double Constants::MAX_VEL_BALLPLACEMENT() { return 3.0; }
-
 double Constants::DRIBBLER_ANGLE_OFFSET() { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }
 
 double Constants::CENTRE_TO_FRONT() { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); }
 
-double Constants::BALL_RADIUS() { return 0.0215; }
-
-int Constants::TICK_RATE() { return 60; }
-
 double Constants::CLOSE_TO_BORDER_DISTANCE() { return 1.2*ROBOT_RADIUS(); }
-
-int Constants::GAME_ANALYSIS_TICK_RATE() { return 30; }
 
 double Constants::DEFAULT_KICK_POWER() { return 5.0; }
 
 double Constants::MAX_POWER_KICK_DISTANCE() { return 9.0; }
 
 double Constants::MAX_KICK_POWER() { return 8.0; }
-
-int Constants::MAX_KICK_CYCLES() { return 20; }
 
 double Constants::OUT_OF_FIELD_MARGIN() { return 0.03; }
 
@@ -109,8 +91,6 @@ double Constants::HAS_BALL_ANGLE() { return 0.2; }
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
 
 double Constants::BALL_STILL_VEL() { return 0.1; }
-
-double Constants::MIN_DISTANCE_FOR_FORCE() { return 0.5; }
 
 double Constants::GOTOPOS_ERROR_MARGIN() { return 0.03; }
 
@@ -267,6 +247,8 @@ pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) 
 pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
+
+pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {

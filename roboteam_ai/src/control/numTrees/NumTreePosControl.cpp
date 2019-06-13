@@ -612,7 +612,13 @@ bool NumTreePosControl::checkChangeInMaxRobotVel() {
     return false;
 }
 
+const Collision &NumTreePosControl::getCurrentCollisionWithRobot() const {
+    return currentCollisionWithRobot;
+}
 
+const Collision &NumTreePosControl::getCurrentCollisionWithFinalTarget() const {
+    return currentCollisionWithFinalTarget;
+}
 
 } // control
 } // ai

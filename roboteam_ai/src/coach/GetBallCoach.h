@@ -4,21 +4,21 @@
 
 #ifndef ROBOTEAM_AI_GETBALLCOACH_H
 #define ROBOTEAM_AI_GETBALLCOACH_H
-namespace rtt{
-namespace ai{
-namespace coach{
+
+namespace rtt {
+namespace ai {
+namespace coach {
+
 class GetBallCoach {
     private:
-        bool gettingBall=false;
-        int idGettingBall=-1;
+        bool gettingBall = false;
+        int idGettingBall = - 1;
         bool shouldWeGetBall();
         int bestBallGetterID();
     public:
         void update();
         bool weAreGettingBall();
         int getBallGetterID();
-
-
 
 };
 
