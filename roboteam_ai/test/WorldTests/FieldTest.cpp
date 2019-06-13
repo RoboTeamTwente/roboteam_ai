@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/test/helpers/FieldHelper.h>
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/test/helpers/WorldHelper.h"
 #include "roboteam_ai/src/world/WorldData.h"
@@ -153,11 +154,7 @@ TEST(FieldTest, it_detects_points_in_field_properly) {
 }
 
 TEST(FieldTest, it_calculates_obstacles) {
-    roboteam_msgs::GeometryFieldSize field;
-    field.field_length = 8;
-    field.field_width = 12;
-    field.goal_width = 1;
-    rtt::ai::world::field->set_field(field);
+    rtt::ai::world::field->set_field(testhelpers::FieldHelper::generateField());
     roboteam_msgs::WorldRobot robot;
     robot.id = 0;
 
