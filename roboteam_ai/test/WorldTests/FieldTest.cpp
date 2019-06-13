@@ -6,6 +6,7 @@
 #include <roboteam_ai/src/world/World.h>
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/test/helpers/WorldHelper.h"
+#include "roboteam_ai/src/world/WorldData.h"
 
 TEST(FieldTest, it_gets_and_sets_the_field) {
     roboteam_msgs::GeometryFieldSize field;
@@ -295,8 +296,8 @@ TEST(FieldTest, penalty_points) {
     field.right_penalty_line.end = rtt::Vector2(4, 2);
     rtt::ai::world::field->set_field(field);
 
-    Vector2 penaltyPointUs = rtt::ai::world::field->getPenaltyPoint(true);
-    Vector2 penaltyPointThem = rtt::ai::world::field->getPenaltyPoint(false);
+    rtt::Vector2 penaltyPointUs = rtt::ai::world::field->getPenaltyPoint(true);
+    rtt::Vector2 penaltyPointThem = rtt::ai::world::field->getPenaltyPoint(false);
 
     EXPECT_EQ(penaltyPointUs.x, -4);
     EXPECT_EQ(penaltyPointUs.y, 0);

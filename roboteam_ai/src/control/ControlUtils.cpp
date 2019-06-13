@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include "ControlUtils.h"
 #include "../world/World.h"
+#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
