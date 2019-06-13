@@ -59,7 +59,7 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
     return WAITING;
 }
 Vector2 PenaltyKeeper::computeDefendPos() {
-    auto attacker = world::world->getRobotClosestToBall(world::THEIR_ROBOTS);
+    auto attacker = world::world->getRobotClosestToBall(THEIR_ROBOTS);
     // we check the line defined by attacker's centre and the ball position
     Vector2 beginPos = attacker->pos;
     Vector2 endPos = attacker->pos

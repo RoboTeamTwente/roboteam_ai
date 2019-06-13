@@ -2,7 +2,8 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
-#include <roboteam_ai/src/world/World.h>
+#include "../world/World.h"
+#include "../world/Ball.h"
 #include "StrategyManager.h"
 #include "GameStateManager.hpp"
 
