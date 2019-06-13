@@ -9,7 +9,6 @@
 #include "ControlUtils.h"
 #include "../world/World.h"
 #include "../world/WorldData.h"
-#include <cmath>
 
 namespace rtt {
 namespace ai {
@@ -235,7 +234,7 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
     // calculate if the robot is driving forwards or sideways
     Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
     Vector2 robotVectorDifference = robotAngleDifference.toVector2();
-    double a = abs(robotVectorDifference.x);
+    double a = fabs(robotVectorDifference.x);
     auto acceleration = sidewaysAcceleration * (1-a) + forwardsAcceleration * a;
     auto deceleration = sidewaysDeceleration * (1-a) + forwardsDeceleration * a;
     // a = 0 -> sideways
@@ -243,7 +242,7 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
 
     // calculate if the robot is accelerating or decelerating
     Angle accelerationAngleDifference = deltaVel.toAngle() - targetVel.toAngle();
-    double b = abs(accelerationAngleDifference) * M_1_PI;
+    double b = fabs(accelerationAngleDifference) * M_1_PI;
     auto finalAcceleration = acceleration * (1-b) + deceleration * b;
     // b = 0 -> acceleration
     // b = 1 -> deceleration
