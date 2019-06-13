@@ -1,7 +1,7 @@
 #include "World.h"
 #include "FutureWorld.h"
 #include "BallPossession.h"
-#include "History.h";
+#include "History.h"
 
 namespace rtt {
 namespace ai {
