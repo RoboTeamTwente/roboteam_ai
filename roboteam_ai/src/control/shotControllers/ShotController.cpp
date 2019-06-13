@@ -186,8 +186,8 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
 
 bool ShotController::robotAngleIsGood(world::Robot &robot,
         const std::pair<Vector2, Vector2>& lineToDriveOver, ShotPrecision precision) {
-    Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
-    double diff = abs(aim - robot.angle);
+    Angle aim = (lineToDriveOver.second - lineToDriveOver.first).toAngle();
+    double diff = fabs(aim - robot.angle);
     if (precision == HIGH) {
         return diff < toRadians(3);
     }
