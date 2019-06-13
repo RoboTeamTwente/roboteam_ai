@@ -19,55 +19,59 @@ class Constants {
         static void init();
         static bool GRSIM();
 
+        /// TICK RATE ///
+        static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 30; };
+        static constexpr int TICK_RATE()                    { return 60; };
+
         /// LOGGING ///
         static bool SHOW_LONGEST_TICK();
         static bool SHOW_TICK_TIME_TAKEN();
 
-        static bool SHOW_NUMTREE_TIME_TAKEN();
         static bool SHOW_COACH_TIME_TAKEN();
 
+        static bool SHOW_NUMTREE_TIME_TAKEN();
         static bool SHOW_NUMTREE_DEBUG_INFO();
         static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
+
         static bool SHOW_BALL_HANDLE_DEBUG_INFO();
         static bool SHOW_FULL_BALL_HANDLE_DEBUG_INFO();
 
-        // Basic rulesets for rule compliance
         static std::vector<RuleSet> ruleSets();
 
-        /// ROBOT AND RELATED ///
+        /// ROBOT COMMANDS ///
         static double MAX_VEL_CMD();
         static int MAX_ID_CMD();
         static double MAX_ANGULAR_VEL_CMD();
         static double MIN_ANGLE();
         static double MAX_ANGLE();
+        static double MAX_ANGULAR_VELOCITY();       // Rad per second
 
-        // max velocities for refstates
-        static double MAX_VEL();
-        static double MAX_STOP_STATE_VEL();
-
-        static double MIN_VEL();  // Minimum velocity to make the robot move
+        /// ACCELERATION LIMITERS ///
+        static double MIN_VEL();        // Minimum velocity to make the robot move
         static double MAX_ACC_UPPER();  // Maximum acceleration for moving in the forward direction
         static double MAX_ACC_LOWER();  // Maximum acceleration for moving in the sideways direction
         static double MAX_DEC_UPPER();  // Maximum deceleration for moving in the forward direction
         static double MAX_DEC_LOWER();  // Maximum deceleration for moving in the sideways direction
 
-        static double MAX_VEL_BALLPLACEMENT();
-        static double MAX_ANGULAR_VELOCITY();    // Rad per second
-        static double ROBOT_RADIUS(); // TODO: Need to test if world_state agrees with this definition of the centre of the robot
-        static double ROBOT_RADIUS_MAX();
+        /// ROBOT SPECS ///
+        static constexpr double ROBOT_RADIUS()              { return 0.089; };
+        static constexpr double ROBOT_RADIUS_MAX()          { return 0.091; };
+        static constexpr double BALL_RADIUS()               { return 0.0215; };
+
         static double FRONT_LENGTH();
-        static double DRIBBLER_ANGLE_OFFSET();  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
+        static double DRIBBLER_ANGLE_OFFSET();      // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
         static double CENTRE_TO_FRONT();
-        static double BALL_RADIUS();
-        static int TICK_RATE();
         static double CLOSE_TO_BORDER_DISTANCE();
-        static int GAME_ANALYSIS_TICK_RATE();
+
+        /// REF STATES ///
+        static constexpr double MAX_VEL()                   { return 8.0; };
+        static constexpr double MAX_STOP_STATE_VEL()        { return 1.5; };
+        static constexpr double MAX_VEL_BALLPLACEMENT()     { return 3.0; };
 
         /// GENERAL SKILLS ///
         static double DEFAULT_KICK_POWER(); // max kick power() { return  100
         static double MAX_KICK_POWER(); //TODO: CHECK
         static double MAX_POWER_KICK_DISTANCE();
-        static int MAX_KICK_CYCLES();
         static double OUT_OF_FIELD_MARGIN();
         static double MAX_BALL_BOUNCE_RANGE();
         static double MAX_BALL_RANGE(); // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
@@ -76,7 +80,6 @@ class Constants {
 
         static double MAX_INTERCEPT_TIME();    // Seconds. Intercept terminates  after this time.
         static double BALL_STILL_VEL();    // If the ball has velocity lower than this in defense area, keeper starts getting it
-        static double MIN_DISTANCE_FOR_FORCE();
         static double GOTOPOS_ERROR_MARGIN();
         static double GOTOPOS_ANGLE_ERROR_MARGIN();
         static double DEFAULT_BALLCOLLISION_RADIUS();
@@ -134,6 +137,7 @@ class Constants {
         static pidVals standardKeeperPID();
         static pidVals standardKeeperInterceptPID();
         static pidVals standardBallHandlePID();
+
     private:
         static bool isInitialized;
         static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
@@ -141,7 +145,6 @@ class Constants {
 
 } // ai
 } // rtt
-
 
 enum class RefCommand {
 // Ref states as dictated by RoboCup SSL

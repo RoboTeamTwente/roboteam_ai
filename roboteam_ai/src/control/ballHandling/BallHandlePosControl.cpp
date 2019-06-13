@@ -20,13 +20,13 @@ namespace control {
 
 BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
 
-    dribbleForwards = new DribbleForwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxForwardsVelocity);
-    dribbleBackwards = new DribbleBackwards(errorMargin, angleErrorMargin, ballPlacementAccuracy, maxBackwardsVelocity);
+    dribbleForwards = new DribbleForwards(ERROR_MARGIN, ANGLE_ERROR_MARGIN, ballPlacementAccuracy, maxForwardsVelocity);
+    dribbleBackwards = new DribbleBackwards(ERROR_MARGIN, ANGLE_ERROR_MARGIN, ballPlacementAccuracy, maxBackwardsVelocity);
     rotateWithBall = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
 
     setCanMoveInDefenseArea(canMoveInDefenseArea);
-    setAvoidBallDistance(targetBallDistance*0.95);
+    setAvoidBallDistance(TARGET_BALL_DISTANCE*0.95);
 }
 
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
@@ -81,11 +81,11 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
 
     // if we do not have the ball yet, go get it
     bool robotDoesNotHaveBall = ! robot->hasBall();
-    bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > maxBallDistance*maxBallDistance;
+    bool robotIsTooFarFromBall = (robot->pos - ball->pos).length2() > MAX_BALL_DISTANCE*MAX_BALL_DISTANCE;
     bool robotIsTouchingBall =
-            (robot->pos - ball->pos).length() < (Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS())*1.05;
+            (robot->pos - ball->pos).length() < ROBOT_IS_TOUCHING_BALL;
 
-    bool ballIsMovingTooFast = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
+    bool ballIsMovingTooFast = ball->vel.length2() > MIN_VEL_FOR_MOVING_BALL*MIN_VEL_FOR_MOVING_BALL;
     bool alreadyDribbling = (
             dribbleBackwards->getBackwardsProgression() != DribbleBackwards::BackwardsProgress::START ||
                     dribbleForwards->getForwardsProgression() != DribbleForwards::ForwardsProgress::START);
@@ -125,7 +125,7 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
         status = FINALIZING;
         return controlWithPID(xBallHandlePID, yBallHandlePID, robotCommand);
     }
-    else if (fabs(lockedAngle - robot->angle) > angleErrorMargin) {
+    else if (fabs(lockedAngle - robot->angle) > ANGLE_ERROR_MARGIN) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             cout << "Rotating robot to final angle" << endl;
         }
@@ -256,7 +256,7 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
     dribbleBackwards->reset();
     dribbleForwards->reset();
 
-    bool ballIsMoving = ball->vel.length2() > minVelForMovingball*minVelForMovingball;
+    bool ballIsMoving = ball->vel.length2() > MIN_VEL_FOR_MOVING_BALL*MIN_VEL_FOR_MOVING_BALL;
 
     if (ballIsMoving) {
         return controlWithPID(xGoToBallPID, yGoToBallPID,
@@ -316,19 +316,19 @@ RobotCommand BallHandlePosControl::goToIdleBall(
 
     Vector2 ballToTarget = targetBallPos - ball->pos;
     if (travelStrategy == BACKWARDS) {
-        numTreesTarget = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
+        numTreesTarget = ball->pos + ballToTarget.stretchToLength(MAX_BALL_DISTANCE);
     }
     else if (travelStrategy == FORWARDS) {
-        numTreesTarget = ball->pos + ballToTarget.stretchToLength(- maxBallDistance);
+        numTreesTarget = ball->pos + ballToTarget.stretchToLength(- MAX_BALL_DISTANCE);
     }
     else if (ballIsFarFromTarget) {
-        numTreesTarget = ball->pos + ballToTarget.stretchToLength(- maxBallDistance);
+        numTreesTarget = ball->pos + ballToTarget.stretchToLength(- MAX_BALL_DISTANCE);
     }
     else {
-        numTreesTarget = ball->pos + ballToTarget.stretchToLength(maxBallDistance);
+        numTreesTarget = ball->pos + ballToTarget.stretchToLength(MAX_BALL_DISTANCE);
     }
     auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
-    if ((ball->pos - robot->pos).length() < maxBallDistance*1.5) {
+    if ((ball->pos - robot->pos).length() < MAX_BALL_DISTANCE*1.5) {
         robotCommand.angle = (ball->pos - robot->pos).toAngle();
     }
     return robotCommand;

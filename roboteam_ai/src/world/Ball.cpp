@@ -215,6 +215,7 @@ const Vector2 &Ball::getBallStillPosition() const {
     return ballStillPosition;
 }
 
+/// Adds a moving average over the kalman filter to make the ball-velocity more stable. (Could be moved to rtt_world)
 void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
 
     auto &ball = worldData.ball;
@@ -225,7 +226,6 @@ void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
     double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
 
     this->vel = (oldBall.vel*(1 - factor) + ball->vel*factor);
-
 }
 
 } //world

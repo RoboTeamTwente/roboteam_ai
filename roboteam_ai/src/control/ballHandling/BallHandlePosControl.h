@@ -30,12 +30,14 @@ class BallHandlePosControl : public NumTreePosControl {
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
-        const double errorMargin = 0.02;
-        const double angleErrorMargin = 0.02;
-        const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
-        const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        const double minVelForMovingball = 0.16;
         double ballPlacementAccuracy = 0.07;
+
+        constexpr static double ERROR_MARGIN = 0.02;
+        constexpr static double ANGLE_ERROR_MARGIN = 0.02;
+        constexpr static double MAX_BALL_DISTANCE = Constants::ROBOT_RADIUS()*2.0;
+        constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.16;
+        constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE*1.05;
 
         RobotPtr robot;
         BallPtr ball;
