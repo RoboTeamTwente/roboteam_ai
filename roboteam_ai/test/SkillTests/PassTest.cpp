@@ -45,7 +45,7 @@ TEST(PassTest, PassTest) {
     w::world->updateWorld(world);
 
     rtt::ai::coach::g_pass.resetPass(0);
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
+    EXPECT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
     rtt::ai::coach::g_pass.resetPass(0);
 
     roboteam_msgs::WorldRobot robot2;
@@ -56,7 +56,7 @@ TEST(PassTest, PassTest) {
     world.us.push_back(robot2);
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot2.id));
+    EXPECT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot2.id));
     rtt::ai::coach::g_pass.resetPass(0);
 
     roboteam_msgs::WorldRobot opponent1;
@@ -67,7 +67,7 @@ TEST(PassTest, PassTest) {
     world.them.push_back(opponent1);
     w::world->updateWorld(world);
 
-    ASSERT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
+    EXPECT_EQ(rtt::ai::coach::g_pass.initiatePass(0), static_cast<int>(robot1.id));
     rtt::ai::coach::g_pass.resetPass(0);
 
     ball.pos.x = 3;
@@ -86,7 +86,7 @@ TEST(PassTest, PassTest) {
     rtt::ai::Pass pass("PassTest", properties);
     pass.initialize();
 
-    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
+    EXPECT_EQ(pass.update(), bt::Leaf::Status::Running);
 
     robot1.pos = rtt::ai::control::PositionUtils::getPositionBehindBallToPosition(0.05, robot2.pos);
     robot1.angle = static_cast<float>(((Vector2)robot1.pos - ball.pos).angle());
@@ -98,11 +98,11 @@ TEST(PassTest, PassTest) {
     world2.ball.existence = 99999;
     w::world->updateWorld(world2);
 
-    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
+    EXPECT_EQ(pass.update(), bt::Leaf::Status::Running);
 
     world2.ball.pos = (Vector2){-3, 3};
     w::world->updateWorld(world2);
-    ASSERT_EQ(pass.update(), bt::Leaf::Status::Running);
+    EXPECT_EQ(pass.update(), bt::Leaf::Status::Running);
 
     rtt::ai::coach::g_pass.resetPass(0);
 }
