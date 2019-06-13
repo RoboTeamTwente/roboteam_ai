@@ -15,6 +15,7 @@ namespace coach {
 
 GetBallCoach getBallCoachObj;
 GetBallCoach* getBallCoach = &getBallCoachObj;
+
 bool GetBallCoach::shouldWeGetBall() {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
@@ -32,7 +33,9 @@ int GetBallCoach::getBallGetterID() {
 }
 
 int GetBallCoach::bestBallGetterID() {
-    Vector2 ballPos = world::world->getBall()->getBallStillPosition();
+    auto ball = world::world->getBall();
+    double a = 0.5;
+    Vector2 ballPos = ball->getBallStillPosition() * (1-a) + ball->pos * a;
 
     double closestDistSquared = 9e9;
     int closestId = idGettingBall;
@@ -55,7 +58,7 @@ int GetBallCoach::bestBallGetterID() {
         }
     }
 
-    interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::yellow, closestId,
+    interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::lightGray, closestId,
             interface::Drawing::LINES_CONNECTED);
 
     return closestId;
