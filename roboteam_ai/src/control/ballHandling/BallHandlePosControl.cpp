@@ -53,8 +53,8 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     }
 
     // update PID values
-    auto newPidValues = interface::Output::getBallHandlePid();
-    updatePid(newPidValues);
+    pidVals newPidValues = interface::Output::getBallHandlePid();
+    updatePID(newPidValues);
 
     double expectedDelay = 0.04;
     ball = std::make_shared<world::Ball>(world::Ball(*world::world->getBall()));
