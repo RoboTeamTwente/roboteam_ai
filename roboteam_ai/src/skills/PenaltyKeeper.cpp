@@ -2,7 +2,12 @@
 // Created by rolf on 23-4-19.
 //
 
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Ball.h>
+#include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "PenaltyKeeper.h"
+
 namespace rtt {
 namespace ai {
 PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
@@ -59,10 +64,11 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
     return WAITING;
 }
 Vector2 PenaltyKeeper::computeDefendPos() {
-    auto attacker = world::world->getRobotClosestToBall(world::THEIR_ROBOTS);
+    auto attacker = world::world->getRobotClosestToBall(THEIR_ROBOTS);
     // we check the line defined by attacker's centre and the ball position
     Vector2 beginPos = attacker->pos;
     Vector2 endPos = attacker->pos
+
             + (world::world->getBall()->pos - attacker->pos).stretchToLength(world::field->get_field().field_length);
     //std::cout<<endPos<<std::endl;
     if (control::ControlUtils::lineSegmentsIntersect(beginPos, endPos, goalLine.first, goalLine.second)) {

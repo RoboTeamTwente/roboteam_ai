@@ -12,6 +12,12 @@
 
 namespace rtt {
 namespace ai {
+
+namespace world {
+    class Ball;
+    class Robot;
+}
+
 namespace control {
 
 class RotateAroundBall;
@@ -34,8 +40,8 @@ class DribbleBackwards {
         RotateAroundBall* rotateAroundBall;
         RotateWithBall* rotateAroundRobot;
 
-        using RobotPtr = world::Robot::RobotPtr;
-        using BallPtr = world::Ball::BallPtr;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+        using BallPtr = std::shared_ptr<world::Ball>;
         RobotPtr robot;
         BallPtr ball;
 
