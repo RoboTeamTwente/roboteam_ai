@@ -12,6 +12,17 @@
             "properties": {},
             "title": "MemSelector"
           },
+          "42464mbelzw8wodm": {
+            "id": "42464mbelzw8wodm",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "true",
+              "outsideField": "true",
+              "secondsAhead": "0.4",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
+          },
           "71mer6p00nav4g18": {
             "children": [
               "t3uhfps927dl1zrm",
@@ -44,6 +55,8 @@
           "dfs65wiboi35a5ce": {
             "children": [
               "vy7e107vj3dacrtw",
+              "o4pqszu9vn46iguh",
+              "k1reoplm4o9alph9",
               "3ax9xioc4ss07ek9"
             ],
             "id": "dfs65wiboi35a5ce",
@@ -74,6 +87,13 @@
             },
             "title": "Pass"
           },
+          "hh1t2pqlng2gg7aw": {
+            "id": "hh1t2pqlng2gg7aw",
+            "properties": {
+              "secondsAhead": "0.4"
+            },
+            "title": "BallOutOfField"
+          },
           "irdmv9l6uzbepi2s": {
             "children": [
               "sfmuusmuqgmgcgn7",
@@ -87,6 +107,22 @@
               "ROLE": "d3"
             },
             "title": "Selector"
+          },
+          "k1reoplm4o9alph9": {
+            "children": [
+              "42464mbelzw8wodm"
+            ],
+            "id": "k1reoplm4o9alph9",
+            "properties": {},
+            "title": "Inverter"
+          },
+          "o4pqszu9vn46iguh": {
+            "children": [
+              "hh1t2pqlng2gg7aw"
+            ],
+            "id": "o4pqszu9vn46iguh",
+            "properties": {},
+            "title": "Inverter"
           },
           "osx0v2kzjz649sif": {
             "id": "osx0v2kzjz649sif",

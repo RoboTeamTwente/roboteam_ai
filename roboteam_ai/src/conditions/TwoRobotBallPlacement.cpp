@@ -13,10 +13,10 @@ TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::P
         :Condition(std::move(name), std::move(blackboard)) {};
 
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
-    int robotClosestToBallID = world::world->getRobotClosestToBall(world::OUR_ROBOTS)->id;
+    int robotClosestToBallID = world::world->getRobotClosestToBall(OUR_ROBOTS)->id;
 
     Vector2 ballPlacementPosition = coach::g_ballPlacement.getBallPlacementPos();
-    int robotClosestToBallPlacementPosition = world::world->getRobotClosestToPoint(ballPlacementPosition, world::OUR_ROBOTS)->id;
+    int robotClosestToBallPlacementPosition = world::world->getRobotClosestToPoint(ballPlacementPosition, OUR_ROBOTS)->id;
 
     bool robotClosestToBallIsClosestToTarget = robotClosestToBallID == robotClosestToBallPlacementPosition;
     bool distanceFromBallToTargetIsSmall =  (ballPlacementPosition - ball->pos).length() < MAX_ONE_ROBOT_BALLPLACEMENT_DIST_TO_TARGET;

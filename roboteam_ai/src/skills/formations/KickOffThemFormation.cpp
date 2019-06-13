@@ -1,15 +1,16 @@
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <roboteam_ai/src/world/Field.h>
 #include "KickOffThemFormation.h"
 
 namespace rtt {
 namespace ai {
 
-    std::shared_ptr<vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormation = nullptr;
+    std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormation = nullptr;
 
 KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard)
         : Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
+    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
 
     Vector2 KickOffThemFormation::getFormationPosition() {
@@ -38,7 +39,7 @@ KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr
         return shortestDistances.at(robot->id);
     }
 
-shared_ptr<vector<shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() {
+std::shared_ptr<std::vector<shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 

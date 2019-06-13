@@ -4,10 +4,12 @@
 
 #ifndef ROBOTEAM_AI_DEFENSIVECOACH_H
 #define ROBOTEAM_AI_DEFENSIVECOACH_H
-#include "roboteam_utils/Vector2.h"
-#include "roboteam_ai/src/world/World.h"
+
+#include <gtest/gtest_prod.h>
+#include <roboteam_utils/Vector2.h>
+#include "../../world/WorldData.h"
+#include "../../world/World.h"
 #include "PossiblePass.h"
-#include "gtest/gtest_prod.h"
 
 namespace rtt {
 namespace ai {

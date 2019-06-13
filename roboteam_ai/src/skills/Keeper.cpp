@@ -2,10 +2,10 @@
 // Created by rolf on 10/12/18.
 //
 
-#include <roboteam_ai/src/interface/api/Input.h>
-#include <roboteam_ai/src/interface/api/Output.h>
+#include "../interface/api/Input.h"
+#include "../interface/api/Output.h"
 #include "Keeper.h"
-#include "roboteam_ai/src/world/Field.h"
+#include "../world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -31,7 +31,7 @@ Keeper::Status Keeper::onUpdate() {
     goalPos = world::field->get_our_goal_center();
 
     if (ball->pos.x < 0) {
-        auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::THEIR_ROBOTS);
+        auto attacker = world::world->getRobotClosestToPoint(ball->pos, THEIR_ROBOTS);
         if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
             setGoalPosWithAttacker(attacker);
         }

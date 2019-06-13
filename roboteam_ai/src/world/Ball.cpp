@@ -155,7 +155,7 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     }
     RobotPtr robotWithBall = world->whichRobotHasBall();
     if (robotWithBall) {
-        std::pair<int, Robot::Team> newRobotIdTeam = {robotWithBall->id, robotWithBall->team};
+        std::pair<int, Team> newRobotIdTeam = {robotWithBall->id, robotWithBall->team};
         RobotPtr newRobotWithBall;
         bool newRobotStillExistsInWorld = false;
         for (auto &robot : worldData.us) {
