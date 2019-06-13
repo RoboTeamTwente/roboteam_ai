@@ -79,7 +79,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &p
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
-    return std::max(100 - blockadeLength/goalWidth*100, 0.0);
+    return fmax(100 - blockadeLength/goalWidth*100, 0.0);
 }
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
@@ -165,14 +165,14 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             if (validObstacle) {
                 // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
-                    point1.y = std::min(point1.y, upperGoalSide.y);
-                    point2.y = std::max(point2.y, lowerGoalSide.y);
+                    point1.y = fmin(point1.y, upperGoalSide.y);
+                    point2.y = fmax(point2.y, lowerGoalSide.y);
                     // the first element in the pair is the smallest
                     blockades.emplace_back(std::make_pair(point2, point1));
                 }
                 else { // point2 is largest
-                    point2.y = std::min(point2.y, upperGoalSide.y);
-                    point1.y = std::max(point1.y, lowerGoalSide.y);
+                    point2.y = fmin(point2.y, upperGoalSide.y);
+                    point1.y = fmax(point1.y, lowerGoalSide.y);
                     // the first element in the pair is the smallest
                     blockades.emplace_back(std::make_pair(point1, point2));
                 }
@@ -202,7 +202,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
         if (blockades.at(iterator).second.y >= blockades.at(iterator + 1).first.y) {
 
             // if the first two elements intercept, merge them
-            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator + 1).second.y);
+            auto upperbound = fmax(blockades.at(iterator).second.y, blockades.at(iterator + 1).second.y);
 
             // construct a new vector from the lowest to highest blockade value
             auto newBlockade = std::make_pair(blockades.at(iterator).first,
