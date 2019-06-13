@@ -12,9 +12,19 @@
             "properties": {},
             "title": "Receive"
           },
+          "338k1uomjjg7lsdj": {
+            "children": [
+              "kaxvn1rsvevzy3rq"
+            ],
+            "id": "338k1uomjjg7lsdj",
+            "properties": {},
+            "title": "Inverter"
+          },
           "40gzcpiku966ab8s": {
             "children": [
               "6v218u1mdnl8zb",
+              "338k1uomjjg7lsdj",
+              "fb9v0hgjiktxkb7f",
               "49ambtpymi4l0bt5"
             ],
             "id": "40gzcpiku966ab8s",
@@ -58,6 +68,13 @@
             },
             "title": "GTPSpecial"
           },
+          "e3ankund5cmp6x5a": {
+            "id": "e3ankund5cmp6x5a",
+            "properties": {
+              "secondsAhead": "0.4"
+            },
+            "title": "BallOutOfField"
+          },
           "e9d5w74uo465zkp": {
             "children": [
               "fwx01iov5wuf2zl9e",
@@ -65,6 +82,14 @@
             ],
             "id": "e9d5w74uo465zkp",
             "title": "Sequence"
+          },
+          "fb9v0hgjiktxkb7f": {
+            "children": [
+              "e3ankund5cmp6x5a"
+            ],
+            "id": "fb9v0hgjiktxkb7f",
+            "properties": {},
+            "title": "Inverter"
           },
           "fwx01iov5wuf2zl9e": {
             "id": "fwx01iov5wuf2zl9e",
@@ -103,6 +128,17 @@
             ],
             "id": "iusx0b18cn09c",
             "title": "Sequence"
+          },
+          "kaxvn1rsvevzy3rq": {
+            "id": "kaxvn1rsvevzy3rq",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "false",
+              "outsideField": "true",
+              "secondsAhead": "0.4",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
           },
           "lsnzin91i3imjek5": {
             "id": "lsnzin91i3imjek5",
