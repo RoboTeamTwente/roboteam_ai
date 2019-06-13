@@ -113,3 +113,6 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_RobotsWidget.cpp"

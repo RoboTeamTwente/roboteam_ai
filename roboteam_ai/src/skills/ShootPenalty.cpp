@@ -3,6 +3,8 @@
 //
 
 #include "ShootPenalty.h"
+#include "../world/World.h"
+#include "../world/Ball.h"
 
 namespace rtt {
 namespace ai {

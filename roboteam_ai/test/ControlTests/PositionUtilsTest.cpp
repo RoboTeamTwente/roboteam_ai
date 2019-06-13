@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "roboteam_ai/test/helpers/WorldHelper.h"
 
