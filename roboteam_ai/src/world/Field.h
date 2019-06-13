@@ -11,6 +11,7 @@
 #include <roboteam_utils/Polygon.h>
 #include <roboteam_msgs/GeometryFieldSize.h>
 #include "mutex"
+#include <cmath>
 
 namespace rtt {
 namespace ai {
