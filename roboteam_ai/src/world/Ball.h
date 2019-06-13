@@ -27,7 +27,7 @@ class Ball {
         bool dribbledNow = false;
         double lastKickVel = 0;
         int ballStraightTicks = 0;
-        Vector2 ballStillPosition = {9e9, 9e9};
+        Vector2 ballStillPosition = Vector2();
 
         void updateDribbling(const Ball &oldBall, const WorldData &worldData);
         Robot* getDribblingRobot(const std::vector<RobotPtr> &robots, double maxDribbleRange);

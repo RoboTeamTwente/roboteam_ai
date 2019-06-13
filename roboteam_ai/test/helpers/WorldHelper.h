@@ -13,7 +13,6 @@ namespace testhelpers {
 
 class WorldHelper {
     public:
-        static void resetWorld();
         static double getRandomValue(double min, double max);
         static rtt::Vector2 getRandomFieldPosition(roboteam_msgs::GeometryFieldSize field);
         static rtt::Vector2 getRandomVelocity();
