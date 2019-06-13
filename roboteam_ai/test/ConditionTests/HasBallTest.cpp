@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "../../src/conditions/HasBall.hpp"
 #include "../../src/world/World.h"
+#include "../../src/world/Ball.h"
 #include "../../src/utilities/RobotDealer.h"
 
 TEST(BallTest, IHaveBallTest) {

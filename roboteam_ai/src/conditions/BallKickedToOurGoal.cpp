@@ -2,6 +2,7 @@
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
 
+#include <roboteam_ai/src/world/Field.h>
 #include "BallKickedToOurGoal.h"
 #include "../control/ControlUtils.h"
 

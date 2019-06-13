@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "Output.h"
+#include "../../world/Ball.h"
 
 namespace rtt {
 namespace ai {
