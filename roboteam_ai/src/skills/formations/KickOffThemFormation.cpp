@@ -40,7 +40,7 @@ KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr
         return shortestDistances.at(robot->id);
     }
 
-std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() {
+std::shared_ptr<std::vector<shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 
