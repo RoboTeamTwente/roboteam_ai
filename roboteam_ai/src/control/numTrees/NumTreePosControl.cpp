@@ -488,7 +488,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
                 currentCollisionWithRobot.getCollisionType() == Collision::DEFENSE_AREA) {
 
             finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(finalTargetPos,
-                    Constants::ROBOT_RADIUS()*0.5);
+                    Constants::ROBOT_RADIUS()*1.1);
 
             currentlyAvoidingDefenseArea = finalTargetPos == currentlyAvoidingDefenseAreaPosition;
             if (! currentlyAvoidingDefenseArea) {

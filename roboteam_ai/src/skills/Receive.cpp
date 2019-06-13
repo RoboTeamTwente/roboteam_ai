@@ -61,7 +61,6 @@ void Receive::onTerminate(Status s) {
     }
 }
 
-
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
     double defenseAreaMargin = 0.3;
@@ -69,6 +68,7 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
     return control::ControlUtils::getInterceptPointOnLegalPosition(
             robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
 }
+
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);

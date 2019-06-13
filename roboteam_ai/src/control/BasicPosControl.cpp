@@ -20,10 +20,10 @@ RobotCommand BasicPosControl::getRobotCommand(const RobotPtr &robot, const Vecto
 
     Vector2 target = targetPos;
     if (! getCanMoveOutOfField(robot->id)) {
-        target = ControlUtils::projectPositionToWithinField(targetPos);
+        target = ControlUtils::projectPositionToWithinField(targetPos, Constants::ROBOT_RADIUS()*1.1);
     }
     if (! getCanMoveInDefenseArea(robot->id)) {
-        target = ControlUtils::projectPositionToOutsideDefenseArea(targetPos);
+        target = ControlUtils::projectPositionToOutsideDefenseArea(targetPos, Constants::ROBOT_RADIUS()*1.1);
     }
 
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::darkYellow, robot->id,

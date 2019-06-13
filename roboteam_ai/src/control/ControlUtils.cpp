@@ -277,28 +277,26 @@ double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2
 }
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
-Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, float margin) {
+Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
     auto field = world::field->get_field();
 
-    double hFieldLength = field.field_length*0.5;
+    double hFieldLength = field.field_length/2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, - hFieldLength + margin);
 
-    double hFieldWidth = field.field_width*0.5;
+    double hFieldWidth = field.field_width/2;
     position.y = std::min(position.y, hFieldWidth - margin);
     position.y = std::max(position.y, - hFieldWidth + margin);
 
     return position;
 }
 
-Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, float margin) {
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
     if (world::field->pointIsInDefenceArea(position, true, margin) ||
         world::field->pointIsInDefenceArea(position, false, margin)) {
 
-        position.x = std::min(position.x, world::field->get_field().right_penalty_line.begin.x -
-                Constants::ROBOT_RADIUS() - margin);
-        position.x = std::max(position.x, world::field->get_field().left_penalty_line.begin.x +
-                Constants::ROBOT_RADIUS() + margin);
+        position.x = std::min(position.x, world::field->get_field().right_penalty_line.begin.x - margin);
+        position.x = std::max(position.x, world::field->get_field().left_penalty_line.begin.x + margin);
         return position;
     }
 }
