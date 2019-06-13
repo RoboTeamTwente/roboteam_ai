@@ -26,7 +26,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     bool robotAlreadyVeryClose = robot.pos.dist(ball->pos) < 3.0*Constants::ROBOT_RADIUS();
     int currentDesiredGeneva = robot.getGenevaState();
 
-    if (useAutoGeneva && robot.hasWorkingGeneva() && ! genevaIsTurning && ! robotAlreadyVeryClose) {
+    if (useAutoGeneva && robot.hasWorkingGeneva() && robot.isGenevaReady() && ! robotAlreadyVeryClose) {
         currentDesiredGeneva = determineOptimalGenevaState(robot, aimTarget);
     }
 
@@ -50,12 +50,12 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     RobotCommand shotData;
     // std::cout<<" Online: "<<isOnLineToBall <<" behind: "<<isBehindBall<<" valid: "<<validAngle<<" isShooting: " <<isShooting<<std::endl;
     if (isOnLineToBall && isBehindBall && (validAngle || isShooting)) {
-        if (genevaIsTurning) {
+        if (!robot.isGenevaReady() && !chip) {
             isShooting = false;
             // just stand still at the right angle
             shotData.vel = {0.0, 0.0};
             shotData.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
-            std::cout << "Not shooting because geneva is turning for " << secondsToTurnGeneva << "s" << std::endl;
+            std::cout << "Not shooting because geneva is turning" << std::endl;
         }
         else {
             isShooting = true;
@@ -76,18 +76,15 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::DEBUG, {lineToDriveOver.first, lineToDriveOver.second}, Qt::red,
             robot.id, interface::Drawing::LINES_CONNECTED);
+
+    // if we are chipping then the geneva state of 3 was actually just a way of proper positioning
+    // we can secretly just keep it's state
+    if (chip) currentDesiredGeneva = robot.getGenevaState();
+
+
     // Make sure the Geneva state is always correct
     shotData.geneva = currentDesiredGeneva;
     return shotData;
-}
-
-void ShotController::setGenevaDelay(int genevaDifference) {
-    if (genevaDifference != 0) {
-        genevaIsTurning = true;
-        // each turn should increase the time which the geneva is turning
-        secondsToTurnGeneva = genevaDifference*0.4;
-        lastTimeGenevaChanged = ros::Time::now().toSec();
-    }
 }
 
 /// check if a robot is on a line to a ball
@@ -162,6 +159,7 @@ RobotCommand ShotController::shoot(world::Robot robot, const std::pair<Vector2, 
         shotData.kicker = true;
         shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
+    shotData.kickerForced = !robot.hasWorkingBallSensor();
     return shotData;
 }
 
