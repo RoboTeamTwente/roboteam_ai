@@ -131,7 +131,7 @@ script:
   - mkdir cmake-build-debug && cd cmake-build-debug
 
   # make and run tests with coverage: this returns success when the coverage report is generated and the tests pass
-  - roscore && CC=/usr/lib/ccache/gcc CXX=/usr/lib/ccache/g++ cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target roboteam_ai_coverage -- -j 8
+  - roscore & CC=/usr/lib/ccache/gcc CXX=/usr/lib/ccache/g++ cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" .. && cmake --build ~/catkin_ws/src/roboteam_ai/cmake-build-debug --target roboteam_ai_coverage -- -j 8
 
 after_success:
   - cd ~/catkin_ws/src/roboteam_ai/cmake-build-debug
