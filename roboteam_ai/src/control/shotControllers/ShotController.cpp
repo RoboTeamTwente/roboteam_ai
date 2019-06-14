@@ -116,6 +116,7 @@ RobotCommand ShotController::goToPlaceBehindBall(const world::Robot &robot, cons
         const std::pair<Vector2, Vector2> &line, int geneva) {
 
     Vector2 genevaAimTarget = updateGenevaAimTarget(geneva);
+    robot.getNumtreePosControl()->setAvoidBallDistance(2.0 * Constants::ROBOT_RADIUS());
     auto shotData = robot.getBallHandlePosControl()->getRobotCommand(std::make_shared<world::Robot>(robot),
             genevaAimTarget, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
 

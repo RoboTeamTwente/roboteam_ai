@@ -185,6 +185,12 @@ void MainControlsWidget::updatePause() {
     }
 }
 
+void MainControlsWidget::keyPressEvent(QKeyEvent *event) {
+    if(event->key() == Qt::Key_Space) {
+        sendPauseSignal();
+    }
+}
+
 void MainControlsWidget::setToggleColorBtnLayout() const {
     ros::NodeHandle nh;
     std::string ourColorParam;

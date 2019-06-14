@@ -43,6 +43,7 @@ private:
     GameState prevGameState;
     bool isHalted = false;
 
+    void keyPressEvent(QKeyEvent *event);
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
 
