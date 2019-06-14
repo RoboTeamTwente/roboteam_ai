@@ -25,10 +25,6 @@ PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
     if (preparation){
         state=WAITING;
     }
-    std::cout<<"state: "<< state<<std::endl;
-    std::cout<<"ballPos: "<< ball->pos<<std::endl;
-    std::cout<<"ballVel: "<< ball->vel<<" size: " <<ball->vel.length()<<std::endl;
-    std::cout<<"__"<<std::endl;
     switch (state) {
     case WAITING: {
         sendWaitCommand();

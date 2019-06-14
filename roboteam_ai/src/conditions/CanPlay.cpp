@@ -18,7 +18,6 @@ CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
 };
 
 bt::Node::Status CanPlay::onUpdate() {
-    std::cout<<GameStateManager::getCurrentGameState().strategyName<<" : " << GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) << "m"<<std::endl;
     bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < 0.05;
     auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command.command);
 
