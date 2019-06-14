@@ -25,6 +25,8 @@ class PenaltyKeeper : public Skill  {
         PenaltyState updateState(PenaltyState currentState);
         bool isBallShot();
 
+        bool preparation;
+
         /*
         int ballShotTicks;
         Vector2 initialPos,initialVel;
