@@ -3,10 +3,11 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_msgs/World.h"
+#include <roboteam_msgs/World.h>
 #include "../../src/world/World.h"
 #include "../../src/utilities/RobotDealer.h"
 #include "../../src/conditions/IsRobotClosestToBall.h"
+#include "../../src/world/Ball.h"
 
 TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
 
@@ -86,7 +87,7 @@ TEST(IsRobotClosestToBallTest, secondsAhead) {
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
-    rtt::ai::world::world->updateWorld(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
             rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsRobotClosestToBallTestTactic");
 

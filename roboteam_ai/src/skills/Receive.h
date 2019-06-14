@@ -5,9 +5,8 @@
 #ifndef ROBOTEAM_AI_RECEIVE_H
 #define ROBOTEAM_AI_RECEIVE_H
 
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
-#include "InterceptBall.h"
 #include "roboteam_ai/src/control/PositionUtils.h"
 
 namespace rtt {

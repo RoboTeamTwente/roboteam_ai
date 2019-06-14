@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include "TimeoutFormation.h"
-#include <roboteam_ai/src/control/Hungarian.h>
+#include "../../control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

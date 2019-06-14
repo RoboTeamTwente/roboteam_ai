@@ -2,7 +2,7 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/world/Field.h>
 #include "KickOffThemFormation.h"
-#include <roboteam_ai/src/control/Hungarian.h>
+#include "../../control/Hungarian.h"
 
 namespace rtt {
 namespace ai {
@@ -40,7 +40,7 @@ KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr
         return shortestDistances.at(robot->id);
     }
 
-std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() {
+std::shared_ptr<std::vector<shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 

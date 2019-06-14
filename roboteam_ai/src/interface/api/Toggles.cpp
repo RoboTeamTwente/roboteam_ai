@@ -6,6 +6,7 @@ namespace interface {
 
 std::vector<Toggle> Toggles::toggles = {
         {Visual::DEBUG,             showType::ALL_ROBOTS,       "Show debug values"},
+        {Visual::BALL_DATA,         showType::ALL_ROBOTS,       "Show ball data"},
         {Visual::PATHFINDING,       showType::ALL_ROBOTS,       "Show final paths"},
         {Visual::PATHFINDING_DEBUG, showType::NO_ROBOTS,        "Show pathfinding tried paths"},
         {Visual::KEEPER,            showType::NO_ROBOTS,        "Show keeper points"},

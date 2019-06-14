@@ -31,16 +31,18 @@ class Skill : public bt::Leaf {
     protected:
         using Robot = world::Robot;
         using Ball = world::Ball;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+        using BallPtr = std::shared_ptr<world::Ball>;
         using WorldData = world::WorldData;
 
         io::IOManager ioManager = io::IOManager(false, true);
         void publishRobotCommand();
-    void refreshRobotCommand();
-    roboteam_msgs::RobotCommand command;
+        void refreshRobotCommand();
+        roboteam_msgs::RobotCommand command;
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
-    void limitRobotCommand();
+        void limitRobotCommand();
 
     public:
         explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);

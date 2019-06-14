@@ -1,4 +1,6 @@
 #include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Ball.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "Condition.h"
 
 namespace rtt {

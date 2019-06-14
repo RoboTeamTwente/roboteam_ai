@@ -5,7 +5,9 @@
         "nodes": {
           "h2mmjb0h9xm3bpcyj": {
             "id": "h2mmjb0h9xm3bpcyj",
-            "properties": {},
+            "properties": {
+              "ticks": "120"
+            },
             "title": "Halt"
           }
         },

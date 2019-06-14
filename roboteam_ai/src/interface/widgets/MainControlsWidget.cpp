@@ -10,7 +10,7 @@
 #include "mainWindow.h"
 #include "../../treeinterp/BTFactory.h"
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-
+#include "../../utilities/GameState.h"
 
 namespace rtt {
 namespace ai {
@@ -263,3 +263,6 @@ void MainControlsWidget::sendHaltSignal() {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_MainControlsWidget.cpp"

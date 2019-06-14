@@ -3,7 +3,9 @@
 //
 
 #include <roboteam_ai/src/control/ControlUtils.h>
-
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Robot.h>
+#include "../../world/Ball.h"
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
@@ -13,9 +15,10 @@ namespace ai {
 namespace control {
 
 
-RobotCommand DribbleForwards::getRobotCommand(const world::Robot::RobotPtr &r, const Vector2 &targetP,
+RobotCommand DribbleForwards::getRobotCommand(RobotPtr r, const Vector2 &targetP,
         const Angle &targetA) {
-    robot = r;
+
+    robot = std::move(r);
     ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;
@@ -30,7 +33,7 @@ void DribbleForwards::reset() {
 }
 
 void DribbleForwards::updateForwardsProgress() {
-    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+    if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
         printForwardsProgress();
     }
 
@@ -65,7 +68,7 @@ void DribbleForwards::updateForwardsProgress() {
             forwardsProgress = APPROACHING;
             return;
         }
-        if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "we do not have a ball yet" << std::endl;
         }
         Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;
@@ -195,6 +198,10 @@ DribbleForwards::ForwardsProgress DribbleForwards::getForwardsProgression() {
 DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
         :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+
+    robot = std::make_shared<world::Robot>(world::Robot());
+    ball = std::make_shared<world::Ball>(world::Ball());
+
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }

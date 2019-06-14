@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
-    refWidget = new RefereeWidget(this);
+    refWidget = new RuleSetWidget(this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -133,3 +133,6 @@ void MainWindow::updateKeeperTreeWidget() {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_mainWindow.cpp"

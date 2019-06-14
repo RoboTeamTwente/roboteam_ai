@@ -3,16 +3,6 @@
     "trees": [
       {
         "nodes": {
-          "04rnbv2q7vjwbo6n": {
-            "children": [
-              "qigey30lgf0guo4e"
-            ],
-            "id": "04rnbv2q7vjwbo6n",
-            "properties": {
-              "ROLE": "ballplacementbot"
-            },
-            "title": "UntilSuccess"
-          },
           "0kjuzbc754ybfonh": {
             "children": [
               "dg8rtsej3bbbevagh"
@@ -54,6 +44,19 @@
             },
             "role": "avoid_role",
             "title": "Role"
+          },
+          "7ns7jzso9lofu0av": {
+            "id": "7ns7jzso9lofu0av",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "avoidBall": "true",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "fixedTarget": "",
+              "maxVel": "",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
           },
           "8qwj9095k5ohveg": {
             "children": [
@@ -119,6 +122,16 @@
             },
             "title": "AvoidBall"
           },
+          "dff5xxzshs5kelfa": {
+            "children": [
+              "nwop2h873r6nk7gq"
+            ],
+            "id": "dff5xxzshs5kelfa",
+            "properties": {
+              "ROLE": "ballplacementbot"
+            },
+            "title": "UntilSuccess"
+          },
           "dg8rtsej3bbbevagh": {
             "children": [
               "eyln2ym5lmmdefz4"
@@ -140,6 +153,14 @@
             },
             "role": "avoid_role",
             "title": "Role"
+          },
+          "edde03gm1542hdih": {
+            "id": "edde03gm1542hdih",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "ticks": ""
+            },
+            "title": "Halt"
           },
           "enssz32uvsmap2r4": {
             "children": [
@@ -179,19 +200,6 @@
             },
             "title": "AvoidBall"
           },
-          "fpy9lv45xubewbm6": {
-            "id": "fpy9lv45xubewbm6",
-            "properties": {
-              "ROLE": "ballplacementbot",
-              "avoidBall": "true",
-              "canGoOutsideField": "",
-              "canMoveInDefenseArea": "",
-              "fixedTarget": "",
-              "maxVel": "",
-              "type": "ballPlacementAfter"
-            },
-            "title": "GTPSpecial"
-          },
           "grfk3k408lgew": {
             "id": "grfk3k408lgew",
             "properties": {
@@ -202,7 +210,7 @@
           },
           "hng84qswzcopzk": {
             "children": [
-              "04rnbv2q7vjwbo6n"
+              "dff5xxzshs5kelfa"
             ],
             "id": "hng84qswzcopzk",
             "name": "ballplacementbot",
@@ -212,13 +220,16 @@
             "role": "BallPlacementBot",
             "title": "Role"
           },
-          "iyfrgqqvnbfabvzu": {
-            "id": "iyfrgqqvnbfabvzu",
+          "hnldt89ugo6f1vrs": {
+            "children": [
+              "ktpbvgxqakfwa7zq",
+              "7ns7jzso9lofu0av"
+            ],
+            "id": "hnldt89ugo6f1vrs",
             "properties": {
-              "ROLE": "ballplacementbot",
-              "ballPlacement": "true"
+              "ROLE": "ballplacementbot"
             },
-            "title": "Dribble"
+            "title": "MemSequence"
           },
           "jpbyopqmk9o47": {
             "id": "jpbyopqmk9o47",
@@ -238,6 +249,14 @@
             },
             "title": "UntilSuccess"
           },
+          "ktpbvgxqakfwa7zq": {
+            "id": "ktpbvgxqakfwa7zq",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "seconds": "0.5"
+            },
+            "title": "Wait"
+          },
           "me5r64rml8cj9j": {
             "id": "me5r64rml8cj9j",
             "properties": {
@@ -245,6 +264,17 @@
               "type": "ballPlacement"
             },
             "title": "AvoidBall"
+          },
+          "nwop2h873r6nk7gq": {
+            "children": [
+              "qb85fnkp125bv1lg",
+              "vdy31v0b99cu23iq"
+            ],
+            "id": "nwop2h873r6nk7gq",
+            "properties": {
+              "ROLE": "ballplacementbot"
+            },
+            "title": "MemSequence"
           },
           "osrcm7r61wn9lvu": {
             "children": [
@@ -256,40 +286,35 @@
             },
             "title": "UntilSuccess"
           },
-          "qigey30lgf0guo4e": {
+          "qb85fnkp125bv1lg": {
             "children": [
-              "vmhzc6f21204n3q3",
-              "uw0edvdvfppcio41"
+              "u1pg470ls5zvf5bm",
+              "hnldt89ugo6f1vrs"
             ],
-            "id": "qigey30lgf0guo4e",
-            "properties": {},
-            "title": "MemSequence"
-          },
-          "uw0edvdvfppcio41": {
-            "children": [
-              "y1ow502ecim3q4m4"
-            ],
-            "id": "uw0edvdvfppcio41",
+            "id": "qb85fnkp125bv1lg",
             "properties": {
+              "ROLE": "ballplacementbot"
+            },
+            "title": "Sequence"
+          },
+          "u1pg470ls5zvf5bm": {
+            "id": "u1pg470ls5zvf5bm",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "ballPlacement": "true"
+            },
+            "title": "Dribble"
+          },
+          "vdy31v0b99cu23iq": {
+            "children": [
+              "edde03gm1542hdih"
+            ],
+            "id": "vdy31v0b99cu23iq",
+            "properties": {
+              "ROLE": "ballplacementbot",
               "limit": ""
             },
             "title": "Repeater"
-          },
-          "vmhzc6f21204n3q3": {
-            "children": [
-              "iyfrgqqvnbfabvzu",
-              "fpy9lv45xubewbm6"
-            ],
-            "id": "vmhzc6f21204n3q3",
-            "properties": {},
-            "title": "Sequence"
-          },
-          "y1ow502ecim3q4m4": {
-            "id": "y1ow502ecim3q4m4",
-            "properties": {
-              "ticks": ""
-            },
-            "title": "Halt"
           },
           "z7gb23riaa8y2": {
             "children": [

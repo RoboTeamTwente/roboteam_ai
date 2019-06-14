@@ -2,7 +2,10 @@
 // Created by robzelluf on 5/27/19.
 //
 
+#include <roboteam_ai/src/world/WorldData.h>
 #include "MidFieldCoach.h"
+#include "../../world/Robot.h"
+#include "../../world/Ball.h"
 
 namespace rtt {
 namespace ai {
@@ -172,7 +175,7 @@ bool MidFieldCoach::isRobotAlreadyBeingHarassed(const world::World::RobotPtr &op
 MidFieldCoach::Target MidFieldCoach::standFree(const RobotPtr &thisRobot) {
     Target target;
     target.targetRobot = -1;
-    target.targetPosition = thisRobot->pos;
+    target.targetPosition = calculateNewRobotPosition(thisRobot, thisRobot->vel.toAngle());
     return target;
 }
 
@@ -220,6 +223,46 @@ MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr
     target.targetRobot = opponent->id;
     target.targetPosition = world::world->getBall()->pos;
     return target;
+}
+
+double MidFieldCoach::calculateStandingFreeScore(const Vector2& position, const RobotPtr &thisRobot) {
+    WorldData world = world::world->getWorld();
+    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+
+    double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
+    double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position, thisRobot->id);
+    double distanceToBallScore = CoachHeuristics::calculateDistanceToBallScore(position, world);
+
+    return passLineScore + distanceToUsScore + distanceToBallScore;
+}
+
+Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle) {
+
+    Vector2 bestPosition = targetPositions[thisRobot->id];
+    double highestScore = calculateStandingFreeScore(bestPosition, thisRobot);
+
+    Angle goldenAngle = 0.01;
+    tick++;
+    Angle thetaPlus = tick*tick*goldenAngle;
+    Angle thetaMinus = -1*tick*tick*goldenAngle;
+    std::vector<Vector2> positions = {bestPosition + thetaPlus.toVector2(1.0   * GRID_SIZE),
+                                      bestPosition + thetaPlus.toVector2(2.0   * GRID_SIZE),
+                                      bestPosition + thetaPlus.toVector2(4.0   * GRID_SIZE),
+                                      bestPosition + thetaMinus.toVector2(1.0  * GRID_SIZE),
+                                      bestPosition + thetaMinus.toVector2(2.0  * GRID_SIZE),
+                                      bestPosition + thetaMinus.toVector2(4.0  * GRID_SIZE)};
+
+    for (const auto& position : positions) {
+        if(!world::field->pointIsInField(position, 0.20) || abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
+        double score = calculateStandingFreeScore(position, thisRobot);
+        if (score > highestScore) {
+            highestScore = score;
+            bestPosition = position;
+        }
+    }
+
+    targetPositions[thisRobot->id] = bestPosition;
+    return bestPosition;
 }
 
 } //coach

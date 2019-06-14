@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include "DefendFreeKick.h"
-#include <roboteam_ai/src/control/Hungarian.h>
+#include "../../control/Hungarian.h"
 
 namespace rtt {
 namespace ai {
@@ -28,13 +28,14 @@ Vector2 DefendFreeKick::getFormationPosition() {
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
     return shortestDistances[robot->id];
 }
+
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> DefendFreeKick::robotsInFormationPtr() {
     return robotsInFormation;
 }
 
 DefendFreeKick::DefendFreeKick(std::string name, bt::Blackboard::Ptr blackboard)
         :Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<vector<std::shared_ptr<world::Robot>>>();
+    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 
 }
 void DefendFreeKick::onTerminate(Skill::Status s) {

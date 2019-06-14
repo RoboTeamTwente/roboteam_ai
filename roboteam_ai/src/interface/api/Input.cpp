@@ -33,7 +33,7 @@ void Input::makeDrawing(Drawing const &drawing) {
     drawings.push_back(drawing);
 }
 
-const std::vector<Drawing> &Input::getDrawings() {
+const std::vector<Drawing> Input::getDrawings() {
     std::lock_guard<std::mutex> lock(drawingMutex);
     return drawings;
 }

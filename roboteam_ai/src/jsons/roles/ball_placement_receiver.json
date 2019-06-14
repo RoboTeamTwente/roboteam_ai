@@ -3,17 +3,21 @@
     "trees": [
       {
         "nodes": {
-          "1nsu3wem1wfnq1oj": {
+          "6pfnmm91bzgifoms": {
             "children": [
-              "tz8tak4y4pqp2c2a",
-              "2bf2hjj1nacoi6gk"
+              "gz40youirstbwq9d",
+              "b90iu9ue6cq7nmtg",
+              "nlogi6qtm712fkip",
+              "autwbjkg9sz2lks1"
             ],
-            "id": "1nsu3wem1wfnq1oj",
-            "properties": {},
-            "title": "Sequence"
+            "id": "6pfnmm91bzgifoms",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "MemSequence"
           },
-          "2bf2hjj1nacoi6gk": {
-            "id": "2bf2hjj1nacoi6gk",
+          "9ebw491k7oz1gq40": {
+            "id": "9ebw491k7oz1gq40",
             "properties": {
               "ROLE": "ball_placement_receiver",
               "avoidBall": "true",
@@ -25,61 +29,56 @@
             },
             "title": "GTPSpecial"
           },
-          "66aufu6wm5b0fj7z": {
-            "id": "66aufu6wm5b0fj7z",
-            "properties": {
-              "ROLE": "ball_placement_receiver",
-              "ticks": "20"
-            },
-            "title": "Halt"
-          },
-          "6nn2w7c60ume8hta": {
+          "autwbjkg9sz2lks1": {
             "children": [
-              "jmt3d41rqe4a1zxi"
+              "r913nzpdgnznnnjm"
             ],
-            "id": "6nn2w7c60ume8hta",
+            "id": "autwbjkg9sz2lks1",
             "properties": {
               "limit": ""
             },
             "title": "Repeater"
           },
-          "jmt3d41rqe4a1zxi": {
-            "id": "jmt3d41rqe4a1zxi",
+          "b90iu9ue6cq7nmtg": {
+            "id": "b90iu9ue6cq7nmtg",
+            "properties": {
+              "seconds": "0.5"
+            },
+            "title": "Wait"
+          },
+          "gz40youirstbwq9d": {
+            "id": "gz40youirstbwq9d",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "BallPlacementReceive"
+          },
+          "nlogi6qtm712fkip": {
+            "children": [
+              "w3z3pub21327ynf3",
+              "9ebw491k7oz1gq40"
+            ],
+            "id": "nlogi6qtm712fkip",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "r913nzpdgnznnnjm": {
+            "id": "r913nzpdgnznnnjm",
             "properties": {
               "ticks": ""
             },
             "title": "Halt"
           },
-          "nkkdk5h67ttbazek": {
-            "children": [
-              "w4j29o6jgi1zay84",
-              "66aufu6wm5b0fj7z",
-              "1nsu3wem1wfnq1oj",
-              "6nn2w7c60ume8hta"
-            ],
-            "id": "nkkdk5h67ttbazek",
+          "w3z3pub21327ynf3": {
+            "id": "w3z3pub21327ynf3",
             "properties": {
-              "ROLE": "ball_placement_receiver"
-            },
-            "title": "MemSequence"
-          },
-          "tz8tak4y4pqp2c2a": {
-            "id": "tz8tak4y4pqp2c2a",
-            "properties": {
-              "BallPlacement": "true",
-              "ROLE": "ball_placement_receiver"
+              "ROLE": "ball_placement_receiver",
+              "ballPlacement": "true"
             },
             "title": "Dribble"
-          },
-          "w4j29o6jgi1zay84": {
-            "id": "w4j29o6jgi1zay84",
-            "properties": {
-              "ROLE": "ball_placement_receiver"
-            },
-            "title": "BallPlacementReceive"
           }
         },
-        "root": "nkkdk5h67ttbazek",
+        "root": "6pfnmm91bzgifoms",
         "title": "ball_placement_receiver"
       }
     ]

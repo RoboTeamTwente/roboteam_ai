@@ -8,6 +8,7 @@
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "../utilities/Constants.h"
 #include "CanPlay.h"
+#include "../world/Ball.h"
 
 namespace rtt {
 namespace ai {

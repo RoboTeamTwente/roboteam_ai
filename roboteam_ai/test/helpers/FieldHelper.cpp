@@ -3,7 +3,6 @@
 //
 
 #include "FieldHelper.h"
-#include "roboteam_utils/Vector2.h"
 
 namespace testhelpers {
 

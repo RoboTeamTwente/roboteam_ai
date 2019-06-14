@@ -2,13 +2,13 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "Receive.h"
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
-#include <roboteam_ai/src/world/Robot.h>
 
 namespace rtt {
 namespace ai {
@@ -28,7 +28,6 @@ Receive::Status Receive::onUpdate() {
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         return Status::Failure;
     }
-
 
     if (coach::g_pass.isPassed()) {
         // Check if the ball was deflected
@@ -67,14 +66,14 @@ void Receive::onTerminate(Status s) {
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
     double defenseAreaMargin = 0.3;
     double outOfFieldMargin = -Constants::ROBOT_RADIUS();
-    return control::ControlUtils::getInterceptPointOnLegalPosition(robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
+    return control::ControlUtils::getInterceptPointOnLegalPosition(
+            robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
     return isAimedAtBall;
 }
-
 
 void Receive::intercept() {
     ball = world::world->getBall();

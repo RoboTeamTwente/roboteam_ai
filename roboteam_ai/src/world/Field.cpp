@@ -4,8 +4,10 @@
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include "WorldData.h"
 #include "Field.h"
 #include "World.h"
+#include <algorithm>
 
 namespace rtt {
 namespace ai {
@@ -43,11 +45,7 @@ bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, fl
 
 // the margin is pointed inside the field!
 bool Field::pointIsInField(const Vector2 &point, float margin) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
     float halfLength = _field.field_length*0.5f;
     float halfWidth = _field.field_width*0.5f;
@@ -81,7 +79,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &p
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
-    return std::max(100 - blockadeLength/goalWidth*100, 0.0);
+    return fmax(100 - blockadeLength/goalWidth*100, 0.0);
 }
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
@@ -100,7 +98,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     robots.insert(robots.begin(), data.them.begin(), data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
-        if (robot->id == id && robot->team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
+        if (robot->id == id && robot->team == (ourTeam ? Team::us : Team::them)) continue;
         double lenToBot = (point - robot->pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot <= robotRadius;
@@ -167,14 +165,14 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
             if (validObstacle) {
                 // constrain the blockades to within the goal
                 if (point1.y > point2.y) { // point1 is largest
-                    point1.y = std::min(point1.y, upperGoalSide.y);
-                    point2.y = std::max(point2.y, lowerGoalSide.y);
+                    point1.y = fmin(point1.y, upperGoalSide.y);
+                    point2.y = fmax(point2.y, lowerGoalSide.y);
                     // the first element in the pair is the smallest
                     blockades.emplace_back(std::make_pair(point2, point1));
                 }
                 else { // point2 is largest
-                    point2.y = std::min(point2.y, upperGoalSide.y);
-                    point1.y = std::max(point1.y, lowerGoalSide.y);
+                    point2.y = fmin(point2.y, upperGoalSide.y);
+                    point1.y = fmax(point1.y, lowerGoalSide.y);
                     // the first element in the pair is the smallest
                     blockades.emplace_back(std::make_pair(point1, point2));
                 }
@@ -204,7 +202,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
         if (blockades.at(iterator).second.y >= blockades.at(iterator + 1).first.y) {
 
             // if the first two elements intercept, merge them
-            auto upperbound = std::max(blockades.at(iterator).second.y, blockades.at(iterator + 1).second.y);
+            auto upperbound = fmax(blockades.at(iterator).second.y, blockades.at(iterator + 1).second.y);
 
             // construct a new vector from the lowest to highest blockade value
             auto newBlockade = std::make_pair(blockades.at(iterator).first,
@@ -241,14 +239,14 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
     // everytime we add a vector from the lowest goalside to the lowest part of the obstacle we remember the upper part of the obstacle
     // That upper part is stored as the lowerhook again: and we can repeat the process
     for (auto const &blockade : blockades) {
-        auto lowerbound = std::min(blockade.first.y, blockade.second.y);
+        auto lowerbound = fmin(blockade.first.y, blockade.second.y);
 
         // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
         // originally used to be != but floating point errors are tears.
-        if (abs(lowerbound - lowerHook.y) > 0.000001) {
+        if (fabs(lowerbound - lowerHook.y) > 0.000001) {
             visibleParts.emplace_back(std::make_pair(lowerHook, Vector2(blockade.first.x, lowerbound)));
         }
-        auto upperbound = std::max(blockade.first.y, blockade.second.y);
+        auto upperbound = fmax(blockade.first.y, blockade.second.y);
         lowerHook = Vector2(blockade.first.x, upperbound);
     }
 
@@ -261,11 +259,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
     // get the sides of the goal
     double goalWidth = _field.goal_width;
@@ -295,8 +289,7 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 
 }
 
-std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2 &lineStart,
-        const Vector2 &lineEnd, double margin) {
+std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin) {
     auto defenseArea = getDefenseArea(ourGoal, margin);
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
@@ -324,11 +317,7 @@ bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart
 }
 
 Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
-    roboteam_msgs::GeometryFieldSize _field;
-    {
-        std::lock_guard<std::mutex> lock(fieldMutex);
-        _field = field;
-    }
+    roboteam_msgs::GeometryFieldSize _field = get_field();
 
     double backLineUsXCoordinate = includeOutSideField ? - _field.field_length*0.5 - _field.boundary_width :
                                    - _field.field_length*0.5 - margin;
@@ -351,6 +340,34 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
 
     Polygon defenceAreaThem(defenceAreaThemPoints);
     return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
+}
+
+Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
+    roboteam_msgs::GeometryFieldSize _field = get_field();
+
+    double marginBackside = hasBackMargin ? margin : 0.0;
+    auto goalDepth = _field.goal_depth + marginBackside;
+
+    if (ourGoal) {
+        auto ourGoalSides = getGoalSides(true);
+        std::vector<Vector2> areaUsPoints = {
+                {ourGoalSides.first.x + margin,              ourGoalSides.first.y - margin},
+                {ourGoalSides.first.x - goalDepth,           ourGoalSides.first.y - margin},
+                {ourGoalSides.second.x - goalDepth,          ourGoalSides.second.y + margin},
+                {ourGoalSides.second.x + margin,             ourGoalSides.second.y + margin}};
+
+        interface::Input::drawDebugData(areaUsPoints, Qt::green, interface::Drawing::LINES_CONNECTED);
+        return Polygon(areaUsPoints);
+    }
+
+    auto theirGoalSides = getGoalSides(false);
+    std::vector<Vector2> areaThemPoints = {
+            {theirGoalSides.first.x - margin,              theirGoalSides.first.y - margin},
+            {theirGoalSides.first.x + goalDepth,           theirGoalSides.first.y - margin},
+            {theirGoalSides.second.x + goalDepth,          theirGoalSides.second.y + margin},
+            {theirGoalSides.second.x - margin,             theirGoalSides.second.y + margin}};
+    interface::Input::drawDebugData(areaThemPoints, Qt::red, interface::Drawing::LINES_CONNECTED);
+    return Polygon(areaThemPoints);
 }
 
 } // world

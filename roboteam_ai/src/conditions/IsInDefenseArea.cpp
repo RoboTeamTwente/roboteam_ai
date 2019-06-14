@@ -6,7 +6,9 @@
 * - outsideField: if true, the robot 
 */
 
-#include <roboteam_ai/src/world/Field.h>
+#include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 #include "IsInDefenseArea.hpp"
 
 namespace rtt {
@@ -18,7 +20,17 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
 bt::Node::Status IsInDefenseArea::onUpdate() {
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
-    point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+    secondsAhead = properties->hasDouble("secondsAhead") ? properties->getDouble("secondsAhead") : 0.0;
+    if(secondsAhead >= 0.0) {
+        if(properties->getBool("useRobot")) {
+            point = robot->pos + robot->vel * secondsAhead;
+        } else {
+            point = ball->pos + ball->vel * secondsAhead;
+        }
+    } else {
+        point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+    }
+
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 
     if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {

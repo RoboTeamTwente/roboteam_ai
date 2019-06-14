@@ -7,11 +7,17 @@
 
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
-#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 #include "roboteam_ai/src/world/Robot.h"
 
 namespace rtt {
 namespace ai {
+
+namespace world {
+    class Ball;
+    class Robot;
+}
+
 namespace control {
 
 class RotateAroundBall;
@@ -34,8 +40,8 @@ class DribbleBackwards {
         RotateAroundBall* rotateAroundBall;
         RotateWithBall* rotateAroundRobot;
 
-        using RobotPtr = world::Robot::RobotPtr;
-        using BallPtr = world::Ball::BallPtr;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+        using BallPtr = std::shared_ptr<world::Ball>;
         RobotPtr robot;
         BallPtr ball;
 
@@ -73,7 +79,7 @@ class DribbleBackwards {
         RobotCommand sendSuccessCommand();
 
     public:
-        RobotCommand getRobotCommand(const world::Robot::RobotPtr &r,
+        RobotCommand getRobotCommand(RobotPtr r,
                 const Vector2 &targetP, const Angle &targetA);
         void reset();
 

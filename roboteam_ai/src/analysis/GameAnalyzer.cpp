@@ -4,8 +4,10 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/BallPossession.h>
-#include <roboteam_ai/src/world/Field.h>
 #include "GameAnalyzer.h"
+#include "../world/World.h"
+#include "../world/Field.h"
+#include "../world/Robot.h"
 #include "RobotDanger.h"
 
 namespace rtt {
@@ -77,7 +79,7 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttacker
 
     for (auto robot : robots) {
         robotsWithVisibilities.emplace_back(robot,
-                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos));
+                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld()));
     }
 
     // sort on goal visibility
@@ -94,7 +96,7 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos);
+        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
     }
     return (total/robots.size());
 }
@@ -108,7 +110,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam)
     danger.id = robot->id;
     danger.distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos);
+    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
@@ -127,7 +129,6 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
 std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
     auto ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
-
 
     std::vector<std::pair<int, double>> robotsToPassTo;
     for (auto ourRobot : ourRobots) {

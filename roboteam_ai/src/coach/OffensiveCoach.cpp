@@ -128,7 +128,7 @@ void OffensiveCoach::redistributePositions() {
     std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
 
     rtt::HungarianAlgorithm hungarian;
-    std::map<int, Vector2> shortestDistances;
+    map<int, Vector2> shortestDistances;
     shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
 
     for (auto &robot : sideAttackers) {
@@ -158,7 +158,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
 
     // get the longest line section op the visible part of the goal
-    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint);
+    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint, world::world->getWorld());
     if (openSegments.empty()) return world::field->get_their_goal_center();
     auto bestSegment = getLongestSegment(openSegments);
 

@@ -1,24 +1,28 @@
+
 //
 // Created by thijs on 25-5-19.
 //
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-
+#include "../../control/ControlUtils.h"
 #include "DribbleBackwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
+#include "../../world/Ball.h"
+#include "../../world/World.h"
 
 namespace rtt {
 namespace ai {
 namespace control {
 
-RobotCommand DribbleBackwards::getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
-    robot = r;
+RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
+
+    robot = std::move(r);
     ball = world::world->getBall();
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;
     targetPos = targetP;
+
     updateBackwardsProgress();
     return sendBackwardsCommand();
 }
@@ -28,7 +32,7 @@ void DribbleBackwards::reset() {
 }
 
 void DribbleBackwards::updateBackwardsProgress() {
-    if (Constants::SHOW_BALL_HANDLE_DEBUG_INFO()) {
+    if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
         printBackwardsProgress();
     }
 
@@ -241,6 +245,7 @@ DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() 
 DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
         :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
+
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }

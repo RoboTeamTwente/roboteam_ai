@@ -5,8 +5,7 @@
 #ifndef ROBOTEAM_AI_REFLECTKICK_H
 #define ROBOTEAM_AI_REFLECTKICK_H
 
-#include <roboteam_ai/src/control/positionControllers/BasicPosControl.h>
-#include "InterceptBall.h"
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>

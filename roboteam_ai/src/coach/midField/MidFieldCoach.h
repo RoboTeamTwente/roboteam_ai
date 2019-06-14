@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/BallPossession.h>
+#include "../heuristics/CoachHeuristics.h"
 
 namespace rtt {
 namespace ai {
@@ -16,16 +17,22 @@ namespace coach {
 
 class MidFieldCoach {
     private:
-        const double DISTANCE_FROM_MIDDLE_LINE = 3.0;
+        const double DISTANCE_FROM_MIDDLE_LINE = 2.0;
         const double HARASSER_SECONDS_AHEAD = 0.5;
         const double STAND_STILL_DISTANCE = Constants::ROBOT_RADIUS();
         const double MIN_OPPONENT_VELOCITY = 0.5;
         const double DEFAULT_HARASS_DISTANCE = 4 * Constants::ROBOT_RADIUS();
 
+        const double GRID_RADIUS = 2;
+        const double GRID_SIZE = 0.05;
+
+        int tick = 0;
+
         using Robot = world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
         using Ball = world::Ball;
         using BallPtr = std::shared_ptr<Ball>;
+        using WorldData = world::WorldData;
 
         struct Target {
             Vector2 targetPosition;
@@ -49,6 +56,8 @@ class MidFieldCoach {
         MidFieldCoach::Target
         harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
+        Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle);
+        double calculateStandingFreeScore(const Vector2& position, const RobotPtr &thisRobot);
     public:
         void addMidFielder(RobotPtr &thisRobot);
         void removeMidFielder(RobotPtr &thisRobot);

@@ -52,7 +52,9 @@ void Formation::terminate(Status s) {
 }
 
 void Formation::onTerminate(bt::Node::Status s) {
-    removeRobotFromFormation();
+    if (robot) {
+        removeRobotFromFormation();
+    }
 }
 
 // loop through all formationrobots to see if our robot is there.

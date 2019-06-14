@@ -17,12 +17,6 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-enum WhichRobots : short {
-  OUR_ROBOTS,
-  THEIR_ROBOTS,
-  ALL_ROBOTS
-};
-
 class WorldData {
     private:
         using RobotPtr = std::shared_ptr<Robot>;
@@ -33,26 +27,26 @@ class WorldData {
         explicit WorldData(const roboteam_msgs::World &copy)
                 :time(copy.time) {
             for (auto &robot : copy.us) {
-                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::us, 3));
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::us, 3));
                 us.emplace_back(r);
             }
 
             for (auto &robot : copy.them) {
-                RobotPtr r = std::make_shared<Robot>(Robot(robot, Robot::Team::them, 3));
+                RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::them, 3));
                 them.emplace_back(r);
             }
-            ball = std::make_shared<Ball>(Ball(copy.ball));
+            ball = std::make_shared<Ball>(copy.ball);
         }
         explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,
                 const BallPtr &copyBall, double time)
                 :time(time) {
             for (auto &robot : copyUs) {
-                us.emplace_back(robot->deepCopy());
+                us.emplace_back(std::make_shared<world::Robot>(Robot(*robot)));
             }
             for (auto &robot : copyThem) {
-                them.emplace_back(robot->deepCopy());
+                them.emplace_back(std::make_shared<world::Robot>(Robot(*robot)));
             }
-            if (copyBall) ball = copyBall->deepCopy();
+            if (copyBall) ball = std::make_shared<world::Ball>(Ball(*copyBall));
         }
         explicit WorldData(const WorldDataPtr &worldDataPtr)
                 :WorldData(*worldDataPtr) { }

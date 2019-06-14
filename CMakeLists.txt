@@ -1,11 +1,13 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.4)
 project(roboteam_ai)
+
 
 #SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -g3 -O0 -Wall --coverage")
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
 
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
+include(cotire)
 
 SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
 
@@ -43,7 +45,7 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/PropertiesParser.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/Switches.h
-        )
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/BTImport.h)
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/bt/composites/MemSelector.hpp
@@ -132,10 +134,6 @@ set(UTILS_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Kick.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.cpp
 #        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
@@ -227,6 +225,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
         )
 
 set(CONDITIONS_SOURCES
@@ -287,11 +287,11 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/pid.h
 
         # PositionControllers
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/RobotCommand.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/BasicPosControl.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/positionControllers/PosController.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/RobotCommand.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/BasicPosControl.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/BasicPosControl.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PosController.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/PosController.h
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/numTrees/NumTreePosControl.cpp
@@ -336,9 +336,9 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/HasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsInDefenseAreaTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsRobotClosestToBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBeingPassedToTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallInDefenseAreaAndStillTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallKickedToOurGoalTest.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/KickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
@@ -359,6 +359,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBallCloseToBorderTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/JoyStickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ControlTests/PositionUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/OffensiveCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/FormationTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/BallPlacementCoachTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/CoachTests/DefensiveCoachTest.cpp
@@ -394,8 +396,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RefereeWidget.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WorldData.h
@@ -416,7 +418,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/BallPossession.h
-        )
+        roboteam_ai/src/world/Team.h roboteam_ai/src/world/WhichRobots.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/CoachHeuristics.h
@@ -470,6 +472,7 @@ add_executable(Roboteam_AI
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
+cotire(Roboteam_AI)
 
 #############
 ## Testing ##
@@ -491,11 +494,11 @@ catkin_add_gtest(ai_tests
         ${WORLD_SOURCES})
 
 target_compile_options(ai_tests PUBLIC --coverage)
-
 target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
         Qt5::Widgets Qt5::Gui)
+cotire(ai_tests)
 
 # this creates a directory for the jsons where  ROS launch scripts can access it
 # then the json folder gets linked to that directory, so also ROS launch scripts can profit from refreshing JSONS on runtime

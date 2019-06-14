@@ -117,45 +117,49 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
     painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
 
-}
+
+
+        QPen pen;
+        pen.setWidth(3);
+
+        ros::NodeHandle nh;
+        std::string ourColorParam;
+        nh.getParam("our_color", ourColorParam);
+
+        // update the we are yellow
+        bool weAreYellow = ourColorParam == "yellow";
+
+        // draw the hint for us
+        auto usGoalLine = world::field->getGoalSides(true);
+        Vector2 ourLineUpper = {usGoalLine.first.x, usGoalLine.first.y};
+        Vector2 ourLineLower = {usGoalLine.second.x, usGoalLine.second.y};
+        ourLineUpper = toScreenPosition(ourLineUpper);
+        ourLineLower = toScreenPosition(ourLineLower);
+
+        auto color = weAreYellow ? QColor(255, 255, 0, 255) : QColor(80, 80, 255, 255);
+        pen.setBrush(color);
+        pen.setColor(color);
+        painter.setPen(pen);
+        painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
+
+
+        auto theirGoalLine = world::field->getGoalSides(false);
+        Vector2 theirLineUpper = {theirGoalLine.first.x, theirGoalLine.first.y};
+        Vector2 theirLineLower = {theirGoalLine.second.x, theirGoalLine.second.y};
+        theirLineUpper = toScreenPosition(theirLineUpper);
+        theirLineLower = toScreenPosition(theirLineLower);
+
+        color = weAreYellow ? QColor(80, 80, 255, 255) : QColor(255, 255, 0, 255);
+        pen.setBrush(color);
+        pen.setColor(color);
+        painter.setPen(pen);
+        painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
+
+
+    }
 
 void Visualizer::drawFieldHints(QPainter &painter) {
     QPen pen;
-    pen.setWidth(4);
-
-    ros::NodeHandle nh;
-    std::string ourColorParam;
-    nh.getParam("our_color", ourColorParam);
-
-    // update the we are yellow
-    bool weAreYellow = ourColorParam == "yellow";
-
-    // draw the hint for us
-    auto ourGoalCenter = rtt::ai::world::field->get_our_goal_center();
-    Vector2 ourLineUpper = {ourGoalCenter.x - 0.5, ourGoalCenter.y + 2};
-    Vector2 ourLineLower = {ourGoalCenter.x - 0.5, ourGoalCenter.y - 2};
-    ourLineUpper = toScreenPosition(ourLineUpper);
-    ourLineLower = toScreenPosition(ourLineLower);
-
-    auto color = weAreYellow ? QColor(255, 255, 0, 255) : QColor(80, 80, 255, 255);
-    pen.setBrush(color);
-    pen.setColor(color);
-    painter.setPen(pen);
-    painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
-
-
-    // draw the hint for them
-    auto theirGoalCenter = rtt::ai::world::field->get_their_goal_center();
-    Vector2 theirLineUpper = {theirGoalCenter.x + 0.5, theirGoalCenter.y + 2};
-    Vector2 theirLineLower = {theirGoalCenter.x + 0.5, theirGoalCenter.y - 2};
-    theirLineUpper = toScreenPosition(theirLineUpper);
-    theirLineLower = toScreenPosition(theirLineLower);
-
-    auto theirColor = ! weAreYellow ? QColor(255, 255, 0, 255) : QColor(80, 80, 255, 255);
-    pen.setBrush(theirColor);
-    pen.setColor(theirColor);
-    painter.setPen(pen);
-    painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
 
     // draw the position where robots would be for timeout
     int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : - 1;
@@ -165,7 +169,7 @@ void Visualizer::drawFieldHints(QPainter &painter) {
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    auto lineStart = toScreenPosition(Vector2(ourGoalCenter.x, lineY));
+    auto lineStart = toScreenPosition(Vector2(world::field->get_our_goal_center().x, lineY));
     auto lineEnd = toScreenPosition(Vector2(0, lineY));
 
     painter.drawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);
@@ -283,6 +287,21 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     if (showRoles && ourTeam) {
         painter.setPen(Constants::TEXT_COLOR());
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
+    }
+
+    if (showRobotInvalids && ourTeam) {
+        painter.setPen(Qt::red);
+        std::string text;
+        if (!robot.hasWorkingGeneva()) {
+            text += "GV ";
+        }
+        if (!robot.hasWorkingDribbler()) {
+            text += "DR ";
+        }
+        if (!robot.hasWorkingBallSensor()) {
+            text += "BS ";
+        }
+        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
     }
 
     // draw the robots
@@ -421,12 +440,8 @@ void Visualizer::setShowVelocities(bool showVelocities) {
     Visualizer::showVelocities = showVelocities;
 }
 
-void Visualizer::setShowPath(bool showPath) {
-    Visualizer::showPath = showPath;
-}
-
-void Visualizer::setShowPathAll(bool showPaths) {
-    Visualizer::showAllPaths = showPaths;
+void Visualizer::setShowRobotInvalids(bool show) {
+    Visualizer::showRobotInvalids = show;
 }
 
 void Visualizer::toggleSelectedRobot(int robotId) {
@@ -529,3 +544,6 @@ void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_widget.cpp"

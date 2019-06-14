@@ -14,7 +14,7 @@ bool Constants::robotOutputTargetGrSim = true;
 void Constants::init() {
     ros::NodeHandle nh;
     std::string robotOutputTarget;
-    nh.getParam("robot_output_target", robotOutputTarget);\
+    nh.getParam("robot_output_target", robotOutputTarget);
     robotOutputTargetGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
     std::cout << "robot_output_target = " << (robotOutputTargetGrSim ? "GRSIM" : "SERIAL") << std::endl;
     isInitialized = true;
@@ -30,10 +30,6 @@ bool Constants::GRSIM() {
 
 double Constants::FRONT_LENGTH() { return 0.118; }
 
-double Constants::ROBOT_RADIUS_MAX() { return 0.091; }
-
-double Constants::ROBOT_RADIUS() { return 0.089; }
-
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
 
 bool Constants::SHOW_LONGEST_TICK() { return false; }
@@ -44,11 +40,11 @@ bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 
-    bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
-
+bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -60,41 +56,27 @@ double Constants::MIN_ANGLE() { return - M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
-double Constants::MAX_VEL() { return GRSIM() ? 8.0 : 4.0; }
-
-double Constants::MAX_STOP_STATE_VEL() { return 1.5; }
-
 double Constants::MIN_VEL() { return 0.2; }
 
 double Constants::MAX_ACC_UPPER() { return 5.0; }
 
 double Constants::MAX_ACC_LOWER() { return 3.0; }
 
-double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER() * 1.2; } //magic number
+double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER()*1.2; } //magic number
 
-double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER() * 1.2; } //magic number
-
-double Constants::MAX_VEL_BALLPLACEMENT() { return 3.0; }
+double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER()*1.2; } //magic number
 
 double Constants::DRIBBLER_ANGLE_OFFSET() { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }
 
 double Constants::CENTRE_TO_FRONT() { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); }
 
-double Constants::BALL_RADIUS() { return 0.0215; }
-
-int Constants::TICK_RATE() { return 60; }
-
 double Constants::CLOSE_TO_BORDER_DISTANCE() { return 1.2*ROBOT_RADIUS(); }
-
-int Constants::GAME_ANALYSIS_TICK_RATE() { return 30; }
 
 double Constants::DEFAULT_KICK_POWER() { return 5.0; }
 
 double Constants::MAX_POWER_KICK_DISTANCE() { return 9.0; }
 
 double Constants::MAX_KICK_POWER() { return 8.0; }
-
-int Constants::MAX_KICK_CYCLES() { return 20; }
 
 double Constants::OUT_OF_FIELD_MARGIN() { return 0.03; }
 
@@ -109,8 +91,6 @@ double Constants::HAS_BALL_ANGLE() { return 0.2; }
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
 
 double Constants::BALL_STILL_VEL() { return 0.1; }
-
-double Constants::MIN_DISTANCE_FOR_FORCE() { return 0.5; }
 
 double Constants::GOTOPOS_ERROR_MARGIN() { return 0.03; }
 
@@ -150,9 +130,7 @@ bool Constants::STD_SHOW_VELOCITIES() { return true; }
 
 bool Constants::STD_SHOW_ANGLES() { return false; }
 
-bool Constants::STD_SHOW_PATHS_ALL() { return false; }
-
-bool Constants::STD_SHOW_PATHS_CURRENT() { return true; }
+bool Constants::STD_SHOW_ROBOT_INVALIDS() { return true; }
 
 bool Constants::STD_SHOW_BALL_PLACEMENT_MARKER() { return true; }
 
@@ -166,15 +144,15 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     static std::map<int, bool> workingGenevaRobots;
     workingGenevaRobots[0] = true;
     workingGenevaRobots[1] = true;
-    workingGenevaRobots[2] = true;
-    workingGenevaRobots[3] = true;
+    workingGenevaRobots[2] = false;
+    workingGenevaRobots[3] = false;
     workingGenevaRobots[4] = true;
     workingGenevaRobots[5] = false;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
     workingGenevaRobots[8] = true;
     workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = false;
+    workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
     workingGenevaRobots[12] = true;
     workingGenevaRobots[13] = true;
@@ -186,9 +164,9 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
-    workingDribblerRobots[0] = true;
-    workingDribblerRobots[1] = true;
-    workingDribblerRobots[2] = true;
+    workingDribblerRobots[0] = false;
+    workingDribblerRobots[1] = false;
+    workingDribblerRobots[2] = false;
     workingDribblerRobots[3] = true;
     workingDribblerRobots[4] = true;
     workingDribblerRobots[5] = true;
@@ -204,13 +182,40 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     workingDribblerRobots[15] = true;
 
     return workingDribblerRobots;
-}bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
+}
+bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
     return ROBOTS_WITH_WORKING_GENEVA()[id];
+}
+
+std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
+    static std::map<int, bool> workingBallSensorRobots;
+    workingBallSensorRobots[0] = false;
+    workingBallSensorRobots[1] = true;
+    workingBallSensorRobots[2] = true;
+    workingBallSensorRobots[3] = true;
+    workingBallSensorRobots[4] = true;
+    workingBallSensorRobots[5] = false;
+    workingBallSensorRobots[6] = true;
+    workingBallSensorRobots[7] = true;
+    workingBallSensorRobots[8] = true;
+    workingBallSensorRobots[9] = true;
+    workingBallSensorRobots[10] = true;
+    workingBallSensorRobots[11] = true;
+    workingBallSensorRobots[12] = true;
+    workingBallSensorRobots[13] = true;
+    workingBallSensorRobots[14] = true;
+    workingBallSensorRobots[15] = true;
+
+    return workingBallSensorRobots;
+}
+bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) {
+    return ROBOTS_WITH_WORKING_BALL_SENSOR()[id];
 }
 
 bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) {
     return ROBOTS_WITH_WORKING_DRIBBLER()[id];
-}QColor Constants::FIELD_COLOR() {
+}
+QColor Constants::FIELD_COLOR() {
     return GRSIM() ? QColor(30, 30, 30, 255) :
            QColor(50, 0, 0, 255);
 }
@@ -237,20 +242,26 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(1.6, 0.0, 0.15) : pidVals(3.4, 0.0, 0.4); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
-pidVals Constants::standardForcePID() { return GRSIM() ? pidVals(0.9, 0.0, 0.6) : pidVals(2.8, 0.0, 0.0); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
 
-    std::vector<RuleSet> Constants::ruleSets() {
-        return {
-            {"default",                 8.0, 1.5, 6.5, 0.0, false, true},
-            {"halt",                    0.0, 0.0, 0.0, 0.0, true, true},
-            {"stop",                    1.5, 0.0, 0.0, 0.8, true, false},
-            {"ballplacement_them",      1.5, 0.0, 6.5, 0.8, true, true},
-            {"ballplacement_us",        1.5, 0.0, 6.5, 0.0, true, true},
-            {"kickoff",                 1.5, 0.0, 6.5, 0.5, true, true}
-        };
-    }
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
+
+pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
+
+std::vector<RuleSet> Constants::ruleSets() {
+    return {
+            {"default",             8.0, 6.5, 0.0, ROBOT_RADIUS(),  true },
+            {"halt",                0.0, 0.0, 0.0, -1,              true },
+            {"stop",                1.5, 0.0, 0.8, -1,              false},
+            {"ballplacement_them",  1.5, 6.5, 0.8, -1,              true },
+            {"ballplacement_us",    1.5, 6.5, 0.0, -1,              true },
+            {"kickoff",             1.5, 6.5, 0.5, 0.0,             true }
+    };
+}
+
+
 
 }
 }

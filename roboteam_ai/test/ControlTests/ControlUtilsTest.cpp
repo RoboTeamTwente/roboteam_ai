@@ -8,6 +8,7 @@
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/test/helpers/FieldHelper.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
+#include <roboteam_utils/Angle.h>
 
 namespace cr=rtt::ai::control;
 using Vector2 = rtt::Vector2;

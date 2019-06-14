@@ -17,7 +17,7 @@ public:
     explicit BallplacementCoach() = default;
     rtt::Vector2 getBallPlacementPos();
     rtt::Vector2 getBallPlacementBeforePos(Vector2 ballPos);
-    rtt::Vector2 getBallPlacementAfterPos(double RobotAngle);
+    Vector2 getBallPlacementAfterPos(const std::shared_ptr<world::Robot>& robot);
 };
 
 extern BallplacementCoach g_ballPlacement;

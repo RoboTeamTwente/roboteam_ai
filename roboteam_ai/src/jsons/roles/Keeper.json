@@ -3,6 +3,16 @@
     "trees": [
       {
         "nodes": {
+          "3msazvwimgsooq34": {
+            "id": "3msazvwimgsooq34",
+            "properties": {
+              "avoidBall": "true",
+              "canGoOutsideField": "false",
+              "canMoveInDefenseArea": "true",
+              "type": "ourGoalCenter"
+            },
+            "title": "GTPSpecial"
+          },
           "3r3vdkvrq0qy2k8tq": {
             "children": [
               "442wnhvzcos5l6fgc",
@@ -24,7 +34,7 @@
           "511fm90acccsfk": {
             "children": [
               "vwbroz3967uob",
-              "lfca7jurqev173cy"
+              "3msazvwimgsooq34"
             ],
             "id": "511fm90acccsfk",
             "title": "Sequence"
@@ -110,16 +120,6 @@
             ],
             "id": "l3f41xsptc9v4mkp1",
             "title": "MemSequence"
-          },
-          "lfca7jurqev173cy": {
-            "id": "lfca7jurqev173cy",
-            "properties": {
-              "avoidBall": "false",
-              "canGoOutsideField": "true",
-              "canMoveInDefenseArea": "true",
-              "targetPos": "{-6,0}"
-            },
-            "title": "GoToPos"
           },
           "nbtbpzlyt4rce0w": {
             "children": [

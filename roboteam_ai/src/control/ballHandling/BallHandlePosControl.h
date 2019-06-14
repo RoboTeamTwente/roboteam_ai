@@ -7,7 +7,7 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/src/control/positionControllers/RobotCommand.h"
+#include "roboteam_ai/src/control/RobotCommand.h"
 #include <roboteam_ai/src/utilities/Constants.h>
 
 namespace rtt {
@@ -30,33 +30,62 @@ class BallHandlePosControl : public NumTreePosControl {
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 0.42;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.31;
-        const double errorMargin = 0.02;
-        const double angleErrorMargin = 0.02;
-        const double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;
-        const double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        const double minVelForMovingball = 0.58;
-        double ballPlacementAccuracy = 0.04;
-        bool canMoveInDefenseArea = false;
+        double ballPlacementAccuracy = 0.07;
+
+        constexpr static double ERROR_MARGIN = 0.02;
+        constexpr static double ANGLE_ERROR_MARGIN = 0.02;
+        constexpr static double MAX_BALL_DISTANCE = Constants::ROBOT_RADIUS()*2.0;
+        constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.16;
+        constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+        constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE*1.05;
 
         RobotPtr robot;
         BallPtr ball;
         Vector2 targetPos;
-        Vector2 finalTargetPos;
         Angle targetAngle;
-        Angle finalTargetAngle;
         Angle lockedAngle = 0;
 
+        pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.0);
+        PID xGoToBallPID = PID(pidfGoToBall);
+        PID yGoToBallPID = PID(pidfGoToBall);
+
+        pidfVals pidfBallHandle = std::make_tuple(0.1, 0.0, 0.0, 0.8);
+        PID xBallHandlePID = PID(pidfBallHandle);
+        PID yBallHandlePID = PID(pidfBallHandle);
+
+        void updatePID(pidVals newPID);
+    public:
+        RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
+
         enum TravelStrategy : short {
-          forwards,
-          backwards,
-          no_preference
+          FORWARDS,
+          BACKWARDS,
+          NO_PREFERENCE
         };
-        TravelStrategy preferredTravelStrategy = no_preference;
+    private:
+        TravelStrategy preferredTravelStrategy = NO_PREFERENCE;
 
         // general functions
-        RobotCommand goToBall(bool ballIsFarFromTarget);
+        RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
+                bool shouldGoToBall, bool ballIsFarFromTarget = true);
+        RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
+
+        // get status of ball handling
     public:
-        explicit BallHandlePosControl(bool canMoveInDefenseArea = false);
+        enum Status : short {
+          GET_BALL,
+          HANDLING_BALL,
+          FINALIZING,
+          SUCCESS,
+          FAILURE
+        };
+        Status getStatus();
+    private:
+        Status status = GET_BALL;
+        void printStatus();
+
+    public:
+        explicit BallHandlePosControl(bool canMoveInDefenseArea = true);
         ~BallHandlePosControl();
         void setMaxVelocity(double maxV);
         void setMaxForwardsVelocity(double maxV);
@@ -66,6 +95,10 @@ class BallHandlePosControl : public NumTreePosControl {
                 TravelStrategy travelStrategy);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;
 
+        RobotCommand goToMovingBall();
+        RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
+                bool ballIsFarFromTarget);
+        RobotCommand finalizeBallHandle();
 };
 
 } //control

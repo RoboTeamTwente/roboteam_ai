@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include "ControlUtils.h"
 #include "../world/World.h"
+#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -233,7 +234,7 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
     // calculate if the robot is driving forwards or sideways
     Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
     Vector2 robotVectorDifference = robotAngleDifference.toVector2();
-    double a = abs(robotVectorDifference.x);
+    double a = fabs(robotVectorDifference.x);
     auto acceleration = sidewaysAcceleration * (1-a) + forwardsAcceleration * a;
     auto deceleration = sidewaysDeceleration * (1-a) + forwardsDeceleration * a;
     // a = 0 -> sideways
@@ -241,7 +242,7 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
 
     // calculate if the robot is accelerating or decelerating
     Angle accelerationAngleDifference = deltaVel.toAngle() - targetVel.toAngle();
-    double b = abs(accelerationAngleDifference) * M_1_PI;
+    double b = fabs(accelerationAngleDifference) * M_1_PI;
     auto finalAcceleration = acceleration * (1-b) + deceleration * b;
     // b = 0 -> acceleration
     // b = 1 -> deceleration
@@ -346,7 +347,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
 }
 
     Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
-        LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
+        LineSegment shotLine(line.start, line.end + (line.end - line.start).stretchToLength(100.0));
         Vector2 projectPos = shotLine.project(position);
         Vector2 closestPoint = projectPos;
 
