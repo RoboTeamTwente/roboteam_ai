@@ -18,10 +18,14 @@ void PenaltyKeeper::onInitialize() {
     goalLine = getGoalLine();
     state = WAITING;
     firstBallPos=world::world->getBall()->pos;
+    preparation=properties->getBool("prepare");
 }
 
 PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
     state=updateState(state);
+    if (preparation){
+        state=WAITING;
+    }
     switch (state) {
     case WAITING: {
         sendWaitCommand();
@@ -95,7 +99,6 @@ Vector2 PenaltyKeeper::interceptBallPos() {
 
 void PenaltyKeeper::sendWaitCommand() {
     Vector2 targetPos = computeDefendPos();
-    targetPos.y=targetPos.y*0.5;
     Vector2 delta = gtp.getRobotCommand(robot, targetPos).vel;
     command.x_vel = delta.x;
     command.y_vel = delta.y;
@@ -105,7 +108,6 @@ void PenaltyKeeper::sendWaitCommand() {
 void PenaltyKeeper::sendInterceptCommand() {
     Vector2 interceptPos = interceptBallPos();
     Vector2 delta = gtp.getRobotCommand(robot, interceptPos).vel;
-    delta=delta.stretchToLength(8.0);
     command.x_vel = delta.x;
     command.y_vel = delta.y;
     command.w = 0;
