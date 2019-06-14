@@ -36,13 +36,7 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboa
 }
 
 void Leaf::updateRobot() {
-    if (rtt::ai::world::world->getRobotForId(robotId, true)) {
-        robot = rtt::ai::world::world->getRobotForId(robotId, true);
-    }
-    else {
-        ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
-        robot = nullptr;
-    }
+    robot = rtt::ai::world::world->getRobotForId(robotId, true);
 }
 
 void Leaf::terminate(Node::Status status) {
