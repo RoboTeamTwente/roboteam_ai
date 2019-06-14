@@ -6,6 +6,9 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include "OpponentKeeper.h"
 #include "roboteam_ai/src/world/Field.h"
+#include "../world/Ball.h"
+#include "../world/Robot.h"
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -25,19 +28,19 @@ void OpponentKeeper::onInitialize() {
 }
 
 OpponentKeeper::Status OpponentKeeper::onUpdate() {
-    Vector2 ballPos = world::world->getBall()->pos;
+    auto ball = world::world->getBall();
     Vector2 blockPoint;
 
     goalPos = world::field->get_their_goal_center();
 
     if (ball->pos.x > 0) {
-        auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::OUR_ROBOTS);
+        auto attacker = world::world->getRobotClosestToPoint(ball->pos, OUR_ROBOTS);
         if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
             setGoalPosWithAttacker(attacker);
         }
     }
 
-    blockPoint = computeBlockPoint(ballPos);
+    blockPoint = computeBlockPoint(ball->pos);
 
     if (! world::field->pointIsInField(blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
         blockPoint = goalPos;
@@ -45,7 +48,7 @@ OpponentKeeper::Status OpponentKeeper::onUpdate() {
         command.w = 0;
     }
     else {
-        command.w = Angle((ballPos - blockPoint).angle() + M_PI_2).getAngle();
+        command.w = Angle((ball->pos - blockPoint).angle() + M_PI_2).getAngle();
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
             interface::Drawing::DOTS, 5, 5);

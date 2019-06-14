@@ -8,10 +8,15 @@
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
 #include "roboteam_ai/src/control/RobotCommand.h"
-#include "roboteam_ai/src/world/Robot.h"
 
 namespace rtt {
 namespace ai {
+
+namespace world {
+    class Robot;
+    class Ball;
+}
+
 namespace control {
 
 class RotateAroundBall;
@@ -32,8 +37,8 @@ class DribbleForwards {
         RotateAroundBall* rotateAroundBall;
         RotateWithBall* rotateAroundRobot;
 
-        using RobotPtr = world::Robot::RobotPtr;
-        using BallPtr = world::Ball::BallPtr;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+        using BallPtr = std::shared_ptr<world::Ball>;
         RobotPtr robot;
         BallPtr ball;
 
@@ -66,7 +71,7 @@ class DribbleForwards {
         RobotCommand sendSuccessCommand();
 
     public:
-        RobotCommand getRobotCommand(world::Robot::RobotPtr r,
+        RobotCommand getRobotCommand(std::shared_ptr<world::Robot> r,
                 const Vector2 &targetP, const Angle &targetA);
         void reset();
         void setMaxVel(double maxVel);

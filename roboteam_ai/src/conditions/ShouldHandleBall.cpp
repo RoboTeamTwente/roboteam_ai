@@ -8,7 +8,7 @@
 namespace rtt {
 namespace ai {
 
-ShouldHandleBall::ShouldHandleBall(string name, bt::Blackboard::Ptr blackboard)
+ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {
 }
 
@@ -24,12 +24,13 @@ ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
         }
     }
 
-    if (!passExists && coach::getBallCoach->getBallGetterID() == robot->id) {
+    if (! passExists && coach::getBallCoach->getBallGetterID() == robot->id) {
         return Status::Success;
     }
 
     return Status::Failure;
 }
+
 void ShouldHandleBall::onTerminate(Condition::Status s) {
     Condition::onTerminate(s);
 

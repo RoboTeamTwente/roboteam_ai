@@ -16,6 +16,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     Output::setBasicPid(Constants::standardBasicPID());
     Output::setKeeperPid(Constants::standardKeeperPID());
     Output::setKeeperInterceptPid(Constants::standardKeeperInterceptPID());
+    Output::setBallHandlePid(Constants::standardBallHandlePID());
     Output::setShotControllerPID(Constants::standardShotControllerPID());
 
      auto pidVLayout = new QVBoxLayout();
@@ -25,6 +26,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     auto basicPidBox = new PidBox("Basic");
     auto keeperPidBox = new PidBox("Keeper");
     auto keeperInterceptPidBox = new PidBox("Keeper Intercept");
+    auto ballHandlePidBox = new PidBox("Ball handle");
     auto shotControlPidbox = new PidBox("Shotcontroller ball approach");
 
     // initialize them with the default values
@@ -32,6 +34,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     basicPidBox->setPid(Output::getBasicPid());
     keeperPidBox->setPid(Output::getKeeperPid());
     keeperInterceptPidBox->setPid(Output::getKeeperInterceptPid());
+    ballHandlePidBox->setPid(Output::getBallHandlePid());
     shotControlPidbox->setPid(Output::getShotControllerPID());
 
     QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
@@ -46,6 +49,9 @@ PidsWidget::PidsWidget(QWidget * parent) {
     QObject::connect(keeperInterceptPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
                      [=](const pidVals &pid) { Output::setKeeperInterceptPid(pid); });
 
+    QObject::connect(ballHandlePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
+            [=](const pidVals &pid) { Output::setBallHandlePid(pid); });
+
     QObject::connect(shotControlPidbox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
             [=](const pidVals &pid) { Output::setShotControllerPID(pid); });
 
@@ -54,6 +60,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     pidVLayout->addWidget(basicPidBox);
     pidVLayout->addWidget(keeperPidBox);
     pidVLayout->addWidget(keeperInterceptPidBox);
+    pidVLayout->addWidget(ballHandlePidBox);
     pidVLayout->addWidget(shotControlPidbox);
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -64,3 +71,6 @@ PidsWidget::PidsWidget(QWidget * parent) {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_PidsWidget.cpp"

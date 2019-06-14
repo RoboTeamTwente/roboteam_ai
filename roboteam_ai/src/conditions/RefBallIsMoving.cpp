@@ -2,8 +2,9 @@
 // Created by mrlukasbos on 2-5-19.
 //
 
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "RefBallIsMoving.h"
-
+#include "../world/Ball.h"
 
 namespace rtt {
 namespace ai {

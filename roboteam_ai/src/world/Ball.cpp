@@ -8,6 +8,7 @@
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 
 namespace rtt {
 namespace ai {
@@ -25,7 +26,10 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
-void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
+void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData, bool applyBallFilter) {
+    if (applyBallFilter) {
+        filterBallVelocity(*oldBall, worldData);
+    }
     updateBallModel(*oldBall, worldData);
     updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
@@ -151,7 +155,7 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
     }
     RobotPtr robotWithBall = world->whichRobotHasBall();
     if (robotWithBall) {
-        std::pair<int, Robot::Team> newRobotIdTeam = {robotWithBall->id, robotWithBall->team};
+        std::pair<int, Team> newRobotIdTeam = {robotWithBall->id, robotWithBall->team};
         RobotPtr newRobotWithBall;
         bool newRobotStillExistsInWorld = false;
         for (auto &robot : worldData.us) {
@@ -168,18 +172,11 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
 }
 
 void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
-    auto ball = worldData.ball;
-    double ballVel = ball->vel.length();
+    auto &ball = worldData.ball;
+    double ballVelSquared = ball->vel.length2();
     const double frictionCoefficient = Constants::GRSIM() ? 1.22 : 0.61;
 
-    Vector2 expectedBallStillPosition = ball->pos + ball->vel.stretchToLength(ballVel*ballVel/frictionCoefficient);
-    const Vector2 &previousBallStillPosition = oldBall.getBallStillPosition();
-
-    double ballStillPositionDifference = (expectedBallStillPosition - previousBallStillPosition).length();
-
-    double b = 8.0;
-    double a = sqrt(ballStillPositionDifference) > b ? 1.0 : sqrt(ballStillPositionDifference)/b;
-    ballStillPosition = (previousBallStillPosition*(1 - a) + expectedBallStillPosition*a);
+    ballStillPosition = ball->pos + ball->vel.stretchToLength(ballVelSquared/frictionCoefficient);
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,
             interface::Drawing::CIRCLES, 8, 8, 6);
@@ -218,6 +215,19 @@ void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const Wor
 
 const Vector2 &Ball::getBallStillPosition() const {
     return ballStillPosition;
+}
+
+/// Adds a moving average over the kalman filter to make the ball-velocity more stable. (Could be moved to rtt_world)
+void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
+
+    auto &ball = worldData.ball;
+    double velocityDifference = (ball->vel - oldBall.vel).length();
+
+    double velForMaxFactor = 10.0;
+    double maxFactor = 1.0;
+    double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
+
+    this->vel = (oldBall.vel*(1 - factor) + ball->vel*factor);
 }
 
 } //world

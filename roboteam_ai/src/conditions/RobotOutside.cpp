@@ -2,11 +2,14 @@
 // Created by baris on 1-5-19.
 //
 
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "RobotOutside.h"
+
 namespace rtt{
 namespace ai{
 
-RobotOutside::RobotOutside(string name, bt::Blackboard::Ptr blackboard)
+RobotOutside::RobotOutside(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(name, blackboard) {
 
 }

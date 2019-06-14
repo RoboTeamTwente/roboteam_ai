@@ -11,6 +11,14 @@
             },
             "title": "Pass"
           },
+          "87trocw50r5y0sxp": {
+            "children": [
+              "ac3fqd2sx5bvkxvr"
+            ],
+            "id": "87trocw50r5y0sxp",
+            "properties": {},
+            "title": "Inverter"
+          },
           "88813siqps0zsz7": {
             "id": "88813siqps0zsz7",
             "title": "ShouldHandleBall"
@@ -39,6 +47,13 @@
               "type": "getBackIn"
             },
             "title": "GTPSpecial"
+          },
+          "ac3fqd2sx5bvkxvr": {
+            "id": "ac3fqd2sx5bvkxvr",
+            "properties": {
+              "secondsAhead": "0.4"
+            },
+            "title": "BallOutOfField"
           },
           "alkg0lyrwjtxgzw": {
             "id": "alkg0lyrwjtxgzw",
@@ -88,6 +103,17 @@
             ],
             "id": "nk7ajhnub23f9zr",
             "title": "MemSelector"
+          },
+          "nutttzds2tiqnbhm": {
+            "id": "nutttzds2tiqnbhm",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "false",
+              "outsideField": "true",
+              "secondsAhead": "0.4",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
           },
           "nwjqz57xvmn81qo2": {
             "id": "nwjqz57xvmn81qo2",
@@ -141,9 +167,19 @@
             "id": "uceh4et1c1eduxzzo",
             "title": "IsBeingPassedTo"
           },
+          "vuluulkatjmjva8p": {
+            "children": [
+              "nutttzds2tiqnbhm"
+            ],
+            "id": "vuluulkatjmjva8p",
+            "properties": {},
+            "title": "Inverter"
+          },
           "wh8rs74dixmng": {
             "children": [
               "88813siqps0zsz7",
+              "vuluulkatjmjva8p",
+              "87trocw50r5y0sxp",
               "nk7ajhnub23f9zr"
             ],
             "id": "wh8rs74dixmng",

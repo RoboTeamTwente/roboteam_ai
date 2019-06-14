@@ -22,7 +22,7 @@ private:
     
 public:
     using WorldData = world::WorldData;
-    double calculatePassScore(const Vector2& position);
+    double  calculatePassScore(const Vector2& position);
 };
 
 }

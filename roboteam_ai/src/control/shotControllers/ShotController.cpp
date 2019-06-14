@@ -282,6 +282,18 @@ int ShotController::determineOptimalGenevaState(const world::Robot& robot, const
     return 3;
 }
 
+RobotCommand ShotController::shootWithoutBallSensor(const world::Robot& robot, const std::pair<Vector2, Vector2> &driveLine,
+                                       const Vector2 &shotTarget, bool chip, BallSpeed desiredBallSpeed) {
+
+    RobotCommand shotData;
+    bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
+    if (hasBall) {
+        return shoot(shotData, robot, driveLine, shotTarget, chip, desiredBallSpeed);
+    } else {
+        return moveStraightToBall(robot, driveLine);
+    }
+}
+
 Vector2 ShotController::updateGenevaAimTarget(int geneva) {
     Vector2 ballPos = world::world->getBall()->pos;
     Vector2 ballToAimTarget = aimTarget - ballPos;

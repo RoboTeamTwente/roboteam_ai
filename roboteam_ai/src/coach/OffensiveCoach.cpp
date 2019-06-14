@@ -7,6 +7,7 @@
 #include "OffensiveCoach.h"
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/control/Hungarian.h>
 
 namespace rtt {
 namespace ai {
@@ -157,7 +158,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
 
     // get the longest line section op the visible part of the goal
-    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint);
+    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint, world::world->getWorld());
     if (openSegments.empty()) return world::field->get_their_goal_center();
     auto bestSegment = getLongestSegment(openSegments);
 

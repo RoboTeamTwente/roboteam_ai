@@ -1,1 +1,212 @@
-{"data": {"trees": [{"nodes": {"338k1uomjjg7lsdj": {"children": ["kaxvn1rsvevzy3rq"], "id": "338k1uomjjg7lsdj", "title": "Inverter"}, "e3ankund5cmp6x5a": {"properties": {"secondsAhead": "0.7"}, "id": "e3ankund5cmp6x5a", "title": "BallOutOfField"}, "bs4sz4v16kr0nm0": {"properties": {"canGoOutsideField": "true", "type": "getBackIn", "avoidBall": "true", "canMoveInDefenseArea": "false"}, "id": "bs4sz4v16kr0nm0", "title": "GTPSpecial"}, "7x3t8oijhgsd6s": {"id": "7x3t8oijhgsd6s", "title": "Attack"}, "n2zwlaj03mqjdk66": {"children": ["hv6g7gqxww4w8c85", "hat0c2wlomrmur2k"], "id": "n2zwlaj03mqjdk66", "title": "MemSelector"}, "49ambtpymi4l0bt5": {"children": ["ogf13zvp37u09", "n2zwlaj03mqjdk66"], "id": "49ambtpymi4l0bt5", "title": "MemSelector"}, "kaxvn1rsvevzy3rq": {"properties": {"ourDefenseArea": "false", "useRobot": "false", "secondsAhead": "0.7", "outsideField": "true"}, "id": "kaxvn1rsvevzy3rq", "title": "IsInDefenseArea"}, "iusx0b18cn09c": {"children": ["xzmk8yg14z1tesq8e", "bs4sz4v16kr0nm0"], "id": "iusx0b18cn09c", "title": "Sequence"}, "40gzcpiku966ab8s": {"children": ["6v218u1mdnl8zb", "338k1uomjjg7lsdj", "fb9v0hgjiktxkb7f", "49ambtpymi4l0bt5"], "id": "40gzcpiku966ab8s", "title": "Sequence"}, "q814msfyx12o6fl4": {"properties": {"type": "freeKick"}, "id": "q814msfyx12o6fl4", "title": "GoBehindBall"}, "7xwkdp3ejtnlg1": {"id": "7xwkdp3ejtnlg1", "title": "IsOnPassLine"}, "6v218u1mdnl8zb": {"id": "6v218u1mdnl8zb", "title": "ShouldHandleBall"}, "nj97vr8c9u47fke2r": {"id": "nj97vr8c9u47fke2r", "title": "SideAttacker"}, "0e6iz68rgjzkplug": {"id": "0e6iz68rgjzkplug", "title": "HasClearShot"}, "2zn719n8tg8z3l": {"id": "2zn719n8tg8z3l", "title": "Receive"}, "gtzgumtg6n4jd33q": {"children": ["7xwkdp3ejtnlg1", "4z5zcnldl09hpa"], "id": "gtzgumtg6n4jd33q", "title": "Sequence"}, "hat0c2wlomrmur2k": {"children": ["q814msfyx12o6fl4", "21xgtn5ciztze", "yoj05mrp6npkgkoc"], "id": "hat0c2wlomrmur2k", "title": "MemSequence"}, "yoj05mrp6npkgkoc": {"properties": {"failsUntilChip": "3"}, "id": "yoj05mrp6npkgkoc", "title": "Pass"}, "zean7xxo5qw036": {"children": ["e9d5w74uo465zkp", "iusx0b18cn09c", "gtzgumtg6n4jd33q", "40gzcpiku966ab8s", "nj97vr8c9u47fke2r"], "id": "zean7xxo5qw036", "title": "Selector"}, "e9d5w74uo465zkp": {"children": ["fwx01iov5wuf2zl9e", "2zn719n8tg8z3l"], "id": "e9d5w74uo465zkp", "title": "Sequence"}, "ogf13zvp37u09": {"children": ["0e6iz68rgjzkplug", "7x3t8oijhgsd6s"], "id": "ogf13zvp37u09", "title": "Sequence"}, "hv6g7gqxww4w8c85": {"properties": {}, "id": "hv6g7gqxww4w8c85", "title": "Pass"}, "21xgtn5ciztze": {"properties": {}, "id": "21xgtn5ciztze", "title": "DribbleForward"}, "4z5zcnldl09hpa": {"properties": {"type": "passing"}, "id": "4z5zcnldl09hpa", "title": "AvoidBall"}, "xzmk8yg14z1tesq8e": {"id": "xzmk8yg14z1tesq8e", "title": "RobotOutside"}, "fwx01iov5wuf2zl9e": {"id": "fwx01iov5wuf2zl9e", "title": "IsBeingPassedTo"}, "fb9v0hgjiktxkb7f": {"children": ["e3ankund5cmp6x5a"], "id": "fb9v0hgjiktxkb7f", "title": "Inverter"}}, "root": "zean7xxo5qw036", "title": "SideAttacker"}]}, "name": "SideAttacker"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "0e6iz68rgjzkplug": {
+            "id": "0e6iz68rgjzkplug",
+            "title": "HasClearShot"
+          },
+          "2zn719n8tg8z3l": {
+            "id": "2zn719n8tg8z3l",
+            "properties": {},
+            "title": "Receive"
+          },
+          "338k1uomjjg7lsdj": {
+            "children": [
+              "kaxvn1rsvevzy3rq"
+            ],
+            "id": "338k1uomjjg7lsdj",
+            "properties": {},
+            "title": "Inverter"
+          },
+          "40gzcpiku966ab8s": {
+            "children": [
+              "6v218u1mdnl8zb",
+              "338k1uomjjg7lsdj",
+              "fb9v0hgjiktxkb7f",
+              "49ambtpymi4l0bt5"
+            ],
+            "id": "40gzcpiku966ab8s",
+            "title": "Sequence"
+          },
+          "49ambtpymi4l0bt5": {
+            "children": [
+              "ogf13zvp37u09",
+              "n2zwlaj03mqjdk66"
+            ],
+            "id": "49ambtpymi4l0bt5",
+            "properties": {},
+            "title": "MemSelector"
+          },
+          "4z5zcnldl09hpa": {
+            "id": "4z5zcnldl09hpa",
+            "properties": {
+              "type": "passing"
+            },
+            "title": "AvoidBall"
+          },
+          "6v218u1mdnl8zb": {
+            "id": "6v218u1mdnl8zb",
+            "title": "ShouldHandleBall"
+          },
+          "7x3t8oijhgsd6s": {
+            "id": "7x3t8oijhgsd6s",
+            "title": "Attack"
+          },
+          "7xwkdp3ejtnlg1": {
+            "id": "7xwkdp3ejtnlg1",
+            "title": "IsOnPassLine"
+          },
+          "bs4sz4v16kr0nm0": {
+            "id": "bs4sz4v16kr0nm0",
+            "properties": {
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "false",
+              "type": "getBackIn"
+            },
+            "title": "GTPSpecial"
+          },
+          "e3ankund5cmp6x5a": {
+            "id": "e3ankund5cmp6x5a",
+            "properties": {
+              "secondsAhead": "0.4"
+            },
+            "title": "BallOutOfField"
+          },
+          "e9d5w74uo465zkp": {
+            "children": [
+              "fwx01iov5wuf2zl9e",
+              "2zn719n8tg8z3l"
+            ],
+            "id": "e9d5w74uo465zkp",
+            "title": "Sequence"
+          },
+          "fb9v0hgjiktxkb7f": {
+            "children": [
+              "e3ankund5cmp6x5a"
+            ],
+            "id": "fb9v0hgjiktxkb7f",
+            "properties": {},
+            "title": "Inverter"
+          },
+          "fwx01iov5wuf2zl9e": {
+            "id": "fwx01iov5wuf2zl9e",
+            "title": "IsBeingPassedTo"
+          },
+          "gtzgumtg6n4jd33q": {
+            "children": [
+              "7xwkdp3ejtnlg1",
+              "4z5zcnldl09hpa"
+            ],
+            "id": "gtzgumtg6n4jd33q",
+            "title": "Sequence"
+          },
+          "hat0c2wlomrmur2k": {
+            "children": [
+              "lsnzin91i3imjek5",
+              "qjjplyhstdpz3jqb",
+              "yoj05mrp6npkgkoc"
+            ],
+            "id": "hat0c2wlomrmur2k",
+            "properties": {},
+            "title": "MemSequence"
+          },
+          "hv6g7gqxww4w8c85": {
+            "id": "hv6g7gqxww4w8c85",
+            "properties": {
+              "BallPlacement": "",
+              "failsUntilChip": ""
+            },
+            "title": "Pass"
+          },
+          "iusx0b18cn09c": {
+            "children": [
+              "xzmk8yg14z1tesq8e",
+              "bs4sz4v16kr0nm0"
+            ],
+            "id": "iusx0b18cn09c",
+            "title": "Sequence"
+          },
+          "kaxvn1rsvevzy3rq": {
+            "id": "kaxvn1rsvevzy3rq",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "false",
+              "outsideField": "true",
+              "secondsAhead": "0.4",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
+          },
+          "lsnzin91i3imjek5": {
+            "id": "lsnzin91i3imjek5",
+            "properties": {
+              "maxTime": ""
+            },
+            "title": "GetBall"
+          },
+          "n2zwlaj03mqjdk66": {
+            "children": [
+              "hv6g7gqxww4w8c85",
+              "hat0c2wlomrmur2k"
+            ],
+            "id": "n2zwlaj03mqjdk66",
+            "properties": {},
+            "title": "MemSelector"
+          },
+          "nj97vr8c9u47fke2r": {
+            "id": "nj97vr8c9u47fke2r",
+            "title": "SideAttacker"
+          },
+          "ogf13zvp37u09": {
+            "children": [
+              "0e6iz68rgjzkplug",
+              "7x3t8oijhgsd6s"
+            ],
+            "id": "ogf13zvp37u09",
+            "title": "Sequence"
+          },
+          "qjjplyhstdpz3jqb": {
+            "id": "qjjplyhstdpz3jqb",
+            "properties": {
+              "BallPlacement": "",
+              "Position": "",
+              "distance": "0.8",
+              "dribbleOnTerminate": "false",
+              "forwardDirection": "true",
+              "maxTicks": ""
+            },
+            "title": "Dribble"
+          },
+          "xzmk8yg14z1tesq8e": {
+            "id": "xzmk8yg14z1tesq8e",
+            "title": "RobotOutside"
+          },
+          "yoj05mrp6npkgkoc": {
+            "id": "yoj05mrp6npkgkoc",
+            "properties": {
+              "failsUntilChip": "3"
+            },
+            "title": "Pass"
+          },
+          "zean7xxo5qw036": {
+            "children": [
+              "e9d5w74uo465zkp",
+              "iusx0b18cn09c",
+              "gtzgumtg6n4jd33q",
+              "40gzcpiku966ab8s",
+              "nj97vr8c9u47fke2r"
+            ],
+            "id": "zean7xxo5qw036",
+            "title": "Selector"
+          }
+        },
+        "root": "zean7xxo5qw036",
+        "title": "SideAttacker"
+      }
+    ]
+  },
+  "name": "SideAttacker"
+}

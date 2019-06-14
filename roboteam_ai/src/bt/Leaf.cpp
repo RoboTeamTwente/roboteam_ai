@@ -1,9 +1,12 @@
 #include <memory>
+#include <roboteam_ai/src/world/World.h>
 
 #include "Leaf.hpp"
 #include "../utilities/RobotDealer.h"
 #include "ros/ros.h"
 #include "../world/WorldData.h"
+#include "../world/Robot.h"
+#include "../world/Ball.h"
 
 namespace bt {
 
@@ -38,6 +41,7 @@ void Leaf::updateRobot() {
     }
     else {
         ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
+        robot = nullptr;
     }
 }
 

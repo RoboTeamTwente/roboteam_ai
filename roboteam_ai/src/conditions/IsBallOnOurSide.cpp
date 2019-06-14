@@ -4,6 +4,8 @@
 * - inField: if true, the ball also has to be in the field to return SUCCESS
 */
 
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "IsBallOnOurSide.h"
 
 namespace rtt {

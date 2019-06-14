@@ -3,21 +3,25 @@
     "trees": [
       {
         "nodes": {
-          "1y1rlhwbk70d09sc": {
-            "children": [
-              "do5b5xjen4i6hxlw"
-            ],
-            "id": "1y1rlhwbk70d09sc",
-            "properties": {},
-            "title": "Inverter"
-          },
           "3ax9xioc4ss07ek9": {
             "children": [
               "g5r2v4c300sas7rk",
-              "rzxu84oslan2y3lg"
+              "yevksj2u1bmnun5e"
             ],
             "id": "3ax9xioc4ss07ek9",
+            "properties": {},
             "title": "MemSelector"
+          },
+          "42464mbelzw8wodm": {
+            "id": "42464mbelzw8wodm",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "true",
+              "outsideField": "true",
+              "secondsAhead": "0.4",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
           },
           "71mer6p00nav4g18": {
             "children": [
@@ -48,19 +52,11 @@
             },
             "title": "Sequence"
           },
-          "8v6c9p5ki51e13f0": {
-            "children": [
-              "lagelkdmn8peuatx"
-            ],
-            "id": "8v6c9p5ki51e13f0",
-            "properties": {},
-            "title": "Inverter"
-          },
           "dfs65wiboi35a5ce": {
             "children": [
               "vy7e107vj3dacrtw",
-              "1y1rlhwbk70d09sc",
-              "8v6c9p5ki51e13f0",
+              "o4pqszu9vn46iguh",
+              "k1reoplm4o9alph9",
               "3ax9xioc4ss07ek9"
             ],
             "id": "dfs65wiboi35a5ce",
@@ -68,17 +64,6 @@
               "ROLE": "d3"
             },
             "title": "Sequence"
-          },
-          "do5b5xjen4i6hxlw": {
-            "id": "do5b5xjen4i6hxlw",
-            "properties": {
-              "margin": "",
-              "ourDefenseArea": "true",
-              "outsideField": "true",
-              "secondsAhead": "0.6",
-              "useRobot": "false"
-            },
-            "title": "IsInDefenseArea"
           },
           "e4wuunxrr4clvfkz": {
             "id": "e4wuunxrr4clvfkz",
@@ -102,6 +87,13 @@
             },
             "title": "Pass"
           },
+          "hh1t2pqlng2gg7aw": {
+            "id": "hh1t2pqlng2gg7aw",
+            "properties": {
+              "secondsAhead": "0.4"
+            },
+            "title": "BallOutOfField"
+          },
           "irdmv9l6uzbepi2s": {
             "children": [
               "sfmuusmuqgmgcgn7",
@@ -116,12 +108,21 @@
             },
             "title": "Selector"
           },
-          "lagelkdmn8peuatx": {
-            "id": "lagelkdmn8peuatx",
-            "properties": {
-              "secondsAhead": "0.6"
-            },
-            "title": "BallOutOfField"
+          "k1reoplm4o9alph9": {
+            "children": [
+              "42464mbelzw8wodm"
+            ],
+            "id": "k1reoplm4o9alph9",
+            "properties": {},
+            "title": "Inverter"
+          },
+          "o4pqszu9vn46iguh": {
+            "children": [
+              "hh1t2pqlng2gg7aw"
+            ],
+            "id": "o4pqszu9vn46iguh",
+            "properties": {},
+            "title": "Inverter"
           },
           "osx0v2kzjz649sif": {
             "id": "osx0v2kzjz649sif",
@@ -149,10 +150,6 @@
             },
             "title": "GTPSpecial"
           },
-          "rzxu84oslan2y3lg": {
-            "id": "rzxu84oslan2y3lg",
-            "title": "Attack"
-          },
           "sfmuusmuqgmgcgn7": {
             "children": [
               "q4fu9ijk6dqujlby",
@@ -177,6 +174,18 @@
               "ROLE": "d3"
             },
             "title": "ShouldHandleBall"
+          },
+          "yevksj2u1bmnun5e": {
+            "id": "yevksj2u1bmnun5e",
+            "properties": {
+              "BallPlacement": "",
+              "Position": "",
+              "distance": "",
+              "dribbleOnTerminate": "",
+              "forwardDirection": "",
+              "maxTicks": ""
+            },
+            "title": "Dribble"
           }
         },
         "root": "irdmv9l6uzbepi2s",

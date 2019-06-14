@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "../../src/conditions/IsInDefenseArea.hpp"
 #include "../../src/world/World.h"
+#include "../../src/world/Ball.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "../../src/utilities/RobotDealer.h"
 

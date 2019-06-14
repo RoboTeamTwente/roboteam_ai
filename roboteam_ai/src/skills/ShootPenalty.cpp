@@ -3,6 +3,9 @@
 //
 
 #include "ShootPenalty.h"
+#include "../world/World.h"
+#include "../world/Ball.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {
@@ -51,9 +54,9 @@ int ShootPenalty::determineGenevaState() {
     // determine the angle between the robot position and the shot line
     Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
     if (angleWithShotline.getAngle() > 0) {
-        return genevaState = 1;
+        return genevaState = 2;
     } else {
-        return genevaState = 5;
+        return genevaState = 4;
     }
 }
 
