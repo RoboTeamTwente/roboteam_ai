@@ -3,7 +3,8 @@ TheyHaveBall
 HasBall
 BallKickedToOurGoal
 BallInDefenseAreaAndStill
-IsInDefenseArea,useRobot,ourDefenseArea,outsideField,margin
+CanReflectKick
+IsInDefenseArea,useRobot,ourDefenseArea,outsideField,margin,secondsAhead
 IsOnOurSide
 WeHaveBall
 IsRobotClosestToBall,secondsAhead
@@ -19,3 +20,4 @@ IsOnPassLine
 CanPlay
 RobotOutside
 RefBallIsMoving
+BallOutOfField,secondsAhead

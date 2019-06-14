@@ -5,23 +5,27 @@
 #ifndef ROBOTEAM_AI_ROBOT_H
 #define ROBOTEAM_AI_ROBOT_H
 
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_utils/Vector2.h"
-#include "roboteam_utils/Angle.h"
-#include "gtest/gtest_prod.h"
-#include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_msgs/WorldRobot.h>
+#include <roboteam_utils/Vector2.h>
+#include <roboteam_utils/Angle.h>
+#include <gtest/gtest_prod.h>
+
+#include "../utilities/Constants.h"
+#include "Team.h"
 
 namespace rtt {
 namespace ai {
 
+// control forward declarations
 namespace control {
-class ShotController;
-class NumTreePosControl;
-class BallHandlePosControl;
-class BasicPosControl;
+    class ShotController;
+    class NumTreePosControl;
+    class BallHandlePosControl;
+    class BasicPosControl;
 }
 
 namespace world {
+
 class Ball;
 class Robot {
     FRIEND_TEST(ShotControllerTest, getshotdata_test);
@@ -47,18 +51,22 @@ class Robot {
 
         // geneva
     private:
-        unsigned char genevaState;
-        unsigned char previousGenevaState = 0;
+        int genevaState;
+        int previousGenevaState = 0;
         double timeGenevaChanged = 0;
-        constexpr static double timeToChangeOneGenevaState = 0.5;
-        bool workingGeneva;
+        double timeToChangeOneGenevaState = 0.2;
+public:
+    void setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState);
+
+private:
+    bool workingGeneva;
 public:
     void setWorkingGeneva(bool workingGeneva);
     void setHasWorkingBallSensor(bool hasWorkingBallSensor);
 public:
-        unsigned char getGenevaState() const;
+        int getGenevaState() const;
         bool isGenevaReady() const;
-        void setGenevaState(unsigned char state = 3);
+        void setGenevaState(int state);
         bool hasWorkingGeneva() const;
         bool hasWorkingBallSensor() const;
 
@@ -75,6 +83,7 @@ public:
         bool isDribblerReady() const;
         void setDribblerState(unsigned char dribbler = 0);
         bool hasWorkingDribbler() const;
+        Vector2 getKicker() const;
 
         // control managers
     private:
@@ -95,13 +104,8 @@ public:
 
         // general
     public:
-        enum Team : short {
-          us,
-          them,
-          invalid
-        };
+
         Robot();
-//        Robot(const Robot &copy) = default;
         explicit Robot(const roboteam_msgs::WorldRobot &copy, Team team = invalid,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
         void updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);

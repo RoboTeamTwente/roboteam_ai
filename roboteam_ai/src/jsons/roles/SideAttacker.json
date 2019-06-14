@@ -7,9 +7,33 @@
             "id": "0e6iz68rgjzkplug",
             "title": "HasClearShot"
           },
+          "2zn719n8tg8z3l": {
+            "id": "2zn719n8tg8z3l",
+            "properties": {},
+            "title": "Receive"
+          },
+          "338k1uomjjg7lsdj": {
+            "children": [
+              "kaxvn1rsvevzy3rq"
+            ],
+            "id": "338k1uomjjg7lsdj",
+            "properties": {},
+            "title": "Inverter"
+          },
+          "3qaif8qsw5r7tbp8": {
+            "children": [
+              "uezmu5q7ogoyu74f",
+              "2zn719n8tg8z3l"
+            ],
+            "id": "3qaif8qsw5r7tbp8",
+            "properties": {},
+            "title": "MemSelector"
+          },
           "40gzcpiku966ab8s": {
             "children": [
               "6v218u1mdnl8zb",
+              "338k1uomjjg7lsdj",
+              "fb9v0hgjiktxkb7f",
               "49ambtpymi4l0bt5"
             ],
             "id": "40gzcpiku966ab8s",
@@ -35,6 +59,10 @@
             "id": "6v218u1mdnl8zb",
             "title": "ShouldHandleBall"
           },
+          "77cca6gchni1exz2": {
+            "id": "77cca6gchni1exz2",
+            "title": "CanReflectKick"
+          },
           "7x3t8oijhgsd6s": {
             "id": "7x3t8oijhgsd6s",
             "title": "Attack"
@@ -53,13 +81,28 @@
             },
             "title": "GTPSpecial"
           },
+          "e3ankund5cmp6x5a": {
+            "id": "e3ankund5cmp6x5a",
+            "properties": {
+              "secondsAhead": "0.4"
+            },
+            "title": "BallOutOfField"
+          },
           "e9d5w74uo465zkp": {
             "children": [
               "fwx01iov5wuf2zl9e",
-              "i7sopycxasrt3eku"
+              "3qaif8qsw5r7tbp8"
             ],
             "id": "e9d5w74uo465zkp",
             "title": "Sequence"
+          },
+          "fb9v0hgjiktxkb7f": {
+            "children": [
+              "e3ankund5cmp6x5a"
+            ],
+            "id": "fb9v0hgjiktxkb7f",
+            "properties": {},
+            "title": "Inverter"
           },
           "fwx01iov5wuf2zl9e": {
             "id": "fwx01iov5wuf2zl9e",
@@ -91,11 +134,6 @@
             },
             "title": "Pass"
           },
-          "i7sopycxasrt3eku": {
-            "id": "i7sopycxasrt3eku",
-            "properties": {},
-            "title": "ReflectKick"
-          },
           "iusx0b18cn09c": {
             "children": [
               "xzmk8yg14z1tesq8e",
@@ -103,6 +141,17 @@
             ],
             "id": "iusx0b18cn09c",
             "title": "Sequence"
+          },
+          "kaxvn1rsvevzy3rq": {
+            "id": "kaxvn1rsvevzy3rq",
+            "properties": {
+              "margin": "",
+              "ourDefenseArea": "false",
+              "outsideField": "true",
+              "secondsAhead": "0.4",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
           },
           "lsnzin91i3imjek5": {
             "id": "lsnzin91i3imjek5",
@@ -132,6 +181,11 @@
             "id": "ogf13zvp37u09",
             "title": "Sequence"
           },
+          "p4miyqog1je6tl9g": {
+            "id": "p4miyqog1je6tl9g",
+            "properties": {},
+            "title": "ReflectKick"
+          },
           "qjjplyhstdpz3jqb": {
             "id": "qjjplyhstdpz3jqb",
             "properties": {
@@ -143,6 +197,15 @@
               "maxTicks": ""
             },
             "title": "Dribble"
+          },
+          "uezmu5q7ogoyu74f": {
+            "children": [
+              "77cca6gchni1exz2",
+              "p4miyqog1je6tl9g"
+            ],
+            "id": "uezmu5q7ogoyu74f",
+            "properties": {},
+            "title": "MemSequence"
           },
           "xzmk8yg14z1tesq8e": {
             "id": "xzmk8yg14z1tesq8e",

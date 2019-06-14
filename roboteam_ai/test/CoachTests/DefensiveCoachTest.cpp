@@ -15,7 +15,7 @@ namespace ai {
 namespace coach {
 w::Robot::RobotPtr createRobot(const Vector2 &pos, int id, bool ourTeam) {
     w::Robot::RobotPtr robot = std::make_shared<world::Robot>();
-    robot->team = ourTeam ? w::Robot::Team::us : w::Robot::Team::them;
+    robot->team = ourTeam ? Team::us : Team::them;
     robot->pos = pos;
     robot->id = id;
     return robot;

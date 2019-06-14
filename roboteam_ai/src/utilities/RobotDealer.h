@@ -25,7 +25,9 @@ enum RobotType : short {
     CLOSE_TO_THEIR_GOAL,
     BALL_PLACEMENT_RECEIVER,
     RANDOM,
-    WORKING_GENEVA
+    WORKING_GENEVA,
+    WORKING_BALL_SENSOR,
+    WORKING_DRIBBLER
 };
 
 class RobotDealer {

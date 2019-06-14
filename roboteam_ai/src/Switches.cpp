@@ -17,7 +17,6 @@
 //  |____________________|
 //
 
-#include "roboteam_ai/src/skills/Chip.h"
 #include "roboteam_ai/src/skills/Dribble.h"
 #include "roboteam_ai/src/skills/DribbleForward.h"
 #include "roboteam_ai/src/skills/gotopos/SkillGoToPos.h"
@@ -66,6 +65,7 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
+#include <roboteam_ai/src/conditions/CanReflectKick.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
@@ -137,8 +137,7 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "two_robot_ballplacement_tactic",
         "calibration_tactic",
         "follow_interface_tactic",
-        "ball_placement_interface_tactic",
-        "attackerTestTactic"
+        "ball_placement_interface_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -160,8 +159,7 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "kickoff_shoot_strategy",
         "calibration_strategy",
         "interface_drive_strategy",
-        "interface_ball_placement_strategy",
-        "attackTestStrategy"
+        "interface_ball_placement_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -213,7 +211,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
-    map["Chip"] = std::make_shared<rtt::ai::Chip>(name,properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
     map["DribbleForward"] = std::make_shared<rtt::ai::DribbleForward>(name, properties);
@@ -230,7 +227,6 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["InterceptBall"] = std::make_shared<rtt::ai::InterceptBall>(name, properties);
     map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
-    map["Kick"] = std::make_shared<rtt::ai::Kick>(name, properties);
     map["Pass"] = std::make_shared<rtt::ai::Pass>(name, properties);
     map["Receive"] = std::make_shared<rtt::ai::Receive>(name, properties);
     map["RotateToAngle"] = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
@@ -262,6 +258,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
     map["CanPlay"] = std::make_shared<rtt::ai::CanPlay>(name, properties);
+    map["CanReflectKick"] = std::make_shared<rtt::ai::CanReflectKick>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] = std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsBallCloseToBorder"] = std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);
@@ -343,7 +340,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"ball_placement_interface_tactic", {
-                    {"follow_interface", robotType::RANDOM},
+                    {"follow_interface", robotType::WORKING_DRIBBLER},
                     {"f1", robotType::RANDOM},
                     {"f2", robotType::RANDOM},
                     {"f3", robotType::RANDOM},
@@ -585,17 +582,6 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"c6", robotType::RANDOM},
                     {"c7", robotType::RANDOM},
                     {"c8", robotType::RANDOM}
-            }
-            },
-            {"attackerTestTactic",{
-                    {"attackTest", robotType::CLOSE_TO_BALL},
-                    {"halt1",robotType::RANDOM},
-                    {"halt2",robotType::RANDOM},
-                    {"halt3",robotType::RANDOM},
-                    {"halt4",robotType::RANDOM},
-                    {"halt5",robotType::RANDOM},
-                    {"halt6",robotType::RANDOM},
-                    {"halt7",robotType::RANDOM}
             }
             }
     };

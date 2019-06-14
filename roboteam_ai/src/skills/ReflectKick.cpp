@@ -15,7 +15,7 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
 void ReflectKick::onInitialize() {
     kicked = false;
     auto field = world::field->get_field();
-    goalTarget = world::field->get_their_goal_center(); //getFarSideOfGoal();
+    goalTarget = getFarSideOfGoal();
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
@@ -100,10 +100,8 @@ Vector2 ReflectKick::getKicker() {
 double ReflectKick::getAngle() {
     Vector2 robotToGoalVector = (goalTarget - getKicker()).stretchToLength(1.0);
     Vector2 robotToBallVector = (ball->pos - getKicker()).stretchToLength(1.0);
-    //Angle angle = (angleToGoalTarget + ((angleToBall - angleToGoalTarget) * (1 - TOWARDS_GOAL_FACTOR))).getAngle();
     Angle angle = ((robotToGoalVector * TOWARDS_GOAL_FACTOR + robotToBallVector * (1 - TOWARDS_GOAL_FACTOR))).toAngle();
     return angle;
-
 }
 
 bool ReflectKick::ballDeflected() {

@@ -1,6 +1,19 @@
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/bt/bt.hpp"
-#include "roboteam_ai/src/skills/Kick.h"
+#include <roboteam_ai/src/skills/Halt.h>
+#include <roboteam_ai/src/bt/BehaviorTree.hpp>
+#include <roboteam_ai/src/bt/composites/MemSequence.hpp>
+#include <roboteam_ai/src/bt/composites/ParallelSequence.hpp>
+#include <roboteam_ai/src/bt/Node.hpp>
+#include <roboteam_ai/src/bt/composites/MemParallelSequence.h>
+#include <roboteam_ai/src/bt/composites/Sequence.hpp>
+#include <roboteam_ai/src/bt/composites/Selector.hpp>
+#include <roboteam_ai/src/bt/composites/MemSelector.hpp>
+#include <roboteam_ai/src/bt/decorators/Repeater.hpp>
+#include <roboteam_ai/src/bt/decorators/UntilFail.hpp>
+#include <roboteam_ai/src/bt/decorators/UntilSuccess.hpp>
+#include <roboteam_ai/src/bt/decorators/Succeeder.hpp>
+#include <roboteam_ai/src/bt/decorators/Inverter.hpp>
+#include <roboteam_ai/src/bt/decorators/Failer.hpp>
 
 namespace bt {
 
@@ -468,7 +481,8 @@ TEST(BehaviorTreeTest, decorators) {
 }
 
 TEST(BehaviorTreeTest, StatusToString) {
-    bt::Node::Ptr node = std::make_shared<rtt::ai::Kick>();
+    bt::Blackboard::Ptr bb = std::make_shared<bt::Blackboard>();
+    bt::Node::Ptr node = std::make_shared<rtt::ai::Halt>("halt", bb);
     EXPECT_EQ(node->status_print(bt::Node::Status::Failure), "Failure");
     EXPECT_EQ(node->status_print(bt::Node::Status::Waiting), "Waiting");
     EXPECT_EQ(node->status_print(bt::Node::Status::Success), "Success");

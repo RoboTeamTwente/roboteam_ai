@@ -7,7 +7,8 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_msgs/World.h>
-#include <roboteam_ai/src/utilities/Constants.h>
+#include "../../utilities/Constants.h"
+#include "../../world/Robot.h"
 
 namespace rtt {
 namespace ai {

@@ -12,6 +12,7 @@
 #include <cmath>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <roboteam_utils/Line.h>
+#include <roboteam_utils/LineSegment.h>
 #include "roboteam_utils/Arc.h"
 
 using Vector2 = rtt::Vector2;

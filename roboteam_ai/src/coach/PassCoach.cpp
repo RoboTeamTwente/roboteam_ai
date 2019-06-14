@@ -79,7 +79,6 @@ int PassCoach::determineReceiver(int passerID) {
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
-        if (passer->pos.y * robot->pos.y > 0) continue;
         if (!validReceiver(passer, robot)) continue;
 
         double score = passScore.calculatePassScore(robot->pos);

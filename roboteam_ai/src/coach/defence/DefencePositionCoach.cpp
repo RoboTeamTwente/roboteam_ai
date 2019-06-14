@@ -1,4 +1,3 @@
-#include <utility>
 
 //
 // Created by rolf on 18-2-19.
@@ -237,8 +236,8 @@ DefenderBot DefencePositionCoach::createBlockBall(
     DefenderBot bot;
     bot.type = botType::BLOCKBALL;
     bot.targetPos = findPositionForBlockBall(blockLine);
-    bot.blockFromID = world::world->whichRobotHasBall(world::THEIR_ROBOTS) ? (world::world->whichRobotHasBall(
-            world::THEIR_ROBOTS)->id) : (- 1);
+    bot.blockFromID = world::world->whichRobotHasBall(THEIR_ROBOTS) ? (world::world->whichRobotHasBall(
+            THEIR_ROBOTS)->id) : (- 1);
     bot.orientation = getOrientation(blockLine);
     return bot;
 }

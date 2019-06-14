@@ -95,7 +95,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
     robots.insert(robots.begin(), data.them.begin(), data.them.end());
     // all the obstacles should be robots
     for (auto const &robot : robots) {
-        if (robot->id == id && robot->team == (ourTeam ? Robot::Team::us : Robot::Team::them)) continue;
+        if (robot->id == id && robot->team == (ourTeam ? Team::us : Team::them)) continue;
         double lenToBot = (point - robot->pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot <= robotRadius;

@@ -2,7 +2,9 @@
 // Created by robzelluf on 6/5/19.
 //
 
+#include <roboteam_ai/src/utilities/Constants.h>
 #include "Wait.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {
