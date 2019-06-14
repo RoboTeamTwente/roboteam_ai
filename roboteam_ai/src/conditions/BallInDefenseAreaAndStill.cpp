@@ -3,6 +3,8 @@
  * AND if the ball lays still
  */
 
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "BallInDefenseAreaAndStill.h"
 #include "../utilities/Constants.h"
 

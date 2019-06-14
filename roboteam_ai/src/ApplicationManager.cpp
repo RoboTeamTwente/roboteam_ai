@@ -60,7 +60,7 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    if (ai::world::world->weHaveRobots()) {
+    if (weHaveRobots) {
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
@@ -128,6 +128,8 @@ void ApplicationManager::runOneLoopCycle() {
         std::cout <<"NO FIRST WORLD" << std::endl;
         ros::Duration(0.2).sleep();
     }
+
+    weHaveRobots = ai::world::world->weHaveRobots();
 }
 
 void ApplicationManager::checkForShutdown() {

@@ -338,7 +338,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"ball_placement_interface_tactic", {
-                    {"follow_interface", robotType::RANDOM},
+                    {"follow_interface", robotType::WORKING_DRIBBLER},
                     {"f1", robotType::RANDOM},
                     {"f2", robotType::RANDOM},
                     {"f3", robotType::RANDOM},
@@ -561,7 +561,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
             {"shoot_penalty_us_tactic", {
-                    {"penaltyShooter", robotType::CLOSE_TO_BALL},
+                    {"penaltyShooter", robotType::WORKING_GENEVA},
                     {"paa1", robotType::RANDOM},
                     {"paa2", robotType::RANDOM},
                     {"paa3", robotType::RANDOM},

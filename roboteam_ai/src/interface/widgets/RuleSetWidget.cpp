@@ -52,3 +52,7 @@ void RuleSetWidget::updateLabels() {
 } // interface
 } // ai
 } // rtt
+
+
+// QT performance improvement
+#include "moc_RuleSetWidget.cpp"
