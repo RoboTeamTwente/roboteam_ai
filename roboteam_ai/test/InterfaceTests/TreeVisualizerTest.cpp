@@ -21,12 +21,13 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     // put in a world to make robotdealer halt work etc.
     auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field);
     rtt::ai::world::world->updateWorld(worldmsg.first);
-
+std::cout << "a";
     BTFactory factory;
     factory.makeTrees();
     BTFactory::setCurrentTree("halt_strategy");
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;
+        std::cout << "b";
 
         // it initializes to false
     EXPECT_FALSE(treeVis->hasCorrectTree);
@@ -35,6 +36,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     EXPECT_TRUE(treeVis->hasCorrectTree);
     EXPECT_EQ(treeVis->treeItemMapping.size(), 18);
+        std::cout << "c";
 
         std::map<QTreeWidgetItem *, bt::Node::Ptr>::iterator it;
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
@@ -52,6 +54,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
         it->second->terminate(bt::Node::Status::Running);
     }
+        std::cout << "d";
 
     treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
@@ -68,12 +71,14 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
         EXPECT_EQ(status, n->status_print(it->second->getStatus()));
         EXPECT_TRUE(status == "Failure" || status == "Waiting");
     }
+        std::cout << "e";
 
     // check if it properly switches a strategy
     BTFactory::setCurrentTree("interface_drive_strategy");
     treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     EXPECT_TRUE(treeVis->hasCorrectTree);
     EXPECT_EQ(treeVis->treeItemMapping.size(), 18);
+        std::cout << "f";
 
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
         std::string nodeTrace, treeTrace, statusTrace;
