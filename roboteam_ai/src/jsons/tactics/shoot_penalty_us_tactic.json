@@ -15,6 +15,13 @@
             "role": "penalty_avoid_role",
             "title": "Role"
           },
+          "7qagsysv184vyzup": {
+            "id": "7qagsysv184vyzup",
+            "properties": {
+              "ROLE": "penaltyShooter"
+            },
+            "title": "ShootPenalty"
+          },
           "8l3moobwecl7wh0": {
             "children": [
               "f89tpx4y0bifs"
@@ -42,13 +49,6 @@
               "ROLE": "paa6"
             },
             "title": "PenaltyFormation"
-          },
-          "e0u9983dd6pmn7js": {
-            "id": "e0u9983dd6pmn7js",
-            "properties": {
-              "ROLE": "penaltyShooter"
-            },
-            "title": "Attack"
           },
           "et271vmu8pmeglwpf": {
             "children": [
@@ -118,7 +118,7 @@
           "jfiylb9m224kt": {
             "children": [
               "ncje9mubniz4g",
-              "e0u9983dd6pmn7js"
+              "7qagsysv184vyzup"
             ],
             "id": "jfiylb9m224kt",
             "properties": {
