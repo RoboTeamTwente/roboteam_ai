@@ -181,14 +181,14 @@ void NumTreePosControl::tracePath() {
                 }
                 pathQueue.pop();
             }
-            path = backTrackPath(bestPath, root);
+            path = PathPoint::backTrackPath(bestPath, root);
             return;
         }
         PathPointer point = pathQueue.top();
         while (true) {
             PathPointer newPoint = computeNewPoint(point, point->currentTarget);
             if (newPoint->t > 3.0) {
-                path = backTrackPath(point, root);
+                path = PathPoint::backTrackPath(point, root);
                 return;
             }
             //point->addChild(newPoint);
@@ -196,7 +196,7 @@ void NumTreePosControl::tracePath() {
 
             // if we reach endpoint, return the path we found
             if (point->isCollision(finalTargetPos, 0.1)) {
-                path = backTrackPath(point, root);
+                path = PathPoint::backTrackPath(point, root);
                 return;
             }
                 // if we reach a halfway point, update the target to the final target again and push this new point to queue
@@ -248,7 +248,7 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
 
     // Copy parent
     PathPointer newPoint = std::make_shared<PathPoint>();
-    newPoint->parent = oldPoint;
+    newPoint->setParent(oldPoint);
     oldPoint->addChild(newPoint);
     newPoint->t = oldPoint->t + DT;
     newPoint->currentTarget = subTarget;
@@ -401,7 +401,7 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
 
     // backtrack to 0.75 seconds before the collision
     double timeBeforeCollision = 0.75;
-    PathPointer startPoint = collisionPoint->backTrack(collisionPoint->t - timeBeforeCollision);
+    PathPointer startPoint = PathPoint::backTrack(collisionPoint, collisionPoint->t - timeBeforeCollision);
 
     // determine the position at backtrack and vector towards the collision
     Vector2 deltaPosition = collision.collisionPosition() - collisionPoint->pos;
@@ -418,24 +418,6 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
     // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};
     return {newTargets, startPoint};
-}
-
-///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point,
-        const PathPointer &root) {
-
-    // backtrack the whole path till it hits the root node and return the vector of PathPoints
-    std::vector<PathPoint> backTrackedPath = {};
-    while (point) {
-        backTrackedPath.push_back(*point);
-        if (point == root) {
-            break;
-        }
-        point.swap(point->parent);
-    }
-
-    std::reverse(backTrackedPath.begin(), backTrackedPath.end()); // everything is from back to forth
-    return backTrackedPath;
 }
 
 void NumTreePosControl::checkInterfacePID() {

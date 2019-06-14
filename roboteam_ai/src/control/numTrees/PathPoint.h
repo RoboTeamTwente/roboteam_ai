@@ -15,11 +15,23 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-class PathPoint : public std::enable_shared_from_this<PathPoint> {
+class PathPoint {
     private:
         using PathPointer = std::shared_ptr<PathPoint>;
 
+        PathPointer parent = {};
     public:
+        void setParent(const PathPointer &parent);
+        void setChildren(const std::vector<PathPointer> &children);
+    public:
+        const PathPointer &getParent() const;
+        const std::vector<PathPointer> &getChildren() const;
+    private:
+        std::vector<PathPointer> children = {};
+
+    public:
+        explicit PathPoint() = default;
+
         Vector2 currentTarget;  //Either the endPoint or an in between target
         Vector2 finalTarget;    //Always the endPoint
         Vector2 pos;
@@ -31,17 +43,19 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
         double maxDeceleration() { return Constants::MAX_DEC_UPPER(); }
         double maxVel();
 
-        explicit PathPoint() = default;
-
         double t = 0;
         int collisions = 0;
-        PathPointer parent = {};
-        std::vector<PathPointer> children = {};
-        PathPointer backTrack(double backTime);
-        PathPointer backTrack(int maxCollisionDiff);
-        PathPointer backTrack(double backTime, int maxCollisionDiff);
+
+
+        //backtracking
+        static const PathPointer &backTrack(const PathPointer &point, double backTime);
+        static const PathPointer &backTrack(const PathPointer &point, int maxCollisionDiff);
+        static const PathPointer &backTrack(const PathPointer &point, double backTime, int maxCollisionDiff);
+        static const std::vector<PathPoint> backTrackPath(PathPointer start, const PathPointer &root);
+
         void addChild(PathPointer &newChild);
         void addChildren(std::vector<PathPointer> &newChildren);
+
         bool isCollision(const Vector2 &target, double distance);
 
         bool branchHasTarget(const Vector2 &target);
