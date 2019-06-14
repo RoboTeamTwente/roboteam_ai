@@ -1,7 +1,8 @@
 /*
  * Determine the robot closest to ball. return SUCCESS if the robot is closest.
  * properties:
- *  - secondsAhead: the amount of seconds to linearly extrapolate the ball position, (to predict which robot will be closest)
+ *  - secondsAhead: the amount of seconds to linearly extrapolate the ball position
+ *  - atBallStillPosition: the position where the ball is expected to lay still due to rolling friction
  */ 
 
 #include "IsRobotClosestToBall.h"
@@ -16,16 +17,20 @@ IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr
 : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
-    Vector2 ballPos(ball->pos);
-
-    if (properties->hasDouble("secondsAhead")) {
+    Vector2 ballPos;
+    if (properties->getBool("atBallStillPosition")) {
+        ballPos = ball->getBallStillPosition();
+    }
+    else if (properties->hasDouble("secondsAhead")) {
         double t = properties->getDouble("secondsAhead");
-        Vector2 ballVel = ball->vel;
-        ballPos += ballVel * t;
+        ballPos = ball->pos + ball->vel * t;
+    }
+    else {
+        ballPos = ball->pos;
     }
 
-    RobotPtr robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
-    if (robotClosestToBall->id == robot->id) {
+    auto robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
+    if (robotClosestToBall && robotClosestToBall->id == robot->id) {
         return Status::Success;
     }
 
