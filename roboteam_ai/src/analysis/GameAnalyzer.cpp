@@ -7,6 +7,7 @@
 #include "GameAnalyzer.h"
 #include "../world/World.h"
 #include "../world/Field.h"
+#include "../world/Robot.h"
 #include "RobotDanger.h"
 
 namespace rtt {
@@ -78,7 +79,7 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttacker
 
     for (auto robot : robots) {
         robotsWithVisibilities.emplace_back(robot,
-                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos));
+                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld()));
     }
 
     // sort on goal visibility
@@ -95,7 +96,7 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos);
+        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
     }
     return (total/robots.size());
 }
@@ -109,7 +110,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam)
     danger.id = robot->id;
     danger.distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos);
+    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
@@ -125,11 +126,11 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
 /// Check with distanceToLineWithEnds if there are obstructions
 /// Returns all robots that can be passed to, along with the distance
 /// we return robot ids instead of robot object because the objects are incorrect (because of simulated world)
-vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
+std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
     auto ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
 
-    vector<pair<int, double>> robotsToPassTo;
+    std::vector<std::pair<int, double>> robotsToPassTo;
     for (auto ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
         for (auto theirRobot : enemyRobots) {
@@ -142,7 +143,7 @@ vector<pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool o
         }
         if (canPassToThisRobot) {
             double distToRobot = (Vector2(ourRobot->pos) - Vector2(robot->pos)).length();
-            robotsToPassTo.emplace_back(make_pair(ourRobot->id, distToRobot));
+            robotsToPassTo.emplace_back(std::make_pair(ourRobot->id, distToRobot));
         }
     }
     return robotsToPassTo;

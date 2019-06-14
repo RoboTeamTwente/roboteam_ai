@@ -544,3 +544,6 @@ void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_widget.cpp"

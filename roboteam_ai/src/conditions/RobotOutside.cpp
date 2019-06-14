@@ -3,7 +3,9 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "RobotOutside.h"
+
 namespace rtt{
 namespace ai{
 

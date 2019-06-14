@@ -8,6 +8,7 @@
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
 #include "../../world/Ball.h"
+#include "../../world/World.h"
 
 namespace rtt {
 namespace ai {

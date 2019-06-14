@@ -65,3 +65,6 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_VisualizationSettingsWidget.cpp"

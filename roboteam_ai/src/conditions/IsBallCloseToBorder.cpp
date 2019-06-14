@@ -6,6 +6,7 @@
  */
 
 #include "IsBallCloseToBorder.h"
+#include <roboteam_ai/src/world/Ball.h>
 
 namespace rtt {
 namespace ai {
