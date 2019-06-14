@@ -3,6 +3,7 @@
 //
 
 #include "PassScore.h"
+#include "../../world/WorldData.h"
 
 namespace rtt {
 namespace ai {

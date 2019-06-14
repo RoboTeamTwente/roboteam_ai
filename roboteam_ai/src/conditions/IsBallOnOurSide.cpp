@@ -5,6 +5,7 @@
 */
 
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "IsBallOnOurSide.h"
 
 namespace rtt {

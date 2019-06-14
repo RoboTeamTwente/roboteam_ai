@@ -116,7 +116,7 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
     dribbleForwards->reset();
     if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-            cout << "Waiting for the dribbler to stop" << endl;
+            std::cout << "Waiting for the dribbler to stop" << std::endl;
         }
         RobotCommand robotCommand;
         robotCommand.vel = {0, 0};
@@ -127,7 +127,7 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
     }
     else if (fabs(lockedAngle - robot->angle) > ANGLE_ERROR_MARGIN) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-            cout << "Rotating robot to final angle" << endl;
+            std::cout << "Rotating robot to final angle" << std::endl;
         }
         status = FINALIZING;
         return controlWithPID(xBallHandlePID, yBallHandlePID,
@@ -135,7 +135,7 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
     }
     else {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-            cout << "Success!!" << endl;
+            std::cout << "Success!!" << std::endl;
         }
         RobotCommand robotCommand;
         robotCommand.vel = {0, 0};
