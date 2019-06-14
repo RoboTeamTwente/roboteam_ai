@@ -132,23 +132,20 @@ void PassCoach::updatePassProgression() {
 }
 bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
     auto ball = world::world->getBall();
+
+    if (!ball || !passer || !receiver) {
+        return false;
+    }
     if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == passer->id) {
         return false;
     }
-
     if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
         return false;
     }
-
     if((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
         return false;
     }
-
-    if(receiver->pos.x - ball->pos.x < 0) {
-        return false;
-    }
-
-    return true;
+    return receiver->pos.x - ball->pos.x >= 0;
 }
 
 } // coach
