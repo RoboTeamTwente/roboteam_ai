@@ -168,7 +168,8 @@ std::vector<std::string> Switches::keeperJsonFiles = {
         "keeper_avoid_tactic",
         "keeper_time_out_tactic",
         "keeper_formation_tactic",
-        "keeper_penalty_tactic"
+        "keeper_penalty_defend_tactic",
+        "keeper_penalty_prepare_tactic",
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -302,7 +303,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_time_out_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
-            {"keeper_penalty_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_penalty_defend_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            {"keeper_penalty_prepare_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             // General tactics
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},
