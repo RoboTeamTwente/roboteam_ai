@@ -25,6 +25,7 @@ private:
 
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
+    bool weHaveRobots = false;
 
     ai::StrategyManager strategyManager;
     std::string oldKeeperTreeName = "";
