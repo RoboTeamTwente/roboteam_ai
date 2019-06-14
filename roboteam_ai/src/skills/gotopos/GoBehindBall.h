@@ -18,12 +18,15 @@ class GoBehindBall : public GoToPos {
         enum RefType {
           penalty,
           freeKick,
-          corner
+          corner,
+          shootOut
         };
 
         RefType refType;
         RefType stringToRefType(const std::string &string);
         const double errorMargin = Constants::ROBOT_RADIUS() + 0.05;
+
+        Status penaltyUpdate(int genevaState);
 
     public:
         explicit GoBehindBall(string name, bt::Blackboard::Ptr blackboard);
