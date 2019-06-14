@@ -10,7 +10,7 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const roboteam_msgs::World &message) {
+void World::updateWorld(const roboteam_msgs::World &message, bool applyBallFilter) {
     worldNumber ++;
 
     BallPtr oldBall = nullptr;
@@ -25,18 +25,18 @@ void World::updateWorld(const roboteam_msgs::World &message) {
         }
 
         // copy the ball
-     //   if (worldDataPtr->ball) oldBall = worldDataPtr->ball->deepCopy();
-
-        if (worldDataPtr->ball) oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
-
+        if (worldDataPtr->ball) {
+            oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
+        }
     }
 
     // update ballmodel, dribbling, position if not visible etc.
     auto tempWorldData = WorldData(message);
     if (oldBall) {
-        tempWorldData.ball->updateBall(oldBall, tempWorldData);
-    } else {
-        tempWorldData.ball = std::make_shared<Ball>(message.ball);
+        tempWorldData.ball->updateBall(oldBall, tempWorldData, applyBallFilter);
+    }
+    else {
+        tempWorldData.ball->updateBall(tempWorldData.ball, tempWorldData, applyBallFilter);
     }
 
     {

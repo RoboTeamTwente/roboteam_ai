@@ -38,6 +38,7 @@ void InterceptBall::onInitialize() {
         backwards = false;
     }
 }
+
 InterceptBall::Status InterceptBall::onUpdate() {
     ball = world::world->getBall();
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
