@@ -39,7 +39,7 @@ class Ball {
         Ball();
         // Ball(const Ball &copy) = default;
         explicit Ball(const roboteam_msgs::WorldBall &copy);
-        void updateBall(const BallPtr &oldBall, const WorldData &worldData);
+        void updateBall(const BallPtr &oldBall, const WorldData &worldData, bool applyBallFilter = true);
 
         const Vector2 &getBallStillPosition() const;
         Vector2 pos = Vector2();
@@ -48,6 +48,7 @@ class Ball {
         double spin = 0.0;
         static bool exists;
         bool visible = false;
+        void filterBallVelocity(Ball &oldBall, const WorldData &worldData);
 };
 
 }

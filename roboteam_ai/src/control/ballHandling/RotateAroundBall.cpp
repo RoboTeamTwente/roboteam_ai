@@ -2,9 +2,9 @@
 // Created by thijs on 25-5-19.
 //
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-
+#include "../../control/ControlUtils.h"
 #include "RotateAroundBall.h"
+#include "../../world/Ball.h"
 
 namespace rtt {
 namespace ai {
@@ -25,7 +25,7 @@ RobotCommand RotateAroundBall::getRobotCommand(RobotPtr robot, const Vector2 &ta
     else if (deltaAngle.getAngle() < - M_PI_2) targetVel = - maxVel;
     else targetVel = deltaAngle.getAngle()*maxVel/M_PI_2;
 
-    robotCommand.vel = (ball->pos - robot->pos).rotate(- M_PI_2).stretchToLength(targetVel) - previousVelocity*0.2;
+    robotCommand.vel = (ball->pos - robot->pos).rotate(- M_PI_2).stretchToLength(targetVel);
 
     if ((ball->pos - robot->pos).length2() > maxBallDistance*maxBallDistance) {
         robotCommand.vel += (ball->pos - robot->pos) - (ball->pos - robot->pos).stretchToLength(targetBallDistance);

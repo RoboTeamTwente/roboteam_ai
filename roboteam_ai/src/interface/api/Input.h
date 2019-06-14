@@ -22,7 +22,13 @@ namespace interface {
  * e.g: form, color, size, and depth.
  */
 struct Drawing {
-    enum DrawingMethod {LINES_CONNECTED, DOTS, CROSSES, CIRCLES, PLUSSES};
+    enum DrawingMethod {
+      LINES_CONNECTED,
+      DOTS,
+      CROSSES,
+      CIRCLES,
+      PLUSSES
+    };
 
     Drawing(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, DrawingMethod method = DOTS, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
             : visual(visual),

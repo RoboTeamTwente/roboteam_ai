@@ -5,6 +5,7 @@
 
 #include "Pause.h"
 #include "../io/IOManager.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {

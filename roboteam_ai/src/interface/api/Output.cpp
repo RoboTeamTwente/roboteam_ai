@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "Output.h"
+#include "../../world/Ball.h"
 
 namespace rtt {
 namespace ai {
@@ -15,6 +16,7 @@ pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::basicPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
+pidVals Output::ballHandlePID = pidVals(0.0, 0.0, 0.0);
 
 rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the field
 bool Output::useRefereeCommands = false;
@@ -165,6 +167,14 @@ const pidVals &Output::getKeeperInterceptPid() {
 
 void Output::setKeeperInterceptPid(const pidVals &keeperInterceptPid) {
     keeperInterceptPID = keeperInterceptPid;
+}
+
+const pidVals &Output::getBallHandlePid() {
+    return ballHandlePID;
+}
+
+void Output::setBallHandlePid(const pidVals &ballHandlePid) {
+    ballHandlePID = ballHandlePid;
 }
 
 

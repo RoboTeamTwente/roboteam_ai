@@ -31,8 +31,8 @@ class Skill : public bt::Leaf {
     protected:
         using Robot = world::Robot;
         using Ball = world::Ball;
-        using RobotPtr = world::World::RobotPtr;
-        using BallPtr = world::World::BallPtr;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+        using BallPtr = std::shared_ptr<world::Ball>;
         using WorldData = world::WorldData;
 
         io::IOManager ioManager = io::IOManager(false, true);
