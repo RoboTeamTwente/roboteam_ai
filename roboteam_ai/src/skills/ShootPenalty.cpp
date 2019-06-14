@@ -7,97 +7,54 @@
 namespace rtt {
 namespace ai {
 
-void ShootPenalty::onInitialize() {
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    Vector2 robotPos = robot->pos;
-    targetPos = ballPos + (robotPos - ballPos).rotate(fakeOffset.getAngle());
-    progress = ROTATING;
-}
-
-Skill::Status ShootPenalty::onUpdate() {
-
-    switch (progress) {
-
-        case GOING: {
-            Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-            Vector2 deltaPos = (ballPos - robot->pos);
-
-            if (deltaPos.length() < errorMarginPos) {
-                progress = READY;
-            } else {
-                command.w = static_cast<float>((ballPos - robot->pos).angle());
-                command.geneva_state = 1;
-                Vector2 velocity = goToPos.getRobotCommand(robot, ballPos).vel;
-                command.x_vel = static_cast<float>(velocity.x);
-                command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand();
-
-            }
-            return Status::Running;
-        }
-
-        case ROTATING: {
-            if ((robot->angularVelocity - fakeOffset) > errorMarginAng) {
-                command.geneva_state = 1;
-                command.w = static_cast<float>(fakeOffset);
-                publishRobotCommand();
-
-            }
-            else {
-                progress = GOING;
-                return Status::Running;
-            }
-
-            return Status::Running;
-        }
-
-        case READY: {
-            publishRobotCommand();
-            progress = SHOOTING;
-            return Status::Running;
-        }
-
-        case SHOOTING: {
-            if (! isPenaltyShot()) {
-                Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-                command.w = static_cast<float>((ballPos - robot->pos).angle());
-                command.geneva_state = 1;
-                command.kicker = static_cast<unsigned char>(true);
-                command.kicker_vel = Constants::MAX_KICK_POWER();
-                Vector2 velocity = goToPos.getRobotCommand(robot, ballPos).vel;
-                command.x_vel = static_cast<float>(velocity.x);
-                command.y_vel = static_cast<float>(velocity.y);
-                publishRobotCommand();
-                return Status::Running;
-            }
-            else {
-                command.x_vel = 0;
-                command.y_vel = 0;
-                command.geneva_state = 3;
-                publishRobotCommand();
-                return Status::Success;
-            }
-        }
-    }
-    return Status::Failure;
-}
-
-void ShootPenalty::onTerminate(Skill::Status s) {
-    // clean up the coach or whereever logic you use
-
-}
 ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-
+    :Skill(std::move(name), std::move(blackboard)) {
 }
-bool ShootPenalty::isPenaltyShot() {
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-    if ((ballPos - rtt::ai::world::field->getPenaltyPoint(false)).length() > 0.30){
-        shot = true;
-        return true;
-    }
-    return false;
 
+void ShootPenalty::onInitialize() {
+    genevaSet = false;
+    genevaState = 3;
+    tick = 0;
+    aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+}
+
+bt::Node::Status ShootPenalty::onUpdate() {
+    if (! robot) return Status::Running;
+
+    if (world::field->pointIsInDefenceArea(ball->pos, false)) {
+        command.w = robot->angle;
+        publishRobotCommand();
+        return Status::Running;
+    }
+
+    command.w = robot->angle;
+
+    if(!genevaSet) {
+        genevaState = determineGenevaState();
+        genevaSet = true;
+    } else if (tick < genevaChangeTicks) {
+        tick++;
+    } else {
+        auto shotData = robot->getShotController()->getRobotCommand(
+                *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::HIGH, genevaState);
+        command = shotData.makeROSCommand();
+    }
+    publishRobotCommand();
+    return Status::Running;
+}
+
+int ShootPenalty::determineGenevaState() {
+    // determine the shortest position from where to kick the ball
+    Vector2 robotToBall = ball->pos - robot->pos;
+    Vector2 preferredShotVector = aimPoint - ball->pos;
+
+    // determine the angle between the robot position and the shot line
+    Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
+    if (angleWithShotline.getAngle() > 0) {
+        return genevaState = 2;
+    } else {
+        return genevaState = 4;
+    }
 }
 
 }
