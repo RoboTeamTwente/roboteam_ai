@@ -10,7 +10,7 @@
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/world/World.h"
 #include "../helpers/FieldHelper.h"
-
+#include <cmath>
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;
