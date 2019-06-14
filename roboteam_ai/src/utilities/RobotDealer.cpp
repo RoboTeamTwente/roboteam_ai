@@ -61,19 +61,19 @@ void RobotDealer::addRobotToOwnerList(int ID, const std::string &roleName, const
 void RobotDealer::updateFromWorld() {
 
     auto worldUs = world::world->getUs();
-    std::set<int> robots;
+    std::set<int> robotIDs;
     for (const auto &robot : worldUs) {
-        robots.insert(robot->id);
+        robotIDs.insert(robot->id);
     }
     std::set<int> currentRobots = getRobots();
-    for (auto robot : robots) {
-        if (currentRobots.find(robot) == currentRobots.end()) {
-            if (robot == keeperID) {
+    for (const auto &robotID : robotIDs) {
+        if (currentRobots.find(robotID) == currentRobots.end()) {
+            if (robotID == keeperID) {
                 ROS_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
-            addRobotToOwnerList(robot, "free", "free");
+            addRobotToOwnerList(robotID, "free", "free");
         }
     }
 

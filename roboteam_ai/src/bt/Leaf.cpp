@@ -41,6 +41,7 @@ void Leaf::updateRobot() {
     }
     else {
         ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
+        robot = nullptr;
     }
 }
 
