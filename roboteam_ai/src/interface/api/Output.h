@@ -23,6 +23,7 @@ private:
     static pidVals numTreePID;
     static pidVals keeperPID;
     static pidVals keeperInterceptPID;
+    static pidVals ballHandlePID;
 
     static std::mutex markerMutex;
     static std::mutex refMutex;
@@ -65,6 +66,8 @@ public:
     static void setKeeperPid(const pidVals &keeperPid);
     static const pidVals &getKeeperInterceptPid();
     static void setKeeperInterceptPid(const pidVals &keeperInterceptPid);
+    static const pidVals &getBallHandlePid();
+    static void setBallHandlePid(const pidVals &ballHandlePid);
     static void sendHaltCommand();
 
     static void setKeeperTree(std::string name);

@@ -50,6 +50,11 @@ class NumTreePosControl : public BasicPosControl {
 
         Collision currentCollisionWithRobot;
         Collision currentCollisionWithFinalTarget;
+    public:
+        const Collision &getCurrentCollisionWithRobot() const;
+        const Collision &getCurrentCollisionWithFinalTarget() const;
+
+    private:
         bool allowIllegalPositions = false;
         Vector2 currentlyAvoidingDefenseAreaPosition;
         bool currentlyAvoidingDefenseArea = false;
