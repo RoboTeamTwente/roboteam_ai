@@ -9,6 +9,7 @@
 
 #include <QtWidgets/QLayoutItem>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "TreeVisualizerWidget.h"
 #include "QLayout"
 #include "mainWindow.h"

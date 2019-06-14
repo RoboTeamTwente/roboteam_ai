@@ -2,6 +2,7 @@
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/world/Field.h>
 #include "KickOffThemFormation.h"
+#include "../../control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

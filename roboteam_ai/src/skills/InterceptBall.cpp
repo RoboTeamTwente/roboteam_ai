@@ -5,6 +5,7 @@
 #include "InterceptBall.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
