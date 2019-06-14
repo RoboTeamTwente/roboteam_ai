@@ -43,7 +43,7 @@ private:
 public:
     explicit World();
     ~World();
-    void updateWorld(const roboteam_msgs::World &world);
+    void updateWorld(const roboteam_msgs::World &world, bool applyBallFilter = true);
     bool weHaveRobots();
     double getTimeDifference();
     double getTime();

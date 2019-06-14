@@ -11,12 +11,15 @@ class PID{
 public:
     PID(double, double, double);
     PID(double, double, double, double);
+    PID(std::tuple<double, double, double>);
+    PID(std::tuple<double, double, double, double>);
+
     void setP(double);
     void setI(double);
     void setD(double);
     void setF(double);
     void setPID(double, double, double);
-    void setPID(std::tuple<double, double, double> pid);
+    void setPID(std::tuple<double, double, double>);
     void setPID(double, double, double, double);
     void setMaxIOutput(double);
     void setOutputLimits(double);
