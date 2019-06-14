@@ -114,7 +114,7 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &
         robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
         robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
         robot->setBatteryEmpty(robotfeedback->batteryLow);
-        //   robot->setGenevaTurning(...); //this doesnt work yet
+        robot->setGenevaTurning(robotfeedback->genevaIsTurning);
         robot->setGenevaState(robotfeedback->genevaState);
     }
 }
