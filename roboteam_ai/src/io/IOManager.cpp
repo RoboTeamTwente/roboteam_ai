@@ -113,6 +113,7 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &
     if (robot) {
         robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
         robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
+        robot->setBatteryLow(robotfeedback->batteryLow);
     }
 
 }
