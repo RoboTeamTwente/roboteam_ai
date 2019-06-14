@@ -9,6 +9,7 @@
 #include <roboteam_ai/src/skills/Halt.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/test/helpers/FieldHelper.h>
 
 namespace rtt {
 namespace ai {
@@ -16,6 +17,7 @@ namespace interface {
 
 TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
+    auto field = testhelpers::FieldHelper::generateField();
     // put in a world to make robotdealer halt work etc.
     auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field);
     rtt::ai::world::world->updateWorld(worldmsg.first);
