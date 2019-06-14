@@ -64,3 +64,6 @@ PidsWidget::PidsWidget(QWidget * parent) {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_PidsWidget.cpp"

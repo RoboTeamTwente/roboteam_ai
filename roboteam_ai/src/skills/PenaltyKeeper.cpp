@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Ball.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 #include "PenaltyKeeper.h"

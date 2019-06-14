@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <roboteam_ai/src/world/World.h>
 #include "../../src/conditions/IsBallCloseToBorder.h"
 #include "roboteam_ai/src/world/Field.h"
 
