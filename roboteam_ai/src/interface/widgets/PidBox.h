@@ -5,15 +5,16 @@
 #ifndef ROBOTEAM_AI_PIDBOX_H
 #define ROBOTEAM_AI_PIDBOX_H
 
-
-#include <QtWidgets/QDoubleSpinBox>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QGroupBox>
-#include "roboteam_ai/src/interface/api/Output.h"
+
+class QHBoxLayout;
+class QDoubleSpinBox;
 
 namespace rtt {
 namespace ai {
 namespace interface {
+
+typedef std::tuple<double, double, double> pidVals;
 
 class PidBox : public QGroupBox {
 Q_OBJECT

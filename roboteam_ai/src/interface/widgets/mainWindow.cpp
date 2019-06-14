@@ -11,6 +11,27 @@
 #include "MainControlsWidget.h"
 #include "VisualizationSettingsWidget.h"
 #include <QSplitter>
+#include <QMainWindow>
+#include <iostream>
+#include <memory>
+#include <QtWidgets/QCheckBox>
+#include <QComboBox>
+#include "widget.h"
+#include "QHBoxLayout"
+#include "QPushButton"
+#include <QTreeWidget>
+#include "QColor"
+#include "roboteam_ai/src/bt/Node.hpp"
+#include "QTreeWidgetItemIterator"
+#include <QtGui>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <QLabel>
+#include <QtWidgets/QDoubleSpinBox>
+#include "TreeVisualizerWidget.h"
+#include "RobotsWidget.h"
+#include "PidBox.h"
+#include "RuleSetWidget.h"
 
 namespace rtt {
 namespace ai {

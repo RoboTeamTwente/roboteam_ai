@@ -5,13 +5,15 @@
 #ifndef ROBOTEAM_AI_TREEVISUALIZER_H
 #define ROBOTEAM_AI_TREEVISUALIZER_H
 
-#include <QtWidgets/QTreeWidget>
 #include <roboteam_ai/src/bt/Node.hpp>
-#include <roboteam_ai/src/utilities/GameState.h>
-#include "roboteam_ai/src/bt/BehaviorTree.hpp"
+#include <QtWidgets/QTreeWidget>
+#include "../../bt/BehaviorTree.hpp"
 
 namespace rtt {
 namespace ai {
+
+struct GameState;
+
 namespace interface {
 
 class MainWindow;
@@ -26,7 +28,7 @@ private:
     bool hasCorrectTree = false;
     MainWindow * parent = nullptr;
     unsigned long long mostTicks = 0;
-    GameState recentGameState;
+    GameState * recentGameState;
 public:
     explicit TreeVisualizerWidget(MainWindow * parent);
     void setHasCorrectTree(bool hasCorrectTree);

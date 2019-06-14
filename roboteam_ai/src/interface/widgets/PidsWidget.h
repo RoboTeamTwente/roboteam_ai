@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_PIDSWIDGET_H
 #define ROBOTEAM_AI_PIDSWIDGET_H
 
-#include "QLayout"
 #include "widget.h"
 
 namespace rtt {

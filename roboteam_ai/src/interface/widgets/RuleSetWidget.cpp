@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 15-5-19.
 //
 
-#include <QtWidgets/QVBoxLayout>
+#include <QVBoxLayout>
 #include <QtWidgets/QSpacerItem>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <QtWidgets/QLabel>

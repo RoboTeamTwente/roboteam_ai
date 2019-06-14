@@ -3,6 +3,11 @@
 //
 
 #include "PidBox.h"
+#include <QtWidgets/QDoubleSpinBox>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QGroupBox>
+#include "roboteam_ai/src/interface/api/Output.h"
+
 namespace rtt {
 namespace ai {
 namespace interface {

@@ -9,6 +9,13 @@
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"
 #include "roboteam_ai/src/analysis/GameAnalyzer.h"
+#include "roboteam_ai/src/world/WorldData.h"
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
+#include <QMouseEvent>
+#include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/world/World.h"
+#include <QPainter>
+#include <memory>
 
 namespace rtt {
 namespace ai {

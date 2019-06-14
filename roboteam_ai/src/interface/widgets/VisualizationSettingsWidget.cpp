@@ -5,6 +5,10 @@
 #include "VisualizationSettingsWidget.h"
 #include "mainWindow.h"
 #include "../api/Toggles.h"
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLabel>
 
 namespace rtt {
 namespace ai {

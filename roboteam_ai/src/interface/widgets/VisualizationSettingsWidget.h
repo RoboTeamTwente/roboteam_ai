@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_VISUALIZATIONSETTINGSWIDGET_H
 
 
-#include "QLayout"
 #include "widget.h"
 
 namespace rtt {

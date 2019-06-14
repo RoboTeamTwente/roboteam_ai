@@ -2,6 +2,11 @@
 // Created by mrlukasbos on 7-5-19.
 //
 
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QShortcut>
+#include "QLayout"
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <roboteam_ai/src/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
@@ -243,11 +248,11 @@ void MainControlsWidget::updateContents() {
 
 void MainControlsWidget::sendHaltSignal() {
     if (isHalted) {
-        Output::setInterfaceGameState(prevGameState);
+        Output::setInterfaceGameState(*prevGameState);
         haltBtn->setText("Halt");
         haltBtn->setStyleSheet("background-color: #cc0000;");
     } else {
-        prevGameState = GameStateManager::getCurrentGameState();
+        prevGameState = new GameState(GameStateManager::getCurrentGameState());
         GameStateManager::forceNewGameState(RefCommand::HALT);
         haltBtn->setText("unHalt");
         haltBtn->setStyleSheet("background-color: #00b200;");

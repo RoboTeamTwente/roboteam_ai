@@ -6,18 +6,15 @@
 #define ROBOTEAM_AI_WIDGET_H
 
 #include <QWidget>
-#include <QPainter>
-#include <memory>
 #include "roboteam_ai/src/utilities/Constants.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/world/World.h"
-#include <QMouseEvent>
 #include <gtest/gtest_prod.h>
-#include "roboteam_ai/src/world/WorldData.h"
-#include <roboteam_ai/src/coach/OffensiveCoach.h>
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 namespace ai {
+namespace world {
+    class Robot;
+}
 namespace interface {
 
 class Visualizer : public QWidget {

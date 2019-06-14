@@ -45,9 +45,9 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree){
     }
 
     GameState state = GameStateManager::getCurrentGameState();
-    if (recentGameState.strategyName != state.strategyName) {
+    if (recentGameState->strategyName != state.strategyName) {
         hasCorrectTree = false;
-        recentGameState = state;
+        recentGameState = new GameState(state);
     }
 
     // if the tree did change, clear the treewidget and rebuild it

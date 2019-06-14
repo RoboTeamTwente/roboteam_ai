@@ -5,8 +5,9 @@
 #ifndef ROBOTEAM_AI_ROBOTSWIDGET_H
 #define ROBOTEAM_AI_ROBOTSWIDGET_H
 
-#include "QLayout"
 #include "widget.h"
+
+class QVBoxLayout;
 
 namespace rtt {
 namespace ai {

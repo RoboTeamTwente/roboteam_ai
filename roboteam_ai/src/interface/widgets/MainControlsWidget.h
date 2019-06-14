@@ -5,15 +5,14 @@
 #ifndef ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 #define ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QShortcut>
-#include "QLayout"
-#include "widget.h"
+class QVBoxLayout;
+class QPushButton;
+class QShortcut;
+class QComboBox;
 
 namespace rtt {
 namespace ai {
+    struct GameState;
 namespace interface {
 
 class MainControlsWidget : public QWidget {
@@ -40,7 +39,7 @@ private:
     QComboBox* select_goalie;
     QComboBox* select_ruleset;
 
-    GameState prevGameState;
+    GameState* prevGameState;
     bool isHalted = false;
 
     void setToggleColorBtnLayout() const;

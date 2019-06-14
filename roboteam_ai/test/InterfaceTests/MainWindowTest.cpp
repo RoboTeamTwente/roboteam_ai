@@ -8,6 +8,8 @@
 #include <QtWidgets/QApplication>
 #include <roboteam_ai/src/interface/widgets/mainWindow.h>
 #include <ros/node_handle.h>
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Robot.h>
 
 namespace w = rtt::ai::world;
 

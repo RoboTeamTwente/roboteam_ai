@@ -7,6 +7,8 @@
 
 #include <QtWidgets/QWidget>
 
+class QVBoxLayout;
+
 namespace rtt {
 namespace ai {
 namespace interface {

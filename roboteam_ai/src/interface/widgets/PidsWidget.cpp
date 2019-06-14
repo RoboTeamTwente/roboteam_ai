@@ -3,8 +3,10 @@
  * This file contains the contents of the 'PID' tab in the interface
  */
 
+#include <roboteam_ai/src/interface/api/Output.h>
 #include "PidsWidget.h"
 #include "PidBox.h"
+#include "QLayout"
 
 namespace rtt {
 namespace ai {

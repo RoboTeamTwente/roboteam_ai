@@ -9,6 +9,7 @@
 #include <QScrollArea>
 #include "roboteam_ai/src/analysis/GameAnalyzer.h"
 #include "mainWindow.h"
+#include "QLayout"
 
 namespace rtt {
 namespace ai {
