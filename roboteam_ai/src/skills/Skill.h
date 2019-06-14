@@ -3,7 +3,6 @@
 
 #include "../bt/Leaf.hpp"
 #include <roboteam_msgs/RobotCommand.h>
-#include <roboteam_utils/Angle.h>
 #include "ros/ros.h"
 #include "../io/IOManager.h"
 

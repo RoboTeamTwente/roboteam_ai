@@ -2,10 +2,15 @@
 // Created by rolf on 12/12/18.
 //
 
+#include <roboteam_ai/src/interface/api/Output.h>
+#include <roboteam_ai/src/world/World.h>
 #include "InterceptBall.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/world/Ball.h"
+#include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
+#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {

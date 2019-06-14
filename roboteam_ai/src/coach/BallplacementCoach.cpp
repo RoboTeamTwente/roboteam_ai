@@ -12,6 +12,8 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "BallplacementCoach.h"
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 
 namespace rtt {
 namespace ai {

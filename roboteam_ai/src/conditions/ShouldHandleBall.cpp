@@ -4,6 +4,7 @@
 
 #include "ShouldHandleBall.h"
 #include "../coach/GetBallCoach.h"
+#include "roboteam_ai/src/world/Robot.h"
 
 namespace rtt {
 namespace ai {

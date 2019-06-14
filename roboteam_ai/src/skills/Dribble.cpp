@@ -4,6 +4,8 @@
 
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "Dribble.h"
+#include "../control/ControlUtils.h"
+
 namespace rtt {
 namespace ai {
 

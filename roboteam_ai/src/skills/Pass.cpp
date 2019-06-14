@@ -7,8 +7,12 @@
 #include <roboteam_ai/src/utilities/Constants.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 #include <roboteam_ai/src/control/BasicPosControl.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/world/Robot.h>
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/WorldData.h>
+
 #include "Pass.h"
 
 namespace rtt {

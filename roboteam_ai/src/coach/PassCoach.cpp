@@ -5,6 +5,8 @@
 #include "PassCoach.h"
 #include "../world/Field.h"
 #include <chrono>
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 
 namespace rtt {
 namespace ai {

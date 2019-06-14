@@ -5,13 +5,11 @@
 #ifndef ROBOTEAM_AI_OFFENSIVECOACH_H
 #define ROBOTEAM_AI_OFFENSIVECOACH_H
 
-#include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <algorithm>
-#include "roboteam_ai/src/coach/heuristics/CoachHeuristics.h"
-#include "../world/WorldData.h"
 #include "heuristics/OffensiveScore.h"
+#include <roboteam_utils/Vector2.h>
+#include <vector>
+#include <map>
+#include <memory>
 
 namespace rtt {
 namespace ai {
@@ -20,7 +18,7 @@ namespace coach {
 class OffensiveCoach {
     public:
         using Robot = world::Robot;
-        using RobotPtr = std::shared_ptr<Robot>;
+using RobotPtr = std::shared_ptr<Robot>;
 
         const double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
         const double CLOSE_TO_GOAL_DISTANCE = 0.37;

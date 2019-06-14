@@ -2,10 +2,12 @@
 // Created by baris on 11-3-19.
 //
 
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include "ShootPenalty.h"
 #include "../world/World.h"
 #include "../world/Ball.h"
 #include "../world/Robot.h"
+#include "../control/shotControllers/ShotController.h"
 
 namespace rtt {
 namespace ai {

@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_DRIBBLEFORWARD_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt {
@@ -17,7 +16,6 @@ private:
     Vector2 initialBallPos;
     double dribbleDistance = 0.8;
     Vector2 targetPos;
-    control::BasicPosControl basicGtp;
     control::BallHandlePosControl ballHandlePosControl;
 public:
     explicit DribbleForward(string name, bt::Blackboard::Ptr blackboard);

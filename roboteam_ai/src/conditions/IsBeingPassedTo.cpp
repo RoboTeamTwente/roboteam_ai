@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include "IsBeingPassedTo.h"
+#include "roboteam_ai/src/world/Robot.h"
 
 namespace rtt {
 namespace ai {

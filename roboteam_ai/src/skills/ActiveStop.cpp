@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include "ActiveStop.h"
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 
 namespace rtt{
 namespace ai {

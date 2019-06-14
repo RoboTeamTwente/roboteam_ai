@@ -8,7 +8,11 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "HasClearShot.h"
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/World.h"
+#include "roboteam_ai/src/world/WorldData.h"
 
 namespace rtt{
 namespace ai {

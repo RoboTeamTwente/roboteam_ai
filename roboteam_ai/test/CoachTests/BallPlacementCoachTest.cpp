@@ -7,6 +7,7 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Ball.h>
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
     rtt::ai::interface::Output::setMarkerPosition({2.3, 0.3});

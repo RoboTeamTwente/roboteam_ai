@@ -5,6 +5,8 @@
 #include "CoachDefend.h"
 #include "roboteam_ai/src/coach/defence/DefenceDealer.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
+
 namespace rtt {
 namespace ai {
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)

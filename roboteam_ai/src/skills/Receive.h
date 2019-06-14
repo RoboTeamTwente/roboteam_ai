@@ -7,7 +7,6 @@
 
 #include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
-#include "roboteam_ai/src/control/PositionUtils.h"
 
 namespace rtt {
 namespace ai {

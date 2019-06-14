@@ -7,6 +7,9 @@
 #include <cmath>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "../world/Field.h"
+#include "../world/Robot.h"
+#include "../world/Ball.h"
+
 
 namespace rtt {
 namespace ai {

@@ -2,6 +2,10 @@
 // Created by baris on 14-3-19.
 //
 
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Robot.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 #include "ShootFreeKick.h"
 
 namespace rtt {

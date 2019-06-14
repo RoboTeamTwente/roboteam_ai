@@ -4,6 +4,9 @@
 
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "BallPlacementPass.h"
+#include <roboteam_ai/src/world/Ball.h>
+#include <roboteam_ai/src/world/Robot.h>
+#include <roboteam_ai/src/control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {

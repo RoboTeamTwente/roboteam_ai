@@ -4,6 +4,9 @@
 
 #include "ReflectKick.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/coach/PassCoach.h>
 
 namespace rtt {
 namespace ai {

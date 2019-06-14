@@ -2,7 +2,10 @@
 // Created by thijs on 17-12-18.
 //
 
+#include <roboteam_ai/src/coach/OffensiveCoach.h>
 #include "SideAttacker.h"
+#include <roboteam_ai/src/world/Robot.h>
+#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {

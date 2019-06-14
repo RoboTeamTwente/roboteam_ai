@@ -3,6 +3,8 @@
 //
 
 #include "IsOnPassLine.h"
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 
 namespace rtt {
 namespace ai {

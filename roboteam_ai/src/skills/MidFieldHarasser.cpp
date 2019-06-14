@@ -3,6 +3,11 @@
 //
 
 #include "MidFieldHarasser.h"
+#include <roboteam_utils/Vector2.h>
+#include <roboteam_utils/Angle.h>
+#include "../coach/midField/MidFieldCoach.h"
+#include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 
 namespace rtt {
 namespace ai {

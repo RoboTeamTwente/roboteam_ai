@@ -2,7 +2,10 @@
 // Created by rolf on 10-4-19.
 //
 
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "InterceptRobot.hpp"
+#include <roboteam_ai/src/control/BasicPosControl.h>
 
 namespace rtt{
 namespace ai{

@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_HARASS_H
 #define ROBOTEAM_AI_HARASS_H
 
-#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
 
 namespace rtt {
@@ -21,7 +20,6 @@ class Harass : public Skill {
         int harassmentTarget = - 1;
         void pickHarassmentTarget();
         bool harassBallOwner = false;
-        control::BasicPosControl goToPos;
 };
 
 }

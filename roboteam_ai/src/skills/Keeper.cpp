@@ -9,6 +9,9 @@
 #include "../world/Ball.h"
 #include "../world/Robot.h"
 #include "../control/ControlUtils.h"
+#include "roboteam_utils/Arc.h"
+#include "roboteam_utils/Math.h"
+#include <roboteam_ai/src/world/BallPossession.h>
 
 namespace rtt {
 namespace ai {
