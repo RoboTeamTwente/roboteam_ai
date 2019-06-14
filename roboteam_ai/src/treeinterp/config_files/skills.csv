@@ -31,7 +31,7 @@ PenaltyFormation,Offensive
 ActiveStop
 ReflectKick
 MidFieldHarasser
-PenaltyKeeper
+PenaltyKeeper, prepare
 FreeKickFormation
 DefendFreeKick
 DriveWithInterface

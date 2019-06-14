@@ -50,14 +50,14 @@ private:
          RefGameState(RefCommand::PREPARE_KICKOFF_US,   "kickoff_us_formation_strategy",   "keeper_formation_tactic", "default",  false, RefCommand::DO_KICKOFF),
          RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", "keeper_default_tactic",   "default",  false, RefCommand::DEFEND_KICKOFF),
          RefGameState(RefCommand::PREPARE_PENALTY_US,   "penalty_us_prepare_strategy",     "keeper_formation_tactic", "default",  false, RefCommand::DO_PENALTY),
-         RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_strategy",           "keeper_penalty_tactic",   "default",  false, RefCommand::DEFEND_PENALTY),
+         RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_prepare_strategy",   "keeper_penalty_tactic",   "default",  false, RefCommand::DEFEND_PENALTY),
 
          // follow up commands
          // these are custom commands, called when 'normal play' is called after a prepare_ command
          RefGameState(RefCommand::DO_KICKOFF,           "kickoff_shoot_strategy",          "keeper_default_tactic",   "default", true),
          RefGameState(RefCommand::DEFEND_KICKOFF,       "kickoff_them_strategy",           "keeper_default_tactic",   "default", true),
          RefGameState(RefCommand::DO_PENALTY,           "penalty_us_shoot_strategy",       "keeper_default_tactic",   "default", true),
-         RefGameState(RefCommand::DEFEND_PENALTY,       "penalty_them_strategy",           "keeper_penalty_tactic",   "default", true)
+         RefGameState(RefCommand::DEFEND_PENALTY,       "penalty_them_defend_strategy",    "keeper_penalty_tactic",   "default", true)
     };
     RefGameState currentRefGameState = gameStates[0];
 
