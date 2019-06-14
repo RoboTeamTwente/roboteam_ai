@@ -12,12 +12,15 @@ DriveWithInterface::DriveWithInterface(string name, bt::Blackboard::Ptr blackboa
 
 }
 Skill::Status DriveWithInterface::onUpdate() {
-
-
     if (interface::Output::usesRefereeCommands()) {
         return Status::Failure;
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
+
+    if ((targetPos - robot->pos).length() < 0.02) {
+        publishRobotCommand();
+        return Status::Running;
+    }
 
     auto robotCommand = numTreeGtp.getRobotCommand(robot, targetPos);
     command.x_vel = static_cast<float>(robotCommand.vel.x);

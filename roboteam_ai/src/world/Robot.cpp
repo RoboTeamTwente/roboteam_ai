@@ -124,7 +124,7 @@ void Robot::setGenevaState(int state) {
     }
 
     // if the geneva does not work
-    if (! workingGeneva) {
+    if (! workingGeneva && state!=3) {
         std::cout << "setting geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
         return;
     }
