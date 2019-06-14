@@ -180,6 +180,7 @@ enum class RefCommand {
 // Extended custom refstates: extension upon custom refstates
         DO_SHOOTOUT = 24,
         DEFEND_SHOOTOUT = 25,
+
         UNDEFINED = - 1
 };
 
