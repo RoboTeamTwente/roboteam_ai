@@ -308,9 +308,9 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"keeper_penalty_defend_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_penalty_prepare_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             //shootout
-            {"shootout_prepare_tactic",{{"shooter",robotType::CLOSE_TO_OUR_GOAL}}},
+            {"shootout_prepare_tactic",{{"Keeper",robotType::CLOSE_TO_OUR_GOAL}}},
 
-            {"shootout_shoot_tactic",{{"shooter",robotType::CLOSE_TO_BALL}}},
+            {"shootout_shoot_tactic",{{"Keeper",robotType::CLOSE_TO_BALL}}},
             // General tactics
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},
