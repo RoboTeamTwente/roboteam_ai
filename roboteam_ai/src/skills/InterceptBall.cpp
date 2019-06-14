@@ -46,9 +46,6 @@ InterceptBall::Status InterceptBall::onUpdate() {
             Vector2(ball->pos) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME());
 
     deltaPos = interceptPos - robot->pos;
-    if (tickCount==0){
-        std::cout<<"driveDistance: "<< deltaPos.length()<<" arrival time: "<< (ballStartPos-interceptPos).length()/ballStartVel.length()<<std::endl;
-    }
     checkProgression();
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id,
