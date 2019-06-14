@@ -111,36 +111,7 @@ int Robot::getGenevaState() const {
 }
 
 void Robot::setGenevaState(int state) {
-
-    // if the state is the same (or with 0 it is specifically said to stay the same) don't do anything.
-    if (state == genevaState || state == 0) {
-        return;
-    }
-
-    // if the state is invalid
-    if (state < 0 || state > 5) {
-        std::cout << "setting invalid geneva state (" << (int) state << ") for robot with id " << id << std::endl;
-        return;
-    }
-
-    // if the geneva does not work
-    if (! workingGeneva) {
-        std::cout << "setting geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
-        return;
-    }
-
-    // if the geneva is turning currently
-    if (! isGenevaReady()) {
-        std::cout << "The geneva is not ready yet. for robot with id " << id << std::endl;
-        std::cout << "still turning for " << world->getTime() - timeGenevaChanged << " s" << std::endl;
-        std::cout << "turning from " << genevaState << " to " << state << std::endl;
-
-        return;
-    }
-
-    previousGenevaState = genevaState;
-    genevaState = state;
-    timeGenevaChanged = world::world->getTime();
+    Robot::genevaState = state;
 }
 
 bool Robot::isGenevaReady() const {
@@ -241,9 +212,22 @@ void Robot::setHasWorkingBallSensor(bool hasWorkingBallSensor) {
     workingBallSensor = hasWorkingBallSensor;
 }
 
-void Robot::setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState) {
-    Robot::timeToChangeOneGenevaState = timeToChangeOneGenevaState;
+bool Robot::isBatteryEmpty() const {
+    return batteryEmpty;
 }
+
+void Robot::setBatteryEmpty(bool batteryEmpty) {
+    Robot::batteryEmpty = batteryEmpty;
+}
+
+bool Robot::isGenevaTurning() const {
+    return genevaTurning;
+}
+
+void Robot::setGenevaTurning(bool genevaTurning) {
+    Robot::genevaTurning = genevaTurning;
+}
+
 
 } //world
 } //ai
