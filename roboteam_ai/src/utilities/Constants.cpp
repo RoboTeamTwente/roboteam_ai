@@ -84,7 +84,7 @@ double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
 
 double Constants::MAX_BALL_RANGE() { return 0.04; }
 
-double Constants::MAX_KICK_RANGE() { return 0.06; }
+double Constants::MAX_KICK_RANGE() { return 0.05; }
 
 double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
@@ -242,13 +242,15 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.6, 0.0, 0.4); }
 
-pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(3.6, 0.0, 0.4); }
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
 
 pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
+
+pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0.0, 0.0) : pidVals(9.0, 0.2, 0.0); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {

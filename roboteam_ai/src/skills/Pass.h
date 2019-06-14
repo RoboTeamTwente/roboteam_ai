@@ -19,6 +19,8 @@ namespace ai {
 class Pass : public Skill {
 protected:
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
+    const double SUCCESSFUL_PASS_ANGLE = 0.6;
+
     bool chip = false;
     int fails = 0;
     int failsUntilChip = -1;
