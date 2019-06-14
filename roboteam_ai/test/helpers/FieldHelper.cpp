@@ -36,7 +36,7 @@ void FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, doubl
 }
 
 void FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
-    field.center_circle.center = Vector2{0, 0};
+    field.center_circle.center = rtt::Vector2{0, 0};
     field.center_circle.radius = radius;
 }
 

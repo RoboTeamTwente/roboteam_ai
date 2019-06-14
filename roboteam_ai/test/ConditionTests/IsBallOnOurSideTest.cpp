@@ -3,6 +3,7 @@
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include "../../src/conditions/BallInDefenseAreaAndStill.h"
 #include "../../src/world/World.h"
+#include "../../src/world/Ball.h"
 #include "../../src/utilities/RobotDealer.h"
 #include "roboteam_ai/src/world/Field.h"
 

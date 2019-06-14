@@ -4,7 +4,9 @@
 
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "PosController.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {

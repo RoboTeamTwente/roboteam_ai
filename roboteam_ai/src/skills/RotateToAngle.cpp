@@ -5,6 +5,7 @@
 #include "RotateToAngle.h"
 #include "../control/ControlUtils.h"
 #include "roboteam_ai/src/world/Ball.h"
+#include "roboteam_ai/src/world/Robot.h"
 
 namespace rtt {
 namespace ai {

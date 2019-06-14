@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "PossiblePass.h"
 #include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/world/WorldData.h"
 
 namespace rtt {
 namespace ai {

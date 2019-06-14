@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include "ControlUtils.h"
 #include "../world/World.h"
+#include "../world/WorldData.h"
 
 namespace rtt {
 namespace ai {
@@ -60,10 +61,10 @@ bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, co
                                                  const Vector2 &lineEnd) {
 
     Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
-    double xMin = min(lineBegin.x, lineEnd.x);
-    double xMax = max(lineBegin.x, lineEnd.x);
-    double yMin = min(lineBegin.y, lineEnd.y);
-    double yMax = max(lineBegin.y, lineEnd.y);
+    double xMin = std::min(lineBegin.x, lineEnd.x);
+    double xMax = std::max(lineBegin.x, lineEnd.x);
+    double yMin = std::min(lineBegin.y, lineEnd.y);
+    double yMax = std::max(lineBegin.y, lineEnd.y);
 
     return (projectionPoint.x > xMin && projectionPoint.x < xMax && projectionPoint.y > yMin && projectionPoint.y < yMax);
 }
@@ -233,7 +234,7 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
     // calculate if the robot is driving forwards or sideways
     Angle robotAngleDifference = targetVel.toAngle() - targetAngle;
     Vector2 robotVectorDifference = robotAngleDifference.toVector2();
-    double a = abs(robotVectorDifference.x);
+    double a = fabs(robotVectorDifference.x);
     auto acceleration = sidewaysAcceleration * (1-a) + forwardsAcceleration * a;
     auto deceleration = sidewaysDeceleration * (1-a) + forwardsDeceleration * a;
     // a = 0 -> sideways
@@ -241,7 +242,7 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
 
     // calculate if the robot is accelerating or decelerating
     Angle accelerationAngleDifference = deltaVel.toAngle() - targetVel.toAngle();
-    double b = abs(accelerationAngleDifference) * M_1_PI;
+    double b = fabs(accelerationAngleDifference) * M_1_PI;
     auto finalAcceleration = acceleration * (1-b) + deceleration * b;
     // b = 0 -> acceleration
     // b = 1 -> deceleration

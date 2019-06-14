@@ -3,6 +3,7 @@
 //
 
 #include <roboteam_ai/src/control/PositionUtils.h>
+#include <roboteam_ai/src/control/Hungarian.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include "PenaltyFormation.h"
 
@@ -40,6 +41,6 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     }
 }
 
-shared_ptr<vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
+std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }

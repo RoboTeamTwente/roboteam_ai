@@ -4,24 +4,22 @@
  *  This class also provides helper functions to interface with it.
  */
 
-
 #ifndef ROBOTEAM_AI_FIELD_H
 #define ROBOTEAM_AI_FIELD_H
 
-#include <roboteam_utils/Vector2.h>
-#include "roboteam_msgs/GeometryFieldSize.h"
-#include <mutex>
-#include <thread>
-#include <tuple>
-#include "WorldData.h"
-#include "Robot.h"
-#include <roboteam_ai/src/control/ControlUtils.h>
+
 #include <roboteam_utils/Polygon.h>
+#include <roboteam_msgs/GeometryFieldSize.h>
+#include "mutex"
+#include <cmath>
 
 namespace rtt {
 namespace ai {
 namespace world {
+
 using Line=std::pair<Vector2, Vector2>;
+
+class WorldData;
 class Field {
     private:
         roboteam_msgs::GeometryFieldSize field;
@@ -35,15 +33,15 @@ class Field {
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, float margin = 0.0,
                 bool includeOutsideField = false);
         bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
-        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld(), int id = -1, bool ourTeam = false);
-        std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world=world::world->getWorld(), int id = -1, bool ourTeam = false);
+        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world, int id = -1, bool ourTeam = false);
+        std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world, int id = -1, bool ourTeam = false);
         std::vector<Line> mergeBlockades(std::vector<Line> blockades);
-        std::vector<Line> getVisiblePartsOfGoal(bool ourGoal, const Vector2& point,const WorldData &world=world::world->getWorld());
+        std::vector<Line> getVisiblePartsOfGoal(bool ourGoal, const Vector2& point,const WorldData &world);
         Line getGoalSides(bool ourGoal);
         double getDistanceToGoal(bool ourGoal, const Vector2& point);
         Vector2 getPenaltyPoint(bool ourGoal);
         bool lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
-        shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
+        std::shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
         double getTotalGoalAngle(bool ourGoal, const Vector2& point);
         Polygon getDefenseArea(bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);
         Polygon getGoalArea(bool ourGoal = true, double margin = 0.0, bool hasBackMargin = false);
