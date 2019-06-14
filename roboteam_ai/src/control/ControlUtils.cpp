@@ -347,7 +347,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
 }
 
     Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
-        LineSegment shotLine(line.start, line.end + line.end + (line.end - line.start) * 10000);
+        LineSegment shotLine(line.start, line.end + (line.end - line.start).stretchToLength(100.0));
         Vector2 projectPos = shotLine.project(position);
         Vector2 closestPoint = projectPos;
 

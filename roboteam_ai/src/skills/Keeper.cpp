@@ -122,14 +122,14 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
 
     start = attacker->pos;
 
-    auto goal = world::field->getGoalSides(false);
+    auto goal = world::field->getGoalSides(true);
     Vector2 attackerToBallV2 = ball->pos - attacker->pos;
     Vector2 attackerAngleV2 = attacker->angle.toVector2();
     Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.first,
             goal.second);
     Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker->pos, attacker->pos, goal.first,
             goal.second);
-    Angle targetAngle = Vector2(attacker->pos - (i1 + i2)*0.5).toAngle();
+    Angle targetAngle = Vector2((i1 + i2)*0.5 - attacker->pos).toAngle();
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
     auto field = world::field->get_field();
