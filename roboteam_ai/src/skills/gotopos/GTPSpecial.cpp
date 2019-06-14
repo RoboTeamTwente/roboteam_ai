@@ -58,7 +58,6 @@ void GTPSpecial::gtpInitialize() {
     }
     case ourGoalCenter: {
         targetPos = world::field->get_our_goal_center();
-        errorMargin=world::field->get_field().goal_width*0.5;
         break;
     }
     case ourDefenseAreaCenter: {
