@@ -39,7 +39,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
         MainWindow::clearLayout(VLayout);
 
         for (auto &robot : us) {
-            QGroupBox* groupBox = new QGroupBox("RobotPtr "+QString::number(robot->id));
+            QGroupBox* groupBox = new QGroupBox("Robot "+QString::number(robot->id));
             groupBox->setCheckable(true);
             groupBox->setChecked(visualizer->robotIsSelected((*robot)));
             QObject::connect(groupBox, &QGroupBox::clicked, [=]() {
