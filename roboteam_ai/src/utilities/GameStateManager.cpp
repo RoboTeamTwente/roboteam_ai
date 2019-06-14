@@ -13,7 +13,21 @@ roboteam_msgs::RefereeData GameStateManager::getRefereeData() {
 
 void GameStateManager::setRefereeData(roboteam_msgs::RefereeData refMsg) {
     GameStateManager::refMsg = refMsg;
-    strategymanager.setCurrentRefGameState(static_cast<RefCommand>(refMsg.command.command));
+    auto cmd = static_cast<RefCommand>(refMsg.command.command);
+    //if we have shootouts, we need different handling
+    if (static_cast<int>(refMsg.stage.stage) == roboteam_msgs::RefereeStage::PENALTY_SHOOTOUT) {
+        if (cmd == RefCommand::PREPARE_PENALTY_US) {
+            strategymanager.setCurrentRefGameState(RefCommand::PREPARE_SHOOTOUT_US);
+        }
+        else if (cmd == RefCommand::PREPARE_PENALTY_THEM) {
+            strategymanager.setCurrentRefGameState(RefCommand::PREPARE_SHOOTOUT_THEM);
+        }
+        else {
+            strategymanager.setCurrentRefGameState(cmd);
+        }
+        return;
+    }
+    strategymanager.setCurrentRefGameState(cmd);
 }
 
 // Initialize static variables
