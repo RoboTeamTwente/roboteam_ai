@@ -4,6 +4,7 @@
 
 #include "PassCoach.h"
 #include "../world/Field.h"
+#include <chrono>
 
 namespace rtt {
 namespace ai {
@@ -102,16 +103,16 @@ void PassCoach::setPassed(bool passed) {
 
 bool PassCoach::passTakesTooLong() {
     if (passTimerStarted && !passed) {
-        auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - passStartTime).count();
+        auto now = std::chrono::steady_clock::now();
+        double elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(now - passStartTime).count();
         if (elapsedSeconds > MAX_PASS_TIME) {
             return true;
         }
     }
 
     if (receiveTimerStarted) {
-        auto now = chrono::steady_clock::now();
-        double elapsedSeconds = chrono::duration_cast<chrono::seconds>(now - receiveStartTime).count();
+        auto now = std::chrono::steady_clock::now();
+        double elapsedSeconds = std::chrono::duration_cast<std::chrono::seconds>(now - receiveStartTime).count();
         if (elapsedSeconds > MAX_RECEIVE_TIME) {
             return true;
         }
@@ -131,8 +132,12 @@ void PassCoach::updatePassProgression() {
     }
 
 }
-bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
+bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver) {
     auto ball = world::world->getBall();
+
+    if (!ball || !passer || !receiver) {
+        return false;
+    }
 
     if (!world::field->pointIsInField(receiver->pos)) {
         return false;
@@ -145,20 +150,13 @@ bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
     if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == passer->id) {
         return false;
     }
-
     if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
         return false;
     }
-
     if((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
         return false;
     }
-
-    if(receiver->pos.x - ball->pos.x < 0) {
-        return false;
-    }
-
-    return true;
+    return receiver->pos.x - ball->pos.x >= 0;
 }
 
 } // coach

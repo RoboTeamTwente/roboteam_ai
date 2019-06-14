@@ -6,6 +6,9 @@
 #include "../interface/api/Output.h"
 #include "Keeper.h"
 #include "../world/Field.h"
+#include "../world/Ball.h"
+#include "../world/Robot.h"
+#include "../control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

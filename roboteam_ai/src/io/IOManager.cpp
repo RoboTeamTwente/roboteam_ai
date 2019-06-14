@@ -6,10 +6,11 @@
  */
 
 #include <roboteam_msgs/DemoRobot.h>
-#include <roboteam_ai/src/demo/JoystickDemo.h>
-#include <roboteam_ai/src/utilities/Pause.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include "../demo/JoystickDemo.h"
+#include "../utilities/Pause.h"
+#include "../world/Field.h"
+#include "../world/Robot.h"
+#include "../utilities/GameStateManager.hpp"
 #include "IOManager.h"
 
 

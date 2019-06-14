@@ -188,7 +188,7 @@ bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
 }
 
-const shared_ptr<control::ShotController> &Robot::getShotController() const {
+const std::shared_ptr<control::ShotController> &Robot::getShotController() const {
     return shotController;
 }
 
