@@ -62,7 +62,7 @@ void IOManager::subscribeToGeometryData() {
 
 void IOManager::subscribeToRobotFeedback() {
     roleFeedbackSubscriber = nodeHandle.subscribe<roboteam_msgs::RobotFeedback>(
-            rtt::TOPIC_ROLE_FEEDBACK,
+            "robot_feedback",
             100,
             &IOManager::handleRobotFeedback,
             this,
