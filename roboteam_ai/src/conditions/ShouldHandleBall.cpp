@@ -24,7 +24,7 @@ ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
         }
     }
 
-    if (! passExists && coach::getBallCoach->getBallGetterID() == robot->id) {
+    if (!passExists && coach::getBallCoach->getBallGetterID() == robot->id) {
         return Status::Success;
     }
 
