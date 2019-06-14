@@ -7,20 +7,24 @@
 #include <roboteam_ai/src/interface/widgets/mainWindow.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include <roboteam_ai/src/skills/Halt.h>
+#include <roboteam_ai/test/helpers/WorldHelper.h>
+#include <roboteam_ai/src/world/World.h>
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
 TEST(TreeVisualizerTest, it_properly_displays_trees) {
-    std::cout << "a" << std::endl;
+
+    // put in a world to make robotdealer halt work etc.
+    auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field);
+    rtt::ai::world::world->updateWorld(worldmsg.first);
+
     BTFactory factory;
     factory.makeTrees();
     BTFactory::setCurrentTree("halt_strategy");
     auto window = std::make_shared<MainWindow>();
     TreeVisualizerWidget * treeVis = window->treeWidget;
-
-        std::cout << "b" << std::endl;
 
         // it initializes to false
     EXPECT_FALSE(treeVis->hasCorrectTree);
@@ -29,8 +33,6 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     EXPECT_TRUE(treeVis->hasCorrectTree);
     EXPECT_EQ(treeVis->treeItemMapping.size(), 18);
-
-        std::cout << "c" << std::endl;
 
         std::map<QTreeWidgetItem *, bt::Node::Ptr>::iterator it;
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
@@ -48,7 +50,6 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
         it->second->terminate(bt::Node::Status::Running);
     }
-        std::cout << "d" << std::endl;
 
     treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
@@ -65,16 +66,13 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
         EXPECT_EQ(status, n->status_print(it->second->getStatus()));
         EXPECT_TRUE(status == "Failure" || status == "Waiting");
     }
-        std::cout << "e" << std::endl;
 
     // check if it properly switches a strategy
     BTFactory::setCurrentTree("interface_drive_strategy");
     treeVis->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
     EXPECT_TRUE(treeVis->hasCorrectTree);
+    EXPECT_EQ(treeVis->treeItemMapping.size(), 18);
 
-        std::cout << "f" << std::endl;
-
-        EXPECT_EQ(treeVis->treeItemMapping.size(), 18);
     for (it = treeVis->treeItemMapping.begin(); it != treeVis->treeItemMapping.end(); it++) {
         std::string nodeTrace, treeTrace, statusTrace;
 
