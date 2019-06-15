@@ -107,6 +107,15 @@ void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &ge
 void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &robotfeedback) {
     std::lock_guard<std::mutex> lock(robotFeedbackMutex);
     this->robotFeedbackMsg = *robotfeedback;
+
+    auto robot = world::world->getRobotForId(robotfeedback->id);
+
+    if (robot) {
+        robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
+        robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
+        robot->setBatteryLow(robotfeedback->batteryLow);
+    }
+
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
