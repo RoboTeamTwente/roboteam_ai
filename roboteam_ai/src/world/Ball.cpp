@@ -26,17 +26,13 @@ Ball::Ball(const roboteam_msgs::WorldBall &copy)
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
-void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData, bool applyBallFilter) {
-    if (applyBallFilter) {
-        filterBallVelocity(*oldBall, worldData);
-    }
+void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
     updateBallModel(*oldBall, worldData);
     updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
 }
 
 void Ball::updateBallModel(const Ball &oldBall, const WorldData &worldData) {
-//TODO: LITERALLY UNREADABLE ???? fix this :)
 
     // check for collisions
     Vector2 oldVelocity = oldBall.vel;
@@ -47,8 +43,6 @@ void Ball::updateBallModel(const Ball &oldBall, const WorldData &worldData) {
     //noise rectangle; rectangle within the velocity state diagram where the velocity is still considered 'good'
     //We consider the linear direction (direction the ball is rolling it) and the direction orthogonal to the linear direction
 
-    //TODO: fix the names of these constants, maybe a comment with their use
-    //TODO: did you use a source online for the mathematics? maybe reference that website
     const double linearThreshold = 0.1;
     const double baseLinear = 0.1;
     const double linearSlope = 0.15;
@@ -217,18 +211,6 @@ const Vector2 &Ball::getBallStillPosition() const {
     return ballStillPosition;
 }
 
-/// Adds a moving average over the kalman filter to make the ball-velocity more stable. (Could be moved to rtt_world)
-void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
-
-    auto &ball = worldData.ball;
-    double velocityDifference = (ball->vel - oldBall.vel).length();
-
-    double velForMaxFactor = 10.0;
-    double maxFactor = 1.0;
-    double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
-
-    this->vel = (oldBall.vel*(1 - factor) + ball->vel*factor);
-}
 
 } //world
 } //ai
