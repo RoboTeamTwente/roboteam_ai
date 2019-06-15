@@ -245,6 +245,14 @@ void Robot::setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState) {
     Robot::timeToChangeOneGenevaState = timeToChangeOneGenevaState;
 }
 
+bool Robot::isBatteryLow() const {
+    return batteryLow;
+}
+
+void Robot::setBatteryLow(bool batteryLow) {
+    Robot::batteryLow = batteryLow;
+}
+
 } //world
 } //ai
 } //rtt
