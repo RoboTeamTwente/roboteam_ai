@@ -66,20 +66,34 @@ namespace rtt {
         this->invisibleCounter = 0;
         this->exists = true;
     }
-    roboteam_msgs::WorldBall kalmanBall::as_ball_message() const{
+
+    roboteam_msgs::WorldBall kalmanBall::as_ball_message(){
         //Same as the KalmanObject function but then for ball message
         roboteam_msgs::WorldBall msg;
         Position pos =kalmanGetPos();
         Position vel =kalmanGetVel();
+        Vector2 curVel = {vel.x, vel.y};
+        filterVel(curVel);
         // since the balls z axis is being kept in the third place of the vector it is the 'rotation' here
         msg.existence = 1;
         msg.visible = true;
         msg.pos.x = pos.x;
         msg.pos.y = pos.y;
         msg.z = pos.rot;
-        msg.vel.x = vel.x;
-        msg.vel.y = vel.y;
+        msg.vel.x = this->oldVel.x;
+        msg.vel.y = this->oldVel.y;
         msg.z_vel = vel.rot;
         return msg;
+    }
+
+    void kalmanBall::filterVel(Vector2 curVel){
+
+        double velocityDiff = (curVel-this->oldVel).length();
+        double velForMaxFactor = 10.0;
+        double maxFactor = 1.0;
+        double factor = velocityDiff > velForMaxFactor ? maxFactor : velocityDiff/velForMaxFactor;
+        Vector2 newVel = (this->oldVel*(1 - factor) + curVel*factor);
+        this->oldVel.x = newVel.x;
+        this->oldVel.y = newVel.y;
     }
 }
