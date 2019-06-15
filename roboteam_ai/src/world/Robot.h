@@ -60,6 +60,12 @@ public:
 
 private:
     bool workingGeneva;
+    bool batteryLow = false;
+public:
+    bool isBatteryLow() const;
+
+    void setBatteryLow(bool batteryLow);
+
 public:
     void setWorkingGeneva(bool workingGeneva);
     void setHasWorkingBallSensor(bool hasWorkingBallSensor);
