@@ -54,6 +54,6 @@ int main(int argc, char* argv[]) {
     setDarkTheme();
     window = std::make_shared<ui::MainWindow>();
     window->show();
-    return a.exec();
+     return a.exec();
 }
 
