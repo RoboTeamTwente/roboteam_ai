@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <map>
+#include <roboteam_msgs/RefereeStage.h>
 #include "Constants.h"
 #include "RefGameState.h"
 
@@ -19,7 +20,7 @@ class StrategyManager {
 public:
     explicit StrategyManager() = default;
     RefGameState getCurrentRefGameState();
-    void setCurrentRefGameState(RefCommand command);
+    void setCurrentRefGameState(RefCommand command, roboteam_msgs::RefereeStage stage);
     void forceCurrentRefGameState(RefCommand command);
 
     const RefGameState getRefGameStateForRefCommand(RefCommand command);
@@ -52,7 +53,7 @@ private:
          RefGameState(RefCommand::PREPARE_PENALTY_US,   "penalty_us_prepare_strategy",     "keeper_formation_tactic",         "default",  false, RefCommand::DO_PENALTY),
          RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_prepare_strategy",   "keeper_penalty_prepare_tactic",   "default",  false, RefCommand::DEFEND_PENALTY),
 
-         // These two prepares are 'custom' because the refbox setup is stupid and should send them to us seperately
+         // These two prepares are 'custom' because the refbox does not have seperate commands even though the rules are different
          RefGameState(RefCommand::PREPARE_SHOOTOUT_US,  "time_out_strategy",               "shootout_prepare_tactic",         "default",  false, RefCommand::DO_SHOOTOUT),
          RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM,"time_out_strategy",               "keeper_penalty_prepare_tactic",   "default",  false, RefCommand::DEFEND_SHOOTOUT),
          // follow up commands
