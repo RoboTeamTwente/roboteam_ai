@@ -73,8 +73,10 @@ Vector2 PenaltyKeeper::computeDefendPos() {
     // we check the line defined by attacker's centre and the ball position
     if (attacker) {
         Vector2 beginPos = attacker->pos;
-        Vector2 endPos = attacker->pos + (world::world->getBall()->pos - attacker->pos).stretchToLength(
-                world::field->get_field().field_length);
+        Vector2 endPos = attacker->pos
+
+                + (world::world->getBall()->pos - attacker->pos).stretchToLength(
+                        world::field->get_field().field_length);
         //std::cout<<endPos<<std::endl;
         if (control::ControlUtils::lineSegmentsIntersect(beginPos, endPos, goalLine.first, goalLine.second)) {
             Vector2 intersect = control::ControlUtils::twoLineIntersection(beginPos, endPos, goalLine.first,
