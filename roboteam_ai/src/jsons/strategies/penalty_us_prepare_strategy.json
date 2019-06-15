@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4yfceu9dyc3uw": {
+            "id": "4yfceu9dyc3uw",
+            "name": "prepare_penalty_us_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "4yfceu9dyc3uw",
+        "title": "penalty_us_prepare_strategy"
+      }
+    ]
+  },
+  "name": "penalty_us_prepare_strategy"
+}

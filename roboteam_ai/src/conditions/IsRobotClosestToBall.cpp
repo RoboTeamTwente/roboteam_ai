@@ -1,35 +1,39 @@
-//
-// Created by robzelluf on 10/18/18.
-//
+/*
+ * Determine the robot closest to ball. return SUCCESS if the robot is closest.
+ * properties:
+ *  - secondsAhead: the amount of seconds to linearly extrapolate the ball position
+ *  - atBallStillPosition: the position where the ball is expected to lay still due to rolling friction
+ */ 
 
 #include "IsRobotClosestToBall.h"
-#include "../utilities/World.h"
+#include "../world/World.h"
+#include "../world/Ball.h"
+#include "../world/Robot.h"
 
 namespace rtt {
-namespace ai{
+namespace ai {
 
 IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status IsRobotClosestToBall::update() {
-    roboteam_msgs::World world = World::get_world();
-    Vector2 ballPos(world.ball.pos);
-    std::vector<roboteam_msgs::WorldRobot> robots = world.us;
-
-    if (properties->hasDouble("secondsAhead")) {
-        double t_ahead = properties->getDouble("secondsAhead");
-        Vector2 ballVel(world.ball.vel);
-        ballPos = ballPos + ballVel.scale(t_ahead);
+bt::Node::Status IsRobotClosestToBall::onUpdate() {
+    Vector2 ballPos;
+    if (properties->getBool("atBallStillPosition")) {
+        ballPos = ball->getBallStillPosition();
+    }
+    else if (properties->hasDouble("secondsAhead")) {
+        double t = properties->getDouble("secondsAhead");
+        ballPos = ball->pos + ball->vel * t;
+    }
+    else {
+        ballPos = ball->pos;
     }
 
-    auto robotClosestToBallPtr = World::getRobotClosestToPoint(robots, ballPos);
-    if (robotClosestToBallPtr && robot) {
-        if (robot->id == robotClosestToBallPtr->id) {
-            return Status::Success;
-        } else {
-            return Status::Failure;
-        }
+    auto robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
+    if (robotClosestToBall && robotClosestToBall->id == robot->id) {
+        return Status::Success;
     }
+
     return Status::Failure;
 }
 

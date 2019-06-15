@@ -4,7 +4,6 @@
 #include <vector>
 #include <cstdio>
 #include <cstdarg>
-
 #include "Blackboard.hpp"
 
 namespace bt {
@@ -19,18 +18,7 @@ class Node {
                 Running
         };
 
-        std::string status_print(Status s) {
-            switch (s) {
-                case Status::Waiting:
-                    return " Status : Waiting";
-                case Status::Success:
-                    return " Status : Success";
-                case Status::Failure:
-                    return " Status : Failure";
-                case Status::Running:
-                    return " Status : Running";
-            }
-        }
+        std::string status_print(Status s);
 
         virtual ~Node() = default;
 
@@ -73,6 +61,8 @@ class Node {
 
         virtual std::string node_name();
 
+        virtual void giveProperty(std::string a, std::string b);
+
         void setProperties(bt::Blackboard::Ptr blackboard);
 
         unsigned long long getAmountOfTicks() const;
@@ -82,11 +72,11 @@ class Node {
     protected:
         Status status = Status::Waiting;
 
+        bool init = false;
+
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
         ros::Time lastTickTime;
 };
-
-std::string statusToString(bt::Node::Status status);
 
 } // bt

@@ -1,0 +1,21 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4aw8b7585n5qmx6l": {
+            "id": "4aw8b7585n5qmx6l",
+            "properties": {
+              "ROLE": "shooter",
+              "type": "penalty"
+            },
+            "title": "GoBehindBall"
+          }
+        },
+        "root": "4aw8b7585n5qmx6l",
+        "title": "penalty_shooter_prepare_role"
+      }
+    ]
+  },
+  "name": "penalty_shooter_prepare_role"
+}

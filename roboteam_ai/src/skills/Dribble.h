@@ -8,6 +8,7 @@
 #include "Skill.h"
 #include "../utilities/Constants.h"
 #include "../control/ControlUtils.h"
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -16,7 +17,12 @@ namespace ai {
 /// Assumes we already have the ball when skill is initialized.
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
+
+        const double POS_DIF = 0.05;
+        const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
     private:
+        control::BallHandlePosControl ballHandlePosControl;
+
         enum Progression {
           ON_THE_WAY,
           STOPPING,
@@ -36,7 +42,7 @@ class Dribble : public Skill {
         Vector2 targetPos = {0, 0};
         Vector2 deltaPos;
         double distance;
-        float stoppingAngle,initialAngle;
+        float stoppingAngle, initialAngle;
 
         void sendMoveCommand();
         void sendStopCommand();

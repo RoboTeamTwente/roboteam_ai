@@ -1,50 +1,46 @@
-//
-// Created by robzelluf on 2/18/19.
-//
+/*
+ * Return SUCCESS if the ball is close to the border
+ * properties: 
+ * - margin: the distance from the sides of the field which are 'close' to the border
+ * - layingStill: if true, the ball has to lay still as well to return SUCCESS
+ */
 
 #include "IsBallCloseToBorder.h"
+#include <roboteam_ai/src/world/Ball.h>
 
-namespace rtt{
+namespace rtt {
 namespace ai {
 
 IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsBallCloseToBorder::initialize() {
+void IsBallCloseToBorder::onInitialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
-    } else {
-        margin = Constants::CLOSE_TO_BORDER_DISTANCE();
     }
-    layingStill = properties->getBool("layingStill");
+    ballShouldLayStill = properties->getBool("layingStill");
 }
 
-bt::Node::Status IsBallCloseToBorder::update() {
-    Vector2 ballPos = World::getBall()->pos;
-    if (!properties->getBool("corner")) {
-        if (Field::pointIsInField(ballPos, static_cast<float>(margin))) {
-            return Status::Failure;
-        }
-    } else {
-        roboteam_msgs::GeometryFieldSize field = Field::get_field();
-        double xDiff = field.field_length / 2 - abs(ballPos.x);
-        double yDiff = field.field_width / 2 - abs(ballPos.y);
+bt::Node::Status IsBallCloseToBorder::onUpdate() {
+    if (properties->getBool("corner")) {
+        auto field = world::field->get_field();
+        double xDiff = field.field_length / 2 - abs(ball->pos.x);
+        double yDiff = field.field_width / 2 - abs(ball->pos.y);
 
         if (xDiff >= margin || yDiff >= margin) {
             return Status::Failure;
         }
-    }
-
-    if (!layingStill) {
-        return Status::Success;
-    } else if (Vector2(ball->vel).length() <= Constants::BALL_STILL_VEL()) {
-        return Status::Success;
-    } else {
+    } 
+    else if (world::field->pointIsInField(ball->pos, static_cast<float>(margin))) {
         return Status::Failure;
     }
+
+    if (ballShouldLayStill) {
+        bool ballIsLayingStill = Vector2(ball->vel).length() <= Constants::BALL_STILL_VEL();
+        return ballIsLayingStill ? Status::Success : Status::Failure;
+    } 
+    return Status::Success;
 }
 
-std::string IsBallCloseToBorder::node_name() {return "IsBallCloseToBorder";}
-
-}
-}
+} // ai
+} // rtt

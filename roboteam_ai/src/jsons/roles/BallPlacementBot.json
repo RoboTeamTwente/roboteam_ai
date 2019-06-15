@@ -3,60 +3,90 @@
     "trees": [
       {
         "nodes": {
-          "r0tc523tg150l8": {
+          "23ovtu8zknfw3l3h": {
+            "id": "23ovtu8zknfw3l3h",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "avoidBall": "true",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "fixedTarget": "",
+              "maxVel": "",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
+          },
+          "29j9gjg1payfmglu": {
             "children": [
-              "ahnyc4sz4uwa8unr1",
-              "nt5ol0f6e33ihxg",
-              "s3gh07fk2fdhy",
-              "9gh4nscfn3hd6pea",
-              "qdxr9x7tu9dnr"
+              "us0vle7bs8h4e2wz"
             ],
-            "id": "r0tc523tg150l8",
-            "title": "MemSequence"
-          },
-          "s3gh07fk2fdhy": {
+            "id": "29j9gjg1payfmglu",
             "properties": {
-              "BallPlacement": "true"
+              "ROLE": "ballplacementbot"
             },
-            "id": "s3gh07fk2fdhy",
-            "title": "DribbleRotate"
-          },
-          "qdxr9x7tu9dnr": {
-            "properties": {
-              "BallPlacementAfter": "true"
-            },
-            "id": "qdxr9x7tu9dnr",
-            "title": "BasicGoToPos"
-          },
-          "9gh4nscfn3hd6pea": {
-            "properties": {
-              "maxTicks": "100",
-              "BallPlacement": "true",
-              "forwardDirection": "false"
-            },
-            "id": "9gh4nscfn3hd6pea",
-            "title": "Dribble"
-          },
-          "nt5ol0f6e33ihxg": {
-            "id": "nt5ol0f6e33ihxg",
-            "title": "GetBall"
-          },
-          "29w9g4x05z8n6whfs": {
-            "children": [
-              "r0tc523tg150l8"
-            ],
-            "id": "29w9g4x05z8n6whfs",
             "title": "UntilSuccess"
           },
-          "ahnyc4sz4uwa8unr1": {
+          "2hm17q8247o6vkts": {
+            "id": "2hm17q8247o6vkts",
             "properties": {
-              "BallPlacementBefore": "true"
+              "seconds": "0.5"
             },
-            "id": "ahnyc4sz4uwa8unr1",
-            "title": "BasicGoToPos"
+            "title": "Wait"
+          },
+          "2xt3b79mhzo90qt3": {
+            "children": [
+              "4sudkbnox9latui9"
+            ],
+            "id": "2xt3b79mhzo90qt3",
+            "properties": {
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "4sudkbnox9latui9": {
+            "id": "4sudkbnox9latui9",
+            "properties": {
+              "ticks": ""
+            },
+            "title": "Halt"
+          },
+          "58btfcqrqqgxtyzq": {
+            "children": [
+              "2hm17q8247o6vkts",
+              "23ovtu8zknfw3l3h"
+            ],
+            "id": "58btfcqrqqgxtyzq",
+            "properties": {},
+            "title": "MemSequence"
+          },
+          "g9g6fv1d3d945jpf": {
+            "children": [
+              "tbdcmw43ieyi0bf2",
+              "58btfcqrqqgxtyzq"
+            ],
+            "id": "g9g6fv1d3d945jpf",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "tbdcmw43ieyi0bf2": {
+            "id": "tbdcmw43ieyi0bf2",
+            "properties": {
+              "ROLE": "ballplacementbot",
+              "ballPlacement": "true"
+            },
+            "title": "Dribble"
+          },
+          "us0vle7bs8h4e2wz": {
+            "children": [
+              "g9g6fv1d3d945jpf",
+              "2xt3b79mhzo90qt3"
+            ],
+            "id": "us0vle7bs8h4e2wz",
+            "properties": {},
+            "title": "MemSequence"
           }
         },
-        "root": "29w9g4x05z8n6whfs",
+        "root": "29j9gjg1payfmglu",
         "title": "BallPlacementBot"
       }
     ]

@@ -1,0 +1,32 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "1yfzkaio52ygqk": {
+            "id": "1yfzkaio52ygqk",
+            "properties": {
+              "type": "penalty"
+            },
+            "title": "GoBehindBall"
+          },
+          "fb6z3pghiaef1ksbl": {
+            "id": "fb6z3pghiaef1ksbl",
+            "title": "ShootPenalty"
+          },
+          "m0bk1fz65bgwi7nli": {
+            "children": [
+              "1yfzkaio52ygqk",
+              "fb6z3pghiaef1ksbl"
+            ],
+            "id": "m0bk1fz65bgwi7nli",
+            "title": "MemSequence"
+          }
+        },
+        "root": "m0bk1fz65bgwi7nli",
+        "title": "PenaltyShootRole"
+      }
+    ]
+  },
+  "name": "PenaltyShootRole"
+}

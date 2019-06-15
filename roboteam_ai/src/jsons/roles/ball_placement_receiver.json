@@ -1,0 +1,87 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "6pfnmm91bzgifoms": {
+            "children": [
+              "gz40youirstbwq9d",
+              "b90iu9ue6cq7nmtg",
+              "nlogi6qtm712fkip",
+              "autwbjkg9sz2lks1"
+            ],
+            "id": "6pfnmm91bzgifoms",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "MemSequence"
+          },
+          "9ebw491k7oz1gq40": {
+            "id": "9ebw491k7oz1gq40",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "avoidBall": "true",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "fixedTarget": "",
+              "maxVel": "",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
+          },
+          "autwbjkg9sz2lks1": {
+            "children": [
+              "r913nzpdgnznnnjm"
+            ],
+            "id": "autwbjkg9sz2lks1",
+            "properties": {
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "b90iu9ue6cq7nmtg": {
+            "id": "b90iu9ue6cq7nmtg",
+            "properties": {
+              "seconds": "0.5"
+            },
+            "title": "Wait"
+          },
+          "gz40youirstbwq9d": {
+            "id": "gz40youirstbwq9d",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "BallPlacementReceive"
+          },
+          "nlogi6qtm712fkip": {
+            "children": [
+              "w3z3pub21327ynf3",
+              "9ebw491k7oz1gq40"
+            ],
+            "id": "nlogi6qtm712fkip",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "r913nzpdgnznnnjm": {
+            "id": "r913nzpdgnznnnjm",
+            "properties": {
+              "ticks": ""
+            },
+            "title": "Halt"
+          },
+          "w3z3pub21327ynf3": {
+            "id": "w3z3pub21327ynf3",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "ballPlacement": "true"
+            },
+            "title": "Dribble"
+          }
+        },
+        "root": "6pfnmm91bzgifoms",
+        "title": "ball_placement_receiver"
+      }
+    ]
+  },
+  "name": "ball_placement_receiver"
+}

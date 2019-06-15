@@ -1,0 +1,49 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "5vijva7aabzi5v": {
+            "children": [
+              "qi8npuvv1rzomgg"
+            ],
+            "id": "5vijva7aabzi5v",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "UntilSuccess"
+          },
+          "qi8npuvv1rzomgg": {
+            "id": "qi8npuvv1rzomgg",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "TimeoutFormation"
+          },
+          "sr8fh4psx6uy4ode": {
+            "children": [
+              "yc0cl9ragbcgnebnq"
+            ],
+            "id": "sr8fh4psx6uy4ode",
+            "title": "Repeater"
+          },
+          "yc0cl9ragbcgnebnq": {
+            "children": [
+              "5vijva7aabzi5v"
+            ],
+            "id": "yc0cl9ragbcgnebnq",
+            "name": "Keeper",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "role": "time_out_role",
+            "title": "Role"
+          }
+        },
+        "root": "sr8fh4psx6uy4ode",
+        "title": "keeper_time_out_tactic"
+      }
+    ]
+  },
+  "name": "keeper_time_out_tactic"
+}

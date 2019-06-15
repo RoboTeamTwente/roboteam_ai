@@ -1,0 +1,182 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "1o4ggafvl59qdwlsy": {
+            "id": "1o4ggafvl59qdwlsy",
+            "properties": {
+              "ROLE": "halt2"
+            },
+            "title": "Halt"
+          },
+          "1qlltkthtv6oz9t9": {
+            "children": [
+              "1r6gcw1laippzs5",
+              "oer7zg56o0sw5",
+              "20uxs21yg1sx9d",
+              "wn7rdwczblui4",
+              "81c4g4fdwmtg52e4h",
+              "25k1ts0n0n3paa3a",
+              "41vxuqvxyos0hv7nz",
+              "y7l7nhdb8lwk8u"
+            ],
+            "id": "1qlltkthtv6oz9t9",
+            "properties": {
+              "TacticType": "Offensive"
+            },
+            "title": "RoleDivider"
+          },
+          "1r6gcw1laippzs5": {
+            "children": [
+              "413vamhmfun9m1a88"
+            ],
+            "id": "1r6gcw1laippzs5",
+            "name": "attackTest",
+            "properties": {
+              "ROLE": "attackTest"
+            },
+            "role": "kick_role",
+            "title": "Role"
+          },
+          "20uxs21yg1sx9d": {
+            "children": [
+              "1o4ggafvl59qdwlsy"
+            ],
+            "id": "20uxs21yg1sx9d",
+            "name": "halt2",
+            "properties": {
+              "ROLE": "halt2"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "25k1ts0n0n3paa3a": {
+            "children": [
+              "665sq2madrpynbq8"
+            ],
+            "id": "25k1ts0n0n3paa3a",
+            "name": "halt5",
+            "properties": {
+              "ROLE": "halt5"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "413vamhmfun9m1a88": {
+            "id": "413vamhmfun9m1a88",
+            "properties": {
+              "ROLE": "attackTest"
+            },
+            "title": "Kick"
+          },
+          "41vxuqvxyos0hv7nz": {
+            "children": [
+              "xvb100sx8qwj4d5"
+            ],
+            "id": "41vxuqvxyos0hv7nz",
+            "name": "halt6",
+            "properties": {
+              "ROLE": "halt6"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "4jpn5el6e1ncnl": {
+            "id": "4jpn5el6e1ncnl",
+            "properties": {
+              "ROLE": "halt7"
+            },
+            "title": "Halt"
+          },
+          "665sq2madrpynbq8": {
+            "id": "665sq2madrpynbq8",
+            "properties": {
+              "ROLE": "halt5"
+            },
+            "title": "Halt"
+          },
+          "81c4g4fdwmtg52e4h": {
+            "children": [
+              "fee6vuzd06u9v57"
+            ],
+            "id": "81c4g4fdwmtg52e4h",
+            "name": "halt4",
+            "properties": {
+              "ROLE": "halt4"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "cafwt1bd4jzrpabh": {
+            "id": "cafwt1bd4jzrpabh",
+            "properties": {
+              "ROLE": "halt1"
+            },
+            "title": "Halt"
+          },
+          "fee6vuzd06u9v57": {
+            "id": "fee6vuzd06u9v57",
+            "properties": {
+              "ROLE": "halt4"
+            },
+            "title": "Halt"
+          },
+          "oer7zg56o0sw5": {
+            "children": [
+              "cafwt1bd4jzrpabh"
+            ],
+            "id": "oer7zg56o0sw5",
+            "name": "halt1",
+            "properties": {
+              "ROLE": "halt1"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "wn7rdwczblui4": {
+            "children": [
+              "zmeae1fafqvfaxki"
+            ],
+            "id": "wn7rdwczblui4",
+            "name": "halt3",
+            "properties": {
+              "ROLE": "halt3"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "xvb100sx8qwj4d5": {
+            "id": "xvb100sx8qwj4d5",
+            "properties": {
+              "ROLE": "halt6"
+            },
+            "title": "Halt"
+          },
+          "y7l7nhdb8lwk8u": {
+            "children": [
+              "4jpn5el6e1ncnl"
+            ],
+            "id": "y7l7nhdb8lwk8u",
+            "name": "halt7",
+            "properties": {
+              "ROLE": "halt7"
+            },
+            "role": "halt_role",
+            "title": "Role"
+          },
+          "zmeae1fafqvfaxki": {
+            "id": "zmeae1fafqvfaxki",
+            "properties": {
+              "ROLE": "halt3"
+            },
+            "title": "Halt"
+          }
+        },
+        "root": "1qlltkthtv6oz9t9",
+        "title": "attackerTestTactic"
+      }
+    ]
+  },
+  "name": "attackerTestTactic"
+}

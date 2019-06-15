@@ -4,18 +4,27 @@
 
 #ifndef ROBOTEAM_AI_DRIBBLEROTATE_H
 #define ROBOTEAM_AI_DRIBBLEROTATE_H
+
 #include "Skill.h"
-namespace rtt{
-namespace ai{
-class DribbleRotate : public Skill{
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
+
+namespace rtt {
+namespace ai {
+class DribbleRotate : public Skill {
     private:
-        enum Progression{
-          ROTATING,SUCCESS,FAIL
+        control::BallHandlePosControl ballHandlePosControl;
+
+        const double WAIT_TIME = 0.2;     // Seconds
+        const double MAX_SPEED = 0.5;     // Rad/second
+
+        enum Progression {
+          ROTATING, SUCCESS, FAIL
         };
         Progression currentProgression;
         void checkProgression();
-        double startAngle,targetAngle, maxSpeed,incrementAngle,currentAngle,dir;
-        int currentTick, maxTick,extraTick;
+        Angle targetAngle;
+        double startAngle, maxSpeed, incrementAngle, currentAngle, dir;
+        int currentTick, maxTick, extraTick;
         bool rotateToGoal;
         double computeCommandAngle();
     public:
@@ -29,6 +38,5 @@ class DribbleRotate : public Skill{
 
 }
 }
-
 
 #endif //ROBOTEAM_AI_DRIBBLEROTATE_H

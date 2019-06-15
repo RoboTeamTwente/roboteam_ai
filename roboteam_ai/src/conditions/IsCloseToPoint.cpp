@@ -1,8 +1,14 @@
-//
-// Created by robzelluf on 1/23/19.
-//
+/*
+* return SUCCESS when the ball is close to a point
+* properties:
+* - margin: the distance to the ball in which it is 'close'
+* - ball: wether to determine the robot is close to the ball
+* - position: whether to determine wheter to determine the robot is close to a position (needs ball to be false)
+*/
 
 #include "IsCloseToPoint.h"
+#include "../world/Ball.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {
@@ -10,35 +16,25 @@ namespace ai {
 IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsCloseToPoint::initialize() {
+void IsCloseToPoint::onInitialize() {
     if (properties->hasDouble("margin")) {
         margin = properties->getDouble("margin");
-    } else margin = 0.0;
+    }
 
-    if (properties->hasBool("ball")) {
-        ballPos = true;
+    if (properties->getBool("ball")) {
         position = ball->pos;
     } else {
         position = properties->getVector2("position");
-        ballPos = false;
     }
 }
 
-IsCloseToPoint::Status IsCloseToPoint::update() {
-    if (ballPos) {
-        position = ball->pos;
-    }
-
+IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
     double deltaPos = (position - robot->pos).length();
-
     if (deltaPos >= margin) {
         return Status::Failure;
     }
-    else {
-        return Status::Success;
-    }
+    return Status::Success;
 }
 
-std::string IsCloseToPoint::node_name() {return "IsCloseToPoint";}
-}
-}
+} // ai
+} // rtt

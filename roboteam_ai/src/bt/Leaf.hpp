@@ -1,8 +1,18 @@
 #pragma once
 
 #include "Node.hpp"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/WorldBall.h"
+#include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/Angle.h"
+
+// forward declare Robot and Ball
+namespace rtt {
+namespace ai {
+namespace world {
+    class Robot;
+    class Ball;
+}
+}
+}
 
 namespace bt {
 
@@ -13,10 +23,15 @@ class Leaf : public Node {
         std::string name;
 
     protected:
-        std::shared_ptr<roboteam_msgs::WorldRobot> getRobotFromProperties(bt::Blackboard::Ptr properties);
+
+        using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
+        using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
+
+        std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(bt::Blackboard::Ptr properties);
+        void terminate(Status status) override;
         void updateRobot();
-        std::shared_ptr<roboteam_msgs::WorldRobot> robot;
-        std::shared_ptr<roboteam_msgs::WorldBall> ball;
+        RobotPtr robot;
+        BallPtr ball;
         int robotId = - 1;
 };
 

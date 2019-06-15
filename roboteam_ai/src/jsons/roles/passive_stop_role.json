@@ -1,0 +1,20 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "9f1dqe43fcoq56": {
+            "id": "9f1dqe43fcoq56",
+            "properties": {
+              "Stop": "true"
+            },
+            "title": "AvoidBall"
+          }
+        },
+        "root": "9f1dqe43fcoq56",
+        "title": "passive_stop_role"
+      }
+    ]
+  },
+  "name": "passive_stop_role"
+}

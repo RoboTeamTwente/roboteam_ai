@@ -5,43 +5,73 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
-#include <roboteam_ai/src/utilities/Hungarian.h>
+#include <roboteam_utils/Line.h>
+#include <roboteam_utils/Arc.h>
 #include "../utilities/Constants.h"
-#include "roboteam_utils/Vector2.h"
-#include "math.h"
-#include "../utilities/World.h"
-#include "roboteam_utils/Arc.h"
+#include <cmath>
 
-typedef rtt::Vector2 Vector2;
+using Vector2 = rtt::Vector2;
+using Angle = rtt::Angle;
 
-namespace rtt{
+namespace rtt {
 namespace ai {
+
+// fwd declarations
+namespace world {
+    class WorldData;
+    class Robot;
+}
+
 namespace control {
 
 class ControlUtils {
     public:
-        static double calculateAngularVelocity(double robotAngle, double targetAngle);
-        static double TriangleArea(Vector2 A, Vector2 B, Vector2 C);
-        static bool pointInTriangle(Vector2 PointToCheck, Vector2 TP1, Vector2 TP2, Vector2 TP3);
-        static bool pointInRectangle(Vector2 PointToCheck, Vector2 SP1, Vector2 SP2, Vector2 SP3, Vector2 SP4);
+        static double TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c);
+
+        static bool pointInTriangle(const Vector2 &pointToCheck,
+                const Vector2 &tp1, const Vector2 &tp2, const Vector2 &tp3);
+
+        static bool pointInRectangle(const Vector2 &pointToCheck, const Vector2 &sp1, const Vector2 &sp2,
+                const Vector2 &sp3, const Vector2 &sp4);
+        static bool pointInRectangle(const Vector2 &pointToCheck, const std::vector<Vector2> &rectangle);
+
         static double constrainAngle(double angle);
-        static double distanceToLine(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
-        static double distanceToLineWithEnds(Vector2 PointToCheck, Vector2 LineStart, Vector2 LineEnd);
+        static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
+        static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
+                                                  const Vector2 &lineEnd);
+        static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world,
+                double safeDistanceFactor, bool includeKeeper = true);
+        static double distanceToLineWithEnds(const Vector2 & PointToCheck, const Vector2 &LineStart,
+                const Vector2 &LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
         static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
-        static Vector2 calculateForce(rtt::Vector2 vector, double weight, double minDistance);
+        static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
 
-        static bool hasClearVision(int from, int towards, roboteam_msgs::World world, int safelyness);
-        static bool onLineSegment(Vector2 p, Vector2 q, Vector2 r);
-        static rtt::Vector2 twoLineIntersection(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2);
-        static int lineOrientation(Vector2 p, Vector2 q, Vector2 r);
-        static bool lineSegmentsIntersect(Vector2 lineAStart, Vector2 lineAEnd, Vector2 lineBStart, Vector2 lineBEnd);
+        static bool onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r);
+        static rtt::Vector2 twoLineIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1,
+                const Vector2 &b2);
+        static double twoLineForwardIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1,
+                const Vector2 &b2);
+        static int lineOrientation(const Vector2 &p, const Vector2 &q, const Vector2 &r);
+        static bool lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
+                const Vector2 &lineBEnd);
         static rtt::Arc createKeeperArc();
-        static Vector2 VelocityLimiter(Vector2 vel,double maxVel=rtt::ai::Constants::MAX_VEL());
-        static Vector2 VelocityLimiter(Vector2 vel,double maxVel, double minVel);
+        static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
+                double minVel = 0.0, bool listenToReferee = true);
 
-        static std::vector<std::pair<Vector2, Vector2>> calculateClosestPathsFromTwoSetsOfPoints(std::vector<Vector2> set1, std::vector<Vector2> set2);
+        static Vector2 accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle,
+                double sidewaysAcceleration = Constants::MAX_ACC_LOWER() / Constants::TICK_RATE(),
+                double forwardsAcceleration = Constants::MAX_ACC_UPPER() / Constants::TICK_RATE(),
+                double sidewaysDeceleration = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE(),
+                double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE());
+
+        static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
+        static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
+                const Vector2 &point, double maxDifference = 0.3);
+        static const std::shared_ptr<world::Robot> getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
+        static Vector2 getInterceptPointOnLegalPosition(
+                Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
 };
 
 } // control

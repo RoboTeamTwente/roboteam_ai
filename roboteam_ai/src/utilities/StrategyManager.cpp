@@ -2,35 +2,65 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
+#include "../world/World.h"
+#include "../world/Ball.h"
 #include "StrategyManager.h"
+#include "GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {
 
-std::string StrategyManager::getCurrentStrategyName(roboteam_msgs::RefereeCommand currentRefCmd) {
+// process ref commands
+void StrategyManager::setCurrentRefGameState(RefCommand command) {
 
-    auto commandFromMostRecentReferee = static_cast<RefGameState>(currentRefCmd.command);
-    StrategyMap strategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
-    StrategyMap nextStrategy;
-
-    // if the command has a followUpCommand and the ref says normalPlay we need to run the followupcommand
-    if (currentStrategyMap.followUpCommandId != RefGameState::UNDEFINED
-            && commandFromMostRecentReferee == RefGameState::NORMAL_START) {
-        nextStrategy = getStrategyMapForRefGameState(currentStrategyMap.followUpCommandId);
-    }
-    else {
-        nextStrategy = getStrategyMapForRefGameState(commandFromMostRecentReferee);
+    // if the command is the same, we don't need to do anything
+    if (command == currentRefGameState.commandId) {
+        return;
     }
 
-    currentStrategyMap = nextStrategy;
-    return nextStrategy.strategyName;
+    // otherwise, if we are in a followupstate and the refcommand is normal start we don't change a thing
+    if (currentRefGameState.isfollowUpCommand && command == RefCommand::NORMAL_START) {
+        return;
+    }
+
+    // we need to change refgamestate here
+    RefGameState newState;
+    if (currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
+        newState = getRefGameStateForRefCommand(currentRefGameState.followUpCommandId);
+    } else {
+        newState = getRefGameStateForRefCommand(command);
+    }
+    if (world::world->getBall()) {
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    } else {
+        newState.ballPositionAtStartOfGameState = {0,0};
+    }
+    currentRefGameState = newState;
 }
 
-/// Use an iterator and a lambda to efficiently get the Node for a specified id
-StrategyMap StrategyManager::getStrategyMapForRefGameState(RefGameState commandId) {
-    return *std::find_if(strategyMaps.begin(), strategyMaps.end(), [commandId](StrategyMap map) {
-      return map.commandId == commandId;
-    });
+RefGameState StrategyManager::getCurrentRefGameState() {
+    return currentRefGameState;
+}
+
+const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand command) {
+    for (auto gameState : this->gameStates) {
+        if (gameState.commandId == command) {
+            return gameState;
+        }
+    }
+    std::cerr << "Returning an undefined refstate! This should never happen!" << std::endl;
+    return gameStates[0];
+}
+
+void StrategyManager::forceCurrentRefGameState(RefCommand command) {
+    // we need to change refgamestate here
+    RefGameState newState = getRefGameStateForRefCommand(command);
+    if (world::world->getBall()) {
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+    } else {
+        newState.ballPositionAtStartOfGameState = {0,0};
+    }
+    currentRefGameState = newState;
 }
 
 } // ai

@@ -1,0 +1,24 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "bre8mgcagsb3l4xln": {
+            "children": [
+              "y4u7y8re5cqodb83o"
+            ],
+            "id": "bre8mgcagsb3l4xln",
+            "title": "UntilSuccess"
+          },
+          "y4u7y8re5cqodb83o": {
+            "id": "y4u7y8re5cqodb83o",
+            "title": "TimeoutFormation"
+          }
+        },
+        "root": "bre8mgcagsb3l4xln",
+        "title": "EnterFormationRole"
+      }
+    ]
+  },
+  "name": "EnterFormationRole"
+}

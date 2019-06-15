@@ -1,0 +1,46 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "7xlpa1khh7m8brqa": {
+            "children": [
+              "r7jft4clulapw3s5",
+              "jpufwfzbopbhc5l6"
+            ],
+            "id": "7xlpa1khh7m8brqa",
+            "properties": {},
+            "title": "MemSelector"
+          },
+          "jpufwfzbopbhc5l6": {
+            "id": "jpufwfzbopbhc5l6",
+            "name": "one_robot_ballplacement_tactic",
+            "title": "Tactic"
+          },
+          "r7jft4clulapw3s5": {
+            "children": [
+              "ryeorbsmv04bh5fr",
+              "tmquzoe29xvfc9k7"
+            ],
+            "id": "r7jft4clulapw3s5",
+            "properties": {},
+            "title": "MemSequence"
+          },
+          "ryeorbsmv04bh5fr": {
+            "id": "ryeorbsmv04bh5fr",
+            "properties": {},
+            "title": "TwoRobotBallPlacement"
+          },
+          "tmquzoe29xvfc9k7": {
+            "id": "tmquzoe29xvfc9k7",
+            "name": "two_robot_ballplacement_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "7xlpa1khh7m8brqa",
+        "title": "ball_placement_us_strategy"
+      }
+    ]
+  },
+  "name": "ball_placement_us_strategy"
+}

@@ -2,78 +2,140 @@
 // Created by robzelluf on 1/22/19.
 //
 
+#include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/control/PositionUtils.h>
+#include <roboteam_ai/src/utilities/Constants.h>
+#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
+#include <roboteam_ai/src/control/BasicPosControl.h>
+#include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/world/Robot.h>
 #include "Pass.h"
+
 namespace rtt {
 namespace ai {
+
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-}
+        :Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
-    goToPos.setAvoidBall(true);
-    robotToPassToID = coach::Coach::initiatePass();
-    currentProgress = Progression::POSITIONING;
+    robotToPassToID = - 1;
+    passInitialized = false;
+    hasShot = false;
+    chip = false;
+    fails = 0;
+    if (properties->hasInt("failsUntilChip")) {
+        failsUntilChip = properties->getInt("failsUntilChip");
+    }
+    else {
+        failsUntilChip = - 1;
+    }
 }
 
 Pass::Status Pass::onUpdate() {
-    if (robotToPassToID == -1) return Status::Failure;
-    robotToPassTo = World::getRobotForId(static_cast<unsigned int>(robotToPassToID), true);
+    bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
+    if (! closeToBall && ! passInitialized) {
+        RobotCommand robotCommand;
 
-    roboteam_msgs::RobotCommand command;
+        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
-    switch(currentProgress) {
-        case Progression::POSITIONING: {
-            if (!coach::Coach::isRobotBehindBallToPosition(0.30, robotToPassTo->pos, robot->pos)) {
-                goToType = GoToType::NUMERIC_TREES;
-                targetPos = Coach::getPositionBehindBallToPosition(0.30, robotToPassTo->pos);
-            } else if (!World::ourBotHasBall(robot->id)) {
-                goToType = GoToType::BASIC;
-                targetPos = ball->pos;
-            } else {
-                if (coach::Coach::isReadyToReceivePass()) currentProgress = Progression::KICKING;
-                return Status::Running;
-            }
-            command.use_angle = 1;
-            command.w = static_cast<float>(((Vector2) robotToPassTo->pos - ball->pos).angle());
-            command.dribbler = 0;
-            control::PosVelAngle velocities = goToPos.goToPos(robot, targetPos, goToType);
-            command.x_vel = static_cast<float>(velocities.vel.x);
-            command.y_vel = static_cast<float>(velocities.vel.y);
-            break;
+        if (! robotToPassTo || robotToPassToID == - 1) {
+            robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
         }
-        case Progression::KICKING: {
-            if (World::ourBotHasBall(robot->id)) {
-                command.kicker = 1;
-                command.kicker_forced = 1;
-                distance = ((Vector2)ball->pos - robotToPassTo->pos).length();
-                kicker_vel_multiplier = distance > rtt::ai::Constants::MAX_POWER_KICK_DISTANCE() ? 1.0 : distance / rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+        else {
+            robotCommand = robot->getBallHandlePosControl()->getRobotCommand(
+                    robot, robotToPassTo->pos, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+        }
 
-                command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER() * kicker_vel_multiplier);
-                command.id = robot->id;
-                publishRobotCommand(command);
-                checkTicks = 0;
-                return Status::Running;
-            }
+        command.x_vel = robotCommand.vel.x;
+        command.y_vel = robotCommand.vel.y;
+        command.w = robotCommand.angle;
+        publishRobotCommand();
+        return Status::Running;
 
-            if (Vector2(ball->vel).length() > 0.4 || ((Vector2)robot->pos - ball->pos).length() > rtt::ai::Constants::MAX_BALL_RANGE() * 2) {
-                Coach::setRobotBeingPassedTo(-1);
-                Coach::setPassed(true);
-                return Status::Success;
-            } else if (checkTicks < maxCheckTicks) {
-                checkTicks++;
-            } else {
-                currentProgress = Progression::POSITIONING;
-                checkTicks = 0;
-                return Status::Running;
+    }
+    else {
+        if (! passInitialized) {
+            passInitialized = true;
+            initiatePass();
+        }
+
+        robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
+        if (robotToPassToID == - 1) {
+            return Status::Failure;
+        }
+
+        robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+        if (! coach::g_pass.validReceiver(robot, robotToPassTo)) {
+            return Status::Failure;
+        }
+
+        if (didShootProperly()) {
+            coach::g_pass.setPassed(true);
+            return Status::Success;
+        }
+
+        ///Check if:
+        // Not already decided to chip
+        // Not having already tried a shot
+        // If this is both not the case, check if there's a clear line to the target
+        // If not, either ++ fails or fail immediately
+        if (! chip && ! hasShot
+                && ! control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+            if (failsUntilChip == - 1) {
+                return Status::Failure;
             }
+            else {
+                fails ++;
+                if (fails >= failsUntilChip) {
+                    chip = true;
+                }
+                else {
+                    coach::g_pass.resetPass(robot->id);
+                    initiatePass();
+                }
+            }
+        }
+
+        auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), chip, control::BallSpeed::PASS,
+                true, control::ShotPrecision::MEDIUM);
+        command = shotdata.makeROSCommand();
+        if ((command.kicker == true || command.chipper == true) && ! hasShot) {
+            hasShot = true;
         }
     }
 
-    command.id = robot->id;
-    publishRobotCommand(command);
+    publishRobotCommand();
     return Status::Running;
 }
 
+void Pass::onTerminate(Status s) {
+    hasShot = false;
+    passInitialized = false;
+    if (! coach::g_pass.isPassed()) {
+        coach::g_pass.resetPass(robot->id);
+    }
+    else if (s == Status::Success) {
+    }
 }
+
+Vector2 Pass::getKicker() {
+    Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
+    return robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle);
 }
+
+void Pass::initiatePass() {
+    coach::g_pass.initiatePass(robot->id);
+}
+
+bool Pass::didShootProperly() {
+    bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
+    bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
+            robotToPassTo->pos);
+
+    return (hasShot && ballIsMovingFast && ballIsMovingToReceiver);
+}
+
+} // ai
+} // rtt
 

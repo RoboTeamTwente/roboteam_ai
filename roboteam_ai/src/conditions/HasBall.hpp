@@ -7,12 +7,9 @@ namespace rtt {
 namespace ai {
 
 class HasBall : public Condition {
-private:
-    double ballRange;
 public:
-    explicit HasBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-    Status update() override;
-    std::string node_name() override { return "HasBall"; }
+    explicit HasBall(std::string name = "HasBall", bt::Blackboard::Ptr blackboard = nullptr);
+    Status onUpdate() override;
 };
 
 } // ai

@@ -19,18 +19,14 @@ void Halt::onInitialize() {
 
 Halt::Status Halt::onUpdate() {
     if (tick <= ticks) {
-        // send empty cmd
-        roboteam_msgs::RobotCommand cmd;
-        cmd.id = robot->id;
-        cmd.x_vel = 0;
-        cmd.y_vel = 0;
-        cmd.w = 0;
-        publishRobotCommand(cmd);
-        tick++;
+        // send slowing down command
+        command.use_angle = 0;
+        publishRobotCommand();
+        tick ++;
         return Status::Running;
     }
-
-    return Status::Success;
+    // do not send a command
+    return Status::Running;
 }
 
 } // ai

@@ -1,0 +1,20 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "3qcov1hipxs1xe": {
+            "id": "3qcov1hipxs1xe",
+            "properties": {
+              "type": "freekick"
+            },
+            "title": "GoBehindBall"
+          }
+        },
+        "root": "3qcov1hipxs1xe",
+        "title": "free_kick_prepare_role"
+      }
+    ]
+  },
+  "name": "free_kick_prepare_role"
+}

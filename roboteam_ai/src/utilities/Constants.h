@@ -5,215 +5,177 @@
 #include <QColor>
 #include <ros/node_handle.h>
 #include "math.h"
-
+#include "RuleSet.h"
 
 namespace rtt {
 namespace ai {
 
+typedef std::tuple<double, double, double> pidVals;
+typedef std::tuple<double, double, double, double> pidfVals;
+
 class Constants {
-public:
-    static void init();
-    static bool GRSIM();
 
-// Show timing for different functions
-    static bool SHOW_LONGEST_TICK()             { return false;};
-    static bool SHOW_TICK_TIME_TAKEN()          { return false;};
-    static bool SHOW_NUMTREE_TIME_TAKEN()       { return false;};
+    public:
+        static void init();
+        static bool GRSIM();
 
-// Show debug information for different functions
-    static bool SHOW_NUMTREE_DEBUG_INFO()       { return false; };
+        /// TICK RATE ///
+        static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 30; };
+        static constexpr int TICK_RATE()                    { return 60; };
 
-// Max values we can send through robothub
-    static double MAX_VEL_CMD()                 { return 8.191; };
-    static int GENEVA_LEFT()                    { return 0; } ;     //TODO: Might be reversed, please check
-    static int GENEVA_RIGHT()                   { return 5; };
-    static int MAX_ID_CMD()                     { return 15; };
-    static double MAX_ANGULAR_VEL_CMD()         { return 16*M_PI; };
-    static double MIN_ANGLE()                   { return -M_PI; };
-    static double MAX_ANGLE()                   { return M_PI; };
+        /// LOGGING ///
+        static bool SHOW_LONGEST_TICK();
+        static bool SHOW_TICK_TIME_TAKEN();
 
-// Limits as defined in AI itself
-    static double MAX_VEL()                     { return 8.0; };
-    static double MAX_VEL_BALLPLACEMENT()       { return 3.0; };
+        static bool SHOW_COACH_TIME_TAKEN();
 
-// Other/multiple usage
-    static int DEFAULT_ROBOT_ID()               { return 1; };
+        static bool SHOW_NUMTREE_TIME_TAKEN();
+        static bool SHOW_NUMTREE_DEBUG_INFO();
+        static bool SHOW_FULL_NUMTREE_DEBUG_INFO();
 
-    static double MAX_ANGULAR_VELOCITY()        { return 6.0; };    // Rad per second
-    static double ROBOT_RADIUS()                { return 0.089;  }; // TODO: Need to test if world_state agrees with this definition of the centre of the robot
-    static double ROBOT_RADIUS_MAX()            { return 0.091; };
-    static double FRONT_LENGTH()                { return 0.118; };  // Length of the front (flat) part of the robot
-    static double DRIBBLER_ANGLE_OFFSET()       { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); };  // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
+        static bool SHOW_BALL_HANDLE_DEBUG_INFO();
+        static bool SHOW_FULL_BALL_HANDLE_DEBUG_INFO();
 
-  static double CENTRE_TO_FRONT()             { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); };
-    static double BALL_RADIUS()                 { return 0.0215; };
-    static double CLOSE_TO_BORDER_DISTANCE()    { return 1.2 * ROBOT_RADIUS(); };
-    static int TICK_RATE()                       { return 60 ; };// Rate at which we tick our behavior Trees
+        static std::vector<RuleSet> ruleSets();
 
-// Skills
-    static double DEFAULT_KICK_POWER()          { return 5.0; };   // Max kick power() { return  100 }
-    static double MAX_KICK_POWER()              { return 8.0; };   // TODO: CHECK
-    static double MAX_POWER_KICK_DISTANCE()     { return 9.0; };
-    static int MAX_KICK_CYCLES()                { return 20; };
-    static int MAX_GENEVA_CYCLES()              { return 20; };
-    static int DEFAULT_GENEVA_STATE()           { return 0; };
-    static double GET_BALL_OVERSHOOT()          { return 0.06; };
-    static double OUT_OF_FIELD_MARGIN()         { return 0.03; };
+        /// ROBOT COMMANDS ///
+        static double MAX_VEL_CMD();
+        static int MAX_ID_CMD();
+        static double MAX_ANGULAR_VEL_CMD();
+        static double MIN_ANGLE();
+        static double MAX_ANGLE();
+        static double MAX_ANGULAR_VELOCITY();       // Rad per second
 
-    //dribble
-    static double MAX_BALL_BOUNCE_RANGE()       { return GRSIM() ? 0.4 : 0.15; };
-    static double DRIBBLE_POSDIF()              { return 0.05; };
-    static float  DRIBBLE_SPEED()               { return GRSIM() ? 0.4 : 0.8; };
+        /// ACCELERATION LIMITERS ///
+        static double MIN_VEL();        // Minimum velocity to make the robot move
+        static double MAX_ACC_UPPER();  // Maximum acceleration for moving in the forward direction
+        static double MAX_ACC_LOWER();  // Maximum acceleration for moving in the sideways direction
+        static double MAX_DEC_UPPER();  // Maximum deceleration for moving in the forward direction
+        static double MAX_DEC_LOWER();  // Maximum deceleration for moving in the sideways direction
 
-    //hasBall
-    static double MAX_BALL_RANGE()              { return GRSIM() ? 0.09 : 0.04; }; // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
-    static double HAS_BALL_ANGLE()              { return 0.2; }
+        /// ROBOT SPECS ///
+        static constexpr double ROBOT_RADIUS()              { return 0.089; };
+        static constexpr double ROBOT_RADIUS_MAX()          { return 0.091; };
+        static constexpr double BALL_RADIUS()               { return 0.0215; };
 
-    //kick
-    static double MAX_KICK_RANGE()              { return GRSIM() ? 0.4 : 0.04; };
+        static double FRONT_LENGTH();
+        static double DRIBBLER_ANGLE_OFFSET();      // If the angle 0 is the centre of the robot, then -DRIBBLER_ANGLE_OFFSET() points to the left and DRIBBLER_ANGLE_OFFSET() to the right.
+        static double CENTRE_TO_FRONT();
+        static double CLOSE_TO_BORDER_DISTANCE();
 
-    //getBall
-    static double COLLISION_RADIUS()            { return 0.18; };
-    static double ANGLE_SENS()                  { return 0.05*M_PI; };
-    static double MAX_GETBALL_RANGE()           { return 0.7; };
-    static int POSSES_BALL_CYCLES()             { return 25; };
-    static double GETBALL_SPEED()               { return GRSIM() ?0.4 : 0.8; };
-    static double GETBALL_OVERSHOOT()           { return .02; };//m
+        /// REF STATES ///
+        static constexpr double MAX_VEL()                   { return 8.0; };
+        static constexpr double MAX_STOP_STATE_VEL()        { return 1.5; };
+        static constexpr double MAX_VEL_BALLPLACEMENT()     { return 3.0; };
 
-// PositionControl
-    static double MAX_CALCULATION_TIME()        { return 5.0; };   // Max time in ms
-    static double NUMTREE_ERROR_MARGIN()        { return 0.25; };
-    static double MIN_DISTANCE_FOR_FORCE()      { return 0.8; };
+        /// GENERAL SKILLS ///
+        static double DEFAULT_KICK_POWER(); // max kick power() { return  100
+        static double MAX_KICK_POWER(); //TODO: CHECK
+        static double MAX_POWER_KICK_DISTANCE();
+        static double OUT_OF_FIELD_MARGIN();
+        static double MAX_BALL_BOUNCE_RANGE();
+        static double MAX_BALL_RANGE(); // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
+        static double HAS_BALL_ANGLE();
+        static double MAX_KICK_RANGE();
 
-    //Keeper
-    static double KEEPER_POST_MARGIN()          { return 0.08; };//m
-    static double KEEPER_CENTREGOAL_MARGIN()    { return 0.3; };//m
-    static double KEEPER_POSDIF()               { return 0.01; };
+        static double MAX_INTERCEPT_TIME();    // Seconds. Intercept terminates  after this time.
+        static double BALL_STILL_VEL();    // If the ball has velocity lower than this in defense area, keeper starts getting it
+        static double GOTOPOS_ERROR_MARGIN();
+        static double GOTOPOS_ANGLE_ERROR_MARGIN();
+        static double DEFAULT_BALLCOLLISION_RADIUS();
 
-    //ballkickedtoGoal
-    static double BALL_TO_GOAL_MARGIN()         { return BALL_RADIUS(); };//Margin at which a ball is still detected as 'kicked at goal' next to the goalie ends, so goalie tries to save the ball.
-    static double BALL_TO_GOAL_TIME()           { return 2.5; };//seconds
+        /// KEEPER ///
+        static double KEEPER_POST_MARGIN();//m
+        static double KEEPER_CENTREGOAL_MARGIN();//m
+        static double KEEPER_PENALTY_LINE_MARGIN();//m
 
-// GoAroundPos
-    static double MAX_GOAROUND_STOP_TIME()      { return 2.0; };    // Seconds
-    static double GOAROUND_MAX_DIST_DEVIATION() { return 0.2; };    // Meters
-    static double GOAROUND_SPEED()              { return 6.0; };    // Rad/second
-    static double GOAROUND_BALL_DIST()          { return 0.11; };   // Meters
-    static double GOAROUND_POS_MARGIN()         { return 0.05; };   // Meters
-    static double GOAROUND_ANGLE_MARGIN()       { return 0.03*M_PI; };  //Rad
-    static double GOAROUND_MIN_SPEED()          { return 0.25; };   // Meters/second
+        /// INTERFACE ///
+        static int ROBOT_DRAWING_SIZE();
+        static int BALL_DRAWING_SIZE();
+        static int TACTIC_COLOR_DRAWING_SIZE();
+        static int WINDOW_FIELD_MARGIN();
 
-// Intercept
-    static double MAX_INTERCEPT_TIME()          { return 2.0; };    // Seconds. Intercept terminates  after this time.
-    static double BALL_DEFLECTION_ANGLE()       { return 30.0/180.0*M_PI; };    // Angle at which a ball is considered 'deflected'
-    static double INTERCEPT_POSDIF()            { return 0.04; };   // Meters acceptable deviation
-    static double DEFAULT_MAX_VEL()             { return 2.0; };
+        static int KEEPER_HELP_DRAW_SIZE();
+        static int INTERCEPT_DRAW_VECTOR_SIZE();
 
-    static double INTERCEPT_P()                 { return 5.7;};
-    static double INTERCEPT_I()                 { return 1.7;};
-    static double INTERCEPT_D()                 { return 0.0;};
+        static double BP_MOVE_BACK_DIST();
+        static double BP_MOVE_TOWARDS_DIST();
 
-// BallInDefenseAreaAndStill
-    static double BALL_STILL_VEL()              { return 0.1; };    // If the ball has velocity lower than this in defense area, keeper starts getting it
+        /// SETTINGS ///
+        static bool STD_SHOW_ROLES();
+        static bool STD_SHOW_TACTICS();
+        static bool STD_SHOW_TACTICS_COLORS();
+        static bool STD_SHOW_VELOCITIES();
+        static bool STD_SHOW_ANGLES();
+        static bool STD_SHOW_ROBOT_INVALIDS();
+        static bool STD_SHOW_BALL_PLACEMENT_MARKER();
+        static bool STD_SHOW_DEBUG_VALUES();
+        static bool STD_USE_REFEREE();
+        static bool STD_TIMEOUT_TO_TOP();
 
-    static double DRIBBLE_ROTATE_WAIT_TIME()    { return 0.2; };    // Seconds
-    static double DRIBBLE_ROTATE_MAX_SPEED()    { return 0.5; };    // Rad/second
+        static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA();
+        static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER();
+        static std::map<int, bool> ROBOTS_WITH_WORKING_BALL_SENSOR();
 
+        static bool ROBOT_HAS_WORKING_GENEVA(int id);
+        static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
+        static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
 
-// Interface
-    static int ROBOT_DRAWING_SIZE()             { return 8; };
-    static int BALL_DRAWING_SIZE()              { return 5; };
-    static int TACTIC_COLOR_DRAWING_SIZE()      { return 10; };
-    static int WINDOW_FIELD_MARGIN()            { return 5; };
+        static QColor FIELD_COLOR();
+        static QColor FIELD_LINE_COLOR();
+        static QColor ROBOT_COLOR_BLUE(); // Blue
+        static QColor ROBOT_COLOR_YELLOW(); // Yellow
+        static QColor BALL_COLOR(); // Orange
+        static QColor TEXT_COLOR();
+        static QColor SELECTED_ROBOT_COLOR();
 
-    static int KEEPER_HELP_DRAW_SIZE()          { return 7; };
-    static int INTERCEPT_DRAW_VECTOR_SIZE()     { return 5; };
+        static std::vector<QColor> TACTIC_COLORS();
 
-    static double BP_MOVE_BACK_DIST()           { return 0.4; };
-    static double BP_MOVE_TOWARDS_DIST()        { return 0.15; };
+        // Default PID values for the gotoposses/interface
+        static pidVals standardNumTreePID();
+        static pidVals standardBasicPID();
+        static pidVals standardKeeperPID();
+        static pidVals standardKeeperInterceptPID();
+        static pidVals standardBallHandlePID();
 
-// Avoid ball
-    static double robotWeight()                 { return 0.09; };
-    static double minRobotDistanceForForce()    { return 0.7; };
-    static double ballWeight()                  { return 0.15; };
-    static double minBallDistanceForForce()     { return 0.7; };
-    static double wallWeight()                  { return 0.05; };
-    static double minWallDistanceForForce()     { return 0.4; };
-
-// Settings
-    static bool STD_SHOW_ROLES()                { return true; };
-    static bool STD_SHOW_TACTICS()              { return false; };
-    static bool STD_SHOW_TACTICS_COLORS()       { return true; };
-    static bool STD_SHOW_VELOCITIES()           { return true; };
-    static bool STD_SHOW_ANGLES()               { return true; };
-    static bool STD_SHOW_VORONOI()              { return false; };
-    static bool STD_SHOW_PATHS_ALL()            { return false; };
-    static bool STD_SHOW_PATHS_CURRENT()        { return true; };
-    static bool STD_SHOW_BALL_PLACEMENT_MARKER(){ return true; };
-    static bool STD_SHOW_DEBUG_VALUES()         { return true; };
-    static bool STD_USE_REFEREE()               { return false; };
-
-    static QColor FIELD_COLOR()                 { return GRSIM() ? QColor(30 , 30 , 30 , 255) :
-                                                                   QColor(50 , 0  , 0  , 255); };
-    static QColor FIELD_LINE_COLOR()            { return Qt::white; };
-    static QColor ROBOT_COLOR_BLUE()            { return {150, 150, 255, 255}; }; // Blue
-    static QColor ROBOT_COLOR_YELLOW()          { return {255, 255, 0  , 255}; }; // Yellow
-    static QColor BALL_COLOR()                  { return {255, 120, 50 , 255}; }; // Orange
-    static QColor TEXT_COLOR()                  { return Qt::white; };
-    static QColor SELECTED_ROBOT_COLOR()        { return Qt::magenta; };
-
-    static std::vector<QColor> TACTIC_COLORS()  { return { {255, 0  , 255, 255},
-                                                           {255, 0  , 255, 255},
-                                                           {255, 255, 0  , 255},
-                                                           {255, 120, 180, 255},
-                                                           {255, 100, 255, 255} }; };
-
-// Default PID values for the interface
-    static double standardNumTreePosP()         { return GRSIM() ? 2.5 : 2.8; };
-    static double standardNumTreePosI()         { return GRSIM() ? 0.0 : 0.6; };
-    static double standardNumTreePosD()         { return GRSIM() ? 2.0 : 2.3; };
-
-    static double standardNumTreeVelP()         { return GRSIM() ? 2.0 : 2.8; };
-    static double standardNumTreeVelI()         { return GRSIM() ? 0.5 : 0.6; };
-    static double standardNumTreeVelD()         { return GRSIM() ? 1.8 : 2.3; };
-
-private:
-    static bool isInitialized;
-    static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
+    private:
+        static bool isInitialized;
+        static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
 };
 
 } // ai
 } // rtt
 
-
-enum class RefGameState {
+enum class RefCommand {
 // Ref states as dictated by RoboCup SSL
-    HALT = 0,
-    STOP = 1,
-    NORMAL_START = 2,
-    FORCED_START = 3,
-    PREPARE_KICKOFF_US = 4,
-    PREPARE_KICKOFF_THEM = 5,
-    PREPARE_PENALTY_US = 6,
-    PREPARE_PENALTY_THEM = 7,
-    DIRECT_FREE_US = 8,
-    DIRECT_FREE_THEM = 9,
-    INDIRECT_FREE_US = 10,
-    INDIRECT_FREE_THEM = 11,
-    TIMEOUT_US = 12,
-    TIMEOUT_THEM = 13,
-    GOAL_US = 14,
-    GOAL_THEM = 15,
-    BALL_PLACEMENT_US = 16,
-    BALL_PLACEMENT_THEM = 17,
+
+        HALT = 0,
+        STOP = 1,
+        NORMAL_START = 2,
+        FORCED_START = 3,
+        PREPARE_KICKOFF_US = 4,
+        PREPARE_KICKOFF_THEM = 5,
+        PREPARE_PENALTY_US = 6,
+        PREPARE_PENALTY_THEM = 7,
+        DIRECT_FREE_US = 8,
+        DIRECT_FREE_THEM = 9,
+        INDIRECT_FREE_US = 10,
+        INDIRECT_FREE_THEM = 11,
+        TIMEOUT_US = 12,
+        TIMEOUT_THEM = 13,
+        GOAL_US = 14,
+        GOAL_THEM = 15,
+        BALL_PLACEMENT_US = 16,
+        BALL_PLACEMENT_THEM = 17,
 
 // Custom extended refstates
 // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
-    DO_KICKOFF = 18,
-    DEFEND_KICKOFF = 19,
-    DO_PENALTY = 20,
-    DEFEND_PENALTY = 21,
-    UNDEFINED = -1
+
+        DO_KICKOFF = 18,
+        DEFEND_KICKOFF = 19,
+        DO_PENALTY = 20,
+        DEFEND_PENALTY = 21,
+        UNDEFINED = - 1
 };
 
 #endif //ROBOTEAM_AI_CONSTANTS_H

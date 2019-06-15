@@ -3,10 +3,15 @@
 //
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
+#include <roboteam_ai/src/coach/defence/DefenceDealer.h>
 #include "ApplicationManager.h"
-#include "utilities/Referee.hpp"
-#include "utilities/StrategyManager.h"
 #include <sstream>
+#include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <roboteam_ai/src/interface/api/Output.h>
+#include <roboteam_ai/src/coach/GetBallCoach.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <roboteam_ai/src/interface/api/Input.h>
+#include <roboteam_ai/src/interface/api/Toggles.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -15,19 +20,19 @@ using Status = bt::Node::Status;
 namespace rtt {
 
 void ApplicationManager::setup() {
-    IOManager = new io::IOManager(true);
-    factory = BTFactory::getFactory();
-    factory.init();
-    BTFactory::setCurrentTree("haltStrategy");
-    BTFactory::setKeeperTree("keeperTest1");
+    IOManager = new io::IOManager(true, false);
+    ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 }
 
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
+
+    BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
+
     while (ros::ok()) {
         ros::Time begin = ros::Time::now();
 
@@ -40,7 +45,7 @@ void ApplicationManager::loop() {
         if (timeTaken > longestTick) {
             longestTick = timeTaken;
         }
-        if (ai::interface::InterfaceValues::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
+        if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
             ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
             if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
@@ -55,38 +60,76 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    ros::spinOnce();
-    this->updateROSData();
-    this->updateDangerfinder();
-
-    if (ai::World::didReceiveFirstWorld) {
-        if (BTFactory::getCurrentTree() == "NaN") {
-            ROS_INFO("NaN tree probably Halting");
-            return;
-        }
+    if (weHaveRobots) {
+        ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
-        auto demomsg = IOManager->getDemoInfo();
-        demo::JoystickDemo::demoLoop(demomsg);
+        auto demoMsg = IOManager->getDemoInfo();
+        demo::JoystickDemo::demoLoop(demoMsg);
 
-        if (ai::interface::InterfaceValues::usesRefereeCommands()) {
-            this->handleRefData();
+
+        auto gameState = ai::GameStateManager::getCurrentGameState();
+        std::string strategyName = gameState.strategyName;
+        std::string keeperTreeName = gameState.keeperStrategyName;
+
+        bool strategyChanged = oldStrategyName != strategyName;
+        bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
+
+        if (strategyChanged) {
+            BTFactory::setCurrentTree(strategyName);
+            oldStrategyName = strategyName;
         }
-        // TODO: change this later so the referee tells you this
-        // TODO enable for keeper
-//        robotDealer::RobotDealer::setKeeperID(0);
-//        keeperTree = BTFactory::getKeeperTree();
-//        Status keeperStatus = keeperTree->tick();
 
-        strategy = factory.getTree(BTFactory::getCurrentTree());
+        if (keeperStrategyChanged) {
+            BTFactory::setKeeperTree(keeperTreeName);
+            oldKeeperTreeName = keeperTreeName;
+        }
+
+        if (keeperStrategyChanged || strategyChanged) {
+            ai::robotDealer::RobotDealer::refresh();
+        }
+        rtt::ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
+
+        keeperTree = BTFactory::getKeeperTree();
+        if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+            keeperTree->tick();
+        }
+
+
+        ros::Time begin;
+        ros::Time end;
+        if (ai::interface::Output::showCoachTimeTaken()) {
+            begin = ros::Time::now();
+        }
+
+        rtt::ai::coach::getBallCoach->update();
+        rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
+        rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
+        rtt::ai::coach::g_pass.updatePassProgression();
+
+        if (ai::interface::Output::showCoachTimeTaken()) {
+            end = ros::Time::now();
+            double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+            std::cout << "The coaches are using " << timeTaken << " ms!" << std::endl;
+        }
+
+        if (BTFactory::getCurrentTree() == "NaN") {
+            std::cout << "NaN tree probably Halting" << std::endl;
+            return;
+        }
+
+        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
+
     }
     else {
-        ROS_ERROR("No first world");
+        std::cout <<"NO FIRST WORLD" << std::endl;
         ros::Duration(0.2).sleep();
     }
+
+    weHaveRobots = ai::world::world->weHaveRobots();
 }
 
 void ApplicationManager::checkForShutdown() {
@@ -94,46 +137,20 @@ void ApplicationManager::checkForShutdown() {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
-}
-
-void ApplicationManager::updateROSData() {
-    // make ROS world_state and geometry data globally accessible
-    worldMsg = IOManager->getWorldState();
-    geometryMsg = IOManager->getGeometryData();
-    refereeMsg = IOManager->getRefereeData();
-
-    ai::World::set_world(worldMsg);
-    ai::Field::set_field(geometryMsg.field);
-    ai::Referee::setRefereeData(refereeMsg);
-}
-
-void ApplicationManager::updateDangerfinder() {
-    if (df::DangerFinder::instance().hasCalculated()) {
-        dangerData = df::DangerFinder::instance().getMostRecentData();
-    }
-}
-
-void ApplicationManager::handleRefData() {
-    ai::StrategyManager strategyManager;
-    // Warning, this means that the names in strategy manager needs to match one on one with the JSON names
-    // might want to build something that verifies this
-    auto oldStrategy = BTFactory::getCurrentTree();
-    std::string strategyName = strategyManager.getCurrentStrategyName(refereeMsg.command);
-    if (oldStrategy != strategyName) {
-        BTFactory::getFactory().init();
-    }
-    BTFactory::setCurrentTree(strategyName);
+    ai::analysis::GameAnalyzer::getInstance().stop();
 }
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
     case Status::Running:break;
-    case Status::Success:ROS_INFO_STREAM("Status returned: Success");
-        ROS_INFO_STREAM(" === TREE CHANGE === ");
-            BTFactory::setCurrentTree("haltStrategy");
+    case Status::Success:
+        std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
         break;
-    case Status::Failure:ROS_INFO_STREAM("Status returned: Failure");
-        break;
+    case Status::Failure:
+        std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+      break;
     case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
         break;
     }

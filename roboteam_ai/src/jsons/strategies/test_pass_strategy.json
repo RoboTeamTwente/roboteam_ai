@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "p0o0oat7fnh5x": {
+            "id": "p0o0oat7fnh5x",
+            "name": "test_pass_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "p0o0oat7fnh5x",
+        "title": "test_pass_strategy"
+      }
+    ]
+  },
+  "name": "test_pass_strategy"
+}

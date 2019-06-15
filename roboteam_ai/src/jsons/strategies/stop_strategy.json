@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "dnvgpmikqqmfyz3": {
+            "id": "dnvgpmikqqmfyz3",
+            "name": "stop_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "dnvgpmikqqmfyz3",
+        "title": "stop_strategy"
+      }
+    ]
+  },
+  "name": "stop_strategy"
+}

@@ -1,0 +1,32 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "0vlna8bijnnbe4ku": {
+            "id": "0vlna8bijnnbe4ku",
+            "properties": {},
+            "title": "CanPlay"
+          },
+          "6wjw1iiabydwrmx8": {
+            "children": [
+              "0vlna8bijnnbe4ku",
+              "r545q2cyb95d7y1f"
+            ],
+            "id": "6wjw1iiabydwrmx8",
+            "properties": {},
+            "title": "Selector"
+          },
+          "r545q2cyb95d7y1f": {
+            "id": "r545q2cyb95d7y1f",
+            "name": "kickoff_them_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "6wjw1iiabydwrmx8",
+        "title": "kickoff_them_strategy"
+      }
+    ]
+  },
+  "name": "kickoff_them_strategy"
+}

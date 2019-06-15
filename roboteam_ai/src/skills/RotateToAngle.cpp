@@ -4,6 +4,8 @@
 
 #include "RotateToAngle.h"
 #include "../control/ControlUtils.h"
+#include "roboteam_ai/src/world/Ball.h"
+#include "roboteam_ai/src/world/Robot.h"
 
 namespace rtt {
 namespace ai {
@@ -18,22 +20,16 @@ void RotateToAngle::onInitialize() {
     if (properties->getBool("rotateToBall")) {
         targetAngle = ((Vector2)ball->pos - robot->pos).angle();
     }
-
 }
 
-/// Called when the Skill is Updated
 RotateToAngle::Status RotateToAngle::onUpdate() {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = useAngle;
     command.w = static_cast<float>(targetAngle);
-//__________________________________________________________________________________________________________
     deltaAngle = fabs(Control::constrainAngle(targetAngle - robot->angle));
     currentProgress = checkProgression();
 
     switch (currentProgress) {
         case ROTATING: {
-            publishRobotCommand(command);
+            publishRobotCommand();
             return Status::Running;
         }
         case DONE:
@@ -46,11 +42,9 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
 }
 
 void RotateToAngle::onTerminate(Status s) {
-    roboteam_msgs::RobotCommand command;
-    command.id = robot->id;
-    command.use_angle = useAngle;
     command.w = targetAngle;
-    publishRobotCommand(command);
+    currentProgress=ROTATING;
+    publishRobotCommand();
 }
 
 RotateToAngle::Progression RotateToAngle::checkProgression() {

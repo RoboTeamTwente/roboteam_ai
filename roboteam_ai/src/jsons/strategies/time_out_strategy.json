@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "n6bqjuexm6bcatp8": {
+            "id": "n6bqjuexm6bcatp8",
+            "name": "time_out_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "n6bqjuexm6bcatp8",
+        "title": "time_out_strategy"
+      }
+    ]
+  },
+  "name": "time_out_strategy"
+}

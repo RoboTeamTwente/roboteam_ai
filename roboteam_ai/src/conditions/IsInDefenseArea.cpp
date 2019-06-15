@@ -1,47 +1,39 @@
-//
-// Created by Rolf on 17-10-18.
-//
+/*
+* Returns true if the position is within the defence area.
+* properties:
+* - useRobot: if true, use the robot location, otherwise use the ball location
+* - ourDefenceArea: if true, the condition returns true if the point is in our defence area. otherwise it is their defence area
+* - outsideField: if true, the robot 
+*/
+
+#include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/world/Ball.h"
 #include "IsInDefenseArea.hpp"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/GeometryFieldSize.h"
-#include "roboteam_utils/Vector2.h"
-#include "../utilities/World.h"
-#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
 
-IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) { }
+IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) 
+: Condition(std::move(name), std::move(blackboard)) { }
 
-bt::Node::Status IsInDefenseArea::update() {
-    Vector2 point;
-    if (properties->getBool("useRobot")) {
-        robot = getRobotFromProperties(properties);
-        if (robot) {
-            point = robot->pos;
-        }
-        else{
-            return Status::Failure;
-        }
-    }
-    else{
-        auto ball=World::getBall();
-        if (ball){
-            point=ball->pos;
-        }
-        else{
-            return Status::Failure;
-        }
-
-    }
+bt::Node::Status IsInDefenseArea::onUpdate() {
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
-    if (properties->hasDouble("margin")) margin = static_cast<float>(properties->getDouble("margin"));
-    else margin = 0.0f;
+    secondsAhead = properties->hasDouble("secondsAhead") ? properties->getDouble("secondsAhead") : 0.0;
+    if(secondsAhead >= 0.0) {
+        if(properties->getBool("useRobot")) {
+            point = robot->pos + robot->vel * secondsAhead;
+        } else {
+            point = ball->pos + ball->vel * secondsAhead;
+        }
+    } else {
+        point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+    }
 
-    roboteam_msgs::World world = World::get_world();
-    if (Field::pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
+    margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
+
+    if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

@@ -1,7 +1,3 @@
-//
-// Created by rolf on 17-10-18.
-//
-
 #ifndef ROBOTEAM_AI_ISINDEFENSEAREA_HPP
 #define ROBOTEAM_AI_ISINDEFENSEAREA_HPP
 
@@ -15,11 +11,12 @@ class IsInDefenseArea : public ai::Condition {
         using status = bt::Node::Status;
         bool ourDefenseArea;
         bool outsideField;
+        Vector2 point;
         float margin;
+        double secondsAhead;
     public:
-        explicit IsInDefenseArea(std::string name = "", bt::Blackboard::Ptr blackboard = nullptr);
-        Status update() override;
-        std::string node_name() override { return "IsInDefenseArea"; }
+        explicit IsInDefenseArea(std::string name = "IsInDefenseArea", bt::Blackboard::Ptr blackboard = nullptr);
+        Status onUpdate() override;
 };
 
 }// ai

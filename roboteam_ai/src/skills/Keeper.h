@@ -4,27 +4,27 @@
 
 #ifndef ROBOTEAM_AI_KEEPER_H
 #define ROBOTEAM_AI_KEEPER_H
+
+#include <roboteam_ai/src/control/BasicPosControl.h>
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Math.h"
-#include "roboteam_ai/src/control/PIDController.h"
+#include <roboteam_ai/src/world/BallPossession.h>
 
-namespace rtt{
-namespace ai{
+namespace rtt {
+namespace ai {
 class Keeper : public Skill {
+
+        const double KEEPER_POSDIF = 0.01;
+        const double MIN_ATTACKER_DIST=0.3;
+
     private:
         Arc blockCircle;
-        Vector2 computeBlockPoint(Vector2 defendPos);
-        Vector2 computeBlockPointWithAttacker(shared_ptr<roboteam_msgs::WorldRobot>);
-        bool viewAtGoal(shared_ptr<roboteam_msgs::WorldRobot>);
+        Vector2 computeBlockPoint(const Vector2& defendPos);
         Vector2 goalPos;
         double goalwidth;
-        void sendMoveCommand(Vector2 pos);
-        void sendFineMoveCommand(Vector2 pos);
-        void sendStopCommand();
-        control::PIDController pid,finePid;
-
-        control::PositionController goToPos;
+        void setGoalPosWithAttacker(RobotPtr attacker);
+        control::BasicPosControl posController;
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
@@ -33,6 +33,5 @@ class Keeper : public Skill {
 };
 }
 }
-
 
 #endif //ROBOTEAM_AI_KEEPER_H

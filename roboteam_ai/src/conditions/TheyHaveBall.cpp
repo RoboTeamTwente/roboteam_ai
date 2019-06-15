@@ -1,39 +1,25 @@
-//
-// Created by robzelluf on 10/24/18.
-//
+/*
+* Return SUCCESS if their robots has the ball, otherwise FAILURE
+*/
 
 #include "TheyHaveBall.h"
-#include "../utilities/World.h"
-#include "../utilities/Coach.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/WorldBall.h"
+#include "../world/World.h"
+#include "../world/Robot.h"
 
 namespace rtt {
 namespace ai {
 
 TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
+        :Condition(std::move(name), std::move(blackboard)) { }
 
-}
+bt::Node::Status TheyHaveBall::onUpdate() {
+    RobotPtr robotThatHasBall = world::world->whichRobotHasBall();
 
-bt::Node::Status TheyHaveBall::update() {
-    roboteam_msgs::World world = World::get_world();
-    std::vector<roboteam_msgs::WorldRobot> robots = world.them;
-
-        bool theyHaveBall = false;
-        for(auto &robot : robots) {
-            if(World::botHasBall(robot.id,false)) {
-                theyHaveBall = true;
-                break;
-            }
-        }
-
-    if (theyHaveBall) {
+    if (robotThatHasBall && robotThatHasBall->team == Team::them) {
         return bt::Node::Status::Success;
     }
-    else {
-        return bt::Node::Status::Failure;
-    }
+
+    return bt::Node::Status::Failure;
 }
 
 } // ai

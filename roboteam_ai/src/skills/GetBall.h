@@ -6,32 +6,16 @@
 #define ROBOTEAM_AI_GETBALL_H
 
 #include "Skill.h"
+#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
 
 class GetBall : public Skill {
     private:
-        enum Progression {
-          TURNING, APPROACHING, OVERSHOOTING, DRIBBLING, SUCCESS, FAIL
-        };
+        control::BallHandlePosControl ballHandlePosControl;
+        Vector2 lockedTargetPos = Vector2();
 
-        Progression currentProgress;
-        void checkProgression();
-
-        void sendTurnCommand();
-        void sendApproachCommand();
-        void sendDribblingCommand();
-        void sendOvershootCommand();
-
-        bool botHasLastVisibleBall();
-        int count;
-        Vector2 deltaPos;
-        Vector2 lastVisibleBallPos;
-        Vector2 approachPos;
-        bool lockAngle;
-        double lockedAngle;
-        int currentTick, maxTicks;
     public:
         explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;

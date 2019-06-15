@@ -1,7 +1,3 @@
-//
-// Created by robzelluf on 10/25/18.
-//
-
 #ifndef ROBOTEAM_AI_WEHAVEBALL_H
 #define ROBOTEAM_AI_WEHAVEBALL_H
 
@@ -12,10 +8,10 @@ namespace ai {
 
 class WeHaveBall : public Condition {
     public:
-        explicit WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        Status update() override;
-        std::string node_name() override { return "WeHaveBall"; }
+        explicit WeHaveBall(std::string name = "WeHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
+        Status onUpdate() override;
 };
+
 } //ai
 } //rtt
 

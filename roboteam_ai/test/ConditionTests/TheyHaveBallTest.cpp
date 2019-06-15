@@ -4,20 +4,18 @@
 
 #include <gtest/gtest.h>
 #include "../../src/conditions/TheyHaveBall.h"
-#include "../../src/utilities/World.h"
+#include "../../src/world/World.h"
 
 TEST(TheyHaveBallTest, TheyHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();
-    rtt::ai::TheyHaveBall node("Test", BB);
+    rtt::ai::TheyHaveBall node("TheyHaveBall", BB);
 
     EXPECT_EQ(node.node_name(), "TheyHaveBall");
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
 
-    rtt::ai::World::set_world(worldMsg);
-
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     robot.id = 0;
     robot.pos.x = -2;
@@ -28,7 +26,8 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     worldMsg.ball.pos.x = 0.04;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    rtt::ai::World::set_world(worldMsg);
+    worldMsg.ball.existence = 99999;
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
@@ -40,7 +39,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
     robot2.angle = 0;
     worldMsg.them.push_back(robot2);
 
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg);
 
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 }

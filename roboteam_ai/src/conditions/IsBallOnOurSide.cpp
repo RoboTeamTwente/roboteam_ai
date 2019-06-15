@@ -1,10 +1,12 @@
-//
-// Created by robzelluf on 1/21/19.
-//
+/*
+* return SUCCESS if the ball is on our side
+* properties:
+* - inField: if true, the ball also has to be in the field to return SUCCESS
+*/
 
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "IsBallOnOurSide.h"
-#include "../utilities/World.h"
-#include "../utilities/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -12,34 +14,26 @@ namespace ai {
 IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
     :Condition(std::move(name), std::move(blackboard)) { };
 
-void IsBallOnOurSide::initialize() {
-    if (properties->hasBool("inField")) {
-        inField = properties->getBool("inField");
-    }
-
+void IsBallOnOurSide::onInitialize() {
+    inField = properties->getBool("inField");    
 }
 
-bt::Node::Status IsBallOnOurSide::update() {
-    Vector2 ballPos;
-    auto ball = World::getBall();
-    if (ball) {
-        ballPos = ball->pos;
-    }
-    else return Status::Failure;
+bt::Node::Status IsBallOnOurSide::onUpdate() {
+    Vector2 ballPos = ball->pos;
 
     if (ballPos.x < 0) {
         if (inField) {
-            if (abs(ballPos.x) < Field::get_field().field_length / 2 &&
-                abs(ballPos.y) < Field::get_field().field_width / 2) {
+            if (abs(ballPos.x) < world::field->get_field().field_length / 2 &&
+                abs(ballPos.y) < world::field->get_field().field_width / 2) {
                 return Status::Success;
-            } else return Status::Failure;
-        } else return Status::Success;
+            }
+            return Status::Failure;
+        } 
+        return Status::Success;
     }
-    else return Status::Failure;
-    }
-
-std::string IsBallOnOurSide::node_name() {return "IsBallOnOurSide";}
-
+    return Status::Failure;
 }
-}
+
+} // ai
+} // rtt
 

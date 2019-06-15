@@ -9,6 +9,7 @@ void Node::initialize() {
 }
 
 void Node::terminate(Status s) {
+    init = false;
     // If we're terminating while we're still running,
     // consider the node failed. If it already failed
     // or succeeded, leave it like that.
@@ -18,10 +19,10 @@ void Node::terminate(Status s) {
 }
 
 Node::Status Node::tick() {
-    amountOfTicks++;
+    amountOfTicks ++;
     lastTickTime = ros::Time::now();
 
-    if (status != Status::Running) {
+    if (! init) {
         NodeInitialize();
     }
 
@@ -54,6 +55,7 @@ void Node::addChild(bt::Node::Ptr) { }
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
+//    std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
     return std::vector<Node::Ptr>{};
 }
 
@@ -66,16 +68,20 @@ Node::Node() {
 }
 
 Node::Status Node::NodeUpdate() {
-    auto status = update();
+    status = update();
     return status;
 }
 
 void Node::NodeInitialize() {
     initialize();
+    init = true;
+
 }
 
 void Node::NodeTerminate(Status s) {
     terminate(s);
+    init = false;
+
 }
 
 unsigned long long Node::getAmountOfTicks() const {
@@ -86,22 +92,19 @@ ros::Time Node::getLastTickTime() {
     return lastTickTime;
 }
 
-std::string statusToString(bt::Node::Status status) {
-    if (status == bt::Node::Status::Success) {
-        return "Success";
-    }
-    else if (status == bt::Node::Status::Failure) {
-        return "Failure";
-    }
-    else if (status == bt::Node::Status::Waiting) {
-        return "Waiting";
-    }
-    else if (status == bt::Node::Status::Running) {
-        return "Running";
-    }
-    else {
-        std::cout << "Enum failure in Node::Status overload of to_string\n";
-        return "ERROR ERROR!!!";
+void Node::giveProperty(std::string a, std::string b) {
+    std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl;
+
+}
+
+std::string Node::status_print(Node::Status s) {
+    switch (s) {
+    case Status::Waiting:return "Waiting";
+    case Status::Success:return "Success";
+    case Status::Failure:return "Failure";
+    case Status::Running:return "Running";
+    default:std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
+        return "ERROR!!";
     }
 }
 

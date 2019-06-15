@@ -1,0 +1,20 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "h2mmjb0h9xm3bpcyj": {
+            "id": "h2mmjb0h9xm3bpcyj",
+            "properties": {
+              "ticks": "120"
+            },
+            "title": "Halt"
+          }
+        },
+        "root": "h2mmjb0h9xm3bpcyj",
+        "title": "halt_role"
+      }
+    ]
+  },
+  "name": "halt_role"
+}

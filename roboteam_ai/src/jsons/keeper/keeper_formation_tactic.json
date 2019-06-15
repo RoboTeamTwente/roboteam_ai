@@ -1,0 +1,54 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "1bgn4hbd9rtsqd5w": {
+            "id": "1bgn4hbd9rtsqd5w",
+            "properties": {
+              "ROLE": "Keeper",
+              "avoidBall": "true",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "true",
+              "fixedTarget": "",
+              "type": "ourDefenseAreaCenter"
+            },
+            "title": "GTPSpecial"
+          },
+          "ff6eglkpqsdrfmee1": {
+            "children": [
+              "fz193x5qlm3qsx"
+            ],
+            "id": "ff6eglkpqsdrfmee1",
+            "name": "Keeper",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "role": "keeper_formation_role",
+            "title": "Role"
+          },
+          "fz193x5qlm3qsx": {
+            "children": [
+              "1bgn4hbd9rtsqd5w"
+            ],
+            "id": "fz193x5qlm3qsx",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "Repeater"
+          },
+          "uxs4rnmoru6yke6s": {
+            "children": [
+              "ff6eglkpqsdrfmee1"
+            ],
+            "id": "uxs4rnmoru6yke6s",
+            "title": "Repeater"
+          }
+        },
+        "root": "uxs4rnmoru6yke6s",
+        "title": "keeper_formation_tactic"
+      }
+    ]
+  },
+  "name": "keeper_formation_tactic"
+}

@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 #include "../../src/conditions/BallInDefenseAreaAndStill.h"
-#include "../../src/utilities/World.h"
-#include "../../src/utilities/Field.h"
+#include "../../src/world/World.h"
+#include "roboteam_ai/src/world/Field.h"
 namespace rtt {
 namespace ai {
 
@@ -19,11 +19,13 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     EXPECT_TRUE(nodeTheirDefenceArea.theirDefenceArea); // check if the property is handled properly
 
     BBpointer->setBool("theirDefenceArea", false);
-    rtt::ai::BallInDefenseAreaAndStill node("Test", BBpointer);
+    rtt::ai::BallInDefenseAreaAndStill node("BallInDefenseAreaAndStill", BBpointer);
     EXPECT_EQ(node.node_name(), "BallInDefenseAreaAndStill");
     EXPECT_FALSE(node.theirDefenceArea);
 
     roboteam_msgs::GeometryFieldSize field;
+    field.field_width = 8;
+    field.field_length = 12;
     field.left_penalty_line.begin.x = -1.0f;
     field.left_penalty_line.end.x = -1.0f;
 
@@ -35,35 +37,34 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     field.right_penalty_line.begin.y = -1.0f;
     field.right_penalty_line.end.y = 1.0;
 
-    rtt::ai::Field::set_field(field);
+    rtt::ai::world::field->set_field(field);
     roboteam_msgs::World worldMsg;
-
-    rtt::ai::World::set_world(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
-    rtt::ai::World::set_world(worldMsg);
+    worldMsg.ball.existence = 99999;
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball visible
 
     worldMsg.ball.pos.x = -1.5;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
+    worldMsg.ball.existence = 99999;
 
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
     worldMsg.ball.pos.y = -1.1;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
     worldMsg.ball.pos.y = 1.1;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
     worldMsg.ball.pos.y = 0.0;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
     worldMsg.ball.vel.x = 0.11;
-    rtt::ai::World::set_world(worldMsg);
+    rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 }
 }

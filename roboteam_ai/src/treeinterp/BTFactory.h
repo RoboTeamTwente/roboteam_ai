@@ -1,3 +1,5 @@
+
+
 //
 // Created by baris on 04/10/18.
 //
@@ -13,27 +15,18 @@
 #include <map>
 #include "TreeInterpreter.h"
 #include "BTImport.h"
-#include "Switches.h"
+#include "roboteam_ai/src/Switches.h"
 
 class BTFactory {
 
         // TODO: have the names of all the project before here
-        TreeInterpreter interpreter;
 
-        static std::string currentTree;
-
-        static std::string keeperTree;
-
-        static int keeperID;
-
-        static bool initialized;
+   static std::mutex keeperTreeMutex;
 
     public:
-        void init();
+        static void makeTrees();
 
-        static BTFactory &getFactory();
-
-        bt::BehaviorTree::Ptr getTree(std::string treeName);
+        static bt::BehaviorTree::Ptr getTree(std::string treeName);
 
         static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
 
@@ -49,11 +42,14 @@ class BTFactory {
 
         static void setKeeperTree(const std::string &keeperTree);
 
-        static void setKeeper(int newID);
-
-        static bool isInitialized();
-
         static void halt();
+
+        static std::string getKeeperTreeName();
+
+    private:
+        static std::string currentTree;
+        static std::string keeperTree;
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H
+

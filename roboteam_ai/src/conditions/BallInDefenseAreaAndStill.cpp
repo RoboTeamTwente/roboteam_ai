@@ -1,10 +1,11 @@
-//
-// Created by rolf on 14-1-19.
-//
+/*
+ * returns SUCCESS if the ball is in the given defence area (standard ours) 
+ * AND if the ball lays still
+ */
 
+#include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "BallInDefenseAreaAndStill.h"
-#include "../utilities/World.h"
-#include "../utilities/Field.h"
 #include "../utilities/Constants.h"
 
 namespace rtt {
@@ -13,28 +14,22 @@ namespace ai {
 BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
 
-void BallInDefenseAreaAndStill::initialize() {
+void BallInDefenseAreaAndStill::onInitialize() {
     theirDefenceArea = properties->getBool("theirDefenceArea");
     outsideField = properties->getBool("outsideField");
 }
 
-bt::Node::Status BallInDefenseAreaAndStill::update() {
-    Vector2 ballPos;
-    auto ball=World::getBall();
-    if (ball){
-        ballPos=ball->pos;
-    }
-    else return Status::Failure;
+bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
+    Vector2 ballPos = ball->pos;
     Vector2 ballVel=ball->vel;
-    if (Field::pointIsInDefenceArea(ballPos,!theirDefenceArea, outsideField)&&(ballVel.length()<Constants::BALL_STILL_VEL())){
+
+    bool pointIsInDefenceArea = world::field->pointIsInDefenceArea(ballPos, !theirDefenceArea,0.02,false);
+    bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
+    if (pointIsInDefenceArea && ballIsLayingStill){
         return Status::Success;
     }
-    else{
-        return Status::Failure;
-    }
+    return Status::Failure;
 }
 
-std::string BallInDefenseAreaAndStill::node_name() {return "BallInDefenseAreaAndStill";}
-
-}
-}
+} // ai
+} // rtt
