@@ -103,6 +103,8 @@
 #include "roboteam_ai/src/conditions/TwoRobotBallPlacement.h"
 #include "roboteam_ai/src/conditions/HasClearShot.h"
 #include "roboteam_ai/src/conditions/IsOnPassLine.h"
+#include "roboteam_ai/src/conditions/ResumePlayAfterPenalty.h"
+
 
 /**
  * When you want to add a new class to the ai, you need to change this file so the first two vector have the FILE NAMES
@@ -170,6 +172,8 @@ std::vector<std::string> Switches::keeperJsonFiles = {
         "keeper_formation_tactic",
         "keeper_penalty_defend_tactic",
         "keeper_penalty_prepare_tactic",
+        "shootout_prepare_tactic",
+        "shootout_shoot_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -279,7 +283,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["RobotOutside"] = std::make_shared<rtt::ai::RobotOutside>(name, properties);
     map["RefStateIsNormalPlay"] = std::make_shared<rtt::ai::RefStateIsNormalPlay>(name, properties);
     map["RefBallIsMoving"] = std::make_shared<rtt::ai::RefBallIsMoving>(name, properties);
-
+    map["ResumePlayAfterPenalty"] = std::make_shared<rtt::ai::ResumePlayAfterPenalty>(name,properties);
     if (map.find(name) != map.end()) {
         return map[name];
     }
@@ -297,7 +301,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
 
     std::map<std::string, std::vector<std::pair<std::string, robotType>>> tactics = {
 
-            // Keeper tactics
+            // Keeper tactics. The rolename Keeper is hardcoded in our system, so use it!
             {"keeper_default_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_avoid_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_halt_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
@@ -305,6 +309,10 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"keeper_formation_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_penalty_defend_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             {"keeper_penalty_prepare_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
+            //shootout
+            {"shootout_prepare_tactic",{{"Keeper",robotType::CLOSE_TO_OUR_GOAL}}},
+
+            {"shootout_shoot_tactic",{{"Keeper",robotType::CLOSE_TO_BALL}}},
             // General tactics
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},
