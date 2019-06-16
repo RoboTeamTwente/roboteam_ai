@@ -165,7 +165,7 @@ RobotCommand DribbleBackwards::sendTurnCommand() {
 
 RobotCommand DribbleBackwards::sendApproachCommand() {
     RobotCommand command;
-    command.dribbler = 1;
+    command.dribbler = 28;
     command.vel = (ball->pos - robot->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
@@ -173,7 +173,7 @@ RobotCommand DribbleBackwards::sendApproachCommand() {
 
 RobotCommand DribbleBackwards::sendOvershootCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 28;
     command.vel = (approachPosition - robot->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
@@ -181,14 +181,14 @@ RobotCommand DribbleBackwards::sendOvershootCommand() {
 
 RobotCommand DribbleBackwards::sendDribblingCommand() {
     RobotCommand command;
-    command.dribbler = 16;
+    command.dribbler = 28;
     command.angle = lockedAngle;
     return command;
 }
 
 RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
     RobotCommand command;
-    command.dribbler = 24;
+    command.dribbler = 28;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(- maxVel);
 
