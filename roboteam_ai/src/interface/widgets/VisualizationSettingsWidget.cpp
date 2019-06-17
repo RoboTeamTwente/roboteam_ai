@@ -35,21 +35,36 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
         auto select = new QComboBox();
         hbox->addWidget(select);
 
-        // note: this order matters and must correspond to the order of showTypes
-        select->addItem("No robots");
-        select->addItem("Selected robots");
-        select->addItem("All robots");
+        if (Toggles::toggles[i].showType == GENERAL) {
+            select->addItem("Off");
+            select->addItem("On");
 
+            std::vector<QString> colors = { "red", "green"};
+            select->setCurrentIndex(Toggles::toggles[i].generalShowType);
+            select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].generalShowType] + " }");
 
-        std::vector<QString> colors = { "red", "#888800", "green"};
-        select->setCurrentIndex(Toggles::toggles[i].showType);
-        select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].showType] + " }");
+            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
+                    [=](const int index) {
+                      Toggles::toggles[i].generalShowType = static_cast<GeneralShowType>(index);
+                      select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<GeneralShowType>(index)] + " }");
+                    });
+        }
+        else if (Toggles::toggles[i].showType == ROBOT) {
+            select->addItem("No robots");
+            select->addItem("Selected robots");
+            select->addItem("All robots");
 
-        QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
-                         [=](const int index) {
-                             Toggles::toggles[i].showType = static_cast<showType>(index);
-                             select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<showType>(index)] + " }");
-                         });
+            std::vector<QString> colors = { "red", "#888800", "green"};
+            select->setCurrentIndex(Toggles::toggles[i].robotShowType);
+            select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].robotShowType] + " }");
+
+            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
+                    [=](const int index) {
+                      Toggles::toggles[i].robotShowType = static_cast<RobotShowType>(index);
+                      select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
+                    });
+        }
+
 
         customToggle->setLayout(hbox);
         cbVLayout->addWidget(customToggle);

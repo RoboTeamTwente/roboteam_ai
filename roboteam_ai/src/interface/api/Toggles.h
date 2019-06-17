@@ -25,9 +25,21 @@ enum Visual {
   SHOTLINES
 };
 
-enum ShowType { GENERAL, ROBOT };
-enum RobotShowType { NO_ROBOTS = 0, SELECTED_ROBOTS = 1, ALL_ROBOTS = 2 };
-enum GeneralShowType { OFF = 0, ON = 1 };
+enum ShowType {
+  GENERAL,
+  ROBOT
+};
+
+enum RobotShowType {
+  NO_ROBOTS = 0,
+  SELECTED_ROBOTS = 1,
+  ALL_ROBOTS = 2
+};
+
+enum GeneralShowType {
+  OFF = 0,
+  ON = 1
+};
 
 class Toggle {
     public:
@@ -38,12 +50,12 @@ class Toggle {
         QString title;
 
         Toggle() = default;
-        explicit Toggle(Visual vis, ShowType st, RobotShowType rst, QString t)
-                : visual(vis), showType(st), robotShowType(rst), title(t) {
+        explicit Toggle(Visual vis, RobotShowType rst, QString t)
+                : visual(vis), robotShowType(rst), title(t) {
             showType = ROBOT;
         };
-        explicit Toggle(Visual vis, ShowType st, GeneralShowType gst, QString t)
-                : visual(vis), showType(st), generalShowType(gst), title(t) {
+        explicit Toggle(Visual vis, GeneralShowType gst, QString t)
+                : visual(vis), generalShowType(gst), title(t) {
             showType = GENERAL;
         };
 };
