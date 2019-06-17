@@ -32,7 +32,7 @@ class Field {
         Vector2 get_their_goal_center();
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, float margin = 0.0,
                 bool includeOutsideField = false);
-        bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
+        bool pointIsInField(const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
         double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world, int id = -1, bool ourTeam = false);
         std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world, int id = -1, bool ourTeam = false);
         std::vector<Line> mergeBlockades(std::vector<Line> blockades);

@@ -349,14 +349,13 @@ Collision NumTreePosControl::getBallCollision(const PathPointer &point, const Po
 
 Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
     Collision collision = {};
-    if (currentCollisionWithRobot.getCollisionFieldPos() != Vector2()) return collision;
-    if (currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2()) return collision;
+    bool canMoveOutOfField = currentCollisionWithRobot.getCollisionFieldPos() != Vector2() ||
+                             currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2() ||
+                             getCanMoveOutOfField(robot->id);
 
-    if (! getCanMoveOutOfField(robot->id)) {
-        if (! world::field->pointIsInField(point->pos)) {
-            collision.setFieldCollision(point->pos, 0.2);
-            return collision;
-        }
+    double margin = canMoveOutOfField ? -0.30 + Constants::ROBOT_RADIUS() : Constants::ROBOT_RADIUS();
+    if (! world::field->pointIsInField(point->pos, margin)) {
+        collision.setFieldCollision(point->pos, 0.2);
     }
     return collision;
 }
