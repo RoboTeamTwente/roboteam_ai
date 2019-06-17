@@ -9,6 +9,7 @@
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
@@ -132,11 +133,18 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
 
+    interface::Input::drawData(interface::Visual::PATHFINDING, {forwardsDribbleLine.first, forwardsDribbleLine.second},
+            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
+
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
             forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*5) {
         forwardsProgress = TURNING;
     }
+    Angle robotAngleTowardsLine = fabs( (finalTargetPos - robot->pos).toAngle() -
+            (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle() );
+
+    command.vel += (robot->angle + M_PI).toVector2(robotAngleTowardsLine);
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {
