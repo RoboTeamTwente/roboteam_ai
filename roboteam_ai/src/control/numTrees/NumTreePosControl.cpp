@@ -486,9 +486,10 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     if (! allowIllegalPositions) {
         if (currentCollisionWithFinalTarget.getCollisionType() == Collision::DEFENSE_AREA ||
                 currentCollisionWithRobot.getCollisionType() == Collision::DEFENSE_AREA) {
-            finalTargetPos.x = finalTargetPos.x < 0 ?
-                               world::field->get_field().left_penalty_line.begin.x + Constants::ROBOT_RADIUS()*1.1 :
-                               world::field->get_field().right_penalty_line.begin.x - Constants::ROBOT_RADIUS()*1.1;
+
+            finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(
+                    finalTargetPos, Constants::ROBOT_RADIUS()*1.1);
+
             currentlyAvoidingDefenseArea = finalTargetPos == currentlyAvoidingDefenseAreaPosition;
             if (! currentlyAvoidingDefenseArea) {
                 currentlyAvoidingDefenseAreaPosition = finalTargetPos;

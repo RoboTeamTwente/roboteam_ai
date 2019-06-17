@@ -15,14 +15,10 @@ Skill::Status GoBehindBall::gtpUpdate() {
 
     switch (refType) {
     case penalty: {
-        auto ball = ai::world::world->getBall();
-        auto goal = ai::world::field->get_their_goal_center();
-
-        Vector2 v = goal - ball->pos;
-        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.18)) + ball->pos;
-       // command.geneva_state = 1;
-        command.w = (rtt::ai::world::field->get_their_goal_center() - robot->pos).angle();
-        return (targetPos - robot->pos).length2() > errorMargin * errorMargin ? Status::Running : Status::Success;
+        return penaltyUpdate(1);
+    }
+    case shootOut:{
+        return penaltyUpdate(3);
     }
     case freeKick: {
         auto ball = ai::world::world->getBall();
@@ -63,10 +59,23 @@ GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
     else if (string == "freeKick") {
         return freeKick;
     }
+    else if (string =="shootOut"){
+        return shootOut;
+    }
     ROS_ERROR("No string set for the RefType in GoBehindBall Skill!! using freeKick");
     return freeKick;
 
 }
+Skill::Status GoBehindBall::penaltyUpdate(int genevaState){
+    auto ball = ai::world::world->getBall();
+    auto goal = ai::world::field->get_their_goal_center();
+
+    Vector2 v = goal - ball->pos;
+    targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.18)) + ball->pos;
+    command.geneva_state = genevaState;
+    command.w = (rtt::ai::world::field->get_their_goal_center() - robot->pos).angle();
+    return (targetPos - robot->pos).length2() > errorMargin * errorMargin ? Status::Running : Status::Success;
 
 }
-}
+}//ai
+}//rtt
