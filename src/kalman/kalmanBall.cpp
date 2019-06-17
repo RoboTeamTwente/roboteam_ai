@@ -107,7 +107,7 @@ namespace rtt {
 void kalmanBall::kalmanUpdateX() {
 
     this->invisibleCounter += 1;
-    if (this->invisibleCounter > DISAPPEARTIME || !this->exists) {
+    if (this->invisibleCounter > 0.1/TIMEDIFF || !this->exists) {
         this->lastSeenPos=Vector2(kalmanGetPos().x,kalmanGetPos().y);
         this->exists = false;
     } else {
