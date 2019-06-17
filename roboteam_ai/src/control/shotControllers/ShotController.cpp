@@ -111,7 +111,7 @@ bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vec
 Vector2 ShotController::getPlaceBehindBall(const world::Robot &robot, const Vector2 &shotTarget) {
     Vector2 ballPos = world::world->getBall()->pos;
     Vector2 preferredShotVector = ballPos - shotTarget;
-    double distanceBehindBall = 3.0 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
+    double distanceBehindBall = 2.5 * Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     return ballPos + preferredShotVector.stretchToLength(distanceBehindBall);
 }
 
