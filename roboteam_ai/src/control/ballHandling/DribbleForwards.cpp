@@ -138,20 +138,20 @@ RobotCommand DribbleForwards::sendApproachCommand() {
 
 RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 28;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
 
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
-            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*2.5) {
+            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*5) {
         forwardsProgress = TURNING;
     }
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible) {
         Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
-        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot*0.23);
     }
 
     // limit velocity close to the target

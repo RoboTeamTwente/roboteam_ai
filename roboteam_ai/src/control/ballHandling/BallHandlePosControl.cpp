@@ -21,12 +21,13 @@ namespace control {
 BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
 
     dribbleForwards = new DribbleForwards(ERROR_MARGIN, ANGLE_ERROR_MARGIN, ballPlacementAccuracy, maxForwardsVelocity);
-    dribbleBackwards = new DribbleBackwards(ERROR_MARGIN, ANGLE_ERROR_MARGIN, ballPlacementAccuracy, maxBackwardsVelocity);
+    dribbleBackwards = new DribbleBackwards(ERROR_MARGIN, ANGLE_ERROR_MARGIN, ballPlacementAccuracy,
+            maxBackwardsVelocity);
     rotateWithBall = new RotateWithBall();
     rotateAroundBall = new RotateAroundBall();
 
     setCanMoveInDefenseArea(canMoveInDefenseArea);
-    setAvoidBallDistance(TARGET_BALL_DISTANCE*0.95);
+    setAvoidBallDistance(TARGET_BALL_DISTANCE);
 }
 
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
@@ -91,8 +92,10 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
                     dribbleForwards->getForwardsProgression() != DribbleForwards::ForwardsProgress::START);
 
     bool shouldGetBall = alreadyDribbling ?
-            (ballIsMovingTooFast && ! robotIsTouchingBall) || (robotDoesNotHaveBall && robotIsTooFarFromBall) :
-            (ballIsMovingTooFast && ! robotIsTouchingBall) || (robotDoesNotHaveBall || robotIsTooFarFromBall);
+                         (ballIsMovingTooFast && ! robotIsTouchingBall)
+                                 || (robotDoesNotHaveBall && robotIsTooFarFromBall) :
+                         (ballIsMovingTooFast && ! robotIsTouchingBall)
+                                 || (robotDoesNotHaveBall || robotIsTooFarFromBall);
 
     bool ballIsOutsideField = ! world::field->pointIsInField(ball->pos, 0.0);
     if (ballIsOutsideField) {
@@ -338,14 +341,23 @@ RobotCommand BallHandlePosControl::controlWithPID(PID &xpid, PID &ypid, const Ro
     RobotCommand pidCommand = robotCommand;
     pidCommand.vel.x = xpid.getOutput(robot->vel.x, robotCommand.vel.x);
     pidCommand.vel.y = ypid.getOutput(robot->vel.y, robotCommand.vel.y);
+    double minVel = 0.2;
+    if (pidCommand.vel.length() < minVel) {
+        pidCommand.vel = pidCommand.vel.stretchToLength(pidCommand.vel.length() + ticksNotMoving++ * 0.01);
+
+    }
+    else {
+
+        ticksNotMoving = 0;
+    }
     return pidCommand;
 }
 
 void BallHandlePosControl::updatePID(pidVals newPID) {
     if (newPID != lastPid) {
         lastPid = newPID;
-        xBallHandlePID.setPID(newPID);
-        yBallHandlePID.setPID(newPID);
+        xBallHandlePID.setPID(newPID, 1.0);
+        yBallHandlePID.setPID(newPID, 1.0);
     }
 }
 

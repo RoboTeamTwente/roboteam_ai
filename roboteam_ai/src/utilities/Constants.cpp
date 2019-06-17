@@ -42,9 +42,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
-
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -200,7 +199,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     workingBallSensorRobots[8] = true;
     workingBallSensorRobots[9] = true;
     workingBallSensorRobots[10] = true;
-    workingBallSensorRobots[11] = true;
+    workingBallSensorRobots[11] = false;
     workingBallSensorRobots[12] = true;
     workingBallSensorRobots[13] = true;
     workingBallSensorRobots[14] = true;

@@ -28,9 +28,9 @@ class BallHandlePosControl : public NumTreePosControl {
         RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
 
-        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 0.5;
-        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.7;
-        double ballPlacementAccuracy = 0.07;
+        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 0.3;
+        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.5;
+        double ballPlacementAccuracy = 0.15;
 
         constexpr static double ERROR_MARGIN = 0.02;
         constexpr static double ANGLE_ERROR_MARGIN = 0.02;
@@ -44,6 +44,7 @@ class BallHandlePosControl : public NumTreePosControl {
         Vector2 targetPos;
         Angle targetAngle;
         Angle lockedAngle = 0;
+        int ticksNotMoving = 0;
 
         pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.0);
         PID xGoToBallPID = PID(pidfGoToBall);
