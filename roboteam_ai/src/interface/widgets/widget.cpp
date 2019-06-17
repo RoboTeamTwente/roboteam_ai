@@ -35,11 +35,8 @@ void Visualizer::paintEvent(QPaintEvent* event) {
 
                 bool shouldShow = false;
                 for (auto const &toggle : Toggles::toggles) {
-                    if (drawing.visual == toggle.vis) {
-                        if (toggle.defaultShowType == showType::ALL_ROBOTS) shouldShow = true;
-                        else if (toggle.defaultShowType == showType::SELECTED_ROBOTS) {
-                            shouldShow = robotIsSelected(drawing.robotId);
-                        }
+                    if (drawing.visual == toggle.visual) {
+                        shouldShow = shouldVisualize(toggle, drawing.robotId);
                     }
                 }
                 if (shouldShow) {
@@ -83,6 +80,28 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     }
     else {
         painter.drawText(24, 24, "Waiting for incoming World State");
+    }
+}
+
+bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
+    switch (toggle.showType) {
+    default:return false;
+    case GENERAL: {
+        switch (toggle.generalShowType) {
+        default:return false;
+        case OFF:return false;
+        case ON:return true;
+        }
+        break;
+    }
+    case ROBOT: {
+        switch (toggle.robotShowType) {
+        default:return false;
+        case NO_ROBOTS:return false;
+        case SELECTED_ROBOTS:return robotIsSelected(robotId);
+        case ALL_ROBOTS:return true;
+        }
+    }
     }
 }
 
