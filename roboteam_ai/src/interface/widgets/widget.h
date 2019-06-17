@@ -64,8 +64,7 @@ class Visualizer : public QWidget {
         void drawCrosses(QPainter& painter, std::vector<Vector2> points, double width, double height);
         void drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);
         void drawLines(QPainter& painter, std::vector<Vector2> points);
-        void drawArrows(QPainter& painter, std::vector<Vector2> points, double width, double height);
-
+        void drawArrows(QPainter& painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow);
         bool shouldVisualize(Toggle toggle, int robotId);
 
         // utitlity functions
