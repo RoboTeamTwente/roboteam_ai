@@ -345,8 +345,7 @@ RobotCommand BallHandlePosControl::controlWithPID(PID &xpid, PID &ypid, const Ro
     pidCommand.vel.y = ypid.getOutput(robot->vel.y, robotCommand.vel.y);
     double minVel = 0.2;
     if (pidCommand.vel.length() < minVel) {
-        pidCommand.vel = pidCommand.vel.stretchToLength(pidCommand.vel.length() + ticksNotMoving++ * 0.01);
-
+        pidCommand.vel = pidCommand.vel.stretchToLength(std::max(minVel, pidCommand.vel.length() + ++ticksNotMoving * 0.008889));
     }
     else {
 
