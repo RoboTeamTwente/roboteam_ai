@@ -141,10 +141,10 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
             forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*5) {
         forwardsProgress = TURNING;
     }
-    Angle robotAngleTowardsLine = fabs( (finalTargetPos - robot->pos).toAngle() -
-            (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle() );
+    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
+            (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle();
 
-    command.vel += (robot->angle + M_PI).toVector2(robotAngleTowardsLine);
+    command.vel += (robot->angle + M_PI_2).toVector2(robotAngleTowardsLine*5);
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {
