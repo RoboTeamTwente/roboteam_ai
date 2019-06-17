@@ -45,7 +45,7 @@ class kalmanObject {
         void kalmanUpdateK();
 
         //If the object exists, updates the state
-        void kalmanUpdateX();
+        virtual void kalmanUpdateX();
 
         //if the data is more recent than the current data, import the new observation data
         void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp, uint cameraID);

@@ -13,6 +13,7 @@ namespace rtt {
 class kalmanBall : public kalmanObject {
 private:
     Vector2 oldVel;
+    Vector2 lastSeenPos;
 public:
 
     kalmanBall();
@@ -21,8 +22,10 @@ public:
     roboteam_msgs::WorldBall as_ball_message();
     //Same as the KalmanObject function but then for ball frame
     void kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp, uint cameraID);
+    void kalmanUpdateX() override;
 
-    void filterVel(Vector2 curVel);
+        void filterVel(Vector2 curVel);
+
 };
 
 }

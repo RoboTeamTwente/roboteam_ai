@@ -76,9 +76,16 @@ namespace rtt {
         filterVel(curVel);
         // since the balls z axis is being kept in the third place of the vector it is the 'rotation' here
         msg.existence = 1;
-        msg.visible = true;
-        msg.pos.x = pos.x;
-        msg.pos.y = pos.y;
+        msg.visible = this->exists;
+        if (this->exists){
+            msg.pos.x = pos.x;
+            msg.pos.y = pos.y;
+        }
+        else{
+            msg.pos.x = lastSeenPos.x;
+            msg.pos.y = lastSeenPos.y;
+        }
+
         msg.z = pos.rot;
         msg.vel.x = this->oldVel.x;
         msg.vel.y = this->oldVel.y;
@@ -96,4 +103,28 @@ namespace rtt {
         this->oldVel.x = newVel.x;
         this->oldVel.y = newVel.y;
     }
+
+void kalmanBall::kalmanUpdateX() {
+
+    this->invisibleCounter += 1;
+    if (this->invisibleCounter > DISAPPEARTIME || !this->exists) {
+        this->lastSeenPos=Vector2(kalmanGetPos().x,kalmanGetPos().y);
+        this->exists = false;
+    } else {
+        // X_predict = FX_current
+        // Y = Z - HX_predict
+        // X_new = X_predict + Ky
+
+        arma::fvec::fixed<STATEINDEX> X_predict = this->F * this->X;
+
+        arma::fmat::fixed<OBSERVATIONINDEX, 1> Y = this->Z - (this->H * X_predict);
+
+        arma::fvec::fixed<STATEINDEX> X_new = X_predict + (this->K * Y);
+
+        for (arma::uword i = 0; i < STATEINDEX; ++i) {
+            this->X(i) = X_new(i);
+        }
+
+    }
+}
 }
