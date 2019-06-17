@@ -60,7 +60,7 @@ Dribble::Status Dribble::onUpdate() {
         return Status::Failure;
     }
 
-    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
+    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
     command = c.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
