@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
+    checkboxWidget = new CheckboxWidget(visualizer, this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -47,7 +48,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     tabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(robotsWidget, tr("Robots"));
     tabWidget->addTab(refWidget, tr("GameStateManager"));
-
+    tabWidget->addTab(checkboxWidget, tr("Other Settings"));
     vLayout->addWidget(tabWidget);
 
     // set up the general layout structure
