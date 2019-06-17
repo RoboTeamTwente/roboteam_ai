@@ -113,15 +113,13 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
 
     // draw
     std::vector<Vector2> drawpoints = {};
-    for (auto &displayPath : path) {
-        drawpoints.push_back(displayPath.pos);
+    for (int i = path.size()-1; i >= 0; i--) {
+        drawpoints.push_back(path[i].pos);
     }
     interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot->id,
             interface::Drawing::DOTS, 3, 3);
     interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
-            interface::Drawing::DOTS, 4, 4);
-    interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id,
-            interface::Drawing::LINES_CONNECTED);
+            interface::Drawing::ARROWS, 0.35, 0.5);
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
     interface::Input::drawData(interface::Visual::PATHFINDING, {finalTargetPos}, Qt::darkYellow, robot->id,

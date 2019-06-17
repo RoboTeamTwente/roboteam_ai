@@ -30,7 +30,8 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
 
         // draw the drawings from the input
-        for (auto const &drawing : Input::getDrawings()) {
+        auto drawings = Input::getDrawings();
+        for (auto const &drawing : drawings) {
             if (! drawing.points.empty()) {
 
                 bool shouldShow = false;
@@ -69,6 +70,11 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawPlusses(painter, drawing.points, drawing.width, drawing.height);
+                    }
+                    case Drawing::ARROWS: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawArrows(painter, drawing.points, drawing.width, drawing.height);
                     }
                     }
                 }
@@ -529,7 +535,35 @@ void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, dou
         // draw a plus
         painter.drawLine(0, pointOnScreen.y - height/2, 0, pointOnScreen.y + height/2);
         painter.drawLine(pointOnScreen.x + width/2, 0, pointOnScreen.x - width/2, 0);
+    }
+}
 
+void Visualizer::drawArrows(QPainter &painter, std::vector<Vector2> points, double width, double height) {
+    if (points.size() >= 2) {
+        for (int i = 1; i < points.size(); i += 2) {
+            Vector2 &arrowEnd = points.at(i-1);
+            Vector2 &arrowStart = points.at(i);
+
+            double arrowLength = (arrowEnd-arrowStart).length();
+            Angle arrowAngle = (arrowEnd-arrowStart).toAngle();
+
+            double arrowSizeFactor = std::min(1.0, width);
+            double maxArrowSize = std::min(1.0, height);
+            double arrowSize = arrowLength > maxArrowSize/arrowSizeFactor ? arrowSizeFactor : arrowSizeFactor*arrowLength;
+
+            Vector2 startPoint = arrowEnd + (arrowStart-arrowEnd).stretchToLength(arrowSize);
+            Vector2 pointyBitLeft = startPoint + (arrowAngle + M_PI_2).toVector2(arrowSize);
+            Vector2 pointyBitRight = startPoint + (arrowAngle + M_PI_2).toVector2(-arrowSize);
+
+            Vector2 arrowStartOnScreen = toScreenPosition(arrowStart);
+            Vector2 arrowEndOnScreen = toScreenPosition(arrowEnd);
+            Vector2 pointyBitLeftOnScreen = toScreenPosition(pointyBitLeft);
+            Vector2 pointyBitRightOnScreen = toScreenPosition(pointyBitRight);
+
+            painter.drawLine(arrowStartOnScreen.x, arrowStartOnScreen.y, arrowEndOnScreen.x, arrowEndOnScreen.y);
+            painter.drawLine(arrowEndOnScreen.x, arrowEndOnScreen.y, pointyBitRightOnScreen.x, pointyBitRightOnScreen.y);
+            painter.drawLine(arrowEndOnScreen.x, arrowEndOnScreen.y, pointyBitLeftOnScreen.x, pointyBitLeftOnScreen.y);
+        }
     }
 }
 
