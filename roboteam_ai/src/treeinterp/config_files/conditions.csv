@@ -20,3 +20,4 @@ CanPlay
 RobotOutside
 RefBallIsMoving
 BallOutOfField,secondsAhead
+ResumePlayAfterPenalty
