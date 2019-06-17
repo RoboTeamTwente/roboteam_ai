@@ -53,6 +53,7 @@
 #include <roboteam_ai/src/skills/BallPlacementWithInterface.h>
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
 #include <roboteam_ai/src/skills/Wait.h>
+#include <roboteam_ai/src/skills/KickTo.h>
 
 
 //  ______________________
@@ -256,7 +257,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DriveWithInterface"] = std::make_shared<rtt::ai::DriveWithInterface>(name, properties);
     map["BallPlacementWithInterface"] = std::make_shared<rtt::ai::BallPlacementWithInterface>(name, properties);
     map["Wait"] = std::make_shared<rtt::ai::Wait>(name, properties);
-
+    map["KickTo"] = std::make_shared<rtt::ai::KickTo>(name,properties);
 
 
     // conditions (alphabetic order)
