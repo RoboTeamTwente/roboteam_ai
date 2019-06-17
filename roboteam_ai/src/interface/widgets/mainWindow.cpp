@@ -42,13 +42,20 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
-    tabWidget->addTab(treeWidget, tr("Behaviour trees"));
-    tabWidget->addTab(keeperTreeWidget, tr("Keeper"));
-    tabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
-    tabWidget->addTab(pidWidget, tr("PID"));
-    tabWidget->addTab(robotsWidget, tr("Robots"));
-    tabWidget->addTab(refWidget, tr("GameStateManager"));
-    tabWidget->addTab(checkboxWidget, tr("Other Settings"));
+
+    auto DataTabWidget = new QTabWidget;
+    DataTabWidget->addTab(treeWidget, tr("Behaviour trees"));
+    DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
+    DataTabWidget->addTab(robotsWidget, tr("Robots"));
+    DataTabWidget->addTab(refWidget, tr("GameStateManager"));
+    tabWidget->addTab(DataTabWidget, tr("data"));
+
+    auto SettingsTabWidget = new QTabWidget;
+    SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
+    SettingsTabWidget->addTab(pidWidget, tr("PID"));
+    SettingsTabWidget->addTab(checkboxWidget, tr("Other Settings"));
+    tabWidget->addTab(SettingsTabWidget, tr("settings"));
+
     vLayout->addWidget(tabWidget);
 
     // set up the general layout structure
