@@ -48,13 +48,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
-    tabWidget->addTab(DataTabWidget, tr("data"));
+    tabWidget->addTab(DataTabWidget, tr("Data"));
 
     auto SettingsTabWidget = new QTabWidget;
     SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
     SettingsTabWidget->addTab(checkboxWidget, tr("Other Settings"));
-    tabWidget->addTab(SettingsTabWidget, tr("settings"));
+    tabWidget->addTab(SettingsTabWidget, tr("Settings"));
 
     vLayout->addWidget(tabWidget);
 

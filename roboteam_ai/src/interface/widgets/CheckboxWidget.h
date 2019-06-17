@@ -8,7 +8,6 @@
 #include "QLayout"
 #include "widget.h"
 
-
 namespace rtt {
 namespace ai {
 namespace interface {
