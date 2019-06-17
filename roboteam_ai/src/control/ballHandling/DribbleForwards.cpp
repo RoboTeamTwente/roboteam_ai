@@ -144,7 +144,7 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
             (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle();
 
-    command.vel += (robot->angle + M_PI_2).toVector2(robotAngleTowardsLine*5);
+    command.vel += (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {
