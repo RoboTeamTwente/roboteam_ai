@@ -43,8 +43,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -244,9 +244,9 @@ pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
 
-pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(5.0, 0.0, 0.4); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(3.6, 0.0, 0.2); }
 
-pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(6.0, 0.0, 1.2); }
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(4.2, 0.0, 0.4); }
 
 pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
 

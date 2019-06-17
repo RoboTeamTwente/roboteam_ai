@@ -28,8 +28,8 @@ class BallHandlePosControl : public NumTreePosControl {
         RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
 
-        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
-        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
+        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 0.5;
+        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.7;
         double ballPlacementAccuracy = 0.07;
 
         constexpr static double ERROR_MARGIN = 0.02;

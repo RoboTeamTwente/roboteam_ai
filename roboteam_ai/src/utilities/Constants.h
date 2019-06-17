@@ -170,11 +170,17 @@ enum class RefCommand {
 
 // Custom extended refstates
 // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
-
         DO_KICKOFF = 18,
         DEFEND_KICKOFF = 19,
         DO_PENALTY = 20,
         DEFEND_PENALTY = 21,
+// Custom refstates; these are
+        PREPARE_SHOOTOUT_US = 22,
+        PREPARE_SHOOTOUT_THEM = 23,
+// Extended custom refstates: extension upon custom refstates
+        DO_SHOOTOUT = 24,
+        DEFEND_SHOOTOUT = 25,
+
         UNDEFINED = - 1
 };
 

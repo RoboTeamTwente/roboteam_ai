@@ -13,7 +13,9 @@ roboteam_msgs::RefereeData GameStateManager::getRefereeData() {
 
 void GameStateManager::setRefereeData(roboteam_msgs::RefereeData refMsg) {
     GameStateManager::refMsg = refMsg;
-    strategymanager.setCurrentRefGameState(static_cast<RefCommand>(refMsg.command.command));
+    auto cmd = static_cast<RefCommand>(refMsg.command.command);
+    auto stage=static_cast<roboteam_msgs::RefereeStage>(refMsg.stage);
+    strategymanager.setCurrentRefGameState(cmd,stage);
 }
 
 // Initialize static variables
