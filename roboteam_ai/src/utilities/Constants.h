@@ -137,6 +137,7 @@ class Constants {
         static pidVals standardKeeperPID();
         static pidVals standardKeeperInterceptPID();
         static pidVals standardBallHandlePID();
+        static pidVals standardShotControllerPID();
 
     private:
         static bool isInitialized;

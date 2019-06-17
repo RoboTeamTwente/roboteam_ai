@@ -106,7 +106,6 @@ void Skill::limitRobotCommand() {
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
     robot->setPidPreviousVel(limitedVel);
-
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;
 }
