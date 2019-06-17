@@ -16,8 +16,7 @@ ResumePlayAfterPenalty::ResumePlayAfterPenalty(std::string name, bt::Blackboard:
 bt::Node::Status ResumePlayAfterPenalty::onUpdate() {
     bool ballHasMoved= GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) > 0.05;
     bool ballIsLayingStill = (Vector2(ball->vel)).length() < Constants::BALL_STILL_VEL();
-    // Check if the extension of the velocity vector goes through the goal.
-    // The line drawn for the ball is the predicted position in 1.5 seconds
+
 
     if (!ballShot&&!ballIsLayingStill&&ballHasMoved) {
         ballShot=true;
