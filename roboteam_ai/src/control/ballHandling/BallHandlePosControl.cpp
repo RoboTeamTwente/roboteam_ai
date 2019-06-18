@@ -362,10 +362,10 @@ RobotCommand BallHandlePosControl::controlWithPID(PID &xpid, PID &ypid, const Ro
     RobotCommand pidCommand = robotCommand;
     pidCommand.vel.x = xpid.getOutput(robot->vel.x, robotCommand.vel.x);
     pidCommand.vel.y = ypid.getOutput(robot->vel.y, robotCommand.vel.y);
-    double minVel = 0.2;
+    double minVel = 0.147;
     if (pidCommand.vel.length() < minVel) {
         pidCommand.vel = pidCommand.vel.stretchToLength(
-                std::max(minVel, pidCommand.vel.length() + ++ ticksNotMoving*0.008889));
+                std::max(minVel, pidCommand.vel.length() + ++ ticksNotMoving*0.006789));
     }
     else {
 

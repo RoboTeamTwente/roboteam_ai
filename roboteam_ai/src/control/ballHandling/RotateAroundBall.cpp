@@ -28,7 +28,7 @@ RobotCommand RotateAroundBall::getRobotCommand(RobotPtr robot, const Vector2 &ta
     else targetVel = deltaAngle.getAngle()*maxVel/M_PI_2;
     auto previousVel = robot->getPidPreviousVel().length();
 
-    if (targetVel < 0.123456789*M_PI) {
+    if (targetVel < 0.23456789*M_PI) {
         targetVel = targetVel*1.3 - previousVel*0.3;
     }
 
