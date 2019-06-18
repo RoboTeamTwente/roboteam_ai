@@ -326,6 +326,9 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         if (!robot.hasWorkingBallSensor()) {
             text += "BS ";
         }
+        if (robot.isBatteryLow()) {
+            text += "BATTERY LOW";
+        }
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
     }
 
