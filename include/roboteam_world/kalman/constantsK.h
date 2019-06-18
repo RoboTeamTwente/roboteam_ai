@@ -11,9 +11,11 @@ const int STATEINDEX = 4;
 const int OBSERVATIONINDEX = 2;
 // timerate
 const float TIMEDIFF = 0.01;
-// time after which objects disappear
+// time after which robots disappear
 const float DISAPPEARTIME = 0.5/TIMEDIFF; //seconds/TIMEDIFF
 
+const float BALLDISAPPEARTIME=0.5/TIMEDIFF;//seconds
+const float BALLEXTRAPOLATEDTIME=2;// amount of frames after we mark the ball not visible but keep extrapolating it.
 // amount of robots and balls per team that we keep track off
 const int BOTCOUNT=16; //id 0-15
 const int BALLCOUNT=1;
