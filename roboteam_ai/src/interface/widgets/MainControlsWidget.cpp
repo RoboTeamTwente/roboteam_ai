@@ -55,6 +55,20 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     }
     select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
+    auto refreshHButtonsLayout = new QHBoxLayout();
+
+    refreshBtn = new QPushButton("Soft refresh");
+    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
+    refreshHButtonsLayout->addWidget(refreshBtn);
+    refreshBtn->setStyleSheet("background-color: #0000cc;");
+
+    refreshJsonBtn = new QPushButton("Hard refresh");
+    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
+    refreshHButtonsLayout->addWidget(refreshJsonBtn);
+    refreshJsonBtn->setStyleSheet("background-color: #0000cc;");
+    vLayout->addLayout(refreshHButtonsLayout);
+
+
     auto hButtonsLayout = new QHBoxLayout();
 
     haltBtn = new QPushButton("Halt");
@@ -69,16 +83,6 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
     spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
     spaceClick->setAutoRepeat(false);
-
-    refreshBtn = new QPushButton("Soft refresh");
-    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
-    hButtonsLayout->addWidget(refreshBtn);
-    refreshBtn->setStyleSheet("background-color: #0000cc;");
-
-    refreshJsonBtn = new QPushButton("Hard refresh");
-    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
-    hButtonsLayout->addWidget(refreshJsonBtn);
-    refreshJsonBtn->setStyleSheet("background-color: #0000cc;");
 
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
