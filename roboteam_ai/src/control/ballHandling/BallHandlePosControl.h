@@ -100,6 +100,9 @@ class BallHandlePosControl : public NumTreePosControl {
         RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
                 bool ballIsFarFromTarget);
         RobotCommand finalizeBallHandle();
+        RobotCommand interceptMovingBall(const Vector2 &projectionPosition, double ballToProjectionDistance,
+                const Angle &robotAngleTowardsBallVel);
+        RobotCommand goBehindBall(const Vector2 &ballStillPosition);
 };
 
 } //control
