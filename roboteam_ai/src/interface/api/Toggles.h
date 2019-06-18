@@ -14,26 +14,55 @@ namespace ai {
 namespace interface {
 
 enum Visual {
-    DEBUG,
-    BALL_DATA,
-    PATHFINDING,
-    PATHFINDING_DEBUG,
-    KEEPER,
-    INTERCEPT,
-    DEFENSE,
-    OFFENSE,
-    SHOTLINES
+  DEBUG,
+  BALL_DATA,
+  PATHFINDING,
+  PATHFINDING_DEBUG,
+  KEEPER,
+  INTERCEPT,
+  DEFENSE,
+  OFFENSE,
+  SHOTLINES
 };
 
-enum showType {NO_ROBOTS = 0, SELECTED_ROBOTS = 1, ALL_ROBOTS = 2};
-struct Toggle {
-    Visual vis;
-    showType defaultShowType;
-    QString title;
+enum ShowType {
+  GENERAL,
+  ROBOT
 };
 
-struct Toggles {
-    static std::vector<Toggle> toggles;
+enum RobotShowType {
+  NO_ROBOTS = 0,
+  SELECTED_ROBOTS = 1,
+  ALL_ROBOTS = 2
+};
+
+enum GeneralShowType {
+  OFF = 0,
+  ON = 1
+};
+
+class Toggle {
+    public:
+        Visual visual;
+        ShowType showType;
+        RobotShowType robotShowType;
+        GeneralShowType generalShowType;
+        QString title;
+
+        Toggle() = default;
+        explicit Toggle(Visual vis, RobotShowType rst, QString t)
+                : visual(vis), robotShowType(rst), title(t) {
+            showType = ROBOT;
+        };
+        explicit Toggle(Visual vis, GeneralShowType gst, QString t)
+                : visual(vis), generalShowType(gst), title(t) {
+            showType = GENERAL;
+        };
+};
+
+class Toggles {
+    public:
+        static std::vector<Toggle> toggles;
 };
 
 } // interface
