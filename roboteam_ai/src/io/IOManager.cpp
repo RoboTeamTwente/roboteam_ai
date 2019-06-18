@@ -164,8 +164,8 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
                 // only kick and chipp when geneva is ready
                 cmd.kicker = cmd.kicker && robot->isGenevaReady();
                 cmd.chipper = cmd.chipper && robot->isGenevaReady();
-                cmd.kicker_forced = cmd.kicker && robot->isGenevaReady();
-                cmd.chipper_forced = cmd.chipper && robot->isGenevaReady();
+                cmd.kicker_forced = cmd.kicker_forced && robot->isGenevaReady();
+                cmd.chipper_forced = cmd.chipper_forced && robot->isGenevaReady();
 
                 robot->setDribblerState(cmd.dribbler);
             }
