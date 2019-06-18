@@ -30,16 +30,14 @@ void Visualizer::paintEvent(QPaintEvent* event) {
         drawBall(painter);
 
         // draw the drawings from the input
-        for (auto const &drawing : Input::getDrawings()) {
+        auto drawings = Input::getDrawings();
+        for (auto const &drawing : drawings) {
             if (! drawing.points.empty()) {
 
                 bool shouldShow = false;
                 for (auto const &toggle : Toggles::toggles) {
-                    if (drawing.visual == toggle.vis) {
-                        if (toggle.defaultShowType == showType::ALL_ROBOTS) shouldShow = true;
-                        else if (toggle.defaultShowType == showType::SELECTED_ROBOTS) {
-                            shouldShow = robotIsSelected(drawing.robotId);
-                        }
+                    if (drawing.visual == toggle.visual) {
+                        shouldShow = shouldVisualize(toggle, drawing.robotId);
                     }
                 }
                 if (shouldShow) {
@@ -73,6 +71,11 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                         painter.setBrush(Qt::transparent);
                         drawPlusses(painter, drawing.points, drawing.width, drawing.height);
                     }
+                    case Drawing::ARROWS: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawArrows(painter, drawing.points, drawing.width, drawing.height, drawing.strokeWidth==1);
+                    }
                     }
                 }
             }
@@ -83,6 +86,28 @@ void Visualizer::paintEvent(QPaintEvent* event) {
     }
     else {
         painter.drawText(24, 24, "Waiting for incoming World State");
+    }
+}
+
+bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
+    switch (toggle.showType) {
+    default:return false;
+    case GENERAL: {
+        switch (toggle.generalShowType) {
+        default:return false;
+        case OFF:return false;
+        case ON:return true;
+        }
+        break;
+    }
+    case ROBOT: {
+        switch (toggle.robotShowType) {
+        default:return false;
+        case NO_ROBOTS:return false;
+        case SELECTED_ROBOTS:return robotIsSelected(robotId);
+        case ALL_ROBOTS:return true;
+        }
+    }
     }
 }
 
@@ -510,7 +535,44 @@ void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, dou
         // draw a plus
         painter.drawLine(0, pointOnScreen.y - height/2, 0, pointOnScreen.y + height/2);
         painter.drawLine(pointOnScreen.x + width/2, 0, pointOnScreen.x - width/2, 0);
+    }
+}
 
+void Visualizer::drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow) {
+    if (points.size() >= 2) {
+        for (int i = 1; i < points.size(); i += 2) {
+            Vector2 &arrowEnd = points.at(i-1);
+            Vector2 &arrowStart = points.at(i);
+
+            double arrowLength = (arrowEnd-arrowStart).length();
+            Angle arrowAngle = (arrowEnd-arrowStart).toAngle();
+
+            double arrowSizeFactor = factor == 4.0 ? 0.35 : std::min(1.0, factor);
+            double maxArrowSize = maxSize == 4.0 ? 0.5 : std::min(1.0, maxSize);
+            double arrowSize = arrowLength > maxArrowSize/arrowSizeFactor ? arrowSizeFactor : arrowSizeFactor*arrowLength;
+
+            Vector2 startPoint = arrowEnd + (arrowStart-arrowEnd).stretchToLength(arrowSize);
+            Vector2 pointyBitLeft = startPoint + (arrowAngle + M_PI_2).toVector2(arrowSize);
+            Vector2 pointyBitRight = startPoint + (arrowAngle + M_PI_2).toVector2(-arrowSize);
+
+            Vector2 arrowStartOnScreen = toScreenPosition(arrowStart);
+            Vector2 arrowEndOnScreen = toScreenPosition(arrowEnd);
+            Vector2 pointyBitLeftOnScreen = toScreenPosition(pointyBitLeft);
+            Vector2 pointyBitRightOnScreen = toScreenPosition(pointyBitRight);
+            Vector2 startPointOnScreen = toScreenPosition(startPoint);
+            if (closedArrow) {
+                painter.drawLine(arrowStartOnScreen.x, arrowStartOnScreen.y, startPointOnScreen.x, startPointOnScreen.y);
+                painter.drawLine(arrowEndOnScreen.x, arrowEndOnScreen.y, pointyBitRightOnScreen.x, pointyBitRightOnScreen.y);
+                painter.drawLine(arrowEndOnScreen.x, arrowEndOnScreen.y, pointyBitLeftOnScreen.x, pointyBitLeftOnScreen.y);
+                painter.drawLine(pointyBitRightOnScreen.x, pointyBitRightOnScreen.y, pointyBitLeftOnScreen.x, pointyBitLeftOnScreen.y);
+            }
+            else {
+                painter.drawLine(arrowStartOnScreen.x, arrowStartOnScreen.y, arrowEndOnScreen.x, arrowEndOnScreen.y);
+                painter.drawLine(arrowEndOnScreen.x, arrowEndOnScreen.y, pointyBitRightOnScreen.x, pointyBitRightOnScreen.y);
+                painter.drawLine(arrowEndOnScreen.x, arrowEndOnScreen.y, pointyBitLeftOnScreen.x, pointyBitLeftOnScreen.y);
+            }
+
+        }
     }
 }
 
