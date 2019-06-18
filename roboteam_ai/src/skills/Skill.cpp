@@ -27,7 +27,7 @@ void Skill::publishRobotCommand() {
     limitRobotCommand();
 
     if (std::isnan(command.x_vel) || std::isnan(command.y_vel)) {
-        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << std::endl;
+        std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;
     }
         
     // Make sure both kicker and chipper vel are set, so that it works for both GrSim and Serial
@@ -106,9 +106,14 @@ void Skill::limitRobotCommand() {
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
     robot->setPidPreviousVel(limitedVel);
+    if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
+        std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;
+        robot->setPidPreviousVel(robot->vel);
+    }
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;
 }
+
 
 void Skill::refreshRobotPositionControllers() {
     robot->resetNumTreePosControl();

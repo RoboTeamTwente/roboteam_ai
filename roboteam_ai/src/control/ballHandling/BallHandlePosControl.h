@@ -29,13 +29,13 @@ class BallHandlePosControl : public NumTreePosControl {
         RotateAroundBall* rotateAroundBall;
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 0.3;
-        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.5;
+        double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.3;
         double ballPlacementAccuracy = 0.15;
 
         constexpr static double ERROR_MARGIN = 0.02;
-        constexpr static double ANGLE_ERROR_MARGIN = 0.02;
+        constexpr static double ANGLE_ERROR_MARGIN = 0.012*M_PI;
         constexpr static double MAX_BALL_DISTANCE = Constants::ROBOT_RADIUS()*2.0;
-        constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.16;
+        constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.3162277660168;
         constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE*1.05;
 

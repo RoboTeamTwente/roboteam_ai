@@ -187,7 +187,8 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot& ro
         shotData.kicker = true;
         shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
-    shotData.kickerForced = !robot.hasWorkingBallSensor();
+//    shotData.kickerForced = !robot.hasWorkingBallSensor();
+    shotData.kickerForced = false;
     return shotData;
 }
 

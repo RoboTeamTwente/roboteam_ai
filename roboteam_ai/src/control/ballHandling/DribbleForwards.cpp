@@ -121,7 +121,7 @@ RobotCommand DribbleForwards::sendTurnCommand() {
 
 RobotCommand DribbleForwards::sendApproachCommand() {
     RobotCommand command;
-    command.dribbler = 26;
+    command.dribbler = 28;
     command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
@@ -129,7 +129,7 @@ RobotCommand DribbleForwards::sendApproachCommand() {
 
 RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     RobotCommand command;
-    command.dribbler = 28;
+    command.dribbler = 31;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
 

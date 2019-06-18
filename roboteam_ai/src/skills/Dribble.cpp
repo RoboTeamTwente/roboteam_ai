@@ -67,19 +67,6 @@ Dribble::Status Dribble::onUpdate() {
 }
 
 void Dribble::onTerminate(Status s) {
-    command.w = robot->angle;
-    if (properties->getBool("dribbleOnTerminate")){
-        command.dribbler=  20;
-    } else{
-        command.dribbler = 0;
-    }
-    command.x_vel = 0;
-    command.y_vel = 0;
-
-    count=0;
-    stoppingAngle = robot->angle; // default to the current angle
-    initialAngle = robot->angle;
-    publishRobotCommand();
 }
 
 } // ai

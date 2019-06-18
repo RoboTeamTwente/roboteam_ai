@@ -3,6 +3,7 @@
 // Created by thijs on 25-5-19.
 //
 
+#include <roboteam_ai/src/world/Field.h>
 #include "../../control/ControlUtils.h"
 #include "DribbleBackwards.h"
 #include "RotateAroundBall.h"
@@ -36,14 +37,14 @@ void DribbleBackwards::updateBackwardsProgress() {
         printBackwardsProgress();
     }
 
-    if (backwardsProgress != DRIBBLING) waitingTicks = 25;
+    if (backwardsProgress != DRIBBLING && backwardsProgress != OVERSHOOTING) waitingTicks = 100;
 
     // check if we still have ball
     if (backwardsProgress != OVERSHOOTING &&
             backwardsProgress != DRIBBLING &&
             backwardsProgress != DRIBBLE_BACKWARDS) {
 
-        approachPosition = ball->pos + (robot->pos - ball->pos).stretchToLength(0.05);
+        approachPosition = ball->pos + (robot->pos - ball->pos).stretchToLength(-0.05);
     }
     if ((ball->pos - robot->pos).length2() > 0.5) {
         backwardsProgress = START;
@@ -83,6 +84,10 @@ void DribbleBackwards::updateBackwardsProgress() {
             backwardsProgress = DRIBBLING;
             return;
         }
+        if (-- waitingTicks < 0) {
+            backwardsProgress = DRIBBLING;
+            return;
+        }
         return;
     }
     case DRIBBLING: {
@@ -90,7 +95,7 @@ void DribbleBackwards::updateBackwardsProgress() {
             backwardsProgress = APPROACHING;
             return;
         }
-        if (-- waitingTicks < 0) {
+        if (-- waitingTicks < 75) {
             backwardsDribbleLine = {robot->pos, finalTargetPos};
             backwardsProgress = DRIBBLE_BACKWARDS;
             return;
@@ -157,16 +162,21 @@ RobotCommand DribbleBackwards::sendTurnCommand() {
 RobotCommand DribbleBackwards::sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 28;
-    command.vel = (ball->pos - robot->pos).stretchToLength(maxVel);
+    command.vel = (ball->pos - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
     return command;
 }
 
 RobotCommand DribbleBackwards::sendOvershootCommand() {
     RobotCommand command;
-    command.dribbler = 28;
-    command.vel = (approachPosition - robot->pos).stretchToLength(maxVel);
+    command.dribbler = 30;
+    command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
+    if (!world::field->pointIsInField(ball->pos)) {
+        command.kickerForced = true;
+        command.kickerVel = 4;
+        command.kicker = true;
+    }
     return command;
 }
 
