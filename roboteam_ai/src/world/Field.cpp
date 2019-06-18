@@ -47,8 +47,8 @@ bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, do
 bool Field::pointIsInField(const Vector2 &point, double margin) {
     auto field = get_field();
 
-    double halfLength = field.field_length*0.5f - 2*margin;
-    double halfWidth = field.field_width*0.5f - 2*margin;
+    double halfLength = field.field_length*0.5f - margin;
+    double halfWidth = field.field_width*0.5f - margin;
 
     return (point.x <= halfLength && point.x >= - halfLength &&
             point.y <= halfWidth && point.y >= - halfWidth);
