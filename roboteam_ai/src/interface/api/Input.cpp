@@ -17,6 +17,11 @@ std::mutex Input::drawingMutex;
  */
 void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId,
         Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
+    if (method == Drawing::DrawingMethod::ARROWS) {
+        if (points.size() % 2 == 1) {
+            points.erase(points.end());
+        }
+    }
     Input::makeDrawing(Drawing(visual, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
 }
 

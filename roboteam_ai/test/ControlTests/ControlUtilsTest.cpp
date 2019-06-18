@@ -281,8 +281,8 @@ TEST(ControlUtils, project_to_position_within_field) {
     { // the middle point should always be within the field.
         Vector2 pos = cr::ControlUtils::projectPositionToWithinField(Vector2(- 90, - 11.2));
         // if you change the margin, check other places and move it to constants. do not just edit this test.
-        EXPECT_FLOAT_EQ(pos.x, - 4.8);
-        EXPECT_FLOAT_EQ(pos.y, - 9.8);
+        EXPECT_FLOAT_EQ(pos.x, - 5.0 + Constants::ROBOT_RADIUS());
+        EXPECT_FLOAT_EQ(pos.y, - 10.0 + Constants::ROBOT_RADIUS());
     }
 }
 

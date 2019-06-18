@@ -15,8 +15,12 @@ TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::P
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
     Vector2 ballPos = ball->pos;
+    auto us = world::world->getUs();
+    if (us.size() < 2) {
+        return Status::Failure;
+    }
 
-    if ((ball->pos - ballPlacementPos).length() < 1.0) {
+    if ((ball->pos - ballPlacementPos).length() < 2.1) {
         return Status::Failure;
     } else {
         return Status::Success;

@@ -133,18 +133,22 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
 
-    interface::Input::drawData(interface::Visual::PATHFINDING, {forwardsDribbleLine.first, forwardsDribbleLine.second},
-            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
-
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
             forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*5) {
         forwardsProgress = TURNING;
     }
+
     Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
             (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle();
 
-    command.vel += (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
+    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
+    command.vel += compensation;
+
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
+            Qt::white, robot->id, interface::Drawing::ARROWS);
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {forwardsDribbleLine.first, forwardsDribbleLine.second},
+            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {

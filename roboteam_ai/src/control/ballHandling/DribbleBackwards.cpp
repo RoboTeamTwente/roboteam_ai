@@ -4,6 +4,7 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../../control/ControlUtils.h"
 #include "DribbleBackwards.h"
 #include "RotateAroundBall.h"
@@ -85,6 +86,7 @@ void DribbleBackwards::updateBackwardsProgress() {
             return;
         }
         if (-- waitingTicks < 0) {
+            failedOnce = true;
             backwardsProgress = DRIBBLING;
             return;
         }
@@ -115,7 +117,9 @@ void DribbleBackwards::updateBackwardsProgress() {
         return;
     }
     case FAIL:
-    case START:
+    case START: {
+        failedOnce = false;
+    }
     default:return;
     case SUCCESS: {
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
@@ -172,9 +176,10 @@ RobotCommand DribbleBackwards::sendOvershootCommand() {
     command.dribbler = 30;
     command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
-    if (!world::field->pointIsInField(ball->pos)) {
+
+    if (failedOnce && !world::field->pointIsInField(ball->pos, Constants::ROBOT_RADIUS())) {
         command.kickerForced = true;
-        command.kickerVel = 4;
+        command.kickerVel = 2;
         command.kicker = true;
     }
     return command;
@@ -182,22 +187,34 @@ RobotCommand DribbleBackwards::sendOvershootCommand() {
 
 RobotCommand DribbleBackwards::sendDribblingCommand() {
     RobotCommand command;
-    command.dribbler = 30;
+    command.dribbler = 31;
     command.angle = lockedAngle;
     return command;
 }
 
 RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
     RobotCommand command;
-    command.dribbler = 30;
+    command.dribbler = 31;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(- maxVel);
 
+
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
-            backwardsDribbleLine.first, backwardsDribbleLine.second) > errorMargin*2.5) {
+            backwardsDribbleLine.first, backwardsDribbleLine.second) > errorMargin*5) {
         backwardsProgress = TURNING;
     }
+
+    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
+            (backwardsDribbleLine.second - backwardsDribbleLine.first).toAngle();
+
+    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
+    command.vel += compensation;
+
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
+            Qt::white, robot->id, interface::Drawing::ARROWS);
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {backwardsDribbleLine.first, backwardsDribbleLine.second},
+            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {
