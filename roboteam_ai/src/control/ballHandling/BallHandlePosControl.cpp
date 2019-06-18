@@ -309,7 +309,7 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
         robotCommand.vel = (ball->pos - robot->pos).stretchToLength(ball->vel.length());
     }
 
-    if (ControlUtils::projectPositionToWithinField(robot->pos + robot->vel) == robot->pos + robot->vel) {
+    if (ControlUtils::projectPositionToWithinField(robot->pos + robot->vel/2) == robot->pos + robot->vel/2) {
         robotCommand.vel += ball->vel;
     }
     return robotCommand;
