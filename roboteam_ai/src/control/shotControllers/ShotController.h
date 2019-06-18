@@ -23,7 +23,8 @@ enum ShotPrecision {
 // ball speeds
 enum BallSpeed {
     DRIBBLE_KICK,
-    LAY_STILL_AT_POSITION,
+
+    BALL_PLACEMENT,
     PASS,
     MAX_SPEED
 };

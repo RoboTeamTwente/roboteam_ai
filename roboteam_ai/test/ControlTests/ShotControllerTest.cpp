@@ -45,8 +45,8 @@ TEST(ShotControllerTest, it_calculates_kickforce) {
     EXPECT_EQ(shotController.determineKickForce(1.0, BallSpeed::MAX_SPEED), Constants::MAX_KICK_POWER());
     EXPECT_EQ(shotController.determineKickForce(10.0, BallSpeed::PASS), 1.01);
     //EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::PASS), 3.2);
-    EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::LAY_STILL_AT_POSITION), Constants::MAX_KICK_POWER() / 2.25);
-    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::LAY_STILL_AT_POSITION), Constants::MAX_KICK_POWER() / 4.5);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::BALL_PLACEMENT), Constants::MAX_KICK_POWER() / 2.25);
+    EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::BALL_PLACEMENT), Constants::MAX_KICK_POWER() / 4.5);
     EXPECT_FLOAT_EQ(shotController.determineKickForce(4.0, BallSpeed::DRIBBLE_KICK), Constants::MAX_KICK_POWER() / 2.25);
     EXPECT_FLOAT_EQ(shotController.determineKickForce(1.0, BallSpeed::DRIBBLE_KICK), Constants::MAX_KICK_POWER() / 4.5);
 }

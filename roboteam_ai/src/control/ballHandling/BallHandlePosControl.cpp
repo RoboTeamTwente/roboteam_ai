@@ -60,6 +60,11 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
     double expectedDelay = 0.04;
     ball = std::make_shared<world::Ball>(world::Ball(*world::world->getBall()));
     robot = world::world->getFutureRobot(r, expectedDelay);
+
+    if ((targetPos - targetP).length2() > 0.10) {
+        dribbleBackwards->reset();
+        dribbleForwards->reset();
+    }
     targetPos = targetP;
     targetAngle = targetA;
 
