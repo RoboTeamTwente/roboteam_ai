@@ -24,6 +24,7 @@ class ActiveStop : public Skill {
         static Vector2 getOffensiveActivePoint();
         static Vector2 getDefensiveActivePoint();
 
+        static Vector2 getPoint(const Vector2 &penaltyPos);
 };
 }
 }
