@@ -70,10 +70,15 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
     spaceClick->setAutoRepeat(false);
 
-    refreshBtn = new QPushButton("Refresh");
+    refreshBtn = new QPushButton("Soft refresh");
     QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
     hButtonsLayout->addWidget(refreshBtn);
     refreshBtn->setStyleSheet("background-color: #0000cc;");
+
+    refreshJsonBtn = new QPushButton("Hard refresh");
+    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
+    hButtonsLayout->addWidget(refreshJsonBtn);
+    refreshJsonBtn->setStyleSheet("background-color: #0000cc;");
 
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
@@ -125,14 +130,6 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
 void MainControlsWidget::setTimeOutTop(bool top) {
     Output::setTimeOutTop(top);
-}
-
-QString MainControlsWidget::getSelectStrategyText() const {
-    return select_strategy->currentText();
-}
-
-void MainControlsWidget::setSelectStrategyText(QString text) {
-    select_strategy->setCurrentText(text);
 }
 
 void MainControlsWidget::setUseReferee(bool useRef) {
@@ -213,6 +210,11 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 
 
 void MainControlsWidget::refreshSignal() {
+    robotDealer::RobotDealer::refresh();
+    emit treeHasChanged();
+}
+
+void MainControlsWidget::refreshJSONSignal() {
     BTFactory::makeTrees();
     robotDealer::RobotDealer::refresh();
     emit treeHasChanged();
