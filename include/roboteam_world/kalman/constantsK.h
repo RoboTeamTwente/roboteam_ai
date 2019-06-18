@@ -12,7 +12,7 @@ const int OBSERVATIONINDEX = 2;
 // timerate
 const float TIMEDIFF = 0.01;
 // time after which objects disappear
-const float DISAPPEARTIME = 0.5/TIMEDIFF; //seconds/TIMEDIFF
+const float DISAPPEARTIME = 0.1/TIMEDIFF; //seconds/TIMEDIFF
 
 // amount of robots and balls per team that we keep track off
 const int BOTCOUNT=16; //id 0-15
