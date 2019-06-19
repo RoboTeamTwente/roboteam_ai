@@ -204,7 +204,7 @@ void Visualizer::drawFieldHints(QPainter &painter) {
 // draw the ball on the screen
 void Visualizer::drawBall(QPainter &painter) {
     auto ball = world::world->getBall();
-    if (! (ball && world::Ball::exists && ball->pos.isNotNaN())) return;
+    if (! (ball && world::Ball::hasBeenSeen && ball->pos.isNotNaN())) return;
 
     rtt::Vector2 ballPosition = toScreenPosition(ball->pos);
     QPointF qballPosition(ballPosition.x, ballPosition.y);

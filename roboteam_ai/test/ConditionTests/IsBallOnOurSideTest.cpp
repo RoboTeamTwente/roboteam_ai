@@ -15,7 +15,7 @@ namespace ai {
 
 TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
 {
-    rtt::ai::world::Ball::exists = false;
+    rtt::ai::world::Ball::hasBeenSeen = false;
     bt::Blackboard BB;
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
     BBpointer->setBool("inField", true);
@@ -35,7 +35,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     worldMsg.ball.pos.x = -1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
-    worldMsg.ball.existence = 0;
+    worldMsg.ball.area = 0;
 
     w::world->updateWorld(worldMsg);
     node.initialize();
@@ -45,7 +45,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     worldMsg.ball.pos.x = -1.5;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 9999;
+    worldMsg.ball.area = 9999;
 
     w::world->updateWorld(worldMsg);
     node.initialize();

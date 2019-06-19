@@ -28,7 +28,7 @@ TEST(RobotDealerTest, RobotDealerTest) {
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = true;
-    worldMsg.ball.existence = 9999;
+    worldMsg.ball.area = 9999;
 
     rtt::ai::world::world->updateWorld(worldMsg);
 

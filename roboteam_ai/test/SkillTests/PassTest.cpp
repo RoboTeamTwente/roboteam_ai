@@ -36,7 +36,7 @@ TEST(PassTest, PassTest) {
     robotThem.pos.y = 3;
 
     roboteam_msgs::WorldBall ball;
-    ball.existence = 11;
+    ball.area = 11;
     ball.visible = static_cast<unsigned char>(true);
     ball.pos = Vector2(1.0,1.0);
     world.us.push_back(robot1);
@@ -74,7 +74,7 @@ TEST(PassTest, PassTest) {
     ball.pos.x = 3;
     ball.pos.y = -3;
     ball.visible = 1;
-    ball.existence = 99999;
+    ball.area = 99999;
     world.ball = ball;
     w::world->updateWorld(world);
 
@@ -96,7 +96,7 @@ TEST(PassTest, PassTest) {
     world2.us.push_back(robot1);
     world2.us.push_back(robot2);
     world2.ball.vel = (Vector2){5, 5};
-    world2.ball.existence = 99999;
+    world2.ball.area = 99999;
     w::world->updateWorld(world2);
 
     EXPECT_EQ(pass.update(), bt::Leaf::Status::Running);

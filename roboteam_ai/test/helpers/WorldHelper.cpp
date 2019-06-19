@@ -105,7 +105,7 @@ roboteam_msgs::WorldBall WorldHelper::generateRandomBall(roboteam_msgs::Geometry
     ball.pos = getRandomFieldPosition(std::move(field));
     ball.vel = getRandomVelocity();
     ball.visible = 1;
-    ball.existence = 99999;
+    ball.area = 99999;
     return ball;
 }
 
@@ -128,7 +128,7 @@ roboteam_msgs::WorldBall WorldHelper::generateBallAtLocation(const rtt::Vector2 
     ball.pos = loc;
     ball.vel = rtt::Vector2(0, 0);
     ball.visible = 1;
-    ball.existence = 99999;
+    ball.area = 99999;
     return ball;
 }
 

@@ -11,7 +11,7 @@
 
 TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
 
-    rtt::ai::world::Ball::exists = false;
+    rtt::ai::world::Ball::hasBeenSeen = false;
     auto BB = std::make_shared<bt::Blackboard>();
     BB->setInt("ROBOT_ID", 0);
     BB->setString("ROLE","test");
@@ -34,7 +34,7 @@ TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
     worldMsg.ball.pos.x=1.0;
     worldMsg.ball.pos.y=1.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
 
     rtt::ai::robotDealer::RobotDealer::halt();
@@ -86,7 +86,7 @@ TEST(IsRobotClosestToBallTest, secondsAhead) {
     worldMsg.ball.vel.x = -1;
     worldMsg.ball.vel.y = -1;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg, false);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
             rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsRobotClosestToBallTestTactic");

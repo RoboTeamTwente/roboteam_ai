@@ -39,7 +39,7 @@ TEST(CoachTest, get_position_behind_ball) {
     auto worldMsg = testhelpers::WorldHelper::getWorldMsg(3, 3, false, field);
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 9999;
+    worldMsg.ball.area = 9999;
     w::world->updateWorld(worldMsg);
 
     // set the robot on the horizontal line from the ball to the goal
@@ -58,7 +58,7 @@ TEST(CoachTest, get_position_behind_ball) {
     worldMsg = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
     worldMsg.ball.pos = Vector2(0, 0);
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 9999;
+    worldMsg.ball.area = 9999;
 
 
         roboteam_msgs::WorldRobot robotToPointTo;

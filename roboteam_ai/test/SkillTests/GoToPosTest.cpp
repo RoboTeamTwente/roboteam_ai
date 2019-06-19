@@ -48,7 +48,7 @@
 //    robot2.pos.y = 10;
 //    worldMsg.us.push_back(robot2);
 //
-//    worldMsg.ball.existence = 99999;
+//    worldMsg.ball.area = 99999;
 //    w::world->updateWorld(worldMsg);
 //    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM, "GTPtest", "GoToPosTest");
 //    rtt::ai::SkillGoToPos goToPos("GTPtest", bb);

@@ -11,7 +11,7 @@ TEST(BallTest, IHaveBallTest) {
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
     rtt::ai::world::world->updateWorld(worldMsg);
-    rtt::ai::world::Ball::exists = false;
+    rtt::ai::world::Ball::hasBeenSeen = false;
 
     rtt::ai::robotDealer::RobotDealer::halt();
     auto BB = std::make_shared<bt::Blackboard>();
@@ -32,7 +32,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0.1;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(
             rtt::ai::robotDealer::RobotType::RANDOM, "test", "IHaveBallTestTactic");
@@ -41,7 +41,7 @@ TEST(BallTest, IHaveBallTest) {
 
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
@@ -49,21 +49,21 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0.1;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = - 0.1;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
     worldMsg.ball.pos.x = - 0.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(),bt::Node::Status::Failure);
 

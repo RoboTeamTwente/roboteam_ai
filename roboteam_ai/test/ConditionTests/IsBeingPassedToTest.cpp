@@ -27,7 +27,7 @@ TEST(IsBeingPassedTo, IsBeingPassedToTest) {
     robot1.pos.x = 2;
     robot1.pos.y = 0;
     roboteam_msgs::WorldBall ball;
-    ball.existence = 11;
+    ball.area = 11;
     ball.visible = static_cast<unsigned char>(true);
     ball.pos = Vector2(1.0,1.0);
     world.us.push_back(robot1);

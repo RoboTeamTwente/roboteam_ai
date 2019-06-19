@@ -22,7 +22,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     rtt::ai::IsInDefenseArea node("IsInDefenseArea", BBpointer);
 
     EXPECT_EQ(node.node_name(), "IsInDefenseArea");
-    rtt::ai::world::Ball::exists = false;
+    rtt::ai::world::Ball::hasBeenSeen = false;
 
     roboteam_msgs::World worldMsg;
     roboteam_msgs::WorldRobot robot;
@@ -53,7 +53,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
     robot.pos.y = 0;
 
     worldMsg.us.push_back(robot);
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     worldMsg.ball.pos.x = 0;
     rtt::ai::world::world->updateWorld(worldMsg);
     rtt::ai::robotDealer::RobotDealer::claimRobotForTactic(rtt::ai::robotDealer::RobotType::RANDOM, "test", "IsInDefenseAreaTest");
@@ -78,7 +78,7 @@ TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
 
 TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 {
-    rtt::ai::world::Ball::exists = false;
+    rtt::ai::world::Ball::hasBeenSeen = false;
     bt::Blackboard BB;
     BB.setBool("useRobot", true);
     BB.setInt("ROBOT_ID", 0);
@@ -116,7 +116,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
     field.right_penalty_line.end.y = 1.0;
 
     rtt::ai::world::field->set_field(field);
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     worldMsg.ball.visible = 1;
 
     rtt::ai::world::world->updateWorld(worldMsg);
@@ -142,7 +142,7 @@ TEST(DetectsInTheirDefenseArea, IsInDefenseAreaTest)
 
 TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
 {
-    rtt::ai::world::Ball::exists = false;
+    rtt::ai::world::Ball::hasBeenSeen = false;
     bt::Blackboard BB;
     BB.setBool("useRobot", false);
     BB.setDouble("margin", 0.2);
@@ -175,7 +175,7 @@ TEST(DetectsBallInOurDefenceArea, IsInDefenceAreaTest)
     worldMsg.ball.pos.x = -1.1;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
 
     // Should succeed since ball is in our defence area

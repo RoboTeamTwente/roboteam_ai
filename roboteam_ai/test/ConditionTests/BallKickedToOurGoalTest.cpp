@@ -19,7 +19,7 @@ TEST(BallKickedToOurGoal,BallKickedToOurGoal){
     worldMsg.ball.pos.y=0.0;
     worldMsg.ball.vel.x=0.0;
     worldMsg.ball.vel.y=0.0;
-    worldMsg.ball.existence=99999;
+    worldMsg.ball.area=99999;
     rtt::ai::world::world->updateWorld(worldMsg, false);
 
     bt::Blackboard BB;

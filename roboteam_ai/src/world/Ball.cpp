@@ -14,7 +14,7 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-bool Ball::exists = false;
+bool Ball::hasBeenSeen = false;
 
 Ball::Ball()
         :pos(Vector2()), vel(Vector2()), visible(false) { }
@@ -22,8 +22,8 @@ Ball::Ball()
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
         :pos(copy.pos), vel(copy.vel),
          visible(copy.visible) {
-    exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
-    if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
+    hasBeenSeen = hasBeenSeen || copy.existence || Vector2(copy.pos).isNotNaN();
+    if (! hasBeenSeen) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
 void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData, bool applyBallFilter) {

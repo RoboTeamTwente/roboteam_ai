@@ -26,7 +26,7 @@ TEST(BallOutOfFieldTest, it_detects_ball_out_of_field) {
     worldMsg.ball.pos.x = 0.0;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 

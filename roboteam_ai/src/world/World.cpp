@@ -100,7 +100,7 @@ const WorldData World::getWorld() {
 World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (world::Ball::exists) {
+    if (world::Ball::hasBeenSeen) {
         return worldDataPtr->ball;
     }
 

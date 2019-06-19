@@ -43,14 +43,14 @@ TEST(DetectsDefenseArea, BallInDefenseAreaAndStill)
     worldMsg.ball.pos.x = 0;
     worldMsg.ball.pos.y = 0;
     worldMsg.ball.visible = 0;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
     rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure); // return failure because no ball visible
 
     worldMsg.ball.pos.x = -1.5;
     worldMsg.ball.pos.y = 0.0;
     worldMsg.ball.visible = 1;
-    worldMsg.ball.existence = 99999;
+    worldMsg.ball.area = 99999;
 
     rtt::ai::world::world->updateWorld(worldMsg, false);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
