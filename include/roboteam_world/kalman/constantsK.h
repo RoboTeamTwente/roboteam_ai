@@ -14,8 +14,8 @@ const float TIMEDIFF = 0.01;
 // time after which robots disappear
 const float DISAPPEARTIME = 0.5/TIMEDIFF; //seconds/TIMEDIFF
 
-const float BALLDISAPPEARTIME=0.5/TIMEDIFF;//seconds
-const float BALLEXTRAPOLATEDTIME=2;// amount of frames after we mark the ball not visible but keep extrapolating it.
+const float BALLDISAPPEARTIME=0.5/TIMEDIFF;//amount of frames we wait for the ball to disappear
+const float BALLEXTRAPOLATEDTIME=0.05/TIMEDIFF;// amount of frames after we mark the ball not visible but keep extrapolating it.
 // amount of robots and balls per team that we keep track off
 const int BOTCOUNT=16; //id 0-15
 const int BALLCOUNT=1;
