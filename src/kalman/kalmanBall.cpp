@@ -121,7 +121,7 @@ void kalmanBall::kalmanUpdateX() {
     if (visibility!=NOT_VISIBLE){
         arma::fvec::fixed<STATEINDEX> X_predict = this->F*this->X;
         arma::fmat::fixed<OBSERVATIONINDEX, 1> Y;
-        if (visibility==VISIBLE){
+        if (invisibleCounter<1){ // we only use the observation if we actually received one.
             Y= this->Z - (this->H*X_predict);
         }
         else{
