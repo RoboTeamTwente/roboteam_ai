@@ -22,7 +22,7 @@ Ball::Ball()
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
         :pos(copy.pos), vel(copy.vel),
          visible(copy.visible) {
-    hasBeenSeen = hasBeenSeen || copy.existence || Vector2(copy.pos).isNotNaN();
+    hasBeenSeen = hasBeenSeen || copy.visible|| Vector2(copy.pos).isNotNaN();
     if (! hasBeenSeen) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
