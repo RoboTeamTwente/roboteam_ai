@@ -12,7 +12,8 @@ KickTo::KickTo(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 void KickTo::onInitialize() {
-    if (properties->getString("type")=="shootout"){
+    std::string type=properties->getString("type");
+    if (type=="shootout"){
         shootPos=Vector2(world::field->get_field().field_length*0.2,0); // 2.4 m for A field, 1.8 for B
     }
     else{
