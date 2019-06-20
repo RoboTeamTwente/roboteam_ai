@@ -29,6 +29,7 @@ bool Constants::GRSIM() {
 }
 
 void Constants::OVERWRITE_GRSIM(bool grsim) {
+    std::cerr << "Do not overwrite GRSIM() if you do not know what you are doing!! you should change the ROSPARAM" << std::endl;
     robotOutputTargetGrSim = grsim;
 }
 
