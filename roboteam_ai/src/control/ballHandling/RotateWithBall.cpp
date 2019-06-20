@@ -16,7 +16,7 @@ RobotCommand RotateWithBall::getRobotCommand(const std::shared_ptr<world::Robot>
     RobotCommand robotCommand;
     int direction = targetA - r->angle > 0.0 ? 1 : - 1;
     robotCommand.angle = Angle(r->angle + 0.2*direction);
-    robotCommand.dribbler = 1;
+    robotCommand.dribbler = 28;
     return robotCommand;
 }
 

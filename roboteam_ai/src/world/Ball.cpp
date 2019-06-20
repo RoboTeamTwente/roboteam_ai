@@ -220,6 +220,19 @@ const Vector2 &Ball::getBallStillPosition() const {
 /// Adds a moving average over the kalman filter to make the ball-velocity more stable. (Could be moved to rtt_world)
 void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
 
+    if (this->pos == Vector2() && oldBall.pos != Vector2()) {
+        bool robotIsCloseToBall = false;
+        for (const auto &robot : worldData.us) {
+            if ((robot->pos - oldBall.pos).length() < 0.35) {
+                robotIsCloseToBall = true;
+                break;
+            }
+        }
+        if (robotIsCloseToBall) {
+            this->pos = oldBall.pos;
+        }
+    }
+
     auto &ball = worldData.ball;
     double velocityDifference = (ball->vel - oldBall.vel).length();
 

@@ -28,6 +28,11 @@ bool Constants::GRSIM() {
     return robotOutputTargetGrSim;
 }
 
+void Constants::OVERWRITE_GRSIM(bool grsim) {
+    std::cerr << "Do not overwrite GRSIM() if you do not know what you are doing!! you should change the ROSPARAM" << std::endl;
+    robotOutputTargetGrSim = grsim;
+}
+
 double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
@@ -42,9 +47,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
-
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -84,7 +88,7 @@ double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
 
 double Constants::MAX_BALL_RANGE() { return 0.04; }
 
-double Constants::MAX_KICK_RANGE() { return 0.06; }
+double Constants::MAX_KICK_RANGE() { return 0.05; }
 
 double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
@@ -194,7 +198,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     workingBallSensorRobots[2] = true;
     workingBallSensorRobots[3] = true;
     workingBallSensorRobots[4] = true;
-    workingBallSensorRobots[5] = false;
+    workingBallSensorRobots[5] = true;
     workingBallSensorRobots[6] = true;
     workingBallSensorRobots[7] = true;
     workingBallSensorRobots[8] = true;
@@ -242,13 +246,15 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.4, 0.0, 0.4); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.6, 0.0, 0.4); }
 
 pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(3.6, 0.0, 0.2); }
 
 pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(4.2, 0.0, 0.4); }
 
 pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
+
+pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0.0, 0.0) : pidVals(9.0, 0.2, 0.0); }
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
@@ -260,8 +266,6 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"kickoff",             1.5, 6.5, 0.5, 0.0,             true }
     };
 }
-
-
 
 }
 }

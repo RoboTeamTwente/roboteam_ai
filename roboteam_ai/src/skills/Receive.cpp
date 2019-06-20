@@ -37,6 +37,9 @@ Receive::Status Receive::onUpdate() {
         }
 
         intercept();
+        if ((ball->pos - robot->pos).length() < 1.0) {
+            command.dribbler = 25;
+        }
     }
 
     // Check if robot is in position, otherwise turn towards ball
@@ -91,7 +94,6 @@ void Receive::intercept() {
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPoint}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
-
 }
 
 bool Receive::passFailed() {

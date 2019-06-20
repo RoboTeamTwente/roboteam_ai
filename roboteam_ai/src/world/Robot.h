@@ -81,7 +81,7 @@ public:
         unsigned char dribblerState = 0;
         unsigned char previousDribblerState = 0;
         double timeDribblerChanged = 0;
-        constexpr static double timeToChangeOneDribblerLevel = 0.06;
+        constexpr static double timeToChangeOneDribblerLevel = 0.11;
         bool workingDribbler;
         bool workingBallSensor;
     public:

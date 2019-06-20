@@ -43,7 +43,7 @@ TEST(BallTest, IHaveBallTest) {
     worldMsg.ball.visible = 1;
     worldMsg.ball.existence = 99999;
     rtt::ai::world::world->updateWorld(worldMsg);
-    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
     //Test if angle checking works
     worldMsg.ball.pos.x = 0;

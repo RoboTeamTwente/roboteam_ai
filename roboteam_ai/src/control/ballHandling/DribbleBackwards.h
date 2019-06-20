@@ -59,8 +59,10 @@ class DribbleBackwards {
 
         // error margins and accuracy
         int waitingTicks;
+        bool failedOnce;
+
         double errorMargin;
-        double angleErrorMargin = 10 / 180 * M_PI;
+        double angleErrorMargin = 10.0 / 180.0 * M_PI;
         double ballPlacementAccuracy;
         double maxVel;
     public:
