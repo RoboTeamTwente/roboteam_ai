@@ -12,12 +12,15 @@ KickTo::KickTo(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 void KickTo::onInitialize() {
-    shootPos=properties->getVector2("shootPos");
+    if (properties->getString("type")=="shootout"){
+        shootPos=Vector2(world::field->get_field().field_length*0.2,0); // 2.4 m for A field, 1.8 for B
+    }
+    else{
+        shootPos=Vector2(0,0);
+    }
 }
 /// Get an update on the skill
 bt::Node::Status KickTo::onUpdate() {
-    if (! robot) return Status::Running;
-
     if (world::field->pointIsInDefenceArea(ball->pos, false)) {
         command.w = 0;
         publishRobotCommand();
@@ -25,8 +28,9 @@ bt::Node::Status KickTo::onUpdate() {
     }
 
     Vector2 aimPoint = shootPos;
+    //TODO: tune kick velocity
     auto shotData = robot->getShotController()->getRobotCommand(
-            *robot, aimPoint, false, control::BallSpeed::LAY_STILL_AT_POSITION, true, control::ShotPrecision::HIGH);
+            *robot, aimPoint, false, control::BallSpeed::BALL_PLACEMENT, true, control::ShotPrecision::HIGH);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;

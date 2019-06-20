@@ -36,4 +36,4 @@ FreeKickFormation
 DefendFreeKick
 DriveWithInterface
 Wait,seconds
-KickTo,shootPos
+KickTo, type
