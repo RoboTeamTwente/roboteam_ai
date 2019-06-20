@@ -56,3 +56,6 @@ void PidBox::updatePID() {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_PidBox.cpp"

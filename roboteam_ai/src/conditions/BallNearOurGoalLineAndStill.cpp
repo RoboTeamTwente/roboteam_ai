@@ -4,6 +4,8 @@
  * Otherwise FAILURE
  */
 
+#include <roboteam_ai/src/world/World.h>
+#include <roboteam_ai/src/world/Ball.h>
 #include "BallNearOurGoalLineAndStill.h"
 
 namespace rtt {

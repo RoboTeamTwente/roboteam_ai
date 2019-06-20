@@ -133,3 +133,6 @@ void MainWindow::updateKeeperTreeWidget() {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_mainWindow.cpp"

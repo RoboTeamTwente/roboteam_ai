@@ -6,6 +6,10 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include "OpponentKeeper.h"
 #include "roboteam_ai/src/world/Field.h"
+#include "roboteam_ai/src/world/World.h"
+#include "roboteam_ai/src/world/Ball.h"
+#include "roboteam_ai/src/world/Robot.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -31,7 +35,7 @@ OpponentKeeper::Status OpponentKeeper::onUpdate() {
     goalPos = world::field->get_their_goal_center();
 
     if (ball->pos.x > 0) {
-        auto attacker = world::world->getRobotClosestToPoint(ball->pos, world::OUR_ROBOTS);
+        auto attacker = world::world->getRobotClosestToPoint(ball->pos, OUR_ROBOTS);
         if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
             std::cout << "Keeper taking into account attacker" << std::endl;
             setGoalPosWithAttacker(attacker);

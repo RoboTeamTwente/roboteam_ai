@@ -9,12 +9,18 @@
 
 namespace rtt {
 namespace ai {
+
+namespace world {
+    class Robot;
+    class Ball;
+}
+
 namespace control {
 
 class RotateAroundBall {
     private:
-        using RobotPtr = world::Robot::RobotPtr;
-        using BallPtr = world::Ball::BallPtr;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+        using BallPtr = std::shared_ptr<world::Ball>;
 
         double maxVel = 1.3;
         double maxBallDistance = Constants::ROBOT_RADIUS()*2.0;

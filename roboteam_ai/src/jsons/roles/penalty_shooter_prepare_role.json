@@ -3,22 +3,16 @@
     "trees": [
       {
         "nodes": {
-          "58fbkydhm5y3tfb": {
-            "id": "58fbkydhm5y3tfb",
+          "4aw8b7585n5qmx6l": {
+            "id": "4aw8b7585n5qmx6l",
             "properties": {
-              " type": "penalty"
+              "ROLE": "shooter",
+              "type": "penalty"
             },
             "title": "GoBehindBall"
-          },
-          "zas8ug5zust2zs": {
-            "children": [
-              "58fbkydhm5y3tfb"
-            ],
-            "id": "zas8ug5zust2zs",
-            "title": "MemSequence"
           }
         },
-        "root": "zas8ug5zust2zs",
+        "root": "4aw8b7585n5qmx6l",
         "title": "penalty_shooter_prepare_role"
       }
     ]

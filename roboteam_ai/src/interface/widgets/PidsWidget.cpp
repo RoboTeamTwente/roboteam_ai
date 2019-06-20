@@ -16,6 +16,7 @@ PidsWidget::PidsWidget(QWidget * parent) {
     Output::setBasicPid(Constants::standardBasicPID());
     Output::setKeeperPid(Constants::standardKeeperPID());
     Output::setKeeperInterceptPid(Constants::standardKeeperInterceptPID());
+    Output::setBallHandlePid(Constants::standardBallHandlePID());
 
      auto pidVLayout = new QVBoxLayout();
 
@@ -24,12 +25,14 @@ PidsWidget::PidsWidget(QWidget * parent) {
     auto basicPidBox = new PidBox("Basic");
     auto keeperPidBox = new PidBox("Keeper");
     auto keeperInterceptPidBox = new PidBox("Keeper Intercept");
+    auto ballHandlePidBox = new PidBox("Ball handle");
 
     // initialize them with the default values
     numTreePidBox->setPid(Output::getNumTreePid());
     basicPidBox->setPid(Output::getBasicPid());
     keeperPidBox->setPid(Output::getKeeperPid());
     keeperInterceptPidBox->setPid(Output::getKeeperInterceptPid());
+    ballHandlePidBox->setPid(Output::getBallHandlePid());
 
     QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
                      [=](const pidVals &pid) { Output::setNumTreePid(pid); });
@@ -43,11 +46,15 @@ PidsWidget::PidsWidget(QWidget * parent) {
     QObject::connect(keeperInterceptPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
                      [=](const pidVals &pid) { Output::setKeeperInterceptPid(pid); });
 
+    QObject::connect(ballHandlePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged),
+            [=](const pidVals &pid) { Output::setBallHandlePid(pid); });
+
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
     pidVLayout->addWidget(basicPidBox);
     pidVLayout->addWidget(keeperPidBox);
     pidVLayout->addWidget(keeperInterceptPidBox);
+    pidVLayout->addWidget(ballHandlePidBox);
 
     auto pidSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     pidVLayout->addSpacerItem(pidSpacer);
@@ -57,3 +64,6 @@ PidsWidget::PidsWidget(QWidget * parent) {
 } // interface
 } // ai
 } // rtt
+
+// QT performance improvement
+#include "moc_PidsWidget.cpp"
