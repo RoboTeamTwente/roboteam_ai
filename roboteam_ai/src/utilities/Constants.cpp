@@ -28,6 +28,10 @@ bool Constants::GRSIM() {
     return robotOutputTargetGrSim;
 }
 
+void Constants::OVERWRITE_GRSIM(bool grsim) {
+    robotOutputTargetGrSim = grsim;
+}
+
 double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
@@ -261,8 +265,6 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"kickoff",             1.5, 6.5, 0.5, 0.0,             true }
     };
 }
-
-
 
 }
 }

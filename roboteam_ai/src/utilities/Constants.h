@@ -18,6 +18,7 @@ class Constants {
     public:
         static void init();
         static bool GRSIM();
+        static void OVERWRITE_GRSIM(bool grsim);
 
         /// TICK RATE ///
         static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 30; };

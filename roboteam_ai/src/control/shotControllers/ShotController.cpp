@@ -235,7 +235,7 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
     }
 
     // limit the output to the max kick speed
-    return std::min(velocity, rtt::ai::Constants::MAX_KICK_POWER());
+    return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
 }
 
 bool ShotController::robotAngleIsGood(world::Robot &robot,
