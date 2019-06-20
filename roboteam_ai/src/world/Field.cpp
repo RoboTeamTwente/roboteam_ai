@@ -38,23 +38,20 @@ Vector2 Field::get_their_goal_center() {
     return Vector2(field.field_length/2, 0);
 }
 
-bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, float margin, bool includeOutsideField) {
+bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
     auto defenseArea = getDefenseArea(isOurDefenceArea, margin, includeOutsideField);
     return defenseArea.contains(point);
 }
 
 // the margin is pointed inside the field!
-bool Field::pointIsInField(const Vector2 &point, float margin) {
-    roboteam_msgs::GeometryFieldSize _field = get_field();
+bool Field::pointIsInField(const Vector2 &point, double margin) {
+    auto field = get_field();
 
-    float halfLength = _field.field_length*0.5f;
-    float halfWidth = _field.field_width*0.5f;
+    double halfLength = field.field_length*0.5 - margin;
+    double halfWidth = field.field_width*0.5 - margin;
 
-    return (point.x <= halfLength - margin &&
-            point.x >= - halfLength + margin &&
-            point.y <= halfWidth - margin &&
-            point.y >= - halfWidth + margin);
-
+    return (point.x <= halfLength && point.x >= - halfLength &&
+            point.y <= halfWidth && point.y >= - halfWidth);
 }
 
 /// returns the angle the goal points make from a point
@@ -366,8 +363,27 @@ Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
             {theirGoalSides.first.x + goalDepth,           theirGoalSides.first.y - margin},
             {theirGoalSides.second.x + goalDepth,          theirGoalSides.second.y + margin},
             {theirGoalSides.second.x - margin,             theirGoalSides.second.y + margin}};
+
     interface::Input::drawDebugData(areaThemPoints, Qt::red, interface::Drawing::LINES_CONNECTED);
+
     return Polygon(areaThemPoints);
+}
+
+Polygon Field::getFieldEdge(double margin) {
+    auto field = get_field();
+
+    double halfLength = field.field_length*0.5f - margin;
+    double halfWidth = field.field_width*0.5f - margin;
+
+    std::vector<Vector2> fieldEdge = {
+            {-halfLength, -halfWidth},
+            {-halfLength, halfWidth},
+            {halfLength, -halfWidth},
+            {halfLength, halfWidth}};
+
+    interface::Input::drawDebugData(fieldEdge, Qt::red, interface::Drawing::LINES_CONNECTED);
+
+    return Polygon(fieldEdge);
 }
 
 } // world

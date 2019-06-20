@@ -50,10 +50,10 @@
             "properties": {
               "ROLE": "ballplacementbot",
               "avoidBall": "true",
-              "canGoOutsideField": "",
-              "canMoveInDefenseArea": "",
-              "fixedTarget": "",
-              "maxVel": "",
+              "canGoOutsideField": "true",
+              "canMoveInDefenseArea": "true",
+              "fixedTarget": "false",
+              "maxVel": "3.0",
               "type": "ballPlacementAfter"
             },
             "title": "GTPSpecial"
@@ -253,7 +253,7 @@
             "id": "ktpbvgxqakfwa7zq",
             "properties": {
               "ROLE": "ballplacementbot",
-              "seconds": "0.5"
+              "seconds": "1.0"
             },
             "title": "Wait"
           },

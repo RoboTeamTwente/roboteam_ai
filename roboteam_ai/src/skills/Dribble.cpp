@@ -60,26 +60,13 @@ Dribble::Status Dribble::onUpdate() {
         return Status::Failure;
     }
 
-    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
+    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
     command = c.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }
 
 void Dribble::onTerminate(Status s) {
-    command.w = robot->angle;
-    if (properties->getBool("dribbleOnTerminate")){
-        command.dribbler=  20;
-    } else{
-        command.dribbler = 0;
-    }
-    command.x_vel = 0;
-    command.y_vel = 0;
-
-    count=0;
-    stoppingAngle = robot->angle; // default to the current angle
-    initialAngle = robot->angle;
-    publishRobotCommand();
 }
 
 } // ai

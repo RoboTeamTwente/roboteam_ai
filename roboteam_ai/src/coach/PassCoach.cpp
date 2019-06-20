@@ -131,7 +131,7 @@ void PassCoach::updatePassProgression() {
     }
 
 }
-bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
+bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver) {
     auto ball = world::world->getBall();
 
     if (!ball || !passer || !receiver) {
@@ -146,7 +146,7 @@ bool PassCoach::validReceiver(RobotPtr passer, RobotPtr receiver) {
     if((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
         return false;
     }
-    return receiver->pos.x - ball->pos.x >= 0;
+    return true;
 }
 
 } // coach

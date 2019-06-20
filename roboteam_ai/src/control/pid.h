@@ -20,7 +20,9 @@ public:
     void setF(double);
     void setPID(double, double, double);
     void setPID(std::tuple<double, double, double>);
-    void setPID(double, double, double, double);
+        void setPID(std::tuple<double, double, double>, double);
+
+        void setPID(double, double, double, double);
     void setMaxIOutput(double);
     void setOutputLimits(double);
     void setOutputLimits(double,double);
