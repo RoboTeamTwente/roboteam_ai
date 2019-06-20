@@ -41,7 +41,6 @@ kalmanBall::kalmanBall() {
 }
 
 void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp, uint cameraID) {
-    std::cout << "MEAS" << std::endl;
     // if we have a ball already and the measurement is too far off we do not trust it.
     if (visibility != NOT_VISIBLE) {
         //HAck
@@ -58,11 +57,6 @@ void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeSta
         this->X.zeros();
         this->X(0) = ball.pos.x;
         this->X(2) = ball.pos.y;
-        // reset velocity
-        this->X(1) = 0;
-        this->X(3) = 0;
-        this->oldVel = {0.0, 0.0};
-
     }
     Position average = calculatePos(ball.pos, ball.z, cameraID);
     this->cameraId = cameraID;
@@ -110,7 +104,6 @@ void kalmanBall::filterVel(Vector2 curVel) {
 }
 
 void kalmanBall::kalmanUpdateX() {
-    std::cout << "Update X: " << invisibleCounter << std::endl;
     // first we update the visibility and check if the ball has been seen the last time
     updateVisibility();
 
