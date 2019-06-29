@@ -117,6 +117,8 @@ set(DEMO_SOURCES
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/GameStateManager.hpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/GameStateManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
@@ -132,155 +134,13 @@ set(UTILS_SOURCES
 
 
 set(SKILLS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.cpp
-#        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.h
-#        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/TurnGeneva.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/SkillGoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/SkillGoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/GetBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Pass.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Receive.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Halt.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Harass.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Keeper.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Attack.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleForward.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleForward.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootFreeKick.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootFreeKick.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/MidFieldHarasser.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/MidFieldHarasser.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/CoachDefend.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SlingShot.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SlingShot.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/InterceptRobot.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyHelper.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.h
-
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/TimeoutFormation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffUsFormation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/KickOffThemFormation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyKeeper.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PenaltyKeeper.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/FreeKickFormation.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/DefendFreeKick.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementReceive.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementReceive.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementPass.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ballPlacement/BallPlacementPass.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
-        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
+        )
 
-set(CONDITIONS_SOURCES
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.hpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TheyHaveBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/WeHaveBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallKickedToOurGoal.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallOnOurSide.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBeingPassedTo.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsCloseToPoint.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallOutOfField.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsBallCloseToBorder.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNearOurGoalLineAndStill.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasClearShot.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/TwoRobotBallPlacement.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.h 
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.cpp 
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.h)
+set(CONDITIONS_SOURCES)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp

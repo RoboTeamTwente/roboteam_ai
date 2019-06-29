@@ -13,152 +13,6 @@
             },
             "title": "UntilFail"
           },
-          "3yo6pv465fp3b5": {
-            "id": "3yo6pv465fp3b5",
-            "properties": {
-              "ROLE": "f2",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "6jjwvg9n7xbmfj14": {
-            "id": "6jjwvg9n7xbmfj14",
-            "properties": {
-              "ROLE": "f7",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "88vc7zd35i25y": {
-            "children": [
-              "6jjwvg9n7xbmfj14"
-            ],
-            "id": "88vc7zd35i25y",
-            "properties": {
-              "ROLE": "f7"
-            },
-            "title": "UntilSuccess"
-          },
-          "98mcefqibye63": {
-            "children": [
-              "vdi6duuxjphlft8"
-            ],
-            "id": "98mcefqibye63",
-            "properties": {
-              "ROLE": "f6"
-            },
-            "title": "UntilSuccess"
-          },
-          "9oqzlan3niv3v": {
-            "id": "9oqzlan3niv3v",
-            "properties": {
-              "ROLE": "f3",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "cz6po1xpyp89eqqw0": {
-            "id": "cz6po1xpyp89eqqw0",
-            "properties": {
-              "ROLE": "f5",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "gxk9a9ujkeu1umebk": {
-            "children": [
-              "3yo6pv465fp3b5"
-            ],
-            "id": "gxk9a9ujkeu1umebk",
-            "properties": {
-              "ROLE": "f2"
-            },
-            "title": "UntilSuccess"
-          },
-          "hhkymupc6ehenmy": {
-            "id": "hhkymupc6ehenmy",
-            "properties": {
-              "ROLE": "f4",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "hiz89316ncdy65gr": {
-            "children": [
-              "k6cla2zokvgju"
-            ],
-            "id": "hiz89316ncdy65gr",
-            "name": "avoid6",
-            "properties": {
-              "ROLE": "f5"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "iql0ambnqburo5i7": {
-            "children": [
-              "l72nv51wwo7huf"
-            ],
-            "id": "iql0ambnqburo5i7",
-            "properties": {
-              "ROLE": "f1"
-            },
-            "title": "UntilSuccess"
-          },
-          "j5ltqyml1r08j": {
-            "children": [
-              "gxk9a9ujkeu1umebk"
-            ],
-            "id": "j5ltqyml1r08j",
-            "name": "avoid3",
-            "properties": {
-              "ROLE": "f2"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "k6cla2zokvgju": {
-            "children": [
-              "cz6po1xpyp89eqqw0"
-            ],
-            "id": "k6cla2zokvgju",
-            "properties": {
-              "ROLE": "f5"
-            },
-            "title": "UntilSuccess"
-          },
-          "l72nv51wwo7huf": {
-            "id": "l72nv51wwo7huf",
-            "properties": {
-              "ROLE": "f1",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "lnu6ve8hw0zvf6yq": {
-            "children": [
-              "98mcefqibye63"
-            ],
-            "id": "lnu6ve8hw0zvf6yq",
-            "name": "avoid7",
-            "properties": {
-              "ROLE": "f6"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "mpm2j222ilghv": {
-            "children": [
-              "88vc7zd35i25y"
-            ],
-            "id": "mpm2j222ilghv",
-            "name": "avoid8",
-            "properties": {
-              "ROLE": "f7"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
           "nzca3a4jg1h6dwi8": {
             "id": "nzca3a4jg1h6dwi8",
             "properties": {
@@ -166,76 +20,15 @@
             },
             "title": "BallPlacementWithInterface"
           },
-          "o9tjajbwzoqt8gx6": {
-            "children": [
-              "xftxcafl2oc923x"
-            ],
-            "id": "o9tjajbwzoqt8gx6",
-            "name": "avoid5",
-            "properties": {
-              "ROLE": "f4"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "pemvszqw0gxzpb": {
-            "children": [
-              "9oqzlan3niv3v"
-            ],
-            "id": "pemvszqw0gxzpb",
-            "properties": {
-              "ROLE": "f3"
-            },
-            "title": "UntilSuccess"
-          },
           "rpk8pmh8uyujnphg": {
             "children": [
-              "x8zb84e2o94qpzdg",
-              "sop9f6wjof20ove",
-              "j5ltqyml1r08j",
-              "vpg8vtutaxizom",
-              "o9tjajbwzoqt8gx6",
-              "hiz89316ncdy65gr",
-              "lnu6ve8hw0zvf6yq",
-              "mpm2j222ilghv"
+              "x8zb84e2o94qpzdg"
             ],
             "id": "rpk8pmh8uyujnphg",
             "properties": {
               "TacticType": "General"
             },
             "title": "RoleDivider"
-          },
-          "sop9f6wjof20ove": {
-            "children": [
-              "iql0ambnqburo5i7"
-            ],
-            "id": "sop9f6wjof20ove",
-            "name": "avoid2",
-            "properties": {
-              "ROLE": "f1"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "vdi6duuxjphlft8": {
-            "id": "vdi6duuxjphlft8",
-            "properties": {
-              "ROLE": "f6",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "vpg8vtutaxizom": {
-            "children": [
-              "pemvszqw0gxzpb"
-            ],
-            "id": "vpg8vtutaxizom",
-            "name": "avoid4",
-            "properties": {
-              "ROLE": "f3"
-            },
-            "role": "avoid_role",
-            "title": "Role"
           },
           "x8zb84e2o94qpzdg": {
             "children": [
@@ -248,16 +41,6 @@
             },
             "role": "follow_interface",
             "title": "Role"
-          },
-          "xftxcafl2oc923x": {
-            "children": [
-              "hhkymupc6ehenmy"
-            ],
-            "id": "xftxcafl2oc923x",
-            "properties": {
-              "ROLE": "f4"
-            },
-            "title": "UntilSuccess"
           }
         },
         "root": "rpk8pmh8uyujnphg",

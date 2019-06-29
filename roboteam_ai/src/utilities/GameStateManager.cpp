@@ -1,5 +1,6 @@
 #include <roboteam_ai/src/interface/api/Output.h>
 #include "GameStateManager.hpp"
+#include "StrategyManager.h"
 
 namespace rtt {
 namespace ai {

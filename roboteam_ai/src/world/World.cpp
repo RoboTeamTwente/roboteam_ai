@@ -10,8 +10,23 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const roboteam_msgs::World &message, bool applyBallFilter) {
+void World::updateWorld(const roboteam_msgs::World &m, bool applyBallFilter) {
     worldNumber ++;
+
+    roboteam_msgs::World message;
+    roboteam_msgs::WorldRobot robot;
+
+    //TODO: HARDCODE THIS ID!!
+    robot.id = 0;
+    robot.pos.x = 0;
+    robot.pos.y = 0;
+    robot.vel.x = 0;
+    robot.vel.y = 0;
+    robot.angle = 0;
+    robot.w = 0;
+
+    message.ball = m.ball;
+    message.us.push_back(robot);
 
     BallPtr oldBall = nullptr;
     {
