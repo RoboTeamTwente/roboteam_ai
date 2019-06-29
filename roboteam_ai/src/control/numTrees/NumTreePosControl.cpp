@@ -72,9 +72,7 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
 RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
 
-    DT = 0.3/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
-    if (DT > 0.12) DT = 0.12;
-    if (DT < 0.06) DT = 0.06;
+    DT = 0.1;
 
     // check if the robot exists
     if (! robotPtr) {
@@ -602,7 +600,7 @@ bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
     return false;
 }
 bool NumTreePosControl::checkChangeInMaxRobotVel() {
-    double newMaxRobotVel = rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    double newMaxRobotVel = 2.0;
     if (newMaxRobotVel != currentMaxRobotVel) {
         currentMaxRobotVel = newMaxRobotVel;
         return true;

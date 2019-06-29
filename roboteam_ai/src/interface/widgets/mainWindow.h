@@ -15,18 +15,15 @@
 #include "QPushButton"
 #include <QTreeWidget>
 #include "QColor"
-#include "roboteam_ai/src/bt/Node.hpp"
 #include "QTreeWidgetItemIterator"
 #include <QtGui>
 #include <QRadioButton>
 #include <QGroupBox>
 #include <QLabel>
 #include <QtWidgets/QDoubleSpinBox>
-#include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
 #include "CheckboxWidget.h"
 #include "PidBox.h"
-#include "RuleSetWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -48,18 +45,13 @@ public:
 
 public slots:
     void updateRobotsWidget();
-    void updateTreeWidget();
-    void updateKeeperTreeWidget();
 
 private:
     QHBoxLayout* horizontalLayout;
     QVBoxLayout* mainLayout;
     QVBoxLayout* vLayout;
     RobotsWidget* robotsWidget;
-    RuleSetWidget * refWidget;
     CheckboxWidget * checkboxWidget;
-    TreeVisualizerWidget* treeWidget;
-    TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;
 };
 

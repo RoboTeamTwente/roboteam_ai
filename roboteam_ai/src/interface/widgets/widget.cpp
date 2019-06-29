@@ -2,13 +2,10 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
-#include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <ros/node_handle.h>
-#include <roboteam_ai/src/coach/PassCoach.h>
 #include "widget.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"
-#include "roboteam_ai/src/analysis/GameAnalyzer.h"
 
 namespace rtt {
 namespace ai {
@@ -280,7 +277,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
     }
 
-    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
+    if (ourTeam) {
         robotColor = QColor(255, 255, 255);
     }
 
@@ -437,11 +434,11 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, Robot robot) {
 }
 
 std::string Visualizer::getTacticNameForRobot(Robot robot) {
-    return robotDealer::RobotDealer::getTacticNameForId(robot.id);
+    return "Technical Challenge";
 }
 
 std::string Visualizer::getRoleNameForRobot(Robot robot) {
-    return robotDealer::RobotDealer::getRoleNameForId(robot.id);
+    return "TC";
 }
 
 void Visualizer::setShowRoles(bool showRoles) {

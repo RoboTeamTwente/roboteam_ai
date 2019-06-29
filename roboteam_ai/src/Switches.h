@@ -6,12 +6,8 @@
 
 #include "roboteam_ai/src/treeinterp/BTImport.h"
 #include <iostream>
-#include "roboteam_ai/src/utilities/RobotDealer.h"
 
 class Switches {
-        private:
-    static void runErrorHandler(std::map<std::string, std::map<std::string, rtt::ai::robotDealer::RobotType>> tactics);
-
     public:
 
         static std::vector<std::string> tacticJsonFileNames;

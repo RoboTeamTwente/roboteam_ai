@@ -187,8 +187,8 @@ void BallHandlePosControl::setMaxForwardsVelocity(double maxV) {
         std::cout << "Setting invalid max velocity in BallHandlePosControl" << std::endl;
         return;
     }
-    if (maxV > RefGameState().getRuleSet().maxRobotVel) {
-        maxV = RefGameState().getRuleSet().maxRobotVel;
+    if (maxV > 2.0) {
+        maxV = 2.0;
     }
     maxForwardsVelocity = maxV;
     dribbleForwards->setMaxVel(maxForwardsVelocity);
@@ -199,8 +199,8 @@ void BallHandlePosControl::setMaxBackwardsVelocity(double maxV) {
         std::cout << "Setting invalid max velocity in BallHandlePosControl" << std::endl;
         return;
     }
-    if (maxV > RefGameState().getRuleSet().maxRobotVel) {
-        maxV = RefGameState().getRuleSet().maxRobotVel;
+    if (maxV > 2.0) {
+        maxV = 2.0;
     }
     maxBackwardsVelocity = maxV;
     dribbleBackwards->setMaxVel(maxBackwardsVelocity);

@@ -39,7 +39,6 @@ private:
     QComboBox* select_goalie;
     QComboBox* select_ruleset;
 
-    GameState prevGameState;
     bool isHalted = false;
 
     void setToggleColorBtnLayout() const;

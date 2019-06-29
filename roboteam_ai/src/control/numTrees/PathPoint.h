@@ -7,7 +7,6 @@
 
 #include <memory>
 #include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 
@@ -26,7 +25,7 @@ class PathPoint : public std::enable_shared_from_this<PathPoint> {
         Vector2 vel;
         Vector2 acc;
 
-        double maxVelocity() { return rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel; }
+        double maxVelocity() { return 2.0; }
         double maxAcceleration() { return Constants::MAX_ACC_UPPER(); }
         double maxDeceleration() { return Constants::MAX_DEC_UPPER(); }
         double maxVel();

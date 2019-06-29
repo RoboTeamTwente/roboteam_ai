@@ -8,7 +8,6 @@
 #include <mutex>
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/utilities/Pause.h>
-#include "../../utilities/GameState.h"
 
 namespace rtt {
 namespace ai {
@@ -40,12 +39,9 @@ private:
     static bool showDebugValuesInTerminal;
     static bool timeOutAtTop;
 
-    static GameState interfaceGameState;
 public:
-    static void setInterfaceGameState(GameState interfaceGameState);
 
 public:
-    static const GameState &getInterfaceGameState();
 
 public:
     static bool isTimeOutAtTop();
@@ -76,10 +72,6 @@ public:
     static void setBallHandlePid(const pidVals &ballHandlePid);
     static void sendHaltCommand();
 
-    static void setKeeperTree(std::string name);
-    static void setStrategyTree(std::string name);
-    static void setRuleSetName(std::string name);
-    static void setKeeperId(int id);
 };
 
 }

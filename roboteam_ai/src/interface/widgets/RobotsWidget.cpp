@@ -7,7 +7,6 @@
 #include <roboteam_msgs/WorldRobot.h>
 #include "RobotsWidget.h"
 #include <QScrollArea>
-#include "roboteam_ai/src/analysis/GameAnalyzer.h"
 #include "mainWindow.h"
 
 namespace rtt {
@@ -89,20 +88,6 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
     auto wLabel = new QLabel("w: "+QString::number(robot.angularVelocity, 'g', 3)+"rad/s");
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
-
-    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    if (report) {
-        analysis::RobotDanger danger = report->getRobotDangerForId(robot.id, true);
-
-
-        auto dangerTotalLabel = new QLabel("danger total: " + QString::number(danger.getTotalDanger(), 'g', 3));
-        dangerTotalLabel->setFixedWidth(250);
-        vbox->addWidget(dangerTotalLabel);
-
-        auto goalVisionLabel = new QLabel("goalvision: " + QString::number(danger.goalVisionPercentage, 'g', 3));
-        goalVisionLabel->setFixedWidth(250);
-        vbox->addWidget(goalVisionLabel);
-    }
 
     return vbox;
 }

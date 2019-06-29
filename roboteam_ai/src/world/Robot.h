@@ -28,7 +28,6 @@ namespace world {
 
 class Ball;
 class Robot {
-    FRIEND_TEST(ShotControllerTest, getshotdata_test);
     public:
         using BallPtr = std::shared_ptr<Ball>;
         using RobotPtr = std::shared_ptr<Robot>;
@@ -92,17 +91,14 @@ public:
 
         // control managers
     private:
-        std::shared_ptr<control::ShotController> shotController;
         std::shared_ptr<control::NumTreePosControl> numTreePosControl;
         std::shared_ptr<control::BasicPosControl> basicPosControl;
         std::shared_ptr<control::BallHandlePosControl> ballHandlePosControl;
     public:
-        const std::shared_ptr<control::ShotController> &getShotController() const;
         const std::shared_ptr<control::NumTreePosControl> &getNumtreePosControl() const;
         const std::shared_ptr<control::BasicPosControl> &getBasicPosControl() const;
         const std::shared_ptr<control::BallHandlePosControl> &getBallHandlePosControl() const;
 
-        void resetShotController();
         void resetNumTreePosControl();
         void resetBasicPosControl();
         void resetBallHandlePosControl();

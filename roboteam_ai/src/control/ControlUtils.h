@@ -37,10 +37,7 @@ class ControlUtils {
 
         static double constrainAngle(double angle);
         static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
-        static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
-                                                  const Vector2 &lineEnd);
-        static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world,
-                double safeDistanceFactor, bool includeKeeper = true);
+
         static double distanceToLineWithEnds(const Vector2 & PointToCheck, const Vector2 &LineStart,
                 const Vector2 &LineEnd);
         static double angleDifference(double A1, double A2);
@@ -59,7 +56,6 @@ class ControlUtils {
         static int lineOrientation(const Vector2 &p, const Vector2 &q, const Vector2 &r);
         static bool lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
                 const Vector2 &lineBEnd);
-        static rtt::Arc createKeeperArc();
         static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
                 double minVel = 0.0, bool listenToReferee = true);
 
@@ -69,10 +65,8 @@ class ControlUtils {
                 double sidewaysDeceleration = Constants::MAX_DEC_LOWER() / Constants::TICK_RATE(),
                 double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE());
 
-        static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
-        static const std::shared_ptr<world::Robot> getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
         static Vector2 getInterceptPointOnLegalPosition(
                 Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
 };

@@ -14,7 +14,6 @@
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
 #include "roboteam_ai/src/world/WorldData.h"
-#include "roboteam_ai/src/coach/OffensiveCoach.h"
 #include "roboteam_ai/src/interface/api/Toggles.h"
 
 namespace rtt {

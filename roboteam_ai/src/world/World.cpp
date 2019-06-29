@@ -1,6 +1,5 @@
 #include "World.h"
 #include "FutureWorld.h"
-#include "BallPossession.h"
 #include "History.h"
 
 namespace rtt {
@@ -61,12 +60,9 @@ void World::updateWorld(const roboteam_msgs::World &m, bool applyBallFilter) {
         updateRobotsFromData(us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
-        // add the worlddata to the history
         WorldData worldDataCopyForHistory = WorldData(worldDataPtr);
         history->addWorld(worldDataCopyForHistory);
     }
-
-    ballPossessionPtr->update();
 }
 
 void World::updateRobotsFromData(Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,

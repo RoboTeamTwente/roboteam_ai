@@ -4,7 +4,6 @@
 
 #include "mainWindow.h"
 #include "roboteam_ai/src/utilities/Constants.h"
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include "roboteam_ai/src/interface/api/Output.h"
 #include "RobotsWidget.h"
 #include "PidsWidget.h"
@@ -32,22 +31,16 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     vLayout->addWidget(mainControlsWidget);
 
     // create widgets hidden under tabs
-    treeWidget = new TreeVisualizerWidget(this);
-    keeperTreeWidget = new TreeVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
-    refWidget = new RuleSetWidget(this);
     checkboxWidget = new CheckboxWidget(visualizer, this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
 
     auto DataTabWidget = new QTabWidget;
-    DataTabWidget->addTab(treeWidget, tr("Behaviour trees"));
-    DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
-    DataTabWidget->addTab(refWidget, tr("GameStateManager"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
 
     auto SettingsTabWidget = new QTabWidget;
@@ -79,15 +72,9 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(20); // 50fps
 
-    connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
-    connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
-
     // start the UI update cycles
     // these are slower than the tick rate
     auto * robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
-    connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
@@ -126,17 +113,6 @@ void MainWindow::updateRobotsWidget() {
     if (world::world->weHaveRobots())
         robotsWidget->updateContents(visualizer);
 }
-
-// update the tree widget with the newest strategy tree
-void MainWindow::updateTreeWidget() {
-    this->treeWidget->updateContents(BTFactory::getTree(BTFactory::getCurrentTree()));
-}
-
-// update the keeper widget with the newest keeper tree
-void MainWindow::updateKeeperTreeWidget() {
-   this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
-}
-
 
 } // interface
 } // ai

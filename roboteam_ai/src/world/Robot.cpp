@@ -7,7 +7,6 @@
 #include "Ball.h"
 
 #include "roboteam_ai/src/control/ControlUtils.h"
-#include "roboteam_ai/src/control/shotControllers/ShotController.h"
 #include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 #include "roboteam_ai/src/control/BasicPosControl.h"
@@ -35,7 +34,6 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
     }
 
     // set up control controllers
-    shotController = std::make_shared<control::ShotController>();
     numTreePosControl = std::make_shared<control::NumTreePosControl>();
     basicPosControl = std::make_shared<control::BasicPosControl>();
     ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
@@ -46,7 +44,6 @@ Robot::Robot()
          dribblerState(0), workingDribbler(false), workingBallSensor(false),
          id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
 
-    shotController = nullptr;
     numTreePosControl = nullptr;
     basicPosControl = nullptr;
     ballHandlePosControl = nullptr;
@@ -188,10 +185,6 @@ bool Robot::hasWorkingDribbler() const {
     return workingDribbler;
 }
 
-const std::shared_ptr<control::ShotController> &Robot::getShotController() const {
-    return shotController;
-}
-
 const std::shared_ptr<control::NumTreePosControl> &Robot::getNumtreePosControl() const {
     return numTreePosControl;
 }
@@ -214,11 +207,6 @@ const Vector2 &Robot::getPidPreviousVel() const {
 
 void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
-}
-
-
-void Robot::resetShotController() {
-    shotController = std::make_shared<control::ShotController>();
 }
 
 void Robot::resetNumTreePosControl() {

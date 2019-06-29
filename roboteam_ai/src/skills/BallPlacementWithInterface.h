@@ -5,21 +5,28 @@
 #ifndef ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
 #define ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
 
-#include "Skill.h"
 #include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
+#include "../io/IOManager.h"
 
 namespace rtt {
 namespace ai {
 
-class BallPlacementWithInterface : public Skill {
+class BallPlacementWithInterface {
     public:
-        explicit BallPlacementWithInterface(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
+        explicit BallPlacementWithInterface() = default;
+        void onUpdate();
 
     private:
+        std::shared_ptr<world::Robot> robot;
         control::BallHandlePosControl ballHandlePosControl;
         Vector2 previousTargetPos = Vector2();
 
+        io::IOManager ioManager = io::IOManager(false, true);
+        void limitRobotCommand();
+        void publishRobotCommand();
+        void refreshRobotCommand();
+        std::string node_name();
+        roboteam_msgs::RobotCommand command;
 };
 
 }

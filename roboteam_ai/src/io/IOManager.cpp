@@ -6,13 +6,10 @@
  */
 
 #include <roboteam_msgs/DemoRobot.h>
-#include "../demo/JoystickDemo.h"
 #include "../utilities/Pause.h"
 #include "../world/Field.h"
 #include "../world/Robot.h"
-#include "../utilities/GameStateManager.hpp"
 #include "IOManager.h"
-
 
 namespace rtt {
 namespace ai {
@@ -21,8 +18,6 @@ namespace io {
 std::mutex IOManager::worldStateMutex;
 std::mutex IOManager::geometryMutex;
 std::mutex IOManager::robotFeedbackMutex;
-std::mutex IOManager::refereeMutex;
-std::mutex IOManager::demoMutex;
 
 IOManager::IOManager(bool subscribe, bool advertise) {
     if (subscribe) {
@@ -30,8 +25,6 @@ IOManager::IOManager(bool subscribe, bool advertise) {
         this->subscribeToWorldState();
         this->subscribeToGeometryData();
         this->subscribeToRobotFeedback();
-        this->subscribeToRefereeData();
-        this->subscribeToDemoInfo();
     }
 
     if (advertise) {
@@ -71,27 +64,6 @@ void IOManager::subscribeToRobotFeedback() {
     );
 }
 
-void IOManager::subscribeToRefereeData() {
-    //TODO: This constant TOPIC_REFEREE was not used consistently by the previous team, so if stuff goes wrong check if you are reading the correct topic.
-    refereeSubscriber = nodeHandle.subscribe<roboteam_msgs::RefereeData>(
-            "vision_refbox", //vision_referee or vision_refbox
-            100,
-            &IOManager::handleRefereeData,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
-    );
-}
-
-void IOManager::subscribeToDemoInfo() {
-    demoInfoSubscriber = nodeHandle.subscribe<roboteam_msgs::DemoRobot>(
-            "demo_info",
-            100,
-            &IOManager::handleDemoInfo,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
-    );
-}
-
 void IOManager::handleWorldState(const roboteam_msgs::WorldConstPtr &w) {
     std::lock_guard<std::mutex> lock(worldStateMutex);
     this->worldMsg = *w;
@@ -118,17 +90,6 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &
 
 }
 
-void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
-    std::lock_guard<std::mutex> lock(demoMutex);
-    this->demoInfoMsg = *demoInfo;
-}
-
-void IOManager::handleRefereeData(const roboteam_msgs::RefereeDataConstPtr &refData) {
-    std::lock_guard<std::mutex> lock(refereeMutex);
-    this->refDataMsg = *refData;
-    GameStateManager::setRefereeData(this->refDataMsg);
-}
-
 const roboteam_msgs::World &IOManager::getWorldState() {
     std::lock_guard<std::mutex> lock(worldStateMutex);
     return this->worldMsg;
@@ -144,51 +105,30 @@ const roboteam_msgs::RobotFeedback &IOManager::getRobotFeedback() {
     return this->robotFeedbackMsg;
 }
 
-const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
-    std::lock_guard<std::mutex> lock(refereeMutex);
-    return this->refDataMsg;
-}
-
 void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
-    if (! pause->getPause()) {
-        if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
+    // the geneva cannot be received from world, so we set it when it gets sent.
+    auto robot = world::world->getRobotForId(cmd.id, true);
+    if (robot) {
 
-            // the geneva cannot be received from world, so we set it when it gets sent.
-            auto robot = world::world->getRobotForId(cmd.id, true);
-            if (robot) {
+        // this is a failcheck; the geneva state will only be turned if it is possible (which is checked in robot)
+        robot->setGenevaState(cmd.geneva_state);
+        cmd.geneva_state = robot->getGenevaState();
 
-                // this is a failcheck; the geneva state will only be turned if it is possible (which is checked in robot)
-                robot->setGenevaState(cmd.geneva_state);
-                cmd.geneva_state = robot->getGenevaState();
+        // only kick and chipp when geneva is ready
+        cmd.kicker = cmd.kicker && robot->isGenevaReady();
+        cmd.chipper = cmd.chipper && robot->isGenevaReady();
+        cmd.kicker_forced = cmd.kicker_forced && robot->isGenevaReady();
+        cmd.chipper_forced = cmd.chipper_forced && robot->isGenevaReady();
 
-                // only kick and chipp when geneva is ready
-                cmd.kicker = cmd.kicker && robot->isGenevaReady();
-                cmd.chipper = cmd.chipper && robot->isGenevaReady();
-                cmd.kicker_forced = cmd.kicker_forced && robot->isGenevaReady();
-                cmd.chipper_forced = cmd.chipper_forced && robot->isGenevaReady();
-
-                robot->setDribblerState(cmd.dribbler);
-            }
-            // sometimes trees are terminated without having a role assigned.
-            // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
-            if (cmd.id >= 0 && cmd.id < 16) {
-                robotCommandPublisher.publish(cmd);
-            }
-        }
-        else {
-            ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
-        }
+        robot->setDribblerState(cmd.dribbler);
     }
-    else {
-        ROS_ERROR("HALT!");
+    // sometimes trees are terminated without having a role assigned.
+    // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
+    if (cmd.id >= 0 && cmd.id < 16) {
+        robotCommandPublisher.publish(cmd);
     }
-}
 
-const roboteam_msgs::DemoRobot &IOManager::getDemoInfo() {
-    std::lock_guard<std::mutex> lock(demoMutex);
-    return this->demoInfoMsg;
 }
-
 
 } // io
 } // ai
