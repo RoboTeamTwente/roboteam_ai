@@ -10,7 +10,7 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const roboteam_msgs::World &message, bool applyBallFilter) {
+void World::updateWorld(const roboteam_msgs::World &message) {
     worldNumber ++;
 
     BallPtr oldBall = nullptr;
@@ -33,10 +33,10 @@ void World::updateWorld(const roboteam_msgs::World &message, bool applyBallFilte
     // update ballmodel, dribbling, position if not visible etc.
     auto tempWorldData = WorldData(message);
     if (oldBall) {
-        tempWorldData.ball->updateBall(oldBall, tempWorldData, applyBallFilter);
+        tempWorldData.ball->updateBall(oldBall, tempWorldData);
     }
     else {
-        tempWorldData.ball->updateBall(tempWorldData.ball, tempWorldData, applyBallFilter);
+        tempWorldData.ball->updateBall(tempWorldData.ball, tempWorldData);
     }
 
     {

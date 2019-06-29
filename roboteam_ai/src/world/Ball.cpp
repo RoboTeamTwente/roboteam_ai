@@ -17,19 +17,17 @@ namespace world {
 bool Ball::exists = false;
 
 Ball::Ball()
-        :pos(Vector2()), vel(Vector2()), visible(false) { }
+        :pos(Vector2()), vel(Vector2()), filteredVel(Vector2()), visible(false) { }
 
 Ball::Ball(const roboteam_msgs::WorldBall &copy)
-        :pos(copy.pos), vel(copy.vel),
+        :pos(copy.pos), vel(copy.vel), filteredVel(copy.vel),
          visible(copy.visible) {
     exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
-void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData, bool applyBallFilter) {
-    if (applyBallFilter) {
-        filterBallVelocity(*oldBall, worldData);
-    }
+void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
+    filterBallVelocity(*oldBall, worldData);
     updateBallModel(*oldBall, worldData);
     updateExpectedPositionWhereBallIsStill(*oldBall, worldData);
     updateBallPosition(*oldBall, worldData);
@@ -173,10 +171,10 @@ void Ball::updateBallPosition(const Ball &oldBall, const WorldData &worldData) {
 
 void Ball::updateExpectedPositionWhereBallIsStill(const Ball &oldBall, const WorldData &worldData) {
     auto &ball = worldData.ball;
-    double ballVelSquared = ball->vel.length2();
+    double ballVelSquared = ball->filteredVel.length2();
     const double frictionCoefficient = Constants::GRSIM() ? 1.22 : 0.61;
 
-    ballStillPosition = ball->pos + ball->vel.stretchToLength(ballVelSquared/frictionCoefficient);
+    ballStillPosition = ball->pos + ball->filteredVel.stretchToLength(ballVelSquared/frictionCoefficient);
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {ballStillPosition}, Constants::BALL_COLOR(), - 1,
             interface::Drawing::CIRCLES, 8, 8, 6);
@@ -223,7 +221,7 @@ void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
     if (this->pos == Vector2() && oldBall.pos != Vector2()) {
         bool robotIsCloseToBall = false;
         for (const auto &robot : worldData.us) {
-            if ((robot->pos - oldBall.pos).length() < 0.35) {
+            if ((robot->pos - oldBall.pos).length() < 0.5) {
                 robotIsCloseToBall = true;
                 break;
             }
@@ -233,14 +231,16 @@ void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
         }
     }
 
-    auto &ball = worldData.ball;
-    double velocityDifference = (ball->vel - oldBall.vel).length();
+    double velocityDifference = (this->vel - oldBall.filteredVel).length();
 
     double velForMaxFactor = 10.0;
     double maxFactor = 1.0;
     double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
 
-    this->vel = (oldBall.vel*(1 - factor) + ball->vel*factor);
+    this->filteredVel = (oldBall.vel*(1 - factor) + this->vel*factor);
+    if (this->filteredVel.length2() > 100.0) {
+        this->filteredVel = this->vel;
+    }
 }
 
 } //world
