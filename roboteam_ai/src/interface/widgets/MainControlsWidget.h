@@ -20,10 +20,6 @@ class MainControlsWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MainControlsWidget(QWidget * parent = nullptr);
-
-signals:
-    void treeHasChanged();
-
 private:
     QVBoxLayout* vLayout;
     QPushButton* pauseBtn;
@@ -45,16 +41,9 @@ private:
     void setToggleSideBtnLayout() const;
 
 public slots:
-    void setTimeOutTop(bool top);
     void toggleOurColorParam();
     void toggleOurSideParam();
-    void sendPauseSignal();
-    void updatePause();
-    void setUseReferee(bool useRef);
-    void refreshSignal();
-    void refreshJSONSignal();
-    void updateContents();
-    void sendHaltSignal();
+
 };
 } // interface
 } // ai
