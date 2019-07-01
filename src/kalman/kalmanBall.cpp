@@ -53,6 +53,7 @@ void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeSta
     }
     else {
         // we found a new ball so we are resetting the state. We assume it's velocity is 0.
+        std::cout<<"Jumping the ball"<<std::endl;
         this->pastObservation.clear();
         this->X.zeros();
         this->X(0) = ball.pos.x;
@@ -103,6 +104,9 @@ void kalmanBall::filterVel(Vector2 curVel) {
 
 void kalmanBall::kalmanUpdateX() {
     // first we update the visibility and check if the ball has been seen the last time
+    if (this->invisibleCounter>BALLEXTRAPOLATEDTIME&&visibility==EXTRAPOLATED){
+        std::cout<<"Invisible ball! Not moving it anymore. "<<std::endl;
+    }
     updateVisibility();
 
     // X_predict = FX_current
