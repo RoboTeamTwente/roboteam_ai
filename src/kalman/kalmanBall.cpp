@@ -77,8 +77,6 @@ roboteam_msgs::WorldBall kalmanBall::as_ball_message() {
     roboteam_msgs::WorldBall msg;
     Position pos = kalmanGetPos();
     Position vel = kalmanGetVel();
-    Vector2 curVel = {vel.x, vel.y};
-    filterVel(curVel);
     // since the balls z axis is being kept in the third place of the vector it is the 'rotation' here
     msg.existence = 1;
     msg.visible = isVisible();
