@@ -231,13 +231,13 @@ void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
         }
     }
 
-    double velocityDifference = (this->vel - oldBall.filteredVel).length();
+    double velocityDifference = (this->vel - oldBall.filteredVel).length() * Constants::TICK_RATE();
 
-    double velForMaxFactor = 10.0;
-    double maxFactor = 1.0;
+    double velForMaxFactor = 8.0;
+    double maxFactor = 0.8;
     double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
-
-    this->filteredVel = (oldBall.vel*(1 - factor) + this->vel*factor);
+    std::cout << factor << std::endl;
+    this->filteredVel = (oldBall.filteredVel*(1 - factor) + this->vel*factor);
     if (this->filteredVel.length2() > 100.0) {
         this->filteredVel = this->vel;
     }
