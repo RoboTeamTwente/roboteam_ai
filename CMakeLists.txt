@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 project(roboteam_ai)
 
-
 #SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -g3 -O0 -Wall --coverage")
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
@@ -477,7 +476,6 @@ add_executable(Roboteam_AI
 
 add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
 target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
-cotire(Roboteam_AI)
 
 #############
 ## Testing ##
@@ -503,7 +501,6 @@ target_link_libraries(ai_tests
         ${catkin_LIBRARIES}
         gcov
         Qt5::Widgets Qt5::Gui)
-cotire(ai_tests)
 
 # this creates a directory for the jsons where  ROS launch scripts can access it
 # then the json folder gets linked to that directory, so also ROS launch scripts can profit from refreshing JSONS on runtime
@@ -516,3 +513,12 @@ ADD_CUSTOM_TARGET(link_target ALL
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
 SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
+
+# required properties for cotire
+set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD 11)
+set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
+set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
+
+cotire(Roboteam_AI)
+cotire(ai_tests)
