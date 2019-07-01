@@ -22,27 +22,6 @@
             },
             "title": "BallPlacementReceive"
           },
-          "0oi02jvybl9zy": {
-            "children": [
-              "fmsx92e4094pu2"
-            ],
-            "id": "0oi02jvybl9zy",
-            "properties": {
-              "ROLE": "ball_placement_passer"
-            },
-            "title": "Repeater"
-          },
-          "0qrlb2yqs45424b7": {
-            "children": [
-              "fzcufstsqmsndfeo"
-            ],
-            "id": "0qrlb2yqs45424b7",
-            "properties": {
-              "ROLE": "ball_placement_receiver",
-              "limit": ""
-            },
-            "title": "Repeater"
-          },
           "18viisl0ae4lgq99": {
             "children": [
               "euzmy2zph98hkh7j6"
@@ -187,7 +166,7 @@
           "gu54z0s9eogqby": {
             "children": [
               "o95mw6owa4fb9lbw",
-              "0oi02jvybl9zy"
+              "fmsx92e4094pu2"
             ],
             "id": "gu54z0s9eogqby",
             "properties": {
@@ -270,7 +249,7 @@
               "0jm9n4dy0kcpb1zy",
               "pmr4vl0njvz7a29h",
               "corqdtti5xrzycva",
-              "0qrlb2yqs45424b7"
+              "fzcufstsqmsndfeo"
             ],
             "id": "mpwqdwjzsibj1n3e",
             "properties": {

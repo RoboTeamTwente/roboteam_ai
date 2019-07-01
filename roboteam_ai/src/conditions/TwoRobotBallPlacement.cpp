@@ -10,21 +10,23 @@ namespace rtt {
 namespace ai {
 
 TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {};
+        :Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
-    Vector2 ballPos = ball->pos;
     auto us = world::world->getUs();
-    if (us.size() < 2) {
+
+    int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
+    bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
+    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->pos) < 2.1;
+
+    std::cout << "we have enough robots: " << weHaveEnoughRobots << " ballIsCloseToBallPlacementPos: " << ballIsCloseToBallPlacementPos << std::endl;
+
+    if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
         return Status::Failure;
     }
 
-    if ((ball->pos - ballPlacementPos).length() < 2.1) {
-        return Status::Failure;
-    } else {
-        return Status::Success;
-    }
+    return Status::Success;
 }
 
 }

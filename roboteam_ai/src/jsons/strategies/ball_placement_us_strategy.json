@@ -3,28 +3,19 @@
     "trees": [
       {
         "nodes": {
-          "7xlpa1khh7m8brqa": {
+          "b4zikfphnc5a7deb": {
             "children": [
-              "r7jft4clulapw3s5",
-              "jpufwfzbopbhc5l6"
+              "ryeorbsmv04bh5fr",
+              "tmquzoe29xvfc9k7"
             ],
-            "id": "7xlpa1khh7m8brqa",
+            "id": "b4zikfphnc5a7deb",
             "properties": {},
-            "title": "MemSelector"
+            "title": "MemSequence"
           },
           "jpufwfzbopbhc5l6": {
             "id": "jpufwfzbopbhc5l6",
             "name": "one_robot_ballplacement_tactic",
             "title": "Tactic"
-          },
-          "r7jft4clulapw3s5": {
-            "children": [
-              "ryeorbsmv04bh5fr",
-              "tmquzoe29xvfc9k7"
-            ],
-            "id": "r7jft4clulapw3s5",
-            "properties": {},
-            "title": "MemSequence"
           },
           "ryeorbsmv04bh5fr": {
             "id": "ryeorbsmv04bh5fr",
@@ -35,9 +26,18 @@
             "id": "tmquzoe29xvfc9k7",
             "name": "two_robot_ballplacement_tactic",
             "title": "Tactic"
+          },
+          "x9uph2bq5ugxd8rk": {
+            "children": [
+              "b4zikfphnc5a7deb",
+              "jpufwfzbopbhc5l6"
+            ],
+            "id": "x9uph2bq5ugxd8rk",
+            "properties": {},
+            "title": "Selector"
           }
         },
-        "root": "7xlpa1khh7m8brqa",
+        "root": "x9uph2bq5ugxd8rk",
         "title": "ball_placement_us_strategy"
       }
     ]

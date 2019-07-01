@@ -1,1 +1,30 @@
-{"data": {"trees": [{"nodes": {"ydeshypxw8pxbeo8": {"children": ["k9hdietmx4i0h", "4yfceu9dyc3uw"], "id": "ydeshypxw8pxbeo8", "title": "Selector"}, "4yfceu9dyc3uw": {"id": "4yfceu9dyc3uw", "name": "penalty_them_tactic", "title": "Tactic"}, "k9hdietmx4i0h": {"id": "k9hdietmx4i0h", "title": "ResumePlayAfterPenalty"}}, "root": "ydeshypxw8pxbeo8", "title": "penalty_them_defend_strategy"}]}, "name": "penalty_them_defend_strategy"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4yfceu9dyc3uw": {
+            "id": "4yfceu9dyc3uw",
+            "name": "penalty_them_tactic",
+            "title": "Tactic"
+          },
+          "k9hdietmx4i0h": {
+            "id": "k9hdietmx4i0h",
+            "title": "ResumePlayAfterPenalty"
+          },
+          "ydeshypxw8pxbeo8": {
+            "children": [
+              "k9hdietmx4i0h",
+              "4yfceu9dyc3uw"
+            ],
+            "id": "ydeshypxw8pxbeo8",
+            "title": "Selector"
+          }
+        },
+        "root": "ydeshypxw8pxbeo8",
+        "title": "penalty_them_defend_strategy"
+      }
+    ]
+  },
+  "name": "penalty_them_defend_strategy"
+}

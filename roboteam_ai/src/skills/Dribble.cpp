@@ -12,6 +12,7 @@ Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
 
 
 void Dribble::onInitialize() {
+
     //if false, robot will dribble to the position backwards with the ball.
     forwardDirection = properties->getBool("forwardDirection");
 
@@ -22,9 +23,6 @@ void Dribble::onInitialize() {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
-    if (properties->hasInt("maxTicks")) {
-        maxTicks = properties->getInt("maxTicks");
-    }
     else {
         ROS_ERROR("Dribble Initialize -> No maxTicks set!");
     }
@@ -41,9 +39,6 @@ void Dribble::onInitialize() {
     }
 
     count = 0;
-
-    stoppingAngle = robot->angle; // default to the current angle
-    initialAngle = robot->angle;
 }
 
 Dribble::Status Dribble::onUpdate() {
@@ -51,7 +46,9 @@ Dribble::Status Dribble::onUpdate() {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
-    if(ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
+    auto c = robot->getBallHandlePosControl()->getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+
+    if(robot->getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
@@ -60,13 +57,9 @@ Dribble::Status Dribble::onUpdate() {
         return Status::Failure;
     }
 
-    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
     command = c.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
-}
-
-void Dribble::onTerminate(Status s) {
 }
 
 } // ai

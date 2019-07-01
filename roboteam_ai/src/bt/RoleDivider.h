@@ -19,8 +19,10 @@ class RoleDivider : public Node {
         std::string name;
         void giveProperty(std::string a, std::string b) override;
         Status update() override;
+        void terminate(Status s) override;
 
 };
+
 
 }
 

@@ -1,1 +1,18 @@
-{"data": {"trees": [{"nodes": {"4yfceu9dyc3uw": {"id": "4yfceu9dyc3uw", "name": "penalty_them_tactic", "title": "Tactic"}}, "root": "4yfceu9dyc3uw", "title": "penalty_them_prepare_strategy"}]}, "name": "penalty_them_prepare_strategy"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4yfceu9dyc3uw": {
+            "id": "4yfceu9dyc3uw",
+            "name": "penalty_them_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "4yfceu9dyc3uw",
+        "title": "penalty_them_prepare_strategy"
+      }
+    ]
+  },
+  "name": "penalty_them_prepare_strategy"
+}
