@@ -59,9 +59,7 @@ roboteam_msgs::World kalmanFilter::getWorld() {
             world.them.push_back(kalmanTheirBot.as_message());
         }
     }
-    if (ball.getExistence()){
-        world.ball=ball.as_ball_message();
-    }
+    world.ball=ball.as_ball_message();
     return world;
 }
 

@@ -11,9 +11,11 @@ const int STATEINDEX = 4;
 const int OBSERVATIONINDEX = 2;
 // timerate
 const float TIMEDIFF = 0.01;
-// time after which objects disappear
+// time after which robots disappear
 const float DISAPPEARTIME = 0.5/TIMEDIFF; //seconds/TIMEDIFF
 
+const float BALLDISAPPEARTIME=0.5/TIMEDIFF;//amount of frames we wait for the ball to disappear
+const float BALLEXTRAPOLATEDTIME=0.05/TIMEDIFF;// amount of frames after we mark the ball not visible but keep extrapolating it.
 // amount of robots and balls per team that we keep track off
 const int BOTCOUNT=16; //id 0-15
 const int BALLCOUNT=1;
@@ -24,18 +26,20 @@ const int MAXCOMPARISONS = 100;
 
 // constant variance estimates
 //posVar: the distrust in the pos observation
-//StateVar: the distrust in the current state
-//RandVar: the amount of expected random input
-//in the future data about them and us might be different so we made different variances
+//StateVar: the distrust in the initial state, which is the observation
+//RandVar: the distrust in the current state
+//in the future data about them and us might be different so we made different variances.
+// More trust in the model/state (higher Posvar compared to RandVar) leads to a smoother but slower signal
+// More trust in the observation (higher Randvar compared to PosVar) leads to a noiser but faster signal
 const float posVar_us = 2;
-const float stateVar_us = 0.5;
+const float stateVar_us = posVar_us;
 const float randVar_us = 1;
 const float posVar_them = 2;
-const float stateVar_them = 0.5;
+const float stateVar_them = posVar_them;
 const float randVar_them = 1;
-const float posVar_ball = 0.1;
-const float stateVar_ball = 100;
-const float randVar_ball = 1;
+const float posVar_ball = 1;
+const float stateVar_ball = posVar_ball;
+const float randVar_ball = 100;
 
 
 const unsigned int INVALID_ID = - 1;

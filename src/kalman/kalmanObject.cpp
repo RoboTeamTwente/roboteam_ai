@@ -55,6 +55,11 @@ namespace rtt {
     void kalmanObject::kalmanUpdateX() {
 
         this->invisibleCounter += 1;
+        if (this->invisibleCounter> DISAPPEARTIME&&this->exists){
+            if (this->id!=-1) {
+                std::cout << "Removing bot: " << this->id<< std::endl;
+            }
+        }
         if (this->invisibleCounter > DISAPPEARTIME || !this->exists) {
             this->exists = false;
         } else {
@@ -76,14 +81,20 @@ namespace rtt {
     }
 
     void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp, uint cameraID) {
-        //if the new data is a certain distance from the old data, it's considered a ghost and ignored
+        //if the new data is a certain distance from the old/predicted data, it's considered a ghost and ignored
         if (this->exists){
-            //HAck
             float errorx = robot.pos.x-this->X(0);
             float errory = robot.pos.y-this->X(2);
             if (errorx*errorx+errory*errory >= 0.2*0.2){
                 return;
             }
+        }
+        //if the object comes into being, make the observation it's state, (to prevent jumping)
+        if (!this->exists){
+            std::cout<<"Adding bot: "<<robot.robot_id<<std::endl;
+            this->pastObservation.clear();
+            this->X(0) = robot.pos.x;
+            this->X(2) = robot.pos.y;
         }
         Position average = calculatePos(robot.pos, robot.orientation, cameraID);
         this->cameraId = cameraID;
@@ -94,11 +105,6 @@ namespace rtt {
         this->orientation = average.rot;
         this->observationTimeStamp = timeStamp;
         this->invisibleCounter = 0;
-        //if the object comes into being, make the observation it's state, (to prevent jumping)
-        if (!this->exists){
-            this->X(0) = robot.pos.x;
-            this->X(2) = robot.pos.y;
-        }
         this->exists = true;
     }
 
