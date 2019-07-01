@@ -39,7 +39,7 @@ const float stateVar_them = posVar_them;
 const float randVar_them = 1;
 const float posVar_ball = 1;
 const float stateVar_ball = posVar_ball;
-const float randVar_ball = 10;
+const float randVar_ball = 100;
 
 
 const unsigned int INVALID_ID = - 1;

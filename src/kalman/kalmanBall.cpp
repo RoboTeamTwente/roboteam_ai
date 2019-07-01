@@ -86,8 +86,8 @@ roboteam_msgs::WorldBall kalmanBall::as_ball_message() {
     msg.pos.y = pos.y;
 
     msg.z = pos.rot;
-    msg.vel.x = this->oldVel.x;
-    msg.vel.y = this->oldVel.y;
+    msg.vel.x = vel.x;
+    msg.vel.y = vel.y;
     msg.z_vel = vel.rot;
     return msg;
 }
