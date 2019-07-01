@@ -237,7 +237,7 @@ void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
     double maxFactor = 1.0;
     double factor = velocityDifference > velForMaxFactor ? maxFactor : velocityDifference*maxFactor/velForMaxFactor;
 
-    this->filteredVel = (oldBall.vel*(1 - factor) + this->vel*factor);
+    this->filteredVel = (oldBall.filteredVel*(1 - factor) + this->filteredVel*factor);
     if (this->filteredVel.length2() > 100.0) {
         this->filteredVel = this->vel;
     }
