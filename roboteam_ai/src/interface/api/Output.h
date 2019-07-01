@@ -21,6 +21,12 @@ class Output {
 private:
     static pidVals basicPID;
     static pidVals numTreePID;
+    static pidVals forcePID;
+    static pidVals shotControllerPID;
+public:
+    static const pidVals &getShotControllerPID();
+    static void setShotControllerPID(const pidVals &shotControllerPID);
+private:
     static pidVals keeperPID;
     static pidVals keeperInterceptPID;
     static pidVals ballHandlePID;

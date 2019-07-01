@@ -326,6 +326,9 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         if (!robot.hasWorkingBallSensor()) {
             text += "BS ";
         }
+        if (robot.isBatteryLow()) {
+            text += "BATTERY LOW";
+        }
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
     }
 
@@ -547,8 +550,8 @@ void Visualizer::drawArrows(QPainter &painter, std::vector<Vector2> points, doub
             double arrowLength = (arrowEnd-arrowStart).length();
             Angle arrowAngle = (arrowEnd-arrowStart).toAngle();
 
-            double arrowSizeFactor = factor == 4.0 ? 0.35 : std::min(1.0, factor);
-            double maxArrowSize = maxSize == 4.0 ? 0.5 : std::min(1.0, maxSize);
+            double arrowSizeFactor = factor == 4.0 ? 0.2 : std::min(1.0, factor);
+            double maxArrowSize = maxSize == 4.0 ? 0.2 : std::min(1.0, maxSize);
             double arrowSize = arrowLength > maxArrowSize/arrowSizeFactor ? arrowSizeFactor : arrowSizeFactor*arrowLength;
 
             Vector2 startPoint = arrowEnd + (arrowStart-arrowEnd).stretchToLength(arrowSize);

@@ -21,6 +21,7 @@ Halt::Status Halt::onUpdate() {
     if (tick <= ticks) {
         // send slowing down command
         command.use_angle = 0;
+        command.geneva_state = 3;
         publishRobotCommand();
         tick ++;
         return Status::Running;

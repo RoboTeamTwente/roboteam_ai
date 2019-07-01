@@ -98,7 +98,7 @@ Pass::Status Pass::onUpdate() {
         }
 
         auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), chip, control::BallSpeed::PASS,
-                true, control::ShotPrecision::MEDIUM);
+                false, control::ShotPrecision::HIGH);
         command = shotdata.makeROSCommand();
         if ((command.kicker == true || command.chipper == true) && ! hasShot) {
             hasShot = true;
@@ -131,7 +131,7 @@ void Pass::initiatePass() {
 bool Pass::didShootProperly() {
     bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
     bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
-            robotToPassTo->pos);
+            robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 
     return (hasShot && ballIsMovingFast && ballIsMovingToReceiver);
 }

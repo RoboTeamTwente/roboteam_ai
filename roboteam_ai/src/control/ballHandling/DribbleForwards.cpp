@@ -9,6 +9,7 @@
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
@@ -68,24 +69,14 @@ void DribbleForwards::updateForwardsProgress() {
             forwardsProgress = APPROACHING;
             return;
         }
-        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-            std::cout << "we do not have a ball yet" << std::endl;
-        }
-        Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;
-        double maxOffsetAngle = M_PI*0.05;
-        if (fabs(offsetAngle) > maxOffsetAngle) {
-            forwardsProgress = START;
-            return;
-        }
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             forwardsProgress = SUCCESS;
             return;
         }
-
         return;
     }
-    case FAIL:
-    case START:
+    case FAIL:return;
+    case START:return;
     default:return;
     case SUCCESS: {
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
@@ -130,7 +121,7 @@ RobotCommand DribbleForwards::sendTurnCommand() {
 
 RobotCommand DribbleForwards::sendApproachCommand() {
     RobotCommand command;
-    command.dribbler = 0;
+    command.dribbler = 28;
     command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
@@ -138,20 +129,31 @@ RobotCommand DribbleForwards::sendApproachCommand() {
 
 RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 31;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
 
     // check if the robot is still on the virtual line from ball->pos to the target
     if (control::ControlUtils::distanceToLine(robot->pos,
-            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*2.5) {
+            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*5) {
         forwardsProgress = TURNING;
     }
 
+    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
+            (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle();
+
+    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
+    command.vel += compensation;
+
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
+            Qt::white, robot->id, interface::Drawing::ARROWS);
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {forwardsDribbleLine.first, forwardsDribbleLine.second},
+            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
+
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
-    if (ball->visible) {
+    if (ball->visible && false) {
         Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
-        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot*0.23);
     }
 
     // limit velocity close to the target
@@ -159,7 +161,6 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     if (distanceRemainingSquared < 1.0) {
         command.vel.stretchToLength(distanceRemainingSquared*0.3);
     }
-
     return command;
 }
 

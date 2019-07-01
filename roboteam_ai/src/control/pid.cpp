@@ -380,3 +380,8 @@ void PID::checkSigns(){
 void PID::setPID(std::tuple<double, double, double> pid) {
   this->setPID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid));
 }
+
+
+void PID::setPID(std::tuple<double, double, double> pid, double f) {
+    this->setPID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid), f);
+}

@@ -14,8 +14,8 @@ Wait::Wait(string name, bt::Blackboard::Ptr blackboard)
 
 void Wait::onInitialize() {
     double seconds;
-    if (properties->hasInt("seconds")) {
-        seconds = properties->getInt("seconds");
+    if (properties->hasDouble("seconds")) {
+        seconds = properties->getDouble("seconds");
     } else {
         seconds = 0;
     }

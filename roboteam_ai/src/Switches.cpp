@@ -53,6 +53,7 @@
 #include <roboteam_ai/src/skills/BallPlacementWithInterface.h>
 #include <roboteam_ai/src/skills/MidFieldHarasser.h>
 #include <roboteam_ai/src/skills/Wait.h>
+#include <roboteam_ai/src/skills/KickTo.h>
 
 
 //  ______________________
@@ -173,7 +174,8 @@ std::vector<std::string> Switches::keeperJsonFiles = {
         "keeper_penalty_defend_tactic",
         "keeper_penalty_prepare_tactic",
         "shootout_prepare_tactic",
-        "shootout_shoot_tactic"
+        "shootout_shoot_tactic",
+        "shootout_defend_tactic"
         };
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
@@ -255,7 +257,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["DriveWithInterface"] = std::make_shared<rtt::ai::DriveWithInterface>(name, properties);
     map["BallPlacementWithInterface"] = std::make_shared<rtt::ai::BallPlacementWithInterface>(name, properties);
     map["Wait"] = std::make_shared<rtt::ai::Wait>(name, properties);
-
+    map["KickTo"] = std::make_shared<rtt::ai::KickTo>(name,properties);
 
 
     // conditions (alphabetic order)
@@ -311,8 +313,8 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             {"keeper_penalty_prepare_tactic", {{"Keeper", robotType::CLOSE_TO_OUR_GOAL}}},
             //shootout
             {"shootout_prepare_tactic",{{"Keeper",robotType::CLOSE_TO_OUR_GOAL}}},
-
             {"shootout_shoot_tactic",{{"Keeper",robotType::CLOSE_TO_BALL}}},
+            {"shootout_defend_tactic",{{"Keeper",robotType::CLOSE_TO_OUR_GOAL}}},
             // General tactics
             {"halt_tactic", {
                     {"halt0", robotType::RANDOM},

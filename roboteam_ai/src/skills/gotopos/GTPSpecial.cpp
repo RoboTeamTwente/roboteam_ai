@@ -160,7 +160,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
     }
     case ballPlacementAfter:{
         targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
-            auto c = robot->getBasicPosControl()->getRobotCommand(robot, targetPos);
+            auto c = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos);
             command = c.makeROSCommand();
             command.w = (ball->pos - robot->pos).toAngle();
             maxVel = 2.0;
