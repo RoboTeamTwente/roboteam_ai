@@ -32,7 +32,7 @@ public:
     virtual int determineReceiver(int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
-    bool validReceiver(const RobotPtr& passer, const RobotPtr& receiver);
+    bool validReceiver(const RobotPtr& passer, const RobotPtr& receiver, bool freeKick = false;);
 
 private:
 
