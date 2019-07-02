@@ -110,16 +110,19 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     Vector2 lineProgress = {- 0.4, 0};
 
 
+    Vector2 lineFromBallToTheirPenaltyPoint = penaltyThem - ballPos;
+    Vector2 rec1 = ballPos + lineFromBallToTheirPenaltyPoint.rotate(toRadians(20)).stretchToLength(lineFromBallToTheirPenaltyPoint.length()/2.0);
+    Vector2 rec2 = ballPos + lineFromBallToTheirPenaltyPoint.rotate(-toRadians(20)).stretchToLength(lineFromBallToTheirPenaltyPoint.length()/2.0);
+
     Vector2 def1 = {penaltyUs.x + lengthOffset/3.0, penaltyUs.y + widthOffset/1.5};
     Vector2 def2 = {penaltyUs.x + lengthOffset/3.0, - (penaltyUs.y + widthOffset/1.5)};
     Vector2 def3 = {penaltyUs.x, penaltyUs.y + widthOffset/1.5};
-
 
     Vector2 line1 = {penaltyThem.x - (lengthOffset/3.0), (penaltyThem.y + widthOffset)*ballPosMultiplier};
     Vector2 line2 = line1 + lineProgress;
     Vector2 line3 = line2 + lineProgress;
 
-    std::vector<Vector2> temp = {line1, def1, def2, line2, line3, def3};
+    std::vector<Vector2> temp = {rec1, rec2, line1, def1, def2, line2, line3, def3};
     std::vector<Vector2> res;
     for (int i = 0; i < number; i ++) {
         if (temp.size() > i) {
