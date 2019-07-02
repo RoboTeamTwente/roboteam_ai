@@ -48,7 +48,7 @@ class OffensiveCoach {
         void redistributePositions();
 
         Vector2 getShootAtGoalPoint(const Vector2 &fromPoint);
-        Vector2 penaltyAim(const Vector2 &fromPoint, double currentShotAngle);
+        std::pair<Vector2,bool> penaltyAim(const Vector2 &fromPoint, double currentShotAngle,Vector2 keeperPos);
 
     private:
         OffensivePosition findBestOffensivePosition(const std::vector<Vector2> &positions,

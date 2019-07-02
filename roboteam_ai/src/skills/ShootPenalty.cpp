@@ -18,10 +18,19 @@ void ShootPenalty::onInitialize() {
     genevaSet = false;
     genevaState = 3;
     tick = 0;
-    double genevaAngle=(robot->getGenevaState()-3)*10/180.0*M_PI;
-    aimPoint = coach::g_offensiveCoach.penaltyAim(ball->pos,robot->angle+genevaAngle);
-}
+    double genevaAngle = (robot->getGenevaState() - 3)*10/180.0*M_PI;
+    auto theirKeeper=world::world->getRobotClosestToPoint(world::field->get_their_goal_center(),WhichRobots::THEIR_ROBOTS);
+    if (theirKeeper&&theirKeeper->pos.dist(world::field->get_their_goal_center())<2.0){
+        std::pair<Vector2,bool> aim=coach::g_offensiveCoach.penaltyAim(ball->pos, robot->angle + genevaAngle,theirKeeper->pos);
+        aimPoint = aim.first;
+        genevaSet = aim.second;
+    }
+    else{
+        aimPoint=world::field->get_their_goal_center();
+        genevaSet=false;
+    }
 
+}
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
 
