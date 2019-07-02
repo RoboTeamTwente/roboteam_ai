@@ -55,9 +55,9 @@ int ShootPenalty::determineGenevaState() {
     // determine the angle between the robot position and the shot line
     Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
     if (angleWithShotline.getAngle() > 0) {
-        return genevaState = 2;
+        return genevaState = 1;
     } else {
-        return genevaState = 4;
+        return genevaState = 5;
     }
 }
 
