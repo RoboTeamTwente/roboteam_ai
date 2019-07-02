@@ -156,7 +156,7 @@ const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
     return this->refDataMsg;
 }
 
-void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
+void IOManager::en fepublishRobotCommand(roboteam_msgs::RobotCommand cmd) {
     if (! pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
 
@@ -165,7 +165,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             if (robot) {
 
                 if (!robot->genevaStateIsDifferent(cmd.geneva_state) || !robot->genevaStateIsValid(cmd.geneva_state)) {
-                    if (!Constants::FEEDBACK_ENABLED()) {
+                    if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
                         robot->setGenevaState(cmd.geneva_state);
                     }
                     cmd.geneva_state = robot->getGenevaState();
