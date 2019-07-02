@@ -57,7 +57,8 @@ private:
     QVBoxLayout* vLayout;
     RobotsWidget* robotsWidget;
     RuleSetWidget * refWidget;
-    CheckboxWidget * checkboxWidget;
+    CheckboxWidget * visualizeCheckboxWidget;
+    CheckboxWidget * manualRobotsCheckboxWidget;
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;

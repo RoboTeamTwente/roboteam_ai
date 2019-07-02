@@ -103,6 +103,7 @@ class Constants {
         static double BP_MOVE_TOWARDS_DIST();
 
         /// SETTINGS ///
+        static std::map<int, bool> STD_SHOW_MANUAL_ROBOTS();
         static bool STD_SHOW_ROLES();
         static bool STD_SHOW_TACTICS();
         static bool STD_SHOW_TACTICS_COLORS();

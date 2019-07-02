@@ -9,7 +9,21 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-CheckboxWidget::CheckboxWidget(Visualizer* visualizer, QWidget* parent) {
+CheckboxWidget::CheckboxWidget(Visualizer* visualizer, QWidget* parent, CheckboxType checkboxType) {
+    switch (checkboxType) {
+    default:break;
+    case visualize:
+        visualizeCheckbox(visualizer, parent);
+        break;
+    case manualRobots:
+        manualRobotsCheckbox(visualizer, parent);
+        break;
+    }
+
+}
+
+void CheckboxWidget::visualizeCheckbox(Visualizer* visualizer, QWidget* parent) {
+
     auto cbVLayout = new QVBoxLayout();
 
     MainWindow::configureCheckBox("show rolenames", cbVLayout, visualizer, SLOT(setShowRoles(bool)),
@@ -34,9 +48,25 @@ CheckboxWidget::CheckboxWidget(Visualizer* visualizer, QWidget* parent) {
     auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
     cbVLayout->addSpacerItem(cbVSpacer);
     this->setLayout(cbVLayout);
-
 }
 
+void CheckboxWidget::manualRobotsCheckbox(Visualizer* visualizer, QWidget* parent) {
+
+    auto cbVLayout = new QVBoxLayout();
+
+    for (int i = 0; i < 16; i++) {
+        std::stringstream ss; ss << "Enable Robot " << i;
+        std::string s = ss.str();
+        QString checkboxName = QString::fromStdString(s);
+        MainWindow::configureCheckBox(checkboxName, cbVLayout, visualizer, SLOT(setShowRoles(bool)),
+                Constants::STD_SHOW_MANUAL_ROBOTS()[i]);
+    }
+
+    auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    cbVLayout->addSpacerItem(cbVSpacer);
+    this->setLayout(cbVLayout);
 }
-}
-}
+
+} //interface
+} //ai
+} //rtt

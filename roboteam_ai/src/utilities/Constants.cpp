@@ -144,6 +144,28 @@ bool Constants::STD_USE_REFEREE() { return false; }
 
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
 
+std::map<int, bool> Constants::STD_SHOW_MANUAL_ROBOTS() {
+    static std::map<int, bool> manualRobots;
+    manualRobots[0] = false;
+    manualRobots[1] = false;
+    manualRobots[2] = false;
+    manualRobots[3] = false;
+    manualRobots[4] = false;
+    manualRobots[5] = false;
+    manualRobots[6] = false;
+    manualRobots[7] = false;
+    manualRobots[8] = false;
+    manualRobots[9] = false;
+    manualRobots[10] = false;
+    manualRobots[11] = false;
+    manualRobots[12] = false;
+    manualRobots[13] = true;
+    manualRobots[14] = true;
+    manualRobots[15] = true;
+
+    return manualRobots;
+}
+
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     static std::map<int, bool> workingGenevaRobots;
     workingGenevaRobots[0] = true;

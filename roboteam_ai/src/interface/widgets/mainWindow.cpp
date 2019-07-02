@@ -38,7 +38,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
-    checkboxWidget = new CheckboxWidget(visualizer, this);
+    visualizeCheckboxWidget = new CheckboxWidget(visualizer, this, CheckboxType::visualize);
+    manualRobotsCheckboxWidget = new CheckboxWidget(visualizer, this, CheckboxType::manualRobots);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -53,8 +54,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto SettingsTabWidget = new QTabWidget;
     SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
-    SettingsTabWidget->addTab(checkboxWidget, tr("Other Settings"));
+    SettingsTabWidget->addTab(visualizeCheckboxWidget, tr("Other Settings"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
+
+    auto ManualRobotWidget = new QTabWidget;
+    ManualRobotWidget->addTab(manualRobotsCheckboxWidget, tr("Robots"));
+    tabWidget->addTab(ManualRobotWidget, tr("Manual Robots"));
+
 
     vLayout->addWidget(tabWidget);
 

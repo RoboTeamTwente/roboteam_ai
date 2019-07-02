@@ -62,6 +62,7 @@ public:
     static void refresh();
     static bool keeperExistsInWorld();
     static bool hasFree();
+    static bool robotBlockedByInterface(int id);
 
 };
 

@@ -12,10 +12,21 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
+enum CheckboxType {
+  visualize,
+  manualRobots
+};
+
 class CheckboxWidget : public QWidget {
     Q_OBJECT
     public:
-        explicit CheckboxWidget(Visualizer* visualizer, QWidget* parent = nullptr);
+        explicit CheckboxWidget(Visualizer* visualizer, QWidget* parent = nullptr,
+                CheckboxType checkboxType = CheckboxType::visualize);
+
+    private:
+        void visualizeCheckbox(Visualizer* visualizer, QWidget* parent);
+        void manualRobotsCheckbox(Visualizer* visualizer, QWidget* parent);
+
 };
 
 } // interface

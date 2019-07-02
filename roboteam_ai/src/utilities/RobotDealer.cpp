@@ -56,10 +56,10 @@ void RobotDealer::addRobotToOwnerList(int ID, const std::string &roleName, const
     robotOwners[tacticName].insert({ID, roleName});
 
 }
+
 /// For internal use
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
-
     auto worldUs = world::world->getUs();
     std::set<int> robotIDs;
     for (const auto &robot : worldUs) {
@@ -72,11 +72,25 @@ void RobotDealer::updateFromWorld() {
                 ROS_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
+            if (robotBlockedByInterface(robotID)) {
+                ROS_ERROR("The interface blocked this robot");
+                continue;
+            }
+
             std::lock_guard<std::mutex> lock(robotOwnersLock);
             addRobotToOwnerList(robotID, "free", "free");
         }
     }
+}
 
+bool RobotDealer::robotBlockedByInterface(int robotID){
+    auto interfaceIds = {13,14,15};
+    for (auto &id : interfaceIds) {
+        if (id == robotID) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleName, const std::string &tacticName) {
