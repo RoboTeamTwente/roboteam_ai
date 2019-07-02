@@ -44,6 +44,14 @@
             },
             "title": "RoleDivider"
           },
+          "3pp7q57mqb3l8zr6": {
+            "id": "3pp7q57mqb3l8zr6",
+            "properties": {
+              "ROLE": "kickerChip",
+              "maxTries": ""
+            },
+            "title": "FreeKickPass"
+          },
           "3yti41lbaserp5cfj": {
             "children": [
               "b7gwa9ogtcdswo7"
@@ -110,7 +118,7 @@
           },
           "fcs9eyvcwh6z0c1e": {
             "children": [
-              "kt01029gwocpmlh"
+              "kx19swjtms4726xx"
             ],
             "id": "fcs9eyvcwh6z0c1e",
             "name": "kickerChip",
@@ -126,6 +134,14 @@
               "ROLE": "f3"
             },
             "title": "FreeKickFormation"
+          },
+          "ge2dkn2w9qlxcz27": {
+            "id": "ge2dkn2w9qlxcz27",
+            "properties": {
+              "ROLE": "kickerChip",
+              "type": "freeKick"
+            },
+            "title": "GoBehindBall"
           },
           "j9tzu8tj9pc4lakwc": {
             "id": "j9tzu8tj9pc4lakwc",
@@ -146,14 +162,13 @@
             "role": "free_kick_formation_role",
             "title": "Role"
           },
-          "kt01029gwocpmlh": {
+          "kx19swjtms4726xx": {
             "children": [
-              "vq1zc694sctws6bw"
+              "ge2dkn2w9qlxcz27",
+              "3pp7q57mqb3l8zr6"
             ],
-            "id": "kt01029gwocpmlh",
-            "properties": {
-              "ROLE": "kickerChip"
-            },
+            "id": "kx19swjtms4726xx",
+            "properties": {},
             "title": "MemSequence"
           },
           "o15nzkq950yvjgia": {
@@ -162,13 +177,6 @@
               "ROLE": "f4"
             },
             "title": "FreeKickFormation"
-          },
-          "vq1zc694sctws6bw": {
-            "id": "vq1zc694sctws6bw",
-            "properties": {
-              "ROLE": "kickerChip"
-            },
-            "title": "Pass"
           },
           "w5md61w89ovuz": {
             "children": [
