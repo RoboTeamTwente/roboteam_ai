@@ -24,7 +24,8 @@ void ShootPenalty::onInitialize() {
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (world::field->pointIsInDefenceArea(ball->pos, false)) {
+    // Even if the point is slightly in the defence area  this will shoot
+    if (world::field->pointIsInDefenceArea(ball->pos, false, -0.10)) {
         command.w = robot->angle;
         publishRobotCommand();
         return Status::Running;
