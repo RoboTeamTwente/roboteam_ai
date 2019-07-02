@@ -22,6 +22,11 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, roboteam_msgs::
         }
     }
 
+    // if the command is the same as the previous, we don't need to do anything
+    if (command == currentRefCmd) {
+        return;
+    }
+
     // if the command is the same, we don't need to do anything
     if (command == currentRefGameState.commandId) {
         return;
@@ -47,6 +52,7 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, roboteam_msgs::
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
     currentRefGameState = newState;
+    currentRefCmd = command;
 }
 
 RefGameState StrategyManager::getCurrentRefGameState() {
@@ -72,6 +78,7 @@ void StrategyManager::forceCurrentRefGameState(RefCommand command) {
     else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
+
     currentRefGameState = newState;
 }
 

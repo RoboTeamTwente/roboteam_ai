@@ -66,6 +66,7 @@ private:
          RefGameState(RefCommand::DEFEND_SHOOTOUT,      "time_out_strategy",               "keeper_default_tactic",          "default", true)
     };
     RefGameState currentRefGameState = gameStates[0];
+    RefCommand currentRefCmd = RefCommand::UNDEFINED;
 
 };
 
