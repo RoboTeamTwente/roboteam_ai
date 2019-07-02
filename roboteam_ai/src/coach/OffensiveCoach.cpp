@@ -198,12 +198,12 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
     double leftDif=control::ControlUtils::angleDifference((leftPoint-fromPoint).angle(),currentShotAngle);
     double rightDif=control::ControlUtils::angleDifference((rightPoint-fromPoint).angle(),currentShotAngle);
     if (leftDif<=rightDif){
-        if((leftPoint - keeperPos).length() >= 0.2){
+        if((leftPoint - keeperPos).length() >= 0.4){
             return std::make_pair(leftPoint,true);
         }
         return std::make_pair(rightPoint,false);
     }
-    if(( rightPoint - keeperPos).length() >= 0.2){
+    if(( rightPoint - keeperPos).length() >= 0.4){
         return std::make_pair(rightPoint,true);
     }
     return std::make_pair(leftPoint,false);

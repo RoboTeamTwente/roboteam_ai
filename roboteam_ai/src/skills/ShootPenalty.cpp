@@ -34,7 +34,7 @@ void ShootPenalty::onInitialize() {
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (world::field->pointIsInDefenceArea(ball->pos, false)) {
+    if (world::field->pointIsInDefenceArea(ball->pos, false,-0.20)) {
         command.w = robot->angle;
         publishRobotCommand();
         return Status::Running;
