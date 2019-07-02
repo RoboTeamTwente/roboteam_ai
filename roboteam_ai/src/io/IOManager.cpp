@@ -112,6 +112,11 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &
         auto robot = world::world->getRobotForId(robotfeedback->id);
 
         if (robot) {
+
+            // indicate that now is last time the robot has received feedback
+            robot->UpdateFeedbackReceivedTime();
+
+            // override properties:
             robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
             robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
             robot->setBatteryLow(robotfeedback->batteryLow);

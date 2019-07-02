@@ -278,6 +278,20 @@ void Robot::setBatteryLow(bool batteryLow) {
     Robot::batteryLow = batteryLow;
 }
 
+/*
+ * Returns true when a feedback packet has been detected at most 2 second ago.
+ */
+bool Robot::hasRecentFeedback() {
+    return (lastReceivedFeedbackMoment < world->getTime() + 1.0);
+}
+
+/*
+ * indicate that we got feedback at this moment.
+ */
+void Robot::UpdateFeedbackReceivedTime() {
+    lastReceivedFeedbackMoment = world->getTime();
+}
+
 } //world
 } //ai
 } //rtt
