@@ -40,7 +40,16 @@ private:
     static bool showDebugValuesInTerminal;
     static bool timeOutAtTop;
 
-    static GameState interfaceGameState;
+    static std::map<int, bool> manualRobotIds;
+    static bool enableAllManualRobots;
+    public:
+        static std::map<int, bool> getManualRobots();
+        static void setManualRobotId(int id, bool isEnabled);
+
+        static bool getEnableAllManualRobots();
+        static void setEnableAllManualRobots(bool isEnabled);
+
+        static GameState interfaceGameState;
 public:
     static void setInterfaceGameState(GameState interfaceGameState);
 
@@ -49,7 +58,8 @@ public:
 
 public:
     static bool isTimeOutAtTop();
-    static void setShowDebugValues(bool showDebug);
+
+        static void setShowDebugValues(bool showDebug);
     static bool getShowDebugValues();
     static bool showDebugLongestTick();
     static bool showDebugTickTimeTaken();

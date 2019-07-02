@@ -4,6 +4,8 @@
 
 #include "CheckboxWidget.h"
 #include "mainWindow.h"
+#include <roboteam_ai/src/utilities/RobotDealer.h>
+
 
 namespace rtt {
 namespace ai {
@@ -54,12 +56,21 @@ void CheckboxWidget::manualRobotsCheckbox(Visualizer* visualizer, QWidget* paren
 
     auto cbVLayout = new QVBoxLayout();
 
-    for (int i = 0; i < 16; i++) {
-        std::stringstream ss; ss << "Enable Robot " << i;
-        std::string s = ss.str();
-        QString checkboxName = QString::fromStdString(s);
-        MainWindow::configureCheckBox(checkboxName, cbVLayout, visualizer, SLOT(setShowRoles(bool)),
-                Constants::STD_SHOW_MANUAL_ROBOTS()[i]);
+    MainWindow::configureCheckBox("Enable All Robots", cbVLayout, visualizer, SLOT(setEnableAllManualRobots(bool)),
+            true);
+
+    for (int id = 0; id < 16; id++) {
+        QString checkboxName = QString::fromStdString("Enable Robot " + std::to_string(id));
+
+        auto checkbox = new QCheckBox(checkboxName);
+        checkbox->setChecked(Constants::STD_SHOW_MANUAL_ROBOTS()[id]);
+        cbVLayout->addWidget(checkbox);
+
+        QObject::connect(checkbox, &QCheckBox::clicked, [=](bool state){
+
+          Output::setManualRobotId(id, state);
+          robotDealer::RobotDealer::refresh();
+        });
     }
 
     auto cbVSpacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);

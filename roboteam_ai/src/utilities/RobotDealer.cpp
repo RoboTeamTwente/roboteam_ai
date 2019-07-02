@@ -9,6 +9,7 @@
 #include <utility>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include "roboteam_ai/src/interface/api/Output.h"
 
 namespace rtt {
 namespace ai {
@@ -83,12 +84,18 @@ void RobotDealer::updateFromWorld() {
     }
 }
 
-bool RobotDealer::robotBlockedByInterface(int robotID){
-    auto interfaceIds = {13,14,15};
-    for (auto &id : interfaceIds) {
-        if (id == robotID) {
-            return false;
+bool RobotDealer::robotBlockedByInterface(int robotID) {
+    if (interface::Output::getEnableAllManualRobots()) {
+        return false;
+    }
+    auto manualRobots = interface::Output::getManualRobots();
+    for (int id = 0; id < manualRobots.size(); id++) {
+        if (manualRobots[id]) {
+            if (id == robotID) {
+                return false;
+            }
         }
+
     }
     return true;
 }

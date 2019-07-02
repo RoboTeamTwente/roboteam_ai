@@ -44,6 +44,8 @@ class Visualizer : public QWidget {
         void toggleSelectedRobot(int robotId);
         void setToggleFieldDirection(bool inversed);
 
+        void setEnableAllManualRobots(bool enable);
+
     protected:
         void paintEvent(QPaintEvent* event) override;
         void mousePressEvent(QMouseEvent* event) override;

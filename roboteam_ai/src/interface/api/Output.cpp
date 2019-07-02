@@ -23,6 +23,8 @@ rtt::Vector2 Output::markerPosition = {0, 0}; // initialize on middle of the fie
 bool Output::useRefereeCommands = false;
 bool Output::showDebugValuesInTerminal = true;
 bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
+std::map<int, bool> Output::manualRobotIds = Constants::STD_SHOW_MANUAL_ROBOTS();
+bool Output::enableAllManualRobots = true;
 
 std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
@@ -123,6 +125,14 @@ bool Output::isTimeOutAtTop() {
     return timeOutAtTop;
 }
 
+void Output::setManualRobotId(int id, bool isEnabled) {
+    manualRobotIds[id] = isEnabled;
+}
+
+std::map<int, bool> Output::getManualRobots() {
+    return manualRobotIds;
+}
+
 void Output::setKeeperTree(std::string name) {
     Output::interfaceGameState.keeperStrategyName = std::move(name);
 }
@@ -184,6 +194,14 @@ const pidVals &Output::getBallHandlePid() {
 
 void Output::setBallHandlePid(const pidVals &ballHandlePid) {
     ballHandlePID = ballHandlePid;
+}
+
+bool Output::getEnableAllManualRobots() {
+    return enableAllManualRobots;
+}
+
+void Output::setEnableAllManualRobots(bool isEnabled) {
+    enableAllManualRobots = isEnabled;
 }
 
 

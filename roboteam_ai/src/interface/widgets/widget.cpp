@@ -531,6 +531,10 @@ void Visualizer::setToggleFieldDirection(bool inversed) {
     Visualizer::fieldInversed = inversed;
 }
 
+void Visualizer::setEnableAllManualRobots(bool enable) {
+    Output::setEnableAllManualRobots(enable);
+}
+
 void Visualizer::drawPlusses(QPainter &painter, std::vector<Vector2> points, double width, double height) {
     for (auto const &point : points) {
         Vector2 pointOnScreen = toScreenPosition(point);
