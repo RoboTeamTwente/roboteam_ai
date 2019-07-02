@@ -21,13 +21,13 @@ void Pass::onInitialize() {
     robotToPassToID = - 1;
     passInitialized = false;
     hasShot = false;
-    chip = false;
+    forcePass = false;
     fails = 0;
     if (properties->hasInt("failsUntilChip")) {
-        failsUntilChip = properties->getInt("failsUntilChip");
+        maxTries = properties->getInt("failsUntilChip");
     }
     else {
-        failsUntilChip = - 1;
+        maxTries = - 1;
     }
 }
 
@@ -82,15 +82,15 @@ Pass::Status Pass::onUpdate() {
         // Not having already tried a shot
         // If this is both not the case, check if there's a clear line to the target
         // If not, either ++ fails or fail immediately
-        if (! chip && ! hasShot
+        if (! forcePass && ! hasShot
                 && ! control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
-            if (failsUntilChip == - 1) {
+            if (maxTries == - 1) {
                 return Status::Failure;
             }
             else {
                 fails ++;
-                if (fails >= failsUntilChip) {
-                    chip = true;
+                if (fails >= maxTries) {
+                    forcePass = true;
                 }
                 else {
                     coach::g_pass.resetPass(robot->id);
@@ -99,9 +99,8 @@ Pass::Status Pass::onUpdate() {
             }
         }
 
-        auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), chip, control::BallSpeed::PASS,
-                true, control::ShotPrecision::HIGH);
-        command = shotdata.makeROSCommand();
+        makeCommand();
+
         if ((command.kicker == true || command.chipper == true) && ! hasShot) {
             hasShot = true;
         }
@@ -109,6 +108,12 @@ Pass::Status Pass::onUpdate() {
 
     publishRobotCommand();
     return Status::Running;
+}
+
+void Pass::makeCommand() {
+    auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS,
+                                                                true, control::HIGH);
+    command = shotdata.makeROSCommand();
 }
 
 void Pass::onTerminate(Status s) {
