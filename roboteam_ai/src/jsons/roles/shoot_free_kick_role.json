@@ -3,25 +3,33 @@
     "trees": [
       {
         "nodes": {
-          "6f8juo2azcl3e9bc": {
-            "id": "6f8juo2azcl3e9bc",
-            "properties": {},
+          "1g4gb3if5sudd6nh": {
+            "id": "1g4gb3if5sudd6nh",
+            "properties": {
+              "ROLE": "kickerChip",
+              "maxTries": ""
+            },
+            "title": "FreeKickPass"
+          },
+          "qrqk6nzf9x06h1mc": {
+            "id": "qrqk6nzf9x06h1mc",
+            "properties": {
+              "ROLE": "kickerChip",
+              "type": "freeKick"
+            },
             "title": "GoBehindBall"
           },
-          "xfk91hay32zx9j": {
+          "v95fqcao6la3m07x": {
             "children": [
-              "6f8juo2azcl3e9bc",
-              "zl7m95q2mhxgqwmm"
+              "qrqk6nzf9x06h1mc",
+              "1g4gb3if5sudd6nh"
             ],
-            "id": "xfk91hay32zx9j",
+            "id": "v95fqcao6la3m07x",
+            "properties": {},
             "title": "MemSequence"
-          },
-          "zl7m95q2mhxgqwmm": {
-            "id": "zl7m95q2mhxgqwmm",
-            "title": "ShootFreeKick"
           }
         },
-        "root": "xfk91hay32zx9j",
+        "root": "v95fqcao6la3m07x",
         "title": "shoot_free_kick_role"
       }
     ]

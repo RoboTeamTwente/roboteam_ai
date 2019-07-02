@@ -11,6 +11,7 @@ GetBall,maxTime
 Attack
 DemoAttack,ownGoal
 Pass,BallPlacement,failsUntilChip
+FreeKickPass,maxTries
 Receive,BallPlacement,canMoveInDefenseArea
 Formation
 DribbleRotate,maxVel,Angle,RotateToTheirGoal,BallPlacement,distance
