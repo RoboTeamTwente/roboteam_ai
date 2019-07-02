@@ -73,6 +73,9 @@ public:
         int getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(int state);
+        void setGenevaStateFromFeedback(int state);
+        bool genevaStateIsValid(int state);
+        bool genevaStateIsDifferent(int state);
         bool hasWorkingGeneva() const;
         bool hasWorkingBallSensor() const;
 
