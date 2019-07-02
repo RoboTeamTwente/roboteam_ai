@@ -143,7 +143,6 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     select_keeper_strategy->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
     select_goalie->setDisabled(useRef);
-
 }
 
 

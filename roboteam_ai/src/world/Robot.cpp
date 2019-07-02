@@ -110,24 +110,49 @@ int Robot::getGenevaState() const {
     return genevaState;
 }
 
-void Robot::setGenevaState(int state) {
-
-    // if the state is the same (or with 0 it is specifically said to stay the same) don't do anything.
-    if (state == genevaState || state == 0) {
-        return;
-    }
-
+/*
+ * Check if the geneva state is in the range [0,5]
+ * and that the robot has a working geneva.
+ */
+bool Robot::genevaStateIsValid(int state) {
     // if the state is invalid
     if (state < 0 || state > 5) {
-        std::cout << "setting invalid geneva state (" << (int) state << ") for robot with id " << id << std::endl;
-        return;
+        std::cout << "Invalid geneva state (" << (int) state << ") for robot with id " << id << std::endl;
+        return false;
     }
 
     // if the geneva does not work
     if (! workingGeneva) {
-        std::cout << "setting geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
-        return;
+        std::cout << "Trying to set geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
+        return false;
     }
+
+    return true;
+}
+
+/*
+ * Returns true when the geneva state is different
+ */
+bool Robot::genevaStateIsDifferent(int state) {
+    return !(state == genevaState || state == 0);
+}
+
+/*
+ * Specific robotfeedback handling.
+ * If the received state from feedback is valid and different we override our internal geneva state with our expectations from reality.
+ */
+void Robot::setGenevaStateFromFeedback(int state) {
+    if (!genevaStateIsValid(state)) return;
+    if (!genevaStateIsDifferent(state)) return;
+
+    previousGenevaState = genevaState;
+    genevaState = state;
+    timeGenevaChanged = world::world->getTime();
+}
+
+void Robot::setGenevaState(int state) {
+    if (!genevaStateIsValid(state)) return;
+    if (!genevaStateIsDifferent(state)) return;
 
     // if the geneva is turning currently
     if (! isGenevaReady()) {
@@ -251,6 +276,20 @@ bool Robot::isBatteryLow() const {
 
 void Robot::setBatteryLow(bool batteryLow) {
     Robot::batteryLow = batteryLow;
+}
+
+/*
+ * Returns true when a feedback packet has been detected at most 2 second ago.
+ */
+bool Robot::hasRecentFeedback() {
+    return (lastReceivedFeedbackMoment > world->getTime() - 1.0);
+}
+
+/*
+ * indicate that we got feedback at this moment.
+ */
+void Robot::UpdateFeedbackReceivedTime() {
+    lastReceivedFeedbackMoment = world->getTime();
 }
 
 } //world
