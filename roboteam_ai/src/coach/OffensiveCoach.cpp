@@ -189,7 +189,23 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
     }
 
 }
+// we want to shoot quick without changing geneva
+Vector2 OffensiveCoach::penaltyAim(const Vector2 &fromPoint, double currentShotAngle){
+    auto goalsides=world::field->getGoalSides(false);
+    Line goalLine(goalsides.first,goalsides.second);
 
+
+    // make two aim points which are in the corners.
+    std::pair<Vector2, Vector2> aimPoints = getAimPoints(fromPoint);
+    auto leftPoint = aimPoints.first;
+    auto rightPoint = aimPoints.second;
+    double leftDif=control::ControlUtils::angleDifference((leftPoint-fromPoint).angle(),currentShotAngle);
+    double rightDif=control::ControlUtils::angleDifference((rightPoint-fromPoint).angle(),currentShotAngle);
+    if (leftDif<=rightDif){
+        return leftPoint;
+    }
+    return rightPoint;
+}
 std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
     std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
     double angleMargin = sin(2.0/180.0*M_PI);

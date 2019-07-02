@@ -111,7 +111,7 @@ int Robot::getGenevaState() const {
 }
 
 void Robot::setGenevaState(int state) {
-
+    //std::cout<<"command: "<<state<<" current:"<<genevaState<<std::endl;
     // if the state is the same (or with 0 it is specifically said to stay the same) don't do anything.
     if (state == genevaState || state == 0) {
         return;
