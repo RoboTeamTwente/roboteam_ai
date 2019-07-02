@@ -18,9 +18,13 @@ namespace world {
 
 Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
+        :Robot(copy.id, copy.angle, copy.pos, copy.vel, copy.w, team, genevaState, dribblerState, worldNumber) { }
+
+Robot::Robot(int id, const Angle &angle, const Vector2 &pos, const Vector2 &vel, double w, Team team,
+        unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
         :pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
-         genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
-         angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+         genevaState(genevaState), dribblerState(dribblerState), id(id),
+         angle(angle), pos(pos), vel(vel), angularVelocity(w), team(team) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
@@ -28,11 +32,15 @@ Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
         workingBallSensor = Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
     }
     else {
-        std::cout << "Warning: creating robot with id = " << id << "!" << std::endl;
         workingGeneva = false;
         workingDribbler = false;
         workingBallSensor = false;
+
+        if (id != - 1) {
+            std::cout << "Warning: creating robot with id = " << id << "!" << std::endl;
+        }
     }
+
 
     // set up control controllers
     shotController = std::make_shared<control::ShotController>();
@@ -50,6 +58,8 @@ Robot::Robot()
     numTreePosControl = nullptr;
     basicPosControl = nullptr;
     ballHandlePosControl = nullptr;
+
+    std::cerr << "Creating empty robot!!" << std::endl;
 }
 
 bool Robot::hasBall(double maxDist) {
@@ -125,7 +135,8 @@ void Robot::setGenevaState(int state) {
 
     // if the geneva does not work
     if (! workingGeneva) {
-        std::cout << "setting geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
+        std::cout << "setting geneva state (" << (int) state << ") for robot without working geneva with id " << id
+                  << std::endl;
         return;
     }
 
@@ -215,7 +226,6 @@ const Vector2 &Robot::getPidPreviousVel() const {
 void Robot::setPidPreviousVel(const Vector2 &pidVel) {
     pidPreviousVel = pidVel;
 }
-
 
 void Robot::resetShotController() {
     shotController = std::make_shared<control::ShotController>();

@@ -69,8 +69,8 @@ void Collision::setGoalCollision(const Vector2 &collisionPos, double distance) {
 }
 
 const Vector2 Collision::collisionPosition() const {
-    if (collisionRobot->id != - 1) return collisionRobot->pos;
-    else if (collisionBall->visible) return collisionBall->pos;
+    if (collisionRobot) return collisionRobot->pos;
+    else if (collisionBall) return collisionBall->pos;
     else if (fieldCollision != Vector2()) return fieldCollision;
     else if (defenseAreaCollision != Vector2()) return defenseAreaCollision;
     else return {};

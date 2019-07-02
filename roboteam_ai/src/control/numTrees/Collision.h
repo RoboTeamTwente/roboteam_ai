@@ -40,8 +40,8 @@ class Collision {
     public:
 
         Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) {
-            collisionRobot = std::make_shared<world::Robot>(world::Robot());
-            collisionBall = std::make_shared<world::Ball>(world::Ball());
+            collisionRobot = nullptr;
+            collisionBall = nullptr;
             fieldCollision = Vector2();
             defenseAreaCollision = Vector2();
             goalCollision = Vector2();

@@ -320,9 +320,11 @@ Collision NumTreePosControl::getRobotCollision(
         // cant collide with itself
         if (r->id == this->robot->id && r->team == this->robot->team) continue;
         // don't look at the robot it is colliding with already
-        if (r->id == currentRobotCollision->id && r->team == currentRobotCollision->team) continue;
+        if (currentRobotCollision &&
+            r->id == currentRobotCollision->id && r->team == currentRobotCollision->team) continue;
         // don't look at the final target if the robot is colliding
-        if (r->id == currentFinalTargetCollision->id && r->team == currentFinalTargetCollision->team) continue;
+        if (currentFinalTargetCollision &&
+            r->id == currentFinalTargetCollision->id && r->team == currentFinalTargetCollision->team) continue;
 
         if (point->isCollision(r->pos, distance)) {
             collision.setCollisionRobot(r, distance);
@@ -334,8 +336,11 @@ Collision NumTreePosControl::getRobotCollision(
 
 Collision NumTreePosControl::getBallCollision(const PathPointer &point, const PosController::BallPtr &ball) {
     Collision collision = {};
-    if (currentCollisionWithRobot.getCollisionBall()->visible) return collision;
-    if (currentCollisionWithFinalTarget.getCollisionBall()->visible) return collision;
+    auto collisionBall = currentCollisionWithRobot.getCollisionBall();
+    auto finalTargetCollisionBall = currentCollisionWithFinalTarget.getCollisionBall();
+
+    if (collisionBall && collisionBall->visible) return collision;
+    if (finalTargetCollisionBall && finalTargetCollisionBall->visible) return collision;
 
     double avoidBallDistance = getAvoidBallDistance();
     if (point->isCollision(ball->pos, avoidBallDistance)) {

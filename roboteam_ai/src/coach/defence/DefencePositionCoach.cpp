@@ -25,10 +25,8 @@ bool DefenderBot::validPosition(const world::WorldData &world) {
 }
 
 const world::Robot::RobotPtr DefenderBot::toRobot() {
-    world::Robot::RobotPtr robot = std::make_shared<world::Robot>(world::Robot());
-    robot->id = - 1;
-    robot->pos = targetPos;
-    robot->angle = orientation;
+    world::Robot::RobotPtr robot = std::make_shared<world::Robot>(
+            world::Robot(-1, orientation, targetPos, Vector2(), 0));
     return robot;
 }
 // pick position on the line depending on how aggressive we want to play. aggression factor 1 is very in your face, whilst 0 is as close as possible to the goal

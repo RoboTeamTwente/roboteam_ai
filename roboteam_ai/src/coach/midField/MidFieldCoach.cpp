@@ -72,6 +72,8 @@ bool MidFieldCoach::validOpponent(const RobotPtr& opponent) {
 }
 
 void MidFieldCoach::removeMidFielder(MidFieldCoach::RobotPtr &thisRobot) {
+    if (!thisRobot) return;
+
     currentMidfielders.erase(std::remove(currentMidfielders.begin(), currentMidfielders.end(), thisRobot), currentMidfielders.end());
 
     if(targetPositions.find(thisRobot->id) != targetPositions.end()) {

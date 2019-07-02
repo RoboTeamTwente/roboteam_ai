@@ -13,8 +13,8 @@ namespace bt {
 Leaf::Leaf(std::string name, Blackboard::Ptr blackboard)
         :name(std::move(name)) {
     setProperties(blackboard);
-    robot = std::make_shared<rtt::ai::world::Robot>(rtt::ai::world::Robot());
-    ball = std::make_shared<rtt::ai::world::Ball>(rtt::ai::world::Ball());
+    robot = nullptr;
+    ball = nullptr;
 }
 
 std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {

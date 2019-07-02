@@ -11,8 +11,8 @@ namespace ai {
 
 Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(std::move(name), std::move(blackboard)) {
-    robot = std::make_shared<Robot>(Robot());
-    ball = std::make_shared<Ball>(Ball());
+    robot = nullptr;
+    ball = nullptr;
 }
 
 void Skill::publishRobotCommand() {
@@ -102,18 +102,20 @@ void Skill::refreshRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
+    auto previousVel = robot->getPidPreviousVel();
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
-    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, previousVel, command.w);
     robot->setPidPreviousVel(limitedVel);
+
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;
         robot->setPidPreviousVel(robot->vel);
     }
+
     command.x_vel = limitedVel.x;
     command.y_vel = limitedVel.y;
 }
-
 
 void Skill::refreshRobotPositionControllers() {
     robot->resetNumTreePosControl();
