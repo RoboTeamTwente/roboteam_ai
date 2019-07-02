@@ -156,7 +156,7 @@ const roboteam_msgs::RefereeData &IOManager::getRefereeData() {
     return this->refDataMsg;
 }
 
-void IOManager::en fepublishRobotCommand(roboteam_msgs::RobotCommand cmd) {
+void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
     if (! pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id)) {
 
