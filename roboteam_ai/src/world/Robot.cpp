@@ -122,8 +122,12 @@ bool Robot::genevaStateIsValid(int state) {
     }
 
     // if the geneva does not work
+
     if (! workingGeneva) {
-        std::cout << "Trying to set geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
+        if (genevaStateIsDifferent(state)) {
+            std::cout << "Trying to set geneva state (" << (int) state << ") for robot without working geneva with id "
+                      << id << std::endl;
+        }
         return false;
     }
 
