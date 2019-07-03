@@ -293,16 +293,16 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
         return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
     if (!robotIsBehindBall) {
-        return interceptMovingBallTowardsBall(ball);
+        return interceptMovingBallTowardsBall();
     }
     return goBehindBall(ballStillPosition);
 }
 
-RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall(const BallPtr &ball) {
+RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
     static Vector2 numTreesTarget;
     Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
 
-    if (fabs(robotAngleTowardsBall) < 0.4*M_PI) {
+    if (fabs(robotAngleTowardsBall) < 0.1*M_PI) {
         LineSegment ntLine = LineSegment(ball->pos, ball->pos + ball->vel.stretchToLength(100.0));
         if (ntLine.distanceToLine(numTreesTarget) > 0.3) {
             numTreesTarget = ball->pos + (ball->vel).stretchToLength(1.5);
