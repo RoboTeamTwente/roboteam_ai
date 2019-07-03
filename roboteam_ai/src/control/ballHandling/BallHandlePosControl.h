@@ -28,8 +28,8 @@ class BallHandlePosControl : public NumTreePosControl {
         RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
 
-        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 0.3;
-        double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.3;
+        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.2;
+        double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.5;
         double ballPlacementAccuracy = 0.15;
 
         constexpr static double ERROR_MARGIN = 0.02;
@@ -46,7 +46,7 @@ class BallHandlePosControl : public NumTreePosControl {
         Angle lockedAngle = 0;
         int ticksNotMoving = 0;
 
-        pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.0);
+        pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.5);
         PID xGoToBallPID = PID(pidfGoToBall);
         PID yGoToBallPID = PID(pidfGoToBall);
         
@@ -103,7 +103,9 @@ class BallHandlePosControl : public NumTreePosControl {
         RobotCommand interceptMovingBall(const Vector2 &projectionPosition, double ballToProjectionDistance,
                 const Angle &robotAngleTowardsBallVel);
         RobotCommand goBehindBall(const Vector2 &ballStillPosition);
-};
+        RobotCommand interceptMovingBallTowardsBall();
+
+        };
 
 } //control
 } //ai

@@ -84,7 +84,7 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
 }
 
 void DribbleRotate::onTerminate(Status s) {
-    command.dribbler = 20;
+    command.dribbler = 31;
     command.w = static_cast<float>(targetAngle);
     currentProgression=ROTATING;
     currentTick=0;
@@ -92,7 +92,7 @@ void DribbleRotate::onTerminate(Status s) {
 }
 
 void DribbleRotate::sendMoveCommand() {
-    command.dribbler = 20;
+    command.dribbler = 31;
     command.w = static_cast<float>(computeCommandAngle());
     currentTick ++;
     publishRobotCommand();
