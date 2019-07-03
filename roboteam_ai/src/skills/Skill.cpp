@@ -109,13 +109,11 @@ void Skill::limitRobotCommand() {
     bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName== "keeper_penalty_defend_tactic";
     bool isKeeper = command.id == robotDealer::RobotDealer::getKeeperID();
 
-    if (isDefendPenaltyState && isKeeper){
-        std::cout<<"NOT LIMITING for" <<command.id<<std::endl;
-        return;
-    }
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
-    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    if (!(isDefendPenaltyState&&isKeeper)){
+        limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    }
     robot->setPidPreviousVel(limitedVel);
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;
