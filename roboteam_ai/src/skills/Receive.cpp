@@ -38,7 +38,7 @@ Receive::Status Receive::onUpdate() {
 
         intercept();
         if ((ball->pos - robot->pos).length() < 1.0) {
-            command.dribbler = 25;
+            command.dribbler = 31;
         }
     }
 

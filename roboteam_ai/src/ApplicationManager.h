@@ -20,6 +20,7 @@ private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     rtt::ai::io::IOManager * IOManager;
 
+    int ticksFree = 0;
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
 

@@ -95,7 +95,7 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
         }
         else {
             command.w = (ballStartPos - interceptPos).angle();
-            command.dribbler = 25;
+            command.dribbler = 31;
         }
     }
     publishRobotCommand();
@@ -226,7 +226,7 @@ void InterceptBall::sendStopCommand() {
     if (! stayAtOrientation) {
         command.w = static_cast<float>((ballStartPos
                 - interceptPos).angle()); //Rotates orthogonal to the line of the ball
-        command.dribbler = 25;
+        command.dribbler = 31;
     }
     else {
         command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle();

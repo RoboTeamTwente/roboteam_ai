@@ -292,7 +292,53 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
     if (robotIsBehindBall && robotCanInterceptBall) {
         return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
+    if (!robotIsBehindBall) {
+        return interceptMovingBallTowardsBall();
+    }
     return goBehindBall(ballStillPosition);
+}
+
+RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
+    static Vector2 numTreesTarget;
+    Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
+
+    if (fabs(robotAngleTowardsBall) < 0.1*M_PI) {
+        LineSegment ntLine = LineSegment(ball->pos, ball->pos + ball->vel.stretchToLength(100.0));
+        if (ntLine.distanceToLine(numTreesTarget) > 0.3) {
+            numTreesTarget = ball->pos + (ball->vel).stretchToLength(1.5);
+        }
+    }
+    else {
+        numTreesTarget = ball->pos;
+    }
+
+    if (! world::field->pointIsInField(numTreesTarget, Constants::ROBOT_RADIUS())) {
+        LineSegment ballLine = LineSegment(ball->pos, numTreesTarget);
+        Polygon fieldEdge = world::field->getFieldEdge(Constants::ROBOT_RADIUS());
+
+        auto intersections = fieldEdge.intersections(ballLine);
+        if (intersections.size() == 1) {
+            numTreesTarget = intersections[0];
+        }
+        else {
+            numTreesTarget = ControlUtils::projectPositionToWithinField(ball->getBallStillPosition());
+        }
+    }
+
+    auto tempAvoidBallDistance = getAvoidBallDistance();
+    setAvoidBallDistance(0.0);
+
+    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+
+    setAvoidBallDistance(tempAvoidBallDistance);
+
+    if (world::field->pointIsInField(robot->pos + robot->vel)) {
+        robotCommand.vel += ball->vel.stretchToLength(std::min(3.0, std::max(ball->vel.length()*2.0, robot->vel.length()*2.0)));
+    }
+    if ((robot->pos - ball->pos).length() < 0.5) {
+        robotCommand.dribbler = 31;
+    }
+    return robotCommand;
 }
 
 RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition) {

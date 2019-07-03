@@ -5,6 +5,9 @@
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 #include <cmath>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+
+#include "roboteam_ai/src/utilities/RefGameState.h"
 
 namespace rtt {
 namespace ai {
@@ -102,9 +105,15 @@ void Skill::refreshRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
+
+    bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName== "keeper_penalty_defend_tactic";
+    bool isKeeper = command.id == robotDealer::RobotDealer::getKeeperID();
+
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
-    limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    if (!(isDefendPenaltyState&&isKeeper)){
+        limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+    }
     robot->setPidPreviousVel(limitedVel);
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;

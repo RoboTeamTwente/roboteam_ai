@@ -105,17 +105,24 @@ void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &ge
 }
 
 void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &robotfeedback) {
-    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-    this->robotFeedbackMsg = *robotfeedback;
+    if (Constants::FEEDBACK_ENABLED()) {
+        std::lock_guard<std::mutex> lock(robotFeedbackMutex);
+        this->robotFeedbackMsg = *robotfeedback;
 
-    auto robot = world::world->getRobotForId(robotfeedback->id);
+        auto robot = world::world->getRobotForId(robotfeedback->id);
 
-    if (robot) {
-        robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
-        robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
-        robot->setBatteryLow(robotfeedback->batteryLow);
+        if (robot) {
+
+            // indicate that now is last time the robot has received feedback
+            robot->UpdateFeedbackReceivedTime();
+
+            // override properties:
+            robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
+            robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
+            robot->setBatteryLow(robotfeedback->batteryLow);
+            robot->setGenevaStateFromFeedback(robotfeedback->genevaState);
+        }
     }
-
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
@@ -157,11 +164,14 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             auto robot = world::world->getRobotForId(cmd.id, true);
             if (robot) {
 
-                // this is a failcheck; the geneva state will only be turned if it is possible (which is checked in robot)
-                robot->setGenevaState(cmd.geneva_state);
-                cmd.geneva_state = robot->getGenevaState();
+                if (!robot->genevaStateIsDifferent(cmd.geneva_state) || !robot->genevaStateIsValid(cmd.geneva_state)) {
+                    if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
+                        robot->setGenevaState(cmd.geneva_state);
+                    }
+                    cmd.geneva_state = robot->getGenevaState();
+                }
 
-                // only kick and chipp when geneva is ready
+                // only kick and chip when geneva is ready
                 cmd.kicker = cmd.kicker && robot->isGenevaReady();
                 cmd.chipper = cmd.chipper && robot->isGenevaReady();
                 cmd.kicker_forced = cmd.kicker_forced && robot->isGenevaReady();

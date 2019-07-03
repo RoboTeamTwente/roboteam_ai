@@ -61,11 +61,12 @@ public:
 private:
     bool workingGeneva;
     bool batteryLow = false;
+    double lastReceivedFeedbackMoment = INT_MIN;
 public:
     bool isBatteryLow() const;
-
     void setBatteryLow(bool batteryLow);
-
+    bool hasRecentFeedback();
+    void UpdateFeedbackReceivedTime();
 public:
     void setWorkingGeneva(bool workingGeneva);
     void setHasWorkingBallSensor(bool hasWorkingBallSensor);
@@ -73,6 +74,9 @@ public:
         int getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(int state);
+        void setGenevaStateFromFeedback(int state);
+        bool genevaStateIsValid(int state);
+        bool genevaStateIsDifferent(int state);
         bool hasWorkingGeneva() const;
         bool hasWorkingBallSensor() const;
 
