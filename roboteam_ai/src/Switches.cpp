@@ -29,6 +29,7 @@
 #include "roboteam_ai/src/skills/Attack.h"
 #include "roboteam_ai/src/skills/SideAttacker.h"
 #include "roboteam_ai/src/skills/Pass.h"
+#include "roboteam_ai/src/skills/FreeKickPass.h"
 #include "roboteam_ai/src/skills/Receive.h"
 #include "roboteam_ai/src/skills/DribbleRotate.h"
 #include <roboteam_ai/src/skills/gotopos/GTPSpecial.h>
@@ -235,6 +236,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["InterceptRobot"] = std::make_shared<rtt::ai::InterceptRobot>(name, properties);
     map["Keeper"] = std::make_shared<rtt::ai::Keeper>(name, properties);
     map["Pass"] = std::make_shared<rtt::ai::Pass>(name, properties);
+    map["FreeKickPass"] = std::make_shared<rtt::ai::FreeKickPass>(name, properties);
     map["Receive"] = std::make_shared<rtt::ai::Receive>(name, properties);
     map["RotateToAngle"] = std::make_shared<rtt::ai::RotateToAngle>(name, properties);
     map["SkillGoToPos"] = std::make_shared<rtt::ai::SkillGoToPos>(name, properties);

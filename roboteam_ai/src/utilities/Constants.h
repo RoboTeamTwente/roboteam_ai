@@ -19,6 +19,7 @@ class Constants {
         static void init();
         static bool GRSIM();
         static void OVERWRITE_GRSIM(bool grsim);
+        static bool FEEDBACK_ENABLED();
 
         /// TICK RATE ///
         static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 30; };
@@ -68,6 +69,7 @@ class Constants {
         static constexpr double MAX_VEL()                   { return 8.0; };
         static constexpr double MAX_STOP_STATE_VEL()        { return 1.5; };
         static constexpr double MAX_VEL_BALLPLACEMENT()     { return 3.0; };
+        static int DEFAULT_KEEPER_ID();
 
         /// GENERAL SKILLS ///
         static double DEFAULT_KICK_POWER(); // max kick power() { return  100

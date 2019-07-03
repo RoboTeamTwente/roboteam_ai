@@ -21,9 +21,9 @@ protected:
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
     const double SUCCESSFUL_PASS_ANGLE = 0.6;
 
-    bool chip = false;
+    bool forcePass = false;
     int fails = 0;
-    int failsUntilChip = -1;
+    int maxTries = -1;
     bool passInitialized = false;
     bool hasShot = false;
     RobotPtr robotToPassTo;
@@ -32,7 +32,7 @@ protected:
     bool didShootProperly();
     int robotToPassToID = -1;
     Vector2 getKicker();
-
+    virtual void makeCommand();
 
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);

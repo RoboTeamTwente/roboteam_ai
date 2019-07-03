@@ -33,6 +33,10 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
     robotOutputTargetGrSim = grsim;
 }
 
+int Constants::DEFAULT_KEEPER_ID() {return 0; }
+
+bool Constants::FEEDBACK_ENABLED() { return true; }
+
 double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
@@ -132,7 +136,7 @@ bool Constants::STD_SHOW_TACTICS_COLORS() { return true; }
 
 bool Constants::STD_SHOW_VELOCITIES() { return true; }
 
-bool Constants::STD_SHOW_ANGLES() { return false; }
+bool Constants::STD_SHOW_ANGLES() { return true; }
 
 bool Constants::STD_SHOW_ROBOT_INVALIDS() { return true; }
 
@@ -140,7 +144,7 @@ bool Constants::STD_SHOW_BALL_PLACEMENT_MARKER() { return true; }
 
 bool Constants::STD_SHOW_DEBUG_VALUES() { return true; }
 
-bool Constants::STD_USE_REFEREE() { return false; }
+bool Constants::STD_USE_REFEREE() { return true; }
 
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
 
@@ -154,7 +158,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[5] = true;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
-    workingGenevaRobots[8] = true;
+    workingGenevaRobots[8] = false;
     workingGenevaRobots[9] = true;
     workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
@@ -193,22 +197,22 @@ bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
-    workingBallSensorRobots[0] = true;
-    workingBallSensorRobots[1] = true;
-    workingBallSensorRobots[2] = true;
-    workingBallSensorRobots[3] = true;
-    workingBallSensorRobots[4] = true;
-    workingBallSensorRobots[5] = true;
-    workingBallSensorRobots[6] = true;
-    workingBallSensorRobots[7] = true;
-    workingBallSensorRobots[8] = true;
-    workingBallSensorRobots[9] = true;
-    workingBallSensorRobots[10] = true;
-    workingBallSensorRobots[11] = true;
-    workingBallSensorRobots[12] = true;
-    workingBallSensorRobots[13] = true;
-    workingBallSensorRobots[14] = true;
-    workingBallSensorRobots[15] = true;
+    workingBallSensorRobots[0] =  false;
+    workingBallSensorRobots[1] =  false;
+    workingBallSensorRobots[2] =  false;
+    workingBallSensorRobots[3] =  false;
+    workingBallSensorRobots[4] =  false;
+    workingBallSensorRobots[5] =  false;
+    workingBallSensorRobots[6] =  false;
+    workingBallSensorRobots[7] =  false;
+    workingBallSensorRobots[8] =  false;
+    workingBallSensorRobots[9] =  false;
+    workingBallSensorRobots[10] = false;
+    workingBallSensorRobots[11] = false;
+    workingBallSensorRobots[12] = false;
+    workingBallSensorRobots[13] = false;
+    workingBallSensorRobots[14] = false;
+    workingBallSensorRobots[15] = false;
 
     return workingBallSensorRobots;
 }
