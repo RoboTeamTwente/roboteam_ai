@@ -18,9 +18,8 @@ CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
 };
 
 bt::Node::Status CanPlay::onUpdate() {
-    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < 0.05;
+    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < 0.20;
     auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command.command);
-
     if (ballIsLayingStill || (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START)) {
         // this should keep running, because otherwise the condition would re initialize
         return Status::Failure;
