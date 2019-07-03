@@ -66,7 +66,7 @@
           "fi0ab27pi3q5mr2v": {
             "children": [
               "z2meonekw8my9dz7",
-              "nyhpc61ijucb9dqt",
+              "p7lcc0nxkc7chcwt",
               "s3d5016ydk8g35"
             ],
             "id": "fi0ab27pi3q5mr2v",
@@ -123,17 +123,12 @@
             "id": "nxji5ivdghl66mp",
             "title": "Attack"
           },
-          "nyhpc61ijucb9dqt": {
-            "id": "nyhpc61ijucb9dqt",
+          "p7lcc0nxkc7chcwt": {
+            "id": "p7lcc0nxkc7chcwt",
             "properties": {
-              "BallPlacement": "",
-              "Position": "",
-              "distance": "0.8",
-              "dribbleOnTerminate": "false",
-              "forwardDirection": "true",
-              "maxTicks": ""
+              "dribbleDistance": "0.58"
             },
-            "title": "Dribble"
+            "title": "DribbleForward"
           },
           "qv8u5oia8ex7eamr3": {
             "children": [
