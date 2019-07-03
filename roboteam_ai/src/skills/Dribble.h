@@ -18,7 +18,7 @@ namespace ai {
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
     private:
-        bool forwardDirection;
+        control::BallHandlePosControl::TravelStrategy forwardDirection;
         int maxTicks = 60;// seconds
         int count;
         Vector2 targetPos = {0, 0};

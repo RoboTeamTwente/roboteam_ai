@@ -14,28 +14,31 @@ Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
 void Dribble::onInitialize() {
 
     //if false, robot will dribble to the position backwards with the ball.
-    forwardDirection = properties->getBool("forwardDirection");
-
-    if (properties->hasVector2("Position")) {
-        targetPos = properties->getVector2("Position");
+    if (properties->hasBool("forwardDirection")) {
+        forwardDirection = properties->getBool("forwardDirection") ?
+                           control::BallHandlePosControl::TravelStrategy::FORWARDS :
+                           control::BallHandlePosControl::TravelStrategy::BACKWARDS;
     }
-    else if (properties->getBool("ballPlacement")){
-        targetPos = coach::g_ballPlacement.getBallPlacementPos();
-    }
-
     else {
-        ROS_ERROR("Dribble Initialize -> No maxTicks set!");
+        forwardDirection = control::BallHandlePosControl::TravelStrategy::FORWARDS;
     }
 
     if (properties->hasDouble("distance")) {
         distance = properties->getDouble("distance");
-        double targetAngle;
-        if (forwardDirection) {
+        Angle targetAngle;
+        if (forwardDirection == control::BallHandlePosControl::TravelStrategy::FORWARDS) {
             targetAngle = robot->angle;
         } else {
-            targetAngle = control::ControlUtils::constrainAngle(robot->angle - M_PI);
+            targetAngle = robot->angle - M_PI;
         }
         targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
+    }
+
+    if (properties->hasVector2("Position")) {
+        targetPos = properties->getVector2("Position");
+    }
+    if (properties->getBool("ballPlacement")) {
+        targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
     count = 0;
@@ -46,7 +49,7 @@ Dribble::Status Dribble::onUpdate() {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
-    auto c = robot->getBallHandlePosControl()->getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+    auto c = robot->getBallHandlePosControl()->getRobotCommand(robot, targetPos, robot->angle, forwardDirection);
 
     if(robot->getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;

@@ -19,17 +19,19 @@ void GetBall::onInitialize() {
 }
 
 GetBall::Status GetBall::onUpdate() {
+    if ((lockedTargetPos - ball->pos).length() > 0.2) {
+        lockedTargetPos = ball->pos + (ball->pos - robot->pos).stretchToLength(0.1);
+    }
+    auto c = ballHandlePosControl.getRobotCommand(
+            robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS);
+
     if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
-    if ((lockedTargetPos - ball->pos).length() > 0.2) {
-        lockedTargetPos = ball->pos + (ball->pos - robot->pos).stretchToLength(0.1);
-    }
-    command = ballHandlePosControl.getRobotCommand(
-            robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS).makeROSCommand();
-
+    command = c.makeROSCommand();
     publishRobotCommand();
+
     return Status::Running;
 }
 
