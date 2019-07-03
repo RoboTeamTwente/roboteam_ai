@@ -37,7 +37,7 @@ GetBall::Status GetBall::onUpdate() {
 
 void GetBall::onTerminate(Status s) {
     if (properties->getBool("dribbleOnTerminate")) {
-        command.dribbler = 20;
+        command.dribbler = 31;
         command.x_vel = 0;
         command.y_vel = 0;
         command.w = robot->angle;
