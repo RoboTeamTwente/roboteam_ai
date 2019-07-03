@@ -57,6 +57,7 @@ void ApplicationManager::loop() {
             longestTick = 0.0;
         }
 
+
         if (ai::robotDealer::RobotDealer::hasFree()) {
             if (ticksFree++ > 10) {
                 ai::robotDealer::RobotDealer::refresh();
