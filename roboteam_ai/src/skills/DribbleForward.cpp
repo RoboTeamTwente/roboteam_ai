@@ -25,14 +25,16 @@ void DribbleForward::onInitialize() {
 
 
 bt::Node::Status DribbleForward::onUpdate() {
-    if ((ball->pos - targetPos).length() < 0.05 || (ball->pos - initialBallPos).length() >= dribbleDistance) {
+
+    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
+
+    if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
-    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
     command = c.makeROSCommand();
-
     publishRobotCommand();
+
     return Status::Running;
 }
 
