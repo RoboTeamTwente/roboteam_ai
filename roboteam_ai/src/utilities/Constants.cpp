@@ -33,7 +33,7 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
     robotOutputTargetGrSim = grsim;
 }
 
-int Constants::DEFAULT_KEEPER_ID() {return 2; }
+int Constants::DEFAULT_KEEPER_ID() {return 0; }
 double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
@@ -155,7 +155,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
     workingGenevaRobots[5] = true;
     workingGenevaRobots[6] = true;
     workingGenevaRobots[7] = true;
-    workingGenevaRobots[8] = true;
+    workingGenevaRobots[8] = false;
     workingGenevaRobots[9] = true;
     workingGenevaRobots[10] = true;
     workingGenevaRobots[11] = true;
@@ -202,7 +202,7 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     workingBallSensorRobots[5] = true;
     workingBallSensorRobots[6] = true;
     workingBallSensorRobots[7] = true;
-    workingBallSensorRobots[8] = true;
+    workingBallSensorRobots[8] = false;
     workingBallSensorRobots[9] = true;
     workingBallSensorRobots[10] = true;
     workingBallSensorRobots[11] = true;
