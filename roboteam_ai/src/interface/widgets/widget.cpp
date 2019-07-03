@@ -332,6 +332,23 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
     }
 
+    if (ourTeam) {
+        if (Constants::FEEDBACK_ENABLED()) {
+            if (robot.hasRecentFeedback()) {
+                // green to indicate feedback is okay
+                painter.setPen(Qt::green);
+                painter.setBrush(Qt::green);
+            }
+            else {
+                // yellow to indicate feedback is not okay
+                painter.setPen(Qt::red);
+                painter.setBrush(Qt::red);
+            }
+            painter.drawEllipse({(int) robotpos.x + 10, (int) robotpos.y - 10}, 2, 2);
+
+        }
+    }
+
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);

@@ -378,8 +378,8 @@ Polygon Field::getFieldEdge(double margin) {
     std::vector<Vector2> fieldEdge = {
             {-halfLength, -halfWidth},
             {-halfLength, halfWidth},
-            {halfLength, -halfWidth},
-            {halfLength, halfWidth}};
+            {halfLength, halfWidth},
+            {halfLength, -halfWidth}};
 
     interface::Input::drawDebugData(fieldEdge, Qt::red, interface::Drawing::LINES_CONNECTED);
 

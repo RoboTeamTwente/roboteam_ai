@@ -56,6 +56,17 @@ void ApplicationManager::loop() {
             timeTakenOverNTicks = 0.0;
             longestTick = 0.0;
         }
+
+
+        if (ai::robotDealer::RobotDealer::hasFree()) {
+            if (ticksFree++ > 10) {
+                ai::robotDealer::RobotDealer::refresh();
+                BTFactory::makeTrees();
+            }
+        }
+        else {
+            ticksFree = 0;
+        }
     }
 }
 

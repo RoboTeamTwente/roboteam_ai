@@ -31,7 +31,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
 //        if(ballDeflected()) {
 //            return Status::Failure;
 //        }
-        command.dribbler = 25;
+        command.dribbler = 31;
         intercept();
     } else {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
