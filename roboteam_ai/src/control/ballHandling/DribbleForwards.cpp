@@ -42,6 +42,10 @@ void DribbleForwards::updateForwardsProgress() {
     targetAngle = (finalTargetPos - ball->pos).toAngle();
     Angle angleDifference = robot->angle - targetAngle;
 
+    if (forwardsProgress != ForwardsProgress::DRIBBLE_FORWARD) {
+        waitingTicks = 0;
+    }
+
     // update forwards progress
     switch (forwardsProgress) {
     case TURNING: {
@@ -121,7 +125,7 @@ RobotCommand DribbleForwards::sendTurnCommand() {
 
 RobotCommand DribbleForwards::sendApproachCommand() {
     RobotCommand command;
-    command.dribbler = 28;
+    command.dribbler = 31;
     command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
@@ -132,17 +136,28 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     command.dribbler = 31;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
+    int ramp = 100;
+    if (waitingTicks < ramp) {
+        command.vel = command.vel.stretchToLength(maxVel / 4 + 3*command.vel.length()*waitingTicks++ / (ramp*4));
+    }
+
+    if ((robot->pos - finalTargetPos).length() < 0.5) {
+        command.vel = command.vel.stretchToLength(fmax(command.vel.length(), 0.5));
+    }
 
     // check if the robot is still on the virtual line from ball->pos to the target
+    double maxDist = errorMargin*8 + std::fmin(1.0, 2*(robot->pos - finalTargetPos).length());
+
     if (control::ControlUtils::distanceToLine(robot->pos,
-            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*5) {
+            forwardsDribbleLine.first, forwardsDribbleLine.second) > maxDist) {
         forwardsProgress = TURNING;
     }
 
     Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
             (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle();
 
-    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
+    double compensationFactor = std::fmax(4.0, 8.0 * (ramp-waitingTicks)/ramp);
+    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*compensationFactor, 0.05));
     command.vel += compensation;
 
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
