@@ -106,7 +106,7 @@
           "hat0c2wlomrmur2k": {
             "children": [
               "lsnzin91i3imjek5",
-              "qjjplyhstdpz3jqb",
+              "ohcvj8ndr9zdghqe",
               "yoj05mrp6npkgkoc"
             ],
             "id": "hat0c2wlomrmur2k",
@@ -168,17 +168,12 @@
             "id": "ogf13zvp37u09",
             "title": "Sequence"
           },
-          "qjjplyhstdpz3jqb": {
-            "id": "qjjplyhstdpz3jqb",
+          "ohcvj8ndr9zdghqe": {
+            "id": "ohcvj8ndr9zdghqe",
             "properties": {
-              "BallPlacement": "",
-              "Position": "",
-              "distance": "0.8",
-              "dribbleOnTerminate": "false",
-              "forwardDirection": "true",
-              "maxTicks": ""
+              "dribbleDistance": "0.59"
             },
-            "title": "Dribble"
+            "title": "DribbleForward"
           },
           "xzmk8yg14z1tesq8e": {
             "id": "xzmk8yg14z1tesq8e",
