@@ -7,6 +7,7 @@
 #include <roboteam_ai/src/world/Robot.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/interface/api/Output.h>
 #include "PenaltyKeeper.h"
 
 namespace rtt {
@@ -19,9 +20,11 @@ void PenaltyKeeper::onInitialize() {
     state = WAITING;
     firstBallPos=world::world->getBall()->pos;
     preparation=properties->getBool("prepare");
+    gtp.setAutoListenToInterface(false);
 }
 
 PenaltyKeeper::Status PenaltyKeeper::onUpdate() {
+
     state=updateState(state);
     if (preparation){
         state=WAITING;
@@ -101,19 +104,27 @@ Vector2 PenaltyKeeper::interceptBallPos() {
 }
 
 void PenaltyKeeper::sendWaitCommand() {
+    gtp.setAutoListenToInterface(false);
+
+    gtp.updatePid(interface::Output::getKeeperPid());
+
     Vector2 targetPos = computeDefendPos();
+
     Vector2 delta = gtp.getRobotCommand(robot, targetPos).vel;
     command.x_vel = delta.x;
     command.y_vel = delta.y;
-    command.w = 0;
+    command.w = M_PI_2;
     publishRobotCommand();
 }
 void PenaltyKeeper::sendInterceptCommand() {
+    gtp.setAutoListenToInterface(false);
+    gtp.updatePid({5.2,0.0,0.2});
+
     Vector2 interceptPos = interceptBallPos();
     Vector2 delta = gtp.getRobotCommand(robot, interceptPos).vel;
     command.x_vel = delta.x;
     command.y_vel = delta.y;
-    command.w = 0;
+    command.w = M_PI_2;
     publishRobotCommand();
 }
 std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {

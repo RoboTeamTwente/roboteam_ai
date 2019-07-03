@@ -5,6 +5,9 @@
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
 #include <cmath>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+
+#include "roboteam_ai/src/utilities/RefGameState.h"
 
 namespace rtt {
 namespace ai {
@@ -102,6 +105,14 @@ void Skill::refreshRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
+
+    bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName== "keeper_penalty_defend_tactic";
+    bool isKeeper = command.id == robotDealer::RobotDealer::getKeeperID();
+
+    if (isDefendPenaltyState && isKeeper){
+        std::cout<<"NOT LIMITING for" <<command.id<<std::endl;
+        return;
+    }
     auto limitedVel = Vector2(command.x_vel, command.y_vel);
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
