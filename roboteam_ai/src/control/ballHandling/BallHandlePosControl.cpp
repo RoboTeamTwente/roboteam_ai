@@ -365,8 +365,8 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
         double targetVel = ballVel*2.0;
 
         double distanceToBall = (robot->pos - ball->pos).length();
-        if (distanceToBall < 0.9) {
-            targetVel = ballVel*(1.1 + distanceToBall);
+        if (distanceToBall < 0.8) {
+            targetVel = ballVel*(1.2 + distanceToBall);
         }
 
         double commandVel = robotCommand.vel.length();
