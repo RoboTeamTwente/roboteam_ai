@@ -293,12 +293,16 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
         return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
     if (!robotIsBehindBall) {
-        return interceptMovingBallTowardsBall();
+        return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
+
+    //    return interceptMovingBallTowardsBall();
     }
     return goBehindBall(ballStillPosition);
 }
 
 RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
+    std::cout << "grab ball" << std::endl;
+
     static Vector2 numTreesTarget;
     Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
 
@@ -370,6 +374,8 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
 
 RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projectionPosition,
         double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel) {
+    std::cout << "go around ball and get it" << std::endl;
+
     Vector2 numTreesTarget = projectionPosition;
     auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
 
