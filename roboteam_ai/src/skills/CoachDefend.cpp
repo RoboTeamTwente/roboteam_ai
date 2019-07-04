@@ -35,7 +35,7 @@ bt::Node::Status CoachDefend::onUpdate() {
     else{
          velocities=robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation->first);
     }
-    if ((targetLocation->first - robot->pos).length() < 0.05) {
+    if ((targetLocation->first - robot->pos).length() < Constants::ROBOT_RADIUS()) {
         command.x_vel = 0;
         command.y_vel = 0;
         command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
@@ -43,7 +43,7 @@ bt::Node::Status CoachDefend::onUpdate() {
     else {
         command.x_vel = static_cast<float>(velocities.vel.x);
         command.y_vel = static_cast<float>(velocities.vel.y);
-        if ((targetLocation->first - robot->pos).length() < 0.05) {
+        if ((targetLocation->first - robot->pos).length() < Constants::ROBOT_RADIUS()) {
             command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
         }
         else {
@@ -55,6 +55,9 @@ bt::Node::Status CoachDefend::onUpdate() {
 }
 bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
     LineSegment driveLine(robot->pos,targetLocation);
+    if (driveLine.length()>=0.2){
+        return false;
+    }
     // if line intersects our defence area or other robots we do not do it.
     if (world::field->getDefenseArea(true,0.15,false).doesIntersect(driveLine)){
         return false;
