@@ -244,6 +244,14 @@ void MainControlsWidget::updateContents() {
     if (goalieIdText != select_goalie->currentText()) {
         select_goalie->setCurrentText(goalieIdText);
     }
+
+    // visual indication if we have a keeper or not
+    if (robotDealer::RobotDealer::keeperExistsInWorld()) {
+        select_goalie->setStyleSheet("background-color: #00b200;");
+    } else {
+        select_goalie->setStyleSheet("background-color: #cc0000;");
+    }
+
 }
 
 void MainControlsWidget::sendHaltSignal() {
