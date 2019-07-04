@@ -122,6 +122,9 @@ world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
+    if (world.ball->vel.length()>0.5){
+        return world.ball->pos+world.ball->vel*0.3;
+    }
     return world.ball->pos;
 }
 std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(
@@ -224,9 +227,11 @@ std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const PossiblePass &
 }
 /// searches the most dangerous position and then gets the segment which blocks that (if it exists/is possible)
 std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const world::WorldData &world) {
-    Vector2 mostDangerousPos = getMostDangerousPos(world);
-    if (world::field->pointIsInField(mostDangerousPos)) {
-        return getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos);
+    if(world.ball) {
+        Vector2 mostDangerousPos = getMostDangerousPos(world);
+        if (world::field->pointIsInField(mostDangerousPos, - 0.1)) {
+            return getBlockLineSegment(world::field->getGoalSides(true), mostDangerousPos);
+        }
     }
     return nullptr;
 }

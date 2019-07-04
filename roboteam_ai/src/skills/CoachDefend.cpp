@@ -2,6 +2,7 @@
 // Created by rolf on 5-3-19.
 //
 
+#include <roboteam_ai/src/world/Field.h>
 #include "CoachDefend.h"
 #include "roboteam_ai/src/coach/defence/DefenceDealer.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
@@ -25,8 +26,16 @@ bt::Node::Status CoachDefend::onUpdate() {
         return bt::Node::Status::Running;
     }
 
-    auto velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation->first);
-    if ((targetLocation->first - robot->pos).length() < 0.02) {
+
+    RobotCommand velocities;
+    // choosing numtrees or other
+    if (useBasicGtp(targetLocation->first)){
+        velocities=robot->getBasicPosControl()->getRobotCommand(robot,targetLocation->first);
+    }
+    else{
+         velocities=robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation->first);
+    }
+    if ((targetLocation->first - robot->pos).length() < Constants::ROBOT_RADIUS()) {
         command.x_vel = 0;
         command.y_vel = 0;
         command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
@@ -34,7 +43,7 @@ bt::Node::Status CoachDefend::onUpdate() {
     else {
         command.x_vel = static_cast<float>(velocities.vel.x);
         command.y_vel = static_cast<float>(velocities.vel.y);
-        if ((targetLocation->first - robot->pos).length() < 2*Constants::ROBOT_RADIUS()) {
+        if ((targetLocation->first - robot->pos).length() < Constants::ROBOT_RADIUS()) {
             command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
         }
         else {
@@ -44,6 +53,24 @@ bt::Node::Status CoachDefend::onUpdate() {
     publishRobotCommand();
     return bt::Node::Status::Running;
 }
-
+bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
+    LineSegment driveLine(robot->pos,targetLocation);
+    if (driveLine.length()>=0.2){
+        return false;
+    }
+    // if line intersects our defence area or other robots we do not do it.
+    if (world::field->getDefenseArea(true,0.15,false).doesIntersect(driveLine)){
+        return false;
+    }
+    auto robots=world::world->getThem();
+    for (const auto& worldRobot: robots){
+        if (worldRobot->id != robot->id){
+            if (driveLine.distanceToLine(worldRobot->pos)<Constants::ROBOT_RADIUS()){
+                return false;
+            }
+        }
+    }
+    return true;
+}
 }
 }
