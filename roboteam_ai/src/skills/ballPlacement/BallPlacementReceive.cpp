@@ -49,7 +49,6 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
     return Status::Running;
 }
 
-
 void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
     auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, position);
     command.x_vel = static_cast<float>(robotCommand.vel.x);

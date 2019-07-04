@@ -38,6 +38,9 @@ class ShotController {
 private:
     bool init = false;
     bool isShooting = false;
+
+    int kickerOnTicks = 0;
+
     Vector2 aimTarget;
 
     // PID variables
