@@ -31,7 +31,8 @@ void AvoidBall::onInitialize() {
 bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);
 
-    if (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10)) {
+    bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
+    if (!robotIsKeeper && (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10))) {
 
         robot->getNumtreePosControl()->getRobotCommand(robot, Vector2(0, robotPos.y));
         publishRobotCommand();
