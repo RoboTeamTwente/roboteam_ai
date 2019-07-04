@@ -73,7 +73,8 @@ bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam
         double farThreshHoldDist = 0.4;
 
         if (!ourTeam) {
-            farThreshHoldDist = 0.9;
+            // if the ball is on our side, go more defensive.
+            farThreshHoldDist = world.ball->pos.x < 0.0 ? 0.9 : 0.4;
         }
 
         auto robots = ourTeam ? world.us : world.them;
