@@ -23,7 +23,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         return Status::Success;
     }
 
-    if ((ball->pos - coach::g_ballPlacement.getBallPlacementPos()).length() < 0.15) {
+    if ((ball->pos - coach::g_ballPlacement.getBallPlacementPos()).length() < 0.25) {
         return Status::Success;
     }
 

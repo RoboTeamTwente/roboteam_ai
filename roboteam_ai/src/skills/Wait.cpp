@@ -26,6 +26,7 @@ void Wait::onInitialize() {
 
 Wait::Status Wait::onUpdate() {
     command.w = robot->angle;
+    command.geneva_state=0;
     publishRobotCommand();
     tick++;
     if(tick>=ticks) {
