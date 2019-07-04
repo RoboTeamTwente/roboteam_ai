@@ -71,6 +71,11 @@ bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam
 bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam) {
     if (world.ball) {
         double farThreshHoldDist = 0.4;
+
+        if (!ourTeam) {
+            farThreshHoldDist = 0.9;
+        }
+
         auto robots = ourTeam ? world.us : world.them;
         for (auto &robot : robots) {
             if ((robot->pos - world.ball->pos).length() < farThreshHoldDist) {
