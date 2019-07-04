@@ -74,20 +74,29 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
 Vector2 PenaltyKeeper::computeDefendPos() {
     auto attacker = world::world->getRobotClosestToBall(THEIR_ROBOTS);
     // we check the line defined by attacker's centre and the ball position
+    Vector2 middle=(goalLine.first + goalLine.second)*0.5;
+
     if (attacker) {
         Vector2 beginPos = attacker->pos;
         Vector2 endPos = attacker->pos
-
                 + (world::world->getBall()->pos - attacker->pos).stretchToLength(
                         world::field->get_field().field_length);
-        //std::cout<<endPos<<std::endl;
-        if (control::ControlUtils::lineSegmentsIntersect(beginPos, endPos, goalLine.first, goalLine.second)) {
-            Vector2 intersect = control::ControlUtils::twoLineIntersection(beginPos, endPos, goalLine.first,
-                    goalLine.second);
-            return intersect;
+
+        double maxMoveDist=(world::field->get_field().goal_width-Constants::ROBOT_RADIUS())/2-0.2; // we estimate we can move the robot about 20 cm during the shot
+        LineSegment shootLine(beginPos,endPos);
+        Line goalKeepingLine(goalLine.first,goalLine.second);
+        auto intersection=goalKeepingLine.intersects(shootLine);
+        if (intersection) {
+            if (intersection->y>maxMoveDist){
+                return Vector2(middle.x,maxMoveDist);
+            }
+            else if(intersection->y<-maxMoveDist){
+                return Vector2(middle.x,-maxMoveDist);
+            }
+            return *intersection;
         }
     }
-    return (goalLine.first + goalLine.second)*0.5;
+    return middle;
 }
 
 Vector2 PenaltyKeeper::interceptBallPos() {
