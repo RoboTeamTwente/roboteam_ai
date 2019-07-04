@@ -163,12 +163,16 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id, true);
             if (robot) {
-
-                if (!robot->genevaStateIsDifferent(cmd.geneva_state) || !robot->genevaStateIsValid(cmd.geneva_state)) {
-                    if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
-                        robot->setGenevaState(cmd.geneva_state);
+                if (cmd.geneva_state = 3) {
+                    robot->setGenevaState(cmd.geneva_state);
+                }
+                else {
+                    if (!robot->genevaStateIsDifferent(cmd.geneva_state) || !robot->genevaStateIsValid(cmd.geneva_state)) {
+                        if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
+                            robot->setGenevaState(cmd.geneva_state);
+                        }
+                        cmd.geneva_state = robot->getGenevaState();
                     }
-                    cmd.geneva_state = robot->getGenevaState();
                 }
 
                 // only kick and chip when geneva is ready
