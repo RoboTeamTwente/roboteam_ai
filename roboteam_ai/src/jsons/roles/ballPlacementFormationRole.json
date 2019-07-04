@@ -1,0 +1,51 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "3xvr3wl2dunvxnz1": {
+            "children": [
+              "jae4fyqy5duvndsh",
+              "bpd94sfm797wv4ab"
+            ],
+            "id": "3xvr3wl2dunvxnz1",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "bpd94sfm797wv4ab": {
+            "id": "bpd94sfm797wv4ab",
+            "properties": {
+              "Stop": "",
+              "type": ""
+            },
+            "title": "AvoidBall"
+          },
+          "fs6b5d1zfr86l5gm": {
+            "children": [
+              "3xvr3wl2dunvxnz1",
+              "o6kp6jon9p6nox8d"
+            ],
+            "id": "fs6b5d1zfr86l5gm",
+            "properties": {},
+            "title": "Selector"
+          },
+          "jae4fyqy5duvndsh": {
+            "id": "jae4fyqy5duvndsh",
+            "properties": {
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
+          },
+          "o6kp6jon9p6nox8d": {
+            "id": "o6kp6jon9p6nox8d",
+            "properties": {},
+            "title": "StopFormation"
+          }
+        },
+        "root": "fs6b5d1zfr86l5gm",
+        "title": "ballPlacementFormationRole"
+      }
+    ]
+  },
+  "name": "ballPlacementFormationRole"
+}

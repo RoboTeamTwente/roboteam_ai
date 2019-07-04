@@ -3,47 +3,96 @@
     "trees": [
       {
         "nodes": {
-          "0kjuzbc754ybfonh": {
+          "1aczegqzj085wvcu": {
             "children": [
-              "dg8rtsej3bbbevagh"
+              "pj9vsym4eqfvkrj2"
             ],
-            "id": "0kjuzbc754ybfonh",
-            "name": "avoid7",
+            "id": "1aczegqzj085wvcu",
+            "name": "ballPlacementFormationRole",
             "properties": {
-              "ROLE": "avoid7"
+              "ROLE": "avoid5"
             },
-            "role": "avoid_role",
+            "role": "ballPlacementFormationRole",
             "title": "Role"
           },
-          "2ygm44tc6heawczw": {
+          "22cbr0e335xdh208": {
             "children": [
-              "jpbyopqmk9o47"
+              "c6u32fhrfn2xcn58",
+              "hswjh3gy59i02w1i"
             ],
-            "id": "2ygm44tc6heawczw",
+            "id": "22cbr0e335xdh208",
             "properties": {
-              "ROLE": "avoid2"
+              "ROLE": "avoid3"
             },
-            "title": "UntilSuccess"
+            "title": "Sequence"
           },
-          "4x2wee2zraep5fx": {
-            "id": "4x2wee2zraep5fx",
-            "properties": {
-              "ROLE": "avoid5",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "7m9quqwqdlpqok6": {
+          "26924m25l6vj8th5": {
             "children": [
-              "enssz32uvsmap2r4"
+              "oqh19t1ho3wh23tw",
+              "sj3d6xdoesbnrbpz"
             ],
-            "id": "7m9quqwqdlpqok6",
-            "name": "avoid1",
+            "id": "26924m25l6vj8th5",
+            "properties": {
+              "ROLE": "avoid6"
+            },
+            "title": "Selector"
+          },
+          "2bpodj9mznrbdaoc": {
+            "children": [
+              "er979rgj6wxhl56o",
+              "he26i07gi52o98i9"
+            ],
+            "id": "2bpodj9mznrbdaoc",
+            "properties": {
+              "ROLE": "avoid4"
+            },
+            "title": "Sequence"
+          },
+          "3f5ceynohtzvy5uk": {
+            "children": [
+              "7fyusd18w28rh4zm",
+              "nkm22o05uijgmtt2"
+            ],
+            "id": "3f5ceynohtzvy5uk",
             "properties": {
               "ROLE": "avoid1"
             },
-            "role": "avoid_role",
+            "title": "Sequence"
+          },
+          "4aai9x1neknus42w": {
+            "children": [
+              "26924m25l6vj8th5"
+            ],
+            "id": "4aai9x1neknus42w",
+            "name": "ballPlacementFormationRole",
+            "properties": {
+              "ROLE": "avoid6"
+            },
+            "role": "ballPlacementFormationRole",
             "title": "Role"
+          },
+          "5n6mz7l6ex5agpr1": {
+            "id": "5n6mz7l6ex5agpr1",
+            "properties": {
+              "ROLE": "avoid5"
+            },
+            "title": "StopFormation"
+          },
+          "6dl3p12xeb3h0cf7": {
+            "id": "6dl3p12xeb3h0cf7",
+            "properties": {
+              "ROLE": "avoid7",
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
+          },
+          "7fyusd18w28rh4zm": {
+            "id": "7fyusd18w28rh4zm",
+            "properties": {
+              "ROLE": "avoid1",
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
           },
           "7ns7jzso9lofu0av": {
             "id": "7ns7jzso9lofu0av",
@@ -58,69 +107,62 @@
             },
             "title": "GTPSpecial"
           },
-          "8qwj9095k5ohveg": {
+          "8c5q2b08v7y9hc4r": {
+            "id": "8c5q2b08v7y9hc4r",
+            "properties": {
+              "ROLE": "avoid5",
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
+          },
+          "8x6eovvbhd9by542": {
             "children": [
-              "2ygm44tc6heawczw"
+              "qlm03exwhmvg7jrc"
             ],
-            "id": "8qwj9095k5ohveg",
-            "name": "avoid2",
+            "id": "8x6eovvbhd9by542",
+            "name": "ballPlacementFormationRole",
+            "properties": {
+              "ROLE": "avoid7"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "90kqx9vdb5xw0qak": {
+            "id": "90kqx9vdb5xw0qak",
+            "properties": {
+              "ROLE": "avoid7",
+              "Stop": "",
+              "type": ""
+            },
+            "title": "AvoidBall"
+          },
+          "av0a8tzayr69fwtw": {
+            "id": "av0a8tzayr69fwtw",
+            "properties": {
+              "ROLE": "avoid5",
+              "Stop": "",
+              "type": ""
+            },
+            "title": "AvoidBall"
+          },
+          "c6u32fhrfn2xcn58": {
+            "id": "c6u32fhrfn2xcn58",
+            "properties": {
+              "ROLE": "avoid3",
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
+          },
+          "debyxaeizn6q3qhk": {
+            "children": [
+              "g5ilquoduabvx0vl",
+              "pj0o7dpsjs2owa5b"
+            ],
+            "id": "debyxaeizn6q3qhk",
             "properties": {
               "ROLE": "avoid2"
             },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "9cgi4uhd04ntdclbs": {
-            "children": [
-              "osrcm7r61wn9lvu"
-            ],
-            "id": "9cgi4uhd04ntdclbs",
-            "name": "avoid4",
-            "properties": {
-              "ROLE": "avoid4"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "9jpmtylcdqg8w2": {
-            "children": [
-              "cmfdbreb7ksgfc"
-            ],
-            "id": "9jpmtylcdqg8w2",
-            "name": "avoid3",
-            "properties": {
-              "ROLE": "avoid3"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "bc0rxpielnyke": {
-            "children": [
-              "4x2wee2zraep5fx"
-            ],
-            "id": "bc0rxpielnyke",
-            "properties": {
-              "ROLE": "avoid5"
-            },
-            "title": "UntilSuccess"
-          },
-          "cmfdbreb7ksgfc": {
-            "children": [
-              "f6af0d2ibw98y7"
-            ],
-            "id": "cmfdbreb7ksgfc",
-            "properties": {
-              "ROLE": "avoid3"
-            },
-            "title": "UntilSuccess"
-          },
-          "d7vl5pdrhle9s": {
-            "id": "d7vl5pdrhle9s",
-            "properties": {
-              "ROLE": "avoid4",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
+            "title": "Selector"
           },
           "dff5xxzshs5kelfa": {
             "children": [
@@ -132,27 +174,16 @@
             },
             "title": "UntilSuccess"
           },
-          "dg8rtsej3bbbevagh": {
+          "dogxayb6x0vjvx5h": {
             "children": [
-              "eyln2ym5lmmdefz4"
+              "8c5q2b08v7y9hc4r",
+              "av0a8tzayr69fwtw"
             ],
-            "id": "dg8rtsej3bbbevagh",
-            "properties": {
-              "ROLE": "avoid7"
-            },
-            "title": "UntilSuccess"
-          },
-          "eaeopojlreby0te": {
-            "children": [
-              "bc0rxpielnyke"
-            ],
-            "id": "eaeopojlreby0te",
-            "name": "avoid5",
+            "id": "dogxayb6x0vjvx5h",
             "properties": {
               "ROLE": "avoid5"
             },
-            "role": "avoid_role",
-            "title": "Role"
+            "title": "Sequence"
           },
           "edde03gm1542hdih": {
             "id": "edde03gm1542hdih",
@@ -162,49 +193,31 @@
             },
             "title": "Halt"
           },
-          "enssz32uvsmap2r4": {
+          "er979rgj6wxhl56o": {
+            "id": "er979rgj6wxhl56o",
+            "properties": {
+              "ROLE": "avoid4",
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
+          },
+          "g5ilquoduabvx0vl": {
             "children": [
-              "grfk3k408lgew"
+              "oi70a5y4dpf1wugp",
+              "mxdmir1ywwm4er6m"
             ],
-            "id": "enssz32uvsmap2r4",
+            "id": "g5ilquoduabvx0vl",
             "properties": {
-              "ROLE": "avoid1"
+              "ROLE": "avoid2"
             },
-            "title": "UntilSuccess"
+            "title": "Sequence"
           },
-          "exfaz9123s007y": {
-            "children": [
-              "k07lzq2squg2z49z"
-            ],
-            "id": "exfaz9123s007y",
-            "name": "avoid6",
+          "he26i07gi52o98i9": {
+            "id": "he26i07gi52o98i9",
             "properties": {
-              "ROLE": "avoid6"
-            },
-            "role": "avoid_role",
-            "title": "Role"
-          },
-          "eyln2ym5lmmdefz4": {
-            "id": "eyln2ym5lmmdefz4",
-            "properties": {
-              "ROLE": "avoid7",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "f6af0d2ibw98y7": {
-            "id": "f6af0d2ibw98y7",
-            "properties": {
-              "ROLE": "avoid3",
-              "type": "ballPlacement"
-            },
-            "title": "AvoidBall"
-          },
-          "grfk3k408lgew": {
-            "id": "grfk3k408lgew",
-            "properties": {
-              "ROLE": "avoid1",
-              "type": "ballPlacement"
+              "ROLE": "avoid4",
+              "Stop": "",
+              "type": ""
             },
             "title": "AvoidBall"
           },
@@ -231,23 +244,46 @@
             },
             "title": "MemSequence"
           },
-          "jpbyopqmk9o47": {
-            "id": "jpbyopqmk9o47",
+          "hswjh3gy59i02w1i": {
+            "id": "hswjh3gy59i02w1i",
             "properties": {
-              "ROLE": "avoid2",
-              "type": "ballPlacement"
+              "ROLE": "avoid3",
+              "Stop": "",
+              "type": ""
             },
             "title": "AvoidBall"
           },
-          "k07lzq2squg2z49z": {
+          "hv6aggmi1e1w7pjh": {
             "children": [
-              "me5r64rml8cj9j"
+              "22cbr0e335xdh208",
+              "rzt4vrmlc5oiz33j"
             ],
-            "id": "k07lzq2squg2z49z",
+            "id": "hv6aggmi1e1w7pjh",
             "properties": {
-              "ROLE": "avoid6"
+              "ROLE": "avoid3"
             },
-            "title": "UntilSuccess"
+            "title": "Selector"
+          },
+          "julps4wximycpnlb": {
+            "id": "julps4wximycpnlb",
+            "properties": {
+              "ROLE": "avoid1"
+            },
+            "title": "StopFormation"
+          },
+          "k3gzvw9lcfoyr6rm": {
+            "id": "k3gzvw9lcfoyr6rm",
+            "properties": {
+              "ROLE": "avoid7"
+            },
+            "title": "StopFormation"
+          },
+          "k9u2i14xb9berpx8": {
+            "id": "k9u2i14xb9berpx8",
+            "properties": {
+              "ROLE": "avoid4"
+            },
+            "title": "StopFormation"
           },
           "ktpbvgxqakfwa7zq": {
             "id": "ktpbvgxqakfwa7zq",
@@ -257,11 +293,45 @@
             },
             "title": "Wait"
           },
-          "me5r64rml8cj9j": {
-            "id": "me5r64rml8cj9j",
+          "lo4hebk5mnjs11gi": {
+            "children": [
+              "ur5weph5158ceolx"
+            ],
+            "id": "lo4hebk5mnjs11gi",
+            "name": "ballPlacementFormationRole",
             "properties": {
-              "ROLE": "avoid6",
-              "type": "ballPlacement"
+              "ROLE": "avoid1"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "min3u3riu3hypr5f": {
+            "children": [
+              "hv6aggmi1e1w7pjh"
+            ],
+            "id": "min3u3riu3hypr5f",
+            "name": "ballPlacementFormationRole",
+            "properties": {
+              "ROLE": "avoid3"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "mxdmir1ywwm4er6m": {
+            "id": "mxdmir1ywwm4er6m",
+            "properties": {
+              "ROLE": "avoid2",
+              "Stop": "",
+              "type": ""
+            },
+            "title": "AvoidBall"
+          },
+          "nkm22o05uijgmtt2": {
+            "id": "nkm22o05uijgmtt2",
+            "properties": {
+              "ROLE": "avoid1",
+              "Stop": "",
+              "type": ""
             },
             "title": "AvoidBall"
           },
@@ -276,15 +346,42 @@
             },
             "title": "MemSequence"
           },
-          "osrcm7r61wn9lvu": {
-            "children": [
-              "d7vl5pdrhle9s"
-            ],
-            "id": "osrcm7r61wn9lvu",
+          "oi70a5y4dpf1wugp": {
+            "id": "oi70a5y4dpf1wugp",
             "properties": {
-              "ROLE": "avoid4"
+              "ROLE": "avoid2",
+              "distance": "1.0"
             },
-            "title": "UntilSuccess"
+            "title": "BallIsClose"
+          },
+          "oqh19t1ho3wh23tw": {
+            "children": [
+              "xdtyvao0hxvipkbq",
+              "qyxx38q71uijqfrw"
+            ],
+            "id": "oqh19t1ho3wh23tw",
+            "properties": {
+              "ROLE": "avoid6"
+            },
+            "title": "Sequence"
+          },
+          "pj0o7dpsjs2owa5b": {
+            "id": "pj0o7dpsjs2owa5b",
+            "properties": {
+              "ROLE": "avoid2"
+            },
+            "title": "StopFormation"
+          },
+          "pj9vsym4eqfvkrj2": {
+            "children": [
+              "dogxayb6x0vjvx5h",
+              "5n6mz7l6ex5agpr1"
+            ],
+            "id": "pj9vsym4eqfvkrj2",
+            "properties": {
+              "ROLE": "avoid5"
+            },
+            "title": "Selector"
           },
           "qb85fnkp125bv1lg": {
             "children": [
@@ -297,6 +394,63 @@
             },
             "title": "Sequence"
           },
+          "qlm03exwhmvg7jrc": {
+            "children": [
+              "r7c57eo5vw9dzhah",
+              "k3gzvw9lcfoyr6rm"
+            ],
+            "id": "qlm03exwhmvg7jrc",
+            "properties": {
+              "ROLE": "avoid7"
+            },
+            "title": "Selector"
+          },
+          "qyxx38q71uijqfrw": {
+            "id": "qyxx38q71uijqfrw",
+            "properties": {
+              "ROLE": "avoid6",
+              "Stop": "",
+              "type": ""
+            },
+            "title": "AvoidBall"
+          },
+          "r7c57eo5vw9dzhah": {
+            "children": [
+              "6dl3p12xeb3h0cf7",
+              "90kqx9vdb5xw0qak"
+            ],
+            "id": "r7c57eo5vw9dzhah",
+            "properties": {
+              "ROLE": "avoid7"
+            },
+            "title": "Sequence"
+          },
+          "rfymmwghxlhn4gdv": {
+            "children": [
+              "wr6e3goi08mkv7df"
+            ],
+            "id": "rfymmwghxlhn4gdv",
+            "name": "ballPlacementFormationRole",
+            "properties": {
+              "ROLE": "avoid4"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "rzt4vrmlc5oiz33j": {
+            "id": "rzt4vrmlc5oiz33j",
+            "properties": {
+              "ROLE": "avoid3"
+            },
+            "title": "StopFormation"
+          },
+          "sj3d6xdoesbnrbpz": {
+            "id": "sj3d6xdoesbnrbpz",
+            "properties": {
+              "ROLE": "avoid6"
+            },
+            "title": "StopFormation"
+          },
           "u1pg470ls5zvf5bm": {
             "id": "u1pg470ls5zvf5bm",
             "properties": {
@@ -304,6 +458,17 @@
               "ballPlacement": "true"
             },
             "title": "Dribble"
+          },
+          "ur5weph5158ceolx": {
+            "children": [
+              "3f5ceynohtzvy5uk",
+              "julps4wximycpnlb"
+            ],
+            "id": "ur5weph5158ceolx",
+            "properties": {
+              "ROLE": "avoid1"
+            },
+            "title": "Selector"
           },
           "vdy31v0b99cu23iq": {
             "children": [
@@ -316,16 +481,47 @@
             },
             "title": "Repeater"
           },
+          "wr6e3goi08mkv7df": {
+            "children": [
+              "2bpodj9mznrbdaoc",
+              "k9u2i14xb9berpx8"
+            ],
+            "id": "wr6e3goi08mkv7df",
+            "properties": {
+              "ROLE": "avoid4"
+            },
+            "title": "Selector"
+          },
+          "xdtyvao0hxvipkbq": {
+            "id": "xdtyvao0hxvipkbq",
+            "properties": {
+              "ROLE": "avoid6",
+              "distance": "1.0"
+            },
+            "title": "BallIsClose"
+          },
+          "xitq2wsx6qtnwlyf": {
+            "children": [
+              "debyxaeizn6q3qhk"
+            ],
+            "id": "xitq2wsx6qtnwlyf",
+            "name": "ballPlacementFormationRole",
+            "properties": {
+              "ROLE": "avoid2"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
           "z7gb23riaa8y2": {
             "children": [
               "hng84qswzcopzk",
-              "7m9quqwqdlpqok6",
-              "8qwj9095k5ohveg",
-              "9jpmtylcdqg8w2",
-              "9cgi4uhd04ntdclbs",
-              "eaeopojlreby0te",
-              "exfaz9123s007y",
-              "0kjuzbc754ybfonh"
+              "lo4hebk5mnjs11gi",
+              "xitq2wsx6qtnwlyf",
+              "min3u3riu3hypr5f",
+              "rfymmwghxlhn4gdv",
+              "1aczegqzj085wvcu",
+              "4aai9x1neknus42w",
+              "8x6eovvbhd9by542"
             ],
             "id": "z7gb23riaa8y2",
             "properties": {
