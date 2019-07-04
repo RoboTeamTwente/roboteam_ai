@@ -104,7 +104,7 @@ class BallHandlePosControl : public NumTreePosControl {
                 const Angle &robotAngleTowardsBallVel);
         RobotCommand goBehindBall(const Vector2 &ballStillPosition);
         RobotCommand interceptMovingBallTowardsBall();
-
+        Vector2 movingBallTowardsBallTarget;
         };
 
 } //control

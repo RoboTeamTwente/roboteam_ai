@@ -27,7 +27,7 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
     rotateAroundBall = new RotateAroundBall();
 
     setCanMoveInDefenseArea(canMoveInDefenseArea);
-    setAvoidBallDistance(MAX_BALL_DISTANCE * 0.92);
+    setAvoidBallDistance(MAX_BALL_DISTANCE*0.92);
 }
 
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
@@ -292,57 +292,10 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
     if (robotIsBehindBall && robotCanInterceptBall) {
         return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
-    if (!robotIsBehindBall) {
-        return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
-
-    //    return interceptMovingBallTowardsBall();
+    if (! robotIsBehindBall) {
+        return interceptMovingBallTowardsBall();
     }
     return goBehindBall(ballStillPosition);
-}
-
-RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
-    std::cout << "grab ball" << std::endl;
-
-    static Vector2 numTreesTarget;
-    Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
-
-    if (fabs(robotAngleTowardsBall) < 0.1*M_PI) {
-        LineSegment ntLine = LineSegment(ball->pos, ball->pos + ball->vel.stretchToLength(100.0));
-        if (ntLine.distanceToLine(numTreesTarget) > 0.3) {
-            numTreesTarget = ball->pos + (ball->vel).stretchToLength(1.5);
-        }
-    }
-    else {
-        numTreesTarget = ball->pos;
-    }
-
-    if (! world::field->pointIsInField(numTreesTarget, Constants::ROBOT_RADIUS())) {
-        LineSegment ballLine = LineSegment(ball->pos, numTreesTarget);
-        Polygon fieldEdge = world::field->getFieldEdge(Constants::ROBOT_RADIUS());
-
-        auto intersections = fieldEdge.intersections(ballLine);
-        if (intersections.size() == 1) {
-            numTreesTarget = intersections[0];
-        }
-        else {
-            numTreesTarget = ControlUtils::projectPositionToWithinField(ball->getBallStillPosition());
-        }
-    }
-
-    auto tempAvoidBallDistance = getAvoidBallDistance();
-    setAvoidBallDistance(0.0);
-
-    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
-
-    setAvoidBallDistance(tempAvoidBallDistance);
-
-    if (world::field->pointIsInField(robot->pos + robot->vel)) {
-        robotCommand.vel += ball->vel.stretchToLength(std::min(3.0, std::max(ball->vel.length()*2.0, robot->vel.length()*2.0)));
-    }
-    if ((robot->pos - ball->pos).length() < 0.5) {
-        robotCommand.dribbler = 31;
-    }
-    return robotCommand;
 }
 
 RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition) {
@@ -372,6 +325,60 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
     return robotCommand;
 }
 
+RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
+    std::cout << "grab ball" << std::endl;
+
+    Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
+
+    if (fabs(robotAngleTowardsBall) < 0.1*M_PI) {
+        LineSegment ntLine = LineSegment(ball->pos, ball->pos + ball->vel.stretchToLength(100.0));
+        if (ntLine.distanceToLine(movingBallTowardsBallTarget) > 0.3) {
+            movingBallTowardsBallTarget = ball->pos + (ball->vel).stretchToLength(1.5);
+        }
+    }
+    else {
+        movingBallTowardsBallTarget = ball->pos;
+    }
+
+    if (! world::field->pointIsInField(movingBallTowardsBallTarget, Constants::ROBOT_RADIUS())) {
+        LineSegment ballLine = LineSegment(ball->pos, movingBallTowardsBallTarget);
+        Polygon fieldEdge = world::field->getFieldEdge(Constants::ROBOT_RADIUS());
+
+        auto intersections = fieldEdge.intersections(ballLine);
+        if (intersections.size() == 1) {
+            movingBallTowardsBallTarget = intersections[0];
+        }
+        else {
+            movingBallTowardsBallTarget = ControlUtils::projectPositionToWithinField(ball->getBallStillPosition());
+        }
+    }
+
+    auto tempAvoidBallDistance = getAvoidBallDistance();
+    setAvoidBallDistance(0.0);
+
+    auto robotCommand = NumTreePosControl::getRobotCommand(robot, movingBallTowardsBallTarget);
+
+    setAvoidBallDistance(tempAvoidBallDistance);
+
+    if (world::field->pointIsInField(robot->pos + robot->vel)) {
+        double ballVel = ball->vel.length();
+        double targetVel = ballVel*2.0;
+
+        double distanceToBall = (robot->pos - ball->pos).length();
+        if (distanceToBall < 0.8) {
+            targetVel = ballVel*(1.2 + distanceToBall);
+        }
+
+        double commandVel = robotCommand.vel.length();
+        targetVel = std::max(targetVel, commandVel);
+        robotCommand.vel += ball->vel.stretchToLength(targetVel);
+    }
+    if ((robot->pos - ball->pos).length() < 0.5) {
+        robotCommand.dribbler = 31;
+    }
+    return robotCommand;
+}
+
 RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projectionPosition,
         double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel) {
     std::cout << "go around ball and get it" << std::endl;
@@ -381,7 +388,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
 
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
     if (fabs(robotAngleTowardsBallVel) > M_PI*0.05) {
-        robotCommand.vel += ball->vel.stretchToLength( std::max(1.0,
+        robotCommand.vel += ball->vel.stretchToLength(std::max(1.0,
                 fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())));
     }
     else if (ballToProjectionDistance/ball->vel.length() > 0.8) {
