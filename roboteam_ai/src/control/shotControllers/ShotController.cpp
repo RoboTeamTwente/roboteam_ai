@@ -19,6 +19,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
         aimTarget = shotTarget;
+        kickerOnTicks = 0;
     }
     auto ball = world::world->getBall();
 
@@ -59,6 +60,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             shotData.vel = {0.0, 0.0};
             shotData.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
             std::cout << "Not shooting because geneva is turning" << std::endl;
+            kickerOnTicks = 0;
         }
         else {
             isShooting = true;
@@ -75,6 +77,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
         }
     }
     else {
+        kickerOnTicks = 0;
         isShooting = false;
         shotData = goToPlaceBehindBall(robot, lineToDriveOver.first, lineToDriveOver, currentDesiredGeneva);
     }
@@ -192,8 +195,8 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &ro
         shotData.kicker = true;
         shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
-//    shotData.kickerForced = !robot.hasWorkingBallSensor();
-    shotData.kickerForced = false;
+
+    shotData.kickerForced = kickerOnTicks ++ > 20 && robot.hasBall();
     return shotData;
 }
 

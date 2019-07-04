@@ -64,7 +64,7 @@ private:
     RobotCommand shoot(RobotCommand shotData, const world::Robot& robot, const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget,
                        bool chip,
                        BallSpeed desiredBallSpeed);
-
+    int kickerOnTicks = 0;
     Vector2 updateGenevaAimTarget(int geneva);
 
 public:

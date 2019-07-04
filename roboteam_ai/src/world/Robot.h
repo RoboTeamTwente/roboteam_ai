@@ -46,7 +46,7 @@ class Robot {
         unsigned long lastUpdatedWorldNumber = 0;
     public:
         double calculateDistanceToBall(const Vector2 &ballPos);
-        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
+        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE()) const;
         double getDistanceToBall();
 
         // geneva

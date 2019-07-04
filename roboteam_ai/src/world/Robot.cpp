@@ -52,7 +52,7 @@ Robot::Robot()
     ballHandlePosControl = nullptr;
 }
 
-bool Robot::hasBall(double maxDist) {
+bool Robot::hasBall(double maxDist) const {
     return iHaveBall && distanceToBall < maxDist && distanceToBall >= 0.0;
 }
 
