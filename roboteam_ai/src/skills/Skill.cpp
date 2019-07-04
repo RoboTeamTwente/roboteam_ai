@@ -19,6 +19,7 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Skill::publishRobotCommand() {
+    std::cout << command.dribbler << " - " << std::endl;
     ros::NodeHandle nh;
     std::string ourSideParam;
     nh.getParam("our_side", ourSideParam);
