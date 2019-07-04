@@ -62,7 +62,7 @@ Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.0); // ssl rule + significant buffer
     if (world::field->pointIsInDefenceArea(ballPos + offset)) {
-        Vector2 outsideDefenseArea = Control::ControlUtils::projectPositionToOutsideDefenseArea(ballPos, 1.0);
+        Vector2 outsideDefenseArea = Control::ControlUtils::projectPositionToOutsideDefenseArea(ballPos, 1.3);
         if ((outsideDefenseArea - ballPos).length() < 1.0) {
             return ballPos + (outsideDefenseArea-ballPos).normalize();
         }
