@@ -15,8 +15,6 @@ ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackbo
 std::string ShouldHandleBall::node_name() { return "ShouldHandleBall"; }
 
 ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
-    return Status::Failure;
-
     bool passExists = coach::g_pass.getRobotBeingPassedTo() != -1;
     if (passExists) {
         if (!coach::g_pass.isPassed() && coach::g_pass.getRobotPassing() == robot->id) {
