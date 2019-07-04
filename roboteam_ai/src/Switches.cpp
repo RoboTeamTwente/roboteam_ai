@@ -94,6 +94,7 @@
 #include <roboteam_ai/src/bt/decorators/Inverter.hpp>
 #include <roboteam_ai/src/bt/composites/Sequence.hpp>
 #include <roboteam_ai/src/conditions/BallIsClose.h>
+#include <roboteam_ai/src/skills/formations/StopFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -226,6 +227,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
     map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
     map["KickOffThemFormation"] = std::make_shared<rtt::ai::KickOffThemFormation>(name, properties);
+    map["StopFormation"] = std::make_shared<rtt::ai::StopFormation>(name, properties);
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);

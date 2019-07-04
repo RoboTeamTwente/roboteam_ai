@@ -87,6 +87,10 @@ Vector2 StopFormation::getFormationPosition() {
     };
 
     std::vector<int> robotIds;
+    for (auto & i : *robotsInFormation) {
+        robotIds.push_back(i->id);
+    }
+
     rtt::HungarianAlgorithm hungarian;
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations.at(amountOfRobots));
     return shortestDistances.at(robot->id);
