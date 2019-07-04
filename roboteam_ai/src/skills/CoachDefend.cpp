@@ -65,7 +65,7 @@ bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
     auto robots=world::world->getThem();
     for (const auto& worldRobot: robots){
         if (worldRobot->id != robot->id){
-            if (driveLine.distanceToLine(worldRobot->pos)<2*Constants::ROBOT_RADIUS()){
+            if (driveLine.distanceToLine(worldRobot->pos)<Constants::ROBOT_RADIUS()){
                 return false;
             }
         }
