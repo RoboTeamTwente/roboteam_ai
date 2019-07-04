@@ -208,7 +208,12 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
         break;
     }
     case BALL_PLACEMENT: {
-        velocity = Constants::GRSIM() ? 4.01 : 1.01;
+        if (distance > 2.5) {
+            velocity = Constants::GRSIM() ? 6.01 : 2.01;
+        }
+        else {
+            velocity = Constants::GRSIM() ? 3.01 : 1.01;
+        }
         break;
     }
     case PASS: {
