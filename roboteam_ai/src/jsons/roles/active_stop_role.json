@@ -3,12 +3,46 @@
     "trees": [
       {
         "nodes": {
-          "g7l9sehl3e5bu": {
-            "id": "g7l9sehl3e5bu",
+          "7hrctfrmqgq0wrp1": {
+            "children": [
+              "8412c9r0pkbjluq4",
+              "qjl2dfkiac35nti8"
+            ],
+            "id": "7hrctfrmqgq0wrp1",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "7sgegfiyvuelbjg8": {
+            "id": "7sgegfiyvuelbjg8",
+            "properties": {
+              "Stop": "",
+              "type": ""
+            },
+            "title": "AvoidBall"
+          },
+          "8412c9r0pkbjluq4": {
+            "children": [
+              "jl9nqr0hezaybecn",
+              "7sgegfiyvuelbjg8"
+            ],
+            "id": "8412c9r0pkbjluq4",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "jl9nqr0hezaybecn": {
+            "id": "jl9nqr0hezaybecn",
+            "properties": {
+              "distance": ""
+            },
+            "title": "BallIsClose"
+          },
+          "qjl2dfkiac35nti8": {
+            "id": "qjl2dfkiac35nti8",
+            "properties": {},
             "title": "ActiveStop"
           }
         },
-        "root": "g7l9sehl3e5bu",
+        "root": "7hrctfrmqgq0wrp1",
         "title": "active_stop_role"
       }
     ]
