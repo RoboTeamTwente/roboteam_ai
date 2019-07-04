@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <ros/node_handle.h>
 #include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "widget.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"
@@ -525,14 +526,25 @@ bool Visualizer::robotIsSelected(int id) {
 }
 
 void Visualizer::drawBallPlacementTarget(QPainter &painter) {
-    Vector2 ballPlacementTarget = toScreenPosition(Output::getInterfaceMarkerPosition());
+    Vector2 marker = toScreenPosition(Output::getInterfaceMarkerPosition());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
 
-    painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5,
-            ballPlacementTarget.y + 5);
-    painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5,
-            ballPlacementTarget.y + 5);
+    painter.drawLine(marker.x - 5, marker.y - 5, marker.x + 5,
+                     marker.y + 5);
+    painter.drawLine(marker.x + 5, marker.y - 5, marker.x - 5,
+                     marker.y + 5);
+
+    if (Output::usesRefereeCommands()) {
+        Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeData().designated_position));
+        painter.setBrush(Qt::transparent);
+        painter.setPen(Qt::green);
+
+        painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5,
+                         ballPlacementTarget.y + 5);
+        painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5,
+                         ballPlacementTarget.y + 5);
+    }
 }
 
 void Visualizer::setShowBallPlacementMarker(bool showMarker) {
