@@ -19,7 +19,7 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
     bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
     //TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
-    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->pos) < 1.1;
+    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->pos) < 15.1;
 
     std::cout << "we have enough robots: " << weHaveEnoughRobots << " ballIsCloseToBallPlacementPos: " << ballIsCloseToBallPlacementPos << std::endl;
 
