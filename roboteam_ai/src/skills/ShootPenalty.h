@@ -21,7 +21,7 @@ private:
     int determineGenevaState();
 
     int tick = 0;
-    int genevaChangeTicks = 30;
+    int genevaChangeTicks = 10;
 public:
     explicit ShootPenalty(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

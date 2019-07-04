@@ -197,16 +197,16 @@ bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
-    workingBallSensorRobots[0] = true;
-    workingBallSensorRobots[1] = true;
-    workingBallSensorRobots[2] = true;
-    workingBallSensorRobots[3] = true;
-    workingBallSensorRobots[4] = true;
-    workingBallSensorRobots[5] = true;
-    workingBallSensorRobots[6] = true;
-    workingBallSensorRobots[7] = true;
-    workingBallSensorRobots[8] = false;
-    workingBallSensorRobots[9] = false;
+    workingBallSensorRobots[0] =  true;
+    workingBallSensorRobots[1] =  true;
+    workingBallSensorRobots[2] =  true;
+    workingBallSensorRobots[3] =  true;
+    workingBallSensorRobots[4] =  true;
+    workingBallSensorRobots[5] =  true;
+    workingBallSensorRobots[6] =  true;
+    workingBallSensorRobots[7] =  true;
+    workingBallSensorRobots[8] =  true;
+    workingBallSensorRobots[9] =  true;
     workingBallSensorRobots[10] = true;
     workingBallSensorRobots[11] = true;
     workingBallSensorRobots[12] = true;
