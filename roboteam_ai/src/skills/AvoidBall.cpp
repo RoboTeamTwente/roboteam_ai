@@ -103,7 +103,7 @@ AvoidBall::Type AvoidBall::stringToType(std::string string) {
     else if (string == "passing") {
         return PASSING;
     } else {
-        return DEFAULT;
+        return BALLPLACEMENT;
     }
 }
 

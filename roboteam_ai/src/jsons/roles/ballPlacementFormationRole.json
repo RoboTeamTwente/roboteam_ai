@@ -16,7 +16,7 @@
             "id": "bpd94sfm797wv4ab",
             "properties": {
               "Stop": "",
-              "type": ""
+              "type": "ballPlacement"
             },
             "title": "AvoidBall"
           },
