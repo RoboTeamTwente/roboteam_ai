@@ -69,6 +69,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
             if (robot.hasWorkingBallSensor()) {
                 shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
+                shotData.vel = shotData.vel.stretchToLength(0.14); // lower speed to kick to ball correctly
             }
             else if (hasBall) {
                 shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
