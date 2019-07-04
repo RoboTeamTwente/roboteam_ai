@@ -385,7 +385,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
                 fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())));
     }
     else if (ballToProjectionDistance/ball->vel.length() > 0.8) {
-        robotCommand.vel -= ball->vel;
+        robotCommand.vel -= ball->vel.stretchToLength(std::max(1.0, ball->vel.length()));
     }
 
     return robotCommand;
