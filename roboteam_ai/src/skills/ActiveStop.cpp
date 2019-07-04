@@ -67,7 +67,6 @@ Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
             return ballPos + (outsideDefenseArea-ballPos).normalize();
         }
         return outsideDefenseArea;
-        //return (((ballPos + offset).rotate(M_PI)).stretchToLength(2));
     }
     return ballPos + offset;
 }
