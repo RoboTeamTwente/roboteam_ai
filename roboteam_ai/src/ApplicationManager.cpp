@@ -133,7 +133,6 @@ void ApplicationManager::runOneLoopCycle() {
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
         Status status = strategy->tick();
         this->notifyTreeStatus(status);
-
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
