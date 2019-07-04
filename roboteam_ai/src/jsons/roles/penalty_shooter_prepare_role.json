@@ -1,1 +1,37 @@
-{"data": {"trees": [{"nodes": {"4wj99se06cabwx": {"properties": {"seconds": "1000", "ROLE": "shooter"}, "id": "4wj99se06cabwx", "title": "Wait"}, "4aw8b7585n5qmx6l": {"properties": {"type": "penalty", "ROLE": "shooter"}, "id": "4aw8b7585n5qmx6l", "title": "GoBehindBall"}, "0ix4hq9tp5qrz": {"children": ["4aw8b7585n5qmx6l", "4wj99se06cabwx"], "id": "0ix4hq9tp5qrz", "title": "Sequence"}}, "root": "0ix4hq9tp5qrz", "title": "penalty_shooter_prepare_role"}]}, "name": "penalty_shooter_prepare_role"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "0ix4hq9tp5qrz": {
+            "children": [
+              "4aw8b7585n5qmx6l",
+              "4wj99se06cabwx"
+            ],
+            "id": "0ix4hq9tp5qrz",
+            "title": "Sequence"
+          },
+          "4aw8b7585n5qmx6l": {
+            "id": "4aw8b7585n5qmx6l",
+            "properties": {
+              "ROLE": "shooter",
+              "type": "penalty"
+            },
+            "title": "GoBehindBall"
+          },
+          "4wj99se06cabwx": {
+            "id": "4wj99se06cabwx",
+            "properties": {
+              "ROLE": "shooter",
+              "seconds": "1000"
+            },
+            "title": "Wait"
+          }
+        },
+        "root": "0ix4hq9tp5qrz",
+        "title": "penalty_shooter_prepare_role"
+      }
+    ]
+  },
+  "name": "penalty_shooter_prepare_role"
+}
