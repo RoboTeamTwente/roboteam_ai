@@ -82,7 +82,7 @@ Vector2 PenaltyKeeper::computeDefendPos() {
                 + (world::world->getBall()->pos - attacker->pos).stretchToLength(
                         world::field->get_field().field_length);
 
-        double maxMoveDist=(world::field->get_field().goal_width-Constants::ROBOT_RADIUS())/2-0.2; // we estimate we can move the robot about 20 cm during the shot
+        double maxMoveDist=(world::field->get_field().goal_width-Constants::ROBOT_RADIUS())/2-0.2; // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
         LineSegment shootLine(beginPos,endPos);
         Line goalKeepingLine(goalLine.first,goalLine.second);
         auto intersection=goalKeepingLine.intersects(shootLine);
