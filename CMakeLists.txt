@@ -228,7 +228,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
-        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h)
+        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h roboteam_ai/src/skills/formations/StopFormation.cpp roboteam_ai/src/skills/formations/StopFormation.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
