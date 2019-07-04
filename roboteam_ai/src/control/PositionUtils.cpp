@@ -162,7 +162,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
 std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
     Vector2 lineProgress = {0, 0.4};
 
-    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(true).x + 0.65, 0};
+    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(true).x + 1.05, 0};
     Vector2 line2 = lineBegin + lineProgress;
     Vector2 line3 = lineBegin - lineProgress;
     Vector2 line4 = lineBegin - lineProgress*2.0;
