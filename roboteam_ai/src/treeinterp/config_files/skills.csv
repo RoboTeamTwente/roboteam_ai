@@ -10,7 +10,8 @@ InterceptRobot
 GetBall,maxTime
 Attack
 DemoAttack,ownGoal
-Pass,BallPlacement,failsUntilChip
+Pass,BallPlacement,failsUntilChip,passType
+ChipForward
 FreeKickPass,maxTries
 Receive,BallPlacement,canMoveInDefenseArea
 Formation

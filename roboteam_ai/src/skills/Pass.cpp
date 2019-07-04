@@ -18,6 +18,12 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
+    if(properties->hasString("passType")) {
+        passType = stringToType(properties->getString("passType"));
+    } else {
+        passType = DEFAULT;
+    }
+
     robotToPassToID = - 1;
     passInitialized = false;
     hasShot = false;
@@ -84,6 +90,12 @@ Pass::Status Pass::onUpdate() {
         // If not, either ++ fails or fail immediately
         if (! forcePass && ! hasShot
                 && ! control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+
+            // If the passType is defensive, force to immediately chip as soon as the pass is blocked
+            if (passType == DEFENSIVE) {
+                forcePass = true;
+            } else
+
             if (maxTries == - 1) {
                 return Status::Failure;
             }
@@ -141,6 +153,14 @@ bool Pass::didShootProperly() {
             robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 
     return (hasShot && ballIsMovingFast && ballIsMovingToReceiver);
+}
+
+Pass::PassType Pass::stringToType(std::string type) {
+    if (type == "defensive") {
+        return DEFENSIVE;
+    } else {
+        return DEFAULT;
+    }
 }
 
 } // ai
