@@ -6,6 +6,7 @@
  */
 
 #include <roboteam_msgs/DemoRobot.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../demo/JoystickDemo.h"
 #include "../utilities/Pause.h"
 #include "../world/Field.h"
@@ -184,6 +185,23 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
                 cmd.chipper = cmd.chipper && robot->isGenevaReady();
                 cmd.kicker_forced = cmd.kicker_forced && robot->isGenevaReady();
                 cmd.chipper_forced = cmd.chipper_forced && robot->isGenevaReady();
+
+                if (cmd.kicker) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
+                }
+
+                if (cmd.kicker_forced) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::DOTS, 36, 36, 8);
+                }
+
+
+                if (cmd.chipper) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::yellow, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
+                }
+
+                if (cmd.chipper_forced) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::yellow, robot->id, interface::Drawing::DOTS, 36, 36, 8);
+                }
 
                 robot->setDribblerState(cmd.dribbler);
             }
