@@ -34,6 +34,8 @@ bt::Node::Status AvoidBall::onUpdate() {
     if (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10)) {
 
         robot->getNumtreePosControl()->getRobotCommand(robot, Vector2(0, robotPos.y));
+        publishRobotCommand();
+        return Status::Running;
 
     }
 
@@ -59,8 +61,6 @@ bt::Node::Status AvoidBall::onUpdate() {
     wallsVectors.emplace_back(Vector2(robotPos.x + halfFieldLength + boundWidth, 0));
     wallsVectors.emplace_back(Vector2(0, robotPos.y - halfFieldWidth - boundWidth));
     wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
-
-
 
 
 
@@ -103,7 +103,7 @@ AvoidBall::Type AvoidBall::stringToType(std::string string) {
     else if (string == "passing") {
         return PASSING;
     } else {
-        return DEFAULT;
+        return BALLPLACEMENT;
     }
 }
 
