@@ -228,7 +228,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
-        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h)
+        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h roboteam_ai/src/skills/formations/StopFormation.cpp roboteam_ai/src/skills/formations/StopFormation.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -270,8 +270,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsClose.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsClose.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp

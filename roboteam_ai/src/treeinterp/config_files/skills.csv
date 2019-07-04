@@ -29,6 +29,7 @@ SideAttacker
 TimeoutFormation
 KickOffThemFormation
 KickOffUsFormation
+StopFormation
 PenaltyFormation,Offensive
 ActiveStop
 ReflectKick
