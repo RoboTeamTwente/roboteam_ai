@@ -29,7 +29,7 @@ bt::Node::Status CoachDefend::onUpdate() {
 
     RobotCommand velocities;
     // choosing numtrees or other
-    if (useBasicGtp()){
+    if (useBasicGtp(targetLocation->first)){
         velocities=robot->getBasicPosControl()->getRobotCommand(robot,targetLocation->first);
     }
     else{
@@ -59,7 +59,7 @@ bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
     if (world::field->getDefenseArea(true,0.15,false).doesIntersect(driveLine)){
         return false;
     }
-    auto robots=world::world->getUs();
+    auto robots=world::world->getThem();
     for (const auto& worldRobot: robots){
         if (worldRobot->id != robot->id){
             if (driveLine.distanceToLine(worldRobot->pos)<2*Constants::ROBOT_RADIUS()){
