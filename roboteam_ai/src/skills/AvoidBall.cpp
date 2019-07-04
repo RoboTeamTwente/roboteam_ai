@@ -7,6 +7,7 @@
 #include <cmath>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include "../world/Field.h"
+#include "../control/numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -18,7 +19,7 @@ AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 void AvoidBall::onInitialize() {
-    minRobotDistanceForForce = 0.7;
+    minRobotDistanceForForce = 0.9;
     stop = properties->getBool("Stop");
     if(stop) minRobotDistanceForForce = 0.7*1.5;
     type = stringToType(properties->getString("type"));
@@ -29,6 +30,15 @@ void AvoidBall::onInitialize() {
 
 bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);
+
+    if (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10)) {
+
+        robot->getNumtreePosControl()->getRobotCommand(robot, Vector2(0, robotPos.y));
+        publishRobotCommand();
+        return Status::Running;
+
+    }
+
     Vector2 force = {0, 0};
 
     // forces from robots
@@ -51,6 +61,8 @@ bt::Node::Status AvoidBall::onUpdate() {
     wallsVectors.emplace_back(Vector2(robotPos.x + halfFieldLength + boundWidth, 0));
     wallsVectors.emplace_back(Vector2(0, robotPos.y - halfFieldWidth - boundWidth));
     wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
+
+
 
     for (auto const &wallVector : wallsVectors) {
         force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
@@ -91,7 +103,7 @@ AvoidBall::Type AvoidBall::stringToType(std::string string) {
     else if (string == "passing") {
         return PASSING;
     } else {
-        return DEFAULT;
+        return BALLPLACEMENT;
     }
 }
 
