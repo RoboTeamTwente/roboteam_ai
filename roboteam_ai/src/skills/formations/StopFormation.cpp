@@ -25,7 +25,7 @@ Vector2 StopFormation::getFormationPosition() {
     auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
     auto dBtmY = fmin(defenseAreaLineA.y, defenseAreaLineB.y);
     auto defAreaHeight = fabs(dTopY - dBtmY);
-    double offset = 0.5;
+    double offset = 1.0;
 
     //failsafe to prevent segfaults
     int amountOfRobots = robotsInFormation->size();
@@ -34,13 +34,6 @@ Vector2 StopFormation::getFormationPosition() {
     } else if (amountOfRobots == 1) {
         return {pp.x + offset, pp.y};
     }
-
-    float factor = defAreaHeight/robotsInFormation->size()-1;
-
-    // lets get us .5m from our defense area for now
-
-    double fh = field.field_width;
-    double fw = field.field_length;
 
     std::vector<std::vector<Vector2>> targetLocations = {
             // middle
@@ -53,18 +46,25 @@ Vector2 StopFormation::getFormationPosition() {
             {{pp.x + offset, pp.y}, {pp.x + offset, dTopY}, {pp.x + offset, dBtmY}},
 
             // 4 points in front of def area        (noted from top to bottom)
-            {{pp.x + offset, dTopY}, {pp.x + offset, dTopY-factor}, {pp.x + offset,  dBtmY + factor}, {pp.x + offset, dBtmY}},
+            {{pp.x + offset, dTopY},
+             {pp.x + offset, dTopY-(defAreaHeight/3)},
+             {pp.x + offset, dBtmY + (defAreaHeight/3)},
+             {pp.x + offset, dBtmY}},
 
              // 5 points in front of def area (top to bottom
-            {{pp.x + offset, dTopY}, {pp.x + offset, dTopY-factor}, {pp.x + offset, pp.y}, {pp.x + offset,  dBtmY + factor}, {pp.x + offset, dBtmY}},
+            {{pp.x + offset, dTopY},
+             {pp.x + offset, dTopY-(defAreaHeight/3)},
+             {pp.x + offset, pp.y},
+             {pp.x + offset, dBtmY + (defAreaHeight/3)},
+             {pp.x + offset, dBtmY}},
 
             // 6 points in front of def area (top to bottom)
-            {{pp.x, dTopY+(factor*2.0)},
-             {pp.x + offset, dTopY},
-             {pp.x + offset, dTopY-(factor*2.0)},
-             {pp.x + offset, dBtmY + (factor*2.0)},
-             {pp.x + offset, dBtmY},
-             {pp.x, dBtmY - (factor*2.0)}},
+            {{pp.x - 0.5*offset, dTopY+ (defAreaHeight/3)},
+             {pp.x + offset, dTopY + (defAreaHeight/3)},
+             {pp.x + offset, dTopY-(defAreaHeight/3)},
+             {pp.x + offset, dBtmY + (defAreaHeight/3)},
+             {pp.x + offset, dBtmY - (defAreaHeight/3)},
+             {pp.x - 0.5*offset, dBtmY - (defAreaHeight/3)}},
 
             // 7 points in front of def area
             {{pp.x + offset, dTopY+(defAreaHeight/3)},
@@ -72,8 +72,8 @@ Vector2 StopFormation::getFormationPosition() {
              {pp.x + offset, pp.y},
              {pp.x + offset, dBtmY},
              {pp.x + offset, dBtmY - (defAreaHeight/3)},
-             {pp.x, dTopY+ (defAreaHeight/3)},
-             {pp.x, dBtmY - (defAreaHeight/3)}},
+             {pp.x - 0.5*offset, dTopY+ (defAreaHeight/3)},
+             {pp.x - 0.5*offset, dBtmY - (defAreaHeight/3)}},
 
             // 8 points in front of def area
             {{pp.x + offset, dTopY+(defAreaHeight/3)},
@@ -82,17 +82,19 @@ Vector2 StopFormation::getFormationPosition() {
              {pp.x + offset, dBtmY + (defAreaHeight/3)},
              {pp.x + offset, dBtmY},
              {pp.x + offset, dBtmY - (defAreaHeight/3)},
-             {pp.x, dTopY+ (defAreaHeight/3)},
-             {pp.x, dBtmY - (defAreaHeight/3)}}
+             {pp.x - 0.5*offset, dTopY+ (defAreaHeight/3)},
+             {pp.x - 0.5*offset, dBtmY - (defAreaHeight/3)}}
     };
 
     std::vector<int> robotIds;
     for (auto & i : *robotsInFormation) {
-        robotIds.push_back(i->id);
+        if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
+            robotIds.push_back(i->id);
+        }
     }
 
     rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations.at(amountOfRobots));
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations.at(amountOfRobots-1));
     return shortestDistances.at(robot->id);
 }
 
