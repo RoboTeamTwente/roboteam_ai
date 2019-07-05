@@ -294,7 +294,9 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
         robotCommand = interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
     else if (! robotIsBehindBall) {
-        robotCommand = interceptMovingBallTowardsBall();
+        robotCommand = interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
+
+//        robotCommand = interceptMovingBallTowardsBall();
     }
     else {
         robotCommand = goBehindBall(ballStillPosition);

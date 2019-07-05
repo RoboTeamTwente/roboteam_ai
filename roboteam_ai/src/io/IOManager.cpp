@@ -121,7 +121,7 @@ void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &
             robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
             robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
             robot->setBatteryLow(robotfeedback->batteryLow);
-            robot->setGenevaStateFromFeedback(robotfeedback->genevaState);
+            //robot->setGenevaStateFromFeedback(robotfeedback->genevaState);
         }
     }
 }
@@ -176,9 +176,9 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
                     cmd.geneva_state = robot->getGenevaState();
                 }
 
-                if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
+              //  if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
                     robot->setGenevaState(cmd.geneva_state);
-                }
+             //   }
 
                 // only kick and chip when geneva is ready
                 cmd.kicker = cmd.kicker && robot->isGenevaReady();

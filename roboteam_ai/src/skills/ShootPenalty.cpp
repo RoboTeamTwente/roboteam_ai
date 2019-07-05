@@ -16,7 +16,7 @@ ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
 
 void ShootPenalty::onInitialize() {
     genevaSet = false;
-    genevaState = 3;
+    genevaState = 5;
     tick = 0;
     double genevaAngle = (robot->getGenevaState() - 3)*10/180.0*M_PI;
     auto theirKeeper=world::world->getRobotClosestToPoint(world::field->get_their_goal_center(),WhichRobots::THEIR_ROBOTS);
@@ -32,6 +32,9 @@ void ShootPenalty::onInitialize() {
 
 }
 bt::Node::Status ShootPenalty::onUpdate() {
+
+
+
     if (! robot) return Status::Running;
 
     if(!genevaSet) {
