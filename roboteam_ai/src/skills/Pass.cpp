@@ -24,6 +24,10 @@ void Pass::onInitialize() {
         passType = DEFAULT;
     }
 
+    if (passType == FREEKICK) {
+        coach::g_pass.resetPass(-1);
+    }
+
     robotToPassToID = - 1;
     passInitialized = false;
     hasShot = false;
