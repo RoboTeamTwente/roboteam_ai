@@ -15,9 +15,10 @@ ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ShootPenalty::onInitialize() {
+    tick = 0;
+
     genevaSet = false;
     genevaState = 5;
-    tick = 0;
     double genevaAngle = (robot->getGenevaState() - 3)*10/180.0*M_PI;
     auto theirKeeper = world::world->getRobotClosestToPoint(world::field->get_their_goal_center(),
             WhichRobots::THEIR_ROBOTS);
@@ -44,16 +45,18 @@ bt::Node::Status ShootPenalty::onUpdate() {
         tick ++;
     }
     else {
-        if (fabs((ball->pos - robot->pos).toAngle()) > 0.1 && fabs(robot->pos.x) > 0.03) {
+
+        if (fabs(robot->pos.y - ball->pos.y) > 0.03) {
             command = robot->getNumtreePosControl()->getRobotCommand(robot,
                     ball->pos + Vector2(- 0.30, 0)).makeROSCommand();
 
             publishRobotCommand();
             return Status::Running;
         }
-        command.w = (ball->pos - robot->pos).toAngle();
-
-        command.x_vel = 0.15;
+        command.w = 0;//(ball->pos - robot->pos).toAngle();
+        double vel = abs(sin((double)tick++/20)) * 0.22;
+        std::cout << vel << std::endl;
+        command.x_vel = vel;
         command.y_vel = 0;
 
         command.kicker = true;
