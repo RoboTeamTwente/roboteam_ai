@@ -9,7 +9,7 @@
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 #include "roboteam_ai/src/control/RobotCommand.h"
 #include <roboteam_ai/src/utilities/Constants.h>
-
+#include <roboteam_utils/LineSegment.h>
 namespace rtt {
 namespace ai {
 namespace control {
