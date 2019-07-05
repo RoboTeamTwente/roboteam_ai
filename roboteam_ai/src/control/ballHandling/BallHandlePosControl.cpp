@@ -330,7 +330,7 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
 
     if (world::field->pointIsInField(robot->pos + robot->vel)) {
         Vector2 targetVelIncrease = ball->vel/2;
-        LineSegment driveLine = {robot->pos, robot->pos + robotCommand.vel + targetVelIncrease};
+        LineSegment driveLine = {robot->pos, robot->pos + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
         if (isCrashingIntoOpponentRobot(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
@@ -391,7 +391,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
         targetVel = std::max(targetVel, commandVel);
 
         Vector2 targetVelIncrease = ball->vel.stretchToLength(targetVel/2);
-        LineSegment driveLine = {robot->pos, robot->pos + targetVelIncrease};
+        LineSegment driveLine = {robot->pos, robot->pos + targetVelIncrease.stretchToLength(robot->vel.length()*2.0)};
         if (isCrashingIntoOpponentRobot(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
@@ -408,7 +408,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
     Vector2 numTreesTarget = projectionPosition;
     RobotCommand robotCommand;
 
-    LineSegment driveLine = LineSegment(robot->pos, projectionPosition);
+    LineSegment driveLine = LineSegment(robot->pos, projectionPosition.stretchToLength(robot->vel.length()*2.0));
     if (isCrashingIntoOpponentRobot(driveLine)) {
         robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
     }
@@ -422,7 +422,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
         Vector2 targetVelIncrease = ball->vel.stretchToLength(std::max(1.0,
                 fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())))/2;
 
-        LineSegment driveLine = {robot->pos, robot->pos + robotCommand.vel + targetVelIncrease};
+        LineSegment driveLine = {robot->pos, robot->pos + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
         if (isCrashingIntoOpponentRobot(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
