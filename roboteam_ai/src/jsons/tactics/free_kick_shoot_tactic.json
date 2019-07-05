@@ -5,7 +5,7 @@
         "nodes": {
           "0lbwyq6lnu88olk5": {
             "children": [
-              "459gfsnsse7kvicu"
+              "nvcaj75it49lm3jj"
             ],
             "id": "0lbwyq6lnu88olk5",
             "name": "free_kick_formation_role",
@@ -17,7 +17,7 @@
           },
           "1ni5zmdjlvglfaj4": {
             "children": [
-              "ftkzt3kfywfa9kngz"
+              "be66qqwrkitfuvt2"
             ],
             "id": "1ni5zmdjlvglfaj4",
             "name": "f3",
@@ -33,10 +33,10 @@
               "0lbwyq6lnu88olk5",
               "9wi122lhv3e9pq2eb",
               "1ni5zmdjlvglfaj4",
+              "9cep094qxc0e4iqk",
               "kb9ba5bc2k2acg",
               "w5md61w89ovuz",
-              "3yti41lbaserp5cfj",
-              "9cep094qxc0e4iqk"
+              "3yti41lbaserp5cfj"
             ],
             "id": "3h41w9x1eg0nslbe",
             "properties": {
@@ -44,17 +44,9 @@
             },
             "title": "RoleDivider"
           },
-          "3pp7q57mqb3l8zr6": {
-            "id": "3pp7q57mqb3l8zr6",
-            "properties": {
-              "ROLE": "kickerChip",
-              "maxTries": ""
-            },
-            "title": "FreeKickPass"
-          },
           "3yti41lbaserp5cfj": {
             "children": [
-              "b7gwa9ogtcdswo7"
+              "cgb92ke9jnpqipk3"
             ],
             "id": "3yti41lbaserp5cfj",
             "name": "f6",
@@ -64,23 +56,18 @@
             "role": "free_kick_formation_role",
             "title": "Role"
           },
-          "459gfsnsse7kvicu": {
-            "id": "459gfsnsse7kvicu",
-            "properties": {
-              "ROLE": "f1"
-            },
-            "title": "FreeKickFormation"
-          },
-          "96qwtj0h8ndfb": {
-            "id": "96qwtj0h8ndfb",
-            "properties": {
-              "ROLE": "f2"
-            },
-            "title": "FreeKickFormation"
+          "5pu2qb8hc3zxtu4g": {
+            "children": [
+              "svzwy09t2in42dl0",
+              "ifrppgbdxhhym2tz"
+            ],
+            "id": "5pu2qb8hc3zxtu4g",
+            "properties": {},
+            "title": "MemSelector"
           },
           "9cep094qxc0e4iqk": {
             "children": [
-              "cofwliqvsy9ptcyi"
+              "nfqut0kq5ubht045"
             ],
             "id": "9cep094qxc0e4iqk",
             "name": "free_kick_formation_role",
@@ -92,7 +79,7 @@
           },
           "9wi122lhv3e9pq2eb": {
             "children": [
-              "96qwtj0h8ndfb"
+              "h7etqf7dfc5f9nsk"
             ],
             "id": "9wi122lhv3e9pq2eb",
             "name": "f2",
@@ -102,17 +89,17 @@
             "role": "free_kick_formation_role",
             "title": "Role"
           },
-          "b7gwa9ogtcdswo7": {
-            "id": "b7gwa9ogtcdswo7",
+          "be66qqwrkitfuvt2": {
+            "id": "be66qqwrkitfuvt2",
             "properties": {
-              "ROLE": "f6"
+              "ROLE": "f3"
             },
             "title": "FreeKickFormation"
           },
-          "cofwliqvsy9ptcyi": {
-            "id": "cofwliqvsy9ptcyi",
+          "cgb92ke9jnpqipk3": {
+            "id": "cgb92ke9jnpqipk3",
             "properties": {
-              "ROLE": "f7"
+              "ROLE": "f6"
             },
             "title": "FreeKickFormation"
           },
@@ -128,13 +115,6 @@
             "role": "shoot_free_kick_role",
             "title": "Role"
           },
-          "ftkzt3kfywfa9kngz": {
-            "id": "ftkzt3kfywfa9kngz",
-            "properties": {
-              "ROLE": "f3"
-            },
-            "title": "FreeKickFormation"
-          },
           "ge2dkn2w9qlxcz27": {
             "id": "ge2dkn2w9qlxcz27",
             "properties": {
@@ -143,16 +123,30 @@
             },
             "title": "GoBehindBall"
           },
-          "j9tzu8tj9pc4lakwc": {
-            "id": "j9tzu8tj9pc4lakwc",
+          "guww0hzubpsg5c1b": {
+            "id": "guww0hzubpsg5c1b",
             "properties": {
-              "ROLE": "f5"
+              "ROLE": "f4"
             },
             "title": "FreeKickFormation"
           },
+          "h7etqf7dfc5f9nsk": {
+            "id": "h7etqf7dfc5f9nsk",
+            "properties": {
+              "ROLE": "f2"
+            },
+            "title": "FreeKickFormation"
+          },
+          "ifrppgbdxhhym2tz": {
+            "id": "ifrppgbdxhhym2tz",
+            "properties": {
+              "ROLE": "kickerChip"
+            },
+            "title": "ChipForward"
+          },
           "kb9ba5bc2k2acg": {
             "children": [
-              "o15nzkq950yvjgia"
+              "guww0hzubpsg5c1b"
             ],
             "id": "kb9ba5bc2k2acg",
             "name": "f4",
@@ -165,22 +159,46 @@
           "kx19swjtms4726xx": {
             "children": [
               "ge2dkn2w9qlxcz27",
-              "3pp7q57mqb3l8zr6"
+              "5pu2qb8hc3zxtu4g"
             ],
             "id": "kx19swjtms4726xx",
             "properties": {},
             "title": "MemSequence"
           },
-          "o15nzkq950yvjgia": {
-            "id": "o15nzkq950yvjgia",
+          "nfqut0kq5ubht045": {
+            "id": "nfqut0kq5ubht045",
             "properties": {
-              "ROLE": "f4"
+              "ROLE": "f7"
             },
             "title": "FreeKickFormation"
           },
+          "nvcaj75it49lm3jj": {
+            "id": "nvcaj75it49lm3jj",
+            "properties": {
+              "ROLE": "f1"
+            },
+            "title": "FreeKickFormation"
+          },
+          "s836gnufnl8ai7ii": {
+            "id": "s836gnufnl8ai7ii",
+            "properties": {
+              "ROLE": "f5"
+            },
+            "title": "FreeKickFormation"
+          },
+          "svzwy09t2in42dl0": {
+            "id": "svzwy09t2in42dl0",
+            "properties": {
+              "BallPlacement": "",
+              "ROLE": "kickerChip",
+              "failsUntilChip": "",
+              "passType": "freeKick"
+            },
+            "title": "Pass"
+          },
           "w5md61w89ovuz": {
             "children": [
-              "j9tzu8tj9pc4lakwc"
+              "s836gnufnl8ai7ii"
             ],
             "id": "w5md61w89ovuz",
             "name": "f5",

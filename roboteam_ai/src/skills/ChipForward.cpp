@@ -13,7 +13,7 @@ ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {}
 
 void ChipForward::onInitialize() {
-    aimPoint = world::field->get_their_goal_center();
+    aimPoint = world::field->getPenaltyPoint(false);
     hasChipped = false;
 }
 
