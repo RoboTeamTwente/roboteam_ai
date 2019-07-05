@@ -82,7 +82,7 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
 
 double CoachHeuristics::calculateDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.75;
+    double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.5;
     double distanceFromBall = (position - ball->pos).length();
     return fmax(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2.0) + 2.0*(distanceFromBall/(0.5*idealDistance)));
 }

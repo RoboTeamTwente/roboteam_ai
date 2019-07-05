@@ -17,12 +17,12 @@ HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {}
 
 HasClearShot::Status HasClearShot::onUpdate() {
-    if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() < 2.5) {
+    if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() < FORCED_SHOOTING_DISTANCE) {
         return Status::Success;
     }
 
     auto minViewAtGoal = MIN_VIEW_AT_GOAL;
-    minViewAtGoal = 0.2;
+    minViewAtGoal = 0.1;
 
 	// return failure if the robot is too far away for a shot at goal
     if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {

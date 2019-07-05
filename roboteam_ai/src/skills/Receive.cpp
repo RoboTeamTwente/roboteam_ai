@@ -40,6 +40,8 @@ Receive::Status Receive::onUpdate() {
         if ((ball->pos - robot->pos).length() < 1.0) {
             command.dribbler = 31;
         }
+    } else {
+        command.w = (ball->pos - robot->pos).toAngle().getAngle();
     }
 
     // Check if robot is in position, otherwise turn towards ball
@@ -50,7 +52,6 @@ Receive::Status Receive::onUpdate() {
         }
     }
 
-    command.w = (ball->pos - robot->pos).toAngle().getAngle();
     publishRobotCommand();
     return Status::Running;
 
