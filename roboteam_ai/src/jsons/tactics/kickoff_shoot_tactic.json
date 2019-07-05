@@ -464,7 +464,7 @@
           },
           "oi2v9ic77t2mk7nvp": {
             "children": [
-              "uo9r037djn8m366z"
+              "q7rmcizcsw46jxk1"
             ],
             "id": "oi2v9ic77t2mk7nvp",
             "name": "kickoff_kicker_role",
@@ -489,6 +489,16 @@
               "ROLE": "assist2"
             },
             "title": "ShouldHandleBall"
+          },
+          "q7rmcizcsw46jxk1": {
+            "children": [
+              "uo9r037djn8m366z"
+            ],
+            "id": "q7rmcizcsw46jxk1",
+            "properties": {
+              "limit": ""
+            },
+            "title": "Repeater"
           },
           "qk9an956syc90uqy": {
             "children": [
