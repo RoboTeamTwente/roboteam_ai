@@ -19,9 +19,10 @@ private:
     int genevaState;
     Vector2 aimPoint;
     int determineGenevaState();
-
+    control::BasicPosControl gtp;
     int tick = 0;
     int genevaChangeTicks = 10;
+    Vector2 ballPos;
 public:
     explicit ShootPenalty(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;

@@ -19,51 +19,53 @@ void ShootPenalty::onInitialize() {
 
     genevaSet = false;
     genevaState = 5;
-    double genevaAngle = (robot->getGenevaState() - 3)*10/180.0*M_PI;
-    auto theirKeeper = world::world->getRobotClosestToPoint(world::field->get_their_goal_center(),
-            WhichRobots::THEIR_ROBOTS);
-    if (theirKeeper && theirKeeper->pos.dist(world::field->get_their_goal_center()) < 2.0) {
-        std::pair<Vector2, bool> aim = coach::g_offensiveCoach.penaltyAim(ball->pos, robot->angle + genevaAngle,
-                theirKeeper->pos);
-        aimPoint = aim.first;
-        genevaSet = aim.second;
-    }
-    else {
-        aimPoint = world::field->get_their_goal_center();
-        genevaSet = false;
-    }
-
+    gtp.setCanMoveInDefenseArea(true);
+    gtp.setAutoListenToInterface(false); //HACK HACK
+    gtp.setCanMoveOutOfField(false);
+    gtp.updatePid({1.0,0.0,0.2});
 }
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
-
     if (! genevaSet) {
         genevaState = determineGenevaState();
         genevaSet = true;
     }
-    else if (tick < genevaChangeTicks) {
+    double ydiff=ball->pos.y-robot->pos.y;
+    double P=8.0;
+    double gain=ydiff*P;
+    if (tick < genevaChangeTicks&&ydiff<0.01) {
         tick ++;
+        command.x_vel=0;
+        command.y_vel=gain;
+        command.w=0;
+        command.geneva_state = genevaState;
+        auto ball=world::world->getBall();
+        if (ball){
+            ballPos=ball->pos;
+        }
     }
     else {
 
-        if (fabs(robot->pos.y - ball->pos.y) > 0.03) {
-            command = robot->getNumtreePosControl()->getRobotCommand(robot,
-                    ball->pos + Vector2(- 0.30, 0)).makeROSCommand();
-            command.y_vel *= 2;
-            command.x_vel *= 2;
-            publishRobotCommand();
-            return Status::Running;
+        if (ball&&!world::field->pointIsInDefenceArea(ballPos,false,-0.1)){
+            Vector2 targetPos=world::world->getBall()->pos+Vector2(0.05,0.0);
+            if (world::field->pointIsInDefenceArea(ballPos,false,0.2)){
+                auto cmd=gtp.getRobotCommand(robot,targetPos);
+                command.x_vel=cmd.vel.x;
+                command.y_vel=cmd.vel.y+gain;
+            }
+            else{
+                auto cmd=robot->getNumtreePosControl()->getRobotCommand(robot,targetPos);
+                command.x_vel=cmd.vel.x;
+                command.y_vel=cmd.vel.y;
+            }
+            command.w = 0;
+            command.kicker = true;
+            command.kicker_vel = Constants::MAX_KICK_POWER();
+            std::cout<<robot->calculateDistanceToBall(ballPos)<<std::endl;
+            command.kicker_forced= robot->calculateDistanceToBall(ballPos)<Constants::MAX_KICK_RANGE()-0.01;
+            command.geneva_state = genevaState;
         }
-        command.w = 0;//(ball->pos - robot->pos).toAngle();
-        double vel = abs(sin((double)tick++/20)) * 0.3;
-        std::cout << vel << std::endl;
-        command.x_vel = vel;
-        command.y_vel = 0;
 
-        command.kicker = true;
-        command.kicker_vel = Constants::MAX_KICK_POWER();
-        command.kicker_forced = robot->hasBall(Constants::MAX_KICK_RANGE());
-        command.geneva_state = genevaState;
     }
     publishRobotCommand();
     return Status::Running;
@@ -71,17 +73,10 @@ bt::Node::Status ShootPenalty::onUpdate() {
 
 int ShootPenalty::determineGenevaState() {
     // determine the shortest position from where to kick the ball
-    Vector2 robotToBall = ball->pos - robot->pos;
-    Vector2 preferredShotVector = aimPoint - ball->pos;
-
-    // determine the angle between the robot position and the shot line
-    Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
-    if (angleWithShotline.getAngle() > 0) {
-        return genevaState = 1;
+    if (robot->pos.y<ball->pos.y){
+        return genevaState=1;
     }
-    else {
-        return genevaState = 5;
-    }
+    return genevaState=5;
 }
 
 }
