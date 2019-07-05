@@ -164,7 +164,7 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id, true);
             if (robot) {
-                if (cmd.geneva_state = 3) {
+                if (cmd.geneva_state == 3) {
                     robot->setGenevaState(cmd.geneva_state);
                 }
                 /*
