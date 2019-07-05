@@ -62,7 +62,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
             command.kicker = true;
             command.kicker_vel = Constants::MAX_KICK_POWER();
             std::cout<<robot->calculateDistanceToBall(ballPos)<<std::endl;
-            command.kicker_forced= robot->calculateDistanceToBall(ballPos)<Constants::MAX_KICK_RANGE()-0.005;
+            command.kicker_forced= robot->calculateDistanceToBall(ballPos)<Constants::MAX_KICK_RANGE()-0.01;
             command.geneva_state = genevaState;
         }
 
