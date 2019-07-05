@@ -49,12 +49,13 @@ bt::Node::Status ShootPenalty::onUpdate() {
         if (fabs(robot->pos.y - ball->pos.y) > 0.03) {
             command = robot->getNumtreePosControl()->getRobotCommand(robot,
                     ball->pos + Vector2(- 0.30, 0)).makeROSCommand();
-
+            command.y_vel *= 2;
+            command.x_vel *= 2;
             publishRobotCommand();
             return Status::Running;
         }
         command.w = 0;//(ball->pos - robot->pos).toAngle();
-        double vel = abs(sin((double)tick++/20)) * 0.22;
+        double vel = abs(sin((double)tick++/20)) * 0.3;
         std::cout << vel << std::endl;
         command.x_vel = vel;
         command.y_vel = 0;

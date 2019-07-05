@@ -130,7 +130,7 @@ void Pass::makeCommand() {
     RobotCommand shotdata;
 
     shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS,
-                                                           !(passType == FREEKICK && !forcePass), control::HIGH);
+                                                           false, control::HIGH);
     command = shotdata.makeROSCommand();
 }
 

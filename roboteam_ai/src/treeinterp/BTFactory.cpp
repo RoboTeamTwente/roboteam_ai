@@ -90,9 +90,8 @@ std::string BTFactory::getKeeperTreeName() {
 
 void BTFactory::halt() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
-    BTFactory::currentTree = "NaN";
+    BTFactory::setCurrentTree("NaN");
     rtt::ai::robotDealer::RobotDealer::halt();
-
 }
 
 
