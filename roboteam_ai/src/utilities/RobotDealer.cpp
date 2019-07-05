@@ -194,6 +194,22 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
             id = test;
             break;
         }
+        case WORKING_GENEVA_BALLSENSOR: {
+            int test = - 1;
+            for (auto r : ids) {
+                auto robot = rtt::ai::world::world->getRobotForId(r, true);
+                if (robot && robot->hasWorkingGeneva()&&robot->hasWorkingBallSensor()) {
+                    test = r;
+                    break;
+                }
+            }
+            if (test == - 1) {
+                id = *ids.begin();
+                break;
+            }
+            id = test;
+            break;
+        }
         case WORKING_DRIBBLER: {
             int test = -1;
             for (auto r : ids) {

@@ -383,7 +383,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"prepare_penalty_us_tactic", {
-                    {"shooter", robotType::WORKING_GENEVA},
+                    {"shooter", robotType::WORKING_GENEVA_BALLSENSOR},
                     {"pa1", robotType::RANDOM},
                     {"pa2", robotType::RANDOM},
                     {"pa3", robotType::RANDOM},
@@ -582,7 +582,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
             {"shoot_penalty_us_tactic", {
-                    {"penaltyShooter", robotType::WORKING_GENEVA},
+                    {"penaltyShooter", robotType::CLOSE_TO_BALL},
                     {"paa1", robotType::RANDOM},
                     {"paa2", robotType::RANDOM},
                     {"paa3", robotType::RANDOM},
