@@ -193,9 +193,12 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &ro
         shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
 
-    if (kickerOnTicks++ > 20) {
+    if (kickerOnTicks++ > 80) {
         kickerOnTicks = 0;
         shotData.kickerForced = robot.hasBall();
+    }
+    else if (!robot.hasWorkingBallSensor()) {
+        shotData.kickerForced = robot.hasBall(Constants::MAX_KICK_RANGE());
     }
     return shotData;
 }

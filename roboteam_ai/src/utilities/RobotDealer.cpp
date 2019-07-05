@@ -424,7 +424,7 @@ void RobotDealer::refresh() {
 
 bool RobotDealer::keeperExistsInWorld() {
     for (auto const &robot : world::world->getUs()) {
-        if (robot->id == getKeeperID()) {
+        if (robot && robot->id == getKeeperID()) {
             return true;
         }
     }

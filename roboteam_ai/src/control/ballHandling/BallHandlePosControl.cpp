@@ -340,14 +340,20 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
     Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
 
-    if (fabs(robotAngleTowardsBall) < 0.1*M_PI) {
-        LineSegment ntLine = LineSegment(ball->pos, ball->pos + ball->vel.stretchToLength(100.0));
+    if (fabs(robotAngleTowardsBall) < M_PI*0.12) {
+        LineSegment ntLine = LineSegment(ball->pos, ball->getBallStillPosition());
+
         if (ntLine.distanceToLine(movingBallTowardsBallTarget) > 0.3) {
-            movingBallTowardsBallTarget = ball->pos + (ball->vel).stretchToLength(1.5);
+            movingBallTowardsBallTarget = ball->pos + (ball->vel).stretchToLength(
+                    std::min(0.5, (ball->getBallStillPosition()-ball->pos).length()));
+
         }
     }
     else {
-        movingBallTowardsBallTarget = ball->pos;
+        Line ntLine = Line(ball->pos, ball->getBallStillPosition());
+        Vector2 projection = ntLine.project(robot->pos);
+
+        movingBallTowardsBallTarget = ball->pos/2 + projection/2;
     }
 
     if (! world::field->pointIsInField(movingBallTowardsBallTarget, Constants::ROBOT_RADIUS())) {
@@ -399,7 +405,15 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
     std::cout << "go around ball and get it" << std::endl;
 
     Vector2 numTreesTarget = projectionPosition;
-    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+    RobotCommand robotCommand;
+
+    LineSegment driveLine = LineSegment(robot->pos, projectionPosition);
+    if (isCrashingIntoOpponentRobot(driveLine)) {
+        robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+    }
+    else {
+        robotCommand = BasicPosControl::getRobotCommand(robot, numTreesTarget);
+    }
 
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
     if (fabs(robotAngleTowardsBallVel) > M_PI*0.05) {
