@@ -331,7 +331,7 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
     if (world::field->pointIsInField(robot->pos + robot->vel)) {
         Vector2 targetVelIncrease = ball->vel/2;
         LineSegment driveLine = {robot->pos, robot->pos + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
-        if (isCrashingIntoOpponentRobot(driveLine)) {
+        if (!isCrashingIntoOpponentRobot(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
     }
@@ -392,7 +392,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
         Vector2 targetVelIncrease = ball->vel.stretchToLength(targetVel/2);
         LineSegment driveLine = {robot->pos, robot->pos + targetVelIncrease.stretchToLength(robot->vel.length()*2.0)};
-        if (isCrashingIntoOpponentRobot(driveLine)) {
+        if (!isCrashingIntoOpponentRobot(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
     }
@@ -409,7 +409,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
     RobotCommand robotCommand;
 
     LineSegment driveLine = LineSegment(robot->pos, projectionPosition.stretchToLength(robot->vel.length()*2.0));
-    if (isCrashingIntoOpponentRobot(driveLine)) {
+    if (!isCrashingIntoOpponentRobot(driveLine)) {
         robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
     }
     else {
@@ -423,7 +423,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
                 fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())))/2;
 
         LineSegment driveLine = {robot->pos, robot->pos + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
-        if (isCrashingIntoOpponentRobot(driveLine)) {
+        if (!isCrashingIntoOpponentRobot(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
     }
@@ -484,7 +484,7 @@ void BallHandlePosControl::updatePID(pidVals newPID) {
 }
 
 bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveLine) {
-    double safeMargin = 0.4;
+    double safeMargin = 0.6;
     auto theirRobots = world::world->getThem();
     for (auto &robot : theirRobots) {
         if (driveLine.distanceToLine(robot->pos) < safeMargin) {
