@@ -137,7 +137,7 @@ void Pass::makeCommand() {
 void Pass::onTerminate(Status s) {
     hasShot = false;
     passInitialized = false;
-    if (! coach::g_pass.isPassed()) {
+    if (! coach::g_pass.isPassed() || forcePass) {
         coach::g_pass.resetPass(robot->id);
     }
     else if (s == Status::Success) {
