@@ -21,7 +21,6 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     //TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
     bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->pos) < 15.1;
 
-    std::cout << "we have enough robots: " << weHaveEnoughRobots << " ballIsCloseToBallPlacementPos: " << ballIsCloseToBallPlacementPos << std::endl;
 
     if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
         return Status::Failure;

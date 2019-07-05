@@ -3,27 +3,27 @@
     "trees": [
       {
         "nodes": {
-          "gysfutlfpzj5decr": {
+          "5njexkab4ko4pqtl": {
+            "id": "5njexkab4ko4pqtl",
+            "properties": {
+              "BallPlacement": "",
+              "failsUntilChip": "3",
+              "passType": ""
+            },
+            "title": "Pass"
+          },
+          "m2cu8tuo4ob9smzv": {
             "children": [
-              "k7ys61ip3536o60o"
+              "5njexkab4ko4pqtl"
             ],
-            "id": "gysfutlfpzj5decr",
+            "id": "m2cu8tuo4ob9smzv",
             "properties": {
               "limit": ""
             },
             "title": "Repeater"
-          },
-          "k7ys61ip3536o60o": {
-            "id": "k7ys61ip3536o60o",
-            "properties": {
-              "BallPlacement": "",
-              "failsUntilChip": "",
-              "passType": "defensive"
-            },
-            "title": "Pass"
           }
         },
-        "root": "gysfutlfpzj5decr",
+        "root": "m2cu8tuo4ob9smzv",
         "title": "kickoff_kicker_role"
       }
     ]

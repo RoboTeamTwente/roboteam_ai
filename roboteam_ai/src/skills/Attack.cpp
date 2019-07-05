@@ -32,7 +32,7 @@ bt::Node::Status Attack::onUpdate() {
 
     Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
     auto shotData = robot->getShotController()->getRobotCommand(
-            *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::HIGH);
+            *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::MEDIUM);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;

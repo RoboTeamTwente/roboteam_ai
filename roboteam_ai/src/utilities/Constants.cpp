@@ -41,9 +41,9 @@ double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
 
-bool Constants::SHOW_LONGEST_TICK() { return false; }
+bool Constants::SHOW_LONGEST_TICK() { return true; }
 
-bool Constants::SHOW_TICK_TIME_TAKEN() { return false; }
+bool Constants::SHOW_TICK_TIME_TAKEN() { return true; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
