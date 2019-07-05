@@ -200,6 +200,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ChipForward.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ChipForward.h
 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
