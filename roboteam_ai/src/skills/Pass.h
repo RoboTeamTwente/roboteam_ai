@@ -20,12 +20,13 @@ class Pass : public Skill {
 protected:
     enum PassType {
         DEFAULT,
-        DEFENSIVE
+        DEFENSIVE,
+        FREEKICK
     };
 
     PassType passType = DEFAULT;
 
-    PassType stringToType(std::string type);
+    PassType stringToType(const std::string& type);
 
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
     const double SUCCESSFUL_PASS_ANGLE = 0.6;

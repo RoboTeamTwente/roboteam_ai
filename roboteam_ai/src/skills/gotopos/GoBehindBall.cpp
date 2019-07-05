@@ -27,12 +27,12 @@ Skill::Status GoBehindBall::gtpUpdate() {
         auto goal = ai::world::field->get_their_goal_center();
 
         Vector2 v = goal - ball->pos;
-        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.09)) + ball->pos;
-        command.w = (rtt::ai::world::field->getPenaltyPoint(false) - robot->pos).angle();
+        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.14)) + ball->pos;
         if ((targetPos - robot->pos).length2() > errorMargin * errorMargin) {
             return Status::Running;
         }
         else {
+            command.w = (ball->pos - robot->pos).toAngle();
             publishRobotCommand();
             return Status::Success;
         }
