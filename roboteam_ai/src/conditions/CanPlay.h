@@ -11,6 +11,9 @@ namespace rtt{
 namespace ai{
 
 class CanPlay : public Condition {
+    private:
+        int tick=0;
+
 public:
     explicit CanPlay(std::string name = "CanPlay", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;

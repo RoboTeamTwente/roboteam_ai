@@ -74,9 +74,9 @@ Skill::Status GoBehindBall::penaltyUpdate(int genevaState){
     auto goal = ai::world::field->get_their_goal_center();
 
     Vector2 v = goal - ball->pos;
-    targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.18)) + ball->pos;
+    targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.2)) + ball->pos;
     command.geneva_state = genevaState;
-    command.w = (rtt::ai::world::field->get_their_goal_center() - robot->pos).angle();
+    command.w = 0;
     return (targetPos - robot->pos).length2() > errorMargin * errorMargin ? Status::Running :  Status::Success;
 
 }
