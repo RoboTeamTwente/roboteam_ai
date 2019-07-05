@@ -19,7 +19,7 @@ private:
     int genevaState;
     Vector2 aimPoint;
     int determineGenevaState();
-
+    control::BasicPosControl gtp;
     int tick = 0;
     int genevaChangeTicks = 10;
 public:
