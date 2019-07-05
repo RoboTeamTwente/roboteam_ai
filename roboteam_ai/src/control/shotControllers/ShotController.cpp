@@ -67,11 +67,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
 
             shotData = moveStraightToBall(robot, lineToDriveOver);
             bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-            if (robot.hasWorkingBallSensor()) {
-                shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
-                shotData.vel = shotData.vel.stretchToLength(std::min(0.15, shotData.vel.length())); // lower speed to kick to ball correctly
-            }
-            else if (hasBall) {
+            if (robot.hasWorkingBallSensor() || hasBall) {
                 shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
                 shotData.vel = shotData.vel.stretchToLength(std::min(0.18, shotData.vel.length())); // lower speed to kick to ball correctly
             }
@@ -95,6 +91,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
 
     // Make sure the Geneva state is always correct
     shotData.geneva = currentDesiredGeneva;
+
     return shotData;
 }
 
@@ -197,7 +194,7 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &ro
     }
 
     if (kickerOnTicks++ > 20) {
-        kickerOnTicks = kickerOnTicks > 23 ? 0 : kickerOnTicks;
+        kickerOnTicks = 0;
         shotData.kickerForced = robot.hasBall();
     }
     return shotData;
