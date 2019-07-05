@@ -10,10 +10,13 @@ std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
+bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
+    BTFactory::weMadeTrees = false;
+
     //std::cout << "Re-Make Trees From Json" << std::endl;
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
@@ -34,6 +37,7 @@ void BTFactory::makeTrees() {
         auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
         for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
     }
+    BTFactory::weMadeTrees = true;
 //    std::cout << "Done making trees" << std::endl;
 }
 
@@ -44,7 +48,7 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
         return strategyRepo.find(treeName)->second;
     }
     ROS_ERROR("NO STRATEGY BY THAT NAME:    %s\n\n\n", treeName.c_str());
-    return strategyRepo.end()->second;
+    return nullptr;
 }
 
 std::string BTFactory::getCurrentTree() {
@@ -92,6 +96,10 @@ void BTFactory::halt() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
     BTFactory::setCurrentTree("NaN");
     rtt::ai::robotDealer::RobotDealer::halt();
+}
+bool BTFactory::hasMadeTrees() {
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
+    return BTFactory::weMadeTrees;
 }
 
 
