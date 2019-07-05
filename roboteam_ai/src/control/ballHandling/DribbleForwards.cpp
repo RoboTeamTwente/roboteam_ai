@@ -141,10 +141,6 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
         command.vel = command.vel.stretchToLength(maxVel / 4 + 3*command.vel.length()*waitingTicks++ / (ramp*4));
     }
 
-    if ((robot->pos - finalTargetPos).length() < 0.5) {
-        command.vel = command.vel.stretchToLength(fmax(command.vel.length(), 0.5));
-    }
-
     // check if the robot is still on the virtual line from ball->pos to the target
     double maxDist = errorMargin*8 + std::fmin(1.0, 2*(robot->pos - finalTargetPos).length());
 
@@ -172,9 +168,9 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     }
 
     // limit velocity close to the target
-    double distanceRemainingSquared = (finalTargetPos - robot->pos).length2();
-    if (distanceRemainingSquared < 1.0) {
-        command.vel.stretchToLength(distanceRemainingSquared*0.3);
+    double distanceToTarget = (finalTargetPos - robot->pos).length();
+    if (distanceToTarget < 1.0) {
+        command.vel = command.vel.stretchToLength(std::max(0.2, distanceToTarget*1.2));
     }
     return command;
 }

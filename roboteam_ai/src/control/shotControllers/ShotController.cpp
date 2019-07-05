@@ -95,7 +95,6 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
 
     // Make sure the Geneva state is always correct
     shotData.geneva = currentDesiredGeneva;
-
     return shotData;
 }
 
@@ -198,7 +197,7 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &ro
     }
 
     if (kickerOnTicks++ > 20) {
-        kickerOnTicks = 0;
+        kickerOnTicks = kickerOnTicks > 23 ? 0 : kickerOnTicks;
         shotData.kickerForced = robot.hasBall();
     }
     return shotData;

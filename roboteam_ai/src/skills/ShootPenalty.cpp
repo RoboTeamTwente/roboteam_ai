@@ -34,20 +34,14 @@ void ShootPenalty::onInitialize() {
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (world::field->pointIsInDefenceArea(ball->pos, false,-0.20)) {
-        command.w = robot->angle;
-        publishRobotCommand();
-        return Status::Running;
-    }
-
-    command.w = robot->angle;
-
     if(!genevaSet) {
         genevaState = determineGenevaState();
         genevaSet = true;
     } else if (tick < genevaChangeTicks) {
         tick++;
     } else {
+        std::cout << "Geneva state:  " << genevaState << std::endl;
+
         auto shotData = robot->getShotController()->getRobotCommand(
                 *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::HIGH, genevaState);
         command = shotData.makeROSCommand();
