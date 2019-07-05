@@ -60,12 +60,12 @@ Vector2 ActiveStop::getDefensiveActivePoint() {
 Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
     Vector2 ballPos = world::world->getBall()->pos;
 
-    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.0); // ssl rule + significant buffer
+    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer
 
-    if (world::field->pointIsInDefenceArea(ballPos + offset, true, 0.5, true)) {
+    if (world::field->pointIsInDefenceArea(ballPos + offset, true, 0.3, true)) {
         return offset;
     }
-    if (world::field->pointIsInDefenceArea(ballPos + offset, false, 0.5, true)) {
+    if (world::field->pointIsInDefenceArea(ballPos + offset, false, 0.3, true)) {
         return offset;
     }
     return ballPos + offset;

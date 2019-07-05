@@ -1,6 +1,7 @@
 
 #include "StopFormation.h"
 #include <roboteam_ai/src/world/Field.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../../control/Hungarian.h"
 
 namespace rtt {
@@ -11,6 +12,12 @@ std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> StopFormation::robot
 StopFormation::StopFormation(std::string name, bt::Blackboard::Ptr blackboard)
         : Formation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
+}
+
+// adapt to the change of robot amount in formation
+void StopFormation::updateFormation() {
+    targetLocation = getFormationPosition();
+    robotsInFormationMemory = robotsInFormationPtr()->size();
 }
 
 Vector2 StopFormation::getFormationPosition() {
@@ -25,65 +32,117 @@ Vector2 StopFormation::getFormationPosition() {
     auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
     auto dBtmY = fmin(defenseAreaLineA.y, defenseAreaLineB.y);
     auto defAreaHeight = fabs(dTopY - dBtmY);
-    double offset = 1.0;
+
+
+    // the following statements specify useful stop positions between the ball and the goal
+    auto ourGoalCenterToBall = ball->pos - world::field->get_our_goal_center();
+    double distanceFromGoal = ball->pos.x > 0.0 ? 4.5 : 2.8;
+   //  double distanceFromGoal = 3.0;
+
+    // for one robot between ball and our goal
+    Vector2 betweenGoalAndBallPosition = world::field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
+    Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal).stretchToLength(distanceFromGoal+3*Constants::ROBOT_RADIUS());
+
+    // for multiple robots between ball and our goal
+    Vector2 diff = betweenGoalAndBallPosition + world::field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
+
+    Vector2 basicOffensivePositionA = {-1, 0.0};
+    Vector2 basicOffensivePositionB = {-1, -(field.field_width*0.5-1.5)};
+    Vector2 basicOffensivePositionC = {-1, (field.field_width*0.5-1.5)};
+
+    double offset = 0.3;
+    Vector2 inFrontOfDefenseAreaPositionA;
+    Vector2 inFrontOfDefenseAreaPositionB;
+    Vector2 inFrontOfDefenseAreaPositionC;
+    double goal_width=world::field->get_field().goal_width;
+    if (ball->pos.y>goal_width){
+        inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
+        inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
+        inFrontOfDefenseAreaPositionC = {pp.x + offset, dTopY};
+    }
+    else if (ball->pos.y<-goal_width){
+        inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
+        inFrontOfDefenseAreaPositionB= {pp.x + offset, dTopY};
+        inFrontOfDefenseAreaPositionC = {pp.x + offset, dBtmY};
+    }
+    else {
+        if (ball->pos.y>0){
+            inFrontOfDefenseAreaPositionA= {pp.x + offset, dBtmY};
+            inFrontOfDefenseAreaPositionB= {pp.x + offset, dTopY};
+            inFrontOfDefenseAreaPositionC = {pp.x + offset, 0};
+        }
+        else{
+            inFrontOfDefenseAreaPositionA= {pp.x + offset, dTopY};
+            inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
+            inFrontOfDefenseAreaPositionC = {pp.x + offset, 0};
+        }
+    }
+
 
     //failsafe to prevent segfaults
     int amountOfRobots = robotsInFormation->size();
     if (amountOfRobots <= 0) {
         return {};
     } else if (amountOfRobots == 1) {
-        return {pp.x + offset, pp.y};
+        return betweenGoalAndBallPosition;
     }
 
     std::vector<std::vector<Vector2>> targetLocations = {
-            // middle
-            {{pp.x + offset, pp.y}},
+            {betweenGoalAndBallPosition
+            },
 
-            // two def area corners
-            {{pp.x + offset, dTopY}, {pp.x + offset, dBtmY}},
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB
+             },
 
-            // middle + def area corners
-            {{pp.x + offset, pp.y}, {pp.x + offset, dTopY}, {pp.x + offset, dBtmY}},
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB,
+             inFrontOfDefenseAreaPositionA
+             },
 
-            // 4 points in front of def area        (noted from top to bottom)
-            {{pp.x + offset, dTopY},
-             {pp.x + offset, dTopY-(defAreaHeight/3)},
-             {pp.x + offset, dBtmY + (defAreaHeight/3)},
-             {pp.x + offset, dBtmY}},
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB,
+             inFrontOfDefenseAreaPositionB,
+             inFrontOfDefenseAreaPositionC
+             },
 
-             // 5 points in front of def area (top to bottom
-            {{pp.x + offset, dTopY},
-             {pp.x + offset, dTopY-(defAreaHeight/3)},
-             {pp.x + offset, pp.y},
-             {pp.x + offset, dBtmY + (defAreaHeight/3)},
-             {pp.x + offset, dBtmY}},
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB,
+             inFrontOfDefenseAreaPositionB,
+             inFrontOfDefenseAreaPositionC,
+             inFrontOfDefenseAreaPositionA
+             },
 
-            // 6 points in front of def area (top to bottom)
-            {{pp.x - 0.5*offset, dTopY+ (defAreaHeight/3)},
-             {pp.x + offset, dTopY + (defAreaHeight/3)},
-             {pp.x + offset, dTopY-(defAreaHeight/3)},
-             {pp.x + offset, dBtmY + (defAreaHeight/3)},
-             {pp.x + offset, dBtmY - (defAreaHeight/3)},
-             {pp.x - 0.5*offset, dBtmY - (defAreaHeight/3)}},
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB,
+             inFrontOfDefenseAreaPositionB,
+             inFrontOfDefenseAreaPositionC,
+             inFrontOfDefenseAreaPositionA,
+             basicOffensivePositionA
+            },
 
-            // 7 points in front of def area
-            {{pp.x + offset, dTopY+(defAreaHeight/3)},
-             {pp.x + offset, dTopY},
-             {pp.x + offset, pp.y},
-             {pp.x + offset, dBtmY},
-             {pp.x + offset, dBtmY - (defAreaHeight/3)},
-             {pp.x - 0.5*offset, dTopY+ (defAreaHeight/3)},
-             {pp.x - 0.5*offset, dBtmY - (defAreaHeight/3)}},
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB,
+             inFrontOfDefenseAreaPositionB,
+             inFrontOfDefenseAreaPositionC,
+             inFrontOfDefenseAreaPositionA,
+             basicOffensivePositionB,
+             basicOffensivePositionC
+             },
 
-            // 8 points in front of def area
-            {{pp.x + offset, dTopY+(defAreaHeight/3)},
-             {pp.x + offset, dTopY},
-             {pp.x + offset, dTopY-(defAreaHeight/3)},
-             {pp.x + offset, dBtmY + (defAreaHeight/3)},
-             {pp.x + offset, dBtmY},
-             {pp.x + offset, dBtmY - (defAreaHeight/3)},
-             {pp.x - 0.5*offset, dTopY+ (defAreaHeight/3)},
-             {pp.x - 0.5*offset, dBtmY - (defAreaHeight/3)}}
+            {betweenGoalAndBallPositionA,
+             betweenGoalAndBallPositionB,
+             betweenGoalAndBallPositionC,
+             inFrontOfDefenseAreaPositionB,
+             inFrontOfDefenseAreaPositionC,
+             inFrontOfDefenseAreaPositionA,
+             basicOffensivePositionB,
+             basicOffensivePositionC
+             }
     };
 
     std::vector<int> robotIds;
@@ -100,6 +159,12 @@ Vector2 StopFormation::getFormationPosition() {
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() {
     return robotsInFormation;
+}
+
+// determine the angle where the robot should point to (in position)
+void StopFormation::setFinalAngle() {
+    Vector2 targetToLookAtLocation = world::world->getBall()->pos;
+    command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
 }
 
 }

@@ -18,6 +18,8 @@ class StopFormation : public Formation {
         Vector2 getFormationPosition() override;
         std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+        void updateFormation() override;
+        void setFinalAngle() override;
 };
 
 

@@ -3,46 +3,52 @@
     "trees": [
       {
         "nodes": {
-          "7hrctfrmqgq0wrp1": {
-            "children": [
-              "8412c9r0pkbjluq4",
-              "qjl2dfkiac35nti8"
-            ],
-            "id": "7hrctfrmqgq0wrp1",
-            "properties": {},
-            "title": "Sequence"
-          },
-          "7sgegfiyvuelbjg8": {
-            "id": "7sgegfiyvuelbjg8",
+          "gxkfqrhozjt82phn": {
+            "id": "gxkfqrhozjt82phn",
             "properties": {
+              "ROLE": "a2",
               "Stop": "",
               "type": ""
             },
             "title": "AvoidBall"
           },
-          "8412c9r0pkbjluq4": {
-            "children": [
-              "jl9nqr0hezaybecn",
-              "7sgegfiyvuelbjg8"
-            ],
-            "id": "8412c9r0pkbjluq4",
-            "properties": {},
-            "title": "Sequence"
-          },
-          "jl9nqr0hezaybecn": {
-            "id": "jl9nqr0hezaybecn",
+          "kl2o1ilw8xu1vt7w": {
+            "id": "kl2o1ilw8xu1vt7w",
             "properties": {
-              "distance": ""
+              "ROLE": "a2"
+            },
+            "title": "ActiveStop"
+          },
+          "knflfl8zajarwi33": {
+            "id": "knflfl8zajarwi33",
+            "properties": {
+              "ROLE": "a2",
+              "distance": "1.0"
             },
             "title": "BallIsClose"
           },
-          "qjl2dfkiac35nti8": {
-            "id": "qjl2dfkiac35nti8",
+          "scdsuty1m507gf1b": {
+            "children": [
+              "knflfl8zajarwi33",
+              "gxkfqrhozjt82phn"
+            ],
+            "id": "scdsuty1m507gf1b",
+            "properties": {
+              "ROLE": "a2"
+            },
+            "title": "Sequence"
+          },
+          "xwppugdhzrp57i1i": {
+            "children": [
+              "scdsuty1m507gf1b",
+              "kl2o1ilw8xu1vt7w"
+            ],
+            "id": "xwppugdhzrp57i1i",
             "properties": {},
-            "title": "ActiveStop"
+            "title": "Selector"
           }
         },
-        "root": "7hrctfrmqgq0wrp1",
+        "root": "xwppugdhzrp57i1i",
         "title": "active_stop_role"
       }
     ]

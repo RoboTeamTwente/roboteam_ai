@@ -40,9 +40,9 @@ protected:
     bool robotIsInFormation();
     bool formationHasChanged();
     bool robotIsInPosition();
-    void updateFormation();
+    virtual void updateFormation();
     void moveToTarget();
-    void setFinalAngle();
+    virtual void setFinalAngle();
     bool updateCounter();
 };
 
