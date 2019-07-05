@@ -464,7 +464,7 @@
           },
           "oi2v9ic77t2mk7nvp": {
             "children": [
-              "ucf1ksbn0qj0r"
+              "uo9r037djn8m366z"
             ],
             "id": "oi2v9ic77t2mk7nvp",
             "name": "kickoff_kicker_role",
@@ -611,14 +611,6 @@
             "role": "kickoff_us_formation_role",
             "title": "Role"
           },
-          "ucf1ksbn0qj0r": {
-            "id": "ucf1ksbn0qj0r",
-            "properties": {
-              "BallPlacement": "false",
-              "ROLE": "kicker"
-            },
-            "title": "Pass"
-          },
           "ulspwnh2sa6oje0z": {
             "children": [
               "r7cb1l7e7dxlce97",
@@ -629,6 +621,15 @@
               "ROLE": "assist2"
             },
             "title": "Sequence"
+          },
+          "uo9r037djn8m366z": {
+            "id": "uo9r037djn8m366z",
+            "properties": {
+              "BallPlacement": "",
+              "failsUntilChip": "",
+              "passType": "defensive"
+            },
+            "title": "Pass"
           },
           "ur2ypa34bu9j8pky": {
             "children": [
