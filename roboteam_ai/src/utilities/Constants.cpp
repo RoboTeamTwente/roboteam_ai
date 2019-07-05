@@ -86,6 +86,8 @@ double Constants::MAX_POWER_KICK_DISTANCE() { return 9.0; }
 
 double Constants::MAX_KICK_POWER() { return 8.0; }
 
+double Constants::MAX_PASS_DISTANCE() { return 4.0; }
+
 double Constants::OUT_OF_FIELD_MARGIN() { return 0.03; }
 
 double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }

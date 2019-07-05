@@ -76,6 +76,11 @@ Pass::Status Pass::onUpdate() {
         }
 
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+
+        if ((robotToPassTo->pos - ball->pos).length() > Constants::MAX_PASS_DISTANCE()) {
+            forcePass = true;
+        }
+
         if (! coach::g_pass.validReceiver(robot, robotToPassTo)) {
             return Status::Failure;
         }
