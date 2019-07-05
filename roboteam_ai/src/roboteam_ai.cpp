@@ -53,6 +53,8 @@ int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     setDarkTheme();
     window = std::make_shared<ui::MainWindow>();
+    window->setWindowState(Qt::WindowMaximized);
+
     window->show();
      return a.exec();
 }
