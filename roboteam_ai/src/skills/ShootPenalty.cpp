@@ -11,7 +11,7 @@ namespace rtt {
 namespace ai {
 
 ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
-    :Skill(std::move(name), std::move(blackboard)) {
+        :Skill(std::move(name), std::move(blackboard)) {
 }
 
 void ShootPenalty::onInitialize() {
@@ -19,35 +19,47 @@ void ShootPenalty::onInitialize() {
     genevaState = 5;
     tick = 0;
     double genevaAngle = (robot->getGenevaState() - 3)*10/180.0*M_PI;
-    auto theirKeeper=world::world->getRobotClosestToPoint(world::field->get_their_goal_center(),WhichRobots::THEIR_ROBOTS);
-    if (theirKeeper&&theirKeeper->pos.dist(world::field->get_their_goal_center())<2.0){
-        std::pair<Vector2,bool> aim=coach::g_offensiveCoach.penaltyAim(ball->pos, robot->angle + genevaAngle,theirKeeper->pos);
+    auto theirKeeper = world::world->getRobotClosestToPoint(world::field->get_their_goal_center(),
+            WhichRobots::THEIR_ROBOTS);
+    if (theirKeeper && theirKeeper->pos.dist(world::field->get_their_goal_center()) < 2.0) {
+        std::pair<Vector2, bool> aim = coach::g_offensiveCoach.penaltyAim(ball->pos, robot->angle + genevaAngle,
+                theirKeeper->pos);
         aimPoint = aim.first;
         genevaSet = aim.second;
     }
-    else{
-        aimPoint=world::field->get_their_goal_center();
-        genevaSet=false;
+    else {
+        aimPoint = world::field->get_their_goal_center();
+        genevaSet = false;
     }
 
 }
 bt::Node::Status ShootPenalty::onUpdate() {
-
-
-
     if (! robot) return Status::Running;
 
-    if(!genevaSet) {
+    if (! genevaSet) {
         genevaState = determineGenevaState();
         genevaSet = true;
-    } else if (tick < genevaChangeTicks) {
-        tick++;
-    } else {
-        std::cout << "Geneva state:  " << genevaState << std::endl;
+    }
+    else if (tick < genevaChangeTicks) {
+        tick ++;
+    }
+    else {
+        if (fabs((ball->pos - robot->pos).toAngle()) > 0.1 && fabs(robot->pos.x) > 0.03) {
+            command = robot->getNumtreePosControl()->getRobotCommand(robot,
+                    ball->pos + Vector2(- 0.30, 0)).makeROSCommand();
 
-        auto shotData = robot->getShotController()->getRobotCommand(
-                *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::HIGH, genevaState);
-        command = shotData.makeROSCommand();
+            publishRobotCommand();
+            return Status::Running;
+        }
+        command.w = (ball->pos - robot->pos).toAngle();
+
+        command.x_vel = 0.15;
+        command.y_vel = 0;
+
+        command.kicker = true;
+        command.kicker_vel = Constants::MAX_KICK_POWER();
+        command.kicker_forced = robot->hasBall(Constants::MAX_KICK_RANGE());
+        command.geneva_state = genevaState;
     }
     publishRobotCommand();
     return Status::Running;
@@ -62,7 +74,8 @@ int ShootPenalty::determineGenevaState() {
     Angle angleWithShotline = robotToBall.toAngle() - preferredShotVector.toAngle();
     if (angleWithShotline.getAngle() > 0) {
         return genevaState = 1;
-    } else {
+    }
+    else {
         return genevaState = 5;
     }
 }
