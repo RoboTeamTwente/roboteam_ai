@@ -89,6 +89,9 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (strategyChanged) {
             BTFactory::setCurrentTree(strategyName);
+            if (BTFactory::getCurrentTree() == "halt_strategy") {
+                rtt::ai::coach::g_pass.resetPass(-1);
+            }
             oldStrategyName = strategyName;
         }
 
