@@ -26,7 +26,7 @@ void ShootPenalty::onInitialize() {
     lineP=8.0;
     additionalBallDist=Vector2(0.05,0.0);
     forcedKickOn=true;
-    forcedKickRange=Constants::MAX_KICK_RANGE()-0.005;
+    forcedKickRange=Constants::MAX_KICK_RANGE()-0.01;
 }
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
@@ -36,7 +36,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
     }
     double ydiff=ball->pos.y-robot->pos.y;
     double gain=ydiff*lineP;
-    if (tick < genevaChangeTicks&&ydiff<0.01) {
+    if (tick < genevaChangeTicks&&ydiff<0.03) {
         tick ++;
         command.x_vel=0;
         command.y_vel=gain;
@@ -48,7 +48,6 @@ bt::Node::Status ShootPenalty::onUpdate() {
         }
     }
     else {
-
         if (ball&&!world::field->pointIsInDefenceArea(ballPos,false,-0.1)){
             Vector2 targetPos=world::world->getBall()->pos+additionalBallDist;
             if (world::field->pointIsInDefenceArea(ballPos,false,0.2)){
@@ -65,13 +64,20 @@ bt::Node::Status ShootPenalty::onUpdate() {
             command.kicker = true;
             command.kicker_vel = Constants::MAX_KICK_POWER();
             std::cout<<robot->calculateDistanceToBall(ballPos)<<std::endl;
-            if (forcedKickOn){
-                command.kicker_forced= robot->calculateDistanceToBall(ballPos)<forcedKickRange;
+            if (forcedKickOn||!robot->hasWorkingBallSensor()){
+                double dist=robot->calculateDistanceToBall(ballPos);
+                if (dist!=-1.0){
+                    command.kicker_forced= dist<forcedKickRange;
+                } else {
+                    std::cout << "HELP!" << std::endl;
+                }
             }
             command.geneva_state = genevaState;
         }
 
     }
+    command.geneva_state = genevaState;
+    std::cout<<"robotID "<<robot->id<<" "<<genevaState<<std::endl;
     publishRobotCommand();
     return Status::Running;
 }
