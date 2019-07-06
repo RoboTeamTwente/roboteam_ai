@@ -26,6 +26,7 @@ void ShootPenalty::onInitialize() {
     lineP=8.0;
     additionalBallDist=Vector2(0.05,0.0);
     forcedKickOn=true;
+    forcedKickRange=Constants::MAX_KICK_RANGE()-0.005;
 }
 bt::Node::Status ShootPenalty::onUpdate() {
     if (! robot) return Status::Running;
@@ -65,7 +66,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
             command.kicker_vel = Constants::MAX_KICK_POWER();
             std::cout<<robot->calculateDistanceToBall(ballPos)<<std::endl;
             if (forcedKickOn){
-                command.kicker_forced= robot->calculateDistanceToBall(ballPos)<additionalBallDist;
+                command.kicker_forced= robot->calculateDistanceToBall(ballPos)<forcedKickRange;
             }
             command.geneva_state = genevaState;
         }
