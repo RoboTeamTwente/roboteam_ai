@@ -17,8 +17,11 @@ HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {}
 
 HasClearShot::Status HasClearShot::onUpdate() {
-    if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() < FORCED_SHOOTING_DISTANCE) {
-        return Status::Success;
+    if (ball){
+        if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() < FORCED_SHOOTING_DISTANCE) {
+            return Status::Success;
+        }
+
     }
 
     auto minViewAtGoal = MIN_VIEW_AT_GOAL;

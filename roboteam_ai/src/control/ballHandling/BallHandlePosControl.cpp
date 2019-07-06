@@ -486,9 +486,11 @@ void BallHandlePosControl::updatePID(pidVals newPID) {
 bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveLine) {
     double safeMargin = 0.4;
     auto theirRobots = world::world->getThem();
-    for (auto &robot : theirRobots) {
-        if (driveLine.distanceToLine(robot->pos) < safeMargin) {
-            return true;
+    for (auto &drobot : theirRobots) {
+        if (drobot){
+            if (driveLine.distanceToLine(drobot->pos) < safeMargin) {
+                return true;
+            }
         }
     }
     return false;
