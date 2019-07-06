@@ -13,8 +13,11 @@ namespace rtt {
 namespace ai {
 
 class Attack : public Skill {
+private:
+    bool hasShot = false;
 public:
     explicit Attack(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
     Status onUpdate() override;
 };
 
