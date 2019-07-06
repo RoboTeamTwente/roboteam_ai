@@ -283,7 +283,7 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.h 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.cpp 
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.h roboteam_ai/src/conditions/BallPlacementLineIsClose.cpp roboteam_ai/src/conditions/BallPlacementLineIsClose.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp

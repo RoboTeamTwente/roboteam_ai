@@ -96,6 +96,7 @@
 #include <roboteam_ai/src/bt/composites/Sequence.hpp>
 #include <roboteam_ai/src/conditions/BallIsClose.h>
 #include <roboteam_ai/src/skills/formations/StopFormation.h>
+#include <roboteam_ai/src/conditions/BallPlacementLineIsClose.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -271,6 +272,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
     map["BallIsClose"] = std::make_shared<rtt::ai::BallIsClose>(name, properties);
+    map["BallPlacementLineIsClose"] = std::make_shared<rtt::ai::BallPlacementLineIsClose>(name, properties);
     map["CanPlay"] = std::make_shared<rtt::ai::CanPlay>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] = std::make_shared<rtt::ai::HasBall>(name, properties);

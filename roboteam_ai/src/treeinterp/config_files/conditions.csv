@@ -4,6 +4,7 @@ HasBall
 BallKickedToOurGoal
 BallInDefenseAreaAndStill
 BallIsClose,distance
+BallPlacementLineIsClose,distance
 IsInDefenseArea,useRobot,ourDefenseArea,outsideField,margin,secondsAhead
 IsOnOurSide
 WeHaveBall
