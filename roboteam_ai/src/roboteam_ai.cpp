@@ -44,16 +44,17 @@ void setDarkTheme() {
 int main(int argc, char* argv[]) {
     // Init ROS node in main thread
     ros::init(argc, argv, "Roboteam_AI");
+
+    // get ros to work
     ros::NodeHandle n; // KEEP THIS LINE
-
-    // wait for ros to init and then start subscribing
-    while (!ros::ok()) {}
+    while (!n.ok()) {}
     rtt::ai::Constants::init();
-    std::thread worldThread = std::thread(&runWorld);
 
-    // wait for the trees to have been created and then start the behaviour trees
+    // get the trees to work
     BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees()) {}
+    while (!BTFactory::hasMadeTrees());
+
+    std::thread worldThread = std::thread(&runWorld);
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
     // initialize the interface

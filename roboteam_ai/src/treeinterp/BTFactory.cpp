@@ -17,7 +17,7 @@ void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
 
-    //std::cout << "Re-Make Trees From Json" << std::endl;
+    std::cout << "Re-Make Trees From Json" << std::endl;
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
@@ -37,8 +37,9 @@ void BTFactory::makeTrees() {
         auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
         for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
     }
+
     BTFactory::weMadeTrees = true;
-//    std::cout << "Done making trees" << std::endl;
+    std::cout << "Done making trees" << std::endl;
 }
 
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {

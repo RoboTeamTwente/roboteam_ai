@@ -27,7 +27,7 @@ void ApplicationManager::setup() {
 void ApplicationManager::loop() {
     ros::Rate rate(ai::Constants::TICK_RATE());
 
-    BTFactory::makeTrees();
+   // BTFactory::makeTrees();
     double longestTick = 0.0;
     double timeTaken;
     int nTicksTaken = 0;
@@ -61,7 +61,7 @@ void ApplicationManager::loop() {
         if (ai::robotDealer::RobotDealer::hasFree()) {
             if (ticksFree++ > 10) {
                 ai::robotDealer::RobotDealer::refresh();
-                BTFactory::makeTrees();
+           //     BTFactory::makeTrees();
             }
         }
         else {
