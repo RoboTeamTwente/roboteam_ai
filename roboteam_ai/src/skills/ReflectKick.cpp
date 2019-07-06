@@ -64,7 +64,7 @@ Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vecto
 
 void ReflectKick::intercept() {
     ballStartVel = ball->vel;
-    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME() * 10;
 
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 

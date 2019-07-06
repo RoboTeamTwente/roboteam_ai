@@ -7,6 +7,15 @@
             "id": "0e6iz68rgjzkplug",
             "title": "HasClearShot"
           },
+          "0e97wnk8i15tdoui": {
+            "children": [
+              "kg4cw8rtciyqzqi0",
+              "2zn719n8tg8z3l"
+            ],
+            "id": "0e97wnk8i15tdoui",
+            "properties": {},
+            "title": "MemSelector"
+          },
           "2zn719n8tg8z3l": {
             "id": "2zn719n8tg8z3l",
             "properties": {},
@@ -78,7 +87,7 @@
           "e9d5w74uo465zkp": {
             "children": [
               "fwx01iov5wuf2zl9e",
-              "2zn719n8tg8z3l"
+              "0e97wnk8i15tdoui"
             ],
             "id": "e9d5w74uo465zkp",
             "title": "Sequence"
@@ -129,6 +138,11 @@
             "id": "iusx0b18cn09c",
             "title": "Sequence"
           },
+          "jtchgqtk8361uy32": {
+            "id": "jtchgqtk8361uy32",
+            "properties": {},
+            "title": "ReflectKick"
+          },
           "kaxvn1rsvevzy3rq": {
             "id": "kaxvn1rsvevzy3rq",
             "properties": {
@@ -139,6 +153,15 @@
               "useRobot": "false"
             },
             "title": "IsInDefenseArea"
+          },
+          "kg4cw8rtciyqzqi0": {
+            "children": [
+              "tlb8p48o91o1nv4v",
+              "jtchgqtk8361uy32"
+            ],
+            "id": "kg4cw8rtciyqzqi0",
+            "properties": {},
+            "title": "MemSequence"
           },
           "lsnzin91i3imjek5": {
             "id": "lsnzin91i3imjek5",
@@ -174,6 +197,11 @@
               "dribbleDistance": "0.59"
             },
             "title": "DribbleForward"
+          },
+          "tlb8p48o91o1nv4v": {
+            "id": "tlb8p48o91o1nv4v",
+            "properties": {},
+            "title": "CanReflectKick"
           },
           "xzmk8yg14z1tesq8e": {
             "id": "xzmk8yg14z1tesq8e",

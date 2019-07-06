@@ -15,7 +15,7 @@ namespace ai {
 
 class ReflectKick : public Skill {
 private:
-    const double TOWARDS_GOAL_FACTOR = 0.7;
+    const double TOWARDS_GOAL_FACTOR = 0.8;
     Vector2 goalTarget;
     Vector2 reflectionPos;
     double robotAngle;

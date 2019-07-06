@@ -12,10 +12,10 @@ namespace rtt {
 namespace ai {
 
 CanReflectKick::CanReflectKick(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {};
+        :Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status CanReflectKick::onUpdate() {
-    if(!robot->hasWorkingBallSensor()) {
+    if (false) {
         return Status::Failure;
     }
 
