@@ -26,6 +26,7 @@ std::mutex IOManager::refereeMutex;
 std::mutex IOManager::demoMutex;
 
 IOManager::IOManager(bool subscribe, bool advertise) {
+    while (!nodeHandle.ok()) {}
     if (subscribe) {
         // subscribe to all topics
         this->subscribeToWorldState();

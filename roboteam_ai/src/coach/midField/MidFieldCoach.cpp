@@ -231,7 +231,7 @@ double MidFieldCoach::calculateStandingFreeScore(const Vector2& position, const 
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position, thisRobot->id);
-    double distanceToBallScore = CoachHeuristics::calculateDistanceToBallScore(position, world);
+    double distanceToBallScore = CoachHeuristics::calculatePassDistanceToBallScore(position, world);
 
     return passLineScore + distanceToUsScore + distanceToBallScore;
 }
