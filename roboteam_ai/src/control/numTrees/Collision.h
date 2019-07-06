@@ -24,6 +24,7 @@ class Collision {
           FIELD,
           DEFENSE_AREA,
           GOAL,
+          BALL_PLACEMENT,
           NO_COLLISION
         };
         std::string collisionTypeToString();
@@ -35,6 +36,7 @@ class Collision {
         Vector2 fieldCollision;
         Vector2 defenseAreaCollision;
         Vector2 goalCollision;
+        Vector2 ballPlacementCollision;
 
 
     public:
@@ -45,6 +47,7 @@ class Collision {
             fieldCollision = Vector2();
             defenseAreaCollision = Vector2();
             goalCollision = Vector2();
+            ballPlacementCollision = Vector2();
         }
 
         const world::Robot::RobotPtr &getCollisionRobot() const;
@@ -61,6 +64,9 @@ class Collision {
 
         const Vector2 &getCollisionGoalPos() const;
         void setGoalCollision(const Vector2 &collisionPos, double distance);
+
+        const Vector2 &getCollisionBallPlacement() const;
+        void setBallPlacementCollision(const Vector2 &collisionPos, double distance);
 
         bool isCollision;
         double collisionRadius;
