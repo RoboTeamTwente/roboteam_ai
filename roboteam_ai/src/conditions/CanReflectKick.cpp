@@ -19,6 +19,14 @@ bt::Node::Status CanReflectKick::onUpdate() {
         return Status::Failure;
     }
 
+    if (!control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robot->pos, 0.6)) {
+        return Status::Failure;
+    }
+
+    if (ball->vel.length() < 0.5) {
+        return Status::Failure;
+    }
+
     Angle ballToRobotAngle = (robot->pos - ball->pos).toAngle();
     Angle robotToGoalAngle = (world::field->get_their_goal_center() - robot->pos).toAngle();
 

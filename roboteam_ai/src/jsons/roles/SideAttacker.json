@@ -7,15 +7,6 @@
             "id": "0e6iz68rgjzkplug",
             "title": "HasClearShot"
           },
-          "0e97wnk8i15tdoui": {
-            "children": [
-              "kg4cw8rtciyqzqi0",
-              "2zn719n8tg8z3l"
-            ],
-            "id": "0e97wnk8i15tdoui",
-            "properties": {},
-            "title": "MemSelector"
-          },
           "2zn719n8tg8z3l": {
             "id": "2zn719n8tg8z3l",
             "properties": {},
@@ -87,7 +78,7 @@
           "e9d5w74uo465zkp": {
             "children": [
               "fwx01iov5wuf2zl9e",
-              "0e97wnk8i15tdoui"
+              "gbrnf779uhzc5ok0"
             ],
             "id": "e9d5w74uo465zkp",
             "title": "Sequence"
@@ -103,6 +94,15 @@
           "fwx01iov5wuf2zl9e": {
             "id": "fwx01iov5wuf2zl9e",
             "title": "IsBeingPassedTo"
+          },
+          "gbrnf779uhzc5ok0": {
+            "children": [
+              "kg4cw8rtciyqzqi0",
+              "2zn719n8tg8z3l"
+            ],
+            "id": "gbrnf779uhzc5ok0",
+            "properties": {},
+            "title": "Selector"
           },
           "gtzgumtg6n4jd33q": {
             "children": [
