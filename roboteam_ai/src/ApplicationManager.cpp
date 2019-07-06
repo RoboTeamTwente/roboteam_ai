@@ -48,7 +48,7 @@ void ApplicationManager::loop() {
         }
         if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
-            ss << "FrameRate: " << ai::Constants::TICK_RATE()*1000/timeTakenOverNTicks << " FPS | average: " << timeTakenOverNTicks / nTicksTaken << " ms/tick | longest: " << longestTick << " ms";
+            ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
             if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
                 std::cout << ss.str() << std::endl;
             else
