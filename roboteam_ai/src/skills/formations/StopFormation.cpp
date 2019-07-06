@@ -63,11 +63,22 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto dBtmY = fmin(defenseAreaLineA.y, defenseAreaLineB.y);
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
-
     // the following statements specify useful stop positions between the ball and the goal
     auto ourGoalCenterToBall = ball->pos - world::field->get_our_goal_center();
-    double distanceFromGoal = ball->pos.x > 0.0 ? 4.5 : 1.9;
-    //  double distanceFromGoal = 3.0;
+    auto ballToOurGoalCenter = world::field->get_our_goal_center() - ball->pos;
+
+    double distanceFromGoal = ball->pos.x > 0.0 ? 4.5 : 2.0;
+    double distanceToBall = 1.0;
+
+    if (ball->pos.x > 0.0) { // if the ball is on their side
+        distanceFromGoal = 4.0;
+    } else { // if the ball is on our side
+        distanceFromGoal = (fabs(ball->pos.y) < 1.2) ? 1.6 : 2.2;
+    }
+
+
+    Vector2 closeToBallA = ball->pos + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(- sin(Constants::ROBOT_RADIUS()/distanceToBall));
+    Vector2 closeToBallB = ball->pos + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(sin(Constants::ROBOT_RADIUS()/distanceToBall));
 
     // for one robot between ball and our goal
     Vector2 betweenGoalAndBallPosition = world::field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
@@ -111,9 +122,6 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             inFrontOfDefenseAreaPositionC = {pp.x + offset, 0};
         }
     }
-
-
-
 
     std::vector<std::vector<Vector2>> targetLocations = {
             {betweenGoalAndBallPosition
