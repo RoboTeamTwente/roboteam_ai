@@ -34,10 +34,9 @@ bt::Node::Status ShootPenalty::onUpdate() {
         genevaState = determineGenevaState();
         genevaSet = true;
     }
+    double ydiff=ball->pos.y-robot->pos.y;
     double gain=ydiff*lineP;
     if (tick < genevaChangeTicks&&ydiff<0.03) {
-    double gain=ydiff*P;
-    if (tick < genevaChangeTicks&&ydiff<0.01) {
         tick ++;
         command.x_vel=0;
         command.y_vel=gain;
@@ -49,7 +48,6 @@ bt::Node::Status ShootPenalty::onUpdate() {
         }
     }
     else {
-
         if (ball&&!world::field->pointIsInDefenceArea(ballPos,false,-0.1)){
             Vector2 targetPos=world::world->getBall()->pos+additionalBallDist;
             if (world::field->pointIsInDefenceArea(ballPos,false,0.2)){
@@ -65,6 +63,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
             command.w = 0;
             command.kicker = true;
             command.kicker_vel = Constants::MAX_KICK_POWER();
+            std::cout<<robot->calculateDistanceToBall(ballPos)<<std::endl;
             if (forcedKickOn||!robot->hasWorkingBallSensor()){
                 double dist=robot->calculateDistanceToBall(ballPos);
                 if (dist!=-1.0){
