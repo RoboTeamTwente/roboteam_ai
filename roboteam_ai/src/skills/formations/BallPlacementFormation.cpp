@@ -1,5 +1,8 @@
+//
+// Created by thijs on 6-7-19.
+//
 
-#include "StopFormation.h"
+#include "BallPlacementFormation.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "../../control/Hungarian.h"
@@ -7,20 +10,15 @@
 namespace rtt {
 namespace ai {
 
-std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> StopFormation::robotsInFormation = nullptr;
+std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
 
-StopFormation::StopFormation(std::string name, bt::Blackboard::Ptr blackboard)
+
+BallPlacementFormation::BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard)
         : Formation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
 
-// adapt to the change of robot amount in formation
-void StopFormation::updateFormation() {
-    targetLocation = getFormationPosition();
-    robotsInFormationMemory = robotsInFormationPtr()->size();
-}
-
-Vector2 StopFormation::getFormationPosition() {
+Vector2 BallPlacementFormation::getFormationPosition() {
 
     //failsafe to prevent segfaults
     int amountOfRobots = robotsInFormation->size();
@@ -29,28 +27,34 @@ Vector2 StopFormation::getFormationPosition() {
     }
 
     std::vector<int> robotIds;
-    for (auto & i : *robotsInFormation) {
+    for (auto &i : *robotsInFormation) {
         if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
             robotIds.push_back(i->id);
         }
     }
 
     rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, getStopPositions().at(amountOfRobots-1));
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, getStopPositions().at(amountOfRobots - 1));
     return shortestDistances.at(robot->id);
 }
 
-std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() {
+std::shared_ptr<std::vector<world::World::RobotPtr>> BallPlacementFormation::robotsInFormationPtr() {
     return robotsInFormation;
 }
 
+// adapt to the change of robot amount in formation
+void BallPlacementFormation::updateFormation() {
+    targetLocation = getFormationPosition();
+    robotsInFormationMemory = robotsInFormationPtr()->size();
+}
+
 // determine the angle where the robot should point to (in position)
-void StopFormation::setFinalAngle() {
+void BallPlacementFormation::setFinalAngle() {
     Vector2 targetToLookAtLocation = world::world->getBall()->pos;
     command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
 }
 
-std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
+std::vector<std::vector<Vector2>> BallPlacementFormation::getStopPositions() {
     auto field = world::field->get_field();
 
     auto pp = world::field->getPenaltyPoint(true); // penalty point
@@ -138,19 +142,19 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             },
 
             {
-            closeToBallA,
-            closeToBallB,
-            betweenGoalAndBallPositionA,
-            betweenGoalAndBallPositionB,
+                    closeToBallA,
+                    closeToBallB,
+                    betweenGoalAndBallPositionA,
+                    betweenGoalAndBallPositionB,
 
             },
 
             {
-            closeToBallA,
-            closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             inFrontOfDefenseAreaPositionA
+                    closeToBallA,
+                    closeToBallB,
+                    betweenGoalAndBallPositionA,
+                    betweenGoalAndBallPositionB,
+                    inFrontOfDefenseAreaPositionA
             },
 
             {closeToBallA,
@@ -162,24 +166,24 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             },
 
             {
-             closeToBallA,
-             closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             inFrontOfDefenseAreaPositionB,
-             inFrontOfDefenseAreaPositionC,
-             basicOffensivePositionA,
+                    closeToBallA,
+                    closeToBallB,
+                    betweenGoalAndBallPositionA,
+                    betweenGoalAndBallPositionB,
+                    inFrontOfDefenseAreaPositionB,
+                    inFrontOfDefenseAreaPositionC,
+                    basicOffensivePositionA,
             },
 
             {
-             closeToBallA,
-             closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             betweenGoalAndBallPositionC,
-             inFrontOfDefenseAreaPositionB,
-             inFrontOfDefenseAreaPositionC,
-             inFrontOfDefenseAreaPositionA,
+                    closeToBallA,
+                    closeToBallB,
+                    betweenGoalAndBallPositionA,
+                    betweenGoalAndBallPositionB,
+                    betweenGoalAndBallPositionC,
+                    inFrontOfDefenseAreaPositionB,
+                    inFrontOfDefenseAreaPositionC,
+                    inFrontOfDefenseAreaPositionA,
             }
     };
     return targetLocations;

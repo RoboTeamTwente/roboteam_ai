@@ -30,7 +30,11 @@ void AvoidBall::onInitialize() {
 }
 
 bt::Node::Status AvoidBall::onUpdate() {
-    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
+
+    //Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
+    Vector2 ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
+    std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+
     Vector2 diff = (ball->pos - ballPlacementMarker).rotate(M_PI_2);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos + diff.stretchToLength(0.5), ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos - diff.stretchToLength(0.5), ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);

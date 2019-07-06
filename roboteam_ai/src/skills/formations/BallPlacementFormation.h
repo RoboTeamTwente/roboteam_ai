@@ -1,19 +1,16 @@
 //
-// Created by roboteam on 4/07/19.
+// Created by thijs on 6-7-19.
 //
+#include <roboteam_ai/src/skills/formations/Formation.h>
 
-#ifndef ROBOTEAM_AI_STOPFORMATION_H
-#define ROBOTEAM_AI_STOPFORMATION_H
-
-
-#include "roboteam_ai/src/skills/formations/Formation.h"
+#ifndef ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
+#define ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
 
 namespace rtt {
 namespace ai {
-
-class StopFormation : public Formation {
+class BallPlacementFormation : public Formation {
     public:
-        explicit StopFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        explicit BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     private:
         Vector2 getFormationPosition() override;
         void updateFormation() override;
@@ -22,10 +19,7 @@ class StopFormation : public Formation {
         std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
 };
-
-
-
-
 }
 }
-#endif //ROBOTEAM_AI_STOPFORMATION_H
+
+#endif //ROBOTEAM_AI_BALLPLACEMENTFORMATION_H

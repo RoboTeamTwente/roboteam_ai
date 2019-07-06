@@ -48,6 +48,7 @@
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
 #include "roboteam_ai/src/skills/formations/DefendFreeKick.h"
+#include "roboteam_ai/src/skills/formations/BallPlacementFormation.h"
 #include "roboteam_ai/src/skills/ActiveStop.h"
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
@@ -230,6 +231,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
     map["KickOffThemFormation"] = std::make_shared<rtt::ai::KickOffThemFormation>(name, properties);
     map["StopFormation"] = std::make_shared<rtt::ai::StopFormation>(name, properties);
+    map["BallPlacementFormation"] = std::make_shared<rtt::ai::BallPlacementFormation>(name, properties);
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
