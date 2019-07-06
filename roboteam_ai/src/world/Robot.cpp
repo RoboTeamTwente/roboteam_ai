@@ -296,6 +296,11 @@ void Robot::UpdateFeedbackReceivedTime() {
     lastReceivedFeedbackMoment = world->getTime();
 }
 
+Vector2 Robot::getKicker() const {
+    Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
+    return this->pos + distanceToKicker.rotate(this->angle);
+}
+
 } //world
 } //ai
 } //rtt

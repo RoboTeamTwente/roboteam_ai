@@ -37,8 +37,8 @@ ReflectKick::Status ReflectKick::onUpdate() {
         }
 
         command.kicker = true;
-        command.kicker_forced = true;
-        command.kicker_vel = Constants::DEFAULT_KICK_POWER();
+        command.kicker_forced = robot->hasBall(Constants::MAX_KICK_RANGE() * 0.8);
+        command.kicker_vel = Constants::MAX_KICK_POWER();
         intercept();
     } else {
         command.w = robotAngle;
