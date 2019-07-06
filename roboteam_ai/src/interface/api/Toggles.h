@@ -23,7 +23,9 @@ enum Visual {
   INTERCEPT,
   DEFENSE,
   OFFENSE,
-  SHOTLINES
+  SHOTLINES,
+  BALLPLACEMENT,
+  AVOIDANCE
 };
 
 enum ShowType {

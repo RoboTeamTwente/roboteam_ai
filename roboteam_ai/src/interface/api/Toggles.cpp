@@ -15,6 +15,8 @@ std::vector<Toggle> Toggles::toggles = {
         Toggle(Visual::DEFENSE,           RobotShowType::ALL_ROBOTS,       "Show defensive location"),
         Toggle(Visual::SHOTLINES,         RobotShowType::ALL_ROBOTS,       "Show desired shotlines"),
         Toggle(Visual::OFFENSE,           RobotShowType::SELECTED_ROBOTS,  "Show offensive default locations"),
+        Toggle(Visual::BALLPLACEMENT,     RobotShowType::ALL_ROBOTS,       "Show ballplacement hints"),
+        Toggle(Visual::AVOIDANCE,         RobotShowType::ALL_ROBOTS,       "Show offensive default locations")
 
 };
 

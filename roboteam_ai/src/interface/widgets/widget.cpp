@@ -72,10 +72,23 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                         painter.setBrush(Qt::transparent);
                         drawPlusses(painter, drawing.points, drawing.width, drawing.height);
                     }
+                        break;
                     case Drawing::ARROWS: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawArrows(painter, drawing.points, drawing.width, drawing.height, drawing.strokeWidth==1);
+                    }
+                        break;
+                    case Drawing::REAL_LIFE_CIRCLES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
+                    }
+                        break;
+                    case Drawing::REAL_LIFE_DOTS: {
+                        painter.setPen(Qt::NoPen);
+                        painter.setBrush(drawing.color);
+                        drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
                     }
                 }
@@ -632,6 +645,15 @@ void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
             Vector2 prevPointOnScreen = toScreenPosition(points.at(i - 1));
             painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
         }
+    }
+}
+
+void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2> points, double width, double height) {
+    width = width * factor;
+    height = height * factor;
+    for (auto const &point : points) {
+        Vector2 pointOnScreen = toScreenPosition(point);
+        painter.drawEllipse(pointOnScreen.x - width/2, pointOnScreen.y - height/2, width, height);
     }
 }
 
