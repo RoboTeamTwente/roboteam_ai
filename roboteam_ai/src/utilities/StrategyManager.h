@@ -48,8 +48,8 @@ private:
 
          // prepare commands
          // These have a follow up command
-         RefGameState(RefCommand::PREPARE_KICKOFF_US,   "kickoff_us_formation_strategy",   "keeper_formation_tactic",         "default",  false, RefCommand::DO_KICKOFF),
-         RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", "keeper_default_tactic",           "default",  false, RefCommand::DEFEND_KICKOFF),
+         RefGameState(RefCommand::PREPARE_KICKOFF_US,   "kickoff_us_formation_strategy",   "keeper_formation_tactic",         "kickoff",  false, RefCommand::DO_KICKOFF),
+         RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", "keeper_default_tactic",           "kickoff",  false, RefCommand::DEFEND_KICKOFF),
          RefGameState(RefCommand::PREPARE_PENALTY_US,   "penalty_us_prepare_strategy",     "keeper_formation_tactic",         "default",  false, RefCommand::DO_PENALTY),
          RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_prepare_strategy",   "keeper_penalty_prepare_tactic",   "default",  false, RefCommand::DEFEND_PENALTY),
 
