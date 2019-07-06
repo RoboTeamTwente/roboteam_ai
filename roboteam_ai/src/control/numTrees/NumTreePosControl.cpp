@@ -305,6 +305,9 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto goalCollision = getGoalCollision(point);
     if (goalCollision.isCollision) return goalCollision;
 
+    auto ballPlacementCollision = getBallPlacementCollision(point);
+    if (ballPlacementCollision.isCollision) return ballPlacementCollision;
+
     return {};
 }
 
@@ -387,6 +390,33 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
         collision.setGoalCollision(point->pos, world::field->get_field().goal_width/2 - fabs(point->pos.y) * 1.1);
+    }
+
+    return collision;
+}
+
+Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::PathPointer &point) {
+    Collision collision = {};
+    if (currentCollisionWithRobot.getCollisionBallPlacement() != Vector2()) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionBallPlacement() != Vector2()) return collision;
+
+    //Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
+    Vector2 ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
+    std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+
+    auto ball = world::world->getBall();
+    Vector2 diff = (ball->pos - ballPlacementMarker).rotate(M_PI_2);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos + diff.stretchToLength(0.5), ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos - diff.stretchToLength(0.5), ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos, ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
+
+
+    bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->pos), ballPlacementMarker) < 0.5;
+
+    if (collidesWithBallPlacement) {
+        double newLocation = ball->pos.dist(ballPlacementMarker) * 0.6;
+
+        collision.setBallPlacementCollision(point->pos, newLocation);
     }
 
     return collision;
@@ -617,6 +647,7 @@ const Collision &NumTreePosControl::getCurrentCollisionWithRobot() const {
 const Collision &NumTreePosControl::getCurrentCollisionWithFinalTarget() const {
     return currentCollisionWithFinalTarget;
 }
+
 
 } // control
 } // ai
