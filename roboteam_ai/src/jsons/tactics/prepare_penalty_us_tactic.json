@@ -108,6 +108,7 @@
             "id": "g9zst33s7buwaqf4",
             "properties": {
               "ROLE": "shooter",
+              "penalty": "true",
               "seconds": "1000"
             },
             "title": "Wait"

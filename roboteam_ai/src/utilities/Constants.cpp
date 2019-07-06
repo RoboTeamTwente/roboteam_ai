@@ -86,6 +86,10 @@ double Constants::MAX_POWER_KICK_DISTANCE() { return 9.0; }
 
 double Constants::MAX_KICK_POWER() { return 8.0; }
 
+double Constants::MAX_PASS_DISTANCE() { return 6.0; }
+
+bool Constants::REFLECT_KICK() { return true; }
+
 double Constants::OUT_OF_FIELD_MARGIN() { return 0.03; }
 
 double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
@@ -97,6 +101,8 @@ double Constants::MAX_KICK_RANGE() { return 0.05; }
 double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
+
+double Constants::MAX_RECEIVE_TIME() { return 1.0; }
 
 double Constants::BALL_STILL_VEL() { return 0.1; }
 
