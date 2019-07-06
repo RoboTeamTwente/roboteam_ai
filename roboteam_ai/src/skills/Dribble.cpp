@@ -52,19 +52,7 @@ Dribble::Status Dribble::onUpdate() {
     auto c = robot->getBallHandlePosControl()->getRobotCommand(robot, targetPos, robot->angle, forwardDirection);
 
     if (robot->getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
-        Vector2 target = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
-
-        if ((targetPos - robot->pos).length() < 0.1) {
-            return Status::Success;
-        }
-
-        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).makeROSCommand();
-
-        // set robotcommands if they have not been set yet in gtpUpdate()
-
-
-        publishRobotCommand();
-        return Status::Running;
+        return Status::Success;
     }
 
     count ++;
