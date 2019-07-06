@@ -28,7 +28,6 @@ Vector2 StopFormation::getFormationPosition() {
         return {};
     }
 
-    int wrongPosCount = 0;
     auto formationPositions = getStopPositions().at(amountOfRobots-1);
     std::vector<Vector2> properPositions;
     for (auto pos : formationPositions) {
@@ -200,7 +199,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 }
 
 bool StopFormation::positionShouldBeAvoided(Vector2 pos) {
-    return (pos.dist(ball->pos) < 0.9);
+    return (pos.dist(ball->pos) < 0.9 || !world::field->pointIsInField(pos, 0.0));
 }
 
 std::vector<Vector2> StopFormation::getProperPositions(int amount) {

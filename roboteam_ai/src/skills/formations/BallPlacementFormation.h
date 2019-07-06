@@ -14,8 +14,10 @@ class BallPlacementFormation : public StopFormation {
     private:
         void updateFormation() override;
         Vector2 getFormationPosition() override;
-        std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
+
+            std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+        bool positionShouldBeAvoided(Vector2 pos) override;
 };
 }
 }

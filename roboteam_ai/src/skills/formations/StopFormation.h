@@ -19,11 +19,12 @@ class StopFormation : public Formation {
         void updateFormation() override;
         void setFinalAngle() override;
         std::vector<std::vector<Vector2>> getStopPositions();
+        virtual bool positionShouldBeAvoided(Vector2 pos);
+        std::vector<Vector2> getProperPositions(int amount);
     private:
         std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
-        bool positionShouldBeAvoided(Vector2 pos);
-        std::vector<Vector2> getProperPositions(int amount);
+
 };
 
 
