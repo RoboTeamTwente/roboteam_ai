@@ -414,7 +414,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
     bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->pos), ballPlacementMarker) < 0.5;
 
     if (collidesWithBallPlacement) {
-        double newLocation = ball->pos.dist(ballPlacementMarker) * 0.6;
+        double newLocation = (fmax(ball->pos.dist(point->pos), ballPlacementMarker.dist(point->pos)) + 0.5 ) * 1.1;
 
         collision.setBallPlacementCollision(point->pos, newLocation);
     }
