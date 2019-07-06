@@ -20,6 +20,7 @@ class StopFormation : public Formation {
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
         void updateFormation() override;
         void setFinalAngle() override;
+        virtual std::vector<std::vector<Vector2>> getStopPositions();
 };
 
 

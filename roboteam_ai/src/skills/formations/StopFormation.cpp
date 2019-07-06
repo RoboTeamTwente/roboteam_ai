@@ -21,6 +21,36 @@ void StopFormation::updateFormation() {
 }
 
 Vector2 StopFormation::getFormationPosition() {
+
+    //failsafe to prevent segfaults
+    int amountOfRobots = robotsInFormation->size();
+    if (amountOfRobots <= 0) {
+        return {};
+    }
+
+    std::vector<int> robotIds;
+    for (auto & i : *robotsInFormation) {
+        if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
+            robotIds.push_back(i->id);
+        }
+    }
+
+    rtt::HungarianAlgorithm hungarian;
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, getStopPositions().at(amountOfRobots-1));
+    return shortestDistances.at(robot->id);
+}
+
+std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() {
+    return robotsInFormation;
+}
+
+// determine the angle where the robot should point to (in position)
+void StopFormation::setFinalAngle() {
+    Vector2 targetToLookAtLocation = world::world->getBall()->pos;
+    command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
+}
+
+std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto field = world::field->get_field();
 
     auto pp = world::field->getPenaltyPoint(true); // penalty point
@@ -36,8 +66,8 @@ Vector2 StopFormation::getFormationPosition() {
 
     // the following statements specify useful stop positions between the ball and the goal
     auto ourGoalCenterToBall = ball->pos - world::field->get_our_goal_center();
-    double distanceFromGoal = ball->pos.x > 0.0 ? 4.5 : 2.8;
-   //  double distanceFromGoal = 3.0;
+    double distanceFromGoal = ball->pos.x > 0.0 ? 4.5 : 1.9;
+    //  double distanceFromGoal = 3.0;
 
     // for one robot between ball and our goal
     Vector2 betweenGoalAndBallPosition = world::field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
@@ -83,13 +113,7 @@ Vector2 StopFormation::getFormationPosition() {
     }
 
 
-    //failsafe to prevent segfaults
-    int amountOfRobots = robotsInFormation->size();
-    if (amountOfRobots <= 0) {
-        return {};
-    } else if (amountOfRobots == 1) {
-        return betweenGoalAndBallPosition;
-    }
+
 
     std::vector<std::vector<Vector2>> targetLocations = {
             {betweenGoalAndBallPosition
@@ -97,25 +121,25 @@ Vector2 StopFormation::getFormationPosition() {
 
             {betweenGoalAndBallPositionA,
              betweenGoalAndBallPositionB
-             },
+            },
 
             {betweenGoalAndBallPositionA,
              betweenGoalAndBallPositionB,
              inFrontOfDefenseAreaPositionA
-             },
+            },
 
             {betweenGoalAndBallPositionA,
              betweenGoalAndBallPositionB,
              inFrontOfDefenseAreaPositionB,
              inFrontOfDefenseAreaPositionC
-             },
+            },
 
             {betweenGoalAndBallPositionA,
              betweenGoalAndBallPositionB,
              inFrontOfDefenseAreaPositionB,
              inFrontOfDefenseAreaPositionC,
              inFrontOfDefenseAreaPositionA
-             },
+            },
 
             {betweenGoalAndBallPositionA,
              betweenGoalAndBallPositionB,
@@ -132,7 +156,7 @@ Vector2 StopFormation::getFormationPosition() {
              inFrontOfDefenseAreaPositionA,
              basicOffensivePositionB,
              basicOffensivePositionC
-             },
+            },
 
             {betweenGoalAndBallPositionA,
              betweenGoalAndBallPositionB,
@@ -142,29 +166,9 @@ Vector2 StopFormation::getFormationPosition() {
              inFrontOfDefenseAreaPositionA,
              basicOffensivePositionB,
              basicOffensivePositionC
-             }
+            }
     };
-
-    std::vector<int> robotIds;
-    for (auto & i : *robotsInFormation) {
-        if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
-            robotIds.push_back(i->id);
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations.at(amountOfRobots-1));
-    return shortestDistances.at(robot->id);
-}
-
-std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() {
-    return robotsInFormation;
-}
-
-// determine the angle where the robot should point to (in position)
-void StopFormation::setFinalAngle() {
-    Vector2 targetToLookAtLocation = world::world->getBall()->pos;
-    command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
+    return targetLocations;
 }
 
 }
