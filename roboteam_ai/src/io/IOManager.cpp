@@ -26,6 +26,7 @@ std::mutex IOManager::refereeMutex;
 std::mutex IOManager::demoMutex;
 
 IOManager::IOManager(bool subscribe, bool advertise) {
+    while (!nodeHandle.ok()) {}
     if (subscribe) {
         // subscribe to all topics
         this->subscribeToWorldState();
@@ -46,8 +47,7 @@ void IOManager::subscribeToWorldState() {
             rtt::TOPIC_WORLD_STATE,
             1,
             &IOManager::handleWorldState,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
+            this
     );
 }
 
@@ -57,8 +57,7 @@ void IOManager::subscribeToGeometryData() {
             rtt::TOPIC_GEOMETRY,
             100,
             &IOManager::handleGeometryData,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
+            this
     );
 }
 
@@ -67,8 +66,7 @@ void IOManager::subscribeToRobotFeedback() {
             "robot_feedback",
             100,
             &IOManager::handleRobotFeedback,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
+            this
     );
 }
 
@@ -78,8 +76,7 @@ void IOManager::subscribeToRefereeData() {
             "vision_refbox", //vision_referee or vision_refbox
             100,
             &IOManager::handleRefereeData,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
+            this
     );
 }
 
@@ -88,8 +85,7 @@ void IOManager::subscribeToDemoInfo() {
             "demo_info",
             100,
             &IOManager::handleDemoInfo,
-            this,
-            ros::TransportHints().reliable().tcpNoDelay()
+            this
     );
 }
 
