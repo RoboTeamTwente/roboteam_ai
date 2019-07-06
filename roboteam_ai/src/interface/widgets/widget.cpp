@@ -649,8 +649,8 @@ void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
 }
 
 void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2> points, double width, double height) {
-    width = width * factor;
-    height = height * factor;
+    width = width * 2.0 *factor;
+    height = height * 2.0 *factor;
     for (auto const &point : points) {
         Vector2 pointOnScreen = toScreenPosition(point);
         painter.drawEllipse(pointOnScreen.x - width/2, pointOnScreen.y - height/2, width, height);

@@ -6,6 +6,7 @@
 #include "../control/ControlUtils.h"
 #include <cmath>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../world/Field.h"
 #include "../control/numTrees/NumTreePosControl.h"
 
@@ -29,6 +30,12 @@ void AvoidBall::onInitialize() {
 }
 
 bt::Node::Status AvoidBall::onUpdate() {
+    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
+    Vector2 diff = (ball->pos - ballPlacementMarker).rotate(M_PI_2);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos + diff.stretchToLength(0.5), ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos - diff.stretchToLength(0.5), ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos, ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
+
     auto robotPos = rtt::Vector2(robot->pos);
 
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
