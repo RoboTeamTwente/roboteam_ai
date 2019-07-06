@@ -6,6 +6,7 @@
 #include "../control/ControlUtils.h"
 #include <cmath>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../world/Field.h"
 #include "../control/numTrees/NumTreePosControl.h"
 
@@ -29,6 +30,8 @@ void AvoidBall::onInitialize() {
 }
 
 bt::Node::Status AvoidBall::onUpdate() {
+
+
     auto robotPos = rtt::Vector2(robot->pos);
 
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());

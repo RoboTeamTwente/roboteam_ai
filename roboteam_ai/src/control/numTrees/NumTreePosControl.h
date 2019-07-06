@@ -47,6 +47,7 @@ class NumTreePosControl : public BasicPosControl {
         Collision getFieldCollision(const PathPointer &point);
         Collision getDefenseAreaCollision(const PathPointer &point);
         Collision getGoalCollision(const PathPointer &point);
+        Collision getBallPlacementCollision(const PathPointer &point);
 
         Collision currentCollisionWithRobot;
         Collision currentCollisionWithFinalTarget;
