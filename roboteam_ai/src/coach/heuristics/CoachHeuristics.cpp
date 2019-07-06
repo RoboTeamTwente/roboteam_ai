@@ -130,6 +130,41 @@ double CoachHeuristics::calculateAngleToGoalScore(const Vector2 &position) {
 
 }
 
+double CoachHeuristics::calculateReflectKickPassScore(const Vector2 &position, const WorldData &world) {
+    if (position.x < 3.0) {
+        return 0.0;
+    }
+
+
+    auto ball = world.ball;
+
+    Angle ballToRobotAngle = (position - ball->pos).toAngle();
+    Angle robotToGoalAngle = (world::field->get_their_goal_center() - position).toAngle();
+
+    // If both angles are either positive or negative, reflectKick will not work (robot cannot get behind the ball properly)
+    if (ballToRobotAngle * robotToGoalAngle > 0) {
+        return 0.0;
+    }
+
+    Angle receiveAngle = getApproximateReflectAngle(ball->pos);
+
+    Angle angleDifference = abs(robotToGoalAngle.angleDiff(receiveAngle));
+    if(angleDifference.getAngle() < 70.0 / 180.0 * M_PI) {
+        return 1.0;
+    } else {
+        return 0.0;
+    }
+}
+
+double CoachHeuristics::getApproximateReflectAngle(const Vector2 &position, const Vector2 &ballPos) {
+    Vector2 goalTarget = world::field->get_their_goal_center();
+
+    Vector2 robotToGoalVector = (goalTarget - position).stretchToLength(1.0);
+    Vector2 robotToBallVector = (ballPos - position).stretchToLength(1.0);
+    Angle angle = ((robotToGoalVector + robotToBallVector) * 0.5).toAngle();
+    return angle;
+}
+
 }
 }
 }

@@ -22,13 +22,17 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
     double distanceToOpponentScore = CoachHeuristics::calculateDistanceToOpponentsScore(position);
     double distanceToBallScore = CoachHeuristics::calculatePositionDistanceToBallScore(position, world);
     double angleToGoalScore = CoachHeuristics::calculateAngleToGoalScore(position);
+    double canReflectKickScore = CoachHeuristics::calculateReflectKickPassScore(position, world);
 
     double score = SHOT_AT_GOAL_WEIGHT*shotAtGoalScore +
             PASS_LINE_WEIGHT*passLineScore +
             CLOSE_TO_GOAL_WEIGHT*closeToGoalScore +
             DISTANCE_TO_OPPONENT_WEIGHT*distanceToOpponentScore +
             DISTANCE_TO_BALL_WEIGHT*distanceToBallScore +
-            ANGLE_TO_GOAL_WEIGHT*angleToGoalScore;
+            ANGLE_TO_GOAL_WEIGHT*angleToGoalScore +
+            canReflectKickScore;
+
+
     return score;
 }
 

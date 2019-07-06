@@ -58,7 +58,7 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations() {
     zoneLocations.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE,
             penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
     zoneLocations.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE,
-            - penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
+            - penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE * 1.5);
 
     // Calculate two positions further from goal
     zoneLocations.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);

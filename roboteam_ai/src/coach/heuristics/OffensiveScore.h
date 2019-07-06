@@ -18,7 +18,7 @@ private:
     const double PASS_LINE_WEIGHT = 2.0;
     const double DISTANCE_TO_OPPONENT_WEIGHT = 1.0;
     const double DISTANCE_TO_BALL_WEIGHT = 1.0;
-    const double ANGLE_TO_GOAL_WEIGHT = 3.0;
+    const double ANGLE_TO_GOAL_WEIGHT = 2.0;
 
     const double ZONE_RADIUS = 1.06;
 
