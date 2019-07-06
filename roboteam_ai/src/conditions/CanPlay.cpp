@@ -18,7 +18,12 @@ CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
 };
 
 bt::Node::Status CanPlay::onUpdate() {
-    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < 0.05;
+    double margin = 0.05;
+    if (rtt::ai::GameStateManager::getCurrentGameState().strategyName == "penalty_us_shoot_strategy") {
+        margin = 0.15;
+    }
+
+    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < margin;
     auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command.command);
     if (ballIsLayingStill || (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START)) {
         // this should keep running, because otherwise the condition would re initialize
