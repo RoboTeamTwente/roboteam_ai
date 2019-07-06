@@ -5,7 +5,7 @@
         "nodes": {
           "3xvr3wl2dunvxnz1": {
             "children": [
-              "jae4fyqy5duvndsh",
+              "iet6u0x2r01qsgbx",
               "bpd94sfm797wv4ab"
             ],
             "id": "3xvr3wl2dunvxnz1",
@@ -29,12 +29,28 @@
             "properties": {},
             "title": "Selector"
           },
+          "iet6u0x2r01qsgbx": {
+            "children": [
+              "jae4fyqy5duvndsh",
+              "nzcpr59dp8a9xhoq"
+            ],
+            "id": "iet6u0x2r01qsgbx",
+            "properties": {},
+            "title": "Sequence"
+          },
           "jae4fyqy5duvndsh": {
             "id": "jae4fyqy5duvndsh",
             "properties": {
-              "distance": "1.0"
+              "distance": "1.5"
             },
             "title": "BallIsClose"
+          },
+          "nzcpr59dp8a9xhoq": {
+            "id": "nzcpr59dp8a9xhoq",
+            "properties": {
+              "distance": "1.5"
+            },
+            "title": "BallPlacementLineIsClose"
           },
           "o6kp6jon9p6nox8d": {
             "id": "o6kp6jon9p6nox8d",

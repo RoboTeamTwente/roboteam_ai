@@ -170,7 +170,7 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     // limit velocity close to the target
     double distanceToTarget = (finalTargetPos - robot->pos).length();
     if (distanceToTarget < 1.0) {
-        command.vel = command.vel.stretchToLength(std::max(0.2, distanceToTarget*1.2));
+        command.vel = command.vel.stretchToLength(std::max(0.2, distanceToTarget*maxVel));
     }
     return command;
 }

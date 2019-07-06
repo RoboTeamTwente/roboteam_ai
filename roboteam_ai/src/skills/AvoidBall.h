@@ -14,9 +14,9 @@ class AvoidBall : public Skill {
         const double robotWeight = 0.09;
         double minRobotDistanceForForce;
         const double ballWeight = 0.24;
-        const double minBallDistanceForForce = 1.1;
+        const double minBallDistanceForForce = 1.2;
         const double wallWeight = 0.05;
-        const double minWallDistanceForForce = 0.4;
+        const double minWallDistanceForForce = 0.5;
         bool stop = false; // might be useful in the future
 
     public:

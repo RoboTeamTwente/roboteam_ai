@@ -20,6 +20,10 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
 
+void Attack::onInitialize() {
+    hasShot = false;
+}
+
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
@@ -32,10 +36,20 @@ bt::Node::Status Attack::onUpdate() {
 
     Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
     auto shotData = robot->getShotController()->getRobotCommand(
-            *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, true, control::ShotPrecision::MEDIUM);
+            *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM, 3);
     command = shotData.makeROSCommand();
+
+    if(!hasShot && command.kicker == 1) {
+        hasShot = true;
+    }
+
     publishRobotCommand();
-    return Status::Running;
+
+    if (hasShot && (robot->pos - ball->pos).length() > 1.0) {
+        return Status::Success;
+    } else {
+        return Status::Running;
+    }
 }
 
 } // ai
