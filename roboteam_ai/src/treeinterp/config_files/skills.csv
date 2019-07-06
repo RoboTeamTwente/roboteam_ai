@@ -39,5 +39,5 @@ PenaltyKeeper,prepare
 FreeKickFormation
 DefendFreeKick
 DriveWithInterface
-Wait,seconds
+Wait,seconds,penalty
 KickTo,type
