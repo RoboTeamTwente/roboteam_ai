@@ -146,7 +146,7 @@ double CoachHeuristics::calculateReflectKickPassScore(const Vector2 &position, c
         return 0.0;
     }
 
-    Angle receiveAngle = getApproximateReflectAngle(ball->pos);
+    Angle receiveAngle = getApproximateReflectAngle(position, ball->pos);
 
     Angle angleDifference = abs(robotToGoalAngle.angleDiff(receiveAngle));
     if(angleDifference.getAngle() < 70.0 / 180.0 * M_PI) {
