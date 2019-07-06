@@ -90,11 +90,13 @@ void ApplicationManager::runOneLoopCycle() {
         if (strategyChanged) {
             BTFactory::setCurrentTree(strategyName);
             oldStrategyName = strategyName;
+            std::cout << "strategy changed to: " << strategyName << std::endl;
         }
 
         if (keeperStrategyChanged) {
             BTFactory::setKeeperTree(keeperTreeName);
             oldKeeperTreeName = keeperTreeName;
+            std::cout << "keeper strategy changed to: " << keeperTreeName << std::endl;
         }
 
         if (keeperStrategyChanged || strategyChanged) {

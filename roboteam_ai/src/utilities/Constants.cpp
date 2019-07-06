@@ -269,7 +269,7 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"default",             8.0, 6.5, 0.0, ROBOT_RADIUS(),  true },
             {"halt",                0.0, 0.0, 0.0, -1,              true },
             {"stop",                1.5, 0.0, 0.8, -1,              false},
-            {"ballplacement_them",  1.5, 6.5, 0.8, -1,              true },
+            {"ballplacement_them",  1.5, 6.5, 1.0, -1,              true },
             {"ballplacement_us",    1.5, 6.5, 0.0, -1,              true },
             {"kickoff",             3.5, 6.5, 0.5, 0.0,             true }
 

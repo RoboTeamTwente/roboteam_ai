@@ -32,7 +32,7 @@
           "jae4fyqy5duvndsh": {
             "id": "jae4fyqy5duvndsh",
             "properties": {
-              "distance": "1.0"
+              "distance": "1.5"
             },
             "title": "BallIsClose"
           },
