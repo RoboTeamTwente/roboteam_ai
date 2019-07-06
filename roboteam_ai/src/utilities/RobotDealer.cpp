@@ -287,7 +287,7 @@ void RobotDealer::releaseRobotForRole(const std::string &roleName) {
             }
         }
     }
-    std::cerr << "Cannot release the robot it does not exist in the robotOwners" << std::endl;
+    std::cerr << "Cannot release the robot it does not exist in the robotOwners. rolename: " << roleName << std::endl;
 
 }
 void RobotDealer::removeTactic(const std::string &tacticName) {
