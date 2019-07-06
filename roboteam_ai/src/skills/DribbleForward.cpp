@@ -25,6 +25,13 @@ void DribbleForward::onInitialize() {
 
 
 bt::Node::Status DribbleForward::onUpdate() {
+    if ((ball->pos - initialBallPos).length() > dribbleDistance) {
+        return Status::Success;
+    }
+
+    if (targetPos.x - ball->pos.x < 0.2) {
+        return Status::Failure;
+    }
 
     auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
 
