@@ -22,6 +22,8 @@ class StopFormation : public Formation {
     private:
         std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+        bool positionShouldBeAvoided(Vector2 pos);
+        std::vector<Vector2> getProperPositions(int amount);
 };
 
 

@@ -28,6 +28,22 @@ Vector2 StopFormation::getFormationPosition() {
         return {};
     }
 
+    int wrongPosCount = 0;
+    auto formationPositions = getStopPositions().at(amountOfRobots-1);
+    std::vector<Vector2> properPositions;
+    for (auto pos : formationPositions) {
+        if (!positionShouldBeAvoided(pos)) {
+            properPositions.push_back(pos);
+        }
+    }
+
+    int amountToTake = amountOfRobots - properPositions.size();
+    std::vector<Vector2> newProposals = getProperPositions(amountToTake);
+
+    for (Vector2 proposal : newProposals) {
+        properPositions.push_back(proposal);
+    }
+
     std::vector<int> robotIds;
     for (auto & i : *robotsInFormation) {
         if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
@@ -36,7 +52,7 @@ Vector2 StopFormation::getFormationPosition() {
     }
 
     rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, getStopPositions().at(amountOfRobots-1));
+    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, properPositions);
     return shortestDistances.at(robot->id);
 }
 
@@ -93,8 +109,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
 
     Vector2 basicOffensivePositionA = {-1, 0.0};
-    Vector2 basicOffensivePositionB = {-1, -(field.field_width*0.5-1.5)};
-    Vector2 basicOffensivePositionC = {-1, (field.field_width*0.5-1.5)};
+
 
     double offset = 0.3;
     Vector2 inFrontOfDefenseAreaPositionA;
@@ -182,6 +197,43 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             }
     };
     return targetLocations;
+}
+
+bool StopFormation::positionShouldBeAvoided(Vector2 pos) {
+    return (pos.dist(ball->pos) < 0.9);
+}
+
+std::vector<Vector2> StopFormation::getProperPositions(int amount) {
+    std::vector<Vector2> properPositions;
+    auto field = world::field->get_field();
+
+    std::vector<Vector2> proposals;
+    // near the corners
+    proposals.push_back({-field.field_length*0.5 + 1.0, -(field.field_width*0.5-1.5)});
+    proposals.push_back({-field.field_length*0.5 + 1.0, (field.field_width*0.5-1.5)});
+
+    // somewhere in the middle of our half
+    proposals.push_back({-field.field_length*0.3, -(field.field_width*0.5-1.5)});
+    proposals.push_back({-field.field_length*0.3, (field.field_width*0.5-1.5)});
+
+    // offensive
+    proposals.push_back({-1, -(field.field_width*0.5-1.5)});
+    proposals.push_back({-1, (field.field_width*0.5-1.5)});
+    proposals.push_back({-1, 0});
+
+    for (auto proposal : proposals) {
+        if (!positionShouldBeAvoided(proposal) && amount > 0) {
+            properPositions.push_back(proposal);
+            amount--;
+        }
+    }
+
+    while (amount > 0) {
+        properPositions.push_back(world::field->get_our_goal_center());
+        amount --;
+    }
+
+    return properPositions;
 }
 
 }
