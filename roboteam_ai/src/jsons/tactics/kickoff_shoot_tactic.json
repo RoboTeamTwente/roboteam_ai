@@ -19,7 +19,9 @@
               "flbr84cja0n2k3xw"
             ],
             "id": "1xofx167zslx4e70",
-            "properties": {},
+            "properties": {
+              "ROLE": "kicker"
+            },
             "title": "MemSelector"
           },
           "214j25soihq9o6pu": {
@@ -254,7 +256,9 @@
           },
           "flbr84cja0n2k3xw": {
             "id": "flbr84cja0n2k3xw",
-            "properties": {},
+            "properties": {
+              "ROLE": "kicker"
+            },
             "title": "ChipForward"
           },
           "fqu3mtwil8ke1qrk": {
@@ -618,6 +622,7 @@
             "id": "uo9r037djn8m366z",
             "properties": {
               "BallPlacement": "",
+              "ROLE": "kicker",
               "failsUntilChip": "",
               "passType": ""
             },
