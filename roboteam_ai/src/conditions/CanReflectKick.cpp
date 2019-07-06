@@ -50,7 +50,7 @@ double CanReflectKick::getApproximateReflectAngle() {
 
     Vector2 robotToGoalVector = (goalTarget - robot->getKicker()).stretchToLength(1.0);
     Vector2 robotToBallVector = (ball->pos - robot->getKicker()).stretchToLength(1.0);
-    Angle angle = ((robotToGoalVector + robotToBallVector) * 0.5).toAngle();
+    Angle angle = ((robotToGoalVector + robotToBallVector) * 0.7).toAngle();
     return angle;
 }
 

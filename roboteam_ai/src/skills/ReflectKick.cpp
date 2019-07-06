@@ -15,7 +15,7 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
 void ReflectKick::onInitialize() {
     kicked = false;
     auto field = world::field->get_field();
-    goalTarget = getFarSideOfGoal();
+    goalTarget = world::field->get_their_goal_center();
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
