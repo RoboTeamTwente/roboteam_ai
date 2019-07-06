@@ -12,7 +12,6 @@ namespace ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
 
-
 BallPlacementFormation::BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard)
         : StopFormation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();

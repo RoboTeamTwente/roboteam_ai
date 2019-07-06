@@ -67,7 +67,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto ourGoalCenterToBall = ball->pos - world::field->get_our_goal_center();
     auto ballToOurGoalCenter = world::field->get_our_goal_center() - ball->pos;
 
-    double distanceFromGoal = ball->pos.x > 0.0 ? 4.5 : 2.0;
+    double distanceFromGoal;
     double distanceToBall = 1.0;
 
     if (ball->pos.x > 0.0) { // if the ball is on their side
@@ -141,8 +141,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             closeToBallA,
             closeToBallB,
             betweenGoalAndBallPositionA,
-            betweenGoalAndBallPositionB,
-
+            betweenGoalAndBallPositionB
             },
 
             {
@@ -168,7 +167,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
              betweenGoalAndBallPositionB,
              inFrontOfDefenseAreaPositionB,
              inFrontOfDefenseAreaPositionC,
-             basicOffensivePositionA,
+             basicOffensivePositionA
             },
 
             {
@@ -179,7 +178,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
              betweenGoalAndBallPositionC,
              inFrontOfDefenseAreaPositionB,
              inFrontOfDefenseAreaPositionC,
-             inFrontOfDefenseAreaPositionA,
+             inFrontOfDefenseAreaPositionA
             }
     };
     return targetLocations;

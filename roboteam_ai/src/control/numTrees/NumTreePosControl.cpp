@@ -305,8 +305,8 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto goalCollision = getGoalCollision(point);
     if (goalCollision.isCollision) return goalCollision;
 
-    auto ballPlacementCollision = getBallPlacementCollision(point);
-    if (ballPlacementCollision.isCollision) return ballPlacementCollision;
+//    auto ballPlacementCollision = getBallPlacementCollision(point);
+//    if (ballPlacementCollision.isCollision) return ballPlacementCollision;
 
     return {};
 }
