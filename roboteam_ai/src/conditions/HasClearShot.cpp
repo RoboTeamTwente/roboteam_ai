@@ -22,7 +22,6 @@ HasClearShot::Status HasClearShot::onUpdate() {
     }
 
     auto minViewAtGoal = MIN_VIEW_AT_GOAL;
-    minViewAtGoal = 0.1;
 
 	// return failure if the robot is too far away for a shot at goal
     if ((Vector2(ball->pos) - world::field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
@@ -35,8 +34,10 @@ HasClearShot::Status HasClearShot::onUpdate() {
 
     // return success if there is a clear line to their goal 
     auto world = world::world->getWorld();
-    bool hasClearShot = world::field->getPercentageOfGoalVisibleFromPoint(false, ball->pos, world, robot->id, true) >
-            minViewAtGoal * 100;
+    auto currentViewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, ball->pos, world, robot->id, true);
+    std::cout << "Robot " << robot->id << " current view at goal: " << currentViewAtGoal << std::endl;
+
+    bool hasClearShot = currentViewAtGoal > minViewAtGoal * 100;
 
     return hasClearShot ? Status::Success : Status::Failure;
 }
