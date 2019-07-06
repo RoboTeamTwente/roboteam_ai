@@ -12,6 +12,7 @@ namespace ai {
 
 class Wait : public Skill {
 private:
+    Angle lockedAngle;
     int tick = 0;
     int ticks = 0;
 public:
