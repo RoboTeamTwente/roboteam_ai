@@ -1,1 +1,367 @@
-{"data": {"trees": [{"nodes": {"61s69sc3xk4rt5e06": {"properties": {"ROLE": "avoid5"}, "id": "61s69sc3xk4rt5e06", "title": "BallPlacementFormation"}, "z3a4p2nmz0f58i": {"title": "GetBall", "id": "z3a4p2nmz0f58i", "properties": {"ROLE": "ball_placement_passer"}}, "47kpeitq9t6gcizki": {"title": "GoAroundPos", "id": "47kpeitq9t6gcizki", "properties": {"ball": "true", "ROLE": "ball_placement_passer"}}, "1jum7dacsywro": {"properties": {"ROLE": "avoid2"}, "id": "1jum7dacsywro", "title": "BallPlacementFormation"}, "z9s0013ryhus6": {"properties": {"ROLE": "avoid6"}, "id": "z9s0013ryhus6", "title": "BallPlacementFormation"}, "ckz6fkigq2zdc3frw": {"properties": {"ROLE": "ball_placement_receiver"}, "name": "ball_placement_receiver", "title": "Role", "id": "ckz6fkigq2zdc3frw", "role": "ball_placement_receiver", "children": ["okxt1ir2i3urf"]}, "lukfmtq3jm0segr": {"properties": {"ROLE": "ball_placement_receiver", "limit": ""}, "title": "Repeater", "children": ["wfrap057qsfmv2w4"], "id": "lukfmtq3jm0segr"}, "f8ojw0bes1c6i": {"properties": {"ROLE": "avoid5"}, "name": "avoid5", "title": "Role", "id": "f8ojw0bes1c6i", "role": "ballPlacementFormationRole", "children": ["61s69sc3xk4rt5e06"]}, "bq38o81k1ff62qex": {"title": "GTPSpecial", "id": "bq38o81k1ff62qex", "properties": {"fixedTarget": "", "maxVel": "", "ROLE": "ball_placement_receiver", "canGoOutsideField": "", "type": "ballPlacementAfter", "avoidBall": "true", "canMoveInDefenseArea": ""}}, "s0o57bk94os8s3m": {"title": "Dribble", "id": "s0o57bk94os8s3m", "properties": {"ROLE": "ball_placement_receiver", "ballPlacement": "true"}}, "4v3o73yoqcbndu2t7": {"properties": {"ROLE": "avoid1"}, "id": "4v3o73yoqcbndu2t7", "title": "BallPlacementFormation"}, "2i7ijiniscxd8g": {"properties": {"ROLE": "ball_placement_passer"}, "name": "ball_placement_passer", "title": "Role", "id": "2i7ijiniscxd8g", "role": "ball_placement_passer", "children": ["8v2d2ug7codyq"]}, "23g8gxf8gtwf6iulu": {"title": "GTPSpecial", "id": "23g8gxf8gtwf6iulu", "properties": {"ROLE": "ball_placement_passer", "canGoOutsideField": "true", "type": "ballPlacementBefore", "avoidBall": "false"}}, "yjjx81v090kwo": {"properties": {"ROLE": "avoid4"}, "id": "yjjx81v090kwo", "title": "BallPlacementFormation"}, "0jzvy3e5dcdg49": {"properties": {"ROLE": "avoid3"}, "id": "0jzvy3e5dcdg49", "title": "BallPlacementFormation"}, "z3qoz7pwjlqn7lwo": {"properties": {"ROLE": "avoid2"}, "name": "avoid2", "title": "Role", "id": "z3qoz7pwjlqn7lwo", "role": "ballPlacementFormationRole", "children": ["1jum7dacsywro"]}, "5o6643v8h1q56": {"properties": {"ROLE": "ball_placement_receiver"}, "title": "Sequence", "children": ["s0o57bk94os8s3m", "bq38o81k1ff62qex"], "id": "5o6643v8h1q56"}, "okxt1ir2i3urf": {"properties": {"ROLE": "ball_placement_receiver"}, "title": "MemSequence", "children": ["ex07bywls12j5i", "fc95d8fr06uh8", "5o6643v8h1q56", "lukfmtq3jm0segr"], "id": "okxt1ir2i3urf"}, "z7gb23riaa8y2": {"properties": {"TacticType": "General"}, "children": ["2i7ijiniscxd8g", "ckz6fkigq2zdc3frw", "nlpxo5t10j098rg", "z3qoz7pwjlqn7lwo", "iayk06yke7wko9h1", "b7pa05tnzg7lmpu", "f8ojw0bes1c6i", "luvk2vcy64cvq6"], "id": "z7gb23riaa8y2", "title": "RoleDivider"}, "x9s0nvwsfpi62": {"title": "Halt", "id": "x9s0nvwsfpi62", "properties": {"ROLE": "ball_placement_passer"}}, "luvk2vcy64cvq6": {"properties": {"ROLE": "avoid6"}, "name": "avoid6", "title": "Role", "id": "luvk2vcy64cvq6", "role": "ballPlacementFormationRole", "children": ["z9s0013ryhus6"]}, "cv9zaoe9m2qiqkbir": {"properties": {"ROLE": "ball_placement_passer"}, "title": "Sequence", "children": ["3uya0ddcqbgwy", "47kpeitq9t6gcizki"], "id": "cv9zaoe9m2qiqkbir"}, "ds5aksdv3hgem5jce": {"title": "Pass", "id": "ds5aksdv3hgem5jce", "properties": {"ROLE": "ball_placement_passer", "BallPlacement": "true"}}, "3uya0ddcqbgwy": {"properties": {"ROLE": "ball_placement_passer"}, "title": "Sequence", "children": ["uksytvriwkm2hnq", "6w86jjvuiji5dgm3"], "id": "3uya0ddcqbgwy"}, "bcoi45ur7r4nwf0rq": {"properties": {"ROLE": "ball_placement_passer"}, "title": "Repeater", "children": ["x9s0nvwsfpi62"], "id": "bcoi45ur7r4nwf0rq"}, "b7pa05tnzg7lmpu": {"properties": {"ROLE": "avoid4"}, "name": "avoid4", "title": "Role", "id": "b7pa05tnzg7lmpu", "role": "ballPlacementFormationRole", "children": ["yjjx81v090kwo"]}, "6w86jjvuiji5dgm3": {"properties": {"ROLE": "ball_placement_passer"}, "title": "MemSequence", "children": ["23g8gxf8gtwf6iulu", "z3a4p2nmz0f58i", "0b8a1fnvwl0iepv32"], "id": "6w86jjvuiji5dgm3"}, "fc95d8fr06uh8": {"title": "Wait", "id": "fc95d8fr06uh8", "properties": {"seconds": "1.3", "ROLE": "ball_placement_receiver"}}, "uksytvriwkm2hnq": {"title": "IsBallCloseToBorder", "id": "uksytvriwkm2hnq", "properties": {"ROLE": "ball_placement_passer"}}, "nlpxo5t10j098rg": {"properties": {"ROLE": "avoid1"}, "name": "avoid1", "title": "Role", "id": "nlpxo5t10j098rg", "role": "ballPlacementFormationRole", "children": ["4v3o73yoqcbndu2t7"]}, "eusgna4a5uyca4tmu": {"properties": {"ROLE": "ball_placement_passer"}, "title": "MemSequence", "children": ["ds5aksdv3hgem5jce", "bcoi45ur7r4nwf0rq"], "id": "eusgna4a5uyca4tmu"}, "0b8a1fnvwl0iepv32": {"properties": {"ROLE": "ball_placement_passer"}, "id": "0b8a1fnvwl0iepv32", "title": "Dribble"}, "ex07bywls12j5i": {"title": "BallPlacementReceive", "id": "ex07bywls12j5i", "properties": {"ROLE": "ball_placement_receiver"}}, "iayk06yke7wko9h1": {"properties": {"ROLE": "avoid3"}, "name": "avoid3", "title": "Role", "id": "iayk06yke7wko9h1", "role": "ballPlacementFormationRole", "children": ["0jzvy3e5dcdg49"]}, "wfrap057qsfmv2w4": {"title": "Halt", "id": "wfrap057qsfmv2w4", "properties": {"ticks": "", "ROLE": "ball_placement_receiver"}}, "8v2d2ug7codyq": {"properties": {"ROLE": "ball_placement_passer"}, "title": "Selector", "children": ["cv9zaoe9m2qiqkbir", "eusgna4a5uyca4tmu"], "id": "8v2d2ug7codyq"}}, "root": "z7gb23riaa8y2", "title": "two_robot_ballplacement_tactic"}]}, "name": "two_robot_ballplacement_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "0b8a1fnvwl0iepv32": {
+            "id": "0b8a1fnvwl0iepv32",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Dribble"
+          },
+          "0jzvy3e5dcdg49": {
+            "id": "0jzvy3e5dcdg49",
+            "properties": {
+              "ROLE": "avoid3"
+            },
+            "title": "BallPlacementFormation"
+          },
+          "1jum7dacsywro": {
+            "id": "1jum7dacsywro",
+            "properties": {
+              "ROLE": "avoid2"
+            },
+            "title": "BallPlacementFormation"
+          },
+          "23g8gxf8gtwf6iulu": {
+            "id": "23g8gxf8gtwf6iulu",
+            "properties": {
+              "ROLE": "ball_placement_passer",
+              "avoidBall": "false",
+              "canGoOutsideField": "true",
+              "type": "ballPlacementBefore"
+            },
+            "title": "GTPSpecial"
+          },
+          "2i7ijiniscxd8g": {
+            "children": [
+              "8v2d2ug7codyq"
+            ],
+            "id": "2i7ijiniscxd8g",
+            "name": "ball_placement_passer",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "role": "ball_placement_passer",
+            "title": "Role"
+          },
+          "3uya0ddcqbgwy": {
+            "children": [
+              "uksytvriwkm2hnq",
+              "6w86jjvuiji5dgm3"
+            ],
+            "id": "3uya0ddcqbgwy",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Sequence"
+          },
+          "47kpeitq9t6gcizki": {
+            "id": "47kpeitq9t6gcizki",
+            "properties": {
+              "ROLE": "ball_placement_passer",
+              "ball": "true"
+            },
+            "title": "GoAroundPos"
+          },
+          "4v3o73yoqcbndu2t7": {
+            "id": "4v3o73yoqcbndu2t7",
+            "properties": {
+              "ROLE": "avoid1"
+            },
+            "title": "BallPlacementFormation"
+          },
+          "5o6643v8h1q56": {
+            "children": [
+              "s0o57bk94os8s3m",
+              "bq38o81k1ff62qex"
+            ],
+            "id": "5o6643v8h1q56",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "Sequence"
+          },
+          "61s69sc3xk4rt5e06": {
+            "id": "61s69sc3xk4rt5e06",
+            "properties": {
+              "ROLE": "avoid5"
+            },
+            "title": "BallPlacementFormation"
+          },
+          "6w86jjvuiji5dgm3": {
+            "children": [
+              "23g8gxf8gtwf6iulu",
+              "z3a4p2nmz0f58i",
+              "0b8a1fnvwl0iepv32"
+            ],
+            "id": "6w86jjvuiji5dgm3",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "MemSequence"
+          },
+          "8v2d2ug7codyq": {
+            "children": [
+              "cv9zaoe9m2qiqkbir",
+              "eusgna4a5uyca4tmu"
+            ],
+            "id": "8v2d2ug7codyq",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Selector"
+          },
+          "b7pa05tnzg7lmpu": {
+            "children": [
+              "yjjx81v090kwo"
+            ],
+            "id": "b7pa05tnzg7lmpu",
+            "name": "avoid4",
+            "properties": {
+              "ROLE": "avoid4"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "bcoi45ur7r4nwf0rq": {
+            "children": [
+              "x9s0nvwsfpi62"
+            ],
+            "id": "bcoi45ur7r4nwf0rq",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Repeater"
+          },
+          "bq38o81k1ff62qex": {
+            "id": "bq38o81k1ff62qex",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "avoidBall": "true",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "fixedTarget": "",
+              "maxVel": "",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
+          },
+          "ckz6fkigq2zdc3frw": {
+            "children": [
+              "okxt1ir2i3urf"
+            ],
+            "id": "ckz6fkigq2zdc3frw",
+            "name": "ball_placement_receiver",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "role": "ball_placement_receiver",
+            "title": "Role"
+          },
+          "cv9zaoe9m2qiqkbir": {
+            "children": [
+              "3uya0ddcqbgwy",
+              "47kpeitq9t6gcizki"
+            ],
+            "id": "cv9zaoe9m2qiqkbir",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Sequence"
+          },
+          "ds5aksdv3hgem5jce": {
+            "id": "ds5aksdv3hgem5jce",
+            "properties": {
+              "BallPlacement": "true",
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Pass"
+          },
+          "eusgna4a5uyca4tmu": {
+            "children": [
+              "ds5aksdv3hgem5jce",
+              "bcoi45ur7r4nwf0rq"
+            ],
+            "id": "eusgna4a5uyca4tmu",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "MemSequence"
+          },
+          "ex07bywls12j5i": {
+            "id": "ex07bywls12j5i",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "BallPlacementReceive"
+          },
+          "f8ojw0bes1c6i": {
+            "children": [
+              "61s69sc3xk4rt5e06"
+            ],
+            "id": "f8ojw0bes1c6i",
+            "name": "avoid5",
+            "properties": {
+              "ROLE": "avoid5"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "fc95d8fr06uh8": {
+            "id": "fc95d8fr06uh8",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "seconds": "1.3"
+            },
+            "title": "Wait"
+          },
+          "iayk06yke7wko9h1": {
+            "children": [
+              "0jzvy3e5dcdg49"
+            ],
+            "id": "iayk06yke7wko9h1",
+            "name": "avoid3",
+            "properties": {
+              "ROLE": "avoid3"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "lukfmtq3jm0segr": {
+            "children": [
+              "wfrap057qsfmv2w4"
+            ],
+            "id": "lukfmtq3jm0segr",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "luvk2vcy64cvq6": {
+            "children": [
+              "z9s0013ryhus6"
+            ],
+            "id": "luvk2vcy64cvq6",
+            "name": "avoid6",
+            "properties": {
+              "ROLE": "avoid6"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "nlpxo5t10j098rg": {
+            "children": [
+              "4v3o73yoqcbndu2t7"
+            ],
+            "id": "nlpxo5t10j098rg",
+            "name": "avoid1",
+            "properties": {
+              "ROLE": "avoid1"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "okxt1ir2i3urf": {
+            "children": [
+              "ex07bywls12j5i",
+              "fc95d8fr06uh8",
+              "5o6643v8h1q56",
+              "lukfmtq3jm0segr"
+            ],
+            "id": "okxt1ir2i3urf",
+            "properties": {
+              "ROLE": "ball_placement_receiver"
+            },
+            "title": "MemSequence"
+          },
+          "s0o57bk94os8s3m": {
+            "id": "s0o57bk94os8s3m",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "ballPlacement": "true"
+            },
+            "title": "Dribble"
+          },
+          "uksytvriwkm2hnq": {
+            "id": "uksytvriwkm2hnq",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "IsBallCloseToBorder"
+          },
+          "wfrap057qsfmv2w4": {
+            "id": "wfrap057qsfmv2w4",
+            "properties": {
+              "ROLE": "ball_placement_receiver",
+              "ticks": ""
+            },
+            "title": "Halt"
+          },
+          "x9s0nvwsfpi62": {
+            "id": "x9s0nvwsfpi62",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "Halt"
+          },
+          "yjjx81v090kwo": {
+            "id": "yjjx81v090kwo",
+            "properties": {
+              "ROLE": "avoid4"
+            },
+            "title": "BallPlacementFormation"
+          },
+          "z3a4p2nmz0f58i": {
+            "id": "z3a4p2nmz0f58i",
+            "properties": {
+              "ROLE": "ball_placement_passer"
+            },
+            "title": "GetBall"
+          },
+          "z3qoz7pwjlqn7lwo": {
+            "children": [
+              "1jum7dacsywro"
+            ],
+            "id": "z3qoz7pwjlqn7lwo",
+            "name": "avoid2",
+            "properties": {
+              "ROLE": "avoid2"
+            },
+            "role": "ballPlacementFormationRole",
+            "title": "Role"
+          },
+          "z7gb23riaa8y2": {
+            "children": [
+              "2i7ijiniscxd8g",
+              "ckz6fkigq2zdc3frw",
+              "nlpxo5t10j098rg",
+              "z3qoz7pwjlqn7lwo",
+              "iayk06yke7wko9h1",
+              "b7pa05tnzg7lmpu",
+              "f8ojw0bes1c6i",
+              "luvk2vcy64cvq6"
+            ],
+            "id": "z7gb23riaa8y2",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "z9s0013ryhus6": {
+            "id": "z9s0013ryhus6",
+            "properties": {
+              "ROLE": "avoid6"
+            },
+            "title": "BallPlacementFormation"
+          }
+        },
+        "root": "z7gb23riaa8y2",
+        "title": "two_robot_ballplacement_tactic"
+      }
+    ]
+  },
+  "name": "two_robot_ballplacement_tactic"
+}

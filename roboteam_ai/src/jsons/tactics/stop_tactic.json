@@ -1,1 +1,182 @@
-{"data": {"trees": [{"nodes": {"qkohubj8d83p75": {"properties": {"ROLE": "p3"}, "name": "p3", "title": "Role", "id": "qkohubj8d83p75", "role": "passive_stop_role", "children": ["4aifz7gnmay39mug"]}, "6r86a0kia7mggfo": {"properties": {"ROLE": "p6"}, "id": "6r86a0kia7mggfo", "title": "StopFormation"}, "u3b2t7rlj43j5fwiy": {"properties": {"ROLE": "p5"}, "id": "u3b2t7rlj43j5fwiy", "title": "StopFormation"}, "4aifz7gnmay39mug": {"properties": {"ROLE": "p3"}, "id": "4aifz7gnmay39mug", "title": "StopFormation"}, "fk70zrbldzlf0qm": {"properties": {"ROLE": "p1"}, "id": "fk70zrbldzlf0qm", "title": "StopFormation"}, "itygpwfxgndx5p": {"properties": {"ROLE": "p1"}, "name": "p1", "title": "Role", "id": "itygpwfxgndx5p", "role": "passive_stop_role", "children": ["fk70zrbldzlf0qm"]}, "ap8f2jzhvuqt8": {"properties": {"ROLE": "p2"}, "name": "p2", "title": "Role", "id": "ap8f2jzhvuqt8", "role": "passive_stop_role", "children": ["sen8wzugm9lv2v"]}, "sen8wzugm9lv2v": {"properties": {"ROLE": "p2"}, "id": "sen8wzugm9lv2v", "title": "StopFormation"}, "7d63gzttrgzpk8l1": {"properties": {"TacticType": "General"}, "children": ["jjf1yko8h9w7zhxyh", "ntsxqtu6z18tp35", "itygpwfxgndx5p", "ap8f2jzhvuqt8", "qkohubj8d83p75", "l922qyor04zml1", "bqlmwdr6vwde5o73q", "niiu4uhiffyt6mfb"], "id": "7d63gzttrgzpk8l1", "title": "RoleDivider"}, "h6fp3llhzh5zeo": {"properties": {"ROLE": "a1"}, "id": "h6fp3llhzh5zeo", "title": "StopFormation"}, "bqlmwdr6vwde5o73q": {"properties": {"ROLE": "p5"}, "name": "p5", "title": "Role", "id": "bqlmwdr6vwde5o73q", "role": "passive_stop_role", "children": ["u3b2t7rlj43j5fwiy"]}, "l922qyor04zml1": {"properties": {"ROLE": "p4"}, "name": "p4", "title": "Role", "id": "l922qyor04zml1", "role": "passive_stop_role", "children": ["hs5qsufzg2or465"]}, "niiu4uhiffyt6mfb": {"properties": {"ROLE": "p6"}, "name": "p6", "title": "Role", "id": "niiu4uhiffyt6mfb", "role": "passive_stop_role", "children": ["6r86a0kia7mggfo"]}, "jjf1yko8h9w7zhxyh": {"properties": {"ROLE": "a1"}, "name": "a1", "title": "Role", "id": "jjf1yko8h9w7zhxyh", "role": "passive_stop_role", "children": ["h6fp3llhzh5zeo"]}, "ntsxqtu6z18tp35": {"properties": {"ROLE": "a2"}, "name": "a2", "title": "Role", "id": "ntsxqtu6z18tp35", "role": "passive_stop_role", "children": ["c9ty2164p657gy"]}, "hs5qsufzg2or465": {"properties": {"ROLE": "p4"}, "id": "hs5qsufzg2or465", "title": "StopFormation"}, "c9ty2164p657gy": {"properties": {"ROLE": "a2"}, "id": "c9ty2164p657gy", "title": "StopFormation"}}, "root": "7d63gzttrgzpk8l1", "title": "stop_tactic"}]}, "name": "stop_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4aifz7gnmay39mug": {
+            "id": "4aifz7gnmay39mug",
+            "properties": {
+              "ROLE": "p3"
+            },
+            "title": "StopFormation"
+          },
+          "6r86a0kia7mggfo": {
+            "id": "6r86a0kia7mggfo",
+            "properties": {
+              "ROLE": "p6"
+            },
+            "title": "StopFormation"
+          },
+          "7d63gzttrgzpk8l1": {
+            "children": [
+              "jjf1yko8h9w7zhxyh",
+              "ntsxqtu6z18tp35",
+              "itygpwfxgndx5p",
+              "ap8f2jzhvuqt8",
+              "qkohubj8d83p75",
+              "l922qyor04zml1",
+              "bqlmwdr6vwde5o73q",
+              "niiu4uhiffyt6mfb"
+            ],
+            "id": "7d63gzttrgzpk8l1",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "ap8f2jzhvuqt8": {
+            "children": [
+              "sen8wzugm9lv2v"
+            ],
+            "id": "ap8f2jzhvuqt8",
+            "name": "p2",
+            "properties": {
+              "ROLE": "p2"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "bqlmwdr6vwde5o73q": {
+            "children": [
+              "u3b2t7rlj43j5fwiy"
+            ],
+            "id": "bqlmwdr6vwde5o73q",
+            "name": "p5",
+            "properties": {
+              "ROLE": "p5"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "c9ty2164p657gy": {
+            "id": "c9ty2164p657gy",
+            "properties": {
+              "ROLE": "a2"
+            },
+            "title": "StopFormation"
+          },
+          "fk70zrbldzlf0qm": {
+            "id": "fk70zrbldzlf0qm",
+            "properties": {
+              "ROLE": "p1"
+            },
+            "title": "StopFormation"
+          },
+          "h6fp3llhzh5zeo": {
+            "id": "h6fp3llhzh5zeo",
+            "properties": {
+              "ROLE": "a1"
+            },
+            "title": "StopFormation"
+          },
+          "hs5qsufzg2or465": {
+            "id": "hs5qsufzg2or465",
+            "properties": {
+              "ROLE": "p4"
+            },
+            "title": "StopFormation"
+          },
+          "itygpwfxgndx5p": {
+            "children": [
+              "fk70zrbldzlf0qm"
+            ],
+            "id": "itygpwfxgndx5p",
+            "name": "p1",
+            "properties": {
+              "ROLE": "p1"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "jjf1yko8h9w7zhxyh": {
+            "children": [
+              "h6fp3llhzh5zeo"
+            ],
+            "id": "jjf1yko8h9w7zhxyh",
+            "name": "a1",
+            "properties": {
+              "ROLE": "a1"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "l922qyor04zml1": {
+            "children": [
+              "hs5qsufzg2or465"
+            ],
+            "id": "l922qyor04zml1",
+            "name": "p4",
+            "properties": {
+              "ROLE": "p4"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "niiu4uhiffyt6mfb": {
+            "children": [
+              "6r86a0kia7mggfo"
+            ],
+            "id": "niiu4uhiffyt6mfb",
+            "name": "p6",
+            "properties": {
+              "ROLE": "p6"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "ntsxqtu6z18tp35": {
+            "children": [
+              "c9ty2164p657gy"
+            ],
+            "id": "ntsxqtu6z18tp35",
+            "name": "a2",
+            "properties": {
+              "ROLE": "a2"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "qkohubj8d83p75": {
+            "children": [
+              "4aifz7gnmay39mug"
+            ],
+            "id": "qkohubj8d83p75",
+            "name": "p3",
+            "properties": {
+              "ROLE": "p3"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "sen8wzugm9lv2v": {
+            "id": "sen8wzugm9lv2v",
+            "properties": {
+              "ROLE": "p2"
+            },
+            "title": "StopFormation"
+          },
+          "u3b2t7rlj43j5fwiy": {
+            "id": "u3b2t7rlj43j5fwiy",
+            "properties": {
+              "ROLE": "p5"
+            },
+            "title": "StopFormation"
+          }
+        },
+        "root": "7d63gzttrgzpk8l1",
+        "title": "stop_tactic"
+      }
+    ]
+  },
+  "name": "stop_tactic"
+}
