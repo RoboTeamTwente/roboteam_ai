@@ -305,8 +305,10 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto goalCollision = getGoalCollision(point);
     if (goalCollision.isCollision) return goalCollision;
 
-//    auto ballPlacementCollision = getBallPlacementCollision(point);
-//    if (ballPlacementCollision.isCollision) return ballPlacementCollision;
+    if (GameStateManager::getCurrentGameState().strategyName == "ball_placement_us_strategy"
+    || GameStateManager::getCurrentGameState().strategyName == "ball_placement_them_strategy");
+    auto ballPlacementCollision = getBallPlacementCollision(point);
+    if (ballPlacementCollision.isCollision) return ballPlacementCollision;
 
     return {};
 }
@@ -401,12 +403,28 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
     if (currentCollisionWithFinalTarget.getCollisionBallPlacement() != Vector2()) return collision;
 
     auto ball = world::world->getBall();
+
     Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
 
-    bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->pos), ballPlacementMarker) < 0.5;
+    if (!interface::Output::usesRefereeCommands()) {
+        ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
+        std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+    };
+
+
+    double avoidDist = fmin (ballPlacementMarker.dist(ball->pos), 2.0);
+    auto shortenedDistance = (ballPlacementMarker - ball->pos).stretchToLength(avoidDist);
+
+    bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->pos), ball->pos + shortenedDistance) < 0.5;
+    Vector2 diff = (shortenedDistance).rotate(M_PI_2);
+
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos + diff.stretchToLength(0.5), ball->pos + shortenedDistance + diff.stretchToLength(0.5)}, Qt::darkCyan, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos - diff.stretchToLength(0.5), ball->pos + shortenedDistance - diff.stretchToLength(0.5)}, Qt::darkCyan, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos, ball->pos + shortenedDistance}, Qt::darkCyan, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
+
 
     if (collidesWithBallPlacement) {
-        double newLocation = (fmax(ball->pos.dist(point->pos), ballPlacementMarker.dist(point->pos)) + 0.5 ) * 1.1;
+        double newLocation = (fmax(ball->pos.dist(point->pos), (ball->pos + shortenedDistance).dist(point->pos))) * 1.2;
 
         collision.setBallPlacementCollision(point->pos, newLocation);
     }
