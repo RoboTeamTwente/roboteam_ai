@@ -404,7 +404,6 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
 RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projectionPosition,
         double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel) {
-    std::cout << "go around ball and get it" << std::endl;
 
     Vector2 numTreesTarget = projectionPosition;
     RobotCommand robotCommand;

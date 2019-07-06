@@ -35,6 +35,15 @@
             },
             "title": "BallOutOfField"
           },
+          "1xofx167zslx4e70": {
+            "children": [
+              "uo9r037djn8m366z",
+              "flbr84cja0n2k3xw"
+            ],
+            "id": "1xofx167zslx4e70",
+            "properties": {},
+            "title": "MemSelector"
+          },
           "2h6kuz9tdzqncb1w": {
             "id": "2h6kuz9tdzqncb1w",
             "properties": {
@@ -290,6 +299,11 @@
             },
             "title": "MemSelector"
           },
+          "flbr84cja0n2k3xw": {
+            "id": "flbr84cja0n2k3xw",
+            "properties": {},
+            "title": "ChipForward"
+          },
           "gbmfmujwtfc406v37": {
             "children": [
               "152fp0634tu70ybdr"
@@ -464,7 +478,7 @@
           },
           "oi2v9ic77t2mk7nvp": {
             "children": [
-              "q7rmcizcsw46jxk1"
+              "1xofx167zslx4e70"
             ],
             "id": "oi2v9ic77t2mk7nvp",
             "name": "kickoff_kicker_role",
@@ -489,16 +503,6 @@
               "ROLE": "assist2"
             },
             "title": "ShouldHandleBall"
-          },
-          "q7rmcizcsw46jxk1": {
-            "children": [
-              "uo9r037djn8m366z"
-            ],
-            "id": "q7rmcizcsw46jxk1",
-            "properties": {
-              "limit": ""
-            },
-            "title": "Repeater"
           },
           "qk9an956syc90uqy": {
             "children": [
@@ -637,7 +641,7 @@
             "properties": {
               "BallPlacement": "",
               "failsUntilChip": "",
-              "passType": "defensive"
+              "passType": ""
             },
             "title": "Pass"
           },
