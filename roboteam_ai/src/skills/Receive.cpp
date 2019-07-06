@@ -85,7 +85,7 @@ void Receive::intercept() {
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
-    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_RECEIVE_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities;
