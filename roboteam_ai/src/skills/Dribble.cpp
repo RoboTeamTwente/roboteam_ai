@@ -10,7 +10,6 @@ namespace ai {
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
-
 void Dribble::onInitialize() {
 
     //if false, robot will dribble to the position backwards with the ball.
@@ -28,10 +27,11 @@ void Dribble::onInitialize() {
         Angle targetAngle;
         if (forwardDirection == control::BallHandlePosControl::TravelStrategy::FORWARDS) {
             targetAngle = robot->angle;
-        } else {
+        }
+        else {
             targetAngle = robot->angle - M_PI;
         }
-        targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
+        targetPos = (Vector2) robot->pos + Vector2({distance, 0}).rotate(targetAngle);
     }
 
     if (properties->hasVector2("Position")) {
@@ -45,18 +45,30 @@ void Dribble::onInitialize() {
 }
 
 Dribble::Status Dribble::onUpdate() {
-    if (properties->getBool("ballPlacement")){
+    if (properties->getBool("ballPlacement")) {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
     auto c = robot->getBallHandlePosControl()->getRobotCommand(robot, targetPos, robot->angle, forwardDirection);
 
-    if(robot->getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
-        return Status::Success;
+    if (robot->getBallHandlePosControl()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
+        Vector2 target = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
+
+        if ((targetPos - robot->pos).length() < 0.1) {
+            return Status::Success;
+        }
+
+        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).makeROSCommand();
+
+        // set robotcommands if they have not been set yet in gtpUpdate()
+
+
+        publishRobotCommand();
+        return Status::Running;
     }
 
-    count++;
-    if(count >= maxTicks && properties->hasInt("maxTicks")) {
+    count ++;
+    if (count >= maxTicks && properties->hasInt("maxTicks")) {
         return Status::Failure;
     }
 

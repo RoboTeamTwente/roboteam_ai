@@ -122,6 +122,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
 RobotCommand BallHandlePosControl::finalizeBallHandle() {
     dribbleBackwards->reset();
     dribbleForwards->reset();
+
     if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Waiting for the dribbler to stop" << std::endl;
@@ -129,7 +130,7 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
         RobotCommand robotCommand;
         robotCommand.vel = {0, 0};
         robotCommand.angle = lockedAngle;
-        robotCommand.dribbler = robot->vel.length() < 0.15 ? 0 : 31;
+        robotCommand.dribbler = robot->vel.length() < 0.15 ? 0 : 27;
         status = FINALIZING;
         return controlWithPID(xBallHandlePID, yBallHandlePID, robotCommand);
     }
@@ -483,6 +484,11 @@ void BallHandlePosControl::updatePID(pidVals newPID) {
 }
 
 bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveLine) {
+    double maxCrashVel = 1.0;
+    if (robot->vel.length() < maxCrashVel || driveLine.length() < maxCrashVel) {
+        return false;
+    }
+
     double safeMargin = 0.4;
     auto theirRobots = world::world->getThem();
     for (auto &robot : theirRobots) {
@@ -508,13 +514,32 @@ bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveL
 
 bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) {
     if (!world::field->pointIsInField(driveLine.end)) {
+
+        interface::Input::drawData(interface::Visual::BALL_HANDLING,
+                {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
+                Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+                Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+
         return true;
     }
 
     double maxRobotVel = 3.0;
     if (!world::field->pointIsInField(driveLine.start + (driveLine.end - driveLine.start)*2)) {
-        return robot->vel.length() > maxRobotVel;
+
+        if (robot->vel.length() > maxRobotVel) {
+            interface::Input::drawData(interface::Visual::BALL_HANDLING,
+                    {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
+                    Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
+            interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+                    Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+
+            return true;
+        }
     }
+
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+            Qt::blue, robot->id, interface::Drawing::LINES_CONNECTED);
 
     return false;
 
