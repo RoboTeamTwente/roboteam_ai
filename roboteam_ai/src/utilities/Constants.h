@@ -81,6 +81,7 @@ class Constants {
         static double HAS_BALL_ANGLE();
         static double MAX_KICK_RANGE();
         static double MAX_PASS_DISTANCE();
+        static bool REFLECT_KICK();
 
         static double MAX_INTERCEPT_TIME();    // Seconds. Intercept terminates  after this time.
         static double MAX_RECEIVE_TIME();

@@ -1,0 +1,101 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "7ueyqz6gxu59ewcx": {
+            "children": [
+              "hyyyxnwcrfb0oigw"
+            ],
+            "id": "7ueyqz6gxu59ewcx",
+            "name": "PassRole",
+            "properties": {
+              "ROLE": "PassRole"
+            },
+            "role": "PassRole",
+            "title": "Role"
+          },
+          "ak6b7yo6yzpabp89": {
+            "children": [
+              "ver5tadpyimqqorh"
+            ],
+            "id": "ak6b7yo6yzpabp89",
+            "properties": {
+              "ROLE": "ReflectKickTest",
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "ako6zznn2hoy3pah": {
+            "children": [
+              "iy1m1isgzncw7kzd",
+              "7ueyqz6gxu59ewcx"
+            ],
+            "id": "ako6zznn2hoy3pah",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "gee25fvztqezq0y1": {
+            "id": "gee25fvztqezq0y1",
+            "properties": {
+              "ROLE": "PassRole"
+            },
+            "title": "Pass"
+          },
+          "hyyyxnwcrfb0oigw": {
+            "children": [
+              "gee25fvztqezq0y1",
+              "yv2kquqpymlo220m"
+            ],
+            "id": "hyyyxnwcrfb0oigw",
+            "properties": {
+              "ROLE": "PassRole"
+            },
+            "title": "MemSequence"
+          },
+          "iy1m1isgzncw7kzd": {
+            "children": [
+              "ak6b7yo6yzpabp89"
+            ],
+            "id": "iy1m1isgzncw7kzd",
+            "name": "ReflectKickTest",
+            "properties": {
+              "ROLE": "ReflectKickTest"
+            },
+            "role": "ReflectKickTest",
+            "title": "Role"
+          },
+          "og7apcmbasjp6kae": {
+            "id": "og7apcmbasjp6kae",
+            "properties": {
+              "ROLE": "PassRole"
+            },
+            "title": "Halt"
+          },
+          "ver5tadpyimqqorh": {
+            "id": "ver5tadpyimqqorh",
+            "properties": {
+              "ROLE": "ReflectKickTest"
+            },
+            "title": "ReflectKick"
+          },
+          "yv2kquqpymlo220m": {
+            "children": [
+              "og7apcmbasjp6kae"
+            ],
+            "id": "yv2kquqpymlo220m",
+            "properties": {
+              "ROLE": "PassRole"
+            },
+            "title": "Repeater"
+          }
+        },
+        "root": "ako6zznn2hoy3pah",
+        "title": "test_reflect_kick_tactic"
+      }
+    ]
+  },
+  "name": "test_reflect_kick_tactic"
+}

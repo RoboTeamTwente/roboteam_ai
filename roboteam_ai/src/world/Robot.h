@@ -93,6 +93,7 @@ public:
         bool isDribblerReady() const;
         void setDribblerState(unsigned char dribbler = 0);
         bool hasWorkingDribbler() const;
+        Vector2 getKicker() const;
 
         // control managers
     private:
