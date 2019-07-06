@@ -98,6 +98,7 @@ class BallHandlePosControl : public NumTreePosControl {
 
     private:
         bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
+        bool isCrashingOutsideField(const LineSegment &driveLine);
 
         RobotCommand goToMovingBall();
         RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,

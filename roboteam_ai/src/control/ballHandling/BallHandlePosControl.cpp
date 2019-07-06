@@ -277,7 +277,7 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
 RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 ballStillPosition = ball->getBallStillPosition();
 
-    LineSegment ballLine = LineSegment(ball->pos, ball->pos + ball->vel);
+    LineSegment ballLine = LineSegment(ball->pos, ballStillPosition);
     Vector2 projectionPosition = ballLine.project(robot->pos);
     double robotToProjectionDistance = (projectionPosition - robot->pos).length();
     double ballToProjectionDistance = (projectionPosition - ball->pos).length();
@@ -293,10 +293,8 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
     if (robotIsBehindBall && robotCanInterceptBall) {
         robotCommand = interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
-    else if (! robotIsBehindBall) {
-        robotCommand = interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
-
-//        robotCommand = interceptMovingBallTowardsBall();
+    else if (! robotIsBehindBall && false) { // TODO::do not use this till interceptMovingBallTowardsBall() works
+        robotCommand = interceptMovingBallTowardsBall();
     }
     else {
         robotCommand = goBehindBall(ballStillPosition);
@@ -328,13 +326,13 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
         robotCommand.vel = (ball->pos - robot->pos).stretchToLength(ball->vel.length());
     }
 
-    if (world::field->pointIsInField(robot->pos + robot->vel)) {
-        Vector2 targetVelIncrease = ball->vel/2;
-        LineSegment driveLine = {robot->pos, robot->pos + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
-        if (!isCrashingIntoOpponentRobot(driveLine)) {
-            robotCommand.vel += targetVelIncrease;
-        }
+    Vector2 targetVelIncrease = ball->vel;
+    LineSegment driveLine = {robot->pos, robot->pos
+            + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
+    if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
+        robotCommand.vel += targetVelIncrease;
     }
+
     return robotCommand;
 }
 
@@ -347,7 +345,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
         if (ntLine.distanceToLine(movingBallTowardsBallTarget) > 0.3) {
             movingBallTowardsBallTarget = ball->pos + (ball->vel).stretchToLength(
-                    std::min(0.5, (ball->getBallStillPosition()-ball->pos).length()));
+                    std::min(0.5, (ball->getBallStillPosition() - ball->pos).length()));
 
         }
     }
@@ -392,7 +390,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
         Vector2 targetVelIncrease = ball->vel.stretchToLength(targetVel/2);
         LineSegment driveLine = {robot->pos, robot->pos + targetVelIncrease.stretchToLength(robot->vel.length()*2.0)};
-        if (!isCrashingIntoOpponentRobot(driveLine)) {
+        if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
     }
@@ -409,11 +407,11 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
     RobotCommand robotCommand;
 
     LineSegment driveLine = LineSegment(robot->pos, projectionPosition.stretchToLength(robot->vel.length()*2.0));
-    if (!isCrashingIntoOpponentRobot(driveLine)) {
-        robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+    if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
+        robotCommand = BasicPosControl::getRobotCommand(robot, numTreesTarget);
     }
     else {
-        robotCommand = BasicPosControl::getRobotCommand(robot, numTreesTarget);
+        robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
     }
 
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
@@ -422,8 +420,9 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
         Vector2 targetVelIncrease = ball->vel.stretchToLength(std::max(1.0,
                 fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())))/2;
 
-        LineSegment driveLine = {robot->pos, robot->pos + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
-        if (!isCrashingIntoOpponentRobot(driveLine)) {
+        LineSegment driveLine = {robot->pos, robot->pos
+                + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
+        if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
             robotCommand.vel += targetVelIncrease;
         }
     }
@@ -484,14 +483,41 @@ void BallHandlePosControl::updatePID(pidVals newPID) {
 }
 
 bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveLine) {
-    double safeMargin = 0.6;
+    double safeMargin = 0.4;
     auto theirRobots = world::world->getThem();
     for (auto &robot : theirRobots) {
-        if (driveLine.distanceToLine(robot->pos) < safeMargin) {
-            return true;
+        if (driveLine.distanceToLine(robot->pos) > safeMargin) {
+            continue;
         }
+
+        if (fabs((driveLine.end - driveLine.start).toAngle() - (robot->pos - driveLine.start).toAngle()) > M_PI_2) {
+            continue;
+        }
+
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {robot->pos},
+                Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+                Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+        return true;
+
     }
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+            Qt::blue, robot->id, interface::Drawing::LINES_CONNECTED);
     return false;
+}
+
+bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) {
+    if (!world::field->pointIsInField(driveLine.end)) {
+        return true;
+    }
+
+    double maxRobotVel = 3.0;
+    if (!world::field->pointIsInField(driveLine.start + (driveLine.end - driveLine.start)*2)) {
+        return robot->vel.length() > maxRobotVel;
+    }
+
+    return false;
+
 }
 
 } //control
