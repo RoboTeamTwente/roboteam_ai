@@ -30,7 +30,7 @@ class BallHandlePosControl : public NumTreePosControl {
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.2;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.5;
-        double ballPlacementAccuracy = 0.08;
+        double ballPlacementAccuracy = 0.12;
 
         constexpr static double ERROR_MARGIN = 0.02;
         constexpr static double ANGLE_ERROR_MARGIN = 0.010*M_PI;
@@ -98,6 +98,7 @@ class BallHandlePosControl : public NumTreePosControl {
 
     private:
         bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
+        bool isCrashingOutsideField(const LineSegment &driveLine);
 
         RobotCommand goToMovingBall();
         RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,

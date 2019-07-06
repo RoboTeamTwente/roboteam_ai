@@ -273,7 +273,7 @@
             "id": "ktpbvgxqakfwa7zq",
             "properties": {
               "ROLE": "ballplacementbot",
-              "seconds": "1.0"
+              "seconds": "1.5"
             },
             "title": "Wait"
           },

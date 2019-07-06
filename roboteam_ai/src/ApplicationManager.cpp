@@ -12,6 +12,7 @@
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/interface/api/Toggles.h>
+#include <roboteam_ai/src/utilities/Constants.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -47,7 +48,7 @@ void ApplicationManager::loop() {
         }
         if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
             std::stringstream ss;
-            ss << "The last " << nTicksTaken << " ticks took " << timeTakenOverNTicks << " ms, which gives an average of " << timeTakenOverNTicks / nTicksTaken << " ms / tick. The longest tick took " << longestTick << " ms!";
+            ss << "FrameRate: " << ai::Constants::TICK_RATE()*1000/timeTakenOverNTicks << " FPS | average: " << timeTakenOverNTicks / nTicksTaken << " ms/tick | longest: " << longestTick << " ms";
             if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
                 std::cout << ss.str() << std::endl;
             else
