@@ -25,7 +25,7 @@ void Wait::onInitialize() {
 }
 
 Wait::Status Wait::onUpdate() {
-    command.w = robot->angle;
+    command.w = 0;
     command.geneva_state=0;
     publishRobotCommand();
     tick++;
