@@ -119,7 +119,7 @@
             "id": "xx4jhxjgbwczat56",
             "properties": {
               "ROLE": "Keeper",
-              "distance": "0.9"
+              "distance": "1.5"
             },
             "title": "BallIsClose"
           }
