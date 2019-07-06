@@ -82,6 +82,7 @@ class Constants {
         static double MAX_KICK_RANGE();
 
         static double MAX_INTERCEPT_TIME();    // Seconds. Intercept terminates  after this time.
+        static double MAX_RECEIVE_TIME();
         static double BALL_STILL_VEL();    // If the ball has velocity lower than this in defense area, keeper starts getting it
         static double GOTOPOS_ERROR_MARGIN();
         static double GOTOPOS_ANGLE_ERROR_MARGIN();
