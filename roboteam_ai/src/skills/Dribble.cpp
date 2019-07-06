@@ -47,6 +47,9 @@ void Dribble::onInitialize() {
 Dribble::Status Dribble::onUpdate() {
     if (properties->getBool("ballPlacement")) {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
+        if ((ball->pos - targetPos).length() < 0.10) {
+            return Status::Success;
+        }
     }
 
     auto c = robot->getBallHandlePosControl()->getRobotCommand(robot, targetPos, robot->angle, forwardDirection);
