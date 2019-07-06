@@ -306,9 +306,10 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     if (goalCollision.isCollision) return goalCollision;
 
     if (GameStateManager::getCurrentGameState().strategyName == "ball_placement_us_strategy"
-    || GameStateManager::getCurrentGameState().strategyName == "ball_placement_them_strategy");
-    auto ballPlacementCollision = getBallPlacementCollision(point);
-    if (ballPlacementCollision.isCollision) return ballPlacementCollision;
+    || GameStateManager::getCurrentGameState().strategyName == "ball_placement_them_strategy") {
+        auto ballPlacementCollision = getBallPlacementCollision(point);
+        if (ballPlacementCollision.isCollision) return ballPlacementCollision;
+    }
 
     return {};
 }
