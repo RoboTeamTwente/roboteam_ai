@@ -35,7 +35,8 @@ class CoachHeuristics {
         static double calculateShotAtGoalScore(const Vector2 &position, const WorldData &world);
         static double calculatePassLineScore(const Vector2 &position, const WorldData &world);
         static double calculateBehindBallScore(const Vector2 &position, const WorldData &world);
-        static double calculateDistanceToBallScore(const Vector2 &position, const WorldData &world);
+        static double calculatePassDistanceToBallScore(const Vector2 &position, const WorldData &world);
+        static double calculatePositionDistanceToBallScore(const Vector2 &position, const WorldData &world);
         static double calculateAngleToGoalScore(const Vector2 &position);
 
         /// Currently not implemented, but might be again later

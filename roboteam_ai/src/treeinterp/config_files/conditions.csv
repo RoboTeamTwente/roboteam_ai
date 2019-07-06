@@ -18,6 +18,7 @@ TwoRobotBallPlacement
 ShouldHandleBall
 IsOnPassLine
 CanPlay
+CanReflectKick
 RobotOutside
 RefBallIsMoving
 BallOutOfField,secondsAhead

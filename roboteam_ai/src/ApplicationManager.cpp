@@ -12,6 +12,7 @@
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/interface/api/Toggles.h>
+#include <roboteam_ai/src/utilities/Constants.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;

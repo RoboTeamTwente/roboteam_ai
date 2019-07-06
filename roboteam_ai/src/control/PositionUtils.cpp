@@ -139,7 +139,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
 
-    Vector2 lineProgress = ((goalUS-ballPos).stretchToLength(0.28)).rotate(M_PI_2);
+    Vector2 lineProgress = ((goalUS-ballPos).stretchToLength(0.23)).rotate(M_PI_2);
     Vector2 lineBegin = ballPos + (goalUS - ballPos).stretchToLength(0.75);
 
     Vector2 line2 = lineBegin + lineProgress;

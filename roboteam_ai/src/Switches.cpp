@@ -68,6 +68,7 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
+#include <roboteam_ai/src/conditions/CanReflectKick.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
@@ -142,7 +143,8 @@ std::vector<std::string> Switches::tacticJsonFileNames = {
         "two_robot_ballplacement_tactic",
         "calibration_tactic",
         "follow_interface_tactic",
-        "ball_placement_interface_tactic"
+        "ball_placement_interface_tactic",
+        "test_reflect_kick_tactic"
 };
 
 std::vector<std::string> Switches::strategyJsonFileNames = {
@@ -165,7 +167,8 @@ std::vector<std::string> Switches::strategyJsonFileNames = {
         "kickoff_shoot_strategy",
         "calibration_strategy",
         "interface_drive_strategy",
-        "interface_ball_placement_strategy"
+        "interface_ball_placement_strategy",
+        "test_reflect_kick_strategy"
 };
 
 std::vector<std::string> Switches::keeperJsonFiles = {
@@ -272,6 +275,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
     map["BallIsClose"] = std::make_shared<rtt::ai::BallIsClose>(name, properties);
     map["CanPlay"] = std::make_shared<rtt::ai::CanPlay>(name, properties);
+    map["CanReflectKick"] = std::make_shared<rtt::ai::CanReflectKick>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] = std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsBallCloseToBorder"] = std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);
@@ -602,6 +606,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"c7", robotType::RANDOM},
                     {"c8", robotType::RANDOM}
             }
+            },
+            {"test_reflect_kick_tactic", {
+                   {"ReflectKickTest", robotType::CLOSE_TO_THEIR_GOAL},
+                 {"PassRole", robotType::CLOSE_TO_BALL}
+           }
             }
     };
 //    runErrorHandler(tactics);
