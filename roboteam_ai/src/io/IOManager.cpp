@@ -47,7 +47,8 @@ void IOManager::subscribeToWorldState() {
             rtt::TOPIC_WORLD_STATE,
             1,
             &IOManager::handleWorldState,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
@@ -57,7 +58,8 @@ void IOManager::subscribeToGeometryData() {
             rtt::TOPIC_GEOMETRY,
             100,
             &IOManager::handleGeometryData,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
@@ -66,7 +68,8 @@ void IOManager::subscribeToRobotFeedback() {
             "robot_feedback",
             100,
             &IOManager::handleRobotFeedback,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
@@ -76,7 +79,8 @@ void IOManager::subscribeToRefereeData() {
             "vision_refbox", //vision_referee or vision_refbox
             100,
             &IOManager::handleRefereeData,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
@@ -85,7 +89,8 @@ void IOManager::subscribeToDemoInfo() {
             "demo_info",
             100,
             &IOManager::handleDemoInfo,
-            this
+            this,
+            ros::TransportHints().reliable().tcpNoDelay()
     );
 }
 
