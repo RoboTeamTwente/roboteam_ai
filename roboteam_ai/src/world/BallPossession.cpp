@@ -27,10 +27,10 @@ void BallPossession::recomputeState() {
     bool weAreFar = farFromUsTime > FAR_TIME_TRESHOLD;
     bool theyAreFar = farFromThemTime > FAR_TIME_TRESHOLD;
 
-    if (weAreClose && ! theyAreClose) {
+    if ((weAreClose && ! theyAreClose) || (world::world->getBall()->pos.x > world::field->get_field().field_length/4.0)) {
         state = OURBALL;
     }
-    else if (theyAreClose && ! weAreClose) {
+    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->pos.x < -world::field->get_field().field_length/8.0)) {
         state = THEIRBALL;
     }
     else if (weAreClose && theyAreClose) {
