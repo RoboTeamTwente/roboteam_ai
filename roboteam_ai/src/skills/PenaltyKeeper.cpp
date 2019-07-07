@@ -88,12 +88,12 @@ Vector2 PenaltyKeeper::computeDefendPos() {
         auto intersection=goalKeepingLine.intersects(shootLine);
         if (intersection) {
             if (intersection->y>maxMoveDist){
-                return Vector2(middle.x,maxMoveDist);
+                return Vector2(middle.x,0.4*maxMoveDist);
             }
             else if(intersection->y<-maxMoveDist){
-                return Vector2(middle.x,-maxMoveDist);
+                return Vector2(middle.x,-0.4*maxMoveDist);
             }
-            return *intersection;
+            return *intersection*0.4+middle*0.6;
         }
     }
     return middle;
