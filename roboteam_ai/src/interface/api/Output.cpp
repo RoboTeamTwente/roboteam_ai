@@ -87,10 +87,6 @@ bool Output::showDebugNumTreeTimeTaken() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_TIME_TAKEN();
 }
 
-bool Output::showCoachTimeTaken() {
-    return getShowDebugValues() && Constants::SHOW_COACH_TIME_TAKEN();
-}
-
 bool Output::showDebugNumTreeInfo() {
     return getShowDebugValues() && Constants::SHOW_NUMTREE_DEBUG_INFO();
 }

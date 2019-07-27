@@ -29,8 +29,6 @@ class Constants {
         static bool SHOW_LONGEST_TICK();
         static bool SHOW_TICK_TIME_TAKEN();
 
-        static bool SHOW_COACH_TIME_TAKEN();
-
         static bool SHOW_NUMTREE_TIME_TAKEN();
         static bool SHOW_NUMTREE_DEBUG_INFO();
         static bool SHOW_FULL_NUMTREE_DEBUG_INFO();

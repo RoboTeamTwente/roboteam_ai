@@ -25,7 +25,17 @@ class ApplicationManager {
         bt::BehaviorTree::Ptr strategy;
         bt::BehaviorTree::Ptr keeperTree;
 
+        void updateGameAnalyzer();
+        void updateCoaches();
+        void updateDemo();
+        void updateStrategyChange();
+
+        void runKeeper();
+        void runStrategy();
+
         void notifyTreeStatus(bt::Node::Status status);
+
+        void checkForFreeRobots();
         void runOneLoopCycle();
         bool weHaveRobots = false;
 

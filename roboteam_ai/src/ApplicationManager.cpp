@@ -28,74 +28,37 @@ void ApplicationManager::loop() {
 
     while (ros::ok()) {
         updateTimer(tickRate);
+        runOneLoopCycle();
+        checkForFreeRobots();
 
-        this->runOneLoopCycle();
         rate.sleep();
+    }
+}
 
-        // fix (hack?) for the free bug
-        if (ai::robotDealer::RobotDealer::hasFree()) {
-            if (ticksFree++ > 10) {
-                ai::robotDealer::RobotDealer::refresh();
-            }
+void ApplicationManager::checkForFreeRobots() {
+    // fix free bug (hack?)
+    if (ai::robotDealer::RobotDealer::hasFree()) {
+        if (ticksFree++ > 10) {
+            ai::robotDealer::RobotDealer::refresh();
         }
-        else {
-            ticksFree = 0;
-        }
+    }
+    else {
+        ticksFree = 0;
     }
 }
 
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots) {
-        ai::analysis::GameAnalyzer::getInstance().start();
+        updateGameAnalyzer();
+        updateCoaches();
+        updateDemo();
+        updateStrategyChange();
 
-        // Will do things if this is a demo
-        auto demoMsg = IOManager->getDemoInfo();
-        demo::JoystickDemo::demoLoop(demoMsg);
-
-        auto gameState = ai::GameStateManager::getCurrentGameState();
-        std::string strategyName = gameState.strategyName;
-        std::string keeperTreeName = gameState.keeperStrategyName;
-
-        bool strategyChanged = oldStrategyName != strategyName;
-        bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
-
-        if (strategyChanged) {
-            BTFactory::setCurrentTree(strategyName);
-            oldStrategyName = strategyName;
-        }
-
-        if (keeperStrategyChanged) {
-            BTFactory::setKeeperTree(keeperTreeName);
-            oldKeeperTreeName = keeperTreeName;
-        }
-
-        if (keeperStrategyChanged || strategyChanged) {
-            ai::robotDealer::RobotDealer::refresh();
-        }
-        rtt::ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
-
-        keeperTree = BTFactory::getKeeperTree();
-        if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-            keeperTree->tick();
-        }
-
-        // run coaches
-        rtt::ai::coach::getBallCoach->update();
-        rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
-        rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
-        rtt::ai::coach::g_pass.updatePassProgression();
-
-        if (BTFactory::getCurrentTree() == "NaN") {
-            std::cout << "NaN tree probably Halting" << std::endl;
-            return;
-        }
-
-        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-        Status status = strategy->tick();
-        this->notifyTreeStatus(status);
+        runKeeper();
+        runStrategy();
     }
     else {
-        std::cout <<"NO FIRST WORLD" << std::endl;
+        std::cout <<"WE DO NOT HAVE ROBOTS" << std::endl;
         ros::Duration(0.2).sleep();
     }
 
@@ -109,6 +72,69 @@ void ApplicationManager::checkForShutdown() {
     }
     ai::analysis::GameAnalyzer::getInstance().stop();
 }
+
+void ApplicationManager::updateGameAnalyzer() {
+    ai::analysis::GameAnalyzer::getInstance().start();
+}
+
+void ApplicationManager::updateCoaches() {
+    rtt::ai::coach::getBallCoach->update();
+    rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
+    rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
+    rtt::ai::coach::g_pass.updatePassProgression();
+}
+
+void ApplicationManager::updateDemo() {
+    // Will do things if this is a demo
+    auto demoMsg = IOManager->getDemoInfo();
+    demo::JoystickDemo::demoLoop(demoMsg);
+}
+
+void ApplicationManager::updateStrategyChange() {
+    auto gameState = ai::GameStateManager::getCurrentGameState();
+
+    std::string strategyName = gameState.strategyName;
+    std::string keeperTreeName = gameState.keeperStrategyName;
+
+    bool strategyChanged = oldStrategyName != strategyName;
+    bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
+
+    if (strategyChanged) {
+        BTFactory::setCurrentTree(strategyName);
+        oldStrategyName = strategyName;
+    }
+
+    if (keeperStrategyChanged) {
+        BTFactory::setKeeperTree(keeperTreeName);
+        oldKeeperTreeName = keeperTreeName;
+    }
+
+    if (keeperStrategyChanged || strategyChanged) {
+        ai::robotDealer::RobotDealer::refresh();
+    }
+
+    rtt::ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
+}
+
+void ApplicationManager::runKeeper() {
+    keeperTree = BTFactory::getKeeperTree();
+    if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+        keeperTree->tick();
+    }
+}
+
+void ApplicationManager::runStrategy() {
+    if (BTFactory::getCurrentTree() == "NaN") {
+        std::cout << "NaN tree probably Halting" << std::endl;
+        return;
+    }
+
+    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+    Status status = strategy->tick();
+
+    notifyTreeStatus(status);
+}
+
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
