@@ -6,14 +6,13 @@
 #define ROBOTEAM_AI_DECISIONMAKER_H
 
 #include "AnalysisReport.h"
+
 // define some play styles to influence our decision making
 enum playStyleScore : short {
     DEFENSIVE,
     NEUTRAL,
     OFFENSIVE
 };
-
-
 
 namespace rtt {
 namespace ai {
@@ -27,7 +26,6 @@ struct PlayStyle {
     PlayStyle(int def, int mid, int att)
             : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
 };
-
 
 class DecisionMaker {
 public:

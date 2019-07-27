@@ -1,9 +1,6 @@
-//
-// Created by mrlukasbos on 9-4-19.
-//
-
-#include <roboteam_ai/src/utilities/RobotDealer.h>
 #include "DecisionMaker.h"
+
+#include "roboteam_ai/src/utilities/RobotDealer.h"
 #include "GameAnalyzer.h"
 
 namespace rtt {
@@ -17,7 +14,8 @@ PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
     if (robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountOfRobots = std::max(0, amountOfRobots - 1);
     }
-    PlayStyle styles[9][5] = {
+
+    PlayStyle playStyle[9][5] = {
             {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, // 0
             {{1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {0, 0, 1}, {0, 0, 1}}, // 1
             {{2, 0, 0}, {1, 0, 1}, {1, 0, 1}, {1, 0, 1}, {1, 0, 1}}, // 2
@@ -29,7 +27,7 @@ PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
             {{6, 1, 0}, {5, 2, 1}, {5, 2, 1}, {4, 2, 2}, {3, 2, 3}}  // 8
     };
 
-    return styles[amountOfRobots][possession];
+    return playStyle[amountOfRobots][possession];
 }
 
 } // analysis
