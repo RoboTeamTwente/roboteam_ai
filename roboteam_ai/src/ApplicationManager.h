@@ -16,26 +16,35 @@
 namespace rtt {
 
 class ApplicationManager {
-private:
-    FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
-    rtt::ai::io::IOManager * IOManager;
+        FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
 
-    int ticksFree = 0;
-    bt::BehaviorTree::Ptr strategy;
-    bt::BehaviorTree::Ptr keeperTree;
+    private:
+        rtt::ai::io::IOManager* IOManager;
 
-    void notifyTreeStatus(bt::Node::Status status);
-    void runOneLoopCycle();
-    bool weHaveRobots = false;
+        int ticksFree = 0;
+        bt::BehaviorTree::Ptr strategy;
+        bt::BehaviorTree::Ptr keeperTree;
 
-    ai::StrategyManager strategyManager;
-    std::string oldKeeperTreeName = "";
-    std::string oldStrategyName = "";
+        void notifyTreeStatus(bt::Node::Status status);
+        void runOneLoopCycle();
+        bool weHaveRobots = false;
 
-public:
-    void setup();
-    void loop();
-    void checkForShutdown();
+        ai::StrategyManager strategyManager;
+        std::string oldKeeperTreeName = "";
+        std::string oldStrategyName = "";
+
+        // timing
+        void updateTimer(int tickRate);
+        double longestTick = 0.0;
+        int nTicksTaken = 0;
+        double timeTakenOverNTicks = 0.0;
+        ros::Time begin = ros::Time::now();
+        ros::Time end = ros::Time::now();
+
+    public:
+        void setup();
+        void loop();
+        void checkForShutdown();
 };
 
 } // rtt

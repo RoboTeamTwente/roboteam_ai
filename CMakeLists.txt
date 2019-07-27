@@ -506,7 +506,7 @@ add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
         roboteam_ai/src/ApplicationManager.cpp
         roboteam_ai/src/ApplicationManager.h
-        
+
         ${IO_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}

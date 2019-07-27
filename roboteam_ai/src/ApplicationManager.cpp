@@ -1,18 +1,15 @@
-//
-// Created by mrlukasbos on 14-1-19.
-//
+#include "ApplicationManager.h"
 
 #include <roboteam_ai/src/demo/JoystickDemo.h>
 #include <roboteam_ai/src/coach/defence/DefenceDealer.h>
-#include "ApplicationManager.h"
 #include <sstream>
-#include <roboteam_ai/src/analysis/GameAnalyzer.h>
-#include <roboteam_ai/src/interface/api/Output.h>
-#include <roboteam_ai/src/coach/GetBallCoach.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include <roboteam_ai/src/interface/api/Input.h>
-#include <roboteam_ai/src/interface/api/Toggles.h>
-#include <roboteam_ai/src/utilities/Constants.h>
+#include "roboteam_ai/src/analysis/GameAnalyzer.h"
+#include "roboteam_ai/src/interface/api/Output.h"
+#include "roboteam_ai/src/coach/GetBallCoach.h"
+#include "roboteam_ai/src/utilities/GameStateManager.hpp"
+#include "roboteam_ai/src/interface/api/Input.h"
+#include "roboteam_ai/src/interface/api/Toggles.h"
+#include "roboteam_ai/src/utilities/Constants.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -26,43 +23,19 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    ros::Rate rate(ai::Constants::TICK_RATE());
-
-   // BTFactory::makeTrees();
-    double longestTick = 0.0;
-    double timeTaken;
-    int nTicksTaken = 0;
-    double timeTakenOverNTicks = 0.0;
+    int tickRate = ai::Constants::TICK_RATE();
+    ros::Rate rate(tickRate);
 
     while (ros::ok()) {
-        ros::Time begin = ros::Time::now();
+        updateTimer(tickRate);
 
         this->runOneLoopCycle();
         rate.sleep();
 
-        ros::Time end = ros::Time::now();
-        timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
-        timeTakenOverNTicks += timeTaken;
-        if (timeTaken > longestTick) {
-            longestTick = timeTaken;
-        }
-        if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
-            std::stringstream ss;
-            ss << "FrameRate: " << ai::Constants::TICK_RATE()*1000/timeTakenOverNTicks << " FPS | average: " << timeTakenOverNTicks / nTicksTaken << " ms/tick | longest: " << longestTick << " ms";
-            if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
-                std::cout << ss.str() << std::endl;
-            else
-                std::cerr << ss.str() << std::endl;
-            nTicksTaken = 0;
-            timeTakenOverNTicks = 0.0;
-            longestTick = 0.0;
-        }
-
-
+        // fix (hack?) for the free bug
         if (ai::robotDealer::RobotDealer::hasFree()) {
             if (ticksFree++ > 10) {
                 ai::robotDealer::RobotDealer::refresh();
-           //     BTFactory::makeTrees();
             }
         }
         else {
@@ -76,10 +49,8 @@ void ApplicationManager::runOneLoopCycle() {
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
-        // otherwise wastes like 0.1 ms
         auto demoMsg = IOManager->getDemoInfo();
         demo::JoystickDemo::demoLoop(demoMsg);
-
 
         auto gameState = ai::GameStateManager::getCurrentGameState();
         std::string strategyName = gameState.strategyName;
@@ -108,23 +79,11 @@ void ApplicationManager::runOneLoopCycle() {
             keeperTree->tick();
         }
 
-
-        ros::Time begin;
-        ros::Time end;
-        if (ai::interface::Output::showCoachTimeTaken()) {
-            begin = ros::Time::now();
-        }
-
+        // run coaches
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
-
-        if (ai::interface::Output::showCoachTimeTaken()) {
-            end = ros::Time::now();
-            double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
-            std::cout << "The coaches are using " << timeTaken << " ms!" << std::endl;
-        }
 
         if (BTFactory::getCurrentTree() == "NaN") {
             std::cout << "NaN tree probably Halting" << std::endl;
@@ -153,7 +112,8 @@ void ApplicationManager::checkForShutdown() {
 
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
-    case Status::Running:break;
+    case Status::Running:
+        break;
     case Status::Success:
         std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
@@ -161,10 +121,41 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     case Status::Failure:
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
-      break;
-    case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
+        break;
+    case Status::Waiting:
+        ROS_INFO_STREAM("Status returned: Waiting");
         break;
     }
+}
+
+void ApplicationManager::updateTimer(int tickRate) {
+    end = ros::Time::now();
+
+    double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+    timeTakenOverNTicks += timeTaken;
+    if (timeTaken > longestTick) {
+        longestTick = timeTaken;
+    }
+
+    if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= tickRate) {
+        std::stringstream ss;
+        ss <<
+           "FrameRate: " << 1.0 * (int)( 1.0  * tickRate*1000.0/timeTakenOverNTicks ) << " FPS | "     <<
+           "Average: "   << 0.1 * (int)( 10.0 * timeTakenOverNTicks / nTicksTaken   ) << " ms/tick | " <<
+           "Longest: "   << 0.1 * (int)( 10.0 * longestTick                         ) << " ms" ;
+        if (nTicksTaken * longestTick < 2000.0 && timeTakenOverNTicks < 1200.0) {
+            std::cout << ss.str() << std::endl;
+        }
+        else {
+            std::cerr << ss.str() << std::endl;
+        }
+
+        nTicksTaken = 0;
+        timeTakenOverNTicks = 0.0;
+        longestTick = 0.0;
+    }
+
+    begin = end;
 }
 
 } // rtt

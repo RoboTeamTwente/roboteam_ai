@@ -47,8 +47,6 @@ bool Constants::SHOW_TICK_TIME_TAKEN() { return true; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
-bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
-
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
