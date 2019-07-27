@@ -1,16 +1,14 @@
-//
-// Created by baris on 15/11/18.
-//
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 
-#include "roboteam_ai/src/treeinterp/BTImport.h"
 #include <iostream>
+#include "roboteam_ai/src/treeinterp/BTImport.h"
 #include "roboteam_ai/src/utilities/RobotDealer.h"
 
 class Switches {
-        private:
-    static void runErrorHandler(std::map<std::string, std::map<std::string, rtt::ai::robotDealer::RobotType>> tactics);
+    private:
+
+        static void runErrorHandler(std::map<std::string, std::map<std::string, rtt::ai::robotDealer::RobotType>> tactics);
 
     public:
 

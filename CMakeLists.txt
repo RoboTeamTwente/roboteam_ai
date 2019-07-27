@@ -143,10 +143,6 @@ set(UTILS_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/SkillGoToPos.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/SkillGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Dribble.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/RotateToAngle.cpp
@@ -171,16 +167,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleRotate.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleForward.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DribbleForward.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/PreparePenalty.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ShootPenalty.cpp
@@ -249,6 +237,20 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DriveWithInterface.h
+
+        # GOTOPOS
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/SkillGoToPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/SkillGoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPSpecial.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GTPWithBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoAroundPos.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/gotopos/GoBehindBall.h
         )
 
 set(CONDITIONS_SOURCES
@@ -302,7 +304,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.h 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.cpp 
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.h
+        )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
