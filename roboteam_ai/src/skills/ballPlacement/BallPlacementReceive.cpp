@@ -23,7 +23,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         return Status::Success;
     }
 
-    if ((ball->pos - coach::g_ballPlacement.getBallPlacementPos()).length() < 0.15) {
+    if ((ball->pos - coach::g_ballPlacement.getBallPlacementPos()).length() < 0.25) {
         return Status::Success;
     }
 
@@ -64,7 +64,7 @@ void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
 // check if the robot is in the desired position to catch the ball
 bool BallPlacementReceive::isInPosition(const Vector2& behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
-    bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.03;
+    bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.10;
     return isBehindTargetPos  && isAimedAtBall;
 }
 

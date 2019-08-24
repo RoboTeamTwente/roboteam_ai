@@ -25,7 +25,7 @@ bt::Node::Status ResumePlayAfterPenalty::onUpdate() {
         ticks++;
     }
     std::cout<<ticks<<std::endl;
-    if (ticks>1.5*Constants::TICK_RATE()){
+    if (ticks>0.7*Constants::TICK_RATE()){
         ticks=0;
         ballShot=false;
         return Status::Success;

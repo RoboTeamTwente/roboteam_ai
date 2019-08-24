@@ -27,7 +27,8 @@ enum RobotType : short {
     RANDOM,
     WORKING_GENEVA,
     WORKING_BALL_SENSOR,
-    WORKING_DRIBBLER
+    WORKING_DRIBBLER,
+    WORKING_GENEVA_BALLSENSOR
 };
 
 class RobotDealer {

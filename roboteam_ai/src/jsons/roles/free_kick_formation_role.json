@@ -3,12 +3,15 @@
     "trees": [
       {
         "nodes": {
-          "okjaaj7izobsb": {
-            "id": "okjaaj7izobsb",
+          "ut0ei88dq7yiv6wz": {
+            "id": "ut0ei88dq7yiv6wz",
+            "properties": {
+              "ROLE": "f2"
+            },
             "title": "FreeKickFormation"
           }
         },
-        "root": "okjaaj7izobsb",
+        "root": "ut0ei88dq7yiv6wz",
         "title": "free_kick_formation_role"
       }
     ]

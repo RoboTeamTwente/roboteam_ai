@@ -200,6 +200,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ChipForward.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ChipForward.h
 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
@@ -228,7 +230,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
-        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h)
+        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h roboteam_ai/src/skills/formations/StopFormation.cpp roboteam_ai/src/skills/formations/StopFormation.h roboteam_ai/src/skills/formations/BallPlacementFormation.cpp roboteam_ai/src/skills/formations/BallPlacementFormation.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -237,6 +239,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReflectKick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
@@ -270,8 +274,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsClose.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsClose.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp
@@ -342,6 +346,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBeingPassedToTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallInDefenseAreaAndStillTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallKickedToOurGoalTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/CanReflectKickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp

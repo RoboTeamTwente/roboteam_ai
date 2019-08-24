@@ -27,7 +27,7 @@ void FreeKickPass::onInitialize() {
 
 void FreeKickPass::makeCommand() {
     auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), false, control::PASS,
-                                                                true, control::HIGH);
+                                                                false, control::LOW,3);
     command = shotdata.makeROSCommand();
 }
 

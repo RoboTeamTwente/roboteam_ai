@@ -10,7 +10,8 @@ InterceptRobot
 GetBall,maxTime
 Attack
 DemoAttack,ownGoal
-Pass,BallPlacement,failsUntilChip
+Pass,BallPlacement,failsUntilChip,passType
+ChipForward
 FreeKickPass,maxTries
 Receive,BallPlacement,canMoveInDefenseArea
 Formation
@@ -29,6 +30,8 @@ SideAttacker
 TimeoutFormation
 KickOffThemFormation
 KickOffUsFormation
+StopFormation
+BallPlacementFormation
 PenaltyFormation,Offensive
 ActiveStop
 ReflectKick
@@ -37,5 +40,5 @@ PenaltyKeeper,prepare
 FreeKickFormation
 DefendFreeKick
 DriveWithInterface
-Wait,seconds
+Wait,seconds,penalty
 KickTo,type

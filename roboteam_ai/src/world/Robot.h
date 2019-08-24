@@ -46,7 +46,7 @@ class Robot {
         unsigned long lastUpdatedWorldNumber = 0;
     public:
         double calculateDistanceToBall(const Vector2 &ballPos);
-        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
+        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE()) const;
         double getDistanceToBall();
 
         // geneva
@@ -85,7 +85,7 @@ public:
         unsigned char dribblerState = 0;
         unsigned char previousDribblerState = 0;
         double timeDribblerChanged = 0;
-        constexpr static double timeToChangeOneDribblerLevel = 0.11;
+        constexpr static double timeToChangeOneDribblerLevel = 0.18;
         bool workingDribbler;
         bool workingBallSensor;
     public:
@@ -93,6 +93,7 @@ public:
         bool isDribblerReady() const;
         void setDribblerState(unsigned char dribbler = 0);
         bool hasWorkingDribbler() const;
+        Vector2 getKicker() const;
 
         // control managers
     private:

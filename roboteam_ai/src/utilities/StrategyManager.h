@@ -34,9 +34,9 @@ private:
          RefGameState(RefCommand::NORMAL_START,         "normal_play_strategy",            "keeper_default_tactic",   "default"),
          RefGameState(RefCommand::FORCED_START,         "normal_play_strategy",            "keeper_default_tactic",   "default"),
          RefGameState(RefCommand::HALT,                 "halt_strategy",                   "keeper_halt_tactic",      "halt"),
-         RefGameState(RefCommand::STOP,                 "stop_strategy",                   "keeper_avoid_tactic",     "stop"),
-         RefGameState(RefCommand::TIMEOUT_US,           "time_out_strategy",               "keeper_time_out_tactic",  "default"),
-         RefGameState(RefCommand::TIMEOUT_THEM,         "halt_strategy",                   "keeper_halt_tactic",      "default"),
+         RefGameState(RefCommand::STOP,                 "stop_strategy",                   "keeper_avoid_tactic", "stop"),
+         RefGameState(RefCommand::TIMEOUT_US,           "time_out_strategy",               "keeper_formation_tactic",  "stop"),
+         RefGameState(RefCommand::TIMEOUT_THEM,         "halt_strategy",                   "keeper_halt_tactic",      "halt"),
          RefGameState(RefCommand::GOAL_US,              "kickoff_them_formation_strategy", "keeper_formation_tactic", "default"),
          RefGameState(RefCommand::GOAL_THEM,            "kickoff_us_formation_strategy",   "keeper_formation_tactic", "default"),
          RefGameState(RefCommand::BALL_PLACEMENT_US,    "ball_placement_us_strategy",      "keeper_avoid_tactic",     "ballplacement_us"),
@@ -48,8 +48,8 @@ private:
 
          // prepare commands
          // These have a follow up command
-         RefGameState(RefCommand::PREPARE_KICKOFF_US,   "kickoff_us_formation_strategy",   "keeper_formation_tactic",         "default",  false, RefCommand::DO_KICKOFF),
-         RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", "keeper_default_tactic",           "default",  false, RefCommand::DEFEND_KICKOFF),
+         RefGameState(RefCommand::PREPARE_KICKOFF_US,   "kickoff_us_formation_strategy",   "keeper_formation_tactic",         "kickoff",  false, RefCommand::DO_KICKOFF),
+         RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", "keeper_default_tactic",           "kickoff",  false, RefCommand::DEFEND_KICKOFF),
          RefGameState(RefCommand::PREPARE_PENALTY_US,   "penalty_us_prepare_strategy",     "keeper_formation_tactic",         "default",  false, RefCommand::DO_PENALTY),
          RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_prepare_strategy",   "keeper_penalty_prepare_tactic",   "default",  false, RefCommand::DEFEND_PENALTY),
 

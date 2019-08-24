@@ -48,6 +48,7 @@ class OffensiveCoach {
         void redistributePositions();
 
         Vector2 getShootAtGoalPoint(const Vector2 &fromPoint);
+        std::pair<Vector2,bool> penaltyAim(const Vector2 &fromPoint, double currentShotAngle,Vector2 keeperPos);
 
     private:
         OffensivePosition findBestOffensivePosition(const std::vector<Vector2> &positions,
@@ -55,7 +56,6 @@ class OffensiveCoach {
 
         const std::pair<Vector2, Vector2> &getLongestSegment(const std::vector<std::pair<Vector2, Vector2>> &openSegments);
         std::pair<Vector2, Vector2> getAimPoints(const Vector2 &fromPoint);
-
         coach::OffensiveScore offensiveScore;
         std::vector<OffensivePosition> offensivePositions;
         std::map<int, int> sideAttackers; // Map from robot ids to zones

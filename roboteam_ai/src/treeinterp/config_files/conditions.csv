@@ -3,6 +3,7 @@ TheyHaveBall
 HasBall
 BallKickedToOurGoal
 BallInDefenseAreaAndStill
+BallIsClose,distance
 IsInDefenseArea,useRobot,ourDefenseArea,outsideField,margin,secondsAhead
 IsOnOurSide
 WeHaveBall
@@ -17,6 +18,7 @@ TwoRobotBallPlacement
 ShouldHandleBall
 IsOnPassLine
 CanPlay
+CanReflectKick
 RobotOutside
 RefBallIsMoving
 BallOutOfField,secondsAhead

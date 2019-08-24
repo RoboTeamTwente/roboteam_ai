@@ -59,19 +59,14 @@
             "id": "alkg0lyrwjtxgzw",
             "title": "IsOnPassLine"
           },
+          "dfa4l3m8n0tvpdvz": {
+            "id": "dfa4l3m8n0tvpdvz",
+            "properties": {},
+            "title": "Attack"
+          },
           "ei07cajzlv0fs9cts": {
             "id": "ei07cajzlv0fs9cts",
             "title": "Receive"
-          },
-          "fi0ab27pi3q5mr2v": {
-            "children": [
-              "z2meonekw8my9dz7",
-              "p7lcc0nxkc7chcwt",
-              "s3d5016ydk8g35"
-            ],
-            "id": "fi0ab27pi3q5mr2v",
-            "properties": {},
-            "title": "MemSequence"
           },
           "gg3hd5pr24nq2q7p": {
             "children": [
@@ -123,13 +118,6 @@
             "id": "nxji5ivdghl66mp",
             "title": "Attack"
           },
-          "p7lcc0nxkc7chcwt": {
-            "id": "p7lcc0nxkc7chcwt",
-            "properties": {
-              "dribbleDistance": "0.58"
-            },
-            "title": "DribbleForward"
-          },
           "qv8u5oia8ex7eamr3": {
             "children": [
               "ivby92ou0lj3zbhsb",
@@ -146,17 +134,10 @@
             "id": "r1vu539cdswt9",
             "title": "Sequence"
           },
-          "s3d5016ydk8g35": {
-            "id": "s3d5016ydk8g35",
-            "properties": {
-              "failsUntilChip": "3"
-            },
-            "title": "Pass"
-          },
           "tamdisqw2exc8sgk": {
             "children": [
               "1pck7ldz90jiz3tk",
-              "fi0ab27pi3q5mr2v"
+              "dfa4l3m8n0tvpdvz"
             ],
             "id": "tamdisqw2exc8sgk",
             "properties": {},
@@ -187,13 +168,6 @@
             ],
             "id": "wh8rs74dixmng",
             "title": "Sequence"
-          },
-          "z2meonekw8my9dz7": {
-            "id": "z2meonekw8my9dz7",
-            "properties": {
-              "maxTime": ""
-            },
-            "title": "GetBall"
           }
         },
         "root": "gg3hd5pr24nq2q7p",

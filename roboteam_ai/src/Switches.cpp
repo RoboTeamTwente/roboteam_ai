@@ -19,6 +19,7 @@
 
 #include "roboteam_ai/src/skills/Dribble.h"
 #include "roboteam_ai/src/skills/DribbleForward.h"
+#include "roboteam_ai/src/skills/ChipForward.h"
 #include "roboteam_ai/src/skills/gotopos/SkillGoToPos.h"
 #include "roboteam_ai/src/skills/Halt.h"
 #include "roboteam_ai/src/skills/Harass.h"
@@ -47,6 +48,7 @@
 #include "roboteam_ai/src/skills/formations/PenaltyFormation.h"
 #include "roboteam_ai/src/skills/formations/FreeKickFormation.h"
 #include "roboteam_ai/src/skills/formations/DefendFreeKick.h"
+#include "roboteam_ai/src/skills/formations/BallPlacementFormation.h"
 #include "roboteam_ai/src/skills/ActiveStop.h"
 #include "roboteam_ai/src/skills/SlingShot.h"
 #include <roboteam_ai/src/skills/PenaltyKeeper.h>
@@ -67,6 +69,7 @@
 #include <roboteam_ai/src/conditions/TheyHaveBall.h>
 #include <roboteam_ai/src/conditions/WeHaveBall.h>
 #include <roboteam_ai/src/conditions/IsRobotClosestToBall.h>
+#include <roboteam_ai/src/conditions/CanReflectKick.h>
 #include <roboteam_ai/src/conditions/BallKickedToOurGoal.h>
 #include <roboteam_ai/src/conditions/IsBallOnOurSide.h>
 #include <roboteam_ai/src/skills/formations/KickOffUsFormation.h>
@@ -93,7 +96,8 @@
 #include <roboteam_ai/src/bt/decorators/Repeater.hpp>
 #include <roboteam_ai/src/bt/decorators/Inverter.hpp>
 #include <roboteam_ai/src/bt/composites/Sequence.hpp>
-
+#include <roboteam_ai/src/conditions/BallIsClose.h>
+#include <roboteam_ai/src/skills/formations/StopFormation.h>
 
 #include "roboteam_ai/src/conditions/BallInDefenseAreaAndStill.h"
 #include "roboteam_ai/src/conditions/IsInDefenseArea.hpp"
@@ -218,6 +222,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["Attack"] = std::make_shared<rtt::ai::Attack>(name, properties);
     map["AvoidBall"] = std::make_shared<rtt::ai::AvoidBall>(name, properties);
     map["CoachDefend"] = std::make_shared<rtt::ai::CoachDefend>(name, properties);
+    map["ChipForward"] = std::make_shared<rtt::ai::ChipForward>(name, properties);
     map["GTPSpecial"] = std::make_shared<rtt::ai::GTPSpecial>(name, properties);
     map["DemoAttack"] = std::make_shared<rtt::ai::DemoAttack>(name, properties);
     map["Dribble"] = std::make_shared<rtt::ai::Dribble>(name, properties);
@@ -226,6 +231,8 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["TimeoutFormation"] = std::make_shared<rtt::ai::TimeoutFormation>(name, properties);
     map["KickOffUsFormation"] = std::make_shared<rtt::ai::KickOffUsFormation>(name, properties);
     map["KickOffThemFormation"] = std::make_shared<rtt::ai::KickOffThemFormation>(name, properties);
+    map["StopFormation"] = std::make_shared<rtt::ai::StopFormation>(name, properties);
+    map["BallPlacementFormation"] = std::make_shared<rtt::ai::BallPlacementFormation>(name, properties);
 
     map["GetBall"] = std::make_shared<rtt::ai::GetBall>(name, properties);
     map["GoAroundPos"] = std::make_shared<rtt::ai::GoAroundPos>(name, properties);
@@ -266,7 +273,9 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["BallKickedToOurGoal"] = std::make_shared<rtt::ai::BallKickedToOurGoal>(name, properties);
     map["BallInDefenseAreaAndStill"] = std::make_shared<rtt::ai::BallInDefenseAreaAndStill>(name, properties);
     map["BallNearOurGoalLineAndStill"] = std::make_shared<rtt::ai::BallNearOurGoalLineAndStill>(name, properties);
+    map["BallIsClose"] = std::make_shared<rtt::ai::BallIsClose>(name, properties);
     map["CanPlay"] = std::make_shared<rtt::ai::CanPlay>(name, properties);
+    map["CanReflectKick"] = std::make_shared<rtt::ai::CanReflectKick>(name, properties);
     map["DribbleRotate"] = std::make_shared<rtt::ai::DribbleRotate>(name, properties);
     map["HasBall"] = std::make_shared<rtt::ai::HasBall>(name, properties);
     map["IsBallCloseToBorder"] = std::make_shared<rtt::ai::IsBallCloseToBorder>(name, properties);
@@ -288,6 +297,7 @@ bt::Node::Ptr Switches::leafSwitch(std::string name, bt::Blackboard::Ptr propert
     map["RefStateIsNormalPlay"] = std::make_shared<rtt::ai::RefStateIsNormalPlay>(name, properties);
     map["RefBallIsMoving"] = std::make_shared<rtt::ai::RefBallIsMoving>(name, properties);
     map["ResumePlayAfterPenalty"] = std::make_shared<rtt::ai::ResumePlayAfterPenalty>(name,properties);
+
     if (map.find(name) != map.end()) {
         return map[name];
     }
@@ -377,7 +387,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             },
 
             {"prepare_penalty_us_tactic", {
-                    {"shooter", robotType::WORKING_GENEVA},
+                    {"shooter", robotType::WORKING_GENEVA_BALLSENSOR},
                     {"pa1", robotType::RANDOM},
                     {"pa2", robotType::RANDOM},
                     {"pa3", robotType::RANDOM},
@@ -576,7 +586,7 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
              }
             },
             {"shoot_penalty_us_tactic", {
-                    {"penaltyShooter", robotType::WORKING_GENEVA},
+                    {"penaltyShooter", robotType::CLOSE_TO_BALL},
                     {"paa1", robotType::RANDOM},
                     {"paa2", robotType::RANDOM},
                     {"paa3", robotType::RANDOM},

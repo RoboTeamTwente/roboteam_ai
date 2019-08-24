@@ -19,6 +19,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
         aimTarget = shotTarget;
+        kickerOnTicks = 0;
     }
     auto ball = world::world->getBall();
 
@@ -59,22 +60,21 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
             shotData.vel = {0.0, 0.0};
             shotData.angle = (lineToDriveOver.second - lineToDriveOver.first).angle();
             std::cout << "Not shooting because geneva is turning" << std::endl;
+            kickerOnTicks = 0;
         }
         else {
             isShooting = true;
 
             shotData = moveStraightToBall(robot, lineToDriveOver);
             bool hasBall = world::world->ourRobotHasBall(robot.id, Constants::MAX_KICK_RANGE());
-            if (robot.hasWorkingBallSensor()) {
+            if (robot.hasWorkingBallSensor() || hasBall) {
                 shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
-            }
-            else if (hasBall) {
-                shotData = shoot(shotData, robot, lineToDriveOver, aimTarget, chip, ballspeed);
-                shotData.vel = shotData.vel.stretchToLength(0.1); // lower speed to kick to ball correctly
+                shotData.vel = shotData.vel.stretchToLength(std::min(0.18, shotData.vel.length())); // lower speed to kick to ball correctly
             }
         }
     }
     else {
+        kickerOnTicks = 0;
         isShooting = false;
         shotData = goToPlaceBehindBall(robot, lineToDriveOver.first, lineToDriveOver, currentDesiredGeneva);
     }
@@ -192,8 +192,14 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &ro
         shotData.kicker = true;
         shotData.kickerVel = determineKickForce(ball->pos.dist(shotTarget), desiredBallSpeed);
     }
-//    shotData.kickerForced = !robot.hasWorkingBallSensor();
-    shotData.kickerForced = false;
+
+    if (kickerOnTicks++ > 80) {
+        kickerOnTicks = 0;
+        shotData.kickerForced = robot.hasBall();
+    }
+    else if (!robot.hasWorkingBallSensor()) {
+        shotData.kickerForced = robot.hasBall(Constants::MAX_KICK_RANGE());
+    }
     return shotData;
 }
 
@@ -208,7 +214,12 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
         break;
     }
     case BALL_PLACEMENT: {
-        velocity = Constants::GRSIM() ? 4.01 : 1.01;
+        if (distance > 2.5) {
+            velocity = Constants::GRSIM() ? 6.01 : 2.01;
+        }
+        else {
+            velocity = Constants::GRSIM() ? 3.01 : 1.01;
+        }
         break;
     }
     case PASS: {

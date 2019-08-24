@@ -3,15 +3,6 @@
     "trees": [
       {
         "nodes": {
-          "3ax9xioc4ss07ek9": {
-            "children": [
-              "g5r2v4c300sas7rk",
-              "zkrxrk2pjqgbqdlf"
-            ],
-            "id": "3ax9xioc4ss07ek9",
-            "properties": {},
-            "title": "MemSelector"
-          },
           "42464mbelzw8wodm": {
             "id": "42464mbelzw8wodm",
             "properties": {
@@ -22,6 +13,11 @@
               "useRobot": "false"
             },
             "title": "IsInDefenseArea"
+          },
+          "4an81n96hlgjdbrt": {
+            "id": "4an81n96hlgjdbrt",
+            "properties": {},
+            "title": "ChipForward"
           },
           "71mer6p00nav4g18": {
             "children": [
@@ -57,7 +53,7 @@
               "vy7e107vj3dacrtw",
               "o4pqszu9vn46iguh",
               "k1reoplm4o9alph9",
-              "3ax9xioc4ss07ek9"
+              "kn0fb16hgsj33cjf"
             ],
             "id": "dfs65wiboi35a5ce",
             "properties": {
@@ -83,7 +79,8 @@
             "id": "g5r2v4c300sas7rk",
             "properties": {
               "ROLE": "d3",
-              "failsUntilChip": "1"
+              "failsUntilChip": "1",
+              "passType": "defensive"
             },
             "title": "Pass"
           },
@@ -115,6 +112,15 @@
             "id": "k1reoplm4o9alph9",
             "properties": {},
             "title": "Inverter"
+          },
+          "kn0fb16hgsj33cjf": {
+            "children": [
+              "g5r2v4c300sas7rk",
+              "4an81n96hlgjdbrt"
+            ],
+            "id": "kn0fb16hgsj33cjf",
+            "properties": {},
+            "title": "MemSelector"
           },
           "o4pqszu9vn46iguh": {
             "children": [
@@ -174,13 +180,6 @@
               "ROLE": "d3"
             },
             "title": "ShouldHandleBall"
-          },
-          "zkrxrk2pjqgbqdlf": {
-            "id": "zkrxrk2pjqgbqdlf",
-            "properties": {
-              "dribbleDistance": "0.57"
-            },
-            "title": "DribbleForward"
           }
         },
         "root": "irdmv9l6uzbepi2s",

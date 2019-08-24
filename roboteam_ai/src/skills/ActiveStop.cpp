@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include "ActiveStop.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt{
 namespace ai {
@@ -59,9 +60,13 @@ Vector2 ActiveStop::getDefensiveActivePoint() {
 Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
     Vector2 ballPos = world::world->getBall()->pos;
 
-    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.0); // ssl rule + significant buffer
-    if (world::field->pointIsInDefenceArea(ballPos + offset)) {
-        return (((ballPos + offset).rotate(M_PI)).stretchToLength(2));
+    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer
+
+    if (world::field->pointIsInDefenceArea(ballPos + offset, true, 0.3, true)) {
+        return offset;
+    }
+    if (world::field->pointIsInDefenceArea(ballPos + offset, false, 0.3, true)) {
+        return offset;
     }
     return ballPos + offset;
 }

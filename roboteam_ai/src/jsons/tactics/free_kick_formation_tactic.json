@@ -3,13 +3,6 @@
     "trees": [
       {
         "nodes": {
-          "329pqjq6j0ybgrj": {
-            "id": "329pqjq6j0ybgrj",
-            "properties": {
-              "ROLE": "f5"
-            },
-            "title": "FreeKickFormation"
-          },
           "3h41w9x1eg0nslbe": {
             "children": [
               "b3rzo9uo6uync",
@@ -27,16 +20,9 @@
             },
             "title": "RoleDivider"
           },
-          "3vep74yojjomrv": {
-            "id": "3vep74yojjomrv",
-            "properties": {
-              "ROLE": "f3"
-            },
-            "title": "FreeKickFormation"
-          },
           "7bt9wk4zhw9oejxq": {
             "children": [
-              "v7nmbpkqsymz1x6y"
+              "ozm3wjcw8r35gm8q"
             ],
             "id": "7bt9wk4zhw9oejxq",
             "name": "free_kick_formation_role",
@@ -46,9 +32,16 @@
             "role": "free_kick_formation_role",
             "title": "Role"
           },
+          "7meqe31sarnf2o3p": {
+            "id": "7meqe31sarnf2o3p",
+            "properties": {
+              "ROLE": "f6"
+            },
+            "title": "FreeKickFormation"
+          },
           "7ztwfg6slrvws": {
             "children": [
-              "h92qw09dcp73ugz"
+              "wivtyyvotjmc14qq"
             ],
             "id": "7ztwfg6slrvws",
             "name": "f2",
@@ -70,10 +63,10 @@
             "role": "free_kick_prepare_role",
             "title": "Role"
           },
-          "btdyjbs4qj9j3a0r": {
-            "id": "btdyjbs4qj9j3a0r",
+          "gashqdoq5oqjv4v0": {
+            "id": "gashqdoq5oqjv4v0",
             "properties": {
-              "ROLE": "f6"
+              "ROLE": "f5"
             },
             "title": "FreeKickFormation"
           },
@@ -84,13 +77,6 @@
               "type": "freekick"
             },
             "title": "GoBehindBall"
-          },
-          "h92qw09dcp73ugz": {
-            "id": "h92qw09dcp73ugz",
-            "properties": {
-              "ROLE": "f2"
-            },
-            "title": "FreeKickFormation"
           },
           "jke0915ubh8lm178l": {
             "id": "jke0915ubh8lm178l",
@@ -107,7 +93,7 @@
           },
           "l48uxgoo54ojijj": {
             "children": [
-              "btdyjbs4qj9j3a0r"
+              "7meqe31sarnf2o3p"
             ],
             "id": "l48uxgoo54ojijj",
             "name": "f6",
@@ -119,7 +105,7 @@
           },
           "ndikqf07i0e64x": {
             "children": [
-              "3vep74yojjomrv"
+              "yxmh54w9va5h81q0"
             ],
             "id": "ndikqf07i0e64x",
             "name": "f3",
@@ -129,9 +115,16 @@
             "role": "free_kick_formation_role",
             "title": "Role"
           },
+          "ozm3wjcw8r35gm8q": {
+            "id": "ozm3wjcw8r35gm8q",
+            "properties": {
+              "ROLE": "f7"
+            },
+            "title": "FreeKickFormation"
+          },
           "rwoql3xwvrznd": {
             "children": [
-              "329pqjq6j0ybgrj"
+              "gashqdoq5oqjv4v0"
             ],
             "id": "rwoql3xwvrznd",
             "name": "f5",
@@ -140,6 +133,13 @@
             },
             "role": "free_kick_formation_role",
             "title": "Role"
+          },
+          "sdrhxicjayo5py53": {
+            "id": "sdrhxicjayo5py53",
+            "properties": {
+              "ROLE": "f4"
+            },
+            "title": "FreeKickFormation"
           },
           "tcvsix67k7ur47l": {
             "children": [
@@ -153,23 +153,23 @@
             "role": "free_kick_reciever_role",
             "title": "Role"
           },
-          "v7nmbpkqsymz1x6y": {
-            "id": "v7nmbpkqsymz1x6y",
+          "wivtyyvotjmc14qq": {
+            "id": "wivtyyvotjmc14qq",
             "properties": {
-              "ROLE": "f7"
+              "ROLE": "f2"
             },
             "title": "FreeKickFormation"
           },
-          "wiozjsxid84qx1": {
-            "id": "wiozjsxid84qx1",
+          "yxmh54w9va5h81q0": {
+            "id": "yxmh54w9va5h81q0",
             "properties": {
-              "ROLE": "f4"
+              "ROLE": "f3"
             },
             "title": "FreeKickFormation"
           },
           "zjm1zxk1jwb4cu": {
             "children": [
-              "wiozjsxid84qx1"
+              "sdrhxicjayo5py53"
             ],
             "id": "zjm1zxk1jwb4cu",
             "name": "f4",

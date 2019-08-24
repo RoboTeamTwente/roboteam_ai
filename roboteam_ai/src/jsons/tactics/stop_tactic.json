@@ -3,40 +3,30 @@
     "trees": [
       {
         "nodes": {
-          "39ntx60hosbu876d": {
-            "id": "39ntx60hosbu876d",
+          "4aifz7gnmay39mug": {
+            "id": "4aifz7gnmay39mug",
             "properties": {
-              "ROLE": "p1",
-              "Stop": "true"
+              "ROLE": "p3"
             },
-            "title": "AvoidBall"
+            "title": "StopFormation"
           },
-          "3hibs4mss4kjd": {
-            "id": "3hibs4mss4kjd",
+          "6r86a0kia7mggfo": {
+            "id": "6r86a0kia7mggfo",
             "properties": {
-              "ROLE": "p5",
-              "Stop": "true"
+              "ROLE": "p6"
             },
-            "title": "AvoidBall"
-          },
-          "3zwxw671aawjnakky": {
-            "id": "3zwxw671aawjnakky",
-            "properties": {
-              "ROLE": "p6",
-              "Stop": "true"
-            },
-            "title": "AvoidBall"
+            "title": "StopFormation"
           },
           "7d63gzttrgzpk8l1": {
             "children": [
-              "fld5kbvyjbh54e9m",
-              "mt2n171azadcjmh",
-              "v3oyjahi5n7uk",
-              "y91j5e495gviq0uyn",
-              "u4zxdbdr8g7e1n",
-              "loyfo35xyljdtoyb",
-              "dl5ho3nd9995h",
-              "iu4q37h54rdp8o1d"
+              "jjf1yko8h9w7zhxyh",
+              "ntsxqtu6z18tp35",
+              "itygpwfxgndx5p",
+              "ap8f2jzhvuqt8",
+              "qkohubj8d83p75",
+              "l922qyor04zml1",
+              "bqlmwdr6vwde5o73q",
+              "niiu4uhiffyt6mfb"
             ],
             "id": "7d63gzttrgzpk8l1",
             "properties": {
@@ -44,126 +34,11 @@
             },
             "title": "RoleDivider"
           },
-          "aex9g4iwuinzh": {
-            "id": "aex9g4iwuinzh",
-            "properties": {
-              "ROLE": "p2",
-              "Stop": "true"
-            },
-            "title": "AvoidBall"
-          },
-          "dl5ho3nd9995h": {
+          "ap8f2jzhvuqt8": {
             "children": [
-              "3hibs4mss4kjd"
+              "sen8wzugm9lv2v"
             ],
-            "id": "dl5ho3nd9995h",
-            "name": "p5",
-            "properties": {
-              "ROLE": "p5"
-            },
-            "role": "passive_stop_role",
-            "title": "Role"
-          },
-          "fld5kbvyjbh54e9m": {
-            "children": [
-              "szb48h6ei5w1j"
-            ],
-            "id": "fld5kbvyjbh54e9m",
-            "name": "a1",
-            "properties": {
-              "ROLE": "a1"
-            },
-            "role": "active_stop_role",
-            "title": "Role"
-          },
-          "g6bsctwbb61yozf": {
-            "id": "g6bsctwbb61yozf",
-            "properties": {
-              "ROLE": "p4",
-              "Stop": "true"
-            },
-            "title": "AvoidBall"
-          },
-          "iu4q37h54rdp8o1d": {
-            "children": [
-              "3zwxw671aawjnakky"
-            ],
-            "id": "iu4q37h54rdp8o1d",
-            "name": "p6",
-            "properties": {
-              "ROLE": "p6"
-            },
-            "role": "passive_stop_role",
-            "title": "Role"
-          },
-          "j8ptl6yk804sh0": {
-            "id": "j8ptl6yk804sh0",
-            "properties": {
-              "ROLE": "p3",
-              "Stop": "true"
-            },
-            "title": "AvoidBall"
-          },
-          "loyfo35xyljdtoyb": {
-            "children": [
-              "g6bsctwbb61yozf"
-            ],
-            "id": "loyfo35xyljdtoyb",
-            "name": "p4",
-            "properties": {
-              "ROLE": "p4"
-            },
-            "role": "passive_stop_role",
-            "title": "Role"
-          },
-          "mt2n171azadcjmh": {
-            "children": [
-              "zr3pbqvwpd69evh0f"
-            ],
-            "id": "mt2n171azadcjmh",
-            "name": "a2",
-            "properties": {
-              "ROLE": "a2"
-            },
-            "role": "active_stop_role",
-            "title": "Role"
-          },
-          "szb48h6ei5w1j": {
-            "id": "szb48h6ei5w1j",
-            "properties": {
-              "ROLE": "a1"
-            },
-            "title": "ActiveStop"
-          },
-          "u4zxdbdr8g7e1n": {
-            "children": [
-              "j8ptl6yk804sh0"
-            ],
-            "id": "u4zxdbdr8g7e1n",
-            "name": "p3",
-            "properties": {
-              "ROLE": "p3"
-            },
-            "role": "passive_stop_role",
-            "title": "Role"
-          },
-          "v3oyjahi5n7uk": {
-            "children": [
-              "39ntx60hosbu876d"
-            ],
-            "id": "v3oyjahi5n7uk",
-            "name": "p1",
-            "properties": {
-              "ROLE": "p1"
-            },
-            "role": "passive_stop_role",
-            "title": "Role"
-          },
-          "y91j5e495gviq0uyn": {
-            "children": [
-              "aex9g4iwuinzh"
-            ],
-            "id": "y91j5e495gviq0uyn",
+            "id": "ap8f2jzhvuqt8",
             "name": "p2",
             "properties": {
               "ROLE": "p2"
@@ -171,12 +46,131 @@
             "role": "passive_stop_role",
             "title": "Role"
           },
-          "zr3pbqvwpd69evh0f": {
-            "id": "zr3pbqvwpd69evh0f",
+          "bqlmwdr6vwde5o73q": {
+            "children": [
+              "u3b2t7rlj43j5fwiy"
+            ],
+            "id": "bqlmwdr6vwde5o73q",
+            "name": "p5",
+            "properties": {
+              "ROLE": "p5"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "c9ty2164p657gy": {
+            "id": "c9ty2164p657gy",
             "properties": {
               "ROLE": "a2"
             },
-            "title": "ActiveStop"
+            "title": "StopFormation"
+          },
+          "fk70zrbldzlf0qm": {
+            "id": "fk70zrbldzlf0qm",
+            "properties": {
+              "ROLE": "p1"
+            },
+            "title": "StopFormation"
+          },
+          "h6fp3llhzh5zeo": {
+            "id": "h6fp3llhzh5zeo",
+            "properties": {
+              "ROLE": "a1"
+            },
+            "title": "StopFormation"
+          },
+          "hs5qsufzg2or465": {
+            "id": "hs5qsufzg2or465",
+            "properties": {
+              "ROLE": "p4"
+            },
+            "title": "StopFormation"
+          },
+          "itygpwfxgndx5p": {
+            "children": [
+              "fk70zrbldzlf0qm"
+            ],
+            "id": "itygpwfxgndx5p",
+            "name": "p1",
+            "properties": {
+              "ROLE": "p1"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "jjf1yko8h9w7zhxyh": {
+            "children": [
+              "h6fp3llhzh5zeo"
+            ],
+            "id": "jjf1yko8h9w7zhxyh",
+            "name": "a1",
+            "properties": {
+              "ROLE": "a1"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "l922qyor04zml1": {
+            "children": [
+              "hs5qsufzg2or465"
+            ],
+            "id": "l922qyor04zml1",
+            "name": "p4",
+            "properties": {
+              "ROLE": "p4"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "niiu4uhiffyt6mfb": {
+            "children": [
+              "6r86a0kia7mggfo"
+            ],
+            "id": "niiu4uhiffyt6mfb",
+            "name": "p6",
+            "properties": {
+              "ROLE": "p6"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "ntsxqtu6z18tp35": {
+            "children": [
+              "c9ty2164p657gy"
+            ],
+            "id": "ntsxqtu6z18tp35",
+            "name": "a2",
+            "properties": {
+              "ROLE": "a2"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "qkohubj8d83p75": {
+            "children": [
+              "4aifz7gnmay39mug"
+            ],
+            "id": "qkohubj8d83p75",
+            "name": "p3",
+            "properties": {
+              "ROLE": "p3"
+            },
+            "role": "passive_stop_role",
+            "title": "Role"
+          },
+          "sen8wzugm9lv2v": {
+            "id": "sen8wzugm9lv2v",
+            "properties": {
+              "ROLE": "p2"
+            },
+            "title": "StopFormation"
+          },
+          "u3b2t7rlj43j5fwiy": {
+            "id": "u3b2t7rlj43j5fwiy",
+            "properties": {
+              "ROLE": "p5"
+            },
+            "title": "StopFormation"
           }
         },
         "root": "7d63gzttrgzpk8l1",

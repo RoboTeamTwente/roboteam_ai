@@ -37,7 +37,7 @@ RobotCommand RotateAroundBall::getRobotCommand(RobotPtr robot, const Vector2 &ta
     }
 
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {robotCommand.vel+robot->pos, robot->pos},
-            Qt::white, robot->id, interface::Drawing::ARROWS);
+            Qt::black, robot->id, interface::Drawing::ARROWS);
 
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
     robotCommand.dribbler = 0;

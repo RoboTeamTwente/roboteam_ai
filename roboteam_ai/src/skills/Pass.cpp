@@ -18,6 +18,14 @@ Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Pass::onInitialize() {
+    coach::g_pass.resetPass(-1);
+
+    if(properties->hasString("passType")) {
+        passType = stringToType(properties->getString("passType"));
+    } else {
+        passType = DEFAULT;
+    }
+
     robotToPassToID = - 1;
     passInitialized = false;
     hasShot = false;
@@ -68,9 +76,11 @@ Pass::Status Pass::onUpdate() {
         }
 
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+
         if (! coach::g_pass.validReceiver(robot, robotToPassTo)) {
             return Status::Failure;
         }
+
 
         if (didShootProperly()) {
             coach::g_pass.setPassed(true);
@@ -84,6 +94,12 @@ Pass::Status Pass::onUpdate() {
         // If not, either ++ fails or fail immediately
         if (! forcePass && ! hasShot
                 && ! control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+
+            // If the passType is defensive, force to immediately chip as soon as the pass is blocked
+            if (passType == DEFENSIVE || passType == FREEKICK) {
+                forcePass = true;
+            } else
+
             if (maxTries == - 1) {
                 return Status::Failure;
             }
@@ -111,15 +127,17 @@ Pass::Status Pass::onUpdate() {
 }
 
 void Pass::makeCommand() {
-    auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS,
-                                                                true, control::HIGH);
+    RobotCommand shotdata;
+
+    shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS,
+                                                           false, control::HIGH);
     command = shotdata.makeROSCommand();
 }
 
 void Pass::onTerminate(Status s) {
     hasShot = false;
     passInitialized = false;
-    if (! coach::g_pass.isPassed()) {
+    if (! coach::g_pass.isPassed() || forcePass) {
         coach::g_pass.resetPass(robot->id);
     }
     else if (s == Status::Success) {
@@ -136,11 +154,22 @@ void Pass::initiatePass() {
 }
 
 bool Pass::didShootProperly() {
-    bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.8;
-    bool ballIsMovingToReceiver = control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
-            robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
+    bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.6;
+    bool ballIsMovingToReceiver = true;//control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
+            //robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 
     return (hasShot && ballIsMovingFast && ballIsMovingToReceiver);
+}
+
+Pass::PassType Pass::stringToType(const std::string& type) {
+    if (type == "defensive") {
+        return DEFENSIVE;
+    } else
+    if (type == "freeKick") {
+        return FREEKICK;
+    } else {
+        return DEFAULT;
+    }
 }
 
 } // ai

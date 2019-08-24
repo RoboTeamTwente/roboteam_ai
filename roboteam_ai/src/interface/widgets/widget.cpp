@@ -5,6 +5,7 @@
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <ros/node_handle.h>
 #include <roboteam_ai/src/coach/PassCoach.h>
+#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include "widget.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"
@@ -71,10 +72,23 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                         painter.setBrush(Qt::transparent);
                         drawPlusses(painter, drawing.points, drawing.width, drawing.height);
                     }
+                        break;
                     case Drawing::ARROWS: {
                         painter.setPen(drawing.color);
                         painter.setBrush(Qt::transparent);
                         drawArrows(painter, drawing.points, drawing.width, drawing.height, drawing.strokeWidth==1);
+                    }
+                        break;
+                    case Drawing::REAL_LIFE_CIRCLES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
+                    }
+                        break;
+                    case Drawing::REAL_LIFE_DOTS: {
+                        painter.setPen(Qt::NoPen);
+                        painter.setBrush(drawing.color);
+                        drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
                     }
                 }
@@ -525,14 +539,25 @@ bool Visualizer::robotIsSelected(int id) {
 }
 
 void Visualizer::drawBallPlacementTarget(QPainter &painter) {
-    Vector2 ballPlacementTarget = toScreenPosition(Output::getInterfaceMarkerPosition());
+    Vector2 marker = toScreenPosition(Output::getInterfaceMarkerPosition());
     painter.setBrush(Qt::transparent);
     painter.setPen(Qt::red);
 
-    painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5,
-            ballPlacementTarget.y + 5);
-    painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5,
-            ballPlacementTarget.y + 5);
+    painter.drawLine(marker.x - 5, marker.y - 5, marker.x + 5,
+                     marker.y + 5);
+    painter.drawLine(marker.x + 5, marker.y - 5, marker.x - 5,
+                     marker.y + 5);
+
+    if (Output::usesRefereeCommands()) {
+        Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeData().designated_position));
+        painter.setBrush(Qt::transparent);
+        painter.setPen(Qt::green);
+
+        painter.drawLine(ballPlacementTarget.x - 5, ballPlacementTarget.y - 5, ballPlacementTarget.x + 5,
+                         ballPlacementTarget.y + 5);
+        painter.drawLine(ballPlacementTarget.x + 5, ballPlacementTarget.y - 5, ballPlacementTarget.x - 5,
+                         ballPlacementTarget.y + 5);
+    }
 }
 
 void Visualizer::setShowBallPlacementMarker(bool showMarker) {
@@ -620,6 +645,15 @@ void Visualizer::drawLines(QPainter &painter, std::vector<Vector2> points) {
             Vector2 prevPointOnScreen = toScreenPosition(points.at(i - 1));
             painter.drawLine(pointOnScreen.x, pointOnScreen.y, prevPointOnScreen.x, prevPointOnScreen.y);
         }
+    }
+}
+
+void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2> points, double width, double height) {
+    width = width * 2.0 *factor;
+    height = height * 2.0 *factor;
+    for (auto const &point : points) {
+        Vector2 pointOnScreen = toScreenPosition(point);
+        painter.drawEllipse(pointOnScreen.x - width/2, pointOnScreen.y - height/2, width, height);
     }
 }
 

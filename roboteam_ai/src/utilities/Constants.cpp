@@ -41,9 +41,9 @@ double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }
 
-bool Constants::SHOW_LONGEST_TICK() { return false; }
+bool Constants::SHOW_LONGEST_TICK() { return true; }
 
-bool Constants::SHOW_TICK_TIME_TAKEN() { return false; }
+bool Constants::SHOW_TICK_TIME_TAKEN() { return true; }
 
 bool Constants::SHOW_NUMTREE_TIME_TAKEN() { return false; }
 
@@ -51,8 +51,8 @@ bool Constants::SHOW_COACH_TIME_TAKEN() { return false; }
 
 bool Constants::SHOW_NUMTREE_DEBUG_INFO() { return false; }
 bool Constants::SHOW_FULL_NUMTREE_DEBUG_INFO() { return false; }
-bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return true; }
-bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return true; }
+bool Constants::SHOW_BALL_HANDLE_DEBUG_INFO() { return false; }
+bool Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO() { return false; }
 
 double Constants::MAX_VEL_CMD() { return 8.191; }
 
@@ -86,6 +86,10 @@ double Constants::MAX_POWER_KICK_DISTANCE() { return 9.0; }
 
 double Constants::MAX_KICK_POWER() { return 8.0; }
 
+double Constants::MAX_PASS_DISTANCE() { return 6.0; }
+
+bool Constants::REFLECT_KICK() { return true; }
+
 double Constants::OUT_OF_FIELD_MARGIN() { return 0.03; }
 
 double Constants::MAX_BALL_BOUNCE_RANGE() { return GRSIM() ? 0.4 : 0.15; }
@@ -97,6 +101,8 @@ double Constants::MAX_KICK_RANGE() { return 0.05; }
 double Constants::HAS_BALL_ANGLE() { return 0.2; }
 
 double Constants::MAX_INTERCEPT_TIME() { return 3.0; }
+
+double Constants::MAX_RECEIVE_TIME() { return 1.0; }
 
 double Constants::BALL_STILL_VEL() { return 0.1; }
 
@@ -197,22 +203,22 @@ bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
-    workingBallSensorRobots[0] = true;
-    workingBallSensorRobots[1] = true;
-    workingBallSensorRobots[2] = true;
-    workingBallSensorRobots[3] = true;
-    workingBallSensorRobots[4] = true;
-    workingBallSensorRobots[5] = true;
-    workingBallSensorRobots[6] = true;
-    workingBallSensorRobots[7] = true;
-    workingBallSensorRobots[8] = false;
-    workingBallSensorRobots[9] = false;
-    workingBallSensorRobots[10] = true;
-    workingBallSensorRobots[11] = true;
-    workingBallSensorRobots[12] = true;
-    workingBallSensorRobots[13] = true;
-    workingBallSensorRobots[14] = true;
-    workingBallSensorRobots[15] = true;
+    workingBallSensorRobots[0] =  false;
+    workingBallSensorRobots[1] =  false;
+    workingBallSensorRobots[2] =  false;
+    workingBallSensorRobots[3] =  false;
+    workingBallSensorRobots[4] =  false;
+    workingBallSensorRobots[5] =  false;
+    workingBallSensorRobots[6] =  false;
+    workingBallSensorRobots[7] =  false;
+    workingBallSensorRobots[8] =  false;
+    workingBallSensorRobots[9] =  false;
+    workingBallSensorRobots[10] = false;
+    workingBallSensorRobots[11] = false;
+    workingBallSensorRobots[12] = false;
+    workingBallSensorRobots[13] = false;
+    workingBallSensorRobots[14] = false;
+    workingBallSensorRobots[15] = false;
 
     return workingBallSensorRobots;
 }
@@ -250,7 +256,7 @@ std::vector<QColor> Constants::TACTIC_COLORS() {
 
 pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(3.6, 0.0, 0.4); }
+pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(4.0, 0.0, 0.4); }
 
 pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(3.6, 0.0, 0.2); }
 
@@ -265,8 +271,8 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"default",             8.0, 6.5, 0.0, ROBOT_RADIUS(),  true },
             {"halt",                0.0, 0.0, 0.0, -1,              true },
             {"stop",                1.5, 0.0, 0.8, -1,              false},
-            {"ballplacement_them",  1.5, 6.5, 0.8, -1,              true },
-            {"ballplacement_us",    1.5, 6.5, 0.0, -1,              true },
+            {"ballplacement_them",  2.5, 6.5, 0.8, -1,              true },
+            {"ballplacement_us",    2.5, 6.5, 0.0, -1,              true },
             {"kickoff",             1.5, 6.5, 0.5, 0.0,             true }
     };
 }

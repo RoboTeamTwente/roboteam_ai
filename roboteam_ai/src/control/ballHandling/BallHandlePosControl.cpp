@@ -27,7 +27,7 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
     rotateAroundBall = new RotateAroundBall();
 
     setCanMoveInDefenseArea(canMoveInDefenseArea);
-    setAvoidBallDistance(MAX_BALL_DISTANCE * 0.92);
+    setAvoidBallDistance(MAX_BALL_DISTANCE*0.92);
 }
 
 RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vector2 &targetP) {
@@ -122,6 +122,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(const RobotPtr &r, const Vect
 RobotCommand BallHandlePosControl::finalizeBallHandle() {
     dribbleBackwards->reset();
     dribbleForwards->reset();
+
     if (robot->getDribblerState() > 0 || ! robot->isDribblerReady()) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Waiting for the dribbler to stop" << std::endl;
@@ -129,7 +130,7 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
         RobotCommand robotCommand;
         robotCommand.vel = {0, 0};
         robotCommand.angle = lockedAngle;
-        robotCommand.dribbler = 0;
+        robotCommand.dribbler = robot->vel.length() < 0.15 ? 0 : 27;
         status = FINALIZING;
         return controlWithPID(xBallHandlePID, yBallHandlePID, robotCommand);
     }
@@ -277,7 +278,7 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
 RobotCommand BallHandlePosControl::goToMovingBall() {
     Vector2 ballStillPosition = ball->getBallStillPosition();
 
-    LineSegment ballLine = LineSegment(ball->pos, ball->pos + ball->vel);
+    LineSegment ballLine = LineSegment(ball->pos, ballStillPosition);
     Vector2 projectionPosition = ballLine.project(robot->pos);
     double robotToProjectionDistance = (projectionPosition - robot->pos).length();
     double ballToProjectionDistance = (projectionPosition - ball->pos).length();
@@ -289,51 +290,15 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
     bool robotCanInterceptBall = robotToProjectionDistance/AVERAGE_ROBOT_INTERCEPT_VELOCITY <
             ballToProjectionDistance/ball->vel.length();
 
+    RobotCommand robotCommand;
     if (robotIsBehindBall && robotCanInterceptBall) {
-        return interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
+        robotCommand = interceptMovingBall(projectionPosition, ballToProjectionDistance, robotAngleTowardsBallVel);
     }
-    if (!robotIsBehindBall) {
-        return interceptMovingBallTowardsBall();
-    }
-    return goBehindBall(ballStillPosition);
-}
-
-RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
-    static Vector2 numTreesTarget;
-    Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
-
-    if (fabs(robotAngleTowardsBall) < 0.1*M_PI) {
-        LineSegment ntLine = LineSegment(ball->pos, ball->pos + ball->vel.stretchToLength(100.0));
-        if (ntLine.distanceToLine(numTreesTarget) > 0.3) {
-            numTreesTarget = ball->pos + (ball->vel).stretchToLength(1.5);
-        }
+    else if (! robotIsBehindBall && false) { // TODO::do not use this till interceptMovingBallTowardsBall() works
+        robotCommand = interceptMovingBallTowardsBall();
     }
     else {
-        numTreesTarget = ball->pos;
-    }
-
-    if (! world::field->pointIsInField(numTreesTarget, Constants::ROBOT_RADIUS())) {
-        LineSegment ballLine = LineSegment(ball->pos, numTreesTarget);
-        Polygon fieldEdge = world::field->getFieldEdge(Constants::ROBOT_RADIUS());
-
-        auto intersections = fieldEdge.intersections(ballLine);
-        if (intersections.size() == 1) {
-            numTreesTarget = intersections[0];
-        }
-        else {
-            numTreesTarget = ControlUtils::projectPositionToWithinField(ball->getBallStillPosition());
-        }
-    }
-
-    auto tempAvoidBallDistance = getAvoidBallDistance();
-    setAvoidBallDistance(0.0);
-
-    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
-
-    setAvoidBallDistance(tempAvoidBallDistance);
-
-    if (world::field->pointIsInField(robot->pos + robot->vel)) {
-        robotCommand.vel += ball->vel.stretchToLength(std::min(3.0, std::max(ball->vel.length()*2.0, robot->vel.length()*2.0)));
+        robotCommand = goBehindBall(ballStillPosition);
     }
     if ((robot->pos - ball->pos).length() < 0.5) {
         robotCommand.dribbler = 31;
@@ -362,24 +327,108 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
         robotCommand.vel = (ball->pos - robot->pos).stretchToLength(ball->vel.length());
     }
 
+    Vector2 targetVelIncrease = ball->vel;
+    LineSegment driveLine = {robot->pos, robot->pos
+            + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
+    if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
+        robotCommand.vel += targetVelIncrease;
+    }
+
+    return robotCommand;
+}
+
+RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
+
+    Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
+
+    if (fabs(robotAngleTowardsBall) < M_PI*0.12) {
+        LineSegment ntLine = LineSegment(ball->pos, ball->getBallStillPosition());
+
+        if (ntLine.distanceToLine(movingBallTowardsBallTarget) > 0.3) {
+            movingBallTowardsBallTarget = ball->pos + (ball->vel).stretchToLength(
+                    std::min(0.5, (ball->getBallStillPosition() - ball->pos).length()));
+
+        }
+    }
+    else {
+        Line ntLine = Line(ball->pos, ball->getBallStillPosition());
+        Vector2 projection = ntLine.project(robot->pos);
+
+        movingBallTowardsBallTarget = ball->pos/2 + projection/2;
+    }
+
+    if (! world::field->pointIsInField(movingBallTowardsBallTarget, Constants::ROBOT_RADIUS())) {
+        LineSegment ballLine = LineSegment(ball->pos, movingBallTowardsBallTarget);
+        Polygon fieldEdge = world::field->getFieldEdge(Constants::ROBOT_RADIUS());
+
+        auto intersections = fieldEdge.intersections(ballLine);
+        if (intersections.size() == 1) {
+            movingBallTowardsBallTarget = intersections[0];
+        }
+        else {
+            movingBallTowardsBallTarget = ControlUtils::projectPositionToWithinField(ball->getBallStillPosition());
+        }
+    }
+
+    auto tempAvoidBallDistance = getAvoidBallDistance();
+    setAvoidBallDistance(0.0);
+
+    auto robotCommand = NumTreePosControl::getRobotCommand(robot, movingBallTowardsBallTarget);
+
+    setAvoidBallDistance(tempAvoidBallDistance);
+
     if (world::field->pointIsInField(robot->pos + robot->vel)) {
-        robotCommand.vel += ball->vel;
+        double ballVel = ball->vel.length();
+        double targetVel = ballVel*2.4;
+
+        double distanceToBall = (robot->pos - ball->pos).length();
+        if (distanceToBall < 1.0) {
+            targetVel = ballVel*(1.4 + distanceToBall);
+        }
+
+        double commandVel = robotCommand.vel.length();
+        targetVel = std::max(targetVel, commandVel);
+
+        Vector2 targetVelIncrease = ball->vel.stretchToLength(targetVel/2);
+        LineSegment driveLine = {robot->pos, robot->pos + targetVelIncrease.stretchToLength(robot->vel.length()*2.0)};
+        if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
+            robotCommand.vel += targetVelIncrease;
+        }
+    }
+    if ((robot->pos - ball->pos).length() < 0.5) {
+        robotCommand.dribbler = 31;
     }
     return robotCommand;
 }
 
 RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projectionPosition,
         double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel) {
+
     Vector2 numTreesTarget = projectionPosition;
-    auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+    RobotCommand robotCommand;
+
+    LineSegment driveLine = LineSegment(robot->pos, projectionPosition.stretchToLength(robot->vel.length()*2.0));
+    if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
+        robotCommand = BasicPosControl::getRobotCommand(robot, numTreesTarget);
+    }
+    else {
+        robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
+    }
 
     robotCommand.angle = (ball->pos - robot->pos).toAngle();
     if (fabs(robotAngleTowardsBallVel) > M_PI*0.05) {
-        robotCommand.vel += ball->vel.stretchToLength(
-                fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle()));
+
+        Vector2 targetVelIncrease = ball->vel.stretchToLength(std::max(1.0,
+                fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())))/2;
+
+        LineSegment driveLine = {robot->pos, robot->pos
+                + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
+        if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
+            robotCommand.vel += targetVelIncrease;
+        }
     }
     else if (ballToProjectionDistance/ball->vel.length() > 0.8) {
-        robotCommand.vel -= ball->vel;
+        robotCommand.vel -= ball->vel.stretchToLength(std::max(1.0, ball->vel.length()));
     }
 
     return robotCommand;
@@ -405,6 +454,7 @@ RobotCommand BallHandlePosControl::goToIdleBall(
     auto robotCommand = NumTreePosControl::getRobotCommand(robot, numTreesTarget);
     if ((ball->pos - robot->pos).length() < MAX_BALL_DISTANCE*1.5) {
         robotCommand.angle = (ball->pos - robot->pos).toAngle();
+        robotCommand.dribbler = 31;
     }
     return robotCommand;
 }
@@ -431,6 +481,68 @@ void BallHandlePosControl::updatePID(pidVals newPID) {
         xBallHandlePID.setPID(newPID, 1.0);
         yBallHandlePID.setPID(newPID, 1.0);
     }
+}
+
+bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveLine) {
+    double maxCrashVel = 1.0;
+    if (robot->vel.length() < maxCrashVel || driveLine.length() < maxCrashVel) {
+        return false;
+    }
+
+    double safeMargin = 0.4;
+    auto theirRobots = world::world->getThem();
+    for (auto &robot : theirRobots) {
+        if (driveLine.distanceToLine(robot->pos) > safeMargin) {
+            continue;
+        }
+
+        if (fabs((driveLine.end - driveLine.start).toAngle() - (robot->pos - driveLine.start).toAngle()) > M_PI_2) {
+            continue;
+        }
+
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {robot->pos},
+                Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+                Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+        return true;
+
+    }
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+            Qt::blue, robot->id, interface::Drawing::LINES_CONNECTED);
+    return false;
+}
+
+bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) {
+    if (!world::field->pointIsInField(driveLine.end)) {
+
+        interface::Input::drawData(interface::Visual::BALL_HANDLING,
+                {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
+                Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+                Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+
+        return true;
+    }
+
+    double maxRobotVel = 3.0;
+    if (!world::field->pointIsInField(driveLine.start + (driveLine.end - driveLine.start)*2)) {
+
+        if (robot->vel.length() > maxRobotVel) {
+            interface::Input::drawData(interface::Visual::BALL_HANDLING,
+                    {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
+                    Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
+            interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+                    Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+
+            return true;
+        }
+    }
+
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
+            Qt::blue, robot->id, interface::Drawing::LINES_CONNECTED);
+
+    return false;
+
 }
 
 } //control

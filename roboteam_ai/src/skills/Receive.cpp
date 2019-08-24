@@ -40,6 +40,8 @@ Receive::Status Receive::onUpdate() {
         if ((ball->pos - robot->pos).length() < 1.0) {
             command.dribbler = 31;
         }
+    } else {
+        command.w = (ball->pos - robot->pos).toAngle().getAngle();
     }
 
     // Check if robot is in position, otherwise turn towards ball
@@ -50,7 +52,6 @@ Receive::Status Receive::onUpdate() {
         }
     }
 
-    command.w = (ball->pos - robot->pos).toAngle().getAngle();
     publishRobotCommand();
     return Status::Running;
 
@@ -84,10 +85,19 @@ void Receive::intercept() {
 
     ballStartPos = ball->pos;
     ballStartVel = ball->vel;
-    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME();
+    ballEndPos = ballStartPos + ballStartVel * Constants::MAX_RECEIVE_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
+    Vector2 velocities;
+
+    if ((interceptPoint - robot->pos).length() > 1.0) {
+        velocities = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPoint).vel;
+        if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world::world->getWorld(), 1)) {
+            velocities = velocities * 1.2;
+        }
+    } else {
+        velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
+    }
     command.x_vel = static_cast<float>(velocities.x);
     command.y_vel = static_cast<float>(velocities.y);
     command.w = ball->vel.stretchToLength(-1).toAngle();

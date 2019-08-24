@@ -9,7 +9,7 @@
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 #include "roboteam_ai/src/control/RobotCommand.h"
 #include <roboteam_ai/src/utilities/Constants.h>
-
+#include <roboteam_utils/LineSegment.h>
 namespace rtt {
 namespace ai {
 namespace control {
@@ -30,7 +30,7 @@ class BallHandlePosControl : public NumTreePosControl {
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.2;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.5;
-        double ballPlacementAccuracy = 0.15;
+        double ballPlacementAccuracy = 0.12;
 
         constexpr static double ERROR_MARGIN = 0.02;
         constexpr static double ANGLE_ERROR_MARGIN = 0.010*M_PI;
@@ -96,6 +96,10 @@ class BallHandlePosControl : public NumTreePosControl {
                 TravelStrategy travelStrategy);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;
 
+    private:
+        bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
+        bool isCrashingOutsideField(const LineSegment &driveLine);
+
         RobotCommand goToMovingBall();
         RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
                 bool ballIsFarFromTarget);
@@ -104,7 +108,7 @@ class BallHandlePosControl : public NumTreePosControl {
                 const Angle &robotAngleTowardsBallVel);
         RobotCommand goBehindBall(const Vector2 &ballStillPosition);
         RobotCommand interceptMovingBallTowardsBall();
-
+        Vector2 movingBallTowardsBallTarget;
         };
 
 } //control
