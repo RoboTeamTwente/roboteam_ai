@@ -8,7 +8,7 @@
 #include <vector>
 #include <mutex>
 #include <set>
-#include <roboteam_msgs/DemoRobot.h>
+#include <DemoRobot.pb.h>
 
 namespace demo {
 class JoystickDemo {
@@ -17,10 +17,9 @@ class JoystickDemo {
         static std::set<int> demoRobots;
         static std::mutex demoLock;
 
-
     public:
         static bool isDemo();
-        static void demoLoop(roboteam_msgs::DemoRobot msg);
+        static void demoLoop(roboteam_proto::DemoRobot msg);
         static std::set<int> getDemoRobots();
         static bool checkIfDemoSafe(int ID);
 };

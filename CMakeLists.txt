@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.4)
 project(roboteam_ai)
 
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/roboteam_ai/lib/roboteam_proto)
+
 #SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
 set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -O1")
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
@@ -8,6 +10,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
 
+execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_SOURCE_DIR}/roboteam_ai/lib)
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/../roboteam_proto ${PROJECT_SOURCE_DIR}/roboteam_ai/lib/roboteam_proto)
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -24,6 +28,7 @@ if(APPLE)
     #Qt5_DIR=/usr/local/opt/qt/lib/cmake
     #Qt5Concurrent_DIR=/usr/local/opt/qt/lib/cmake/Qt5Concurrent
     #Qt5Gui_DIR=/usr/local/opt/qt/lib/cmake/Qt5Gui
+
     set(Qt5Widgets_DIR "/usr/local/opt/qt/lib/cmake/Qt5Widgets")
 endif()
 
@@ -31,7 +36,8 @@ endif()
 if(UNIX AND NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
 endif()
-find_package(Qt5Widgets REQUIRED)
+
+find_package(Qt5Widgets)
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -477,7 +483,7 @@ add_executable(Roboteam_AI
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES})
 
-target_link_libraries(Roboteam_AI Qt5::Widgets Qt5::Gui)
+target_link_libraries(Roboteam_AI Qt5::Widgets Qt5::Gui roboteam_proto roboteam_utils)
 
 #############
 ## Testing ##
@@ -498,10 +504,12 @@ add_executable(ai_tests
         ${TEST_SOURCES}
         ${WORLD_SOURCES})
 
-target_compile_options(ai_tests PUBLIC --coverage)
 target_link_libraries(ai_tests
+        roboteam_proto
         gcov
         Qt5::Widgets Qt5::Gui)
+
+
 
 
 include(CodeCoverage)
@@ -514,5 +522,9 @@ set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD_REQUIRED ON)
 set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
 set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
 
-cotire(Roboteam_AI)
-cotire(ai_tests)
+
+if(UNIX AND NOT APPLE)
+    cotire(Roboteam_AI)
+    cotire(ai_tests)
+endif()
+

@@ -3,9 +3,9 @@
 #define ROBOTEAM_AI_CONSTANTS_H
 
 #include <QColor>
-#include <ros/node_handle.h>
 #include "math.h"
 #include "RuleSet.h"
+#include <map>
 
 namespace rtt {
 namespace ai {
