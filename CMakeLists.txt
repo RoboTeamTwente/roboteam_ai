@@ -8,7 +8,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
 
-SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -17,20 +16,22 @@ set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files
 set(CMAKE_AUTOUIC OFF)
 
-# Find the QtWidgets library
-find_package(Qt5Widgets REQUIRED)
 
-find_package(catkin REQUIRED COMPONENTS
-        roboteam_msgs
-        roboteam_utils
-        roscpp
-        roslib
-        std_msgs
-        actionlib_msgs
-        actionlib
-        uuid_msgs
-        unique_id
-        roslaunch)
+# for MacOS X or iOS, watchOS, tvOS (since 3.10.3)
+if(APPLE)
+    #Qt5Test_DIR=/usr/local/opt/qt/lib/cmake/Qt5Test
+    #Qt5Core_DIR=/usr/local/opt/qt/lib/cmake/Qt5Core
+    #Qt5_DIR=/usr/local/opt/qt/lib/cmake
+    #Qt5Concurrent_DIR=/usr/local/opt/qt/lib/cmake/Qt5Concurrent
+    #Qt5Gui_DIR=/usr/local/opt/qt/lib/cmake/Qt5Gui
+    set(Qt5Widgets_DIR "/usr/local/opt/qt/lib/cmake/Qt5Widgets")
+endif()
+
+# for Linux, BSD, Solaris, Minix
+if(UNIX AND NOT APPLE)
+    SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
+endif()
+find_package(Qt5Widgets REQUIRED)
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/treeinterp/json.h
@@ -457,11 +458,6 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/GetBallCoach.h)
 
-catkin_package()
-include_directories(${catkin_INCLUDE_DIRS})
-add_dependencies(${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-
 # Main Executable
 add_executable(Roboteam_AI
         roboteam_ai/src/roboteam_ai.cpp
@@ -481,13 +477,12 @@ add_executable(Roboteam_AI
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES})
 
-add_dependencies(Roboteam_AI ${catkin_EXPORTED_TARGETS})
-target_link_libraries(Roboteam_AI ${catkin_LIBRARIES} Qt5::Widgets Qt5::Gui)
+target_link_libraries(Roboteam_AI Qt5::Widgets Qt5::Gui)
 
 #############
 ## Testing ##
 #############
-catkin_add_gtest(ai_tests
+add_executable(ai_tests
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
@@ -505,17 +500,9 @@ catkin_add_gtest(ai_tests
 
 target_compile_options(ai_tests PUBLIC --coverage)
 target_link_libraries(ai_tests
-        ${catkin_LIBRARIES}
         gcov
         Qt5::Widgets Qt5::Gui)
 
-# this creates a directory for the jsons where  ROS launch scripts can access it
-# then the json folder gets linked to that directory, so also ROS launch scripts can profit from refreshing JSONS on runtime
-ADD_CUSTOM_TARGET(link_target ALL
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src
-        COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
-        DEPENDS Roboteam_AI ai_tests
-        )
 
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
