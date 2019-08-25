@@ -10,8 +10,7 @@
 #include <set>
 #include <mutex>
 #include <vector>
-#include "roboteam_utils/Vector2.h"
-#include "ros/ros.h"
+#include "Vector2.h"
 
 namespace rtt {
 namespace ai {

@@ -4,9 +4,10 @@
 
 #ifndef ROBOTEAM_AI_DEFENDASSIGNCOACH_H
 #define ROBOTEAM_AI_DEFENDASSIGNCOACH_H
-#include "roboteam_utils/Vector2.h"
-#include "roboteam_ai/src/world/World.h"
+
+#include "src/world/World.h"
 #include "DefencePositionCoach.h"
+#include "Vector2.h"
 
 namespace rtt {
 namespace ai {
@@ -20,7 +21,7 @@ class DefenceDealer {
     public:
         void updateDefenderLocations();
         void addDefender(int id);
-        std::shared_ptr<std::pair<Vector2, double>> getDefenderPosition(int id);
+        std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
         void visualizePoints();
 };
 extern DefenceDealer g_DefenceDealer;

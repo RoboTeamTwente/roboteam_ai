@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 
-#include "roboteam_ai/src/interface/widgets/mainWindow.h"
+#include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
 #include "world/WorldManager.h"
 
@@ -42,12 +42,6 @@ void setDarkTheme() {
 }
 
 int main(int argc, char* argv[]) {
-    // Init ROS node in main thread
-    ros::init(argc, argv, "Roboteam_AI");
-
-    // get ros to work
-    ros::NodeHandle n; // KEEP THIS LINE
-    while (!n.ok()) {}
     rtt::ai::Constants::init();
 
     // get the trees to work

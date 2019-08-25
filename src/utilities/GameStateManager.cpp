@@ -1,4 +1,4 @@
-#include <roboteam_ai/src/interface/api/Output.h>
+#include "../interface/api/Output.h"
 #include "GameStateManager.hpp"
 
 namespace rtt {

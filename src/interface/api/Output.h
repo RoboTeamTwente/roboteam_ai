@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_OUTPUT_H
 
 #include <mutex>
-#include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/utilities/Pause.h>
+#include "roboteam_utils/Vector2.h"
+#include "../../utilities/Pause.h"
 #include "../../utilities/GameState.h"
 
 namespace rtt {
