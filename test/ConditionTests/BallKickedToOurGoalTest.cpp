@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include "../../src/conditions/BallKickedToOurGoal.h"
-#include "../../src/world/World.h"
+#include "include/roboteam_ai/conditions/BallKickedToOurGoal.h"
+#include "include/roboteam_ai/world/World.h"
 #include "roboteam_ai/src/world/Field.h"
 
 TEST(BallKickedToOurGoal,BallKickedToOurGoal){

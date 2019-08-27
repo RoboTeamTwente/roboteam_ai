@@ -6,7 +6,7 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Ball.h>
-#include "BallNearOurGoalLineAndStill.h"
+#include "include/roboteam_ai/conditions/BallNearOurGoalLineAndStill.h"
 
 namespace rtt {
 namespace ai {

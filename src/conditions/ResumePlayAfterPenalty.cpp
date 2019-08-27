@@ -3,8 +3,8 @@
 //
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <roboteam_ai/src/world/Field.h>
-#include "ResumePlayAfterPenalty.h"
-#include "../world/Ball.h"
+#include "include/roboteam_ai/conditions/ResumePlayAfterPenalty.h"
+#include "include/roboteam_ai/world/Ball.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt{

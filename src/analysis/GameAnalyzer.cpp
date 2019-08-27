@@ -4,11 +4,11 @@
 
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/BallPossession.h>
-#include "GameAnalyzer.h"
-#include "../world/World.h"
-#include "../world/Field.h"
-#include "../world/Robot.h"
-#include "RobotDanger.h"
+#include "include/roboteam_ai/analysis/GameAnalyzer.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/analysis/RobotDanger.h"
 
 namespace rtt {
 namespace ai {

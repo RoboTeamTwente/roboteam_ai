@@ -1,4 +1,4 @@
-#include "Composite.hpp"
+#include "include/roboteam_ai/bt/Composite.hpp"
 
 namespace bt {
 

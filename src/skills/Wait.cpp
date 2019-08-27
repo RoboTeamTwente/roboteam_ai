@@ -3,8 +3,8 @@
 //
 
 #include <roboteam_ai/src/utilities/Constants.h>
-#include "Wait.h"
-#include "../world/Robot.h"
+#include "include/roboteam_ai/skills/Wait.h"
+#include "include/roboteam_ai/world/Robot.h"
 
 namespace rtt {
 namespace ai {

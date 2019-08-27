@@ -4,10 +4,10 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_msgs/World.h>
-#include "../../src/world/World.h"
-#include "../../src/utilities/RobotDealer.h"
-#include "../../src/conditions/IsRobotClosestToBall.h"
-#include "../../src/world/Ball.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
+#include "include/roboteam_ai/conditions/IsRobotClosestToBall.h"
+#include "include/roboteam_ai/world/Ball.h"
 
 TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
 

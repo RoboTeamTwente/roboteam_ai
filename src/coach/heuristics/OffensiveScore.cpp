@@ -2,8 +2,8 @@
 // Created by robzelluf on 4/17/19.
 //
 
-#include "OffensiveScore.h"
-#include "../OffensiveCoach.h"
+#include "include/roboteam_ai/coach/heuristics/OffensiveScore.h"
+#include "include/roboteam_ai/coach/OffensiveCoach.h"
 
 namespace rtt {
 namespace ai {

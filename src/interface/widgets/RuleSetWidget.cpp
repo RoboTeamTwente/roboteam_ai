@@ -6,8 +6,8 @@
 #include <QtWidgets/QSpacerItem>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
 #include <QtWidgets/QLabel>
-#include "RuleSetWidget.h"
-#include "mainWindow.h"
+#include "include/roboteam_ai/interface/widgets/RuleSetWidget.h"
+#include "include/roboteam_ai/interface/widgets/mainWindow.h"
 
 namespace rtt {
 namespace ai {

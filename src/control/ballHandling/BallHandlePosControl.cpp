@@ -6,13 +6,13 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 
-#include "BallHandlePosControl.h"
-#include "DribbleBackwards.h"
-#include "DribbleForwards.h"
-#include "RotateAroundBall.h"
-#include "RotateWithBall.h"
-#include "../numTrees/NumTreePosControl.h"
-#include "../BasicPosControl.h"
+#include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
+#include "include/roboteam_ai/control/ballHandling/DribbleBackwards.h"
+#include "include/roboteam_ai/control/ballHandling/DribbleForwards.h"
+#include "include/roboteam_ai/control/ballHandling/RotateAroundBall.h"
+#include "include/roboteam_ai/control/ballHandling/RotateWithBall.h"
+#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/control/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {

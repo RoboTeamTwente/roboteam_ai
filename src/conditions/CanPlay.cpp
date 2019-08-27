@@ -6,9 +6,9 @@
 
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include "../utilities/Constants.h"
-#include "CanPlay.h"
-#include "../world/Ball.h"
+#include "include/roboteam_ai/utilities/Constants.h"
+#include "include/roboteam_ai/conditions/CanPlay.h"
+#include "include/roboteam_ai/world/Ball.h"
 
 namespace rtt {
 namespace ai {

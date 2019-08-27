@@ -4,7 +4,7 @@
  * EXCEPT if that distance is smaller than MAX_ONE_ROBOT_BALLPLACEMENT_DIST_TO_TARGET.
  */
 
-#include "TwoRobotBallPlacement.h"
+#include "include/roboteam_ai/conditions/TwoRobotBallPlacement.h"
 
 namespace rtt {
 namespace ai {

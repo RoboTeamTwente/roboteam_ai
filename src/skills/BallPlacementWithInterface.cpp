@@ -2,14 +2,14 @@
 // Created by thijs on 15-5-19.
 //
 
-#include "BallPlacementWithInterface.h"
+#include "include/roboteam_ai/skills/BallPlacementWithInterface.h"
 
 //
 // Created by baris on 10-5-19.
 //
 
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "DriveWithInterface.h"
+#include "include/roboteam_ai/skills/DriveWithInterface.h"
 
 namespace rtt {
 namespace ai {

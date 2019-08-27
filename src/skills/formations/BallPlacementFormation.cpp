@@ -23,11 +23,11 @@
                                     - random ER-Force guy
  */
 
-#include "BallPlacementFormation.h"
+#include "include/roboteam_ai/skills/formations/BallPlacementFormation.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "../../control/Hungarian.h"
-#include "../../control/ControlUtils.h"
+#include "include/roboteam_ai/control/Hungarian.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

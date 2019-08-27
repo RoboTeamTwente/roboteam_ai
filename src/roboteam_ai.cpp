@@ -1,9 +1,9 @@
 #include <QApplication>
 #include <QStyleFactory>
 
-#include "interface/widgets/mainWindow.h"
-#include "ApplicationManager.h"
-#include "world/WorldManager.h"
+#include "include/roboteam_ai/interface/widgets/mainWindow.h"
+#include "include/roboteam_ai/ApplicationManager.h"
+#include "include/roboteam_ai/world/WorldManager.h"
 
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;

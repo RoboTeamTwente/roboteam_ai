@@ -5,7 +5,7 @@
  * - layingStill: if true, the ball has to lay still as well to return SUCCESS
  */
 
-#include "IsBallCloseToBorder.h"
+#include "include/roboteam_ai/conditions/IsBallCloseToBorder.h"
 #include <roboteam_ai/src/world/Ball.h>
 
 namespace rtt {

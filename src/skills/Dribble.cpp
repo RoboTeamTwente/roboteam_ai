@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include "Dribble.h"
+#include "include/roboteam_ai/skills/Dribble.h"
 namespace rtt {
 namespace ai {
 

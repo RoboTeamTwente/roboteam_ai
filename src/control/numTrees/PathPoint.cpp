@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "PathPoint.h"
+#include "include/roboteam_ai/control/numTrees/PathPoint.h"
 
 namespace rtt {
 namespace ai {

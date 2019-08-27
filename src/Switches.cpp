@@ -2,7 +2,7 @@
 // Created by baris on 15/11/18.
 //
 
-#include "Switches.h"
+#include "include/roboteam_ai/Switches.h"
 //  ______________________
 //  |                    |
 //  |   INCLUDE TACTICS  |

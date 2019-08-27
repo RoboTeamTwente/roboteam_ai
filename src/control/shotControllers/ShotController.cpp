@@ -6,8 +6,8 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "ShotController.h"
-#include "../ballHandling/BallHandlePosControl.h"
+#include "include/roboteam_ai/control/shotControllers/ShotController.h"
+#include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {

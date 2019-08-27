@@ -2,7 +2,7 @@
 // Created by robzelluf on 4/9/19.
 //
 
-#include "ReflectKick.h"
+#include "include/roboteam_ai/skills/ReflectKick.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 
 namespace rtt {

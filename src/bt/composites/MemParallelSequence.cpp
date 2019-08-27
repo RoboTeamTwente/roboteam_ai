@@ -1,4 +1,4 @@
-#include "MemParallelSequence.h"
+#include "include/roboteam_ai/bt/composites/MemParallelSequence.h"
 
 namespace bt {
 

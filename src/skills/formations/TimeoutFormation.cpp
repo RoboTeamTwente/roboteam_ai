@@ -3,8 +3,8 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
-#include "TimeoutFormation.h"
-#include "../../control/Hungarian.h"
+#include "include/roboteam_ai/skills/formations/TimeoutFormation.h"
+#include "include/roboteam_ai/control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

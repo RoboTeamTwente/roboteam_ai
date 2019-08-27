@@ -4,8 +4,8 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/world/Ball.h>
-#include "BallKickedToOurGoal.h"
-#include "../control/ControlUtils.h"
+#include "include/roboteam_ai/conditions/BallKickedToOurGoal.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

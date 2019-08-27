@@ -1,5 +1,5 @@
-#include "../interface/api/Output.h"
-#include "GameStateManager.hpp"
+#include "include/roboteam_ai/interface/api/Output.h"
+#include "include/roboteam_ai/utilities/GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {

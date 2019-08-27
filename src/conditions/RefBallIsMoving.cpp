@@ -3,8 +3,8 @@
 //
 
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include "RefBallIsMoving.h"
-#include "../world/Ball.h"
+#include "include/roboteam_ai/conditions/RefBallIsMoving.h"
+#include "include/roboteam_ai/world/Ball.h"
 
 namespace rtt {
 namespace ai {

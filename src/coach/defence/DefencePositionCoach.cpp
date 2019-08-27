@@ -3,7 +3,7 @@
 // Created by rolf on 18-2-19.
 //
 
-#include "DefencePositionCoach.h"
+#include "include/roboteam_ai/coach/defence/DefencePositionCoach.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/utilities/RobotDealer.h"

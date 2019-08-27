@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "PossiblePass.h"
+#include "include/roboteam_ai/coach/defence/PossiblePass.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/world/WorldData.h"
 

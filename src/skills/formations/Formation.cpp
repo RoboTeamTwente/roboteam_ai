@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
-#include "Formation.h"
+#include "include/roboteam_ai/skills/formations/Formation.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/control/Hungarian.h"

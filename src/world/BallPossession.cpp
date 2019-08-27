@@ -2,7 +2,7 @@
 // Created by rolf on 15-4-19.
 //
 
-#include "BallPossession.h"
+#include "include/roboteam_ai/world/BallPossession.h"
 #include <roboteam_ai/src/coach/PassCoach.h>
 
 namespace rtt {

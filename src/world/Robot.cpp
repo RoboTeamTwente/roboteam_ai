@@ -2,9 +2,9 @@
 // Created by thijs on 1-4-19.
 //
 
-#include "Robot.h"
-#include "World.h"
-#include "Ball.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/Ball.h"
 
 #include "roboteam_ai/src/control/ControlUtils.h"
 #include "roboteam_ai/src/control/shotControllers/ShotController.h"

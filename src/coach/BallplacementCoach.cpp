@@ -11,7 +11,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_ai/src/interface/api/Output.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include "BallplacementCoach.h"
+#include "include/roboteam_ai/coach/BallplacementCoach.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {

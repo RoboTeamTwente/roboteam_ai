@@ -2,7 +2,7 @@
 // Created by baris on 04/10/18.
 //
 
-#include "BTFactory.h"
+#include "include/roboteam_ai/treeinterp/BTFactory.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;

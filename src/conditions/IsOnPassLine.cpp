@@ -2,7 +2,7 @@
 // Created by robzelluf on 4/25/19.
 //
 
-#include "IsOnPassLine.h"
+#include "include/roboteam_ai/conditions/IsOnPassLine.h"
 
 namespace rtt {
 namespace ai {

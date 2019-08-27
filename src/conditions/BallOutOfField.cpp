@@ -5,7 +5,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/world/Ball.h>
-#include "BallOutOfField.h"
+#include "include/roboteam_ai/conditions/BallOutOfField.h"
 
 namespace rtt {
 namespace ai {

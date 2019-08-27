@@ -1,8 +1,8 @@
 
-#include "StopFormation.h"
+#include "include/roboteam_ai/skills/formations/StopFormation.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "../../control/Hungarian.h"
+#include "include/roboteam_ai/control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

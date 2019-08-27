@@ -2,9 +2,9 @@
 //
 // Created by baris on 16/11/18.
 //
-#include "RobotDealer.h"
-#include "../world/World.h"
-#include "../world/Field.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/Field.h"
 #include "ros/ros.h"
 #include <utility>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>

@@ -3,9 +3,9 @@
 //
 
 #include <roboteam_ai/src/world/WorldData.h>
-#include "MidFieldCoach.h"
-#include "../../world/Robot.h"
-#include "../../world/Ball.h"
+#include "include/roboteam_ai/coach/midField/MidFieldCoach.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/Ball.h"
 
 namespace rtt {
 namespace ai {

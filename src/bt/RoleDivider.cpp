@@ -2,7 +2,7 @@
 // Created by baris on 10-4-19.
 //
 
-#include "RoleDivider.h"
+#include "include/roboteam_ai/bt/RoleDivider.h"
 
 namespace bt {
 

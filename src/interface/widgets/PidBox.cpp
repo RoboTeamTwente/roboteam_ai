@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 8-4-19.
 //
 
-#include "PidBox.h"
+#include "include/roboteam_ai/interface/widgets/PidBox.h"
 namespace rtt {
 namespace ai {
 namespace interface {

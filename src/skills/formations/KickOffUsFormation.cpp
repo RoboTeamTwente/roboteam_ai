@@ -1,9 +1,9 @@
 #include <roboteam_ai/src/analysis/DecisionMaker.h>
 #include <roboteam_ai/src/analysis/GameAnalyzer.h>
 #include <roboteam_ai/src/world/Field.h>
-#include "KickOffUsFormation.h"
-#include "../../control/ControlUtils.h"
-#include "../../control/Hungarian.h"
+#include "include/roboteam_ai/skills/formations/KickOffUsFormation.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
+#include "include/roboteam_ai/control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

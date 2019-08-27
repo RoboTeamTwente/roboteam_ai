@@ -3,8 +3,8 @@
 //
 
 #include <roboteam_ai/src/utilities/RobotDealer.h>
-#include "DecisionMaker.h"
-#include "GameAnalyzer.h"
+#include "include/roboteam_ai/analysis/DecisionMaker.h"
+#include "include/roboteam_ai/analysis/GameAnalyzer.h"
 
 
 namespace rtt {

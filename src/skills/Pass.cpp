@@ -9,7 +9,7 @@
 #include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/world/Robot.h>
-#include "Pass.h"
+#include "include/roboteam_ai/skills/Pass.h"
 
 namespace rtt {
 namespace ai {

@@ -6,11 +6,11 @@
 #include <roboteam_ai/src/Switches.h>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "MainControlsWidget.h"
-#include "mainWindow.h"
-#include "../../treeinterp/BTFactory.h"
+#include "include/roboteam_ai/interface/widgets/MainControlsWidget.h"
+#include "include/roboteam_ai/interface/widgets/mainWindow.h"
+#include "include/roboteam_ai/treeinterp/BTFactory.h"
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include "../../utilities/GameState.h"
+#include "include/roboteam_ai/utilities/GameState.h"
 
 namespace rtt {
 namespace ai {

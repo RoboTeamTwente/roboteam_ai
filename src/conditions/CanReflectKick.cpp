@@ -4,9 +4,9 @@
 
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Field.h>
-#include "CanReflectKick.h"
-#include "../world/Robot.h"
-#include "../skills/ReflectKick.h"
+#include "include/roboteam_ai/conditions/CanReflectKick.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/skills/ReflectKick.h"
 
 namespace rtt {
 namespace ai {

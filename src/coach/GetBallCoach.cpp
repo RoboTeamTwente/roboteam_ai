@@ -5,8 +5,8 @@
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/utilities/RobotDealer.h>
 #include <roboteam_ai/src/world/Field.h>
-#include "defence/DefencePositionCoach.h"
-#include "GetBallCoach.h"
+#include "include/roboteam_ai/coach/defence/DefencePositionCoach.h"
+#include "include/roboteam_ai/coach/GetBallCoach.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {

@@ -4,9 +4,9 @@
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "WorldData.h"
-#include "Field.h"
-#include "World.h"
+#include "include/roboteam_ai/world/WorldData.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/world/World.h"
 #include <algorithm>
 
 namespace rtt {

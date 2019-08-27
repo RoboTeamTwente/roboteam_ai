@@ -2,11 +2,11 @@
 // Created by rolf on 17-10-18.
 //
 #include <gtest/gtest.h>
-#include "../../src/conditions/IsInDefenseArea.hpp"
-#include "../../src/world/World.h"
-#include "../../src/world/Ball.h"
+#include "include/roboteam_ai/conditions/IsInDefenseArea.hpp"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/Ball.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "../../src/utilities/RobotDealer.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 
 TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)
 {

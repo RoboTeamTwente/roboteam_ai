@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
-#include "ActiveStop.h"
+#include "include/roboteam_ai/skills/ActiveStop.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt{

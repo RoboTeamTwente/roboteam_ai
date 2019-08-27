@@ -2,7 +2,7 @@
 // Created by baris on 09/10/18.
 //
 
-#include "JsonReader.h"
+#include "include/roboteam_ai/treeinterp/JsonReader.h"
 
 #define GetCurrentDir getcwd // Needed for the path finding
 

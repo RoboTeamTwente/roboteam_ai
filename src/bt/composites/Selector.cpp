@@ -5,7 +5,7 @@
  *    If all children fails, only then does the selector fail.
  */
 
-#include "Selector.hpp"
+#include "include/roboteam_ai/bt/composites/Selector.hpp"
 
 namespace bt {
 

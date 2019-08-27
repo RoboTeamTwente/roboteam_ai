@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
-#include "DribbleForward.h"
+#include "include/roboteam_ai/skills/DribbleForward.h"
 
 namespace rtt {
 namespace ai {

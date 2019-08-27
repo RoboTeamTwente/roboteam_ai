@@ -3,7 +3,7 @@
 */
 
 #include <roboteam_ai/src/coach/PassCoach.h>
-#include "IsBeingPassedTo.h"
+#include "include/roboteam_ai/conditions/IsBeingPassedTo.h"
 
 namespace rtt {
 namespace ai {

@@ -2,8 +2,8 @@
 // Created by rolf on 12-4-19.
 //
 
-#include "ShouldHandleBall.h"
-#include "../coach/GetBallCoach.h"
+#include "include/roboteam_ai/conditions/ShouldHandleBall.h"
+#include "include/roboteam_ai/coach/GetBallCoach.h"
 
 namespace rtt {
 namespace ai {

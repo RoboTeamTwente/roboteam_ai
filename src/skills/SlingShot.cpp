@@ -5,8 +5,8 @@
 #include "roboteam_ai/src/world/World.h"
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"
-#include "SlingShot.h"
-#include "../control/ControlUtils.h"
+#include "include/roboteam_ai/skills/SlingShot.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

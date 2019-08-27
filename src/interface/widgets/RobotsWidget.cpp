@@ -5,10 +5,10 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <roboteam_msgs/WorldRobot.h>
-#include "RobotsWidget.h"
+#include "include/roboteam_ai/interface/widgets/RobotsWidget.h"
 #include <QScrollArea>
 #include "roboteam_ai/src/analysis/GameAnalyzer.h"
-#include "mainWindow.h"
+#include "include/roboteam_ai/interface/widgets/mainWindow.h"
 
 namespace rtt {
 namespace ai {

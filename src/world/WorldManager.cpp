@@ -1,6 +1,6 @@
 #include <roboteam_ai/src/utilities/Constants.h>
-#include "WorldManager.h"
-#include "../io/IOManager.h"
+#include "include/roboteam_ai/world/WorldManager.h"
+#include "include/roboteam_ai/io/IOManager.h"
 
 namespace rtt {
 namespace ai {

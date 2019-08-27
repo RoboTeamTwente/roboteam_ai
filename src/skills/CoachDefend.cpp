@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
-#include "CoachDefend.h"
+#include "include/roboteam_ai/skills/CoachDefend.h"
 #include "roboteam_ai/src/coach/defence/DefenceDealer.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 namespace rtt {

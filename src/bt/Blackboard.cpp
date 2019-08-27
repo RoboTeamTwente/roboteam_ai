@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 #include "roboteam_msgs/StringEntry.h"
-#include "Blackboard.hpp"
+#include "include/roboteam_ai/bt/Blackboard.hpp"
 
 namespace bt {
 

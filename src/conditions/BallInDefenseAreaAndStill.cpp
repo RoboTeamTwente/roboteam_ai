@@ -5,8 +5,8 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/world/Ball.h>
-#include "BallInDefenseAreaAndStill.h"
-#include "../utilities/Constants.h"
+#include "include/roboteam_ai/conditions/BallInDefenseAreaAndStill.h"
+#include "include/roboteam_ai/utilities/Constants.h"
 
 namespace rtt {
 namespace ai {

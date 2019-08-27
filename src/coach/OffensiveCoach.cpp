@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/interface/widgets/widget.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "OffensiveCoach.h"
+#include "include/roboteam_ai/coach/OffensiveCoach.h"
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/Hungarian.h>

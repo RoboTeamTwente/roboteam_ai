@@ -2,7 +2,7 @@
 // Created by roboteam on 15-4-19.
 //
 
-#include "PenaltyHelper.h"
+#include "include/roboteam_ai/skills/PenaltyHelper.h"
 rtt::ai::PenaltyHelper::PenaltyHelper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 

@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "DriveWithInterface.h"
+#include "include/roboteam_ai/skills/DriveWithInterface.h"
 
 namespace rtt {
 namespace ai {

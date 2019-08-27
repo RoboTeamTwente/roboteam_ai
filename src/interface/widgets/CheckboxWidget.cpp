@@ -2,8 +2,8 @@
 // Created by thijs on 17-6-19.
 //
 
-#include "CheckboxWidget.h"
-#include "mainWindow.h"
+#include "include/roboteam_ai/interface/widgets/CheckboxWidget.h"
+#include "include/roboteam_ai/interface/widgets/mainWindow.h"
 
 namespace rtt {
 namespace ai {

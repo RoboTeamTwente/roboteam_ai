@@ -2,8 +2,8 @@
 // Created by rolf on 21/11/18.
 //
 
-#include "RotateToAngle.h"
-#include "../control/ControlUtils.h"
+#include "include/roboteam_ai/skills/RotateToAngle.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 #include "roboteam_ai/src/world/Ball.h"
 #include "roboteam_ai/src/world/Robot.h"
 

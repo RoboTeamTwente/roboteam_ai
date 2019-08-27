@@ -2,8 +2,8 @@
 // Created by robzelluf on 4/17/19.
 //
 
-#include "PassScore.h"
-#include "../../world/WorldData.h"
+#include "include/roboteam_ai/coach/heuristics/PassScore.h"
+#include "include/roboteam_ai/world/WorldData.h"
 
 namespace rtt {
 namespace ai {

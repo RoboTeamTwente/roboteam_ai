@@ -6,7 +6,7 @@
 #include <ros/node_handle.h>
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include "widget.h"
+#include "include/roboteam_ai/interface/widgets/widget.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/interface/api/Output.h"
 #include "roboteam_ai/src/analysis/GameAnalyzer.h"

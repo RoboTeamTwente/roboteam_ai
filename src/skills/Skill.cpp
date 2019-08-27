@@ -1,6 +1,6 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "Skill.h"
-#include "../utilities/RobotDealer.h"
+#include "include/roboteam_ai/skills/Skill.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "roboteam_ai/src/world/World.h"
 #include "roboteam_ai/src/world/Robot.h"
 #include "roboteam_ai/src/world/Ball.h"

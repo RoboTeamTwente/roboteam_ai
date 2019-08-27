@@ -2,7 +2,7 @@
 // Created by baris on 15-1-19.
 //
 
-#include "GTPSpecial.h"
+#include "include/roboteam_ai/skills/gotopos/GTPSpecial.h"
 
 namespace rtt {
 namespace ai {

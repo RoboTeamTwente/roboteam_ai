@@ -3,8 +3,8 @@
 //
 
 #include <roboteam_ai/src/control/PositionUtils.h>
-#include "FreeKickFormation.h"
-#include "../../control/Hungarian.h"
+#include "include/roboteam_ai/skills/formations/FreeKickFormation.h"
+#include "include/roboteam_ai/control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

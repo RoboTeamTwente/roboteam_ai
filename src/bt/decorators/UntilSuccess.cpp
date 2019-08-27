@@ -2,7 +2,7 @@
  * The UntilSuccess decorator repeats until the child returns success and then returns success.
  */
 
-#include "UntilSuccess.hpp"
+#include "include/roboteam_ai/bt/decorators/UntilSuccess.hpp"
 
 namespace bt {
 

@@ -2,7 +2,7 @@
 // Created by rolf on 3-4-19.
 //
 
-#include "DefenceDealer.h"
+#include "include/roboteam_ai/coach/defence/DefenceDealer.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {

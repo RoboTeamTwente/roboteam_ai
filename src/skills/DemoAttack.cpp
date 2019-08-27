@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/control/PositionUtils.h>
-#include "DemoAttack.h"
+#include "include/roboteam_ai/skills/DemoAttack.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/BasicPosControl.h>
 #include <roboteam_ai/src/control/ControlUtils.h>

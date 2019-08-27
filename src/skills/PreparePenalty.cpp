@@ -2,8 +2,8 @@
 // Created by baris on 27-2-19.
 //
 
-#include "PreparePenalty.h"
-#include "Skill.h"
+#include "include/roboteam_ai/skills/PreparePenalty.h"
+#include "include/roboteam_ai/skills/Skill.h"
 
 namespace rtt {
 namespace ai {

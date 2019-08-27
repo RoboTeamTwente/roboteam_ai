@@ -3,7 +3,7 @@
 // Created by thijs on 26-4-19.
 //
 
-#include "GTPWithBall.h"
+#include "include/roboteam_ai/skills/gotopos/GTPWithBall.h"
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 
 namespace rtt {

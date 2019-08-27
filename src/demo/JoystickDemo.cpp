@@ -3,8 +3,8 @@
 //
 
 #include <algorithm>
-#include "JoystickDemo.h"
-#include "../utilities/Pause.h"
+#include "include/roboteam_ai/demo/JoystickDemo.h"
+#include "include/roboteam_ai/utilities/Pause.h"
 
 namespace demo {
 

@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#include "FutureWorld.h"
-#include "History.h"
+#include "include/roboteam_ai/world/FutureWorld.h"
+#include "include/roboteam_ai/world/History.h"
 
 #include <roboteam_ai/src/utilities/Constants.h>
 

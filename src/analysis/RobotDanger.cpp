@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/world/Field.h>
-#include "RobotDanger.h"
+#include "include/roboteam_ai/analysis/RobotDanger.h"
 
 namespace rtt {
 namespace ai {

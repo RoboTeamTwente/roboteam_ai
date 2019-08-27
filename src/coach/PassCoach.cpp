@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 19-3-19.
 //
 
-#include "PassCoach.h"
-#include "../world/Field.h"
+#include "include/roboteam_ai/coach/PassCoach.h"
+#include "include/roboteam_ai/world/Field.h"
 #include <chrono>
 
 namespace rtt {

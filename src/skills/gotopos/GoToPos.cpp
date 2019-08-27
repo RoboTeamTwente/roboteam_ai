@@ -2,7 +2,7 @@
 // Created by baris on 24/10/18.
 //
 
-#include "GoToPos.h"
+#include "include/roboteam_ai/skills/gotopos/GoToPos.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/control/ControlUtils.h"
 

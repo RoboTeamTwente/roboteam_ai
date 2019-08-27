@@ -9,10 +9,10 @@
 #include <roboteam_ai/src/interface/api/Input.h>
 #include "roboteam_ai/src/world/Field.h"
 
-#include "NumTreePosControl.h"
-#include "PathPoint.h"
-#include "Collision.h"
-#include "../ControlUtils.h"
+#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/control/numTrees/PathPoint.h"
+#include "include/roboteam_ai/control/numTrees/Collision.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

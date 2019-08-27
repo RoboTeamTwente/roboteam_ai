@@ -8,7 +8,7 @@
 #include <roboteam_ai/src/control/ControlUtils.h>
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/interface/api/Output.h>
-#include "PenaltyKeeper.h"
+#include "include/roboteam_ai/skills/PenaltyKeeper.h"
 
 namespace rtt {
 namespace ai {

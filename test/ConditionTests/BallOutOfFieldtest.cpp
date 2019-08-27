@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/src/conditions/BallOutOfField.h>
-#include "../../src/world/World.h"
+#include "include/roboteam_ai/world/World.h"
 #include "roboteam_ai/src/world/Field.h"
-#include "../../src/utilities/RobotDealer.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;

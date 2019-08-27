@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 6-12-18.
 //
 
-#include "Halt.h"
+#include "include/roboteam_ai/skills/Halt.h"
 
 namespace rtt {
 namespace ai {

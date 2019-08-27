@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "GoAroundPos.h"
+#include "include/roboteam_ai/skills/gotopos/GoAroundPos.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {

@@ -2,7 +2,7 @@
 // Created by rolf on 10-4-19.
 //
 
-#include "InterceptRobot.hpp"
+#include "include/roboteam_ai/skills/InterceptRobot.hpp"
 
 namespace rtt{
 namespace ai{

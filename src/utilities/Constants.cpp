@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
-#include "Constants.h"
+#include "include/roboteam_ai/utilities/Constants.h"
 
 namespace rtt {
 namespace ai {

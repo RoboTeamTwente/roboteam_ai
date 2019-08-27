@@ -2,7 +2,7 @@
 // Created by robzelluf on 7/5/19.
 //
 
-#include "ChipForward.h"
+#include "include/roboteam_ai/skills/ChipForward.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/shotControllers/ShotController.h>
 

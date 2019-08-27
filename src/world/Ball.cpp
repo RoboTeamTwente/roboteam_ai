@@ -2,9 +2,9 @@
 // Created by thijs on 1-4-19.
 //
 
-#include "Ball.h"
-#include "World.h"
-#include "WorldData.h"
+#include "include/roboteam_ai/world/Ball.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/WorldData.h"
 
 #include <roboteam_ai/src/interface/api/Input.h>
 #include <roboteam_ai/src/control/ControlUtils.h>

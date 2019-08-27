@@ -7,12 +7,12 @@
 
 #include <roboteam_msgs/DemoRobot.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "../demo/JoystickDemo.h"
-#include "../utilities/Pause.h"
-#include "../world/Field.h"
-#include "../world/Robot.h"
-#include "../utilities/GameStateManager.hpp"
-#include "IOManager.h"
+#include "include/roboteam_ai/demo/JoystickDemo.h"
+#include "include/roboteam_ai/utilities/Pause.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/utilities/GameStateManager.hpp"
+#include "include/roboteam_ai/io/IOManager.h"
 
 
 namespace rtt {

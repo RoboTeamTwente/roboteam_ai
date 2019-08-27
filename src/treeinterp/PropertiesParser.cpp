@@ -2,7 +2,7 @@
 // Created by baris on 31/10/18.
 //
 
-#include "PropertiesParser.h"
+#include "include/roboteam_ai/treeinterp/PropertiesParser.h"
 #include "ros/ros.h"
 
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {

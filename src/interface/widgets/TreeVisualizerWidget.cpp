@@ -10,9 +10,9 @@
 #include <QtWidgets/QLayoutItem>
 #include <roboteam_ai/src/treeinterp/BTFactory.h>
 #include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include "TreeVisualizerWidget.h"
+#include "include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h"
 #include "QLayout"
-#include "mainWindow.h"
+#include "include/roboteam_ai/interface/widgets/mainWindow.h"
 
 namespace rtt {
 namespace ai {

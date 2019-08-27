@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "Collision.h"
+#include "include/roboteam_ai/control/numTrees/Collision.h"
 
 namespace rtt {
 namespace ai {

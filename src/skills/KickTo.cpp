@@ -1,5 +1,5 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
-#include "KickTo.h"
+#include "include/roboteam_ai/skills/KickTo.h"
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
 #include <roboteam_ai/src/control/BasicPosControl.h>

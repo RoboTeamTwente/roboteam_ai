@@ -2,17 +2,17 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-#include "demo/JoystickDemo.h"
-#include "coach/defence/DefenceDealer.h"
-#include "ApplicationManager.h"
+#include "include/roboteam_ai/demo/JoystickDemo.h"
+#include "include/roboteam_ai/coach/defence/DefenceDealer.h"
+#include "include/roboteam_ai/ApplicationManager.h"
 #include <sstream>
-#include "analysis/GameAnalyzer.h"
-#include "interface/api/Output.h"
-#include "coach/GetBallCoach.h"
-#include "utilities/GameStateManager.hpp"
-#include "interface/api/Input.h"
-#include "interface/api/Toggles.h"
-#include "utilities/Constants.h"
+#include "include/roboteam_ai/analysis/GameAnalyzer.h"
+#include "include/roboteam_ai/interface/api/Output.h"
+#include "include/roboteam_ai/coach/GetBallCoach.h"
+#include "include/roboteam_ai/utilities/GameStateManager.hpp"
+#include "include/roboteam_ai/interface/api/Input.h"
+#include "include/roboteam_ai/interface/api/Toggles.h"
+#include "include/roboteam_ai/utilities/Constants.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;

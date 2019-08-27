@@ -13,7 +13,7 @@
 #include <roboteam_ai/src/world/World.h>
 #include <roboteam_ai/src/world/Robot.h>
 #include <roboteam_ai/src/world/Ball.h>
-#include "PositionUtils.h"
+#include "include/roboteam_ai/control/PositionUtils.h"
 
 namespace rtt {
 namespace ai {

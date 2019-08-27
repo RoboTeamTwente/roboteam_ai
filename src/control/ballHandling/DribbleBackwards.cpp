@@ -5,12 +5,12 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "../../control/ControlUtils.h"
-#include "DribbleBackwards.h"
-#include "RotateAroundBall.h"
-#include "RotateWithBall.h"
-#include "../../world/Ball.h"
-#include "../../world/World.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
+#include "include/roboteam_ai/control/ballHandling/DribbleBackwards.h"
+#include "include/roboteam_ai/control/ballHandling/RotateAroundBall.h"
+#include "include/roboteam_ai/control/ballHandling/RotateWithBall.h"
+#include "include/roboteam_ai/world/Ball.h"
+#include "include/roboteam_ai/world/World.h"
 
 namespace rtt {
 namespace ai {

@@ -4,7 +4,7 @@
 
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include "BallPlacementReceive.h"
+#include "include/roboteam_ai/skills/ballPlacement/BallPlacementReceive.h"
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 
 namespace rtt {

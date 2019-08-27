@@ -2,7 +2,7 @@
 // Created by rolf on 12/12/18.
 //
 
-#include "InterceptBall.h"
+#include "include/roboteam_ai/skills/InterceptBall.h"
 #include "roboteam_ai/src/interface/api/Input.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "roboteam_ai/src/control/ControlUtils.h"

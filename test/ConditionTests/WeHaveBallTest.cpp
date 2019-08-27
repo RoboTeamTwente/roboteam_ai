@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
-#include "../../src/conditions/WeHaveBall.h"
-#include "../../src/world/World.h"
+#include "include/roboteam_ai/conditions/WeHaveBall.h"
+#include "include/roboteam_ai/world/World.h"
 
 TEST(WeHaveBallTest, WeHaveBallTest) {
     auto BB = std::make_shared<bt::Blackboard>();

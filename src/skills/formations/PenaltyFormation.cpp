@@ -5,7 +5,7 @@
 #include <roboteam_ai/src/control/PositionUtils.h>
 #include <roboteam_ai/src/control/Hungarian.h>
 #include <roboteam_ai/src/control/ControlUtils.h>
-#include "PenaltyFormation.h"
+#include "include/roboteam_ai/skills/formations/PenaltyFormation.h"
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
 

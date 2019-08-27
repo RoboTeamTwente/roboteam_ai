@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include "BallPlacementPass.h"
+#include "include/roboteam_ai/skills/ballPlacement/BallPlacementPass.h"
 
 namespace rtt {
 namespace ai {

@@ -1,12 +1,12 @@
 #include <memory>
 #include <roboteam_ai/src/world/World.h>
 
-#include "Leaf.hpp"
-#include "../utilities/RobotDealer.h"
+#include "include/roboteam_ai/bt/Leaf.hpp"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "ros/ros.h"
-#include "../world/WorldData.h"
-#include "../world/Robot.h"
-#include "../world/Ball.h"
+#include "include/roboteam_ai/world/WorldData.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/Ball.h"
 
 namespace bt {
 

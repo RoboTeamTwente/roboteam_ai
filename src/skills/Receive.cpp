@@ -6,7 +6,7 @@
 #include <roboteam_ai/src/coach/PassCoach.h>
 #include <roboteam_ai/src/coach/BallplacementCoach.h>
 #include <roboteam_ai/src/interface/api/Input.h>
-#include "Receive.h"
+#include "include/roboteam_ai/skills/Receive.h"
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
 
