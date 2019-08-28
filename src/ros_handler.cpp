@@ -36,7 +36,7 @@ namespace rtt {
 
 
     /// Callback function for /vision_detection in ros_handler
-    void RosHandler::detection_callback(const roboteam_proto::DetectionFrame msg) {
+    void RosHandler::detection_callback(const roboteam_proto::SSL_DetectionFrame msg) {
 //        if (kalman) {
 //            KF.newFrame(msg);
 //            return;

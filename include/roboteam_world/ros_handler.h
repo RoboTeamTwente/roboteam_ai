@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DetectionFrame.pb.h"
+#include "messages_robocup_ssl_detection.pb.h"
 #include "World.pb.h"
 #include "roboteam_world/world/world_dummy.h"
 #include "roboteam_world/world/filtered_world.h"
@@ -30,7 +30,7 @@ namespace rtt {
         void update_config();
 
         void setKalman(bool on);
-        void detection_callback(const roboteam_proto::DetectionFrame msg);
+        void detection_callback(const roboteam_proto::SSL_DetectionFrame msg);
     //    bool reset_callback(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
 
         kalmanFilter KF;

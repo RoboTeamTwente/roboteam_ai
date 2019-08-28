@@ -1,11 +1,9 @@
 #pragma once
 
-#include "DetectionFrame.pb.h"
+#include <messages_robocup_ssl_detection.pb.h>
 #include "World.pb.h"
-
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
-
 #include "roboteam_world/world/world_base.h"
 
 
@@ -41,7 +39,7 @@ namespace rtt {
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(const roboteam_proto::DetectionFrame msg);
+        void detection_callback(const roboteam_proto::SSL_DetectionFrame msg);
     };
 
 }

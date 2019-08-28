@@ -3,10 +3,7 @@
 #include <map>
 #include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
-
-#include "DetectionFrame.pb.h"
-#include "DetectionRobot.pb.h"
-#include "DetectionBall.pb.h"
+#include <messages_robocup_ssl_detection.pb.h>
 #include "World.pb.h"
 #include "WorldRobot.pb.h"
 
@@ -30,11 +27,11 @@ namespace rtt {
          * Accessing goes like this:
          * `robots_blue_buffer[robot_id][camera_id]`
          */
-        typedef std::map<int, std::map<int, roboteam_proto::DetectionRobot>> RobotMultiCamBuffer;
+        typedef std::map<int, std::map<int, roboteam_proto::SSL_DetectionRobot>> RobotMultiCamBuffer;
         RobotMultiCamBuffer robots_them_buffer;
         RobotMultiCamBuffer robots_us_buffer;
 
-        std::map<int, roboteam_proto::DetectionBall> ball_buffer;
+        std::map<int, roboteam_proto::SSL_DetectionBall> ball_buffer;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
@@ -75,7 +72,7 @@ namespace rtt {
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(roboteam_proto::DetectionFrame msg) override;
+        void detection_callback(roboteam_proto::SSL_DetectionFrame msg) override;
 
         //TODO: Make isFresh() and setFresh() private? They are not used publicly as far as I can tell.
         /**
@@ -102,7 +99,7 @@ namespace rtt {
         /**
          * Puts a received detection frame in the associated camera's buffer.
          */
-        void buffer_detection_frame(roboteam_proto::DetectionFrame msg);
+        void buffer_detection_frame(roboteam_proto::SSL_DetectionFrame msg);
 
         /**
          * Returns true when every camera's frame has updated.

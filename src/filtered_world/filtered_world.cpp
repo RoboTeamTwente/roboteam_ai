@@ -50,7 +50,7 @@ namespace rtt {
     }
 
     /// To be called when a detection_frame message is received.
-    void FilteredWorld::detection_callback(const roboteam_proto::DetectionFrame msg) {
+    void FilteredWorld::detection_callback(const roboteam_proto::SSL_DetectionFrame msg) {
         buffer_detection_frame(msg);
         //std::cout<<msg.camera_id<<std::endl;
         if (is_calculation_needed()) {
@@ -76,7 +76,7 @@ namespace rtt {
     }
 
     /// Adds a received detection frame to the buffers.
-    void FilteredWorld::buffer_detection_frame(const roboteam_proto::DetectionFrame msg) {
+    void FilteredWorld::buffer_detection_frame(const roboteam_proto::SSL_DetectionFrame msg) {
 
         auto cam_id = msg.camera_id();
 
@@ -91,15 +91,15 @@ namespace rtt {
         timeFrameCaptured[cam_id] = msg.t_capture();
 
         // Add the robot data to the buffers
-        for (const roboteam_proto::DetectionRobot robot : msg.them()) {
+        for (const roboteam_proto::SSL_DetectionRobot robot : msg.robots_blue()) {
             int bot_id = robot.robot_id();
 
-            robots_them_buffer[bot_id][cam_id] = roboteam_proto::DetectionRobot(robot);
+            robots_them_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
         }
-        for (const roboteam_proto::DetectionRobot robot : msg.us()) {
+        for (const roboteam_proto::SSL_DetectionRobot robot : msg.robots_yellow()) {
             int bot_id = robot.robot_id();
 
-            robots_us_buffer[bot_id][cam_id] = roboteam_proto::DetectionRobot(robot);
+            robots_us_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
         }
 
         // ==== Ball ====
@@ -109,13 +109,13 @@ namespace rtt {
         if (!msg.balls().empty()) {
             Position previousBallPos = ball_world.get_position();
             Position previousBallVel = ball_world.get_velocity();
-            roboteam_proto::DetectionBall closestBall = msg.balls()[0];
+            roboteam_proto::SSL_DetectionBall closestBall = msg.balls()[0];
             Position predictedPosition = previousBallPos + previousBallVel * (msg.t_capture() - timeLastUpdated);
-            double closestDist2 = Vector2(closestBall.pos()).dist2(Vector2(predictedPosition.x, predictedPosition.y));
+            double closestDist2 = Vector2(closestBall.x(), closestBall.y()).dist2(Vector2(predictedPosition.x, predictedPosition.y));
 
             for (auto const &ball : msg.balls()) {
 
-                double dist2 = Vector2(ball.pos()).dist2(Vector2(predictedPosition.x, predictedPosition.y));
+                double dist2 = Vector2(ball.x(), ball.y()).dist2(Vector2(predictedPosition.x, predictedPosition.y));
                 if (dist2 < closestDist2) {
                     closestBall = ball;
                     closestDist2 = dist2;
@@ -176,30 +176,30 @@ namespace rtt {
             Position predictedPosition = previousBallPos + previousBallVel * (timestamp - timeLastUpdated);
 
             // First extrapolation
-            roboteam_proto::DetectionBall closestBall = ball_buffer.begin()->second;
+            roboteam_proto::SSL_DetectionBall closestBall = ball_buffer.begin()->second;
             int best_camera = ball_buffer.begin()->first;
             // Initial extrapolation. Does the same as below
-            double closestDist2 = Vector2(closestBall.pos()).dist2(
+            double closestDist2 = Vector2(closestBall.x(), closestBall.y()).dist2(
                     Vector2(predictedPosition.x, predictedPosition.y));
 
             for (auto const &detectedBall : ball_buffer) {
                 // Extrapolate from detectionframe's capture time to current time.
-                Position detectedBallPos = Position(detectedBall.second.pos());
+                Position detectedBallPos = Position(Vector2(detectedBall.second.x(), detectedBall.second.y()));
                 double dist2 = Vector2(detectedBallPos.x,detectedBallPos.y).dist2(
                         Vector2(predictedPosition.x, predictedPosition.y));
                 // Pick the Extrapolation which works best
                 if (dist2 < closestDist2) {
                     //best_camera=detectedBall.first;
                     closestBall = detectedBall.second;
-                    closestBall.mutable_pos()->set_x(detectedBallPos.x);
-                    closestBall.mutable_pos()->set_y(detectedBallPos.y);
+                    closestBall.set_x(detectedBallPos.x);
+                    closestBall.set_y(detectedBallPos.y);
                     closestDist2 = dist2;
                 }
             }
             // Move the ball to the one that has best extrapolation
             //ball_world.move_to(ball_buffer[best_camera].pos.x,ball_buffer[best_camera].pos.y,ball_buffer[best_camera].z);
-            ball_world.move_to(closestBall.pos().x(), closestBall.pos().y(), closestBall.z());
-            ball_world.set_existence(closestBall.existence());
+            ball_world.move_to(closestBall.x(), closestBall.y(), closestBall.z());
+            ball_world.set_existence(closestBall.area());
             ball_world.set_visible(true);
         } else {
             ball_world.set_visible(false);
@@ -246,7 +246,7 @@ namespace rtt {
             for (auto &buf : robot_buffer.second) {
                 if (timeFrameCaptured[buf.first] > last_frame) {
                     last_frame = timeFrameCaptured[buf.first];
-                    Vector2 bufPosition = buf.second.pos();
+                    Vector2 bufPosition = Vector2(buf.second.x(), buf.second.y());
                     robotPos=bufPosition;
                     w = buf.second.orientation();
                     if (w>=M_PI){

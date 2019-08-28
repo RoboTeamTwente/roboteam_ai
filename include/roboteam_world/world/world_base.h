@@ -1,6 +1,5 @@
 #pragma once
 
-#include "DetectionFrame.pb.h"
 #include "World.pb.h"
 
 
@@ -30,7 +29,7 @@ namespace rtt {
         /**
          * To be called when a detectionframe message is received.
          */
-        virtual void detection_callback(const roboteam_proto::DetectionFrame msg) {};
+        virtual void detection_callback(const roboteam_proto::SSL_DetectionFrame msg) {};
 
     };
 

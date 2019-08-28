@@ -10,36 +10,36 @@ namespace rtt {
         ball = Ball();
     }
 
-    void WorldDummy::detection_callback(const roboteam_proto::DetectionFrame msg) {
+    void WorldDummy::detection_callback(const roboteam_proto::SSL_DetectionFrame msg) {
 
         us.clear();
         them.clear();
         ball = Ball();
 
-        for (auto &msg_bot : msg.us())
+        for (auto &msg_bot : msg.robots_yellow())
         {
             rtt::Robot robot = rtt::Robot();
 
             robot.set_id(msg_bot.robot_id());
-            robot.move_to(msg_bot.pos().x(), msg_bot.pos().y());
+            robot.move_to(msg_bot.x(), msg_bot.y());
             robot.rotate_to(msg_bot.orientation());
 
             us.push_back(robot);
         }
 
-        for (auto &msg_bot : msg.them())
+        for (auto &msg_bot : msg.robots_blue())
         {
             rtt::Robot robot = rtt::Robot();
             robot.set_id(msg_bot.robot_id());
-            robot.move_to(msg_bot.pos().x(), msg_bot.pos().y());
+            robot.move_to(msg_bot.x(), msg_bot.y());
             robot.rotate_to(msg_bot.orientation());
 
             them.push_back(robot);
         }
 
         if (msg.balls().size() > 0) {
-            ball.set_existence(msg.balls()[0].existence());
-            ball.move_to(msg.balls()[0].pos().x(), msg.balls()[0].pos().y(), msg.balls()[0].z());
+            ball.set_existence(msg.balls()[0].area());
+            ball.move_to(msg.balls()[0].x(), msg.balls()[0].y(), msg.balls()[0].z());
         }
 
     }
