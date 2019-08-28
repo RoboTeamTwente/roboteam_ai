@@ -14,8 +14,8 @@ namespace rtt {
     void FilteredWorld::reset() {
 
         // Clear the input buffers
-        robots_them_buffer.clear();
-        robots_us_buffer.clear();
+        robots_blue_buffer.clear();
+        robots_yellow_buffer.clear();
 
         // These are used for the final world state
         robots_blue_world.clear();
@@ -23,8 +23,8 @@ namespace rtt {
         ball_world = rtt::Ball();
 
         // Initialize the input buffers.
-        robots_them_buffer = RobotMultiCamBuffer();
-        robots_us_buffer = RobotMultiCamBuffer();
+        robots_blue_buffer = RobotMultiCamBuffer();
+        robots_yellow_buffer = RobotMultiCamBuffer();
 
         // The cameras
         world_cams = std::map<int, bool>();
@@ -36,11 +36,11 @@ namespace rtt {
 
         roboteam_proto::World returnMsg;
         for (auto &robot : robots_blue_world) {
-            returnMsg.mutable_them()->Add(robot.second.as_message());
+            returnMsg.mutable_blue()->Add(robot.second.as_message());
         }
 
         for (auto &robot : robots_yellow_world) {
-            returnMsg.mutable_us()->Add(robot.second.as_message());
+            returnMsg.mutable_yellow()->Add(robot.second.as_message());
         }
 
         auto worldBall = ball_world.as_message();
@@ -94,12 +94,12 @@ namespace rtt {
         for (const roboteam_proto::SSL_DetectionRobot robot : msg.robots_blue()) {
             int bot_id = robot.robot_id();
 
-            robots_them_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
+            robots_blue_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
         }
         for (const roboteam_proto::SSL_DetectionRobot robot : msg.robots_yellow()) {
             int bot_id = robot.robot_id();
 
-            robots_us_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
+            robots_yellow_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
         }
 
         // ==== Ball ====
@@ -156,13 +156,13 @@ namespace rtt {
         std::string s;
         get_PARAM_OUR_COLOR(s);
         bool isBlueOurTeam = s == "blue";
-        merge_robots(robots_them_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
-        merge_robots(robots_us_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
+        merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
+        merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);
         // merge the balls in the buffer
         merge_balls(timestamp);
         // Clear the buffers.
-        robots_them_buffer.clear();
-        robots_us_buffer.clear();
+        robots_blue_buffer.clear();
+        robots_yellow_buffer.clear();
     }
 
     /// Merges the balls from different frames

@@ -28,8 +28,8 @@ namespace rtt {
          * `robots_blue_buffer[robot_id][camera_id]`
          */
         typedef std::map<int, std::map<int, roboteam_proto::SSL_DetectionRobot>> RobotMultiCamBuffer;
-        RobotMultiCamBuffer robots_them_buffer;
-        RobotMultiCamBuffer robots_us_buffer;
+        RobotMultiCamBuffer robots_blue_buffer;
+        RobotMultiCamBuffer robots_yellow_buffer;
 
         std::map<int, roboteam_proto::SSL_DetectionBall> ball_buffer;
 

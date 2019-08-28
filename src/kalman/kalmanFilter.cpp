@@ -51,12 +51,12 @@ roboteam_proto::World kalmanFilter::getWorld() {
     world.set_time(lastFrameTime);
     for (const auto& kalmanOurBot : ourBots){
         if (kalmanOurBot.getExistence()){
-            world.mutable_us()->Add(kalmanOurBot.as_message());
+            world.mutable_yellow()->Add(kalmanOurBot.as_message());
         }
     }
     for (const auto& kalmanTheirBot : theirBots){
         if (kalmanTheirBot.getExistence()){
-            world.mutable_them()->Add(kalmanTheirBot.as_message());
+            world.mutable_blue()->Add(kalmanTheirBot.as_message());
         }
     }
 
