@@ -21,13 +21,13 @@ void Pause::haltRobots() {
 
     auto us = world::world->getUs();
     for (const auto &robot : us) {
-        roboteam_msgs::RobotCommand cmd;
-        cmd.x_vel = 0;
-        cmd.y_vel = 0;
-        cmd.id = robot->id;
-        cmd.dribbler = 0;
-        cmd.use_angle = 1;
-        cmd.w = static_cast<float>(robot->angle);
+        roboteam_proto::RobotCommand cmd;
+        cmd.mutable_vel()->set_x(0);
+        cmd.mutable_vel()->set_y(0);
+        cmd.set_id(robot->id);
+        cmd.set_dribbler(0);
+        cmd.set_use_angle(1);
+        cmd.set_w(static_cast<float>(robot->angle));
         IOManager->publishRobotCommand(cmd);
     }
 

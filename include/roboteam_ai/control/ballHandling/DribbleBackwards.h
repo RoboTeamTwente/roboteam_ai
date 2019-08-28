@@ -7,8 +7,8 @@
 
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
-#include "roboteam_ai/src/control/RobotCommand.h"
-#include "roboteam_ai/src/world/Robot.h"
+#include "include/roboteam_ai/control/RobotCommand.h"
+#include "include/roboteam_ai/world/Robot.h"
 
 namespace rtt {
 namespace ai {

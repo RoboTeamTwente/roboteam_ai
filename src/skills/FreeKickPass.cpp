@@ -3,7 +3,7 @@
 //
 
 #include "include/roboteam_ai/skills/FreeKickPass.h"
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
+#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt {
 namespace ai {

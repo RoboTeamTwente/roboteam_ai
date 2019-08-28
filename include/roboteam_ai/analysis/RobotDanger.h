@@ -5,8 +5,6 @@
 #ifndef ROBOTEAM_AI_ROBOTDANGER_H
 #define ROBOTEAM_AI_ROBOTDANGER_H
 
-#include <roboteam_msgs/WorldRobot.h>
-
 namespace rtt {
 namespace ai {
 namespace analysis {

@@ -6,9 +6,9 @@
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/WorldData.h"
 
-#include <roboteam_ai/src/interface/api/Input.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/interface/api/Output.h>
+#include <include/roboteam_ai/interface/api/Input.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/interface/api/Output.h>
 
 namespace rtt {
 namespace ai {
@@ -19,10 +19,10 @@ bool Ball::exists = false;
 Ball::Ball()
         :pos(Vector2()), vel(Vector2()), filteredVel(Vector2()), visible(false) { }
 
-Ball::Ball(const roboteam_msgs::WorldBall &copy)
-        :pos(copy.pos), vel(copy.vel), filteredVel(copy.vel),
-         visible(copy.visible) {
-    exists = exists || copy.existence || Vector2(copy.pos).isNotNaN();
+Ball::Ball(const roboteam_proto::WorldBall &copy)
+        :pos(copy.pos()), vel(copy.vel()), filteredVel(copy.vel()),
+         visible(copy.visible()) {
+    exists = exists || copy.area() || Vector2(copy.pos()).isNotNaN();
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 

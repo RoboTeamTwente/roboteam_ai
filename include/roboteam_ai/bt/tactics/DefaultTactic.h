@@ -6,9 +6,9 @@
 #define ROBOTEAM_AI_DEFAULTTACTIC_H
 
 #include <mutex>
-#include <roboteam_ai/src/analysis/DecisionMaker.h>
-#include <roboteam_ai/src/bt/Node.hpp>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <include/roboteam_ai/analysis/DecisionMaker.h>
+#include <include/roboteam_ai/bt/Node.hpp>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
 
 namespace bt {
 

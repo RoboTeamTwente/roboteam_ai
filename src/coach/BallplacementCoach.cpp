@@ -9,10 +9,12 @@
  */
 
 #include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/interface/api/Output.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/interface/api/Output.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/coach/BallplacementCoach.h"
-#include "roboteam_ai/src/interface/api/Input.h"
+#include "include/roboteam_ai/interface/api/Input.h"
+#include "include/roboteam_ai/world/Ball.h"
+#include "include/roboteam_ai/world/World.h"
 
 namespace rtt {
 namespace ai {
@@ -27,7 +29,7 @@ Vector2 BallplacementCoach::getBallPlacementPos(){
 
     // get the ballplacement target from the referee or the interface
     if (interface::Output::usesRefereeCommands()) {
-       return GameStateManager::getRefereeData().designated_position;
+       return GameStateManager::getRefereeData().designated_position();
     }
     return interface::Output::getInterfaceMarkerPosition();
 }

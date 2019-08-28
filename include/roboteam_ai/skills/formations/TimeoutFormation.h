@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_TIMEOUTFORMATION_H
 #define ROBOTEAM_AI_TIMEOUTFORMATION_H
 
-#include "roboteam_ai/src/skills/formations/Formation.h"
+#include "include/roboteam_ai/skills/formations/Formation.h"
 
 namespace rtt {
 namespace ai {

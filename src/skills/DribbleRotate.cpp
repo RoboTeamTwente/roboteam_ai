@@ -5,12 +5,12 @@
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
 #include "include/roboteam_ai/skills/DribbleRotate.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/coach/BallplacementCoach.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/coach/BallplacementCoach.h"
 
 namespace rtt {
 namespace ai {
-DribbleRotate::DribbleRotate(rtt::string name, bt::Blackboard::Ptr blackboard)
+DribbleRotate::DribbleRotate(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void DribbleRotate::checkProgression() {
@@ -48,7 +48,7 @@ void DribbleRotate::onInitialize() {
     }
     if (! properties->hasDouble("Angle") && ! properties->hasBool("RotateToTheirGoal")
             && ! properties->hasBool("BallPlacement")) {
-        ROS_ERROR(" dribbleRotate Initialize -> No good angle set in properties");
+        std::cerr << " dribbleRotate Initialize -> No good angle set in properties" << std::endl;
         currentProgression = FAIL;
     }
     startAngle = robot->angle;
@@ -84,16 +84,16 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
 }
 
 void DribbleRotate::onTerminate(Status s) {
-    command.dribbler = 31;
-    command.w = static_cast<float>(targetAngle);
+    command.set_dribbler(31);
+    command.set_w(static_cast<float>(targetAngle));
     currentProgression=ROTATING;
     currentTick=0;
     publishRobotCommand();
 }
 
 void DribbleRotate::sendMoveCommand() {
-    command.dribbler = 31;
-    command.w = static_cast<float>(computeCommandAngle());
+    command.set_dribbler(31);
+    command.set_w(static_cast<float>(computeCommandAngle()));
     currentTick ++;
     publishRobotCommand();
 }

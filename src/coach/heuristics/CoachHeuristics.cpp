@@ -2,8 +2,11 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <include/roboteam_ai/analysis/GameAnalyzer.h>
 #include "include/roboteam_ai/coach/heuristics/CoachHeuristics.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
+
 #include <cmath>
 
 namespace rtt {

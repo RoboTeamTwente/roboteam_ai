@@ -3,6 +3,10 @@
 //
 
 #include "include/roboteam_ai/conditions/IsOnPassLine.h"
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world/Ball.h>
+
+#include <include/roboteam_ai/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {

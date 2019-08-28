@@ -7,7 +7,7 @@
 
 #include "include/roboteam_ai/world/World.h"
 #include "DefencePositionCoach.h"
-#include "Vector2.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 namespace ai {

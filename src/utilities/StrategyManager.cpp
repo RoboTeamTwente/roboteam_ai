@@ -11,9 +11,9 @@ namespace rtt {
 namespace ai {
 
 // process ref commands
-void StrategyManager::setCurrentRefGameState(RefCommand command, roboteam_msgs::RefereeStage stage) {
+void StrategyManager::setCurrentRefGameState(RefCommand command, roboteam_proto::RefereeData_RefStage stage) {
     // if the stage is shootout, we interpret penalty commands as shootOut penalty commands
-    if (stage.stage == roboteam_msgs::RefereeStage::PENALTY_SHOOTOUT) {
+    if (stage == roboteam_proto::RefereeData_RefStage_PENALTY_SHOOTOUT) {
         if (command == RefCommand::PREPARE_PENALTY_US) {
             command = RefCommand::PREPARE_SHOOTOUT_US;
         }

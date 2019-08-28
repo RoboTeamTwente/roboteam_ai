@@ -3,8 +3,8 @@
 //
 
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include <roboteam_utils/Line.h>
 #include "include/roboteam_ai/control/ControlUtils.h"
 #include "include/roboteam_ai/world/World.h"
@@ -83,7 +83,7 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
         const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = GameStateManager::getRefereeData().them.goalie;
+    int keeperID = GameStateManager::getRefereeData().them().goalie();
 
     for (auto &enemy : world.them) {
         if(!includeKeeper && enemy->id == keeperID) continue;
@@ -170,7 +170,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
 
 }
 rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth = rtt::ai::world::field->get_field().goal_width;
+    double goalwidth = rtt::ai::world::field->get_field().goal_width();
     Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
@@ -281,11 +281,11 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
     auto field = world::field->get_field();
 
-    double hFieldLength = field.field_length/2;
+    double hFieldLength = field.field_length()/2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, - hFieldLength + margin);
 
-    double hFieldWidth = field.field_width/2;
+    double hFieldWidth = field.field_width()/2;
     position.y = std::min(position.y, hFieldWidth - margin);
     position.y = std::max(position.y, - hFieldWidth + margin);
 
@@ -294,11 +294,11 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
     if (world::field->pointIsInDefenceArea(position, true, margin)) {
-        position.x = std::max(position.x, world::field->get_field().left_penalty_line.begin.x + margin);
+        position.x = std::max(position.x, world::field->get_field().left_penalty_line().begin().x() + margin);
         return position;
     }
     if (world::field->pointIsInDefenceArea(position, false, margin)) {
-        position.x = std::min(position.x, world::field->get_field().right_penalty_line.begin.x - margin);
+        position.x = std::min(position.x, world::field->get_field().right_penalty_line().begin().x() - margin);
         return position;
     }
     return position;
@@ -378,7 +378,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
             if (intersects.empty()) {
                 return projectPos;
             }
-            double closestDist = DBL_MAX;
+            double closestDist = 9e9;
             for (const auto &point :intersects) {
                 if (world::field->pointIsInField(point, defenseAreamargin)) {
                     double dist = point.dist(position);

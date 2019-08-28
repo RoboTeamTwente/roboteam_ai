@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 28-3-19.
 //
 
-#include <roboteam_ai/src/control/ControlUtils.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
 #include "include/roboteam_ai/control/numTrees/PathPoint.h"
 
 namespace rtt {

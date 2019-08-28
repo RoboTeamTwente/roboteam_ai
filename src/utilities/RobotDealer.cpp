@@ -3,12 +3,15 @@
 // Created by baris on 16/11/18.
 //
 #include "include/roboteam_ai/utilities/RobotDealer.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Field.h"
-#include "ros/ros.h"
-#include <utility>
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/Ball.h"
+#include "include/roboteam_ai/treeinterp/BTFactory.h"
+#include "include/roboteam_ai/coach/PassCoach.h"
+#include "include/roboteam_ai/coach/BallplacementCoach.h"
+
 
 namespace rtt {
 namespace ai {
@@ -69,7 +72,7 @@ void RobotDealer::updateFromWorld() {
     for (const auto &robotID : robotIDs) {
         if (currentRobots.find(robotID) == currentRobots.end()) {
             if (robotID == keeperID) {
-                ROS_ERROR("The keeper just got registered as a free robot this should never happen");
+                std::cerr << "The keeper just got registered as a free robot this should never happen" << std::endl;
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -343,7 +346,7 @@ void RobotDealer::unFreeRobot(int ID) {
         robotOwners["free"].erase({ID, "free"});
     }
     else {
-        ROS_ERROR("Cannot un free an anti free robot");
+        std::cout << "Cannot un free an anti free robot";
     }
 
 }
@@ -363,7 +366,7 @@ std::string RobotDealer::getTacticNameForRole(const std::string &role) {
             }
         }
     }
-    ROS_ERROR("No robot with that role");
+  std::cout << "No robot with that role";
     return "";
 
 }

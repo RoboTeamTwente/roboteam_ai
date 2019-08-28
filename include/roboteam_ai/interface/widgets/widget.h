@@ -8,14 +8,12 @@
 #include <QWidget>
 #include <QPainter>
 #include <memory>
-#include "roboteam_ai/src/utilities/Constants.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/world/World.h"
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
-#include "roboteam_ai/src/world/WorldData.h"
-#include "roboteam_ai/src/coach/OffensiveCoach.h"
-#include "roboteam_ai/src/interface/api/Toggles.h"
+
+#include <roboteam_utils/Vector2.h>
+#include <include/roboteam_ai/world/Robot.h>
+#include <include/roboteam_ai/interface/api/Toggles.h>
 
 namespace rtt {
 namespace ai {

@@ -15,7 +15,6 @@
 #include "QPushButton"
 #include <QTreeWidget>
 #include "QColor"
-#include "roboteam_ai/src/bt/Node.hpp"
 #include "QTreeWidgetItemIterator"
 #include <QtGui>
 #include <QRadioButton>

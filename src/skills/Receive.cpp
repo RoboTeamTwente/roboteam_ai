@@ -2,13 +2,15 @@
 // Created by robzelluf on 1/22/19.
 //
 
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/coach/PassCoach.h>
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
+#include <include/roboteam_ai/coach/PassCoach.h>
+#include <include/roboteam_ai/coach/BallplacementCoach.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/skills/Receive.h"
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/world/WorldData.h>
 
 namespace rtt {
 namespace ai {
@@ -38,10 +40,10 @@ Receive::Status Receive::onUpdate() {
 
         intercept();
         if ((ball->pos - robot->pos).length() < 1.0) {
-            command.dribbler = 31;
+            command.set_dribbler(31);
         }
     } else {
-        command.w = (ball->pos - robot->pos).toAngle().getAngle();
+        command.set_w((ball->pos - robot->pos).toAngle().getAngle());
     }
 
     // Check if robot is in position, otherwise turn towards ball
@@ -98,9 +100,9 @@ void Receive::intercept() {
     } else {
         velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
     }
-    command.x_vel = static_cast<float>(velocities.x);
-    command.y_vel = static_cast<float>(velocities.y);
-    command.w = ball->vel.stretchToLength(-1).toAngle();
+    command.mutable_vel()->set_x(static_cast<float>(velocities.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocities.y));
+    command.set_w(ball->vel.stretchToLength(-1).toAngle());
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPoint}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);

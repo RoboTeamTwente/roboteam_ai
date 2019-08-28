@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BALLPLACEMENTRECEIVE_H
 #define ROBOTEAM_AI_BALLPLACEMENTRECEIVE_H
 
-#include "roboteam_ai/src/skills/Receive.h"
+#include "include/roboteam_ai/skills/Receive.h"
 
 namespace rtt {
 namespace ai {

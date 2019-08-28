@@ -20,11 +20,11 @@ bt::Node::Status SideAttacker::onUpdate() {
     targetPos = getOffensivePosition();
     auto newPosition = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos);
     Vector2 velocity = newPosition.vel;
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
-    command.w = static_cast<float>(newPosition.angle);
+    command.mutable_vel()->set_x(velocity.x);
+    command.mutable_vel()->set_y(velocity.y);
+    command.set_w(newPosition.angle);
 
-    command.use_angle = 1;
+    command.set_use_angle(true);
     publishRobotCommand();
     status = Status::Running;
     return status;
@@ -35,9 +35,9 @@ Vector2 SideAttacker::getOffensivePosition() {
 }
 
 void SideAttacker::onTerminate(Status s) {
-    command.w = static_cast<float>(robot->angle);
-    command.x_vel = 0;
-    command.y_vel = 0;
+    command.set_w(robot->angle);
+    command.mutable_vel()->set_x(0);
+    command.mutable_vel()->set_y(0);
     coach::g_offensiveCoach.removeSideAttacker(robot);
     publishRobotCommand();
 }

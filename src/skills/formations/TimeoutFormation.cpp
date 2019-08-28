@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 12-4-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "include/roboteam_ai/skills/formations/TimeoutFormation.h"
 #include "include/roboteam_ai/control/Hungarian.h"
 
@@ -22,14 +22,14 @@ Vector2 TimeoutFormation::getFormationPosition() {
     // determine if we should be in the top or bottom of the field
     bool topSideOfField = rtt::ai::interface::Output::isTimeOutAtTop();
     int inv = topSideOfField ? 1 : -1;
-    double targetLocationY = field.field_width/2 * inv;
+    double targetLocationY = field.field_width()/2 * inv;
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
     std::vector<int> robotIds;
 
     for (unsigned int i = 0; i<robotsInFormation->size(); i++) {
-        double targetLocationX = - field.field_length/4 * 2*i*Constants::ROBOT_RADIUS_MAX();
+        double targetLocationX = - field.field_length()/4 * 2*i*Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
         robotIds.push_back(robotsInFormation->at(i)->id);
     }

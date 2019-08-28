@@ -67,7 +67,7 @@ class Node {
 
         unsigned long long getAmountOfTicks() const;
 
-        ros::Time getLastTickTime();
+//        ros::Time getLastTickTime();
 
     protected:
         Status status = Status::Waiting;
@@ -76,7 +76,7 @@ class Node {
 
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
-        ros::Time lastTickTime;
+  //      ros::Time lastTickTime;
 };
 
 } // bt

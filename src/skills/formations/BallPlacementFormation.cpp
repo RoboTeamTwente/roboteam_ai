@@ -24,8 +24,8 @@
  */
 
 #include "include/roboteam_ai/skills/formations/BallPlacementFormation.h"
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/control/Hungarian.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
 
@@ -86,7 +86,7 @@ void BallPlacementFormation::updateFormation() {
 }
 
 bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
-    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
+    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position();
 
     if (!interface::Output::usesRefereeCommands()) {
             ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();

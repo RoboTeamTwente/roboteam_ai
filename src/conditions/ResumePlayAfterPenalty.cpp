@@ -1,11 +1,11 @@
 //
 // Created by rolf on 15-6-19.
 //
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/world/Field.h>
 #include "include/roboteam_ai/conditions/ResumePlayAfterPenalty.h"
 #include "include/roboteam_ai/world/Ball.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt{
 namespace ai{

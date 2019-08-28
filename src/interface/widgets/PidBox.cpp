@@ -2,7 +2,8 @@
 // Created by mrlukasbos on 8-4-19.
 //
 
-#include "include/roboteam_ai/interface/widgets/PidBox.h"
+#include <include/roboteam_ai/interface/widgets/PidBox.h>
+
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -58,4 +59,4 @@ void PidBox::updatePID() {
 } // rtt
 
 // QT performance improvement
-#include "moc_PidBox.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_PidBox.cpp"

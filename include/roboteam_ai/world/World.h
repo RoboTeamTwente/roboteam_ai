@@ -37,13 +37,13 @@ private:
     FutureWorld * futureWorld;
     unsigned long worldNumber = 0;
     const RobotPtr getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots);
-    void updateRobotsFromData(Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
+    void updateRobotsFromData(Team team, const std::vector<roboteam_proto::WorldRobot> &robotsFromMsg,
                 std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long worldNumber) const;
 
 public:
     explicit World();
     ~World();
-    void updateWorld(const roboteam_msgs::World &world);
+    void updateWorld(const roboteam_proto::World &world);
     bool weHaveRobots();
     double getTimeDifference();
     double getTime();

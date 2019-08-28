@@ -3,7 +3,7 @@
 //
 
 #include "include/roboteam_ai/coach/defence/DefenceDealer.h"
-#include "roboteam_ai/src/interface/api/Input.h"
+#include "include/roboteam_ai/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

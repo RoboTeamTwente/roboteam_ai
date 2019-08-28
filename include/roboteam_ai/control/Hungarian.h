@@ -14,7 +14,7 @@
 
 #include <iostream>
 #include <vector>
-#include "roboteam_ai/src/world/Robot.h"
+#include "include/roboteam_ai/world/Robot.h"
 #include "roboteam_utils/Vector2.h"
 
 using namespace std;

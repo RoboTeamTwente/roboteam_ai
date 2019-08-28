@@ -7,8 +7,7 @@
 #ifndef ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 #define ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 
-#include "roboteam_msgs/RefereeData.h"
-#include "ros/ros.h"
+#include "Referee.pb.h"
 #include "RefGameState.h"
 #include "StrategyManager.h"
 
@@ -17,14 +16,14 @@ namespace ai {
 
 class GameStateManager {
 public:
-    static void setRefereeData(roboteam_msgs::RefereeData refMsg);
-    static roboteam_msgs::RefereeData getRefereeData();
+    static void setRefereeData(roboteam_proto::RefereeData refMsg);
+    static roboteam_proto::RefereeData getRefereeData();
     static GameState getCurrentGameState();
     static bool canEnterDefenseArea(int robotId);
     static bool canMoveOutsideField(int robotId);
     static void forceNewGameState(RefCommand cmd);
 private:
-    static roboteam_msgs::RefereeData refMsg;
+    static roboteam_proto::RefereeData refMsg;
     static StrategyManager strategymanager;
 
 };

@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/control/ControlUtils.h"
 #include "include/roboteam_ai/control/ballHandling/RotateAroundBall.h"
 #include "include/roboteam_ai/world/Ball.h"

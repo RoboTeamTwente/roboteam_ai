@@ -2,8 +2,8 @@
 // Created by baris on 1-5-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/Robot.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/Robot.h>
 #include "include/roboteam_ai/conditions/RobotOutside.h"
 
 namespace rtt{
@@ -25,8 +25,8 @@ bool RobotOutside::checkPoint() {
     // return success if the robot is out of the field
     // return success if the ball is out of the field
     double margin=0.15;
-    return ! (abs(robot->pos.x) < world::field->get_field().field_length/2 + margin&&
-            abs(robot->pos.y) < world::field->get_field().field_width/2 + margin&&
+    return ! (abs(robot->pos.x) < world::field->get_field().field_length()/2 + margin&&
+            abs(robot->pos.y) < world::field->get_field().field_width()/2 + margin&&
             !world::field->pointIsInDefenceArea(robot->pos));
 }
 }

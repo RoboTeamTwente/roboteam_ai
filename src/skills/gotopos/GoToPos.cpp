@@ -3,8 +3,8 @@
 //
 
 #include "include/roboteam_ai/skills/gotopos/GoToPos.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -16,7 +16,7 @@ GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
     if (gtt == "basic") return basic;
     if (gtt == "numTrees") return numTree;
 
-    ROS_ERROR("SkillGoToPos::onInitialize -> no good goToType set in properties. Using numtrees");
+    std::cerr << "SkillGoToPos::onInitialize -> no good goToType set in properties. Using numtrees" << std::endl;
     return numTree;
 }
 
@@ -62,9 +62,9 @@ void GoToPos::setPositionController(const GoToType &gTT) {
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
     //reset velocity and angle commands
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = 0;
+    command.mutable_vel()->set_x(0);
+    command.mutable_vel()->set_y(0);
+    command.set_w(0);
 
     Status gtpStatus = gtpUpdate();
     if (gtpStatus != Status::Running) return gtpStatus;
@@ -76,14 +76,14 @@ bt::Node::Status GoToPos::onUpdate() {
             return Status::Success;
         }
     }
-    if (command.x_vel == 0 || command.y_vel == 0 || command.w == 0) {
+    if (command.vel().x() == 0 || command.vel().y() == 0 || command.w() == 0) {
     auto robotCommand = posController->getRobotCommand(robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
 
-        command.x_vel = command.x_vel == 0 ? static_cast<float>(robotCommand.vel.x) : command.x_vel;
-        command.y_vel = command.y_vel == 0 ? static_cast<float>(robotCommand.vel.y) : command.y_vel;
-        command.w = command.w == 0 ? static_cast<float>(robotCommand.angle) : command.w;
+        command.mutable_vel()->set_x(command.vel().x() == 0 ? static_cast<float>(robotCommand.vel.x) : command.vel().x());
+        command.mutable_vel()->set_y(command.vel().y() == 0 ? static_cast<float>(robotCommand.vel.y) : command.vel().y());
+        command.set_w(command.w() == 0 ? static_cast<float>(robotCommand.angle) : command.w());
     }
 
     publishRobotCommand();

@@ -2,10 +2,10 @@
 // Created by rolf on 5-3-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "include/roboteam_ai/skills/CoachDefend.h"
-#include "roboteam_ai/src/coach/defence/DefenceDealer.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
+#include "include/roboteam_ai/coach/defence/DefenceDealer.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 namespace rtt {
 namespace ai {
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)
@@ -19,9 +19,9 @@ bt::Node::Status CoachDefend::onUpdate() {
     coach::g_DefenceDealer.addDefender(robot->id);
     auto targetLocation = coach::g_DefenceDealer.getDefenderPosition(robot->id);
     if (! targetLocation) {
-        command.x_vel = 0;
-        command.y_vel = 0;
-        command.w=0;
+        command.mutable_vel()->set_x(0);
+        command.mutable_vel()->set_y(0);
+        command.set_w(0);
         publishRobotCommand();
         return bt::Node::Status::Running;
     }
@@ -36,18 +36,19 @@ bt::Node::Status CoachDefend::onUpdate() {
          velocities=robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation->first);
     }
     if ((targetLocation->first - robot->pos).length() < Constants::ROBOT_RADIUS()) {
-        command.x_vel = 0;
-        command.y_vel = 0;
-        command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+      command.mutable_vel()->set_x(0);
+      command.mutable_vel()->set_y(0);
+        command.set_w(static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second)));
     }
     else {
-        command.x_vel = static_cast<float>(velocities.vel.x);
-        command.y_vel = static_cast<float>(velocities.vel.y);
+      command.mutable_vel()->set_x(static_cast<float>(velocities.vel.x));
+      command.mutable_vel()->set_y(static_cast<float>(velocities.vel.y));
+
         if ((targetLocation->first - robot->pos).length() < Constants::ROBOT_RADIUS()) {
-            command.w = static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second));
+            command.set_w(static_cast<float>(control::ControlUtils::constrainAngle(targetLocation->second)));
         }
         else {
-            command.w = velocities.angle;
+            command.set_w(velocities.angle);
         }
     }
     publishRobotCommand();

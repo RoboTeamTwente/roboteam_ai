@@ -8,7 +8,7 @@
 // Created by baris on 10-5-19.
 //
 
-#include <roboteam_ai/src/interface/api/Output.h>
+#include <include/roboteam_ai/interface/api/Output.h>
 #include "include/roboteam_ai/skills/DriveWithInterface.h"
 
 namespace rtt {
@@ -30,17 +30,17 @@ Skill::Status BallPlacementWithInterface::onUpdate() {
 
     if (targetPos == previousTargetPos &&
         ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
-        command.x_vel = 0;
-        command.y_vel = 0;
-        command.w = robotCommand.angle;
-        command.dribbler = 0;
+        command.mutable_vel()->set_x(0);
+        command.mutable_vel()->set_y(0);
+        command.set_w(robotCommand.angle);
+        command.set_dribbler(0);
         publishRobotCommand();
         return Status::Running;
     }
-    command.x_vel = static_cast<float>(robotCommand.vel.x);
-    command.y_vel = static_cast<float>(robotCommand.vel.y);
-    command.w = robotCommand.angle;
-    command.dribbler = robotCommand.dribbler;
+    command.mutable_vel()->set_x(static_cast<float>(robotCommand.vel.x));
+    command.mutable_vel()->set_y(static_cast<float>(robotCommand.vel.y));
+    command.set_w(robotCommand.angle);
+    command.set_dribbler(robotCommand.dribbler);
     publishRobotCommand();
 
     previousTargetPos = targetPos;

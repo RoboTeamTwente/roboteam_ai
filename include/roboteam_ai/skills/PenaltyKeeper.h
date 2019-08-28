@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_PENALTYKEEPER_H
 #define ROBOTEAM_AI_PENALTYKEEPER_H
 #include "Skill.h"
-#include <roboteam_ai/src/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
 namespace rtt{
 namespace ai{
 class PenaltyKeeper : public Skill  {

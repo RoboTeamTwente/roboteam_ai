@@ -13,12 +13,12 @@
 namespace rtt {
 namespace ai {
 
-Keeper::Keeper(rtt::string name, bt::Blackboard::Ptr blackboard)
+Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Keeper::onInitialize() {
     goalPos = world::field->get_our_goal_center();
-    goalwidth = world::field->get_field().goal_width;
+    goalwidth = world::field->get_field().goal_width();
     //Create arc for keeper to drive on
     blockCircle = control::ControlUtils::createKeeperArc();
 
@@ -45,18 +45,18 @@ Keeper::Status Keeper::onUpdate() {
     if (! world::field->pointIsInField(blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
         blockPoint = goalPos;
         blockPoint.x += Constants::KEEPER_CENTREGOAL_MARGIN();
-        command.w = 0;
+        command.set_w(0);
     }
     else {
-        command.w = Angle((ballPos - blockPoint).angle() + M_PI_2).getAngle();
+        command.set_w(Angle((ballPos - blockPoint).angle() + M_PI_2).getAngle());
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
             interface::Drawing::DOTS, 5, 5);
     /// Manual PID value update. Ugly and should be refactored in the future.
     posController.updatePid(interface::Output::getKeeperPid());
     Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
-    command.x_vel = static_cast<float>(velocities.x);
-    command.y_vel = static_cast<float>(velocities.y);
+    command.mutable_vel()->set_x(static_cast<float>(velocities.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocities.y));
     publishRobotCommand();
     return Status::Running;
 }
@@ -77,37 +77,37 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
         }
     }
     else {
-        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
-        Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
-        double dist = (defendPos - goalPos).length();
-        Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
-        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
-                blockLineStart, defendPos);
-
-        // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
-        if (intersections.first && intersections.second) {
-            posA = *intersections.first;
-            posB = *intersections.second;
-
-            if (! world::field->pointIsInDefenceArea(posA, true)) {
-                blockPos = posB;
-            }
-
-            if (posA.length() < posB.length()) {
-                blockPos = posA;
-            }
-            else blockPos = posB;
-        }
-        else if (intersections.first) {
-            blockPos = *intersections.first;
-        }
-        else if (intersections.second) {
-            blockPos = *intersections.second;
-        }
-        else {
-            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
-                    *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
-        }
+//        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
+//        Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
+//        double dist = (defendPos - goalPos).length();
+//        Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
+//        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
+//                blockLineStart, defendPos);
+//
+//        // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
+//        if (intersections.first && intersections.second) {
+//            posA = *intersections.first;
+//            posB = *intersections.second;
+//
+//            if (! world::field->pointIsInDefenceArea(posA, true)) {
+//                blockPos = posB;
+//            }
+//
+//            if (posA.length() < posB.length()) {
+//                blockPos = posA;
+//            }
+//            else blockPos = posB;
+//        }
+//        else if (intersections.first) {
+//            blockPos = *intersections.first;
+//        }
+//        else if (intersections.second) {
+//            blockPos = *intersections.second;
+//        }
+//        else {
+//            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
+//                    *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
+//        }
     }
 
     interface::Input::drawData(interface::Visual::KEEPER, {defendPos, blockPos}, Qt::red, robot->id,
@@ -133,8 +133,8 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
     auto field = world::field->get_field();
-    Vector2 startGoal = {- field.field_length/2, - field.goal_width/2};
-    Vector2 endGoal = {- field.field_length/2, field.goal_width/2};
+    Vector2 startGoal = {- field.field_length()/2, - field.goal_width()/2};
+    Vector2 endGoal = {- field.field_length()/2, field.goal_width()/2};
     if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
         goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
     }

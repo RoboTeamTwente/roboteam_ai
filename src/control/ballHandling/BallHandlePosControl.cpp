@@ -2,9 +2,9 @@
 // Created by thijs on 18-12-18.
 //
 
-#include <roboteam_ai/src/interface/api/Input.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/interface/api/Input.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/world/Field.h>
 
 #include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
 #include "include/roboteam_ai/control/ballHandling/DribbleBackwards.h"

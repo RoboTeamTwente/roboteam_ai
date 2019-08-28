@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QStyleFactory>
+#include <include/roboteam_ai/utilities/Constants.h>
 
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
 #include "include/roboteam_ai/ApplicationManager.h"

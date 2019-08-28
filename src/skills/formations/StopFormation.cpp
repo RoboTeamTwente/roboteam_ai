@@ -1,7 +1,7 @@
 
 #include "include/roboteam_ai/skills/formations/StopFormation.h"
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/control/Hungarian.h"
 
 namespace rtt {
@@ -62,7 +62,7 @@ std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInForm
 // determine the angle where the robot should point to (in position)
 void StopFormation::setFinalAngle() {
     Vector2 targetToLookAtLocation = world::world->getBall()->pos;
-    command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
+    command.set_w((targetToLookAtLocation - robot->pos).angle());
 }
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
@@ -70,12 +70,12 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 
     auto pp = world::field->getPenaltyPoint(true); // penalty point
 
-    auto defenseAreaLineA = world::field->get_field().left_penalty_line.begin;
-    auto defenseAreaLineB = world::field->get_field().left_penalty_line.end;
+    auto defenseAreaLineA = world::field->get_field().left_penalty_line().begin();
+    auto defenseAreaLineB = world::field->get_field().left_penalty_line().end();
 
     // divide the upper and bottom lines of the defense area and store those values.
-    auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
-    auto dBtmY = fmin(defenseAreaLineA.y, defenseAreaLineB.y);
+    auto dTopY = fmax(defenseAreaLineA.y(), defenseAreaLineB.y());
+    auto dBtmY = fmin(defenseAreaLineA.y(), defenseAreaLineB.y());
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
     // the following statements specify useful stop positions between the ball and the goal
@@ -114,7 +114,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionA;
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
-    double goal_width=world::field->get_field().goal_width;
+    double goal_width=world::field->get_field().goal_width();
     if (ball->pos.y>goal_width){
         inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
@@ -208,16 +208,16 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
 
     std::vector<Vector2> proposals;
     // near the corners
-    proposals.push_back({-field.field_length*0.5 + 1.0, -(field.field_width*0.5-1.5)});
-    proposals.push_back({-field.field_length*0.5 + 1.0, (field.field_width*0.5-1.5)});
+    proposals.push_back({-field.field_length()*0.5 + 1.0, -(field.field_width()*0.5-1.5)});
+    proposals.push_back({-field.field_length()*0.5 + 1.0, (field.field_width()*0.5-1.5)});
 
     // somewhere in the middle of our half
-    proposals.push_back({-field.field_length*0.3, -(field.field_width*0.5-1.5)});
-    proposals.push_back({-field.field_length*0.3, (field.field_width*0.5-1.5)});
+    proposals.push_back({-field.field_length()*0.3, -(field.field_width()*0.5-1.5)});
+    proposals.push_back({-field.field_length()*0.3, (field.field_width()*0.5-1.5)});
 
     // offensive
-    proposals.push_back({-1, -(field.field_width*0.5-1.5)});
-    proposals.push_back({-1, (field.field_width*0.5-1.5)});
+    proposals.push_back({-1, -(field.field_width()*0.5-1.5)});
+    proposals.push_back({-1, (field.field_width()*0.5-1.5)});
     proposals.push_back({-1, 0});
 
     for (auto proposal : proposals) {

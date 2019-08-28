@@ -2,11 +2,11 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <roboteam_ai/src/control/PositionUtils.h>
+#include <include/roboteam_ai/control/PositionUtils.h>
 #include "include/roboteam_ai/skills/DemoAttack.h"
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {
@@ -34,7 +34,7 @@ bt::Node::Status DemoAttack::onUpdate() {
 
     if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
-        command.w = static_cast<float>((ball - (Vector2) (robot->pos)).angle());
+        command.set_w(static_cast<float>((ball - (Vector2) (robot->pos)).angle()));
         robot->getNumtreePosControl()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
@@ -45,11 +45,11 @@ bt::Node::Status DemoAttack::onUpdate() {
         targetPos = ball;
         robot->getNumtreePosControl()->setAvoidBallDistance(0);
 
-        command.w = static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle());
+        command.set_w(static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle()));
         if (world::world->robotHasBall(robot->id, true)) {
-            command.kicker = 1;
-            command.kicker_vel = static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER());
-            command.kicker_forced = 1;
+            command.set_kicker(true);
+            command.set_chip_kick_vel(static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER()));
+            command.set_chip_kick_forced(true);
             shot = true;
         }
 
@@ -72,17 +72,17 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
 
 
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+    command.mutable_vel()->set_x(static_cast<float>(velocity.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocity.y));
     publishRobotCommand();
 
     return Status::Running;
 }
 
 void DemoAttack::onTerminate(Status s) {
-    command.w = static_cast<float>(deltaPos.angle());
-    command.x_vel = 0;
-    command.y_vel = 0;
+    command.set_w(static_cast<float>(deltaPos.angle()));
+    command.mutable_vel()->set_x(0);
+    command.mutable_vel()->set_y(0);
     publishRobotCommand();
 }
 

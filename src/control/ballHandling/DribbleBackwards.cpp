@@ -3,14 +3,16 @@
 // Created by thijs on 25-5-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/control/ControlUtils.h"
 #include "include/roboteam_ai/control/ballHandling/DribbleBackwards.h"
 #include "include/roboteam_ai/control/ballHandling/RotateAroundBall.h"
 #include "include/roboteam_ai/control/ballHandling/RotateWithBall.h"
 #include "include/roboteam_ai/world/Ball.h"
 #include "include/roboteam_ai/world/World.h"
+#include <iostream>
+#include <sstream>
 
 namespace rtt {
 namespace ai {

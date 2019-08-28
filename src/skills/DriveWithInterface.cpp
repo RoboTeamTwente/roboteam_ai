@@ -2,7 +2,7 @@
 // Created by baris on 10-5-19.
 //
 
-#include <roboteam_ai/src/interface/api/Output.h>
+#include <include/roboteam_ai/interface/api/Output.h>
 #include "include/roboteam_ai/skills/DriveWithInterface.h"
 
 namespace rtt {
@@ -20,9 +20,10 @@ Skill::Status DriveWithInterface::onUpdate() {
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
     auto robotCommand = numTreeGtp.getRobotCommand(robot, targetPos);
-    command.x_vel = static_cast<float>(robotCommand.vel.x);
-    command.y_vel = static_cast<float>(robotCommand.vel.y);
-    command.w = robotCommand.angle;
+
+    command.mutable_vel()->set_x(robotCommand.vel.x);
+    command.mutable_vel()->set_y(robotCommand.vel.y);
+    command.set_w(robotCommand.angle);
     publishRobotCommand();
     return Status::Running;
 }

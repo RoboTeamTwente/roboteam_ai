@@ -3,7 +3,9 @@
 //
 
 #include "include/roboteam_ai/world/BallPossession.h"
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include "include/roboteam_ai/world/WorldData.h"
+#include "include/roboteam_ai/world/Field.h"
+#include <include/roboteam_ai/coach/PassCoach.h>
 
 namespace rtt {
 namespace ai {
@@ -27,10 +29,10 @@ void BallPossession::recomputeState() {
     bool weAreFar = farFromUsTime > FAR_TIME_TRESHOLD;
     bool theyAreFar = farFromThemTime > FAR_TIME_TRESHOLD;
 
-    if ((weAreClose && ! theyAreClose) || (world::world->getBall()->pos.x > world::field->get_field().field_length/4.0)) {
+    if ((weAreClose && ! theyAreClose) || (world::world->getBall()->pos.x > world::field->get_field().field_length()/4.0)) {
         state = OURBALL;
     }
-    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->pos.x < -world::field->get_field().field_length/8.0)) {
+    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->pos.x < -world::field->get_field().field_length()/8.0)) {
         state = THEIRBALL;
     }
     else if (weAreClose && theyAreClose) {

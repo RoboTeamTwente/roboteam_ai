@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 2-5-19.
 //
 
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/conditions/RefBallIsMoving.h"
 #include "include/roboteam_ai/world/Ball.h"
 

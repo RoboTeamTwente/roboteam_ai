@@ -5,10 +5,11 @@
 #include "include/roboteam_ai/skills/AvoidBall.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
 #include <cmath>
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/coach/BallplacementCoach.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/world/Field.h"
 #include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 
 namespace rtt {
 namespace ai {
@@ -56,9 +57,9 @@ bt::Node::Status AvoidBall::onUpdate() {
 
     // forces from walls
     auto field = world::field->get_field();
-    double boundWidth =  field.boundary_width;
-    double halfFieldLength = field.field_length/2;
-    double halfFieldWidth = field.field_width/2;
+    double boundWidth =  field.boundary_width();
+    double halfFieldLength = field.field_length()/2;
+    double halfFieldWidth = field.field_width()/2;
 
     std::vector<Vector2> wallsVectors;
     wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));
@@ -90,10 +91,10 @@ bt::Node::Status AvoidBall::onUpdate() {
         }
     }
 
-    command.use_angle = 1;
-    command.w = static_cast<float>(force.angle());
-    command.x_vel = static_cast<float>(force.x);
-    command.y_vel = static_cast<float>(force.y);
+    command.set_use_angle(true);
+    command.set_w(static_cast<float>(force.angle()));
+    command.mutable_vel()->set_x(static_cast<float>(force.x));
+    command.mutable_vel()->set_y(static_cast<float>(force.y));
 
     publishRobotCommand();
 

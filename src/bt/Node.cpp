@@ -20,7 +20,7 @@ void Node::terminate(Status s) {
 
 Node::Status Node::tick() {
     amountOfTicks ++;
-    lastTickTime = ros::Time::now();
+//    lastTickTime = ros::Time::now();
 
     if (! init) {
         NodeInitialize();
@@ -88,9 +88,9 @@ unsigned long long Node::getAmountOfTicks() const {
     return amountOfTicks;
 }
 
-ros::Time Node::getLastTickTime() {
-    return lastTickTime;
-}
+//ros::Time Node::getLastTickTime() {
+//    return lastTickTime;
+//}
 
 void Node::giveProperty(std::string a, std::string b) {
     std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl;

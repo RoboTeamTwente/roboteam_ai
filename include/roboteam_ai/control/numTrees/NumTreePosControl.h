@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
-#include <roboteam_ai/src/interface/api/Output.h>
-#include "roboteam_ai/src/control/BasicPosControl.h"
+#include <include/roboteam_ai/interface/api/Output.h>
+#include "include/roboteam_ai/control/BasicPosControl.h"
 #include "PathPoint.h"
 #include "Collision.h"
 

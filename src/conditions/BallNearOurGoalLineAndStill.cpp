@@ -4,8 +4,8 @@
  * Otherwise FAILURE
  */
 
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/world/Ball.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world/Ball.h>
 #include "include/roboteam_ai/conditions/BallNearOurGoalLineAndStill.h"
 
 namespace rtt {
@@ -24,7 +24,7 @@ void BallNearOurGoalLineAndStill::onInitialize() {
 bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
     Vector2 ballPos = world::world->getBall()->pos;
 
-    bool ballNearGoalLine = ballPos.x < (world::field->get_field().left_line.begin.x+margin);
+    bool ballNearGoalLine = ballPos.x < (world::field->get_field().left_line().begin().x()+margin);
     bool ballIsLayingStill = Vector2(ball->vel).length()<Constants::BALL_STILL_VEL(); 
 
     if (ballNearGoalLine && ballIsLayingStill) {

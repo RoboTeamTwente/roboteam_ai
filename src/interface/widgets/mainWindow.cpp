@@ -3,9 +3,9 @@
 //
 
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
-#include "roboteam_ai/src/utilities/Constants.h"
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include "roboteam_ai/src/interface/api/Output.h"
+#include "include/roboteam_ai/utilities/Constants.h"
+#include <include/roboteam_ai/treeinterp/BTFactory.h>
+#include "include/roboteam_ai/interface/api/Output.h"
 #include "include/roboteam_ai/interface/widgets/RobotsWidget.h"
 #include "include/roboteam_ai/interface/widgets/PidsWidget.h"
 #include "include/roboteam_ai/interface/widgets/MainControlsWidget.h"
@@ -143,4 +143,4 @@ void MainWindow::updateKeeperTreeWidget() {
 } // rtt
 
 // QT performance improvement
-#include "moc_mainWindow.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_mainWindow.cpp"

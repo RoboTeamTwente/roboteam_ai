@@ -2,9 +2,9 @@
 // Created by mrlukasbos on 27-3-19.
 //
 
-#include <roboteam_ai/src/interface/api/Output.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/interface/api/Output.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/control/PosController.h"
 #include "include/roboteam_ai/world/Robot.h"
 

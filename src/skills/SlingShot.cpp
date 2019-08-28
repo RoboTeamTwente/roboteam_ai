@@ -2,9 +2,9 @@
 // Created by rolf on 11-4-19.
 //
 
-#include "roboteam_ai/src/world/World.h"
-#include "roboteam_ai/src/world/Robot.h"
-#include "roboteam_ai/src/world/Ball.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/Ball.h"
 #include "include/roboteam_ai/skills/SlingShot.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
 
@@ -107,27 +107,27 @@ bool SlingShot::robotAtAngle() {
             control::ControlUtils::constrainAngle(rotateAngle)) < margin;
 }
 void SlingShot::sendDribbleCommand() {
-    command.dribbler = 31; //TODO:check if we can control velocities
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = robot->angle;
+    command.set_dribbler(31); //TODO:check if we can control velocities
+    command.mutable_vel()->set_x(0);
+    command.mutable_vel()->set_y(0);
+    command.set_w(robot->angle);
     publishRobotCommand();
 }
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
     auto velocities = gtp.getRobotCommand(robot, position).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities, 1.5);
-    command.dribbler = 0;
-    command.x_vel = velocities.x;
-    command.y_vel = velocities.y;
-    command.w = rotateAngle;
+    command.set_dribbler(0);
+  command.mutable_vel()->set_x(velocities.x);
+  command.mutable_vel()->set_y(velocities.y);
+  command.set_w(rotateAngle);
     publishRobotCommand();
 }
 void SlingShot::sendWaitCommand() {
-    command.dribbler = 0;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = rotateAngle;
+  command.set_dribbler(0);
+  command.mutable_vel()->set_x(0);
+  command.mutable_vel()->set_y(0);
+  command.set_w(rotateAngle);
     publishRobotCommand();
 }
 void SlingShot::setRotate() {

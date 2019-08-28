@@ -12,8 +12,8 @@
 #include <stdlib.h>
 #include <cfloat> // for DBL_MAX
 #include <cmath>  // for fabs()
-#include <roboteam_ai/src/world/World.h>
 #include "include/roboteam_ai/control/Hungarian.h"
+#include "include/roboteam_ai/world/World.h"
 
 namespace rtt {
 

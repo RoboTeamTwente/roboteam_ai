@@ -3,7 +3,8 @@
 //
 
 #include "include/roboteam_ai/skills/ReflectKick.h"
-#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -36,14 +37,14 @@ ReflectKick::Status ReflectKick::onUpdate() {
             ballReceiveVelSet = true;
         }
 
-        command.kicker = true;
-        command.kicker_forced = robot->hasBall(Constants::MAX_KICK_RANGE() * 0.8);
-        command.kicker_vel = Constants::MAX_KICK_POWER();
+        command.set_kicker(true);
+        command.set_chip_kick_forced(robot->hasBall(Constants::MAX_KICK_RANGE() * 0.8));
+        command.set_chip_kick_vel(Constants::MAX_KICK_POWER());
         intercept();
     } else {
-        command.w = robotAngle;
-        command.x_vel = 0.0;
-        command.y_vel = 0.0;
+        command.set_w(robotAngle);
+        command.mutable_vel()->set_x(0);
+        command.mutable_vel()->set_y(0);
     }
 
     publishRobotCommand();
@@ -69,9 +70,9 @@ void ReflectKick::intercept() {
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
-    command.x_vel = velocities.x;
-    command.y_vel = velocities.y;
-    command.w = robotAngle;
+    command.mutable_vel()->set_x(velocities.x);
+  command.mutable_vel()->set_y(velocities.y);
+    command.set_w(robotAngle);
 }
 
 void ReflectKick::onTerminate(Status s) {
@@ -81,7 +82,7 @@ void ReflectKick::onTerminate(Status s) {
 
 Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
-    float cornering = rtt::ai::world::field->get_field().goal_width/2.0;
+    float cornering = rtt::ai::world::field->get_field().goal_width()/2.0;
     if (robotPos.y >= 0) {
         return {rtt::ai::world::field->get_their_goal_center().x,
                 rtt::ai::world::field->get_their_goal_center().y + cornering};

@@ -3,8 +3,8 @@
  * otherwise FAILURE
  */
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/Ball.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/Ball.h>
 #include "include/roboteam_ai/conditions/BallOutOfField.h"
 
 namespace rtt {

@@ -8,8 +8,8 @@
  */
 
 #include <QtWidgets/QLayoutItem>
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/treeinterp/BTFactory.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h"
 #include "QLayout"
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
@@ -83,7 +83,7 @@ void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QP
 
 // update the contents in a row of the treewidget
 void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate){
-    ros::Time currentTime = ros::Time::now();
+//    ros::Time currentTime = ros::Time::now();
 
     // if the row is updated we don't need to change node names
     // also insert the pair into treeItemMapping
@@ -102,19 +102,19 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     }
 
     // Update the elapsed time (if ticked)
-    ros::Duration duration = currentTime - node->getLastTickTime();
+//    ros::Duration duration = currentTime - node->getLastTickTime();
 
     if (node->getAmountOfTicks() > 0) {
-        if (duration.toSec() < 1) {
-            row->setTextColor(2, Qt::white);
-            row->setText(2, "Just now");
-        } else if (duration.toSec() < 60){
-            row->setTextColor(2, Qt::gray);
-            row->setText(2, QString::number(duration.toSec(), 'f', 1)+"s ago");
-        } else {
-            row->setTextColor(2, Qt::darkGray);
-            row->setText(2, "> 1m ago");
-        }
+//        if (duration.toSec() < 1) {
+//            row->setTextColor(2, Qt::white);
+//            row->setText(2, "Just now");
+//        } else if (duration.toSec() < 60){
+//            row->setTextColor(2, Qt::gray);
+//            row->setText(2, QString::number(duration.toSec(), 'f', 1)+"s ago");
+//        } else {
+//            row->setTextColor(2, Qt::darkGray);
+//            row->setText(2, "> 1m ago");
+//        }
     } else {
         row->setTextColor(2, Qt::darkGray);
         row->setText(2, "N/A");

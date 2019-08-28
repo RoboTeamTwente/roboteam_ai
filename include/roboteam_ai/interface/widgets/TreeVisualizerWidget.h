@@ -6,9 +6,9 @@
 #define ROBOTEAM_AI_TREEVISUALIZER_H
 
 #include <QtWidgets/QTreeWidget>
-#include <roboteam_ai/src/bt/Node.hpp>
-#include <roboteam_ai/src/utilities/GameState.h>
-#include "roboteam_ai/src/bt/BehaviorTree.hpp"
+#include <include/roboteam_ai/utilities/GameState.h>
+#include <include/roboteam_ai/bt/Node.hpp>
+#include <include/roboteam_ai/bt/BehaviorTree.hpp>
 
 namespace rtt {
 namespace ai {

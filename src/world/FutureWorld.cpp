@@ -5,7 +5,7 @@
 #include "include/roboteam_ai/world/FutureWorld.h"
 #include "include/roboteam_ai/world/History.h"
 
-#include <roboteam_ai/src/utilities/Constants.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt {
 namespace ai {

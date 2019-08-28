@@ -4,7 +4,7 @@
 //
 
 #include "include/roboteam_ai/skills/gotopos/GTPWithBall.h"
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <include/roboteam_ai/coach/BallplacementCoach.h>
 
 namespace rtt {
 namespace ai {
@@ -25,10 +25,10 @@ Skill::Status GTPWithBall::onUpdate() {
 }
 
 void GTPWithBall::onTerminate(Skill::Status s) {
-    command.dribbler = 0;
-    command.x_vel = 0;
-    command.y_vel = 0;
-    command.w = robot->angle;
+    command.set_dribbler(0);
+    command.mutable_vel()->set_x(0);
+    command.mutable_vel()->set_y(0);
+    command.set_w(robot->angle);
     publishRobotCommand();
 }
 

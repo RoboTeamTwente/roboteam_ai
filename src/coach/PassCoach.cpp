@@ -3,8 +3,11 @@
 //
 
 #include "include/roboteam_ai/coach/PassCoach.h"
+#include "include/roboteam_ai/coach/heuristics/PassScore.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "include/roboteam_ai/world/Field.h"
 #include <chrono>
+#include <include/roboteam_ai/world/World.h>
 
 namespace rtt {
 namespace ai {
@@ -16,7 +19,7 @@ PassCoach g_pass;
 
 PassCoach::PassCoach() {
     auto field = world::field->get_field();
-    double goalWidth = field.goal_width;
+    double goalWidth = field.goal_width();
     MIN_PASS_DISTANCE = std::max(goalWidth / 2, SMALLEST_MIN_PASS_DISTANCE);
 }
 

@@ -8,7 +8,7 @@
 #include "Skill.h"
 #include "include/roboteam_ai/utilities/Constants.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
-#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
+#include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
 
 namespace rtt {
 namespace ai {
@@ -25,7 +25,7 @@ class Dribble : public Skill {
         double distance;
 
     public:
-        explicit Dribble(string name, bt::Blackboard::Ptr blackboard);
+        explicit Dribble(std::string name, bt::Blackboard::Ptr blackboard);
         void onInitialize() override;
         Status onUpdate() override;
 };

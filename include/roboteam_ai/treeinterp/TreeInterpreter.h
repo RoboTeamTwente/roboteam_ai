@@ -17,7 +17,7 @@
 #include "BTImport.h"
 #include "PropertiesParser.h"
 #include "include/roboteam_ai/bt/Role.h"
-#include "roboteam_ai/src/Switches.h"
+#include "include/roboteam_ai/Switches.h"
 #include "include/roboteam_ai/skills/Skill.h"
 
 #define GetCurrentDir getcwd

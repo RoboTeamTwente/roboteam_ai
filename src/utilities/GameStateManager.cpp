@@ -4,17 +4,17 @@
 namespace rtt {
 namespace ai {
 
-roboteam_msgs::RefereeData GameStateManager::refMsg;
+roboteam_proto::RefereeData GameStateManager::refMsg;
 StrategyManager GameStateManager::strategymanager;
 
-roboteam_msgs::RefereeData GameStateManager::getRefereeData() {
+roboteam_proto::RefereeData GameStateManager::getRefereeData() {
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(roboteam_msgs::RefereeData refMsg) {
+void GameStateManager::setRefereeData(roboteam_proto::RefereeData refMsg) {
     GameStateManager::refMsg = refMsg;
-    auto cmd = static_cast<RefCommand>(refMsg.command.command);
-    auto stage=static_cast<roboteam_msgs::RefereeStage>(refMsg.stage);
+    auto cmd = static_cast<RefCommand>(refMsg.command());
+    auto stage = refMsg.stage();
     strategymanager.setCurrentRefGameState(cmd,stage);
 }
 
@@ -23,7 +23,7 @@ GameState GameStateManager::getCurrentGameState() {
     GameState newGameState;
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
-        newGameState.keeperId = getRefereeData().us.goalie;
+        newGameState.keeperId = getRefereeData().us().goalie();
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.

@@ -2,9 +2,9 @@
 // Created by baris on 15-4-19.
 //
 
-#include <roboteam_ai/src/control/PositionUtils.h>
-#include <roboteam_ai/src/control/Hungarian.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
+#include <include/roboteam_ai/control/PositionUtils.h>
+#include <include/roboteam_ai/control/Hungarian.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
 #include "include/roboteam_ai/skills/formations/PenaltyFormation.h"
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;

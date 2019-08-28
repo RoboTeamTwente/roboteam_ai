@@ -2,12 +2,12 @@
 // Created by rolf on 23-4-19.
 //
 
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/world/Ball.h>
-#include <roboteam_ai/src/world/Robot.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/interface/api/Output.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world/Ball.h>
+#include <include/roboteam_ai/world/Robot.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/interface/api/Output.h>
 #include "include/roboteam_ai/skills/PenaltyKeeper.h"
 
 namespace rtt {
@@ -80,9 +80,9 @@ Vector2 PenaltyKeeper::computeDefendPos() {
         Vector2 beginPos = attacker->pos;
         Vector2 endPos = attacker->pos
                 + (world::world->getBall()->pos - attacker->pos).stretchToLength(
-                        world::field->get_field().field_length);
+                        world::field->get_field().field_length());
 
-        double maxMoveDist=(world::field->get_field().goal_width-Constants::ROBOT_RADIUS())/2-0.2; // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
+        double maxMoveDist=(world::field->get_field().goal_width()-Constants::ROBOT_RADIUS())/2-0.2; // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
         LineSegment shootLine(beginPos,endPos);
         Line goalKeepingLine(goalLine.first,goalLine.second);
         auto intersection=goalKeepingLine.intersects(shootLine);
@@ -105,8 +105,8 @@ Vector2 PenaltyKeeper::interceptBallPos() {
     Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.first,
             goalLine.second);
     double margin = 0.05;//m next to the goal
-    if (predictedShotLocation.y <= world::field->get_field().goal_width*0.5 + margin
-            && predictedShotLocation.y >= - world::field->get_field().goal_width*0.5 - margin) {
+    if (predictedShotLocation.y <= world::field->get_field().goal_width()*0.5 + margin
+            && predictedShotLocation.y >= - world::field->get_field().goal_width()*0.5 - margin) {
         return predictedShotLocation;
     }
     return (goalLine.first + goalLine.second)*0.5;
@@ -120,9 +120,9 @@ void PenaltyKeeper::sendWaitCommand() {
     Vector2 targetPos = computeDefendPos();
 
     Vector2 delta = gtp.getRobotCommand(robot, targetPos).vel;
-    command.x_vel = delta.x;
-    command.y_vel = delta.y;
-    command.w = M_PI_2;
+    command.mutable_vel()->set_x(delta.x);
+    command.mutable_vel()->set_y(delta.y);
+    command.set_w(M_PI_2);
     publishRobotCommand();
 }
 void PenaltyKeeper::sendInterceptCommand() {
@@ -131,9 +131,9 @@ void PenaltyKeeper::sendInterceptCommand() {
 
     Vector2 interceptPos = interceptBallPos();
     Vector2 delta = gtp.getRobotCommand(robot, interceptPos).vel;
-    command.x_vel = delta.x;
-    command.y_vel = delta.y;
-    command.w = M_PI_2;
+    command.mutable_vel()->set_x(delta.x);
+    command.mutable_vel()->set_y(delta.y);
+    command.set_w(M_PI_2);
     publishRobotCommand();
 }
 std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {

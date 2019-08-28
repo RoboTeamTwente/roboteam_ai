@@ -7,7 +7,7 @@
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
-#include "roboteam_msgs/RobotCommand.h"
+#include "RobotCommand.pb.h"
 
 namespace rtt {
 
@@ -31,21 +31,19 @@ class RobotCommand {
         constexpr RobotCommand(const Vector2 &pos, const Vector2 &vel, const Angle &angle)
                 :pos(pos), vel(vel), angle(angle) { }
 
-        const roboteam_msgs::RobotCommand makeROSCommand() const {
-            roboteam_msgs::RobotCommand message;
-            message.id = id;
-            message.x_vel = vel.x;
-            message.y_vel = vel.y;
-            message.use_angle = 1;
-            message.w = angle;
-            message.dribbler = dribbler;
-            message.geneva_state = geneva;
-            message.kicker = kicker;
-            message.kicker_vel = kickerVel;
-            message.kicker_forced = kickerForced;
-            message.chipper = chipper;
-            message.chipper_vel = chipperVel;
-            message.chipper_forced = chipperForced;
+        const roboteam_proto::RobotCommand makeROSCommand() const {
+          roboteam_proto::RobotCommand message;
+            message.set_id(id);
+            message.mutable_vel()->set_x(vel.x);
+            message.mutable_vel()->set_y(vel.y);
+            message.set_use_angle(true);
+            message.set_w(angle);
+            message.set_dribbler(dribbler);
+            message.set_geneva_state(geneva);
+            message.set_kicker(kicker);
+            message.set_chipper(chipper);
+            message.set_chip_kick_vel(std::max(kickerVel, chipperVel));
+            message.set_chip_kick_forced(kickerForced || chipperForced);
             return message;
         }
 };

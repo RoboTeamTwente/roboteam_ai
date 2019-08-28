@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 19-2-19.
 //
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/BallPossession.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/world/BallPossession.h>
 #include "include/roboteam_ai/analysis/GameAnalyzer.h"
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Field.h"
@@ -179,7 +179,7 @@ bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
 
 void GameAnalyzer::start(int iterationsPerSecond) {
     if (! running && world::world->weHaveRobots()) {
-        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Starting at " << iterationsPerSecond << " iterations per second");
+        std::cout << "GameAnalyzer: " << "Starting at " << iterationsPerSecond << " iterations per second" << std::endl;
         auto delay = (unsigned) (1000.0/iterationsPerSecond);
         thread = std::thread(&GameAnalyzer::loop, this, delay);
         running = true;
@@ -190,13 +190,13 @@ void GameAnalyzer::start(int iterationsPerSecond) {
 void GameAnalyzer::stop() {
     stopping = true;
     if (running || stopping) {
-        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Stopping GameAnalyzer");
+        std::cout << "GameAnalyzer: " << "Stopping GameAnalyzer" << std::endl;
         thread.join();
         running = false;
         stopping = false;
     }
     else {
-        ROS_INFO_STREAM_NAMED("GameAnalyzer", "Could not stop since it was not running in the first place.");
+        std::cout << "GameAnalyzer: " << "Could not stop since it was not running in the first place." << std::endl;
     }
 }
 

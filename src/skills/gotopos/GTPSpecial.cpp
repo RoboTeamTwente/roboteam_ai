@@ -38,7 +38,7 @@ void GTPSpecial::gtpInitialize() {
     case defaultType: {
         maxVel = 9e9;
         targetPos = {0, 0};
-        ROS_WARN("GTPSpecial was not given any type! Defaulting to {0, 0}");
+        std::cout << "GTPSpecial was not given any type! Defaulting to {0, 0}" << std::endl;
         break;
     }
     case freeKick: {
@@ -70,11 +70,11 @@ void GTPSpecial::gtpInitialize() {
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
-    double distanceFromTop = abs(field.field_width*0.5 - ball->pos.y);
-    double distanceFromBottom = abs(- field.field_width*0.5 - ball->pos.y);
-    double distanceFromLeft = abs(- field.field_length*0.5 - ball->pos.x);
-    double distanceFromRight = abs(field.field_length*0.5 - ball->pos.x);
+    roboteam_proto::GeometryFieldSize field = world::field->get_field();
+    double distanceFromTop = abs(field.field_width()*0.5 - ball->pos.y);
+    double distanceFromBottom = abs(- field.field_width()*0.5 - ball->pos.y);
+    double distanceFromLeft = abs(- field.field_length()*0.5 - ball->pos.x);
+    double distanceFromRight = abs(field.field_length()*0.5 - ball->pos.x);
 
     double distance = 9e9;
     Vector2 pos;
@@ -162,7 +162,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
         targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
             auto c = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos);
             command = c.makeROSCommand();
-            command.w = (ball->pos - robot->pos).toAngle();
+            command.set_w((ball->pos - robot->pos).toAngle());
             maxVel = 2.0;
         break;
     }
@@ -174,7 +174,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
         break;
     case freeKick: {
         maxVel = 9e9;
-        command.w = (ball->pos - robot->pos).angle();
+        command.set_w((ball->pos - robot->pos).angle());
     }
     }
 

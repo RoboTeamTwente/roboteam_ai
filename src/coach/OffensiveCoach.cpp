@@ -2,12 +2,13 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <roboteam_ai/src/interface/widgets/widget.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/interface/widgets/widget.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/coach/OffensiveCoach.h"
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/Hungarian.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/Hungarian.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {
@@ -47,8 +48,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
 std::vector<Vector2> OffensiveCoach::getZoneLocations() {
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
-    Vector2 penaltyStretchCorner = field.top_right_penalty_stretch.end;
+    roboteam_proto::GeometryFieldSize field = world::field->get_field();
+    Vector2 penaltyStretchCorner = field.top_right_penalty_stretch().end();
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
 
@@ -212,7 +213,7 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
 std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
     std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
     double angleMargin = sin(2.0/180.0*M_PI);
-    double constantMargin = 0.05*world::field->get_field().goal_width;
+    double constantMargin = 0.05*world::field->get_field().goal_width();
     Vector2 leftPoint(goalSides.first.x,
             goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));
     Vector2 rightPoint(goalSides.second.x,

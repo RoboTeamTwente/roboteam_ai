@@ -2,8 +2,8 @@
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/Ball.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/Ball.h>
 #include "include/roboteam_ai/conditions/BallKickedToOurGoal.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
 
@@ -23,7 +23,7 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
 
     // determine the goalsides
     Vector2 goalCentre = world::field->get_our_goal_center();
-    double goalWidth = world::field->get_field().goal_width;
+    double goalWidth = world::field->get_field().goal_width();
     double margin = BALL_TO_GOAL_MARGIN;
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth/2 + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth/2 + margin);

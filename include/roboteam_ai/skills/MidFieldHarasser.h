@@ -6,11 +6,11 @@
 #define ROBOTEAM_AI_MIDFIELDHARASSER_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
+#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_utils/Angle.h>
 #include "include/roboteam_ai/coach/midField/MidFieldCoach.h"
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 
 namespace rtt {
 namespace ai {

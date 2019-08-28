@@ -2,7 +2,7 @@
 // Created by robzelluf on 6/5/19.
 //
 
-#include <roboteam_ai/src/utilities/Constants.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "include/roboteam_ai/skills/Wait.h"
 #include "include/roboteam_ai/world/Robot.h"
 
@@ -31,8 +31,8 @@ void Wait::onInitialize() {
 }
 
 Wait::Status Wait::onUpdate() {
-    command.w = lockedAngle;
-    command.geneva_state=0;
+    command.set_w(lockedAngle);
+    command.set_geneva_state(0);
     publishRobotCommand();
     tick++;
     if(tick>=ticks) {

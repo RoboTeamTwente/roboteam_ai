@@ -1,6 +1,6 @@
-#include <roboteam_ai/src/world/WorldData.h>
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/analysis/GameAnalyzer.h>
+#include <include/roboteam_ai/world/WorldData.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/analysis/GameAnalyzer.h>
 #include "include/roboteam_ai/bt/tactics/DefaultTactic.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
 

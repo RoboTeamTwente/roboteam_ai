@@ -6,12 +6,9 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <roboteam_ai/src/coach/OffensiveCoach.h>
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <include/roboteam_ai/utilities/StrategyManager.h>
 #include "include/roboteam_ai/io/IOManager.h"
 #include "include/roboteam_ai/treeinterp/BTFactory.h"
-#include "ros/ros.h"
-#include <roboteam_ai/src/utilities/StrategyManager.h>
 
 namespace rtt {
 

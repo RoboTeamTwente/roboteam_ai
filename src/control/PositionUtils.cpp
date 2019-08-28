@@ -8,11 +8,11 @@
  *
  */
 
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/world/Robot.h>
-#include <roboteam_ai/src/world/Ball.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world/Robot.h>
+#include <include/roboteam_ai/world/Ball.h>
 #include "include/roboteam_ai/control/PositionUtils.h"
 
 namespace rtt {
@@ -80,8 +80,8 @@ bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const
 }
 std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
 
-    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
-    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length()/4.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width()/4.0;
 
     std::vector<Vector2> temp = {{- lengthOffset, widthOffset},
                                  {0, widthOffset},
@@ -101,8 +101,8 @@ std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
 }
 std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     // Two availableIDs, one robot to receive the ball, rest 3 in a diagonal
-    auto lengthOffset = rtt::ai::world::field->get_field().field_length/4.0;
-    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length()/4.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width()/4.0;
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
@@ -133,8 +133,8 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
 }
 std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     // makes a free kick line
-    auto lengthOffset = rtt::ai::world::field->get_field().field_length/100.0;
-    auto widthOffset = rtt::ai::world::field->get_field().field_width/4.0;
+    auto lengthOffset = rtt::ai::world::field->get_field().field_length()/100.0;
+    auto widthOffset = rtt::ai::world::field->get_field().field_width()/4.0;
     Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
     Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);

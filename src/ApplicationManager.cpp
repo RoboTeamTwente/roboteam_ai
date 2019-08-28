@@ -4,6 +4,8 @@
 
 #include "include/roboteam_ai/demo/JoystickDemo.h"
 #include "include/roboteam_ai/coach/defence/DefenceDealer.h"
+#include "include/roboteam_ai/coach/OffensiveCoach.h"
+#include "include/roboteam_ai/coach/PassCoach.h"
 #include "include/roboteam_ai/ApplicationManager.h"
 #include <sstream>
 #include "include/roboteam_ai/analysis/GameAnalyzer.h"
@@ -26,7 +28,7 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-    ros::Rate rate(ai::Constants::TICK_RATE());
+  //   ros::Rate rate(ai::Constants::TICK_RATE());
 
    // BTFactory::makeTrees();
     double longestTick = 0.0;
@@ -34,14 +36,15 @@ void ApplicationManager::loop() {
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
 
-    while (ros::ok()) {
-        ros::Time begin = ros::Time::now();
+
+    while (true) {
+      //  ros::Time begin = ros::Time::now();
 
         this->runOneLoopCycle();
-        rate.sleep();
+       // rate.sleep();
 
-        ros::Time end = ros::Time::now();
-        timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+       // ros::Time end = ros::Time::now();
+        //timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
         timeTakenOverNTicks += timeTaken;
         if (timeTaken > longestTick) {
             longestTick = timeTaken;
@@ -109,22 +112,22 @@ void ApplicationManager::runOneLoopCycle() {
         }
 
 
-        ros::Time begin;
-        ros::Time end;
-        if (ai::interface::Output::showCoachTimeTaken()) {
-            begin = ros::Time::now();
-        }
+//        ros::Time begin;
+//        ros::Time end;
+//        if (ai::interface::Output::showCoachTimeTaken()) {
+//            begin = ros::Time::now();
+//        }
 
         rtt::ai::coach::getBallCoach->update();
         rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
         rtt::ai::coach::g_pass.updatePassProgression();
 
-        if (ai::interface::Output::showCoachTimeTaken()) {
-            end = ros::Time::now();
-            double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
-            std::cout << "The coaches are using " << timeTaken << " ms!" << std::endl;
-        }
+//        if (ai::interface::Output::showCoachTimeTaken()) {
+//            end = ros::Time::now();
+//            double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
+//            std::cout << "The coaches are using " << timeTaken << " ms!" << std::endl;
+//        }
 
         if (BTFactory::getCurrentTree() == "NaN") {
             std::cout << "NaN tree probably Halting" << std::endl;
@@ -137,7 +140,7 @@ void ApplicationManager::runOneLoopCycle() {
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
-        ros::Duration(0.2).sleep();
+    //    ros::Duration(0.2).sleep();
     }
 
     weHaveRobots = ai::world::world->weHaveRobots();
@@ -162,7 +165,8 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
         ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
       break;
-    case Status::Waiting:ROS_INFO_STREAM("Status returned: Waiting");
+    case Status::Waiting:
+        std::cout << " === Status returned: Waiting === " << std::endl;
         break;
     }
 }

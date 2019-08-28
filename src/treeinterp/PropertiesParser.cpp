@@ -3,7 +3,6 @@
 //
 
 #include "include/roboteam_ai/treeinterp/PropertiesParser.h"
-#include "ros/ros.h"
 
 bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
 
@@ -56,7 +55,7 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
 
     std::string strKey = (std::string) jsonLeaf["properties"][keyName];
     if (strKey.empty()) {
-        ROS_ERROR("PARSING EMPTY STRING!! this could give errors");
+        std::cout << "PARSING EMPTY STRING!! this could give errors" << std::endl;
         return String;
     }
     int it = 0;

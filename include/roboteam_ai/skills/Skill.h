@@ -2,10 +2,9 @@
 #define ROBOTEAM_AI_SKILL_H
 
 #include "include/roboteam_ai/bt/Leaf.hpp"
-#include <roboteam_msgs/RobotCommand.h>
-#include <roboteam_utils/Angle.h>
-#include "ros/ros.h"
 #include "include/roboteam_ai/io/IOManager.h"
+#include <RobotCommand.pb.h>
+#include <roboteam_utils/Angle.h>
 
 namespace rtt {
 namespace ai {
@@ -21,13 +20,15 @@ namespace world {
     class WorldData;
 }
 
+using namespace std;
+
 /**
  * \class Skill
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
     private:
-        roboteam_msgs::RobotCommand rotateRobotCommand(roboteam_msgs::RobotCommand &cmd);
+        roboteam_proto::RobotCommand rotateRobotCommand(roboteam_proto::RobotCommand &cmd);
     protected:
         using Robot = world::Robot;
         using Ball = world::Ball;
@@ -38,14 +39,14 @@ class Skill : public bt::Leaf {
         io::IOManager ioManager = io::IOManager(false, true);
         void publishRobotCommand();
         void refreshRobotCommand();
-        roboteam_msgs::RobotCommand command;
+        roboteam_proto::RobotCommand command;
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;
         void limitRobotCommand();
 
     public:
-        explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+        explicit Skill(string name, bt::Blackboard::Ptr blackboard = nullptr);
         std::string node_name() override;
         void initialize() override;
         Status update() override;

@@ -2,10 +2,10 @@
 // Created by mrlukasbos on 24-4-19.
 //
 
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/control/PositionUtils.h>
-#include <roboteam_ai/src/interface/api/Input.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/control/PositionUtils.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "include/roboteam_ai/control/shotControllers/ShotController.h"
 #include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
 

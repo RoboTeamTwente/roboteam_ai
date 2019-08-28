@@ -2,6 +2,7 @@
 // Created by baris on 14-3-19.
 //
 
+#include <include/roboteam_ai/world/World.h>
 #include "include/roboteam_ai/skills/ShootFreeKick.h"
 
 namespace rtt {
@@ -32,10 +33,10 @@ Skill::Status ShootFreeKick::onUpdate() {
                 progress = TARGETING;
             }
             else {
-                command.w = static_cast<float>((targetPos - robot->pos).angle());
+                command.set_w(static_cast<float>((targetPos - robot->pos).angle()));
                 Vector2 velocity = goToPos.getRobotCommand(robot, targetPos).vel;
-                command.x_vel = static_cast<float>(velocity.x);
-                command.y_vel = static_cast<float>(velocity.y);
+                command.mutable_vel()->set_x(static_cast<float>(velocity.x));
+                command.mutable_vel()->set_y(static_cast<float>(velocity.y));
                 publishRobotCommand();
 
             }

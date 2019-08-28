@@ -3,14 +3,14 @@
 //
 
 #include "include/roboteam_ai/skills/InterceptBall.h"
-#include "roboteam_ai/src/interface/api/Input.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
+#include "include/roboteam_ai/interface/api/Input.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
 
-InterceptBall::InterceptBall(rtt::string name, bt::Blackboard::Ptr blackboard)
+InterceptBall::InterceptBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { };
 
 //TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
@@ -84,18 +84,19 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     else {
         velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     }
-    command.x_vel = static_cast<float>(velocities.x);
-    command.y_vel = static_cast<float>(velocities.y);
+    command.mutable_vel()->set_x(static_cast<float>(velocities.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocities.y));
+
 
     auto blockAngle = Angle((interceptPos - robot->pos).angle());
-    command.w = ! backwards ? blockAngle.getAngle() : Angle(blockAngle + M_PI).getAngle();
+    command.set_w(!backwards ? blockAngle.getAngle() : Angle(blockAngle + M_PI).getAngle());
     if (orientationLocked) {
         if (stayAtOrientation){
-            command.w=Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle();
+            command.set_w(Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle());
         }
         else {
-            command.w = (ballStartPos - interceptPos).angle();
-            command.dribbler = 31;
+            command.set_w((ballStartPos - interceptPos).angle());
+            command.set_dribbler(31);
         }
     }
     publishRobotCommand();
@@ -221,15 +222,15 @@ bool InterceptBall::ballDeflected() {
     return true;
 }
 void InterceptBall::sendStopCommand() {
-    command.x_vel = 0;
-    command.y_vel = 0;
+    command.mutable_vel()->set_x(0);
+    command.mutable_vel()->set_y(0);
     if (! stayAtOrientation) {
-        command.w = static_cast<float>((ballStartPos
-                - interceptPos).angle()); //Rotates orthogonal to the line of the ball
-        command.dribbler = 31;
+        command.set_w(static_cast<float>((ballStartPos
+                - interceptPos).angle())); //Rotates orthogonal to the line of the ball
+        command.set_dribbler(31);
     }
     else {
-        command.w = Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle();
+        command.set_w(Angle((ballStartPos - interceptPos).angle() + M_PI_2).getAngle());
     }
     publishRobotCommand();
 }
@@ -237,7 +238,7 @@ void InterceptBall::sendStopCommand() {
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
-    double goalWidth = world::field->get_field().goal_width;
+    double goalWidth = world::field->get_field().goal_width();
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
@@ -249,10 +250,10 @@ bool InterceptBall::ballToGoal() {
 // Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
-    double goalWidth = world::field->get_field().goal_width;
+    double goalWidth = world::field->get_field().goal_width();
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
-    Vector2 depth = Vector2(- world::field->get_field().goal_depth, 0.0);
+    Vector2 depth = Vector2(- world::field->get_field().goal_depth(), 0.0);
     return control::ControlUtils::pointInRectangle(ball->pos, lowerPost, lowerPost + depth, upperPost + depth,
             upperPost);
 }

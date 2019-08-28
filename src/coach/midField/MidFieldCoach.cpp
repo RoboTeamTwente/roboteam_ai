@@ -2,7 +2,7 @@
 // Created by robzelluf on 5/27/19.
 //
 
-#include <roboteam_ai/src/world/WorldData.h>
+#include <include/roboteam_ai/world/WorldData.h>
 #include "include/roboteam_ai/coach/midField/MidFieldCoach.h"
 #include "include/roboteam_ai/world/Robot.h"
 #include "include/roboteam_ai/world/Ball.h"
@@ -140,7 +140,7 @@ MidFieldCoach::harassSlowRobot(const MidFieldCoach::RobotPtr &opponent, const Mi
 
 MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr& thisRobot) {
     RobotPtr closestRobot = nullptr;
-    auto shortestDistance = DBL_MAX;
+    auto shortestDistance = 9e9;
 
     // Loop over all opponents to find a opponent to harass
     for(const auto &opponent : world::world->getThem()) {
@@ -227,7 +227,6 @@ MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr
 
 double MidFieldCoach::calculateStandingFreeScore(const Vector2& position, const RobotPtr &thisRobot) {
     WorldData world = world::world->getWorld();
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position, thisRobot->id);

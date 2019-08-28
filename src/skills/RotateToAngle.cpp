@@ -4,8 +4,8 @@
 
 #include "include/roboteam_ai/skills/RotateToAngle.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
-#include "roboteam_ai/src/world/Ball.h"
-#include "roboteam_ai/src/world/Robot.h"
+#include "include/roboteam_ai/world/Ball.h"
+#include "include/roboteam_ai/world/Robot.h"
 
 namespace rtt {
 namespace ai {
@@ -23,7 +23,7 @@ void RotateToAngle::onInitialize() {
 }
 
 RotateToAngle::Status RotateToAngle::onUpdate() {
-    command.w = static_cast<float>(targetAngle);
+    command.set_w(static_cast<float>(targetAngle));
     deltaAngle = fabs(Control::constrainAngle(targetAngle - robot->angle));
     currentProgress = checkProgression();
 
@@ -42,7 +42,7 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
 }
 
 void RotateToAngle::onTerminate(Status s) {
-    command.w = targetAngle;
+    command.set_w(targetAngle);
     currentProgress=ROTATING;
     publishRobotCommand();
 }

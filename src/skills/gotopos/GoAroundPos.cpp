@@ -2,14 +2,14 @@
 // Created by rolf on 30-1-19.
 //
 
-#include <roboteam_ai/src/control/ControlUtils.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
 #include "include/roboteam_ai/skills/gotopos/GoAroundPos.h"
-#include "roboteam_ai/src/interface/api/Input.h"
+#include "include/roboteam_ai/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
 
-GoAroundPos::GoAroundPos(rtt::string name, bt::Blackboard::Ptr blackboard)
+GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(name, blackboard) { }
 
 void GoAroundPos::gtpInitialize() {
@@ -19,7 +19,7 @@ void GoAroundPos::gtpInitialize() {
             targetPos = ball->pos;
         }
         else {
-            ROS_ERROR("Get some balls");
+            std::cerr << "Get some balls" << std::endl;
         }
     }
     else {
@@ -35,7 +35,7 @@ void GoAroundPos::gtpInitialize() {
     }
     else {
         endAngle = 0;
-        ROS_ERROR_STREAM("GoAroundPos update --> No target direction set! Defaulting to 0");
+        std::cerr << "GoAroundPos update --> No target direction set! Defaulting to 0" << std::endl;
     }
 
     deltaPos = targetPos - robot->pos;
@@ -49,7 +49,7 @@ void GoAroundPos::gtpInitialize() {
             distanceFromPoint = properties->getDouble("RotatingDistance");
         }
         else {
-            ROS_ERROR_STREAM("No rotating distance set! Defaulting to ball distance");
+            std::cerr << "No rotating distance set! Defaulting to ball distance" << std::endl;
             distanceFromPoint = BALL_DIST;
         }
     }
@@ -61,11 +61,11 @@ void GoAroundPos::gtpInitialize() {
 
 GoAroundPos::Status GoAroundPos::gtpUpdate() {
     if (! robot) {
-        ROS_ERROR("RobotPtr not found ree:  %s", std::to_string(robot->id).c_str());
+        std::cout << "RobotPtr not found ree: " << std::to_string(robot->id).c_str() << std::endl;
         return Status::Failure;
     }
     if (ballIsTarget && ! ball) {
-        ROS_ERROR_STREAM("GoAroundPos update -> No ball found!");
+        std::cout << "GoAroundPos update -> No ball found!" << std::endl;
         return Status::Failure;
     }
     if (ballIsTarget) {
@@ -106,7 +106,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
 }
 
 void GoAroundPos::gtpTerminate(rtt::ai::Skill::Status s) {
-    command.w = (float) deltaPos.angle();
+    command.set_w((float) deltaPos.angle());
 }
 
 GoAroundPos::Progression GoAroundPos::checkProgression() {
@@ -155,10 +155,10 @@ bool GoAroundPos::checkPosition() {
 
 void GoAroundPos::sendRotateCommand() {
     Vector2 deltaCommandPos = (commandPos - robot->pos);
-    command.dribbler = 0;
-    command.x_vel = static_cast<float>(deltaCommandPos.x);
-    command.y_vel = static_cast<float>(deltaCommandPos.y);
-    command.w = (float) deltaPos.angle();
+    command.set_dribbler(0);
+    command.mutable_vel()->set_x(static_cast<float>(deltaCommandPos.x));
+    command.mutable_vel()->set_y(static_cast<float>(deltaCommandPos.y));
+    command.set_w((float) deltaPos.angle());
     publishRobotCommand();
 }
 }

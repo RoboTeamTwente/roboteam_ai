@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 18-1-19.
 //
 
-#include <roboteam_ai/src/utilities/Constants.h>
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
+#include <include/roboteam_ai/utilities/Constants.h>
+#include <include/roboteam_ai/treeinterp/BTFactory.h>
 #include "include/roboteam_ai/interface/api/Output.h"
 #include "include/roboteam_ai/world/Ball.h"
 

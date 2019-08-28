@@ -1,6 +1,6 @@
-#include <roboteam_ai/src/analysis/DecisionMaker.h>
-#include <roboteam_ai/src/analysis/GameAnalyzer.h>
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/analysis/DecisionMaker.h>
+#include <include/roboteam_ai/analysis/GameAnalyzer.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "include/roboteam_ai/skills/formations/KickOffUsFormation.h"
 #include "include/roboteam_ai/control/ControlUtils.h"
 #include "include/roboteam_ai/control/Hungarian.h"
@@ -18,8 +18,8 @@ namespace ai {
 Vector2 KickOffUsFormation::getFormationPosition() {
     std::vector<int> robotIds;
     auto field = world::field->get_field();
-    double fh = field.field_width;
-    double fw = field.field_length;
+    double fh = field.field_width();
+    double fw = field.field_length();
 
     std::vector<std::vector<Vector2>> locations = {
             {{-0.2,0}},

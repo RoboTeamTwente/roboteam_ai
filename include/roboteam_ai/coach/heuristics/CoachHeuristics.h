@@ -6,9 +6,8 @@
 #define ROBOTEAM_AI_COACHHEURISTICS_H
 
 #include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/World.h>
+#include <include/roboteam_ai/world/WorldData.h>
+#include <include/roboteam_ai/world/World.h>
 
 namespace rtt {
 namespace ai {
@@ -43,7 +42,7 @@ class CoachHeuristics {
         static double calculateDistanceToOpponentsScore(const Vector2 &position);
         static double calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID = -1);
         static double getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world,
-                double smallestAngle = DBL_MAX);
+                double smallestAngle = 999999);
 };
 
 }

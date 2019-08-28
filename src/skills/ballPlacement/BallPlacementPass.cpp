@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 3-5-19.
 //
 
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <include/roboteam_ai/coach/BallplacementCoach.h>
 #include "include/roboteam_ai/skills/ballPlacement/BallPlacementPass.h"
 
 namespace rtt {
@@ -49,16 +49,16 @@ bt::Node::Status BallPlacementPass::onUpdate() {
         if (coach::g_pass.isReadyToReceivePass()) {
             auto shotData = robot->getShotController()->getRobotCommand(*robot, getKicker(), false, control::BallSpeed::BALL_PLACEMENT, false, control::ShotPrecision::MEDIUM, 3);
             command = shotData.makeROSCommand();
-            if(command.kicker == true && !hasShot) {
+            if(command.kicker() && !hasShot) {
                 hasShot = true;
             }
         } else if (robot->pos.dist(ball->pos) > 0.5) {
             auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
-            command.x_vel = robotCommand.vel.x;
-            command.y_vel = robotCommand.vel.y;
-            command.w = robotCommand.angle;
+            command.mutable_vel()->set_x(robotCommand.vel.x);
+            command.mutable_vel()->set_y(robotCommand.vel.y);
+            command.set_w(robotCommand.angle);
         } else {
-            command.w = (ball->pos - robot->pos).angle();
+            command.set_w((ball->pos - robot->pos).angle());
         }
     }
 

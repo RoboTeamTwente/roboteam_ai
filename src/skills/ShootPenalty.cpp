@@ -38,10 +38,10 @@ bt::Node::Status ShootPenalty::onUpdate() {
     double gain=ydiff*lineP;
     if (tick < genevaChangeTicks&&ydiff<0.03) {
         tick ++;
-        command.x_vel=0;
-        command.y_vel=gain;
-        command.w=0;
-        command.geneva_state = genevaState;
+        command.mutable_vel()->set_x(0);
+        command.mutable_vel()->set_y(gain);
+        command.set_w(0);
+        command.set_geneva_state(genevaState);
         auto ball=world::world->getBall();
         if (ball){
             ballPos=ball->pos;
@@ -52,31 +52,31 @@ bt::Node::Status ShootPenalty::onUpdate() {
             Vector2 targetPos=world::world->getBall()->pos+additionalBallDist;
             if (world::field->pointIsInDefenceArea(ballPos,false,0.2)){
                 auto cmd=gtp.getRobotCommand(robot,targetPos);
-                command.x_vel=cmd.vel.x;
-                command.y_vel=cmd.vel.y+gain;
+                command.mutable_vel()->set_x(cmd.vel.x);
+                command.mutable_vel()->set_y(cmd.vel.y+gain);
             }
             else{
                 auto cmd=robot->getNumtreePosControl()->getRobotCommand(robot,targetPos);
-                command.x_vel=cmd.vel.x;
-                command.y_vel=cmd.vel.y;
+                command.mutable_vel()->set_x(cmd.vel.x);
+                command.mutable_vel()->set_y(cmd.vel.y);
             }
-            command.w = 0;
-            command.kicker = true;
-            command.kicker_vel = Constants::MAX_KICK_POWER();
+            command.set_w(0);
+            command.set_kicker(true);
+            command.set_chip_kick_vel(Constants::MAX_KICK_POWER());
             std::cout<<robot->calculateDistanceToBall(ballPos)<<std::endl;
             if (forcedKickOn||!robot->hasWorkingBallSensor()){
                 double dist=robot->calculateDistanceToBall(ballPos);
                 if (dist!=-1.0){
-                    command.kicker_forced= dist<forcedKickRange;
+                    command.set_chip_kick_forced(dist<forcedKickRange);
                 } else {
                     std::cout << "HELP!" << std::endl;
                 }
             }
-            command.geneva_state = genevaState;
+            command.set_geneva_state(genevaState);
         }
 
     }
-    command.geneva_state = genevaState;
+    command.set_geneva_state(genevaState);
     std::cout<<"robotID "<<robot->id<<" "<<genevaState<<std::endl;
     publishRobotCommand();
     return Status::Running;

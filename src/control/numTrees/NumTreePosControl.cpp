@@ -2,12 +2,12 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "roboteam_ai/src/control/RobotCommand.h"
-#include "roboteam_ai/src/world/Robot.h"
-#include "roboteam_ai/src/world/Ball.h"
+#include "include/roboteam_ai/control/RobotCommand.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/Ball.h"
 #include <queue>
-#include <roboteam_ai/src/interface/api/Input.h>
-#include "roboteam_ai/src/world/Field.h"
+#include <include/roboteam_ai/interface/api/Input.h>
+#include "include/roboteam_ai/world/Field.h"
 
 #include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
 #include "include/roboteam_ai/control/numTrees/PathPoint.h"
@@ -84,7 +84,7 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
 
     // make a copy of the robot
     robot = std::make_shared<world::Robot>(world::Robot(*robotPtr));
-    ros::Time begin = ros::Time::now();
+    //ros::Time begin = ros::Time::now();
 
     // Check if the current path is still valid, if not, recalculate
     bool nicePath = true;
@@ -105,11 +105,11 @@ RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
             }
         }
     }
-    ros::Time end = ros::Time::now();
-    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo()) {
-        std::cout << "ROBOT " << robot->id << ": GoToPosClean tick took: " <<
-                  (end - begin).toNSec()*0.000001 << " ms" << std::endl;
-    }
+//    ros::Time end = ros::Time::now();
+//    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo()) {
+//        std::cout << "ROBOT " << robot->id << ": GoToPosClean tick took: " <<
+//                  (end - begin).toNSec()*0.000001 << " ms" << std::endl;
+//    }
 
     // draw
     std::vector<Vector2> drawpoints = {};
@@ -162,26 +162,26 @@ void NumTreePosControl::tracePath() {
     root->t = 0;
     root->collisions = 0;
     pathQueue.push(root);
-
-    ros::Time start = ros::Time::now();
+//
+   // ros::Time start = ros::Time::now();
     while (! pathQueue.empty()) {
-        ros::Time now = ros::Time::now();
-        if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
-            if (InterfaceValues::showDebugNumTreeInfo()) {
-                std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
-            }
-            PathPointer bestPath = pathQueue.top();
-            pathQueue.pop();
-            while (! pathQueue.empty()) {
-                PathPointer pathPointer = pathQueue.top();
-                if ((finalTargetPos - pathPointer->pos).length2() < (finalTargetPos - bestPath->pos).length2()) {
-                    bestPath = pathPointer;
-                }
-                pathQueue.pop();
-            }
-            path = backTrackPath(bestPath, root);
-            return;
-        }
+  //      ros::Time now = ros::Time::now();
+//        if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
+//            if (InterfaceValues::showDebugNumTreeInfo()) {
+//                std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
+//            }
+//            PathPointer bestPath = pathQueue.top();
+//            pathQueue.pop();
+//            while (! pathQueue.empty()) {
+//                PathPointer pathPointer = pathQueue.top();
+//                if ((finalTargetPos - pathPointer->pos).length2() < (finalTargetPos - bestPath->pos).length2()) {
+//                    bestPath = pathPointer;
+//                }
+//                pathQueue.pop();
+//            }
+//            path = backTrackPath(bestPath, root);
+//            return;
+//        }
         PathPointer point = pathQueue.top();
         while (true) {
             PathPointer newPoint = computeNewPoint(point, point->currentTarget);
@@ -374,8 +374,8 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
         bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
         bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            double defenseAreaX = point->pos.x < 0 ? world::field->get_field().left_penalty_line.begin.x :
-                                  world::field->get_field().right_penalty_line.begin.x;
+            double defenseAreaX = point->pos.x < 0 ? world::field->get_field().left_penalty_line().begin().x():
+                                  world::field->get_field().right_penalty_line().begin().x();
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
             return collision;
         }
@@ -392,7 +392,7 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     bool collidesWithTheirGoal = world::field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
-        collision.setGoalCollision(point->pos, world::field->get_field().goal_width/2 - fabs(point->pos.y) * 1.1);
+        collision.setGoalCollision(point->pos, world::field->get_field().goal_width()/2 - fabs(point->pos.y) * 1.1);
     }
 
     return collision;
@@ -405,7 +405,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
 
     auto ball = world::world->getBall();
 
-    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position;
+    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position();
 
     if (!interface::Output::usesRefereeCommands()) {
         ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();

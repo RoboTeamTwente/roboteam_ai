@@ -4,7 +4,7 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSpacerItem>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include <QtWidgets/QLabel>
 #include "include/roboteam_ai/interface/widgets/RuleSetWidget.h"
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
@@ -55,4 +55,4 @@ void RuleSetWidget::updateLabels() {
 
 
 // QT performance improvement
-#include "moc_RuleSetWidget.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_RuleSetWidget.cpp"

@@ -1,17 +1,17 @@
-#include <roboteam_ai/src/control/PositionUtils.h>
+#include <include/roboteam_ai/control/PositionUtils.h>
 #include "include/roboteam_ai/skills/Attack.h"
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include "roboteam_ai/src/coach/OffensiveCoach.h"
-#include <roboteam_ai/src/control/PositionUtils.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include "include/roboteam_ai/coach/OffensiveCoach.h"
+#include <include/roboteam_ai/control/PositionUtils.h>
 #include "include/roboteam_ai/skills/Attack.h"
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include "roboteam_ai/src/coach/OffensiveCoach.h"
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include "include/roboteam_ai/coach/OffensiveCoach.h"
 
 namespace rtt {
 namespace ai {
@@ -25,7 +25,7 @@ bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
     if (world::field->pointIsInDefenceArea(ball->pos, false)) {
-        command.w = robot->angle;
+        command.set_w(robot->angle);
         publishRobotCommand();
         return Status::Running;
     }

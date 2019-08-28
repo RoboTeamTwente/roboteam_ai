@@ -2,14 +2,16 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
-#include <roboteam_ai/src/utilities/RobotDealer.h>
-#include <ros/node_handle.h>
-#include <roboteam_ai/src/coach/PassCoach.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
+#include <include/roboteam_ai/coach/PassCoach.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/interface/widgets/widget.h"
-#include "roboteam_ai/src/interface/api/Input.h"
-#include "roboteam_ai/src/interface/api/Output.h"
-#include "roboteam_ai/src/analysis/GameAnalyzer.h"
+#include "include/roboteam_ai/interface/api/Input.h"
+#include "include/roboteam_ai/interface/api/Output.h"
+#include "include/roboteam_ai/analysis/GameAnalyzer.h"
+#include "include/roboteam_ai/world/Field.h"
+
+#include "GeometryFieldSize.pb.h"
 
 namespace rtt {
 namespace ai {
@@ -127,10 +129,10 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
-    roboteam_msgs::GeometryFieldSize field = rtt::ai::world::field->get_field();
-    fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width);
-    float widthFactor = this->size().width()/field.field_length - (2*fieldmargin);
-    float heightFactor = this->size().height()/field.field_width - (2*fieldmargin);
+    roboteam_proto::GeometryFieldSize field = rtt::ai::world::field->get_field();
+    fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width());
+    float widthFactor = this->size().width()/field.field_length() - (2*fieldmargin);
+    float heightFactor = this->size().height()/field.field_width() - (2*fieldmargin);
     factor = std::min(widthFactor, heightFactor);
 }
 
@@ -145,28 +147,26 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &line : rtt::ai::world::field->get_field().field_lines) {
-        rtt::Vector2 start = toScreenPosition(line.begin);
-        rtt::Vector2 end = toScreenPosition(line.end);
+    for (auto &line : rtt::ai::world::field->get_field().field_lines()) {
+        rtt::Vector2 start = toScreenPosition(line.begin());
+        rtt::Vector2 end = toScreenPosition(line.end());
         painter.drawLine(start.x, start.y, end.x, end.y);
     }
 
     // draw the circle in the middle
-    auto centercircle = rtt::ai::world::field->get_field().center_circle;
-    Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
-    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
+    auto centercircle = rtt::ai::world::field->get_field().center_circle();
+    Vector2 screenPos = toScreenPosition({centercircle.center().x(), centercircle.center().y()});
+    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius()*factor, centercircle.radius()*factor);
 
 
 
         QPen pen;
         pen.setWidth(3);
 
-        ros::NodeHandle nh;
-        std::string ourColorParam;
-        nh.getParam("our_color", ourColorParam);
 
+        //  TODO check this later
         // update the we are yellow
-        bool weAreYellow = ourColorParam == "yellow";
+        bool weAreYellow = true;
 
         // draw the hint for us
         auto usGoalLine = world::field->getGoalSides(true);
@@ -202,7 +202,7 @@ void Visualizer::drawFieldHints(QPainter &painter) {
 
     // draw the position where robots would be for timeout
     int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : - 1;
-    int lineY = (rtt::ai::world::field->get_field().field_width/2 + 1)*inv;
+    int lineY = (rtt::ai::world::field->get_field().field_width()/2 + 1)*inv;
 
     pen.setBrush(Qt::gray);
     pen.setColor(Qt::gray);
@@ -276,13 +276,9 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
 
-    // we check the ros param our_color every time. This is because the referee can switch colors at any moment.
-    ros::NodeHandle nh;
-    std::string ourColorParam, newParam;
-    nh.getParam("our_color", ourColorParam);
-
+    // TODO update this
     // update the we are yellow
-    bool weAreYellow = ourColorParam == "yellow";
+    bool weAreYellow = true;
 
     QColor robotColor;
     if (ourTeam) {
@@ -549,7 +545,7 @@ void Visualizer::drawBallPlacementTarget(QPainter &painter) {
                      marker.y + 5);
 
     if (Output::usesRefereeCommands()) {
-        Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeData().designated_position));
+        Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeData().designated_position()));
         painter.setBrush(Qt::transparent);
         painter.setPen(Qt::green);
 
@@ -662,4 +658,4 @@ void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2>
 } // rtt
 
 // QT performance improvement
-#include "moc_widget.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_widget.cpp"

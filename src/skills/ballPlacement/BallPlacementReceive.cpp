@@ -2,10 +2,11 @@
 // Created by mrlukasbos on 1-5-19.
 //
 
-#include <roboteam_ai/src/coach/PassCoach.h>
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
+#include <include/roboteam_ai/coach/PassCoach.h>
+#include <include/roboteam_ai/coach/BallplacementCoach.h>
 #include "include/roboteam_ai/skills/ballPlacement/BallPlacementReceive.h"
-#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -31,7 +32,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
 //        if(ballDeflected()) {
 //            return Status::Failure;
 //        }
-        command.dribbler = 31;
+        command.set_dribbler(31);
         intercept();
     } else {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
@@ -52,12 +53,12 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
 
 void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
     auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, position);
-    command.x_vel = static_cast<float>(robotCommand.vel.x);
-    command.y_vel = static_cast<float>(robotCommand.vel.y);
+    command.mutable_vel()->set_x(robotCommand.vel.x);
+    command.mutable_vel()->set_y(robotCommand.vel.y);
     if (position.dist(robot->pos) < 0.6) {
-        command.w = static_cast<float>((Vector2(ball->pos) - robot->pos).angle());
+        command.set_w((Vector2(ball->pos) - robot->pos).angle());
     } else {
-        command.w = static_cast<float>((position - robot->pos).angle());
+        command.set_w((position - robot->pos).angle());
     }
 }
 

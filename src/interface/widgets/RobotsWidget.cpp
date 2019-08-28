@@ -4,10 +4,10 @@
 
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-#include <roboteam_msgs/WorldRobot.h>
+#include <WorldRobot.pb.h>
 #include "include/roboteam_ai/interface/widgets/RobotsWidget.h"
 #include <QScrollArea>
-#include "roboteam_ai/src/analysis/GameAnalyzer.h"
+#include "include/roboteam_ai/analysis/GameAnalyzer.h"
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
 
 namespace rtt {
@@ -115,4 +115,4 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
 } // rtt
 
 // QT performance improvement
-#include "moc_RobotsWidget.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_RobotsWidget.cpp"

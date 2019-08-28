@@ -4,8 +4,8 @@
 * - inField: if true, the ball also has to be in the field to return SUCCESS
 */
 
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/world/Ball.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/Ball.h>
 #include "include/roboteam_ai/conditions/IsBallOnOurSide.h"
 
 namespace rtt {
@@ -23,8 +23,8 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
 
     if (ballPos.x < 0) {
         if (inField) {
-            if (abs(ballPos.x) < world::field->get_field().field_length / 2 &&
-                abs(ballPos.y) < world::field->get_field().field_width / 2) {
+            if (abs(ballPos.x) < world::field->get_field().field_length() / 2 &&
+                abs(ballPos.y) < world::field->get_field().field_width() / 2) {
                 return Status::Success;
             }
             return Status::Failure;

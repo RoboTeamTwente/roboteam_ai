@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 9-4-19.
 //
 
-#include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
 #include "include/roboteam_ai/analysis/DecisionMaker.h"
 #include "include/roboteam_ai/analysis/GameAnalyzer.h"
 

@@ -72,4 +72,4 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
 } // rtt
 
 // QT performance improvement
-#include "moc_VisualizationSettingsWidget.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_VisualizationSettingsWidget.cpp"

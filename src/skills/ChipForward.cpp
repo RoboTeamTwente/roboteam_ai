@@ -3,8 +3,8 @@
 //
 
 #include "include/roboteam_ai/skills/ChipForward.h"
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/shotControllers/ShotController.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {
@@ -21,8 +21,8 @@ ChipForward::Status ChipForward::onUpdate() {
     auto shotData = robot->getShotController()->getRobotCommand(
             *robot, aimPoint, true, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
     command = shotData.makeROSCommand();
-    if (!hasChipped && command.chipper == 1) {
-        if (command.kicker_forced || robot->hasBall())
+    if (!hasChipped && command.chipper()) {
+        if (command.chip_kick_forced() || robot->hasBall())
         hasChipped = true;
     }
 

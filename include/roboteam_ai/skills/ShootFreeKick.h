@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_SHOOTFREEKICK_H
 #define ROBOTEAM_AI_SHOOTFREEKICK_H
 
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/control/shotControllers/ShotController.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/shotControllers/ShotController.h>
 #include "Skill.h"
 #include "include/roboteam_ai/world/Field.h"
 

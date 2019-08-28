@@ -2,12 +2,12 @@
 // Created by rolf on 17-4-19.
 //
 
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "include/roboteam_ai/coach/defence/DefencePositionCoach.h"
 #include "include/roboteam_ai/coach/GetBallCoach.h"
-#include "roboteam_ai/src/interface/api/Input.h"
+#include "include/roboteam_ai/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

@@ -2,12 +2,12 @@
 // Created by mrlukasbos on 23-1-19.
 //
 
-#include <roboteam_ai/src/analysis/GameAnalyzer.h>
-#include <roboteam_ai/src/analysis/DecisionMaker.h>
+#include <include/roboteam_ai/analysis/GameAnalyzer.h>
+#include <include/roboteam_ai/analysis/DecisionMaker.h>
 #include "include/roboteam_ai/skills/formations/Formation.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/control/Hungarian.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/control/Hungarian.h"
 
 namespace rtt {
 namespace ai {
@@ -44,7 +44,7 @@ bt::Node::Status Formation::onUpdate() {
 // determine the angle where the robot should point to (in position)
 void Formation::setFinalAngle() {
     Vector2 targetToLookAtLocation = world::field->get_their_goal_center();
-    command.w = static_cast<float>((targetToLookAtLocation - robot->pos).angle());
+    command.set_w(static_cast<float>((targetToLookAtLocation - robot->pos).angle()));
 }
 
 void Formation::terminate(Status s) {
@@ -107,9 +107,9 @@ bool Formation::robotIsInPosition() {
 // set up the command such that a robot moves towards the targetLocation
 void Formation::moveToTarget() {
     auto velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation);
-    command.x_vel = velocities.vel.x;
-    command.y_vel = velocities.vel.y;
-    command.w = static_cast<float>((targetLocation - robot->pos).angle());
+    command.mutable_vel()->set_x(velocities.vel.x);
+  command.mutable_vel()->set_y(velocities.vel.y);
+    command.set_w(static_cast<float>((targetLocation - robot->pos).angle()));
 }
 
 bool Formation::updateCounter() {

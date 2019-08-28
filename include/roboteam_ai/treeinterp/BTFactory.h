@@ -15,7 +15,6 @@
 #include <map>
 #include "TreeInterpreter.h"
 #include "BTImport.h"
-#include "roboteam_ai/src/Switches.h"
 
 class BTFactory {
 

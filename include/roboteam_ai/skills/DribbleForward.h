@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_DRIBBLEFORWARD_H
 
 #include "Skill.h"
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt {
 namespace ai {
@@ -20,7 +20,7 @@ private:
     control::BasicPosControl basicGtp;
     control::BallHandlePosControl ballHandlePosControl;
 public:
-    explicit DribbleForward(string name, bt::Blackboard::Ptr blackboard);
+    explicit DribbleForward(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 };

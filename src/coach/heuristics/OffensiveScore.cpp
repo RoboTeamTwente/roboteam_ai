@@ -4,6 +4,7 @@
 
 #include "include/roboteam_ai/coach/heuristics/OffensiveScore.h"
 #include "include/roboteam_ai/coach/OffensiveCoach.h"
+#include "include/roboteam_ai/world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -13,7 +14,7 @@ OffensiveScore g_offensiveScore;
 
 /// Calculates a total score based on all the sub-scores
 double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,
-        const WorldData &world, const roboteam_msgs::GeometryFieldSize &field) {
+        const WorldData &world, const roboteam_proto::GeometryFieldSize &field) {
 
     if (!positionIsValid(zoneLocation, position)) return 0.0;
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);

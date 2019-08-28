@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_WORLDDATA_H
 #define ROBOTEAM_AI_WORLDDATA_H
 
-#include "roboteam_msgs/World.h"
+#include "World.pb.h"
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
@@ -24,18 +24,18 @@ class WorldData {
         using WorldDataPtr = std::shared_ptr<WorldData>;
     public:
         WorldData() = default;
-        explicit WorldData(const roboteam_msgs::World &copy)
-                :time(copy.time) {
-            for (auto &robot : copy.us) {
+        explicit WorldData(const roboteam_proto::World &copy)
+                :time(copy.time()) {
+            for (auto &robot : copy.us()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::us, 3));
                 us.emplace_back(r);
             }
 
-            for (auto &robot : copy.them) {
+            for (auto &robot : copy.them()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::them, 3));
                 them.emplace_back(r);
             }
-            ball = std::make_shared<Ball>(copy.ball);
+            ball = std::make_shared<Ball>(copy.ball());
         }
         explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,
                 const BallPtr &copyBall, double time)

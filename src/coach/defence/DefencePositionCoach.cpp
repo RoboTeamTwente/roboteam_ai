@@ -4,9 +4,9 @@
 //
 
 #include "include/roboteam_ai/coach/defence/DefencePositionCoach.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
-#include "roboteam_ai/src/utilities/RobotDealer.h"
+#include "include/roboteam_ai/world/Field.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 /// This is a class that computes useful lines and positions for computing defender positions
 namespace rtt {
 namespace ai {
@@ -251,7 +251,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     double maxForwardLineX = maxX();
     Vector2 position=getPosOnLine(blockLine, 0.1);
     if (position.x > maxForwardLineX) {
-        double fieldWidth = world::field->get_field().field_width;
+        double fieldWidth = world::field->get_field().field_width();
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5);
         Vector2 topLine(maxForwardLineX, fieldWidth*0.5);
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.first, blockLine.second, bottomLine,
@@ -261,7 +261,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     return position;
 }
 double DefencePositionCoach::maxX() {
-    return world::field->get_field().field_length/10.0*-1.0;
+    return world::field->get_field().field_length()/10.0*-1.0;
 }
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
     std::vector<world::Robot::RobotPtr> theirAttackers;
@@ -347,7 +347,7 @@ std::shared_ptr<DefenderBot> DefencePositionCoach::blockPass(PossiblePass pass) 
             return std::make_shared<DefenderBot>(defender);
         }
         // try putting it on the defence Line instead (as the robot is very likely far away
-        double fieldWidth=world::field->get_field().field_width;
+        double fieldWidth=world::field->get_field().field_width();
 
         // Floating point errors sigh (hence the -0.0001)
         Vector2 bottomLine(maxX()-0.0001, - fieldWidth*0.5);
@@ -469,7 +469,7 @@ void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobot
     std::vector<int> freeIDs=freeRobotIDs;
     for (int j = lockedCount; j < defenders.size(); ++ j) {
         int closestId = - 1;
-        auto closestDist = DBL_MAX;
+        auto closestDist = 9e9;
         for (int botId : freeIDs) {
             auto bot = world::world->getRobotForId(botId, true);
             if (bot) {

@@ -32,7 +32,7 @@ Skill::Status GoBehindBall::gtpUpdate() {
             return Status::Running;
         }
         else {
-            command.w = (ball->pos - robot->pos).toAngle();
+            command.set_w((ball->pos - robot->pos).toAngle());
             publishRobotCommand();
             return Status::Success;
         }
@@ -65,7 +65,7 @@ GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
     else if (string =="shootOut"){
         return shootOut;
     }
-    ROS_ERROR("No string set for the RefType in GoBehindBall Skill!! using freeKick");
+    std::cerr << "No string set for the RefType in GoBehindBall Skill!! using freeKick" << std::endl;
     return freeKick;
 
 }
@@ -75,8 +75,8 @@ Skill::Status GoBehindBall::penaltyUpdate(int genevaState){
 
     Vector2 v = goal - ball->pos;
     targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.2)) + ball->pos;
-    command.geneva_state = genevaState;
-    command.w = 0;
+    command.set_geneva_state(genevaState);
+    command.set_w(0);
     return (targetPos - robot->pos).length2() > errorMargin * errorMargin ? Status::Running :  Status::Success;
 
 }

@@ -10,7 +10,7 @@
 #include <set>
 #include <mutex>
 #include <vector>
-#include "Vector2.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt {
 namespace ai {

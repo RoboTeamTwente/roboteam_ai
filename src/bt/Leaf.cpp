@@ -1,9 +1,8 @@
 #include <memory>
-#include <roboteam_ai/src/world/World.h>
+#include <include/roboteam_ai/world/World.h>
 
 #include "include/roboteam_ai/bt/Leaf.hpp"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
-#include "ros/ros.h"
 #include "include/roboteam_ai/world/WorldData.h"
 #include "include/roboteam_ai/world/Robot.h"
 #include "include/roboteam_ai/world/Ball.h"
@@ -26,11 +25,11 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboa
             return rtt::ai::world::world->getRobotForId(robotId, true);
         }
         else {
-            ROS_ERROR("%s Initialize -> robot %i does not exist in world", node_name().c_str(), robotId);
+            std::cerr << node_name().c_str() << " Initialize -> robot " << robotId << " does not exist in world" << std::endl;
         }
     }
     else {
-        ROS_ERROR("%s Initialize robot %i -> ROLE WAITING!!", node_name().c_str(), robotId);
+        std::cerr << node_name().c_str() << "Initialize -> robot " << robotId << " -> ROLE WAITING!!" << std::endl;
     }
     return nullptr;
 }
@@ -40,7 +39,7 @@ void Leaf::updateRobot() {
         robot = rtt::ai::world::world->getRobotForId(robotId, true);
     }
     else {
-        ROS_ERROR("%s Update -> robot %i does not exist in world", node_name().c_str(), robotId);
+        std::cerr << node_name().c_str() << "Update -> robot " << robotId << " does not exist in world" << std::endl;
         robot = nullptr;
     }
 }

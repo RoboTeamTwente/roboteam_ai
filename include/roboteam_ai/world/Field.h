@@ -9,7 +9,7 @@
 
 
 #include <roboteam_utils/Polygon.h>
-#include <roboteam_msgs/GeometryFieldSize.h>
+#include <GeometryFieldSize.pb.h>
 #include "mutex"
 #include <cmath>
 
@@ -22,12 +22,12 @@ using Line=std::pair<Vector2, Vector2>;
 class WorldData;
 class Field {
     private:
-        roboteam_msgs::GeometryFieldSize field;
+        roboteam_proto::GeometryFieldSize field;
         std::mutex fieldMutex;
 
     public:
-        const roboteam_msgs::GeometryFieldSize get_field();
-        void set_field(roboteam_msgs::GeometryFieldSize field);
+        const roboteam_proto::GeometryFieldSize get_field();
+        void set_field(roboteam_proto::GeometryFieldSize field);
         Vector2 get_our_goal_center();
         Vector2 get_their_goal_center();
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0,

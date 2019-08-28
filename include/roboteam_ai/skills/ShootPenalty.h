@@ -5,9 +5,9 @@
 #ifndef ROBOTEAM_AI_SHOOTPENALTY_H
 #define ROBOTEAM_AI_SHOOTPENALTY_H
 
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include "roboteam_ai/src/coach/OffensiveCoach.h"
-#include <roboteam_ai/src/control/shotControllers/ShotController.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include "include/roboteam_ai/coach/OffensiveCoach.h"
+#include <include/roboteam_ai/control/shotControllers/ShotController.h>
 #include "Skill.h"
 #include "include/roboteam_ai/world/Field.h"
 namespace rtt {

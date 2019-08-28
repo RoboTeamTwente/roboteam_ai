@@ -10,7 +10,7 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const roboteam_msgs::World &message) {
+void World::updateWorld(const roboteam_proto::World &message) {
     worldNumber ++;
 
     BallPtr oldBall = nullptr;
@@ -42,9 +42,13 @@ void World::updateWorld(const roboteam_msgs::World &message) {
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         worldDataPtr->ball = tempWorldData.ball;
-        worldDataPtr->time = message.time;
-        updateRobotsFromData(us, message.us, worldDataPtr->us, worldDataPtr->ball, worldNumber);
-        updateRobotsFromData(them, message.them, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+        worldDataPtr->time = message.time();
+
+        auto usMsg = std::vector<roboteam_proto::WorldRobot>(message.us().begin(), message.us().end());
+        auto themMsg = std::vector<roboteam_proto::WorldRobot>(message.them().begin(), message.them().end());
+
+        updateRobotsFromData(us, usMsg, worldDataPtr->us, worldDataPtr->ball, worldNumber);
+        updateRobotsFromData(them, themMsg, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
         // add the worlddata to the history
         WorldData worldDataCopyForHistory = WorldData(worldDataPtr);
@@ -54,14 +58,14 @@ void World::updateWorld(const roboteam_msgs::World &message) {
     ballPossessionPtr->update();
 }
 
-void World::updateRobotsFromData(Team team, const std::vector<roboteam_msgs::WorldRobot> &robotsFromMsg,
+void World::updateRobotsFromData(Team team, const std::vector<roboteam_proto::WorldRobot> &robotsFromMsg,
         std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long newWorldNumber) const {
     for (auto robotMsg : robotsFromMsg) {
 
         // find robots that areor/ both in the vector and in the message
         bool robotFound = false;
         for (auto &robot : robots) {
-            if (robot->id == robotMsg.id) {
+            if (robot->id == robotMsg.id()) {
                 robotFound = true;
                 if (robot) {
                     // if the robot already exists it should be updated

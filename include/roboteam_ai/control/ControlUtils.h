@@ -9,6 +9,7 @@
 #include <roboteam_utils/Arc.h>
 #include "include/roboteam_ai/utilities/Constants.h"
 #include <cmath>
+#include <optional>
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;

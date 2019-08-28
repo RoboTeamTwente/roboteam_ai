@@ -15,7 +15,7 @@ private:
     Vector2 aimPoint;
     bool hasChipped = false;
 public:
-    explicit ChipForward(string name, bt::Blackboard::Ptr blackboard);
+    explicit ChipForward(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
 };

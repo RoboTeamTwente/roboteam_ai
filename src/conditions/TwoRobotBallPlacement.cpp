@@ -5,6 +5,9 @@
  */
 
 #include "include/roboteam_ai/conditions/TwoRobotBallPlacement.h"
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
+#include <include/roboteam_ai/world/Ball.h>
 
 namespace rtt {
 namespace ai {

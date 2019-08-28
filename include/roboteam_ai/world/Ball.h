@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BALL_H
 #define ROBOTEAM_AI_BALL_H
 
-#include "roboteam_msgs/WorldBall.h"
+#include "WorldBall.pb.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 
@@ -38,7 +38,7 @@ class Ball {
     public:
         Ball();
         // Ball(const Ball &copy) = default;
-        explicit Ball(const roboteam_msgs::WorldBall &copy);
+        explicit Ball(const roboteam_proto::WorldBall &copy);
         void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 
         const Vector2 &getBallStillPosition() const;

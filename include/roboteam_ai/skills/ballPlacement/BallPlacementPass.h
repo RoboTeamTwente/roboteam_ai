@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BALLPLACEMENTPASS_H
 #define ROBOTEAM_AI_BALLPLACEMENTPASS_H
 
-#include "roboteam_ai/src/skills/Pass.h"
+#include "include/roboteam_ai/skills/Pass.h"
 
 namespace rtt {
 namespace ai {

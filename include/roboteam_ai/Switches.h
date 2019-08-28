@@ -4,9 +4,10 @@
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 
-#include "roboteam_ai/src/treeinterp/BTImport.h"
 #include <iostream>
-#include "roboteam_ai/src/utilities/RobotDealer.h"
+#include <include/roboteam_ai/utilities/RobotDealer.h>
+#include <include/roboteam_ai/bt/Blackboard.hpp>
+#include <include/roboteam_ai/bt/Node.hpp>
 
 class Switches {
         private:

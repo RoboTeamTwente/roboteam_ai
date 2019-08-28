@@ -1,13 +1,14 @@
-#include <roboteam_ai/src/control/ControlUtils.h>
 #include "include/roboteam_ai/skills/Skill.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
-#include "roboteam_ai/src/world/World.h"
-#include "roboteam_ai/src/world/Robot.h"
-#include "roboteam_ai/src/world/Ball.h"
+#include "include/roboteam_ai/utilities/Constants.h"
+#include "include/roboteam_ai/utilities/GameStateManager.hpp"
+#include "include/roboteam_ai/control/ControlUtils.h"
+#include "include/roboteam_ai/world/Robot.h"
+#include "include/roboteam_ai/world/World.h"
+#include "include/roboteam_ai/world/Ball.h"
 #include <cmath>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
 
-#include "roboteam_ai/src/utilities/RefGameState.h"
+
 
 namespace rtt {
 namespace ai {
@@ -19,9 +20,9 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Skill::publishRobotCommand() {
-    ros::NodeHandle nh;
+    // ros::NodeHandle nh;
     std::string ourSideParam;
-    nh.getParam("our_side", ourSideParam);
+   // nh.getParam("our_side", ourSideParam);
 
     if(Constants::GRSIM() && ourSideParam=="right"){
       command=rotateRobotCommand(command);
@@ -29,20 +30,13 @@ void Skill::publishRobotCommand() {
 
     limitRobotCommand();
 
-    if (std::isnan(command.x_vel) || std::isnan(command.y_vel)) {
+    if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
         std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;
     }
-        
-    // Make sure both kicker and chipper vel are set, so that it works for both GrSim and Serial
-    if(command.kicker_vel > command.chipper_vel) {
-        command.chipper_vel = command.kicker_vel;
-    } else {
-        command.kicker_vel = command.chipper_vel;
-    }
-
-    if (command.id == -1) {
+    
+    if (command.id() == -1) {
         if (robot && robot->id != -1) {
-            command.id = robot->id;
+            command.set_id(robot->id);
             ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
         }
     } else {
@@ -87,19 +81,19 @@ void Skill::terminate(Status s) {
     onTerminate(s);
 }
 
-roboteam_msgs::RobotCommand Skill::rotateRobotCommand(roboteam_msgs::RobotCommand &cmd) {
-    roboteam_msgs::RobotCommand output = cmd;
-    output.x_vel = - cmd.x_vel;
-    output.y_vel = - cmd.y_vel;
-    output.w = static_cast<float>(control::ControlUtils::constrainAngle(cmd.w + M_PI));
+roboteam_proto::RobotCommand Skill::rotateRobotCommand(roboteam_proto::RobotCommand &cmd) {
+    roboteam_proto::RobotCommand output = cmd;
+    output.mutable_vel()->set_x(- cmd.vel().x());
+    output.mutable_vel()->set_y(- cmd.vel().y());
+    output.set_w(static_cast<float>(control::ControlUtils::constrainAngle(cmd.w() + M_PI)));
     return output;
 }
 
 void Skill::refreshRobotCommand() {
-    roboteam_msgs::RobotCommand emptyCmd;
-    emptyCmd.use_angle = 1;
-    emptyCmd.id = robot ? robot->id : -1;
-    emptyCmd.geneva_state = 0;
+    roboteam_proto::RobotCommand emptyCmd;
+    emptyCmd.set_use_angle(true);
+    emptyCmd.set_id(robot ? robot->id : -1);
+    emptyCmd.set_geneva_state(0);
     command = emptyCmd;
 }
 
@@ -107,20 +101,20 @@ void Skill::refreshRobotCommand() {
 void Skill::limitRobotCommand() {
 
     bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName== "keeper_penalty_defend_tactic";
-    bool isKeeper = command.id == robotDealer::RobotDealer::getKeeperID();
+    bool isKeeper = command.id() == robotDealer::RobotDealer::getKeeperID();
 
-    auto limitedVel = Vector2(command.x_vel, command.y_vel);
+    auto limitedVel = Vector2(command.vel().x(), command.vel().y());
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
     if (!(isDefendPenaltyState&&isKeeper)){
-        limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w);
+        limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w());
     }
     robot->setPidPreviousVel(limitedVel);
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!" << "  robot  " << robot->id << std::endl;
         robot->setPidPreviousVel(robot->vel);
     }
-    command.x_vel = limitedVel.x;
-    command.y_vel = limitedVel.y;
+    command.mutable_vel()->set_x(limitedVel.x);
+    command.mutable_vel()->set_y(limitedVel.y);
 }
 
 

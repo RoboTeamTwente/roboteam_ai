@@ -2,13 +2,15 @@
 // Created by robzelluf on 1/22/19.
 //
 
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include <roboteam_ai/src/control/PositionUtils.h>
-#include <roboteam_ai/src/utilities/Constants.h>
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/interface/api/Input.h>
-#include <roboteam_ai/src/world/Robot.h>
+#include <include/roboteam_ai/coach/BallplacementCoach.h>
+#include <include/roboteam_ai/control/PositionUtils.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/utilities/Constants.h>
+#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/interface/api/Input.h>
+#include <include/roboteam_ai/world/Robot.h>
+#include <include/roboteam_ai/world/WorldData.h>
 #include "include/roboteam_ai/skills/Pass.h"
 
 namespace rtt {
@@ -57,9 +59,9 @@ Pass::Status Pass::onUpdate() {
                     robot, robotToPassTo->pos, control::BallHandlePosControl::TravelStrategy::FORWARDS);
         }
 
-        command.x_vel = robotCommand.vel.x;
-        command.y_vel = robotCommand.vel.y;
-        command.w = robotCommand.angle;
+        command.mutable_vel()->set_x(robotCommand.vel.x);
+        command.mutable_vel()->set_y(robotCommand.vel.y);
+        command.set_w(robotCommand.angle);
         publishRobotCommand();
         return Status::Running;
 
@@ -117,7 +119,7 @@ Pass::Status Pass::onUpdate() {
 
         makeCommand();
 
-        if ((command.kicker == true || command.chipper == true) && ! hasShot) {
+        if ((command.kicker() == true || command.chipper() == true) && ! hasShot) {
             hasShot = true;
         }
     }

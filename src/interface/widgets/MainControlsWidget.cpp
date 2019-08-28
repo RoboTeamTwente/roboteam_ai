@@ -2,14 +2,14 @@
 // Created by mrlukasbos on 7-5-19.
 //
 
-#include <roboteam_ai/src/utilities/RobotDealer.h>
-#include <roboteam_ai/src/Switches.h>
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/interface/api/Output.h>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
+#include <include/roboteam_ai/Switches.h>
+#include <include/roboteam_ai/treeinterp/BTFactory.h>
+#include <include/roboteam_ai/interface/api/Output.h>
 #include "include/roboteam_ai/interface/widgets/MainControlsWidget.h"
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
 #include "include/roboteam_ai/treeinterp/BTFactory.h"
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/utilities/GameState.h"
 
 namespace rtt {
@@ -148,24 +148,24 @@ void MainControlsWidget::setUseReferee(bool useRef) {
 
 /// toggle the ROS param 'our_color'
 void MainControlsWidget::toggleOurColorParam() {
-    ros::NodeHandle nh;
-    std::string ourColorParam, newParam;
-    nh.getParam("our_color", ourColorParam);
-    newParam = ourColorParam == "yellow" ? "blue" : "yellow";
-    nh.setParam("our_color", newParam);
-
-    setToggleColorBtnLayout();
+//    ros::NodeHandle nh;
+//    std::string ourColorParam, newParam;
+//    nh.getParam("our_color", ourColorParam);
+//    newParam = ourColorParam == "yellow" ? "blue" : "yellow";
+//    nh.setParam("our_color", newParam);
+//
+//    setToggleColorBtnLayout();
 }
 
 /// toggle the ROS param 'our_color'
 void MainControlsWidget::toggleOurSideParam() {
-    ros::NodeHandle nh;
-    std::string ourColorParam, newParam;
-    nh.getParam("our_side", ourColorParam);
-    newParam = ourColorParam == "left" ? "right" : "left";
-    nh.setParam("our_side", newParam);
-
-    setToggleSideBtnLayout();
+//    ros::NodeHandle nh;
+//    std::string ourColorParam, newParam;
+//    nh.getParam("our_side", ourColorParam);
+//    newParam = ourColorParam == "left" ? "right" : "left";
+//    nh.setParam("our_side", newParam);
+//
+//    setToggleSideBtnLayout();
 }
 
 /// send a halt signal to stop all trees from executing
@@ -186,29 +186,29 @@ void MainControlsWidget::updatePause() {
 }
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
-    ros::NodeHandle nh;
-    std::string ourColorParam;
-    nh.getParam("our_color", ourColorParam);
-    if (ourColorParam == "yellow") {
-        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
-    } else {
-        toggleColorBtn->setStyleSheet("background-color: blue;");
-    }
-    toggleColorBtn->setText(QString::fromStdString(ourColorParam));
+//    ros::NodeHandle nh;
+//    std::string ourColorParam;
+//    nh.getParam("our_color", ourColorParam);
+//    if (ourColorParam == "yellow") {
+//        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
+//    } else {
+//        toggleColorBtn->setStyleSheet("background-color: blue;");
+//    }
+//    toggleColorBtn->setText(QString::fromStdString(ourColorParam));
 }
 
 void MainControlsWidget::setToggleSideBtnLayout() const {
-    ros::NodeHandle nh;
-    std::string ourSideParam;
-    nh.getParam("our_side", ourSideParam);
-    if (ourSideParam == "left") {
-        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-        toggleSideBtn->setText("◀ Left");
-
-    } else {
-        toggleSideBtn->setText("right ▶");
-        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-    }
+//    ros::NodeHandle nh;
+//    std::string ourSideParam;
+//    nh.getParam("our_side", ourSideParam);
+//    if (ourSideParam == "left") {
+//        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
+//        toggleSideBtn->setText("◀ Left");
+//
+//    } else {
+//        toggleSideBtn->setText("right ▶");
+//        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
+//    }
 }
 
 
@@ -273,4 +273,4 @@ void MainControlsWidget::sendHaltSignal() {
 } // rtt
 
 // QT performance improvement
-#include "moc_MainControlsWidget.cpp"
+#include "include/roboteam_ai/interface/widgets/moc_MainControlsWidget.cpp"

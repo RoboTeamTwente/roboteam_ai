@@ -2,8 +2,10 @@
 // Created by robzelluf on 4/17/19.
 //
 
+#include <GeometryFieldSize.pb.h>
 #include "include/roboteam_ai/coach/heuristics/PassScore.h"
 #include "include/roboteam_ai/world/WorldData.h"
+#include "include/roboteam_ai/world/Field.h"
 
 namespace rtt {
 namespace ai {
@@ -11,7 +13,7 @@ namespace coach {
 
 double PassScore::calculatePassScore(const Vector2 &position) {
     WorldData world = world::world->getWorld();
-    roboteam_msgs::GeometryFieldSize field = world::field->get_field();
+    roboteam_proto::GeometryFieldSize field = world::field->get_field();
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);

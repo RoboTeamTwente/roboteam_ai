@@ -1,5 +1,5 @@
 #include "Condition.h"
-#include "roboteam_ai/src/coach/BallplacementCoach.h"
+#include "include/roboteam_ai/coach/BallplacementCoach.h"
 
 #ifndef ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H
 #define ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H

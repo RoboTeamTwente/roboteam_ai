@@ -33,15 +33,15 @@ Skill::Status MidFieldHarasser::onUpdate() {
                 velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength * 0.8,
                                                                   Constants::MIN_VEL());
             }
-            command.w = (opponent->pos - robot->pos).angle();
+            command.set_w((opponent->pos - robot->pos).angle());
         }
     } else {
-        command.w = newPosition.angle;
+        command.set_w(newPosition.angle);
     }
 
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
-    command.use_angle = 1;
+    command.mutable_vel()->set_x(static_cast<float>(velocity.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocity.y));
+    command.set_use_angle(true);
     publishRobotCommand();
 
     return Status::Running;

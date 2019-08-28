@@ -4,8 +4,8 @@
  * USED FOR CHECKING GAME STATE CHANGES DONT USE IF YOU DONT KNOW WHEN TO
  */
 
-#include <roboteam_ai/src/interface/api/Output.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/interface/api/Output.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "include/roboteam_ai/utilities/Constants.h"
 #include "include/roboteam_ai/conditions/CanPlay.h"
 #include "include/roboteam_ai/world/Ball.h"
@@ -23,7 +23,8 @@ bt::Node::Status CanPlay::onUpdate() {
         margin = 0.15;
     }
 
-    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < margin;    auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command.command);
+    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < margin;
+    auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command());
     if (ballIsLayingStill || (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START)) {
         // this should keep running, because otherwise the condition would re initialize
         return Status::Failure;

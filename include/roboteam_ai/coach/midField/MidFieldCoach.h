@@ -6,9 +6,9 @@
 #define ROBOTEAM_AI_MIDFIELDCOACH_H
 
 #include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/BallPossession.h>
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/ControlUtils.h>
+#include <include/roboteam_ai/world/BallPossession.h>
 #include "include/roboteam_ai/coach/heuristics/CoachHeuristics.h"
 
 namespace rtt {

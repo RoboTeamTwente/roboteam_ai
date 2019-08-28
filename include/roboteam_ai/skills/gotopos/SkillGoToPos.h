@@ -23,7 +23,7 @@ class SkillGoToPos : public GoToPos {
         Progression checkProgression();
 
     public:
-        explicit SkillGoToPos(string name, bt::Blackboard::Ptr blackboard);
+        explicit SkillGoToPos(std::string name, bt::Blackboard::Ptr blackboard);
         void gtpInitialize() override;
         Status gtpUpdate() override;
         void gtpTerminate(Status s) override;

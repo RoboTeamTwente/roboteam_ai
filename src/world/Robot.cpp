@@ -6,21 +6,21 @@
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Ball.h"
 
-#include "roboteam_ai/src/control/ControlUtils.h"
-#include "roboteam_ai/src/control/shotControllers/ShotController.h"
-#include "roboteam_ai/src/control/ballHandling/BallHandlePosControl.h"
-#include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/src/control/BasicPosControl.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
+#include "include/roboteam_ai/control/shotControllers/ShotController.h"
+#include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
+#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "include/roboteam_ai/control/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {
 namespace world {
 
-Robot::Robot(const roboteam_msgs::WorldRobot &copy, Team team,
+Robot::Robot(const roboteam_proto::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
         :pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
-         genevaState(genevaState), dribblerState(dribblerState), id(copy.id),
-         angle(copy.angle), pos(copy.pos), vel(copy.vel), angularVelocity(copy.w), team(team) {
+         genevaState(genevaState), dribblerState(dribblerState), id(copy.id()),
+         angle(copy.angle()), pos(copy.pos()), vel(copy.vel()), angularVelocity(copy.w()), team(team) {
 
     if (id > - 1 && id < 16) {
         workingGeneva = Constants::ROBOT_HAS_WORKING_GENEVA(id);
@@ -60,12 +60,12 @@ double Robot::getDistanceToBall() {
     return distanceToBall;
 }
 
-void Robot::updateRobot(const roboteam_msgs::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
-    if (static_cast<int>(robotMsg.id) == this->id) {
-        this->pos = robotMsg.pos;
-        this->vel = robotMsg.vel;
-        this->angle = robotMsg.angle;
-        this->angularVelocity = robotMsg.w;
+void Robot::updateRobot(const roboteam_proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
+    if (static_cast<int>(robotMsg.id()) == this->id) {
+        this->pos = robotMsg.pos();
+        this->vel = robotMsg.vel();
+        this->angle = robotMsg.angle();
+        this->angularVelocity = robotMsg.w();
         this->lastUpdatedWorldNumber = worldNumber;
     }
     distanceToBall = calculateDistanceToBall(ball->pos);

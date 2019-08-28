@@ -6,10 +6,7 @@
 #define ROBOTEAM_AI_OFFENSIVECOACH_H
 
 #include <roboteam_utils/Vector2.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/Field.h>
 #include <algorithm>
-#include "roboteam_ai/src/coach/heuristics/CoachHeuristics.h"
 #include "include/roboteam_ai/world/WorldData.h"
 #include "include/roboteam_ai/coach/heuristics/OffensiveScore.h"
 

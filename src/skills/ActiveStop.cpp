@@ -2,9 +2,9 @@
 // Created by baris on 8-4-19.
 //
 
-#include <roboteam_ai/src/world/Field.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "include/roboteam_ai/skills/ActiveStop.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
+#include "include/roboteam_ai/control/ControlUtils.h"
 
 namespace rtt{
 namespace ai {
@@ -31,14 +31,14 @@ Skill::Status ActiveStop::onUpdate() {
     }
 
     if (robot->pos.dist(targetPos) > 0.3) {
-        command.w = static_cast<float>((targetPos - robot->pos).angle());
+        command.set_w(static_cast<float>((targetPos - robot->pos).angle()));
     } else {
-        command.w = static_cast<float>((ball->pos - robot->pos).angle());
+        command.set_w(static_cast<float>((ball->pos - robot->pos).angle()));
     }
 
     Vector2 velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
-    command.x_vel = static_cast<float>(velocity.x);
-    command.y_vel = static_cast<float>(velocity.y);
+    command.mutable_vel()->set_x(static_cast<float>(velocity.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocity.y));
     publishRobotCommand();
     return Status::Running;
 }

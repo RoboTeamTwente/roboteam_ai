@@ -12,7 +12,7 @@ Halt::Halt(string name, bt::Blackboard::Ptr blackboard)
 
 Halt::Status Halt::onUpdate() {
     // send slowing down command
-    command.geneva_state = 3;
+    command.set_geneva_state(3);
     publishRobotCommand();
     return Status::Running;
 }

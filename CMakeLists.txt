@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.4)
 project(roboteam_ai)
 
-#SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
-set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -O1")
-set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
+set(CMAKE_CXX_FLAGS_DEBUG "-std=c++17 ${CMAKE_CXX_FLAGS} -O1")
+set(CMAKE_CXX_FLAGS_RELEASE "-std=c++17 ${CMAKE_CXX_FLAGS} -Werror -O1")
 
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
@@ -257,8 +256,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainControlsWidgetTest.cpp
         ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        include/roboteam_ai/bt.h)
+        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp ../main.cpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -301,7 +299,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
 
 # Main Executable
-add_library(Roboteam_AI
+add_library(roboteam_ai
+
         src/roboteam_ai.cpp
         src/ApplicationManager.cpp
         include/roboteam_ai/ApplicationManager.h
@@ -317,9 +316,28 @@ add_library(Roboteam_AI
         ${COACH_SOURCES}
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
-        ${WORLD_SOURCES} src/AI.cpp include/roboteam_ai/AI.h)
+        ${WORLD_SOURCES} src/AI.cpp include/roboteam_ai/AI.h
 
-target_link_libraries(Roboteam_AI Qt5::Widgets Qt5::Gui roboteam_utils)
+        # QT wants to know about these headers
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/CheckboxWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
+
+        )
+
+target_link_libraries(roboteam_ai Qt5::Widgets Qt5::Gui roboteam_utils)
+
+target_include_directories(roboteam_ai PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+        PRIVATE src )
 
 #############
 ## Testing ##
@@ -351,14 +369,14 @@ APPEND_COVERAGE_COMPILER_FLAGS()
 SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
 
 # required properties for cotire
-set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD 11)
-set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 11)
+set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD_REQUIRED ON)
 set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
 set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
 
 
 if(UNIX AND NOT APPLE)
-    cotire(Roboteam_AI)
+    cotire(roboteam_ai)
     cotire(ai_tests)
 endif()
 

@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_GOTOPOS_H
 #define ROBOTEAM_AI_GOTOPOS_H
 
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
-#include <roboteam_ai/src/control/BasicPosControl.h>
-#include <roboteam_ai/src/control/ballHandling/BallHandlePosControl.h>
-#include "roboteam_ai/src/skills/Skill.h"
+#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
+#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
+#include "include/roboteam_ai/skills/Skill.h"
 
 namespace rtt {
 namespace ai {
@@ -35,7 +35,7 @@ class GoToPos : public Skill {
         virtual Status gtpUpdate() = 0;
         virtual void gtpTerminate(Status s) = 0;
     public:
-        explicit GoToPos(string name, bt::Blackboard::Ptr blackboard);
+        explicit GoToPos(std::string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;
         void onInitialize() override;
         void onTerminate(Status s) override;

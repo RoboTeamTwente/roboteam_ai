@@ -6,7 +6,7 @@
  */
 
 #include "include/roboteam_ai/conditions/IsBallCloseToBorder.h"
-#include <roboteam_ai/src/world/Ball.h>
+#include <include/roboteam_ai/world/Ball.h>
 
 namespace rtt {
 namespace ai {
@@ -24,8 +24,8 @@ void IsBallCloseToBorder::onInitialize() {
 bt::Node::Status IsBallCloseToBorder::onUpdate() {
     if (properties->getBool("corner")) {
         auto field = world::field->get_field();
-        double xDiff = field.field_length / 2 - abs(ball->pos.x);
-        double yDiff = field.field_width / 2 - abs(ball->pos.y);
+        double xDiff = field.field_length() / 2 - abs(ball->pos.x);
+        double yDiff = field.field_width() / 2 - abs(ball->pos.y);
 
         if (xDiff >= margin || yDiff >= margin) {
             return Status::Failure;
