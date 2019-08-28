@@ -1,6 +1,5 @@
 #include "roboteam_world/predictor.h"
-#include "ros/ros.h"
-#include "roboteam_utils/Math.h"
+#include "roboteam_utils/Mathematics.h"
 //TODO: include acceleration calculator
 namespace rtt {
 

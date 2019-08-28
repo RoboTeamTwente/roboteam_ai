@@ -1,7 +1,7 @@
 #pragma once
 
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/World.h"
+#include "DetectionFrame.pb.h"
+#include "World.pb.h"
 
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
@@ -36,12 +36,12 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message() const;
+        roboteam_proto::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(const roboteam_msgs::DetectionFrame msg);
+        void detection_callback(const roboteam_proto::DetectionFrame msg);
     };
 
 }

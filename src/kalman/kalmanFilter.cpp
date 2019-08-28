@@ -30,36 +30,38 @@ void kalmanFilter::kalmanUpdate() {
 }
 
 // if we get a new frame we update our observations
-void kalmanFilter::newFrame(const roboteam_msgs::DetectionFrame &msg) {
-    double timeCapture = msg.t_capture;
+void kalmanFilter::newFrame(const roboteam_proto::DetectionFrame &msg) {
+    double timeCapture = msg.t_capture();
     lastFrameTime = timeCapture;
-    uint cameraID = msg.camera_id;
-    for (const roboteam_msgs::DetectionRobot robot : msg.us) {
-        ourBots[robot.robot_id].kalmanUpdateZ(robot, timeCapture, cameraID);
+    uint cameraID = msg.camera_id();
+    for (const roboteam_proto::DetectionRobot& robot : msg.us()) {
+        ourBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
-    for (const roboteam_msgs::DetectionRobot robot : msg.them) {
-        theirBots[robot.robot_id].kalmanUpdateZ(robot, timeCapture, cameraID);
+    for (const roboteam_proto::DetectionRobot& robot : msg.them()) {
+        theirBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
-    for (const roboteam_msgs::DetectionBall detBall : msg.balls) {
+    for (const roboteam_proto::DetectionBall& detBall : msg.balls()) {
         ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
     }
 }
 
 //Creates a world message with the currently observed objects in it
-roboteam_msgs::World kalmanFilter::getWorld() {
-    roboteam_msgs::World world;
-    world.time = lastFrameTime;
+roboteam_proto::World kalmanFilter::getWorld() {
+    roboteam_proto::World world;
+    world.set_time(lastFrameTime);
     for (const auto& kalmanOurBot : ourBots){
         if (kalmanOurBot.getExistence()){
-            world.us.push_back(kalmanOurBot.as_message());
+            world.mutable_us()->Add(kalmanOurBot.as_message());
         }
     }
     for (const auto& kalmanTheirBot : theirBots){
         if (kalmanTheirBot.getExistence()){
-            world.them.push_back(kalmanTheirBot.as_message());
+            world.mutable_them()->Add(kalmanTheirBot.as_message());
         }
     }
-    world.ball=ball.as_ball_message();
+
+    roboteam_proto::WorldBall worldBall = ball.as_ball_message();
+    world.set_allocated_ball(&worldBall);
     return world;
 }
 

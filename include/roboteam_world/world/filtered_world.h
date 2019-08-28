@@ -3,13 +3,12 @@
 #include <map>
 #include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
-#include "ros/ros.h"
 
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/DetectionRobot.h"
-#include "roboteam_msgs/DetectionBall.h"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
+#include "DetectionFrame.pb.h"
+#include "DetectionRobot.pb.h"
+#include "DetectionBall.pb.h"
+#include "World.pb.h"
+#include "WorldRobot.pb.h"
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/constants.h"
@@ -25,17 +24,17 @@ namespace rtt {
     class FilteredWorld : public WorldBase {
 
     private:
-        ros::NodeHandle nh;
+      //  ros::NodeHandle nh;
         /**
          * These buffers store for every camera the robots and balls.
          * Accessing goes like this:
          * `robots_blue_buffer[robot_id][camera_id]`
          */
-        typedef std::map<int, std::map<int, roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
+        typedef std::map<int, std::map<int, roboteam_proto::DetectionRobot>> RobotMultiCamBuffer;
         RobotMultiCamBuffer robots_them_buffer;
         RobotMultiCamBuffer robots_us_buffer;
 
-        std::map<int, roboteam_msgs::DetectionBall> ball_buffer;
+        std::map<int, roboteam_proto::DetectionBall> ball_buffer;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
@@ -71,12 +70,12 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message() const override;
+        roboteam_proto::World as_message() const override;
 
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(roboteam_msgs::DetectionFrame msg) override;
+        void detection_callback(roboteam_proto::DetectionFrame msg) override;
 
         //TODO: Make isFresh() and setFresh() private? They are not used publicly as far as I can tell.
         /**
@@ -93,7 +92,7 @@ namespace rtt {
          * Calls as_message and sets fresh to false. If isFresh() is false
          * returns boost::none.
          */
-        boost::optional<roboteam_msgs::World> consumeMsg();
+        boost::optional<roboteam_proto::World> consumeMsg();
 
     private:
 
@@ -103,7 +102,7 @@ namespace rtt {
         /**
          * Puts a received detection frame in the associated camera's buffer.
          */
-        void buffer_detection_frame(roboteam_msgs::DetectionFrame msg);
+        void buffer_detection_frame(roboteam_proto::DetectionFrame msg);
 
         /**
          * Returns true when every camera's frame has updated.

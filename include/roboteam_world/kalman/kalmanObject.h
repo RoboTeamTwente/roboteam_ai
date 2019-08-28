@@ -8,7 +8,7 @@
 #include "armadillo"
 #include "roboteam_utils/Position.h"
 #include "constantsK.h"
-#include "roboteam_msgs/DetectionRobot.h"
+#include "DetectionRobot.pb.h"
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {
@@ -48,7 +48,7 @@ class kalmanObject {
         virtual void kalmanUpdateX();
 
         //if the data is more recent than the current data, import the new observation data
-        void kalmanUpdateZ(roboteam_msgs::DetectionRobot robot,double timeStamp, uint cameraID);
+        void kalmanUpdateZ(roboteam_proto::DetectionRobot robot,double timeStamp, uint cameraID);
 
         //Get X,Y and Orientation
         Position kalmanGetPos() const;
@@ -63,7 +63,7 @@ class kalmanObject {
         bool getExistence() const;
 
         //Create a message, by default it's a robot message (the ball object overrides this)
-        virtual roboteam_msgs::WorldRobot as_message() const;
+        virtual roboteam_proto::WorldRobot as_message() const;
 
         double limitRotation(double rotation) const;
 

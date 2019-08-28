@@ -40,12 +40,12 @@ kalmanBall::kalmanBall() {
     this->K.zeros();
 }
 
-void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeStamp, uint cameraID) {
+void kalmanBall::kalmanUpdateZ(roboteam_proto::DetectionBall ball, double timeStamp, uint cameraID) {
     // if we have a ball already and the measurement is too far off we do not trust it.
     if (visibility != NOT_VISIBLE) {
         //HAck
-        float errorx = ball.pos.x - this->X(0);
-        float errory = ball.pos.y - this->X(2);
+        float errorx = ball.pos().x() - this->X(0);
+        float errory = ball.pos().y() - this->X(2);
         if (errorx*errorx + errory*errory
                 >= 2) {
             return;
@@ -56,10 +56,10 @@ void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeSta
         std::cout<<"Jumping the ball"<<std::endl;
         this->pastObservation.clear();
         this->X.zeros();
-        this->X(0) = ball.pos.x;
-        this->X(2) = ball.pos.y;
+        this->X(0) = ball.pos().x();
+        this->X(2) = ball.pos().y();
     }
-    Position average = calculatePos(ball.pos, ball.z, cameraID);
+    Position average = calculatePos(ball.pos(), ball.z(), cameraID);
     this->cameraId = cameraID;
     this->Z(0) = average.x;
     this->Z(1) = average.y;
@@ -73,21 +73,21 @@ void kalmanBall::kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timeSta
     this->visibility = VISIBLE;
 }
 
-roboteam_msgs::WorldBall kalmanBall::as_ball_message() {
+roboteam_proto::WorldBall kalmanBall::as_ball_message() {
     //Same as the KalmanObject function but then for ball message
-    roboteam_msgs::WorldBall msg;
+    roboteam_proto::WorldBall msg;
     Position pos = kalmanGetPos();
     Position vel = kalmanGetVel();
     // since the balls z axis is being kept in the third place of the vector it is the 'rotation' here
-    msg.existence = 1;
-    msg.visible = isVisible();
-    msg.pos.x = pos.x;
-    msg.pos.y = pos.y;
+    msg.set_area(1);
+    msg.set_visible(isVisible());
+    msg.mutable_pos()->set_x(pos.x);
+    msg.mutable_pos()->set_y(pos.y);
+    msg.set_z(pos.rot);
+    msg.mutable_vel()->set_x(vel.x);
+    msg.mutable_vel()->set_y(vel.y);
+    msg.set_z_vel(vel.rot);
 
-    msg.z = pos.rot;
-    msg.vel.x = vel.x;
-    msg.vel.y = vel.y;
-    msg.z_vel = vel.rot;
     return msg;
 }
 

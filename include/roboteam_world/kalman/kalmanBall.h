@@ -6,8 +6,8 @@
 #define ROBOTEAM_WORLD_KALMANBALL_H
 
 #include "kalmanObject.h"
-#include "roboteam_msgs/DetectionBall.h"
-#include "roboteam_msgs/WorldBall.h"
+#include "DetectionBall.pb.h"
+#include "WorldBall.pb.h"
 namespace rtt {
 
 class kalmanBall : public kalmanObject {
@@ -22,10 +22,10 @@ class kalmanBall : public kalmanObject {
         kalmanBall();
 
         //Same as the KalmanObject function but then for ball message
-        roboteam_msgs::WorldBall as_ball_message();
+        roboteam_proto::WorldBall as_ball_message();
         //Same as the KalmanObject function but then for ball frame
         bool isVisible();
-        void kalmanUpdateZ(roboteam_msgs::DetectionBall ball, double timestamp, uint cameraID);
+        void kalmanUpdateZ(roboteam_proto::DetectionBall ball, double timestamp, uint cameraID);
         void kalmanUpdateX() override;
         void updateVisibility();
         void filterVel(Vector2 curVel);

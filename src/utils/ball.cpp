@@ -42,20 +42,20 @@ namespace rtt {
         return existence;
     }
 
-    roboteam_msgs::WorldBall Ball::as_message() const {
-        roboteam_msgs::WorldBall msg;
+    roboteam_proto::WorldBall Ball::as_message() const {
+        roboteam_proto::WorldBall msg;
 
-        msg.existence = existence;
+        msg.set_area(existence);
 
-        msg.pos.x = x;
-        msg.pos.y = y;
-        msg.z = z;
+        msg.mutable_pos()->set_x(x);
+        msg.mutable_pos()->set_y(y);
+        msg.set_z(z);
 
-        msg.vel.x = x_vel;
-        msg.vel.y = y_vel;
-        msg.z_vel = z_vel;
+        msg.mutable_vel()->set_x(x_vel);
+        msg.mutable_vel()->set_y(y_vel);
+        msg.set_z_vel(z_vel);
 
-        msg.visible = visible;
+        msg.set_visible(visible);
 
         return msg;
     }
