@@ -83,9 +83,13 @@ namespace rtt {
 
     void kalmanObject::kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot, double timeStamp, uint cameraID) {
         //if the new data is a certain distance from the old/predicted data, it's considered a ghost and ignored
+      // convert mm to m
+        float x= robot.x()/1000;
+        float y= robot.y()/1000;
+
         if (this && this->exists){
-            float errorx = robot.x()-this->X(0);
-            float errory = robot.y()-this->X(2);
+            float errorx = x-this->X(0);
+            float errory = y-this->X(2);
             if (errorx*errorx+errory*errory >= 0.2*0.2){
                 return;
             }
@@ -94,10 +98,10 @@ namespace rtt {
         if (!this->exists){
             std::cout<<"Adding bot: "<<robot.robot_id()<<std::endl;
             this->pastObservation.clear();
-            this->X(0) = robot.x();
-            this->X(2) = robot.y();
+            this->X(0) = x;
+            this->X(2) = y;
         }
-        Position average = calculatePos(Vector2(robot.x(), robot.y()), robot.orientation(), cameraID);
+        Position average = calculatePos(Vector2(x, y), robot.orientation(), cameraID);
         this->cameraId = cameraID;
         this->id= robot.robot_id();
         this->Z(0) = average.x;

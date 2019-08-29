@@ -29,11 +29,13 @@ namespace rtt {
         void newFrame(const roboteam_proto::SSL_DetectionFrame& msg);
 
         roboteam_proto::World getWorld();
+        std::string getWorldMsg();
 
         kalmanThem theirBots[BOTCOUNT];
         kalmanUs ourBots[BOTCOUNT];
         kalmanBall ball;
 
+        std::mutex filterMutex;
     };
 }
 

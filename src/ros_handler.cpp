@@ -3,7 +3,7 @@
 #include "messages_robocup_ssl_wrapper.pb.h"
 #include "messages_robocup_ssl_wrapper_legacy.pb.h"
 #include <roboteam_world/net/robocup_ssl_client.h>
-
+#include <sstream>
 
 namespace rtt {
 
@@ -11,8 +11,7 @@ namespace rtt {
     void RosHandler::init(rtt::WorldBase* _world) {
       KF = new kalmanFilter;
       world = _world;
-        world_pub = new roboteam_proto::Publisher("world_state");
-
+      world_pub = new roboteam_proto::Publisher("world_state");
       vision_packet = new roboteam_proto::SSL_WrapperPacket;
     }
 
@@ -20,19 +19,18 @@ namespace rtt {
     void RosHandler::getMessages() {
       bool ok = true;
       while(ok) {
-        std::cout<< "running" << std::endl;
 
         if (vision_client) {
-          std::cout<< "client found!" << std::endl;
 
           // Receive current version packets.
           while (vision_client->receive(*vision_packet)) {
-            std::cout<< "got something!" << std::endl;
 
             // Detection frame.
             if (vision_packet->has_detection()) {
               detection_callback(vision_packet->detection());
             }
+            //std::this_thread::sleep_for(std::chrono::microseconds(100));
+
           }
         }
       }
@@ -47,21 +45,18 @@ namespace rtt {
       constexpr int DEFAULT_VISION_PORT = 10006;
       constexpr int DEFAULT_REFEREE_PORT = 10003;
 
-      const std::string SSL_VISION_SOURCE_IP = "224.5.23.2";
-      const std::string SSL_REFEREE_SOURCE_IP= "224.5.23.1";
+//      const std::string SSL_VISION_SOURCE_IP = "224.5.23.2";
+//      const std::string SSL_REFEREE_SOURCE_IP= "224.5.23.1";
 
-      const std::string LOCAL_SOURCE_IP = "127.0.0.1";
+     // const std::string LOCAL_SOURCE_IP = "127.0.0.1";
+      //const std::string LOCAL_SOURCE_IP = "224.5.23.3";
+      const std::string LOCAL_SOURCE_IP = "224.5.23.3";
 
       vision_client = new RoboCupSSLClient(DEFAULT_VISION_PORT, LOCAL_SOURCE_IP);
 
       std::cout << "Vision  : " << LOCAL_SOURCE_IP  << ":" << DEFAULT_VISION_PORT << std::endl;
 
       vision_client->open(true);
-
-
-
-        double TICKRATE=1/TIMEDIFF;
-        // ros::Rate rate(TICKRATE);
 
 
         std::thread thread(&RosHandler::getMessages, this);
@@ -83,13 +78,15 @@ namespace rtt {
                 std::chrono::system_clock::now().time_since_epoch()
             );
             std::chrono::milliseconds now_time = ms;
-            if(now_time > (last_call_time + std::chrono::milliseconds(40)))
-            {
-              filterLock.lock();
+            if(now_time > (last_call_time + std::chrono::milliseconds(100))) {
+           //   filterLock.lock();
               KF->kalmanUpdate();
-              roboteam_proto::World kmWorld = KF->getWorld();
-              world_pub->send(kmWorld.SerializeAsString());
-              filterLock.unlock();
+              world_pub->send(KF->getWorldMsg());
+
+
+              roboteam_proto::World wrld;
+              wrld.ParseFromString(KF->getWorldMsg());
+              std::cerr << wrld.ball().pos().x() << std::endl;
 
               last_call_time = now_time;//last time is re initialized
             }
@@ -108,11 +105,7 @@ namespace rtt {
     /// Callback function for /vision_detection in ros_handler
     void RosHandler::detection_callback(roboteam_proto::SSL_DetectionFrame frame) {
         if (kalman) {
-          filterLock.lock();
-
           KF->newFrame(frame);
-          filterLock.unlock();
-
           return;
         }
         world->detection_callback(frame);

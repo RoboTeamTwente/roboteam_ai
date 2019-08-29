@@ -3,12 +3,16 @@
 //
 
 #include <messages_robocup_ssl_detection.pb.h>
+#include <roboteam_world/kalman/kalmanFilter.h>
+
 #include "roboteam_world/kalman/kalmanFilter.h"
 
 namespace rtt {
 
 kalmanFilter::kalmanFilter() {
-    //initialise kalman objects
+  std::lock_guard<std::mutex> lock(filterMutex);
+
+  //initialise kalman objects
     lastFrameTime = - 1.0;
     for (uint i = 0; i < BOTCOUNT; ++ i) {
         ourBots[i] = kalmanUs(i);
@@ -18,7 +22,9 @@ kalmanFilter::kalmanFilter() {
 }
 
 void kalmanFilter::kalmanUpdate() {
-    //Updates the Kalman gain (K)
+  std::lock_guard<std::mutex> lock(filterMutex);
+
+  //Updates the Kalman gain (K)
     //Updates the State (X)
     for (uint i = 0; i < BOTCOUNT; ++ i) {
         ourBots[i].kalmanUpdateK();
@@ -28,15 +34,18 @@ void kalmanFilter::kalmanUpdate() {
     }
     ball.kalmanUpdateK();
     ball.kalmanUpdateX();
+
+
 }
 
 // if we get a new frame we update our observations
 void kalmanFilter::newFrame(const roboteam_proto::SSL_DetectionFrame &msg) {
-    double timeCapture = msg.t_capture();
+  std::lock_guard<std::mutex> lock(filterMutex);
+
+  double timeCapture = msg.t_capture();
     lastFrameTime = timeCapture;
     uint cameraID = msg.camera_id();
     for (const roboteam_proto::SSL_DetectionRobot& robot : msg.robots_yellow()) {
-        std::cout << "id: " << robot.robot_id() << std::endl;
         ourBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
     for (const roboteam_proto::SSL_DetectionRobot& robot : msg.robots_blue()) {
@@ -45,11 +54,14 @@ void kalmanFilter::newFrame(const roboteam_proto::SSL_DetectionFrame &msg) {
     for (const roboteam_proto::SSL_DetectionBall& detBall : msg.balls()) {
         ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
     }
+
 }
 
 //Creates a world message with the currently observed objects in it
 roboteam_proto::World kalmanFilter::getWorld() {
-    roboteam_proto::World world;
+  std::lock_guard<std::mutex> lock(filterMutex);
+
+  roboteam_proto::World world;
     world.set_time(lastFrameTime);
     for (const auto& kalmanOurBot : ourBots){
         if (kalmanOurBot.getExistence()){
@@ -63,8 +75,18 @@ roboteam_proto::World kalmanFilter::getWorld() {
     }
 
     roboteam_proto::WorldBall worldBall = ball.as_ball_message();
-    world.set_allocated_ball(&worldBall);
-    return world;
+    world.mutable_ball()->CopyFrom(worldBall);
+
+  return world;
+}
+std::string kalmanFilter::getWorldMsg() {
+
+  std::ostringstream stream;
+  auto wrld = this->getWorld();
+  std::lock_guard<std::mutex> lock(filterMutex);
+  wrld.SerializeToOstream(&stream);
+
+  return stream.str();
 }
 
 }
