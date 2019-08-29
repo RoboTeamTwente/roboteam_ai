@@ -4,6 +4,9 @@
 #include "World.pb.h"
 #include "roboteam_world/world/world_dummy.h"
 #include "roboteam_world/world/filtered_world.h"
+#include "Subscriber.h"
+#include <Publisher.h>
+#include <roboteam_world/net/robocup_ssl_client.h>
 #include "kalman/kalmanFilter.h"
 
 namespace rtt {
@@ -11,18 +14,18 @@ namespace rtt {
     class RosHandler {
 
     private:
-//        ros::NodeHandle nh;
-//        ros::Subscriber vision_sub;
-//        ros::Publisher world_pub;
-//        ros::ServiceServer reset_srv;
-//        ros::ServiceServer tracker_srv;
+        roboteam_proto::Publisher * world_pub;
         
         WorldBase* world;
         bool kalman;
-    public:
+        RoboCupSSLClient * vision_client;
+        roboteam_proto::SSL_WrapperPacket * vision_packet;
+
+     public:
         RosHandler() = default;
         void init(WorldBase* _world);
         void kalmanLoop();
+        void getMessages();
         /**
          * Reads the configuration from the parameter server.
          * Updates the configuration of the world and calls a reset.
@@ -30,10 +33,11 @@ namespace rtt {
         void update_config();
 
         void setKalman(bool on);
-        void detection_callback(const roboteam_proto::SSL_DetectionFrame msg);
+        void detection_callback(roboteam_proto::SSL_DetectionFrame frame);
     //    bool reset_callback(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
 
-        kalmanFilter KF;
+        kalmanFilter * KF;
+        std::mutex filterLock;
     };
 
 }

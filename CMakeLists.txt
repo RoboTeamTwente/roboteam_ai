@@ -22,10 +22,15 @@ set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -g ${CMAKE_CXX_FLAGS} -O0")
 #target_link_libraries(filtered_world ${ARMADILLO_LIBRARIES})
 
 
+add_library(net STATIC
+        src/net/netraw.cpp
+        src/net/robocup_ssl_client.cpp)
+target_link_libraries(net roboteam_proto)
+
 ####################
 ## Kalman world   ##
 ####################
-add_library(kalman_world STATIC
+add_executable(kalman_world
         src/kalman/kalman_world_main.cpp
         src/utils/predictor.cpp
         src/utils/ball.cpp
@@ -45,7 +50,7 @@ target_include_directories(kalman_world PUBLIC
         $<INSTALL_INTERFACE:include>
         PRIVATE src )
 
-target_link_libraries(kalman_world ${ARMADILLO_LIBRARIES} roboteam_utils roboteam_proto)
+target_link_libraries(kalman_world ${ARMADILLO_LIBRARIES} net roboteam_utils roboteam_proto)
 
 ###########
 ## Tests ##

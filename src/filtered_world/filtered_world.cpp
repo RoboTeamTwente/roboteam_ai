@@ -154,7 +154,7 @@ namespace rtt {
     void FilteredWorld::merge_frames(double timestamp) {
         // merge all the robots in the buffers
         std::string s;
-        get_PARAM_OUR_COLOR(s);
+     //   get_PARAM_OUR_COLOR(s);
         bool isBlueOurTeam = s == "blue";
         merge_robots(robots_blue_buffer, robots_blue_world, old_blue, timestamp, isBlueOurTeam);
         merge_robots(robots_yellow_buffer, robots_yellow_world, old_yellow, timestamp, !isBlueOurTeam);

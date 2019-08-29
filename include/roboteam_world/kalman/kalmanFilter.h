@@ -11,8 +11,6 @@
 #include "kalmanThem.h"
 #include "kalmanBall.h"
 #include "roboteam_utils/Position.h"
-#include "DetectionFrame.pb.h"
-#include "DetectionRobot.pb.h"
 #include "WorldRobot.pb.h"
 #include "World.pb.h"
 
@@ -28,7 +26,7 @@ namespace rtt {
 
         void kalmanUpdate();
 
-        void newFrame(const roboteam_proto::DetectionFrame& msg);
+        void newFrame(const roboteam_proto::SSL_DetectionFrame& msg);
 
         roboteam_proto::World getWorld();
 

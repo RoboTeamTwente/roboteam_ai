@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_WORLD_KALMANOBJECT_H
 #define ROBOTEAM_WORLD_KALMANOBJECT_H
 
+#include <messages_robocup_ssl_detection.pb.h>
 #include "armadillo"
 #include "roboteam_utils/Position.h"
 #include "constantsK.h"
-#include "DetectionRobot.pb.h"
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {
@@ -48,7 +48,7 @@ class kalmanObject {
         virtual void kalmanUpdateX();
 
         //if the data is more recent than the current data, import the new observation data
-        void kalmanUpdateZ(roboteam_proto::DetectionRobot robot,double timeStamp, uint cameraID);
+        void kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot,double timeStamp, uint cameraID);
 
         //Get X,Y and Orientation
         Position kalmanGetPos() const;

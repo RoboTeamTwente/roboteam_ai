@@ -40,12 +40,12 @@ kalmanBall::kalmanBall() {
     this->K.zeros();
 }
 
-void kalmanBall::kalmanUpdateZ(roboteam_proto::DetectionBall ball, double timeStamp, uint cameraID) {
+void kalmanBall::kalmanUpdateZ(roboteam_proto::SSL_DetectionBall ball, double timeStamp, uint cameraID) {
     // if we have a ball already and the measurement is too far off we do not trust it.
     if (visibility != NOT_VISIBLE) {
         //HAck
-        float errorx = ball.pos().x() - this->X(0);
-        float errory = ball.pos().y() - this->X(2);
+        float errorx = ball.x() - this->X(0);
+        float errory = ball.y() - this->X(2);
         if (errorx*errorx + errory*errory
                 >= 2) {
             return;
@@ -56,10 +56,10 @@ void kalmanBall::kalmanUpdateZ(roboteam_proto::DetectionBall ball, double timeSt
         std::cout<<"Jumping the ball"<<std::endl;
         this->pastObservation.clear();
         this->X.zeros();
-        this->X(0) = ball.pos().x();
-        this->X(2) = ball.pos().y();
+        this->X(0) = ball.x();
+        this->X(2) = ball.y();
     }
-    Position average = calculatePos(ball.pos(), ball.z(), cameraID);
+    Position average = calculatePos(Vector2(ball.x(), ball.y()), ball.z(), cameraID);
     this->cameraId = cameraID;
     this->Z(0) = average.x;
     this->Z(1) = average.y;

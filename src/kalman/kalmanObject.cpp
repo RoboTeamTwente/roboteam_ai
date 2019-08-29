@@ -4,6 +4,7 @@
 
 #include <roboteam_world/kalman/kalmanObject.h>
 #include <DetectionRobot.pb.h>
+#include <messages_robocup_ssl_detection.pb.h>
 namespace rtt {
 
     void kalmanObject::kalmanUpdateK() {
@@ -80,11 +81,11 @@ namespace rtt {
         }
     }
 
-    void kalmanObject::kalmanUpdateZ(roboteam_proto::DetectionRobot robot, double timeStamp, uint cameraID) {
+    void kalmanObject::kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot, double timeStamp, uint cameraID) {
         //if the new data is a certain distance from the old/predicted data, it's considered a ghost and ignored
-        if (this->exists){
-            float errorx = robot.pos().x()-this->X(0);
-            float errory = robot.pos().y()-this->X(2);
+        if (this && this->exists){
+            float errorx = robot.x()-this->X(0);
+            float errory = robot.y()-this->X(2);
             if (errorx*errorx+errory*errory >= 0.2*0.2){
                 return;
             }
@@ -93,10 +94,10 @@ namespace rtt {
         if (!this->exists){
             std::cout<<"Adding bot: "<<robot.robot_id()<<std::endl;
             this->pastObservation.clear();
-            this->X(0) = robot.pos().x();
-            this->X(2) = robot.pos().y();
+            this->X(0) = robot.x();
+            this->X(2) = robot.y();
         }
-        Position average = calculatePos(robot.pos(), robot.orientation(), cameraID);
+        Position average = calculatePos(Vector2(robot.x(), robot.y()), robot.orientation(), cameraID);
         this->cameraId = cameraID;
         this->id= robot.robot_id();
         this->Z(0) = average.x;

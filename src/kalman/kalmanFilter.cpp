@@ -2,6 +2,7 @@
 // Created by kjhertenberg on 13-5-19.
 //
 
+#include <messages_robocup_ssl_detection.pb.h>
 #include "roboteam_world/kalman/kalmanFilter.h"
 
 namespace rtt {
@@ -30,17 +31,18 @@ void kalmanFilter::kalmanUpdate() {
 }
 
 // if we get a new frame we update our observations
-void kalmanFilter::newFrame(const roboteam_proto::DetectionFrame &msg) {
+void kalmanFilter::newFrame(const roboteam_proto::SSL_DetectionFrame &msg) {
     double timeCapture = msg.t_capture();
     lastFrameTime = timeCapture;
     uint cameraID = msg.camera_id();
-    for (const roboteam_proto::DetectionRobot& robot : msg.us()) {
+    for (const roboteam_proto::SSL_DetectionRobot& robot : msg.robots_yellow()) {
+        std::cout << "id: " << robot.robot_id() << std::endl;
         ourBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
-    for (const roboteam_proto::DetectionRobot& robot : msg.them()) {
+    for (const roboteam_proto::SSL_DetectionRobot& robot : msg.robots_blue()) {
         theirBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
-    for (const roboteam_proto::DetectionBall& detBall : msg.balls()) {
+    for (const roboteam_proto::SSL_DetectionBall& detBall : msg.balls()) {
         ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
     }
 }
