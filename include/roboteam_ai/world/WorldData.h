@@ -26,12 +26,14 @@ class WorldData {
         WorldData() = default;
         explicit WorldData(const roboteam_proto::World &copy)
                 :time(copy.time()) {
-            for (auto &robot : copy.us()) {
+
+          // TODO switch colors for teams
+            for (auto &robot : copy.yellow()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::us, 3));
                 us.emplace_back(r);
             }
 
-            for (auto &robot : copy.them()) {
+            for (auto &robot : copy.blue()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::them, 3));
                 them.emplace_back(r);
             }
