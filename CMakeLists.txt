@@ -148,6 +148,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/DriveWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/BallPlacementWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/Wait.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
+
         src/skills/formations/StopFormation.cpp
         src/skills/formations/BallPlacementFormation.cpp)
 
@@ -299,7 +301,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
 
 # Main Executable
-add_library(roboteam_ai
+add_executable(roboteam_ai
 
         src/roboteam_ai.cpp
         src/ApplicationManager.cpp

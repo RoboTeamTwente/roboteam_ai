@@ -24,9 +24,18 @@ std::string JsonReader::getFilePath(std::string name) {
         }
         smallPath.append(word + "/");
     }
-    //std::cout << "Smallpath: " << smallPath << std::endl;
+
+    std::cout << "looking for jsons at smallpath: " << smallPath << std::endl;
     // should be at /home/[user]/roboteamtwente/workspace/src/roboteam_ai/ ish right now
-    smallPath.append("roboteam_ai/src/jsons/" + name + ".json");
+
+#if __APPLE__
+    // MacOS
+    smallPath.append("../../roboteam_ai/src/jsons/" + name + ".json");
+#else
+    // LINUX
+    smallPath.append("src/jsons/" + name + ".json");
+#endif
+
     return smallPath;
 }
 

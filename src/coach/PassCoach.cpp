@@ -13,14 +13,9 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-double PassCoach::MIN_PASS_DISTANCE;
-
 PassCoach g_pass;
 
 PassCoach::PassCoach() {
-    auto field = world::field->get_field();
-    double goalWidth = field.goal_width();
-    MIN_PASS_DISTANCE = std::max(goalWidth / 2, SMALLEST_MIN_PASS_DISTANCE);
 }
 
 void PassCoach::resetPass(int robotID) {
@@ -148,6 +143,7 @@ bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver, 
         if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
             return false;
         }
+        auto MIN_PASS_DISTANCE = std::max((double)world::field->get_field().goal_width() / 2, SMALLEST_MIN_PASS_DISTANCE);
         if ((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
             return false;
         }

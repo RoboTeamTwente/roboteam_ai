@@ -10,6 +10,8 @@ namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
 void runBehaviourTrees() {
+    std::cout << " starting behaviour trees " << std::endl;
+
     rtt::ApplicationManager app;
     app.setup();
     app.loop();
@@ -17,6 +19,8 @@ void runBehaviourTrees() {
 }
 
 void runWorld() {
+    std::cout << " starting world " << std::endl;
+
     rtt::ai::world::WorldManager worldManager;
     worldManager.setup();
     worldManager.loop();
@@ -43,7 +47,11 @@ void setDarkTheme() {
 }
 
 int main(int argc, char* argv[]) {
+    std::cout << " initializing constants " << std::endl;
+
     rtt::ai::Constants::init();
+
+    std::cout << " making trees " << std::endl;
 
     // get the trees to work
     BTFactory::makeTrees();
@@ -51,6 +59,8 @@ int main(int argc, char* argv[]) {
 
     std::thread worldThread = std::thread(&runWorld);
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
+
+    std::cout << " starting interface " << std::endl;
 
     // initialize the interface
     QApplication a(argc, argv);
