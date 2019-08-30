@@ -131,8 +131,12 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 void Visualizer::calculateFieldSizeFactor() {
     roboteam_proto::GeometryFieldSize field = rtt::ai::world::field->get_field();
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width());
-    float widthFactor = this->size().width()/field.field_length() - (2*fieldmargin);
-    float heightFactor = this->size().height()/field.field_width() - (2*fieldmargin);
+    std::cout << "field length" << field.field_length() << std::endl;
+
+    float widthFactor = this->size().width()/12 - (2*fieldmargin);
+    float heightFactor = this->size().height()/9 - (2*fieldmargin);
+//    float widthFactor = this->size().width()/field.field_length() - (2*fieldmargin);
+//    float heightFactor = this->size().height()/field.field_width() - (2*fieldmargin);
     factor = std::min(widthFactor, heightFactor);
 }
 
@@ -153,10 +157,10 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         painter.drawLine(start.x, start.y, end.x, end.y);
     }
 
-    // draw the circle in the middle
-    auto centercircle = rtt::ai::world::field->get_field().center_circle();
-    Vector2 screenPos = toScreenPosition({centercircle.center().x(), centercircle.center().y()});
-    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius()*factor, centercircle.radius()*factor);
+//    // draw the circle in the middle
+//    auto centercircle = rtt::ai::world::field->get_field().center_circle();
+//    Vector2 screenPos = toScreenPosition({centercircle.center().x(), centercircle.center().y()});
+//    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius()*factor, centercircle.radius()*factor);
 
 
 

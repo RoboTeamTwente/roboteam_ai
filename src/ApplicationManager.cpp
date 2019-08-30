@@ -141,6 +141,8 @@ void ApplicationManager::runOneLoopCycle() {
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
     //    ros::Duration(0.2).sleep();
+        std::this_thread::sleep_for(std::chrono::microseconds(100000));
+
     }
 
     weHaveRobots = ai::world::world->weHaveRobots();

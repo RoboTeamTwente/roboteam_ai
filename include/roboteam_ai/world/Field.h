@@ -9,9 +9,10 @@
 
 
 #include <roboteam_utils/Polygon.h>
-#include <GeometryFieldSize.pb.h>
 #include "mutex"
 #include <cmath>
+#include <messages_robocup_ssl_geometry.pb.h>
+#include <GeometryFieldSize.pb.h>
 
 namespace rtt {
 namespace ai {

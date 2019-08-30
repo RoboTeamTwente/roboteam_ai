@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_OFFENSIVESCORE_H
 #define ROBOTEAM_AI_OFFENSIVESCORE_H
 
-#include <GeometryFieldSize.pb.h>
 #include "CoachHeuristics.h"
+#include <GeometryFieldSize.pb.h>
 
 namespace rtt {
 namespace ai {
