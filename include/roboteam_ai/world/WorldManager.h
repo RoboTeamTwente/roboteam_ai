@@ -15,8 +15,6 @@ namespace io {
 namespace world {
 class WorldManager {
 private:
-    io::IOManager* IOManager;
-
 public:
     WorldManager() = default;
     void setup();

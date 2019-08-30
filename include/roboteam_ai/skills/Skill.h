@@ -36,7 +36,6 @@ class Skill : public bt::Leaf {
         using BallPtr = std::shared_ptr<world::Ball>;
         using WorldData = world::WorldData;
 
-        io::IOManager ioManager = io::IOManager(false, true);
         void publishRobotCommand();
         void refreshRobotCommand();
         roboteam_proto::RobotCommand command;

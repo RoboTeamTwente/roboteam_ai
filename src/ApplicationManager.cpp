@@ -23,7 +23,6 @@ using Status = bt::Node::Status;
 namespace rtt {
 
 void ApplicationManager::setup() {
-    IOManager = new io::IOManager(true, false);
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 }
 
@@ -66,9 +65,9 @@ void ApplicationManager::loop() {
             else {
                 ticksFree = 0;
             }
-
+            last_call_time = now_time;
         }else {
-            std::this_thread::sleep_for(timeDiff-diff);
+            std::this_thread::sleep_for((timeDiff-diff) * .9); // sleep for the diff - arbitrary margin
         }
     }
 
@@ -80,7 +79,7 @@ void ApplicationManager::runOneLoopCycle() {
 
         // Will do things if this is a demo
         // otherwise wastes like 0.1 ms
-        auto demoMsg = IOManager->getDemoInfo();
+        auto demoMsg = io::io.getDemoInfo();
         demo::JoystickDemo::demoLoop(demoMsg);
 
 
@@ -118,10 +117,15 @@ void ApplicationManager::runOneLoopCycle() {
 //            begin = ros::Time::now();
 //        }
 
-        rtt::ai::coach::getBallCoach->update();
-        rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
-        rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
-        rtt::ai::coach::g_pass.updatePassProgression();
+        if (wait >= 10) {
+          rtt::ai::coach::getBallCoach->update();
+          rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
+          rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
+          rtt::ai::coach::g_pass.updatePassProgression();
+          wait = 0;
+        } else {
+          wait ++;
+        }
 
 //        if (ai::interface::Output::showCoachTimeTaken()) {
 //            end = ros::Time::now();

@@ -38,7 +38,7 @@ void setDarkTheme() {
 
 int main(int argc, char* argv[]) {
     rtt::ai::Constants::init();
-    auto * io = new rtt::ai::io::IOManager(true, false);
+    rtt::ai::io::io.init();
 
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());

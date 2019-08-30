@@ -10,6 +10,8 @@
 #include <DemoRobot.pb.h>
 #include <mutex>
 #include <Subscriber.h>
+#include <Publisher.h>
+
 #include <messages_robocup_ssl_geometry.pb.h>
 #include <GeometryData.pb.h>
 #include <include/roboteam_ai/utilities/FieldMessage.h>
@@ -19,9 +21,6 @@ namespace ai {
 class Pause;
 
 namespace io {
-
-
-
 
 class IOManager {
 private:
@@ -43,6 +42,8 @@ private:
   void handleGeometry(roboteam_proto::SSL_GeometryData * geometryData);
 
 
+  roboteam_proto::Publisher * robotCommandPublisher;
+
   //        ros::Subscriber worldSubscriber;
 //        ros::Subscriber geometrySubscriber;
 //        ros::Subscriber roleFeedbackSubscriber;
@@ -54,9 +55,9 @@ private:
 
 
     public:
-        explicit IOManager(bool subscribe = false, bool advertise = false);
+        explicit IOManager() = default;
         void publishRobotCommand(roboteam_proto::RobotCommand cmd);
-
+        void init();
         const roboteam_proto::World &getWorldState();
         const roboteam_proto::SSL_GeometryData &getGeometryData();
         const roboteam_proto::RobotFeedback &getRobotFeedback();
@@ -70,6 +71,8 @@ private:
         static std::mutex demoMutex;
 
 };
+
+extern IOManager io;
 
 } // io
 } // ai

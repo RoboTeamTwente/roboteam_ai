@@ -37,10 +37,10 @@ void Skill::publishRobotCommand() {
     if (command.id() == -1) {
         if (robot && robot->id != -1) {
             command.set_id(robot->id);
-            ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
+            io::io.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
         }
     } else {
-        ioManager.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
+        io::io.publishRobotCommand(command); // We default to our robots being on the left if parameter is not set
     }
     // refresh the robotcommand after it has been sent
     refreshRobotCommand();

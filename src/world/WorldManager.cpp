@@ -7,7 +7,6 @@ namespace ai {
 namespace world {
 
 void WorldManager::setup() {
-    IOManager = new io::IOManager(true, false);
 }
 
 // spin ROS at 4x our tick rate

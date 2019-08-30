@@ -21,7 +21,6 @@ class Pause {
     private:
         static bool pause;
         static std::mutex pauseLock;
-        std::shared_ptr<io::IOManager> IOManager;
     public:
         Pause();
         bool getPause();
