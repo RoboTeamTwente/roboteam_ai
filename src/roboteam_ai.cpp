@@ -4,7 +4,6 @@
 
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
 #include "include/roboteam_ai/ApplicationManager.h"
-#include "include/roboteam_ai/world/WorldManager.h"
 
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
@@ -16,11 +15,6 @@ void runBehaviourTrees() {
     app.checkForShutdown();
 }
 
-void runWorld() {
-    rtt::ai::world::WorldManager worldManager;
-    worldManager.setup();
-    worldManager.loop();
-}
 
 void setDarkTheme() {
     qApp->setStyle(QStyleFactory::create("Fusion"));
@@ -44,10 +38,11 @@ void setDarkTheme() {
 
 int main(int argc, char* argv[]) {
     rtt::ai::Constants::init();
+    auto * io = new rtt::ai::io::IOManager(true, false);
+
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());
 
-    std::thread worldThread = std::thread(&runWorld);
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
     // initialize the interface

@@ -28,7 +28,6 @@ void ApplicationManager::setup() {
 }
 
 void ApplicationManager::loop() {
-  //   ros::Rate rate(ai::Constants::TICK_RATE());
 
    // BTFactory::makeTrees();
     double longestTick = 0.0;
@@ -37,41 +36,42 @@ void ApplicationManager::loop() {
     double timeTakenOverNTicks = 0.0;
 
 
-    while (true) {
-      //  ros::Time begin = ros::Time::now();
+    std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+        std::chrono::system_clock::now().time_since_epoch()
+    );
 
-        this->runOneLoopCycle();
-       // rate.sleep();
+    std::chrono::milliseconds last_call_time = ms;
 
-       // ros::Time end = ros::Time::now();
-        //timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
-        timeTakenOverNTicks += timeTaken;
-        if (timeTaken > longestTick) {
-            longestTick = timeTaken;
-        }
-        if (ai::interface::Output::showDebugTickTimeTaken() && ++nTicksTaken >= ai::Constants::TICK_RATE()) {
-            std::stringstream ss;
-            ss << "FrameRate: " << ai::Constants::TICK_RATE()*1000/timeTakenOverNTicks << " FPS | average: " << timeTakenOverNTicks / nTicksTaken << " ms/tick | longest: " << longestTick << " ms";
-            if (nTicksTaken * longestTick < 2000 && timeTakenOverNTicks < 1200)
-                std::cout << ss.str() << std::endl;
-            else
-                std::cerr << ss.str() << std::endl;
-            nTicksTaken = 0;
-            timeTakenOverNTicks = 0.0;
-            longestTick = 0.0;
-        }
+    bool ok = true;
+    while(ok) {
 
+        std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+            std::chrono::system_clock::now().time_since_epoch()
+        );
+        std::chrono::milliseconds now_time = ms;
 
-        if (ai::robotDealer::RobotDealer::hasFree()) {
-            if (ticksFree++ > 10) {
-                ai::robotDealer::RobotDealer::refresh();
-           //     BTFactory::makeTrees();
+        auto diff = now_time - last_call_time;
+
+        auto timeDiff =std::chrono::milliseconds(20); //50hz
+
+        if(diff > timeDiff) {
+
+            this->runOneLoopCycle();
+            if (ai::robotDealer::RobotDealer::hasFree()) {
+                if (ticksFree++ > 10) {
+                    ai::robotDealer::RobotDealer::refresh();
+                    //     BTFactory::makeTrees();
+                }
             }
-        }
-        else {
-            ticksFree = 0;
+            else {
+                ticksFree = 0;
+            }
+
+        }else {
+            std::this_thread::sleep_for(timeDiff-diff);
         }
     }
+
 }
 
 void ApplicationManager::runOneLoopCycle() {
