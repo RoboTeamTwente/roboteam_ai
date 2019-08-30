@@ -3,7 +3,6 @@
 //
 
 #include <roboteam_world/kalman/kalmanObject.h>
-#include <DetectionRobot.pb.h>
 #include <messages_robocup_ssl_detection.pb.h>
 namespace rtt {
 

@@ -14,9 +14,9 @@ namespace rtt {
     class RosHandler {
 
     private:
-        roboteam_proto::Publisher * world_pub;
-        
-        WorldBase* world;
+        roboteam_proto::Publisher * pub;
+
+      WorldBase* world;
         bool kalman;
         RoboCupSSLClient * vision_client;
         roboteam_proto::SSL_WrapperPacket * vision_packet;

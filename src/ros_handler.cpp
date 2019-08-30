@@ -11,7 +11,8 @@ namespace rtt {
     void RosHandler::init(rtt::WorldBase* _world) {
       KF = new kalmanFilter;
       world = _world;
-      world_pub = new roboteam_proto::Publisher("world_state");
+      pub = new roboteam_proto::Publisher();
+
       vision_packet = new roboteam_proto::SSL_WrapperPacket;
     }
 
@@ -28,6 +29,16 @@ namespace rtt {
             // Detection frame.
             if (vision_packet->has_detection()) {
               detection_callback(vision_packet->detection());
+            }
+
+            if (vision_packet->has_geometry()) {
+
+              std::ostringstream stream;
+              auto geom = vision_packet->geometry();
+              geom.SerializeToOstream(&stream);
+
+              // Publish the data.
+              pub->send("geometry", stream.str());
             }
             //std::this_thread::sleep_for(std::chrono::microseconds(100));
 
@@ -78,16 +89,10 @@ namespace rtt {
                 std::chrono::system_clock::now().time_since_epoch()
             );
             std::chrono::milliseconds now_time = ms;
-            if(now_time > (last_call_time + std::chrono::milliseconds(100))) {
+            if(now_time > (last_call_time + std::chrono::milliseconds(10))) {
            //   filterLock.lock();
               KF->kalmanUpdate();
-              world_pub->send(KF->getWorldMsg());
-
-
-              roboteam_proto::World wrld;
-              wrld.ParseFromString(KF->getWorldMsg());
-              std::cerr << wrld.ball().pos().x() << std::endl;
-
+              pub->send("world_state", KF->getWorldMsg());
               last_call_time = now_time;//last time is re initialized
             }
           }
@@ -113,14 +118,14 @@ namespace rtt {
         if (auto * fworld = dynamic_cast<FilteredWorld*>(world)) {
             // Filtered world! Special case that shit
             if (auto worldOpt = fworld->consumeMsg()) {
-                world_pub->send(worldOpt->SerializeAsString());
+                pub->send("world_state", worldOpt->SerializeAsString());
 
             }
         } else {
             // Generic world approach
             // Where you can never be sure if this message is the new one
             roboteam_proto::World world_msg = world->as_message();
-          world_pub->send(world_msg.SerializeAsString());
+          pub->send("world_state", world_msg.SerializeAsString());
         }
     }
 }
