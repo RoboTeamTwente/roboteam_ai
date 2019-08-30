@@ -19,7 +19,6 @@ namespace rtt {
       WorldBase* world;
         bool kalman;
         RoboCupSSLClient * vision_client;
-        roboteam_proto::SSL_WrapperPacket * vision_packet;
 
      public:
         RosHandler() = default;

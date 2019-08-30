@@ -12,45 +12,48 @@ namespace rtt {
       KF = new kalmanFilter;
       world = _world;
       pub = new roboteam_proto::Publisher();
-
-      vision_packet = new roboteam_proto::SSL_WrapperPacket;
     }
 
 
     void RosHandler::getMessages() {
-      bool ok = true;
-      while(ok) {
 
-        if (vision_client) {
 
-          // Receive current version packets.
-          while (vision_client->receive(*vision_packet)) {
 
-            // Detection frame.
-            if (vision_packet->has_detection()) {
-              detection_callback(vision_packet->detection());
-            }
-
-            if (vision_packet->has_geometry()) {
-
-              std::ostringstream stream;
-              auto geom = vision_packet->geometry();
-              geom.SerializeToOstream(&stream);
-
-              // Publish the data.
-              pub->send("geometry", stream.str());
-            }
-            //std::this_thread::sleep_for(std::chrono::microseconds(100));
-
-          }
-        }
-      }
+//
+//        std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+//            std::chrono::system_clock::now().time_since_epoch()
+//        );
+//
+//        std::chrono::milliseconds last_call_time = ms;
+//
+//        bool ok = true;
+//        while(ok) {
+//
+//          std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+//              std::chrono::system_clock::now().time_since_epoch()
+//          );
+//          std::chrono::milliseconds now_time = ms;
+//          auto diff = now_time - last_call_time;
+//
+//          auto timeDiff =std::chrono::milliseconds(20);
+//
+//          if(diff > timeDiff) { // send at 50 hz
+//
+//
+//
+//        } else {
+//            std::this_thread::sleep_for(timeDiff-diff);
+//          }
+//
+//
+//      }
 
 
     }
 
 
     void RosHandler::kalmanLoop() {
+      roboteam_proto::SSL_WrapperPacket vision_packet;
 
 
       constexpr int DEFAULT_VISION_PORT = 10006;
@@ -67,7 +70,7 @@ namespace rtt {
 
       std::cout << "Vision  : " << LOCAL_SOURCE_IP  << ":" << DEFAULT_VISION_PORT << std::endl;
 
-      vision_client->open(true);
+      vision_client->open(false); // boolean blocking
 
 
         std::thread thread(&RosHandler::getMessages, this);
@@ -83,22 +86,53 @@ namespace rtt {
       std::chrono::milliseconds last_call_time = ms;
 
       bool ok = true;
-          while(ok) {
+        while(ok) {
 
-            std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
-                std::chrono::system_clock::now().time_since_epoch()
-            );
-            std::chrono::milliseconds now_time = ms;
-            if(now_time > (last_call_time + std::chrono::milliseconds(10))) {
-           //   filterLock.lock();
-              KF->kalmanUpdate();
-              pub->send("world_state", KF->getWorldMsg());
-              last_call_time = now_time;//last time is re initialized
+          std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+              std::chrono::system_clock::now().time_since_epoch()
+          );
+          std::chrono::milliseconds now_time = ms;
+
+          auto diff = now_time - last_call_time;
+
+          auto timeDiff =std::chrono::milliseconds(20);
+
+          if(diff > timeDiff) { // send at 50 hz
+
+
+
+
+            if (vision_client) {
+
+              // Receive current version packets.
+              while (vision_client->receive(vision_packet)) {
+
+                // Detection frame.
+                if (vision_packet.has_detection()) {
+                  detection_callback(vision_packet.detection());
+                }
+
+                if (vision_packet.has_geometry()) {
+
+                  std::ostringstream stream;
+                  auto geom = vision_packet.geometry();
+                  geom.SerializeToOstream(&stream);
+
+                  // Publish the data.
+                  pub->send("geometry", stream.str());
+                }
+              }
             }
+
+
+
+            KF->kalmanUpdate();
+            pub->send("world_state", KF->getWorldMsg());
+            last_call_time = now_time;//last time is re initialized
+          }else {
+            std::this_thread::sleep_for(timeDiff-diff);
           }
-
-
-
+        }
         thread.join();
     }
 
