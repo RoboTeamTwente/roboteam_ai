@@ -17,12 +17,12 @@ Field *field = &fieldObj;
 
 using util = control::ControlUtils;
 
-const roboteam_proto::GeometryFieldSize Field::get_field() {
+FieldMessage Field::get_field() {
   std::lock_guard<std::mutex> lock(fieldMutex);
   return Field::field;
 }
 
-void Field::set_field(roboteam_proto::GeometryFieldSize _field) {
+void Field::set_field(FieldMessage _field) {
   std::lock_guard<std::mutex> lock(fieldMutex);
   Field::field = std::move(_field);
 }
@@ -65,7 +65,7 @@ double Field::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
 /// id and ourteam are for a robot not to be taken into account.
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &point, const WorldData &data, int id,
                                                   bool ourTeam) {
-  roboteam_proto::GeometryFieldSize _field;
+  FieldMessage _field;
   {
     std::lock_guard<std::mutex> lock(fieldMutex);
     _field = field;
@@ -249,7 +249,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
-  roboteam_proto::GeometryFieldSize _field = get_field();
+  FieldMessage _field = get_field();
 
   // get the sides of the goal
   double goalWidth = _field.goal_width();
@@ -267,12 +267,12 @@ double Field::getDistanceToGoal(bool ourGoal, const Vector2 &point) {
 
 Vector2 Field::getPenaltyPoint(bool ourGoal) {
   if (ourGoal) {
-    Vector2 begin = get_field().left_penalty_line().begin();
-    Vector2 end = get_field().left_penalty_line().end();
+    Vector2 begin = get_field().getLeft_penalty_line().begin;
+    Vector2 end = get_field().getLeft_penalty_line().end;
     return (begin + ((end - begin)*0.5));
   } else {
-    Vector2 begin = get_field().right_penalty_line().begin();
-    Vector2 end = get_field().right_penalty_line().end();
+    Vector2 begin = get_field().getRight_penalty_line().begin;
+    Vector2 end = get_field().getRight_penalty_line().end;
     return (begin + ((end - begin)*0.5));
   }
 
@@ -308,7 +308,7 @@ bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart
 }
 
 Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
-  roboteam_proto::GeometryFieldSize _field = get_field();
+  FieldMessage _field = get_field();
 
   double backLineUsXCoordinate = includeOutSideField ? -_field.field_length()*0.5 - _field.boundary_width() :
                                  -_field.field_length()*0.5 - margin;
@@ -316,25 +316,25 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
                                    _field.field_length()*0.5 + margin;
 
   std::vector<Vector2> defenceAreaUsPoints = {
-      {_field.left_penalty_line().begin().x() + margin, _field.left_penalty_line().begin().y() - margin},
-      {_field.left_penalty_line().end().x() + margin, _field.left_penalty_line().end().y() + margin},
-      {backLineUsXCoordinate, _field.left_penalty_line().end().y() + margin},
-      {backLineUsXCoordinate, _field.left_penalty_line().begin().y() - margin}};
+      {_field.getLeft_penalty_line().begin.x + margin, _field.getLeft_penalty_line().begin.y - margin},
+      {_field.getLeft_penalty_line().end.x + margin, _field.getLeft_penalty_line().end.y + margin},
+      {backLineUsXCoordinate, _field.getLeft_penalty_line().end.y + margin},
+      {backLineUsXCoordinate, _field.getLeft_penalty_line().begin.y - margin}};
 
   Polygon defenceAreaUs(defenceAreaUsPoints);
 
   std::vector<Vector2> defenceAreaThemPoints = {
-      {_field.right_penalty_line().begin().x() - margin, _field.right_penalty_line().begin().y() - margin},
-      {_field.right_penalty_line().end().x() - margin, _field.right_penalty_line().end().y() + margin},
-      {backLineThemXCoordinate, _field.right_penalty_line().end().y() + margin},
-      {backLineThemXCoordinate, _field.right_penalty_line().begin().y() - margin}};
+      {_field.getRight_penalty_line().begin.x - margin, _field.getRight_penalty_line().begin.y - margin},
+      {_field.getRight_penalty_line().end.x - margin, _field.getRight_penalty_line().end.y + margin},
+      {backLineThemXCoordinate, _field.getRight_penalty_line().end.y + margin},
+      {backLineThemXCoordinate, _field.getRight_penalty_line().begin.y - margin}};
 
   Polygon defenceAreaThem(defenceAreaThemPoints);
   return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
 Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
-  roboteam_proto::GeometryFieldSize _field = get_field();
+  FieldMessage _field = get_field();
 
   double marginBackside = hasBackMargin ? margin : 0.0;
   auto goalDepth = _field.goal_depth() + marginBackside;

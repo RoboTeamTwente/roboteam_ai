@@ -284,7 +284,9 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/WorldManager.cpp
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp)
+        ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        )
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/heuristics/CoachHeuristics.cpp

@@ -7,6 +7,7 @@
 
 #include "CoachHeuristics.h"
 #include <GeometryFieldSize.pb.h>
+#include <include/roboteam_ai/utilities/FieldMessage.h>
 
 namespace rtt {
 namespace ai {
@@ -27,7 +28,7 @@ private:
 public:
     using WorldData = world::WorldData;
     double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,
-            const WorldData &world, const roboteam_proto::GeometryFieldSize &field);
+            const WorldData &world, const FieldMessage &field);
 };
 
 }

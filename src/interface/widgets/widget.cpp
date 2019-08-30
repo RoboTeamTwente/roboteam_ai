@@ -129,14 +129,11 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
-    roboteam_proto::GeometryFieldSize field = rtt::ai::world::field->get_field();
+    FieldMessage field = rtt::ai::world::field->get_field();
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width());
-    std::cout << "field length" << field.field_length() << std::endl;
 
-    float widthFactor = this->size().width()/12 - (2*fieldmargin);
-    float heightFactor = this->size().height()/9 - (2*fieldmargin);
-//    float widthFactor = this->size().width()/field.field_length() - (2*fieldmargin);
-//    float heightFactor = this->size().height()/field.field_width() - (2*fieldmargin);
+    float widthFactor = this->size().width()/field.field_length() - (2*fieldmargin);
+    float heightFactor = this->size().height()/field.field_width() - (2*fieldmargin);
     factor = std::min(widthFactor, heightFactor);
 }
 
@@ -151,16 +148,16 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &line : rtt::ai::world::field->get_field().field_lines()) {
-        rtt::Vector2 start = toScreenPosition(line.begin());
-        rtt::Vector2 end = toScreenPosition(line.end());
+    for (auto &line : rtt::ai::world::field->get_field().getField_lines()) {
+        rtt::Vector2 start = toScreenPosition(line.begin);
+        rtt::Vector2 end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
     }
 
-//    // draw the circle in the middle
-//    auto centercircle = rtt::ai::world::field->get_field().center_circle();
-//    Vector2 screenPos = toScreenPosition({centercircle.center().x(), centercircle.center().y()});
-//    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius()*factor, centercircle.radius()*factor);
+    // draw the circle in the middle
+    auto centercircle = rtt::ai::world::field->get_field().getCenter_circle();
+    Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
+    painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
 
 
 

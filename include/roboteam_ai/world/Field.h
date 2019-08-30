@@ -13,6 +13,7 @@
 #include <cmath>
 #include <messages_robocup_ssl_geometry.pb.h>
 #include <GeometryFieldSize.pb.h>
+#include <include/roboteam_ai/utilities/FieldMessage.h>
 
 namespace rtt {
 namespace ai {
@@ -23,12 +24,12 @@ using Line=std::pair<Vector2, Vector2>;
 class WorldData;
 class Field {
     private:
-        roboteam_proto::GeometryFieldSize field;
+        FieldMessage field;
         std::mutex fieldMutex;
 
     public:
-        const roboteam_proto::GeometryFieldSize get_field();
-        void set_field(roboteam_proto::GeometryFieldSize field);
+        FieldMessage get_field();
+        void set_field(FieldMessage field);
         Vector2 get_our_goal_center();
         Vector2 get_their_goal_center();
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0,

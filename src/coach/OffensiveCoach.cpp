@@ -48,8 +48,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
 std::vector<Vector2> OffensiveCoach::getZoneLocations() {
-    roboteam_proto::GeometryFieldSize field = world::field->get_field();
-    Vector2 penaltyStretchCorner = field.top_right_penalty_stretch().end();
+    FieldMessage field = world::field->get_field();
+    Vector2 penaltyStretchCorner = field.getTop_right_penalty_stretch().end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
 

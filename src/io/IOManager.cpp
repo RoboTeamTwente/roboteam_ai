@@ -51,89 +51,11 @@ void IOManager::handleWorldState(roboteam_proto::World * world) {
 
 void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData * sslData) {
   std::lock_guard<std::mutex> lock(geometryMutex);
+  this->geometryMsg = *sslData;
 
-  roboteam_proto::SSL_GeometryFieldSize protoSize = sslData->field();
-
-  roboteam_proto::GeometryFieldSize rosSize;
-
-  rosSize.set_field_length(protoSize.field_length()/1000.0);
-  rosSize.set_field_width(protoSize.field_width()/1000.0);
-  rosSize.set_goal_width(protoSize.goal_width()/1000.0);
-  rosSize.set_goal_depth(protoSize.goal_depth()/1000.0);
-  rosSize.set_boundary_width(protoSize.boundary_width()/1000.0);
-
-  for (int i = 0; i < protoSize.field_lines_size(); ++i) {
-    roboteam_proto::SSL_FieldLineSegment protoLine = protoSize.field_lines(i);
-
-    roboteam_proto::FieldLineSegment * rosLine = rosSize.add_field_lines();
-    auto newLine = convert_geometry_field_line_segment(protoLine);
-    rosLine->Swap(&newLine);
-
-    if (rosLine->name() == "top_line") {
-      rosSize.set_allocated_top_line(rosLine);
-    } else if (rosLine->name() == "bottom_line") {
-      rosSize.set_allocated_bottom_line(rosLine);
-    } else if (rosLine->name() == "left_line") {
-      rosSize.set_allocated_left_line(rosLine);
-    } else if (rosLine->name() == "right_line") {
-      rosSize.set_allocated_right_line(rosLine);
-    } else if (rosLine->name() == "half_line") {
-      rosSize.set_allocated_half_line(rosLine);
-    } else if (rosLine->name() == "center_line") {
-      rosSize.set_allocated_center_line(rosLine);
-    } else if (rosLine->name() == "left_penalty_line") {
-      rosSize.set_allocated_left_penalty_line(rosLine);
-    } else if (rosLine->name() == "right_penalty_line") {
-      rosSize.set_allocated_right_penalty_line(rosLine);
-    }
-      // adding rectangle box lines
-    else if (rosLine->name() == "top_left_penalty_stretch") {
-      rosSize.set_allocated_top_left_penalty_stretch(rosLine);
-    } else if (rosLine->name() == "bottom_left_penalty_stretch") {
-      rosSize.set_allocated_bottom_left_penalty_stretch(rosLine);
-    } else if (rosLine->name() == "top_right_penalty_stretch") {
-      rosSize.set_allocated_top_right_penalty_stretch(rosLine);
-    } else if (rosLine->name() == "bottom_right_penalty_stretch") {
-      rosSize.set_allocated_bottom_right_penalty_stretch(rosLine);
-    }
-  }
-
-  for (int i= 0; i < protoSize.field_arcs_size(); ++i) {
-    roboteam_proto::SSL_FieldCicularArc protoArc = protoSize.field_arcs(i);
-    
-    roboteam_proto::FieldCircularArc rosArc =  roboteam_proto::FieldCircularArc(* rosSize.add_field_arcs());
-    auto newArc = convert_geometry_field_Circular_arc(protoArc);
-    rosArc.Swap(&newArc);
-
-    if (rosArc.name() == "top_left_penalty_arc") {
-      rosSize.set_allocated_top_left_penalty_arc(&rosArc);
-    } else if (rosArc.name() == "bottom_left_penalty_arc") {
-      rosSize.set_allocated_bottom_left_penalty_arc(&rosArc);
-    } else if (rosArc.name() == "top_right_penalty_arc") {
-      rosSize.set_allocated_top_right_penalty_arc(&rosArc);
-    } else if (rosArc.name() == "bottom_right_penalty_arc") {
-      rosSize.set_allocated_bottom_right_penalty_arc(&rosArc);
-    } else if (rosArc.name() == "center_circle") {
-      rosSize.set_allocated_center_circle(&rosArc);
-    }
-  }
-
-  roboteam_proto::GeometryData geom;
-  geom.set_allocated_field(&rosSize);
-
-  for (int i = 0; i < sslData->calib_size(); ++i) {
-    roboteam_proto::SSL_GeometryCameraCalibration protoCal = sslData->calib().Get(i);
-    roboteam_proto::GeometryCameraCalibration rosCal = convert_geometry_camera_calibration(protoCal);
-    
-    auto newCalib = geom.add_calib();
-    newCalib->Swap(&rosCal);
-  }
-
-
-  std::cout << geom.field().field_length() << std::endl;
-
-  this->geometryMsg = geom;
-  world::field->set_field(geom.field());
+  // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
+  FieldMessage msg = FieldMessage(sslData->field());
+  world::field->set_field(msg);
 }
 
 
@@ -142,7 +64,7 @@ const roboteam_proto::World &IOManager::getWorldState() {
     return this->worldMsg;
 }
 
-const roboteam_proto::GeometryData &IOManager::getGeometryData() {
+const roboteam_proto::SSL_GeometryData &IOManager::getGeometryData() {
     std::lock_guard<std::mutex> lock(geometryMutex);
     return this->geometryMsg;
 }
@@ -223,67 +145,6 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
 const roboteam_proto::DemoRobot &IOManager::getDemoInfo() {
     std::lock_guard<std::mutex> lock(demoMutex);
     return this->demoInfoMsg;
-}
-
-
-
-roboteam_proto::FieldLineSegment IOManager::convert_geometry_field_line_segment(roboteam_proto::SSL_FieldLineSegment protoLine) {
-  roboteam_proto::FieldLineSegment rosLine;
-
-  rosLine.set_name(std::string(name_map[protoLine.name()]));
-  rosLine.mutable_begin()->set_x( mm_to_m(protoLine.p1().x()));
-  rosLine.mutable_begin()->set_y( mm_to_m(protoLine.p1().y()));
-  rosLine.mutable_end()->set_x( mm_to_m(protoLine.p2().x()));
-  rosLine.mutable_end()->set_y( mm_to_m(protoLine.p2().y()));
-  rosLine.set_thickness(mm_to_m(protoLine.thickness()));
-
-  return rosLine;
-}
-
-
-/**
- * Converts a protoBuf FieldCircularArc to the ROS version.
- */
-roboteam_proto::FieldCircularArc IOManager::convert_geometry_field_Circular_arc(roboteam_proto::SSL_FieldCicularArc protoArc) {
-  roboteam_proto::FieldCircularArc rosArc;
-
-  rosArc.set_name(std::string(name_map[protoArc.name()]));
-  
-  rosArc.mutable_center()->set_x(mm_to_m(protoArc.center().x()));
-  rosArc.mutable_center()->set_y(mm_to_m(protoArc.center().y()));
-  rosArc.set_radius(mm_to_m(protoArc.radius()));
-  rosArc.set_a1( protoArc.a1());
-  rosArc.set_a2( protoArc.a2());
-  rosArc.set_thickness( mm_to_m(protoArc.thickness()));
-
-  return rosArc;
-}
-
-roboteam_proto::GeometryCameraCalibration IOManager::convert_geometry_camera_calibration(roboteam_proto::SSL_GeometryCameraCalibration protoCal) {
-  roboteam_proto::GeometryCameraCalibration rosCal;
-
-  rosCal.set_camera_id(protoCal.camera_id());
-  rosCal.set_focal_length(mm_to_m(protoCal.focal_length()));
-  rosCal.set_principal_point_x(mm_to_m(protoCal.principal_point_x()));
-  rosCal.set_principal_point_y(mm_to_m(protoCal.principal_point_y()));
-  rosCal.set_distortion(protoCal.distortion());
-  rosCal.set_q0(protoCal.q0());
-  rosCal.set_q1(protoCal.q1());
-  rosCal.set_q2(protoCal.q2());
-  rosCal.set_q3(protoCal.q3());
-  rosCal.set_tx(mm_to_m(protoCal.tx()));
-  rosCal.set_ty(mm_to_m(protoCal.ty()));
-  rosCal.set_tz(mm_to_m(protoCal.tz()));
-  rosCal.set_derived_camera_world_tx(mm_to_m(protoCal.derived_camera_world_tx()));
-  rosCal.set_derived_camera_world_ty(mm_to_m(protoCal.derived_camera_world_ty()));
-  rosCal.set_derived_camera_world_tz(mm_to_m(protoCal.derived_camera_world_tz()));
-
-  return rosCal;
-}
-
-
-float IOManager::mm_to_m(float scalar) {
-  return scalar / 1000;
 }
 
 

@@ -70,12 +70,12 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 
     auto pp = world::field->getPenaltyPoint(true); // penalty point
 
-    auto defenseAreaLineA = world::field->get_field().left_penalty_line().begin();
-    auto defenseAreaLineB = world::field->get_field().left_penalty_line().end();
+    auto defenseAreaLineA = world::field->get_field().getLeft_penalty_line().begin;
+    auto defenseAreaLineB = world::field->get_field().getLeft_penalty_line().end;
 
     // divide the upper and bottom lines of the defense area and store those values.
-    auto dTopY = fmax(defenseAreaLineA.y(), defenseAreaLineB.y());
-    auto dBtmY = fmin(defenseAreaLineA.y(), defenseAreaLineB.y());
+    auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
+    auto dBtmY = fmin(defenseAreaLineA.y, defenseAreaLineB.y);
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
     // the following statements specify useful stop positions between the ball and the goal

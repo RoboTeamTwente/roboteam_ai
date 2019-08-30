@@ -70,7 +70,7 @@ void GTPSpecial::gtpInitialize() {
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
-    roboteam_proto::GeometryFieldSize field = world::field->get_field();
+    FieldMessage field = world::field->get_field();
     double distanceFromTop = abs(field.field_width()*0.5 - ball->pos.y);
     double distanceFromBottom = abs(- field.field_width()*0.5 - ball->pos.y);
     double distanceFromLeft = abs(- field.field_length()*0.5 - ball->pos.x);

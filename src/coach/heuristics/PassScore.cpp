@@ -13,7 +13,7 @@ namespace coach {
 
 double PassScore::calculatePassScore(const Vector2 &position) {
     WorldData world = world::world->getWorld();
-    roboteam_proto::GeometryFieldSize field = world::field->get_field();
+    FieldMessage field = world::field->get_field();
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
