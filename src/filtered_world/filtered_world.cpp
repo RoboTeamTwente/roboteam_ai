@@ -2,6 +2,7 @@
 #include "roboteam_world/world/filtered_world.h"
 #include <vector>
 #include "roboteam_utils/Vector2.h"
+#include <math.h>
 
 namespace rtt {
 

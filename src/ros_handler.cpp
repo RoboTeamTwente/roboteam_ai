@@ -90,12 +90,9 @@ namespace rtt {
 
           auto diff = now_time - last_call_time;
 
-          auto timeDiff =std::chrono::milliseconds(10);
+          auto timeDiff =std::chrono::milliseconds(10); // 100hz
 
           if(diff > timeDiff) {
-
-
-
 
             if (vision_client) {
 
