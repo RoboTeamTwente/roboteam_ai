@@ -1,7 +1,6 @@
 #pragma once
 
 #include <map>
-#include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
 #include <messages_robocup_ssl_detection.pb.h>
 #include "World.pb.h"
@@ -89,7 +88,7 @@ namespace rtt {
          * Calls as_message and sets fresh to false. If isFresh() is false
          * returns boost::none.
          */
-        boost::optional<roboteam_proto::World> consumeMsg();
+        std::optional<roboteam_proto::World> consumeMsg();
 
     private:
 

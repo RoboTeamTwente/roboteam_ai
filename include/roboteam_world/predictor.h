@@ -4,8 +4,6 @@
 #include <map>
 #include <inttypes.h>
 #include <utility>
-#include <boost/variant.hpp>
-#include <boost/optional.hpp>
 #include "roboteam_world/robot.h"
 #include "roboteam_world/ball.h"
 #include "roboteam_utils/Position.h"
@@ -38,9 +36,9 @@ class Predictor {
     /// Update the buffer for the ball(s) with time stamps
     void update(const Ball& ball, double timestamp);
     /// Compute ball velocity from the ballBuf data
-    boost::optional<Position> computeBallVelocity();
+    std::optional<Position> computeBallVelocity();
     /// Compute robot velocity from ourTeamBuffer and theirTeamBuffer data
-    boost::optional<Position> computeRobotVelocity(uint id, bool our_team);
+    std::optional<Position> computeRobotVelocity(uint id, bool our_team);
 };
 
 }

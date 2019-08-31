@@ -68,12 +68,12 @@ namespace rtt {
     }
 
     /// Consume a message if it is fresh
-    boost::optional<roboteam_proto::World> FilteredWorld::consumeMsg() {
+    std::optional<roboteam_proto::World> FilteredWorld::consumeMsg() {
         if (isFresh()) {
             setFresh(false);
             return as_message();
         }
-        return boost::none;
+        return {};
     }
 
     /// Adds a received detection frame to the buffers.
