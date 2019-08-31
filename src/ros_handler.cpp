@@ -22,18 +22,18 @@ namespace rtt {
       constexpr int DEFAULT_VISION_PORT = 10006;
       constexpr int DEFAULT_REFEREE_PORT = 10003;
 
-//      const std::string SSL_VISION_SOURCE_IP = "224.5.23.2";
-//      const std::string SSL_REFEREE_SOURCE_IP= "224.5.23.1";
+      const std::string SSL_VISION_SOURCE_IP = "224.5.23.2";
+      const std::string SSL_REFEREE_SOURCE_IP= "224.5.23.1";
 
      // const std::string LOCAL_SOURCE_IP = "127.0.0.1";
       //const std::string LOCAL_SOURCE_IP = "224.5.23.3";
-      const std::string LOCAL_SOURCE_IP = "224.5.23.3";
+      // const std::string LOCAL_SOURCE_IP = "224.5.23.3";
 
-      vision_client = new RoboCupSSLClient(DEFAULT_VISION_PORT, LOCAL_SOURCE_IP);
-      refbox_client = new RoboCupSSLClient(DEFAULT_REFEREE_PORT, LOCAL_SOURCE_IP);
+      vision_client = new RoboCupSSLClient(DEFAULT_VISION_PORT, SSL_VISION_SOURCE_IP);
+      refbox_client = new RoboCupSSLClient(DEFAULT_REFEREE_PORT, SSL_REFEREE_SOURCE_IP);
 
-      std::cout << "Vision  : " << LOCAL_SOURCE_IP  << ":" << DEFAULT_VISION_PORT << std::endl;
-        std::cout << "Referee  : " << LOCAL_SOURCE_IP  << ":" << DEFAULT_REFEREE_PORT << std::endl;
+      std::cout << "Vision  : " << SSL_VISION_SOURCE_IP  << ":" << DEFAULT_VISION_PORT << std::endl;
+        std::cout << "Referee  : " << SSL_REFEREE_SOURCE_IP  << ":" << DEFAULT_REFEREE_PORT << std::endl;
 
       vision_client->open(false); // boolean blocking
       refbox_client->open(false);
