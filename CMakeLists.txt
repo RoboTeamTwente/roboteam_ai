@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.4)
+cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-std=c++17 ${CMAKE_CXX_FLAGS} -O1")
@@ -346,41 +346,41 @@ target_include_directories(roboteam_ai PUBLIC
 #############
 ## Testing ##
 #############
-add_executable(ai_tests
-        ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${IO_SOURCES}
-        ${CONDITIONS_SOURCES}
-        ${SKILLS_SOURCES}
-        ${CONTROL_SOURCES}
-        ${ANALYSIS_SOURCES}
-        ${TACTIC_SOURCES}
-        ${DEMO_SOURCES}
-        ${COACH_SOURCES}
-        ${INTERFACE_SOURCES}
-        ${TEST_SOURCES}
-        ${WORLD_SOURCES})
-
-target_link_libraries(ai_tests
-        roboteam_utils
-        gcov
-        Qt5::Widgets Qt5::Gui)
-
-
-include(CodeCoverage)
-APPEND_COVERAGE_COMPILER_FLAGS()
-SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
-
-# required properties for cotire
-set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 11)
-set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
-set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
-
+#add_executable(ai_tests
+#        ${UTILS_SOURCES}
+#        ${JSON_SOURCES}
+#        ${BT_SOURCES}
+#        ${IO_SOURCES}
+#        ${CONDITIONS_SOURCES}
+#        ${SKILLS_SOURCES}
+#        ${CONTROL_SOURCES}
+#        ${ANALYSIS_SOURCES}
+#        ${TACTIC_SOURCES}
+#        ${DEMO_SOURCES}
+#        ${COACH_SOURCES}
+#        ${INTERFACE_SOURCES}
+#        ${TEST_SOURCES}
+#        ${WORLD_SOURCES})
+#
+#target_link_libraries(ai_tests
+#        roboteam_utils
+#        gcov
+#        Qt5::Widgets Qt5::Gui)
+#
+#
+#include(CodeCoverage)
+#APPEND_COVERAGE_COMPILER_FLAGS()
+#SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
+#
+## required properties for cotire
+#set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 11)
+#set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD_REQUIRED ON)
+#set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
+#set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
+#
 
 if(UNIX AND NOT APPLE)
     cotire(roboteam_ai)
-    cotire(ai_tests)
+    # cotire(ai_tests)
 endif()
 

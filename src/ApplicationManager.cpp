@@ -51,7 +51,7 @@ void ApplicationManager::loop() {
 
         auto diff = now_time - last_call_time;
 
-        auto timeDiff =std::chrono::milliseconds(20); //50hz
+        auto timeDiff =std::chrono::milliseconds(16); //a little over 60hz
 
         if(diff > timeDiff) {
 

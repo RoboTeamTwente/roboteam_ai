@@ -6,6 +6,7 @@
 #include "math.h"
 #include "RuleSet.h"
 #include <map>
+#include <vector>
 
 namespace rtt {
 namespace ai {
