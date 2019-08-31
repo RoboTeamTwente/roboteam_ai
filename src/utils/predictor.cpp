@@ -51,12 +51,12 @@ void Predictor::update(const Ball& ball, double timestamp) {
     discard_old_ball_data(timestamp);
 }
 
-std::optional<Position> Predictor::computeBallVelocity() {
+boost::optional<Position> Predictor::computeBallVelocity() {
     // Position posDiff(0.0, 0.0, 0.0);
     size_t bufferSize = ballBuf.size();
     if (bufferSize >= 2) {
-        Ball oldBall = ballBuf.at(0).second;
-        Ball newerBall = ballBuf.at(bufferSize-1).second;
+        Ball oldBall = boost::get<Ball>(ballBuf.at(0).second);
+        Ball newerBall = boost::get<Ball>(ballBuf.at(bufferSize-1).second);
         Position oldBallPos = oldBall.get_position();
         Position newerBallPos = newerBall.get_position();
 
@@ -64,18 +64,18 @@ std::optional<Position> Predictor::computeBallVelocity() {
         double timeDiff = ballBuf.at(bufferSize-1).first - ballBuf.at(0).first;
         Position ballVel = posDiff.scale(1.0/timeDiff);
         
-        return std::optional<Position>(ballVel);
+        return boost::optional<Position>(ballVel);
     }
-    return {};
+    return boost::none;
 }
 
-std::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team) {
+boost::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team) {
     if (our_team) {
         size_t bufferSize = ourTeamBuffer.at(id).size();
         if (bufferSize >= 2) {
             // Take only the first and last entry in the buffer for computing average velocity
-            Robot oldRobot = ourTeamBuffer.at(id).at(0).second;
-            Robot newerRobot = ourTeamBuffer.at(id).at(bufferSize-1).second;
+            Robot oldRobot = boost::get<Robot>(ourTeamBuffer.at(id).at(0).second);
+            Robot newerRobot = boost::get<Robot>(ourTeamBuffer.at(id).at(bufferSize-1).second);
             Position oldRobotPos = oldRobot.get_position();
             Position newerRobotPos = newerRobot.get_position();
 
@@ -85,15 +85,15 @@ std::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team) 
 
             Position robotVel = posDiff.scale(1.0/timeDiff);
 
-            return std::optional<Position>(robotVel);
+            return boost::optional<Position>(robotVel);
         }
-        return {};
+        return boost::none;
     } else {
         size_t bufferSize = theirTeamBuffer.at(id).size();
         if (bufferSize >= 2) {
             // Take only the first and last entry in the buffer for computing average velocity
-            Robot oldRobot = theirTeamBuffer.at(id).at(0).second;
-            Robot newerRobot = theirTeamBuffer.at(id).at(bufferSize-1).second;
+            Robot oldRobot = boost::get<Robot>(theirTeamBuffer.at(id).at(0).second);
+            Robot newerRobot = boost::get<Robot>(theirTeamBuffer.at(id).at(bufferSize-1).second);
             Position oldRobotPos = oldRobot.get_position();
             Position newerRobotPos = newerRobot.get_position();
 
@@ -103,9 +103,9 @@ std::optional<Position> Predictor::computeRobotVelocity(uint id, bool our_team) 
 
             Position robotVel = posDiff.scale(1.0/timeDiff);
 
-            return std::optional<Position>(robotVel);
+            return boost::optional<Position>(robotVel);
         }
-        return {};
+        return boost::none;
     }
 }
 
