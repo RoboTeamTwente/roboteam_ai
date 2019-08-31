@@ -117,15 +117,10 @@ void ApplicationManager::runOneLoopCycle() {
 //            begin = ros::Time::now();
 //        }
 
-        if (wait >= 10) {
           rtt::ai::coach::getBallCoach->update();
           rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
           rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
           rtt::ai::coach::g_pass.updatePassProgression();
-          wait = 0;
-        } else {
-          wait ++;
-        }
 
 //        if (ai::interface::Output::showCoachTimeTaken()) {
 //            end = ros::Time::now();

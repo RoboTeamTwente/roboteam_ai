@@ -405,7 +405,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
 
     auto ball = world::world->getBall();
 
-    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position();
+    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
 
     if (!interface::Output::usesRefereeCommands()) {
         ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();

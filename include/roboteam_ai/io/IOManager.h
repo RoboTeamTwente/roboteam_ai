@@ -15,6 +15,7 @@
 #include <messages_robocup_ssl_geometry.pb.h>
 #include <GeometryData.pb.h>
 #include <include/roboteam_ai/utilities/FieldMessage.h>
+#include <messages_robocup_ssl_referee.pb.h>
 
 namespace rtt {
 namespace ai {
@@ -31,16 +32,18 @@ private:
         roboteam_proto::World worldMsg;
         roboteam_proto::SSL_GeometryData geometryMsg;
         roboteam_proto::RobotFeedback robotFeedbackMsg;
-        roboteam_proto::RefereeData refDataMsg;
+        roboteam_proto::SSL_Referee refDataMsg;
         roboteam_proto::DemoRobot demoInfoMsg;
 
         roboteam_proto::Subscriber * worldSubscriber;
-        void handleWorldState(roboteam_proto::World * world);
+        void handleWorldState(roboteam_proto::World world);
 
 
   roboteam_proto::Subscriber * geometrySubscriber;
-  void handleGeometry(roboteam_proto::SSL_GeometryData * geometryData);
+  void handleGeometry(roboteam_proto::SSL_GeometryData geometryData);
 
+        roboteam_proto::Subscriber * refSubscriber;
+        void handleReferee(roboteam_proto::SSL_Referee refData);
 
   roboteam_proto::Publisher * robotCommandPublisher;
 
@@ -61,7 +64,7 @@ private:
         const roboteam_proto::World &getWorldState();
         const roboteam_proto::SSL_GeometryData &getGeometryData();
         const roboteam_proto::RobotFeedback &getRobotFeedback();
-        const roboteam_proto::RefereeData &getRefereeData();
+        const roboteam_proto::SSL_Referee &getRefereeData();
         const roboteam_proto::DemoRobot &getDemoInfo();
 
         static std::mutex worldStateMutex;

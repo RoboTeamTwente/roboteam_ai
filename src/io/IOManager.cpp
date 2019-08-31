@@ -31,19 +31,25 @@ std::mutex IOManager::demoMutex;
 
 IOManager io;
 
-void IOManager::handleWorldState(roboteam_proto::World * world) {
+void IOManager::handleWorldState(roboteam_proto::World world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
-  this->worldMsg = *world;
+  this->worldMsg = world;
   world::world->updateWorld(this->worldMsg);
 }
 
-void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData * sslData) {
+void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData sslData) {
   std::lock_guard<std::mutex> lock(geometryMutex);
-  this->geometryMsg = *sslData;
+  this->geometryMsg = sslData;
 
   // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
-  FieldMessage msg = FieldMessage(sslData->field());
+  FieldMessage msg = FieldMessage(sslData.field());
   world::field->set_field(msg);
+}
+
+void IOManager::handleReferee(roboteam_proto::SSL_Referee refData) {
+    std::lock_guard<std::mutex> lock(refereeMutex);
+    this->refDataMsg = refData;
+    GameStateManager::setRefereeData(refData);
 }
 
 
@@ -62,9 +68,9 @@ const roboteam_proto::RobotFeedback &IOManager::getRobotFeedback() {
 //    return this->robotFeedbackMsg;
 }
 
-const roboteam_proto::RefereeData &IOManager::getRefereeData() {
-//    std::lock_guard<std::mutex> lock(refereeMutex);
-//    return this->refDataMsg;
+const roboteam_proto::SSL_Referee &IOManager::getRefereeData() {
+    std::lock_guard<std::mutex> lock(refereeMutex);
+    return this->refDataMsg;
 }
 
 void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
@@ -135,11 +141,14 @@ const roboteam_proto::DemoRobot &IOManager::getDemoInfo() {
 void IOManager::init() {
   worldSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_WORLD_STATE, &IOManager::handleWorldState, this);
   geometrySubscriber= new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_GEOMETRY, &IOManager::handleGeometry, this);
+    refSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_REFEREE, &IOManager::handleReferee, this);
 
 
   // set up advertisement to publish robotcommands
   robotCommandPublisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
 }
+
+
 
 } // io
 } // ai

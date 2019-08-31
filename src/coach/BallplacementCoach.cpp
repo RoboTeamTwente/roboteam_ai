@@ -29,7 +29,7 @@ Vector2 BallplacementCoach::getBallPlacementPos(){
 
     // get the ballplacement target from the referee or the interface
     if (interface::Output::usesRefereeCommands()) {
-       return GameStateManager::getRefereeData().designated_position();
+       return GameStateManager::getRefereeDesignatedPosition();
     }
     return interface::Output::getInterfaceMarkerPosition();
 }

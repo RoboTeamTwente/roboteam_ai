@@ -17,7 +17,6 @@ private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
 
     int ticksFree = 0;
-    int wait = 0;
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
 

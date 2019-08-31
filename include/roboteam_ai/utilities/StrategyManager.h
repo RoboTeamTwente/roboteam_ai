@@ -9,9 +9,9 @@
 
 #include <iostream>
 #include <map>
-#include <Referee.pb.h>
 #include "Constants.h"
 #include "RefGameState.h"
+#include "messages_robocup_ssl_referee.pb.h"
 
 namespace rtt {
 namespace ai {
@@ -20,7 +20,7 @@ class StrategyManager {
 public:
     explicit StrategyManager() = default;
     RefGameState getCurrentRefGameState();
-    void setCurrentRefGameState(RefCommand command, roboteam_proto::RefereeData_RefStage stage);
+    void setCurrentRefGameState(RefCommand command, roboteam_proto::SSL_Referee_Stage stage);
     void forceCurrentRefGameState(RefCommand command);
 
     const RefGameState getRefGameStateForRefCommand(RefCommand command);

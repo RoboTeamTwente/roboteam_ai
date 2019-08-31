@@ -83,7 +83,7 @@ bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos,
         const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
 
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = GameStateManager::getRefereeData().them().goalie();
+    int keeperID = GameStateManager::getRefereeData().blue().goalie();
 
     for (auto &enemy : world.them) {
         if(!includeKeeper && enemy->id == keeperID) continue;

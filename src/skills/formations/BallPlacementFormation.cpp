@@ -86,7 +86,9 @@ void BallPlacementFormation::updateFormation() {
 }
 
 bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
-    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeData().designated_position();
+
+    // get designated position from referee and convert from mm to m
+    Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
 
     if (!interface::Output::usesRefereeCommands()) {
             ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();

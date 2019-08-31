@@ -546,7 +546,7 @@ void Visualizer::drawBallPlacementTarget(QPainter &painter) {
                      marker.y + 5);
 
     if (Output::usesRefereeCommands()) {
-        Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeData().designated_position()));
+        Vector2 ballPlacementTarget = toScreenPosition(Vector2(GameStateManager::getRefereeDesignatedPosition()));
         painter.setBrush(Qt::transparent);
         painter.setPen(Qt::green);
 

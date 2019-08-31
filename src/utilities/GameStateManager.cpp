@@ -4,14 +4,17 @@
 namespace rtt {
 namespace ai {
 
-roboteam_proto::RefereeData GameStateManager::refMsg;
+roboteam_proto::SSL_Referee GameStateManager::refMsg;
 StrategyManager GameStateManager::strategymanager;
+    std::mutex GameStateManager::refMsgLock;
 
-roboteam_proto::RefereeData GameStateManager::getRefereeData() {
+roboteam_proto::SSL_Referee GameStateManager::getRefereeData() {
+    std::lock_guard<std::mutex> lock(refMsgLock);
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(roboteam_proto::RefereeData refMsg) {
+void GameStateManager::setRefereeData(roboteam_proto::SSL_Referee refMsg) {
+    std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
     auto cmd = static_cast<RefCommand>(refMsg.command());
     auto stage = refMsg.stage();
@@ -23,7 +26,7 @@ GameState GameStateManager::getCurrentGameState() {
     GameState newGameState;
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
-        newGameState.keeperId = getRefereeData().us().goalie();
+        newGameState.keeperId = getRefereeData().yellow().goalie();
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.
@@ -58,5 +61,10 @@ bool GameStateManager::canMoveOutsideField(int robotId) {
     }
     return true;
 }
+
+    Vector2 GameStateManager::getRefereeDesignatedPosition() {
+        auto designatedPos = rtt::ai::GameStateManager::getRefereeData().designated_position();
+        return Vector2(designatedPos.x()/1000, designatedPos.x()/1000);
+    }
 }//ai
 }//rtt
