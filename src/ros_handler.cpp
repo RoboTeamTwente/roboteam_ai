@@ -14,46 +14,9 @@ namespace rtt {
       pub = new roboteam_proto::Publisher(ROBOTEAM_WORLD_TCP_PUBLISHER);
     }
 
-
-    void RosHandler::getMessages() {
-
-
-
-//
-//        std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
-//            std::chrono::system_clock::now().time_since_epoch()
-//        );
-//
-//        std::chrono::milliseconds last_call_time = ms;
-//
-//        bool ok = true;
-//        while(ok) {
-//
-//          std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
-//              std::chrono::system_clock::now().time_since_epoch()
-//          );
-//          std::chrono::milliseconds now_time = ms;
-//          auto diff = now_time - last_call_time;
-//
-//          auto timeDiff =std::chrono::milliseconds(20);
-//
-//          if(diff > timeDiff) { // send at 50 hz
-//
-//
-//
-//        } else {
-//            std::this_thread::sleep_for(timeDiff-diff);
-//          }
-//
-//
-//      }
-
-
-    }
-
-
     void RosHandler::kalmanLoop() {
       roboteam_proto::SSL_WrapperPacket vision_packet;
+        roboteam_proto::SSL_Referee ref_packet;
 
 
       constexpr int DEFAULT_VISION_PORT = 10006;
@@ -67,10 +30,14 @@ namespace rtt {
       const std::string LOCAL_SOURCE_IP = "224.5.23.3";
 
       vision_client = new RoboCupSSLClient(DEFAULT_VISION_PORT, LOCAL_SOURCE_IP);
+      refbox_client = new RoboCupSSLClient(DEFAULT_REFEREE_PORT, LOCAL_SOURCE_IP);
 
       std::cout << "Vision  : " << LOCAL_SOURCE_IP  << ":" << DEFAULT_VISION_PORT << std::endl;
+        std::cout << "Referee  : " << LOCAL_SOURCE_IP  << ":" << DEFAULT_REFEREE_PORT << std::endl;
 
       vision_client->open(false); // boolean blocking
+      refbox_client->open(false);
+
       std::this_thread::sleep_for(std::chrono::microseconds(10000));
 
 
@@ -95,17 +62,12 @@ namespace rtt {
           if(diff > timeDiff) {
 
             if (vision_client) {
-
-              // Receive current version packets.
-              while (vision_client->receive(vision_packet)) {
-
-                // Detection frame.
-                if (vision_packet.has_detection()) {
+                while (vision_client->receive(vision_packet)) {
+                    if (vision_packet.has_detection()) {
                   detection_callback(vision_packet.detection());
                 }
 
                 if (vision_packet.has_geometry()) {
-
                   std::ostringstream stream;
                   auto geom = vision_packet.geometry();
                   geom.SerializeToOstream(&stream);
@@ -116,7 +78,14 @@ namespace rtt {
               }
             }
 
-
+              if (refbox_client) {
+                  while (refbox_client->receive(ref_packet)) {
+                      std::ostringstream stream;
+                      auto geom = ref_packet;
+                      geom.SerializeToOstream(&stream);
+                      pub->send(TOPIC_REFEREE, stream.str());
+                  }
+              }
 
             KF->kalmanUpdate();
             pub->send(TOPIC_WORLD_STATE, KF->getWorldMsg());

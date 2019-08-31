@@ -19,18 +19,11 @@ namespace rtt {
       WorldBase* world;
         bool kalman;
         RoboCupSSLClient * vision_client;
-
+        RoboCupSSLClient * refbox_client;
      public:
         RosHandler() = default;
         void init(WorldBase* _world);
         void kalmanLoop();
-        void getMessages();
-        /**
-         * Reads the configuration from the parameter server.
-         * Updates the configuration of the world and calls a reset.
-         */
-        void update_config();
-
         void setKalman(bool on);
         void detection_callback(roboteam_proto::SSL_DetectionFrame frame);
     //    bool reset_callback(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
