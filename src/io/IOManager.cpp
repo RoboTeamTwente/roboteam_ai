@@ -31,13 +31,13 @@ std::mutex IOManager::demoMutex;
 
 IOManager io;
 
-void IOManager::handleWorldState(roboteam_proto::World world) {
+void IOManager::handleWorldState(roboteam_proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
   this->worldMsg = world;
   world::world->updateWorld(this->worldMsg);
 }
 
-void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData sslData) {
+void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
   std::lock_guard<std::mutex> lock(geometryMutex);
   this->geometryMsg = sslData;
 
@@ -46,7 +46,7 @@ void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData sslData) {
   world::field->set_field(msg);
 }
 
-void IOManager::handleReferee(roboteam_proto::SSL_Referee refData) {
+void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
     this->refDataMsg = refData;
     GameStateManager::setRefereeData(refData);

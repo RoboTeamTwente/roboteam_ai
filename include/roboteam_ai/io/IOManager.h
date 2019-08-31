@@ -36,14 +36,13 @@ private:
         roboteam_proto::DemoRobot demoInfoMsg;
 
         roboteam_proto::Subscriber * worldSubscriber;
-        void handleWorldState(roboteam_proto::World world);
+        void handleWorldState(roboteam_proto::World & world);
 
-
-  roboteam_proto::Subscriber * geometrySubscriber;
-  void handleGeometry(roboteam_proto::SSL_GeometryData geometryData);
+        roboteam_proto::Subscriber * geometrySubscriber;
+        void handleGeometry(roboteam_proto::SSL_GeometryData & geometryData);
 
         roboteam_proto::Subscriber * refSubscriber;
-        void handleReferee(roboteam_proto::SSL_Referee refData);
+        void handleReferee(roboteam_proto::SSL_Referee & refData);
 
   roboteam_proto::Publisher * robotCommandPublisher;
 
