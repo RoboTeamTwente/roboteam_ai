@@ -46,6 +46,9 @@ private:
         roboteam_proto::Subscriber * refSubscriber;
         void handleReferee(roboteam_proto::SSL_Referee & refData);
 
+        roboteam_proto::Subscriber * feedbackSubscriber;
+        void handleFeedback(roboteam_proto::RobotFeedback & feedback);
+
   roboteam_proto::Publisher * publisher;
 
   //        ros::Subscriber worldSubscriber;

@@ -183,15 +183,38 @@ void IOManager::init() {
   // set up advertisement to publish robotcommands and settings
   if (SETTINGS.getId() == 1) {
       publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_2_TCP_PUBLISHER);
+      feedbackSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_ROBOTHUB_TCP_2_PUBLISHER, TOPIC_FEEDBACK, &IOManager::handleFeedback, this);
   } else {
+      feedbackSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_ROBOTHUB_TCP_PUBLISHER, TOPIC_FEEDBACK, &IOManager::handleFeedback, this);
       publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
 
   }
 }
 
     void IOManager::publishSettings(roboteam_proto::Setting setting) {
-publisher->send(TOPIC_SETTINGS, setting.SerializeAsString());
+  publisher->send(TOPIC_SETTINGS, setting.SerializeAsString());
     }
+
+void IOManager::handleFeedback(roboteam_proto::RobotFeedback &feedback) {
+    if (Constants::FEEDBACK_ENABLED()) {
+        std::lock_guard<std::mutex> lock(robotFeedbackMutex);
+        this->robotFeedbackMsg = feedback;
+
+        auto robot = world::world->getRobotForId(feedback.id());
+
+        if (robot) {
+
+            // indicate that now is last time the robot has received feedback
+            robot->UpdateFeedbackReceivedTime();
+
+            // override properties:
+            robot->setWorkingGeneva(feedback.genevaisworking());
+            robot->setHasWorkingBallSensor(feedback.ballsensorisworking());
+            robot->setBatteryLow(feedback.batterylow());
+            // robot->setGenevaStateFromFeedback(feedback.genevastate());
+        }
+    }
+}
 
 
 } // io
