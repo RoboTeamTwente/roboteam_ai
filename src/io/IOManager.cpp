@@ -181,7 +181,12 @@ void IOManager::init() {
 
 
   // set up advertisement to publish robotcommands and settings
-    publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
+  if (SETTINGS.getId() == 1) {
+      publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_2_TCP_PUBLISHER);
+  } else {
+      publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
+
+  }
 }
 
     void IOManager::publishSettings(roboteam_proto::Setting setting) {
