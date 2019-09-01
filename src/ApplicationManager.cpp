@@ -8,6 +8,7 @@
 #include "include/roboteam_ai/coach/PassCoach.h"
 #include "include/roboteam_ai/ApplicationManager.h"
 #include <sstream>
+#include <include/roboteam_ai/Settings/Settings.h>
 #include "include/roboteam_ai/analysis/GameAnalyzer.h"
 #include "include/roboteam_ai/interface/api/Output.h"
 #include "include/roboteam_ai/coach/GetBallCoach.h"
@@ -51,7 +52,7 @@ void ApplicationManager::loop() {
 
         auto diff = now_time - last_call_time;
 
-        auto timeDiff =std::chrono::milliseconds(4); //a little over 60hz
+        auto timeDiff =std::chrono::milliseconds(16); //a little over 60hz
 
         if(diff > timeDiff) {
 
@@ -74,7 +75,16 @@ void ApplicationManager::loop() {
 }
 
 void ApplicationManager::runOneLoopCycle() {
-    if (weHaveRobots) {
+
+    // publish settings every second
+    if (publishSettingTicks > ai::Constants::TICK_RATE()) {
+        io::io.publishSettings(SETTINGS.toMessage());
+        publishSettingTicks = 0;
+    } else {
+        publishSettingTicks++;
+    }
+
+    if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo

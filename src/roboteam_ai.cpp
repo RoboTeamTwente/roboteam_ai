@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <include/roboteam_ai/utilities/Constants.h>
+#include <include/roboteam_ai/Settings/Settings.h>
 
 #include "include/roboteam_ai/interface/widgets/mainWindow.h"
 #include "include/roboteam_ai/ApplicationManager.h"
@@ -14,7 +15,6 @@ void runBehaviourTrees() {
     app.loop();
     app.checkForShutdown();
 }
-
 
 void setDarkTheme() {
     qApp->setStyle(QStyleFactory::create("Fusion"));
@@ -38,6 +38,36 @@ void setDarkTheme() {
 
 int main(int argc, char* argv[]) {
     rtt::ai::Constants::init();
+
+    // get the id of the ai from the init
+    int id = 0;
+    if (argc == 2) {
+        id = *argv[1] - '0';
+    }
+
+
+    // some default settings for different team ids (saves time while testing)
+    if (id == 1) {
+        // standard blue team on right
+        rtt::SETTINGS.init(id);
+        rtt::SETTINGS.setYellow(false);
+        rtt::SETTINGS.setLeft(false);
+    } else {
+        // standard yellow team on left
+        rtt::SETTINGS.init(id);
+        rtt::SETTINGS.setYellow(true);
+        rtt::SETTINGS.setLeft(true);
+    }
+
+    rtt::SETTINGS.setSerialMode(false);
+    rtt::SETTINGS.setVisionIp("127.0.0.1");
+    rtt::SETTINGS.setVisionPort(10006);
+    rtt::SETTINGS.setRefereeIp("224.5.23.1");
+    rtt::SETTINGS.setRefereePort(10007);
+    rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
+    rtt::SETTINGS.setRobothubSendPort(20011);
+
+
     rtt::ai::io::io.init();
 
     BTFactory::makeTrees();

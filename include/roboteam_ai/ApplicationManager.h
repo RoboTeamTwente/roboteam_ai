@@ -28,6 +28,8 @@ private:
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
 
+    int publishSettingTicks= 0;
+
 public:
     void setup();
     void loop();

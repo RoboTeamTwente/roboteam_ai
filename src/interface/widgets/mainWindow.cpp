@@ -11,6 +11,7 @@
 #include "include/roboteam_ai/interface/widgets/MainControlsWidget.h"
 #include "include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h"
 #include <QSplitter>
+#include <include/roboteam_ai/interface/widgets/SettingsWidget.h>
 
 namespace rtt {
 namespace ai {
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     treeWidget = new TreeVisualizerWidget(this);
     keeperTreeWidget = new TreeVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
+    auto settingsWidget = new SettingsWidget(this);
+
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
@@ -51,6 +54,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     tabWidget->addTab(DataTabWidget, tr("Data"));
 
     auto SettingsTabWidget = new QTabWidget;
+    SettingsTabWidget->addTab(settingsWidget, tr("General settings"));
     SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
     SettingsTabWidget->addTab(checkboxWidget, tr("Other Settings"));

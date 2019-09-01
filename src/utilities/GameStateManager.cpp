@@ -1,3 +1,4 @@
+#include <include/roboteam_ai/Settings/Settings.h>
 #include "include/roboteam_ai/interface/api/Output.h"
 #include "include/roboteam_ai/utilities/GameStateManager.hpp"
 
@@ -26,7 +27,12 @@ GameState GameStateManager::getCurrentGameState() {
     GameState newGameState;
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
-        newGameState.keeperId = getRefereeData().yellow().goalie();
+
+        if (SETTINGS.isYellow()) {
+            newGameState.keeperId = getRefereeData().yellow().goalie();
+        } else {
+            newGameState.keeperId = getRefereeData().blue().goalie();
+        }
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.
@@ -51,6 +57,7 @@ bool GameStateManager::canEnterDefenseArea(int robotId) {
     if (robotId != currentState.keeperId) {
         return currentState.getRuleSet().robotsCanEnterDefenseArea();
     }
+
     return true;
 }
 

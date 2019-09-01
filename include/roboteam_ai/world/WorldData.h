@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_WORLDDATA_H
 #define ROBOTEAM_AI_WORLDDATA_H
 
+#include <include/roboteam_ai/Settings/Settings.h>
 #include "World.pb.h"
 
 #include "roboteam_utils/Vector2.h"
@@ -28,15 +29,26 @@ class WorldData {
                 :time(copy.time()) {
 
           // TODO switch colors for teams
+          if (SETTINGS.isYellow()) {
             for (auto &robot : copy.yellow()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::us, 3));
                 us.emplace_back(r);
             }
-
             for (auto &robot : copy.blue()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::them, 3));
                 them.emplace_back(r);
             }
+          }
+          else {
+              for (auto &robot : copy.blue()) {
+                  RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::us, 3));
+                  us.emplace_back(r);
+              }
+              for (auto &robot : copy.yellow()) {
+                  RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::them, 3));
+                  them.emplace_back(r);
+              }
+          }
             ball = std::make_shared<Ball>(copy.ball());
         }
         explicit WorldData(const std::vector<RobotPtr> &copyUs, const std::vector<RobotPtr> &copyThem,

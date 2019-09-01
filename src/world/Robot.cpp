@@ -2,6 +2,7 @@
 // Created by thijs on 1-4-19.
 //
 
+#include <include/roboteam_ai/Settings/Settings.h>
 #include "include/roboteam_ai/world/Robot.h"
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Ball.h"
@@ -62,10 +63,22 @@ double Robot::getDistanceToBall() {
 
 void Robot::updateRobot(const roboteam_proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
     if (static_cast<int>(robotMsg.id()) == this->id) {
-        this->pos = robotMsg.pos();
-        this->vel = robotMsg.vel();
-        this->angle = robotMsg.angle();
-        this->angularVelocity = robotMsg.w();
+
+        if (SETTINGS.isLeft()) {
+            this->pos = robotMsg.pos();
+            this->angle = robotMsg.angle();
+            this->vel = robotMsg.vel();
+            this->angularVelocity = robotMsg.w();
+
+        } else {
+            this->pos = Vector2(-robotMsg.pos().x(), -robotMsg.pos().y());
+            this->vel = Vector2(-robotMsg.vel().x(), -robotMsg.vel().y());
+            this->angularVelocity = -robotMsg.w();
+            this->angle = Angle(robotMsg.angle() + M_PI);
+
+        }
+
+
         this->lastUpdatedWorldNumber = worldNumber;
     }
     distanceToBall = calculateDistanceToBall(ball->pos);

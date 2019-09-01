@@ -321,6 +321,7 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
       {backLineUsXCoordinate, _field.getLeft_penalty_line().end.y + margin},
       {backLineUsXCoordinate, _field.getLeft_penalty_line().begin.y - margin}};
 
+  interface::Input::drawDebugData(defenceAreaUsPoints);
   Polygon defenceAreaUs(defenceAreaUsPoints);
 
   std::vector<Vector2> defenceAreaThemPoints = {

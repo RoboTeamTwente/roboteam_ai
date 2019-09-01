@@ -2,6 +2,7 @@
 // Created by rolf on 10/12/18.
 //
 
+#include <boost/optional.hpp>
 #include "include/roboteam_ai/interface/api/Input.h"
 #include "include/roboteam_ai/interface/api/Output.h"
 #include "include/roboteam_ai/skills/Keeper.h"
@@ -55,8 +56,8 @@ Keeper::Status Keeper::onUpdate() {
     /// Manual PID value update. Ugly and should be refactored in the future.
     posController.updatePid(interface::Output::getKeeperPid());
     Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
-    command.mutable_vel()->set_x(static_cast<float>(velocities.x));
-    command.mutable_vel()->set_y(static_cast<float>(velocities.y));
+    command.mutable_vel()->set_x(velocities.x);
+    command.mutable_vel()->set_y(velocities.y);
     publishRobotCommand();
     return Status::Running;
 }
@@ -77,37 +78,37 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
         }
     }
     else {
-//        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
-//        Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
-//        double dist = (defendPos - goalPos).length();
-//        Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
-//        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
-//                blockLineStart, defendPos);
-//
-//        // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
-//        if (intersections.first && intersections.second) {
-//            posA = *intersections.first;
-//            posB = *intersections.second;
-//
-//            if (! world::field->pointIsInDefenceArea(posA, true)) {
-//                blockPos = posB;
-//            }
-//
-//            if (posA.length() < posB.length()) {
-//                blockPos = posA;
-//            }
-//            else blockPos = posB;
-//        }
-//        else if (intersections.first) {
-//            blockPos = *intersections.first;
-//        }
-//        else if (intersections.second) {
-//            blockPos = *intersections.second;
-//        }
-//        else {
-//            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
-//                    *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
-//        }
+        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
+        Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
+        double dist = (defendPos - goalPos).length();
+        Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
+        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
+                blockLineStart, defendPos);
+
+        // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple
+        if (intersections.first && intersections.second) {
+            posA = *intersections.first;
+            posB = *intersections.second;
+
+            if (! world::field->pointIsInDefenceArea(posA, true)) {
+                blockPos = posB;
+            }
+
+            if (posA.length() < posB.length()) {
+                blockPos = posA;
+            }
+            else blockPos = posB;
+        }
+        else if (intersections.first) {
+            blockPos = *intersections.first;
+        }
+        else if (intersections.second) {
+            blockPos = *intersections.second;
+        }
+        else {
+            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
+                    *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
+        }
     }
 
     interface::Input::drawData(interface::Visual::KEEPER, {defendPos, blockPos}, Qt::red, robot->id,

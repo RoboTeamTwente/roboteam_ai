@@ -7,6 +7,8 @@
 #include <RobotFeedback.pb.h>
 #include <RobotCommand.pb.h>
 #include "Referee.pb.h"
+#include "Setting.pb.h"
+
 #include <DemoRobot.pb.h>
 #include <mutex>
 #include <Subscriber.h>
@@ -44,7 +46,7 @@ private:
         roboteam_proto::Subscriber * refSubscriber;
         void handleReferee(roboteam_proto::SSL_Referee & refData);
 
-  roboteam_proto::Publisher * robotCommandPublisher;
+  roboteam_proto::Publisher * publisher;
 
   //        ros::Subscriber worldSubscriber;
 //        ros::Subscriber geometrySubscriber;
@@ -56,9 +58,11 @@ private:
         rtt::ai::Pause* pause;
 
 
+
     public:
         explicit IOManager() = default;
         void publishRobotCommand(roboteam_proto::RobotCommand cmd);
+        void publishSettings(roboteam_proto::Setting setting);
         void init();
         const roboteam_proto::World &getWorldState();
         const roboteam_proto::SSL_GeometryData &getGeometryData();
@@ -71,6 +75,8 @@ private:
         static std::mutex robotFeedbackMutex;
         static std::mutex refereeMutex;
         static std::mutex demoMutex;
+
+        bool hasReceivedGeom = false;
 
 };
 

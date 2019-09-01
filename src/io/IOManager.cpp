@@ -10,6 +10,7 @@
 #include <include/roboteam_ai/io/IOManager.h>
 #include <messages_robocup_ssl_geometry.pb.h>
 #include <roboteam_utils/constants.h>
+#include <include/roboteam_ai/Settings/Settings.h>
 
 #include "include/roboteam_ai/demo/JoystickDemo.h"
 #include "include/roboteam_ai/utilities/Pause.h"
@@ -33,6 +34,14 @@ IOManager io;
 
 void IOManager::handleWorldState(roboteam_proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
+
+  if (!SETTINGS.isLeft()) {
+      auto ball = world.mutable_ball();
+      ball->mutable_pos()->set_x(ball->pos().x() * -1);
+      ball->mutable_pos()->set_y(ball->pos().y() * -1);
+
+  }
+
   this->worldMsg = world;
   world::world->updateWorld(this->worldMsg);
 }
@@ -43,12 +52,37 @@ void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
 
   // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
   FieldMessage msg = FieldMessage(sslData.field());
-  world::field->set_field(msg);
+
+    if (!SETTINGS.isLeft()) {
+        msg.invert();
+    }
+    world::field->set_field(msg);
+    hasReceivedGeom = true;
 }
 
 void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
     this->refDataMsg = refData;
+
+    if (!SETTINGS.isLeft()) {
+        refData.mutable_designated_position()->set_x(refData.designated_position().x()*-1);
+        refData.mutable_designated_position()->set_y(refData.designated_position().y()*-1);
+    }
+
+    // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
+    std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
+    if (refData.yellow().name() == ROBOTEAM_TWENTE) {
+        SETTINGS.setYellow(true);
+    } else if (refData.blue().name() == ROBOTEAM_TWENTE) {
+        SETTINGS.setYellow(false);
+    }
+
+    if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
+        SETTINGS.setLeft(false);
+    } else {
+        SETTINGS.setLeft(true);
+    }
+
     GameStateManager::setRefereeData(refData);
 }
 
@@ -83,11 +117,12 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
                 if (cmd.geneva_state() == 3) {
                     robot->setGenevaState(cmd.geneva_state());
                 }
-                /*
-                 *
-                 * if there is (recent) feedback we should not need to update internal state here
-                 * Otherwise we should. We need only do it when the new state is valid and different.
-                 */
+
+                    /*
+                     *
+                     * if there is (recent) feedback we should not need to update internal state here
+                     * Otherwise we should. We need only do it when the new state is valid and different.
+                     */
                 if (!robot->genevaStateIsDifferent(cmd.geneva_state()) || !robot->genevaStateIsValid(cmd.geneva_state())) {
                     cmd.set_geneva_state(robot->getGenevaState());
                 }
@@ -120,7 +155,7 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
             // sometimes trees are terminated without having a role assigned.
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
             if (cmd.id() >= 0 && cmd.id() < 16) {
-                robotCommandPublisher->send(TOPIC_COMMANDS, cmd.SerializeAsString());
+                publisher->send(TOPIC_COMMANDS, cmd.SerializeAsString());
             }
         }
         else {
@@ -140,14 +175,18 @@ const roboteam_proto::DemoRobot &IOManager::getDemoInfo() {
 
 void IOManager::init() {
   worldSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_WORLD_STATE, &IOManager::handleWorldState, this);
+
   geometrySubscriber= new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_GEOMETRY, &IOManager::handleGeometry, this);
     refSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_REFEREE, &IOManager::handleReferee, this);
 
 
-  // set up advertisement to publish robotcommands
-  robotCommandPublisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
+  // set up advertisement to publish robotcommands and settings
+    publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
 }
 
+    void IOManager::publishSettings(roboteam_proto::Setting setting) {
+publisher->send(TOPIC_SETTINGS, setting.SerializeAsString());
+    }
 
 
 } // io

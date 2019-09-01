@@ -44,11 +44,18 @@ void World::updateWorld(const roboteam_proto::World &message) {
         worldDataPtr->ball = tempWorldData.ball;
         worldDataPtr->time = message.time();
 
-        auto yellowMsg = std::vector<roboteam_proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
-        auto blueMsg = std::vector<roboteam_proto::WorldRobot>(message.blue().begin(), message.blue().end());
+        std::vector<roboteam_proto::WorldRobot>usMsg;
+        std::vector<roboteam_proto::WorldRobot>themMsg;
 
-        updateRobotsFromData(us, yellowMsg, worldDataPtr->us, worldDataPtr->ball, worldNumber);
-        updateRobotsFromData(them, blueMsg, worldDataPtr->them, worldDataPtr->ball, worldNumber);
+        if (SETTINGS.isYellow()) {
+            usMsg = std::vector<roboteam_proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
+            themMsg = std::vector<roboteam_proto::WorldRobot>(message.blue().begin(), message.blue().end());
+        } else {
+            usMsg = std::vector<roboteam_proto::WorldRobot>(message.blue().begin(), message.blue().end());
+            themMsg = std::vector<roboteam_proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
+        }
+        updateRobotsFromData(us, usMsg, worldDataPtr->us, worldDataPtr->ball, worldNumber);
+        updateRobotsFromData(them, themMsg, worldDataPtr->them, worldDataPtr->ball, worldNumber);
 
         // add the worlddata to the history
         WorldData worldDataCopyForHistory = WorldData(worldDataPtr);

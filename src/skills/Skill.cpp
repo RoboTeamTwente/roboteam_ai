@@ -7,7 +7,7 @@
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Ball.h"
 #include <cmath>
-
+#include <include/roboteam_ai/Settings/Settings.h>
 
 
 namespace rtt {
@@ -20,11 +20,7 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Skill::publishRobotCommand() {
-    // ros::NodeHandle nh;
-    std::string ourSideParam;
-   // nh.getParam("our_side", ourSideParam);
-
-    if(Constants::GRSIM() && ourSideParam=="right"){
+    if(!SETTINGS.isLeft()){
       command=rotateRobotCommand(command);
     }
 

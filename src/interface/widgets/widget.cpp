@@ -159,15 +159,38 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
     painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
 
+        painter.setPen(Qt::red);
+auto line = world::field->get_field().getLeft_penalty_line();
+        rtt::Vector2 start = toScreenPosition(line.begin);
+        rtt::Vector2 end = toScreenPosition(line.end);
+        painter.drawLine(start.x, start.y, end.x, end.y);
+
+        painter.setPen(Qt::green);
+        line = world::field->get_field().getRight_penalty_line();
+        start = toScreenPosition(line.begin);
+        end = toScreenPosition(line.end);
+        painter.drawLine(start.x, start.y, end.x, end.y);
+
+
+        painter.setPen(Qt::green);
+        line = world::field->get_field().getRight_line();
+        start = toScreenPosition(line.begin);
+        end = toScreenPosition(line.end);
+        painter.drawLine(start.x, start.y, end.x, end.y);
+
+
+        painter.setPen(Qt::red);
+        line = world::field->get_field().getLeft_line();
+        start = toScreenPosition(line.begin);
+        end = toScreenPosition(line.end);
+        painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         QPen pen;
         pen.setWidth(3);
 
-
-        //  TODO check this later
         // update the we are yellow
-        bool weAreYellow = true;
+        bool weAreYellow = SETTINGS.isYellow();
 
         // draw the hint for us
         auto usGoalLine = world::field->getGoalSides(true);
@@ -277,9 +300,8 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot.pos);
     QPointF qrobotPosition(robotpos.x, robotpos.y);
 
-    // TODO update this
     // update the we are yellow
-    bool weAreYellow = true;
+    bool weAreYellow = SETTINGS.isYellow();
 
     QColor robotColor;
     if (ourTeam) {

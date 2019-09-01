@@ -62,6 +62,7 @@ class FieldMessage {
  public:
   FieldMessage() = default;
   FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize);
+  void invert();
   float mm_to_m(float scalar);
   Vector2 mm_to_m(Vector2 vector);
 
@@ -116,6 +117,10 @@ class FieldMessage {
       std::make_pair("CenterCircle", "center_circle"),
   };
   void addHelperArc(FieldArc newArc);
+
+    void invertArc(FieldArc &arc) const;
+
+    void invertFieldLine(FieldLineSegment &line) const;
 };
 
 }

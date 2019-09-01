@@ -300,7 +300,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/defence/PossiblePass.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/midField/MidFieldCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
+        ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp src/interface/widgets/SettingsWidget.cpp include/roboteam_ai/interface/widgets/SettingsWidget.h)
 
 # Main Executable
 add_executable(roboteam_ai
@@ -334,7 +334,7 @@ add_executable(roboteam_ai
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
 
-        )
+        src/Settings/Settings.cpp)
 
 target_link_libraries(roboteam_ai Qt5::Widgets Qt5::Gui roboteam_utils)
 
