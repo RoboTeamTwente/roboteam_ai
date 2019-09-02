@@ -7,6 +7,8 @@
 
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QSpinBox>
 
 namespace rtt {
 namespace ai {
@@ -18,8 +20,12 @@ Q_OBJECT
 private:
     QVBoxLayout *vLayout;
     void updateLabels();
+  QLineEdit * grsimIpText;
+  QSpinBox * grsimPort;
 public:
     explicit SettingsWidget(QWidget*parent = nullptr);
+
+
 
 public slots:
     void changeTeamColor(bool isYellow);

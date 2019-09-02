@@ -35,14 +35,14 @@ SettingsWidget::SettingsWidget(QWidget * parent) {
     auto visionSettingsWidgetLayout = new QHBoxLayout();
     auto visionIpText = new QLineEdit();
     visionIpText->setText(QString::fromStdString(SETTINGS.getVisionIp()));
-    QObject::connect(visionIpText, SIGNAL(valueChanged(QString)), this, SLOT(changeVisionIp()));
+    QObject::connect(visionIpText, SIGNAL(textChanged(QString)), this, SLOT(changeVisionIp(QString)));
     visionSettingsWidgetLayout->addWidget(visionIpText);
     auto visionPort = new QSpinBox();
     visionPort->setRange(0, 999999);
     visionPort->setValue(SETTINGS.getVisionPort());
     visionSettingsWidgetLayout->addWidget(visionPort);
     visionSettingsGroup->setLayout(visionSettingsWidgetLayout);
-    QObject::connect(visionPort, SIGNAL(valueChanged(QString)), this, SLOT(changeVisionPort()));
+    QObject::connect(visionPort, SIGNAL(textChanged(QString)), this, SLOT(changeVisionPort(int)));
     vLayout->addWidget(visionSettingsGroup);
 
     // referee ip + port settings
@@ -50,29 +50,29 @@ SettingsWidget::SettingsWidget(QWidget * parent) {
     auto refereeSettingsWidgetLayout = new QHBoxLayout();
     auto refereeIpText = new QLineEdit();
     refereeIpText->setText(QString::fromStdString(SETTINGS.getRefereeIp()));
-    QObject::connect(refereeIpText, SIGNAL(valueChanged(QString)), this, SLOT(changeRefereeIp()));
+    QObject::connect(refereeIpText, SIGNAL(textChanged(QString)), this, SLOT(changeRefereeIp(QString)));
     refereeSettingsWidgetLayout->addWidget(refereeIpText);
     auto refereePort = new QSpinBox();
     refereePort->setRange(0, 999999);
     refereePort->setValue(SETTINGS.getRefereePort());
     refereeSettingsWidgetLayout->addWidget(refereePort);
     refereeSettingsGroup->setLayout(refereeSettingsWidgetLayout);
-    QObject::connect(refereePort, SIGNAL(valueChanged(QString)), this, SLOT(changeRefereePort()));
+    QObject::connect(refereePort, SIGNAL(textChanged(QString)), this, SLOT(changeRefereePort(int)));
     vLayout->addWidget(refereeSettingsGroup);
 
     // grsim ip + port settings
     QGroupBox * grsimSettingsGroup = new QGroupBox("grsim transmission ip + port");
     auto grsimSettingsWidgetLayout = new QHBoxLayout();
-    auto grsimIpText = new QLineEdit();
+    grsimIpText = new QLineEdit();
     grsimIpText->setText(QString::fromStdString(SETTINGS.getRobothubSendIp()));
-    QObject::connect(grsimIpText, SIGNAL(valueChanged(QString)), this, SLOT(changeGrSimIp()));
+    QObject::connect(grsimIpText, SIGNAL(textChanged(QString)), this, SLOT(changeGrSimIp(QString)));
     grsimSettingsWidgetLayout->addWidget(grsimIpText);
-    auto grsimPort = new QSpinBox();
+    grsimPort = new QSpinBox();
     grsimPort->setRange(0, 999999);
     grsimPort->setValue(SETTINGS.getRobothubSendPort());
     grsimSettingsWidgetLayout->addWidget(grsimPort);
     grsimSettingsGroup->setLayout(grsimSettingsWidgetLayout);
-    QObject::connect(grsimPort, SIGNAL(valueChanged(QString)), this, SLOT(changeGrSimPort()));
+    QObject::connect(grsimPort, SIGNAL(textChanged(QString)), this, SLOT(changeGrSimPort(int)));
     vLayout->addWidget(grsimSettingsGroup);
 
     auto spacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -108,10 +108,12 @@ void SettingsWidget::changeRefereePort(int port) {
 }
 
 void SettingsWidget::changeGrSimIp(QString ip) {
+    std::cout << "setting grsimip" << std::endl;
     SETTINGS.setRobothubSendIp(ip.toStdString());
 }
 
 void SettingsWidget::changeGrSimPort(int port) {
+    std::cout << "setting grsimport" << std::endl;
     SETTINGS.setRobothubSendPort(port);
 }
 
