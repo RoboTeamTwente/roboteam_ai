@@ -10,6 +10,8 @@ include_directories(${ARMADILLO_INCLUDE_DIRS})
 add_library(net STATIC
         src/net/netraw.cpp
         src/net/robocup_ssl_client.cpp)
+target_link_libraries(net
+        PUBLIC roboteam_proto)
 
 add_executable(kalman_world
         src/kalman/kalman_world_main.cpp
