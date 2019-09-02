@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.10)
 project(roboteam_world)
 
 # Needed for the documentation generator.
@@ -7,29 +7,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 find_package(Armadillo REQUIRED)
 include_directories(${ARMADILLO_INCLUDE_DIRS})
 
-## Enable c++17 support.
-set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -g ${CMAKE_CXX_FLAGS} -O0")
-
-#
-#add_library(dummy_world STATIC src/dummy_world/dummy_world_main.cpp ${SOURCES})
-#target_link_libraries(dummy_world ${ARMADILLO_LIBRARIES})
-
-####################
-## Filtered world ##
-####################
-
-#add_library(filtered_world STATIC src/filtered_world/filtered_world_main.cpp ${SOURCES})
-#target_link_libraries(filtered_world ${ARMADILLO_LIBRARIES})
-
-
 add_library(net STATIC
         src/net/netraw.cpp
         src/net/robocup_ssl_client.cpp)
-target_link_libraries(net roboteam_proto)
 
-####################
-## Kalman world   ##
-####################
 add_executable(kalman_world
         src/kalman/kalman_world_main.cpp
         src/utils/predictor.cpp
@@ -50,27 +31,9 @@ target_include_directories(kalman_world PUBLIC
         $<INSTALL_INTERFACE:include>
         PRIVATE src )
 
-target_link_libraries(kalman_world ${ARMADILLO_LIBRARIES} net roboteam_utils roboteam_proto)
+target_link_libraries(kalman_world
+        PRIVATE ${ARMADILLO_LIBRARIES}
+        PRIVATE net
+        PRIVATE roboteam_utils
+        PUBLIC roboteam_proto)
 
-###########
-## Tests ##
-###########
-
-#catkin_add_gtest(world_test
-#    test/main.cpp
-#        test/KalmanTest.cpp
-#        test/BasicTest.cpp
-#        test/WorldTest.cpp
-#        src/filtered_world/filtered_world.cpp
-#
-#        )
-#target_link_libraries(world_test
-#    roboteam_world_srcs
-#    ${catkin_LIBRARIES}
-#        ${ARMADILLO_LIBRARIES}
-#
-#        )
-#add_dependencies(world_test
-#    ${${PROJECT_NAME}_EXPORTED_TARGETS}
-#    ${catkin_EXPORTED_TARGETS}
-#    )
