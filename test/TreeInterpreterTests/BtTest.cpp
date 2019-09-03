@@ -1,19 +1,19 @@
 #include <gtest/gtest.h>
-#include <roboteam_ai/skills/Halt.h>
-#include <roboteam_ai/bt/BehaviorTree.hpp>
-#include <roboteam_ai/bt/composites/MemSequence.hpp>
-#include <roboteam_ai/bt/composites/ParallelSequence.hpp>
-#include <roboteam_ai/bt/Node.hpp>
-#include <roboteam_ai/bt/composites/MemParallelSequence.h>
-#include <roboteam_ai/bt/composites/Sequence.hpp>
-#include <roboteam_ai/bt/composites/Selector.hpp>
-#include <roboteam_ai/bt/composites/MemSelector.hpp>
-#include <roboteam_ai/bt/decorators/Repeater.hpp>
-#include <roboteam_ai/bt/decorators/UntilFail.hpp>
-#include <roboteam_ai/bt/decorators/UntilSuccess.hpp>
-#include <roboteam_ai/bt/decorators/Succeeder.hpp>
-#include <roboteam_ai/bt/decorators/Inverter.hpp>
-#include <roboteam_ai/bt/decorators/Failer.hpp>
+#include <skills/Halt.h>
+#include <bt/BehaviorTree.hpp>
+#include <bt/composites/MemSequence.hpp>
+#include <bt/composites/ParallelSequence.hpp>
+#include <bt/Node.hpp>
+#include <bt/composites/MemParallelSequence.h>
+#include <bt/composites/Sequence.hpp>
+#include <bt/composites/Selector.hpp>
+#include <bt/composites/MemSelector.hpp>
+#include <bt/decorators/Repeater.hpp>
+#include <bt/decorators/UntilFail.hpp>
+#include <bt/decorators/UntilSuccess.hpp>
+#include <bt/decorators/Succeeder.hpp>
+#include <bt/decorators/Inverter.hpp>
+#include <bt/decorators/Failer.hpp>
 
 namespace bt {
 

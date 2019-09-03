@@ -92,7 +92,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
         ${PROJECT_SOURCE_DIR}/src/control/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp)
+        ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
+        ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
 
 
 set(SKILLS_SOURCES
@@ -334,7 +335,7 @@ add_executable(roboteam_ai
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
 
-        src/Settings/Settings.cpp)
+        )
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
@@ -372,7 +373,8 @@ target_link_libraries(ai_tests
 
 target_include_directories(ai_tests
         INTERFACE include
-        PRIVATE include)
+        PRIVATE include/roboteam_ai
+        PRIVATE src )
 #
 #
 #include(CodeCoverage)

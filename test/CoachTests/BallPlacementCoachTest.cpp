@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/coach/BallplacementCoach.h>
-#include <roboteam_ai/src/interface/api/Output.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
-#include <roboteam_ai/src/world/World.h>
+#include <coach/BallplacementCoach.h>
+#include <interface/api/Output.h>
+#include <control/ControlUtils.h>
+#include <world/World.h>
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
     rtt::ai::interface::Output::setMarkerPosition({2.3, 0.3});

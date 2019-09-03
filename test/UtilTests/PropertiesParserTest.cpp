@@ -4,8 +4,8 @@
 
 #include <utility>
 #include <gtest/gtest.h>
-#include "roboteam_ai/treeinterp/json.h"
-#include "roboteam_ai/treeinterp/TreeInterpreter.h"
+#include "treeinterp/json.h"
+#include "treeinterp/TreeInterpreter.h"
 
 TEST(PropertiesParserTest, ParseCorrectVars) {
 

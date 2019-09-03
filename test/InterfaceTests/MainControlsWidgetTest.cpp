@@ -2,12 +2,12 @@
 // Created by mrlukasbos on 7-5-19.
 //
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/api/Output.h>
-#include <roboteam_ai/src/interface/widgets/widget.h>
+#include <interface/api/Output.h>
+#include <interface/widgets/widget.h>
 #include <QtWidgets/QApplication>
-#include <roboteam_ai/src/interface/widgets/mainWindow.h>
+#include <interface/widgets/mainWindow.h>
 #include <ros/node_handle.h>
-#include <roboteam_ai/src/interface/widgets/MainControlsWidget.h>
+#include <interface/widgets/MainControlsWidget.h>
 
 namespace w = rtt::ai::world;
 

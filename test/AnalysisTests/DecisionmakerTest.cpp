@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/analysis/DecisionMaker.h>
+#include <analysis/DecisionMaker.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <world/World.h>
+#include <utilities/RobotDealer.h>
 
 namespace rtt {
 namespace ai {

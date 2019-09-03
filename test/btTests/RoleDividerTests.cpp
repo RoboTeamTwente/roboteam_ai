@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/bt/decorators/Succeeder.hpp>
-#include "include/roboteam_ai/bt/RoleDivider.h"
+#include <bt/decorators/Succeeder.hpp>
+#include "bt/RoleDivider.h"
 
 TEST(roledividerTest, role_divider) {
     bt::RoleDivider rd;

@@ -9,6 +9,8 @@
 #include "roboteam_proto/FieldCircularArc.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/Vector2.h>
+#include "gtest/gtest_prod.h"
+
 namespace rtt {
 
 struct FieldLineSegment {
@@ -29,7 +31,18 @@ struct FieldArc {
 
 
 class FieldMessage {
- private:
+  FRIEND_TEST(FieldTest, line_intersects_with_defence_area);
+  FRIEND_TEST(FieldTest, it_gets_points_in_defence_area);
+  FRIEND_TEST(FieldTest, it_returns_proper_goal_centers);
+  FRIEND_TEST(FieldTest, it_detects_points_in_field_properly);
+  FRIEND_TEST(FieldTest, it_calculates_obstacles);
+  FRIEND_TEST(FieldTest, penalty_points);
+  FRIEND_TEST(FieldTest, goal_angle);
+
+private:
+
+
+
   double width;
   double length;
   double goalWidth;

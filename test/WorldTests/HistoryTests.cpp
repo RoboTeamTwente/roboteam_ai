@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "include/roboteam_ai/world/History.h"
+#include "world/History.h"
 
 namespace rtt {
 namespace ai {

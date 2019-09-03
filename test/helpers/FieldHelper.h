@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_FIELDHELPER_H
 
 #include <roboteam_utils/Vector2.h>
-#include <GeometryFieldSize.pb.h>
-#include "roboteam_ai/world/Field.h"
+#include <roboteam_proto/GeometryFieldSize.pb.h>
+#include "world/Field.h"
 
 namespace testhelpers {
 

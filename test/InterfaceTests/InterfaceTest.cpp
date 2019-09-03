@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/api/Output.h>
+#include <interface/api/Output.h>
 
 TEST(InterfaceTest, the_interface_values_work) {
     using iv = rtt::ai::interface::Output;

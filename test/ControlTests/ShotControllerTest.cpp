@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 25-4-19.
 //
 
-#include "roboteam_ai/src/control/shotControllers/ShotController.h"
+#include "control/shotControllers/ShotController.h"
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include <roboteam_ai/test/helpers/FieldHelper.h>

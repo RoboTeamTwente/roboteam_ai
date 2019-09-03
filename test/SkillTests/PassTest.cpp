@@ -3,12 +3,12 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <utilities/RobotDealer.h>
 #include "include/roboteam_ai/skills/Pass.h"
 #include "include/roboteam_ai/coach/PassCoach.h"
-#include "roboteam_ai/src/control/PositionUtils.h"
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/src/world/World.h"
+#include "control/PositionUtils.h"
+#include "world/Field.h"
+#include "world/World.h"
 #include "../helpers/FieldHelper.h"
 #include <cmath>
 

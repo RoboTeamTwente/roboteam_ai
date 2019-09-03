@@ -5,8 +5,8 @@
 
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/src/coach/PassCoach.h>
+#include <world/Field.h>
+#include <coach/PassCoach.h>
 #include "include/roboteam_ai/world/BallPossession.h"
 
 namespace rtt {

@@ -3,12 +3,12 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/conditions/CanReflectKick.h"
+#include "conditions/CanReflectKick.h"
 #include "../helpers/FieldHelper.h"
-#include "roboteam_ai/src/world/World.h"
-#include "roboteam_ai/src/world/Robot.h"
-#include "roboteam_ai/src/utilities/Constants.h"
-#include "roboteam_ai/src/utilities/RobotDealer.h"
+#include "world/World.h"
+#include "world/Robot.h"
+#include "utilities/Constants.h"
+#include "utilities/RobotDealer.h"
 
 TEST(CanReflectKickTest, can_reflect_kick) {
     auto field = testhelpers::FieldHelper::generateField(12, 9);

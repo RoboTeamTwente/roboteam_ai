@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/conditions/BallOutOfField.h>
+#include <conditions/BallOutOfField.h>
 #include "include/roboteam_ai/world/World.h"
-#include "roboteam_ai/src/world/Field.h"
+#include "world/Field.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
 
 namespace rd = rtt::ai::robotDealer;

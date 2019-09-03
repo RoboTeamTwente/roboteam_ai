@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/io/IOManager.h"
+#include "io/IOManager.h"
 
 namespace {
 

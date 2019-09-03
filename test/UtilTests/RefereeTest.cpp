@@ -2,9 +2,9 @@
 // Created by mrlukasbos on 14-11-18.
 //
 
-#include <messages_robocup_ssl_referee.pb.h>
-#include <roboteam_ai/interface/api/Output.h>
-#include "roboteam_ai/utilities/GameStateManager.hpp"
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+#include <interface/api/Output.h>
+#include "utilities/GameStateManager.hpp"
 #include "gtest/gtest.h"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {

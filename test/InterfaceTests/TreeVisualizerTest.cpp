@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/interface/widgets/TreeVisualizerWidget.h>
-#include <roboteam_ai/src/interface/widgets/mainWindow.h>
-#include <roboteam_ai/src/treeinterp/BTFactory.h>
-#include <roboteam_ai/src/skills/Halt.h>
+#include <interface/widgets/TreeVisualizerWidget.h>
+#include <interface/widgets/mainWindow.h>
+#include <treeinterp/BTFactory.h>
+#include <skills/Halt.h>
 
 namespace rtt {
 namespace ai {

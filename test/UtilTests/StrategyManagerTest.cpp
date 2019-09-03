@@ -2,9 +2,9 @@
 // Created by mrlukasbos on 14-11-18.
 //
 
-#include <RobotCommand.pb.h>
-#include <messages_robocup_ssl_referee.pb.h>
-#include "roboteam_ai/utilities/StrategyManager.h"
+#include <roboteam_proto/RobotCommand.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+#include "utilities/StrategyManager.h"
 #include "gtest/gtest.h"
 
 TEST(StrategyManagerTest, StrategyManagerTest) {

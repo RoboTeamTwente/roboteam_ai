@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/coach/OffensiveCoach.h>
-#include <roboteam_ai/src/control/ControlUtils.h>
+#include <coach/OffensiveCoach.h>
+#include <control/ControlUtils.h>
 #include "../helpers/FieldHelper.h"
 #include "../helpers/WorldHelper.h"
 

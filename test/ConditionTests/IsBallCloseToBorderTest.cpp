@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
-#include <roboteam_ai/src/world/World.h>
+#include <utilities/RobotDealer.h>
+#include <world/World.h>
 #include "include/roboteam_ai/conditions/IsBallCloseToBorder.h"
-#include "roboteam_ai/src/world/Field.h"
+#include "world/Field.h"
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;

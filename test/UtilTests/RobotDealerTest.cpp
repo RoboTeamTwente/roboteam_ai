@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/utilities/RobotDealer.h"
-#include "roboteam_ai/src/world/World.h"
+#include "/utilities/RobotDealer.h"
+#include "/world/World.h"
 
 TEST(RobotDealerTest, RobotDealerTest) {
     using robot = rtt::ai::robotDealer::RobotType;

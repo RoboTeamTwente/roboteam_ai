@@ -2,7 +2,7 @@
 // Created by Lukas Bos on 30/08/2019.
 //
 
-#include <utilities/FieldMessage.h>
+#include <include/roboteam_ai/world/FieldMessage.h>
 namespace rtt {
 
 FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {

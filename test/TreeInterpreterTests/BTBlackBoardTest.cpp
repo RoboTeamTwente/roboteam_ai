@@ -2,7 +2,7 @@
 #include <utility>
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/bt/Blackboard.hpp>
+#include <bt/Blackboard.hpp>
 
 TEST(BTBlackBoardTest, Blackboard) {
 

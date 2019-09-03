@@ -4,9 +4,9 @@
 
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/control/numTrees/NumTreePosControl.h>
-#include <roboteam_ai/src/utilities/GameStateManager.hpp>
-#include <roboteam_ai/src/utilities/RobotDealer.h>
+#include <control/numTrees/NumTreePosControl.h>
+#include <utilities/GameStateManager.hpp>
+#include <utilities/RobotDealer.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 
 namespace rtt {

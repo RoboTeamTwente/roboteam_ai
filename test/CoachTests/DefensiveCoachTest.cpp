@@ -4,10 +4,10 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/FieldHelper.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
-#include "roboteam_ai/src/utilities/Constants.h"
-#include "roboteam_ai/src/coach/defence/DefencePositionCoach.h"
-#include "roboteam_ai/src/coach/defence/DefenceDealer.h"
-#include "roboteam_ai/src/control/ControlUtils.h"
+#include "utilities/Constants.h"
+#include "coach/defence/DefencePositionCoach.h"
+#include "coach/defence/DefenceDealer.h"
+#include "control/ControlUtils.h"
 
 namespace w=rtt::ai::world;
 namespace rtt {
