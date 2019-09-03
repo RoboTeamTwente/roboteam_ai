@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_OFFENSIVESCORE_H
 
 #include "CoachHeuristics.h"
-#include <GeometryFieldSize.pb.h>
+#include "roboteam_proto/GeometryFieldSize.pb.h"
 #include <include/roboteam_ai/utilities/FieldMessage.h>
 
 namespace rtt {

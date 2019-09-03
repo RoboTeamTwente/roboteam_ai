@@ -11,8 +11,8 @@
 #include <roboteam_utils/Polygon.h>
 #include "mutex"
 #include <cmath>
-#include <messages_robocup_ssl_geometry.pb.h>
-#include <GeometryFieldSize.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
+#include "roboteam_proto/GeometryFieldSize.pb.h"
 #include <include/roboteam_ai/utilities/FieldMessage.h>
 
 namespace rtt {

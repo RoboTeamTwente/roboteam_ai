@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_WORLDDATA_H
 
 #include <include/roboteam_ai/Settings/Settings.h>
-#include "World.pb.h"
+#include "roboteam_proto/World.pb.h"
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"

@@ -5,9 +5,9 @@
 #ifndef RTT_FIELDMESSAGE_H
 #define RTT_FIELDMESSAGE_H
 
-#include <FieldLineSegment.pb.h>
-#include <FieldCircularArc.pb.h>
-#include <messages_robocup_ssl_geometry.pb.h>
+#include "roboteam_proto/FieldLineSegment.pb.h"
+#include "roboteam_proto/FieldCircularArc.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/Vector2.h>
 namespace rtt {
 

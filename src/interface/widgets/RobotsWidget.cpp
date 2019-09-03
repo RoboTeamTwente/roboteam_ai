@@ -4,7 +4,7 @@
 
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-#include <WorldRobot.pb.h>
+#include "roboteam_proto/WorldRobot.pb.h"
 #include "include/roboteam_ai/interface/widgets/RobotsWidget.h"
 #include <QScrollArea>
 #include "include/roboteam_ai/analysis/GameAnalyzer.h"

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <memory>
-#include "StringEntry.pb.h"
+#include "roboteam_proto/StringEntry.pb.h"
 #include "include/roboteam_ai/bt/Blackboard.hpp"
 
 namespace bt {

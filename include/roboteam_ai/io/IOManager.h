@@ -3,21 +3,21 @@
 
 #include <iostream>
 #include "constants.h"
-#include "World.pb.h"
-#include <RobotFeedback.pb.h>
-#include <RobotCommand.pb.h>
-#include "Referee.pb.h"
-#include "Setting.pb.h"
+#include "roboteam_proto/World.pb.h"
+#include "roboteam_proto/RobotFeedback.pb.h"
+#include "roboteam_proto/RobotCommand.pb.h"
+#include "roboteam_proto/Referee.pb.h"
+#include "roboteam_proto/Setting.pb.h"
 
-#include <DemoRobot.pb.h>
+#include "roboteam_proto/DemoRobot.pb.h"
 #include <mutex>
-#include <Subscriber.h>
-#include <Publisher.h>
+#include "roboteam_proto/Subscriber.h"
+#include "roboteam_proto/Publisher.h"
 
-#include <messages_robocup_ssl_geometry.pb.h>
-#include <GeometryData.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
+#include "roboteam_proto/GeometryData.pb.h"
 #include <include/roboteam_ai/utilities/FieldMessage.h>
-#include <messages_robocup_ssl_referee.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 
 namespace rtt {
 namespace ai {

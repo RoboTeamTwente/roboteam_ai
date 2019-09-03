@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ROBOT_H
 #define ROBOTEAM_AI_ROBOT_H
 
-#include <WorldRobot.pb.h>
+#include "roboteam_proto/WorldRobot.pb.h"
 #include <roboteam_utils/Vector2.h>
 #include <roboteam_utils/Angle.h>
 #include <gtest/gtest_prod.h>

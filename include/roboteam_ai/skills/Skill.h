@@ -3,7 +3,7 @@
 
 #include "include/roboteam_ai/bt/Leaf.hpp"
 #include "include/roboteam_ai/io/IOManager.h"
-#include <RobotCommand.pb.h>
+#include "roboteam_proto/RobotCommand.pb.h"
 #include <roboteam_utils/Angle.h>
 
 namespace rtt {

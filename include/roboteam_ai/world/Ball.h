@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BALL_H
 #define ROBOTEAM_AI_BALL_H
 
-#include "WorldBall.pb.h"
+#include "roboteam_proto/WorldBall.pb.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 

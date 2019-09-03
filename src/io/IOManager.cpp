@@ -5,10 +5,10 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
-#include <DemoRobot.pb.h>
-#include <RobotFeedback.pb.h>
+#include "roboteam_proto/DemoRobot.pb.h"
+#include "roboteam_proto/RobotFeedback.pb.h"
 #include <include/roboteam_ai/io/IOManager.h>
-#include <messages_robocup_ssl_geometry.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/constants.h>
 #include <include/roboteam_ai/Settings/Settings.h>
 

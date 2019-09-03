@@ -8,7 +8,7 @@
 #include <vector>
 #include <mutex>
 #include <set>
-#include <DemoRobot.pb.h>
+#include "roboteam_proto/DemoRobot.pb.h"
 
 namespace demo {
 class JoystickDemo {

@@ -11,7 +11,7 @@
 #include "include/roboteam_ai/analysis/GameAnalyzer.h"
 #include "include/roboteam_ai/world/Field.h"
 
-#include "GeometryFieldSize.pb.h"
+#include "roboteam_proto/GeometryFieldSize.pb.h"
 
 namespace rtt {
 namespace ai {
