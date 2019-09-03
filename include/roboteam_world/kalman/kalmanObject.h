@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_WORLD_KALMANOBJECT_H
 #define ROBOTEAM_WORLD_KALMANOBJECT_H
 
-#include <messages_robocup_ssl_detection.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 #include "armadillo"
 #include "roboteam_utils/Position.h"
 #include "constantsK.h"

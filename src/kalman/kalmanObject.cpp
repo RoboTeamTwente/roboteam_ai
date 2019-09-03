@@ -3,7 +3,7 @@
 //
 
 #include <roboteam_world/kalman/kalmanObject.h>
-#include <messages_robocup_ssl_detection.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 namespace rtt {
 
     void kalmanObject::kalmanUpdateK() {

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "messages_robocup_ssl_detection.pb.h"
-#include "World.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
+#include "roboteam_proto/World.pb.h"
 #include "roboteam_world/world/world_dummy.h"
 #include "roboteam_world/world/filtered_world.h"
-#include "Subscriber.h"
-#include <Publisher.h>
+#include "roboteam_proto/Subscriber.h"
+#include <roboteam_proto/Publisher.h>
 #include <roboteam_world/net/robocup_ssl_client.h>
 #include "kalman/kalmanFilter.h"
 

@@ -6,7 +6,7 @@
 #define ROBOTEAM_WORLD_KALMANBALL_H
 
 #include "kalmanObject.h"
-#include "WorldBall.pb.h"
+#include "roboteam_proto/WorldBall.pb.h"
 namespace rtt {
 
 class kalmanBall : public kalmanObject {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WorldRobot.pb.h"
+#include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Position.h"
 
 #define INVALID_ROBOT_ID 99999

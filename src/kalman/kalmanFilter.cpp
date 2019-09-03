@@ -2,7 +2,7 @@
 // Created by kjhertenberg on 13-5-19.
 //
 
-#include <messages_robocup_ssl_detection.pb.h>
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 #include <roboteam_world/kalman/kalmanFilter.h>
 
 #include "roboteam_world/kalman/kalmanFilter.h"

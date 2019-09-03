@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WorldBall.pb.h"
+#include "roboteam_proto/WorldBall.pb.h"
 #include "roboteam_utils/Position.h"
 
 #define INVALID_AREA 99999

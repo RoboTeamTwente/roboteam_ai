@@ -3,9 +3,9 @@
 #include <map>
 #include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
-#include <messages_robocup_ssl_detection.pb.h>
-#include "World.pb.h"
-#include "WorldRobot.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
+#include "roboteam_proto/World.pb.h"
+#include "roboteam_proto/WorldRobot.pb.h"
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/constants.h"

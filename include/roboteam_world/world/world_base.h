@@ -1,6 +1,6 @@
 #pragma once
 
-#include "World.pb.h"
+#include "roboteam_proto/World.pb.h"
 
 
 namespace rtt {

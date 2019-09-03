@@ -11,8 +11,8 @@
 #include "kalmanThem.h"
 #include "kalmanBall.h"
 #include "roboteam_utils/Position.h"
-#include "WorldRobot.pb.h"
-#include "World.pb.h"
+#include "roboteam_proto/WorldRobot.pb.h"
+#include "roboteam_proto/World.pb.h"
 
 namespace rtt {
 

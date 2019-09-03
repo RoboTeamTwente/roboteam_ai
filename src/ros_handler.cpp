@@ -1,7 +1,7 @@
 #include "roboteam_world/ros_handler.h"
 #include "roboteam_utils/constants.h"
-#include "messages_robocup_ssl_wrapper.pb.h"
-#include "messages_robocup_ssl_wrapper_legacy.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_wrapper.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_wrapper_legacy.pb.h"
 #include <roboteam_world/net/robocup_ssl_client.h>
 #include <sstream>
 
