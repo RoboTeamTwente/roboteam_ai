@@ -3,10 +3,10 @@
 // Created by rolf on 18-2-19.
 //
 
-#include "include/roboteam_ai/coach/defence/DefencePositionCoach.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/utilities/RobotDealer.h"
+#include "coach/defence/DefencePositionCoach.h"
+#include "world/Field.h"
+#include "control/ControlUtils.h"
+#include "utilities/RobotDealer.h"
 /// This is a class that computes useful lines and positions for computing defender positions
 namespace rtt {
 namespace ai {

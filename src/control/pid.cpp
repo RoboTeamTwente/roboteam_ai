@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 29-3-19.
 //
 
-#include "include/roboteam_ai/control/pid.h"
-#include "include/roboteam_ai/utilities/Constants.h"
+#include "control/pid.h"
+#include "utilities/Constants.h"
 
 //**********************************
 //Constructor functions

@@ -8,12 +8,12 @@
  *
  */
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/world/Robot.h>
-#include <include/roboteam_ai/world/Ball.h>
-#include "include/roboteam_ai/control/PositionUtils.h"
+#include <control/ControlUtils.h>
+#include <world/Field.h>
+#include <world/World.h>
+#include <world/Robot.h>
+#include <world/Ball.h>
+#include "control/PositionUtils.h"
 
 namespace rtt {
 namespace ai {

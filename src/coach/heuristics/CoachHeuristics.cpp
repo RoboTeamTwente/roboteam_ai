@@ -2,10 +2,10 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <include/roboteam_ai/analysis/GameAnalyzer.h>
-#include "include/roboteam_ai/coach/heuristics/CoachHeuristics.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <analysis/GameAnalyzer.h>
+#include "coach/heuristics/CoachHeuristics.h"
+#include "world/Field.h"
+#include "control/ControlUtils.h"
 
 #include <cmath>
 

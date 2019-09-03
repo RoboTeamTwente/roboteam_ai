@@ -2,12 +2,12 @@
 // Created by mrlukasbos on 19-3-19.
 //
 
-#include "include/roboteam_ai/coach/PassCoach.h"
-#include "include/roboteam_ai/coach/heuristics/PassScore.h"
-#include "include/roboteam_ai/utilities/RobotDealer.h"
-#include "include/roboteam_ai/world/Field.h"
+#include "coach/PassCoach.h"
+#include "coach/heuristics/PassScore.h"
+#include "utilities/RobotDealer.h"
+#include "world/Field.h"
 #include <chrono>
-#include <include/roboteam_ai/world/World.h>
+#include <world/World.h>
 
 namespace rtt {
 namespace ai {

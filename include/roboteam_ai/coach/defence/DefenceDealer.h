@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEFENDASSIGNCOACH_H
 #define ROBOTEAM_AI_DEFENDASSIGNCOACH_H
 
-#include "include/roboteam_ai/world/World.h"
+#include "world/World.h"
 #include "DefencePositionCoach.h"
 #include "roboteam_utils/Vector2.h"
 

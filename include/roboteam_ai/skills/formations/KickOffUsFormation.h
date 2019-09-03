@@ -7,7 +7,7 @@
 
 
 
-#include "include/roboteam_ai/skills/formations/Formation.h"
+#include "skills/formations/Formation.h"
 
 namespace rtt {
 namespace ai {

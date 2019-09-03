@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 8-2-19.
 //
 
-#include "include/roboteam_ai/utilities/Constants.h"
+#include "utilities/Constants.h"
 #include <iostream>
 #include <vector>
 

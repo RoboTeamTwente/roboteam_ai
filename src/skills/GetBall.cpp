@@ -2,9 +2,9 @@
 // Created by rolf on 04/12/18.
 //
 
-#include "include/roboteam_ai/skills/GetBall.h"
-#include "include/roboteam_ai/utilities/Constants.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include "skills/GetBall.h"
+#include "utilities/Constants.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

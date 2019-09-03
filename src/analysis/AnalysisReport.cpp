@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 5-3-19.
 //
 
-#include "include/roboteam_ai/analysis/AnalysisReport.h"
+#include "analysis/AnalysisReport.h"
 
 namespace rtt {
 namespace ai {

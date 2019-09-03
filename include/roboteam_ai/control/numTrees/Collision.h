@@ -7,9 +7,9 @@
 
 #include <memory>
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
+#include <utilities/GameStateManager.hpp>
+#include "world/Robot.h"
+#include "world/Ball.h"
 
 namespace rtt {
 namespace ai {

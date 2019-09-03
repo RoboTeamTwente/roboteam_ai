@@ -2,9 +2,9 @@
 * Return SUCCESS if their robots has the ball, otherwise FAILURE
 */
 
-#include "include/roboteam_ai/conditions/TheyHaveBall.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "conditions/TheyHaveBall.h"
+#include "world/World.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

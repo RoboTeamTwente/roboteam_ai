@@ -3,9 +3,9 @@
  * otherwise FAILURE
  */
 
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/Ball.h>
-#include "include/roboteam_ai/conditions/BallOutOfField.h"
+#include <world/Field.h>
+#include <world/Ball.h>
+#include "conditions/BallOutOfField.h"
 
 namespace rtt {
 namespace ai {

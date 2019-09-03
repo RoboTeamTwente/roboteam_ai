@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 3-5-19.
 //
 
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
-#include "include/roboteam_ai/skills/ballPlacement/BallPlacementPass.h"
+#include <coach/BallplacementCoach.h>
+#include "skills/ballPlacement/BallPlacementPass.h"
 
 namespace rtt {
 namespace ai {

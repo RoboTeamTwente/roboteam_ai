@@ -8,9 +8,9 @@
 #ifndef ROBOTEAM_AI_ANALYSISREPORT_H
 #define ROBOTEAM_AI_ANALYSISREPORT_H
 
-#include <WorldRobot.pb.h>
+#include "roboteam_proto/WorldRobot.pb.h"
 #include "RobotDanger.h"
-#include "include/roboteam_ai/world/WorldData.h"
+#include "world/WorldData.h"
 
 namespace rtt {
 namespace ai {

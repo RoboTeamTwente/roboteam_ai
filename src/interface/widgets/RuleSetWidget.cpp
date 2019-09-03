@@ -4,10 +4,10 @@
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSpacerItem>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include <utilities/GameStateManager.hpp>
 #include <QtWidgets/QLabel>
-#include "include/roboteam_ai/interface/widgets/RuleSetWidget.h"
-#include "include/roboteam_ai/interface/widgets/mainWindow.h"
+#include "interface/widgets/RuleSetWidget.h"
+#include "interface/widgets/mainWindow.h"
 
 namespace rtt {
 namespace ai {

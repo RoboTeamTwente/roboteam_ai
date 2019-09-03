@@ -1,7 +1,7 @@
 #include <memory>
 #include <iostream>
-#include "include/roboteam_ai/bt/Blackboard.hpp"
-#include "include/roboteam_ai/bt/Node.hpp"
+#include "bt/Blackboard.hpp"
+#include "bt/Node.hpp"
 
 namespace bt {
 

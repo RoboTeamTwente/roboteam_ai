@@ -2,9 +2,9 @@
 // Created by mrlukasbos on 12-4-19.
 //
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/skills/formations/TimeoutFormation.h"
-#include "include/roboteam_ai/control/Hungarian.h"
+#include <world/Field.h>
+#include "skills/formations/TimeoutFormation.h"
+#include "control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

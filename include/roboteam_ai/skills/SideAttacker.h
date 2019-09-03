@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_SIDEATTACKER_H
 
 #include "Skill.h"
-#include <include/roboteam_ai/coach/OffensiveCoach.h>
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
+#include <coach/OffensiveCoach.h>
+#include <control/numTrees/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
 
 namespace rtt {

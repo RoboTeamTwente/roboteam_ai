@@ -2,9 +2,9 @@
 // Created by baris on 24/10/18.
 //
 
-#include "include/roboteam_ai/skills/gotopos/GoToPos.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include "skills/gotopos/GoToPos.h"
+#include "world/Field.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

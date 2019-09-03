@@ -2,9 +2,9 @@
 // Created by robzelluf on 4/17/19.
 //
 
-#include "include/roboteam_ai/coach/heuristics/OffensiveScore.h"
-#include "include/roboteam_ai/coach/OffensiveCoach.h"
-#include "include/roboteam_ai/world/Field.h"
+#include "coach/heuristics/OffensiveScore.h"
+#include "coach/OffensiveCoach.h"
+#include "world/Field.h"
 
 namespace rtt {
 namespace ai {

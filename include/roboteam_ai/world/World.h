@@ -8,10 +8,10 @@
 #include <thread>
 #include <vector>
 #include <roboteam_utils/Vector2.h>
-#include <WorldRobot.pb.h>
-#include <World.pb.h>
+#include "roboteam_proto/WorldRobot.pb.h"
+#include "roboteam_proto/World.pb.h"
 
-#include "include/roboteam_ai/utilities/Constants.h"
+#include "utilities/Constants.h"
 #include "Team.h"
 #include "WhichRobots.h"
 

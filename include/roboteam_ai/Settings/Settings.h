@@ -5,7 +5,7 @@
 #ifndef RTT_SETTINGS_H
 #define RTT_SETTINGS_H
 
-#include <Setting.pb.h>
+#include "roboteam_proto/Setting.pb.h"
 
 namespace rtt {
 

@@ -1,9 +1,9 @@
 #ifndef ROBOTEAM_AI_SKILL_H
 #define ROBOTEAM_AI_SKILL_H
 
-#include "include/roboteam_ai/bt/Leaf.hpp"
-#include "include/roboteam_ai/io/IOManager.h"
-#include <RobotCommand.pb.h>
+#include "bt/Leaf.hpp"
+#include "io/IOManager.h"
+#include "roboteam_proto/RobotCommand.pb.h"
 #include <roboteam_utils/Angle.h>
 
 namespace rtt {

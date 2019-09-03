@@ -2,11 +2,10 @@
 // Created by robzelluf on 4/25/19.
 //
 
-#include "include/roboteam_ai/conditions/IsOnPassLine.h"
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/world/Ball.h>
-
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include "conditions/IsOnPassLine.h"
+#include <world/World.h>
+#include <world/Ball.h>
+#include <control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {

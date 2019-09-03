@@ -2,14 +2,14 @@
 // Created by mrlukasbos on 24-1-19.
 //
 
-#include "include/roboteam_ai/skills/AvoidBall.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include "skills/AvoidBall.h"
+#include "control/ControlUtils.h"
 #include <cmath>
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
-#include <include/roboteam_ai/interface/api/Input.h>
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "include/roboteam_ai/utilities/RobotDealer.h"
+#include <coach/BallplacementCoach.h>
+#include <interface/api/Input.h>
+#include "world/Field.h"
+#include "control/numTrees/NumTreePosControl.h"
+#include "utilities/RobotDealer.h"
 
 namespace rtt {
 namespace ai {

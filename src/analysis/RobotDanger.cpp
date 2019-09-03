@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 5-3-19.
 //
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/analysis/RobotDanger.h"
+#include <world/Field.h>
+#include "analysis/RobotDanger.h"
 
 namespace rtt {
 namespace ai {

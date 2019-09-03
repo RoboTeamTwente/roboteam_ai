@@ -7,10 +7,10 @@
  *  - if robot or ball is undefined
  */
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/conditions/HasBall.hpp"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include <control/ControlUtils.h>
+#include "conditions/HasBall.hpp"
+#include "world/World.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

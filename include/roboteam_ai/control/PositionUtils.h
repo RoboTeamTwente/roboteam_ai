@@ -7,7 +7,7 @@
 #define ROBOTEAM_AI_GENERALPOSITIONCOACH_H
 
 #include "roboteam_utils/Vector2.h"
-#include <include/roboteam_ai/utilities/Constants.h>
+#include <utilities/Constants.h>
 
 namespace rtt {
 namespace ai {

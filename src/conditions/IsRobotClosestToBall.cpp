@@ -5,10 +5,10 @@
  *  - atBallStillPosition: the position where the ball is expected to lay still due to rolling friction
  */ 
 
-#include "include/roboteam_ai/conditions/IsRobotClosestToBall.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "conditions/IsRobotClosestToBall.h"
+#include "world/World.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

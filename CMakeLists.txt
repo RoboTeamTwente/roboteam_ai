@@ -336,11 +336,14 @@ add_executable(roboteam_ai
 
         src/Settings/Settings.cpp)
 
-target_link_libraries(roboteam_ai Qt5::Widgets Qt5::Gui roboteam_utils)
+target_link_libraries(roboteam_ai
+        PRIVATE Qt5::Widgets
+        PRIVATE Qt5::Gui
+        PRIVATE roboteam_utils)
 
-target_include_directories(roboteam_ai PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
+target_include_directories(roboteam_ai
+        INTERFACE include
+        PRIVATE include/roboteam_ai
         PRIVATE src )
 
 #############

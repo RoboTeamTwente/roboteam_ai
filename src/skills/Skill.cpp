@@ -1,13 +1,13 @@
-#include "include/roboteam_ai/skills/Skill.h"
-#include "include/roboteam_ai/utilities/RobotDealer.h"
-#include "include/roboteam_ai/utilities/Constants.h"
-#include "include/roboteam_ai/utilities/GameStateManager.hpp"
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Ball.h"
+#include "skills/Skill.h"
+#include "utilities/RobotDealer.h"
+#include "utilities/Constants.h"
+#include "utilities/GameStateManager.hpp"
+#include "control/ControlUtils.h"
+#include "world/Robot.h"
+#include "world/World.h"
+#include "world/Ball.h"
 #include <cmath>
-#include <include/roboteam_ai/Settings/Settings.h>
+#include <Settings/Settings.h>
 
 
 namespace rtt {

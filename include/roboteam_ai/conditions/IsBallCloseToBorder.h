@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_ISBALLCLOSETOBORDER_H
 
 #include "Condition.h"
-#include <include/roboteam_ai/utilities/Constants.h>
-#include "include/roboteam_ai/world/Field.h"
+#include <utilities/Constants.h>
+#include "world/Field.h"
 
 namespace rtt {
 namespace ai {

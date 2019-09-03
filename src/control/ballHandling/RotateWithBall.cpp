@@ -2,9 +2,9 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/control/ballHandling/RotateWithBall.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "control/ControlUtils.h"
+#include "control/ballHandling/RotateWithBall.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

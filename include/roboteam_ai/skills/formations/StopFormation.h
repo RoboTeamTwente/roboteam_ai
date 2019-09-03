@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_STOPFORMATION_H
 
 
-#include "include/roboteam_ai/skills/formations/Formation.h"
+#include "skills/formations/Formation.h"
 
 namespace rtt {
 namespace ai {

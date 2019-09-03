@@ -2,12 +2,12 @@
 // Created by thijs on 25-5-19.
 //
 
-#include <include/roboteam_ai/interface/api/Input.h>
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/control/ballHandling/RotateAroundBall.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include <interface/api/Input.h>
+#include "control/ControlUtils.h"
+#include "control/ballHandling/RotateAroundBall.h"
+#include "world/Ball.h"
+#include "world/World.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

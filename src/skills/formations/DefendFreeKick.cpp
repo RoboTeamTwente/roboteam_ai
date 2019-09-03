@@ -2,9 +2,9 @@
 // Created by baris on 24-4-19.
 //
 
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include "include/roboteam_ai/skills/formations/DefendFreeKick.h"
-#include "include/roboteam_ai/control/Hungarian.h"
+#include <control/PositionUtils.h>
+#include "skills/formations/DefendFreeKick.h"
+#include "control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

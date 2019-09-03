@@ -2,10 +2,10 @@
 // Created by baris on 11-3-19.
 //
 
-#include "include/roboteam_ai/skills/ShootPenalty.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "skills/ShootPenalty.h"
+#include "world/World.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

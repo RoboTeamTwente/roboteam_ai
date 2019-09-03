@@ -2,7 +2,7 @@
  *  The UntilFail decorator repeats until the child returns fail and then returns success.
  */
 
-#include "include/roboteam_ai/bt/decorators/UntilFail.hpp"
+#include "bt/decorators/UntilFail.hpp"
 
 namespace bt {
 

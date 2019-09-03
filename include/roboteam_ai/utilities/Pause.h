@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_PAUSE_H
 
 #include <mutex>
-#include <RobotCommand.pb.h>
-#include "include/roboteam_ai/world/World.h"
+#include "roboteam_proto/RobotCommand.pb.h"
+#include "world/World.h"
 
 namespace rtt {
 namespace ai {

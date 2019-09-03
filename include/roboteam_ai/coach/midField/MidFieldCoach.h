@@ -6,10 +6,10 @@
 #define ROBOTEAM_AI_MIDFIELDCOACH_H
 
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include <include/roboteam_ai/world/BallPossession.h>
-#include "include/roboteam_ai/coach/heuristics/CoachHeuristics.h"
+#include <world/Field.h>
+#include <control/ControlUtils.h>
+#include <world/BallPossession.h>
+#include "coach/heuristics/CoachHeuristics.h"
 
 namespace rtt {
 namespace ai {

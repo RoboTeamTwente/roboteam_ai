@@ -3,12 +3,12 @@
 //
 
 
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include <world/Field.h>
+#include <utilities/GameStateManager.hpp>
 #include <roboteam_utils/Line.h>
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/WorldData.h"
+#include "control/ControlUtils.h"
+#include "world/World.h"
+#include "world/WorldData.h"
 
 namespace rtt {
 namespace ai {

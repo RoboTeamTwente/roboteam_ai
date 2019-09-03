@@ -2,10 +2,10 @@
 // Created by rolf on 5-3-19.
 //
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/skills/CoachDefend.h"
-#include "include/roboteam_ai/coach/defence/DefenceDealer.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <world/Field.h>
+#include "skills/CoachDefend.h"
+#include "coach/defence/DefenceDealer.h"
+#include "control/ControlUtils.h"
 namespace rtt {
 namespace ai {
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)

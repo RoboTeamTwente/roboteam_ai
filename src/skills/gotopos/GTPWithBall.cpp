@@ -3,8 +3,8 @@
 // Created by thijs on 26-4-19.
 //
 
-#include "include/roboteam_ai/skills/gotopos/GTPWithBall.h"
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
+#include "skills/gotopos/GTPWithBall.h"
+#include <coach/BallplacementCoach.h>
 
 namespace rtt {
 namespace ai {

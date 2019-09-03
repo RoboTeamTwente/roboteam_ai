@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 28-3-19.
 //
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/control/numTrees/PathPoint.h"
+#include <control/ControlUtils.h>
+#include "control/numTrees/PathPoint.h"
 
 namespace rtt {
 namespace ai {

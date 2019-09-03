@@ -2,13 +2,13 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <include/roboteam_ai/interface/widgets/widget.h>
-#include <include/roboteam_ai/interface/api/Input.h>
-#include "include/roboteam_ai/coach/OffensiveCoach.h"
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/control/Hungarian.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include <interface/widgets/widget.h>
+#include <interface/api/Input.h>
+#include "coach/OffensiveCoach.h"
+#include <world/World.h>
+#include <world/Field.h>
+#include <control/Hungarian.h>
+#include <control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {

@@ -2,7 +2,7 @@
  * The Failer decorator returns failure, regardless of what happens to the child.
  */
 
-#include "include/roboteam_ai/bt/decorators/Failer.hpp"
+#include "bt/decorators/Failer.hpp"
 
 namespace bt {
 

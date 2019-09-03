@@ -6,9 +6,9 @@
 * - position: whether to determine wheter to determine the robot is close to a position (needs ball to be false)
 */
 
-#include "include/roboteam_ai/conditions/IsCloseToPoint.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "conditions/IsCloseToPoint.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

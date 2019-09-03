@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_POSSIBLEPASS_H
 
 #include <roboteam_utils/Vector2.h>
-#include "include/roboteam_ai/utilities/Constants.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "utilities/Constants.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

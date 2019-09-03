@@ -2,8 +2,8 @@
 // Created by baris on 14-3-19.
 //
 
-#include <include/roboteam_ai/world/World.h>
-#include "include/roboteam_ai/skills/ShootFreeKick.h"
+#include <world/World.h>
+#include "skills/ShootFreeKick.h"
 
 namespace rtt {
 namespace ai {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "include/roboteam_ai/bt/Composite.hpp"
+#include "bt/Composite.hpp"
 #include <string>
 #include <iostream>
 

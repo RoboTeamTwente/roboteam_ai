@@ -5,7 +5,7 @@
  *    If all children fails, only then does the selector fail.
  */
 
-#include "include/roboteam_ai/bt/composites/MemSelector.hpp"
+#include "bt/composites/MemSelector.hpp"
 
 namespace bt {
 

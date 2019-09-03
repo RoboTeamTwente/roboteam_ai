@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DEMOATTACK_H
 #define ROBOTEAM_AI_DEMOATTACK_H
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
+#include <control/numTrees/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt {

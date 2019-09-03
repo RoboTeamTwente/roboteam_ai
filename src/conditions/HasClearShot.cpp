@@ -6,13 +6,13 @@
  */
 
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include <include/roboteam_ai/coach/PassCoach.h>
-#include "include/roboteam_ai/conditions/HasClearShot.h"
-#include <include/roboteam_ai/world/Ball.h>
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/world/WorldData.h>
+#include <control/ControlUtils.h>
+#include <coach/PassCoach.h>
+#include "conditions/HasClearShot.h"
+#include <world/Ball.h>
+#include <world/Field.h>
+#include <world/World.h>
+#include <world/WorldData.h>
 
 namespace rtt{
 namespace ai {

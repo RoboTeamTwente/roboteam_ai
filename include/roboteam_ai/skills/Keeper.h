@@ -5,11 +5,11 @@
 #ifndef ROBOTEAM_AI_KEEPER_H
 #define ROBOTEAM_AI_KEEPER_H
 
-#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <control/BasicPosControl.h>
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Mathematics.h"
-#include <include/roboteam_ai/world/BallPossession.h>
+#include <world/BallPossession.h>
 
 namespace rtt {
 namespace ai {

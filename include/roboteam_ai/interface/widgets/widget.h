@@ -12,8 +12,8 @@
 #include <gtest/gtest_prod.h>
 
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/world/Robot.h>
-#include <include/roboteam_ai/interface/api/Toggles.h>
+#include <world/Robot.h>
+#include <interface/api/Toggles.h>
 
 namespace rtt {
 namespace ai {

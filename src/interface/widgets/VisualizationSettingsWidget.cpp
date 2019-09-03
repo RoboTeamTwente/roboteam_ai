@@ -2,9 +2,9 @@
 // Created by mrlukasbos on 7-5-19.
 //
 
-#include "include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h"
-#include "include/roboteam_ai/interface/widgets/mainWindow.h"
-#include "include/roboteam_ai/interface/api/Toggles.h"
+#include "interface/widgets/VisualizationSettingsWidget.h"
+#include "interface/widgets/mainWindow.h"
+#include "interface/api/Toggles.h"
 
 namespace rtt {
 namespace ai {

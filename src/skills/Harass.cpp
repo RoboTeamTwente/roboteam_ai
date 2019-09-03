@@ -1,10 +1,10 @@
 //
 // Created by baris on 12-12-18.
 //
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/skills/Harass.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "world/World.h"
+#include "skills/Harass.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

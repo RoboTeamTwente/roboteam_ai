@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
 
 #include "Skill.h"
-#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
+#include <control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt {
 namespace ai {

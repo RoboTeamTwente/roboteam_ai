@@ -2,15 +2,15 @@
 //
 // Created by baris on 16/11/18.
 //
-#include "include/roboteam_ai/utilities/RobotDealer.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/treeinterp/BTFactory.h"
-#include "include/roboteam_ai/coach/PassCoach.h"
-#include "include/roboteam_ai/coach/BallplacementCoach.h"
+#include "utilities/RobotDealer.h"
+#include "control/ControlUtils.h"
+#include "world/World.h"
+#include "world/Field.h"
+#include "world/Robot.h"
+#include "world/Ball.h"
+#include "treeinterp/BTFactory.h"
+#include "coach/PassCoach.h"
+#include "coach/BallplacementCoach.h"
 
 
 namespace rtt {

@@ -1,8 +1,8 @@
-#include <include/roboteam_ai/world/WorldData.h>
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/analysis/GameAnalyzer.h>
-#include "include/roboteam_ai/bt/tactics/DefaultTactic.h"
-#include "include/roboteam_ai/utilities/RobotDealer.h"
+#include <world/WorldData.h>
+#include <world/World.h>
+#include <analysis/GameAnalyzer.h>
+#include "bt/tactics/DefaultTactic.h"
+#include "utilities/RobotDealer.h"
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
 
