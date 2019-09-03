@@ -7,37 +7,69 @@
 namespace testhelpers {
 
 // generateField defaults to a A division field
-    roboteam_msgs::GeometryFieldSize FieldHelper::generateField(double field_length, double field_width, double goal_width, double defense_area_width, double defense_area_length, double center_circle_radius) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize FieldHelper::generateField(double field_length, double field_width, double goal_width, double defense_area_width, double defense_area_length, double center_circle_radius) {
+    roboteam_proto::GeometryFieldSize field;
 
-    field.field_length = field_length;
-    field.field_width = field_width;
-    field.goal_width = goal_width;
+    field.set_field_length(field_length);
+    field.set_field_width(field_width);
+    field.set_goal_width(goal_width);
 
     addDefenseAreas(field, defense_area_width, defense_area_length);
     addCenterArc(field, center_circle_radius);
     return field;
 }
 
-void FieldHelper::addDefenseAreas(roboteam_msgs::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
-    field.top_right_penalty_stretch.begin = rtt::Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
-    field.top_right_penalty_stretch.end = rtt::Vector2{field.field_length / 2, defenseAreaWidth / 2};
-    field.bottom_right_penalty_stretch.begin =  rtt::Vector2{field.field_length / 2 - defenseAreaDepth, -defenseAreaWidth / 2};
-    field.bottom_right_penalty_stretch.end = rtt::Vector2{field.field_length / 2, -defenseAreaWidth / 2};
-    field.right_penalty_line.begin=rtt::Vector2{field.field_length / 2 - defenseAreaDepth, -defenseAreaWidth / 2};
-    field.right_penalty_line.end=rtt::Vector2{field.field_length / 2 - defenseAreaDepth, defenseAreaWidth / 2};
+void FieldHelper::addDefenseAreas(roboteam_proto::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
+        
+    auto top_right_penalty_stretch_begin = rtt::Vector2{field.field_length() / 2 - defenseAreaDepth, defenseAreaWidth / 2};
+    auto top_right_penalty_stretch_end = rtt::Vector2{field.field_length() / 2, defenseAreaWidth / 2};
+    auto bottom_right_penalty_stretch_begin =  rtt::Vector2{field.field_length() / 2 - defenseAreaDepth, -defenseAreaWidth / 2};
+    auto bottom_right_penalty_stretch_end = rtt::Vector2{field.field_length() / 2, -defenseAreaWidth / 2};
+    auto right_penalty_line_begin=rtt::Vector2{field.field_length() / 2 - defenseAreaDepth, -defenseAreaWidth / 2};
+    auto right_penalty_line_end=rtt::Vector2{field.field_length() / 2 - defenseAreaDepth, defenseAreaWidth / 2};
+    auto top_left_penalty_stretch_begin = rtt::Vector2{-field.field_length() / 2 + defenseAreaDepth, defenseAreaWidth / 2};
+    auto top_left_penalty_stretch_end =rtt::Vector2{-field.field_length() / 2, defenseAreaWidth / 2};
+    auto bottom_left_penalty_stretch_begin = rtt::Vector2{-field.field_length() / 2 + defenseAreaDepth, - defenseAreaWidth / 2};
+    auto bottom_left_penalty_stretch_end = rtt::Vector2{-field.field_length() / 2, -defenseAreaWidth / 2};
+    auto left_penalty_line_begin=rtt::Vector2{-field.field_length() / 2 + defenseAreaDepth, -defenseAreaWidth / 2};
+    auto left_penalty_line_end=rtt::Vector2{-field.field_length() / 2 + defenseAreaDepth, defenseAreaWidth / 2};
+    
+    field.mutable_top_right_penalty_stretch()->mutable_begin()->set_x(top_right_penalty_stretch_begin.x);
+    field.mutable_top_right_penalty_stretch()->mutable_begin()->set_y(top_right_penalty_stretch_begin.y);
+    field.mutable_top_right_penalty_stretch()->mutable_end()->set_x(top_right_penalty_stretch_end.x);
+    field.mutable_top_right_penalty_stretch()->mutable_end()->set_y(top_right_penalty_stretch_end.y);
 
-    field.top_left_penalty_stretch.begin = rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, defenseAreaWidth / 2};
-    field.top_left_penalty_stretch.end =rtt::Vector2{-field.field_length / 2, defenseAreaWidth / 2};
-    field.bottom_left_penalty_stretch.begin = rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, - defenseAreaWidth / 2};
-    field.bottom_left_penalty_stretch.end = rtt::Vector2{-field.field_length / 2, -defenseAreaWidth / 2};
-    field.left_penalty_line.begin=rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, -defenseAreaWidth / 2};
-    field.left_penalty_line.end=rtt::Vector2{-field.field_length / 2 + defenseAreaDepth, defenseAreaWidth / 2};
+    field.mutable_top_left_penalty_stretch()->mutable_begin()->set_x(top_left_penalty_stretch_begin.x);
+    field.mutable_top_left_penalty_stretch()->mutable_begin()->set_y(top_left_penalty_stretch_begin.y);
+    field.mutable_top_left_penalty_stretch()->mutable_end()->set_x(top_left_penalty_stretch_end.x);
+    field.mutable_top_left_penalty_stretch()->mutable_end()->set_y(top_left_penalty_stretch_end.y);
+
+    field.mutable_bottom_right_penalty_stretch()->mutable_begin()->set_x(bottom_right_penalty_stretch_begin.x);
+    field.mutable_bottom_right_penalty_stretch()->mutable_begin()->set_y(bottom_right_penalty_stretch_begin.y);
+    field.mutable_bottom_right_penalty_stretch()->mutable_end()->set_x(bottom_right_penalty_stretch_end.x);
+    field.mutable_bottom_right_penalty_stretch()->mutable_end()->set_y(bottom_right_penalty_stretch_end.y);
+
+    field.mutable_bottom_left_penalty_stretch()->mutable_begin()->set_x(bottom_left_penalty_stretch_begin.x);
+    field.mutable_bottom_left_penalty_stretch()->mutable_begin()->set_y(bottom_left_penalty_stretch_begin.y);
+    field.mutable_bottom_left_penalty_stretch()->mutable_end()->set_x(bottom_left_penalty_stretch_end.x);
+    field.mutable_bottom_left_penalty_stretch()->mutable_end()->set_y(bottom_left_penalty_stretch_end.y);
+
+    field.mutable_left_penalty_line()->mutable_begin()->set_x(left_penalty_line_begin.x);
+    field.mutable_left_penalty_line()->mutable_begin()->set_y(left_penalty_line_begin.y);
+    field.mutable_left_penalty_line()->mutable_end()->set_x(left_penalty_line_end.x);
+    field.mutable_left_penalty_line()->mutable_end()->set_y(left_penalty_line_end.y);
+
+    field.mutable_right_penalty_line()->mutable_begin()->set_x(right_penalty_line_begin.x);
+    field.mutable_right_penalty_line()->mutable_begin()->set_y(right_penalty_line_begin.y);
+    field.mutable_right_penalty_line()->mutable_end()->set_x(right_penalty_line_end.x);
+    field.mutable_right_penalty_line()->mutable_end()->set_y(right_penalty_line_end.y);
+
 }
 
-void FieldHelper::addCenterArc(roboteam_msgs::GeometryFieldSize &field, double radius) {
-    field.center_circle.center = rtt::Vector2{0, 0};
-    field.center_circle.radius = radius;
+void FieldHelper::addCenterArc(roboteam_proto::GeometryFieldSize &field, double radius) {
+    field.mutable_center_circle()->mutable_center()->set_x(0);
+    field.mutable_center_circle()->mutable_center()->set_y(0);
+    field.mutable_center_circle()->set_radius(radius);
 }
 
 }

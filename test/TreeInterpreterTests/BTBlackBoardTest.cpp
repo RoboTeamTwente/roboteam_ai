@@ -2,9 +2,7 @@
 #include <utility>
 
 #include <gtest/gtest.h>
-
-#include <roboteam_msgs/BoolEntry.h>
-#include <roboteam_ai/src/bt/Blackboard.hpp>
+#include <roboteam_ai/bt/Blackboard.hpp>
 
 TEST(BTBlackBoardTest, Blackboard) {
 

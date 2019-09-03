@@ -1,6 +1,6 @@
 
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/treeinterp/BTFactory.h"
+#include "roboteam_ai/treeinterp/BTFactory.h"
 
 TEST (BT, JsonEditor) {
     std::string testProject = "sample";

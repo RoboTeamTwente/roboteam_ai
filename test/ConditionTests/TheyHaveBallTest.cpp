@@ -12,15 +12,15 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
 
     EXPECT_EQ(node.node_name(), "TheyHaveBall");
 
-    roboteam_msgs::World worldMsg;
-    roboteam_msgs::WorldRobot robot;
+    roboteam_proto::World worldMsg;
+    roboteam_proto::WorldRobot robot;
 
     rtt::ai::world::world->updateWorld(worldMsg);
 
-    robot.id = 0;
-    robot.pos.x = -2;
-    robot.pos.y = -2;
-    robot.angle = 0;
+    robot.set_id(0);
+    robot.mutable_pos()->set_x(-2);
+    robot.mutable_pos()->set_y(-2);
+    robot.
     worldMsg.them.push_back(robot);
 
     worldMsg.ball.pos.x = 0.04;
@@ -31,7 +31,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
 
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 
-    roboteam_msgs::WorldRobot robot2;
+    roboteam_proto::WorldRobot robot2;
 
     robot2.id = 1;
     robot2.pos.x = 0;

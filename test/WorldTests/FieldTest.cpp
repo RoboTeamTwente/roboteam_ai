@@ -3,21 +3,22 @@
 //
 
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/world/World.h>
-#include <roboteam_ai/test/helpers/FieldHelper.h>
-#include "roboteam_ai/src/world/Field.h"
-#include "roboteam_ai/test/helpers/WorldHelper.h"
-#include "roboteam_ai/src/world/WorldData.h"
+#include <roboteam_ai/world/World.h>
+#include <test/helpers/FieldHelper.h>
+#include "roboteam_ai/world/Field.h"
+#include "test/helpers/WorldHelper.h"
+#include "roboteam_ai/world/WorldData.h"
 
 TEST(FieldTest, it_gets_and_sets_the_field) {
-    roboteam_msgs::GeometryFieldSize field;
-    field.boundary_width = 42;
-    rtt::ai::world::field->set_field(field);
-    EXPECT_EQ(rtt::ai::world::field->get_field().boundary_width, 42);
+    roboteam_proto::GeometryFieldSize field;
+    field.set_boundary_width(42);
+
+    rtt::ai::world::field->set_field()
+    EXPECT_EQ(rtt::ai::world::field->get_field().boundary_width(), 42);
 }
 
 TEST(FieldTest, it_gets_points_in_defence_area) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 8;
 
@@ -109,7 +110,7 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
 }
 
 TEST(FieldTest, it_returns_proper_goal_centers) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize field;
     field.field_length = 8;
     field.field_width = 12;
     rtt::ai::world::field->set_field(field);
@@ -124,7 +125,7 @@ TEST(FieldTest, it_returns_proper_goal_centers) {
 }
 
 TEST(FieldTest, it_detects_points_in_field_properly) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize field;
     field.field_length = 8;
     field.field_width = 12;
     rtt::ai::world::field->set_field(field);
@@ -158,7 +159,7 @@ TEST(FieldTest, it_detects_points_in_field_properly) {
 TEST(FieldTest, it_calculates_obstacles) {
     auto field = testhelpers::FieldHelper::generateField(12.0, 9.0, 1.0);
     rtt::ai::world::field->set_field(field);
-    roboteam_msgs::WorldRobot robot;
+    roboteam_proto::WorldRobot robot;
     robot.id = 0;
 
     // watch our goal from the center of the field
@@ -194,7 +195,7 @@ TEST(FieldTest, it_calculates_obstacles) {
             + rtt::ai::Constants::BALL_RADIUS())); // the width of the obstacle is twice robot radius
     // watch their goal from the center of the field
     // there are two robots in between, separated
-    roboteam_msgs::WorldRobot robot2;
+    roboteam_proto::WorldRobot robot2;
     robot2.id = 1;
 
     world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
@@ -232,7 +233,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 
 
 TEST(FieldTest, line_intersects_with_defence_area) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 8;
     field.goal_width = 1;
@@ -290,7 +291,7 @@ TEST(FieldTest, line_intersects_with_defence_area) {
 }
 
 TEST(FieldTest, penalty_points) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 8;
     field.goal_width = 1;
@@ -312,7 +313,7 @@ TEST(FieldTest, penalty_points) {
 }
 
 TEST(FieldTest, goal_angle) {
-    roboteam_msgs::GeometryFieldSize field;
+    roboteam_proto::GeometryFieldSize field;
     field.field_length = 12;
     field.field_width = 8;
     field.goal_width = 1;

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "roboteam_ai/src/treeinterp/TreeInterpreter.h"
+#include "roboteam_ai/treeinterp/TreeInterpreter.h"
 
 TEST(JsonBasics, JsonTest) {
 

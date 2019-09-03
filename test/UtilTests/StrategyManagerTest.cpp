@@ -2,16 +2,16 @@
 // Created by mrlukasbos on 14-11-18.
 //
 
-#include <roboteam_msgs/RobotCommand.h>
-#include <roboteam_msgs/RefereeCommand.h>
-#include "roboteam_ai/src/utilities/StrategyManager.h"
+#include <RobotCommand.pb.h>
+#include <messages_robocup_ssl_referee.pb.h>
+#include "roboteam_ai/utilities/StrategyManager.h"
 #include "gtest/gtest.h"
 
 TEST(StrategyManagerTest, StrategyManagerTest) {
     rtt::ai::StrategyManager strategyManager;
-    roboteam_msgs::RefereeCommand cmd;
-    roboteam_msgs::RefereeStage stage;
-    stage.stage=roboteam_msgs::RefereeStage::NORMAL_FIRST_HALF;
+    roboteam_proto::SSL_Referee cmd;
+    roboteam_proto::SSL_Referee_Stage stage;
+    stage=roboteam_proto::SSL_Referee_Stage_NORMAL_FIRST_HALF;
 
     strategyManager.setCurrentRefGameState(RefCommand::NORMAL_START,stage);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "normal_play_strategy");
@@ -40,7 +40,7 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     strategyManager.setCurrentRefGameState(RefCommand::HALT,stage);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "halt_strategy");
 
-    stage.stage=roboteam_msgs::RefereeStage::PENALTY_SHOOTOUT;
+    stage=roboteam_proto::SSL_Referee_Stage_PENALTY_SHOOTOUT;
     strategyManager.setCurrentRefGameState(RefCommand::PREPARE_PENALTY_US,stage);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName,"time_out_strategy");
     EXPECT_EQ(strategyManager.getCurrentRefGameState().keeperStrategyName,"shootout_prepare_tactic");

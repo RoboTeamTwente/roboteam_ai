@@ -2,12 +2,12 @@
 // Created by rolf on 05/12/18.
 //
 
-#include "roboteam_ai/src/control/ControlUtils.h"
-#include "roboteam_ai/src/utilities/Constants.h"
+#include "roboteam_ai/control/ControlUtils.h"
+#include "roboteam_ai/utilities/Constants.h"
 #include <gtest/gtest.h>
-#include <roboteam_ai/src/world/Field.h>
-#include <roboteam_ai/test/helpers/FieldHelper.h>
-#include <roboteam_ai/test/helpers/WorldHelper.h>
+#include <roboteam_ai/world/Field.h>
+#include <test/helpers/FieldHelper.h>
+#include <test/helpers/WorldHelper.h>
 #include <roboteam_utils/Angle.h>
 
 namespace cr=rtt::ai::control;

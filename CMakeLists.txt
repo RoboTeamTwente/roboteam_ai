@@ -258,7 +258,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainControlsWidgetTest.cpp
         ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp ../main.cpp)
+        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -346,26 +346,30 @@ target_include_directories(roboteam_ai PUBLIC
 #############
 ## Testing ##
 #############
-#add_executable(ai_tests
-#        ${UTILS_SOURCES}
-#        ${JSON_SOURCES}
-#        ${BT_SOURCES}
-#        ${IO_SOURCES}
-#        ${CONDITIONS_SOURCES}
-#        ${SKILLS_SOURCES}
-#        ${CONTROL_SOURCES}
-#        ${ANALYSIS_SOURCES}
-#        ${TACTIC_SOURCES}
-#        ${DEMO_SOURCES}
-#        ${COACH_SOURCES}
-#        ${INTERFACE_SOURCES}
-#        ${TEST_SOURCES}
-#        ${WORLD_SOURCES})
-#
-#target_link_libraries(ai_tests
-#        roboteam_utils
-#        gcov
-#        Qt5::Widgets Qt5::Gui)
+add_executable(ai_tests
+        ${UTILS_SOURCES}
+        ${JSON_SOURCES}
+        ${BT_SOURCES}
+        ${IO_SOURCES}
+        ${CONDITIONS_SOURCES}
+        ${SKILLS_SOURCES}
+        ${CONTROL_SOURCES}
+        ${ANALYSIS_SOURCES}
+        ${TACTIC_SOURCES}
+        ${DEMO_SOURCES}
+        ${COACH_SOURCES}
+        ${INTERFACE_SOURCES}
+        ${TEST_SOURCES}
+        ${WORLD_SOURCES})
+
+target_link_libraries(ai_tests
+        roboteam_utils
+        gcov
+        Qt5::Widgets Qt5::Gui)
+
+target_include_directories(ai_tests
+        INTERFACE include
+        PRIVATE include)
 #
 #
 #include(CodeCoverage)
@@ -381,6 +385,6 @@ target_include_directories(roboteam_ai PUBLIC
 
 if(UNIX AND NOT APPLE)
     cotire(roboteam_ai)
-    # cotire(ai_tests)
+    cotire(ai_tests)
 endif()
 
