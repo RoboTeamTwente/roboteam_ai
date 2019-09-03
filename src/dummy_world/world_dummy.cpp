@@ -1,4 +1,4 @@
-#include "roboteam_world/world/world_dummy.h"
+#include "world/world_dummy.h"
 
 #include <iostream>
 

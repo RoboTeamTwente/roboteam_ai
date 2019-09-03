@@ -2,9 +2,9 @@
 
 #include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 #include "roboteam_proto/World.pb.h"
-#include "roboteam_world/robot.h"
-#include "roboteam_world/ball.h"
-#include "roboteam_world/world/world_base.h"
+#include "robot.h"
+#include "ball.h"
+#include "world/world_base.h"
 
 
 namespace rtt {

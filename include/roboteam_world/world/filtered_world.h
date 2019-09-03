@@ -10,11 +10,11 @@
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/constants.h"
 
-#include "roboteam_world/robot.h"
-#include "roboteam_world/ball.h"
-#include "roboteam_world/predictor.h"
+#include "robot.h"
+#include "ball.h"
+#include "predictor.h"
 
-#include "roboteam_world/world/world_base.h"
+#include "world/world_base.h"
 
 namespace rtt {
 

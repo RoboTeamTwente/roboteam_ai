@@ -5,11 +5,11 @@ project(roboteam_world)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 find_package(Armadillo REQUIRED)
-include_directories(${ARMADILLO_INCLUDE_DIRS})
 
 add_library(net STATIC
         src/net/netraw.cpp
         src/net/robocup_ssl_client.cpp)
+
 target_link_libraries(net
         PUBLIC roboteam_proto)
 
@@ -28,10 +28,16 @@ add_executable(kalman_world
         src/dummy_world/world_dummy.cpp)
 
 
-target_include_directories(kalman_world PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-        PRIVATE src )
+target_include_directories(kalman_world
+        INTERFACE include
+        PRIVATE include/roboteam_world
+        PRIVATE src
+        )
+
+#including armadillo files
+target_include_directories(kalman_world
+        PRIVATE ${ARMADILLO_INCLUDE_DIRS}
+        )
 
 target_link_libraries(kalman_world
         PRIVATE ${ARMADILLO_LIBRARIES}

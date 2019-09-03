@@ -2,11 +2,11 @@
 
 #include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 #include "roboteam_proto/World.pb.h"
-#include "roboteam_world/world/world_dummy.h"
-#include "roboteam_world/world/filtered_world.h"
+#include "world/world_dummy.h"
+#include "world/filtered_world.h"
 #include "roboteam_proto/Subscriber.h"
 #include <roboteam_proto/Publisher.h>
-#include <roboteam_world/net/robocup_ssl_client.h>
+#include <net/robocup_ssl_client.h>
 #include "kalman/kalmanFilter.h"
 
 namespace rtt {

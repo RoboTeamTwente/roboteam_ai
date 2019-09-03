@@ -3,9 +3,7 @@
 //
 
 #include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
-#include <roboteam_world/kalman/kalmanFilter.h>
-
-#include "roboteam_world/kalman/kalmanFilter.h"
+#include <kalman/kalmanFilter.h>
 
 namespace rtt {
 
