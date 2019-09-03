@@ -2,10 +2,10 @@
 // Created by robzelluf on 5/27/19.
 //
 
-#include <include/roboteam_ai/world/WorldData.h>
-#include "include/roboteam_ai/coach/midField/MidFieldCoach.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
+#include <world/WorldData.h>
+#include "coach/midField/MidFieldCoach.h"
+#include "world/Robot.h"
+#include "world/Ball.h"
 
 namespace rtt {
 namespace ai {

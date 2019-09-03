@@ -2,9 +2,9 @@
 // Created by rolf on 30-1-19.
 //
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/skills/gotopos/GoAroundPos.h"
-#include "include/roboteam_ai/interface/api/Input.h"
+#include <control/ControlUtils.h>
+#include "skills/gotopos/GoAroundPos.h"
+#include "interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

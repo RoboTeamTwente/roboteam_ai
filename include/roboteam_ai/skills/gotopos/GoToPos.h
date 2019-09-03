@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_GOTOPOS_H
 #define ROBOTEAM_AI_GOTOPOS_H
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
-#include "include/roboteam_ai/skills/Skill.h"
+#include <control/numTrees/NumTreePosControl.h>
+#include <control/BasicPosControl.h>
+#include <control/ballHandling/BallHandlePosControl.h>
+#include "skills/Skill.h"
 
 namespace rtt {
 namespace ai {

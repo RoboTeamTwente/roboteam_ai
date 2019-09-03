@@ -6,9 +6,9 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <include/roboteam_ai/utilities/StrategyManager.h>
-#include "include/roboteam_ai/io/IOManager.h"
-#include "include/roboteam_ai/treeinterp/BTFactory.h"
+#include <utilities/StrategyManager.h>
+#include "io/IOManager.h"
+#include "treeinterp/BTFactory.h"
 
 namespace rtt {
 

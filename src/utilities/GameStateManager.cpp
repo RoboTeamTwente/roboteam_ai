@@ -1,6 +1,6 @@
-#include <include/roboteam_ai/Settings/Settings.h>
-#include "include/roboteam_ai/interface/api/Output.h"
-#include "include/roboteam_ai/utilities/GameStateManager.hpp"
+#include <Settings/Settings.h>
+#include "interface/api/Output.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {

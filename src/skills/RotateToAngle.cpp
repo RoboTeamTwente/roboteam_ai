@@ -2,10 +2,10 @@
 // Created by rolf on 21/11/18.
 //
 
-#include "include/roboteam_ai/skills/RotateToAngle.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/Robot.h"
+#include "skills/RotateToAngle.h"
+#include "control/ControlUtils.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt {
 namespace ai {

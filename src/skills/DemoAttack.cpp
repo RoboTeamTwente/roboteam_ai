@@ -2,11 +2,11 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include "include/roboteam_ai/skills/DemoAttack.h"
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include <control/PositionUtils.h>
+#include "skills/DemoAttack.h"
+#include <world/Field.h>
+#include <control/BasicPosControl.h>
+#include <control/ControlUtils.h>
 
 namespace rtt {
 namespace ai {

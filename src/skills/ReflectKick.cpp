@@ -2,9 +2,9 @@
 // Created by robzelluf on 4/9/19.
 //
 
-#include "include/roboteam_ai/skills/ReflectKick.h"
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "include/roboteam_ai/world/Field.h"
+#include "skills/ReflectKick.h"
+#include "control/numTrees/NumTreePosControl.h"
+#include "world/Field.h"
 
 namespace rtt {
 namespace ai {

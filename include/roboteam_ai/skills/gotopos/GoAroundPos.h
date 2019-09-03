@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_GOAROUNDPOS_H
 #define ROBOTEAM_AI_GOAROUNDPOS_H
 
-#include "include/roboteam_ai/skills/Skill.h"
-#include "include/roboteam_ai/world/Field.h"
+#include "skills/Skill.h"
+#include "world/Field.h"
 #include "GoToPos.h"
 
 namespace rtt {

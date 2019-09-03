@@ -3,10 +3,10 @@
 //
 // TODO: Test real robot rotation speeds.
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
-#include "include/roboteam_ai/skills/DribbleRotate.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/coach/BallplacementCoach.h"
+#include "skills/DribbleRotate.h"
+#include "control/ControlUtils.h"
+#include "world/Field.h"
+#include "coach/BallplacementCoach.h"
 
 namespace rtt {
 namespace ai {

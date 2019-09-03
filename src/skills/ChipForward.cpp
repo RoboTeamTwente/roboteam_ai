@@ -2,9 +2,9 @@
 // Created by robzelluf on 7/5/19.
 //
 
-#include "include/roboteam_ai/skills/ChipForward.h"
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/control/shotControllers/ShotController.h>
+#include "skills/ChipForward.h"
+#include <world/Field.h>
+#include <control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {

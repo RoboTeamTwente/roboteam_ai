@@ -2,9 +2,9 @@
 // Created by baris on 1-5-19.
 //
 
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/Robot.h>
-#include "include/roboteam_ai/conditions/RobotOutside.h"
+#include <world/Field.h>
+#include <world/Robot.h>
+#include "conditions/RobotOutside.h"
 
 namespace rtt{
 namespace ai{

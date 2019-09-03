@@ -1,4 +1,4 @@
-#include "include/roboteam_ai/bt/composites/ParallelSequence.hpp"
+#include "bt/composites/ParallelSequence.hpp"
 
 namespace bt {
 

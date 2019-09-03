@@ -1,5 +1,5 @@
-#include "include/roboteam_ai/bt/Node.hpp"
-#include "include/roboteam_ai/bt/BehaviorTree.hpp"
+#include "bt/Node.hpp"
+#include "bt/BehaviorTree.hpp"
 
 namespace bt {
 

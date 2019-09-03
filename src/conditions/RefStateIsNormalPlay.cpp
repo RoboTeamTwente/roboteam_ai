@@ -2,11 +2,11 @@
 // Created by mrlukasbos on 2-5-19.
 //
 
-#include <include/roboteam_ai/interface/api/Input.h>
-#include <include/roboteam_ai/interface/api/Output.h>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/conditions/RefStateIsNormalPlay.h"
-#include "include/roboteam_ai/utilities/Constants.h"
+#include <interface/api/Input.h>
+#include <interface/api/Output.h>
+#include <utilities/GameStateManager.hpp>
+#include "conditions/RefStateIsNormalPlay.h"
+#include "utilities/Constants.h"
 
 namespace rtt {
 namespace ai {

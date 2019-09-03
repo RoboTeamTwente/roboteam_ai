@@ -2,17 +2,16 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "include/roboteam_ai/control/RobotCommand.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
+#include "control/RobotCommand.h"
+#include "world/Robot.h"
+#include "world/Ball.h"
 #include <queue>
-#include <include/roboteam_ai/interface/api/Input.h>
-#include "include/roboteam_ai/world/Field.h"
-
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "include/roboteam_ai/control/numTrees/PathPoint.h"
-#include "include/roboteam_ai/control/numTrees/Collision.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <interface/api/Input.h>
+#include "world/Field.h"
+#include "control/numTrees/NumTreePosControl.h"
+#include "control/numTrees/PathPoint.h"
+#include "control/numTrees/Collision.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

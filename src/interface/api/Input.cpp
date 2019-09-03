@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 4-12-18.
 //
 
-#include "include/roboteam_ai/interface/api/Input.h"
+#include "interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

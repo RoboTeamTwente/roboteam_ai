@@ -2,8 +2,8 @@
 // Created by robzelluf on 7/2/19.
 //
 
-#include "include/roboteam_ai/skills/FreeKickPass.h"
-#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
+#include "skills/FreeKickPass.h"
+#include <control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt {
 namespace ai {

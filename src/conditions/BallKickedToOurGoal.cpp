@@ -2,10 +2,10 @@
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
 
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/Ball.h>
-#include "include/roboteam_ai/conditions/BallKickedToOurGoal.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <world/Field.h>
+#include <world/Ball.h>
+#include "conditions/BallKickedToOurGoal.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

@@ -2,8 +2,8 @@
 // Created by rolf on 3-4-19.
 //
 
-#include "include/roboteam_ai/coach/defence/DefenceDealer.h"
-#include "include/roboteam_ai/interface/api/Input.h"
+#include "coach/defence/DefenceDealer.h"
+#include "interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

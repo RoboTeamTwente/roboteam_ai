@@ -2,10 +2,10 @@
 // Created by thijs on 19-11-18.
 //
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
-#include "include/roboteam_ai/skills/gotopos/SkillGoToPos.h"
+#include <control/numTrees/NumTreePosControl.h>
+#include <control/BasicPosControl.h>
+#include <control/ballHandling/BallHandlePosControl.h>
+#include "skills/gotopos/SkillGoToPos.h"
 
 namespace rtt {
 namespace ai {

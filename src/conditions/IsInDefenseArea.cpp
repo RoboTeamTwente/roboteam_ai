@@ -6,10 +6,10 @@
 * - outsideField: if true, the robot 
 */
 
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/conditions/IsInDefenseArea.hpp"
+#include "world/Field.h"
+#include "world/Robot.h"
+#include "world/Ball.h"
+#include "conditions/IsInDefenseArea.hpp"
 
 namespace rtt {
 namespace ai {

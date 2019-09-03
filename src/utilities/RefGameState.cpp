@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 11-5-19.
 //
 
-#include "include/roboteam_ai/utilities/RefGameState.h"
-#include "include/roboteam_ai/utilities/GameStateManager.hpp"
+#include "utilities/RefGameState.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {

@@ -2,10 +2,10 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/utilities/StrategyManager.h"
-#include "include/roboteam_ai/utilities/GameStateManager.hpp"
+#include "world/World.h"
+#include "world/Ball.h"
+#include "utilities/StrategyManager.h"
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt {
 namespace ai {

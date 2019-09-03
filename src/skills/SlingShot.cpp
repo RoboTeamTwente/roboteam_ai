@@ -2,11 +2,11 @@
 // Created by rolf on 11-4-19.
 //
 
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/skills/SlingShot.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include "world/World.h"
+#include "world/Robot.h"
+#include "world/Ball.h"
+#include "skills/SlingShot.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

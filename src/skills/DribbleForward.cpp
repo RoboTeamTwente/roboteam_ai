@@ -2,8 +2,8 @@
 // Created by robzelluf on 5/13/19.
 //
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/skills/DribbleForward.h"
+#include <world/Field.h>
+#include "skills/DribbleForward.h"
 
 namespace rtt {
 namespace ai {

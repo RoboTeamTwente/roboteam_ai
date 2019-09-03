@@ -3,7 +3,7 @@
  *   If the child runs, the Inverter returns the status that it is running too.
  */
 
-#include "include/roboteam_ai/bt/decorators/Inverter.hpp"
+#include "bt/decorators/Inverter.hpp"
 
 namespace bt {
 

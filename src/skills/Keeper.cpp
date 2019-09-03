@@ -3,13 +3,13 @@
 //
 
 #include <boost/optional.hpp>
-#include "include/roboteam_ai/interface/api/Input.h"
-#include "include/roboteam_ai/interface/api/Output.h"
-#include "include/roboteam_ai/skills/Keeper.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include "interface/api/Input.h"
+#include "interface/api/Output.h"
+#include "skills/Keeper.h"
+#include "world/Field.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_COACHHEURISTICS_H
 
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/world/WorldData.h>
-#include <include/roboteam_ai/world/World.h>
+#include <world/WorldData.h>
+#include <world/World.h>
 
 namespace rtt {
 namespace ai {

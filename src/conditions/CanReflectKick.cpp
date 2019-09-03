@@ -2,13 +2,13 @@
 // Created by robzelluf on 6/14/19.
 //
 
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/conditions/CanReflectKick.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/skills/ReflectKick.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <world/World.h>
+#include <world/Field.h>
+#include "conditions/CanReflectKick.h"
+#include "world/Robot.h"
+#include "world/Ball.h"
+#include "skills/ReflectKick.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

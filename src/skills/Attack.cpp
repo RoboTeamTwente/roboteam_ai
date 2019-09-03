@@ -1,17 +1,17 @@
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include "include/roboteam_ai/skills/Attack.h"
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/coach/OffensiveCoach.h"
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include "include/roboteam_ai/skills/Attack.h"
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/coach/OffensiveCoach.h"
+#include <control/PositionUtils.h>
+#include "skills/Attack.h"
+#include <world/Field.h>
+#include <control/numTrees/NumTreePosControl.h>
+#include <control/BasicPosControl.h>
+#include <control/ControlUtils.h>
+#include "coach/OffensiveCoach.h"
+#include <control/PositionUtils.h>
+#include "skills/Attack.h"
+#include <world/Field.h>
+#include <control/numTrees/NumTreePosControl.h>
+#include <control/BasicPosControl.h>
+#include <control/ControlUtils.h>
+#include "coach/OffensiveCoach.h"
 
 namespace rtt {
 namespace ai {

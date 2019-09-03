@@ -7,8 +7,8 @@
 
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Vector2.h>
-#include "include/roboteam_ai/world/WorldData.h"
-#include "include/roboteam_ai/world/World.h"
+#include "world/WorldData.h"
+#include "world/World.h"
 #include "PossiblePass.h"
 
 namespace rtt {

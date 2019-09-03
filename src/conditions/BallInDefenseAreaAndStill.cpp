@@ -3,10 +3,10 @@
  * AND if the ball lays still
  */
 
-#include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/Ball.h>
-#include "include/roboteam_ai/conditions/BallInDefenseAreaAndStill.h"
-#include "include/roboteam_ai/utilities/Constants.h"
+#include <world/Field.h>
+#include <world/Ball.h>
+#include "conditions/BallInDefenseAreaAndStill.h"
+#include "utilities/Constants.h"
 
 namespace rtt {
 namespace ai {

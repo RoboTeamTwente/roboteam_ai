@@ -2,10 +2,9 @@
 // Created by thijs on 19-3-19.
 //
 
-#include "include/roboteam_ai/world/FutureWorld.h"
-#include "include/roboteam_ai/world/History.h"
-
-#include <include/roboteam_ai/utilities/Constants.h>
+#include "world/FutureWorld.h"
+#include "world/History.h"
+#include <utilities/Constants.h>
 
 namespace rtt {
 namespace ai {
