@@ -1,7 +1,7 @@
 //
 // Created by thijs on 6-7-19.
 //
-#include <include/roboteam_ai/skills/formations/StopFormation.h>
+#include <skills/formations/StopFormation.h>
 
 #ifndef ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
 #define ROBOTEAM_AI_BALLPLACEMENTFORMATION_H

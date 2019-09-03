@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_INTERCEPTROBOT_HPP
 #define ROBOTEAM_AI_INTERCEPTROBOT_HPP
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include "include/roboteam_ai/control/BasicPosControl.h"
+#include <control/numTrees/NumTreePosControl.h>
+#include "control/BasicPosControl.h"
 
 #include "Skill.h"
 namespace rtt{

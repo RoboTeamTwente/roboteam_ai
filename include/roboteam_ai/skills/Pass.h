@@ -5,13 +5,13 @@
 #ifndef ROBOTEAM_AI_PASS_H
 #define ROBOTEAM_AI_PASS_H
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <control/numTrees/NumTreePosControl.h>
+#include <control/BasicPosControl.h>
 #include "Skill.h"
-#include <include/roboteam_ai/coach/PassCoach.h>
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/control/shotControllers/ShotController.h>
+#include <coach/PassCoach.h>
+#include <control/PositionUtils.h>
+#include <utilities/Constants.h>
+#include <control/shotControllers/ShotController.h>
 
 namespace rtt {
 namespace ai {

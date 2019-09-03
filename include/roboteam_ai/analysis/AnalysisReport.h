@@ -10,7 +10,7 @@
 
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "RobotDanger.h"
-#include "include/roboteam_ai/world/WorldData.h"
+#include "world/WorldData.h"
 
 namespace rtt {
 namespace ai {

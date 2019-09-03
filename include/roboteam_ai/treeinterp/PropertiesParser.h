@@ -7,10 +7,10 @@
 
 #include <string>
 #include "roboteam_utils/Vector2.h"
-#include "include/roboteam_ai/bt/Blackboard.hpp"
+#include "bt/Blackboard.hpp"
 #include "json.h"
 #include "JsonReader.h"
-#include "include/roboteam_ai/bt/Blackboard.hpp"
+#include "bt/Blackboard.hpp"
 #include <math.h>
 #include <string>
 #include <vector>

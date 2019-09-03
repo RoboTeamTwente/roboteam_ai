@@ -7,9 +7,9 @@
 
 #include "gtest/gtest_prod.h"
 #include "AnalysisReport.h"
-#include "include/roboteam_ai/world/WorldData.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/BallPossession.h"
+#include "world/WorldData.h"
+#include "world/World.h"
+#include "world/BallPossession.h"
 
 namespace rtt {
 namespace ai {

@@ -11,7 +11,7 @@
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_proto/World.pb.h"
 
-#include "include/roboteam_ai/utilities/Constants.h"
+#include "utilities/Constants.h"
 #include "Team.h"
 #include "WhichRobots.h"
 

@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_ROTATEAROUNDROBOT_H
 #define ROBOTEAM_AI_ROTATEAROUNDROBOT_H
 
-#include "include/roboteam_ai/control/RobotCommand.h"
+#include "control/RobotCommand.h"
 
 namespace rtt {
 namespace ai {

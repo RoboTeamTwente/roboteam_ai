@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_POSCONTROLLER_H
 
 #include "RobotCommand.h"
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/control/pid.h>
+#include <utilities/Constants.h>
+#include <control/pid.h>
 
 namespace rtt {
 namespace ai {

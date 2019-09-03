@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_REFLECTKICK_H
 #define ROBOTEAM_AI_REFLECTKICK_H
 
-#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <control/BasicPosControl.h>
 #include "Skill.h"
-#include <include/roboteam_ai/coach/PassCoach.h>
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
+#include <coach/PassCoach.h>
+#include <coach/BallplacementCoach.h>
 
 namespace rtt {
 namespace ai {

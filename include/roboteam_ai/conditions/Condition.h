@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_CONDITION_H
 #define ROBOTEAM_AI_CONDITION_H
 
-#include "include/roboteam_ai/bt/Leaf.hpp"
+#include "bt/Leaf.hpp"
 
 
 namespace rtt {
