@@ -2,12 +2,12 @@
 // Created by mrlukasbos on 23-1-19.
 //
 
-#include <include/roboteam_ai/analysis/GameAnalyzer.h>
-#include <include/roboteam_ai/analysis/DecisionMaker.h>
-#include "include/roboteam_ai/skills/formations/Formation.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/control/Hungarian.h"
+#include <analysis/GameAnalyzer.h>
+#include <analysis/DecisionMaker.h>
+#include "skills/formations/Formation.h"
+#include "control/ControlUtils.h"
+#include "world/Field.h"
+#include "control/Hungarian.h"
 
 namespace rtt {
 namespace ai {

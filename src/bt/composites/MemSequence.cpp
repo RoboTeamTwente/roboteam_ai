@@ -6,7 +6,7 @@
  */
 
 
-#include "include/roboteam_ai/bt/composites/MemSequence.hpp"
+#include "bt/composites/MemSequence.hpp"
 
 namespace bt {
 

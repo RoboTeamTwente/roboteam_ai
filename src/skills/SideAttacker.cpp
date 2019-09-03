@@ -2,7 +2,7 @@
 // Created by thijs on 17-12-18.
 //
 
-#include "include/roboteam_ai/skills/SideAttacker.h"
+#include "skills/SideAttacker.h"
 
 namespace rtt {
 namespace ai {

@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_COACHDEFEND_H
 #define ROBOTEAM_AI_COACHDEFEND_H
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
+#include <control/numTrees/NumTreePosControl.h>
+#include <control/BasicPosControl.h>
 #include "Skill.h"
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "control/numTrees/NumTreePosControl.h"
 
 namespace rtt {
 namespace ai {

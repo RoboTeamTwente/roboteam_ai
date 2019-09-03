@@ -2,15 +2,15 @@
 // Created by mrlukasbos on 7-5-19.
 //
 
-#include <include/roboteam_ai/utilities/RobotDealer.h>
-#include <include/roboteam_ai/Switches.h>
-#include <include/roboteam_ai/treeinterp/BTFactory.h>
-#include <include/roboteam_ai/interface/api/Output.h>
-#include "include/roboteam_ai/interface/widgets/MainControlsWidget.h"
-#include "include/roboteam_ai/interface/widgets/mainWindow.h"
-#include "include/roboteam_ai/treeinterp/BTFactory.h"
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/utilities/GameState.h"
+#include <utilities/RobotDealer.h>
+#include <Switches.h>
+#include <treeinterp/BTFactory.h>
+#include <interface/api/Output.h>
+#include "interface/widgets/MainControlsWidget.h"
+#include "interface/widgets/mainWindow.h"
+#include "treeinterp/BTFactory.h"
+#include <utilities/GameStateManager.hpp>
+#include "utilities/GameState.h"
 
 namespace rtt {
 namespace ai {

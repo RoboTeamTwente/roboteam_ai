@@ -2,7 +2,7 @@
 // Created by thijs on 10-4-19.
 //
 
-#include "include/roboteam_ai/skills/MidFieldHarasser.h"
+#include "skills/MidFieldHarasser.h"
 
 namespace rtt {
 namespace ai {

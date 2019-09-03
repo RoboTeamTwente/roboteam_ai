@@ -2,11 +2,11 @@
 // Created by mrlukasbos on 19-10-18.
 //
 
-#include <include/roboteam_ai/interface/api/Input.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/world/WorldData.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/World.h"
+#include <interface/api/Input.h>
+#include <control/ControlUtils.h>
+#include "world/WorldData.h"
+#include "world/Field.h"
+#include "world/World.h"
 
 namespace rtt {
 namespace ai {

@@ -5,9 +5,9 @@
 #ifndef ROBOTEAM_AI_SHOTCONTROLLER_H
 #define ROBOTEAM_AI_SHOTCONTROLLER_H
 
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include "include/roboteam_ai/control/RobotCommand.h"
+#include <control/BasicPosControl.h>
+#include <control/numTrees/NumTreePosControl.h>
+#include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 
 namespace rtt {

@@ -2,10 +2,10 @@
 // Created by rolf on 5-4-19.
 //
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include "include/roboteam_ai/coach/defence/PossiblePass.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/WorldData.h"
+#include <control/ControlUtils.h>
+#include "coach/defence/PossiblePass.h"
+#include "world/Field.h"
+#include "world/WorldData.h"
 
 namespace rtt {
 namespace ai {

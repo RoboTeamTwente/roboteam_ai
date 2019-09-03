@@ -2,16 +2,16 @@
 // Created by robzelluf on 1/22/19.
 //
 
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/control/ballHandling/BallHandlePosControl.h>
-#include <include/roboteam_ai/control/BasicPosControl.h>
-#include <include/roboteam_ai/interface/api/Input.h>
-#include <include/roboteam_ai/world/Robot.h>
-#include <include/roboteam_ai/world/WorldData.h>
-#include "include/roboteam_ai/skills/Pass.h"
+#include <coach/BallplacementCoach.h>
+#include <control/PositionUtils.h>
+#include <control/ControlUtils.h>
+#include <utilities/Constants.h>
+#include <control/ballHandling/BallHandlePosControl.h>
+#include <control/BasicPosControl.h>
+#include <interface/api/Input.h>
+#include <world/Robot.h>
+#include <world/WorldData.h>
+#include "skills/Pass.h"
 
 namespace rtt {
 namespace ai {

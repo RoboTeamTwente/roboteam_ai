@@ -3,8 +3,8 @@
 * This file contains the contents of the 'PID' tab in the interface
 */
 
-#include "include/roboteam_ai/interface/widgets/PidsWidget.h"
-#include "include/roboteam_ai/interface/widgets/PidBox.h"
+#include "interface/widgets/PidsWidget.h"
+#include "interface/widgets/PidBox.h"
 
 namespace rtt {
 namespace ai {

@@ -6,13 +6,13 @@
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
 #include <roboteam_utils/Vector2.h>
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "include/roboteam_ai/control/RobotCommand.h"
-#include <include/roboteam_ai/utilities/Constants.h>
+#include "control/numTrees/NumTreePosControl.h"
+#include "control/RobotCommand.h"
+#include <utilities/Constants.h>
 #include <roboteam_utils/LineSegment.h>
-#include <include/roboteam_ai/control/pid.h>
-#include <include/roboteam_ai/world/Ball.h>
-#include <include/roboteam_ai/world/Robot.h>
+#include <control/pid.h>
+#include <world/Ball.h>
+#include <world/Robot.h>
 namespace rtt {
 namespace ai {
 namespace control {

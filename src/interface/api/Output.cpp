@@ -2,10 +2,10 @@
 // Created by mrlukasbos on 18-1-19.
 //
 
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/treeinterp/BTFactory.h>
-#include "include/roboteam_ai/interface/api/Output.h"
-#include "include/roboteam_ai/world/Ball.h"
+#include <utilities/Constants.h>
+#include <treeinterp/BTFactory.h>
+#include "interface/api/Output.h"
+#include "world/Ball.h"
 
 namespace rtt {
 namespace ai {

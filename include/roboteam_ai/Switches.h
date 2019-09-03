@@ -5,9 +5,9 @@
 #define ROBOTEAM_AI_SWITCHES_H
 
 #include <iostream>
-#include <include/roboteam_ai/utilities/RobotDealer.h>
-#include <include/roboteam_ai/bt/Blackboard.hpp>
-#include <include/roboteam_ai/bt/Node.hpp>
+#include <utilities/RobotDealer.h>
+#include <bt/Blackboard.hpp>
+#include <bt/Node.hpp>
 
 class Switches {
         private:

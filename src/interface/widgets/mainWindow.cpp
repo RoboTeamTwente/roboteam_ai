@@ -2,16 +2,16 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
-#include "include/roboteam_ai/interface/widgets/mainWindow.h"
-#include "include/roboteam_ai/utilities/Constants.h"
-#include <include/roboteam_ai/treeinterp/BTFactory.h>
-#include "include/roboteam_ai/interface/api/Output.h"
-#include "include/roboteam_ai/interface/widgets/RobotsWidget.h"
-#include "include/roboteam_ai/interface/widgets/PidsWidget.h"
-#include "include/roboteam_ai/interface/widgets/MainControlsWidget.h"
-#include "include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h"
+#include "interface/widgets/mainWindow.h"
+#include "utilities/Constants.h"
+#include <treeinterp/BTFactory.h>
+#include "interface/api/Output.h"
+#include "interface/widgets/RobotsWidget.h"
+#include "interface/widgets/PidsWidget.h"
+#include "interface/widgets/MainControlsWidget.h"
+#include "interface/widgets/VisualizationSettingsWidget.h"
 #include <QSplitter>
-#include <include/roboteam_ai/interface/widgets/SettingsWidget.h>
+#include <interface/widgets/SettingsWidget.h>
 
 namespace rtt {
 namespace ai {

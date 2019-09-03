@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_FORMATION_H
 #define ROBOTEAM_AI_FORMATION_H
 
-#include <include/roboteam_ai/control/numTrees/NumTreePosControl.h>
-#include "include/roboteam_ai/skills/Skill.h"
+#include <control/numTrees/NumTreePosControl.h>
+#include "skills/Skill.h"
 #include "gtest/gtest_prod.h"
 
 namespace rtt {

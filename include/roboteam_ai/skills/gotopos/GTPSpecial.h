@@ -5,12 +5,12 @@
 #ifndef ROBOTEAM_AI_BASICGOTOPOS_H
 #define ROBOTEAM_AI_BASICGOTOPOS_H
 
-#include <include/roboteam_ai/control/PositionUtils.h>
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/skills/Skill.h"
+#include <control/PositionUtils.h>
+#include <coach/BallplacementCoach.h>
+#include <world/Field.h>
+#include "skills/Skill.h"
 #include "GoToPos.h"
-#include "include/roboteam_ai/interface/api/Input.h"
+#include "interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

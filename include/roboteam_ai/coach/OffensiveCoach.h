@@ -7,8 +7,8 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <algorithm>
-#include "include/roboteam_ai/world/WorldData.h"
-#include "include/roboteam_ai/coach/heuristics/OffensiveScore.h"
+#include "world/WorldData.h"
+#include "coach/heuristics/OffensiveScore.h"
 
 namespace rtt {
 namespace ai {

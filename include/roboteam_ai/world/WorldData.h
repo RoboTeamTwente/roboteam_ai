@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_WORLDDATA_H
 #define ROBOTEAM_AI_WORLDDATA_H
 
-#include <include/roboteam_ai/Settings/Settings.h>
+#include <Settings/Settings.h>
 #include "roboteam_proto/World.pb.h"
 
 #include "roboteam_utils/Vector2.h"

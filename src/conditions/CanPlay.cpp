@@ -4,11 +4,11 @@
  * USED FOR CHECKING GAME STATE CHANGES DONT USE IF YOU DONT KNOW WHEN TO
  */
 
-#include <include/roboteam_ai/interface/api/Output.h>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/utilities/Constants.h"
-#include "include/roboteam_ai/conditions/CanPlay.h"
-#include "include/roboteam_ai/world/Ball.h"
+#include <interface/api/Output.h>
+#include <utilities/GameStateManager.hpp>
+#include "utilities/Constants.h"
+#include "conditions/CanPlay.h"
+#include "world/Ball.h"
 
 namespace rtt {
 namespace ai {

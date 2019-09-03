@@ -1,10 +1,10 @@
 #include <QApplication>
 #include <QStyleFactory>
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/Settings/Settings.h>
+#include <utilities/Constants.h>
+#include <Settings/Settings.h>
 
-#include "include/roboteam_ai/interface/widgets/mainWindow.h"
-#include "include/roboteam_ai/ApplicationManager.h"
+#include "interface/widgets/mainWindow.h"
+#include "ApplicationManager.h"
 
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;

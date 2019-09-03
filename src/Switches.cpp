@@ -2,14 +2,14 @@
 // Created by baris on 15/11/18.
 //
 
-#include "include/roboteam_ai/Switches.h"
+#include "Switches.h"
 //  ______________________
 //  |                    |
 //  |   INCLUDE TACTICS  |
 //  |____________________|
 //
 
-#include "include/roboteam_ai/bt/tactics/DefaultTactic.h"
+#include "bt/tactics/DefaultTactic.h"
 
 //  ______________________
 //  |                    |
@@ -17,46 +17,46 @@
 //  |____________________|
 //
 
-#include "include/roboteam_ai/skills/Dribble.h"
-#include "include/roboteam_ai/skills/DribbleForward.h"
-#include "include/roboteam_ai/skills/ChipForward.h"
-#include "include/roboteam_ai/skills/gotopos/SkillGoToPos.h"
-#include "include/roboteam_ai/skills/Halt.h"
-#include "include/roboteam_ai/skills/Harass.h"
-#include "include/roboteam_ai/skills/RotateToAngle.h"
-#include "include/roboteam_ai/skills/gotopos/GoToPos.h"
-#include "include/roboteam_ai/skills/Keeper.h"
-#include "include/roboteam_ai/skills/GetBall.h"
-#include "include/roboteam_ai/skills/Attack.h"
-#include "include/roboteam_ai/skills/SideAttacker.h"
-#include "include/roboteam_ai/skills/Pass.h"
-#include "include/roboteam_ai/skills/FreeKickPass.h"
-#include "include/roboteam_ai/skills/Receive.h"
-#include "include/roboteam_ai/skills/DribbleRotate.h"
-#include <include/roboteam_ai/skills/gotopos/GTPSpecial.h>
-#include "include/roboteam_ai/skills/gotopos/GoAroundPos.h"
-#include "include/roboteam_ai/skills/gotopos/GTPWithBall.h"
-#include "include/roboteam_ai/skills/gotopos/GoBehindBall.h"
-#include "include/roboteam_ai/skills/ShootPenalty.h"
-#include "include/roboteam_ai/skills/ShootFreeKick.h"
-#include "include/roboteam_ai/skills/DemoAttack.h"
-#include <include/roboteam_ai/skills/MidFieldHarasser.h>
-#include "include/roboteam_ai/skills/ReflectKick.h"
-#include "include/roboteam_ai/skills/InterceptRobot.hpp"
-#include "include/roboteam_ai/skills/InterceptBall.h"
-#include "include/roboteam_ai/skills/CoachDefend.h"
-#include "include/roboteam_ai/skills/formations/PenaltyFormation.h"
-#include "include/roboteam_ai/skills/formations/FreeKickFormation.h"
-#include "include/roboteam_ai/skills/formations/DefendFreeKick.h"
-#include "include/roboteam_ai/skills/formations/BallPlacementFormation.h"
-#include "include/roboteam_ai/skills/ActiveStop.h"
-#include "include/roboteam_ai/skills/SlingShot.h"
-#include <include/roboteam_ai/skills/PenaltyKeeper.h>
-#include <include/roboteam_ai/skills/DriveWithInterface.h>
-#include <include/roboteam_ai/skills/BallPlacementWithInterface.h>
-#include <include/roboteam_ai/skills/MidFieldHarasser.h>
-#include <include/roboteam_ai/skills/Wait.h>
-#include <include/roboteam_ai/skills/KickTo.h>
+#include "skills/Dribble.h"
+#include "skills/DribbleForward.h"
+#include "skills/ChipForward.h"
+#include "skills/gotopos/SkillGoToPos.h"
+#include "skills/Halt.h"
+#include "skills/Harass.h"
+#include "skills/RotateToAngle.h"
+#include "skills/gotopos/GoToPos.h"
+#include "skills/Keeper.h"
+#include "skills/GetBall.h"
+#include "skills/Attack.h"
+#include "skills/SideAttacker.h"
+#include "skills/Pass.h"
+#include "skills/FreeKickPass.h"
+#include "skills/Receive.h"
+#include "skills/DribbleRotate.h"
+#include <skills/gotopos/GTPSpecial.h>
+#include "skills/gotopos/GoAroundPos.h"
+#include "skills/gotopos/GTPWithBall.h"
+#include "skills/gotopos/GoBehindBall.h"
+#include "skills/ShootPenalty.h"
+#include "skills/ShootFreeKick.h"
+#include "skills/DemoAttack.h"
+#include <skills/MidFieldHarasser.h>
+#include "skills/ReflectKick.h"
+#include "skills/InterceptRobot.hpp"
+#include "skills/InterceptBall.h"
+#include "skills/CoachDefend.h"
+#include "skills/formations/PenaltyFormation.h"
+#include "skills/formations/FreeKickFormation.h"
+#include "skills/formations/DefendFreeKick.h"
+#include "skills/formations/BallPlacementFormation.h"
+#include "skills/ActiveStop.h"
+#include "skills/SlingShot.h"
+#include <skills/PenaltyKeeper.h>
+#include <skills/DriveWithInterface.h>
+#include <skills/BallPlacementWithInterface.h>
+#include <skills/MidFieldHarasser.h>
+#include <skills/Wait.h>
+#include <skills/KickTo.h>
 
 
 //  ______________________
@@ -65,51 +65,51 @@
 //  |____________________|
 //
 
-#include "include/roboteam_ai/conditions/HasBall.hpp"
-#include <include/roboteam_ai/conditions/TheyHaveBall.h>
-#include <include/roboteam_ai/conditions/WeHaveBall.h>
-#include <include/roboteam_ai/conditions/IsRobotClosestToBall.h>
-#include <include/roboteam_ai/conditions/CanReflectKick.h>
-#include <include/roboteam_ai/conditions/BallKickedToOurGoal.h>
-#include <include/roboteam_ai/conditions/IsBallOnOurSide.h>
-#include <include/roboteam_ai/skills/formations/KickOffUsFormation.h>
-#include <include/roboteam_ai/skills/AvoidBall.h>
-#include "include/roboteam_ai/conditions/ShouldHandleBall.h"
-#include <include/roboteam_ai/skills/formations/TimeoutFormation.h>
-#include <include/roboteam_ai/bt/RoleDivider.h>
-#include <include/roboteam_ai/skills/formations/KickOffThemFormation.h>
-#include <include/roboteam_ai/skills/ballPlacement/BallPlacementReceive.h>
-#include <include/roboteam_ai/conditions/CanPlay.h>
-#include <include/roboteam_ai/conditions/RobotOutside.h>
-#include <include/roboteam_ai/conditions/RefStateIsNormalPlay.h>
-#include <include/roboteam_ai/conditions/RefBallIsMoving.h>
-#include <include/roboteam_ai/skills/ballPlacement/BallPlacementPass.h>
-#include <include/roboteam_ai/bt/composites/MemSelector.hpp>
-#include <include/roboteam_ai/bt/composites/MemSequence.hpp>
-#include <include/roboteam_ai/bt/composites/MemParallelSequence.h>
-#include <include/roboteam_ai/bt/decorators/Failer.hpp>
-#include <include/roboteam_ai/bt/decorators/UntilFail.hpp>
-#include <include/roboteam_ai/bt/decorators/UntilSuccess.hpp>
-#include <include/roboteam_ai/bt/composites/Selector.hpp>
-#include <include/roboteam_ai/bt/composites/ParallelSequence.hpp>
-#include <include/roboteam_ai/bt/decorators/Succeeder.hpp>
-#include <include/roboteam_ai/bt/decorators/Repeater.hpp>
-#include <include/roboteam_ai/bt/decorators/Inverter.hpp>
-#include <include/roboteam_ai/bt/composites/Sequence.hpp>
-#include <include/roboteam_ai/conditions/BallIsClose.h>
-#include <include/roboteam_ai/skills/formations/StopFormation.h>
+#include "conditions/HasBall.hpp"
+#include <conditions/TheyHaveBall.h>
+#include <conditions/WeHaveBall.h>
+#include <conditions/IsRobotClosestToBall.h>
+#include <conditions/CanReflectKick.h>
+#include <conditions/BallKickedToOurGoal.h>
+#include <conditions/IsBallOnOurSide.h>
+#include <skills/formations/KickOffUsFormation.h>
+#include <skills/AvoidBall.h>
+#include "conditions/ShouldHandleBall.h"
+#include <skills/formations/TimeoutFormation.h>
+#include <bt/RoleDivider.h>
+#include <skills/formations/KickOffThemFormation.h>
+#include <skills/ballPlacement/BallPlacementReceive.h>
+#include <conditions/CanPlay.h>
+#include <conditions/RobotOutside.h>
+#include <conditions/RefStateIsNormalPlay.h>
+#include <conditions/RefBallIsMoving.h>
+#include <skills/ballPlacement/BallPlacementPass.h>
+#include <bt/composites/MemSelector.hpp>
+#include <bt/composites/MemSequence.hpp>
+#include <bt/composites/MemParallelSequence.h>
+#include <bt/decorators/Failer.hpp>
+#include <bt/decorators/UntilFail.hpp>
+#include <bt/decorators/UntilSuccess.hpp>
+#include <bt/composites/Selector.hpp>
+#include <bt/composites/ParallelSequence.hpp>
+#include <bt/decorators/Succeeder.hpp>
+#include <bt/decorators/Repeater.hpp>
+#include <bt/decorators/Inverter.hpp>
+#include <bt/composites/Sequence.hpp>
+#include <conditions/BallIsClose.h>
+#include <skills/formations/StopFormation.h>
 
-#include "include/roboteam_ai/conditions/BallInDefenseAreaAndStill.h"
-#include "include/roboteam_ai/conditions/IsInDefenseArea.hpp"
-#include "include/roboteam_ai/conditions/BallOutOfField.h"
-#include "include/roboteam_ai/conditions/IsBeingPassedTo.h"
-#include "include/roboteam_ai/conditions/IsCloseToPoint.h"
-#include "include/roboteam_ai/conditions/IsBallCloseToBorder.h"
-#include "include/roboteam_ai/conditions/BallNearOurGoalLineAndStill.h"
-#include "include/roboteam_ai/conditions/TwoRobotBallPlacement.h"
-#include "include/roboteam_ai/conditions/HasClearShot.h"
-#include "include/roboteam_ai/conditions/IsOnPassLine.h"
-#include "include/roboteam_ai/conditions/ResumePlayAfterPenalty.h"
+#include "conditions/BallInDefenseAreaAndStill.h"
+#include "conditions/IsInDefenseArea.hpp"
+#include "conditions/BallOutOfField.h"
+#include "conditions/IsBeingPassedTo.h"
+#include "conditions/IsCloseToPoint.h"
+#include "conditions/IsBallCloseToBorder.h"
+#include "conditions/BallNearOurGoalLineAndStill.h"
+#include "conditions/TwoRobotBallPlacement.h"
+#include "conditions/HasClearShot.h"
+#include "conditions/IsOnPassLine.h"
+#include "conditions/ResumePlayAfterPenalty.h"
 
 
 /**

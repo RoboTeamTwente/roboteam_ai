@@ -9,12 +9,12 @@
  */
 
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/interface/api/Output.h>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/coach/BallplacementCoach.h"
-#include "include/roboteam_ai/interface/api/Input.h"
-#include "include/roboteam_ai/world/Ball.h"
-#include "include/roboteam_ai/world/World.h"
+#include <interface/api/Output.h>
+#include <utilities/GameStateManager.hpp>
+#include "coach/BallplacementCoach.h"
+#include "interface/api/Input.h"
+#include "world/Ball.h"
+#include "world/World.h"
 
 namespace rtt {
 namespace ai {

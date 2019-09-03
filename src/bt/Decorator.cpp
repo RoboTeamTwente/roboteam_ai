@@ -1,4 +1,4 @@
-#include "include/roboteam_ai/bt/Decorator.hpp"
+#include "bt/Decorator.hpp"
 
 namespace bt {
 

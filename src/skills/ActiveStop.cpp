@@ -2,9 +2,9 @@
 // Created by baris on 8-4-19.
 //
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/skills/ActiveStop.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <world/Field.h>
+#include "skills/ActiveStop.h"
+#include "control/ControlUtils.h"
 
 namespace rtt{
 namespace ai {

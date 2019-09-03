@@ -7,8 +7,8 @@
 
 #include <mutex>
 #include "roboteam_utils/Vector2.h"
-#include "include/roboteam_ai/utilities/Pause.h"
-#include "include/roboteam_ai/utilities/GameState.h"
+#include "utilities/Pause.h"
+#include "utilities/GameState.h"
 
 namespace rtt {
 namespace ai {

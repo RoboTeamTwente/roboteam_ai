@@ -2,7 +2,7 @@
 // Created by thijs on 19-3-19.
 //
 
-#include "include/roboteam_ai/world/History.h"
+#include "world/History.h"
 
 namespace rtt {
 namespace ai {

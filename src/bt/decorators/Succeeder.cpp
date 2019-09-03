@@ -2,7 +2,7 @@
  *   The Succeeder decorator returns success, regardless of what happens to the child.
  */
 
-#include "include/roboteam_ai/bt/decorators/Succeeder.hpp"
+#include "bt/decorators/Succeeder.hpp"
 
 namespace bt {
 

@@ -2,11 +2,11 @@
 // Created by mrlukasbos on 1-5-19.
 //
 
-#include <include/roboteam_ai/coach/PassCoach.h>
-#include <include/roboteam_ai/coach/BallplacementCoach.h>
-#include "include/roboteam_ai/skills/ballPlacement/BallPlacementReceive.h"
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "include/roboteam_ai/control/ControlUtils.h"
+#include <coach/PassCoach.h>
+#include <coach/BallplacementCoach.h>
+#include "skills/ballPlacement/BallPlacementReceive.h"
+#include "control/numTrees/NumTreePosControl.h"
+#include "control/ControlUtils.h"
 
 namespace rtt {
 namespace ai {

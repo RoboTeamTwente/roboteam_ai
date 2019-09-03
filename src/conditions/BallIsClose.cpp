@@ -2,10 +2,10 @@
 // Created by baris on 25-4-19.
 //
 
-#include <include/roboteam_ai/world/World.h>
-#include <include/roboteam_ai/world/Ball.h>
-#include <include/roboteam_ai/world/Robot.h>
-#include "include/roboteam_ai/conditions/BallIsClose.h"
+#include <world/World.h>
+#include <world/Ball.h>
+#include <world/Robot.h>
+#include "conditions/BallIsClose.h"
 
 rtt::ai::BallIsClose::BallIsClose(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(name, blackboard) {

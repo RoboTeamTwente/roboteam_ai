@@ -5,7 +5,7 @@
  *   If all children succeeds, only then does the sequence succeed.
 */
 
-#include "include/roboteam_ai/bt/composites/Sequence.hpp"
+#include "bt/composites/Sequence.hpp"
 
 namespace bt {
 

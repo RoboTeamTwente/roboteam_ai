@@ -2,7 +2,7 @@
 // Created by baris on 01/10/18.
 //
 
-#include "include/roboteam_ai/treeinterp/TreeInterpreter.h"
+#include "treeinterp/TreeInterpreter.h"
 
 /// Return a TreeInterpreter singleton
 TreeInterpreter &TreeInterpreter::getInstance() {

@@ -2,14 +2,14 @@
 // Created by mrlukasbos on 27-11-18.
 //
 
-#include <include/roboteam_ai/utilities/RobotDealer.h>
-#include <include/roboteam_ai/coach/PassCoach.h>
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/interface/widgets/widget.h"
-#include "include/roboteam_ai/interface/api/Input.h"
-#include "include/roboteam_ai/interface/api/Output.h"
-#include "include/roboteam_ai/analysis/GameAnalyzer.h"
-#include "include/roboteam_ai/world/Field.h"
+#include <utilities/RobotDealer.h>
+#include <coach/PassCoach.h>
+#include <utilities/GameStateManager.hpp>
+#include "interface/widgets/widget.h"
+#include "interface/api/Input.h"
+#include "interface/api/Output.h"
+#include "analysis/GameAnalyzer.h"
+#include "world/Field.h"
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 

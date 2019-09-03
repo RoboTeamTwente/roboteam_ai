@@ -2,13 +2,13 @@
 // Created by mrlukasbos on 19-2-19.
 //
 
-#include <include/roboteam_ai/control/ControlUtils.h>
-#include <include/roboteam_ai/world/BallPossession.h>
-#include "include/roboteam_ai/analysis/GameAnalyzer.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/analysis/RobotDanger.h"
+#include <control/ControlUtils.h>
+#include <world/BallPossession.h>
+#include "analysis/GameAnalyzer.h"
+#include "world/World.h"
+#include "world/Field.h"
+#include "world/Robot.h"
+#include "analysis/RobotDanger.h"
 
 namespace rtt {
 namespace ai {

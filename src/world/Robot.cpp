@@ -2,16 +2,15 @@
 // Created by thijs on 1-4-19.
 //
 
-#include <include/roboteam_ai/Settings/Settings.h>
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Ball.h"
-
-#include "include/roboteam_ai/control/ControlUtils.h"
-#include "include/roboteam_ai/control/shotControllers/ShotController.h"
-#include "include/roboteam_ai/control/ballHandling/BallHandlePosControl.h"
-#include "include/roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "include/roboteam_ai/control/BasicPosControl.h"
+#include <Settings/Settings.h>
+#include "world/Robot.h"
+#include "world/World.h"
+#include "world/Ball.h"
+#include "control/ControlUtils.h"
+#include "control/shotControllers/ShotController.h"
+#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/numTrees/NumTreePosControl.h"
+#include "control/BasicPosControl.h"
 
 namespace rtt {
 namespace ai {

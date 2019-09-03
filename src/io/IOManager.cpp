@@ -7,18 +7,17 @@
 
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
-#include <include/roboteam_ai/io/IOManager.h>
+#include <io/IOManager.h>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/constants.h>
-#include <include/roboteam_ai/Settings/Settings.h>
+#include <Settings/Settings.h>
 
-#include "include/roboteam_ai/demo/JoystickDemo.h"
-#include "include/roboteam_ai/utilities/Pause.h"
-#include "include/roboteam_ai/world/Field.h"
-#include "include/roboteam_ai/world/Robot.h"
-#include "include/roboteam_ai/utilities/GameStateManager.hpp"
-#include "include/roboteam_ai/io/IOManager.h"
-#include "include/roboteam_ai/interface/api/Input.h"
+#include "demo/JoystickDemo.h"
+#include "utilities/Pause.h"
+#include "world/Field.h"
+#include "world/Robot.h"
+#include "utilities/GameStateManager.hpp"
+#include "interface/api/Input.h"
 
 namespace rtt {
 namespace ai {

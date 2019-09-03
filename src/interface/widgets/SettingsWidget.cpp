@@ -1,11 +1,11 @@
 
-#include "include/roboteam_ai/interface/widgets/SettingsWidget.h"
+#include "interface/widgets/SettingsWidget.h"
 
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QLineEdit>
-#include <include/roboteam_ai/Settings/Settings.h>
-#include "include/roboteam_ai/interface/widgets/mainWindow.h"
+#include <Settings/Settings.h>
+#include "interface/widgets/mainWindow.h"
 
 namespace rtt {
 namespace ai {
