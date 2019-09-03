@@ -19,6 +19,8 @@
 #include "utilities/GameStateManager.hpp"
 #include "interface/api/Input.h"
 
+#include "roboteam_utils/normalize.h"
+
 namespace rtt {
 namespace ai {
 namespace io {
@@ -34,12 +36,7 @@ IOManager io;
 void IOManager::handleWorldState(roboteam_proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
 
-  if (!SETTINGS.isLeft()) {
-      auto ball = world.mutable_ball();
-      ball->mutable_pos()->set_x(ball->pos().x() * -1);
-      ball->mutable_pos()->set_y(ball->pos().y() * -1);
-
-  }
+  if (!SETTINGS.isLeft()) { roboteam_utils::rotate(&world); }
 
   this->worldMsg = world;
   world::world->updateWorld(this->worldMsg);
@@ -47,26 +44,25 @@ void IOManager::handleWorldState(roboteam_proto::World & world) {
 
 void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
   std::lock_guard<std::mutex> lock(geometryMutex);
-  this->geometryMsg = sslData;
 
   // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
   FieldMessage msg = FieldMessage(sslData.field());
+  if (!SETTINGS.isLeft()) { msg.invert(); }
 
-    if (!SETTINGS.isLeft()) {
-        msg.invert();
-    }
+
+    this->geometryMsg = sslData;
+
     world::field->set_field(msg);
     hasReceivedGeom = true;
 }
 
 void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
-    this->refDataMsg = refData;
 
-    if (!SETTINGS.isLeft()) {
-        refData.mutable_designated_position()->set_x(refData.designated_position().x()*-1);
-        refData.mutable_designated_position()->set_y(refData.designated_position().y()*-1);
-    }
+    // Rotate the data from the referee (designated position, e.g. for ballplacement)
+    if (!SETTINGS.isLeft()) { roboteam_utils::rotate(&refData); }
+
+    this->refDataMsg = refData;
 
     // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
     std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
@@ -97,8 +93,8 @@ const roboteam_proto::SSL_GeometryData &IOManager::getGeometryData() {
 }
 
 const roboteam_proto::RobotFeedback &IOManager::getRobotFeedback() {
-//    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-//    return this->robotFeedbackMsg;
+    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
+    return this->robotFeedbackMsg;
 }
 
 const roboteam_proto::SSL_Referee &IOManager::getRefereeData() {

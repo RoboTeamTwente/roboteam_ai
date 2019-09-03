@@ -2,22 +2,22 @@
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
 #include <iostream>
-#include "constants.h"
+#include <mutex>
+
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/RobotCommand.pb.h"
 #include "roboteam_proto/Referee.pb.h"
 #include "roboteam_proto/Setting.pb.h"
-
 #include "roboteam_proto/DemoRobot.pb.h"
-#include <mutex>
 #include "roboteam_proto/Subscriber.h"
 #include "roboteam_proto/Publisher.h"
-
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include "roboteam_proto/GeometryData.pb.h"
-#include <utilities/FieldMessage.h>
 #include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
+
+#include "utilities/FieldMessage.h"
+#include "utilities/Constants.h"
 
 namespace rtt {
 namespace ai {
@@ -27,10 +27,6 @@ namespace io {
 
 class IOManager {
 private:
-
-// Map that converts SSL line and arc names to the more clear RoboTeam ones.
-
-
         roboteam_proto::World worldMsg;
         roboteam_proto::SSL_GeometryData geometryMsg;
         roboteam_proto::RobotFeedback robotFeedbackMsg;
@@ -49,20 +45,10 @@ private:
         roboteam_proto::Subscriber * feedbackSubscriber;
         void handleFeedback(roboteam_proto::RobotFeedback & feedback);
 
-  roboteam_proto::Publisher * publisher;
-
-  //        ros::Subscriber worldSubscriber;
-//        ros::Subscriber geometrySubscriber;
-//        ros::Subscriber roleFeedbackSubscriber;
-//        ros::Subscriber refereeSubscriber;
-//        ros::Subscriber demoInfoSubscriber;
-//
-//        ros::Publisher robotCommandPublisher;
+        roboteam_proto::Publisher * publisher;
         rtt::ai::Pause* pause;
 
-
-
-    public:
+public:
         explicit IOManager() = default;
         void publishRobotCommand(roboteam_proto::RobotCommand cmd);
         void publishSettings(roboteam_proto::Setting setting);
@@ -80,7 +66,6 @@ private:
         static std::mutex demoMutex;
 
         bool hasReceivedGeom = false;
-
 };
 
 extern IOManager io;

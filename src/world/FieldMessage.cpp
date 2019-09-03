@@ -19,7 +19,6 @@ FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
     newLine.end = mm_to_m(line.p2());
     newLine.thickness = mm_to_m(line.thickness());
 
-
     addHelperLine(newLine);
     field_lines.push_back(newLine);
   }
