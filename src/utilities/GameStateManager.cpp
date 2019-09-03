@@ -18,15 +18,7 @@ roboteam_proto::SSL_Referee GameStateManager::getRefereeData() {
 void GameStateManager::setRefereeData(roboteam_proto::SSL_Referee refMsg) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
-
-
     RefCommand cmd;
-
-
-    //COLOR AGNOSTIC STATES
-
-
-
     // COLOR DEPENDENT STATES
     if (SETTINGS.isYellow()) {
         switch (refMsg.command()) {
@@ -48,6 +40,10 @@ void GameStateManager::setRefereeData(roboteam_proto::SSL_Referee refMsg) {
             case roboteam_proto::SSL_Referee_Command_GOAL_BLUE: cmd = RefCommand::GOAL_THEM; break;
             case roboteam_proto::SSL_Referee_Command_BALL_PLACEMENT_YELLOW: cmd = RefCommand::BALL_PLACEMENT_US; break;
             case roboteam_proto::SSL_Referee_Command_BALL_PLACEMENT_BLUE: cmd = RefCommand::BALL_PLACEMENT_THEM; break;
+            default: {
+                std::cerr << "[Gamestatemanager] Unknown refstate, halting all robots for safety!" << std::endl;
+                cmd = RefCommand::HALT; break;
+            }
         }
     } else {
         switch (refMsg.command()) {
@@ -69,6 +65,10 @@ void GameStateManager::setRefereeData(roboteam_proto::SSL_Referee refMsg) {
             case roboteam_proto::SSL_Referee_Command_GOAL_BLUE: cmd = RefCommand::GOAL_US; break;
             case roboteam_proto::SSL_Referee_Command_BALL_PLACEMENT_YELLOW: cmd = RefCommand::BALL_PLACEMENT_THEM; break;
             case roboteam_proto::SSL_Referee_Command_BALL_PLACEMENT_BLUE: cmd = RefCommand::BALL_PLACEMENT_US; break;
+            default: {
+                std::cerr << "[Gamestatemanager] Unknown refstate, halting all robots for safety!" << std::endl;
+                cmd = RefCommand::HALT; break;
+            }
         }
     }
 
