@@ -208,58 +208,60 @@ set(CONTROL_SOURCES
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
+
+        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+
+#        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
+#        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
+#
+#        ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
+
+#        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/InterfaceTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainWindowTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/TreeVisualizerTest.cpp
+
+
+#        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+#        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
+#        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
+#        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PositionUtilsTest.cpp
+
+
+
         #${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/IOTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/TheyHaveBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/WeHaveBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/HasBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsInDefenseAreaTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsRobotClosestToBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBeingPassedToTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/BallInDefenseAreaAndStillTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/BallKickedToOurGoalTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/CanReflectKickTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/SkillTests/GoToPosTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/HungarianTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallPossessionTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/InterfaceTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainWindowTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/TreeVisualizerTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/SkillTests/PassTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
-        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
-        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
-        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/BallOutOfFieldtest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBallOnOurSideTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBallCloseToBorderTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/JoyStickTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PositionUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/CoachTests/OffensiveCoachTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/SkillTests/FormationTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/CoachTests/DefensiveCoachTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/CoachTests/OffensiveCoachTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/AnalysisTests/DecisionmakerTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/ShotControllerTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainControlsWidgetTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp)
+#        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+#
+#        ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/HungarianTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallPossessionTests.cpp
+#        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryTests.cpp
+#
+#        ${PROJECT_SOURCE_DIR}/test/SkillTests/PassTest.cpp
+#
+#        ${PROJECT_SOURCE_DIR}/test/ConditionTests/BallOutOfFieldtest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBallOnOurSideTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBallCloseToBorderTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/UtilTests/JoyStickTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/CoachTests/OffensiveCoachTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/SkillTests/FormationTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/CoachTests/DefensiveCoachTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/CoachTests/OffensiveCoachTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/AnalysisTests/DecisionmakerTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/ShotControllerTest.cpp
+#
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp

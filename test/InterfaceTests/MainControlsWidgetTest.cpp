@@ -6,7 +6,6 @@
 #include <interface/widgets/widget.h>
 #include <QtWidgets/QApplication>
 #include <interface/widgets/mainWindow.h>
-#include <ros/node_handle.h>
 #include <interface/widgets/MainControlsWidget.h>
 
 namespace w = rtt::ai::world;

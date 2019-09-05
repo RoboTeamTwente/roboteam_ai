@@ -7,7 +7,6 @@
 #include "coach/PassCoach.h"
 #include "../helpers/FieldHelper.h"
 
-namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;
 
 TEST(IsBeingPassedTo, IsBeingPassedToTest) {
