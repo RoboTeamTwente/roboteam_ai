@@ -11,6 +11,7 @@
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/constants.h>
 #include <Settings/Settings.h>
+#include <include/roboteam_ai/interface/api/Output.h>
 
 #include "demo/JoystickDemo.h"
 #include "utilities/Pause.h"
@@ -36,7 +37,9 @@ IOManager io;
 void IOManager::handleWorldState(roboteam_proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
 
-  if (!SETTINGS.isLeft()) { roboteam_utils::rotate(&world); }
+  if (!SETTINGS.isLeft()) {
+    std::cout << "rotating message" << std::endl;
+    roboteam_utils::rotate(&world); }
 
   this->worldMsg = world;
   world::world->updateWorld(this->worldMsg);
@@ -59,6 +62,7 @@ void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
 void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
 
+  if (interface::Output::usesRefereeCommands()) {
     // Rotate the data from the referee (designated position, e.g. for ballplacement)
     if (!SETTINGS.isLeft()) { roboteam_utils::rotate(&refData); }
 
@@ -66,19 +70,20 @@ void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
 
     // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
     std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-    if (refData.yellow().name() == ROBOTEAM_TWENTE) {
-        SETTINGS.setYellow(true);
-    } else if (refData.blue().name() == ROBOTEAM_TWENTE) {
-        SETTINGS.setYellow(false);
+    if (refData.yellow().name()==ROBOTEAM_TWENTE) {
+      SETTINGS.setYellow(true);
+    } else if (refData.blue().name()==ROBOTEAM_TWENTE) {
+      SETTINGS.setYellow(false);
     }
 
     if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
-        SETTINGS.setLeft(false);
+      SETTINGS.setLeft(false);
     } else {
-        SETTINGS.setLeft(true);
+      SETTINGS.setLeft(true);
     }
 
     GameStateManager::setRefereeData(refData);
+  }
 }
 
 
@@ -151,6 +156,7 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
             if (cmd.id() >= 0 && cmd.id() < 16) {
                 publisher->send(TOPIC_COMMANDS, cmd.SerializeAsString());
+                cmd.PrintDebugString();
             }
         }
         else {
