@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // update mainwindow and field visualization
     auto* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(40); // 50fps
+    timer->start(40); // 25fps
 
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
 
-    robotsTimer->start(200); // 5fps
+    robotsTimer->start(1000); // 1fps
 }
 
 

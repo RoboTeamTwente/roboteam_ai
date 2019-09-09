@@ -23,7 +23,7 @@ class Constants {
         static bool FEEDBACK_ENABLED();
 
         /// TICK RATE ///
-        static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 30; };
+        static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 5; };
         static constexpr int TICK_RATE()                    { return 60; };
 
         /// LOGGING ///
