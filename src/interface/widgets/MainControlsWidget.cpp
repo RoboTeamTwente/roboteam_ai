@@ -10,6 +10,7 @@
 #include "interface/widgets/mainWindow.h"
 #include "treeinterp/BTFactory.h"
 #include <utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/Settings/Settings.h>
 #include "utilities/GameState.h"
 
 namespace rtt {
@@ -92,7 +93,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
     hButtonsLayout->addWidget(toggleSideBtn);
-    setToggleColorBtnLayout(); // set the btn color and text to the current our_side
+    setToggleSideBtnLayout(); // set the btn color and text to the current our_side
 
     vLayout->addLayout(hButtonsLayout);
 
@@ -146,26 +147,16 @@ void MainControlsWidget::setUseReferee(bool useRef) {
 }
 
 
-/// toggle the ROS param 'our_color'
+/// toggle the setting 'isYellow'
 void MainControlsWidget::toggleOurColorParam() {
-//    ros::NodeHandle nh;
-//    std::string ourColorParam, newParam;
-//    nh.getParam("our_color", ourColorParam);
-//    newParam = ourColorParam == "yellow" ? "blue" : "yellow";
-//    nh.setParam("our_color", newParam);
-//
-//    setToggleColorBtnLayout();
+    SETTINGS.setYellow(!SETTINGS.isYellow());
+    setToggleColorBtnLayout();
 }
 
-/// toggle the ROS param 'our_color'
+/// toggle the the setting 'isLeft'
 void MainControlsWidget::toggleOurSideParam() {
-//    ros::NodeHandle nh;
-//    std::string ourColorParam, newParam;
-//    nh.getParam("our_side", ourColorParam);
-//    newParam = ourColorParam == "left" ? "right" : "left";
-//    nh.setParam("our_side", newParam);
-//
-//    setToggleSideBtnLayout();
+    SETTINGS.setLeft(!SETTINGS.isLeft());
+    setToggleSideBtnLayout();
 }
 
 /// send a halt signal to stop all trees from executing
@@ -186,29 +177,23 @@ void MainControlsWidget::updatePause() {
 }
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
-//    ros::NodeHandle nh;
-//    std::string ourColorParam;
-//    nh.getParam("our_color", ourColorParam);
-//    if (ourColorParam == "yellow") {
-//        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
-//    } else {
-//        toggleColorBtn->setStyleSheet("background-color: blue;");
-//    }
-//    toggleColorBtn->setText(QString::fromStdString(ourColorParam));
+    if (SETTINGS.isYellow()) {
+        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
+        toggleColorBtn->setText("Playing as Yellow");
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+        toggleColorBtn->setText("Playing as Blue");
+    }
 }
 
 void MainControlsWidget::setToggleSideBtnLayout() const {
-//    ros::NodeHandle nh;
-//    std::string ourSideParam;
-//    nh.getParam("our_side", ourSideParam);
-//    if (ourSideParam == "left") {
-//        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-//        toggleSideBtn->setText("◀ Left");
-//
-//    } else {
-//        toggleSideBtn->setText("right ▶");
-//        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-//    }
+    toggleSideBtn->setStyleSheet("background-color: #cc0000;");
+
+    if (SETTINGS.isLeft()) {
+        toggleSideBtn->setText("◀ Playing as left");
+    } else {
+        toggleSideBtn->setText("Playing as right ▶");
+    }
 }
 
 
