@@ -1,6 +1,6 @@
 #pragma once
 
-#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Position.h"
 
 #define INVALID_ROBOT_ID 99999
@@ -38,7 +38,7 @@ namespace rtt {
         Position get_velocity() const;
         uint get_id() const;
 
-       roboteam_msgs::WorldRobot as_message() const;
+       roboteam_proto::WorldRobot as_message() const;
     };
 
 }
