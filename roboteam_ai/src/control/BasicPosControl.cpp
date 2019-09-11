@@ -6,6 +6,8 @@
 #include "../interface/api/Input.h"
 #include "BasicPosControl.h"
 #include "../world/Robot.h"
+#include "../world/Field.h"
+#include "ControlUtils.h"
 
 namespace rtt {
 namespace ai {
@@ -21,12 +23,24 @@ RobotCommand BasicPosControl::getRobotCommand(const RobotPtr &robot, const Vecto
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
 
-    RobotCommand posVelAngle;
-    Vector2 error = targetPos - robot->pos;
+    Vector2 target = targetPos;
+    if (!getCanMoveOutOfField(robot->id)) {
+        if (!world::field->pointIsInField(targetPos)) {
+            target = ControlUtils::projectPositionToWithinField(targetPos);
+        }
+    }
+    if (!getCanMoveInDefenseArea(robot->id)) {
+        if (world::field->pointIsInDefenceArea(targetPos)) {
+            target = ControlUtils::projectPositionToOutsideDefenseArea(targetPos);
+        }
+    }
 
-    posVelAngle.pos = targetPos;
+    RobotCommand posVelAngle;
+    Vector2 error = target - robot->pos;
+
+    posVelAngle.pos = target;
     posVelAngle.vel = error;
-    posVelAngle.angle = (targetPos - robot->pos).angle();
+    posVelAngle.angle = (target - robot->pos).angle();
     return controlWithPID(robot, posVelAngle);
 }
 

@@ -3,8 +3,28 @@
     "trees": [
       {
         "nodes": {
-          "4aw8b7585n5qmx6l": {
-            "id": "4aw8b7585n5qmx6l",
+          "6505t1nh7yr9fslf": {
+            "children": [
+              "pbkafbj6npa3cuj2",
+              "hlg178tmbdp40nx4"
+            ],
+            "id": "6505t1nh7yr9fslf",
+            "properties": {
+              "ROLE": "shooter"
+            },
+            "title": "Sequence"
+          },
+          "hlg178tmbdp40nx4": {
+            "id": "hlg178tmbdp40nx4",
+            "properties": {
+              "ROLE": "shooter",
+              "penalty": "true",
+              "seconds": "1000"
+            },
+            "title": "Wait"
+          },
+          "pbkafbj6npa3cuj2": {
+            "id": "pbkafbj6npa3cuj2",
             "properties": {
               "ROLE": "shooter",
               "type": "penalty"
@@ -12,7 +32,7 @@
             "title": "GoBehindBall"
           }
         },
-        "root": "4aw8b7585n5qmx6l",
+        "root": "6505t1nh7yr9fslf",
         "title": "penalty_shooter_prepare_role"
       }
     ]

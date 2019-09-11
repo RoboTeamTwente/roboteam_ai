@@ -18,10 +18,22 @@ namespace ai {
 
 class Pass : public Skill {
 protected:
+    enum PassType {
+        DEFAULT,
+        DEFENSIVE,
+        FREEKICK
+    };
+
+    PassType passType = DEFAULT;
+
+    PassType stringToType(const std::string& type);
+
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
-    bool chip = false;
+    const double SUCCESSFUL_PASS_ANGLE = 0.6;
+
+    bool forcePass = false;
     int fails = 0;
-    int failsUntilChip = -1;
+    int maxTries = -1;
     bool passInitialized = false;
     bool hasShot = false;
     RobotPtr robotToPassTo;
@@ -30,7 +42,7 @@ protected:
     bool didShootProperly();
     int robotToPassToID = -1;
     Vector2 getKicker();
-
+    virtual void makeCommand();
 
 public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);

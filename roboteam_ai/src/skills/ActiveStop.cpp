@@ -4,6 +4,7 @@
 
 #include <roboteam_ai/src/world/Field.h>
 #include "ActiveStop.h"
+#include "roboteam_ai/src/control/ControlUtils.h"
 
 namespace rtt{
 namespace ai {
@@ -23,19 +24,23 @@ void ActiveStop::onInitialize() {
 }
 
 Skill::Status ActiveStop::onUpdate() {
-    if (attacker)
+    if (attacker) {
         targetPos = getOffensiveActivePoint();
-    else
+    } else {
         targetPos = getDefensiveActivePoint();
+    }
 
-    command.w = static_cast<float>((targetPos - robot->pos).angle());
+    if (robot->pos.dist(targetPos) > 0.3) {
+        command.w = static_cast<float>((targetPos - robot->pos).angle());
+    } else {
+        command.w = static_cast<float>((ball->pos - robot->pos).angle());
+    }
+
     Vector2 velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
     command.x_vel = static_cast<float>(velocity.x);
     command.y_vel = static_cast<float>(velocity.y);
     publishRobotCommand();
     return Status::Running;
-
-
 }
 
 void ActiveStop::onTerminate(Skill::Status s) {
@@ -43,29 +48,27 @@ void ActiveStop::onTerminate(Skill::Status s) {
 }
 
 Vector2 ActiveStop::getOffensiveActivePoint() {
-
     Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(false);
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
-
-    Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
-    if (rtt::ai::world::field->pointIsInDefenceArea(ballPos + offset)){
-        return ((ballPos+offset).rotate(M_PI).stretchToLength(2));
-    }
-    return ballPos + offset;
-
+    return getPoint(penaltyPos);
 }
 
 Vector2 ActiveStop::getDefensiveActivePoint() {
-
     Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(true);
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    return getPoint(penaltyPos);
+}
 
-    Vector2 offset = (penaltyPos - ballPos).stretchToLength(0.666); // ssl rule + some buffer + rtt spirit
-    if (rtt::ai::world::field->pointIsInDefenceArea(ballPos + offset)){
-        return (((ballPos+offset).rotate(M_PI)).stretchToLength(2));
+Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
+    Vector2 ballPos = world::world->getBall()->pos;
+
+    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer
+
+    if (world::field->pointIsInDefenceArea(ballPos + offset, true, 0.3, true)) {
+        return offset;
+    }
+    if (world::field->pointIsInDefenceArea(ballPos + offset, false, 0.3, true)) {
+        return offset;
     }
     return ballPos + offset;
-
 }
 
 }

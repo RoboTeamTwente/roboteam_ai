@@ -9,7 +9,7 @@
 #include "roboteam_ai/src/control/numTrees/NumTreePosControl.h"
 #include "roboteam_ai/src/control/RobotCommand.h"
 #include <roboteam_ai/src/utilities/Constants.h>
-
+#include <roboteam_utils/LineSegment.h>
 namespace rtt {
 namespace ai {
 namespace control {
@@ -28,14 +28,14 @@ class BallHandlePosControl : public NumTreePosControl {
         RotateWithBall* rotateWithBall;
         RotateAroundBall* rotateAroundBall;
 
-        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.0;
-        double maxBackwardsVelocity = Constants::GRSIM() ? 0.3 : 0.8;
-        double ballPlacementAccuracy = 0.07;
+        double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.2;
+        double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.5;
+        double ballPlacementAccuracy = 0.12;
 
         constexpr static double ERROR_MARGIN = 0.02;
-        constexpr static double ANGLE_ERROR_MARGIN = 0.02;
+        constexpr static double ANGLE_ERROR_MARGIN = 0.010*M_PI;
         constexpr static double MAX_BALL_DISTANCE = Constants::ROBOT_RADIUS()*2.0;
-        constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.16;
+        constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.3162277660168;
         constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
         constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE*1.05;
 
@@ -44,8 +44,9 @@ class BallHandlePosControl : public NumTreePosControl {
         Vector2 targetPos;
         Angle targetAngle;
         Angle lockedAngle = 0;
+        int ticksNotMoving = 0;
 
-        pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.0);
+        pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.5);
         PID xGoToBallPID = PID(pidfGoToBall);
         PID yGoToBallPID = PID(pidfGoToBall);
         
@@ -95,11 +96,20 @@ class BallHandlePosControl : public NumTreePosControl {
                 TravelStrategy travelStrategy);
         RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;
 
+    private:
+        bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
+        bool isCrashingOutsideField(const LineSegment &driveLine);
+
         RobotCommand goToMovingBall();
         RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy,
                 bool ballIsFarFromTarget);
         RobotCommand finalizeBallHandle();
-};
+        RobotCommand interceptMovingBall(const Vector2 &projectionPosition, double ballToProjectionDistance,
+                const Angle &robotAngleTowardsBallVel);
+        RobotCommand goBehindBall(const Vector2 &ballStillPosition);
+        RobotCommand interceptMovingBallTowardsBall();
+        Vector2 movingBallTowardsBallTarget;
+        };
 
 } //control
 } //ai

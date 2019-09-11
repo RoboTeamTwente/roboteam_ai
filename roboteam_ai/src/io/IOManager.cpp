@@ -6,6 +6,7 @@
  */
 
 #include <roboteam_msgs/DemoRobot.h>
+#include <roboteam_ai/src/interface/api/Input.h>
 #include "../demo/JoystickDemo.h"
 #include "../utilities/Pause.h"
 #include "../world/Field.h"
@@ -25,6 +26,7 @@ std::mutex IOManager::refereeMutex;
 std::mutex IOManager::demoMutex;
 
 IOManager::IOManager(bool subscribe, bool advertise) {
+    while (!nodeHandle.ok()) {}
     if (subscribe) {
         // subscribe to all topics
         this->subscribeToWorldState();
@@ -105,17 +107,24 @@ void IOManager::handleGeometryData(const roboteam_msgs::GeometryDataConstPtr &ge
 }
 
 void IOManager::handleRobotFeedback(const roboteam_msgs::RobotFeedbackConstPtr &robotfeedback) {
-    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-    this->robotFeedbackMsg = *robotfeedback;
+    if (Constants::FEEDBACK_ENABLED()) {
+        std::lock_guard<std::mutex> lock(robotFeedbackMutex);
+        this->robotFeedbackMsg = *robotfeedback;
 
-    auto robot = world::world->getRobotForId(robotfeedback->id);
+        auto robot = world::world->getRobotForId(robotfeedback->id);
 
-    if (robot) {
-        robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
-        robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
-        robot->setBatteryLow(robotfeedback->batteryLow);
+        if (robot) {
+
+            // indicate that now is last time the robot has received feedback
+            robot->UpdateFeedbackReceivedTime();
+
+            // override properties:
+            robot->setWorkingGeneva(robotfeedback->genevaIsWorking);
+            robot->setHasWorkingBallSensor(robotfeedback->ballSensorIsWorking);
+            robot->setBatteryLow(robotfeedback->batteryLow);
+            //robot->setGenevaStateFromFeedback(robotfeedback->genevaState);
+        }
     }
-
 }
 
 void IOManager::handleDemoInfo(const roboteam_msgs::DemoRobotConstPtr &demoInfo) {
@@ -156,16 +165,44 @@ void IOManager::publishRobotCommand(roboteam_msgs::RobotCommand cmd) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id, true);
             if (robot) {
+                if (cmd.geneva_state == 3) {
+                    robot->setGenevaState(cmd.geneva_state);
+                }
+                /*
+                 *
+                 * if there is (recent) feedback we should not need to update internal state here
+                 * Otherwise we should. We need only do it when the new state is valid and different.
+                 */
+                if (!robot->genevaStateIsDifferent(cmd.geneva_state) || !robot->genevaStateIsValid(cmd.geneva_state)) {
+                    cmd.geneva_state = robot->getGenevaState();
+                }
 
-                // this is a failcheck; the geneva state will only be turned if it is possible (which is checked in robot)
-                robot->setGenevaState(cmd.geneva_state);
-                cmd.geneva_state = robot->getGenevaState();
+              //  if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
+                    robot->setGenevaState(cmd.geneva_state);
+             //   }
 
-                // only kick and chipp when geneva is ready
+                // only kick and chip when geneva is ready
                 cmd.kicker = cmd.kicker && robot->isGenevaReady();
                 cmd.chipper = cmd.chipper && robot->isGenevaReady();
-                cmd.kicker_forced = cmd.kicker && robot->isGenevaReady();
-                cmd.chipper_forced = cmd.chipper && robot->isGenevaReady();
+                cmd.kicker_forced = cmd.kicker_forced && robot->isGenevaReady();
+                cmd.chipper_forced = cmd.chipper_forced && robot->isGenevaReady();
+
+                if (cmd.kicker) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
+                }
+
+                if (cmd.kicker_forced) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::DOTS, 36, 36, 8);
+                }
+
+
+                if (cmd.chipper) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::yellow, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
+                }
+
+                if (cmd.chipper_forced) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::yellow, robot->id, interface::Drawing::DOTS, 36, 36, 8);
+                }
 
                 robot->setDribblerState(cmd.dribbler);
             }

@@ -3,15 +3,12 @@
     "trees": [
       {
         "nodes": {
-          "9f1dqe43fcoq56": {
-            "id": "9f1dqe43fcoq56",
-            "properties": {
-              "Stop": "true"
-            },
-            "title": "AvoidBall"
+          "tuz6qqws716osm0x": {
+            "id": "tuz6qqws716osm0x",
+            "title": "StopFormation"
           }
         },
-        "root": "9f1dqe43fcoq56",
+        "root": "tuz6qqws716osm0x",
         "title": "passive_stop_role"
       }
     ]

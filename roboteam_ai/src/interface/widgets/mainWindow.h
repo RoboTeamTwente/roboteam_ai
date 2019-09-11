@@ -24,6 +24,7 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
+#include "CheckboxWidget.h"
 #include "PidBox.h"
 #include "RuleSetWidget.h"
 
@@ -56,6 +57,7 @@ private:
     QVBoxLayout* vLayout;
     RobotsWidget* robotsWidget;
     RuleSetWidget * refWidget;
+    CheckboxWidget * checkboxWidget;
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;

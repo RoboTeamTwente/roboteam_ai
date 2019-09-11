@@ -54,7 +54,7 @@ TEST(IsBallCloseToBorderTest, is_close_to_border) {
 
     ASSERT_EQ(node.update(), bt::Node::Status::Success);
 
-    propertiesPointer->setDouble("margin", 0.05);
+    propertiesPointer->setDouble("margin", -0.05);
     node.initialize();
 
     ASSERT_EQ(node.update(), bt::Node::Status::Failure);

@@ -45,7 +45,10 @@ class ControlUtils {
                 const Vector2 &LineEnd);
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
-        static Vector2 projectPositionToWithinField(Vector2 position, float margin = 0.2);
+
+        static Vector2 projectPositionToWithinField(Vector2 position, double margin = Constants::ROBOT_RADIUS());
+        static Vector2 projectPositionToOutsideDefenseArea(Vector2 position, double margin = Constants::ROBOT_RADIUS());
+
         static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
 
         static bool onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r);

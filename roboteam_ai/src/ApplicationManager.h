@@ -20,12 +20,17 @@ private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     rtt::ai::io::IOManager * IOManager;
 
+    int ticksFree = 0;
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
 
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
     bool weHaveRobots = false;
+
+    ai::StrategyManager strategyManager;
+    std::string oldKeeperTreeName = "";
+    std::string oldStrategyName = "";
 
     ai::StrategyManager strategyManager;
     std::string oldKeeperTreeName = "";

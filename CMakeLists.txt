@@ -3,7 +3,7 @@ project(roboteam_ai)
 
 
 #SET(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O0 -Wall --coverage")
-set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -g3 -O0 -Wall --coverage")
+set(CMAKE_CXX_FLAGS_DEBUG "-std=c++11 ${CMAKE_CXX_FLAGS} -O1")
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++11 ${CMAKE_CXX_FLAGS} -Werror -O1")
 
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
@@ -121,8 +121,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RobotDealer.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Constants.cpp
-        roboteam_ai/src/control/Hungarian.cpp
-        roboteam_ai/src/control/Hungarian.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Hungarian.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/Hungarian.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/Pause.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/RefGameState.cpp
@@ -183,6 +183,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/AvoidBall.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/DemoAttack.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/FreeKickPass.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/FreeKickPass.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/MidFieldHarasser.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/MidFieldHarasser.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/SideAttacker.cpp
@@ -199,6 +201,8 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ActiveStop.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ReflectKick.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ChipForward.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/ChipForward.h
 
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/formations/Formation.h
@@ -227,7 +231,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/BallPlacementWithInterface.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/skills/Wait.h
-        )
+        roboteam_ai/src/skills/KickTo.cpp roboteam_ai/src/skills/KickTo.h roboteam_ai/src/skills/formations/StopFormation.cpp roboteam_ai/src/skills/formations/StopFormation.h roboteam_ai/src/skills/formations/BallPlacementFormation.cpp roboteam_ai/src/skills/formations/BallPlacementFormation.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/HasBall.hpp
@@ -236,6 +240,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsInDefenseArea.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsRobotClosestToBall.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanReflectKick.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/Condition.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/utilities/StrategyManager.cpp
@@ -269,8 +275,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/IsOnPassLine.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ShouldHandleBall.h
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallNotTooClose.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsClose.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/BallIsClose.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/CanPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RobotOutside.cpp
@@ -278,7 +284,9 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefStateIsNormalPlay.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/RefBallIsMoving.h 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.cpp 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/conditions/ResumePlayAfterPenalty.h)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/control/ControlUtils.cpp
@@ -339,6 +347,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/IsBeingPassedToTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallInDefenseAreaAndStillTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/BallKickedToOurGoalTest.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/test/ConditionTests/CanReflectKickTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/SkillTests/GoToPosTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/test/UtilTests/RobotDealerTest.cpp
@@ -394,6 +403,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/MainControlsWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/VisualizationSettingsWidget.h
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/CheckboxWidget.cpp
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/CheckboxWidget.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/api/Toggles.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/interface/widgets/RuleSetWidget.cpp
@@ -418,7 +429,8 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/FutureWorld.h
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/BallPossession.h
-        roboteam_ai/src/world/Team.h roboteam_ai/src/world/WhichRobots.h)
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/Team.h 
+        ${PROJECT_SOURCE_DIR}/roboteam_ai/src/world/WhichRobots.h)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/roboteam_ai/src/coach/heuristics/CoachHeuristics.h
@@ -508,6 +520,23 @@ ADD_CUSTOM_TARGET(link_target ALL
         DEPENDS Roboteam_AI ai_tests
         )
 
+# this creates a directory for the jsons where  ROS launch scripts can access it
+# then the json folder gets linked to that directory, so also ROS launch scripts can profit from refreshing JSONS on runtime
+ADD_CUSTOM_TARGET(link_target ALL
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${PROJECT_SOURCE_DIR}/roboteam_ai/src/jsons ${CATKIN_DEVEL_PREFIX}/${CATKIN_PACKAGE_BIN_DESTINATION}/roboteam_ai/src/jsons
+        DEPENDS Roboteam_AI ai_tests
+        )
+
 include(CodeCoverage)
 APPEND_COVERAGE_COMPILER_FLAGS()
 SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
+
+# required properties for cotire
+set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD 11)
+set_property(TARGET Roboteam_AI PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
+set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
+
+cotire(Roboteam_AI)
+cotire(ai_tests)

@@ -20,8 +20,6 @@ class MainControlsWidget : public QWidget {
 Q_OBJECT
 public:
     explicit MainControlsWidget(QWidget * parent = nullptr);
-    QString getSelectStrategyText() const;
-    void setSelectStrategyText(QString text);
 
 signals:
     void treeHasChanged();
@@ -30,6 +28,7 @@ private:
     QVBoxLayout* vLayout;
     QPushButton* pauseBtn;
     QPushButton* refreshBtn;
+    QPushButton* refreshJsonBtn;
     QPushButton* toggleColorBtn;
     QPushButton* toggleSideBtn;
     QPushButton* haltBtn;
@@ -54,6 +53,7 @@ public slots:
     void updatePause();
     void setUseReferee(bool useRef);
     void refreshSignal();
+    void refreshJSONSignal();
     void updateContents();
     void sendHaltSignal();
 };

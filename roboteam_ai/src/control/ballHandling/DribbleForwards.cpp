@@ -9,6 +9,7 @@
 #include "DribbleForwards.h"
 #include "RotateAroundBall.h"
 #include "RotateWithBall.h"
+#include "roboteam_ai/src/interface/api/Input.h"
 
 namespace rtt {
 namespace ai {
@@ -41,6 +42,10 @@ void DribbleForwards::updateForwardsProgress() {
     targetAngle = (finalTargetPos - ball->pos).toAngle();
     Angle angleDifference = robot->angle - targetAngle;
 
+    if (forwardsProgress != ForwardsProgress::DRIBBLE_FORWARD) {
+        waitingTicks = 0;
+    }
+
     // update forwards progress
     switch (forwardsProgress) {
     case TURNING: {
@@ -68,24 +73,14 @@ void DribbleForwards::updateForwardsProgress() {
             forwardsProgress = APPROACHING;
             return;
         }
-        if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
-            std::cout << "we do not have a ball yet" << std::endl;
-        }
-        Angle offsetAngle = (finalTargetPos - robot->pos).toAngle() - robot->angle;
-        double maxOffsetAngle = M_PI*0.05;
-        if (fabs(offsetAngle) > maxOffsetAngle) {
-            forwardsProgress = START;
-            return;
-        }
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             forwardsProgress = SUCCESS;
             return;
         }
-
         return;
     }
-    case FAIL:
-    case START:
+    case FAIL:return;
+    case START:return;
     default:return;
     case SUCCESS: {
         if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
@@ -130,7 +125,7 @@ RobotCommand DribbleForwards::sendTurnCommand() {
 
 RobotCommand DribbleForwards::sendApproachCommand() {
     RobotCommand command;
-    command.dribbler = 0;
+    command.dribbler = 31;
     command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
@@ -138,28 +133,45 @@ RobotCommand DribbleForwards::sendApproachCommand() {
 
 RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     RobotCommand command;
-    command.dribbler = 8;
+    command.dribbler = 31;
     command.angle = lockedAngle;
     command.vel = lockedAngle.toVector2(maxVel);
+    int ramp = 100;
+    if (waitingTicks < ramp) {
+        command.vel = command.vel.stretchToLength(maxVel / 4 + 3*command.vel.length()*waitingTicks++ / (ramp*4));
+    }
 
     // check if the robot is still on the virtual line from ball->pos to the target
+    double maxDist = errorMargin*8 + std::fmin(1.0, 2*(robot->pos - finalTargetPos).length());
+
     if (control::ControlUtils::distanceToLine(robot->pos,
-            forwardsDribbleLine.first, forwardsDribbleLine.second) > errorMargin*2.5) {
+            forwardsDribbleLine.first, forwardsDribbleLine.second) > maxDist) {
         forwardsProgress = TURNING;
     }
 
+    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
+            (forwardsDribbleLine.second - forwardsDribbleLine.first).toAngle();
+
+    double compensationFactor = std::fmax(4.0, 8.0 * (ramp-waitingTicks)/ramp);
+    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*compensationFactor, 0.05));
+    command.vel += compensation;
+
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
+            Qt::white, robot->id, interface::Drawing::ARROWS);
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {forwardsDribbleLine.first, forwardsDribbleLine.second},
+            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
+
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
-    if (ball->visible) {
+    if (ball->visible && false) {
         Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
-        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
+        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot*0.23);
     }
 
     // limit velocity close to the target
-    double distanceRemainingSquared = (finalTargetPos - robot->pos).length2();
-    if (distanceRemainingSquared < 1.0) {
-        command.vel.stretchToLength(distanceRemainingSquared*0.3);
+    double distanceToTarget = (finalTargetPos - robot->pos).length();
+    if (distanceToTarget < 1.0) {
+        command.vel = command.vel.stretchToLength(std::max(0.2, distanceToTarget*maxVel));
     }
-
     return command;
 }
 

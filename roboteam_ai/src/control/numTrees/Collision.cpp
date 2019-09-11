@@ -21,6 +21,8 @@ std::string Collision::collisionTypeToString() {
         break;
     case Collision::GOAL: s = "GOAL   ";
         break;
+    case Collision::BALL_PLACEMENT: s = "BALL_PLACEMENT    ";
+        break;
     case Collision::NO_COLLISION: s = "NO COLLISION?!?";
         break;
     default: s = "ERROR! CollisionType does not exist";
@@ -96,7 +98,15 @@ const Vector2 &Collision::getCollisionGoalPos() const {
     return goalCollision;
 }
 
+const Vector2 &Collision::getCollisionBallPlacement() const {
+    return ballPlacementCollision;
+}
 
+void Collision::setBallPlacementCollision(const Vector2 &collisionPos, double distance) {
+    type = BALL_PLACEMENT;
+    Collision::ballPlacementCollision = collisionPos;
+    setCollision(distance);
+}
 
 }
 }

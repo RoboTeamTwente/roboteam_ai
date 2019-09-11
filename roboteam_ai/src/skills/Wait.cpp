@@ -13,9 +13,15 @@ Wait::Wait(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Wait::onInitialize() {
+    if(properties->getBool("penalty")) {
+        lockedAngle = 0.0;
+    } else {
+        lockedAngle = robot->angle;
+    }
+
     double seconds;
-    if (properties->hasInt("seconds")) {
-        seconds = properties->getInt("seconds");
+    if (properties->hasDouble("seconds")) {
+        seconds = properties->getDouble("seconds");
     } else {
         seconds = 0;
     }
@@ -25,7 +31,8 @@ void Wait::onInitialize() {
 }
 
 Wait::Status Wait::onUpdate() {
-    command.w = robot->angle;
+    command.w = lockedAngle;
+    command.geneva_state=0;
     publishRobotCommand();
     tick++;
     if(tick>=ticks) {

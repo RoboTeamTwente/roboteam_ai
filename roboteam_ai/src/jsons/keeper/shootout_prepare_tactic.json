@@ -1,0 +1,52 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "5wez7pa5gkak5t28": {
+            "id": "5wez7pa5gkak5t28",
+            "properties": {
+              "ROLE": "Keeper",
+              "type": "shootOut"
+            },
+            "title": "GoBehindBall"
+          },
+          "dnfc6o4e66rkq": {
+            "children": [
+              "5wez7pa5gkak5t28",
+              "r0bppt60qz2mn"
+            ],
+            "id": "dnfc6o4e66rkq",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "MemSequence"
+          },
+          "r0bppt60qz2mn": {
+            "id": "r0bppt60qz2mn",
+            "properties": {
+              "ROLE": "Keeper",
+              "seconds": "5"
+            },
+            "title": "Wait"
+          },
+          "wozo4e0w3z3u59br": {
+            "children": [
+              "dnfc6o4e66rkq"
+            ],
+            "id": "wozo4e0w3z3u59br",
+            "name": "Keeper",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "role": "shootout_prepare_role",
+            "title": "Role"
+          }
+        },
+        "root": "wozo4e0w3z3u59br",
+        "title": "shootout_prepare_tactic"
+      }
+    ]
+  },
+  "name": "shootout_prepare_tactic"
+}

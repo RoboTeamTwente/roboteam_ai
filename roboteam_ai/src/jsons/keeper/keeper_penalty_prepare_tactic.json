@@ -1,1 +1,87 @@
-{"data": {"trees": [{"nodes": {"lkdg3zxdjnxpe6ae": {"title": "IsInDefenseArea", "properties": {"ROLE": "Keeper", "outsideField": "false", "useRobot": "true", "margin": "0.3", "ourDefenseArea": "true"}, "id": "lkdg3zxdjnxpe6ae"}, "krklxj9wy1l0wvxpy": {"properties": {"ROLE": "Keeper"}, "title": "Inverter", "children": ["lkdg3zxdjnxpe6ae"], "id": "krklxj9wy1l0wvxpy"}, "6r5n21e4fhna0p": {"title": "PenaltyKeeper", "properties": {" prepare": "true", "ROLE": "Keeper"}, "id": "6r5n21e4fhna0p"}, "8kfu6mzam8yacuh9v": {"properties": {"ROLE": "Keeper"}, "name": "Keeper", "title": "Role", "id": "8kfu6mzam8yacuh9v", "role": "penaltyKeeperPrepareRole", "children": ["h487xxd65kqlhl8"]}, "vbr33iw8q68nite": {"properties": {"ROLE": "Keeper"}, "title": "Sequence", "children": ["krklxj9wy1l0wvxpy", "0po4183s64adqt"], "id": "vbr33iw8q68nite"}, "0po4183s64adqt": {"title": "GTPSpecial", "properties": {"ROLE": "Keeper", "canGoOutsideField": "false", "type": "ourDefenseAreaCenter", "avoidBall": "true", "canMoveInDefenseArea": "true"}, "id": "0po4183s64adqt"}, "h487xxd65kqlhl8": {"properties": {"ROLE": "Keeper"}, "title": "Selector", "children": ["vbr33iw8q68nite", "6r5n21e4fhna0p"], "id": "h487xxd65kqlhl8"}}, "root": "8kfu6mzam8yacuh9v", "title": "keeper_penalty_prepare_tactic"}]}, "name": "keeper_penalty_prepare_tactic"}
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "0po4183s64adqt": {
+            "id": "0po4183s64adqt",
+            "properties": {
+              "ROLE": "Keeper",
+              "avoidBall": "true",
+              "canGoOutsideField": "false",
+              "canMoveInDefenseArea": "true",
+              "type": "ourDefenseAreaCenter"
+            },
+            "title": "GTPSpecial"
+          },
+          "6r5n21e4fhna0p": {
+            "id": "6r5n21e4fhna0p",
+            "properties": {
+              " prepare": "true",
+              "ROLE": "Keeper"
+            },
+            "title": "PenaltyKeeper"
+          },
+          "8kfu6mzam8yacuh9v": {
+            "children": [
+              "h487xxd65kqlhl8"
+            ],
+            "id": "8kfu6mzam8yacuh9v",
+            "name": "Keeper",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "role": "penaltyKeeperPrepareRole",
+            "title": "Role"
+          },
+          "h487xxd65kqlhl8": {
+            "children": [
+              "vbr33iw8q68nite",
+              "6r5n21e4fhna0p"
+            ],
+            "id": "h487xxd65kqlhl8",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "Selector"
+          },
+          "krklxj9wy1l0wvxpy": {
+            "children": [
+              "lkdg3zxdjnxpe6ae"
+            ],
+            "id": "krklxj9wy1l0wvxpy",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "Inverter"
+          },
+          "lkdg3zxdjnxpe6ae": {
+            "id": "lkdg3zxdjnxpe6ae",
+            "properties": {
+              "ROLE": "Keeper",
+              "margin": "0.3",
+              "ourDefenseArea": "true",
+              "outsideField": "false",
+              "useRobot": "true"
+            },
+            "title": "IsInDefenseArea"
+          },
+          "vbr33iw8q68nite": {
+            "children": [
+              "krklxj9wy1l0wvxpy",
+              "0po4183s64adqt"
+            ],
+            "id": "vbr33iw8q68nite",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "Sequence"
+          }
+        },
+        "root": "8kfu6mzam8yacuh9v",
+        "title": "keeper_penalty_prepare_tactic"
+      }
+    ]
+  },
+  "name": "keeper_penalty_prepare_tactic"
+}

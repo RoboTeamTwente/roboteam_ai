@@ -13,6 +13,8 @@
 namespace rtt {
 namespace ai {
 class CoachDefend : public Skill {
+    private:
+        bool useBasicGtp(Vector2 targetLocation);
     public:
         explicit CoachDefend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
         void onInitialize() override;

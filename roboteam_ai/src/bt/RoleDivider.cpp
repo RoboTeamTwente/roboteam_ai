@@ -26,4 +26,10 @@ Node::Status RoleDivider::update() {
     return Status::Waiting;
 }
 
+void RoleDivider::terminate(Node::Status s) {
+    for (auto child : children) {
+        child->terminate(child->getStatus());
+    }
+}
+
 }

@@ -46,9 +46,12 @@ class BTFactory {
 
         static std::string getKeeperTreeName();
 
+        static bool hasMadeTrees();
+
     private:
         static std::string currentTree;
         static std::string keeperTree;
+        static bool weMadeTrees;
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

@@ -3,25 +3,51 @@
     "trees": [
       {
         "nodes": {
-          "6f8juo2azcl3e9bc": {
-            "id": "6f8juo2azcl3e9bc",
-            "properties": {},
-            "title": "GoBehindBall"
+          "0p0bjv1l6fcdsfa5": {
+            "id": "0p0bjv1l6fcdsfa5",
+            "properties": {
+              "BallPlacement": "",
+              "ROLE": "kickerChip",
+              "failsUntilChip": "",
+              "passType": "freeKick"
+            },
+            "title": "Pass"
           },
-          "xfk91hay32zx9j": {
+          "5n5ogh4lhgwhwqch": {
             "children": [
-              "6f8juo2azcl3e9bc",
-              "zl7m95q2mhxgqwmm"
+              "0p0bjv1l6fcdsfa5",
+              "ufm8x1zbq0fwtms3"
             ],
-            "id": "xfk91hay32zx9j",
+            "id": "5n5ogh4lhgwhwqch",
+            "properties": {},
+            "title": "MemSelector"
+          },
+          "9iqz5epu8dcybha0": {
+            "children": [
+              "jkxtlct6my5tiba3",
+              "5n5ogh4lhgwhwqch"
+            ],
+            "id": "9iqz5epu8dcybha0",
+            "properties": {},
             "title": "MemSequence"
           },
-          "zl7m95q2mhxgqwmm": {
-            "id": "zl7m95q2mhxgqwmm",
-            "title": "ShootFreeKick"
+          "jkxtlct6my5tiba3": {
+            "id": "jkxtlct6my5tiba3",
+            "properties": {
+              "ROLE": "kickerChip",
+              "type": "freeKick"
+            },
+            "title": "GoBehindBall"
+          },
+          "ufm8x1zbq0fwtms3": {
+            "id": "ufm8x1zbq0fwtms3",
+            "properties": {
+              "ROLE": "kickerChip"
+            },
+            "title": "ChipForward"
           }
         },
-        "root": "xfk91hay32zx9j",
+        "root": "9iqz5epu8dcybha0",
         "title": "shoot_free_kick_role"
       }
     ]

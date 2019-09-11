@@ -11,7 +11,21 @@ namespace rtt {
 namespace ai {
 
 // process ref commands
-void StrategyManager::setCurrentRefGameState(RefCommand command) {
+void StrategyManager::setCurrentRefGameState(RefCommand command, roboteam_msgs::RefereeStage stage) {
+    // if the stage is shootout, we interpret penalty commands as shootOut penalty commands
+    if (stage.stage == roboteam_msgs::RefereeStage::PENALTY_SHOOTOUT) {
+        if (command == RefCommand::PREPARE_PENALTY_US) {
+            command = RefCommand::PREPARE_SHOOTOUT_US;
+        }
+        else if (command == RefCommand::PREPARE_PENALTY_THEM) {
+            command = RefCommand::PREPARE_SHOOTOUT_THEM;
+        }
+    }
+
+    // if the command is the same as the previous, we don't need to do anything
+    if (command == currentRefCmd) {
+        return;
+    }
 
     // if the command is the same, we don't need to do anything
     if (command == currentRefGameState.commandId) {
@@ -27,15 +41,18 @@ void StrategyManager::setCurrentRefGameState(RefCommand command) {
     RefGameState newState;
     if (currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
         newState = getRefGameStateForRefCommand(currentRefGameState.followUpCommandId);
-    } else {
+    }
+    else {
         newState = getRefGameStateForRefCommand(command);
     }
     if (world::world->getBall()) {
         newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
-    } else {
-        newState.ballPositionAtStartOfGameState = {0,0};
+    }
+    else {
+        newState.ballPositionAtStartOfGameState = {0, 0};
     }
     currentRefGameState = newState;
+    currentRefCmd = command;
 }
 
 RefGameState StrategyManager::getCurrentRefGameState() {
@@ -57,9 +74,11 @@ void StrategyManager::forceCurrentRefGameState(RefCommand command) {
     RefGameState newState = getRefGameStateForRefCommand(command);
     if (world::world->getBall()) {
         newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
-    } else {
-        newState.ballPositionAtStartOfGameState = {0,0};
     }
+    else {
+        newState.ballPositionAtStartOfGameState = {0, 0};
+    }
+
     currentRefGameState = newState;
 }
 

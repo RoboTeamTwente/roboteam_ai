@@ -26,12 +26,13 @@ Skill::Status BallPlacementWithInterface::onUpdate() {
 
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
-    auto robotCommand = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle);
+    auto robotCommand = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS );
 
     if (targetPos == previousTargetPos &&
         ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         command.x_vel = 0;
         command.y_vel = 0;
+        command.w = robotCommand.angle;
         command.dribbler = 0;
         publishRobotCommand();
         return Status::Running;

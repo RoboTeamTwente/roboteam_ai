@@ -30,9 +30,9 @@ class Field {
         void set_field(roboteam_msgs::GeometryFieldSize field);
         Vector2 get_our_goal_center();
         Vector2 get_their_goal_center();
-        bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, float margin = 0.0,
+        bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0,
                 bool includeOutsideField = false);
-        bool pointIsInField(const Vector2& point, float margin = 0.05); //TODO: Remove margin hack
+        bool pointIsInField(const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
         double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world, int id = -1, bool ourTeam = false);
         std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world, int id = -1, bool ourTeam = false);
         std::vector<Line> mergeBlockades(std::vector<Line> blockades);
@@ -45,7 +45,7 @@ class Field {
         double getTotalGoalAngle(bool ourGoal, const Vector2& point);
         Polygon getDefenseArea(bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);
         Polygon getGoalArea(bool ourGoal = true, double margin = 0.0, bool hasBackMargin = false);
-
+        Polygon getFieldEdge(double margin = 0.0);
 };
 
 extern Field fieldObj;

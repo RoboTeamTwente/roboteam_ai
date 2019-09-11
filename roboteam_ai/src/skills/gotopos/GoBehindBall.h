@@ -8,6 +8,7 @@
 #include "roboteam_ai/src/skills/Skill.h"
 #include "roboteam_ai/src/world/Field.h"
 #include "GoToPos.h"
+#include <random>
 
 namespace rtt {
 namespace ai {
@@ -15,17 +16,24 @@ namespace ai {
 class GoBehindBall : public GoToPos {
 
     private:
+        std::mt19937 mt;
+        std::uniform_real_distribution<double> randDistribution;
+        int penaltyGenevaState=1;
         enum RefType {
           penalty,
           freeKick,
-          corner
+          corner,
+          shootOut
         };
 
         RefType refType;
         RefType stringToRefType(const std::string &string);
         const double errorMargin = Constants::ROBOT_RADIUS() + 0.05;
 
+        Status penaltyUpdate(int genevaState);
+
     public:
+        int chooseRandomGeneva(std::vector<std::pair<int,double>> genevaWithWeights);
         explicit GoBehindBall(string name, bt::Blackboard::Ptr blackboard);
         Status gtpUpdate() override;
         void gtpInitialize() override;

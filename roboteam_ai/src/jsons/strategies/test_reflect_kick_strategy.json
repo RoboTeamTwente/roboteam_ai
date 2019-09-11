@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "4sik64761ko3g29z": {
+            "id": "4sik64761ko3g29z",
+            "name": "test_reflect_kick_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "4sik64761ko3g29z",
+        "title": "test_reflect_kick_strategy"
+      }
+    ]
+  },
+  "name": "test_reflect_kick_strategy"
+}

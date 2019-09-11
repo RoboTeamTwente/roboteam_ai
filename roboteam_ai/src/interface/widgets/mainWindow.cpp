@@ -38,15 +38,23 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
+    checkboxWidget = new CheckboxWidget(visualizer, this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
-    tabWidget->addTab(treeWidget, tr("Behaviour trees"));
-    tabWidget->addTab(keeperTreeWidget, tr("Keeper"));
-    tabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
-    tabWidget->addTab(pidWidget, tr("PID"));
-    tabWidget->addTab(robotsWidget, tr("Robots"));
-    tabWidget->addTab(refWidget, tr("GameStateManager"));
+
+    auto DataTabWidget = new QTabWidget;
+    DataTabWidget->addTab(treeWidget, tr("Behaviour trees"));
+    DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
+    DataTabWidget->addTab(robotsWidget, tr("Robots"));
+    DataTabWidget->addTab(refWidget, tr("GameStateManager"));
+    tabWidget->addTab(DataTabWidget, tr("Data"));
+
+    auto SettingsTabWidget = new QTabWidget;
+    SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
+    SettingsTabWidget->addTab(pidWidget, tr("PID"));
+    SettingsTabWidget->addTab(checkboxWidget, tr("Other Settings"));
+    tabWidget->addTab(SettingsTabWidget, tr("Settings"));
 
     vLayout->addWidget(tabWidget);
 

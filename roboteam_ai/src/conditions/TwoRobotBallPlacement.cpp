@@ -10,23 +10,23 @@ namespace rtt {
 namespace ai {
 
 TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {};
+        :Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
-    int robotClosestToBallID = world::world->getRobotClosestToBall(OUR_ROBOTS)->id;
+    Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
+    auto us = world::world->getUs();
 
-    Vector2 ballPlacementPosition = coach::g_ballPlacement.getBallPlacementPos();
-    int robotClosestToBallPlacementPosition = world::world->getRobotClosestToPoint(ballPlacementPosition, OUR_ROBOTS)->id;
+    int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
+    bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
+    //TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
+    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->pos) < 15.1;
 
-    bool robotClosestToBallIsClosestToTarget = robotClosestToBallID == robotClosestToBallPlacementPosition;
-    bool distanceFromBallToTargetIsSmall =  (ballPlacementPosition - ball->pos).length() < MAX_ONE_ROBOT_BALLPLACEMENT_DIST_TO_TARGET;
 
+    if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
+        return Status::Failure;
+    }
 
-    if (!robotClosestToBallIsClosestToTarget && !distanceFromBallToTargetIsSmall) {
-        return Status::Success;
-    } 
-    return Status::Failure;
-    
+    return Status::Success;
 }
 
 }

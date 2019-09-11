@@ -18,6 +18,8 @@ class Constants {
     public:
         static void init();
         static bool GRSIM();
+        static void OVERWRITE_GRSIM(bool grsim);
+        static bool FEEDBACK_ENABLED();
 
         /// TICK RATE ///
         static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 30; };
@@ -67,6 +69,7 @@ class Constants {
         static constexpr double MAX_VEL()                   { return 8.0; };
         static constexpr double MAX_STOP_STATE_VEL()        { return 1.5; };
         static constexpr double MAX_VEL_BALLPLACEMENT()     { return 3.0; };
+        static int DEFAULT_KEEPER_ID();
 
         /// GENERAL SKILLS ///
         static double DEFAULT_KICK_POWER(); // max kick power() { return  100
@@ -77,8 +80,11 @@ class Constants {
         static double MAX_BALL_RANGE(); // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.
         static double HAS_BALL_ANGLE();
         static double MAX_KICK_RANGE();
+        static double MAX_PASS_DISTANCE();
+        static bool REFLECT_KICK();
 
         static double MAX_INTERCEPT_TIME();    // Seconds. Intercept terminates  after this time.
+        static double MAX_RECEIVE_TIME();
         static double BALL_STILL_VEL();    // If the ball has velocity lower than this in defense area, keeper starts getting it
         static double GOTOPOS_ERROR_MARGIN();
         static double GOTOPOS_ANGLE_ERROR_MARGIN();
@@ -137,6 +143,7 @@ class Constants {
         static pidVals standardKeeperPID();
         static pidVals standardKeeperInterceptPID();
         static pidVals standardBallHandlePID();
+        static pidVals standardShotControllerPID();
 
     private:
         static bool isInitialized;
@@ -170,11 +177,17 @@ enum class RefCommand {
 
 // Custom extended refstates
 // These numbers will never be called from the referee immediately, they can only be used as follow-up commands
-
         DO_KICKOFF = 18,
         DEFEND_KICKOFF = 19,
         DO_PENALTY = 20,
         DEFEND_PENALTY = 21,
+// Custom refstates; these are
+        PREPARE_SHOOTOUT_US = 22,
+        PREPARE_SHOOTOUT_THEM = 23,
+// Extended custom refstates: extension upon custom refstates
+        DO_SHOOTOUT = 24,
+        DEFEND_SHOOTOUT = 25,
+
         UNDEFINED = - 1
 };
 

@@ -20,7 +20,7 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);
     double distanceToOpponentScore = CoachHeuristics::calculateDistanceToOpponentsScore(position);
-    double distanceToBallScore = CoachHeuristics::calculateDistanceToBallScore(position, world);
+    double distanceToBallScore = CoachHeuristics::calculatePositionDistanceToBallScore(position, world);
     double angleToGoalScore = CoachHeuristics::calculateAngleToGoalScore(position);
 
     double score = SHOT_AT_GOAL_WEIGHT*shotAtGoalScore +

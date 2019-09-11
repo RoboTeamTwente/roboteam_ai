@@ -44,7 +44,15 @@ void setDarkTheme() {
 int main(int argc, char* argv[]) {
     // Init ROS node in main thread
     ros::init(argc, argv, "Roboteam_AI");
+
+    // get ros to work
+    ros::NodeHandle n; // KEEP THIS LINE
+    while (!n.ok()) {}
     rtt::ai::Constants::init();
+
+    // get the trees to work
+    BTFactory::makeTrees();
+    while (!BTFactory::hasMadeTrees());
 
     std::thread worldThread = std::thread(&runWorld);
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
@@ -53,7 +61,10 @@ int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
     setDarkTheme();
     window = std::make_shared<ui::MainWindow>();
+    window->setWindowState(Qt::WindowMaximized);
+
     window->show();
-    return a.exec();
+
+     return a.exec();
 }
 

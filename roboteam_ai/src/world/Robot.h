@@ -46,7 +46,7 @@ class Robot {
         unsigned long lastUpdatedWorldNumber = 0;
     public:
         double calculateDistanceToBall(const Vector2 &ballPos);
-        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE());
+        bool hasBall(double maxDist = Constants::MAX_BALL_BOUNCE_RANGE()) const;
         double getDistanceToBall();
 
         // geneva
@@ -61,11 +61,12 @@ public:
 private:
     bool workingGeneva;
     bool batteryLow = false;
+    double lastReceivedFeedbackMoment = INT_MIN;
 public:
     bool isBatteryLow() const;
-
     void setBatteryLow(bool batteryLow);
-
+    bool hasRecentFeedback();
+    void UpdateFeedbackReceivedTime();
 public:
     void setWorkingGeneva(bool workingGeneva);
     void setHasWorkingBallSensor(bool hasWorkingBallSensor);
@@ -73,6 +74,9 @@ public:
         int getGenevaState() const;
         bool isGenevaReady() const;
         void setGenevaState(int state);
+        void setGenevaStateFromFeedback(int state);
+        bool genevaStateIsValid(int state);
+        bool genevaStateIsDifferent(int state);
         bool hasWorkingGeneva() const;
         bool hasWorkingBallSensor() const;
 
@@ -81,7 +85,7 @@ public:
         unsigned char dribblerState = 0;
         unsigned char previousDribblerState = 0;
         double timeDribblerChanged = 0;
-        constexpr static double timeToChangeOneDribblerLevel = 0.06;
+        constexpr static double timeToChangeOneDribblerLevel = 0.18;
         bool workingDribbler;
         bool workingBallSensor;
     public:
@@ -89,6 +93,7 @@ public:
         bool isDribblerReady() const;
         void setDribblerState(unsigned char dribbler = 0);
         bool hasWorkingDribbler() const;
+        Vector2 getKicker() const;
 
         // control managers
     private:

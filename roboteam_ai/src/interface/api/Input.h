@@ -27,7 +27,10 @@ struct Drawing {
       DOTS,
       CROSSES,
       CIRCLES,
-      PLUSSES
+      PLUSSES,
+      ARROWS,
+      REAL_LIFE_DOTS,
+      REAL_LIFE_CIRCLES
     };
 
     Drawing(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, DrawingMethod method = DOTS, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
