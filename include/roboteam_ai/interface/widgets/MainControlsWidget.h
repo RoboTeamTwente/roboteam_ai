@@ -31,6 +31,7 @@ private:
     QPushButton* refreshJsonBtn;
     QPushButton* toggleColorBtn;
     QPushButton* toggleSideBtn;
+    QPushButton* toggleSerialBtn;
     QPushButton* haltBtn;
     QShortcut* spaceClick;
 
@@ -44,11 +45,13 @@ private:
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
+    void setToggleSerialBtnLayout() const;
 
 public slots:
     void setTimeOutTop(bool top);
     void toggleOurColorParam();
     void toggleOurSideParam();
+    void toggleSerialParam();
     void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);

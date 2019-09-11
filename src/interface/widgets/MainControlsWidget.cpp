@@ -23,81 +23,105 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
     vLayout = new QVBoxLayout();
 
+
+    auto gameStateBox = new QGroupBox("GameState");
+    auto gameStateLayout = new QVBoxLayout();
+
     // functions to select strategies
-    MainWindow::configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+    MainWindow::configureCheckBox("Use referee", gameStateLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
 
     // get the strategy names from Switches
     select_strategy = new QComboBox();
-    vLayout->addWidget(select_strategy);
+    gameStateLayout->addWidget(select_strategy);
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
     select_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
+    auto keeperHorizontalLayout = new QHBoxLayout();
+
+
     // get the keeper tree names from Switches
     select_keeper_strategy = new QComboBox();
-    vLayout->addWidget(select_keeper_strategy);
+    keeperHorizontalLayout->addWidget(select_keeper_strategy);
     for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
         select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
     }
     select_keeper_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     select_goalie = new QComboBox();
-    vLayout->addWidget(select_goalie);
+    keeperHorizontalLayout->addWidget(select_goalie);
     for (int i = 0; i < 16; i++) {
         select_goalie->addItem(QString::fromStdString(std::to_string(i)));
     }
+    select_goalie->setMaximumWidth(100);
     select_goalie->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
+    gameStateLayout->addLayout(keeperHorizontalLayout);
+
     select_ruleset = new QComboBox();
-    vLayout->addWidget(select_ruleset);
+    gameStateLayout->addWidget(select_ruleset);
     for (RuleSet const &ruleSet : Constants::ruleSets()) {
         select_ruleset->addItem(QString::fromStdString(ruleSet.title));
     }
     select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+
+    auto settingsButtonsLayout = new QHBoxLayout();
+    toggleColorBtn = new QPushButton("Color");
+    QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
+    settingsButtonsLayout->addWidget(toggleColorBtn);
+    setToggleColorBtnLayout();
+
+    toggleSideBtn = new QPushButton("Side");
+    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
+    settingsButtonsLayout->addWidget(toggleSideBtn);
+    setToggleSideBtnLayout();
+
+    toggleSerialBtn = new QPushButton("Serial");
+    QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
+    settingsButtonsLayout->addWidget(toggleSerialBtn);
+    setToggleSerialBtnLayout();
+
+    gameStateLayout->addLayout(settingsButtonsLayout);
+
+    gameStateBox->setLayout(gameStateLayout);
+    vLayout->addWidget(gameStateBox);
+
+    auto controlsBox = new QGroupBox("Controls");
+    auto controlsLayout = new QVBoxLayout();
 
     auto refreshHButtonsLayout = new QHBoxLayout();
 
     refreshBtn = new QPushButton("Soft refresh");
     QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
     refreshHButtonsLayout->addWidget(refreshBtn);
-    refreshBtn->setStyleSheet("background-color: #0000cc;");
 
     refreshJsonBtn = new QPushButton("Hard refresh");
     QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
     refreshHButtonsLayout->addWidget(refreshJsonBtn);
-    refreshJsonBtn->setStyleSheet("background-color: #0000cc;");
-    vLayout->addLayout(refreshHButtonsLayout);
+    controlsLayout->addLayout(refreshHButtonsLayout);
 
 
     auto hButtonsLayout = new QHBoxLayout();
-
-    haltBtn = new QPushButton("Halt");
-    QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    hButtonsLayout->addWidget(haltBtn);
-    haltBtn->setStyleSheet("background-color: #cc0000;");
 
     pauseBtn = new QPushButton("Pause");
     QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
     hButtonsLayout->addWidget(pauseBtn);
     pauseBtn->setStyleSheet("background-color: #cc0000;");
 
+    haltBtn = new QPushButton("Halt");
+    QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
+    hButtonsLayout->addWidget(haltBtn);
+
     spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
     spaceClick->setAutoRepeat(false);
 
-    toggleColorBtn = new QPushButton("Color");
-    QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    hButtonsLayout->addWidget(toggleColorBtn);
-    setToggleColorBtnLayout(); // set the btn color and text to the current our_color
+    controlsLayout->addLayout(hButtonsLayout);
 
-    toggleSideBtn = new QPushButton("Side");
-    QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
-    hButtonsLayout->addWidget(toggleSideBtn);
-    setToggleSideBtnLayout(); // set the btn color and text to the current our_side
 
-    vLayout->addLayout(hButtonsLayout);
 
-    MainWindow::configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
+
+    MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
@@ -129,6 +153,9 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          emit treeHasChanged();
                      });
 
+    controlsBox->setLayout(controlsLayout);
+    vLayout->addWidget(controlsBox);
+
     this->setLayout(vLayout);
 }
 
@@ -159,6 +186,12 @@ void MainControlsWidget::toggleOurSideParam() {
     setToggleSideBtnLayout();
 }
 
+/// toggle the the setting 'isSerialMode'
+void MainControlsWidget::toggleSerialParam() {
+    SETTINGS.setSerialMode(!SETTINGS.isSerialMode());
+    setToggleSerialBtnLayout();
+}
+
 /// send a halt signal to stop all trees from executing
 void MainControlsWidget::sendPauseSignal() {
     Output::sendHaltCommand();
@@ -187,8 +220,6 @@ void MainControlsWidget::setToggleColorBtnLayout() const {
 }
 
 void MainControlsWidget::setToggleSideBtnLayout() const {
-    toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-
     if (SETTINGS.isLeft()) {
         toggleSideBtn->setText("◀ Playing as left");
     } else {
@@ -196,6 +227,13 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
     }
 }
 
+void MainControlsWidget::setToggleSerialBtnLayout() const {
+    if (SETTINGS.isSerialMode()) {
+        toggleSerialBtn->setText("BaseStation");
+    } else {
+        toggleSerialBtn->setText("GrSim");
+    }
+}
 
 void MainControlsWidget::refreshSignal() {
     robotDealer::RobotDealer::refresh();
@@ -252,6 +290,8 @@ void MainControlsWidget::sendHaltSignal() {
     }
     isHalted = !isHalted;
 }
+
+
 
 } // interface
 } // ai
