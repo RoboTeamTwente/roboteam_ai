@@ -12,6 +12,7 @@
 #include "interface/widgets/VisualizationSettingsWidget.h"
 #include <QSplitter>
 #include <interface/widgets/SettingsWidget.h>
+#include <QtWidgets/QMenuBar>
 
 namespace rtt {
 namespace ai {
@@ -27,13 +28,40 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
 
+    auto menu = new QMenuBar(this);
+    this->setMenuBar(menu);
+    auto fileMenu = menu->addMenu(tr("&File"));
+    auto viewMenu = menu->addMenu(tr("&View"));
+    viewMenu->addAction(tr("Visualization"));
+
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
     auto mainControlsWidget = new MainControlsWidget(this);
     vLayout->addWidget(mainControlsWidget);
 
+
+    auto behaviourTreeWidget = new QWidget(this);
+    auto behaviourTreeWidgetLayout = new QVBoxLayout();
     // create widgets hidden under tabs
     treeWidget = new TreeVisualizerWidget(this);
+
+
+
+    behaviourTreeWidgetLayout->addWidget(treeWidget);
+
+    auto refreshHButtonsLayout = new QHBoxLayout();
+    auto refreshBtn = new QPushButton("Soft refresh");
+    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
+    refreshHButtonsLayout->addWidget(refreshBtn);
+
+    auto refreshJsonBtn = new QPushButton("Hard refresh");
+    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
+    refreshHButtonsLayout->addWidget(refreshJsonBtn);
+    behaviourTreeWidgetLayout->addLayout(refreshHButtonsLayout);
+    behaviourTreeWidget->setLayout(behaviourTreeWidgetLayout);
+
+
+
     keeperTreeWidget = new TreeVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto settingsWidget = new SettingsWidget(this);
@@ -47,7 +75,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto tabWidget = new QTabWidget;
 
     auto DataTabWidget = new QTabWidget;
-    DataTabWidget->addTab(treeWidget, tr("Behaviour trees"));
+    DataTabWidget->addTab(behaviourTreeWidget, tr("Behaviour trees"));
     DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
@@ -139,6 +167,16 @@ void MainWindow::updateTreeWidget() {
 // update the keeper widget with the newest keeper tree
 void MainWindow::updateKeeperTreeWidget() {
    this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree());
+}
+
+
+void MainWindow::refreshSignal() {
+    robotDealer::RobotDealer::refresh();
+}
+
+void MainWindow::refreshJSONSignal() {
+    BTFactory::makeTrees();
+    robotDealer::RobotDealer::refresh();
 }
 
 

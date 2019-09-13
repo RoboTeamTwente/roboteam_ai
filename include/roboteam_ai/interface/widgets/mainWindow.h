@@ -50,6 +50,9 @@ public slots:
     void updateTreeWidget();
     void updateKeeperTreeWidget();
 
+    void refreshSignal();
+    void refreshJSONSignal();
+
 private:
     QHBoxLayout* horizontalLayout;
     QVBoxLayout* mainLayout;

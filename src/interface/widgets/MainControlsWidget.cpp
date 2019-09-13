@@ -90,16 +90,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     auto controlsBox = new QGroupBox("Controls");
     auto controlsLayout = new QVBoxLayout();
 
-    auto refreshHButtonsLayout = new QHBoxLayout();
 
-    refreshBtn = new QPushButton("Soft refresh");
-    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
-    refreshHButtonsLayout->addWidget(refreshBtn);
-
-    refreshJsonBtn = new QPushButton("Hard refresh");
-    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
-    refreshHButtonsLayout->addWidget(refreshJsonBtn);
-    controlsLayout->addLayout(refreshHButtonsLayout);
 
 
     auto hButtonsLayout = new QHBoxLayout();
@@ -108,10 +99,6 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
     hButtonsLayout->addWidget(pauseBtn);
     pauseBtn->setStyleSheet("background-color: #cc0000;");
-
-    haltBtn = new QPushButton("Halt");
-    QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    hButtonsLayout->addWidget(haltBtn);
 
     spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
     spaceClick->setAutoRepeat(false);
@@ -235,16 +222,7 @@ void MainControlsWidget::setToggleSerialBtnLayout() const {
     }
 }
 
-void MainControlsWidget::refreshSignal() {
-    robotDealer::RobotDealer::refresh();
-    emit treeHasChanged();
-}
 
-void MainControlsWidget::refreshJSONSignal() {
-    BTFactory::makeTrees();
-    robotDealer::RobotDealer::refresh();
-    emit treeHasChanged();
-}
 
 void MainControlsWidget::updateContents() {
 
@@ -276,22 +254,6 @@ void MainControlsWidget::updateContents() {
     }
 
 }
-
-void MainControlsWidget::sendHaltSignal() {
-    if (isHalted) {
-        Output::setInterfaceGameState(prevGameState);
-        haltBtn->setText("Halt");
-        haltBtn->setStyleSheet("background-color: #cc0000;");
-    } else {
-        prevGameState = GameStateManager::getCurrentGameState();
-        GameStateManager::forceNewGameState(RefCommand::HALT);
-        haltBtn->setText("unHalt");
-        haltBtn->setStyleSheet("background-color: #00b200;");
-    }
-    isHalted = !isHalted;
-}
-
-
 
 } // interface
 } // ai
