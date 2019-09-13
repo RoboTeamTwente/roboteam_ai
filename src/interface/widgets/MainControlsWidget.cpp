@@ -24,11 +24,32 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     vLayout = new QVBoxLayout();
 
 
-    auto gameStateBox = new QGroupBox("GameState");
+  pauseBtn = new QPushButton("Pause");
+  QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
+  vLayout->addWidget(pauseBtn);
+  pauseBtn->setStyleSheet("background-color: #cc0000;");
+
+  spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
+  spaceClick->setAutoRepeat(false);
+
+
+
+  auto refHorizontalLayout = new QHBoxLayout();
+
+  // functions to select strategies
+  MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+
+  toggleSerialBtn = new QPushButton("Serial");
+  QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
+  refHorizontalLayout->addWidget(toggleSerialBtn);
+  setToggleSerialBtnLayout();
+
+  vLayout->addLayout(refHorizontalLayout);
+
+  auto gameStateBox = new QGroupBox();
     auto gameStateLayout = new QVBoxLayout();
 
-    // functions to select strategies
-    MainWindow::configureCheckBox("Use referee", gameStateLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+
 
     // get the strategy names from Switches
     select_strategy = new QComboBox();
@@ -77,38 +98,16 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     settingsButtonsLayout->addWidget(toggleSideBtn);
     setToggleSideBtnLayout();
 
-    toggleSerialBtn = new QPushButton("Serial");
-    QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
-    settingsButtonsLayout->addWidget(toggleSerialBtn);
-    setToggleSerialBtnLayout();
-
     gameStateLayout->addLayout(settingsButtonsLayout);
 
     gameStateBox->setLayout(gameStateLayout);
     vLayout->addWidget(gameStateBox);
 
-    auto controlsBox = new QGroupBox("Controls");
-    auto controlsLayout = new QVBoxLayout();
 
 
 
 
-    auto hButtonsLayout = new QHBoxLayout();
-
-    pauseBtn = new QPushButton("Pause");
-    QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
-    hButtonsLayout->addWidget(pauseBtn);
-    pauseBtn->setStyleSheet("background-color: #cc0000;");
-
-    spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
-    spaceClick->setAutoRepeat(false);
-
-    controlsLayout->addLayout(hButtonsLayout);
-
-
-
-
-    MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
+    // MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
@@ -139,9 +138,6 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          interface::Output::setRuleSetName(rulesetName.toStdString());
                          emit treeHasChanged();
                      });
-
-    controlsBox->setLayout(controlsLayout);
-    vLayout->addWidget(controlsBox);
 
     this->setLayout(vLayout);
 }
