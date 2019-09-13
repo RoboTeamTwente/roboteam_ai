@@ -92,12 +92,16 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     settingsButtonsLayout->addWidget(toggleColorBtn);
-    setToggleColorBtnLayout();
+  toggleColorBtn->setStyleSheet(QString::fromUtf8("QPushButton:disabled" "{ color: gray }"));
+
+  setToggleColorBtnLayout();
 
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
     settingsButtonsLayout->addWidget(toggleSideBtn);
-    setToggleSideBtnLayout();
+  toggleSideBtn->setStyleSheet(QString::fromUtf8("QPushButton:disabled" "{ color: gray }"));
+
+  setToggleSideBtnLayout();
 
     gameStateLayout->addLayout(settingsButtonsLayout);
 
@@ -140,6 +144,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          emit treeHasChanged();
                      });
 
+  setUseReferee(Output::usesRefereeCommands());
     this->setLayout(vLayout);
 }
 
@@ -155,6 +160,8 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     select_keeper_strategy->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
     select_goalie->setDisabled(useRef);
+    toggleSideBtn->setDisabled(useRef);
+    toggleColorBtn->setDisabled(useRef);
 }
 
 
