@@ -24,10 +24,11 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     vLayout = new QVBoxLayout();
 
 
-  pauseBtn = new QPushButton("Pause");
+  pauseBtn = new QPushButton("Stop");
   QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
   vLayout->addWidget(pauseBtn);
   pauseBtn->setStyleSheet("background-color: #cc0000;");
+  pauseBtn->setMinimumHeight(40);
 
   spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
   spaceClick->setAutoRepeat(false);
@@ -187,7 +188,7 @@ void MainControlsWidget::updatePause() {
         pauseBtn->setStyleSheet("background-color: #00b200;");
     }
     else {
-        pauseBtn->setText("Pause");
+        pauseBtn->setText("Stop");
         pauseBtn->setStyleSheet("background-color: #cc0000;");
     }
 }
