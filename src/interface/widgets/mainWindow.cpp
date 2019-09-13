@@ -31,10 +31,31 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto menu = new QMenuBar(this);
     this->setMenuBar(menu);
     auto fileMenu = menu->addMenu(tr("&File"));
-    auto viewMenu = menu->addMenu(tr("&View"));
-    viewMenu->addAction(tr("Visualization"));
+    auto viewMenu = menu->addMenu(tr("&Visualization"));
 
-    // the main controls widget for the most crucial buttons
+
+
+  MainWindow::configureCheckableMenuItem("show rolenames", "show rolenames", viewMenu, visualizer, SLOT(setShowRoles(bool)),
+                                Constants::STD_SHOW_ROLES());
+  MainWindow::configureCheckableMenuItem("show tacticnames", "show rolenames", viewMenu, visualizer, SLOT(setShowTactics(bool)),
+                                Constants::STD_SHOW_TACTICS());
+  MainWindow::configureCheckableMenuItem("show tacticColors","show rolenames", viewMenu, visualizer, SLOT(setShowTacticColors(bool)),
+                                Constants::STD_SHOW_TACTICS_COLORS());
+  MainWindow::configureCheckableMenuItem("show angles","show rolenames", viewMenu, visualizer, SLOT(setShowAngles(bool)),
+                                Constants::STD_SHOW_ANGLES());
+  MainWindow::configureCheckableMenuItem("show velocities","show rolenames", viewMenu, visualizer, SLOT(setShowVelocities(bool)),
+                                Constants::STD_SHOW_VELOCITIES());
+  MainWindow::configureCheckableMenuItem("show robot shortcomings","show rolenames", viewMenu, visualizer, SLOT(setShowRobotInvalids(bool)),
+                                Constants::STD_SHOW_ROBOT_INVALIDS());
+  MainWindow::configureCheckableMenuItem("Show marker for BallPtr Placement","show rolenames", viewMenu, visualizer,
+                                SLOT(setShowBallPlacementMarker(bool)), Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
+  MainWindow::configureCheckableMenuItem("show debug values in terminal","show rolenames", viewMenu, visualizer,
+                                SLOT(setShowDebugValueInTerminal(bool)), Constants::STD_SHOW_DEBUG_VALUES());
+  MainWindow::configureCheckableMenuItem("Inverse interface", "show rolenames", viewMenu, visualizer, SLOT(setToggleFieldDirection(bool)),
+                                false);
+
+
+  // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
     auto mainControlsWidget = new MainControlsWidget(this);
     vLayout->addWidget(mainControlsWidget);
@@ -69,7 +90,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
-    checkboxWidget = new CheckboxWidget(visualizer, this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -85,7 +105,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     SettingsTabWidget->addTab(settingsWidget, tr("General settings"));
     SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
-    SettingsTabWidget->addTab(checkboxWidget, tr("Other Settings"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
 
     vLayout->addWidget(tabWidget);
@@ -135,6 +154,17 @@ void MainWindow::configureCheckBox(QString title, QLayout * layout, const QObjec
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
+}
+
+void MainWindow::configureCheckableMenuItem(QString title, QString hint, QMenu * menu, const QObject* receiver, const char* method,
+                                            bool defaultState) {
+
+  QAction * action = new QAction(title, menu);
+  action->setStatusTip(hint);
+  action->setCheckable(true);
+  action->setChecked(defaultState);
+  QObject::connect(action, SIGNAL(triggered(bool)), receiver, method);
+  menu->addAction(action);
 }
 
 /// delete a layout and its children
