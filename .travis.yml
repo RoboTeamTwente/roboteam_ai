@@ -15,21 +15,15 @@ matrix:
 before_install:
   - sudo apt-get clean
   - sudo apt update
-  - sudo apt-get install -y ccache ninja-build autoconf automake libtool curl make g++ unzip libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
+  - sudo apt-get install -y ccache ninja-build autoconf automake libtool curl make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
 
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
-
-  #install protobuf
-  - curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.zip
-  - unzip protobuf-cpp-3.9.1.zip -d protobuf
-  - cd protobuf/protobuf-3.9.1
-  - ./configure
-  - make
-  - make check
-  - sudo make install
-  - sudo ldconfig # refresh shared library cache.
-
+  # add homebrew to install protobuf faster
+  - sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+  - test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+  - test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+  - test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+  - echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+  - brew install protobuf
 install:
 
 before_script:
