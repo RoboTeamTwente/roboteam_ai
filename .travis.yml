@@ -21,7 +21,7 @@ before_install:
   - export CXX="ccache g++"
 
   #install protobuf
-  - curl -OL https://github.com/google/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.zip
+  - curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.zip
   - unzip protoc-3.9.1-linux-x86_64.zip -d protobuf
   - cd protobuf
   - ./autogen.sh
