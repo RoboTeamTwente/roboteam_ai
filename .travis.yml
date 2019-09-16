@@ -24,7 +24,6 @@ before_install:
   - curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.zip
   - unzip protobuf-cpp-3.9.1.zip -d protobuf
   - cd protobuf
-  - ./autogen.sh
   - ./configure
   - make
   - make check
