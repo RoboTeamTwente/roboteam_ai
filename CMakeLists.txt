@@ -276,7 +276,20 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/CheckboxWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp)
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
+
+        # QT wants to know about these headers
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/CheckboxWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
+        )
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
@@ -324,19 +337,6 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-
-        # QT wants to know about these headers
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/CheckboxWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
-
         )
 
 target_link_libraries(roboteam_ai
@@ -366,12 +366,28 @@ add_executable(ai_tests
         ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
-        ${WORLD_SOURCES})
+        ${WORLD_SOURCES}
+        )
+
+
+if(APPLE)
+    target_link_libraries(ai_tests
+            PRIVATE roboteam_utils
+            PRIVATE Qt5::Widgets
+            PRIVATE Qt5::Gui
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a)
+endif()
+
+if(UNIX AND NOT APPLE)
 
 target_link_libraries(ai_tests
-        roboteam_utils
-        gcov
-        Qt5::Widgets Qt5::Gui)
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        PRIVATE Qt5::Gui
+        PRIVATE gcov)
+endif()
+
 
 target_include_directories(ai_tests
         INTERFACE include
