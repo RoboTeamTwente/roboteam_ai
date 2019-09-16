@@ -17,10 +17,13 @@ before_install:
   - sudo apt update
   - sudo apt-get install -y ccache ninja-build autoconf automake libtool curl make g++ unzip libprotobuf-dev protobuf-compiler lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
 
+  - export CC="ccache gcc"
+  - export CXX="ccache g++"
+
   #install protobuf
-  - git clone https://github.com/protocolbuffers/protobuf.git
+  - curl -OL https://github.com/google/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.zip
+  - unzip protoc-3.9.1-linux-x86_64.zip -d protobuf
   - cd protobuf
-  - git submodule update --init --recursive
   - ./autogen.sh
   - ./configure
   - make
