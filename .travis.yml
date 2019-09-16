@@ -26,10 +26,11 @@ before_script:
 # to blacklist certain packages.
 #
 script:
+  - cd ~
   - export CC="ccache gcc"
   - export CXX="ccache g++"
   - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - git clone https://github.com/RoboTeamTwente/roboteam_suite --recurse-submodules roboteam_suite
+  - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
   - cd ~/roboteam_suite
   - mkdir cmake-build-debug && cd cmake-build-debug
   - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
