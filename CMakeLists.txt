@@ -411,9 +411,9 @@ target_include_directories(ai_tests
 #set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
 #set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
 #
-
-if(UNIX AND NOT APPLE)
-    cotire(roboteam_ai)
-    cotire(ai_tests)
-endif()
+#
+#if(UNIX AND NOT APPLE)
+#    cotire(roboteam_ai)
+#    cotire(ai_tests)
+#endif()
 
