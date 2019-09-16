@@ -29,6 +29,8 @@ before_install:
   # Move protoc3/include to /usr/local/include/
   - sudo mv protoc3/include/* /usr/local/include/
 
+  # Add symlink
+  - ln -s /usr/local/bin/protoc /usr/bin/protoc
 install:
 
 before_script:
