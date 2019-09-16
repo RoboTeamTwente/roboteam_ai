@@ -28,7 +28,8 @@ script:
   - export CC="ccache gcc"
   - export CXX="ccache g++"
   - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - git clone https://github.com/RoboTeamTwente/roboteam_suite --recurse-submodules
+  - git clone https://github.com/RoboTeamTwente/roboteam_suite --recurse-submodules roboteam_suite
+  - cd ~/roboteam_suite
   - mkdir cmake-build-debug && cd cmake-build-debug
   - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
   - make -j 8
