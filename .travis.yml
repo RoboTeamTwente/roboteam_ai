@@ -27,10 +27,6 @@ install:
 
 before_script:
 
-# Compile and test (mark the build as failed if any step fails). If the
-# CATKIN_OPTIONS file exists, use it as an argument to catkin_make, for example
-# to blacklist certain packages.
-#
 script:
 - cd ~
 - export CC="ccache gcc"
@@ -39,7 +35,7 @@ script:
 - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
 - cd ~/roboteam_suite
 - mkdir cmake-build-debug && cd cmake-build-debug
-- cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" --build ~/roboteam_suite/cmake-build-debug --target ai_tests -- -j 8
+- cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" --build . --target ai_tests -- -j 8
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
