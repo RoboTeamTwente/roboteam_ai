@@ -13,11 +13,16 @@ matrix:
       dist: xenial
 
 before_install:
-  - sudo apt-get remove protobuf-compiler libprotobuf-dev
   - sudo apt-get clean
   - sudo apt update
-  - sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool curl make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
-  - pip3 install protobuf
+  - sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool build-essential curl file git curl make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
+  - git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+  - mkdir ~/.linuxbrew/bin
+  - ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin
+  - eval $(~/.linuxbrew/bin/brew shellenv)
+  - brew install protobuf
+
+
 install:
 
 before_script:
