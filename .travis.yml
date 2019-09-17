@@ -44,7 +44,7 @@ script:
 - make roboteam_proto
 - make roboteam_utils
 - make ai_tests
-- ./roboteam_ai/ai_tests
+- ./ai_tests
 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
