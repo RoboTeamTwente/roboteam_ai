@@ -15,9 +15,7 @@ matrix:
 
 before_install:
   - docker pull thethingsindustries/protoc
-  - docker run -d -p 127.0.0.1:80:4567 thethingsindustries/protoc /bin/sh -c "cd /root/protoc; bundle exec foreman start;"
-  - docker ps -a
-  - docker run thethingsindustries/protoc /bin/sh -c "cd /root/protoc; bundle exec rake test"
+  - docker run --rm thethingsindustries/protoc --help
 
 install:
   - sudo apt-get clean
