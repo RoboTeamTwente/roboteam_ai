@@ -15,15 +15,8 @@ matrix:
 before_install:
   - sudo apt-get clean
   - sudo apt update
-  - sudo apt-get install -y ccache ninja-build autoconf automake libtool curl make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
-
-  # add homebrew to install protobuf faster
-  - sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-  - test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-  - test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-  - test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
-  - echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
-  - brew install protobuf
+  - sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool curl make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
+  - pip3 install protobuf
 install:
 
 before_script:
