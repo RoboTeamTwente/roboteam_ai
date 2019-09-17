@@ -1,29 +1,29 @@
 sudo: required
 services:
-  - xvfb
+- xvfb
 notifications:
   email: false
 cache:
-  - ccache
+- ccache
 
 language: cpp
 matrix:
   include:
-    - name: "Xenial"
-      dist: xenial
+  - name: "Xenial"
+    dist: xenial
 
 before_install:
-  - sudo apt-get clean
-  - sudo apt update
-  - sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
+- sudo apt-get clean
+- sudo apt update
+- sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
 
 # Build Protobuf from source
 install:
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
-  - wget https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.tar.gz
-  - tar -xzvf protobuf-cpp-3.9.1.tar.gz
-  - pushd protobuf-3.9.1 && ./configure --prefix=/usr && make && sudo make install && popd
+- export CC="ccache gcc"
+- export CXX="ccache g++"
+- wget https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.tar.gz
+- tar -xzvf protobuf-cpp-3.9.1.tar.gz
+- pushd protobuf-3.9.1 && ./configure --prefix=/usr && make && sudo make install && popd
 
 before_script:
 
@@ -32,19 +32,19 @@ before_script:
 # to blacklist certain packages.
 #
 script:
-  - cd ~
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
-  - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
-  - cd ~/roboteam_suite
-  - mkdir cmake-build-debug && cd cmake-build-debug
-  - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
-  - make -j 8
-  - make roboteam_proto
-  - make roboteam_utils
-  - make ai_tests
-  - ./roboteam_ai/ai_tests
+- cd ~
+- export CC="ccache gcc"
+- export CXX="ccache g++"
+- export CCACHE_SLOPPINESS=pch_defines,time_macros
+- git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
+- cd ~/roboteam_suite
+- mkdir cmake-build-debug && cd cmake-build-debug
+- cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
+- make -j 8
+- make roboteam_proto
+- make roboteam_utils
+- make ai_tests
+- ./roboteam_ai/ai_tests
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
