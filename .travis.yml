@@ -15,12 +15,11 @@ matrix:
 
 before_install:
   - docker pull thethingsindustries/protoc
-  - docker run --rm thethingsindustries/protoc --help
 
 install:
-  - sudo apt-get clean
-  - sudo apt update
-  - sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
+  - docker run sudo apt-get clean
+  - docker run sudo apt update
+  - docker run sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
 
 before_script:
 
@@ -29,19 +28,19 @@ before_script:
 # to blacklist certain packages.
 #
 script:
-  - cd ~
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
-  - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
-  - cd ~/roboteam_suite
-  - mkdir cmake-build-debug && cd cmake-build-debug
-  - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
-  - make -j 8
-  - make roboteam_proto
-  - make roboteam_utils
-  - make ai_tests
-  - ./roboteam_ai/ai_tests
+  - docker run cd ~
+  - docker run export CC="ccache gcc"
+  - docker run export CXX="ccache g++"
+  - docker run export CCACHE_SLOPPINESS=pch_defines,time_macros
+  - docker run git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
+  - docker run cd ~/roboteam_suite
+  - docker run mkdir cmake-build-debug && cd cmake-build-debug
+  - docker run cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
+  - docker run make -j 8
+  - docker run make roboteam_proto
+  - docker run make roboteam_utils
+  - docker run make ai_tests
+  - docker run ./roboteam_ai/ai_tests
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
