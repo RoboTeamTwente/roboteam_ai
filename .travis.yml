@@ -23,7 +23,7 @@ install:
   - export CXX="ccache g++"
   - wget https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.tar.gz
   - tar -xzvf protobuf-cpp-3.9.1.tar.gz
-  - pushd protobuf-cpp-3.9.1 && ./configure --prefix=/usr && make && sudo make install && popd
+  - pushd protobuf-3.9.1 && ./configure --prefix=/usr && make && sudo make install && popd
 
 before_script:
 
