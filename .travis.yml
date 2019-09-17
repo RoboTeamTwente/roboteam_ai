@@ -1,6 +1,7 @@
 sudo: required
 services:
   - xvfb
+  - docker
 notifications:
   email: false
 cache:
@@ -13,10 +14,15 @@ matrix:
       dist: xenial
 
 before_install:
+  - docker pull thethingsindustries/protoc
+  - docker run -d -p 127.0.0.1:80:4567 thethingsindustries/protoc /bin/sh -c "cd /root/protoc; bundle exec foreman start;"
+  - docker ps -a
+  - docker run thethingsindustries/protoc /bin/sh -c "cd /root/protoc; bundle exec rake test"
+
+install:
   - sudo apt-get clean
   - sudo apt update
   - sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
-  - gem install google-protobuf
 
 before_script:
 
