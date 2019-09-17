@@ -5,6 +5,8 @@ notifications:
   email: false
 cache:
 - ccache
+  directories:
+    - $HOME/protobuf-3.9.1
 
 language: cpp
 matrix:
