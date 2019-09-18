@@ -322,7 +322,7 @@ add_executable(roboteam_ai
         ${COACH_SOURCES}
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
-        ${WORLD_SOURCES} src/AI.cpp include/roboteam_ai/AI.h
+        ${WORLD_SOURCES}
 
         # QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
