@@ -25,6 +25,7 @@
 #include "RobotsWidget.h"
 #include "PidBox.h"
 #include "RuleSetWidget.h"
+#include <QtCharts/QtCharts>
 
 namespace rtt {
 namespace ai {
@@ -64,6 +65,14 @@ private:
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;
+
+    float seriesIndex = 0;
+    float yMin =0;
+    float yMax = 0;
+    float xMin =0;
+    float xMax = 0;
+    QChartView * chartView;
+    QLineSeries * series;
 };
 
 } // interface

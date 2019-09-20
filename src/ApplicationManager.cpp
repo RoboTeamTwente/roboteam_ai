@@ -54,24 +54,22 @@ void ApplicationManager::loop() {
         if(diff > timeDiff) {
             this->runOneLoopCycle();
 
-            cyclesInThisSecond+=2;
+            cyclesInThisSecond++;
 
             auto fps_diff = now_time - last_fps_count_time;
-            auto fps_timestep =std::chrono::milliseconds(500); // one second
+            auto fps_timestep =std::chrono::milliseconds(200); // one second
             if(fps_diff > fps_timestep) {
 
                 std::cout << "FPS: " << cyclesInThisSecond << std::endl;
                 lastFPS = cyclesInThisSecond;
-
-
-
                 cyclesInThisSecond=0;
                 last_fps_count_time = now_time;
             }
 
             ai::interface::Input::drawText(ai::interface::Visual::DEBUG, "FPS: "
-                                                                         + QString::number(lastFPS, 10), Qt::white, {20,20}, 14 );
+                                                                         + QString::number(lastFPS*5, 10), Qt::white, {20,20}, 14 );
 
+            ai::interface::Input::setFps(lastFPS*5);
 
             if (ai::robotDealer::RobotDealer::hasFree()) {
                 if (ticksFree++ > 10) {

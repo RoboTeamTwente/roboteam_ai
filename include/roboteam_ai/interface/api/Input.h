@@ -92,9 +92,16 @@ private:
 
     static std::mutex drawingMutex;
     static std::mutex textDrawingMutex;
+    static std::mutex fpsMutex;
 
     static void makeDrawing(Drawing const &drawing);
     static void makeTextDrawing(TextDrawing const &textDrawing);
+
+    static int FPS;
+public:
+    static int getFps();
+
+    static void setFps(int fps);
 
 };
 

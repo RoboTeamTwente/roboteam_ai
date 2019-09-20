@@ -25,12 +25,15 @@ signals:
     void treeHasChanged();
 
 private:
+  //  QLineSeries* lineSeries;
     QVBoxLayout* vLayout;
     QPushButton* pauseBtn;
     QPushButton* toggleColorBtn;
     QPushButton* toggleSideBtn;
     QPushButton* toggleSerialBtn;
     QShortcut* spaceClick;
+
+
 
     QComboBox* select_strategy;
     QComboBox* select_keeper_strategy;

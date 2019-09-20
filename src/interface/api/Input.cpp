@@ -13,6 +13,9 @@ std::vector<Drawing> Input::drawings;
 std::mutex Input::drawingMutex;
 std::vector<TextDrawing> Input::textDrawings;
 std::mutex Input::textDrawingMutex;
+std::mutex Input::fpsMutex;
+int Input::FPS;
+
 /*
  * Draw data to the screen
  */
@@ -68,6 +71,16 @@ void Input::drawText(Visual visual, QString text, QColor color, Vector2 location
 void Input::makeTextDrawing(TextDrawing const &textDrawing) {
     std::lock_guard<std::mutex> lock(textDrawingMutex);
     textDrawings.push_back(textDrawing);
+}
+
+int Input::getFps() {
+    std::lock_guard<std::mutex> lock(fpsMutex);
+    return FPS;
+}
+
+void Input::setFps(int fps) {
+    std::lock_guard<std::mutex> lock(fpsMutex);
+    FPS = fps;
 }
 
 

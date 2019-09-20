@@ -25,7 +25,6 @@ if(APPLE)
 #    set(Qt5Gui_DIR "/usr/local/opt/qt/lib/cmake/Qt5Gui")
 #    set(Qt5_DIR "/usr/local/opt/qt/lib/cmake")
     set(Qt5Widgets_DIR "/usr/local/opt/qt5/lib/cmake/Qt5Widgets")
-
     set(Qt5Core_DIR "/usr/local/opt/qt/lib/cmake/Qt5Core")
     set(Qt5Gui_DIR "/usr/local/opt/qt/lib/cmake/Qt5Gui")
 
@@ -36,9 +35,10 @@ endif()
 # for Linux, BSD, Solaris, Minix
 if(UNIX AND NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
+    SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
 endif()
 
-
+find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
 set(JSON_SOURCES
@@ -340,6 +340,7 @@ add_executable(roboteam_ai
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
+        PRIVATE Qt5::Charts
         PRIVATE roboteam_utils)
 
 target_include_directories(roboteam_ai
@@ -369,7 +370,7 @@ add_executable(ai_tests
 target_link_libraries(ai_tests
         roboteam_utils
         gcov
-        Qt5::Widgets Qt5::Gui)
+        Qt5::Widgets Qt5::Gui Qt5::Charts)
 
 target_include_directories(ai_tests
         INTERFACE include
