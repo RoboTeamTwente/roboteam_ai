@@ -156,7 +156,6 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
             if (cmd.id() >= 0 && cmd.id() < 16) {
                 publisher->send(TOPIC_COMMANDS, cmd.SerializeAsString());
-                cmd.PrintDebugString();
             }
         }
         else {
