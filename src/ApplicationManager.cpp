@@ -43,6 +43,7 @@ void ApplicationManager::loop() {
 
     int cyclesInThisSecond = 0;
 
+    int lastFPS = 0;
     while(ok) {
 
         now_time = std::chrono::duration_cast< std::chrono::milliseconds >(
@@ -53,17 +54,23 @@ void ApplicationManager::loop() {
         if(diff > timeDiff) {
             this->runOneLoopCycle();
 
-            cyclesInThisSecond++;
+            cyclesInThisSecond+=2;
 
             auto fps_diff = now_time - last_fps_count_time;
-            auto fps_timestep =std::chrono::milliseconds(1000); // one second
+            auto fps_timestep =std::chrono::milliseconds(500); // one second
             if(fps_diff > fps_timestep) {
 
                 std::cout << "FPS: " << cyclesInThisSecond << std::endl;
+                lastFPS = cyclesInThisSecond;
+
+
 
                 cyclesInThisSecond=0;
                 last_fps_count_time = now_time;
             }
+
+            ai::interface::Input::drawText(ai::interface::Visual::DEBUG, "FPS: "
+                                                                         + QString::number(lastFPS, 10), Qt::white, {20,20}, 14 );
 
 
             if (ai::robotDealer::RobotDealer::hasFree()) {

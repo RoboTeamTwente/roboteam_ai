@@ -11,7 +11,8 @@ namespace interface {
 // declare static variables
 std::vector<Drawing> Input::drawings;
 std::mutex Input::drawingMutex;
-
+std::vector<TextDrawing> Input::textDrawings;
+std::mutex Input::textDrawingMutex;
 /*
  * Draw data to the screen
  */
@@ -43,13 +44,30 @@ const std::vector<Drawing> Input::getDrawings() {
     return drawings;
 }
 
+const std::vector<TextDrawing> Input::getTextDrawings() {
+    std::lock_guard<std::mutex> lock(textDrawingMutex);
+    return textDrawings;
+}
+
 void Input::clearDrawings() {
-    std::lock_guard<std::mutex> lock(drawingMutex);
+    std::lock_guard<std::mutex> drawingLock(drawingMutex);
+    textDrawings = {};
+
+    std::lock_guard<std::mutex> textDrawingLock(textDrawingMutex);
     drawings = {};
 }
 
 Input::~Input() {
     clearDrawings();
+}
+
+void Input::drawText(Visual visual, QString text, QColor color, Vector2 location, int fontSize) {
+    Input::makeTextDrawing(TextDrawing(visual, color, text, location, fontSize));
+}
+
+void Input::makeTextDrawing(TextDrawing const &textDrawing) {
+    std::lock_guard<std::mutex> lock(textDrawingMutex);
+    textDrawings.push_back(textDrawing);
 }
 
 

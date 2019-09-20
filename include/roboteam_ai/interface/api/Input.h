@@ -55,6 +55,23 @@ struct Drawing {
     double strokeWidth = 2.0;
 };
 
+struct TextDrawing {
+
+    TextDrawing(  Visual visual, QColor color, QString text, Vector2 location, int fontSize)
+    : visual(visual),
+    color(color),
+    text(text),
+    location(location),
+    fontSize(fontSize){};
+
+    Visual visual;
+    QColor color;
+    QString text;
+    Vector2 location;
+    int fontSize;
+
+};
+
 
 class Input {
 public:
@@ -64,13 +81,21 @@ public:
 
     static void clearDrawings();
     static const std::vector<Drawing> getDrawings();
+    static const std::vector<TextDrawing> getTextDrawings();
+
     static void drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 2.0);
     static void drawDebugData(std::vector<Vector2> points, QColor color = Qt::yellow, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 4.0);
-
+    static void drawText(Visual visual, QString text, QColor color, Vector2 location, int fontSize);
 private:
     static std::vector<Drawing> drawings;
+    static std::vector<TextDrawing> textDrawings;
+
     static std::mutex drawingMutex;
+    static std::mutex textDrawingMutex;
+
     static void makeDrawing(Drawing const &drawing);
+    static void makeTextDrawing(TextDrawing const &textDrawing);
+
 };
 
 } // interface
