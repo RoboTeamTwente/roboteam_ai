@@ -132,7 +132,7 @@ const World::RobotPtr World::getRobotForId(int id, bool ourTeam) {
 const std::vector<World::RobotPtr> World::getAllRobots() {
     std::lock_guard<std::mutex> lock(worldMutex);
     if (! worldDataPtr) {
-        return {nullptr};
+        return {};
     }
     std::vector<RobotPtr> allRobots;
     allRobots.insert(allRobots.end(), worldDataPtr->us.begin(), worldDataPtr->us.end());
@@ -142,19 +142,19 @@ const std::vector<World::RobotPtr> World::getAllRobots() {
 
 const std::vector<World::RobotPtr> World::getUs() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    if (! worldDataPtr) return {nullptr};
+    if (! worldDataPtr) return {};
     return worldDataPtr->us;
 }
 
 const std::vector<World::RobotPtr> World::getThem() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    if (! worldDataPtr) return {nullptr};
+    if (! worldDataPtr) return {};
     return worldDataPtr->them;
 }
 
 const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots) {
 
-    if (robots.empty()) return {nullptr};
+    if (robots.empty()) return {};
 
     unsigned int bestIndex = 0;
     double closestDistance = 9e9;
@@ -197,7 +197,7 @@ const World::RobotPtr World::getRobotClosestToBall(WhichRobots whichRobots) {
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         if (! worldDataPtr) {
-            return {nullptr};
+            return {};
         }
         ballPos = worldDataPtr->ball->pos;
     }

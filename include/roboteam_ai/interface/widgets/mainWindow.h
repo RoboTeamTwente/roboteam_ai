@@ -23,7 +23,6 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include "TreeVisualizerWidget.h"
 #include "RobotsWidget.h"
-#include "CheckboxWidget.h"
 #include "PidBox.h"
 #include "RuleSetWidget.h"
 
@@ -43,6 +42,9 @@ public:
     // this function is useful everywhere
     static void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,
                               bool defaultState = false);
+
+    static void configureCheckableMenuItem(QString title, QString hint, QMenu * menu, const QObject* receiver, const char* method,
+  bool defaultState);
     static void clearLayout(QLayout* layout);
 
 public slots:
@@ -50,13 +52,15 @@ public slots:
     void updateTreeWidget();
     void updateKeeperTreeWidget();
 
+    void refreshSignal();
+    void refreshJSONSignal();
+
 private:
     QHBoxLayout* horizontalLayout;
     QVBoxLayout* mainLayout;
     QVBoxLayout* vLayout;
     RobotsWidget* robotsWidget;
     RuleSetWidget * refWidget;
-    CheckboxWidget * checkboxWidget;
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;
