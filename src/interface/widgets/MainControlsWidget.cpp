@@ -233,8 +233,6 @@ void MainControlsWidget::setToggleSerialBtnLayout() const {
 
 
 void MainControlsWidget::updateContents() {
-
-
     auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
     if (strategyText != select_strategy->currentText()) {
         select_strategy->setCurrentText(strategyText);
@@ -261,7 +259,6 @@ void MainControlsWidget::updateContents() {
     } else {
         select_goalie->setStyleSheet("background-color: #cc0000;");
     }
-
 }
 
 } // interface

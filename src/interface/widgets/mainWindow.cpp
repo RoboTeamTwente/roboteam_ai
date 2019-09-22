@@ -13,7 +13,8 @@
 #include <QSplitter>
 #include <interface/widgets/SettingsWidget.h>
 #include <QtWidgets/QMenuBar>
-#include <include/roboteam_ai/interface/api/Input.h>
+#include <interface/api/Input.h>
+#include <interface/widgets/GraphWidget.h>
 
 namespace rtt {
 namespace ai {
@@ -82,40 +83,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     behaviourTreeWidgetLayout->addLayout(refreshHButtonsLayout);
     behaviourTreeWidget->setLayout(behaviourTreeWidgetLayout);
 
-    chartView = new QChartView();
-    series = new QLineSeries();
-    series->setColor(Qt::red);
-    series->setName("FPS");
-
-    chartView->chart()->addSeries(series);
-    chartView->chart()->createDefaultAxes();
-    chartView->chart()->setMinimumHeight(300);
-    chartView->chart()->setTheme(QChart::ChartThemeDark);
-    chartView->chart()->setBackgroundBrush(QColor(53,53,53));
-    chartView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
-    chartView->chart()->axisY()->setGridLineVisible(true);
-
-    connect(series, &QSplineSeries::pointAdded, [=](int index){
-        qreal y = series->at(index).y();
-        qreal x = series->at(index).x();
-
-        if(y > yMax){
-            if(y> yMax) yMax = y;
-            chartView->chart()->axisY()->setRange(0, yMax+20);
-        }
-
-        if(x< xMin || x > xMax){
-            if(x < xMin) xMin = x;
-            if(x> xMax) xMax = x;
-
-            if (xMax - xMin > 30) {
-                xMin = xMax - 30;
-            }
-            chartView->chart()->axisX()->setRange(xMin, xMax);
-        }
-
-    });
-
 
 
 
@@ -131,10 +98,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // add the tab widget
     auto tabWidget = new QTabWidget;
 
+    auto graphWidget= new GraphWidget(this);
+
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("Behaviour trees"));
     DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
-    DataTabWidget->addTab(chartView, tr("Charts"));
+    DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
@@ -180,8 +149,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
-
     robotsTimer->start(200); // 5fps
+
+    auto * graphTimer = new QTimer(this);
+    connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
+    graphTimer->start(200); // 5fps
+
+
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
+
 }
 
 
@@ -223,12 +199,6 @@ void MainWindow::clearLayout(QLayout* layout)
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-
-        series->append(seriesIndex, Input::getFps());
-        seriesIndex+=0.2;
-        chartView->chart()->createDefaultAxes();
-
-
     if (world::world->weHaveRobots())
         robotsWidget->updateContents(visualizer);
 }

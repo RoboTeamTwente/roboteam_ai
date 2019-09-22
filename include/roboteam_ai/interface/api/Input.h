@@ -11,6 +11,7 @@
 #include <mutex>
 #include <tuple>
 #include "Toggles.h"
+#include <QtCharts/QtCharts>
 
 namespace rtt {
 namespace ai {
@@ -93,11 +94,19 @@ private:
     static std::mutex drawingMutex;
     static std::mutex textDrawingMutex;
     static std::mutex fpsMutex;
+    static std::mutex cycleMutex;
 
     static void makeDrawing(Drawing const &drawing);
     static void makeTextDrawing(TextDrawing const &textDrawing);
 
     static int FPS;
+    static int index;
+    static QSplineSeries * cycleTime;
+public:
+    static QSplineSeries * getCycleTimes();
+
+    static void addCycleTime(const std::chrono::milliseconds &cycleTime);
+
 public:
     static int getFps();
 

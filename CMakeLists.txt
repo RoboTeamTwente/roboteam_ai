@@ -275,7 +275,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/MainControlsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp)
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp src/interface/widgets/GraphWidget.cpp include/roboteam_ai/interface/widgets/GraphWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp

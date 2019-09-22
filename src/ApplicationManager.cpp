@@ -54,6 +54,11 @@ void ApplicationManager::loop() {
         if(diff > timeDiff) {
             this->runOneLoopCycle();
 
+            std::chrono::milliseconds afterOneCycleTime = std::chrono::duration_cast< std::chrono::milliseconds >(
+                    std::chrono::system_clock::now().time_since_epoch());
+
+            ai::interface::Input::addCycleTime(afterOneCycleTime - now_time);
+
             cyclesInThisSecond++;
 
             auto fps_diff = now_time - last_fps_count_time;
@@ -139,9 +144,6 @@ void ApplicationManager::runOneLoopCycle() {
 //        if (ai::interface::Output::showCoachTimeTaken()) {
 //            begin = ros::Time::now();
 //        }
-
-
-
 
           rtt::ai::coach::getBallCoach->update();
           rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
