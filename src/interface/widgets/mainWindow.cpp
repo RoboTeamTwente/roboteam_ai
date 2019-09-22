@@ -82,8 +82,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     behaviourTreeWidgetLayout->addLayout(refreshHButtonsLayout);
     behaviourTreeWidget->setLayout(behaviourTreeWidgetLayout);
 
-
-
     chartView = new QChartView();
     series = new QLineSeries();
     series->setColor(Qt::red);
@@ -96,8 +94,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     chartView->chart()->setBackgroundBrush(QColor(53,53,53));
     chartView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
     chartView->chart()->axisY()->setGridLineVisible(true);
-
-
 
     connect(series, &QSplineSeries::pointAdded, [=](int index){
         qreal y = series->at(index).y();
