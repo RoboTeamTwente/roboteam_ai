@@ -11,7 +11,7 @@ void Role::initialize() {
 
 }
 Node::Status Role::update() {
-    auto status = child->tick();
+    auto status = child->tick(world, field);
     if (status == Status::Success) {
         return Status::Success;
     }

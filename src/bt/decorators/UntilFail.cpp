@@ -7,7 +7,7 @@
 namespace bt {
 
 Node::Status UntilFail::update() {
-    auto status = child->tick();
+    auto status = child->tick(world, field);
 
     if (status == Status::Failure) {
         return Status::Success;

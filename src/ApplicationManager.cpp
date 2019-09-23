@@ -9,6 +9,7 @@
 #include "ApplicationManager.h"
 #include <sstream>
 #include <Settings/Settings.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "analysis/GameAnalyzer.h"
 #include "interface/api/Output.h"
 #include "coach/GetBallCoach.h"
@@ -117,7 +118,7 @@ void ApplicationManager::runOneLoopCycle() {
 
         keeperTree = BTFactory::getKeeperTree();
         if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-            keeperTree->tick();
+            keeperTree->tick(rtt::ai::world::world, rtt::ai::world::field);
         }
 
 
@@ -144,7 +145,7 @@ void ApplicationManager::runOneLoopCycle() {
         }
 
         strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-        Status status = strategy->tick();
+        Status status = strategy->tick(rtt::ai::world::world, rtt::ai::world::field);
         this->notifyTreeStatus(status);
     }
     else {
