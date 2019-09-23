@@ -77,41 +77,20 @@ struct TextDrawing {
 class Input {
 public:
     explicit Input() = default;
-
     virtual ~Input();
 
     static void clearDrawings();
     static const std::vector<Drawing> getDrawings();
-    static const std::vector<TextDrawing> getTextDrawings();
-
     static void drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 2.0);
     static void drawDebugData(std::vector<Vector2> points, QColor color = Qt::yellow, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 4.0);
-    static void drawText(Visual visual, QString text, QColor color, Vector2 location, int fontSize);
+    static int getFps();
+    static void setFps(int fps);
 private:
     static std::vector<Drawing> drawings;
-    static std::vector<TextDrawing> textDrawings;
-
     static std::mutex drawingMutex;
-    static std::mutex textDrawingMutex;
     static std::mutex fpsMutex;
-    static std::mutex cycleMutex;
-
     static void makeDrawing(Drawing const &drawing);
-    static void makeTextDrawing(TextDrawing const &textDrawing);
-
     static int FPS;
-    static int index;
-    static QLineSeries * cycleTime;
-public:
-    static QLineSeries * getCycleTimes();
-
-    static void addCycleTime(const std::chrono::milliseconds &cycleTime);
-
-public:
-    static int getFps();
-
-    static void setFps(int fps);
-
 };
 
 } // interface

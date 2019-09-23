@@ -57,8 +57,6 @@ void ApplicationManager::loop() {
             std::chrono::milliseconds afterOneCycleTime = std::chrono::duration_cast< std::chrono::milliseconds >(
                     std::chrono::system_clock::now().time_since_epoch());
 
-            ai::interface::Input::addCycleTime(afterOneCycleTime - now_time);
-
             cyclesInThisSecond++;
 
             auto fps_diff = now_time - last_fps_count_time;
@@ -70,10 +68,6 @@ void ApplicationManager::loop() {
                 cyclesInThisSecond=0;
                 last_fps_count_time = now_time;
             }
-
-            ai::interface::Input::drawText(ai::interface::Visual::DEBUG, "FPS: "
-                                                                         + QString::number(lastFPS*5, 10), Qt::white, {20,20}, 14 );
-
             ai::interface::Input::setFps(lastFPS*5);
 
             if (ai::robotDealer::RobotDealer::hasFree()) {

@@ -51,53 +51,14 @@ GraphWidget::GraphWidget(QWidget * parent) {
     });
 
     verticalLayout->addWidget(fpsView);
-
-
-    timeView = new QChartView();
-    timeSeries = Input::getCycleTimes();
-    timeSeries->setName("Time per tick");
-
-    timeView->chart()->addSeries(timeSeries);
-    timeView->chart()->createDefaultAxes();
-    timeView->chart()->setMinimumHeight(300);
-    timeView->chart()->setTheme(QChart::ChartThemeDark);
-    timeView->chart()->setBackgroundBrush(QColor(53,53,53));
-    timeView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
-    timeView->chart()->axisY()->setGridLineVisible(true);
-
-    QObject::connect(timeSeries, &QLineSeries::pointAdded, [=](int index){
-        qreal y = timeSeries->at(index).y();
-        qreal x = timeSeries->at(index).x();
-
-        if(y > timeyMax) {
-            if(y> timeyMax) timeyMax = y;
-            timeSeries->chart()->axisY()->setRange(0, 30);
-        }
-
-        if(x< timexMin || x > timexMax) {
-            if(x < timexMin) timexMin = x;
-            if(x> timexMax) timexMax = x;
-
-            if (timexMax - timexMin > 30) {
-                timexMin = timexMax - 30;
-            }
-            timeView->chart()->axisX()->setRange(timexMin, timexMax);
-        }
-
-    });
-    verticalLayout->addWidget(timeView);
     this->setLayout(verticalLayout);
 }
 
 void GraphWidget::updateContents() {
-    std::cout << "i got " << seriesIndex << std::endl;
     fpsSeries->append(seriesIndex, Input::getFps());
     seriesIndex+=0.2;
     fpsView->chart()->createDefaultAxes();
-
 }
-
-
 
 }
 }

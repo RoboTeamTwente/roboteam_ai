@@ -97,21 +97,6 @@ void Visualizer::paintEvent(QPaintEvent* event) {
             }
         }
 
-        auto textDrawings = Input::getTextDrawings();
-        for (auto drawing : textDrawings) {
-
-            bool shouldShow = false;
-            for (auto const &toggle : Toggles::toggles) {
-                if (drawing.visual == toggle.visual) {
-                    shouldShow = shouldVisualize(toggle, -1);
-                }
-            }
-
-            painter.setPen(drawing.color);
-            painter.setBrush(Qt::transparent);
-            painter.drawText(drawing.location.x, drawing.location.y, drawing.text);
-        }
-
         Input::clearDrawings();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
