@@ -280,7 +280,6 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/MainControlsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/CheckboxWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
 
@@ -290,7 +289,6 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/CheckboxWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h

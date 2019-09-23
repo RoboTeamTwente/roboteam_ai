@@ -19,22 +19,15 @@ Q_OBJECT
 
 private:
     QVBoxLayout *vLayout;
-    void updateLabels();
-  QLineEdit * grsimIpText;
-  QSpinBox * grsimPort;
+    QLineEdit * grsimIpText;
+    QSpinBox * grsimPort;
 public:
     explicit SettingsWidget(QWidget*parent = nullptr);
-
-
 
 public slots:
     void changeTeamColor(bool isYellow);
     void changeTeamSide(bool isLeft);
     void changeMode(bool serial);
-    void changeVisionIp(QString ip);
-    void changeVisionPort(int port);
-    void changeRefereeIp(QString ip);
-    void changeRefereePort(int port);
     void changeGrSimIp(QString ip);
     void changeGrSimPort(int port);
 };

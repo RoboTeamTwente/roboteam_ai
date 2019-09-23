@@ -10,6 +10,7 @@
 #include "interface/widgets/mainWindow.h"
 #include "treeinterp/BTFactory.h"
 #include <utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/Settings/Settings.h>
 #include "utilities/GameState.h"
 
 namespace rtt {
@@ -22,81 +23,96 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
     vLayout = new QVBoxLayout();
 
-    // functions to select strategies
-    MainWindow::configureCheckBox("Use referee", vLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+
+  pauseBtn = new QPushButton("Stop");
+  QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
+  vLayout->addWidget(pauseBtn);
+  pauseBtn->setStyleSheet("background-color: #cc0000;");
+  pauseBtn->setMinimumHeight(40);
+
+  spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
+  spaceClick->setAutoRepeat(false);
+
+
+
+  auto refHorizontalLayout = new QHBoxLayout();
+
+  // functions to select strategies
+  MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+
+  toggleSerialBtn = new QPushButton("Serial");
+  QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
+  refHorizontalLayout->addWidget(toggleSerialBtn);
+  setToggleSerialBtnLayout();
+
+  vLayout->addLayout(refHorizontalLayout);
+
+  auto gameStateBox = new QGroupBox();
+    auto gameStateLayout = new QVBoxLayout();
+
+
 
     // get the strategy names from Switches
     select_strategy = new QComboBox();
-    vLayout->addWidget(select_strategy);
+    gameStateLayout->addWidget(select_strategy);
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
     select_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
+    auto keeperHorizontalLayout = new QHBoxLayout();
+
+
     // get the keeper tree names from Switches
     select_keeper_strategy = new QComboBox();
-    vLayout->addWidget(select_keeper_strategy);
+    keeperHorizontalLayout->addWidget(select_keeper_strategy);
     for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
         select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
     }
     select_keeper_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
     select_goalie = new QComboBox();
-    vLayout->addWidget(select_goalie);
+    keeperHorizontalLayout->addWidget(select_goalie);
     for (int i = 0; i < 16; i++) {
         select_goalie->addItem(QString::fromStdString(std::to_string(i)));
     }
+    select_goalie->setMaximumWidth(100);
     select_goalie->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
+    gameStateLayout->addLayout(keeperHorizontalLayout);
+
     select_ruleset = new QComboBox();
-    vLayout->addWidget(select_ruleset);
+    gameStateLayout->addWidget(select_ruleset);
     for (RuleSet const &ruleSet : Constants::ruleSets()) {
         select_ruleset->addItem(QString::fromStdString(ruleSet.title));
     }
     select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
 
-    auto refreshHButtonsLayout = new QHBoxLayout();
-
-    refreshBtn = new QPushButton("Soft refresh");
-    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
-    refreshHButtonsLayout->addWidget(refreshBtn);
-    refreshBtn->setStyleSheet("background-color: #0000cc;");
-
-    refreshJsonBtn = new QPushButton("Hard refresh");
-    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
-    refreshHButtonsLayout->addWidget(refreshJsonBtn);
-    refreshJsonBtn->setStyleSheet("background-color: #0000cc;");
-    vLayout->addLayout(refreshHButtonsLayout);
-
-
-    auto hButtonsLayout = new QHBoxLayout();
-
-    haltBtn = new QPushButton("Halt");
-    QObject::connect(haltBtn, SIGNAL(clicked()), this, SLOT(sendHaltSignal()));
-    hButtonsLayout->addWidget(haltBtn);
-    haltBtn->setStyleSheet("background-color: #cc0000;");
-
-    pauseBtn = new QPushButton("Pause");
-    QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
-    hButtonsLayout->addWidget(pauseBtn);
-    pauseBtn->setStyleSheet("background-color: #cc0000;");
-
-    spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
-    spaceClick->setAutoRepeat(false);
-
+    auto settingsButtonsLayout = new QHBoxLayout();
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
-    hButtonsLayout->addWidget(toggleColorBtn);
-    setToggleColorBtnLayout(); // set the btn color and text to the current our_color
+    settingsButtonsLayout->addWidget(toggleColorBtn);
+  toggleColorBtn->setStyleSheet(QString::fromUtf8("QPushButton:disabled" "{ color: gray }"));
+
+  setToggleColorBtnLayout();
 
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
-    hButtonsLayout->addWidget(toggleSideBtn);
-    setToggleColorBtnLayout(); // set the btn color and text to the current our_side
+    settingsButtonsLayout->addWidget(toggleSideBtn);
+  toggleSideBtn->setStyleSheet(QString::fromUtf8("QPushButton:disabled" "{ color: gray }"));
 
-    vLayout->addLayout(hButtonsLayout);
+  setToggleSideBtnLayout();
 
-    MainWindow::configureCheckBox("TimeOut to top", vLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
+    gameStateLayout->addLayout(settingsButtonsLayout);
+
+    gameStateBox->setLayout(gameStateLayout);
+    vLayout->addWidget(gameStateBox);
+
+
+
+
+
+    // MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                      [=](const QString &strategyName) {
@@ -128,6 +144,7 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
                          emit treeHasChanged();
                      });
 
+  setUseReferee(Output::usesRefereeCommands());
     this->setLayout(vLayout);
 }
 
@@ -143,29 +160,27 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     select_keeper_strategy->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
     select_goalie->setDisabled(useRef);
+    toggleSideBtn->setDisabled(useRef);
+    toggleColorBtn->setDisabled(useRef);
 }
 
 
-/// toggle the ROS param 'our_color'
+/// toggle the setting 'isYellow'
 void MainControlsWidget::toggleOurColorParam() {
-//    ros::NodeHandle nh;
-//    std::string ourColorParam, newParam;
-//    nh.getParam("our_color", ourColorParam);
-//    newParam = ourColorParam == "yellow" ? "blue" : "yellow";
-//    nh.setParam("our_color", newParam);
-//
-//    setToggleColorBtnLayout();
+    SETTINGS.setYellow(!SETTINGS.isYellow());
+    setToggleColorBtnLayout();
 }
 
-/// toggle the ROS param 'our_color'
+/// toggle the the setting 'isLeft'
 void MainControlsWidget::toggleOurSideParam() {
-//    ros::NodeHandle nh;
-//    std::string ourColorParam, newParam;
-//    nh.getParam("our_side", ourColorParam);
-//    newParam = ourColorParam == "left" ? "right" : "left";
-//    nh.setParam("our_side", newParam);
-//
-//    setToggleSideBtnLayout();
+    SETTINGS.setLeft(!SETTINGS.isLeft());
+    setToggleSideBtnLayout();
+}
+
+/// toggle the the setting 'isSerialMode'
+void MainControlsWidget::toggleSerialParam() {
+    SETTINGS.setSerialMode(!SETTINGS.isSerialMode());
+    setToggleSerialBtnLayout();
 }
 
 /// send a halt signal to stop all trees from executing
@@ -180,48 +195,38 @@ void MainControlsWidget::updatePause() {
         pauseBtn->setStyleSheet("background-color: #00b200;");
     }
     else {
-        pauseBtn->setText("Pause");
+        pauseBtn->setText("Stop");
         pauseBtn->setStyleSheet("background-color: #cc0000;");
     }
 }
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
-//    ros::NodeHandle nh;
-//    std::string ourColorParam;
-//    nh.getParam("our_color", ourColorParam);
-//    if (ourColorParam == "yellow") {
-//        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
-//    } else {
-//        toggleColorBtn->setStyleSheet("background-color: blue;");
-//    }
-//    toggleColorBtn->setText(QString::fromStdString(ourColorParam));
+    if (SETTINGS.isYellow()) {
+        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
+        toggleColorBtn->setText("Playing as Yellow");
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+        toggleColorBtn->setText("Playing as Blue");
+    }
 }
 
 void MainControlsWidget::setToggleSideBtnLayout() const {
-//    ros::NodeHandle nh;
-//    std::string ourSideParam;
-//    nh.getParam("our_side", ourSideParam);
-//    if (ourSideParam == "left") {
-//        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-//        toggleSideBtn->setText("◀ Left");
-//
-//    } else {
-//        toggleSideBtn->setText("right ▶");
-//        toggleSideBtn->setStyleSheet("background-color: #cc0000;");
-//    }
+    if (SETTINGS.isLeft()) {
+        toggleSideBtn->setText("◀ Playing as left");
+    } else {
+        toggleSideBtn->setText("Playing as right ▶");
+    }
+}
+
+void MainControlsWidget::setToggleSerialBtnLayout() const {
+    if (SETTINGS.isSerialMode()) {
+        toggleSerialBtn->setText("BaseStation");
+    } else {
+        toggleSerialBtn->setText("GrSim");
+    }
 }
 
 
-void MainControlsWidget::refreshSignal() {
-    robotDealer::RobotDealer::refresh();
-    emit treeHasChanged();
-}
-
-void MainControlsWidget::refreshJSONSignal() {
-    BTFactory::makeTrees();
-    robotDealer::RobotDealer::refresh();
-    emit treeHasChanged();
-}
 
 void MainControlsWidget::updateContents() {
 
@@ -252,20 +257,6 @@ void MainControlsWidget::updateContents() {
         select_goalie->setStyleSheet("background-color: #cc0000;");
     }
 
-}
-
-void MainControlsWidget::sendHaltSignal() {
-    if (isHalted) {
-        Output::setInterfaceGameState(prevGameState);
-        haltBtn->setText("Halt");
-        haltBtn->setStyleSheet("background-color: #cc0000;");
-    } else {
-        prevGameState = GameStateManager::getCurrentGameState();
-        GameStateManager::forceNewGameState(RefCommand::HALT);
-        haltBtn->setText("unHalt");
-        haltBtn->setStyleSheet("background-color: #00b200;");
-    }
-    isHalted = !isHalted;
 }
 
 } // interface
