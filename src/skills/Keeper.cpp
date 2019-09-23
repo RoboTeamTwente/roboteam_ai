@@ -21,7 +21,7 @@ void Keeper::onInitialize() {
     goalPos = field->get_our_goal_center();
     goalwidth = field->get_field().goal_width();
     //Create arc for keeper to drive on
-    blockCircle = control::ControlUtils::createKeeperArc();
+    blockCircle = createKeeperArc();
 
     /// This function is hacky; we need to manually update the PID now everytime.
     posController.setAutoListenToInterface(false);
@@ -55,7 +55,7 @@ Keeper::Status Keeper::onUpdate() {
             interface::Drawing::DOTS, 5, 5);
     /// Manual PID value update. Ugly and should be refactored in the future.
     posController.updatePid(interface::Output::getKeeperPid());
-    Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
+    Vector2 velocities = posController.getRobotCommand(world, field, robot, blockPoint).vel;
     command.mutable_vel()->set_x(velocities.x);
     command.mutable_vel()->set_y(velocities.y);
     publishRobotCommand();
@@ -139,6 +139,18 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
         goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
     }
+}
+
+rtt::Arc Keeper::createKeeperArc() {
+    double goalwidth = rtt::ai::world::field->get_field().goal_width();
+    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
+    double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
+
+    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
+    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
+    Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
+    return diff > 0 ? rtt::Arc(center, radius, M_PI - angle, angle - M_PI) :
+           rtt::Arc(center, radius, angle, - angle);
 }
 
 }

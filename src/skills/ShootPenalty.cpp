@@ -51,12 +51,12 @@ bt::Node::Status ShootPenalty::onUpdate() {
         if (ball&&!world::field->pointIsInDefenceArea(ballPos,false,-0.1)){
             Vector2 targetPos=world::world->getBall()->pos+additionalBallDist;
             if (world::field->pointIsInDefenceArea(ballPos,false,0.2)){
-                auto cmd=gtp.getRobotCommand(robot,targetPos);
+                auto cmd=gtp.getRobotCommand(world, field, robot,targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y+gain);
             }
             else{
-                auto cmd=robot->getNumtreePosControl()->getRobotCommand(robot,targetPos);
+                auto cmd=robot->getNumtreePosControl()->getRobotCommand(world, field, robot,targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y);
             }

@@ -18,7 +18,7 @@ void SideAttacker::onInitialize() {
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     targetPos = getOffensivePosition();
-    auto newPosition = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos);
+    auto newPosition = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
     Vector2 velocity = newPosition.vel;
     command.mutable_vel()->set_x(velocity.x);
     command.mutable_vel()->set_y(velocity.y);

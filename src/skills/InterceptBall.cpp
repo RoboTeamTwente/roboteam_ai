@@ -79,10 +79,10 @@ void InterceptBall::sendMoveCommand(Vector2 targetPos) {
     if (keeper) {
         /// Manual PID value update. Ugly and should be refactored in the future.
         poscontroller.updatePid(interface::Output::getKeeperInterceptPid());
-        velocities = poscontroller.getRobotCommand(robot, targetPos).vel;
+        velocities = poscontroller.getRobotCommand(world, field, robot, targetPos).vel;
     }
     else {
-        velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
+        velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos).vel;
     }
     command.mutable_vel()->set_x(static_cast<float>(velocities.x));
     command.mutable_vel()->set_y(static_cast<float>(velocities.y));

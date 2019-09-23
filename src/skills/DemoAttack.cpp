@@ -68,7 +68,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
+        velocity = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos).vel;
     }
 
 

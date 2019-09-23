@@ -93,12 +93,12 @@ void Receive::intercept() {
     Vector2 velocities;
 
     if ((interceptPoint - robot->pos).length() > 1.0) {
-        velocities = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPoint).vel;
+        velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
         if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world->getWorld(), 1)) {
             velocities = velocities * 1.2;
         }
     } else {
-        velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
+        velocities = robot->getBasicPosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
     }
     command.mutable_vel()->set_x(static_cast<float>(velocities.x));
     command.mutable_vel()->set_y(static_cast<float>(velocities.y));

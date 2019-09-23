@@ -34,7 +34,7 @@ Skill::Status ShootFreeKick::onUpdate() {
             }
             else {
                 command.set_w(static_cast<float>((targetPos - robot->pos).angle()));
-                Vector2 velocity = goToPos.getRobotCommand(robot, targetPos).vel;
+                Vector2 velocity = goToPos.getRobotCommand(world, field, robot, targetPos).vel;
                 command.mutable_vel()->set_x(static_cast<float>(velocity.x));
                 command.mutable_vel()->set_y(static_cast<float>(velocity.y));
                 publishRobotCommand();

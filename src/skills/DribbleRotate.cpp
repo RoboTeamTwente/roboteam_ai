@@ -74,7 +74,7 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
     switch (currentProgression) {
     case ROTATING:
-        command = ballHandlePosControl.getRobotCommand(robot, ball->pos, targetAngle).makeROSCommand();
+        command = ballHandlePosControl.getRobotCommand(world, field, robot, ball->pos, targetAngle).makeROSCommand();
         publishRobotCommand();
         return Status::Running;
     case SUCCESS:return Status::Success;

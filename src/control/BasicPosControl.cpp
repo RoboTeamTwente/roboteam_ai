@@ -18,19 +18,19 @@ BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, boo
 
 }
 
-RobotCommand BasicPosControl::getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
 
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
 
     Vector2 target = targetPos;
     if (!getCanMoveOutOfField(robot->id)) {
-        if (!world::field->pointIsInField(targetPos)) {
+        if (!field->pointIsInField(targetPos)) {
             target = ControlUtils::projectPositionToWithinField(targetPos);
         }
     }
     if (!getCanMoveInDefenseArea(robot->id)) {
-        if (world::field->pointIsInDefenceArea(targetPos)) {
+        if (field->pointIsInDefenceArea(targetPos)) {
             target = ControlUtils::projectPositionToOutsideDefenseArea(targetPos);
         }
     }
@@ -50,9 +50,9 @@ void BasicPosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand BasicPosControl::getRobotCommand(const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field * field, const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     Angle defaultAngle = 0;
-    return BasicPosControl::getRobotCommand(robot, targetPos, defaultAngle);
+    return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }
 
 } // control

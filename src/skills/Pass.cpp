@@ -52,11 +52,11 @@ Pass::Status Pass::onUpdate() {
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
         if (! robotToPassTo || robotToPassToID == - 1) {
-            robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
+            robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, ball->pos);
         }
         else {
-            robotCommand = robot->getBallHandlePosControl()->getRobotCommand(
-                    robot, robotToPassTo->pos, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+            robotCommand = robot->getBallHandlePosControl()->getRobotCommand(world, field,
+                                                                             robot, robotToPassTo->pos, control::BallHandlePosControl::TravelStrategy::FORWARDS);
         }
 
         command.mutable_vel()->set_x(robotCommand.vel.x);

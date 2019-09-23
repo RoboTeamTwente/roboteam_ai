@@ -149,18 +149,18 @@ Skill::Status GTPSpecial::gtpUpdate() {
     case ourGoalCenter: {
         targetPos = world::field->get_our_goal_center();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
-        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
+        command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;
     }
     case ourDefenseAreaCenter: {
         targetPos = rtt::ai::world::field->getDefenseArea().centroid();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
-        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
+        command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;
     }
     case ballPlacementAfter:{
         targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
-            auto c = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos);
+            auto c = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
             command = c.makeROSCommand();
             command.set_w((ball->pos - robot->pos).toAngle());
             maxVel = 2.0;

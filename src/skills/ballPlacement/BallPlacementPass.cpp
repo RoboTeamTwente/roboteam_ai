@@ -53,7 +53,7 @@ bt::Node::Status BallPlacementPass::onUpdate() {
                 hasShot = true;
             }
         } else if (robot->pos.dist(ball->pos) > 0.5) {
-            auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
+            auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, ball->pos);
             command.mutable_vel()->set_x(robotCommand.vel.x);
             command.mutable_vel()->set_y(robotCommand.vel.y);
             command.set_w(robotCommand.angle);

@@ -25,6 +25,7 @@ class Keeper : public Skill {
         double goalwidth;
         void setGoalPosWithAttacker(RobotPtr attacker);
         control::BasicPosControl posController;
+        rtt::Arc createKeeperArc();
     public:
         explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
         Status onUpdate() override;

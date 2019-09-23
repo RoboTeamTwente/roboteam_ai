@@ -17,8 +17,8 @@ class BasicPosControl : public PosController {
     public:
         BasicPosControl() = default;
         explicit BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
-        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
-        RobotCommand getRobotCommand(const RobotPtr &robot, const Vector2 &targetPos) override;
+        RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+        RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robot, const Vector2 &targetPos) override;
 
 };
 

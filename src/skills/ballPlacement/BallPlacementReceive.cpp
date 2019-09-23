@@ -52,7 +52,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
 
 
 void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
-    auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, position);
+    auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, position);
     command.mutable_vel()->set_x(robotCommand.vel.x);
     command.mutable_vel()->set_y(robotCommand.vel.y);
     if (position.dist(robot->pos) < 0.6) {
