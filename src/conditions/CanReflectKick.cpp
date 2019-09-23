@@ -17,9 +17,6 @@ CanReflectKick::CanReflectKick(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status CanReflectKick::onUpdate() {
-    if (false) {
-        return Status::Failure;
-    }
 
     if (!control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel, robot->pos, 0.6)) {
         return Status::Failure;
