@@ -72,7 +72,7 @@ const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand comm
 void StrategyManager::forceCurrentRefGameState(RefCommand command) {
     // we need to change refgamestate here
     RefGameState newState = getRefGameStateForRefCommand(command);
-    if (world::world->getBall()) {
+    if (world::world && world::world->getBall()) {
         newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
     }
     else {

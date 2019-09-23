@@ -10,7 +10,6 @@
 #include <memory>
 #include <QtWidgets/QCheckBox>
 #include <QComboBox>
-#include "widget.h"
 #include "QHBoxLayout"
 #include "QPushButton"
 #include <QTreeWidget>
@@ -21,15 +20,19 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QtWidgets/QDoubleSpinBox>
-#include "TreeVisualizerWidget.h"
-#include "RobotsWidget.h"
-#include "PidBox.h"
-#include "RuleSetWidget.h"
-#include "GraphWidget.h"
+#include "gtest/gtest_prod.h"
 
 namespace rtt {
 namespace ai {
 namespace interface {
+
+    // fwd declarations
+    class TreeVisualizerWidget;
+    class Visualizer;
+    class RobotsWidget;
+    class PidBox;
+    class RuleSetWidget;
+    class GraphWidget;
 
 class MainWindow : public QMainWindow {
 Q_OBJECT

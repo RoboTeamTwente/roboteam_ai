@@ -6,9 +6,9 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <utilities/StrategyManager.h>
-#include "io/IOManager.h"
-#include "treeinterp/BTFactory.h"
+#include <include/roboteam_ai/bt/BehaviorTree.hpp>
+#include "world/World.h"
+#include "world/Field.h"
 
 namespace rtt {
 
@@ -22,13 +22,15 @@ private:
 
     void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
-    bool weHaveRobots = false;
 
-    ai::StrategyManager strategyManager;
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
 
     int publishSettingTicks= 0;
+
+    ai::world::World actualWorld;
+    ai::world::Field actualField;
+
 
 public:
     void setup();

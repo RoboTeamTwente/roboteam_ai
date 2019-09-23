@@ -2,9 +2,9 @@
 #include <QStyleFactory>
 #include <utilities/Constants.h>
 #include <Settings/Settings.h>
-
 #include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
+#include <thread>
 
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
@@ -66,12 +66,6 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRefereePort(10007);
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
-
-
-    rtt::ai::io::io.init();
-
-    BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees());
 
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 

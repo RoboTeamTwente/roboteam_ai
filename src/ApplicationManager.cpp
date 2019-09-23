@@ -17,6 +17,8 @@
 #include "interface/api/Input.h"
 #include "interface/api/Toggles.h"
 #include "utilities/Constants.h"
+#include "io/IOManager.h"
+#include "treeinterp/BTFactory.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -25,18 +27,21 @@ using Status = bt::Node::Status;
 namespace rtt {
 
 void ApplicationManager::setup() {
+    rtt::ai::io::io.init();
+    BTFactory::makeTrees();
+
+    ai::world::world = &actualWorld; // yes, just we override that ugly thing
+    ai::world::field = &actualField; // and this one as well
+
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
+
 }
 
 void ApplicationManager::loop() {
 
-   // BTFactory::makeTrees();
-    double longestTick = 0.0;
-    double timeTaken;
-    int nTicksTaken = 0;
-    double timeTakenOverNTicks = 0.0;
-
-    std::chrono::milliseconds now_time;
+    std::chrono::milliseconds now_time = std::chrono::duration_cast< std::chrono::milliseconds >(
+            std::chrono::system_clock::now().time_since_epoch()
+    );
     std::chrono::milliseconds last_call_time = now_time;
     std::chrono::milliseconds last_fps_count_time = now_time;
 
@@ -81,7 +86,7 @@ void ApplicationManager::loop() {
             }
             last_call_time = now_time;
         }else {
-            std::this_thread::sleep_for((timeDiff-diff) * .9); // sleep for the diff - arbitrary margin
+           // std::this_thread::sleep_for((timeDiff-diff) * .9); // sleep for the diff - arbitrary margin
         }
     }
 
@@ -97,7 +102,16 @@ void ApplicationManager::runOneLoopCycle() {
         publishSettingTicks++;
     }
 
-    if (weHaveRobots && io::io.hasReceivedGeom) {
+    if (io::io.hasReceivedWorld) {
+        actualWorld.updateWorld(io::io.getWorldState());
+    }
+
+    if (io::io.hasReceivedGeom) {
+        actualField.set_field(io::io.getGeometryData().field());
+    }
+
+    if (actualWorld.weHaveRobots() && io::io.hasReceivedGeom) {
+
         ai::analysis::GameAnalyzer::getInstance().start();
 
         // Will do things if this is a demo
@@ -165,7 +179,6 @@ void ApplicationManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
 
-    weHaveRobots = ai::world::world->weHaveRobots();
 }
 
 void ApplicationManager::checkForShutdown() {

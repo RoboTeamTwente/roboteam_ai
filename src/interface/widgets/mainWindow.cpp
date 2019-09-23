@@ -15,6 +15,8 @@
 #include <QtWidgets/QMenuBar>
 #include <interface/api/Input.h>
 #include <interface/widgets/GraphWidget.h>
+#include "interface/widgets/TreeVisualizerWidget.h"
+#include "interface/widgets/RuleSetWidget.h"
 
 namespace rtt {
 namespace ai {

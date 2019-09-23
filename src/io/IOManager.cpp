@@ -42,7 +42,7 @@ void IOManager::handleWorldState(roboteam_proto::World & world) {
     roboteam_utils::rotate(&world); }
 
   this->worldMsg = world;
-  world::world->updateWorld(this->worldMsg);
+  hasReceivedWorld = true;
 }
 
 void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {

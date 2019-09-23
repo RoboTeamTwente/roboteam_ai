@@ -4,8 +4,6 @@
 #include <vector>
 #include <cstdio>
 #include <cstdarg>
-#include <include/roboteam_ai/world/World.h>
-
 #include "Blackboard.hpp"
 
 // fwd declare

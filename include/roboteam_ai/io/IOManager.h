@@ -66,6 +66,7 @@ public:
         static std::mutex demoMutex;
 
         bool hasReceivedGeom = false;
+        bool hasReceivedWorld = false;
 };
 
 extern IOManager io;
