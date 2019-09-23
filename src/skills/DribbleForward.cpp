@@ -19,7 +19,7 @@ void DribbleForward::onInitialize() {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (world::field->get_their_goal_center() - ball->pos).toAngle();
+    Angle angleToGoal = (field->get_their_goal_center() - ball->pos).toAngle();
     targetPos = ball->pos + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 

@@ -19,7 +19,7 @@ void SlingShot::onInitialize() {
     waitingTicks = 0;
     dribbledTicks = 0;
     ballShotTicks = 0;
-    if (! world::world->robotHasBall(robot->id, true)) {
+    if (! world->robotHasBall(robot->id, true)) {
         progression = FAIL;
         return;
     }
@@ -31,7 +31,7 @@ void SlingShot::onTerminate(rtt::ai::Skill::Status s) {
     waitingTicks = 0;
     dribbledTicks = 0;
     ballShotTicks = 0;
-    if (! world::world->robotHasBall(robot->id, true)) {
+    if (! world->robotHasBall(robot->id, true)) {
         progression = FAIL;
         return;
     }
@@ -70,7 +70,7 @@ SlingShot::Progression SlingShot::updateProgress(Progression currentProgress) {
     if (currentProgress == DRIBBLING) {
         if (dribbledTicks < maxDribbleTicks) {
             dribbledTicks ++;
-            return world::world->robotHasBall(robot->id, true) ? DRIBBLING : FAIL;
+            return world->robotHasBall(robot->id, true) ? DRIBBLING : FAIL;
         }
         else {
             setRotate();

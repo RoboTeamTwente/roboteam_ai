@@ -18,7 +18,7 @@ PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
 void PenaltyKeeper::onInitialize() {
     goalLine = getGoalLine();
     state = WAITING;
-    firstBallPos=world::world->getBall()->pos;
+    firstBallPos=world->getBall()->pos;
     preparation=properties->getBool("prepare");
     gtp.setAutoListenToInterface(false);
 }

@@ -23,7 +23,7 @@ void Receive::onInitialize() {
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world::world->robotHasBall(robot->id, true)) {
+    if (world->robotHasBall(robot->id, true)) {
         return Status::Success;
     }
 
@@ -82,7 +82,7 @@ bool Receive::isInPosition(const Vector2& behindTargetPos) {
 }
 
 void Receive::intercept() {
-    ball = world::world->getBall();
+    ball = world->getBall();
     double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
 
     ballStartPos = ball->pos;
@@ -94,7 +94,7 @@ void Receive::intercept() {
 
     if ((interceptPoint - robot->pos).length() > 1.0) {
         velocities = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPoint).vel;
-        if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world::world->getWorld(), 1)) {
+        if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world->getWorld(), 1)) {
             velocities = velocities * 1.2;
         }
     } else {

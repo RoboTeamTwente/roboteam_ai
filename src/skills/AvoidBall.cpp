@@ -26,7 +26,7 @@ void AvoidBall::onInitialize() {
     if(stop) minRobotDistanceForForce = 0.7*1.5;
     type = stringToType(properties->getString("type"));
     if (type == PASSING) {
-        receiver = world::world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
+        receiver = world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
     }
 }
 

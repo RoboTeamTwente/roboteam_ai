@@ -24,11 +24,11 @@ void DemoAttack::onInitialize() {
 bt::Node::Status DemoAttack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !world::world->robotHasBall(robot->id, true)) {
+    if (shot && !world->robotHasBall(robot->id, true)) {
         return Status::Success;
     }
 
-    Vector2 ball = world::world->getBall()->pos;
+    Vector2 ball = world->getBall()->pos;
     Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 

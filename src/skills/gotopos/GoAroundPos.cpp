@@ -31,7 +31,7 @@ void GoAroundPos::gtpInitialize() {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
     }
     else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = Control::constrainAngle((world::field->get_their_goal_center() - targetPos).angle());
+        endAngle = Control::constrainAngle((field->get_their_goal_center() - targetPos).angle());
     }
     else {
         endAngle = 0;
