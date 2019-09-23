@@ -36,32 +36,44 @@ void ApplicationManager::loop() {
     int nTicksTaken = 0;
     double timeTakenOverNTicks = 0.0;
 
-
-    std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
-        std::chrono::system_clock::now().time_since_epoch()
-    );
-
-    std::chrono::milliseconds last_call_time = ms;
+    std::chrono::milliseconds now_time;
+    std::chrono::milliseconds last_call_time = now_time;
+    std::chrono::milliseconds last_fps_count_time = now_time;
 
     bool ok = true;
+
+    int cyclesInThisSecond = 0;
+
+    int lastFPS = 0;
     while(ok) {
 
-        std::chrono::milliseconds ms = std::chrono::duration_cast< std::chrono::milliseconds >(
+        now_time = std::chrono::duration_cast< std::chrono::milliseconds >(
             std::chrono::system_clock::now().time_since_epoch()
         );
-        std::chrono::milliseconds now_time = ms;
-
         auto diff = now_time - last_call_time;
-
         auto timeDiff =std::chrono::milliseconds(16); //a little over 60hz
-
         if(diff > timeDiff) {
-
             this->runOneLoopCycle();
+
+            std::chrono::milliseconds afterOneCycleTime = std::chrono::duration_cast< std::chrono::milliseconds >(
+                    std::chrono::system_clock::now().time_since_epoch());
+
+            cyclesInThisSecond++;
+
+            auto fps_diff = now_time - last_fps_count_time;
+            auto fps_timestep =std::chrono::milliseconds(200); // one second
+            if(fps_diff > fps_timestep) {
+
+                std::cout << "FPS: " << cyclesInThisSecond << std::endl;
+                lastFPS = cyclesInThisSecond;
+                cyclesInThisSecond=0;
+                last_fps_count_time = now_time;
+            }
+            ai::interface::Input::setFps(lastFPS*5);
+
             if (ai::robotDealer::RobotDealer::hasFree()) {
                 if (ticksFree++ > 10) {
                     ai::robotDealer::RobotDealer::refresh();
-                    //     BTFactory::makeTrees();
                 }
             }
             else {
@@ -150,9 +162,7 @@ void ApplicationManager::runOneLoopCycle() {
     }
     else {
         std::cout <<"NO FIRST WORLD" << std::endl;
-    //    ros::Duration(0.2).sleep();
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
-
     }
 
     weHaveRobots = ai::world::world->weHaveRobots();

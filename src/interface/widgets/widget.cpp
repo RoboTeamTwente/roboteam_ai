@@ -96,6 +96,7 @@ void Visualizer::paintEvent(QPaintEvent* event) {
                 }
             }
         }
+
         Input::clearDrawings();
 
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);

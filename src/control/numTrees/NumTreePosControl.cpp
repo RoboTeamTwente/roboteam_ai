@@ -167,26 +167,31 @@ void NumTreePosControl::tracePath() {
     root->t = 0;
     root->collisions = 0;
     pathQueue.push(root);
-//
-   // ros::Time start = ros::Time::now();
+
+    auto start = std::chrono::duration_cast< std::chrono::milliseconds >(
+            std::chrono::system_clock::now().time_since_epoch()
+    );
     while (! pathQueue.empty()) {
-  //      ros::Time now = ros::Time::now();
-//        if ((now - start).toSec()*1000 > MAX_CALCULATION_TIME) {
-//            if (InterfaceValues::showDebugNumTreeInfo()) {
-//                std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
-//            }
-//            PathPointer bestPath = pathQueue.top();
-//            pathQueue.pop();
-//            while (! pathQueue.empty()) {
-//                PathPointer pathPointer = pathQueue.top();
-//                if ((finalTargetPos - pathPointer->pos).length2() < (finalTargetPos - bestPath->pos).length2()) {
-//                    bestPath = pathPointer;
-//                }
-//                pathQueue.pop();
-//            }
-//            path = backTrackPath(bestPath, root);
-//            return;
-//        }
+        auto now = std::chrono::duration_cast< std::chrono::milliseconds >(
+                std::chrono::system_clock::now().time_since_epoch()
+        );
+        if ((now - start).count()*1000 > MAX_CALCULATION_TIME) {
+            if (InterfaceValues::showDebugNumTreeInfo()) {
+                std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
+            }
+            PathPointer bestPath = pathQueue.top();
+            pathQueue.pop();
+            while (! pathQueue.empty()) {
+                PathPointer pathPointer = pathQueue.top();
+                if ((finalTargetPos - pathPointer->pos).length2() < (finalTargetPos - bestPath->pos).length2()) {
+                    bestPath = pathPointer;
+                }
+                pathQueue.pop();
+            }
+            path = backTrackPath(bestPath, root);
+            return;
+        }
+
         PathPointer point = pathQueue.top();
         while (true) {
             PathPointer newPoint = computeNewPoint(point, point->currentTarget);

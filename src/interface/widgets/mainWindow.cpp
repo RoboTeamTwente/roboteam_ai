@@ -13,6 +13,8 @@
 #include <QSplitter>
 #include <interface/widgets/SettingsWidget.h>
 #include <QtWidgets/QMenuBar>
+#include <interface/api/Input.h>
+#include <interface/widgets/GraphWidget.h>
 
 namespace rtt {
 namespace ai {
@@ -83,6 +85,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
 
 
+
+
     keeperTreeWidget = new TreeVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto settingsWidget = new SettingsWidget(this);
@@ -94,9 +98,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // add the tab widget
     auto tabWidget = new QTabWidget;
 
+    graphWidget= new GraphWidget(this);
+
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("Behaviour trees"));
     DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
+    DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
@@ -142,8 +149,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
+    robotsTimer->start(200); // 5fps
 
-    robotsTimer->start(1000); // 1fps
+    auto * graphTimer = new QTimer(this);
+    connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
+    graphTimer->start(200); // 5fps
+
+
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget())); // we need to pass the visualizer so thats why a seperate function is used
+
 }
 
 

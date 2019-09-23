@@ -25,6 +25,7 @@
 #include "RobotsWidget.h"
 #include "PidBox.h"
 #include "RuleSetWidget.h"
+#include "GraphWidget.h"
 
 namespace rtt {
 namespace ai {
@@ -64,6 +65,7 @@ private:
     TreeVisualizerWidget* treeWidget;
     TreeVisualizerWidget* keeperTreeWidget;
     Visualizer* visualizer;
+    GraphWidget * graphWidget;
 };
 
 } // interface
