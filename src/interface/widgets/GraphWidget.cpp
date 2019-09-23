@@ -19,7 +19,7 @@ GraphWidget::GraphWidget(QWidget * parent) {
 
     fpsSeries = new QSplineSeries();
     fpsSeries->setUseOpenGL();
-    fpsSeries->setColor(Qt::red);
+    fpsSeries->setColor(Qt::blue);
     fpsSeries->setName("FPS");
 
     fpsView->chart()->addSeries(fpsSeries);
@@ -34,19 +34,19 @@ GraphWidget::GraphWidget(QWidget * parent) {
         qreal y = fpsSeries->at(index).y();
         qreal x = fpsSeries->at(index).x();
 
-        if(y > yMax){
-            if(y> yMax) yMax = y;
-            fpsView->chart()->axisY()->setRange(0, yMax+20);
+        if(y > fpsyMax){
+            if(y> fpsyMax) fpsyMax = y;
+            fpsView->chart()->axisY()->setRange(0, fpsyMax+20);
         }
 
-        if(x< xMin || x > xMax){
-            if(x < xMin) xMin = x;
-            if(x> xMax) xMax = x;
+        if(x< fpsxMin || x > fpsxMax){
+            if(x < fpsxMin) fpsxMin = x;
+            if(x> fpsxMax) fpsxMax = x;
 
-            if (xMax - xMin > 30) {
-                xMin = xMax - 30;
+            if (fpsxMax - fpsxMin > 30) {
+                fpsxMin = fpsxMax - 30;
             }
-            fpsView->chart()->axisX()->setRange(xMin, xMax);
+            fpsView->chart()->axisX()->setRange(fpsxMin, fpsxMax);
         }
     });
 
@@ -65,23 +65,23 @@ GraphWidget::GraphWidget(QWidget * parent) {
     timeView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
     timeView->chart()->axisY()->setGridLineVisible(true);
 
-    QObject::connect(timeSeries, &QSplineSeries::pointAdded, [=](int index){
+    QObject::connect(timeSeries, &QLineSeries::pointAdded, [=](int index){
         qreal y = timeSeries->at(index).y();
         qreal x = timeSeries->at(index).x();
 
-        if(y > yMax) {
-            if(y> yMax) yMax = y;
+        if(y > timeyMax) {
+            if(y> timeyMax) timeyMax = y;
             timeSeries->chart()->axisY()->setRange(0, 30);
         }
 
-        if(x< xMin || x > xMax) {
-            if(x < xMin) xMin = x;
-            if(x> xMax) xMax = x;
+        if(x< timexMin || x > timexMax) {
+            if(x < timexMin) timexMin = x;
+            if(x> timexMax) timexMax = x;
 
-            if (xMax - xMin > 30) {
-                xMin = xMax - 30;
+            if (timexMax - timexMin > 30) {
+                timexMin = timexMax - 30;
             }
-            timeView->chart()->axisX()->setRange(xMin, xMax);
+            timeView->chart()->axisX()->setRange(timexMin, timexMax);
         }
 
     });
@@ -90,8 +90,11 @@ GraphWidget::GraphWidget(QWidget * parent) {
 }
 
 void GraphWidget::updateContents() {
+    std::cout << "i got " << seriesIndex << std::endl;
     fpsSeries->append(seriesIndex, Input::getFps());
     seriesIndex+=0.2;
+    fpsView->chart()->createDefaultAxes();
+
 }
 
 

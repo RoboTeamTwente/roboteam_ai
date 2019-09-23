@@ -14,10 +14,12 @@ class GraphWidget : public QWidget {
     Q_OBJECT
 private:
     float seriesIndex = 0;
-    float yMin =0;
-    float yMax = 0;
-    float xMin =0;
-    float xMax = 0;
+    float timeyMax = 0;
+    float timexMin =0;
+    float timexMax = 0;
+    float fpsyMax = 0;
+    float fpsxMin =0;
+    float fpsxMax = 0;
     QChartView * timeView;
     QChartView * fpsView;
     QLineSeries * fpsSeries;

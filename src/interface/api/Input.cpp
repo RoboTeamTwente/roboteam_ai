@@ -19,7 +19,7 @@ std::mutex Input::fpsMutex;
 int Input::FPS;
     int Input::index=0;
 
-    QSplineSeries * Input::cycleTime = new QSplineSeries();
+    QLineSeries * Input::cycleTime = new QLineSeries();
 
 
 /*
@@ -89,7 +89,7 @@ void Input::setFps(int fps) {
     FPS = fps;
 }
 
-QSplineSeries * Input::getCycleTimes() {
+QLineSeries * Input::getCycleTimes() {
     std::lock_guard<std::mutex> lock(cycleMutex);
     return cycleTime;
 }

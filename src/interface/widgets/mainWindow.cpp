@@ -98,7 +98,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // add the tab widget
     auto tabWidget = new QTabWidget;
 
-    auto graphWidget= new GraphWidget(this);
+    graphWidget= new GraphWidget(this);
 
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("Behaviour trees"));

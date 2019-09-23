@@ -101,9 +101,9 @@ private:
 
     static int FPS;
     static int index;
-    static QSplineSeries * cycleTime;
+    static QLineSeries * cycleTime;
 public:
-    static QSplineSeries * getCycleTimes();
+    static QLineSeries * getCycleTimes();
 
     static void addCycleTime(const std::chrono::milliseconds &cycleTime);
 
