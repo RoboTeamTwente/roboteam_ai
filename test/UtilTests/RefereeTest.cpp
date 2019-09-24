@@ -27,13 +27,13 @@ TEST(RefereeTest, it_gets_and_sets_the_ref) {
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"shootout_prepare_tactic");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"keeper_penalty_prepare_tactic");
 
     refereeData.set_stage(roboteam_proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
     refereeData.set_command(roboteam_proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"keeper_penalty_prepare_tactic");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"shootout_prepare_tactic");
 
 }
