@@ -403,10 +403,11 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projectionPosition,
         double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel) {
 
-    Vector2 numTreesTarget = projectionPosition;
+    const Vector2& numTreesTarget = projectionPosition;
     RobotCommand robotCommand;
 
     LineSegment driveLine = LineSegment(robot->pos, projectionPosition.stretchToLength(robot->vel.length()*2.0));
+    //TODO: very bad inheritance design; refactor it somehow
     if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
         robotCommand = BasicPosControl::getRobotCommand(robot, numTreesTarget);
     }
@@ -420,7 +421,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
         Vector2 targetVelIncrease = ball->vel.stretchToLength(std::max(1.0,
                 fabs((robot->pos - ball->pos).toAngle() - ball->vel.toAngle())))/2;
 
-        LineSegment driveLine = {robot->pos, robot->pos
+        driveLine = {robot->pos, robot->pos
                 + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
         if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
             robotCommand.vel += targetVelIncrease;

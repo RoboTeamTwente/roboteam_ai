@@ -23,9 +23,6 @@ class RotateAroundBall;
 class RotateWithBall;
 class BallHandlePosControl : public NumTreePosControl {
     private:
-        using BallPtr = std::shared_ptr<world::Ball>;
-        using RobotPtr = std::shared_ptr<world::Robot>;
-
         DribbleForwards* dribbleForwards;
         DribbleBackwards* dribbleBackwards;
         RotateWithBall* rotateWithBall;
