@@ -124,10 +124,13 @@ Status ApplicationManager::runStrategyTree() {
 
 /// Update the coaches information
 void ApplicationManager::updateCoaches() const {
-    ai::coach::getBallCoach->update();
-    ai::coach::g_DefenceDealer.updateDefenderLocations();
-    ai::coach::g_offensiveCoach.updateOffensivePositions();
-    ai::coach::g_pass.updatePassProgression();
+    auto coachesCalculationTime = roboteam_utils::Timer::measure([&](){
+        ai::coach::getBallCoach->update();
+        ai::coach::g_DefenceDealer.updateDefenderLocations();
+        ai::coach::g_offensiveCoach.updateOffensivePositions();
+        ai::coach::g_pass.updatePassProgression();
+    });
+    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
 }
 
 /// Terminate trees
