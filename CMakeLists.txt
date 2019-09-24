@@ -377,6 +377,7 @@ if(APPLE)
             PRIVATE roboteam_utils
             PRIVATE Qt5::Widgets
             PRIVATE Qt5::Gui
+            PRIVATE Qt5::Charts
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a)
 endif()
