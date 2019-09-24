@@ -210,17 +210,23 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
 
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
 
-#        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
-#        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
-#
-#        ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
+
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
+
+#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
+
+        #
+
 
 #        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/InterfaceTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainWindowTest.cpp
@@ -275,7 +281,19 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/MainControlsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp)
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
+
+        # QT wants to know about these headers
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
+        )
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
@@ -322,18 +340,6 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-
-        # QT wants to know about these headers
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
-
         )
 
 target_link_libraries(roboteam_ai
@@ -363,12 +369,28 @@ add_executable(ai_tests
         ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
-        ${WORLD_SOURCES})
+        ${WORLD_SOURCES}
+        )
+
+
+if(APPLE)
+    target_link_libraries(ai_tests
+            PRIVATE roboteam_utils
+            PRIVATE Qt5::Widgets
+            PRIVATE Qt5::Gui
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a)
+endif()
+
+if(UNIX AND NOT APPLE)
 
 target_link_libraries(ai_tests
-        roboteam_utils
-        gcov
-        Qt5::Widgets Qt5::Gui)
+        PRIVATE roboteam_utils
+        PRIVATE Qt5::Widgets
+        PRIVATE Qt5::Gui
+        PRIVATE gcov)
+endif()
+
 
 target_include_directories(ai_tests
         INTERFACE include
@@ -386,9 +408,9 @@ target_include_directories(ai_tests
 #set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
 #set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
 #
-
-if(UNIX AND NOT APPLE)
-    cotire(roboteam_ai)
-    cotire(ai_tests)
-endif()
+#
+#if(UNIX AND NOT APPLE)
+#    cotire(roboteam_ai)
+#    cotire(ai_tests)
+#endif()
 
