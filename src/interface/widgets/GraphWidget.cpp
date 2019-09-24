@@ -2,14 +2,12 @@
 // Created by mrlukasbos on 22-9-19.
 //
 
-#include <include/roboteam_ai/interface/api/Input.h>
+#include "interface/api/Input.h"
 #include "interface/widgets/GraphWidget.h"
 
 namespace rtt {
-    namespace ai {
-
-        namespace interface {
-
+namespace ai {
+namespace interface {
 
 GraphWidget::GraphWidget(QWidget * parent) {
     auto verticalLayout = new QVBoxLayout(this);
@@ -34,19 +32,19 @@ GraphWidget::GraphWidget(QWidget * parent) {
         qreal y = fpsSeries->at(index).y();
         qreal x = fpsSeries->at(index).x();
 
-        if(y > fpsyMax){
-            if(y> fpsyMax) fpsyMax = y;
-            fpsView->chart()->axisY()->setRange(0, fpsyMax+20);
+        if(y > fpsGraphYMax){
+            if(y> fpsGraphYMax) fpsGraphYMax = y;
+            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax+20);
         }
 
-        if(x< fpsxMin || x > fpsxMax){
-            if(x < fpsxMin) fpsxMin = x;
-            if(x> fpsxMax) fpsxMax = x;
+        if(x< fpsGraphXMin || x > fpsGraphXMax){
+            if(x < fpsGraphXMin) fpsGraphXMin = x;
+            if(x> fpsGraphXMax) fpsGraphXMax = x;
 
-            if (fpsxMax - fpsxMin > 30) {
-                fpsxMin = fpsxMax - 30;
+            if (fpsGraphXMax - fpsGraphXMin > 30) {
+                fpsGraphXMin = fpsGraphXMax - 30;
             }
-            fpsView->chart()->axisX()->setRange(fpsxMin, fpsxMax);
+            fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
         }
     });
 
@@ -63,3 +61,6 @@ void GraphWidget::updateContents() {
 }
 }
 }
+
+// QT performance improvement
+#include "include/roboteam_ai/interface/widgets/moc_GraphWidget.cpp"

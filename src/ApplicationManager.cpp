@@ -16,6 +16,7 @@
 #include "interface/api/Input.h"
 #include "interface/api/Toggles.h"
 #include "utilities/Constants.h"
+#include <roboteam_utils/Timer.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -23,67 +24,33 @@ using Status = bt::Node::Status;
 
 namespace rtt {
 
-void ApplicationManager::setup() {
+void ApplicationManager::start() {
+
+    // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
+
+    roboteam_utils::Timer t;
+    t.loop([&]() {
+
+        auto timeBeforeCycle = t.getCurrentTime();
+        this->runOneLoopCycle();
+        auto cycleTime = t.getCurrentTime() - timeBeforeCycle;
+
+        // with the cycletime we can calculate the FPS
+        ai::interface::Input::setFps(1000/cycleTime.count());
+
+        /*
+        * This is a hack performed at the robocup.
+        * It does a soft refresh when robots are not properly claimed by robotdealer.
+        */
+        checkForFreeRobots();
+    }, ai::Constants::TICK_RATE());
 }
-
-void ApplicationManager::loop() {
-
-   // BTFactory::makeTrees();
-    double longestTick = 0.0;
-    double timeTaken;
-    int nTicksTaken = 0;
-    double timeTakenOverNTicks = 0.0;
-
-    std::chrono::milliseconds now_time;
-    std::chrono::milliseconds last_call_time = now_time;
-    std::chrono::milliseconds last_fps_count_time = now_time;
-
-    bool ok = true;
-
-    int cyclesInThisSecond = 0;
-
-    int lastFPS = 0;
-    while(ok) {
-
-        now_time = std::chrono::duration_cast< std::chrono::milliseconds >(
-            std::chrono::system_clock::now().time_since_epoch()
-        );
-        auto diff = now_time - last_call_time;
-        auto timeDiff =std::chrono::milliseconds(16); //a little over 60hz
-        if(diff > timeDiff) {
-            this->runOneLoopCycle();
-
-            std::chrono::milliseconds afterOneCycleTime = std::chrono::duration_cast< std::chrono::milliseconds >(
-                    std::chrono::system_clock::now().time_since_epoch());
-
-            cyclesInThisSecond++;
-
-            auto fps_diff = now_time - last_fps_count_time;
-            auto fps_timestep =std::chrono::milliseconds(200); // one second
-            if(fps_diff > fps_timestep) {
-
-                std::cout << "FPS: " << cyclesInThisSecond << std::endl;
-                lastFPS = cyclesInThisSecond;
-                cyclesInThisSecond=0;
-                last_fps_count_time = now_time;
-            }
-            ai::interface::Input::setFps(lastFPS*5);
-
-            if (ai::robotDealer::RobotDealer::hasFree()) {
-                if (ticksFree++ > 10) {
-                    ai::robotDealer::RobotDealer::refresh();
-                }
-            }
-            else {
-                ticksFree = 0;
-            }
-            last_call_time = now_time;
-        }else {
-            std::this_thread::sleep_for((timeDiff-diff) * .9); // sleep for the diff - arbitrary margin
-        }
-    }
-
+void ApplicationManager::checkForFreeRobots() {// robotdealer hack
+    if (ai::robotDealer::RobotDealer::hasFree()) {
+          if (ticksFree++ > 10) { ai::robotDealer::RobotDealer::refresh(); }
+      }
+      else { ticksFree = 0; }
 }
 
 void ApplicationManager::runOneLoopCycle() {
@@ -133,22 +100,12 @@ void ApplicationManager::runOneLoopCycle() {
         }
 
 
-//        ros::Time begin;
-//        ros::Time end;
-//        if (ai::interface::Output::showCoachTimeTaken()) {
-//            begin = ros::Time::now();
-//        }
 
           rtt::ai::coach::getBallCoach->update();
           rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
           rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
           rtt::ai::coach::g_pass.updatePassProgression();
 
-//        if (ai::interface::Output::showCoachTimeTaken()) {
-//            end = ros::Time::now();
-//            double timeTaken = (end - begin).toNSec() * 0.000001; // (ms)
-//            std::cout << "The coaches are using " << timeTaken << " ms!" << std::endl;
-//        }
 
         if (BTFactory::getCurrentTree() == "NaN") {
             std::cout << "NaN tree probably Halting" << std::endl;

@@ -11,7 +11,6 @@
 #include <mutex>
 #include <tuple>
 #include "Toggles.h"
-#include <QtCharts/QtCharts>
 
 namespace rtt {
 namespace ai {
@@ -55,24 +54,6 @@ struct Drawing {
     double height = 4.0;
     double strokeWidth = 2.0;
 };
-
-struct TextDrawing {
-
-    TextDrawing(  Visual visual, QColor color, QString text, Vector2 location, int fontSize)
-    : visual(visual),
-    color(color),
-    text(text),
-    location(location),
-    fontSize(fontSize){};
-
-    Visual visual;
-    QColor color;
-    QString text;
-    Vector2 location;
-    int fontSize;
-
-};
-
 
 class Input {
 public:

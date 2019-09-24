@@ -14,9 +14,9 @@ class GraphWidget : public QWidget {
     Q_OBJECT
 private:
     float seriesIndex = 0;
-    float fpsyMax = 0;
-    float fpsxMin =0;
-    float fpsxMax = 0;
+    float fpsGraphYMax = 0;
+    float fpsGraphXMin =0;
+    float fpsGraphXMax = 0;
     QChartView * fpsView;
     QLineSeries * fpsSeries;
 public:

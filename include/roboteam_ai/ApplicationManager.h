@@ -31,9 +31,9 @@ private:
     int publishSettingTicks= 0;
 
 public:
-    void setup();
-    void loop();
+    void start();
     void checkForShutdown();
+  void checkForFreeRobots();
 };
 
 } // rtt
