@@ -2,21 +2,20 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-#include "demo/JoystickDemo.h"
-#include "coach/defence/DefenceDealer.h"
-#include "coach/OffensiveCoach.h"
-#include "coach/PassCoach.h"
-#include "ApplicationManager.h"
-#include <sstream>
-#include <Settings/Settings.h>
-#include "analysis/GameAnalyzer.h"
-#include "interface/api/Output.h"
-#include "coach/GetBallCoach.h"
-#include "utilities/GameStateManager.hpp"
-#include "interface/api/Input.h"
-#include "interface/api/Toggles.h"
-#include "utilities/Constants.h"
 #include <roboteam_utils/Timer.h>
+
+#include "utilities/Constants.h"
+#include <bt/Node.hpp>
+#include <ApplicationManager.h>
+#include <utilities/GameStateManager.hpp>
+#include <Settings/Settings.h>
+#include <interface/api/Input.h>
+#include <world/World.h>
+#include <coach/GetBallCoach.h>
+#include <coach/PassCoach.h>
+#include <coach/defence/DefenceDealer.h>
+#include <analysis/GameAnalyzer.h>
+#include <coach/OffensiveCoach.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -24,99 +23,50 @@ using Status = bt::Node::Status;
 
 namespace rtt {
 
+
+/// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
 
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
-    int fpsUpdateRate = 5;
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
     t.loop([&]() {
-        this->runOneLoopCycle();
+
+        // This function runs the behaviour trees
+        runOneLoopCycle();
+
         amountOfCycles++;
 
-        t.limit([&](){
-          ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
-          amountOfCycles = 0;
+        // update the measured FPS, but limit this function call to only run 5 times/s at most
+        int fpsUpdateRate = 5;
+        t.limit([&]() {
+            ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
+            amountOfCycles = 0;
         }, fpsUpdateRate);
+
+
+        // publish settings, but limit this function call to only run 1 times/s at most
+        t.limit([&]() {
+            io::io.publishSettings(SETTINGS.toMessage());
+        }, 1);
+
     }, ai::Constants::TICK_RATE());
 }
-void ApplicationManager::checkForFreeRobots() {// robotdealer hack
-    if (ai::robotDealer::RobotDealer::hasFree()) {
-          if (ticksFree++ > 10) { ai::robotDealer::RobotDealer::refresh(); }
-      }
-      else { ticksFree = 0; }
-}
 
+/// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
-
-    // publish settings every second
-    if (publishSettingTicks > ai::Constants::TICK_RATE()) {
-        io::io.publishSettings(SETTINGS.toMessage());
-        publishSettingTicks = 0;
-    } else {
-        publishSettingTicks++;
-    }
-
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
-
-        // Will do things if this is a demo
-        // otherwise wastes like 0.1 ms
-        auto demoMsg = io::io.getDemoInfo();
-        demo::JoystickDemo::demoLoop(demoMsg);
-
-
-        auto gameState = ai::GameStateManager::getCurrentGameState();
-        std::string strategyName = gameState.strategyName;
-        std::string keeperTreeName = gameState.keeperStrategyName;
-
-        bool strategyChanged = oldStrategyName != strategyName;
-        bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
-
-        if (strategyChanged) {
-            BTFactory::setCurrentTree(strategyName);
-            oldStrategyName = strategyName;
-        }
-
-        if (keeperStrategyChanged) {
-            BTFactory::setKeeperTree(keeperTreeName);
-            oldKeeperTreeName = keeperTreeName;
-        }
-
-        if (keeperStrategyChanged || strategyChanged) {
-            ai::robotDealer::RobotDealer::refresh();
-        }
-        rtt::ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
-
-        keeperTree = BTFactory::getKeeperTree();
-        if (keeperTree && rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-            keeperTree->tick();
-        }
-
-
-
-          rtt::ai::coach::getBallCoach->update();
-          rtt::ai::coach::g_DefenceDealer.updateDefenderLocations();
-          rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
-          rtt::ai::coach::g_pass.updatePassProgression();
-
-
-        if (BTFactory::getCurrentTree() == "NaN") {
-            std::cout << "NaN tree probably Halting" << std::endl;
-            return;
-        }
-
-        strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-        Status status = strategy->tick();
+        updateTrees();
+        updateCoaches();
+        runKeeperTree();
+        Status status = runStrategyTree();
         this->notifyTreeStatus(status);
-    }
-    else {
-        std::cout <<"NO FIRST WORLD" << std::endl;
+    } else {
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
-
     weHaveRobots = ai::world::world->weHaveRobots();
 
     /*
@@ -126,6 +76,61 @@ void ApplicationManager::runOneLoopCycle() {
     checkForFreeRobots();
 }
 
+// Update the trees from the GameState
+// The gamestate is usually altered by the interface or the referee
+// or, in exceptional cases, by forcing it in the code (for example in the notifyTreeStatus() function below)
+void ApplicationManager::updateTrees() {
+    auto gameState = ai::GameStateManager::getCurrentGameState();
+    std::string strategyName = gameState.strategyName;
+    std::string keeperTreeName = gameState.keeperStrategyName;
+
+    bool strategyChanged = oldStrategyName != strategyName;
+    bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
+
+    if (strategyChanged) {
+        BTFactory::setCurrentTree(strategyName);
+        oldStrategyName = strategyName;
+    }
+
+    if (keeperStrategyChanged) {
+        BTFactory::setKeeperTree(keeperTreeName);
+        oldKeeperTreeName = keeperTreeName;
+    }
+
+    if (keeperStrategyChanged || strategyChanged) {
+        ai::robotDealer::RobotDealer::refresh();
+    }
+    ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
+}
+
+/// Tick the keeper tree if both the tree and keeper exist
+void ApplicationManager::runKeeperTree() {
+    keeperTree = BTFactory::getKeeperTree();
+    if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+        keeperTree->tick();
+    }
+}
+
+/// Tick the strategy tree if the tree exists
+Status ApplicationManager::runStrategyTree() {
+    if (BTFactory::getCurrentTree() == "NaN") {
+        std::cout << "NaN tree probably Halting" << std::endl;
+          return Status::Waiting;
+    }
+    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+    Status status = strategy->tick();
+    return status;
+}
+
+/// Update the coaches information
+void ApplicationManager::updateCoaches() const {
+    ai::coach::getBallCoach->update();
+    ai::coach::g_DefenceDealer.updateDefenderLocations();
+    ai::coach::g_offensiveCoach.updateOffensivePositions();
+    ai::coach::g_pass.updatePassProgression();
+}
+
+/// Terminate trees
 void ApplicationManager::checkForShutdown() {
     // Terminate if needed
     if (strategy->getStatus() == Status::Running) {
@@ -134,6 +139,18 @@ void ApplicationManager::checkForShutdown() {
     ai::analysis::GameAnalyzer::getInstance().stop();
 }
 
+// Robotdealer hack to prevent robots from staying 'free' during play
+void ApplicationManager::checkForFreeRobots() {
+    if (ai::robotDealer::RobotDealer::hasFree()) {
+        if (ticksFree++ > 10) {
+            ai::robotDealer::RobotDealer::refresh();
+        }
+    } else {
+        ticksFree = 0;
+    }
+}
+
+/// handle the status of a tree, and traverse to normal play when a tree either succeeds or fails.
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
     case Status::Running:break;
