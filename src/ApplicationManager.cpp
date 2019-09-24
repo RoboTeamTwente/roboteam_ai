@@ -29,21 +29,17 @@ void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
+    int fpsUpdateRate = 5;
+    int amountOfCycles = 0;
     roboteam_utils::Timer t;
     t.loop([&]() {
-
-        auto timeBeforeCycle = t.getCurrentTime();
         this->runOneLoopCycle();
-        auto cycleTime = t.getCurrentTime() - timeBeforeCycle;
+        amountOfCycles++;
 
-        // with the cycletime we can calculate the FPS
-        ai::interface::Input::setFps(1000/cycleTime.count());
-
-        /*
-        * This is a hack performed at the robocup.
-        * It does a soft refresh when robots are not properly claimed by robotdealer.
-        */
-        checkForFreeRobots();
+        t.limit([&](){
+          ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
+          amountOfCycles = 0;
+        }, fpsUpdateRate);
     }, ai::Constants::TICK_RATE());
 }
 void ApplicationManager::checkForFreeRobots() {// robotdealer hack
@@ -122,6 +118,12 @@ void ApplicationManager::runOneLoopCycle() {
     }
 
     weHaveRobots = ai::world::world->weHaveRobots();
+
+    /*
+    * This is a hack performed at the robocup.
+    * It does a soft refresh when robots are not properly claimed by robotdealer.
+    */
+    checkForFreeRobots();
 }
 
 void ApplicationManager::checkForShutdown() {
