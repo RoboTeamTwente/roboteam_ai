@@ -11,8 +11,7 @@ std::shared_ptr<ui::MainWindow> window;
 
 void runBehaviourTrees() {
     rtt::ApplicationManager app;
-    app.setup();
-    app.loop();
+    app.start();
     app.checkForShutdown();
 }
 

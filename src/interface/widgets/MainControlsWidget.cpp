@@ -11,17 +11,21 @@
 #include "treeinterp/BTFactory.h"
 #include <utilities/GameStateManager.hpp>
 #include <include/roboteam_ai/Settings/Settings.h>
+#include <include/roboteam_ai/interface/api/Input.h>
 #include "utilities/GameState.h"
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
+
+
 MainControlsWidget::MainControlsWidget(QWidget * parent) {
 
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     vLayout = new QVBoxLayout();
+
 
 
   pauseBtn = new QPushButton("Stop");
@@ -229,7 +233,6 @@ void MainControlsWidget::setToggleSerialBtnLayout() const {
 
 
 void MainControlsWidget::updateContents() {
-
     auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
     if (strategyText != select_strategy->currentText()) {
         select_strategy->setCurrentText(strategyText);
@@ -256,7 +259,6 @@ void MainControlsWidget::updateContents() {
     } else {
         select_goalie->setStyleSheet("background-color: #cc0000;");
     }
-
 }
 
 } // interface

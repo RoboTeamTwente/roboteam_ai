@@ -55,22 +55,23 @@ struct Drawing {
     double strokeWidth = 2.0;
 };
 
-
 class Input {
 public:
     explicit Input() = default;
-
     virtual ~Input();
 
     static void clearDrawings();
     static const std::vector<Drawing> getDrawings();
     static void drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 2.0);
     static void drawDebugData(std::vector<Vector2> points, QColor color = Qt::yellow, int robotId = -1, Drawing::DrawingMethod method = Drawing::DOTS, double width = 4.0, double height = 4.0, double strokeWidth = 4.0);
-
+    static int getFps();
+    static void setFps(int fps);
 private:
     static std::vector<Drawing> drawings;
     static std::mutex drawingMutex;
+    static std::mutex fpsMutex;
     static void makeDrawing(Drawing const &drawing);
+    static int FPS;
 };
 
 } // interface
