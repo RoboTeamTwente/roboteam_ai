@@ -11,6 +11,11 @@ namespace interface {
 // declare static variables
 std::vector<Drawing> Input::drawings;
 std::mutex Input::drawingMutex;
+std::mutex Input::fpsMutex;
+
+int Input::FPS;
+
+
 
 /*
  * Draw data to the screen
@@ -44,12 +49,22 @@ const std::vector<Drawing> Input::getDrawings() {
 }
 
 void Input::clearDrawings() {
-    std::lock_guard<std::mutex> lock(drawingMutex);
+    std::lock_guard<std::mutex> drawingLock(drawingMutex);
     drawings = {};
 }
 
 Input::~Input() {
     clearDrawings();
+}
+
+int Input::getFps() {
+    std::lock_guard<std::mutex> lock(fpsMutex);
+    return FPS;
+}
+
+void Input::setFps(int fps) {
+    std::lock_guard<std::mutex> lock(fpsMutex);
+    FPS = fps;
 }
 
 

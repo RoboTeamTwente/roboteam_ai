@@ -63,7 +63,7 @@ void DefenceDealer::updateDefenderLocations() {
     auto foundDefenders=g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
     availableIDs.clear();
     if (foundDefenders.size()<freeDefenders.size()+lockedDefenders.size()){
-        std::cout<<"WTFF"<<std::endl;
+        std::cout<<"[DefenceDealer] Warning: There is no opponent to defend against"<<std::endl;
     }
     assignedDefenders = foundDefenders;
     visualizePoints();    //visualization

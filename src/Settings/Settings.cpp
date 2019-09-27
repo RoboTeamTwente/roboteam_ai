@@ -24,7 +24,6 @@ namespace rtt {
         setting.set_visionport(visionPort);
         setting.set_robothubsendip(robothubSendIp);
         setting.set_robothubsendport(robothubSendPort);
-        setting.PrintDebugString();
         return setting;
     }
 
