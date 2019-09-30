@@ -178,7 +178,10 @@ set(CONDITIONS_SOURCES
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/pid.cpp
+
+        # Controllers
+        ${PROJECT_SOURCE_DIR}/src/control/controllers/PidController.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/controllers/PidTwoAxesController.cpp
 
         # PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
@@ -197,8 +200,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleBackwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateAroundBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp)
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp

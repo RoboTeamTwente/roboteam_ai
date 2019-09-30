@@ -6,23 +6,20 @@
 #define ROBOTEAM_AI_PID_H
 
 #include <tuple>
+#include "BaseController.h"
 
-class PID{
+class PidController : BaseController<double,double>{
 public:
-    PID(double, double, double);
-    PID(double, double, double, double);
-    PID(std::tuple<double, double, double>);
-    PID(std::tuple<double, double, double, double>);
+    PidController(double, double, double);
+    PidController(double, double, double, double);
+    explicit PidController(std::tuple<double, double, double>);
+    explicit PidController(std::tuple<double, double, double, double>);
 
-    void setP(double);
-    void setI(double);
-    void setD(double);
-    void setF(double);
     void setPID(double, double, double);
     void setPID(std::tuple<double, double, double>);
-        void setPID(std::tuple<double, double, double>, double);
+    void setPID(std::tuple<double, double, double>, double);
 
-        void setPID(double, double, double, double);
+    void setPID(double, double, double, double);
     void setMaxIOutput(double);
     void setOutputLimits(double);
     void setOutputLimits(double,double);
@@ -32,15 +29,12 @@ public:
     void setOutputRampRate(double);
     void setSetpointRange(double);
     void setOutputFilter(double);
-    double getOutput();
-    double getOutput(double);
-    double getOutput(double, double);
+    double computeOutput(double setPoint, double actualValue) override;
 
 private:
     double clamp(double, double, double);
     bool bounded(double, double, double);
     void checkSigns();
-    void init();
     double P;
     double I;
     double D;
