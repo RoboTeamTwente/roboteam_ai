@@ -24,7 +24,6 @@ public:
     void setOutputLimits(double);
     void setOutputLimits(double,double);
     void setDirection(bool);
-    void setSetpoint(double);
     void reset();
     void setOutputRampRate(double);
     void setSetpointRange(double);

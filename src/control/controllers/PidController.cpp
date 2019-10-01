@@ -101,13 +101,6 @@ void PidController::setDirection(bool reversed){
 //Primary operating functions
 //**********************************
 
-/**Set the target for the PID calculations
- * @param setpoint
- */
-void PidController::setSetpoint(double setpoint){
-    this->setpoint=setpoint;
-}
-
 /** Calculate the PID value needed to hit the target setpoint. 
 * Automatically re-calculates the output at each call. 
 * @param actual The monitored value
