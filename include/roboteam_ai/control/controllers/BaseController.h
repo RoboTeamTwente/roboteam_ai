@@ -7,9 +7,13 @@
 
 template <typename Input, typename Output>
 /**
- * The base abstract class for the controllers. Any control method should inherit from this
- * @tparam Input
- * @tparam Output
+ * The base abstract class for the controllers (e.g. velocity control, position control). Any control
+ * method (e.g. PID control) should inherit from this.
+ * @tparam Input the type of the input of the controller (reference type)
+ * @tparam Output the type of the output of the controller (plant input)
+ * @author Paul Vacariu
+ * @SInCE 25.09.2019
+ * @see computeOutput method in this interface
  */
 class BaseController{
     public:

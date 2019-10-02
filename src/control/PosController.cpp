@@ -13,11 +13,8 @@ namespace control {
 
 PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
         :customAvoidBallDistance(avoidBall), customCanMoveOutOfField(canMoveOutOfField), customCanMoveInDefenseArea(canMoveInDefenseArea) {
-    pid.pidXAxis.setOutputLimits(- 8, 8);
-    pid.pidXAxis.setOutputRampRate(100);
-
-    pid.pidYAxis.setOutputLimits(- 8, 8);
-    pid.pidYAxis.setOutputRampRate(100);
+    pid.setOutputLimits(- 8, 8, -8, 8);
+    pid.setOutputRampRate(100, 100);
 }
 
 /// apply a posPID and a velPID over a posVelAngle for better control
@@ -71,6 +68,7 @@ void PosController::setAutoListenToInterface(bool listenToInterface) {
 
 void PosController::updatePid(pidVals pid) {
     if (lastPid != pid) {
+        //modify the PID controller with the new values; also, the F value is set to zero
         this->pid = PidTwoAxesController(std::tuple_cat(pid,std::make_tuple(0)));
 
         lastPid = pid;

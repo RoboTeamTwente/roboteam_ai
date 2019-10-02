@@ -174,7 +174,8 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp)
+        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
+        )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
@@ -200,7 +201,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleBackwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateAroundBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp)
+        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp
+        )
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp

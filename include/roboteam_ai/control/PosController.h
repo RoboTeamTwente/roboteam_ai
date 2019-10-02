@@ -7,8 +7,8 @@
 
 #include "RobotCommand.h"
 #include <utilities/Constants.h>
-#include <include/roboteam_ai/control/controllers/PidController.h>
-#include <include/roboteam_ai/control/controllers/PidTwoAxesController.h>
+#include <control/controllers/PidController.h>
+#include <control/controllers/PidTwoAxesController.h>
 
 namespace rtt {
 namespace ai {
@@ -32,7 +32,7 @@ class PosController {
         bool customCanMoveOutOfField = true;
         bool customCanMoveInDefenseArea = true;
 
-        // PID functions
+        // control functions for path tracking
         PidTwoAxesController pid = PidTwoAxesController();
         bool getPIDFromInterface = true;
         RobotCommand controlWithPID(const RobotPtr &robot, const RobotCommand& target);

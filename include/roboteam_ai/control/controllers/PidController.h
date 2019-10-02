@@ -8,6 +8,11 @@
 #include <tuple>
 #include "BaseController.h"
 
+/**
+ * The basic implementation of a PIDF (proportional - integrative - derivative
+ * - feedback) controller. The actual controller accepts a float reference
+ * and outputs a float controller action
+ */
 class PidController : BaseController<double,double>{
 public:
     PidController(double, double, double);
