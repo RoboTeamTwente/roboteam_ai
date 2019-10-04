@@ -21,6 +21,7 @@ GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
 }
 
 void GoToPos::onInitialize() {
+
     targetPos = properties->getVector2("targetPos");
     if (properties->hasDouble("errorMargin")) {
         errorMargin = properties->getDouble("errorMargin");

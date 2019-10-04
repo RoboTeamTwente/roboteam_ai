@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "43608gczb5jbxok5": {
+            "id": "43608gczb5jbxok5",
+            "name": "Taste_attack_own_goal_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "43608gczb5jbxok5",
+        "title": "Taste_attack_own_goal"
+      }
+    ]
+  },
+  "name": "Taste_attack_own_goal"
+}

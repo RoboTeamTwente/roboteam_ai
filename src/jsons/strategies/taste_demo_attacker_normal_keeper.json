@@ -1,0 +1,18 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "ica3mxk4zm18c4gz": {
+            "id": "ica3mxk4zm18c4gz",
+            "name": "Taste_attack_own_goal_tactic",
+            "title": "Tactic"
+          }
+        },
+        "root": "ica3mxk4zm18c4gz",
+        "title": "taste_demo_attacker_normal_keeper"
+      }
+    ]
+  },
+  "name": "taste_demo_attacker_normal_keeper"
+}

@@ -1,0 +1,96 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "719jzvg88ze9q1vz": {
+            "children": [
+              "rjesjh46exy66au2"
+            ],
+            "id": "719jzvg88ze9q1vz",
+            "name": "attack_own_goal_robot",
+            "properties": {
+              "ROLE": "attack_own_goal_robot"
+            },
+            "role": "attack_own_goal_robot",
+            "title": "Role"
+          },
+          "77j9a1v2gs8v9jdb": {
+            "id": "77j9a1v2gs8v9jdb",
+            "properties": {},
+            "title": "GoBehindBall"
+          },
+          "j648cm2k525ihhk5": {
+            "children": [
+              "ryb7axzwc62508w1",
+              "77j9a1v2gs8v9jdb",
+              "xku6cviogt2jttv0",
+              "s14nkptj30i0z266",
+              "kzng9sh2qqwgt746"
+            ],
+            "id": "j648cm2k525ihhk5",
+            "properties": {},
+            "title": "Sequence"
+          },
+          "kzng9sh2qqwgt746": {
+            "id": "kzng9sh2qqwgt746",
+            "properties": {
+              "avoidBall": "",
+              "canGoOutsideField": "",
+              "canMoveInDefenseArea": "",
+              "maxVel": "",
+              "targetPos": "{0,0}"
+            },
+            "title": "GoToPos"
+          },
+          "rjesjh46exy66au2": {
+            "children": [
+              "j648cm2k525ihhk5"
+            ],
+            "id": "rjesjh46exy66au2",
+            "properties": {
+              "limit": ""
+            },
+            "title": "Repeater"
+          },
+          "ryb7axzwc62508w1": {
+            "id": "ryb7axzwc62508w1",
+            "properties": {
+              "maxTime": "1"
+            },
+            "title": "GetBall"
+          },
+          "s14nkptj30i0z266": {
+            "id": "s14nkptj30i0z266",
+            "properties": {
+              "ownGoal": "true"
+            },
+            "title": "Attack"
+          },
+          "vgoev79my9ol1qq3": {
+            "children": [
+              "719jzvg88ze9q1vz"
+            ],
+            "id": "vgoev79my9ol1qq3",
+            "properties": {
+              "*TacticType;Offensive;Middle;Defensive;General": ""
+            },
+            "title": "RoleDivider"
+          },
+          "xku6cviogt2jttv0": {
+            "id": "xku6cviogt2jttv0",
+            "properties": {
+              "BallPlacement": "false",
+              "Position": "{0,0}",
+              "forwardDirection": "true"
+            },
+            "title": "Dribble"
+          }
+        },
+        "root": "vgoev79my9ol1qq3",
+        "title": "Taste_attack_own_goal_tactic"
+      }
+    ]
+  },
+  "name": "Taste_attack_own_goal_tactic"
+}

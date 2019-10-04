@@ -1,0 +1,329 @@
+{
+  "data": {
+    "trees": [
+      {
+        "nodes": {
+          "00hlktu2l4f41qm7": {
+            "children": [
+              "a8rw7ckhd08h2brm",
+              "mpfw1rqx7divtt3r"
+            ],
+            "id": "00hlktu2l4f41qm7",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Sequence"
+          },
+          "29t3x94ctclwnurn": {
+            "id": "29t3x94ctclwnurn",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "maxTime": "8.0"
+            },
+            "title": "GetBall"
+          },
+          "3ka7d2bkyt18sgj3": {
+            "children": [
+              "d7bit44sefp3rr1w"
+            ],
+            "id": "3ka7d2bkyt18sgj3",
+            "name": "DemoAttacker",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "role": "DemoAttacker",
+            "title": "Role"
+          },
+          "61c7nk65k8i56wiv": {
+            "children": [
+              "ghik716pxvxh6cyh",
+              "6pp58fblio8c6wbu"
+            ],
+            "id": "61c7nk65k8i56wiv",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "MemSelector"
+          },
+          "6pp58fblio8c6wbu": {
+            "children": [
+              "l4o85ql3kce7gjlx",
+              "i0nwx0eu9jzhn6hs"
+            ],
+            "id": "6pp58fblio8c6wbu",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Selector"
+          },
+          "81xo1a2m6dzyicqd": {
+            "children": [
+              "3ka7d2bkyt18sgj3"
+            ],
+            "id": "81xo1a2m6dzyicqd",
+            "properties": {
+              "TacticType": "General"
+            },
+            "title": "RoleDivider"
+          },
+          "85frr7ghl48omfr6": {
+            "id": "85frr7ghl48omfr6",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "ticks": "40"
+            },
+            "title": "Halt"
+          },
+          "9rgdtoxrsefovt83": {
+            "children": [
+              "g9num86dor6mj8vt",
+              "29t3x94ctclwnurn",
+              "iolpxsoqnoio8lac"
+            ],
+            "id": "9rgdtoxrsefovt83",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "MemSequence"
+          },
+          "9wud3k7dm1k2kl83": {
+            "children": [
+              "dvrkzfnhogwbsmeo",
+              "vo78e0gfq2py565u",
+              "znx6ixiugrb4jn9q",
+              "rbef7iln4q0q517i"
+            ],
+            "id": "9wud3k7dm1k2kl83",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "MemSequence"
+          },
+          "a8hxyl5azdntu5ty": {
+            "id": "a8hxyl5azdntu5ty",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "ballRange": "0.25"
+            },
+            "title": "HasBall"
+          },
+          "a8rw7ckhd08h2brm": {
+            "id": "a8rw7ckhd08h2brm",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "ourDefenseArea": "true",
+              "outsideField": "true",
+              "useRobot": "false"
+            },
+            "title": "IsInDefenseArea"
+          },
+          "d7bit44sefp3rr1w": {
+            "children": [
+              "pjg9tte7gof2yqdh"
+            ],
+            "id": "d7bit44sefp3rr1w",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Repeater"
+          },
+          "dvrkzfnhogwbsmeo": {
+            "id": "dvrkzfnhogwbsmeo",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "corner": "true",
+              "margin": "0.35"
+            },
+            "title": "IsBallCloseToBorder"
+          },
+          "f4corjolkz9oavji": {
+            "id": "f4corjolkz9oavji",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "margin": "0.17"
+            },
+            "title": "IsBallCloseToBorder"
+          },
+          "g9num86dor6mj8vt": {
+            "id": "g9num86dor6mj8vt",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "canGoOutsideField": "false",
+              "maxVel": "3.0",
+              "type": "getBallFromSide"
+            },
+            "title": "GTPSpecial"
+          },
+          "ghik716pxvxh6cyh": {
+            "children": [
+              "a8hxyl5azdntu5ty"
+            ],
+            "id": "ghik716pxvxh6cyh",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Inverter"
+          },
+          "i0nwx0eu9jzhn6hs": {
+            "children": [
+              "85frr7ghl48omfr6",
+              "kep56utnffp4bp3j"
+            ],
+            "id": "i0nwx0eu9jzhn6hs",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "MemSequence"
+          },
+          "iolpxsoqnoio8lac": {
+            "id": "iolpxsoqnoio8lac",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "distance": "0.35",
+              "forwardDirection": "false"
+            },
+            "title": "Dribble"
+          },
+          "kep56utnffp4bp3j": {
+            "id": "kep56utnffp4bp3j",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "avoidBall": "true",
+              "canGoOutsideField": "false",
+              "type": "ballPlacementAfter"
+            },
+            "title": "GTPSpecial"
+          },
+          "l4o85ql3kce7gjlx": {
+            "children": [
+              "y2g0sqhn7x7jw8jv"
+            ],
+            "id": "l4o85ql3kce7gjlx",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Inverter"
+          },
+          "lgt8fs7cyuljzm8e": {
+            "children": [
+              "f4corjolkz9oavji",
+              "ymfy8ml4q1f91pcr",
+              "61c7nk65k8i56wiv"
+            ],
+            "id": "lgt8fs7cyuljzm8e",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "MemSequence"
+          },
+          "mpfw1rqx7divtt3r": {
+            "id": "mpfw1rqx7divtt3r",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "avoidBall": "true",
+              "canGoOutsideField": "false",
+              "targetPos": "{0,0}"
+            },
+            "title": "GoToPos"
+          },
+          "mqdvhijfxrhbjicx": {
+            "children": [
+              "9wud3k7dm1k2kl83",
+              "9rgdtoxrsefovt83"
+            ],
+            "id": "mqdvhijfxrhbjicx",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "MemSelector"
+          },
+          "pjg9tte7gof2yqdh": {
+            "children": [
+              "00hlktu2l4f41qm7",
+              "lgt8fs7cyuljzm8e",
+              "touiglz7joalyiaa"
+            ],
+            "id": "pjg9tte7gof2yqdh",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Selector"
+          },
+          "rbef7iln4q0q517i": {
+            "id": "rbef7iln4q0q517i",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "distance": "0.35",
+              "forwardDirection": "false"
+            },
+            "title": "Dribble"
+          },
+          "touiglz7joalyiaa": {
+            "id": "touiglz7joalyiaa",
+            "properties": {
+              "ownGoal": "true"
+            },
+            "title": "DemoAttack"
+          },
+          "uwkqwd3weke2ey52": {
+            "children": [
+              "ztftba14dpm83x0b"
+            ],
+            "id": "uwkqwd3weke2ey52",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Inverter"
+          },
+          "vo78e0gfq2py565u": {
+            "id": "vo78e0gfq2py565u",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "type": "ballPlacementBefore"
+            },
+            "title": "GTPSpecial"
+          },
+          "y2g0sqhn7x7jw8jv": {
+            "id": "y2g0sqhn7x7jw8jv",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "ball": "true",
+              "margin": "0.35"
+            },
+            "title": "IsCloseToPoint"
+          },
+          "ymfy8ml4q1f91pcr": {
+            "children": [
+              "uwkqwd3weke2ey52",
+              "mqdvhijfxrhbjicx"
+            ],
+            "id": "ymfy8ml4q1f91pcr",
+            "properties": {
+              "ROLE": "DemoAttacker"
+            },
+            "title": "Selector"
+          },
+          "znx6ixiugrb4jn9q": {
+            "id": "znx6ixiugrb4jn9q",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "maxTime": "8.0"
+            },
+            "title": "GetBall"
+          },
+          "ztftba14dpm83x0b": {
+            "id": "ztftba14dpm83x0b",
+            "properties": {
+              "ROLE": "DemoAttacker",
+              "margin": "0.30"
+            },
+            "title": "IsBallCloseToBorder"
+          }
+        },
+        "root": "81xo1a2m6dzyicqd",
+        "title": "final_taste_tactic"
+      }
+    ]
+  },
+  "name": "final_taste_tactic"
+}
