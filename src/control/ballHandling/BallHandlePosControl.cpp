@@ -478,7 +478,7 @@ RobotCommand BallHandlePosControl::controlWithPID(PidTwoAxesController &pid, con
 void BallHandlePosControl::updatePID(pidVals newPID) {
     if (newPID != lastPid) {
         lastPid = newPID;
-        ballHandlePid = PidTwoAxesController(std::tuple_cat(newPID,std::make_tuple(1.0)));
+        ballHandlePid = PidTwoAxesController(newPID);
     }
 }
 

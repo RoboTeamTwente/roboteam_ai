@@ -69,7 +69,7 @@ void PosController::setAutoListenToInterface(bool listenToInterface) {
 void PosController::updatePid(pidVals pid) {
     if (lastPid != pid) {
         //modify the PID controller with the new values; also, the F value is set to zero
-        this->pid = PidTwoAxesController(std::tuple_cat(pid,std::make_tuple(0)));
+        this->pid = PidTwoAxesController(pid);
 
         lastPid = pid;
     }

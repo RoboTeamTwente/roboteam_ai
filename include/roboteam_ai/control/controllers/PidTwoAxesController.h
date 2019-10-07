@@ -30,10 +30,24 @@ public:
     PidTwoAxesController(std::tuple<double, double, double, double> pidXParams, std::tuple<double, double, double, double> pidYParams);
 
     /**
+     * Create a PID controller for two axes, with different parameters and zero feedforward
+     * @param pidXParams a tuple with 3 parameters for X dir PID - proportional, integrative, derivative
+     * @param pidYParams a tuple with 3 parameters for Y dir PID - proportional, integrative, derivative
+     */
+    PidTwoAxesController(std::tuple<double, double, double> pidXParams, std::tuple<double, double, double> pidYParams);
+
+    /**
      * Create a PID controller for two axes, with the same parameters for both of them
      * @param pidParams the PID parameters - proportional, integrative, derivative and feedforward
      */
     explicit PidTwoAxesController(std::tuple<double, double, double, double> pidParams);
+
+    /**
+     * Create a PID controller for two axes, with the same parameters for both of them
+     * and without feedforward
+     * @param pidParams the PID parameters - proportional, integrative, derivative
+     */
+    explicit PidTwoAxesController(std::tuple<double, double, double> pidParams);
 
     /**
      * Default constructor. All the values are initialized with zero.

@@ -9,15 +9,23 @@ PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, do
     pidYAxis = PidController(pidYParams);
 }
 
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double> pidXParams, std::tuple<double, double, double> pidYParams){
+    pidXAxis = PidController(pidXParams);
+    pidYAxis = PidController(pidYParams);
+}
+
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double> pidParams)
+        : PidTwoAxesController(pidParams, pidParams){}
+
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, double> pidParams)
+        : PidTwoAxesController(pidParams, pidParams){}
+
 Vector2 PidTwoAxesController::computeOutput(Vector2 setPointInput, Vector2 actualInput) {
     Vector2 outputCommand;
     outputCommand.x = pidXAxis.computeOutput(setPointInput.x, actualInput.x);
     outputCommand.y = pidYAxis.computeOutput(setPointInput.y, actualInput.y);
     return outputCommand;
 }
-
-PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, double> pidParams)
-        : PidTwoAxesController(pidParams, pidParams){}
 
 void PidTwoAxesController::setOutputLimits(double minimumX, double maximumX, double minimumY, double maximumY) {
     this->pidXAxis.setOutputLimits(minimumX, maximumX);
