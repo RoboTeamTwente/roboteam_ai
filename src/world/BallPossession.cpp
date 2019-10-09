@@ -14,12 +14,11 @@ BallPossession ballPossession;
 BallPossession* ballPossessionPtr = &ballPossession;
 
 void BallPossession::update() {
-    updateTicks();
+    updateCloseAndFarTimes();
     recomputeState();
 }
 
 void BallPossession::recomputeState() {
-
     if (coach::g_pass.getRobotBeingPassedTo() != -1) {
         return;
     }
@@ -29,10 +28,13 @@ void BallPossession::recomputeState() {
     bool weAreFar = farFromUsTime > FAR_TIME_TRESHOLD;
     bool theyAreFar = farFromThemTime > FAR_TIME_TRESHOLD;
 
-    if ((weAreClose && ! theyAreClose) || (world::world->getBall()->getPos().x > world::field->get_field().field_length()/4.0)) {
+    FieldMessage field = world::field->get_field();
+    double ourPossessionX = field.getLeftLineX() + OUR_POSSESSION_RELATIVE_WIDTH_THRESHOLD * field.field_width();
+    double theirPossessionX = field.getLeftLineX() + THEIR_POSSESSION_RELATIVE_WIDTH_THRESHOLD * field.field_width();
+    if ((weAreClose && !theyAreClose) || (world::world->getBall()->getPos().x > ourPossessionX)) {
         state = OURBALL;
     }
-    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->getPos().x < -world::field->get_field().field_length()/8.0)) {
+    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->getPos().x < theirPossessionX)) {
         state = THEIRBALL;
     }
     else if (weAreClose && theyAreClose) {
@@ -41,23 +43,22 @@ void BallPossession::recomputeState() {
     else if (weAreFar && theyAreFar) {
         state = LOOSEBALL;
     }
-    // in the other cases we stay in the same state (so we do nothing)
+    // In the other cases we stay in the same state (so we do nothing).
 }
 
-void BallPossession::updateTicks() {
+void BallPossession::updateCloseAndFarTimes() {
     auto wd = world::world->getWorld();
     if (!wd.ball) return;
 
     double timeDiff = world::world->getTimeDifference();
 
-    // if a team is close or far to the ball increment the timers, otherwise reset them
+    // If a team is close or far to the ball increment the timers, otherwise reset them.
     closeToUsTime = teamCloseToBall(wd, true) ? closeToUsTime + timeDiff : 0.0;
     closeToThemTime = teamCloseToBall(wd, false) ? closeToThemTime + timeDiff : 0.0;
     farFromUsTime = teamFarFromBall(wd, true) ? farFromUsTime + timeDiff : 0.0;
     farFromThemTime = teamFarFromBall(wd, false) ? farFromThemTime + timeDiff : 0.0;
 }
 
-/// return true if given team is relatively close to ball
 bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam) {
     double closeTreshHoldDist = Constants::MAX_BALL_RANGE();
     auto robots = ourTeam ? world.us : world.them;
@@ -69,14 +70,13 @@ bool BallPossession::teamCloseToBall(const world::WorldData &world, bool ourTeam
     return false;
 }
 
-/// return true if given team is relatively far from ball
 bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam) {
     if (world.ball) {
-        double farThreshHoldDist = 0.4;
+        double farThreshHoldDist = STANDARD_FAR_THRESHOLD;
 
-        if (!ourTeam) {
-            // if the ball is on our side, go more defensive.
-            farThreshHoldDist = world.ball->getPos().x < 0.0 ? 0.9 : 0.4;
+        if (!ourTeam && world.ball->getPos().x < this->MIDDLE_LINE_X) {
+            // If the ball is on our side, go more defensive.
+            farThreshHoldDist = DEFENSIVE_FAR_THRESHOLD;
         }
 
         auto robots = ourTeam ? world.us : world.them;
@@ -92,17 +92,6 @@ bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam
 
 BallPossession::Possession BallPossession::getPossession() {
     return state;
-}
-
-// convert ballpossession states to strings
-std::string BallPossession::stateAsString(Possession state) {
-    switch (state) {
-    case OURBALL:return "OURBALL";
-    case THEIRBALL:return "THEIRBALL";
-    case CONTENDEDBALL:return "CONTENDEDBALL";
-    case LOOSEBALL:return "LOOSE";
-    default:return "LOOSE";
-    }
 }
 
 } // ai

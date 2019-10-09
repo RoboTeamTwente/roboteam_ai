@@ -106,6 +106,7 @@ double FieldMessage::goal_depth(){
 double FieldMessage::boundary_width(){
   return boundaryWidth;
 }
+
 FieldLineSegment FieldMessage::getTop_line(){
   return top_line;
 }
@@ -114,6 +115,10 @@ FieldLineSegment FieldMessage::getBottom_line(){
 }
 FieldLineSegment FieldMessage::getLeft_line(){
   return left_line;
+}
+double FieldMessage::getLeftLineX() {
+    FieldLineSegment left_line = FieldMessage::getLeft_line();
+    return left_line.begin.x;
 }
 FieldLineSegment FieldMessage::getRight_line(){
   return right_line;
