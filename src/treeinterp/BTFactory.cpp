@@ -4,6 +4,9 @@
 
 #include "treeinterp/BTFactory.h"
 
+// The tactics variable saves the tactic of the behaviour tree and can be kept
+
+
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
