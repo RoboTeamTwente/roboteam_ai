@@ -69,7 +69,8 @@ void PosController::setAutoListenToInterface(bool listenToInterface) {
 void PosController::updatePid(pidVals pid) {
     if (lastPid != pid) {
         //modify the PID controller with the new values; also, the F value is set to zero
-        this->pid = PidTwoAxesController(pid);
+        this->pid.setXPid(pid);
+        this->pid.setYPid(pid);
 
         lastPid = pid;
     }

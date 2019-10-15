@@ -36,3 +36,11 @@ void PidTwoAxesController::setOutputRampRate(double rampRateX, double rampRateY)
     this->pidXAxis.setOutputRampRate(rampRateX);
     this->pidYAxis.setOutputRampRate(rampRateY);
 }
+
+void PidTwoAxesController::setXPid(std::tuple<double, double, double> pidXParams) {
+    this->pidXAxis.setPID(pidXParams);
+}
+
+void PidTwoAxesController::setYPid(std::tuple<double, double, double> pidYParams) {
+    this->pidXAxis.setPID(pidYParams);
+}

@@ -79,6 +79,18 @@ public:
      * @param rampRateY the max increment for Y direction
      */
     void setOutputRampRate(double rampRateX, double rampRateY);
+
+    /**
+     * Sets the PID parameters for the X axis to the specified ones, and the feedforward to zero.
+     * @param pidXParams the new PID parameters
+     */
+    void setXPid(std::tuple<double, double, double> pidXParams);
+
+    /**
+     * Sets the PID parameters for the X axis to the specified ones, and the feedforward to zero.
+     * @param pidYParams the new PID parameters
+     */
+    void setYPid(std::tuple<double, double, double> pidYParams);
 };
 
 #endif //RTT_PIDTWOAXESCONTROLLER_H
