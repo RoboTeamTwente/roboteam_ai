@@ -122,8 +122,8 @@ world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world
     return world;
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
-    if (world.ball->vel.length()>0.5){
-        return world.ball->getPos() + world.ball->vel * 0.3;
+    if (world.ball->getVel().length() > 0.5){
+        return world.ball->getPos() + world.ball->getVel() * 0.3;
     }
     return world.ball->getPos();
 }

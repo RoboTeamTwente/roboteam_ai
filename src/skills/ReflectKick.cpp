@@ -27,13 +27,13 @@ ReflectKick::Status ReflectKick::onUpdate() {
     ballStartPos = ball->getPos();
 
     if(coach::g_pass.isPassed()) {
-        if(ball->vel.length() < Constants::BALL_STILL_VEL()) {
+        if(ball->getVel().length() < Constants::BALL_STILL_VEL()) {
             return Status::Failure;
         }
 
         reflectionPos = getKicker();
         if (!ballReceiveVelSet) {
-            ballReceiveVel = ball->vel;
+            ballReceiveVel = ball->getVel();
             ballReceiveVelSet = true;
         }
 
@@ -64,7 +64,7 @@ Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vecto
 }
 
 void ReflectKick::intercept() {
-    ballStartVel = ball->vel;
+    ballStartVel = ball->getVel();
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_INTERCEPT_TIME() * 10;
 
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
@@ -106,7 +106,7 @@ double ReflectKick::getAngle() {
 }
 
 bool ReflectKick::ballDeflected() {
-    return (ball->vel - ballReceiveVel).toAngle() > 0.01 || ball->vel.length() < 0.1;
+    return (ball->getVel() - ballReceiveVel).toAngle() > 0.01 || ball->getVel().length() < 0.1;
 }
 
 }

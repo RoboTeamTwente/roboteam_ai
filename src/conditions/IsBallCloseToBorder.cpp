@@ -36,7 +36,7 @@ bt::Node::Status IsBallCloseToBorder::onUpdate() {
     }
 
     if (ballShouldLayStill) {
-        bool ballIsLayingStill = Vector2(ball->vel).length() <= Constants::BALL_STILL_VEL();
+        bool ballIsLayingStill = Vector2(ball->getVel()).length() <= Constants::BALL_STILL_VEL();
         return ballIsLayingStill ? Status::Success : Status::Failure;
     } 
     return Status::Success;

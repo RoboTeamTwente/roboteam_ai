@@ -162,12 +162,6 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {forwardsDribbleLine.first, forwardsDribbleLine.second},
             Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
 
-    // check if the ball is not too far right or too far left of the robot, and try to compensate for that
-    if (ball->visible && false) {
-        Angle ballAngleRelativeToRobot = (ball->getPos() - robot->pos).toAngle() - robot->angle;
-        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot*0.23);
-    }
-
     // limit velocity close to the target
     double distanceToTarget = (finalTargetPos - robot->pos).length();
     if (distanceToTarget < 1.0) {

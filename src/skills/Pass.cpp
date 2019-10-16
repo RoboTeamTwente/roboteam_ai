@@ -156,7 +156,7 @@ void Pass::initiatePass() {
 }
 
 bool Pass::didShootProperly() {
-    bool ballIsMovingFast = Vector2(world::world->getBall()->vel).length() > 0.6;
+    bool ballIsMovingFast = Vector2(world::world->getBall()->getVel()).length() > 0.6;
     bool ballIsMovingToReceiver = true;//control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
             //robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 

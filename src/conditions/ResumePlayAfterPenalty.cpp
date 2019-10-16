@@ -15,7 +15,7 @@ ResumePlayAfterPenalty::ResumePlayAfterPenalty(std::string name, bt::Blackboard:
 
 bt::Node::Status ResumePlayAfterPenalty::onUpdate() {
     bool ballHasMoved= GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->getPos()) > 0.05;
-    bool ballIsLayingStill = (Vector2(ball->vel)).length() < Constants::BALL_STILL_VEL();
+    bool ballIsLayingStill = (Vector2(ball->getVel())).length() < Constants::BALL_STILL_VEL();
 
 
     if (!ballShot&&!ballIsLayingStill&&ballHasMoved) {

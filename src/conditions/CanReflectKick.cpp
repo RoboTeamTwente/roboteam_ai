@@ -21,11 +21,11 @@ bt::Node::Status CanReflectKick::onUpdate() {
         return Status::Failure;
     }
 
-    if (!control::ControlUtils::objectVelocityAimedToPoint(ball->getPos(), ball->vel, robot->pos, 0.6)) {
+    if (!control::ControlUtils::objectVelocityAimedToPoint(ball->getPos(), ball->getVel(), robot->pos, 0.6)) {
         return Status::Failure;
     }
 
-    if (ball->vel.length() < 0.5) {
+    if (ball->getVel().length() < 0.5) {
         return Status::Failure;
     }
 

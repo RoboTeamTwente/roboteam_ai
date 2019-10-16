@@ -23,7 +23,7 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
     }
     else if (properties->hasDouble("secondsAhead")) {
         double t = properties->getDouble("secondsAhead");
-        ballPos = ball->getPos() + ball->vel * t;
+        ballPos = ball->getPos() + ball->getVel() * t;
     }
     else {
         ballPos = ball->getPos();

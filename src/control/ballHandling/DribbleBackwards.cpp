@@ -218,12 +218,6 @@ RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {backwardsDribbleLine.first, backwardsDribbleLine.second},
             Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
 
-    // check if the ball is not too far right or too far left of the robot, and try to compensate for that
-    if (ball->visible && false) {
-        Angle ballAngleRelativeToRobot = (ball->getPos() - robot->pos).toAngle() - robot->angle;
-        command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
-    }
-
     return command;
 }
 

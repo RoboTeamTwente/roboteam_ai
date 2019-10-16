@@ -11,7 +11,7 @@ namespace ai {
 namespace world {
 
 void FutureWorld::updateFutureBall(BallPtr &ball, double time) {
-    ball->setPos(ball->getPos() + ball->vel * time);
+    ball->setPos(ball->getPos() + ball->getVel() * time);
 }
 
 void FutureWorld::updateFutureRobot(RobotPtr &robot, double time) {

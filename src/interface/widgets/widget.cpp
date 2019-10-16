@@ -248,7 +248,7 @@ void Visualizer::drawBall(QPainter &painter) {
     rtt::Vector2 ballPosition = toScreenPosition(ball->getPos());
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
-    if (! ball->visible) {
+    if (! ball->getVisible()) {
         painter.setBrush(Qt::red); // fill
     }
     else {

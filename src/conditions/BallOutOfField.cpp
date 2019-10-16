@@ -16,7 +16,7 @@ BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos;
     if (properties->hasDouble("secondsAhead")) {
-        ballPos = ball->getPos() + ball->vel * properties->getDouble("secondsAhead");
+        ballPos = ball->getPos() + ball->getVel() * properties->getDouble("secondsAhead");
     } else {
         ballPos = ball->getPos();
     }

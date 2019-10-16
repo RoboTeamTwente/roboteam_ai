@@ -344,8 +344,8 @@ Collision NumTreePosControl::getRobotCollision(
 
 Collision NumTreePosControl::getBallCollision(const PathPointer &point, const PosController::BallPtr &ball) {
     Collision collision = {};
-    if (currentCollisionWithRobot.getCollisionBall()->visible) return collision;
-    if (currentCollisionWithFinalTarget.getCollisionBall()->visible) return collision;
+    if (currentCollisionWithRobot.getCollisionBall()->getVisible()) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionBall()->getVisible()) return collision;
 
     double avoidBallDistance = getAvoidBallDistance();
     if (point->isCollision(ball->getPos(), avoidBallDistance)) {

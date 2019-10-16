@@ -78,9 +78,7 @@ class Ball {
         void updateBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData);
 
     public:
-        Vector2 vel = Vector2();
         static bool exists;
-        bool visible = false;
 
         /**
          * Create an uninitialized ball (where the expected position and expected velocity are not set yet).

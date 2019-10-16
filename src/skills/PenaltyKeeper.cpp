@@ -101,7 +101,7 @@ Vector2 PenaltyKeeper::computeDefendPos() {
 
 Vector2 PenaltyKeeper::interceptBallPos() {
     Vector2 startBall = world::world->getBall()->getPos();
-    Vector2 endBall = world::world->getBall()->getPos() + world::world->getBall()->vel.stretchToLength(100);
+    Vector2 endBall = world::world->getBall()->getPos() + world::world->getBall()->getVel().stretchToLength(100);
     Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.first,
             goalLine.second);
     double margin = 0.05;//m next to the goal
@@ -144,7 +144,7 @@ std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
     return originalLine;
 }
 bool PenaltyKeeper::isBallShot() {
-    return world::world->getBall()->vel.x<-0.2;
+    return world::world->getBall()->getVel().x < -0.2;
 }
 void PenaltyKeeper::onTerminate(rtt::ai::Skill::Status s) {
     state=WAITING;

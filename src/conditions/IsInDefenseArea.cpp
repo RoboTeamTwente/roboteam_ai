@@ -25,7 +25,7 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
         if(properties->getBool("useRobot")) {
             point = robot->pos + robot->vel * secondsAhead;
         } else {
-            point = ball->getPos() + ball->vel * secondsAhead;
+            point = ball->getPos() + ball->getVel() * secondsAhead;
         }
     } else {
         point = properties->getBool("useRobot") ? robot->pos : ball->getPos();

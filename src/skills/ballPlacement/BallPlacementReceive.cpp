@@ -20,7 +20,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         return Status::Failure;
     }
 
-    if (coach::g_pass.isPassed() && ball->vel.length() <= Constants::BALL_STILL_VEL()) {
+    if (coach::g_pass.isPassed() && ball->getVel().length() <= Constants::BALL_STILL_VEL()) {
         return Status::Success;
     }
 

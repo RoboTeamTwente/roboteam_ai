@@ -25,7 +25,7 @@ void InterceptBall::onInitialize() {
     tickCount = 0;
     maxTicks = static_cast<int>(floor(Constants::MAX_INTERCEPT_TIME()*Constants::TICK_RATE()));
     ballStartPos = ball->getPos();
-    ballStartVel = ball->vel;
+    ballStartVel = ball->getVel();
     ballEndPos = ballStartPos + ballStartVel*Constants::MAX_INTERCEPT_TIME();
     if (robot) {
         interceptPos = computeInterceptPoint(ballStartPos, ballEndPos);
@@ -45,7 +45,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
     //The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
 
     interceptPos = computeInterceptPoint(ball->getPos(),
-            Vector2(ball->getPos()) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME());
+            Vector2(ball->getPos()) + Vector2(ball->getVel())*Constants::MAX_INTERCEPT_TIME());
 
     deltaPos = interceptPos - robot->pos;
     checkProgression();
@@ -58,7 +58,7 @@ InterceptBall::Status InterceptBall::onUpdate() {
     if (deltaPos.length() < TURNING_DISTANCE && ! orientationLocked) {
         // update if we want to rotate or not; if we have time to turn we do so, otherwise not.
         // this assumes we are at 90 to 180 degrees difference with the target angle; can be improved by measuring average turn time under keeper circumstances
-        stayAtOrientation = ball->vel.length()*TURN_TIME > (interceptPos - ball->getPos()).length();
+        stayAtOrientation = ball->getVel().length()*TURN_TIME > (interceptPos - ball->getPos()).length();
         orientationLocked = true;
     }
     tickCount ++;
@@ -202,7 +202,7 @@ bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballV
 bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
-    if (abs(control::ControlUtils::constrainAngle(Vector2(ball->vel).angle() - ballStartVel.angle()))
+    if (abs(control::ControlUtils::constrainAngle(Vector2(ball->getVel()).angle() - ballStartVel.angle()))
             > BALL_DEFLECTION_ANGLE) {
         return true;
     }
@@ -243,7 +243,7 @@ bool InterceptBall::ballToGoal() {
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
     Vector2 ballPos = ball->getPos();
-    Vector2 ballPredPos = Vector2(ball->getPos()) + Vector2(ball->vel)*Constants::MAX_INTERCEPT_TIME();
+    Vector2 ballPredPos = Vector2(ball->getPos()) + Vector2(ball->getVel()) * Constants::MAX_INTERCEPT_TIME();
     LineSegment ballLine(ballPos, ballPredPos);
     return ballLine.doesIntersect(goal);
 }

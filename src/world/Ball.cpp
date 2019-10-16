@@ -13,13 +13,13 @@ namespace world {
 bool Ball::exists = false;
 
 Ball::Ball()
-        : expectedPosition(Vector2()), vel(Vector2()), filteredVelocity(Vector2()),
-          visible(false) {
+        : expectedPosition(Vector2()), expectedVelocity(Vector2()), filteredVelocity(Vector2()),
+          visibleByAnyCamera(false) {
 }
 
 Ball::Ball(const roboteam_proto::WorldBall &copy)
-        : expectedPosition(copy.pos()), vel(copy.vel()), filteredVelocity(copy.vel()),
-          visible(copy.visible()) {
+        : expectedPosition(copy.pos()), expectedVelocity(copy.vel()), filteredVelocity(copy.vel()),
+          visibleByAnyCamera(copy.visible()) {
     exists = exists || copy.area() || Vector2(copy.pos()).isNotNaN();
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
@@ -47,7 +47,7 @@ void Ball::initBallAtRobotPosition(const Ball &oldBall, const WorldData &worldDa
 }
 
 void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
-    double velocityDifference = (vel - oldBall.filteredVelocity).length() * Constants::TICK_RATE();
+    double velocityDifference = (expectedVelocity - oldBall.filteredVelocity).length() * Constants::TICK_RATE();
     double factor = fmin(FILTER_MAX_FACTOR_FOR_VELOCITY,
                          velocityDifference * FILTER_MAX_FACTOR_FOR_VELOCITY / FILTER_VELOCITY_WITH_MAX_FACTOR);
 
@@ -78,7 +78,7 @@ void Ball::updateExpectedBallEndPosition(const Ball &oldBall, const WorldData &w
 }
 
 void Ball::updateBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData) {
-    if (visible) {
+    if (visibleByAnyCamera) {
         return;
     }
     RobotPtr robotWithBall = world->whichRobotHasBall();
