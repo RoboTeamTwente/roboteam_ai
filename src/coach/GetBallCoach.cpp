@@ -35,7 +35,7 @@ int GetBallCoach::getBallGetterID() {
 int GetBallCoach::bestBallGetterID() {
     auto ball = world::world->getBall();
     double a = 0.5;
-    Vector2 ballPos = ball->getBallStillPosition() * (1-a) + ball->pos * a;
+    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1-a) + ball->pos * a;
 
     double closestDistSquared = 9e9;
     int closestId = idGettingBall;

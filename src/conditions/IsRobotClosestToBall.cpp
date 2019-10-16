@@ -19,7 +19,7 @@ IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
     Vector2 ballPos;
     if (properties->getBool("atBallStillPosition")) {
-        ballPos = ball->getBallStillPosition();
+        ballPos = ball->getExpectedBallEndPosition();
     }
     else if (properties->hasDouble("secondsAhead")) {
         double t = properties->getDouble("secondsAhead");

@@ -275,7 +275,7 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
 }
 
 RobotCommand BallHandlePosControl::goToMovingBall() {
-    Vector2 ballStillPosition = ball->getBallStillPosition();
+    Vector2 ballStillPosition = ball->getExpectedBallEndPosition();
 
     LineSegment ballLine = LineSegment(ball->pos, ballStillPosition);
     Vector2 projectionPosition = ballLine.project(robot->pos);
@@ -341,16 +341,16 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
     Angle robotAngleTowardsBall = ball->vel.toAngle() - (ball->pos - robot->pos).toAngle();
 
     if (fabs(robotAngleTowardsBall) < M_PI*0.12) {
-        LineSegment ntLine = LineSegment(ball->pos, ball->getBallStillPosition());
+        LineSegment ntLine = LineSegment(ball->pos, ball->getExpectedBallEndPosition());
 
         if (ntLine.distanceToLine(movingBallTowardsBallTarget) > 0.3) {
             movingBallTowardsBallTarget = ball->pos + (ball->vel).stretchToLength(
-                    std::min(0.5, (ball->getBallStillPosition() - ball->pos).length()));
+                    std::min(0.5, (ball->getExpectedBallEndPosition() - ball->pos).length()));
 
         }
     }
     else {
-        Line ntLine = Line(ball->pos, ball->getBallStillPosition());
+        Line ntLine = Line(ball->pos, ball->getExpectedBallEndPosition());
         Vector2 projection = ntLine.project(robot->pos);
 
         movingBallTowardsBallTarget = ball->pos/2 + projection/2;
@@ -365,7 +365,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
             movingBallTowardsBallTarget = intersections[0];
         }
         else {
-            movingBallTowardsBallTarget = ControlUtils::projectPositionToWithinField(ball->getBallStillPosition());
+            movingBallTowardsBallTarget = ControlUtils::projectPositionToWithinField(ball->getExpectedBallEndPosition());
         }
     }
 
