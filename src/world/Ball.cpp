@@ -13,12 +13,12 @@ namespace world {
 bool Ball::exists = false;
 
 Ball::Ball()
-        : pos(Vector2()), vel(Vector2()), filteredVelocity(Vector2()),
+        : expectedPosition(Vector2()), vel(Vector2()), filteredVelocity(Vector2()),
           visible(false) {
 }
 
 Ball::Ball(const roboteam_proto::WorldBall &copy)
-        : pos(copy.pos()), vel(copy.vel()), filteredVelocity(copy.vel()),
+        : expectedPosition(copy.pos()), vel(copy.vel()), filteredVelocity(copy.vel()),
           visible(copy.visible()) {
     exists = exists || copy.area() || Vector2(copy.pos()).isNotNaN();
     if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
@@ -32,16 +32,16 @@ void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
 }
 
 void Ball::initBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData) {
-    if (pos == Vector2() && oldBall.pos != Vector2()) {
+    if (expectedPosition == Vector2() && oldBall.getPos() != Vector2()) {
         bool robotIsCloseToBall = false;
         for (const auto &robot : worldData.us) {
-            if ((robot->pos - oldBall.pos).length() < THRESHOLD_ROBOT_CLOSE_TO_BALL) {
+            if ((robot->pos - oldBall.getPos()).length() < THRESHOLD_ROBOT_CLOSE_TO_BALL) {
                 robotIsCloseToBall = true;
                 break;
             }
         }
         if (robotIsCloseToBall) {
-            pos = oldBall.pos;
+            expectedPosition = oldBall.getPos();
         }
     }
 }
@@ -68,12 +68,12 @@ void Ball::updateExpectedBallEndPosition(const Ball &oldBall, const WorldData &w
     double ballVelSquared = ball->filteredVelocity.length2();
     const double frictionCoefficient = Constants::GRSIM() ? SIMULATION_FRICTION : REAL_FRICTION;
 
-    expectedBallEndPosition = ball->pos + ball->filteredVelocity.stretchToLength(ballVelSquared / frictionCoefficient);
+    expectedBallEndPosition = ball->getPos() + ball->filteredVelocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
     //Visualize the Expected Ball End Position
     interface::Input::drawData(interface::Visual::BALL_DATA, {expectedBallEndPosition},
                                Constants::BALL_COLOR(), - 1,interface::Drawing::CIRCLES, 8, 8, 6);
-    interface::Input::drawData(interface::Visual::BALL_DATA, {pos, expectedBallEndPosition},
+    interface::Input::drawData(interface::Visual::BALL_DATA, {expectedPosition, expectedBallEndPosition},
                                Constants::BALL_COLOR(), - 1,interface::Drawing::LINES_CONNECTED);
 }
 
@@ -94,7 +94,7 @@ void Ball::updateBallAtRobotPosition(const Ball &oldBall, const WorldData &world
         }
         if (newRobotStillExistsInWorld) {
             double distanceInFrontOfRobot = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-            pos = newRobotWithBall->pos + newRobotWithBall->angle.toVector2(distanceInFrontOfRobot);
+            expectedPosition = newRobotWithBall->pos + newRobotWithBall->angle.toVector2(distanceInFrontOfRobot);
         }
     }
 }

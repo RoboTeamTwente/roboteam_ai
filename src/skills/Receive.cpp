@@ -39,11 +39,11 @@ Receive::Status Receive::onUpdate() {
         }
 
         intercept();
-        if ((ball->pos - robot->pos).length() < 1.0) {
+        if ((ball->getPos() - robot->pos).length() < 1.0) {
             command.set_dribbler(31);
         }
     } else {
-        command.set_w((ball->pos - robot->pos).toAngle().getAngle());
+        command.set_w((ball->getPos() - robot->pos).toAngle().getAngle());
     }
 
     // Check if robot is in position, otherwise turn towards ball
@@ -77,15 +77,15 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
-    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3*M_PI);
     return isAimedAtBall;
 }
 
 void Receive::intercept() {
     ball = world::world->getBall();
-    double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
+    double ballAngle = (ball->getPos() - robot->pos).toAngle().getAngle();
 
-    ballStartPos = ball->pos;
+    ballStartPos = ball->getPos();
     ballStartVel = ball->vel;
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_RECEIVE_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
@@ -114,7 +114,7 @@ bool Receive::passFailed() {
 
 
 bool Receive::ballDeflected() {
-    Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
+    Angle robotToBallAngle = (robot->pos - ball->getPos()).toAngle();
     Angle ballVelocityAngle = (ball->vel).toAngle();
 
     return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;

@@ -47,19 +47,19 @@ void DribbleBackwards::updateBackwardsProgress() {
             backwardsProgress != DRIBBLING &&
             backwardsProgress != DRIBBLE_BACKWARDS) {
 
-        approachPosition = ball->pos + (robot->pos - ball->pos).stretchToLength(-0.05);
+        approachPosition = ball->getPos() + (robot->pos - ball->getPos()).stretchToLength(-0.05);
     }
-    if ((ball->pos - robot->pos).length2() > 0.5) {
+    if ((ball->getPos() - robot->pos).length2() > 0.5) {
         backwardsProgress = START;
         return;
     }
-    targetAngle = (ball->pos - finalTargetPos).toAngle();
+    targetAngle = (ball->getPos() - finalTargetPos).toAngle();
     Angle angleDifference = robot->angle - targetAngle;
 
     // update backwards progress
     switch (backwardsProgress) {
     case TURNING: {
-        targetAngle = (ball->pos - finalTargetPos).toAngle();
+        targetAngle = (ball->getPos() - finalTargetPos).toAngle();
         if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
             lockedAngle = targetAngle;
             backwardsProgress = APPROACHING;
@@ -112,7 +112,7 @@ void DribbleBackwards::updateBackwardsProgress() {
             backwardsProgress = APPROACHING;
             return;
         }
-        if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
+        if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             backwardsProgress = SUCCESS;
             return;
         }
@@ -124,7 +124,7 @@ void DribbleBackwards::updateBackwardsProgress() {
     }
     default:return;
     case SUCCESS: {
-        if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
+        if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             return;
         }
         backwardsProgress = START;
@@ -168,7 +168,7 @@ RobotCommand DribbleBackwards::sendTurnCommand() {
 RobotCommand DribbleBackwards::sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 31;
-    command.vel = (ball->pos - robot->pos).stretchToLength(std::min(0.2, maxVel));
+    command.vel = (ball->getPos() - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
     return command;
 }
@@ -179,7 +179,7 @@ RobotCommand DribbleBackwards::sendOvershootCommand() {
     command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
 
-    if (failedOnce && !world::field->pointIsInField(ball->pos, Constants::ROBOT_RADIUS())) {
+    if (failedOnce && !world::field->pointIsInField(ball->getPos(), Constants::ROBOT_RADIUS())) {
         command.kickerForced = true;
         command.kickerVel = 2;
         command.kicker = true;
@@ -220,7 +220,7 @@ RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {
-        Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
+        Angle ballAngleRelativeToRobot = (ball->getPos() - robot->pos).toAngle() - robot->angle;
         command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot);
     }
 

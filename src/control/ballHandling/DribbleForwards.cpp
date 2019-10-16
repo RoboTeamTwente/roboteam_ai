@@ -40,7 +40,7 @@ void DribbleForwards::updateForwardsProgress() {
     }
 
     // check if we still have ball
-    targetAngle = (finalTargetPos - ball->pos).toAngle();
+    targetAngle = (finalTargetPos - ball->getPos()).toAngle();
     Angle angleDifference = robot->angle - targetAngle;
 
     if (forwardsProgress != ForwardsProgress::DRIBBLE_FORWARD) {
@@ -50,7 +50,7 @@ void DribbleForwards::updateForwardsProgress() {
     // update forwards progress
     switch (forwardsProgress) {
     case TURNING: {
-        targetAngle = (finalTargetPos - ball->pos).toAngle();
+        targetAngle = (finalTargetPos - ball->getPos()).toAngle();
         if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
             lockedAngle = targetAngle;
             forwardsProgress = APPROACHING;
@@ -74,7 +74,7 @@ void DribbleForwards::updateForwardsProgress() {
             forwardsProgress = APPROACHING;
             return;
         }
-        if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
+        if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             forwardsProgress = SUCCESS;
             return;
         }
@@ -84,7 +84,7 @@ void DribbleForwards::updateForwardsProgress() {
     case START:return;
     default:return;
     case SUCCESS: {
-        if ((ball->pos - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
+        if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
             return;
         }
         forwardsProgress = START;
@@ -127,7 +127,7 @@ RobotCommand DribbleForwards::sendTurnCommand() {
 RobotCommand DribbleForwards::sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 31;
-    command.vel = (robot->pos - ball->pos).stretchToLength(maxVel);
+    command.vel = (robot->pos - ball->getPos()).stretchToLength(maxVel);
     command.angle = lockedAngle;
     return command;
 }
@@ -164,7 +164,7 @@ RobotCommand DribbleForwards::sendDribbleForwardsCommand() {
 
     // check if the ball is not too far right or too far left of the robot, and try to compensate for that
     if (ball->visible && false) {
-        Angle ballAngleRelativeToRobot = (ball->pos - robot->pos).toAngle() - robot->angle;
+        Angle ballAngleRelativeToRobot = (ball->getPos() - robot->pos).toAngle() - robot->angle;
         command.vel += (robot->angle + M_PI_2).toVector2(ballAngleRelativeToRobot*0.23);
     }
 

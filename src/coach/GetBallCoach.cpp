@@ -19,7 +19,7 @@ GetBallCoach* getBallCoach = &getBallCoachObj;
 bool GetBallCoach::shouldWeGetBall() {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
-    Vector2 ballPos = world::world->getBall()->pos;
+    Vector2 ballPos = world::world->getBall()->getPos();
     return ! world::field->pointIsInDefenceArea(ballPos, true, 0.04) &&
             ! world::field->pointIsInDefenceArea(ballPos, false) && world::field->pointIsInField(ballPos, - 0.05);
 }
@@ -35,7 +35,7 @@ int GetBallCoach::getBallGetterID() {
 int GetBallCoach::bestBallGetterID() {
     auto ball = world::world->getBall();
     double a = 0.5;
-    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1-a) + ball->pos * a;
+    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1-a) + ball->getPos() * a;
 
     double closestDistSquared = 9e9;
     int closestId = idGettingBall;

@@ -14,7 +14,7 @@ rtt::ai::BallIsClose::BallIsClose(std::string name, bt::Blackboard::Ptr blackboa
     }
 }
 rtt::ai::Condition::Status rtt::ai::BallIsClose::onUpdate() {
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
     if ((robot->pos - ballPos).length() <= distance) {
         return Status::Success;
     }

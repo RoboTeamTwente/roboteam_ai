@@ -33,7 +33,7 @@ Skill::Status ActiveStop::onUpdate() {
     if (robot->pos.dist(targetPos) > 0.3) {
         command.set_w(static_cast<float>((targetPos - robot->pos).angle()));
     } else {
-        command.set_w(static_cast<float>((ball->pos - robot->pos).angle()));
+        command.set_w(static_cast<float>((ball->getPos() - robot->pos).angle()));
     }
 
     Vector2 velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
@@ -58,7 +58,7 @@ Vector2 ActiveStop::getDefensiveActivePoint() {
 }
 
 Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
-    Vector2 ballPos = world::world->getBall()->pos;
+    Vector2 ballPos = world::world->getBall()->getPos();
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer
 

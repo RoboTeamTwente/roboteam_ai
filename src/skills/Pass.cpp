@@ -42,7 +42,7 @@ void Pass::onInitialize() {
 }
 
 Pass::Status Pass::onUpdate() {
-    bool closeToBall = (robot->pos - ball->pos).length() < CLOSE_ENOUGH_TO_BALL;
+    bool closeToBall = (robot->pos - ball->getPos()).length() < CLOSE_ENOUGH_TO_BALL;
 
     // Only do this if not close to the ball and the pass is not yet initialized
     if (! closeToBall && ! passInitialized) {
@@ -52,7 +52,7 @@ Pass::Status Pass::onUpdate() {
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
         if (! robotToPassTo || robotToPassToID == - 1) {
-            robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
+            robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->getPos());
         }
         else {
             robotCommand = robot->getBallHandlePosControl()->getRobotCommand(
@@ -95,7 +95,7 @@ Pass::Status Pass::onUpdate() {
         // If this is both not the case, check if there's a clear line to the target
         // If not, either ++ fails or fail immediately
         if (! forcePass && ! hasShot
-                && ! control::ControlUtils::clearLine(ball->pos, robotToPassTo->pos, world::world->getWorld(), 1)) {
+                && ! control::ControlUtils::clearLine(ball->getPos(), robotToPassTo->pos, world::world->getWorld(), 1)) {
 
             // If the passType is defensive, force to immediately chip as soon as the pass is blocked
             if (passType == DEFENSIVE || passType == FREEKICK) {

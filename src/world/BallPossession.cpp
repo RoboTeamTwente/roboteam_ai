@@ -29,10 +29,10 @@ void BallPossession::recomputeState() {
     bool weAreFar = farFromUsTime > FAR_TIME_TRESHOLD;
     bool theyAreFar = farFromThemTime > FAR_TIME_TRESHOLD;
 
-    if ((weAreClose && ! theyAreClose) || (world::world->getBall()->pos.x > world::field->get_field().field_length()/4.0)) {
+    if ((weAreClose && ! theyAreClose) || (world::world->getBall()->getPos().x > world::field->get_field().field_length()/4.0)) {
         state = OURBALL;
     }
-    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->pos.x < -world::field->get_field().field_length()/8.0)) {
+    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->getPos().x < -world::field->get_field().field_length()/8.0)) {
         state = THEIRBALL;
     }
     else if (weAreClose && theyAreClose) {
@@ -76,12 +76,12 @@ bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam
 
         if (!ourTeam) {
             // if the ball is on our side, go more defensive.
-            farThreshHoldDist = world.ball->pos.x < 0.0 ? 0.9 : 0.4;
+            farThreshHoldDist = world.ball->getPos().x < 0.0 ? 0.9 : 0.4;
         }
 
         auto robots = ourTeam ? world.us : world.them;
         for (auto &robot : robots) {
-            if ((robot->pos - world.ball->pos).length() < farThreshHoldDist) {
+            if ((robot->pos - world.ball->getPos()).length() < farThreshHoldDist) {
                 return false;
             }
         }

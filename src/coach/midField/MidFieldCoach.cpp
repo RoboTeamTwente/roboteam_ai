@@ -85,11 +85,11 @@ void MidFieldCoach::removeMidFielder(MidFieldCoach::RobotPtr &thisRobot) {
 
 MidFieldCoach::Target MidFieldCoach::blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const {
     Target target;
-    Vector2 projectionPoint = thisRobot->pos.project(ball->pos, opponent->pos);
-    if (control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, ball->pos)) {
+    Vector2 projectionPoint = thisRobot->pos.project(ball->getPos(), opponent->pos);
+    if (control::ControlUtils::isPointProjectedOnLineSegment(projectionPoint, opponent->pos, ball->getPos())) {
         target.targetPosition = projectionPoint;
     } else {
-        target.targetPosition = ball->pos;
+        target.targetPosition = ball->getPos();
     }
     return target;
 }
@@ -202,7 +202,7 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassTypeIfOpponentIsOnTheLeft(cons
                                                                                     const world::World::BallPtr &ball,
                                                                                     BallPossession &ballPossession,
                                                                                     const BallPossession::Possession &possession) const {
-    if (ball->pos.x < thisRobot->pos.x) {
+    if (ball->getPos().x < thisRobot->pos.x) {
         if (possession == BallPossession::OURBALL) {
             return STAND_FREE;
         } else {
@@ -221,7 +221,7 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassTypeIfOpponentIsOnTheLeft(cons
 MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr& opponent) {
     Target target;
     target.targetRobot = opponent->id;
-    target.targetPosition = world::world->getBall()->pos;
+    target.targetPosition = world::world->getBall()->getPos();
     return target;
 }
 

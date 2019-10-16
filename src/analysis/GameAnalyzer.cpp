@@ -47,7 +47,7 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
     switch (possession) {
     default:
     case (rtt::ai::BallPossession::LOOSEBALL): {
-        auto ballPosX = rtt::ai::world::world->getBall()->pos.x;
+        auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
         if (ballPosX > 0) {
             return BallPossession::OFFENSIVE_NEUTRAL;
         }

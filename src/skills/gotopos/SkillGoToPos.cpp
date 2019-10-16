@@ -24,7 +24,7 @@ void SkillGoToPos::gtpInitialize() {
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 
-    if (goToBall) targetPos = ball->pos;
+    if (goToBall) targetPos = ball->getPos();
 
     // Now check the progress we made
     currentProgress = checkProgression();

@@ -123,9 +123,9 @@ world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world
 }
 Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
     if (world.ball->vel.length()>0.5){
-        return world.ball->pos+world.ball->vel*0.3;
+        return world.ball->getPos() + world.ball->vel * 0.3;
     }
-    return world.ball->pos;
+    return world.ball->getPos();
 }
 std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(
         const world::WorldData &world) {
@@ -133,7 +133,7 @@ std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesA
     // check the passes from the robot towards every other bot and calculate their danger
     for (const auto &theirBot : world.them) {
         //TODO: perhaps ignore robots we have already covered here. The score should be gutted regardless.
-        PossiblePass pass(*theirBot, world.ball->pos);
+        PossiblePass pass(*theirBot, world.ball->getPos());
         double danger = pass.score(world); // check how dangerous the pass is in our simulated world
         std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
         passWithScore.push_back(passPair);

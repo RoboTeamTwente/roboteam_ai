@@ -78,7 +78,6 @@ class Ball {
         void updateBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData);
 
     public:
-        Vector2 pos = Vector2();
         Vector2 vel = Vector2();
         static bool exists;
         bool visible = false;

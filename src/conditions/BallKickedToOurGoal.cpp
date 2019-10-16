@@ -29,7 +29,7 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth/2 + margin);
 
     // determine the ball position and predicted ball position
-    Vector2 ballPos = ball->pos;
+    Vector2 ballPos = ball->getPos();
     Vector2 ballPredPos = Vector2(ballPos) + Vector2(ball->vel)*BALL_TO_GOAL_TIME;
    
     // Check if the extension of the velocity vector goes through the goal.
