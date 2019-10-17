@@ -32,14 +32,14 @@ private:
     /* If the ball has been uninterruptedly far from a team for this number of seconds then this team is considered
      * to be long enough far from the ball. */
     const double FAR_TIME_TRESHOLD = 1.5;
-    /* If the ball x coordinate is larger than relatively OUR_POSSESSION_RELATIVE_WIDTH_THRESHOLD of the width of the
+    /* If the ball x coordinate is larger than relatively OUR_POSSESSION_RELATIVE_LENGTH_THRESHOLD of the length of the
      * field (with respect to the leftmost x-coordinate of the field) then the ball is considered to be always in our
      * possession. */
-    const double OUR_POSSESSION_RELATIVE_WIDTH_THRESHOLD = 0.75; // 6/8 of the field
-    /* If the ball x coordinate is smaller than relatively THEIR_POSSESSION_RELATIVE_WIDTH_THRESHOLD of the width of
+    const double OUR_POSSESSION_RELATIVE_LENGTH_THRESHOLD = 0.75; // 6/8 of the field
+    /* If the ball x coordinate is smaller than relatively THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD of the length of
      * the field (with respect to the leftmost x-coordinate of the field) then the ball is always considered to be in
      * their possession. */
-    const double THEIR_POSSESSION_RELATIVE_WIDTH_THRESHOLD = 0.375; // 3/8 of the field
+    const double THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD = 0.375; // 3/8 of the field
 
 public:
     enum Possession {
