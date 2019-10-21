@@ -34,7 +34,7 @@ class Ball {
         /* The smallest velocity used for the Kalman filter for which we have that the factor is equal
          * THRESHOLD_ROBOT_CLOSE_TO_BALL. Larger velocities will also have THRESHOLD_ROBOT_CLOSE_TO_BALL as factor. */
         const float FILTER_VELOCITY_WITH_MAX_FACTOR = 8.0;
-        /* The threshold used for the filtered velocity, if it exceeds this value then we use the expectedVelocity
+        /* The threshold used for the filtered velocity, if it exceeds this value then we use the velocity
         instead as estimation for the filtered velocity. More information can be found in the comment in the
         filterBallVelocity method of the Ball.cpp file. */
         const float MAXIMUM_FILTER_VELOCITY = 100.0;
@@ -44,8 +44,8 @@ class Ball {
         using RobotPtr = std::shared_ptr<Robot>;
 
     private:
-        Vector2 expectedPosition = Vector2(); // The expected position where this ball is.
-        const Vector2 expectedVelocity = Vector2(); // The expected velocity of the ball.
+        Vector2 position = Vector2(); // The expected position where this ball currently is.
+        const Vector2 velocity = Vector2(); // The expected current velocity of the ball.
         /* If the ball is visible by any camera. This value is true if the ball is visible by any camera and false
          * otherwise */
         bool visibleByAnyCamera = false;
