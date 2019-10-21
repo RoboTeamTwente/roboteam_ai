@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 29-3-19.
 //
 
-#include "include/roboteam_ai/control/controllers/PidController.h"
+#include <control/controllers/PidController.h>
 #include "utilities/Constants.h"
 
 //**********************************
@@ -38,11 +38,6 @@ PidController::PidController(std::tuple<double, double, double, double> pidf)
 //**********************************
 //Configuration functions
 //**********************************
-/** Create a new PID object. 
- * @param p Proportional gain. Large if large difference between setpoint and target. 
- * @param i Integral gain.	Becomes large if setpoint cannot reach target quickly. 
- * @param d Derivative gain. Responds quickly to large changes in error. Small values prevents P and I terms from causing overshoot.
- */
 void PidController::setPID(double p, double i, double d){
     P=p;I=i;D=d;
     checkSigns();
@@ -53,10 +48,6 @@ void PidController::setPID(double p, double i, double d, double f){
     checkSigns();
 }
 
-/**Set the maximum output value contributed by the I component of the system
- * this->can be used to prevent large windup issues and make tuning simpler
- * @param maximum. Units are the same as the expected output value
- */
 void PidController::setMaxIOutput(double maximum){
     /* Internally maxError and Izone are similar, but scaled for different purposes. 
      * The maxError is generated for simplifying math, since calculations against 
@@ -68,17 +59,8 @@ void PidController::setMaxIOutput(double maximum){
     }
 }
 
-/**Specify a maximum output. If a single parameter is specified, the minimum is 
- * set to (-maximum).
- * @param output 
- */
 void PidController::setOutputLimits(double output){ setOutputLimits(-output, output);}
 
-/**
- * Specify a maximum output.
- * @param minimum possible output value
- * @param maximum possible output value
- */
 void PidController::setOutputLimits(double minimum, double maximum){
     if(maximum<minimum)return;
     maxOutput=maximum;
@@ -90,9 +72,6 @@ void PidController::setOutputLimits(double minimum, double maximum){
     }
 }
 
-/** Set the operating direction of the PID controller
- * @param reversed Set true to reverse PID output
- */
 void PidController::setDirection(bool reversed){
     this->reversed=reversed;
 }
@@ -100,13 +79,6 @@ void PidController::setDirection(bool reversed){
 //**********************************
 //Primary operating functions
 //**********************************
-
-/** Calculate the PID value needed to hit the target setpoint. 
-* Automatically re-calculates the output at each call. 
-* @param actual The monitored value
-* @param setpoint The target value
-* @return calculated output value for driving the actual to the target 
-*/
 double PidController::computeOutput(double setpoint, double actual){
     double output;
     double Poutput;
@@ -196,37 +168,19 @@ double PidController::computeOutput(double setpoint, double actual){
     return output;
 }
 
-/**
- * Resets the controller. this->erases the I term buildup, and removes D gain on the next loop.
- */
 void PidController::reset(){
     firstRun=true;
     errorSum=0;
 }
 
-/**Set the maximum rate the output can increase per cycle. 
- * @param rate
- */
 void PidController::setOutputRampRate(double rate){
     outputRampRate=rate;
 }
 
-/** Set a limit on how far the setpoint can be from the current position
- * <br>Can simplify tuning by helping tuning over a small range applies to a much larger range. 
- * <br>this->limits the reactivity of P term, and restricts impact of large D term
- * during large setpoint adjustments. Increases lag and I term if range is too small.
- * @param range
- */
 void PidController::setSetpointRange(double range){
     setpointRange=range;
 }
 
-/**Set a filter on the output to reduce sharp oscillations. <br>
- * 0.1 is likely a sane starting value. Larger values P and D oscillations, but force larger I values.
- * Uses an exponential rolling sum filter, according to a simple <br>
- * <pre>output*(1-strength)*sum(0..n){output*strength^n}</pre>
- * @param output valid between [0..1), meaning [current output only.. historical output only)
- */
 void PidController::setOutputFilter(double strength){
     if(strength==0 || bounded(strength,0,1)){
         outputFilter=strength;
@@ -236,35 +190,16 @@ void PidController::setOutputFilter(double strength){
 //**************************************
 // Helper functions
 //**************************************
-
-/**
- * Forces a value into a specific range
- * @param value input value
- * @param min maximum returned value
- * @param max minimum value in range
- * @return Value if it's within provided range, min or max otherwise 
- */
 double PidController::clamp(double value, double min, double max){
     if(value > max){ return max;}
     if(value < min){ return min;}
     return value;
 }
 
-/**
- * Test if the value is within the min and max, inclusive
- * @param value to test
- * @param min Minimum value of range
- * @param max Maximum value of range
- * @return
- */
 bool PidController::bounded(double value, double min, double max){
     return (min<value) && (value<max);
 }
 
-/**
- * To operate correctly, all PID parameters require the same sign,
- * with that sign depending on the {@literal}reversed value
- */
 void PidController::checkSigns(){
     if(reversed){	//all values should be below zero
         if(P>0) P*=-1;
