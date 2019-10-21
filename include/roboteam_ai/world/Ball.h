@@ -101,19 +101,19 @@ class Ball {
         void updateBall(const BallPtr &oldBall, const WorldData &worldData);
 
         /**
-         * Get the expected position of the ball.
+         * Get the current expected position of the ball.
          * @return A vector which represents this position.
          */
         const Vector2 &getPos() const;
 
         /**
-         * Set the new expected position of the ball.
+         * Set the new current expected position of the ball.
          * @param new_pos The new expected position of the ball.
          */
         void setPos(const Vector2 &new_pos);
 
         /**
-         * Get the expected velocity of the ball.
+         * Get the current expected velocity of the ball.
          * @return A vector which represents the direction and the magnitude of this velocity.
          */
         const Vector2 &getVel() const;
