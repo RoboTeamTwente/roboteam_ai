@@ -43,20 +43,20 @@ private:
 
 public:
     enum Possession {
-        LOOSEBALL,      // If neither us nor the opponent possesses the ball.
-        OURBALL,        // If we possesses the ball.
-        THEIRBALL,      // If the opponent possesses the ball.
-        CONTENDEDBALL   // If we and the opponent both possesses the ball.
+        LOOSEBALL,      // If neither us nor the opponent possess the ball.
+        OURBALL,        // If we possess the ball.
+        THEIRBALL,      // If the opponent possess the ball.
+        CONTENDEDBALL   // If we and the opponent both possess the ball.
     };
 
     /**
-     * Runs every tick to update which team possesses the ball (can also be both/no team).
+     * Runs every tick to update which team possess the ball (can also be both/no team).
      */
     void update();
 
     /**
-     * Check which team possesses the ball (can also be both/no team).
-     * @return Which team possesses the ball (can also be both/no team).
+     * Check which team possess the ball (can also be both/no team).
+     * @return Which team possess the ball (can also be both/no team).
      */
     Possession getPossession();
 
@@ -87,7 +87,7 @@ private:
     bool teamFarFromBall(const world::WorldData& world, bool ourTeam);
 
     /**
-     * Recompute which team possesses the ball (can also be both/no team).
+     * Recompute which team possess the ball (can also be both/no team).
      */
     void recomputeState();
 };
