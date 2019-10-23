@@ -46,7 +46,7 @@ Vector2 BallplacementCoach::getBallPlacementBeforePos(Vector2 ballPos){
 /// e.g. it makes sure it does not accidentally hit the ball when driving away.
 Vector2 BallplacementCoach::getBallPlacementAfterPos(const std::shared_ptr<world::Robot>& robot) {
 
-    auto ballPos = world::world->getBall()->pos;
+    auto ballPos = world::world->getBall()->getPos();
     Vector2 target = ballPos + (robot->pos - ballPos).stretchToLength(0.9);
 
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {ballPos, target},

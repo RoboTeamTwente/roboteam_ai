@@ -46,7 +46,7 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, roboteam_proto:
         newState = getRefGameStateForRefCommand(command);
     }
     if (world::world->getBall()) {
-        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
     }
     else {
         newState.ballPositionAtStartOfGameState = {0, 0};
@@ -73,7 +73,7 @@ void StrategyManager::forceCurrentRefGameState(RefCommand command) {
     // we need to change refgamestate here
     RefGameState newState = getRefGameStateForRefCommand(command);
     if (world::world->getBall()) {
-        newState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+        newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
     }
     else {
         newState.ballPositionAtStartOfGameState = {0, 0};

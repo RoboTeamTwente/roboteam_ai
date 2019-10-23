@@ -40,9 +40,6 @@ class FieldMessage {
   FRIEND_TEST(FieldTest, goal_angle);
 
 private:
-
-
-
   double width;
   double length;
   double goalWidth;
@@ -84,6 +81,7 @@ private:
   double goal_width();
   double goal_depth();
   double boundary_width();
+  double getLeftLineX();
   FieldLineSegment getTop_line();
   FieldLineSegment getBottom_line();
   FieldLineSegment getLeft_line();
@@ -129,7 +127,7 @@ private:
 
       std::make_pair("CenterCircle", "center_circle"),
   };
-  void addHelperArc(FieldArc newArc);
+    void addHelperArc(FieldArc newArc);
 
     void invertArc(FieldArc &arc) const;
 
