@@ -6,80 +6,43 @@
 namespace rtt {
 
 FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
-  length = mm_to_m(sslFieldSize.field_length());
-  width = mm_to_m(sslFieldSize.field_width());
-  goalWidth = mm_to_m(sslFieldSize.goal_width());
-  goalDepth = mm_to_m(sslFieldSize.goal_depth());
-  boundaryWidth = mm_to_m(sslFieldSize.boundary_width());
+    std::cout << "Laten we beginnen!" << std::endl;
+    fieldValues[FIELD_LENGTH] = mm_to_m(sslFieldSize.field_length());
+    fieldValues[FIELD_WIDTH] = mm_to_m(sslFieldSize.field_width());
+    fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
+    fieldValues[GOAL_DEPTH] = mm_to_m(sslFieldSize.goal_depth());
+    fieldValues[BOUNDARY_WIDTH] = mm_to_m(sslFieldSize.boundary_width());
 
-  for (roboteam_proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
-    FieldLineSegment newLine;
-    newLine.name = std::string(name_map[line.name()]);
-    newLine.begin = mm_to_m(line.p1());
-    newLine.end = mm_to_m(line.p2());
-    newLine.thickness = mm_to_m(line.thickness());
-
-    addHelperLine(newLine);
-    field_lines.push_back(newLine);
-  }
-  
-  for (roboteam_proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
-    FieldArc newArc;
-    newArc.name = std::string(name_map[arc.name()]);
-    newArc.center = mm_to_m(arc.center());
-    newArc.a1 = mm_to_m(arc.a1());
-    newArc.a2 = mm_to_m(arc.a2());
-    newArc.radius = mm_to_m(arc.radius());
-    newArc.thickness = mm_to_m(arc.thickness());
-
-    addHelperArc(newArc);
-    field_arcs.push_back(newArc);
-  }
-
-}
-
-void FieldMessage::addHelperArc(FieldArc newArc) {
-  if (newArc.name == "top_left_penalty_arc") {
-      top_left_penalty_arc = newArc;
-    } else if (newArc.name == "bottom_left_penalty_arc") {
-      bottom_left_penalty_arc =newArc;
-    } else if (newArc.name == "top_right_penalty_arc") {
-      top_right_penalty_arc = newArc;
-    } else if (newArc.name == "bottom_right_penalty_arc") {
-      bottom_right_penalty_arc = newArc;
-    } else if (newArc.name == "center_circle") {
-      center_circle = newArc;
+    for (roboteam_proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
+        FieldLineSegment newLine;
+        std::cout << line.name() << std::endl;
+        if (NAME_MAP.count(line.name()) > 0) {
+            newLine.name = std::string(NAME_MAP[line.name()]);
+            newLine.begin = mm_to_m(line.p1());
+            newLine.end = mm_to_m(line.p2());
+            newLine.thickness = mm_to_m(line.thickness());
+            std::cout << newLine.name << std::endl;
+            FieldLineName fieldLineName = CONVERT_TO_FIELD_LINE_NAME.at(newLine.name);
+            fieldLines[fieldLineName] = newLine;
+            std::cout << "Done" << std::endl;
+        }
     }
-}
 
-void FieldMessage::addHelperLine(FieldLineSegment newLine) {
-  if (newLine.name == "top_line") {
-      top_line = newLine;
-    } else if (newLine.name == "bottom_line") {
-      bottom_line = newLine;
-    } else if (newLine.name == "left_line") {
-      left_line = newLine;
-    } else if (newLine.name == "right_line") {
-      right_line = newLine;
-    } else if (newLine.name == "half_line") {
-      half_line = newLine;
-    } else if (newLine.name == "center_line") {
-      center_line = newLine;
-    } else if (newLine.name == "left_penalty_line") {
-      left_penalty_line = newLine;
-    } else if (newLine.name == "right_penalty_line") {
-      right_penalty_line = newLine;
+    for (roboteam_proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
+        FieldArc newArc;
+        if (NAME_MAP.count(arc.name()) > 0) {
+            newArc.name = std::string(NAME_MAP[arc.name()]);
+            newArc.center = mm_to_m(arc.center());
+            newArc.a1 = mm_to_m(arc.a1());
+            newArc.a2 = mm_to_m(arc.a2());
+            newArc.radius = mm_to_m(arc.radius());
+            newArc.thickness = mm_to_m(arc.thickness());
+            FieldArcName fieldArcName = CONVERT_TO_FIELD_ARC_NAME.at(newArc.name);
+            fieldArcs[fieldArcName] = newArc;
+            field_arcs.push_back(newArc);
+        }
     }
-      // adding rectangle box lines
-    else if (newLine.name == "top_left_penalty_stretch") {
-      top_left_penalty_stretch = newLine;
-    } else if (newLine.name == "bottom_left_penalty_stretch") {
-      bottom_left_penalty_stretch = newLine;
-    } else if (newLine.name == "top_right_penalty_stretch") {
-      top_right_penalty_stretch = newLine;
-    } else if (newLine.name == "bottom_right_penalty_stretch") {
-      bottom_right_penalty_stretch = newLine;
-    }
+    fieldValues[LEFTMOST_X] = fieldLines[LEFT_LINE].begin.x;
 }
 
 float FieldMessage::mm_to_m(float scalar) {
@@ -92,75 +55,74 @@ Vector2 FieldMessage::mm_to_m(Vector2 vector) {
 
 // getters And setters
 double FieldMessage::field_width(){
-  return width;
+    return fieldValues[FIELD_WIDTH];
 }
 double FieldMessage::field_length(){
-  return length;
+    return fieldValues[FIELD_LENGTH];
 }
 double FieldMessage::goal_width(){
-  return goalWidth;
+    return fieldValues[GOAL_WIDTH];
 }
 double FieldMessage::goal_depth(){
-  return goalDepth;
+    return fieldValues[GOAL_DEPTH];
 }
 double FieldMessage::boundary_width(){
-  return boundaryWidth;
+  return fieldValues[BOUNDARY_WIDTH];
 }
 double FieldMessage::getLeftLineX() {
-    FieldLineSegment left_line = FieldMessage::getLeft_line();
-    return left_line.begin.x;
+    return fieldValues[LEFTMOST_X];
 }
 
 FieldLineSegment FieldMessage::getTop_line(){
-  return top_line;
+  return fieldLines[TOP_LINE];
 }
 FieldLineSegment FieldMessage::getBottom_line(){
-  return bottom_line;
+  return fieldLines[BOTTOM_LINE];
 }
 FieldLineSegment FieldMessage::getLeft_line(){
-  return left_line;
+  return fieldLines[LEFT_LINE];
 }
 FieldLineSegment FieldMessage::getRight_line(){
-  return right_line;
+  return fieldLines[RIGHT_LINE];
 }
 FieldLineSegment FieldMessage::getHalf_line(){
-  return half_line;
+  return fieldLines[HALF_LINE];
 }
 FieldLineSegment FieldMessage::getCenter_line(){
-  return center_line;
+  return fieldLines[CENTER_LINE];
 }
 FieldLineSegment FieldMessage::getLeft_penalty_line(){
-  return left_penalty_line;
+  return fieldLines[LEFT_PENALTY_LINE];
 }
 FieldLineSegment FieldMessage::getRight_penalty_line(){
-  return right_penalty_line;
+  return fieldLines[RIGHT_PENALTY_LINE];
 }
-FieldArc  FieldMessage::getTop_left_penalty_arc(){
-  return top_left_penalty_arc;
+FieldArc FieldMessage::getTop_left_penalty_arc(){
+  return fieldArcs[TOP_LEFT_PENALTY_ARC];
 }
-FieldArc  FieldMessage::getBottom_left_penalty_arc(){
-  return bottom_left_penalty_arc;
+FieldArc FieldMessage::getBottom_left_penalty_arc(){
+  return fieldArcs[BOTTOM_LEFT_PENALTY_ARC];
 }
 FieldArc  FieldMessage::getTop_right_penalty_arc(){
-  return top_right_penalty_arc;
+  return fieldArcs[TOP_RIGHT_PENALTY_ARC];
 }
 FieldArc  FieldMessage::getBottom_right_penalty_arc(){
-  return bottom_right_penalty_arc;
+  return fieldArcs[BOTTOM_RIGHT_PENALTY_ARC];
 }
 FieldLineSegment FieldMessage::getTop_left_penalty_stretch(){
-  return top_left_penalty_stretch;
+  return fieldLines[TOP_LEFT_PENALTY_STRETCH];
 }
 FieldLineSegment FieldMessage::getBottom_left_penalty_stretch(){
-  return bottom_left_penalty_stretch;
+  return fieldLines[BOTTOM_LEFT_PENALTY_STRETCH];
 }
 FieldLineSegment FieldMessage::getTop_right_penalty_stretch(){
-  return top_right_penalty_stretch;
+  return fieldLines[TOP_RIGHT_PENALTY_STRETCH];
 }
 FieldLineSegment FieldMessage::getBottom_right_penalty_stretch(){
-  return bottom_right_penalty_stretch;
+  return fieldLines[BOTTOM_RIGHT_PENALTY_STRETCH];
 }
 FieldArc FieldMessage::getCenter_circle(){
-  return center_circle;
+  return fieldArcs[CENTER_CIRCLE];
 }
 
 std::vector<FieldLineSegment> FieldMessage::getField_lines(){
@@ -171,31 +133,9 @@ std::vector<FieldArc> FieldMessage::getField_arcs(){
 }
 
 void FieldMessage::invert() {
-
     for (auto line : field_lines) {
         invertFieldLine(line);
     }
-
-//    invertFieldLine(top_line);
-//    invertFieldLine(bottom_line);
-//    invertFieldLine(left_line);
-//    invertFieldLine(right_line);
-//    invertFieldLine(half_line);
-//    invertFieldLine(center_line);
-//    invertFieldLine(left_penalty_line);
-//    invertFieldLine(right_penalty_line);
-//
-//    invertFieldLine(top_left_penalty_stretch);
-//    invertFieldLine(bottom_left_penalty_stretch);
-//    invertFieldLine(top_right_penalty_stretch);
-//    invertFieldLine(bottom_right_penalty_stretch);
-//
-//
-//    invertArc(top_left_penalty_arc);
-//    invertArc(bottom_left_penalty_arc);
-//    invertArc(top_right_penalty_arc);
-//    invertArc(bottom_right_penalty_arc);
-//    invertArc(center_circle);
 
     for (auto arc : field_arcs) {
         invertArc(arc);
