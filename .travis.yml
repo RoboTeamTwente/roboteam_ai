@@ -10,8 +10,8 @@ addons:
       - protobuf
       - armadillo
       - ccache
-      - gtest
       - ninja
+      - qt
 
 notifications:
   email: false
@@ -38,6 +38,7 @@ script:
   - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
   - cd ~/roboteam_suite
   - rm -rf roboteam_ai
+  - rm -rf roboteam_world
   - git submodule foreach git checkout master
   - mv ${TRAVIS_BUILD_DIR} .
   - mkdir cmake-build-debug && cd cmake-build-debug;
