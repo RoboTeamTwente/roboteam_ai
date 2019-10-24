@@ -1,3 +1,8 @@
+# This travis image builds roboteam_suite and runs the target 'ai_tests'.
+# All other repositories of roboteam_suit are set to the master branch.
+# We need all dependencies to parse the cmake files. This can be optimized later,
+# but with caching this is not a large performance hit anyway.
+
 language: cpp
 os: osx
 osx_image: xcode11.2
@@ -5,13 +10,13 @@ osx_image: xcode11.2
 addons:
   homebrew:
     packages:
-      - zmq
-      - zmqpp
-      - protobuf
-      - armadillo
-      - ccache
-      - ninja
-      - qt
+      - zmq       # proto dependency
+      - zmqpp     # proto dependency
+      - protobuf  # proto dependency
+      - armadillo # world dependency
+      - ccache    # speeding up build
+      - ninja     # speeding up build
+      - qt        # roboteam_ai dependency
 
 notifications:
   email: false
@@ -21,16 +26,21 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - $HOME/.ccache
 
+# Install Google Test from source
 install:
   - cd ~/
   - git clone https://github.com/google/googletest.git
   - cd googletest
   - mkdir install
   - cd install
-  - cmake ../  #creates a make file
-  - make #compiles Google Test
-  - sudo make install #installs Google Test
+  - cmake ../
+  - make
+  - sudo make install
 
+# First we set up the compiler to use ccache.
+# then clone roboteam_suite and put all repositories on master.
+# then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
+# Finally, we run the tests.
 script:
   - cd ~
   - export CC="ccache gcc"
@@ -47,24 +57,6 @@ script:
   - cd roboteam_ai
   - ./ai_tests
 
-
-
-
-#services:
-#- xvfb
-
-#- sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
-
-# Build Protobuf from source
-#install:
-#- export CC="ccache gcc"
-#- export CXX="ccache g++"
-#- cd ~
-#- wget https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.tar.gz
-#- tar -xzvf protobuf-cpp-3.9.1.tar.gz
-#- pushd protobuf-3.9.1 && ./configure --prefix=/usr && make && sudo make install && popd
-#
-#before_script:
-
-after_success:
-- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+#Lets not do coverage yet
+#after_success:
+#- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
