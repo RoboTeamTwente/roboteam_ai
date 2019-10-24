@@ -56,7 +56,7 @@ class BallHandlePosControl : public NumTreePosControl {
 
         void updatePID(pidVals newPID);
     public:
-        RobotCommand controlWithPID(PidTwoAxesController &xpid, const RobotCommand &robotCommand);
+        RobotCommand controlWithPID(PidTwoAxesController &pid, const RobotCommand &robotCommand);
 
         enum TravelStrategy : short {
           FORWARDS,
