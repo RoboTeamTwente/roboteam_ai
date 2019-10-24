@@ -20,8 +20,8 @@ void BallInDefenseAreaAndStill::onInitialize() {
 }
 
 bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
-    Vector2 ballPos = ball->pos;
-    Vector2 ballVel=ball->vel;
+    Vector2 ballPos = ball->getPos();
+    Vector2 ballVel = ball->getVel();
 
     bool pointIsInDefenceArea = world::field->pointIsInDefenceArea(ballPos, !theirDefenceArea,0.02,false);
     bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();

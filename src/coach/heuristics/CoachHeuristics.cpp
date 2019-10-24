@@ -49,8 +49,8 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
 
     auto ball = world.ball;
     for (const auto &robot : world.them) {
-        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->pos, position)) {
-            double angle = abs((position - ball->pos).toAngle() - (robot->pos - ball->pos).toAngle());
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->getPos(), position)) {
+            double angle = abs((position - ball->getPos()).toAngle() - (robot->pos - ball->getPos()).toAngle());
             if (angle < smallestAngle) {
                 smallestAngle = angle;
             }
@@ -74,7 +74,7 @@ double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &positio
 double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
     if (!world.ball) return 0.0;
 
-    double xDistanceBehindBall = world.ball->pos.x - position.x;
+    double xDistanceBehindBall = world.ball->getPos().x - position.x;
     if (xDistanceBehindBall > 0) {
         return 0.0;
     }
@@ -86,8 +86,8 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
 double CoachHeuristics::calculatePassDistanceToBallScore(const Vector2 &position,
                                                          const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.5;
-    double distanceFromBall = (position - ball->pos).length();
+    double idealDistance = (world::field->get_their_goal_center() - ball->getPos()).length()*0.5;
+    double distanceFromBall = (position - ball->getPos()).length();
 
     if (distanceFromBall < Constants::MAX_PASS_DISTANCE()) {
         return -1;
@@ -99,8 +99,8 @@ double CoachHeuristics::calculatePassDistanceToBallScore(const Vector2 &position
 double CoachHeuristics::calculatePositionDistanceToBallScore(const Vector2 &position,
                                                          const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_their_goal_center() - ball->pos).length()*0.75;
-    double distanceFromBall = (position - ball->pos).length();
+    double idealDistance = (world::field->get_their_goal_center() - ball->getPos()).length()*0.75;
+    double distanceFromBall = (position - ball->getPos()).length();
     return fmax(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2.0) + 2.0*(distanceFromBall/(0.5*idealDistance)));
 }
 

@@ -22,7 +22,7 @@ void IsCloseToPoint::onInitialize() {
     }
 
     if (properties->getBool("ball")) {
-        position = ball->pos;
+        position = ball->getPos();
     } else {
         position = properties->getVector2("position");
     }

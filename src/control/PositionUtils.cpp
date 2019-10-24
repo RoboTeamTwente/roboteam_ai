@@ -37,7 +37,7 @@ Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, b
 Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
     auto ball = world::world->getBall();
     if (! ball) return {};
-    Vector2 ballPos = ball->pos;
+    Vector2 ballPos = ball->getPos();
     return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
 
@@ -65,7 +65,7 @@ bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool our
 bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
         const Vector2 &robotPosition, double angleMargin) {
 
-    const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->pos);
+    const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->getPos());
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
@@ -104,7 +104,7 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     auto lengthOffset = rtt::ai::world::field->get_field().field_length()/4.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width()/4.0;
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
     Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
     int ballPosMultiplier = (ballPos.y >= 0 ? (- 1) : 1);
     Vector2 lineProgress = {- 0.4, 0};
@@ -136,7 +136,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     auto lengthOffset = rtt::ai::world::field->get_field().field_length()/100.0;
     auto widthOffset = rtt::ai::world::field->get_field().field_width()/4.0;
     Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
 
     Vector2 lineProgress = ((goalUS-ballPos).stretchToLength(0.28)).rotate(M_PI_2);

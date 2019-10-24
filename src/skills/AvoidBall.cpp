@@ -53,7 +53,7 @@ bt::Node::Status AvoidBall::onUpdate() {
         }
     }
     // check forces from ball
-    force = force + cu::calculateForce(robotPos - ball->pos, ballWeight, minBallDistanceForForce);
+    force = force + cu::calculateForce(robotPos - ball->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
     auto field = world::field->get_field();
@@ -76,16 +76,16 @@ bt::Node::Status AvoidBall::onUpdate() {
     if (type == BALLPLACEMENT) {
         Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
         // if the robot is closer to the ballplacementTarget than the ball
-        if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->pos, bpTarget) < minBallDistanceForForce) {
-            Vector2 LineToBallPlacementBallLine = robot->pos - robot->pos.project(bpTarget, ball->pos);
+        if (control::ControlUtils::distanceToLineWithEnds(robot->pos, ball->getPos(), bpTarget) < minBallDistanceForForce) {
+            Vector2 LineToBallPlacementBallLine = robot->pos - robot->pos.project(bpTarget, ball->getPos());
             force = force + cu::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
         }
     }
 
     if (type == PASSING) {
         // if robot's projection is on the pass line
-        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->pos, receiver->pos)) {
-            Vector2 projectionOnPassLine = robot->pos.project(ball->pos, receiver->pos);
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->getPos(), receiver->pos)) {
+            Vector2 projectionOnPassLine = robot->pos.project(ball->getPos(), receiver->pos);
             Vector2 distanceToProjection = robot->pos - projectionOnPassLine;
             force = force + cu::calculateForce(distanceToProjection, ballWeight, minBallDistanceForForce);
         }
