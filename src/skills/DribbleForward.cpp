@@ -12,15 +12,15 @@ DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard)
         : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleForward::onInitialize() {
-    initialBallPos = ball->pos;
+    initialBallPos = ball->getPos();
     if (properties->hasDouble("dribbleDistance")) {
         dribbleDistance = properties->getDouble("dribbleDistance");
     } else {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (world::field->get_their_goal_center() - ball->pos).toAngle();
-    targetPos = ball->pos + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
+    Angle angleToGoal = (world::field->get_their_goal_center() - ball->getPos()).toAngle();
+    targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 
 
