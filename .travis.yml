@@ -19,6 +19,7 @@ notifications:
 cache:
   directories:
     - $HOME/Library/Caches/Homebrew
+    - $HOME/.ccache
 
 install:
   - cd ~/
@@ -43,6 +44,7 @@ script:
   - mkdir cmake-build-debug && cd cmake-build-debug;
   - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
   - cmake --build . --target ai_tests -- -j 8
+  - ./ai_tests
 
 
 
