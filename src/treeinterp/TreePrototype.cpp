@@ -25,7 +25,7 @@ std::shared_ptr<bt::BehaviorTree> bt::createNormalPlayStrategy() {
     std::shared_ptr<Attack> attackskill = std::make_shared<Attack>("attack", std::make_shared<bt::Blackboard>());
 
     auto tree = std::make_shared<bt::BehaviorTree>("defendertree");
-    tree->SetRoot(roleDivider);
+    tree->SetRoot(defensiveTactic);
     return tree;
 }
 
