@@ -10,8 +10,10 @@ void Role::initialize() {
     // Get the robot ID for this Role
 
 }
+
 Node::Status Role::update() {
     auto status = child->tick();
+    std::cout << "the role being ticked rihg t now: " + this->name << std::endl;
     if (status == Status::Success) {
         return Status::Success;
     }
@@ -23,10 +25,11 @@ Node::Status Role::update() {
         return Status::Running;
     }
 }
+
 void Role::addChild(Node::Ptr newChild) {
     this->child = newChild;
-
 }
+
 std::string Role::node_name() {
     return name;
 

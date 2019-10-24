@@ -6,7 +6,10 @@ namespace bt {
 BehaviorTree::BehaviorTree() {
     globalBB = std::make_shared<Blackboard>();
 }
-
+BehaviorTree::BehaviorTree(std::string name) {
+    globalBB = std::make_shared<Blackboard>();
+    this->name = name;
+}
 BehaviorTree::BehaviorTree(const Node::Ptr &rootNode)
         :BehaviorTree() {
     root = rootNode;
@@ -18,7 +21,12 @@ BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
     globalBB = shared;
 }
 
+
 Node::Status BehaviorTree::update() {
+    std::cout << "tree being updated:" + name << std::endl;
+    if(name == "defendertree"){
+        std::cout << "this makes me really happy" << std::endl;
+    }
     return root->tick();
 }
 

@@ -9,10 +9,12 @@ namespace bt {
 class BehaviorTree : public Node {
         FRIEND_TEST(BehaviorTreeTest, it_sets_blackboards);
     public:
-
+        std::string name;
         using Ptr = std::shared_ptr<BehaviorTree>;
 
         BehaviorTree();
+
+        BehaviorTree(std::string name);
 
         explicit BehaviorTree(const Node::Ptr &rootNode);
 

@@ -51,6 +51,11 @@ DefaultTactic::DefaultTactic(std::string name, Blackboard::Ptr blackboard,
 
     this->name = std::move(name);
 }
+DefaultTactic::DefaultTactic(std::string name) {
+    this->name = std::move(name);
+}
+
+
 
 void DefaultTactic::claimRobots(int amount) {
 

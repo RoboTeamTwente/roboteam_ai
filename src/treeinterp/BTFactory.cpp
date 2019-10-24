@@ -6,6 +6,8 @@
 
 // The tactics variable saves the tactic of the behaviour tree and can be kept
 
+// Changes made by crazy person:
+#include "treeinterp/TreePrototype.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
@@ -13,6 +15,9 @@ std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
+std::shared_ptr<bt::BehaviorTree> jesse_tree;
+
+
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
@@ -21,6 +26,9 @@ void BTFactory::makeTrees() {
     BTFactory::weMadeTrees = false;
 
     std::cout << "Re-Make Trees From Json" << std::endl;
+    jesse_tree = bt::createNormalPlayStrategy();
+
+
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
@@ -48,11 +56,18 @@ void BTFactory::makeTrees() {
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
-    if (strategyRepo.find(treeName) != strategyRepo.end()) {
-        return strategyRepo.find(treeName)->second;
-    }
-    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
-    return nullptr;
+    // from here we have problem ohno
+    // Probably the problem is not translating the blackboard variables.
+    // Fix: hardcode one of the blackboards from the tree editor into the code, see if this causes the problem
+    // If so, we really need to do something about this monstrous structure - document it or destroy it
+    std::cout << "name of the tree:" + jesse_tree->name;
+    return jesse_tree;
+//
+//    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+//        return strategyRepo.find(treeName)->second;
+//    }
+//    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
+//    return nullptr;
 }
 
 std::string BTFactory::getCurrentTree() {

@@ -40,7 +40,9 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/BTFactory.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PropertiesParser.cpp
-        ${PROJECT_SOURCE_DIR}/src/Switches.cpp)
+        ${PROJECT_SOURCE_DIR}/src/Switches.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/TreePrototype.cpp
+        )
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
