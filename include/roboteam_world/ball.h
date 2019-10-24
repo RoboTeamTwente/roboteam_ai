@@ -1,6 +1,6 @@
 #pragma once
 
-#include "roboteam_msgs/WorldBall.h"
+#include "roboteam_proto/WorldBall.pb.h"
 #include "roboteam_utils/Position.h"
 
 #define INVALID_AREA 99999
@@ -32,7 +32,7 @@ namespace rtt {
         Position get_velocity() const;
         uint get_existence() const;
 
-        roboteam_msgs::WorldBall as_message() const;
+        roboteam_proto::WorldBall as_message() const;
     };
 
 }

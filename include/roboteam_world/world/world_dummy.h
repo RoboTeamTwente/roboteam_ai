@@ -1,12 +1,10 @@
 #pragma once
 
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/World.h"
-
-#include "roboteam_world/robot.h"
-#include "roboteam_world/ball.h"
-
-#include "roboteam_world/world/world_base.h"
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
+#include "roboteam_proto/World.pb.h"
+#include "robot.h"
+#include "ball.h"
+#include "world/world_base.h"
 
 
 namespace rtt {
@@ -20,8 +18,8 @@ namespace rtt {
          */
 
     private:
-        std::vector<rtt::Robot> us;
-        std::vector<rtt::Robot> them;
+        std::vector<rtt::Robot> yellow;
+        std::vector<rtt::Robot> blue;
         rtt::Ball ball;
 
     public:
@@ -36,12 +34,12 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message() const;
+        roboteam_proto::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(const roboteam_msgs::DetectionFrame msg);
+        void detection_callback(const roboteam_proto::SSL_DetectionFrame msg);
     };
 
 }

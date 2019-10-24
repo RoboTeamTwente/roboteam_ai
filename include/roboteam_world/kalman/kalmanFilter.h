@@ -11,10 +11,8 @@
 #include "kalmanThem.h"
 #include "kalmanBall.h"
 #include "roboteam_utils/Position.h"
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/DetectionRobot.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/World.h"
+#include "roboteam_proto/WorldRobot.pb.h"
+#include "roboteam_proto/World.pb.h"
 
 namespace rtt {
 
@@ -28,14 +26,16 @@ namespace rtt {
 
         void kalmanUpdate();
 
-        void newFrame(const roboteam_msgs::DetectionFrame& msg);
+        void newFrame(const roboteam_proto::SSL_DetectionFrame& msg);
 
-        roboteam_msgs::World getWorld();
+        roboteam_proto::World getWorld();
+        std::string getWorldMsg();
 
         kalmanThem theirBots[BOTCOUNT];
         kalmanUs ourBots[BOTCOUNT];
         kalmanBall ball;
 
+        std::mutex filterMutex;
     };
 }
 

@@ -2,7 +2,7 @@
 // Created by kjhertenberg on 16-5-19.
 //
 
-#include "roboteam_world/kalman/kalmanThem.h"
+#include "kalman/kalmanThem.h"
 
 namespace rtt{
 

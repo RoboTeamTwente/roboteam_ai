@@ -2,8 +2,8 @@
 // Created by kjhertenberg on 13-5-19.
 //
 
-#include <roboteam_world/kalman/kalmanObject.h>
-#include <roboteam_msgs/DetectionRobot.h>
+#include <kalman/kalmanObject.h>
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 namespace rtt {
 
     void kalmanObject::kalmanUpdateK() {
@@ -80,25 +80,29 @@ namespace rtt {
         }
     }
 
-    void kalmanObject::kalmanUpdateZ(roboteam_msgs::DetectionRobot robot, double timeStamp, uint cameraID) {
+    void kalmanObject::kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot, double timeStamp, uint cameraID) {
         //if the new data is a certain distance from the old/predicted data, it's considered a ghost and ignored
-        if (this->exists){
-            float errorx = robot.pos.x-this->X(0);
-            float errory = robot.pos.y-this->X(2);
+      // convert mm to m
+        float x= robot.x()/1000;
+        float y= robot.y()/1000;
+
+        if (this && this->exists){
+            float errorx = x-this->X(0);
+            float errory = y-this->X(2);
             if (errorx*errorx+errory*errory >= 0.2*0.2){
                 return;
             }
         }
         //if the object comes into being, make the observation it's state, (to prevent jumping)
         if (!this->exists){
-            std::cout<<"Adding bot: "<<robot.robot_id<<std::endl;
+            std::cout<<"Adding bot: "<<robot.robot_id()<<std::endl;
             this->pastObservation.clear();
-            this->X(0) = robot.pos.x;
-            this->X(2) = robot.pos.y;
+            this->X(0) = x;
+            this->X(2) = y;
         }
-        Position average = calculatePos(robot.pos, robot.orientation, cameraID);
+        Position average = calculatePos(Vector2(x, y), robot.orientation(), cameraID);
         this->cameraId = cameraID;
-        this->id= robot.robot_id;
+        this->id= robot.robot_id();
         this->Z(0) = average.x;
         this->Z(1) = average.y;
         this->omega = (average.rot - this->orientation)/(timeStamp-this->observationTimeStamp);
@@ -124,17 +128,17 @@ namespace rtt {
         return this->exists;
     }
 
-    roboteam_msgs::WorldRobot kalmanObject::as_message() const{
-        roboteam_msgs::WorldRobot msg;
+    roboteam_proto::WorldRobot kalmanObject::as_message() const{
+        roboteam_proto::WorldRobot msg;
         Position pos = kalmanGetPos();
         Position vel = kalmanGetVel();
-        msg.id = id;
-        msg.pos.x = pos.x;
-        msg.pos.y = pos.y;
-        msg.angle = limitRotation(pos.rot);
-        msg.vel.x = vel.x;
-        msg.vel.y = vel.y;
-        msg.w = vel.rot;
+        msg.set_id(id);
+        msg.mutable_pos()->set_x(pos.x);
+        msg.mutable_pos()->set_y(pos.y);
+        msg.set_angle(limitRotation(pos.rot));
+        msg.mutable_vel()->set_x(vel.x);
+        msg.mutable_vel()->set_y(vel.y);
+        msg.set_w(vel.rot);
         return msg;
     }
 
