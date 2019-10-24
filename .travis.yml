@@ -44,6 +44,7 @@ script:
   - mkdir cmake-build-debug && cd cmake-build-debug;
   - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
   - cmake --build . --target ai_tests -- -j 8
+  - cd roboteam_ai
   - ./ai_tests
 
 
