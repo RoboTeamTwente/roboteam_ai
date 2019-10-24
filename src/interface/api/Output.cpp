@@ -130,7 +130,7 @@ void Output::setKeeperTree(std::string name) {
 void Output::setStrategyTree(std::string name) {
     Output::interfaceGameState.strategyName = std::move(name);
     if (world::world->getBall()) {
-        Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->pos;
+        Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
     }
 }
 

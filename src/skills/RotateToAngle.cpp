@@ -18,7 +18,7 @@ void RotateToAngle::onInitialize() {
     }
 
     if (properties->getBool("rotateToBall")) {
-        targetAngle = ((Vector2)ball->pos - robot->pos).angle();
+        targetAngle = ((Vector2)ball->getPos() - robot->pos).angle();
     }
 }
 

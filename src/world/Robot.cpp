@@ -68,7 +68,7 @@ void Robot::updateRobot(const roboteam_proto::WorldRobot &robotMsg, const BallPt
         this->angularVelocity = robotMsg.w();
         this->lastUpdatedWorldNumber = worldNumber;
     }
-    distanceToBall = calculateDistanceToBall(ball->pos);
+    distanceToBall = calculateDistanceToBall(ball->getPos());
     iHaveBall = distanceToBall >= 0.0;
 }
 

@@ -95,12 +95,15 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
             std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
     };
     auto ball = world::world->getBall();
-    Vector2 diff = (ball->pos - ballPlacementMarker).rotate(M_PI_2);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos + diff.stretchToLength(0.5), ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos - diff.stretchToLength(0.5), ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->pos, ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
+    Vector2 diff = (ball->getPos() - ballPlacementMarker).rotate(M_PI_2);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() + diff.stretchToLength(0.5),
+          ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() - diff.stretchToLength(0.5),
+          ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ballPlacementMarker}, Qt::magenta,
+            -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
-    bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->pos), ballPlacementMarker) < 0.9;
+    bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
     return (tooCloseToLine || !world::field->pointIsInField(pos, 0.0));
 }
 

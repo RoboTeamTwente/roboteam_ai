@@ -40,7 +40,7 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
     auto goalSides = world::field->getGoalSides(false);
     vertices.push_back(goalSides.first);
     vertices.push_back(goalSides.second);
-    vertices.push_back(world::world->getBall()->pos);
+    vertices.push_back(world::world->getBall()->getPos());
     Polygon goalBallTriangle(vertices);
 
     if(goalBallTriangle.contains(positionToCheck)) {
