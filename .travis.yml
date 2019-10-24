@@ -11,6 +11,7 @@ addons:
       - armadillo
       - ccache
       - gtest
+      - ninja
 
 notifications:
   email: false
