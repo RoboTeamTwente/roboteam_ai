@@ -8,15 +8,12 @@
 //**********************************
 //Constructor functions
 //**********************************
-PidController::PidController(double p, double i, double d) : PidController(p,i,d,0){}
-
 PidController::PidController(double p, double i, double d, double f){
     maxIOutput=0;
     maxError=0;
     errorSum=0;
     maxOutput=0;
     minOutput=0;
-    setpoint=0;
     lastActual=0;
     firstRun=true;
     reversed=false;
@@ -25,7 +22,10 @@ PidController::PidController(double p, double i, double d, double f){
     outputFilter=0;
     setpointRange=0;
 
-    P=p; I=i; D=d; F=f;
+    proportionalGain=p;
+    integrativeGain=i;
+    derivativeGain=d;
+    feedforwardGain=f;
 }
 
 PidController::PidController(std::tuple<double, double, double> pid)
@@ -38,13 +38,8 @@ PidController::PidController(std::tuple<double, double, double, double> pidf)
 //**********************************
 //Configuration functions
 //**********************************
-void PidController::setPID(double p, double i, double d){
-    P=p;I=i;D=d;
-    checkSigns();
-}
-
 void PidController::setPID(double p, double i, double d, double f){
-    P=p;I=i;D=d;F=f;
+    proportionalGain=p;integrativeGain=i;derivativeGain=d;feedforwardGain=f;
     checkSigns();
 }
 
@@ -54,8 +49,8 @@ void PidController::setMaxIOutput(double maximum){
      * the max error are far more common than changing the I term or Izone. 
      */
     maxIOutput=maximum;
-    if(I!=0){
-        maxError=maxIOutput/I;
+    if(integrativeGain != 0){
+        maxError= maxIOutput / integrativeGain;
     }
 }
 
@@ -86,8 +81,6 @@ double PidController::computeOutput(double setpoint, double actual){
     double Doutput;
     double Foutput;
 
-    this->setpoint=setpoint;
-
     //Ramp the setpoint used for calculations if user has opted to do so
     if(setpointRange!=0){
         setpoint=clamp(setpoint,actual-setpointRange,actual+setpointRange);
@@ -97,10 +90,10 @@ double PidController::computeOutput(double setpoint, double actual){
     double error=setpoint-actual;
 
     //Calculate F output. Notice, this->depends only on the setpoint, and not the error. 
-    Foutput=F*setpoint;
+    Foutput= feedforwardGain * setpoint;
 
     //Calculate P term
-    Poutput=P*error;
+    Poutput= proportionalGain * error;
 
     //If this->is our first time running this-> we don't actually _have_ a previous input or output. 
     //For sensor, sanely assume it was exactly where it is now.
@@ -116,7 +109,7 @@ double PidController::computeOutput(double setpoint, double actual){
     //Note, this->is negative. this->actually "slows" the system if it's doing
     //the correct thing, and small values helps prevent output spikes and overshoot 
 
-    Doutput= -D*(actual-lastActual)*rtt::ai::Constants::TICK_RATE();
+    Doutput= -derivativeGain * (actual - lastActual) * rtt::ai::Constants::TICK_RATE();
     lastActual=actual;
 
 
@@ -125,7 +118,7 @@ double PidController::computeOutput(double setpoint, double actual){
     // 1. maxIoutput restricts the amount of output contributed by the Iterm.
     // 2. prevent windup by not increasing errorSum if we're already running against our max Ioutput
     // 3. prevent windup by not increasing errorSum if output is output=maxOutput	
-    Ioutput=I*errorSum / rtt::ai::Constants::TICK_RATE();
+    Ioutput= integrativeGain * errorSum / rtt::ai::Constants::TICK_RATE();
     if(maxIOutput!=0){
         Ioutput=clamp(Ioutput,-maxIOutput,maxIOutput);
     }
@@ -202,23 +195,18 @@ bool PidController::bounded(double value, double min, double max){
 
 void PidController::checkSigns(){
     if(reversed){	//all values should be below zero
-        if(P>0) P*=-1;
-        if(I>0) I*=-1;
-        if(D>0) D*=-1;
-        if(F>0) F*=-1;
+        if(proportionalGain > 0) proportionalGain*=-1;
+        if(integrativeGain > 0) integrativeGain*=-1;
+        if(derivativeGain > 0) derivativeGain*=-1;
+        if(feedforwardGain > 0) feedforwardGain*=-1;
     }
     else{	//all values should be above zero
-        if(P<0) P*=-1;
-        if(I<0) I*=-1;
-        if(D<0) D*=-1;
-        if(F<0) F*=-1;
+        if(proportionalGain < 0) proportionalGain*=-1;
+        if(integrativeGain < 0) integrativeGain*=-1;
+        if(derivativeGain < 0) derivativeGain*=-1;
+        if(feedforwardGain < 0) feedforwardGain*=-1;
     }
 }
-
-void PidController::setPID(std::tuple<double, double, double> pid) {
-  this->setPID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid));
-}
-
 
 void PidController::setPID(std::tuple<double, double, double> pid, double f) {
     this->setPID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid), f);

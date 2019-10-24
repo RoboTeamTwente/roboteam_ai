@@ -12,7 +12,7 @@ template <typename Input, typename Output>
  * @tparam Input the type of the input of the controller (reference type)
  * @tparam Output the type of the output of the controller (plant input)
  * @author Paul Vacariu
- * @SInCE 25.09.2019
+ * @since 25.09.2019
  * @see computeOutput method in this interface
  */
 class BaseController{
