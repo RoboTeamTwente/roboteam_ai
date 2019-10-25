@@ -33,11 +33,11 @@ std::shared_ptr<bt::BehaviorTree> bt::createNormalPlayStrategy() {
 }
 
 std::shared_ptr<bt::DefaultTactic> bt::createDefensiveTactic() {
-//    std::shared_ptr<bt::DefaultTactic> defensiveTactic("defensivetactic");
     std::shared_ptr<bt::DefaultTactic> defensiveTactic = std::make_shared<bt::DefaultTactic>("defensiveTactic");
     for (int i = 0; i < 11; i++) {
-        auto temp = bt::createDefenderRole("name bla");
-        temp->giveProperty("ROLE", "R" + i);
+      std::string name = "o" + i;
+        auto temp = bt::createDefenderRole(name);
+        temp->giveProperty("ROLE", name);
         defensiveTactic->addChild(temp);
     }
     return defensiveTactic;

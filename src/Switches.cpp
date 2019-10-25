@@ -608,6 +608,16 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
                     {"c7", robotType::RANDOM},
                     {"c8", robotType::RANDOM}
             }
+                {"defensiveTactic", {
+                      {"o1", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o2", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o3", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o4", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o5", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o6", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o7", robotType::CLOSE_TO_THEIR_GOAL},
+                      {"o8", robotType::CLOSE_TO_THEIR_GOAL}
+                }}
             },
             {"final_taste_tactic", {
                         {"DemoAttacker", robotType::RANDOM},
