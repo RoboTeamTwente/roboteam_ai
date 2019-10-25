@@ -10,9 +10,11 @@
 #include "control/RobotCommand.h"
 #include <utilities/Constants.h>
 #include <roboteam_utils/LineSegment.h>
-#include <control/pid.h>
+#include <control/controllers/PidController.h>
 #include <world/Ball.h>
 #include <world/Robot.h>
+#include <control/controllers/PidTwoAxesController.h>
+
 namespace rtt {
 namespace ai {
 namespace control {
@@ -23,9 +25,6 @@ class RotateAroundBall;
 class RotateWithBall;
 class BallHandlePosControl : public NumTreePosControl {
     private:
-        using BallPtr = std::shared_ptr<world::Ball>;
-        using RobotPtr = std::shared_ptr<world::Robot>;
-
         DribbleForwards* dribbleForwards;
         DribbleBackwards* dribbleBackwards;
         RotateWithBall* rotateWithBall;
@@ -50,16 +49,14 @@ class BallHandlePosControl : public NumTreePosControl {
         int ticksNotMoving = 0;
 
         pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.5);
-        PID xGoToBallPID = PID(pidfGoToBall);
-        PID yGoToBallPID = PID(pidfGoToBall);
+        PidTwoAxesController goToBallPid = PidTwoAxesController(pidfGoToBall, pidfGoToBall);
         
         pidfVals pidfBallHandle = std::make_tuple(0.1, 0.0, 0.0, 0.8);
-        PID xBallHandlePID = PID(pidfBallHandle);
-        PID yBallHandlePID = PID(pidfBallHandle);
+        PidTwoAxesController ballHandlePid = PidTwoAxesController(pidfBallHandle, pidfBallHandle);
 
         void updatePID(pidVals newPID);
     public:
-        RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
+        RobotCommand controlWithPID(PidTwoAxesController &pid, const RobotCommand &robotCommand);
 
         enum TravelStrategy : short {
           FORWARDS,

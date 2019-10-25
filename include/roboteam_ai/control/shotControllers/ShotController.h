@@ -41,7 +41,7 @@ private:
     Vector2 aimTarget;
 
     // PID variables
-    PID pid  = PID(0.0, 0.0, 0.0);
+    PidController pid  = PidController(0.0, 0.0, 0.0);
     bool getPIDFromInterface = true;
     pidVals lastPid;
     void updatePid(pidVals pidValues);

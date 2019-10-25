@@ -7,7 +7,8 @@
 
 #include "RobotCommand.h"
 #include <utilities/Constants.h>
-#include <control/pid.h>
+#include <control/controllers/PidController.h>
+#include <control/controllers/PidTwoAxesController.h>
 #include "world/Field.h"
 #include "world/World.h"
 
@@ -33,14 +34,11 @@ class PosController {
         bool customCanMoveOutOfField = true;
         bool customCanMoveInDefenseArea = true;
 
-        // PID functions
-        PID xpid = PID(0.0, 0.0, 0.0);
-        PID ypid = PID(0.0, 0.0, 0.0);
+        // control functions for path tracking
+        PidTwoAxesController pid = PidTwoAxesController();
         bool getPIDFromInterface = true;
-        RobotCommand controlWithPID(const RobotPtr &robot, RobotCommand target);
+        RobotCommand controlWithPID(const RobotPtr &robot, const RobotCommand& target);
         virtual void checkInterfacePID() = 0;
-
-        virtual Vector2 calculatePIDs(const RobotPtr &robot, RobotCommand &target);
 
     public:
         PosController() = default;

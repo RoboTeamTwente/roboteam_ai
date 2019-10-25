@@ -164,7 +164,7 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot,
     //auto newPid = interface::Output::getNumTreePid();
     auto newPidValues = interface::Output::getShotControllerPID();
     updatePid(newPidValues);
-    double pidOutput = pid.getOutput(err.length()*sign, 0);
+    double pidOutput = pid.computeOutput(err.length() * sign, 0);
 
     robotCommand.vel = vel + err.stretchToLength(abs(pidOutput));
 //    robotCommand.vel = robotCommand.vel.stretchToLength(robotCommand.vel.length() > 0.3 ? 0.3 : 1);
