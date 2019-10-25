@@ -3,6 +3,7 @@
 //
 
 #include <world/Ball.h>
+#include <world/World.h>
 #include <world/Robot.h>
 #include "conditions/BallIsClose.h"
 
