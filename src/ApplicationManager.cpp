@@ -16,6 +16,7 @@
 #include <coach/defence/DefenceDealer.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
+#include <include/roboteam_ai/world/Field.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -106,7 +107,7 @@ void ApplicationManager::updateTrees() {
 void ApplicationManager::runKeeperTree() {
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick();
+        keeperTree->tick(ai::world::world, ai::world::field);
     }
 }
 
@@ -117,7 +118,7 @@ Status ApplicationManager::runStrategyTree() {
           return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick();
+    Status status = strategy->tick(ai::world::world, ai::world::field);
     return status;
 }
 
