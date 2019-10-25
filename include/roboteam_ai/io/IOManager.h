@@ -33,20 +33,22 @@ private:
         roboteam_proto::SSL_Referee refDataMsg;
         roboteam_proto::DemoRobot demoInfoMsg;
 
-        roboteam_proto::Subscriber * worldSubscriber;
+        roboteam_proto::Subscriber<roboteam_proto::World> * worldSubscriber;
         void handleWorldState(roboteam_proto::World & world);
 
-        roboteam_proto::Subscriber * geometrySubscriber;
+        roboteam_proto::Subscriber<roboteam_proto::SSL_GeometryData> * geometrySubscriber;
         void handleGeometry(roboteam_proto::SSL_GeometryData & geometryData);
 
-        roboteam_proto::Subscriber * refSubscriber;
+        roboteam_proto::Subscriber<roboteam_proto::SSL_Referee> * refSubscriber;
         void handleReferee(roboteam_proto::SSL_Referee & refData);
 
-        roboteam_proto::Subscriber * feedbackSubscriber;
+        roboteam_proto::Subscriber<roboteam_proto::RobotFeedback> * feedbackSubscriber;
         void handleFeedback(roboteam_proto::RobotFeedback & feedback);
 
-        roboteam_proto::Publisher * publisher;
-        rtt::ai::Pause* pause;
+        roboteam_proto::Publisher<roboteam_proto::RobotCommand> * robotCommandPublisher;
+        roboteam_proto::Publisher<roboteam_proto::Setting> * settingsPublisher;
+
+      rtt::ai::Pause* pause;
 
 public:
         explicit IOManager() = default;

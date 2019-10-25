@@ -155,7 +155,7 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
             // sometimes trees are terminated without having a role assigned.
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
             if (cmd.id() >= 0 && cmd.id() < 16) {
-                publisher->send(TOPIC_COMMANDS, cmd.SerializeAsString());
+                robotCommandPublisher->send(cmd);
             }
         }
         else {
@@ -174,26 +174,31 @@ const roboteam_proto::DemoRobot &IOManager::getDemoInfo() {
 
 
 void IOManager::init() {
-  worldSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_WORLD_STATE, &IOManager::handleWorldState, this);
-
-  geometrySubscriber= new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_GEOMETRY, &IOManager::handleGeometry, this);
-    refSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_REFEREE, &IOManager::handleReferee, this);
-
+  worldSubscriber = new roboteam_proto::Subscriber<roboteam_proto::World>(roboteam_utils::WORLD_CHANNEL, &IOManager::handleWorldState, this);
+  geometrySubscriber= new roboteam_proto::Subscriber<roboteam_proto::SSL_GeometryData>(roboteam_utils::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
+  refSubscriber = new roboteam_proto::Subscriber<roboteam_proto::SSL_Referee>(roboteam_utils::REFEREE_CHANNEL, &IOManager::handleReferee, this);
 
   // set up advertisement to publish robotcommands and settings
   if (SETTINGS.getId() == 1) {
-      publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_2_TCP_PUBLISHER);
-      feedbackSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_ROBOTHUB_TCP_2_PUBLISHER, TOPIC_FEEDBACK, &IOManager::handleFeedback, this);
+
+      feedbackSubscriber = new roboteam_proto::Subscriber<roboteam_proto::RobotFeedback>
+          (roboteam_utils::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
+
+    robotCommandPublisher = new roboteam_proto::Publisher<roboteam_proto::RobotCommand>(roboteam_utils::ROBOT_COMMANDS_SECONDARY_CHANNEL);
+    settingsPublisher = new roboteam_proto::Publisher<roboteam_proto::Setting>(roboteam_utils::SETTINGS_SECONDARY_CHANNEL);
   } else {
-      feedbackSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_ROBOTHUB_TCP_PUBLISHER, TOPIC_FEEDBACK, &IOManager::handleFeedback, this);
-      publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
+    feedbackSubscriber = new roboteam_proto::Subscriber<roboteam_proto::RobotFeedback>
+        (roboteam_utils::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
+
+    robotCommandPublisher = new roboteam_proto::Publisher<roboteam_proto::RobotCommand>(roboteam_utils::ROBOT_COMMANDS_PRIMARY_CHANNEL);
+    settingsPublisher = new roboteam_proto::Publisher<roboteam_proto::Setting>(roboteam_utils::SETTINGS_PRIMARY_CHANNEL);
 
   }
 }
 
-    void IOManager::publishSettings(roboteam_proto::Setting setting) {
-  publisher->send(TOPIC_SETTINGS, setting.SerializeAsString());
-    }
+void IOManager::publishSettings(roboteam_proto::Setting setting) {
+  settingsPublisher->send(setting);
+}
 
 void IOManager::handleFeedback(roboteam_proto::RobotFeedback &feedback) {
     if (Constants::FEEDBACK_ENABLED()) {
