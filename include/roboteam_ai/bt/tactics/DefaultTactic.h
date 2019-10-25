@@ -40,7 +40,6 @@ private:
 public:
     std::vector<std::tuple<int, std::string, RobotType>> robots;
     DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::vector<std::pair<std::string, RobotType>>& robots);
-    DefaultTactic(std::string name);
 
     void initialize() override;
     Node::Status update() override;

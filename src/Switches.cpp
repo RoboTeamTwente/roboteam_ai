@@ -599,25 +599,15 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
             }
             },
             {"calibration_tactic", {
-                    {"c1", robotType::CLOSE_TO_BALL},
-                    {"c2", robotType::RANDOM},
-                    {"c3", robotType::RANDOM},
-                    {"c4", robotType::RANDOM},
-                    {"c5", robotType::RANDOM},
-                    {"c6", robotType::RANDOM},
-                    {"c7", robotType::RANDOM},
-                    {"c8", robotType::RANDOM}
+                {"c1", robotType::CLOSE_TO_BALL},
+                {"c2", robotType::RANDOM},
+                {"c3", robotType::RANDOM},
+                {"c4", robotType::RANDOM},
+                {"c5", robotType::RANDOM},
+                {"c6", robotType::RANDOM},
+                {"c7", robotType::RANDOM},
+                {"c8", robotType::RANDOM}
             }
-                {"defensiveTactic", {
-                      {"o1", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o2", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o3", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o4", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o5", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o6", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o7", robotType::CLOSE_TO_THEIR_GOAL},
-                      {"o8", robotType::CLOSE_TO_THEIR_GOAL}
-                }}
             },
             {"final_taste_tactic", {
                         {"DemoAttacker", robotType::RANDOM},
