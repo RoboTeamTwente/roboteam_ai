@@ -16,7 +16,7 @@ void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {
         if (ball) {
             ballIsTarget = true;
-            targetPos = ball->pos;
+            targetPos = ball->getPos();
         }
         else {
             std::cerr << "Get some balls" << std::endl;
@@ -69,7 +69,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
         return Status::Failure;
     }
     if (ballIsTarget) {
-        targetPos = ball->pos;
+        targetPos = ball->getPos();
     }
     if (currentTick <= maxTick) {
         commandPos = targetPos + Vector2(distanceFromPoint, 0).rotate(

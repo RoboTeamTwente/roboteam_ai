@@ -29,14 +29,14 @@ void Keeper::onInitialize() {
 }
 
 Keeper::Status Keeper::onUpdate() {
-    Vector2 ballPos = world->getBall()->pos;
+    Vector2 ballPos = world->getBall()->getPos();
     Vector2 blockPoint;
 
     goalPos = field->get_our_goal_center();
 
-    if (ball->pos.x < 0) {
-        auto attacker = world->getRobotClosestToPoint(ball->pos, THEIR_ROBOTS);
-        if (attacker && (ball->pos - attacker->pos).length() < MIN_ATTACKER_DIST) {
+    if (ball->getPos().x < 0) {
+        auto attacker = world->getRobotClosestToPoint(ball->getPos(), THEIR_ROBOTS);
+        if (attacker && (ball->getPos() - attacker->pos).length() < MIN_ATTACKER_DIST) {
             setGoalPosWithAttacker(attacker);
         }
     }
@@ -124,7 +124,7 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     start = attacker->pos;
 
     auto goal = field->getGoalSides(true);
-    Vector2 attackerToBallV2 = ball->pos - attacker->pos;
+    Vector2 attackerToBallV2 = ball->getPos() - attacker->pos;
     Vector2 attackerAngleV2 = attacker->angle.toVector2();
     Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.first,
             goal.second);

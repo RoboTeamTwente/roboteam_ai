@@ -34,7 +34,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
         genevaState = determineGenevaState();
         genevaSet = true;
     }
-    double ydiff=ball->pos.y-robot->pos.y;
+    double ydiff=ball->getPos().y-robot->pos.y;
     double gain=ydiff*lineP;
     if (tick < genevaChangeTicks&&ydiff<0.03) {
         tick ++;
@@ -44,12 +44,12 @@ bt::Node::Status ShootPenalty::onUpdate() {
         command.set_geneva_state(genevaState);
         auto ball=world::world->getBall();
         if (ball){
-            ballPos=ball->pos;
+            ballPos = ball->getPos();
         }
     }
     else {
         if (ball&&!world::field->pointIsInDefenceArea(ballPos,false,-0.1)){
-            Vector2 targetPos=world::world->getBall()->pos+additionalBallDist;
+            Vector2 targetPos = world::world->getBall()->getPos() + additionalBallDist;
             if (world::field->pointIsInDefenceArea(ballPos,false,0.2)){
                 auto cmd=gtp.getRobotCommand(world, field, robot,targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
@@ -84,7 +84,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
 
 int ShootPenalty::determineGenevaState() {
     // determine the shortest position from where to kick the ball
-    if (robot->pos.y<ball->pos.y){
+    if (robot->pos.y < ball->getPos().y){
         return genevaState=1;
     }
     return genevaState=5;

@@ -21,7 +21,7 @@ HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {}
 
 HasClearShot::Status HasClearShot::onUpdate() {
-    if ((Vector2(ball->pos) - field->get_their_goal_center()).length() < FORCED_SHOOTING_DISTANCE) {
+    if ((Vector2(ball->getPos()) - field->get_their_goal_center()).length() < FORCED_SHOOTING_DISTANCE) {
         return Status::Success;
     }
 
@@ -29,7 +29,7 @@ HasClearShot::Status HasClearShot::onUpdate() {
     minViewAtGoal = 0.1;
 
 	// return failure if the robot is too far away for a shot at goal
-    if ((Vector2(ball->pos) - field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
+    if ((Vector2(ball->getPos()) - field->get_their_goal_center()).length() > MAX_SHOOTING_DISTANCE) {
         return Status::Failure;
     }
 
@@ -38,8 +38,8 @@ HasClearShot::Status HasClearShot::onUpdate() {
     }
 
     // return success if there is a clear line to their goal 
-    bool hasClearShot = field->getPercentageOfGoalVisibleFromPoint(false, ball->pos, world->getWorld(), robot->id, true) >
-            minViewAtGoal * 100;
+    bool hasClearShot = field->getPercentageOfGoalVisibleFromPoint(false, ball->getPos(), world->getWorld(), robot->id, true)
+            > minViewAtGoal * 100;
 
     return hasClearShot ? Status::Success : Status::Failure;
 }

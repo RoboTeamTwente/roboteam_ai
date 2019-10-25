@@ -199,7 +199,7 @@ const World::RobotPtr World::getRobotClosestToBall(WhichRobots whichRobots) {
         if (! worldDataPtr) {
             return {};
         }
-        ballPos = worldDataPtr->ball->pos;
+        ballPos = worldDataPtr->ball->getPos();
     }
 
     return getRobotClosestToPoint(ballPos, whichRobots);

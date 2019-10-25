@@ -28,7 +28,7 @@ ChipForward::Status ChipForward::onUpdate() {
 
     publishRobotCommand();
 
-    if (hasChipped && (ball->pos - robot->pos).length() > 0.5) {
+    if (hasChipped && (ball->getPos() - robot->pos).length() > 0.5) {
         return Status::Success;
     }
 

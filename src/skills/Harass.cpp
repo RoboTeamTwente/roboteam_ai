@@ -28,7 +28,7 @@ Skill::Status Harass::onUpdate() {
     }
     auto enemyBot = world->getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
 
-    Vector2 ballPos = ball->pos;
+    Vector2 ballPos = ball->getPos();
     Vector2 targetPos;
     Vector2 enemyPos = enemyBot->pos;
 

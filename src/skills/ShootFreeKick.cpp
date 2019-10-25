@@ -14,7 +14,7 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void ShootFreeKick::onInitialize() {
-    Vector2 ballPos = world->getBall()->pos;
+    Vector2 ballPos = world->getBall()->getPos();
     freeKickPos = ballPos;
     Vector2 goal = field->get_their_goal_center();
     // behind the ball looking at the goal
@@ -54,7 +54,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 // TODO make targeting functions based on our robots positions maybe coach
                 // TODO for now it shoots at the goal
                 Vector2 target = field->getPenaltyPoint(false);
-                Vector2 ballPos = world->getBall()->pos;
+                Vector2 ballPos = world->getBall()->getPos();
                 targetPos = ballPos + (ballPos - target).stretchToLength(
                         Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
 
@@ -99,7 +99,7 @@ void ShootFreeKick::onTerminate(Skill::Status s) {
 }
 
 bool ShootFreeKick::isShot() {
-    Vector2 ballPos = world->getBall()->pos;
+    Vector2 ballPos = world->getBall()->getPos();
     return ((ballPos - freeKickPos).length() > 0.05);
 
 }

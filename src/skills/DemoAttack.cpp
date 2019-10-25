@@ -28,7 +28,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         return Status::Success;
     }
 
-    Vector2 ball = world->getBall()->pos;
+    Vector2 ball = world->getBall()->getPos();
     Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 

@@ -48,7 +48,7 @@ void Collision::setCollision(double distance) {
     void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
     type = BALL;
     collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
-    collisionBall->visible = true;
+    collisionBall->setVisible(true);
     setCollision(distance);
 }
 
@@ -72,7 +72,7 @@ void Collision::setGoalCollision(const Vector2 &collisionPos, double distance) {
 
 const Vector2 Collision::collisionPosition() const {
     if (collisionRobot->id != - 1) return collisionRobot->pos;
-    else if (collisionBall->visible) return collisionBall->pos;
+    else if (collisionBall->getVisible()) return collisionBall->getPos();
     else if (fieldCollision != Vector2()) return fieldCollision;
     else if (defenseAreaCollision != Vector2()) return defenseAreaCollision;
     else return {};

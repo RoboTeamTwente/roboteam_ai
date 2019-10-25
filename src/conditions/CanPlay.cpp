@@ -23,7 +23,8 @@ bt::Node::Status CanPlay::onUpdate() {
         margin = 0.15;
     }
 
-    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->pos) < margin;
+    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->getPos())
+                            < margin;
     auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command());
     if (ballIsLayingStill || (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START)) {
         // this should keep running, because otherwise the condition would re initialize

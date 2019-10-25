@@ -93,7 +93,7 @@ SlingShot::Progression SlingShot::updateProgress(Progression currentProgress) {
     return FAIL;
 }
 bool SlingShot::ballShot() {
-    Vector2 vectorFromStart = ball->pos - kickPos;
+    Vector2 vectorFromStart = ball->getPos() - kickPos;
     double vectorFromStartAngle = vectorFromStart.angle();
     double angleDif = control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(kickOrient),
             control::ControlUtils::constrainAngle(vectorFromStartAngle));

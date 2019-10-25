@@ -61,7 +61,7 @@ std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInForm
 
 // determine the angle where the robot should point to (in position)
 void StopFormation::setFinalAngle() {
-    Vector2 targetToLookAtLocation = world->getBall()->pos;
+    Vector2 targetToLookAtLocation = world->getBall()->getPos();
     command.set_w((targetToLookAtLocation - robot->pos).angle());
 }
 
@@ -77,22 +77,24 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
     // the following statements specify useful stop positions between the ball and the goal
-    auto ourGoalCenterToBall = ball->pos - field->get_our_goal_center();
-    auto ballToOurGoalCenter = field->get_our_goal_center() - ball->pos;
+    auto ourGoalCenterToBall = ball->getPos() - field->get_our_goal_center();
+    auto ballToOurGoalCenter = field->get_our_goal_center() - ball->getPos();
 
     double distanceFromGoal;
     double distanceToBall = 1.0;
 
-    if (ball->pos.x > 0.0) { // if the ball is on their side
+    if (ball->getPos().x > 0.0) { // if the ball is on their side
         distanceFromGoal = 4.0;
     } else { // if the ball is on our side
-        distanceFromGoal = (fabs(ball->pos.y) < 1.2) ? 1.6 : 2.2;
+        distanceFromGoal = (fabs(ball->getPos().y) < 1.2) ? 1.6 : 2.2;
     }
 
-    Vector2 closeToBallMiddle = ball->pos + ballToOurGoalCenter.stretchToLength(distanceToBall);
+    Vector2 closeToBallMiddle = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall);
 
-    Vector2 closeToBallA = ball->pos + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(- sin(Constants::ROBOT_RADIUS()/distanceToBall));
-    Vector2 closeToBallB = ball->pos + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(sin(Constants::ROBOT_RADIUS()/distanceToBall));
+    Vector2 closeToBallA = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(
+            -sin(Constants::ROBOT_RADIUS() / distanceToBall));
+    Vector2 closeToBallB = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(
+            sin(Constants::ROBOT_RADIUS()/distanceToBall));
 
     // for one robot between ball and our goal
     Vector2 betweenGoalAndBallPosition = field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
@@ -113,18 +115,18 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
     double goal_width=field->get_field().goal_width();
-    if (ball->pos.y>goal_width){
+    if (ball->getPos().y > goal_width){
         inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
         inFrontOfDefenseAreaPositionC = {pp.x + offset, dTopY};
     }
-    else if (ball->pos.y<-goal_width){
+    else if (ball->getPos().y < -goal_width){
         inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB= {pp.x + offset, dTopY};
         inFrontOfDefenseAreaPositionC = {pp.x + offset, dBtmY};
     }
     else {
-        if (ball->pos.y>0){
+        if (ball->getPos().y > 0){
             inFrontOfDefenseAreaPositionA= {pp.x + offset, dBtmY};
             inFrontOfDefenseAreaPositionB= {pp.x + offset, dTopY};
             inFrontOfDefenseAreaPositionC = {pp.x + offset, 0};
@@ -197,7 +199,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 }
 
 bool StopFormation::positionShouldBeAvoided(Vector2 pos) {
-    return (pos.dist(ball->pos) < 0.9 || !field->pointIsInField(pos, 0.0));
+    return (pos.dist(ball->getPos()) < 0.9 || !field->pointIsInField(pos, 0.0));
 }
 
 std::vector<Vector2> StopFormation::getProperPositions(int amount) {

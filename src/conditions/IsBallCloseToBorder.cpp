@@ -24,19 +24,19 @@ void IsBallCloseToBorder::onInitialize() {
 bt::Node::Status IsBallCloseToBorder::onUpdate() {
     if (properties->getBool("corner")) {
         auto fieldMsg = field->get_field();
-        double xDiff = fieldMsg.field_length() / 2 - abs(ball->pos.x);
-        double yDiff = fieldMsg.field_width() / 2 - abs(ball->pos.y);
+        double xDiff = fieldMsg.field_length() / 2 - abs(ball->getPos().x);
+        double yDiff = fieldMsg.field_width() / 2 - abs(ball->getPos().y);
 
         if (xDiff >= margin || yDiff >= margin) {
             return Status::Failure;
         }
     } 
-    else if (field->pointIsInField(ball->pos, static_cast<float>(margin))) {
+    else if (field->pointIsInField(ball->getPos(), static_cast<float>(margin))) {
         return Status::Failure;
     }
 
     if (ballShouldLayStill) {
-        bool ballIsLayingStill = Vector2(ball->vel).length() <= Constants::BALL_STILL_VEL();
+        bool ballIsLayingStill = Vector2(ball->getVel()).length() <= Constants::BALL_STILL_VEL();
         return ballIsLayingStill ? Status::Success : Status::Failure;
     } 
     return Status::Success;
