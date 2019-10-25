@@ -1,43 +1,62 @@
-sudo: required
-services:
-- xvfb
-notifications:
-  email: false
-cache:
-- ccache
+# This travis image builds roboteam_suite and runs the target 'ai_tests'.
+# All other repositories of roboteam_suit are set to the master branch.
+# We need all dependencies to parse the cmake files. This can be optimized later,
+# but with caching this is not a large performance hit anyway.
 
 language: cpp
-matrix:
-  include:
-  - name: "Xenial"
-    dist: xenial
+os: osx
+osx_image: xcode11.2
 
-before_install:
-- sudo apt-get clean
-- sudo apt update
-- sudo apt-get install -y ccache ninja-build python3 python3-pip autoconf automake libtool make g++ unzip lcov gcovr qtbase5-dev libzmq3-dev libzmqpp-dev libarmadillo-dev
+addons:
+  homebrew:
+    packages:
+      - zmq       # proto dependency
+      - zmqpp     # proto dependency
+      - protobuf  # proto dependency
+      - armadillo # world dependency
+      - ccache    # speeding up build
+      - ninja     # speeding up build
+      - qt        # roboteam_ai dependency
 
-# Build Protobuf from source
+notifications:
+  email: false
+
+cache:
+  directories:
+    - $HOME/Library/Caches/Homebrew
+    - $HOME/.ccache
+
+# Install Google Test from source
 install:
-- export CC="ccache gcc"
-- export CXX="ccache g++"
-- cd ~
-- wget https://github.com/protocolbuffers/protobuf/releases/download/v3.9.1/protobuf-cpp-3.9.1.tar.gz
-- tar -xzvf protobuf-cpp-3.9.1.tar.gz
-- pushd protobuf-3.9.1 && ./configure --prefix=/usr && make && sudo make install && popd
+  - cd ~/
+  - git clone https://github.com/google/googletest.git
+  - cd googletest
+  - mkdir install
+  - cd install
+  - cmake ../
+  - make
+  - sudo make install
 
-before_script:
-
+# First we set up the compiler to use ccache.
+# then clone roboteam_suite and put all repositories on master.
+# then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
+# Finally, we run the tests.
 script:
-- cd ~
-- export CC="ccache gcc"
-- export CXX="ccache g++"
-- export CCACHE_SLOPPINESS=pch_defines,time_macros
-- git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
-- cd ~/roboteam_suite
-- mkdir cmake-build-debug && cd cmake-build-debug;
-- cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
-- cmake --build . --target ai_tests -- -j 8
+  - cd ~
+  - export CC="ccache gcc"
+  - export CXX="ccache g++"
+  - export CCACHE_SLOPPINESS=pch_defines,time_macros
+  - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
+  - cd ~/roboteam_suite
+  - rm -rf roboteam_ai
+  - git submodule foreach git checkout master
+  - mv ${TRAVIS_BUILD_DIR} .
+  - mkdir cmake-build-debug && cd cmake-build-debug;
+  - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
+  - cmake --build . --target ai_tests -- -j 8
+  - cd roboteam_ai
+  - ./ai_tests
 
-after_success:
-- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+#Lets not do coverage yet
+#after_success:
+#- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
