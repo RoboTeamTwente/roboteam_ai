@@ -174,11 +174,15 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp)
+        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
+        )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/pid.cpp
+
+        # Controllers
+        ${PROJECT_SOURCE_DIR}/src/control/controllers/PidController.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/controllers/PidTwoAxesController.cpp
 
         # PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
