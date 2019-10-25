@@ -14,7 +14,9 @@ namespace rtt {
     class RosHandler {
 
     private:
-        roboteam_proto::Publisher * pub;
+        roboteam_proto::Publisher<roboteam_proto::World> * world_pub;
+        roboteam_proto::Publisher<roboteam_proto::SSL_Referee> * ref_pub;
+        roboteam_proto::Publisher<roboteam_proto::SSL_GeometryData> * geom_pub;
 
       WorldBase* world;
         bool kalman;
