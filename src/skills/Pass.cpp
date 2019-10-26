@@ -115,29 +115,6 @@ Pass::Status Pass::onUpdate() {
                     initiatePass();
                 }
             }
-            else {
-                fails ++;
-                if (fails >= failsUntilChip) {
-                    chip = true;
-                }
-                else {
-                    coach::g_pass.resetPass(robot->id);
-                    initiatePass();
-                }
-            }
-        }
-
-        auto shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), chip, control::BallSpeed::PASS,
-                true, control::ShotPrecision::MEDIUM);
-        command = shotdata.makeROSCommand();
-        if ((command.kicker == true || command.chipper == true) && ! hasShot) {
-            hasShot = true;
-        }
-
-        makeCommand();
-
-        if ((command.kicker() == true || command.chipper() == true) && ! hasShot) {
-            hasShot = true;
         }
     }
 
