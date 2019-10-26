@@ -28,8 +28,6 @@ class WorldHandler {
    * Setup a world with a kalmanfilter, and initialize the publishers for publishing data.
    */
   void init();
-
-
   void start();
   void handleVisionPackets(roboteam_proto::SSL_WrapperPacket &vision_packet) const;
   void handleRefboxPackets(roboteam_proto::SSL_Referee &ref_packet) const;

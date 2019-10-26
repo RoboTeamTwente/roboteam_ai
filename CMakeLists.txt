@@ -39,11 +39,7 @@ target_link_libraries(kalman_world
         PRIVATE roboteam_utils
         PUBLIC roboteam_proto)
 
-
-
-
 add_executable(kalman_tests
-        src/main.cpp
         src/WorldHandler.cpp
         src/kalman/KalmanFilter.cpp
         src/kalman/KalmanObject.cpp
@@ -51,7 +47,6 @@ add_executable(kalman_tests
         src/kalman/KalmanRobot.cpp
         test/KalmanTest.cpp
         test/main.cpp)
-
 
 target_include_directories(kalman_tests
         INTERFACE include
@@ -64,9 +59,21 @@ target_include_directories(kalman_tests
         PRIVATE ${ARMADILLO_INCLUDE_DIRS}
         )
 
-target_link_libraries(kalman_tests
-        PRIVATE ${ARMADILLO_LIBRARIES}
-        PRIVATE net
-        PRIVATE roboteam_utils
-        PUBLIC roboteam_proto)
 
+if(UNIX AND NOT APPLE)
+    target_link_libraries(kalman_tests
+            PRIVATE ${ARMADILLO_LIBRARIES}
+            PRIVATE net
+            PRIVATE roboteam_utils
+            PUBLIC roboteam_proto)
+endif()
+
+if(APPLE)
+    target_link_libraries(kalman_tests
+            PRIVATE ${ARMADILLO_LIBRARIES}
+            PRIVATE net
+            PRIVATE roboteam_utils
+            PUBLIC roboteam_proto
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a)
+endif()

@@ -7,7 +7,7 @@
 #include <vector>
 #include <roboteam_proto/messages_robocup_ssl_detection.pb.h>
 
-namespace rtt {
+namespace world {
     void kalman_dummy_frame(float ballx, float bally, float botx, float boty, float botw, roboteam_proto::SSL_DetectionFrame * frame) {
         roboteam_proto::SSL_DetectionRobot * bot = frame->add_robots_yellow();
         bot->set_x(botx);
