@@ -116,6 +116,11 @@ Pass::Status Pass::onUpdate() {
                 }
             }
         }
+        makeCommand();
+
+        if ((command.kicker() == true || command.chipper() == true) && ! hasShot) {
+            hasShot = true;
+        }
     }
 
     publishRobotCommand();
