@@ -13,7 +13,7 @@ add_library(net STATIC
 target_link_libraries(net
         PUBLIC roboteam_proto)
 
-add_executable(kalman_world
+add_executable(roboteam_world
         src/main.cpp
         src/WorldHandler.cpp
         src/kalman/KalmanFilter.cpp
@@ -22,24 +22,24 @@ add_executable(kalman_world
         src/kalman/KalmanRobot.cpp)
 
 
-target_include_directories(kalman_world
+target_include_directories(roboteam_world
         INTERFACE include
         PRIVATE include/roboteam_world
         PRIVATE src
         )
 
 #including armadillo files
-target_include_directories(kalman_world
+target_include_directories(roboteam_world
         PRIVATE ${ARMADILLO_INCLUDE_DIRS}
         )
 
-target_link_libraries(kalman_world
+target_link_libraries(roboteam_world
         PRIVATE ${ARMADILLO_LIBRARIES}
         PRIVATE net
         PRIVATE roboteam_utils
         PUBLIC roboteam_proto)
 
-add_executable(kalman_tests
+add_executable(world_tests
         src/WorldHandler.cpp
         src/kalman/KalmanFilter.cpp
         src/kalman/KalmanObject.cpp
@@ -48,20 +48,20 @@ add_executable(kalman_tests
         test/KalmanTest.cpp
         test/main.cpp)
 
-target_include_directories(kalman_tests
+target_include_directories(world_tests
         INTERFACE include
         PRIVATE include/roboteam_world
         PRIVATE src
         )
 
 #including armadillo files
-target_include_directories(kalman_tests
+target_include_directories(world_tests
         PRIVATE ${ARMADILLO_INCLUDE_DIRS}
         )
 
 
 if(UNIX AND NOT APPLE)
-    target_link_libraries(kalman_tests
+    target_link_libraries(world_tests
             PRIVATE ${ARMADILLO_LIBRARIES}
             PRIVATE net
             PRIVATE roboteam_utils
@@ -69,7 +69,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 if(APPLE)
-    target_link_libraries(kalman_tests
+    target_link_libraries(world_tests
             PRIVATE ${ARMADILLO_LIBRARIES}
             PRIVATE net
             PRIVATE roboteam_utils
