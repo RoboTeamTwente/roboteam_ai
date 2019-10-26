@@ -11,11 +11,11 @@
 #include "constantsK.h"
 #include "roboteam_utils/Vector2.h"
 
-namespace rtt {
+namespace world {
 
     //class for objects who's data goes trough the kalman filter
     //Based on: https://en.wikipedia.org/wiki/Kalman_filter
-class kalmanObject {
+class KalmanObject {
 
     protected:
         uint id; //Id of the object if applicable
@@ -26,7 +26,7 @@ class kalmanObject {
         float orientation; //currently the filter only filters X and Y, du to the coordinate system
         double omega; //""
         uint cameraId;
-        std::map<int, Position> pastObservation;
+        std::map<int, rtt::Position> pastObservation;
 
         // The key matrices (fixed size to prevent side effects)
         arma::fvec::fixed<STATEINDEX> X; //Constains the state of the robot
@@ -51,10 +51,10 @@ class kalmanObject {
         void kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot,double timeStamp, uint cameraID);
 
         //Get X,Y and Orientation
-        Position kalmanGetPos() const;
+        rtt::Position kalmanGetPos() const;
 
         //Get X_vel, Y_vel and omega
-        Position kalmanGetVel() const;
+        rtt::Position kalmanGetVel() const;
 
         //Get K for debug
         float getK();
@@ -67,7 +67,7 @@ class kalmanObject {
 
         double limitRotation(double rotation) const;
 
-        Position calculatePos(Vector2 pos, float rot, uint camID);
+        rtt::Position calculatePos(rtt::Vector2 pos, float rot, uint camID);
 
 };
 

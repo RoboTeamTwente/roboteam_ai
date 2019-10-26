@@ -3,31 +3,20 @@
 //
 
 #include <gtest/gtest.h>
-#include "roboteam_world/kalman/kalmanFilter.h"
-#include "roboteam_world/world/filtered_world.h"
-#include "roboteam_world/world/world_dummy.h"
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/DetectionBall.h"
-#include "roboteam_msgs/DetectionRobot.h"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
-#include "roboteam_msgs/WorldBall.h"
 #include "armadillo"
 #include <vector>
+#include <roboteam_proto/messages_robocup_ssl_detection.pb.h>
+
 namespace rtt {
-    using namespace roboteam_msgs;
+    void kalman_dummy_frame(float ballx, float bally, float botx, float boty, float botw, roboteam_proto::SSL_DetectionFrame * frame) {
+        roboteam_proto::SSL_DetectionRobot * bot = frame->add_robots_yellow();
+        bot->set_x(botx);
+        bot->set_y(boty);
+        bot->set_orientation(botw);
 
-
-    void kalman_dummy_frame(float ballx, float bally, float botx, float boty, float botw, DetectionFrame* frame) {
-        DetectionRobot bot;
-        bot.pos.x = botx;
-        bot.pos.y = boty;
-        bot.orientation = botw;
-        frame->us.push_back(bot);
-        DetectionBall ball;
-        ball.pos.x = ballx;
-        ball.pos.y = bally;
-        frame->balls.push_back(ball);
+        roboteam_proto::SSL_DetectionBall * ball = frame->add_balls();
+        ball->set_x(ballx);
+        ball->set_y(bally);
     }
 
     TEST(KalmanTest, Armadillo){
@@ -87,55 +76,55 @@ namespace rtt {
         ASSERT_DOUBLE_EQ(C(1, 1), 1);
     }
 
-
-    TEST(KalmanTest, ZXK) {
-
-        kalmanFilter ZXKtest;
-
-        ZXKtest.setZ(1, 1.0, 2.0, 3.0, 1.0);
-        for (int j = 0; j < 10000; ++j) {
-            ZXKtest.kalmanUpdate();
-        }
-
-        float testK1 = ZXKtest.getK(1);
-
-        Position testX = ZXKtest.getPos(1);
-        EXPECT_FLOAT_EQ(testX.x, 1);
-        EXPECT_FLOAT_EQ(testX.y, 2);
-        EXPECT_FLOAT_EQ(testX.rot, 3);
-
-        ZXKtest.setZ(1, 2.0, 4.0, 6.0, 2.0);
-        for (int j = 0; j < 10000; ++j) {
-            ZXKtest.kalmanUpdate();
-        }
-
-        testX = ZXKtest.getPos(1);
-        EXPECT_FLOAT_EQ(testX.x, 2);
-        EXPECT_FLOAT_EQ(testX.y, 4);
-        EXPECT_FLOAT_EQ(testX.rot, 6);
-
-        float testK2 = ZXKtest.getK(1);
-        EXPECT_FLOAT_EQ(testK1, testK2);
-
-    }
-
-    TEST(KalmanTest, frame){
-
-        kalmanFilter frametest;
-
-        auto * frame = new DetectionFrame();
-        kalman_dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame);
-
-        frametest.newFrame(*frame);
-
-        for (int j = 0; j < 10000; ++j) {
-            frametest.kalmanUpdate();
-        }
-
-        Position testX = frametest.getPos(0);
-        EXPECT_FLOAT_EQ(testX.x, 2);
-        EXPECT_FLOAT_EQ(testX.y, 2);
-        EXPECT_FLOAT_EQ(testX.rot, 0);
-    }
+//
+//    TEST(KalmanTest, ZXK) {
+//
+//        kalmanFilter ZXKtest;
+//
+//        ZXKtest.setZ(1, 1.0, 2.0, 3.0, 1.0);
+//        for (int j = 0; j < 10000; ++j) {
+//            ZXKtest.kalmanUpdate();
+//        }
+//
+//        float testK1 = ZXKtest.getK(1);
+//
+//        Position testX = ZXKtest.getPos(1);
+//        EXPECT_FLOAT_EQ(testX.x, 1);
+//        EXPECT_FLOAT_EQ(testX.y, 2);
+//        EXPECT_FLOAT_EQ(testX.rot, 3);
+//
+//        ZXKtest.setZ(1, 2.0, 4.0, 6.0, 2.0);
+//        for (int j = 0; j < 10000; ++j) {
+//            ZXKtest.kalmanUpdate();
+//        }
+//
+//        testX = ZXKtest.getPos(1);
+//        EXPECT_FLOAT_EQ(testX.x, 2);
+//        EXPECT_FLOAT_EQ(testX.y, 4);
+//        EXPECT_FLOAT_EQ(testX.rot, 6);
+//
+//        float testK2 = ZXKtest.getK(1);
+//        EXPECT_FLOAT_EQ(testK1, testK2);
+//
+//    }
+//
+//    TEST(KalmanTest, frame){
+//
+//        kalmanFilter frametest;
+//
+//        auto * frame = new roboteam_proto::SSL_DetectionFrame();
+//        kalman_dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame);
+//
+//        frametest.newFrame(*frame);
+//
+//        for (int j = 0; j < 10000; ++j) {
+//            frametest.kalmanUpdate();
+//        }
+//
+//        Position testX = frametest.getPos(0);
+//        EXPECT_FLOAT_EQ(testX.x, 2);
+//        EXPECT_FLOAT_EQ(testX.y, 2);
+//        EXPECT_FLOAT_EQ(testX.rot, 0);
+//    }
 
 }
