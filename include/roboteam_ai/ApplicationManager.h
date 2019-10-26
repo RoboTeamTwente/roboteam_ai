@@ -25,9 +25,6 @@ private:
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
 
-    ai::StrategyManager strategyManager;
-    std::string oldKeeperTreeName = "";
-    std::string oldStrategyName = "";
 public:
     void start();
     void checkForShutdown();

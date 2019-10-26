@@ -17,9 +17,6 @@ namespace ai {
 /// Assumes we already have the ball when skill is initialized.
 /// Stops at the end to ensure the ball does not spin away.
 class Dribble : public Skill {
-
-        const double POS_DIF = 0.05;
-        const double SPEED = (Constants::GRSIM() ? 0.4 : 0.8);
     private:
         control::BallHandlePosControl::TravelStrategy forwardDirection;
         int maxTicks = 60;// seconds
