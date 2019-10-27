@@ -13,7 +13,7 @@
 namespace rtt {
 
 TEST(FieldTest, it_gets_and_sets_the_field) {
-    roboteam_proto::SSL_GeometryFieldSize field;
+    proto::SSL_GeometryFieldSize field;
     field.set_boundary_width(42);
     auto msg = rtt::FieldMessage(field);
 
@@ -164,7 +164,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 //    auto field = testhelpers::FieldHelper::generateField(12.0, 9.0, 1.0);
 //    auto msg = FieldMessage(field);
 //    rtt::ai::world::field->set_field(msg);
-//    roboteam_proto::WorldRobot robot;
+//    proto::WorldRobot robot;
 //    robot.set_id(0);
 //
 //    // watch our goal from the center of the field
@@ -205,7 +205,7 @@ TEST(FieldTest, it_calculates_obstacles) {
 //        + rtt::ai::Constants::BALL_RADIUS())); // the width of the obstacle is twice robot radius
 //    // watch their goal from the center of the field
 //    // there are two robots in between, separated
-//    roboteam_proto::WorldRobot robot2;
+//    proto::WorldRobot robot2;
 //    robot2.id = 1;
 //
 //    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
