@@ -11,8 +11,8 @@ void WorldHandler::start() {
     init();
     setupSSLClients();
 
-    roboteam_proto::SSL_WrapperPacket vision_packet;
-    roboteam_proto::SSL_Referee ref_packet;
+    proto::SSL_WrapperPacket vision_packet;
+    proto::SSL_Referee ref_packet;
 
     roboteam_utils::Timer t;
     t.loop([&]() {
@@ -27,9 +27,9 @@ void WorldHandler::start() {
 void WorldHandler::init() {
     world = new WorldBase();
     KF = new KalmanFilter;
-    world_pub = new roboteam_proto::Publisher<roboteam_proto::World>(roboteam_utils::WORLD_CHANNEL);
-    ref_pub = new roboteam_proto::Publisher<roboteam_proto::SSL_Referee>(roboteam_utils::REFEREE_CHANNEL);
-    geom_pub = new roboteam_proto::Publisher<roboteam_proto::SSL_GeometryData>(roboteam_utils::GEOMETRY_CHANNEL);
+    world_pub = new proto::Publisher<proto::World>(proto::WORLD_CHANNEL);
+    ref_pub = new proto::Publisher<proto::SSL_Referee>(proto::REFEREE_CHANNEL);
+    geom_pub = new proto::Publisher<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL);
 }
 
 
@@ -51,13 +51,13 @@ void WorldHandler::setupSSLClients() {
     this_thread::sleep_for(chrono::microseconds(10000));
 }
 
-void WorldHandler::handleRefboxPackets(roboteam_proto::SSL_Referee &ref_packet) const {
+void WorldHandler::handleRefboxPackets(proto::SSL_Referee &ref_packet) const {
     while (refbox_client && refbox_client->receive(ref_packet)) {
         ref_pub->send(ref_packet);
     }
 }
 
-void WorldHandler::handleVisionPackets(roboteam_proto::SSL_WrapperPacket &vision_packet) const {
+void WorldHandler::handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const {
     while (vision_client && vision_client->receive(vision_packet)) {
         if (vision_packet.has_detection()) KF->newFrame(vision_packet.detection());
         if (vision_packet.has_geometry()) geom_pub->send(vision_packet.geometry());

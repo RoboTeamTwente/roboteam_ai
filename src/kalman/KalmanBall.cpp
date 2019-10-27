@@ -40,7 +40,7 @@ KalmanBall::KalmanBall() {
     this->K.zeros();
 }
 
-void KalmanBall::kalmanUpdateZ(roboteam_proto::SSL_DetectionBall ball, double timeStamp, uint cameraID) {
+void KalmanBall::kalmanUpdateZ(proto::SSL_DetectionBall ball, double timeStamp, uint cameraID) {
     // if we have a ball already and the measurement is too far off we do not trust it.
 
     // convert mm to m
@@ -79,9 +79,9 @@ void KalmanBall::kalmanUpdateZ(roboteam_proto::SSL_DetectionBall ball, double ti
     this->visibility = VISIBLE;
 }
 
-roboteam_proto::WorldBall KalmanBall::as_ball_message() {
+proto::WorldBall KalmanBall::as_ball_message() {
     //Same as the KalmanObject function but then for ball message
-    roboteam_proto::WorldBall msg;
+    proto::WorldBall msg;
     rtt::Position pos = kalmanGetPos();
     rtt::Position vel = kalmanGetVel();
     // since the balls z axis is being kept in the third place of the vector it is the 'rotation' here

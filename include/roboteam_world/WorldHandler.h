@@ -12,9 +12,9 @@ namespace world {
 
 class WorldHandler {
  private:
-  roboteam_proto::Publisher<roboteam_proto::World> *world_pub;
-  roboteam_proto::Publisher<roboteam_proto::SSL_Referee> *ref_pub;
-  roboteam_proto::Publisher<roboteam_proto::SSL_GeometryData> *geom_pub;
+  proto::Publisher<proto::World> *world_pub;
+  proto::Publisher<proto::SSL_Referee> *ref_pub;
+  proto::Publisher<proto::SSL_GeometryData> *geom_pub;
 
   WorldBase *world;
   KalmanFilter *KF;
@@ -29,8 +29,8 @@ class WorldHandler {
    */
   void init();
   void start();
-  void handleVisionPackets(roboteam_proto::SSL_WrapperPacket &vision_packet) const;
-  void handleRefboxPackets(roboteam_proto::SSL_Referee &ref_packet) const;
+  void handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const;
+  void handleRefboxPackets(proto::SSL_Referee &ref_packet) const;
   void setupSSLClients();
 };
 

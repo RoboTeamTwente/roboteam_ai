@@ -48,7 +48,7 @@ class KalmanObject {
         virtual void kalmanUpdateX();
 
         //if the data is more recent than the current data, import the new observation data
-        void kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot,double timeStamp, uint cameraID);
+        void kalmanUpdateZ(proto::SSL_DetectionRobot robot,double timeStamp, uint cameraID);
 
         //Get X,Y and Orientation
         rtt::Position kalmanGetPos() const;
@@ -63,7 +63,7 @@ class KalmanObject {
         bool getExistence() const;
 
         //Create a message, by default it's a robot message (the ball object overrides this)
-        virtual roboteam_proto::WorldRobot as_message() const;
+        virtual proto::WorldRobot as_message() const;
 
         double limitRotation(double rotation) const;
 

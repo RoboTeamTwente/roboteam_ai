@@ -22,9 +22,9 @@ class KalmanFilter {
  public:
   KalmanFilter();
   void kalmanUpdate();
-  void newFrame(const roboteam_proto::SSL_DetectionFrame &msg);
+  void newFrame(const proto::SSL_DetectionFrame &msg);
 
-  roboteam_proto::World getWorld();
+  proto::World getWorld();
   KalmanRobot blueBots[BOTCOUNT];
   KalmanRobot yellowBots[BOTCOUNT];
   KalmanBall ball;

@@ -23,7 +23,7 @@ public:
     /**
      * Converts this world into a ros message.
      */
-    virtual roboteam_proto::World as_message() const { return roboteam_proto::World(); };
+    virtual proto::World as_message() const { return proto::World(); };
 
 };
 
