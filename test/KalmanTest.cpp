@@ -8,13 +8,13 @@
 #include <roboteam_proto/messages_robocup_ssl_detection.pb.h>
 
 namespace world {
-    void kalman_dummy_frame(float ballx, float bally, float botx, float boty, float botw, roboteam_proto::SSL_DetectionFrame * frame) {
-        roboteam_proto::SSL_DetectionRobot * bot = frame->add_robots_yellow();
+    void kalman_dummy_frame(float ballx, float bally, float botx, float boty, float botw, proto::SSL_DetectionFrame * frame) {
+        proto::SSL_DetectionRobot * bot = frame->add_robots_yellow();
         bot->set_x(botx);
         bot->set_y(boty);
         bot->set_orientation(botw);
 
-        roboteam_proto::SSL_DetectionBall * ball = frame->add_balls();
+        proto::SSL_DetectionBall * ball = frame->add_balls();
         ball->set_x(ballx);
         ball->set_y(bally);
     }
@@ -112,7 +112,7 @@ namespace world {
 //
 //        kalmanFilter frametest;
 //
-//        auto * frame = new roboteam_proto::SSL_DetectionFrame();
+//        auto * frame = new proto::SSL_DetectionFrame();
 //        kalman_dummy_frame(1.0, 1.0, 2.0, 2.0, 0.0, frame);
 //
 //        frametest.newFrame(*frame);
