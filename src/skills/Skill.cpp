@@ -77,8 +77,8 @@ void Skill::terminate(Status s) {
     onTerminate(s);
 }
 
-roboteam_proto::RobotCommand Skill::rotateRobotCommand(roboteam_proto::RobotCommand &cmd) {
-    roboteam_proto::RobotCommand output = cmd;
+proto::RobotCommand Skill::rotateRobotCommand(proto::RobotCommand &cmd) {
+    proto::RobotCommand output = cmd;
     output.mutable_vel()->set_x(- cmd.vel().x());
     output.mutable_vel()->set_y(- cmd.vel().y());
     output.set_w(static_cast<float>(control::ControlUtils::constrainAngle(cmd.w() + M_PI)));
@@ -86,7 +86,7 @@ roboteam_proto::RobotCommand Skill::rotateRobotCommand(roboteam_proto::RobotComm
 }
 
 void Skill::refreshRobotCommand() {
-    roboteam_proto::RobotCommand emptyCmd;
+    proto::RobotCommand emptyCmd;
     emptyCmd.set_use_angle(true);
     emptyCmd.set_id(robot ? robot->id : -1);
     emptyCmd.set_geneva_state(0);

@@ -17,7 +17,7 @@ Ball::Ball()
           visibleByAnyCamera(false) {
 }
 
-Ball::Ball(const roboteam_proto::WorldBall &copy)
+Ball::Ball(const proto::WorldBall &copy)
         : position(copy.pos()), velocity(copy.vel()), filteredVelocity(copy.vel()),
           visibleByAnyCamera(copy.visible()) {
     exists = exists || copy.area() || Vector2(copy.pos()).isNotNaN();
