@@ -34,12 +34,12 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_proto::World as_message() const;
+        proto::World as_message() const;
 
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(const roboteam_proto::SSL_DetectionFrame msg);
+        void detection_callback(const proto::SSL_DetectionFrame msg);
     };
 
 }

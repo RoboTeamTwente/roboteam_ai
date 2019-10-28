@@ -65,8 +65,8 @@ namespace rtt {
         return id;
     }
 
-    roboteam_proto::WorldRobot Robot::as_message() const {
-        roboteam_proto::WorldRobot msg;
+    proto::WorldRobot Robot::as_message() const {
+        proto::WorldRobot msg;
 
         msg.set_id(id);
         msg.mutable_pos()->set_x(x);

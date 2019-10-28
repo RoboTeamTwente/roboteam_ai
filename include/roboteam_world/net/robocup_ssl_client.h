@@ -48,9 +48,9 @@ public:
     ~RoboCupSSLClient();
     bool open(bool blocking=false);
     void close();
-    bool receive(roboteam_proto::SSL_WrapperPacket & packet);
-    bool receive(roboteam_proto::RoboCup2014Legacy::Wrapper::SSL_WrapperPacket & packet);
-    bool receive(roboteam_proto::SSL_Referee & packet);
+    bool receive(proto::SSL_WrapperPacket & packet);
+    bool receive(proto::RoboCup2014Legacy::Wrapper::SSL_WrapperPacket & packet);
+    bool receive(proto::SSL_Referee & packet);
 
 };
 

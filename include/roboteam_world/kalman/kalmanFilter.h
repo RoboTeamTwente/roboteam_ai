@@ -26,9 +26,9 @@ namespace rtt {
 
         void kalmanUpdate();
 
-        void newFrame(const roboteam_proto::SSL_DetectionFrame& msg);
+        void newFrame(const proto::SSL_DetectionFrame& msg);
 
-        roboteam_proto::World getWorld();
+        proto::World getWorld();
         std::string getWorldMsg();
 
         kalmanThem theirBots[BOTCOUNT];

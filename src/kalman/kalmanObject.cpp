@@ -80,7 +80,7 @@ namespace rtt {
         }
     }
 
-    void kalmanObject::kalmanUpdateZ(roboteam_proto::SSL_DetectionRobot robot, double timeStamp, uint cameraID) {
+    void kalmanObject::kalmanUpdateZ(proto::SSL_DetectionRobot robot, double timeStamp, uint cameraID) {
         //if the new data is a certain distance from the old/predicted data, it's considered a ghost and ignored
       // convert mm to m
         float x= robot.x()/1000;
@@ -128,8 +128,8 @@ namespace rtt {
         return this->exists;
     }
 
-    roboteam_proto::WorldRobot kalmanObject::as_message() const{
-        roboteam_proto::WorldRobot msg;
+    proto::WorldRobot kalmanObject::as_message() const{
+        proto::WorldRobot msg;
         Position pos = kalmanGetPos();
         Position vel = kalmanGetVel();
         msg.set_id(id);
