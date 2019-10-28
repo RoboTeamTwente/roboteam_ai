@@ -42,8 +42,8 @@ namespace rtt {
         return existence;
     }
 
-    roboteam_proto::WorldBall Ball::as_message() const {
-        roboteam_proto::WorldBall msg;
+    proto::WorldBall Ball::as_message() const {
+        proto::WorldBall msg;
 
         msg.set_area(existence);
 

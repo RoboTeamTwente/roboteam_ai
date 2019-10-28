@@ -65,7 +65,7 @@ bool RoboCupSSLClient::open(bool blocking) {
   return(true);
 }
 
-bool RoboCupSSLClient::receive(roboteam_proto::SSL_WrapperPacket & packet) {
+bool RoboCupSSLClient::receive(proto::SSL_WrapperPacket & packet) {
   Net::Address src;
   int r=0;
   r = mc.recv(in_buffer,MaxDataGramSize,src);
@@ -77,7 +77,7 @@ bool RoboCupSSLClient::receive(roboteam_proto::SSL_WrapperPacket & packet) {
   return false;
 }
 
-bool RoboCupSSLClient::receive(roboteam_proto::RoboCup2014Legacy::Wrapper::SSL_WrapperPacket & packet) {
+bool RoboCupSSLClient::receive(proto::RoboCup2014Legacy::Wrapper::SSL_WrapperPacket & packet) {
   Net::Address src;
   int r=0;
   r = mc.recv(in_buffer,MaxDataGramSize,src);
@@ -89,7 +89,7 @@ bool RoboCupSSLClient::receive(roboteam_proto::RoboCup2014Legacy::Wrapper::SSL_W
   return false;
 }
 
-bool RoboCupSSLClient::receive(roboteam_proto::SSL_Referee & packet) {
+bool RoboCupSSLClient::receive(proto::SSL_Referee & packet) {
     Net::Address src;
     int r=0;
     r = mc.recv(in_buffer,MaxDataGramSize,src);

@@ -38,7 +38,7 @@ namespace rtt {
         Position get_velocity() const;
         uint get_id() const;
 
-       roboteam_proto::WorldRobot as_message() const;
+       proto::WorldRobot as_message() const;
     };
 
 }

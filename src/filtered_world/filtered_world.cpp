@@ -33,9 +33,9 @@ namespace rtt {
     }
 
     /// Create a message that has the world in it
-    roboteam_proto::World FilteredWorld::as_message() const {
+    proto::World FilteredWorld::as_message() const {
 
-        roboteam_proto::World returnMsg;
+        proto::World returnMsg;
         for (auto &robot : robots_blue_world) {
             returnMsg.mutable_blue()->Add(robot.second.as_message());
         }
@@ -51,7 +51,7 @@ namespace rtt {
     }
 
     /// To be called when a detection_frame message is received.
-    void FilteredWorld::detection_callback(const roboteam_proto::SSL_DetectionFrame msg) {
+    void FilteredWorld::detection_callback(const proto::SSL_DetectionFrame msg) {
         buffer_detection_frame(msg);
         //std::cout<<msg.camera_id<<std::endl;
         if (is_calculation_needed()) {
@@ -68,7 +68,7 @@ namespace rtt {
     }
 
     /// Consume a message if it is fresh
-    boost::optional<roboteam_proto::World> FilteredWorld::consumeMsg() {
+    boost::optional<proto::World> FilteredWorld::consumeMsg() {
         if (isFresh()) {
             setFresh(false);
             return as_message();
@@ -77,7 +77,7 @@ namespace rtt {
     }
 
     /// Adds a received detection frame to the buffers.
-    void FilteredWorld::buffer_detection_frame(const roboteam_proto::SSL_DetectionFrame msg) {
+    void FilteredWorld::buffer_detection_frame(const proto::SSL_DetectionFrame msg) {
 
         auto cam_id = msg.camera_id();
 
@@ -92,15 +92,15 @@ namespace rtt {
         timeFrameCaptured[cam_id] = msg.t_capture();
 
         // Add the robot data to the buffers
-        for (const roboteam_proto::SSL_DetectionRobot robot : msg.robots_blue()) {
+        for (const proto::SSL_DetectionRobot robot : msg.robots_blue()) {
             int bot_id = robot.robot_id();
 
-            robots_blue_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
+            robots_blue_buffer[bot_id][cam_id] = proto::SSL_DetectionRobot(robot);
         }
-        for (const roboteam_proto::SSL_DetectionRobot robot : msg.robots_yellow()) {
+        for (const proto::SSL_DetectionRobot robot : msg.robots_yellow()) {
             int bot_id = robot.robot_id();
 
-            robots_yellow_buffer[bot_id][cam_id] = roboteam_proto::SSL_DetectionRobot(robot);
+            robots_yellow_buffer[bot_id][cam_id] = proto::SSL_DetectionRobot(robot);
         }
 
         // ==== Ball ====
@@ -110,7 +110,7 @@ namespace rtt {
         if (!msg.balls().empty()) {
             Position previousBallPos = ball_world.get_position();
             Position previousBallVel = ball_world.get_velocity();
-            roboteam_proto::SSL_DetectionBall closestBall = msg.balls()[0];
+            proto::SSL_DetectionBall closestBall = msg.balls()[0];
             Position predictedPosition = previousBallPos + previousBallVel * (msg.t_capture() - timeLastUpdated);
             double closestDist2 = Vector2(closestBall.x(), closestBall.y()).dist2(Vector2(predictedPosition.x, predictedPosition.y));
 
@@ -177,7 +177,7 @@ namespace rtt {
             Position predictedPosition = previousBallPos + previousBallVel * (timestamp - timeLastUpdated);
 
             // First extrapolation
-            roboteam_proto::SSL_DetectionBall closestBall = ball_buffer.begin()->second;
+            proto::SSL_DetectionBall closestBall = ball_buffer.begin()->second;
             int best_camera = ball_buffer.begin()->first;
             // Initial extrapolation. Does the same as below
             double closestDist2 = Vector2(closestBall.x(), closestBall.y()).dist2(

@@ -37,29 +37,29 @@ void kalmanFilter::kalmanUpdate() {
 }
 
 // if we get a new frame we update our observations
-void kalmanFilter::newFrame(const roboteam_proto::SSL_DetectionFrame &msg) {
+void kalmanFilter::newFrame(const proto::SSL_DetectionFrame &msg) {
   std::lock_guard<std::mutex> lock(filterMutex);
 
   double timeCapture = msg.t_capture();
     lastFrameTime = timeCapture;
     uint cameraID = msg.camera_id();
-    for (const roboteam_proto::SSL_DetectionRobot& robot : msg.robots_yellow()) {
+    for (const proto::SSL_DetectionRobot& robot : msg.robots_yellow()) {
         ourBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
-    for (const roboteam_proto::SSL_DetectionRobot& robot : msg.robots_blue()) {
+    for (const proto::SSL_DetectionRobot& robot : msg.robots_blue()) {
         theirBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
     }
-    for (const roboteam_proto::SSL_DetectionBall& detBall : msg.balls()) {
+    for (const proto::SSL_DetectionBall& detBall : msg.balls()) {
         ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
     }
 
 }
 
 //Creates a world message with the currently observed objects in it
-roboteam_proto::World kalmanFilter::getWorld() {
+proto::World kalmanFilter::getWorld() {
   std::lock_guard<std::mutex> lock(filterMutex);
 
-  roboteam_proto::World world;
+  proto::World world;
     world.set_time(lastFrameTime);
     for (const auto& kalmanOurBot : ourBots){
         if (kalmanOurBot.getExistence()){
@@ -72,7 +72,7 @@ roboteam_proto::World kalmanFilter::getWorld() {
         }
     }
 
-    roboteam_proto::WorldBall worldBall = ball.as_ball_message();
+    proto::WorldBall worldBall = ball.as_ball_message();
     world.mutable_ball()->CopyFrom(worldBall);
 
   return world;

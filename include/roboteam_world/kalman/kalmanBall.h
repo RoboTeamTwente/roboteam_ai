@@ -21,10 +21,10 @@ class kalmanBall : public kalmanObject {
         kalmanBall();
 
         //Same as the KalmanObject function but then for ball message
-        roboteam_proto::WorldBall as_ball_message();
+        proto::WorldBall as_ball_message();
         //Same as the KalmanObject function but then for ball frame
         bool isVisible();
-        void kalmanUpdateZ(roboteam_proto::SSL_DetectionBall ball, double timestamp, uint cameraID);
+        void kalmanUpdateZ(proto::SSL_DetectionBall ball, double timestamp, uint cameraID);
         void kalmanUpdateX() override;
         void updateVisibility();
         void filterVel(Vector2 curVel);

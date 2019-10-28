@@ -32,7 +32,7 @@ namespace rtt {
         Position get_velocity() const;
         uint get_existence() const;
 
-        roboteam_proto::WorldBall as_message() const;
+        proto::WorldBall as_message() const;
     };
 
 }

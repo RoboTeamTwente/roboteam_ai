@@ -10,7 +10,7 @@ namespace rtt {
         ball = Ball();
     }
 
-    void WorldDummy::detection_callback(const roboteam_proto::SSL_DetectionFrame msg) {
+    void WorldDummy::detection_callback(const proto::SSL_DetectionFrame msg) {
 
         blue.clear();
         yellow.clear();
@@ -45,8 +45,8 @@ namespace rtt {
     }
 
 
-    roboteam_proto::World WorldDummy::as_message() const {
-        roboteam_proto::World msg;
+    proto::World WorldDummy::as_message() const {
+        proto::World msg;
 
         for (const auto &robot : blue) {
             msg.mutable_blue()->Add(robot.as_message());

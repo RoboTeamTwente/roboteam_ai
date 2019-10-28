@@ -11,14 +11,14 @@ namespace rtt {
     void RosHandler::init(rtt::WorldBase* _world) {
       KF = new kalmanFilter;
       world = _world;
-      world_pub = new roboteam_proto::Publisher<roboteam_proto::World>(roboteam_utils::WORLD_CHANNEL);
-      ref_pub = new roboteam_proto::Publisher<roboteam_proto::SSL_Referee>(roboteam_utils::REFEREE_CHANNEL);
-      geom_pub = new roboteam_proto::Publisher<roboteam_proto::SSL_GeometryData>(roboteam_utils::GEOMETRY_CHANNEL);
+      world_pub = new proto::Publisher<proto::World>(roboteam_utils::WORLD_CHANNEL);
+      ref_pub = new proto::Publisher<proto::SSL_Referee>(roboteam_utils::REFEREE_CHANNEL);
+      geom_pub = new proto::Publisher<proto::SSL_GeometryData>(roboteam_utils::GEOMETRY_CHANNEL);
     }
 
     void RosHandler::kalmanLoop() {
-      roboteam_proto::SSL_WrapperPacket vision_packet;
-      roboteam_proto::SSL_Referee ref_packet;
+      proto::SSL_WrapperPacket vision_packet;
+      proto::SSL_Referee ref_packet;
 
 
       constexpr int DEFAULT_VISION_PORT = 10006;
@@ -97,7 +97,7 @@ namespace rtt {
 
 
     /// Callback function for /vision_detection in ros_handler
-    void RosHandler::detection_callback(roboteam_proto::SSL_DetectionFrame frame) {
+    void RosHandler::detection_callback(proto::SSL_DetectionFrame frame) {
         if (kalman) {
           KF->newFrame(frame);
           return;
@@ -112,7 +112,7 @@ namespace rtt {
         } else {
             // Generic world approach
             // Where you can never be sure if this message is the new one
-            roboteam_proto::World world_msg = world->as_message();
+            proto::World world_msg = world->as_message();
           world_pub->send(world_msg);
         }
     }
