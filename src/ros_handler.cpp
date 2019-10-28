@@ -11,9 +11,9 @@ namespace rtt {
     void RosHandler::init(rtt::WorldBase* _world) {
       KF = new kalmanFilter;
       world = _world;
-      world_pub = new proto::Publisher<proto::World>(roboteam_utils::WORLD_CHANNEL);
-      ref_pub = new proto::Publisher<proto::SSL_Referee>(roboteam_utils::REFEREE_CHANNEL);
-      geom_pub = new proto::Publisher<proto::SSL_GeometryData>(roboteam_utils::GEOMETRY_CHANNEL);
+      world_pub = new proto::Publisher<proto::World>(proto::WORLD_CHANNEL);
+      ref_pub = new proto::Publisher<proto::SSL_Referee>(proto::REFEREE_CHANNEL);
+      geom_pub = new proto::Publisher<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL);
     }
 
     void RosHandler::kalmanLoop() {
