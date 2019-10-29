@@ -7,7 +7,7 @@
 // The tactics variable saves the tactic of the behaviour tree and can be kept
 
 // Changes made by crazy person:
-#include "treeinterp/TreePrototype.h"
+#include "treeinterp/TreeProtoType.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
@@ -15,7 +15,7 @@ std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
-std::shared_ptr<bt::BehaviorTree> jesse_tree;
+std::shared_ptr<bt::BehaviorTree> tree;
 
 
 bool BTFactory::weMadeTrees = false;
@@ -26,8 +26,8 @@ void BTFactory::makeTrees() {
     BTFactory::weMadeTrees = false;
 
     std::cout << "Re-Make Trees From Json" << std::endl;
-    jesse_tree = bt::createNormalPlayStrategy();
-
+    bt::TreeProtoType protype_tree;
+    tree = protype_tree.createNormalPlayStrategy();
 
 
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
@@ -60,8 +60,7 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     // Probably the problem is not translating the blackboard variables.
     // Fix: hardcode one of the blackboards from the tree editor into the code, see if this causes the problem
     // If so, we really need to do something about this monstrous structure - document it or destroy it
-    std::cout << "name of the tree:" + jesse_tree->name;
-    return jesse_tree;
+    return tree;
 //
 //    if (strategyRepo.find(treeName) != strategyRepo.end()) {
 //        return strategyRepo.find(treeName)->second;

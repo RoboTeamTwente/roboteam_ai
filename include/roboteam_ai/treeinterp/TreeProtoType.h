@@ -15,8 +15,8 @@ namespace bt {
 
 class TreeProtoType {
  public:
-  std::shared_ptr<bt::DefaultTactic> createDefensiveTactic();
+  std::shared_ptr<bt::DefaultTactic> createDefensiveTactic(std::shared_ptr<Blackboard> bb);
   std::shared_ptr<bt::BehaviorTree> createNormalPlayStrategy();
-  std::shared_ptr<bt::Role> createDefenderRole(std::string name);
+  std::shared_ptr<bt::Role> createDefenderRole(std::string name, std::shared_ptr<Blackboard> bb);
 };
 }

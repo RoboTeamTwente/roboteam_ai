@@ -95,7 +95,9 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
 
         switch (feature) {
 
-        default:return - 1;
+        default:
+            std::cout << "no match for feature" << std::endl;
+            return - 1;
 
         case CLOSE_TO_BALL: {
             auto ball = world::world->getBall();

@@ -30,6 +30,8 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Running;
     }
 
+    std::cout << "id of the robot being ticked: " << robot->id << std::endl;
+
     Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
     auto shotData = robot->getShotController()->getRobotCommand(
             *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM,3);
