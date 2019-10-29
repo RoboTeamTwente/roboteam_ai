@@ -71,7 +71,7 @@ private:
 
  public:
   FieldMessage() = default;
-  FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize);
+  FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize);
   void invert();
   float mm_to_m(float scalar);
   Vector2 mm_to_m(Vector2 vector);

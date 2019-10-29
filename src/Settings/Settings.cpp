@@ -12,8 +12,8 @@ namespace rtt {
         setId(id);
     }
 
-    roboteam_proto::Setting Settings::toMessage() {
-        roboteam_proto::Setting setting;
+    proto::Setting Settings::toMessage() {
+        proto::Setting setting;
         setting.set_id(id);
         setting.set_isleft(left);
         setting.set_isyellow(yellow);

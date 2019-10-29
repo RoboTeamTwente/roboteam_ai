@@ -21,7 +21,7 @@ void Pause::haltRobots() {
 
     auto us = world::world->getUs();
     for (const auto &robot : us) {
-        roboteam_proto::RobotCommand cmd;
+        proto::RobotCommand cmd;
         cmd.mutable_vel()->set_x(0);
         cmd.mutable_vel()->set_y(0);
         cmd.set_id(robot->id);
