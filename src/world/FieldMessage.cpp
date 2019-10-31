@@ -6,7 +6,6 @@
 namespace rtt {
 
 FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
-    std::cout << "Laten we beginnen!" << std::endl;
     fieldValues[FIELD_LENGTH] = mm_to_m(sslFieldSize.field_length());
     fieldValues[FIELD_WIDTH] = mm_to_m(sslFieldSize.field_width());
     fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
@@ -15,16 +14,13 @@ FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
 
     for (roboteam_proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
         FieldLineSegment newLine;
-        std::cout << line.name() << std::endl;
         if (NAME_MAP.count(line.name()) > 0) {
             newLine.name = std::string(NAME_MAP[line.name()]);
             newLine.begin = mm_to_m(line.p1());
             newLine.end = mm_to_m(line.p2());
             newLine.thickness = mm_to_m(line.thickness());
-            std::cout << newLine.name << std::endl;
             FieldLineName fieldLineName = CONVERT_TO_FIELD_LINE_NAME.at(newLine.name);
             fieldLines[fieldLineName] = newLine;
-            std::cout << "Done" << std::endl;
         }
     }
 
@@ -50,46 +46,33 @@ float FieldMessage::mm_to_m(float scalar) {
 }
 
 Vector2 FieldMessage::mm_to_m(Vector2 vector) {
-  return {vector.x/1000, vector.y/1000};
+  return {vector.x / 1000, vector.y / 1000};
 }
 
-// getters And setters
-double FieldMessage::field_width(){
-    return fieldValues[FIELD_WIDTH];
-}
-double FieldMessage::field_length(){
-    return fieldValues[FIELD_LENGTH];
-}
-double FieldMessage::goal_width(){
-    return fieldValues[GOAL_WIDTH];
-}
-double FieldMessage::goal_depth(){
-    return fieldValues[GOAL_DEPTH];
-}
-double FieldMessage::boundary_width(){
-  return fieldValues[BOUNDARY_WIDTH];
-}
-double FieldMessage::getLeftLineX() {
-    return fieldValues[LEFTMOST_X];
+double FieldMessage::get(FieldValueName valueName) {
+    if (fieldValues.count(valueName) > 0) {
+        return fieldValues.at(valueName);
+    }
+    else {
+        /* This clause is needed, because the default constructor could have been called. In which case the variables
+        have not been assigned a value. So the values are equal to 0.0 */
+        return 0.0;
+    }
 }
 
-FieldLineSegment FieldMessage::getTop_line(){
-  return fieldLines[TOP_LINE];
+FieldLineSegment FieldMessage::get(FieldLineName lineName) {
+    return fieldLines.at(lineName);
 }
-FieldLineSegment FieldMessage::getBottom_line(){
-  return fieldLines[BOTTOM_LINE];
+
+FieldArc FieldMessage::get(FieldArcName arcName) {
+    return fieldArcs.at(arcName);
 }
+
 FieldLineSegment FieldMessage::getLeft_line(){
   return fieldLines[LEFT_LINE];
 }
 FieldLineSegment FieldMessage::getRight_line(){
   return fieldLines[RIGHT_LINE];
-}
-FieldLineSegment FieldMessage::getHalf_line(){
-  return fieldLines[HALF_LINE];
-}
-FieldLineSegment FieldMessage::getCenter_line(){
-  return fieldLines[CENTER_LINE];
 }
 FieldLineSegment FieldMessage::getLeft_penalty_line(){
   return fieldLines[LEFT_PENALTY_LINE];
