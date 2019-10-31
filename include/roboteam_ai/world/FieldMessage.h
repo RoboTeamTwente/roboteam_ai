@@ -62,7 +62,7 @@ enum FieldArcName {
 };
 
 /**
- * Stores all constant data (data that does not change through the match) about the field, which includes: <br>
+ * Stores all singular constant data (data that does not change through the match) about the field, which includes: <br>
  * - Length, widths, heights of the field, goals and boundary. <br>
  * - The location, direction and sizes of all lines on the field. <br>
  * - The location and sizes of all arcs on the field.
@@ -129,17 +129,6 @@ private:
     // The field lines and arcs. For easy addressing.
     FieldLineSegment left_line;
     FieldLineSegment right_line;
-    FieldLineSegment left_penalty_line;
-    FieldLineSegment right_penalty_line;
-    FieldArc top_left_penalty_arc;
-    FieldArc bottom_left_penalty_arc;
-    FieldArc top_right_penalty_arc;
-    FieldArc bottom_right_penalty_arc;
-    FieldLineSegment top_left_penalty_stretch;
-    FieldLineSegment bottom_left_penalty_stretch;
-    FieldLineSegment top_right_penalty_stretch;
-    FieldLineSegment bottom_right_penalty_stretch;
-    FieldArc center_circle;
 
     // All the field lines and arcs again. For easy iterating.
     std::vector<FieldLineSegment> field_lines;
@@ -162,14 +151,7 @@ public:
     FieldLineSegment getRight_line();
     FieldLineSegment getLeft_penalty_line();
     FieldLineSegment getRight_penalty_line();
-    FieldArc getTop_left_penalty_arc();
-    FieldArc getBottom_left_penalty_arc();
-    FieldArc getTop_right_penalty_arc();
-    FieldArc getBottom_right_penalty_arc();
-    FieldLineSegment getTop_left_penalty_stretch();
-    FieldLineSegment getBottom_left_penalty_stretch();
     FieldLineSegment getTop_right_penalty_stretch();
-    FieldLineSegment getBottom_right_penalty_stretch();
     FieldArc getCenter_circle();
 
 private:
