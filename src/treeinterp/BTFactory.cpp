@@ -15,7 +15,7 @@ std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
-std::shared_ptr<bt::BehaviorTree> tree;
+std::shared_ptr<bt::BehaviorTree> testing_tree;
 
 
 bool BTFactory::weMadeTrees = false;
@@ -27,9 +27,9 @@ void BTFactory::makeTrees() {
 
     std::cout << "Re-Make Trees From Json" << std::endl;
     bt::TreeProtoType protype_tree;
-    tree = protype_tree.createNormalPlayStrategy();
+    testing_tree = protype_tree.createNormalPlayStrategy();
 
-
+    // TODO Remove this legacy code
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
@@ -56,12 +56,11 @@ void BTFactory::makeTrees() {
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
-    // from here we have problem ohno
-    // Probably the problem is not translating the blackboard variables.
-    // Fix: hardcode one of the blackboards from the tree editor into the code, see if this causes the problem
-    // If so, we really need to do something about this monstrous structure - document it or destroy it
-    return tree;
-//
+    // Hardcode this to always return the tree we make using our cpp code.
+    // TODO: We need a structure for storing the c++ trees
+    return testing_tree;
+
+//    Leaving this code commented because it might be useful for later, depending on how we want to structure our tree storage
 //    if (strategyRepo.find(treeName) != strategyRepo.end()) {
 //        return strategyRepo.find(treeName)->second;
 //    }

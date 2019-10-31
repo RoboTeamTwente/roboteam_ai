@@ -15,8 +15,19 @@ namespace bt {
 
 class TreeProtoType {
  public:
-  std::shared_ptr<bt::DefaultTactic> createDefensiveTactic(std::shared_ptr<Blackboard> bb);
-  std::shared_ptr<bt::BehaviorTree> createNormalPlayStrategy();
-  std::shared_ptr<bt::Role> createDefenderRole(std::string name, std::shared_ptr<Blackboard> bb);
-};
+    std::shared_ptr<bt::DefaultTactic> createDefensiveTactic(std::shared_ptr<Blackboard> bb);
+    std::shared_ptr<bt::BehaviorTree> createNormalPlayStrategy();
+    std::shared_ptr<bt::Role> createDefenderRole(std::string name);
+
+private:
+    std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {
+            {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o3", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o4", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o5", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o6", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
+            {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
+    };};
 }
