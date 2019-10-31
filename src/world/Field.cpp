@@ -267,12 +267,12 @@ double Field::getDistanceToGoal(bool ourGoal, const Vector2 &point) {
 
 Vector2 Field::getPenaltyPoint(bool ourGoal) {
   if (ourGoal) {
-    Vector2 begin = get_field().getLeft_penalty_line().begin;
-    Vector2 end = get_field().getLeft_penalty_line().end;
+    Vector2 begin = get_field().get(LEFT_PENALTY_LINE).begin;
+    Vector2 end = get_field().get(LEFT_PENALTY_LINE).end;
     return (begin + ((end - begin)*0.5));
   } else {
-    Vector2 begin = get_field().getRight_penalty_line().begin;
-    Vector2 end = get_field().getRight_penalty_line().end;
+    Vector2 begin = get_field().get(RIGHT_PENALTY_LINE).begin;
+    Vector2 end = get_field().get(RIGHT_PENALTY_LINE).end;
     return (begin + ((end - begin)*0.5));
   }
 
@@ -316,19 +316,19 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
                                    _field.get(FIELD_LENGTH) * 0.5 + margin;
 
   std::vector<Vector2> defenceAreaUsPoints = {
-      {_field.getLeft_penalty_line().begin.x + margin, _field.getLeft_penalty_line().begin.y - margin},
-      {_field.getLeft_penalty_line().end.x + margin, _field.getLeft_penalty_line().end.y + margin},
-      {backLineUsXCoordinate, _field.getLeft_penalty_line().end.y + margin},
-      {backLineUsXCoordinate, _field.getLeft_penalty_line().begin.y - margin}};
+      {_field.get(LEFT_PENALTY_LINE).begin.x + margin, _field.get(LEFT_PENALTY_LINE).begin.y - margin},
+      {_field.get(LEFT_PENALTY_LINE).end.x + margin, _field.get(LEFT_PENALTY_LINE).end.y + margin},
+      {backLineUsXCoordinate, _field.get(LEFT_PENALTY_LINE).end.y + margin},
+      {backLineUsXCoordinate, _field.get(LEFT_PENALTY_LINE).begin.y - margin}};
 
   interface::Input::drawDebugData(defenceAreaUsPoints);
   Polygon defenceAreaUs(defenceAreaUsPoints);
 
   std::vector<Vector2> defenceAreaThemPoints = {
-      {_field.getRight_penalty_line().begin.x - margin, _field.getRight_penalty_line().begin.y - margin},
-      {_field.getRight_penalty_line().end.x - margin, _field.getRight_penalty_line().end.y + margin},
-      {backLineThemXCoordinate, _field.getRight_penalty_line().end.y + margin},
-      {backLineThemXCoordinate, _field.getRight_penalty_line().begin.y - margin}};
+      {_field.get(RIGHT_PENALTY_LINE).begin.x - margin, _field.get(RIGHT_PENALTY_LINE).begin.y - margin},
+      {_field.get(RIGHT_PENALTY_LINE).end.x - margin, _field.get(RIGHT_PENALTY_LINE).end.y + margin},
+      {backLineThemXCoordinate, _field.get(RIGHT_PENALTY_LINE).end.y + margin},
+      {backLineThemXCoordinate, _field.get(RIGHT_PENALTY_LINE).begin.y - margin}};
 
   Polygon defenceAreaThem(defenceAreaThemPoints);
   return ourDefenseArea ? defenceAreaUs : defenceAreaThem;

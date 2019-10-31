@@ -70,8 +70,8 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 
     auto pp = world::field->getPenaltyPoint(true); // penalty point
 
-    auto defenseAreaLineA = world::field->get_field().getLeft_penalty_line().begin;
-    auto defenseAreaLineB = world::field->get_field().getLeft_penalty_line().end;
+    auto defenseAreaLineA = world::field->get_field().get(LEFT_PENALTY_LINE).begin;
+    auto defenseAreaLineB = world::field->get_field().get(LEFT_PENALTY_LINE).end;
 
     // divide the upper and bottom lines of the defense area and store those values.
     auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);

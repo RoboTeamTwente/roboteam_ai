@@ -68,25 +68,6 @@ FieldArc FieldMessage::get(FieldArcName arcName) {
     return fieldArcs.at(arcName);
 }
 
-FieldLineSegment FieldMessage::getLeft_line(){
-    return left_line;
-}
-FieldLineSegment FieldMessage::getRight_line(){
-    return right_line;
-}
-FieldLineSegment FieldMessage::getLeft_penalty_line(){
-    return fieldLines[LEFT_PENALTY_LINE];
-}
-FieldLineSegment FieldMessage::getRight_penalty_line(){
-    return fieldLines[RIGHT_PENALTY_LINE];
-}
-FieldLineSegment FieldMessage::getTop_right_penalty_stretch(){
-    return fieldLines[TOP_RIGHT_PENALTY_STRETCH];
-}
-FieldArc FieldMessage::getCenter_circle(){
-    return fieldArcs[CENTER_CIRCLE];
-}
-
 std::vector<FieldLineSegment> FieldMessage::getField_lines(){
   return field_lines;
 }
@@ -104,18 +85,18 @@ void FieldMessage::invert() {
     }
 }
 
-    void FieldMessage::invertFieldLine(FieldLineSegment &line) const {
-        line.begin.x = -line.begin.x;
-        line.begin.y = -line.begin.y;
-        line.end.x = -line.end.x;
-        line.end.y = -line.end.y;
-    }
+void FieldMessage::invertFieldLine(FieldLineSegment &line) const {
+    line.begin.x = -line.begin.x;
+    line.begin.y = -line.begin.y;
+    line.end.x = -line.end.x;
+    line.end.y = -line.end.y;
+}
 
-    void FieldMessage::invertArc(FieldArc &arc) const {
-        arc.center.x = -arc.center.x;
-        arc.center.y = -arc.center.y;
-        arc.a1 = -arc.a1;
-        arc.a2 = -arc.a2;
-    }
+void FieldMessage::invertArc(FieldArc &arc) const {
+    arc.center.x = -arc.center.x;
+    arc.center.y = -arc.center.y;
+    arc.a1 = -arc.a1;
+    arc.a2 = -arc.a2;
+}
 
 }

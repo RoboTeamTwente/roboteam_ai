@@ -156,32 +156,32 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 
     // draw the circle in the middle
-    auto centercircle = rtt::ai::world::field->get_field().getCenter_circle();
+    auto centercircle = rtt::ai::world::field->get_field().get(CENTER_CIRCLE);
     Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
     painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
 
         painter.setPen(Qt::red);
-auto line = world::field->get_field().getLeft_penalty_line();
+        auto line = world::field->get_field().get(LEFT_PENALTY_LINE);
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
         painter.setPen(Qt::green);
-        line = world::field->get_field().getRight_penalty_line();
+        line = world::field->get_field().get(RIGHT_PENALTY_LINE);
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         painter.setPen(Qt::green);
-        line = world::field->get_field().getRight_line();
+        line = world::field->get_field().get(RIGHT_LINE);
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         painter.setPen(Qt::red);
-        line = world::field->get_field().getLeft_line();
+        line = world::field->get_field().get(LEFT_LINE);
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);

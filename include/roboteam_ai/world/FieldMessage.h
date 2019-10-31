@@ -126,10 +126,6 @@ private:
     std::map<FieldLineName, FieldLineSegment> fieldLines = {};
     std::map<FieldArcName, FieldArc> fieldArcs = {};
 
-    // The field lines and arcs. For easy addressing.
-    FieldLineSegment left_line;
-    FieldLineSegment right_line;
-
     // All the field lines and arcs again. For easy iterating.
     std::vector<FieldLineSegment> field_lines;
     std::vector<FieldArc> field_arcs;
@@ -146,13 +142,6 @@ public:
     FieldArc get(FieldArcName arcName);
     std::vector<FieldLineSegment> getField_lines();
     std::vector<FieldArc> getField_arcs();
-
-    FieldLineSegment getLeft_line();
-    FieldLineSegment getRight_line();
-    FieldLineSegment getLeft_penalty_line();
-    FieldLineSegment getRight_penalty_line();
-    FieldLineSegment getTop_right_penalty_stretch();
-    FieldArc getCenter_circle();
 
 private:
     void invertArc(FieldArc &arc) const;

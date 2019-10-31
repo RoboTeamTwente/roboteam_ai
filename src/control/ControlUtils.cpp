@@ -294,11 +294,11 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
     if (world::field->pointIsInDefenceArea(position, true, margin)) {
-        position.x = std::max(position.x, world::field->get_field().getLeft_penalty_line().begin.x + margin);
+        position.x = std::max(position.x, world::field->get_field().get(LEFT_PENALTY_LINE).begin.x + margin);
         return position;
     }
     if (world::field->pointIsInDefenceArea(position, false, margin)) {
-        position.x = std::min(position.x, world::field->get_field().getRight_penalty_line().begin.x - margin);
+        position.x = std::min(position.x, world::field->get_field().get(RIGHT_PENALTY_LINE).begin.x - margin);
         return position;
     }
     return position;
