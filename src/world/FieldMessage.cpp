@@ -69,43 +69,43 @@ FieldArc FieldMessage::get(FieldArcName arcName) {
 }
 
 FieldLineSegment FieldMessage::getLeft_line(){
-  return fieldLines[LEFT_LINE];
+    return left_line;
 }
 FieldLineSegment FieldMessage::getRight_line(){
-  return fieldLines[RIGHT_LINE];
+    return right_line;
 }
 FieldLineSegment FieldMessage::getLeft_penalty_line(){
-  return fieldLines[LEFT_PENALTY_LINE];
+    return fieldLines[LEFT_PENALTY_LINE];
 }
 FieldLineSegment FieldMessage::getRight_penalty_line(){
-  return fieldLines[RIGHT_PENALTY_LINE];
+    return fieldLines[RIGHT_PENALTY_LINE];
 }
 FieldArc FieldMessage::getTop_left_penalty_arc(){
-  return fieldArcs[TOP_LEFT_PENALTY_ARC];
+    return fieldArcs[TOP_LEFT_PENALTY_ARC];
 }
 FieldArc FieldMessage::getBottom_left_penalty_arc(){
-  return fieldArcs[BOTTOM_LEFT_PENALTY_ARC];
+    return fieldArcs[BOTTOM_LEFT_PENALTY_ARC];
 }
 FieldArc  FieldMessage::getTop_right_penalty_arc(){
-  return fieldArcs[TOP_RIGHT_PENALTY_ARC];
+    return fieldArcs[TOP_RIGHT_PENALTY_ARC];
 }
 FieldArc  FieldMessage::getBottom_right_penalty_arc(){
-  return fieldArcs[BOTTOM_RIGHT_PENALTY_ARC];
+    return fieldArcs[BOTTOM_RIGHT_PENALTY_ARC];
 }
 FieldLineSegment FieldMessage::getTop_left_penalty_stretch(){
-  return fieldLines[TOP_LEFT_PENALTY_STRETCH];
+    return fieldLines[TOP_LEFT_PENALTY_STRETCH];
 }
 FieldLineSegment FieldMessage::getBottom_left_penalty_stretch(){
-  return fieldLines[BOTTOM_LEFT_PENALTY_STRETCH];
+    return fieldLines[BOTTOM_LEFT_PENALTY_STRETCH];
 }
 FieldLineSegment FieldMessage::getTop_right_penalty_stretch(){
-  return fieldLines[TOP_RIGHT_PENALTY_STRETCH];
+    return fieldLines[TOP_RIGHT_PENALTY_STRETCH];
 }
 FieldLineSegment FieldMessage::getBottom_right_penalty_stretch(){
-  return fieldLines[BOTTOM_RIGHT_PENALTY_STRETCH];
+    return fieldLines[BOTTOM_RIGHT_PENALTY_STRETCH];
 }
 FieldArc FieldMessage::getCenter_circle(){
-  return fieldArcs[CENTER_CIRCLE];
+    return fieldArcs[CENTER_CIRCLE];
 }
 
 std::vector<FieldLineSegment> FieldMessage::getField_lines(){

@@ -24,8 +24,8 @@ void IsBallCloseToBorder::onInitialize() {
 bt::Node::Status IsBallCloseToBorder::onUpdate() {
     if (properties->getBool("corner")) {
         auto field = world::field->get_field();
-        double xDiff = field.field_length() / 2 - abs(ball->getPos().x);
-        double yDiff = field.field_width() / 2 - abs(ball->getPos().y);
+        double xDiff = field.get(FIELD_LENGTH) / 2 - abs(ball->getPos().x);
+        double yDiff = field.get(FIELD_WIDTH) / 2 - abs(ball->getPos().y);
 
         if (xDiff >= margin || yDiff >= margin) {
             return Status::Failure;

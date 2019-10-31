@@ -19,7 +19,7 @@ Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
 
 void Keeper::onInitialize() {
     goalPos = world::field->get_our_goal_center();
-    goalwidth = world::field->get_field().goal_width();
+    goalwidth = world::field->get_field().get(GOAL_WIDTH);
     //Create arc for keeper to drive on
     blockCircle = control::ControlUtils::createKeeperArc();
 
@@ -134,8 +134,8 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
     auto field = world::field->get_field();
-    Vector2 startGoal = {- field.field_length()/2, - field.goal_width()/2};
-    Vector2 endGoal = {- field.field_length()/2, field.goal_width()/2};
+    Vector2 startGoal = {- field.get(FIELD_LENGTH) / 2, - field.get(GOAL_WIDTH) / 2};
+    Vector2 endGoal = {- field.get(FIELD_LENGTH) / 2, field.get(GOAL_WIDTH) / 2};
     if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
         goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
     }

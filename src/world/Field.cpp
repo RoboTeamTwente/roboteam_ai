@@ -29,12 +29,12 @@ void Field::set_field(FieldMessage _field) {
 
 Vector2 Field::get_our_goal_center() {
   std::lock_guard<std::mutex> lock(fieldMutex);
-  return Vector2(field.field_length()/-2, 0);
+  return Vector2(field.get(FIELD_LENGTH) / -2, 0);
 }
 
 Vector2 Field::get_their_goal_center() {
   std::lock_guard<std::mutex> lock(fieldMutex);
-  return Vector2(field.field_length()/2, 0);
+  return Vector2(field.get(FIELD_LENGTH) / 2, 0);
 }
 
 bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
@@ -46,8 +46,8 @@ bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, do
 bool Field::pointIsInField(const Vector2 &point, double margin) {
   auto field = get_field();
 
-  double halfLength = field.field_length()*0.5 - margin;
-  double halfWidth = field.field_width()*0.5 - margin;
+  double halfLength = field.get(FIELD_LENGTH) * 0.5 - margin;
+  double halfWidth = field.get(FIELD_WIDTH) * 0.5 - margin;
 
   return (point.x <= halfLength && point.x >= -halfLength &&
       point.y <= halfWidth && point.y >= -halfWidth);
@@ -70,7 +70,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &p
     std::lock_guard<std::mutex> lock(fieldMutex);
     _field = field;
   }
-  double goalWidth = _field.goal_width();
+  double goalWidth = _field.get(GOAL_WIDTH);
   double blockadeLength = 0;
   for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
     blockadeLength += blockade.first.dist(blockade.second);
@@ -252,7 +252,7 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
   FieldMessage _field = get_field();
 
   // get the sides of the goal
-  double goalWidth = _field.goal_width();
+  double goalWidth = _field.get(GOAL_WIDTH);
   auto goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
   Vector2 upperGoalSide = {goalCenter.x, goalCenter.y + (goalWidth/2)};
   Vector2 lowerGoalSide = {goalCenter.x, goalCenter.y - (goalWidth/2)};
@@ -310,10 +310,10 @@ bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart
 Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
   FieldMessage _field = get_field();
 
-  double backLineUsXCoordinate = includeOutSideField ? -_field.field_length()*0.5 - _field.boundary_width() :
-                                 -_field.field_length()*0.5 - margin;
-  double backLineThemXCoordinate = includeOutSideField ? _field.field_length()*0.5 + _field.boundary_width() :
-                                   _field.field_length()*0.5 + margin;
+  double backLineUsXCoordinate = includeOutSideField ? -_field.get(FIELD_LENGTH)*0.5 - _field.get(BOUNDARY_WIDTH):
+                                 -_field.get(FIELD_LENGTH) * 0.5 - margin;
+  double backLineThemXCoordinate = includeOutSideField ? _field.get(FIELD_LENGTH)*0.5 + _field.get(BOUNDARY_WIDTH):
+                                   _field.get(FIELD_LENGTH) * 0.5 + margin;
 
   std::vector<Vector2> defenceAreaUsPoints = {
       {_field.getLeft_penalty_line().begin.x + margin, _field.getLeft_penalty_line().begin.y - margin},
@@ -338,7 +338,7 @@ Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
   FieldMessage _field = get_field();
 
   double marginBackside = hasBackMargin ? margin : 0.0;
-  auto goalDepth = _field.goal_depth() + marginBackside;
+  auto goalDepth = _field.get(GOAL_DEPTH) + marginBackside;
 
   if (ourGoal) {
     auto ourGoalSides = getGoalSides(true);
@@ -367,8 +367,8 @@ Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
 Polygon Field::getFieldEdge(double margin) {
   auto field = get_field();
 
-  double halfLength = field.field_length()*0.5f - margin;
-  double halfWidth = field.field_width()*0.5f - margin;
+  double halfLength = field.get(FIELD_LENGTH) * 0.5f - margin;
+  double halfWidth = field.get(FIELD_WIDTH) * 0.5f - margin;
 
   std::vector<Vector2> fieldEdge = {
       {-halfLength, -halfWidth},

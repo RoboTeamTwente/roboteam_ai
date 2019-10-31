@@ -213,7 +213,7 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
 std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
     std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
     double angleMargin = sin(2.0/180.0*M_PI);
-    double constantMargin = 0.05*world::field->get_field().goal_width();
+    double constantMargin = 0.05 * world::field->get_field().get(GOAL_WIDTH);
     Vector2 leftPoint(goalSides.first.x,
             goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));
     Vector2 rightPoint(goalSides.second.x,

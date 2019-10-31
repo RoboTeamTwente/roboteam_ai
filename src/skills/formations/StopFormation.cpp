@@ -116,8 +116,8 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionA;
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
-    double goal_width=world::field->get_field().goal_width();
-    if (ball->getPos().y > goal_width){
+    double goal_width=world::field->get_field().get(GOAL_WIDTH);
+    if (ball->getPos().y>goal_width){
         inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
         inFrontOfDefenseAreaPositionC = {pp.x + offset, dTopY};
@@ -210,16 +210,16 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
 
     std::vector<Vector2> proposals;
     // near the corners
-    proposals.push_back({-field.field_length()*0.5 + 1.0, -(field.field_width()*0.5-1.5)});
-    proposals.push_back({-field.field_length()*0.5 + 1.0, (field.field_width()*0.5-1.5)});
+    proposals.push_back({-field.get(FIELD_LENGTH) * 0.5 + 1.0, -(field.get(FIELD_WIDTH)*0.5-1.5)});
+    proposals.push_back({-field.get(FIELD_LENGTH) * 0.5 + 1.0, (field.get(FIELD_WIDTH)*0.5-1.5)});
 
     // somewhere in the middle of our half
-    proposals.push_back({-field.field_length()*0.3, -(field.field_width()*0.5-1.5)});
-    proposals.push_back({-field.field_length()*0.3, (field.field_width()*0.5-1.5)});
+    proposals.push_back({-field.get(FIELD_LENGTH) * 0.3, -(field.get(FIELD_WIDTH)*0.5-1.5)});
+    proposals.push_back({-field.get(FIELD_LENGTH) * 0.3, (field.get(FIELD_WIDTH)*0.5-1.5)});
 
     // offensive
-    proposals.push_back({-1, -(field.field_width()*0.5-1.5)});
-    proposals.push_back({-1, (field.field_width()*0.5-1.5)});
+    proposals.push_back({-1, -(field.get(FIELD_WIDTH)*0.5-1.5)});
+    proposals.push_back({-1, (field.get(FIELD_WIDTH)*0.5-1.5)});
     proposals.push_back({-1, 0});
 
     for (auto proposal : proposals) {

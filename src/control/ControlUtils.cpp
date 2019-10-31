@@ -170,7 +170,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
 
 }
 rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth = rtt::ai::world::field->get_field().goal_width();
+    double goalwidth = rtt::ai::world::field->get_field().get(GOAL_WIDTH);
     Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
@@ -281,11 +281,11 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
     auto field = world::field->get_field();
 
-    double hFieldLength = field.field_length()/2;
+    double hFieldLength = field.get(FIELD_LENGTH) / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, - hFieldLength + margin);
 
-    double hFieldWidth = field.field_width()/2;
+    double hFieldWidth = field.get(FIELD_WIDTH) / 2;
     position.y = std::min(position.y, hFieldWidth - margin);
     position.y = std::max(position.y, - hFieldWidth + margin);
 

@@ -396,7 +396,7 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     bool collidesWithTheirGoal = world::field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
-        collision.setGoalCollision(point->pos, world::field->get_field().goal_width()/2 - fabs(point->pos.y) * 1.1);
+        collision.setGoalCollision(point->pos, world::field->get_field().get(GOAL_WIDTH) / 2 - fabs(point->pos.y) * 1.1);
     }
 
     return collision;

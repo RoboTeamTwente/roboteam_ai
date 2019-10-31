@@ -238,7 +238,7 @@ void InterceptBall::sendStopCommand() {
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
-    double goalWidth = world::field->get_field().goal_width();
+    double goalWidth = world::field->get_field().get(GOAL_WIDTH);
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
@@ -250,12 +250,12 @@ bool InterceptBall::ballToGoal() {
 // Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
     Vector2 goalCentre = world::field->get_our_goal_center();
-    double goalWidth = world::field->get_field().goal_width();
-    Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth));
+    double goalWidth = world::field->get_field().get(GOAL_WIDTH);
+    Vector2 lowerPost = goalCentre + Vector2(0.0, -goalWidth);
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
-    Vector2 depth = Vector2(- world::field->get_field().goal_depth(), 0.0);
-    return control::ControlUtils::pointInRectangle(ball->getPos(), lowerPost, lowerPost + depth, upperPost + depth,
-            upperPost);
+    Vector2 depth = Vector2(-world::field->get_field().get(GOAL_DEPTH), 0.0);
+    return control::ControlUtils::pointInRectangle(ball->getPos(), lowerPost, lowerPost + depth,
+            upperPost + depth, upperPost);
 }
 
 }//ai

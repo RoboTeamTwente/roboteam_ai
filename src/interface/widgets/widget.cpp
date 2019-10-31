@@ -131,10 +131,10 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
     FieldMessage field = rtt::ai::world::field->get_field();
-    fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.boundary_width());
+    fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.get(BOUNDARY_WIDTH));
 
-    float widthFactor = this->size().width()/field.field_length() - (2*fieldmargin);
-    float heightFactor = this->size().height()/field.field_width() - (2*fieldmargin);
+    float widthFactor = this->size().width() / field.get(FIELD_LENGTH) - (2 * fieldmargin);
+    float heightFactor = this->size().height() / field.get(FIELD_WIDTH) - (2 * fieldmargin);
     factor = std::min(widthFactor, heightFactor);
 }
 
@@ -227,7 +227,7 @@ void Visualizer::drawFieldHints(QPainter &painter) {
 
     // draw the position where robots would be for timeout
     int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : - 1;
-    int lineY = (rtt::ai::world::field->get_field().field_width()/2 + 1)*inv;
+    int lineY = (rtt::ai::world::field->get_field().get(FIELD_WIDTH)/2 + 1)*inv;
 
     pen.setBrush(Qt::gray);
     pen.setColor(Qt::gray);

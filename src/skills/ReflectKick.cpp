@@ -82,7 +82,7 @@ void ReflectKick::onTerminate(Status s) {
 
 Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
-    float cornering = rtt::ai::world::field->get_field().goal_width()/2.0;
+    float cornering = rtt::ai::world::field->get_field().get(GOAL_WIDTH) / 2.0;
     if (robotPos.y >= 0) {
         return {rtt::ai::world::field->get_their_goal_center().x,
                 rtt::ai::world::field->get_their_goal_center().y + cornering};
