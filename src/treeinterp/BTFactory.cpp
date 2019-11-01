@@ -56,16 +56,16 @@ void BTFactory::makeTrees() {
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
-    // Hardcode this to always return the tree we make using our cpp code.
-    // TODO: We need a structure for storing the c++ trees
+    // Un-kill the code below by commenting the return statement to restore json functionality
+    // TODO: We need a structure for storing the c++ trees (probably a hashmap is fine)
     return testing_tree;
 
 //    Leaving this code commented because it might be useful for later, depending on how we want to structure our tree storage
-//    if (strategyRepo.find(treeName) != strategyRepo.end()) {
-//        return strategyRepo.find(treeName)->second;
-//    }
-//    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
-//    return nullptr;
+    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+        return strategyRepo.find(treeName)->second;
+    }
+    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
+    return nullptr;
 }
 
 std::string BTFactory::getCurrentTree() {

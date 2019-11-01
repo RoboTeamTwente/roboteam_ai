@@ -1,7 +1,7 @@
 //
 // Created by jesse on 14.10.19.
 //
-#include <include/roboteam_ai/bt/composites/Selector.hpp>
+
 #include "bt/RoleDivider.h"
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"
@@ -12,15 +12,26 @@
 #include "skills/Attack.h"
 
 namespace bt {
-
-    // Set the robottypes for the robot so the robotdealer can decide which robot should do what
+/**
+ * This class makes a tree for a defensive strategy. It is a proof of concept
+ *
+ * The structure of a behaviour tree is as follows:
+ * The tree has a root node
+ *
+ * Each tactic should have a roledivider. This roledivider uses a "robots" vector to determine which robots
+ * the robotdealer should match to which physical robot ids.
+ *
+ *
+ * @return
+ */
 
 std::shared_ptr<BehaviorTree> TreeProtoType::createNormalPlayStrategy() {
-
-    // create a roledivider
-    // create a blackboard for the strategy
     std::shared_ptr<RoleDivider> roleDivider = std::make_shared<RoleDivider>();
     std::shared_ptr<Blackboard> bb = std::make_shared<Blackboard>();
+
+    // Set the tactictype so the roledivider can divide the robots
+    // Currently there are 2 options: General and (Offensive/Defensive/Midfield).
+    // A roledivider with General has
     bb->setString("TacticType", "General");
 
     std::shared_ptr<DefaultTactic> defensiveTactic = createDefensiveTactic(bb);

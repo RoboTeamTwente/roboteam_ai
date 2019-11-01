@@ -20,6 +20,7 @@ class TreeProtoType {
     std::shared_ptr<bt::Role> createDefenderRole(std::string name);
 
 private:
+    // Set the robottypes for the robot so the robotdealer can decide which robot should do what
     std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {
             {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
             {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
@@ -29,5 +30,6 @@ private:
             {"o6", rtt::ai::robotDealer::RobotType::RANDOM},
             {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
             {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
-    };};
+    };
+};
 }

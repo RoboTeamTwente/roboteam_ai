@@ -25,7 +25,8 @@ BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
 Node::Status BehaviorTree::update() {
     std::cout << "tree being updated:" + name << std::endl;
     if(name == "defendertree"){
-        std::cout << "this makes me really happy" << std::endl;
+        // TODO remove print statement once all functionalities work
+        std::cout << "The defender tree is being ticked now" << std::endl;
     }
     return root->tick();
 }

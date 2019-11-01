@@ -340,7 +340,10 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        )
+        src/treeinterp/StrategyInterface.cpp
+        include/roboteam_ai/treeinterp/StrategyInterface.h
+        src/treeinterp/KickOff.cpp
+        include/roboteam_ai/treeinterp/KickOff.h)
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
