@@ -19,6 +19,13 @@ FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
             newLine.begin = mm_to_m(line.p1());
             newLine.end = mm_to_m(line.p2());
             newLine.thickness = mm_to_m(line.thickness());
+            /*
+            std::cout << newLine.name << std::endl;
+            std::cout << newLine.begin.x << std::endl;
+            std::cout << newLine.begin.y << std::endl;
+            std::cout << newLine.end.x << std::endl;
+            std::cout << newLine.end.y << std::endl;
+            */
             FieldLineName fieldLineName = CONVERT_TO_FIELD_LINE_NAME.at(newLine.name);
             fieldLines[fieldLineName] = newLine;
         }
@@ -42,11 +49,11 @@ FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
 }
 
 float FieldMessage::mm_to_m(float scalar) {
-  return scalar/1000;
+    return scalar / 1000;
 }
 
 Vector2 FieldMessage::mm_to_m(Vector2 vector) {
-  return {vector.x / 1000, vector.y / 1000};
+    return {vector.x / 1000, vector.y / 1000};
 }
 
 double FieldMessage::get(FieldValueName valueName) {
@@ -61,42 +68,61 @@ double FieldMessage::get(FieldValueName valueName) {
 }
 
 FieldLineSegment FieldMessage::get(FieldLineName lineName) {
-    return fieldLines.at(lineName);
+    if (fieldLines.count(lineName) > 0) {
+        return fieldLines.at(lineName);
+    }
+    else {
+        /* This clause is needed, because the default constructor could have been called. In which case the variables
+        have not been assigned a value. */
+        return {};
+    }
 }
 
 FieldArc FieldMessage::get(FieldArcName arcName) {
-    return fieldArcs.at(arcName);
+    if (fieldArcs.count(arcName) > 0) {
+        return fieldArcs.at(arcName);
+    }
+    else {
+        /* This clause is needed, because the default constructor could have been called. In which case the variables
+        have not been assigned a value. */
+        return {};
+    }
 }
 
 std::vector<FieldLineSegment> FieldMessage::getField_lines(){
-  return field_lines;
+    std::vector<FieldLineSegment> allLines = {};
+    for (auto &item : fieldLines) {
+        allLines.push_back(item.second);
+    }
+    return allLines;
 }
+
 std::vector<FieldArc> FieldMessage::getField_arcs(){
-  return field_arcs;
+    return field_arcs;
 }
 
 void FieldMessage::invert() {
-    for (auto line : field_lines) {
-        invertFieldLine(line);
+    /*
+    if (fieldValues.count(LEFTMOST_X) > 0) {
+        fieldValues[LEFTMOST_X] = -fieldValues[LEFTMOST_X];
     }
 
-    for (auto arc : field_arcs) {
-        invertArc(arc);
+    for (auto &item : fieldLines) {
+        FieldLineSegment *line = &item.second;
+        line->begin.x = -line->begin.x;
+        line->begin.y = -line->begin.y;
+        line->end.x = -line->end.x;
+        line->end.y = -line->end.y;
     }
-}
 
-void FieldMessage::invertFieldLine(FieldLineSegment &line) const {
-    line.begin.x = -line.begin.x;
-    line.begin.y = -line.begin.y;
-    line.end.x = -line.end.x;
-    line.end.y = -line.end.y;
-}
-
-void FieldMessage::invertArc(FieldArc &arc) const {
-    arc.center.x = -arc.center.x;
-    arc.center.y = -arc.center.y;
-    arc.a1 = -arc.a1;
-    arc.a2 = -arc.a2;
+    for (auto &item : fieldArcs) {
+        FieldArc *arc = &item.second;
+        arc->center.x = -arc->center.x;
+        arc->center.y = -arc->center.y;
+        arc->a1 = -arc->a1;
+        arc->a2 = -arc->a2;
+    }
+    */
 }
 
 }
