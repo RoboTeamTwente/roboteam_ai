@@ -42,5 +42,5 @@ void PidTwoAxesController::setXPid(std::tuple<double, double, double> pidXParams
 }
 
 void PidTwoAxesController::setYPid(std::tuple<double, double, double> pidYParams) {
-    this->pidXAxis.setPID(pidYParams);
+    this->pidYAxis.setPID(pidYParams);
 }
