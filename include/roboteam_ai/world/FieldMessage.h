@@ -150,12 +150,7 @@ public:
      * @param sslFieldSize The corresponding protobuf message.
      */
     FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize);
-
-    /**
-     * Mirror every value/arc/line with respect to middle point (0, 0) of the field.
-     */
-    void invert();
-
+    
     /**
      * Get a value/constant about the field. All values are measured in SI standard units, so lengths/distances/widths
      * are measured in meters.

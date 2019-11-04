@@ -98,31 +98,11 @@ std::vector<FieldLineSegment> FieldMessage::getField_lines(){
 }
 
 std::vector<FieldArc> FieldMessage::getField_arcs(){
-    return field_arcs;
-}
-
-void FieldMessage::invert() {
-    /*
-    if (fieldValues.count(LEFTMOST_X) > 0) {
-        fieldValues[LEFTMOST_X] = -fieldValues[LEFTMOST_X];
-    }
-
-    for (auto &item : fieldLines) {
-        FieldLineSegment *line = &item.second;
-        line->begin.x = -line->begin.x;
-        line->begin.y = -line->begin.y;
-        line->end.x = -line->end.x;
-        line->end.y = -line->end.y;
-    }
-
+    std::vector<FieldArc> allArcs = {};
     for (auto &item : fieldArcs) {
-        FieldArc *arc = &item.second;
-        arc->center.x = -arc->center.x;
-        arc->center.y = -arc->center.y;
-        arc->a1 = -arc->a1;
-        arc->a2 = -arc->a2;
+        allArcs.push_back(item.second);
     }
-    */
+    return allArcs;
 }
 
 }

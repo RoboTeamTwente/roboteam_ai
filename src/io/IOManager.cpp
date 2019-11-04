@@ -46,15 +46,12 @@ void IOManager::handleWorldState(roboteam_proto::World & world) {
 }
 
 void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
-  std::lock_guard<std::mutex> lock(geometryMutex);
-
-  // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
-  FieldMessage msg = FieldMessage(sslData.field());
-  if (!SETTINGS.isLeft()) { msg.invert(); }
-
-
+    std::lock_guard<std::mutex> lock(geometryMutex);
+    
+    // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
+    FieldMessage msg = FieldMessage(sslData.field());
     this->geometryMsg = sslData;
-
+    
     world::field->set_field(msg);
     hasReceivedGeom = true;
 }
