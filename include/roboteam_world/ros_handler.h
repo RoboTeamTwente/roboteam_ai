@@ -1,16 +1,12 @@
 #pragma once
 
-#include "ros/ros.h"
-
-#include "std_srvs/Empty.h"
-
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/Tracker.h"
-
-#include "roboteam_world/world/world_dummy.h"
-#include "roboteam_world/world/filtered_world.h"
-
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
+#include "roboteam_proto/World.pb.h"
+#include "world/world_dummy.h"
+#include "world/filtered_world.h"
+#include "roboteam_proto/Subscriber.h"
+#include <roboteam_proto/Publisher.h>
+#include <net/robocup_ssl_client.h>
 #include "kalman/kalmanFilter.h"
 
 namespace rtt {
@@ -18,30 +14,24 @@ namespace rtt {
     class RosHandler {
 
     private:
-        ros::NodeHandle nh;
-        ros::Subscriber vision_sub;
-        ros::Publisher world_pub;
-        ros::ServiceServer reset_srv;
-        ros::ServiceServer tracker_srv;
-        
-        WorldBase* world;
+        proto::Publisher<proto::World> * world_pub;
+        proto::Publisher<proto::SSL_Referee> * ref_pub;
+        proto::Publisher<proto::SSL_GeometryData> * geom_pub;
+
+      WorldBase* world;
         bool kalman;
-    public:
+        RoboCupSSLClient * vision_client;
+        RoboCupSSLClient * refbox_client;
+     public:
         RosHandler() = default;
         void init(WorldBase* _world);
         void kalmanLoop();
-        /**
-         * Reads the configuration from the parameter server.
-         * Updates the configuration of the world and calls a reset.
-         */
-        void update_config();
-
         void setKalman(bool on);
-        void detection_callback(const roboteam_msgs::DetectionFrame msg);
-        bool reset_callback(std_srvs::Empty::Request& req,
-                            std_srvs::Empty::Response& res);
+        void detection_callback(proto::SSL_DetectionFrame frame);
+    //    bool reset_callback(std_srvs::Empty::Request& req, std_srvs::Empty::Response& res);
 
-        kalmanFilter KF;
+        kalmanFilter * KF;
+        std::mutex filterLock;
     };
 
 }

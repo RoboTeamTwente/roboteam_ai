@@ -6,8 +6,8 @@
 #include <utility>
 #include <boost/variant.hpp>
 #include <boost/optional.hpp>
-#include "roboteam_world/robot.h"
-#include "roboteam_world/ball.h"
+#include "robot.h"
+#include "ball.h"
 #include "roboteam_utils/Position.h"
 
 namespace rtt {

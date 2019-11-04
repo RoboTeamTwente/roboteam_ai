@@ -1,4 +1,4 @@
-#include "roboteam_world/robot.h"
+#include "robot.h"
 #include <cmath>
 
 namespace rtt {
@@ -65,18 +65,16 @@ namespace rtt {
         return id;
     }
 
-    roboteam_msgs::WorldRobot Robot::as_message() const {
-        roboteam_msgs::WorldRobot msg;
+    proto::WorldRobot Robot::as_message() const {
+        proto::WorldRobot msg;
 
-        msg.id = id;
-
-        msg.pos.x = x;
-        msg.pos.y = y;
-        msg.angle = angle;
-
-        msg.vel.x = x_vel;
-        msg.vel.y = y_vel;
-        msg.w = w;
+        msg.set_id(id);
+        msg.mutable_pos()->set_x(x);
+        msg.mutable_pos()->set_y(y);
+        msg.set_angle(angle);
+        msg.mutable_vel()->set_x(x_vel);
+        msg.mutable_vel()->set_y(y_vel);
+        msg.set_w(w);
 
         return msg;
     };

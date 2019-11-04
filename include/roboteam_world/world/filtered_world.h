@@ -3,39 +3,35 @@
 #include <map>
 #include <boost/optional.hpp>
 #include <gtest/gtest_prod.h>
-#include "ros/ros.h"
-
-#include "roboteam_msgs/DetectionFrame.h"
-#include "roboteam_msgs/DetectionRobot.h"
-#include "roboteam_msgs/DetectionBall.h"
-#include "roboteam_msgs/World.h"
-#include "roboteam_msgs/WorldRobot.h"
+#include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
+#include "roboteam_proto/World.pb.h"
+#include "roboteam_proto/WorldRobot.pb.h"
 
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/constants.h"
 
-#include "roboteam_world/robot.h"
-#include "roboteam_world/ball.h"
-#include "roboteam_world/predictor.h"
+#include "robot.h"
+#include "ball.h"
+#include "predictor.h"
 
-#include "roboteam_world/world/world_base.h"
+#include "world/world_base.h"
 
 namespace rtt {
 
     class FilteredWorld : public WorldBase {
 
     private:
-        ros::NodeHandle nh;
+      //  ros::NodeHandle nh;
         /**
          * These buffers store for every camera the robots and balls.
          * Accessing goes like this:
          * `robots_blue_buffer[robot_id][camera_id]`
          */
-        typedef std::map<int, std::map<int, roboteam_msgs::DetectionRobot>> RobotMultiCamBuffer;
-        RobotMultiCamBuffer robots_them_buffer;
-        RobotMultiCamBuffer robots_us_buffer;
+        typedef std::map<int, std::map<int, proto::SSL_DetectionRobot>> RobotMultiCamBuffer;
+        RobotMultiCamBuffer robots_blue_buffer;
+        RobotMultiCamBuffer robots_yellow_buffer;
 
-        std::map<int, roboteam_msgs::DetectionBall> ball_buffer;
+        std::map<int, proto::SSL_DetectionBall> ball_buffer;
 
         std::map<int, rtt::Robot> old_blue, old_yellow;
 
@@ -71,12 +67,12 @@ namespace rtt {
         /**
          * Converts this world into a ros message.
          */
-        roboteam_msgs::World as_message() const override;
+        proto::World as_message() const override;
 
         /**
          * To be called when a detectionframe message is received.
          */
-        void detection_callback(roboteam_msgs::DetectionFrame msg) override;
+        void detection_callback(proto::SSL_DetectionFrame msg) override;
 
         //TODO: Make isFresh() and setFresh() private? They are not used publicly as far as I can tell.
         /**
@@ -93,7 +89,7 @@ namespace rtt {
          * Calls as_message and sets fresh to false. If isFresh() is false
          * returns boost::none.
          */
-        boost::optional<roboteam_msgs::World> consumeMsg();
+        boost::optional<proto::World> consumeMsg();
 
     private:
 
@@ -103,7 +99,7 @@ namespace rtt {
         /**
          * Puts a received detection frame in the associated camera's buffer.
          */
-        void buffer_detection_frame(roboteam_msgs::DetectionFrame msg);
+        void buffer_detection_frame(proto::SSL_DetectionFrame msg);
 
         /**
          * Returns true when every camera's frame has updated.
