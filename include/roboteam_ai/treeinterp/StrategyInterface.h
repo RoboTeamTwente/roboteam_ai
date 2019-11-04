@@ -13,8 +13,8 @@ namespace bt {
 
     class StrategyInterface {
     private:
-        /** A strategy can have multile tactics. Some tactics need
-        to take precedence over others in the robotdealer, so
+        /** A strategy can have multiple tactics. Some tactics need
+        to take precedence over others in the RobotDealer, so
         a list is used, with the most important tactic at index 0 */
         std::list<DefaultTactic> tactics;
         std::shared_ptr<BehaviorTree> tree;
@@ -22,15 +22,20 @@ namespace bt {
         /**
          * Creates a tactic TODO add proper documentation to this
          */
+        // Virtual methods
         virtual void createStrategy();
         virtual void createTactics();
 
+        // constructors
         StrategyInterface();
         StrategyInterface(std::list<DefaultTactic> tactics);
 
-        // getters and setters for the tactics in the strategy
-        void setTactics(std::list<DefaultTactic>);
+
+        // getters and setters
+        void setTactic(std::list<DefaultTactic>);
         std::list<DefaultTactic> getTactic();
+
+        std::shared_ptr<bt::BehaviorTree> getStrategyTree();
 
 
     };
