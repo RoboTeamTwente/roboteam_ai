@@ -25,21 +25,19 @@ namespace bt {
  * @return
  */
 
+
 std::shared_ptr<BehaviorTree> TreeProtoType::createNormalPlayStrategy() {
     std::shared_ptr<RoleDivider> roleDivider = std::make_shared<RoleDivider>();
     std::shared_ptr<Blackboard> bb = std::make_shared<Blackboard>();
 
     // Set the tactictype so the roledivider can divide the robots
     // Currently there are 2 options: General and (Offensive/Defensive/Midfield).
-    // A roledivider with General has
+    // All roledividers must support all robots, so the number of children of a roledivider = number of robots.
     bb->setString("TacticType", "General");
 
     std::shared_ptr<DefaultTactic> defensiveTactic = createDefensiveTactic(bb);
-
-    // Create an attack skill which does not seem to be used anywhere
-    std::shared_ptr<rtt::ai::Attack> attackskill = std::make_shared<rtt::ai::Attack>("attack", std::make_shared<Blackboard>());
-
     defensiveTactic->setProperties(bb);
+
     auto tree = std::make_shared<BehaviorTree>("defendertree");
     tree->SetRoot(defensiveTactic);
     return tree;
