@@ -25,6 +25,21 @@ namespace bt {
  * @return
  */
 
+    // Set the robottypes for the robot so the robotdealer can decide which robot should do what
+    TreeProtoType::TreeProtoType(){
+        this->robots = {
+                {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o3", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o4", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o5", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o6", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
+        };
+    }
+    
+    
 
 std::shared_ptr<BehaviorTree> TreeProtoType::createNormalPlayStrategy() {
     std::shared_ptr<RoleDivider> roleDivider = std::make_shared<RoleDivider>();
