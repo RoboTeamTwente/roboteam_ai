@@ -27,7 +27,7 @@ void BTFactory::makeTrees() {
 
     std::cout << "Re-Make Trees From Json" << std::endl;
     bt::TreeProtoType protype_tree;
-    testing_tree = protype_tree.createNormalPlayStrategy();
+    testing_tree = protype_tree.createOffensiveStrategy();
 
     // TODO Remove this legacy code
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
@@ -53,6 +53,11 @@ void BTFactory::makeTrees() {
     std::cout << "Done making trees" << std::endl;
 }
 
+/**
+ * Currently we hijack this function and only return our current c++ tree with it.
+ * @param treeName
+ * @return testing_tree (hardcoded)
+ */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
 

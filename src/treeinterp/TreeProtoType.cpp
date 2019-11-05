@@ -12,18 +12,7 @@
 #include "skills/Attack.h"
 
 namespace bt {
-/**
- * This class makes a tree for a defensive strategy. It is a proof of concept
- *
- * The structure of a behaviour tree is as follows:
- * The tree has a root node
- *
- * Each tactic should have a roledivider. This roledivider uses a "robots" vector to determine which robots
- * the robotdealer should match to which physical robot ids.
- *
- *
- * @return
- */
+
 
     // Set the robottypes for the robot so the robotdealer can decide which robot should do what
     TreeProtoType::TreeProtoType(){
@@ -38,19 +27,19 @@ namespace bt {
                 {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
         };
     }
-    
-    
 
-std::shared_ptr<BehaviorTree> TreeProtoType::createNormalPlayStrategy() {
-    std::shared_ptr<RoleDivider> roleDivider = std::make_shared<RoleDivider>();
+
+
+std::shared_ptr<BehaviorTree> TreeProtoType::createOffensiveStrategy() {
     std::shared_ptr<Blackboard> bb = std::make_shared<Blackboard>();
-
-    // Set the tactictype so the roledivider can divide the robots
+    // Set the tactictype so the robotdealer can divide the robots
     // Currently there are 2 options: General and (Offensive/Defensive/Midfield).
-    // All roledividers must support all robots, so the number of children of a roledivider = number of robots.
+    // This property is given to the blackboard, which is then given to the tactic. As far as @RobotJesse could tell,
+    // this is only used in the tactic itself to determine which robots it should tick
+    // in the updateStyle function of DefaultTactic.
     bb->setString("TacticType", "General");
 
-    std::shared_ptr<DefaultTactic> defensiveTactic = createDefensiveTactic(bb);
+    std::shared_ptr<DefaultTactic> defensiveTactic = createOffensiveTactic(bb);
     defensiveTactic->setProperties(bb);
 
     auto tree = std::make_shared<BehaviorTree>("defendertree");
@@ -58,34 +47,35 @@ std::shared_ptr<BehaviorTree> TreeProtoType::createNormalPlayStrategy() {
     return tree;
 }
 
-std::shared_ptr<DefaultTactic> TreeProtoType::createDefensiveTactic(std::shared_ptr<Blackboard> bb) {
+std::shared_ptr<DefaultTactic> TreeProtoType::createOffensiveTactic(std::shared_ptr<Blackboard> bb) {
     // create a default tactic which will be used to build the defensive tactic
     std::shared_ptr<DefaultTactic> defensiveTactic = std::make_shared<DefaultTactic>("defensiveTactic", bb, robots);
 
     // Creating the roles for all the robots in the tactic:
     for (int i = 1; i < robots.size(); i++) {
         std::string name = "o" + std::to_string(i);
-        auto temp = createDefenderRole(name);
-        std::shared_ptr<Role> temprole = createDefenderRole(name);
+        auto temp = createOffenderRole(name);
+        std::shared_ptr<Role> temprole = createOffenderRole(name);
         temp->giveProperty("ROLE", name);
         defensiveTactic->addChild(temprole);
-
     }
 
     return defensiveTactic;
 }
 
-/// This function creates a defender role. This role consists of a repeater with as child an attack skill
-std::shared_ptr<Role> TreeProtoType::createDefenderRole(std::string rolename) {
+/// This function creates a defender role. This role consists of a repeater with as child an attack skill. It is important to remember that the order in which the nodes are
+/// added is important.
+std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
     // set the rolename for the current role. This is important because the robotdealer decides how to deal the robots based on their rolenames
     // localbb is the blackboard that is given to the attack skill. The property "ROLE" should be set to the name of the role, which should correspond to the rolename
     // found in the robotdealer robots vector
     auto localbb = std::make_shared<Blackboard>();
-    localbb->setString("ROLE", rolename);
-    std::shared_ptr<Role> role = std::make_shared<Role>(rolename);
+    localbb->setString("ROLE", name);
+    std::shared_ptr<Role> role = std::make_shared<Role>(name);
 
     // Give the role the blackboard. This is used by the robotdealer to find the robot
     // TODO: figure out the exact difference between giving ROLE property to Role blackboard vs giving ROLE property to Skill blackboard
+    // It seems ROLE just needs to be given to both. This is always safe. We need to implement a recursive role setter
     role->setProperties(localbb);
 
     // Make a repeater with the child "attack"
@@ -94,7 +84,6 @@ std::shared_ptr<Role> TreeProtoType::createDefenderRole(std::string rolename) {
 
     repeater->addChild(attack);
     role->addChild(repeater);
-    std::cout << "creating defender role" << rolename << std::endl;
     return role;
 
 }
