@@ -13,7 +13,6 @@ void Role::initialize() {
 
 Node::Status Role::update() {
     auto status = child->tick();
-    std::cout << "the role being ticked rihg t now: " + this->name << std::endl;
     if (status == Status::Success) {
         return Status::Success;
     }

@@ -48,7 +48,6 @@ std::string Skill::node_name() {
 
 Skill::Status Skill::update() {
     std::string roleName = properties->getString("ROLE");
-    std::cout << roleName << "role name in skill" << std:: endl;
     robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
     updateRobot();
     ball = world::world->getBall(); // update ball position
