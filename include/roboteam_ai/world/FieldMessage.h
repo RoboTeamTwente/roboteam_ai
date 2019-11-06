@@ -42,26 +42,41 @@ enum FieldValueName {
 };
 
 enum FieldLineName {
-    TOP_LINE,
-    BOTTOM_LINE,
-    LEFT_LINE,
-    RIGHT_LINE,
+    TOP_LINE, // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
+    BOTTOM_LINE, // The field line with the lowest y-coordinate which goes from the left side to the right side of the field.
+    LEFT_LINE, // The field line left from our goal (our goal is always adjacent to this line).
+    RIGHT_LINE, // The field line right from the opponents goal (their goal is always adjacent to this line)
+    /* The line that seperates our side from the field and the opponent side of the field (this line moves in the y
+     * direction of the field, i.e. the width of the field) */
     HALF_LINE,
+    /* The line that start from the middle point of our goal and ends at the middle point of the opponents goal (this
+     * line moves in the x direction of the field, i.e. the length of the field) */
     CENTER_LINE,
-    LEFT_PENALTY_LINE,
-    RIGHT_PENALTY_LINE,
+    LEFT_PENALTY_LINE, // The line parallel to the left line and our goal. This line marks our goal area.
+    RIGHT_PENALTY_LINE, // The line parallel to the right line and the opponents goal. This line marks their goal area.
+    /* The line closest (of all our goal area lines) to the top line and parallel to the top line. This line marks our
+     * goal area. */
     TOP_LEFT_PENALTY_STRETCH,
+    /* The line closest (of all our goal area lines) to the bottom line and parallel to the bottom line. This line marks
+     * our goal area. */
     BOTTOM_LEFT_PENALTY_STRETCH,
+    /* The line closest (of all the opponents goal area lines) to the top line and parallel to the top line. This line
+     * marks the opponents goal area. */
     TOP_RIGHT_PENALTY_STRETCH,
+    /* The line closest (of all the opponents goal area lines) to the bottom line and parallel to the bottom line. This
+     * line marks the opponents goal area. */
     BOTTOM_RIGHT_PENALTY_STRETCH
 };
 
+enum FieldVectorName {
+    OUR_GOAL_CENTER, // The middle point of our goal (this point is on the left line).
+    THEIR_GOAL_CENTER, // The middle point of the opponents goal (this point is on the right line).
+    LEFT_PENALTY_POINT, // The penalty point from which penalties are made towards our goal
+    RIGHT_PENALTY_POINT, // The penalty point from which penalties are made towards the opponents goal
+};
+
 enum FieldArcName {
-    TOP_LEFT_PENALTY_ARC,
-    BOTTOM_LEFT_PENALTY_ARC,
-    TOP_RIGHT_PENALTY_ARC,
-    BOTTOM_RIGHT_PENALTY_ARC,
-    CENTER_CIRCLE
+    CENTER_CIRCLE // The circle in the middle from which the ball will be kicked off
 };
 
 /**
@@ -122,22 +137,14 @@ private:
 
     // Used to convert field arc name, in string format, to the corresponding FieldArcName enum value
     std::map<std::string, FieldArcName> CONVERT_TO_FIELD_ARC_NAME = {
-        std::make_pair("top_left_penalty_arc", TOP_LEFT_PENALTY_ARC),
-        std::make_pair("bottom_left_penalty_arc", BOTTOM_LEFT_PENALTY_ARC),
-        std::make_pair("top_right_penalty_arc", TOP_RIGHT_PENALTY_ARC),
-        std::make_pair("bottom_right_penalty_arc", BOTTOM_RIGHT_PENALTY_ARC),
         std::make_pair("center_circle", CENTER_CIRCLE)
     };
 
 private:
-    std::map<FieldValueName, double> fieldValues = {};
-    std::map<FieldLineName, FieldLineSegment> fieldLines = {};
-    std::map<FieldArcName, FieldArc> fieldArcs = {};
-
-    /* We decided to use these vectors to improve the performance (another solution would be copy the values from the
-     * fieldLines and fieldArcs but this will cost more time). */
-    std::vector<FieldLineSegment> field_lines; // Contains all field lines
-    std::vector<FieldArc> field_arcs; // Contains all field arcs
+    std::map<FieldValueName, double> fieldValues = {}; // Stores all the constant of the field (lengths, widths, positions)
+    std::map<FieldLineName, FieldLineSegment> fieldLines = {}; // Stores all the lines of the field
+    std::map<FieldArcName, FieldArc> fieldArcs = {}; // Stores all the arcs of the field
+    std::map<FieldVectorName, Vector2> fieldVectors = {}; // Stores all positions of the field
 
 public:
     /**
@@ -173,7 +180,23 @@ public:
      */
     FieldArc get(FieldArcName arcName);
 
+    /**
+     * Get one of the positions of the field.
+     * @param vectorName The field vector name of which we want to know the position.
+     * @return The corresponding field vector which points to this position.
+     */
+    Vector2 get(FieldVectorName vectorName);
+
+    /**
+     * Get all the lines of the field
+     * @return A vector which contains all field lines
+     */
     std::vector<FieldLineSegment> getField_lines();
+
+    /**
+     * Get all the arcs of the field
+     * @return A vector which contains all field arcs
+     */
     std::vector<FieldArc> getField_arcs();
 
 private:

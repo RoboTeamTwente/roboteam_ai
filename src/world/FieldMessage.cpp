@@ -15,17 +15,10 @@ FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
     for (proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
         FieldLineSegment newLine;
         if (NAME_MAP.count(line.name()) > 0) {
-            newLine.name = std::string(NAME_MAP[line.name()]);
+            newLine.name = NAME_MAP[line.name()];
             newLine.begin = mm_to_m(line.p1());
             newLine.end = mm_to_m(line.p2());
             newLine.thickness = mm_to_m(line.thickness());
-            /*
-            std::cout << newLine.name << std::endl;
-            std::cout << newLine.begin.x << std::endl;
-            std::cout << newLine.begin.y << std::endl;
-            std::cout << newLine.end.x << std::endl;
-            std::cout << newLine.end.y << std::endl;
-            */
             FieldLineName fieldLineName = CONVERT_TO_FIELD_LINE_NAME.at(newLine.name);
             fieldLines[fieldLineName] = newLine;
         }
@@ -34,7 +27,7 @@ FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
     for (proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
         FieldArc newArc;
         if (NAME_MAP.count(arc.name()) > 0) {
-            newArc.name = std::string(NAME_MAP[arc.name()]);
+            newArc.name = NAME_MAP[arc.name()];
             newArc.center = mm_to_m(arc.center());
             newArc.a1 = mm_to_m(arc.a1());
             newArc.a2 = mm_to_m(arc.a2());
@@ -42,10 +35,19 @@ FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
             newArc.thickness = mm_to_m(arc.thickness());
             FieldArcName fieldArcName = CONVERT_TO_FIELD_ARC_NAME.at(newArc.name);
             fieldArcs[fieldArcName] = newArc;
-            field_arcs.push_back(newArc);
         }
     }
     fieldValues[LEFTMOST_X] = fieldLines[LEFT_LINE].begin.x;
+    fieldVectors[OUR_GOAL_CENTER] = Vector2(fieldValues[FIELD_LENGTH] / -2, 0);
+    fieldVectors[THEIR_GOAL_CENTER] = Vector2(fieldValues[FIELD_LENGTH] / 2, 0);
+
+    Vector2 lpl_begin = fieldLines[LEFT_PENALTY_LINE].begin;
+    Vector2 lpl_end = fieldLines[LEFT_PENALTY_LINE].end;
+    fieldVectors[LEFT_PENALTY_POINT] = lpl_begin + ((lpl_end - lpl_begin) * 0.5);
+
+    Vector2 rpl_begin = fieldLines[RIGHT_PENALTY_LINE].begin;
+    Vector2 rpl_end = fieldLines[RIGHT_PENALTY_LINE].end;
+    fieldVectors[RIGHT_PENALTY_POINT] = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
 }
 
 float FieldMessage::mm_to_m(float scalar) {
@@ -81,6 +83,17 @@ FieldLineSegment FieldMessage::get(FieldLineName lineName) {
 FieldArc FieldMessage::get(FieldArcName arcName) {
     if (fieldArcs.count(arcName) > 0) {
         return fieldArcs.at(arcName);
+    }
+    else {
+        /* This clause is needed, because the default constructor could have been called. In which case the variables
+        have not been assigned a value. */
+        return {};
+    }
+}
+
+Vector2 FieldMessage::get(FieldVectorName vectorName) {
+    if (fieldVectors.count(vectorName) > 0) {
+        return fieldVectors.at(vectorName);
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
