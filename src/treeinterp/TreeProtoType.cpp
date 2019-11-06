@@ -14,8 +14,8 @@
 namespace bt {
 
 
-    // Set the robottypes for the robot so the robotdealer can decide which robot should do what
     TreeProtoType::TreeProtoType(){
+        // Set the robottypes for the robot so the robotdealer can decide which robot should do what
         this->robots = {
                 {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
@@ -67,7 +67,7 @@ std::shared_ptr<DefaultTactic> TreeProtoType::createOffensiveTactic(std::shared_
 /// added is important.
 std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
     // set the rolename for the current role. This is important because the robotdealer decides how to deal the robots based on their rolenames
-    // localbb is the blackboard that is given to the attack skill. The property "ROLE" should be set to the name of the role, which should correspond to the rolename
+    // The property "ROLE" should be set to the name of the role, which should correspond to the rolename
     // found in the robotdealer robots vector
     auto localbb = std::make_shared<Blackboard>();
     localbb->setString("ROLE", name);

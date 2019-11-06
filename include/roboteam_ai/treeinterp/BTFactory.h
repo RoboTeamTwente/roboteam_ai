@@ -33,6 +33,8 @@ class BTFactory {
 
         static std::map<std::string, bt::BehaviorTree::Ptr> keeperRepo;
 
+        static std::map<std::string, bt::BehaviorTree::Ptr> CXXTrees;
+
         static std::string getCurrentTree();
 
         static bt::BehaviorTree::Ptr getKeeperTree();

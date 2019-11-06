@@ -3,11 +3,8 @@
 //
 
 #include "treeinterp/BTFactory.h"
-
-// The tactics variable saves the tactic of the behaviour tree and can be kept
-
-// Changes made by crazy person:
 #include "treeinterp/TreeProtoType.h"
+
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
@@ -15,6 +12,10 @@ std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
+
+// C++ code trees
+
+std::map<std::string, bt::BehaviorTree::Prt> BTFactory::CXXTrees
 std::shared_ptr<bt::BehaviorTree> testing_tree;
 
 
