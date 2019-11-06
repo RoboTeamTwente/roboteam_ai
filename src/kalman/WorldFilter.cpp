@@ -3,11 +3,11 @@
 //
 
 #include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
-#include <kalman/KalmanFilter.h>
+#include <kalman/WorldFilter.h>
 
 namespace world {
 
-KalmanFilter::KalmanFilter() {
+WorldFilter::WorldFilter() {
   std::lock_guard<std::mutex> lock(filterMutex);
 
   //initialise kalman objects
@@ -19,7 +19,7 @@ KalmanFilter::KalmanFilter() {
     ball = KalmanBall();
 }
 
-void KalmanFilter::kalmanUpdate() {
+void WorldFilter::kalmanUpdate() {
   std::lock_guard<std::mutex> lock(filterMutex);
 
   //Updates the Kalman gain (K)
@@ -37,7 +37,7 @@ void KalmanFilter::kalmanUpdate() {
 }
 
 // if we get a new frame we update our observations
-void KalmanFilter::newFrame(const proto::SSL_DetectionFrame &msg) {
+void WorldFilter::newFrame(const proto::SSL_DetectionFrame &msg) {
   std::lock_guard<std::mutex> lock(filterMutex);
 
   double timeCapture = msg.t_capture();
@@ -56,7 +56,7 @@ void KalmanFilter::newFrame(const proto::SSL_DetectionFrame &msg) {
 }
 
 //Creates a world message with the currently observed objects in it
-proto::World KalmanFilter::getWorld() {
+proto::World WorldFilter::getWorld() {
   std::lock_guard<std::mutex> lock(filterMutex);
 
   proto::World world;

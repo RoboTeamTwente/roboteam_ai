@@ -76,7 +76,6 @@ namespace world {
         ASSERT_DOUBLE_EQ(C(1, 1), 1);
     }
 
-//
 //    TEST(KalmanTest, ZXK) {
 //
 //        kalmanFilter ZXKtest;

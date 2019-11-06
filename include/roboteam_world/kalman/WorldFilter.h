@@ -15,12 +15,12 @@
 namespace world {
 
 //This class is a manager for the different Kalman object classes
-class KalmanFilter {
+class WorldFilter {
  private:
   double lastFrameTime;
 
  public:
-  KalmanFilter();
+  WorldFilter();
   void kalmanUpdate();
   void newFrame(const proto::SSL_DetectionFrame &msg);
 
