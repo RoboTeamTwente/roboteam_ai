@@ -5,14 +5,14 @@
 #include <include/roboteam_ai/world/FieldMessage.h>
 namespace rtt {
 
-FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
+FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
     fieldValues[FIELD_LENGTH] = mm_to_m(sslFieldSize.field_length());
     fieldValues[FIELD_WIDTH] = mm_to_m(sslFieldSize.field_width());
     fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
     fieldValues[GOAL_DEPTH] = mm_to_m(sslFieldSize.goal_depth());
     fieldValues[BOUNDARY_WIDTH] = mm_to_m(sslFieldSize.boundary_width());
 
-    for (roboteam_proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
+    for (proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
         FieldLineSegment newLine;
         if (NAME_MAP.count(line.name()) > 0) {
             newLine.name = std::string(NAME_MAP[line.name()]);
@@ -31,7 +31,7 @@ FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
         }
     }
 
-    for (roboteam_proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
+    for (proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
         FieldArc newArc;
         if (NAME_MAP.count(arc.name()) > 0) {
             newArc.name = std::string(NAME_MAP[arc.name()]);

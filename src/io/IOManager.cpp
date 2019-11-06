@@ -34,7 +34,7 @@ std::mutex IOManager::demoMutex;
 
 IOManager io;
 
-void IOManager::handleWorldState(roboteam_proto::World & world) {
+void IOManager::handleWorldState(proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
 
   if (!SETTINGS.isLeft()) {
@@ -45,7 +45,7 @@ void IOManager::handleWorldState(roboteam_proto::World & world) {
   world::world->updateWorld(this->worldMsg);
 }
 
-void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
+void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {
     std::lock_guard<std::mutex> lock(geometryMutex);
     
     // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
@@ -56,7 +56,7 @@ void IOManager::handleGeometry(roboteam_proto::SSL_GeometryData & sslData) {
     hasReceivedGeom = true;
 }
 
-void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
+void IOManager::handleReferee(proto::SSL_Referee & refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
 
   if (interface::Output::usesRefereeCommands()) {
@@ -84,27 +84,27 @@ void IOManager::handleReferee(roboteam_proto::SSL_Referee & refData) {
 }
 
 
-const roboteam_proto::World &IOManager::getWorldState() {
+const proto::World &IOManager::getWorldState() {
     std::lock_guard<std::mutex> lock(worldStateMutex);
     return this->worldMsg;
 }
 
-const roboteam_proto::SSL_GeometryData &IOManager::getGeometryData() {
+const proto::SSL_GeometryData &IOManager::getGeometryData() {
     std::lock_guard<std::mutex> lock(geometryMutex);
     return this->geometryMsg;
 }
 
-const roboteam_proto::RobotFeedback &IOManager::getRobotFeedback() {
+const proto::RobotFeedback &IOManager::getRobotFeedback() {
     std::lock_guard<std::mutex> lock(robotFeedbackMutex);
     return this->robotFeedbackMsg;
 }
 
-const roboteam_proto::SSL_Referee &IOManager::getRefereeData() {
+const proto::SSL_Referee &IOManager::getRefereeData() {
     std::lock_guard<std::mutex> lock(refereeMutex);
     return this->refDataMsg;
 }
 
-void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
+void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
     if (! pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id())) {
 
@@ -152,7 +152,7 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
             // sometimes trees are terminated without having a role assigned.
             // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
             if (cmd.id() >= 0 && cmd.id() < 16) {
-                publisher->send(TOPIC_COMMANDS, cmd.SerializeAsString());
+                robotCommandPublisher->send(cmd);
             }
         }
         else {
@@ -164,35 +164,40 @@ void IOManager::publishRobotCommand(roboteam_proto::RobotCommand cmd) {
     }
 }
 
-const roboteam_proto::DemoRobot &IOManager::getDemoInfo() {
+const proto::DemoRobot &IOManager::getDemoInfo() {
     std::lock_guard<std::mutex> lock(demoMutex);
     return this->demoInfoMsg;
 }
 
 
 void IOManager::init() {
-  worldSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_WORLD_STATE, &IOManager::handleWorldState, this);
-
-  geometrySubscriber= new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_GEOMETRY, &IOManager::handleGeometry, this);
-    refSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_WORLD_TCP_PUBLISHER, TOPIC_REFEREE, &IOManager::handleReferee, this);
-
+  worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
+  geometrySubscriber= new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
+  refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
 
   // set up advertisement to publish robotcommands and settings
   if (SETTINGS.getId() == 1) {
-      publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_2_TCP_PUBLISHER);
-      feedbackSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_ROBOTHUB_TCP_2_PUBLISHER, TOPIC_FEEDBACK, &IOManager::handleFeedback, this);
+
+      feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>
+          (proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
+
+    robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
+    settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
   } else {
-      feedbackSubscriber = new roboteam_proto::Subscriber(ROBOTEAM_ROBOTHUB_TCP_PUBLISHER, TOPIC_FEEDBACK, &IOManager::handleFeedback, this);
-      publisher = new roboteam_proto::Publisher(ROBOTEAM_AI_TCP_PUBLISHER);
+    feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>
+        (proto::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
+
+    robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
+    settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
 
   }
 }
 
-    void IOManager::publishSettings(roboteam_proto::Setting setting) {
-  publisher->send(TOPIC_SETTINGS, setting.SerializeAsString());
-    }
+void IOManager::publishSettings(proto::Setting setting) {
+  settingsPublisher->send(setting);
+}
 
-void IOManager::handleFeedback(roboteam_proto::RobotFeedback &feedback) {
+void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
     if (Constants::FEEDBACK_ENABLED()) {
         std::lock_guard<std::mutex> lock(robotFeedbackMutex);
         this->robotFeedbackMsg = feedback;

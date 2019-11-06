@@ -149,7 +149,7 @@ public:
      * Constructor that converts a protobuf message into a Field Message object.
      * @param sslFieldSize The corresponding protobuf message.
      */
-    FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize);
+    FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize);
     
     /**
      * Get a value/constant about the field. All values are measured in SI standard units, so lengths/distances/widths
