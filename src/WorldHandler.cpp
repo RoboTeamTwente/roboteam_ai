@@ -20,7 +20,8 @@ void WorldHandler::start() {
       handleRefboxPackets(ref_packet);
 
       KF->kalmanUpdate();
-      world_pub->send(KF->getWorld());
+      int usSinceEpoch=std::chrono::system_clock::now().time_since_epoch() /std::chrono::microseconds(1);
+      world_pub->send(KF->getWorld(usSinceEpoch/1000000.0));
     }, 100);
 }
 
@@ -59,8 +60,8 @@ void WorldHandler::handleRefboxPackets(proto::SSL_Referee &ref_packet) const {
 
 void WorldHandler::handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const {
     while (vision_client && vision_client->receive(vision_packet)) {
-        if (vision_packet.has_detection()) KF->newFrame(vision_packet.detection());
-        if (vision_packet.has_geometry()) geom_pub->send(vision_packet.geometry());
+        if (vision_packet.has_detection()) KF->addFrame(vision_packet.detection());
+        if (vision_packet.has_geometry()) geom_pub->send(vision_packet.geometry());//TODO: rotate it here, not in AI?
     }
 }
 }

@@ -7,75 +7,102 @@
 
 namespace world {
 
-WorldFilter::WorldFilter() {
-  std::lock_guard<std::mutex> lock(filterMutex);
-
-  //initialise kalman objects
-    lastFrameTime = - 1.0;
-    for (uint i = 0; i < BOTCOUNT; ++ i) {
-        yellowBots[i] = KalmanRobot(i);
-        blueBots[i] = KalmanRobot(i);
+    WorldFilter::WorldFilter() {
+        ball = KalmanBall();
     }
-    ball = KalmanBall();
-}
 
-void WorldFilter::kalmanUpdate() {
-  std::lock_guard<std::mutex> lock(filterMutex);
+    void WorldFilter::kalmanUpdate() {
+        //Updates the Kalman gain (K)
+        //Updates the State (X)
+        ball.kalmanUpdateK();
+        ball.kalmanUpdateX();
 
-  //Updates the Kalman gain (K)
-    //Updates the State (X)
-    for (uint i = 0; i < BOTCOUNT; ++ i) {
-        yellowBots[i].kalmanUpdateK();
-        yellowBots[i].kalmanUpdateX();
-        blueBots[i].kalmanUpdateK();
-        blueBots[i].kalmanUpdateX();
     }
-    ball.kalmanUpdateK();
-    ball.kalmanUpdateX();
-
-
-}
 
 // if we get a new frame we update our observations
-void WorldFilter::newFrame(const proto::SSL_DetectionFrame &msg) {
-  std::lock_guard<std::mutex> lock(filterMutex);
+    void WorldFilter::addFrame(const proto::SSL_DetectionFrame &msg) {
+        std::lock_guard<std::mutex> lock(filterMutex);
 
-  double timeCapture = msg.t_capture();
-    lastFrameTime = timeCapture;
-    uint cameraID = msg.camera_id();
-    for (const proto::SSL_DetectionRobot& robot : msg.robots_yellow()) {
-        yellowBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
-    }
-    for (const proto::SSL_DetectionRobot& robot : msg.robots_blue()) {
-        blueBots[robot.robot_id()].kalmanUpdateZ(robot, timeCapture, cameraID);
-    }
-    for (const proto::SSL_DetectionBall& detBall : msg.balls()) {
-        ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
-    }
+        double timeCapture = msg.t_capture();
+        uint cameraID = msg.camera_id();
+        for (const proto::SSL_DetectionRobot &robot : msg.robots_yellow()) {
+            bool addedBot=false;
+            for (const auto &filter : yellowBots[robot.robot_id()]) {
+                if (filter->distanceTo(robot.x(),robot.y())<0.5){
+                    filter->addObservation(robot,timeCapture);
+                    addedBot=true;
+                }
+            }
+            if (!addedBot){
+                // We create a new filter if no filter close to the robot exists
+                yellowBots[robot.robot_id()].push_back(std::make_unique<RobotFilter>(robot,timeCapture));
+            }
+        }
+        for (const proto::SSL_DetectionRobot &robot : msg.robots_blue()) {
+            bool addedBot=false;
+            for (const auto &filter : blueBots[robot.robot_id()]) {
+                if (filter->distanceTo(robot.x(),robot.y())<0.5){
+                    filter->addObservation(robot,timeCapture);
+                    addedBot=true;
+                }
+            }
+            if (!addedBot){
+                // We create a new filter
+                blueBots[robot.robot_id()].push_back(std::make_shared<RobotFilter>(robot,timeCapture));
+            }
+        }
+        for (const proto::SSL_DetectionBall &detBall : msg.balls()) {
+            ball.kalmanUpdateZ(detBall, timeCapture, cameraID);
+        }
 
-}
+    }
 
 //Creates a world message with the currently observed objects in it
-proto::World WorldFilter::getWorld() {
-  std::lock_guard<std::mutex> lock(filterMutex);
+    proto::World WorldFilter::getWorld(double time) {
+        update(time,true);
+        proto::World world;
+        world.set_time(time);
+        for (const auto &kalmanYellowBotsOneId : yellowBots) {
+            if (!kalmanYellowBotsOneId.second.empty()) {
+                world.mutable_yellow()->Add(bestFilter(kalmanYellowBotsOneId.second)->asWorldRobot());
+            }
+        }
+        for (const auto &kalmanBlueBotsOneId : blueBots) {
+            if (!kalmanBlueBotsOneId.second.empty()) {
+                world.mutable_yellow()->Add(bestFilter(kalmanBlueBotsOneId.second)->asWorldRobot());
+            }
+        }
 
-  proto::World world;
-    world.set_time(lastFrameTime);
-    for (const auto& kalmanYellowBot : yellowBots){
-        if (kalmanYellowBot.getExistence()){
-            world.mutable_yellow()->Add(kalmanYellowBot.as_message());
+        proto::WorldBall worldBall = ball.as_ball_message();
+        world.mutable_ball()->CopyFrom(worldBall);
+
+        return world;
+    }
+    void WorldFilter::update(double time, bool extrapolateLastStep) {
+        //TODO: remove filters that haven't had new frames added for a while.
+        for (auto& filtersAndId : yellowBots) {
+            for (auto &filter : filtersAndId.second){
+                filter->update(time,extrapolateLastStep);
+            }
+        }
+        for (auto& filtersAndId : blueBots) {
+            for (auto &filter : filtersAndId.second){
+                filter->update(time,extrapolateLastStep);
+            }
         }
     }
-    for (const auto& kalmanBlueBot : blueBots){
-        if (kalmanBlueBot.getExistence()){
-            world.mutable_blue()->Add(kalmanBlueBot.as_message());
+    std::shared_ptr<RobotFilter> WorldFilter::bestFilter(std::vector<std::shared_ptr<RobotFilter>> filters) {
+        if (filters.empty()){
+            return nullptr;
         }
+        int bestIndex=0;
+        int bestFrames=0;
+        for (int i = 0; i <filters.size() ; ++i) {
+            if (filters[i]->frames()>bestFrames){
+                bestFrames=filters[i]->frames();
+                bestIndex=i;
+            }
+        }
+        return filters[bestIndex];
     }
-
-    proto::WorldBall worldBall = ball.as_ball_message();
-    world.mutable_ball()->CopyFrom(worldBall);
-
-  return world;
-}
-
 }

@@ -8,6 +8,7 @@ RobotFilter::RobotFilter(const proto::SSL_DetectionRobot &detectionRobot, double
 lastUpdateTime(detectTime),
 botId(detectionRobot.robot_id())
 {
+    frameCount=1;
     KalmanInit(detectionRobot);
 }
 
@@ -58,7 +59,7 @@ void RobotFilter::KalmanInit(const proto::SSL_DetectionRobot &detectionRobot) {
 
     kalman->R.zeros();
     //TODO: collect constants somewhere
-    const double posVar = 1.0;
+    const double posVar = 2.0;
     const double rotVar = 1.0;
     kalman->R.at(0,0) = posVar;
     kalman->R.at(1,1) = posVar;
@@ -88,7 +89,7 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
     G.at(1, 4) = 1;
     G.at(2, 2) = dt;
     G.at(2, 5) = 1;
-    const float processNoise=0.1;
+    const float processNoise=1.0;
     kalman->Q = G * G.t() * processNoise;
 
     kalman->predict(permanentUpdate);
@@ -151,4 +152,20 @@ proto::WorldRobot RobotFilter::asWorldRobot() const {
     msg.mutable_vel()->set_y(state[4]);
     msg.set_w(state[5]);
     return msg;
+}
+
+void RobotFilter::addObservation(const proto::SSL_DetectionRobot &detectionRobot, double time) {
+    observations.emplace_back(RobotObservation(time,detectionRobot));
+    frameCount++;
+}
+
+double RobotFilter::distanceTo(double x, double y) const {
+    const Kalman::Vector& state=kalman->state();
+    double dx= state[0]-x;
+    double dy= state[1]-y;
+    return dx*dx+dy*dy;
+}
+
+int RobotFilter::frames() const {
+    return frameCount;
 }
