@@ -25,7 +25,7 @@ class WorldData {
         using WorldDataPtr = std::shared_ptr<WorldData>;
     public:
         WorldData() = default;
-        explicit WorldData(const roboteam_proto::World &copy)
+        explicit WorldData(const proto::World &copy)
                 :time(copy.time()) {
 
           // TODO switch colors for teams

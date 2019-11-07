@@ -116,9 +116,9 @@ public:
     public:
 
         Robot();
-        explicit Robot(const roboteam_proto::WorldRobot &copy, Team team = invalid,
+        explicit Robot(const proto::WorldRobot &copy, Team team = invalid,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
-        void updateRobot(const roboteam_proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);
+        void updateRobot(const proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);
         const unsigned long getLastUpdatedWorldNumber() const;
 
         int id = - 1;

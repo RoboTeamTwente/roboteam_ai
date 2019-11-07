@@ -68,7 +68,7 @@ private:
 
 public:
     void init(int id);
-    roboteam_proto::Setting toMessage();
+    proto::Setting toMessage();
 };
 
 extern Settings SETTINGS;

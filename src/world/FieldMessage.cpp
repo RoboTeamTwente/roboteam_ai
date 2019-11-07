@@ -5,14 +5,14 @@
 #include <include/roboteam_ai/world/FieldMessage.h>
 namespace rtt {
 
-FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
+FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
   length = mm_to_m(sslFieldSize.field_length());
   width = mm_to_m(sslFieldSize.field_width());
   goalWidth = mm_to_m(sslFieldSize.goal_width());
   goalDepth = mm_to_m(sslFieldSize.goal_depth());
   boundaryWidth = mm_to_m(sslFieldSize.boundary_width());
 
-  for (roboteam_proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
+  for (proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
     FieldLineSegment newLine;
     newLine.name = std::string(name_map[line.name()]);
     newLine.begin = mm_to_m(line.p1());
@@ -23,7 +23,7 @@ FieldMessage::FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize) {
     field_lines.push_back(newLine);
   }
   
-  for (roboteam_proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
+  for (proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
     FieldArc newArc;
     newArc.name = std::string(name_map[arc.name()]);
     newArc.center = mm_to_m(arc.center());

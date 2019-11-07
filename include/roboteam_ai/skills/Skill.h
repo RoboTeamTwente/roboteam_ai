@@ -28,7 +28,7 @@ using namespace std;
  */
 class Skill : public bt::Leaf {
     private:
-        roboteam_proto::RobotCommand rotateRobotCommand(roboteam_proto::RobotCommand &cmd);
+        proto::RobotCommand rotateRobotCommand(proto::RobotCommand &cmd);
     protected:
         using Robot = world::Robot;
         using Ball = world::Ball;
@@ -38,7 +38,7 @@ class Skill : public bt::Leaf {
 
         void publishRobotCommand();
         void refreshRobotCommand();
-        roboteam_proto::RobotCommand command;
+        proto::RobotCommand command;
 
         using Control = control::ControlUtils;
         using Status = bt::Node::Status;

@@ -8,29 +8,29 @@
 #include "gtest/gtest.h"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
-    roboteam_proto::SSL_Referee refereeData;
-    refereeData.set_command(roboteam_proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
+    proto::SSL_Referee refereeData;
+    refereeData.set_command(proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command(), roboteam_proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
+    EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command(), proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
 
-    refereeData.set_command(roboteam_proto::SSL_Referee_Command_PREPARE_KICKOFF_YELLOW);
+    refereeData.set_command(proto::SSL_Referee_Command_PREPARE_KICKOFF_YELLOW);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command(), roboteam_proto::SSL_Referee_Command_PREPARE_KICKOFF_YELLOW);
+    EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command(), proto::SSL_Referee_Command_PREPARE_KICKOFF_YELLOW);
 
     // this is necessary for this following test to work properly since it listens to the interface
     rtt::ai::interface::Output::setUseRefereeCommands(true);
 
-    refereeData.set_stage(roboteam_proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
-    refereeData.set_command(roboteam_proto::SSL_Referee_Command_PREPARE_PENALTY_YELLOW);
+    refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
+    refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_YELLOW);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"keeper_penalty_prepare_tactic");
 
-    refereeData.set_stage(roboteam_proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
-    refereeData.set_command(roboteam_proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
+    refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
+    refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");

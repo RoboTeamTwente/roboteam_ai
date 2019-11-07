@@ -16,7 +16,7 @@ namespace rtt {
 namespace ai {
 namespace world {
 
-Robot::Robot(const roboteam_proto::WorldRobot &copy, Team team,
+Robot::Robot(const proto::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
         :pidPreviousVel(Vector2()), distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(worldNumber),
          genevaState(genevaState), dribblerState(dribblerState), id(copy.id()),
@@ -60,7 +60,7 @@ double Robot::getDistanceToBall() {
     return distanceToBall;
 }
 
-void Robot::updateRobot(const roboteam_proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
+void Robot::updateRobot(const proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber) {
     if (static_cast<int>(robotMsg.id()) == this->id) {
         this->pos = robotMsg.pos();
         this->angle = robotMsg.angle();

@@ -136,14 +136,14 @@ RobotCommand BallHandlePosControl::finalizeBallHandle() {
         robotCommand.angle = lockedAngle;
         robotCommand.dribbler = robot->vel.length() < 0.15 ? 0 : 27;
         status = FINALIZING;
-        return controlWithPID(ballHandlePid, robotCommand);
+        return controlWithPID(xBallHandlePID, yBallHandlePID, robotCommand);
     }
     else if (fabs(lockedAngle - robot->angle) > ANGLE_ERROR_MARGIN) {
         if (Constants::SHOW_FULL_BALL_HANDLE_DEBUG_INFO()) {
             std::cout << "Rotating robot to final angle" << std::endl;
         }
         status = FINALIZING;
-        return controlWithPID(ballHandlePid,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 rotateAroundBall->getRobotCommand(robot, targetPos, lockedAngle));
     }
     else {
@@ -227,32 +227,32 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
     status = HANDLING_BALL;
     // check if we are doing something already
     if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
-        return controlWithPID(ballHandlePid,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
     }
 
     if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
-        return controlWithPID(ballHandlePid,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
     }
 
     switch (travelStrategy) {
     case FORWARDS:
-        return controlWithPID(ballHandlePid,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
 
     case BACKWARDS:
-        return controlWithPID(ballHandlePid,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
 
     default:
     case NO_PREFERENCE: {
         // choose based on distance from the ball to the target
         if (ballIsFarFromTarget) {
-            return controlWithPID(ballHandlePid,
+            return controlWithPID(xBallHandlePID, yBallHandlePID,
                     dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
         }
-        return controlWithPID(ballHandlePid,
+        return controlWithPID(xBallHandlePID, yBallHandlePID,
                 dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
     }
     }
@@ -272,10 +272,10 @@ RobotCommand BallHandlePosControl::goToBall(const Vector2 &targetBallPos, Travel
     bool ballIsMoving = ball->getVel().length2() > MIN_VEL_FOR_MOVING_BALL * MIN_VEL_FOR_MOVING_BALL;
 
     if (ballIsMoving) {
-        return controlWithPID(goToBallPid,
+        return controlWithPID(xGoToBallPID, yGoToBallPID,
                 goToMovingBall());
     }
-    return controlWithPID(goToBallPid,
+    return controlWithPID(xGoToBallPID, yGoToBallPID,
             goToIdleBall(targetBallPos, travelStrategy, ballIsFarFromTarget));
 }
 
@@ -408,11 +408,10 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projectionPosition,
         double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel) {
 
-    const Vector2& numTreesTarget = projectionPosition;
+    Vector2 numTreesTarget = projectionPosition;
     RobotCommand robotCommand;
 
     LineSegment driveLine = LineSegment(robot->pos, projectionPosition.stretchToLength(robot->vel.length()*2.0));
-    //TODO: very bad inheritance design; refactor it somehow
     if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
         robotCommand = BasicPosControl::getRobotCommand(world, field, robot, numTreesTarget);
     }
@@ -426,7 +425,7 @@ RobotCommand BallHandlePosControl::interceptMovingBall(const Vector2 &projection
         Vector2 targetVelIncrease = ball->getVel().stretchToLength(std::max(1.0,
                 fabs((robot->pos - ball->getPos()).toAngle() - ball->getVel().toAngle())))/2;
 
-        driveLine = {robot->pos, robot->pos
+        LineSegment driveLine = {robot->pos, robot->pos
                 + (robotCommand.vel + targetVelIncrease).stretchToLength(robot->vel.length()*2.0)};
         if (! isCrashingIntoOpponentRobot(driveLine) && ! isCrashingOutsideField(driveLine)) {
             robotCommand.vel += targetVelIncrease;
@@ -464,10 +463,10 @@ RobotCommand BallHandlePosControl::goToIdleBall(
     return robotCommand;
 }
 
-RobotCommand BallHandlePosControl::controlWithPID(PidTwoAxesController &pid, const RobotCommand &robotCommand) {
+RobotCommand BallHandlePosControl::controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand) {
     RobotCommand pidCommand = robotCommand;
-    pidCommand.vel = pid.computeOutput(robotCommand.vel, robot->vel);
-
+    pidCommand.vel.x = xpid.getOutput(robot->vel.x, robotCommand.vel.x);
+    pidCommand.vel.y = ypid.getOutput(robot->vel.y, robotCommand.vel.y);
     double minVel = 0.112;
     if (pidCommand.vel.length() < minVel) {
         pidCommand.vel = pidCommand.vel.stretchToLength(
@@ -483,7 +482,8 @@ RobotCommand BallHandlePosControl::controlWithPID(PidTwoAxesController &pid, con
 void BallHandlePosControl::updatePID(pidVals newPID) {
     if (newPID != lastPid) {
         lastPid = newPID;
-        ballHandlePid = PidTwoAxesController(newPID);
+        xBallHandlePID.setPID(newPID, 1.0);
+        yBallHandlePID.setPID(newPID, 1.0);
     }
 }
 

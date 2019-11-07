@@ -4,6 +4,7 @@
 
 #include "control/RobotCommand.h"
 #include "world/Robot.h"
+#include "world/Ball.h"
 #include <queue>
 #include <interface/api/Input.h>
 #include "world/Field.h"
@@ -347,7 +348,7 @@ Collision NumTreePosControl::getRobotCollision(
     return collision;
 }
 
-Collision NumTreePosControl::getBallCollision(const PathPointer &point, const BallPtr &ball) {
+Collision NumTreePosControl::getBallCollision(const PathPointer &point, const PosController::BallPtr &ball) {
     Collision collision = {};
     if (currentCollisionWithRobot.getCollisionBall()->getVisible()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionBall()->getVisible()) return collision;
