@@ -7,10 +7,11 @@
 
 #include "RobotCommand.h"
 #include <utilities/Constants.h>
-#include <control/controllers/PidController.h>
-#include <control/controllers/PidTwoAxesController.h>
+//#include <control/controllers/PidController.h>
+//#include <control/controllers/PidTwoAxesController.h>
 #include "world/Field.h"
 #include "world/World.h"
+#include "pid.h"
 
 
 namespace rtt {
