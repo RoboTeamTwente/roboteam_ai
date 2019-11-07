@@ -7,7 +7,7 @@
 namespace bt {
 
 Node::Status Succeeder::update() {
-    child->tick();
+    child->tick(world, field);
     return Status::Success;
 }
 

@@ -18,10 +18,10 @@ Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Keeper::onInitialize() {
-    goalPos = world::field->get_our_goal_center();
-    goalwidth = world::field->get_field().goal_width();
+    goalPos = field->get_our_goal_center();
+    goalwidth = field->get_field().goal_width();
     //Create arc for keeper to drive on
-    blockCircle = control::ControlUtils::createKeeperArc();
+    blockCircle = createKeeperArc();
 
     /// This function is hacky; we need to manually update the PID now everytime.
     posController.setAutoListenToInterface(false);
@@ -29,13 +29,13 @@ void Keeper::onInitialize() {
 }
 
 Keeper::Status Keeper::onUpdate() {
-    Vector2 ballPos = world::world->getBall()->getPos();
+    Vector2 ballPos = world->getBall()->getPos();
     Vector2 blockPoint;
 
-    goalPos = world::field->get_our_goal_center();
+    goalPos = field->get_our_goal_center();
 
     if (ball->getPos().x < 0) {
-        auto attacker = world::world->getRobotClosestToPoint(ball->getPos(), THEIR_ROBOTS);
+        auto attacker = world->getRobotClosestToPoint(ball->getPos(), THEIR_ROBOTS);
         if (attacker && (ball->getPos() - attacker->pos).length() < MIN_ATTACKER_DIST) {
             setGoalPosWithAttacker(attacker);
         }
@@ -43,7 +43,7 @@ Keeper::Status Keeper::onUpdate() {
 
     blockPoint = computeBlockPoint(ballPos);
 
-    if (! world::field->pointIsInField(blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
+    if (! field->pointIsInField(blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
         blockPoint = goalPos;
         blockPoint.x += Constants::KEEPER_CENTREGOAL_MARGIN();
         command.set_w(0);
@@ -55,7 +55,7 @@ Keeper::Status Keeper::onUpdate() {
             interface::Drawing::DOTS, 5, 5);
     /// Manual PID value update. Ugly and should be refactored in the future.
     posController.updatePid(interface::Output::getKeeperPid());
-    Vector2 velocities = posController.getRobotCommand(robot, blockPoint).vel;
+    Vector2 velocities = posController.getRobotCommand(world, field, robot, blockPoint).vel;
     command.mutable_vel()->set_x(velocities.x);
     command.mutable_vel()->set_y(velocities.y);
     publishRobotCommand();
@@ -67,7 +67,7 @@ void Keeper::onTerminate(Status s) {
 
 Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
     Vector2 blockPos, posA, posB;
-    if (defendPos.x < world::field->get_our_goal_center().x) {
+    if (defendPos.x < field->get_our_goal_center().x) {
         if (abs(defendPos.y) >= goalwidth) {
             blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
                     *signum(defendPos.y));
@@ -90,7 +90,7 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
             posA = *intersections.first;
             posB = *intersections.second;
 
-            if (! world::field->pointIsInDefenceArea(posA, true)) {
+            if (! field->pointIsInDefenceArea(posA, true)) {
                 blockPos = posB;
             }
 
@@ -119,11 +119,11 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
 void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     Vector2 start;
     Vector2 end;
-    double distanceToGoal = ((Vector2) attacker->pos - world::field->get_our_goal_center()).length();
+    double distanceToGoal = ((Vector2) attacker->pos - field->get_our_goal_center()).length();
 
     start = attacker->pos;
 
-    auto goal = world::field->getGoalSides(true);
+    auto goal = field->getGoalSides(true);
     Vector2 attackerToBallV2 = ball->getPos() - attacker->pos;
     Vector2 attackerAngleV2 = attacker->angle.toVector2();
     Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.first,
@@ -133,12 +133,24 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     Angle targetAngle = Vector2((i1 + i2)*0.5 - attacker->pos).toAngle();
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
-    auto field = world::field->get_field();
-    Vector2 startGoal = {- field.field_length()/2, - field.goal_width()/2};
-    Vector2 endGoal = {- field.field_length()/2, field.goal_width()/2};
+    auto fieldMsg = field->get_field();
+    Vector2 startGoal = {- fieldMsg.field_length()/2, - fieldMsg.goal_width()/2};
+    Vector2 endGoal = {- fieldMsg.field_length()/2, fieldMsg.goal_width()/2};
     if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
         goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
     }
+}
+
+rtt::Arc Keeper::createKeeperArc() {
+    double goalwidth = rtt::ai::world::field->get_field().goal_width();
+    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
+    double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
+
+    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
+    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
+    Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
+    return diff > 0 ? rtt::Arc(center, radius, M_PI - angle, angle - M_PI) :
+           rtt::Arc(center, radius, angle, - angle);
 }
 
 }

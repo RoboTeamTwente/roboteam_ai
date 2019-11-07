@@ -31,7 +31,7 @@ bt::Node::Status ParallelSequence::update() {
     int totalSuccess = 0;
     int totalFail = 0;
     for (auto &child : children) {
-        auto status = child->tick();
+        auto status = child->tick(world, field);
         if (status == Status::Success) {
             totalSuccess ++;
         }

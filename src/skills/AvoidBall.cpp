@@ -26,7 +26,7 @@ void AvoidBall::onInitialize() {
     if(stop) minRobotDistanceForForce = 0.7*1.5;
     type = stringToType(properties->getString("type"));
     if (type == PASSING) {
-        receiver = world::world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
+        receiver = world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
     }
 }
 
@@ -38,7 +38,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
     if (!robotIsKeeper && (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10))) {
 
-        robot->getNumtreePosControl()->getRobotCommand(robot, Vector2(0, robotPos.y));
+        robot->getNumtreePosControl()->getRobotCommand(world, field, robot, Vector2(0, robotPos.y));
         publishRobotCommand();
         return Status::Running;
 

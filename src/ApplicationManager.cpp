@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-#include <roboteam_utils/Timer.h>
 
+#include <roboteam_utils/Timer.h>
 #include "utilities/Constants.h"
 #include <bt/Node.hpp>
 #include <ApplicationManager.h>
@@ -16,6 +16,7 @@
 #include <coach/defence/DefenceDealer.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
+#include <include/roboteam_ai/world/Field.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -68,7 +69,6 @@ void ApplicationManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
     weHaveRobots = ai::world::world->weHaveRobots();
-
     /*
     * This is a hack performed at the robocup.
     * It does a soft refresh when robots are not properly claimed by robotdealer.
@@ -107,7 +107,7 @@ void ApplicationManager::updateTrees() {
 void ApplicationManager::runKeeperTree() {
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick();
+        keeperTree->tick(ai::world::world, ai::world::field);
     }
 }
 
@@ -118,7 +118,7 @@ Status ApplicationManager::runStrategyTree() {
           return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick();
+    Status status = strategy->tick(ai::world::world, ai::world::field);
     return status;
 }
 

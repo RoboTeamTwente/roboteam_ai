@@ -19,7 +19,7 @@ void SlingShot::onInitialize() {
     waitingTicks = 0;
     dribbledTicks = 0;
     ballShotTicks = 0;
-    if (! world::world->robotHasBall(robot->id, true)) {
+    if (! world->robotHasBall(robot->id, true)) {
         progression = FAIL;
         return;
     }
@@ -31,7 +31,7 @@ void SlingShot::onTerminate(rtt::ai::Skill::Status s) {
     waitingTicks = 0;
     dribbledTicks = 0;
     ballShotTicks = 0;
-    if (! world::world->robotHasBall(robot->id, true)) {
+    if (! world->robotHasBall(robot->id, true)) {
         progression = FAIL;
         return;
     }
@@ -70,7 +70,7 @@ SlingShot::Progression SlingShot::updateProgress(Progression currentProgress) {
     if (currentProgress == DRIBBLING) {
         if (dribbledTicks < maxDribbleTicks) {
             dribbledTicks ++;
-            return world::world->robotHasBall(robot->id, true) ? DRIBBLING : FAIL;
+            return world->robotHasBall(robot->id, true) ? DRIBBLING : FAIL;
         }
         else {
             setRotate();
@@ -115,7 +115,7 @@ void SlingShot::sendDribbleCommand() {
 }
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
-    auto velocities = gtp.getRobotCommand(robot, position).vel;
+    auto velocities = gtp.getRobotCommand(world, field, robot, position).vel;
     velocities = control::ControlUtils::velocityLimiter(velocities, 1.5);
     command.set_dribbler(0);
   command.mutable_vel()->set_x(velocities.x);

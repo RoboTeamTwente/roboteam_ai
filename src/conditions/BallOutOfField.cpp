@@ -22,7 +22,7 @@ bt::Node::Status BallOutOfField::onUpdate() {
     }
 
     // return success if the ball is out of the field
-    if (!world::field->pointIsInField(ballPos)) {
+    if (!field->pointIsInField(ballPos)) {
         return Status::Success;
     } else {
         return Status::Failure;

@@ -4,7 +4,20 @@
 #include <vector>
 #include <cstdio>
 #include <cstdarg>
+
 #include "Blackboard.hpp"
+
+// fwd declare
+namespace rtt {
+    namespace ai {
+    namespace world {
+        class World;
+
+        class Field;
+
+    }
+}
+}
 
 namespace bt {
 
@@ -41,7 +54,7 @@ class Node {
 
         virtual std::vector<Node::Ptr> getChildren();
 
-        virtual Status tick();
+        virtual Status tick(rtt::ai::world::World * world, rtt::ai::world::Field * field);
 
         bool IsSuccess() const;
 
@@ -76,7 +89,8 @@ class Node {
 
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
-  //      ros::Time lastTickTime;
+        rtt::ai::world::World * world = nullptr;
+        rtt::ai::world::Field * field = nullptr;
 };
 
 } // bt
