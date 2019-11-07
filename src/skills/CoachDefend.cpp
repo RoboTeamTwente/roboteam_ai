@@ -11,13 +11,21 @@ namespace ai {
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
+rtt::ai::coach::DefenceDealer CoachDefend::getDefenceDealer() {
+    return this->defenceDealer;
+}
+
 void CoachDefend::onInitialize() {
   //  numTreeGtp.setCanMoveInDefenseArea(false);
 }
+CoachDefend::CoachDefend(std::string name, coach::DefenceDealer defencecoach, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)){
+    this->getDefenceDealer() = defencecoach;
+}
 
 bt::Node::Status CoachDefend::onUpdate() {
-    coach::g_DefenceDealer.addDefender(robot->id);
-    auto targetLocation = coach::g_DefenceDealer.getDefenderPosition(robot->id);
+    this->getDefenceDealer().addDefender(robot->id);
+
+    auto targetLocation = this->getDefenceDealer().getDefenderPosition(robot->id);
     if (! targetLocation) {
         command.mutable_vel()->set_x(0);
         command.mutable_vel()->set_y(0);

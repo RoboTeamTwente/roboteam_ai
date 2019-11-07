@@ -27,6 +27,8 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
     if ((bestPosition.position - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) {
         bestPosition.position = zoneLocation + (bestPosition.position - zoneLocation).stretchToLength(ZONE_RADIUS);
     }
+
+    // Magic number?
     Angle goldenAngle = 0.01;
     tick++;
     Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
@@ -212,7 +214,7 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
 }
 std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
     std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
-    double angleMargin = sin(2.0/180.0*M_PI);
+    double angleMargin = sin(2.0/180.0*M_PI); // (2 pi)/180 ?? why
     double constantMargin = 0.05*world::field->get_field().goal_width();
     Vector2 leftPoint(goalSides.first.x,
             goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));

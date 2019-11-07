@@ -7,6 +7,7 @@
 
 #include <control/numTrees/NumTreePosControl.h>
 #include <control/BasicPosControl.h>
+#include <include/roboteam_ai/coach/defence/DefenceDealer.h>
 #include "Skill.h"
 #include "control/numTrees/NumTreePosControl.h"
 
@@ -15,10 +16,13 @@ namespace ai {
 class CoachDefend : public Skill {
     private:
         bool useBasicGtp(Vector2 targetLocation);
+        rtt::ai::coach::DefenceDealer defenceDealer;
     public:
         explicit CoachDefend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        void onInitialize() override;
+        explicit CoachDefend(std::string name,  rtt::ai::coach::DefenceDealer defdealer, bt::Blackboard::Ptr blackboard = nullptr);
+    void onInitialize() override;
         bt::Node::Status onUpdate() override;
+        rtt::ai::coach::DefenceDealer getDefenceDealer();
 };
 }
 }
