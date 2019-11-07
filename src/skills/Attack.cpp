@@ -19,7 +19,14 @@ namespace ai {
 Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
 }
+Attack::Attack(string name, bt::Blackboard::Ptr blackboard, rtt::ai::coach::OffensiveCoach offensiveCoach)
+        : Skill(std::move(name), std::move(blackboard)) {
+    this->offensiveCoach = offensiveCoach;
+}
 
+rtt::ai::coach::OffensiveCoach Attack::getOffensiveCoach() {
+    return this->offensiveCoach;
+}
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
@@ -30,7 +37,7 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Running;
     }
 
-    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->getPos());
+    Vector2 aimPoint = this->getOffensiveCoach().getShootAtGoalPoint(ball->getPos());
     auto shotData = robot->getShotController()->getRobotCommand(
             *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM,3);
     command = shotData.makeROSCommand();

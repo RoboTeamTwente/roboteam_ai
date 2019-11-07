@@ -20,10 +20,10 @@ class OffensiveCoach {
         using RobotPtr = std::shared_ptr<Robot>;
 
         // more magic numbers - what
-        const double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
-        const double CLOSE_TO_GOAL_DISTANCE = 0.37;
-        const double FURTHER_FROM_GOAL_DISTANCE = 6.0*CLOSE_TO_GOAL_DISTANCE;
-        const double ZONE_RADIUS = 1.06;
+        double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
+        double CLOSE_TO_GOAL_DISTANCE = 0.37;
+        double FURTHER_FROM_GOAL_DISTANCE = 6.0*CLOSE_TO_GOAL_DISTANCE;
+        double ZONE_RADIUS = 1.06;
 
         struct OffensivePosition {
           Vector2 position;
@@ -60,7 +60,7 @@ class OffensiveCoach {
 
 };
 
-extern OffensiveCoach g_offensiveCoach;
+// extern OffensiveCoach g_offensiveCoach;
 
 }
 }
