@@ -30,7 +30,6 @@ class Field {
     public:
         FieldMessage get_field();
         void set_field(FieldMessage field);
-        Vector2 get_our_goal_center();
         Vector2 get_their_goal_center();
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0,
                 bool includeOutsideField = false);

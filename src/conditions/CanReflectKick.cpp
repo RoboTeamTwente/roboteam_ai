@@ -30,7 +30,7 @@ bt::Node::Status CanReflectKick::onUpdate() {
     }
 
     Angle ballToRobotAngle = (robot->pos - ball->getPos()).toAngle();
-    Angle robotToGoalAngle = (world::field->get_their_goal_center() - robot->pos).toAngle();
+    Angle robotToGoalAngle = (world::field->get_field().get(THEIR_GOAL_CENTER) - robot->pos).toAngle();
 
     // If both angles are either positive or negative, reflectKick will not work (robot cannot get behind the ball properly)
     if (ballToRobotAngle * robotToGoalAngle > 0) {
@@ -48,7 +48,7 @@ bt::Node::Status CanReflectKick::onUpdate() {
 }
 
 double CanReflectKick::getApproximateReflectAngle() {
-    Vector2 goalTarget = world::field->get_their_goal_center();
+    Vector2 goalTarget = world::field->get_field().get(THEIR_GOAL_CENTER);
 
     Vector2 robotToGoalVector = (goalTarget - robot->getKicker()).stretchToLength(1.0);
     Vector2 robotToBallVector = (ball->getPos() - robot->getKicker()).stretchToLength(1.0);

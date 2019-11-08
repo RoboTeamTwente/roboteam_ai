@@ -171,7 +171,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
 }
 rtt::Arc ControlUtils::createKeeperArc() {
     double goalwidth = rtt::ai::world::field->get_field().get(GOAL_WIDTH);
-    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
+    Vector2 goalPos = rtt::ai::world::field->get_field().get(OUR_GOAL_CENTER);
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.

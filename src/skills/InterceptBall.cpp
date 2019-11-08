@@ -237,7 +237,7 @@ void InterceptBall::sendStopCommand() {
 
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
-    Vector2 goalCentre = world::field->get_our_goal_center();
+    Vector2 goalCentre = world::field->get_field().get(OUR_GOAL_CENTER);
     double goalWidth = world::field->get_field().get(GOAL_WIDTH);
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
@@ -249,7 +249,7 @@ bool InterceptBall::ballToGoal() {
 }
 // Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
-    Vector2 goalCentre = world::field->get_our_goal_center();
+    Vector2 goalCentre = world::field->get_field().get(OUR_GOAL_CENTER);
     double goalWidth = world::field->get_field().get(GOAL_WIDTH);
     Vector2 lowerPost = goalCentre + Vector2(0.0, -goalWidth);
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);

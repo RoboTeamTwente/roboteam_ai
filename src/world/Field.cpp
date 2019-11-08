@@ -27,16 +27,6 @@ void Field::set_field(FieldMessage _field) {
   Field::field = std::move(_field);
 }
 
-Vector2 Field::get_our_goal_center() {
-  std::lock_guard<std::mutex> lock(fieldMutex);
-  return Vector2(field.get(FIELD_LENGTH) / -2, 0);
-}
-
-Vector2 Field::get_their_goal_center() {
-  std::lock_guard<std::mutex> lock(fieldMutex);
-  return Vector2(field.get(FIELD_LENGTH) / 2, 0);
-}
-
 bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
   auto defenseArea = getDefenseArea(isOurDefenceArea, margin, includeOutsideField);
   return defenseArea.contains(point);
@@ -253,7 +243,7 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
 
   // get the sides of the goal
   double goalWidth = _field.get(GOAL_WIDTH);
-  auto goalCenter = ourGoal ? get_our_goal_center() : get_their_goal_center();
+  auto goalCenter = ourGoal ? _field.get(OUR_GOAL_CENTER) : _field.get(THEIR_GOAL_CENTER);
   Vector2 upperGoalSide = {goalCenter.x, goalCenter.y + (goalWidth/2)};
   Vector2 lowerGoalSide = {goalCenter.x, goalCenter.y - (goalWidth/2)};
 

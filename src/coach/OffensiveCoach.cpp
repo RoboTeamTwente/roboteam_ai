@@ -160,7 +160,7 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
 
     // get the longest line section op the visible part of the goal
     std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint, world::world->getWorld());
-    if (openSegments.empty()) return world::field->get_their_goal_center();
+    if (openSegments.empty()) return world::field->get_field().get(THEIR_GOAL_CENTER);
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.

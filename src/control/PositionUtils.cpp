@@ -20,7 +20,8 @@ namespace ai {
 namespace control {
 
 rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
-    const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
+    const Vector2 &goal = (ourGoal ? world::field->get_field().get(OUR_GOAL_CENTER) :
+            world::field->get_field().get(THEIR_GOAL_CENTER));
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
@@ -47,12 +48,12 @@ Vector2 PositionUtils::getPositionBehindPositionToPosition(
 }
 
 bool PositionUtils::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
-    const Vector2 &goal = (ourGoal ? world::field->get_our_goal_center() : world::field->get_their_goal_center());
+    const Vector2 &goal = (ourGoal ? world::field->get_field().get(OUR_GOAL_CENTER) :
+            world::field->get_field().get(THEIR_GOAL_CENTER));
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
 bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
-
         const Vector2 &robotPosition, double angleMargin) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
@@ -135,7 +136,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     // makes a free kick line
     auto lengthOffset = rtt::ai::world::field->get_field().get(FIELD_LENGTH) / 100.0;
     auto widthOffset = rtt::ai::world::field->get_field().get(FIELD_WIDTH) / 4.0;
-    Vector2 goalUS = rtt::ai::world::field->get_our_goal_center();
+    Vector2 goalUS = rtt::ai::world::field->get_field().get(OUR_GOAL_CENTER);
     Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
     Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
 

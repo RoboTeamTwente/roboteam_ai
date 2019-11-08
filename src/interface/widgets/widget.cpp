@@ -233,7 +233,7 @@ void Visualizer::drawFieldHints(QPainter &painter) {
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    auto lineStart = toScreenPosition(Vector2(world::field->get_our_goal_center().x, lineY));
+    auto lineStart = toScreenPosition(Vector2(world::field->get_field().get(OUR_GOAL_CENTER).x, lineY));
     auto lineEnd = toScreenPosition(Vector2(0, lineY));
 
     painter.drawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);

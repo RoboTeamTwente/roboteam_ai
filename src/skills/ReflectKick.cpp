@@ -16,7 +16,7 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
 void ReflectKick::onInitialize() {
     kicked = false;
     auto field = world::field->get_field();
-    goalTarget = world::field->get_their_goal_center();
+    goalTarget = world::field->get_field().get(THEIR_GOAL_CENTER);
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
@@ -84,12 +84,12 @@ Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
     float cornering = rtt::ai::world::field->get_field().get(GOAL_WIDTH) / 2.0;
     if (robotPos.y >= 0) {
-        return {rtt::ai::world::field->get_their_goal_center().x,
-                rtt::ai::world::field->get_their_goal_center().y + cornering};
+        return {rtt::ai::world::field->get_field().get(THEIR_GOAL_CENTER).x,
+                rtt::ai::world::field->get_field().get(THEIR_GOAL_CENTER).y + cornering};
     }
     else {
-        return {rtt::ai::world::field->get_their_goal_center().x,
-                rtt::ai::world::field->get_their_goal_center().y - cornering};
+        return {rtt::ai::world::field->get_field().get(THEIR_GOAL_CENTER).x,
+                rtt::ai::world::field->get_field().get(THEIR_GOAL_CENTER).y - cornering};
     }
 }
 

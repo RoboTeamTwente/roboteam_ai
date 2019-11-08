@@ -117,5 +117,4 @@ std::vector<FieldArc> FieldMessage::getField_arcs(){
     }
     return allArcs;
 }
-
 }

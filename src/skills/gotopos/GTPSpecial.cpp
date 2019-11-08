@@ -57,7 +57,7 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ourGoalCenter: {
-        targetPos = world::field->get_our_goal_center();
+        targetPos = world::field->get_field().get(OUR_GOAL_CENTER);
         break;
     }
     case ourDefenseAreaCenter: {
@@ -147,7 +147,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
         maxVel = 1.0;
         break;
     case ourGoalCenter: {
-        targetPos = world::field->get_our_goal_center();
+        targetPos = world::field->get_field().get(OUR_GOAL_CENTER);
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
         command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
         break;

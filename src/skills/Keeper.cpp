@@ -18,7 +18,7 @@ Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Keeper::onInitialize() {
-    goalPos = world::field->get_our_goal_center();
+    goalPos = world::field->get_field().get(OUR_GOAL_CENTER);
     goalwidth = world::field->get_field().get(GOAL_WIDTH);
     //Create arc for keeper to drive on
     blockCircle = control::ControlUtils::createKeeperArc();
@@ -32,7 +32,7 @@ Keeper::Status Keeper::onUpdate() {
     Vector2 ballPos = world::world->getBall()->getPos();
     Vector2 blockPoint;
 
-    goalPos = world::field->get_our_goal_center();
+    goalPos = world::field->get_field().get(OUR_GOAL_CENTER);
 
     if (ball->getPos().x < 0) {
         auto attacker = world::world->getRobotClosestToPoint(ball->getPos(), THEIR_ROBOTS);
@@ -67,7 +67,7 @@ void Keeper::onTerminate(Status s) {
 
 Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
     Vector2 blockPos, posA, posB;
-    if (defendPos.x < world::field->get_our_goal_center().x) {
+    if (defendPos.x < world::field->get_field().get(OUR_GOAL_CENTER).x) {
         if (abs(defendPos.y) >= goalwidth) {
             blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
                     *signum(defendPos.y));
@@ -119,7 +119,7 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
 void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     Vector2 start;
     Vector2 end;
-    double distanceToGoal = ((Vector2) attacker->pos - world::field->get_our_goal_center()).length();
+    double distanceToGoal = ((Vector2) attacker->pos - world::field->get_field().get(OUR_GOAL_CENTER)).length();
 
     start = attacker->pos;
 
