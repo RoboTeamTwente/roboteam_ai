@@ -6,12 +6,26 @@
 namespace rtt {
 
 FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
+    initFieldLines(sslFieldSize);
+    initFieldArcs(sslFieldSize);
+    initFieldValues(sslFieldSize);
+    initFieldVectors();
+}
+
+void FieldMessage::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     fieldValues[FIELD_LENGTH] = mm_to_m(sslFieldSize.field_length());
     fieldValues[FIELD_WIDTH] = mm_to_m(sslFieldSize.field_width());
     fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
     fieldValues[GOAL_DEPTH] = mm_to_m(sslFieldSize.goal_depth());
     fieldValues[BOUNDARY_WIDTH] = mm_to_m(sslFieldSize.boundary_width());
+    fieldValues[LEFTMOST_X] = fieldLines[LEFT_LINE].begin.x;
+    fieldValues[RIGHTMOST_X] = fieldLines[RIGHT_LINE].begin.x;
+    fieldValues[BOTTOMMOST_Y] = fieldLines[BOTTOM_LINE].begin.y;
+    fieldValues[TOPMOST_Y] = fieldLines[TOP_LINE].begin.y;
+    fieldValues[CENTER_Y] = fieldLines[CENTER_LINE].begin.y;
+}
 
+void FieldMessage::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     for (proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
         FieldLineSegment newLine;
         if (NAME_MAP.count(line.name()) > 0) {
@@ -23,7 +37,9 @@ FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
             fieldLines[fieldLineName] = newLine;
         }
     }
+}
 
+void FieldMessage::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     for (proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
         FieldArc newArc;
         if (NAME_MAP.count(arc.name()) > 0) {
@@ -37,9 +53,17 @@ FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
             fieldArcs[fieldArcName] = newArc;
         }
     }
-    fieldValues[LEFTMOST_X] = fieldLines[LEFT_LINE].begin.x;
-    fieldVectors[OUR_GOAL_CENTER] = Vector2(fieldValues[FIELD_LENGTH] / -2, 0);
-    fieldVectors[THEIR_GOAL_CENTER] = Vector2(fieldValues[FIELD_LENGTH] / 2, 0);
+}
+
+void FieldMessage::initFieldVectors() {
+    fieldVectors[OUR_GOAL_CENTER] = Vector2(fieldValues[LEFTMOST_X], fieldValues[CENTER_Y]);
+    fieldVectors[THEIR_GOAL_CENTER] = Vector2(fieldValues[RIGHTMOST_X], fieldValues[CENTER_Y]);
+
+    Vector2 goalWidthAdjust = Vector2(0, fieldValues[GOAL_WIDTH] / 2);
+    fieldVectors[OUR_BOTTOM_GOAL_SIDE] = fieldVectors[OUR_GOAL_CENTER] - goalWidthAdjust;
+    fieldVectors[OUR_TOP_GOAL_SIDE] = fieldVectors[OUR_GOAL_CENTER] + goalWidthAdjust;
+    fieldVectors[THEIR_BOTTOM_GOAL_SIDE] = fieldVectors[THEIR_GOAL_CENTER] - goalWidthAdjust;
+    fieldVectors[THEIR_TOP_GOAL_SIDE] = fieldVectors[THEIR_GOAL_CENTER] + goalWidthAdjust;
 
     Vector2 lpl_begin = fieldLines[LEFT_PENALTY_LINE].begin;
     Vector2 lpl_end = fieldLines[LEFT_PENALTY_LINE].end;

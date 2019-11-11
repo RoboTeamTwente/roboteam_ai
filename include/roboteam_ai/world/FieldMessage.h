@@ -38,7 +38,11 @@ enum FieldValueName {
     // The difference in x-coordinate (measured in meters) between the open part of the goal and the closed part of the goal.
     GOAL_DEPTH,
     BOUNDARY_WIDTH, // The width (measured in meters) of the boundary around the field.
-    LEFTMOST_X //The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
+    CENTER_Y, // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
+    LEFTMOST_X, //The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
+    RIGHTMOST_X, //The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
+    BOTTOMMOST_Y, //The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
+    TOPMOST_Y, //The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
 };
 
 enum FieldLineName {
@@ -71,8 +75,12 @@ enum FieldLineName {
 enum FieldVectorName {
     OUR_GOAL_CENTER, // The middle point of our goal (this point is on the left line).
     THEIR_GOAL_CENTER, // The middle point of the opponents goal (this point is on the right line).
-    LEFT_PENALTY_POINT, // The penalty point from which penalties are made towards our goal
-    RIGHT_PENALTY_POINT, // The penalty point from which penalties are made towards the opponents goal
+    LEFT_PENALTY_POINT, // The penalty point from which penalties are made towards our goal.
+    RIGHT_PENALTY_POINT, // The penalty point from which penalties are made towards the opponents goal.
+    OUR_BOTTOM_GOAL_SIDE, // The bottom most point of our goal (this point is on the left line).
+    OUR_TOP_GOAL_SIDE, // The top most point of our goal (this point is on the left line).
+    THEIR_BOTTOM_GOAL_SIDE, // The bottom most point of the opponents goal (this point is on the right line).
+    THEIR_TOP_GOAL_SIDE, // The top most point of the opponents goal (this point is on the right line).
 };
 
 enum FieldArcName {
@@ -210,6 +218,26 @@ private:
      * Convert a vector measured in millimeters to a vector measured in meters.
      */
     Vector2 mm_to_m(Vector2 vector);
+
+    /**
+     * Initialize the field values (this function is only called inside the constructor)
+     */
+    void initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize);
+
+    /**
+     * Initialize the field lines (this function is only called inside the constructor)
+     */
+    void initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize);
+
+    /**
+     * Initialize the field arcs (this function is only called inside the constructor)
+     */
+    void initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize);
+
+    /**
+     * Initialize the field vectors (this function is only called inside the constructor)
+     */
+    void initFieldVectors();
 };
 
 }
