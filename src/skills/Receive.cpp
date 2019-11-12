@@ -23,7 +23,7 @@ void Receive::onInitialize() {
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world::world->robotHasBall(robot->id, true)) {
+    if (world->robotHasBall(robot->id, true)) {
         return Status::Success;
     }
 
@@ -39,11 +39,11 @@ Receive::Status Receive::onUpdate() {
         }
 
         intercept();
-        if ((ball->pos - robot->pos).length() < 1.0) {
+        if ((ball->getPos() - robot->pos).length() < 1.0) {
             command.set_dribbler(31);
         }
     } else {
-        command.set_w((ball->pos - robot->pos).toAngle().getAngle());
+        command.set_w((ball->getPos() - robot->pos).toAngle().getAngle());
     }
 
     // Check if robot is in position, otherwise turn towards ball
@@ -77,45 +77,45 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
-    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->pos, 0.3*M_PI);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3*M_PI);
     return isAimedAtBall;
 }
 
 void Receive::intercept() {
-    ball = world::world->getBall();
-    double ballAngle = (ball->pos - robot->pos).toAngle().getAngle();
+    ball = world->getBall();
+    double ballAngle = (ball->getPos() - robot->pos).toAngle().getAngle();
 
-    ballStartPos = ball->pos;
-    ballStartVel = ball->vel;
+    ballStartPos = ball->getPos();
+    ballStartVel = ball->getVel();
     ballEndPos = ballStartPos + ballStartVel * Constants::MAX_RECEIVE_TIME();
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
     Vector2 velocities;
 
     if ((interceptPoint - robot->pos).length() > 1.0) {
-        velocities = robot->getNumtreePosControl()->getRobotCommand(robot, interceptPoint).vel;
-        if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world::world->getWorld(), 1)) {
+        velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
+        if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world->getWorld(), 1)) {
             velocities = velocities * 1.2;
         }
     } else {
-        velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPoint).vel;
+        velocities = robot->getBasicPosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
     }
     command.mutable_vel()->set_x(static_cast<float>(velocities.x));
     command.mutable_vel()->set_y(static_cast<float>(velocities.y));
-    command.set_w(ball->vel.stretchToLength(-1).toAngle());
+    command.set_w(ball->getVel().stretchToLength(-1).toAngle());
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPoint}, Qt::cyan, robot->id, interface::Drawing::DOTS, 5, 5);
 }
 
 bool Receive::passFailed() {
-    return (ball->vel.length() < 0.3);
+    return (ball->getVel().length() < 0.3);
 }
 
 
 bool Receive::ballDeflected() {
-    Angle robotToBallAngle = (robot->pos - ball->pos).toAngle();
-    Angle ballVelocityAngle = (ball->vel).toAngle();
+    Angle robotToBallAngle = (robot->pos - ball->getPos()).toAngle();
+    Angle ballVelocityAngle = (ball->getVel()).toAngle();
 
     return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;
 

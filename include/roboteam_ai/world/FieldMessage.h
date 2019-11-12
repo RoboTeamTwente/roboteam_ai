@@ -40,9 +40,6 @@ class FieldMessage {
   FRIEND_TEST(FieldTest, goal_angle);
 
 private:
-
-
-
   double width;
   double length;
   double goalWidth;
@@ -74,7 +71,7 @@ private:
 
  public:
   FieldMessage() = default;
-  FieldMessage(roboteam_proto::SSL_GeometryFieldSize sslFieldSize);
+  FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize);
   void invert();
   float mm_to_m(float scalar);
   Vector2 mm_to_m(Vector2 vector);
@@ -84,6 +81,7 @@ private:
   double goal_width();
   double goal_depth();
   double boundary_width();
+  double getLeftLineX();
   FieldLineSegment getTop_line();
   FieldLineSegment getBottom_line();
   FieldLineSegment getLeft_line();
@@ -129,7 +127,7 @@ private:
 
       std::make_pair("CenterCircle", "center_circle"),
   };
-  void addHelperArc(FieldArc newArc);
+    void addHelperArc(FieldArc newArc);
 
     void invertArc(FieldArc &arc) const;
 

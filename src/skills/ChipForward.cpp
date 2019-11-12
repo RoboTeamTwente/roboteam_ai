@@ -13,7 +13,7 @@ ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {}
 
 void ChipForward::onInitialize() {
-    aimPoint = world::field->getPenaltyPoint(false);
+    aimPoint = field->getPenaltyPoint(false);
     hasChipped = false;
 }
 
@@ -28,7 +28,7 @@ ChipForward::Status ChipForward::onUpdate() {
 
     publishRobotCommand();
 
-    if (hasChipped && (ball->pos - robot->pos).length() > 0.5) {
+    if (hasChipped && (ball->getPos() - robot->pos).length() > 0.5) {
         return Status::Success;
     }
 

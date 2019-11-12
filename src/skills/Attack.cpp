@@ -24,14 +24,14 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status Attack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (world::field->pointIsInDefenceArea(ball->pos, false)) {
+    if (field->pointIsInDefenceArea(ball->getPos(), false)) {
         command.set_w(robot->angle);
         publishRobotCommand();
         return Status::Running;
     }
 
 
-    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->pos);
+    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->getPos());
     auto shotData = robot->getShotController()->getRobotCommand(
             *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM,3);
     command = shotData.makeROSCommand();

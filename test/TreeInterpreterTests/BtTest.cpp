@@ -115,7 +115,7 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(once);
 
         traces.clear();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Once-A",
@@ -131,9 +131,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(runner);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {
@@ -152,9 +152,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(counter);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -172,9 +172,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(counter);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {
@@ -206,9 +206,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt(memSeq);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -245,14 +245,14 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt.SetRoot(parSeq);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
 
         //after two ticks it should still be running
         EXPECT_TRUE(parSeq->IsRunning());
 
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
 
         EXPECT_TRUE(parSeq->IsSuccess());
         EXPECT_FALSE(parSeq->IsFailure());
@@ -276,9 +276,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt;
         bt.SetRoot(parSeq);
 
-        bt.tick();
+        bt.tick(nullptr, nullptr);
         EXPECT_TRUE(parSeq->IsRunning());
-        bt.tick();
+        bt.tick(nullptr, nullptr);
         EXPECT_TRUE(parSeq->IsSuccess());
     }
 
@@ -296,10 +296,10 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt(seq);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
 
         std::vector<std::string> expectedTrace = {
                 "Initialize: Counter-A",
@@ -331,9 +331,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt(seq);
 
         traces.clear();
-        bt.tick();
-        bt.tick();
-        bt.tick();
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
+        bt.tick(nullptr, nullptr);
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {

@@ -54,8 +54,11 @@ class NumTreePosControl : public BasicPosControl {
     public:
         const Collision &getCurrentCollisionWithRobot() const;
         const Collision &getCurrentCollisionWithFinalTarget() const;
-
+protected:
+    world::World * world = nullptr;
+    world::Field * field = nullptr;
     private:
+
         bool allowIllegalPositions = false;
         Vector2 currentlyAvoidingDefenseAreaPosition;
         bool currentlyAvoidingDefenseArea = false;
@@ -82,11 +85,11 @@ class NumTreePosControl : public BasicPosControl {
 
         void clear();
 
-        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos) override;
-        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
-        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos,
+        RobotCommand getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr, const Vector2 &targetPos) override;
+        RobotCommand getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
+        RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robotPtr, const Vector2 &targetPos,
                 const Angle &targetAngle) override;
-        RobotCommand getRobotCommand(const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
+        RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
                 bool illegalPositions);
 
         bool checkChangeInMaxRobotVel();

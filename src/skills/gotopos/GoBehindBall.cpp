@@ -23,16 +23,16 @@ Skill::Status GoBehindBall::gtpUpdate() {
         return penaltyUpdate(3);
     }
     case freeKick: {
-        auto ball = ai::world::world->getBall();
-        auto goal = ai::world::field->get_their_goal_center();
+        auto ball = world->getBall();
+        auto goal = field->get_their_goal_center();
 
-        Vector2 v = goal - ball->pos;
-        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.14)) + ball->pos;
+        Vector2 v = goal - ball->getPos();
+        targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.14)) + ball->getPos();
         if ((targetPos - robot->pos).length2() > errorMargin * errorMargin) {
             return Status::Running;
         }
         else {
-            command.set_w((ball->pos - robot->pos).toAngle());
+            command.set_w((ball->getPos() - robot->pos).toAngle());
             publishRobotCommand();
             return Status::Success;
         }
@@ -70,11 +70,11 @@ GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
 
 }
 Skill::Status GoBehindBall::penaltyUpdate(int genevaState){
-    auto ball = ai::world::world->getBall();
-    auto goal = ai::world::field->get_their_goal_center();
+    auto ball = world->getBall();
+    auto goal = field->get_their_goal_center();
 
-    Vector2 v = goal - ball->pos;
-    targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.2)) + ball->pos;
+    Vector2 v = goal - ball->getPos();
+    targetPos = ((v*- 1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS()+0.2)) + ball->getPos();
     command.set_geneva_state(genevaState);
     command.set_w(0);
     return (targetPos - robot->pos).length2() > errorMargin * errorMargin ? Status::Running :  Status::Success;

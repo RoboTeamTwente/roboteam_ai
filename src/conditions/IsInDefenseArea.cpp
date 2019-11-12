@@ -25,15 +25,15 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
         if(properties->getBool("useRobot")) {
             point = robot->pos + robot->vel * secondsAhead;
         } else {
-            point = ball->pos + ball->vel * secondsAhead;
+            point = ball->getPos() + ball->getVel() * secondsAhead;
         }
     } else {
-        point = properties->getBool("useRobot") ? robot->pos : ball->pos;
+        point = properties->getBool("useRobot") ? robot->pos : ball->getPos();
     }
 
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 
-    if (world::field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
+    if (field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

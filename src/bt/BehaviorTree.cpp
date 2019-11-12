@@ -23,7 +23,7 @@ BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
 
 
 Node::Status BehaviorTree::update() {
-    return root->tick();
+    return root->tick(world, field);
 }
 
 void BehaviorTree::terminate(Status s) {

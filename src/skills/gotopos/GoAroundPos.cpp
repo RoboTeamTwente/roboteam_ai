@@ -18,7 +18,7 @@ GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard)
     if (properties->hasBool("ball")) {
         if (ball) {
             ballIsTarget = true;
-            targetPos = ball->pos;
+            targetPos = ball->getPos();
         }
         else {
             std::cerr << "Get some balls" << std::endl;
@@ -33,7 +33,7 @@ GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard)
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
     }
     else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = Control::constrainAngle((world::field->get_their_goal_center() - targetPos).angle());
+        endAngle = Control::constrainAngle((field->get_their_goal_center() - targetPos).angle());
     }
     else {
         endAngle = 0;
@@ -71,7 +71,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
         return Status::Failure;
     }
     if (ballIsTarget) {
-        targetPos = ball->pos;
+        targetPos = ball->getPos();
     }
     if (currentTick <= maxTick) {
         commandPos = targetPos + Vector2(distanceFromPoint, 0).rotate(

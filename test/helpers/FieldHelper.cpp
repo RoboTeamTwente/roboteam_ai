@@ -7,8 +7,8 @@
 namespace testhelpers {
 
 // generateField defaults to a A division field
-    roboteam_proto::GeometryFieldSize FieldHelper::generateField(double field_length, double field_width, double goal_width, double defense_area_width, double defense_area_length, double center_circle_radius) {
-    roboteam_proto::GeometryFieldSize field;
+    proto::GeometryFieldSize FieldHelper::generateField(double field_length, double field_width, double goal_width, double defense_area_width, double defense_area_length, double center_circle_radius) {
+    proto::GeometryFieldSize field;
 
     field.set_field_length(field_length);
     field.set_field_width(field_width);
@@ -19,7 +19,7 @@ namespace testhelpers {
     return field;
 }
 
-void FieldHelper::addDefenseAreas(roboteam_proto::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
+void FieldHelper::addDefenseAreas(proto::GeometryFieldSize &field, double defenseAreaWidth, double defenseAreaDepth) {
         
     auto top_right_penalty_stretch_begin = rtt::Vector2{field.field_length() / 2 - defenseAreaDepth, defenseAreaWidth / 2};
     auto top_right_penalty_stretch_end = rtt::Vector2{field.field_length() / 2, defenseAreaWidth / 2};
@@ -66,7 +66,7 @@ void FieldHelper::addDefenseAreas(roboteam_proto::GeometryFieldSize &field, doub
 
 }
 
-void FieldHelper::addCenterArc(roboteam_proto::GeometryFieldSize &field, double radius) {
+void FieldHelper::addCenterArc(proto::GeometryFieldSize &field, double radius) {
     field.mutable_center_circle()->mutable_center()->set_x(0);
     field.mutable_center_circle()->mutable_center()->set_y(0);
     field.mutable_center_circle()->set_radius(radius);

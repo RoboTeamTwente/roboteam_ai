@@ -13,7 +13,7 @@ TheyHaveBall::TheyHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status TheyHaveBall::onUpdate() {
-    RobotPtr robotThatHasBall = world::world->whichRobotHasBall();
+    RobotPtr robotThatHasBall = world->whichRobotHasBall();
 
     if (robotThatHasBall && robotThatHasBall->team == Team::them) {
         return bt::Node::Status::Success;

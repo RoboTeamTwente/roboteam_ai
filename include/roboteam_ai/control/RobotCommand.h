@@ -31,8 +31,8 @@ class RobotCommand {
         constexpr RobotCommand(const Vector2 &pos, const Vector2 &vel, const Angle &angle)
                 :pos(pos), vel(vel), angle(angle) { }
 
-        const roboteam_proto::RobotCommand makeROSCommand() const {
-          roboteam_proto::RobotCommand message;
+        const proto::RobotCommand makeROSCommand() const {
+          proto::RobotCommand message;
             message.set_id(id);
             message.mutable_vel()->set_x(vel.x);
             message.mutable_vel()->set_y(vel.y);

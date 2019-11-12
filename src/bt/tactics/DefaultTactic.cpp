@@ -32,7 +32,7 @@ Node::Status DefaultTactic::update() {
 
     for (int i = 0; i < amountToTick; i ++) {
         if (children.size() > i && children.at(i)) {
-            children.at(i)->tick();
+            children.at(i)->tick(world, field);
         } else {
             std::cerr << "trying to tick a non-existent robot!" << std::endl;
         }

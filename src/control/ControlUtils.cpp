@@ -169,17 +169,6 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
     return false; // Doesn't fall in any of the above cases
 
 }
-rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth = rtt::ai::world::field->get_field().goal_width();
-    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
-    double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
-
-    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
-    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
-    Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
-    return diff > 0 ? rtt::Arc(center, radius, M_PI - angle, angle - M_PI) :
-           rtt::Arc(center, radius, angle, - angle);
-}
 
 //Computes the absolute difference between 2 angles (the shortest orientation direction)
 ///both angles must go from[-pi,pi]!!

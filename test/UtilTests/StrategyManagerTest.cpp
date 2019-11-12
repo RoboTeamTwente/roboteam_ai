@@ -9,9 +9,9 @@
 
 TEST(StrategyManagerTest, StrategyManagerTest) {
     rtt::ai::StrategyManager strategyManager;
-    roboteam_proto::SSL_Referee cmd;
-    roboteam_proto::SSL_Referee_Stage stage;
-    stage=roboteam_proto::SSL_Referee_Stage_NORMAL_FIRST_HALF;
+    proto::SSL_Referee cmd;
+    proto::SSL_Referee_Stage stage;
+    stage=proto::SSL_Referee_Stage_NORMAL_FIRST_HALF;
 
     strategyManager.setCurrentRefGameState(RefCommand::NORMAL_START,stage);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "normal_play_strategy");
@@ -40,7 +40,7 @@ TEST(StrategyManagerTest, StrategyManagerTest) {
     strategyManager.setCurrentRefGameState(RefCommand::HALT,stage);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName, "halt_strategy");
 
-    stage=roboteam_proto::SSL_Referee_Stage_PENALTY_SHOOTOUT;
+    stage=proto::SSL_Referee_Stage_PENALTY_SHOOTOUT;
     strategyManager.setCurrentRefGameState(RefCommand::PREPARE_PENALTY_US,stage);
     EXPECT_EQ(strategyManager.getCurrentRefGameState().strategyName,"time_out_strategy");
     EXPECT_EQ(strategyManager.getCurrentRefGameState().keeperStrategyName,"shootout_prepare_tactic");

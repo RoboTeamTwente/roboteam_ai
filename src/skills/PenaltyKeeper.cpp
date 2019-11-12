@@ -18,7 +18,7 @@ PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
 void PenaltyKeeper::onInitialize() {
     goalLine = getGoalLine();
     state = WAITING;
-    firstBallPos=world::world->getBall()->pos;
+    firstBallPos = world->getBall()->getPos();
     preparation=properties->getBool("prepare");
     gtp.setAutoListenToInterface(false);
 }
@@ -79,7 +79,7 @@ Vector2 PenaltyKeeper::computeDefendPos() {
     if (attacker) {
         Vector2 beginPos = attacker->pos;
         Vector2 endPos = attacker->pos
-                + (world::world->getBall()->pos - attacker->pos).stretchToLength(
+                + (world::world->getBall()->getPos() - attacker->pos).stretchToLength(
                         world::field->get_field().field_length());
 
         double maxMoveDist=(world::field->get_field().goal_width()-Constants::ROBOT_RADIUS())/2-0.2; // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
@@ -100,8 +100,8 @@ Vector2 PenaltyKeeper::computeDefendPos() {
 }
 
 Vector2 PenaltyKeeper::interceptBallPos() {
-    Vector2 startBall = world::world->getBall()->pos;
-    Vector2 endBall = world::world->getBall()->pos + world::world->getBall()->vel.stretchToLength(100);
+    Vector2 startBall = world::world->getBall()->getPos();
+    Vector2 endBall = world::world->getBall()->getPos() + world::world->getBall()->getVel().stretchToLength(100);
     Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.first,
             goalLine.second);
     double margin = 0.05;//m next to the goal
@@ -119,7 +119,7 @@ void PenaltyKeeper::sendWaitCommand() {
 
     Vector2 targetPos = computeDefendPos();
 
-    Vector2 delta = gtp.getRobotCommand(robot, targetPos).vel;
+    Vector2 delta = gtp.getRobotCommand(world, field, robot, targetPos).vel;
     command.mutable_vel()->set_x(delta.x);
     command.mutable_vel()->set_y(delta.y);
     command.set_w(M_PI_2);
@@ -130,7 +130,7 @@ void PenaltyKeeper::sendInterceptCommand() {
     gtp.updatePid({5.2,0.0,0.2});
 
     Vector2 interceptPos = interceptBallPos();
-    Vector2 delta = gtp.getRobotCommand(robot, interceptPos).vel;
+    Vector2 delta = gtp.getRobotCommand(world, field, robot, interceptPos).vel;
     command.mutable_vel()->set_x(delta.x);
     command.mutable_vel()->set_y(delta.y);
     command.set_w(M_PI_2);
@@ -144,7 +144,7 @@ std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
     return originalLine;
 }
 bool PenaltyKeeper::isBallShot() {
-    return world::world->getBall()->vel.x<-0.2;
+    return world::world->getBall()->getVel().x < -0.2;
 }
 void PenaltyKeeper::onTerminate(rtt::ai::Skill::Status s) {
     state=WAITING;

@@ -60,7 +60,6 @@ class ControlUtils {
         static int lineOrientation(const Vector2 &p, const Vector2 &q, const Vector2 &r);
         static bool lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
                 const Vector2 &lineBEnd);
-        static rtt::Arc createKeeperArc();
         static Vector2 velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(),
                 double minVel = 0.0, bool listenToReferee = true);
 

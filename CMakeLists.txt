@@ -263,7 +263,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        )
+          )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -300,7 +300,6 @@ set(WORLD_SOURCES
 
         ${PROJECT_SOURCE_DIR}/src/world/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/WorldManager.cpp
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp

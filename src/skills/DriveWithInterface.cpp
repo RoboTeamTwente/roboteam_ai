@@ -19,7 +19,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
-    auto robotCommand = numTreeGtp.getRobotCommand(robot, targetPos);
+    auto robotCommand = numTreeGtp.getRobotCommand(world, field, robot, targetPos);
 
     command.mutable_vel()->set_x(robotCommand.vel.x);
     command.mutable_vel()->set_y(robotCommand.vel.y);

@@ -29,9 +29,9 @@ bt::Node::Status BallPlacementPass::onUpdate() {
         return Status::Failure;
     }
 
-    robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
+    robotToPassTo = world->getRobotForId(robotToPassToID, true);
 
-    if ((ball->pos - targetPos).length() < 0.5) {
+    if ((ball->getPos() - targetPos).length() < 0.5) {
         return Status::Success;
     }
 
@@ -52,13 +52,13 @@ bt::Node::Status BallPlacementPass::onUpdate() {
             if(command.kicker() && !hasShot) {
                 hasShot = true;
             }
-        } else if (robot->pos.dist(ball->pos) > 0.5) {
-            auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(robot, ball->pos);
+        } else if (robot->pos.dist(ball->getPos()) > 0.5) {
+            auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, ball->getPos());
             command.mutable_vel()->set_x(robotCommand.vel.x);
             command.mutable_vel()->set_y(robotCommand.vel.y);
             command.set_w(robotCommand.angle);
         } else {
-            command.set_w((ball->pos - robot->pos).angle());
+            command.set_w((ball->getPos() - robot->pos).angle());
         }
     }
 

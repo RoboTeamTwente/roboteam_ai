@@ -27,37 +27,39 @@ namespace io {
 
 class IOManager {
 private:
-        roboteam_proto::World worldMsg;
-        roboteam_proto::SSL_GeometryData geometryMsg;
-        roboteam_proto::RobotFeedback robotFeedbackMsg;
-        roboteam_proto::SSL_Referee refDataMsg;
-        roboteam_proto::DemoRobot demoInfoMsg;
+        proto::World worldMsg;
+        proto::SSL_GeometryData geometryMsg;
+        proto::RobotFeedback robotFeedbackMsg;
+        proto::SSL_Referee refDataMsg;
+        proto::DemoRobot demoInfoMsg;
 
-        roboteam_proto::Subscriber * worldSubscriber;
-        void handleWorldState(roboteam_proto::World & world);
+        proto::Subscriber<proto::World> * worldSubscriber;
+        void handleWorldState(proto::World & world);
 
-        roboteam_proto::Subscriber * geometrySubscriber;
-        void handleGeometry(roboteam_proto::SSL_GeometryData & geometryData);
+        proto::Subscriber<proto::SSL_GeometryData> * geometrySubscriber;
+        void handleGeometry(proto::SSL_GeometryData & geometryData);
 
-        roboteam_proto::Subscriber * refSubscriber;
-        void handleReferee(roboteam_proto::SSL_Referee & refData);
+        proto::Subscriber<proto::SSL_Referee> * refSubscriber;
+        void handleReferee(proto::SSL_Referee & refData);
 
-        roboteam_proto::Subscriber * feedbackSubscriber;
-        void handleFeedback(roboteam_proto::RobotFeedback & feedback);
+        proto::Subscriber<proto::RobotFeedback> * feedbackSubscriber;
+        void handleFeedback(proto::RobotFeedback & feedback);
 
-        roboteam_proto::Publisher * publisher;
-        rtt::ai::Pause* pause;
+        proto::Publisher<proto::RobotCommand> * robotCommandPublisher;
+        proto::Publisher<proto::Setting> * settingsPublisher;
+
+      rtt::ai::Pause* pause;
 
 public:
         explicit IOManager() = default;
-        void publishRobotCommand(roboteam_proto::RobotCommand cmd);
-        void publishSettings(roboteam_proto::Setting setting);
+        void publishRobotCommand(proto::RobotCommand cmd);
+        void publishSettings(proto::Setting setting);
         void init();
-        const roboteam_proto::World &getWorldState();
-        const roboteam_proto::SSL_GeometryData &getGeometryData();
-        const roboteam_proto::RobotFeedback &getRobotFeedback();
-        const roboteam_proto::SSL_Referee &getRefereeData();
-        const roboteam_proto::DemoRobot &getDemoInfo();
+        const proto::World &getWorldState();
+        const proto::SSL_GeometryData &getGeometryData();
+        const proto::RobotFeedback &getRobotFeedback();
+        const proto::SSL_Referee &getRefereeData();
+        const proto::DemoRobot &getDemoInfo();
 
         static std::mutex worldStateMutex;
         static std::mutex geometryMutex;

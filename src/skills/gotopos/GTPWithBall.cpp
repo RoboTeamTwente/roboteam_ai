@@ -19,7 +19,7 @@ void GTPWithBall::onInitialize() {
 
 Skill::Status GTPWithBall::onUpdate() {
     updateTarget();
-    command = ballHandlePosControl.getRobotCommand(robot, targetPos, targetAngle).makeROSCommand();
+    command = ballHandlePosControl.getRobotCommand(world, field, robot, targetPos, targetAngle).makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }
@@ -41,7 +41,7 @@ void GTPWithBall::updateTarget() {
     default:return;
     case ballPlacement: {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
-        Vector2 delta = (targetPos - ball->pos);
+        Vector2 delta = (targetPos - ball->getPos());
         if (fabs(robot->angle - delta.toAngle()) < M_PI_2) {
             targetAngle = delta;
         }

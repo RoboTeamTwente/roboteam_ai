@@ -16,13 +16,13 @@ BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos;
     if (properties->hasDouble("secondsAhead")) {
-        ballPos = ball->pos + ball->vel * properties->getDouble("secondsAhead");
+        ballPos = ball->getPos() + ball->getVel() * properties->getDouble("secondsAhead");
     } else {
-        ballPos = ball->pos;
+        ballPos = ball->getPos();
     }
 
     // return success if the ball is out of the field
-    if (!world::field->pointIsInField(ballPos)) {
+    if (!field->pointIsInField(ballPos)) {
         return Status::Success;
     } else {
         return Status::Failure;

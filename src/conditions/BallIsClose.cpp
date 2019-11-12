@@ -2,8 +2,8 @@
 // Created by baris on 25-4-19.
 //
 
-#include <world/World.h>
 #include <world/Ball.h>
+#include <world/World.h>
 #include <world/Robot.h>
 #include "conditions/BallIsClose.h"
 
@@ -14,7 +14,7 @@ rtt::ai::BallIsClose::BallIsClose(std::string name, bt::Blackboard::Ptr blackboa
     }
 }
 rtt::ai::Condition::Status rtt::ai::BallIsClose::onUpdate() {
-    Vector2 ballPos = rtt::ai::world::world->getBall()->pos;
+    Vector2 ballPos = world->getBall()->getPos();
     if ((robot->pos - ballPos).length() <= distance) {
         return Status::Success;
     }
