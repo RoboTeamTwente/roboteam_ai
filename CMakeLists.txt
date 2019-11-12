@@ -183,6 +183,7 @@ set(CONTROL_SOURCES
         # PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/VoronoiPathPlanning.cpp
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/NumTreePosControl.cpp
@@ -261,7 +262,8 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-          )
+        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/VoronoiPathPlanningTest.cpp
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -388,7 +390,8 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE gcov)
+        PRIVATE gcov
+        PRIVATE gtest)
 endif()
 
 target_include_directories(ai_tests
