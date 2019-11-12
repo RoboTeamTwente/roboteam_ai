@@ -98,7 +98,9 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     QString status = QString::fromStdString(node->status_print(node->getStatus()));//statusToString(node->getStatus()));
     if (row->text(1)!=status) {
         row->setText(1, status);
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         row->setTextColor(1, getColorForStatus(node->getStatus()));
+#pragma GCC diagnostic pop    
     }
 
     // Update the elapsed time (if ticked)
@@ -121,7 +123,9 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     }
 
     // update the total amount of ticks
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     row->setTextColor(3, Qt::darkGray);
+#pragma GCC diagnostic pop
 
 
     // go from yellow to red
@@ -132,7 +136,9 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
         double div = (node->getAmountOfTicks()*1.0) / (mostTicks*1.0);
         div = log( (127)*div + 1) / log(128);
         auto factor = static_cast<int>(255 * div);
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         row->setTextColor(3, {255, 255-factor, factor});
+#pragma GCC diagnostic pop
     }
     row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));
 

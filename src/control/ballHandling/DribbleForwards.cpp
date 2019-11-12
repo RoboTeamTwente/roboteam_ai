@@ -114,6 +114,9 @@ RobotCommand DribbleForwards::sendForwardsCommand() {
         return {};
     }
     }
+    // Since it's UB if you use this return value, without returning anything
+    // Just to be sure in the future
+    return {};
 }
 
 RobotCommand DribbleForwards::sendTurnCommand() {

@@ -64,7 +64,12 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
             return false;
         }
     }
-
+    
+    /**
+     * None of the previous edge cases were hit, hence defaulting to false
+     * Not doing this can result in UB
+     */
+    return false;
 }
 
 }
