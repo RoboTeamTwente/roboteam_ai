@@ -34,7 +34,7 @@ public:
     /**
      * Prevent future linker errors for undefined runtime vtable lookup
      */
-    virtual ~ThreeVisualizerWidget() = default; 
+    virtual ~TreeVisualizerWidget() = default; 
 public slots:
     void invalidateTree();
     void updateContents(bt::BehaviorTree::Ptr tree);

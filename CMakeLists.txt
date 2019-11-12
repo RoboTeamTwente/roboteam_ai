@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
 
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG "-std=c++17 ${CMAKE_CXX_FLAGS} -g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++17 ${CMAKE_CXX_FLAGS} -Werror -g -O0")
 
@@ -343,7 +344,8 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE roboteam_utils)
+        PRIVATE roboteam_utils
+        gtest)
 
 target_include_directories(roboteam_ai
         INTERFACE include

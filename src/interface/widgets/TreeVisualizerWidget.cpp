@@ -118,7 +118,9 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
 //            row->setText(2, "> 1m ago");
 //        }
     } else {
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         row->setTextColor(2, Qt::darkGray);
+#pragma GCC diagnostic pop
         row->setText(2, "N/A");
     }
 
