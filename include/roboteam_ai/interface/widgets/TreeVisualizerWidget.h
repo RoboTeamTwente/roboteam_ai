@@ -30,6 +30,11 @@ private:
 public:
     explicit TreeVisualizerWidget(MainWindow * parent);
     void setHasCorrectTree(bool hasCorrectTree);
+
+    /**
+     * Prevent future linker errors for undefined runtime vtable lookup
+     */
+    virtual ~ThreeVisualizerWidget() = default; 
 public slots:
     void invalidateTree();
     void updateContents(bt::BehaviorTree::Ptr tree);
