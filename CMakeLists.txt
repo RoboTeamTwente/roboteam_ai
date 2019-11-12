@@ -371,6 +371,7 @@ add_executable(ai_tests
         )
 
 
+# explicitly link gtest
 if(APPLE)
     target_link_libraries(ai_tests
             PRIVATE roboteam_utils
@@ -378,9 +379,11 @@ if(APPLE)
             PRIVATE Qt5::Gui
             PRIVATE Qt5::Charts
             /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a)
+            /usr/local/lib/libgtest_main.a
+            gtest)
 endif()
 
+# explicitly link gtest
 if(UNIX AND NOT APPLE)
 
   target_link_libraries(ai_tests
@@ -388,7 +391,8 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE gcov)
+        PRIVATE gcov
+        gtest)
 endif()
 
 target_include_directories(ai_tests
