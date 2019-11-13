@@ -8,7 +8,10 @@ class Composite : public Node {
     public:
         void addChild(Node::Ptr child) override;
 
-        std::vector<Node::Ptr> getChildren() override;
+        /**
+         * Copy of the vector?
+         */
+        std::vector<Node::Ptr>& getChildren() override;
 
         bool HasNoChildren() const;
 
