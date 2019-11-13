@@ -55,6 +55,9 @@ class OffensiveCoach {
         std::pair<Vector2, Vector2> getAimPoints(const Vector2 &fromPoint);
         coach::OffensiveScore offensiveScore;
         std::vector<OffensivePosition> offensivePositions;
+        /**
+         * unordered_map pls
+         */
         std::map<int, int> sideAttackers; // Map from robot ids to zones
 
 };

@@ -14,6 +14,9 @@ namespace ai {
 namespace coach {
 
 class CoachHeuristics {
+    /**
+     * This could be a singleton or just a namespace
+     */
     private:
 
         using WorldData = world::WorldData;
@@ -21,7 +24,15 @@ class CoachHeuristics {
         using Robot = world::Robot;
         using BallPtr = world::World::BallPtr;
         using RobotPtr = world::World::RobotPtr;
-
+        /**
+         * These could be constexpr
+         * 
+         * As explain before, constexpr allows complete inlining
+         * Next to that constexpr variables don't take up
+         * space in the binary's .static / .data section
+         * Depends on the compiler where it puts the static
+         * values, of course
+         */
         static const double CLOSE_TO_GOAL_WEIGHT;
         static const double SHOT_AT_GOAL_WEIGHT;
         static const double PASS_LINE_WEIGHT;

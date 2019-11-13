@@ -24,6 +24,9 @@ class DefenceDealer {
         std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
         void visualizePoints();
 };
+/**
+ * Global variables :(
+ */
 extern DefenceDealer g_DefenceDealer;
 
 }//coach
