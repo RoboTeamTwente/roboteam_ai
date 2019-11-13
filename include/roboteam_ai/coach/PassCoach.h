@@ -34,7 +34,7 @@ public:
 
 private:
 
-    constexpr double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
+    constexpr static double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
 
     double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
 
@@ -44,8 +44,8 @@ private:
     bool passTimerStarted = false;
     bool receiveTimerStarted = false;
 
-    constexpr double MAX_PASS_TIME = 8.0; //seconds
-    constexpr double MAX_RECEIVE_TIME = 5.0; //seconds
+    constexpr static double MAX_PASS_TIME = 8.0; //seconds
+    constexpr static double MAX_RECEIVE_TIME = 5.0; //seconds
 
     bool readyToReceivePass{};
     int robotPassing = -1;
