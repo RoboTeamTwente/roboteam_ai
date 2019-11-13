@@ -40,7 +40,17 @@ class Collision {
 
 
     public:
-
+        /**
+         * For consistency purposes this shouldn't have been defined
+         * in the class
+         * 
+         * Also in general, for initialization, use {} instead of ()
+         * {} prevents implicit conversions to other types
+         * 
+         * int x = 5.0; // valid, even though 5.0 is a double
+         * int x( 5.0 ); // valid, even though 5.0 is a double
+         * int x{ 5.0 }; // compiler error, double cannot be converted to int in initializer list
+         */
         Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) {
             collisionRobot = std::make_shared<world::Robot>(world::Robot());
             collisionBall = std::make_shared<world::Ball>(world::Ball());
