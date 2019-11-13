@@ -51,7 +51,23 @@ class Blackboard {
         bool hasVector2(std::string key) const;
 
     protected:
-
+        /**
+         * https://en.cppreference.com/w/cpp/container/unordered_map
+         * https://en.cppreference.com/w/cpp/container/map
+         * 
+         * std::unordered_map has a constant lookup complexity, whereas
+         * std::map is logarithmic to the length of the map
+         * 
+         * I strongly suggest switching from std::map to std::unordered_map
+         * However since I'm not 100% sure whether anything relies on these maps 
+         * being ordered, I won't make this change.
+         * 
+         * Benchmarks:
+         * O1: http://quick-bench.com/8IAy0xzjm9gVjnvzZUqNOJCi2KY
+         * O3: http://quick-bench.com/jksVg7mcva18xPQsPZVncuFqUiU
+         * 
+         * Clearly unordered_map is way more efficient.
+         */
         std::map<std::string, int> ints;
         std::map<std::string, float> floats;
         std::map<std::string, bool> bools;
