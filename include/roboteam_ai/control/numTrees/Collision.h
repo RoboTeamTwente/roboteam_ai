@@ -15,6 +15,19 @@ namespace rtt {
 namespace ai {
 namespace control {
 
+/**
+ * Another general thing tbh
+ * the standard (STL) uses snake_case for everything
+ * It's a very clean convention and I suggest you stick with it
+ * I try and always comply with the standard when I develop
+ * I know C++ does not really have "standard" converntions
+ * However you can look at the STL when developing
+ * However, all classes in the STL are snake_case
+ * When defining your own classes I like to stick to
+ * PascalCase, where all members are snake_case (like Rust's)
+ * enforced style
+ */
+
 class Collision {
 
     public:
@@ -59,6 +72,18 @@ class Collision {
             goalCollision = Vector2();
             ballPlacementCollision = Vector2();
         }
+
+        /**
+         * I've also mentioned this before I think
+         * But std::shared_ptr is considered "bad", due to
+         * the runtime over caused
+         * In this use case you shoudl really be using std::unique_ptr
+         * Your ownership model right now is ehh, and unique_ptr
+         * would allow you to clean that up very much
+         * a single-owner ownership model is not only 
+         * considered good practice, it can legitemately improve your
+         * performance
+         */
 
         const world::Robot::RobotPtr &getCollisionRobot() const;
         void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance);
