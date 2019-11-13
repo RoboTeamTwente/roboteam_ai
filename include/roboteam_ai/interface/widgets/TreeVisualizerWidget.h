@@ -22,6 +22,9 @@ class TreeVisualizerWidget : public QTreeWidget {
 private:
     QColor getColorForStatus(bt::Node::Status status);
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent);
+    /**
+     * unordered_map
+     */
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     bool hasCorrectTree = false;
     MainWindow * parent = nullptr;

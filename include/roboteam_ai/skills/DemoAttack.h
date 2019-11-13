@@ -14,9 +14,9 @@ namespace ai {
 class DemoAttack : public Skill {
 private:
 
-    const double BEHIND_BALL_CHECK = 0.6;
-    const double BEHIND_BALL_TARGET = 0.4;
-    const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
+    constexpr static double BEHIND_BALL_CHECK = 0.6;
+    constexpr static double BEHIND_BALL_TARGET = 0.4;
+    constexpr static double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
 
     Vector2 deltaPos;
     Vector2 targetPos;
