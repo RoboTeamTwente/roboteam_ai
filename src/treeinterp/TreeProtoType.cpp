@@ -14,7 +14,7 @@
 namespace bt {
 
     /**
-     * In this constructor (which is always called by default when initializing the
+     * In this constructor (which is always called by default when initializing the object) we set the robots for the robotdealer
      */
     TreeProtoType::TreeProtoType(){
         // Set the robottypes for the robot so the robotdealer can decide which robot should do what
@@ -31,10 +31,7 @@ namespace bt {
     }
 
 
-/**
- * Creates offensive strategy behaviour tree
- * @return the behaviour tree corresponding to offensive strategy
- */
+
 std::shared_ptr<BehaviorTree> TreeProtoType::createOffensiveStrategy() {
     std::shared_ptr<Blackboard> bb = std::make_shared<Blackboard>();
     // Set the tactictype so the robotdealer can divide the robots
@@ -53,13 +50,7 @@ std::shared_ptr<BehaviorTree> TreeProtoType::createOffensiveStrategy() {
     return tree;
 }
 
-/**
- * Creates offensive tactic for as many robots as are in the robots vector.
- * @param bb the blackboard that needs to be given to the offensive tactic. The blackboard
- * needs to have: bb->setString("TacticType", "General"), where General can be replaced with Offensive, Defensive, etc
- * @return offensive tactic with as many attacker roles as the size of the robots vector.
 
- */
 std::shared_ptr<DefaultTactic> TreeProtoType::createOffensiveTactic(std::shared_ptr<Blackboard> bb) {
     // create a default tactic which will be used to build the offensive tactic
     std::shared_ptr<DefaultTactic> offensiveTactic = std::make_shared<DefaultTactic>("offensiveTactic", bb, robots);
@@ -76,13 +67,6 @@ std::shared_ptr<DefaultTactic> TreeProtoType::createOffensiveTactic(std::shared_
     return offensiveTactic;
 }
 
-/**
- *
-   This function creates an offender role. This role consists of a repeater with as child an attack skill.
-   It is important to remember that the order in which the nodes are added is important.
- * @param name the name that the role should have
- * @return the tree corresponding to an offender role
- */
 std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
     // set the rolename for the current role. This is important because the robotdealer decides how to deal the robots based on their rolenames
     // The property "ROLE" should be set to the name of the role, which should correspond to the rolename

@@ -14,11 +14,19 @@ namespace bt {
 
 class TreeProtoType {
  public:
+
+
+private:
+    /**
+     * Vector that is used by RobotDealer to determine how to match robots to robot IDs.
+     */
+    std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
+
     TreeProtoType();
     /**
      * Creates a defensive tactic. This a tree, which is an ordered collection of nodes with childen (and parents). This is then put into the strategy
      * created in createNormalPlayStrategy(). In this function, normally, the tactic is given 11 children (11 = number of robots).
-     * @param bb, the blackboard given to the tactic (that saves, amongst others, what the TacticType is)
+     * @param bb, the blackboard given to the tactic (that saves what the TacticType is)
      * @return a defensive tacic that
      */
     std::shared_ptr<bt::DefaultTactic> createOffensiveTactic(std::shared_ptr<Blackboard> bb);
@@ -35,12 +43,6 @@ class TreeProtoType {
      * @return an offender role, a subtree containing the nodes necessary to execute this role.
      */
     std::shared_ptr<bt::Role> createOffenderRole(std::string name);
-
-private:
-    /**
-     * Vector that is used by RobotDealer to determine how to match robots to robot IDs.
-     */
-    std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
 
 };
 }
