@@ -62,7 +62,7 @@ class DribbleBackwards {
         bool failedOnce;
 
         double errorMargin;
-        constexpr static double angleErrorMargin = 10.0 / 180.0 * M_PI;
+        double angleErrorMargin = 10.0 / 180.0 * M_PI;
         double ballPlacementAccuracy;
         double maxVel;
     public:
