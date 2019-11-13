@@ -8,8 +8,8 @@ namespace ai {
 
 class BallKickedToOurGoal : public Condition {
 private:
-    constexpr double BALL_TO_GOAL_MARGIN = 0.12; // m
-    constexpr double BALL_TO_GOAL_TIME = 2.5; // s
+    constexpr static double BALL_TO_GOAL_MARGIN = 0.12; // m
+    constexpr static double BALL_TO_GOAL_TIME = 2.5; // s
 public:
     explicit BallKickedToOurGoal(std::string name = "BallKickedToOurGoal", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;
