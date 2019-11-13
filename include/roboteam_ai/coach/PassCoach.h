@@ -54,7 +54,7 @@ public:
 
 private:
     int robotBeingPassedTo = -1;
-    bool passed{};
+    bool passed{ false };
 };
 
 extern PassCoach g_pass;
