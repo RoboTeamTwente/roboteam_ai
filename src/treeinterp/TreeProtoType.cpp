@@ -13,7 +13,9 @@
 
 namespace bt {
 
-
+    /**
+     * In this constructor (which is always called by default when initializing the
+     */
     TreeProtoType::TreeProtoType(){
         // Set the robottypes for the robot so the robotdealer can decide which robot should do what
         this->robots = {
@@ -29,7 +31,10 @@ namespace bt {
     }
 
 
-
+/**
+ * Creates offensive strategy behaviour tree
+ * @return the behaviour tree corresponding to offensive strategy
+ */
 std::shared_ptr<BehaviorTree> TreeProtoType::createOffensiveStrategy() {
     std::shared_ptr<Blackboard> bb = std::make_shared<Blackboard>();
     // Set the tactictype so the robotdealer can divide the robots
@@ -39,17 +44,25 @@ std::shared_ptr<BehaviorTree> TreeProtoType::createOffensiveStrategy() {
     // in the updateStyle function of DefaultTactic.
     bb->setString("TacticType", "General");
 
-    std::shared_ptr<DefaultTactic> defensiveTactic = createOffensiveTactic(bb);
-    defensiveTactic->setProperties(bb);
+    std::shared_ptr<DefaultTactic> offensiveTactic = createOffensiveTactic(bb);
+    offensiveTactic->setProperties(bb);
 
     auto tree = std::make_shared<BehaviorTree>("defendertree");
-    tree->SetRoot(defensiveTactic);
+    tree->SetRoot(offensiveTactic);
+
     return tree;
 }
 
+/**
+ * Creates offensive tactic for as many robots as are in the robots vector.
+ * @param bb the blackboard that needs to be given to the offensive tactic. The blackboard
+ * needs to have: bb->setString("TacticType", "General"), where General can be replaced with Offensive, Defensive, etc
+ * @return offensive tactic with as many attacker roles as the size of the robots vector.
+
+ */
 std::shared_ptr<DefaultTactic> TreeProtoType::createOffensiveTactic(std::shared_ptr<Blackboard> bb) {
-    // create a default tactic which will be used to build the defensive tactic
-    std::shared_ptr<DefaultTactic> defensiveTactic = std::make_shared<DefaultTactic>("defensiveTactic", bb, robots);
+    // create a default tactic which will be used to build the offensive tactic
+    std::shared_ptr<DefaultTactic> offensiveTactic = std::make_shared<DefaultTactic>("offensiveTactic", bb, robots);
 
     // Creating the roles for all the robots in the tactic:
     for (int i = 1; i < robots.size(); i++) {
@@ -57,14 +70,19 @@ std::shared_ptr<DefaultTactic> TreeProtoType::createOffensiveTactic(std::shared_
         auto temp = createOffenderRole(name);
         std::shared_ptr<Role> temprole = createOffenderRole(name);
         temp->giveProperty("ROLE", name);
-        defensiveTactic->addChild(temprole);
+        offensiveTactic->addChild(temprole);
     }
 
-    return defensiveTactic;
+    return offensiveTactic;
 }
 
-/// This function creates a defender role. This role consists of a repeater with as child an attack skill. It is important to remember that the order in which the nodes are
-/// added is important.
+/**
+ *
+   This function creates an offender role. This role consists of a repeater with as child an attack skill.
+   It is important to remember that the order in which the nodes are added is important.
+ * @param name the name that the role should have
+ * @return the tree corresponding to an offender role
+ */
 std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
     // set the rolename for the current role. This is important because the robotdealer decides how to deal the robots based on their rolenames
     // The property "ROLE" should be set to the name of the role, which should correspond to the rolename
@@ -75,7 +93,7 @@ std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
 
     // Give the role the blackboard. This is used by the robotdealer to find the robot
     // TODO: figure out the exact difference between giving ROLE property to Role blackboard vs giving ROLE property to Skill blackboard
-    // It seems ROLE just needs to be given to both. This is always safe. We need to implement a recursive role setter
+    // It seems ROLE just needs to be given to both. This is always safe.
     role->setProperties(localbb);
 
     // Make a repeater with the child "attack"

@@ -15,8 +15,6 @@ std::mutex BTFactory::keeperTreeMutex;
 
 // C++ code trees
 
-std::map<std::string, bt::BehaviorTree::Prt> BTFactory::CXXTrees
-std::shared_ptr<bt::BehaviorTree> testing_tree;
 
 
 bool BTFactory::weMadeTrees = false;
@@ -27,8 +25,20 @@ void BTFactory::makeTrees() {
     BTFactory::weMadeTrees = false;
 
     std::cout << "Re-Make Trees From Json" << std::endl;
-    bt::TreeProtoType protype_tree;
-    testing_tree = protype_tree.createOffensiveStrategy();
+
+    // We need this instance of the TreeProtoType Class to use its methods. An alternative would be to make the methods static,
+    // but this essentially makes them global which is dangerous and unnecessary in my opinion. Additionally, some settings
+    // are initialized in the default constructor of TreeProtoType
+    bt::TreeProtoType prototype_tree;
+    std::shared_ptr<bt::BehaviorTree> testing_tree;
+    testing_tree = prototype_tree.createOffensiveStrategy();
+
+    /*
+     * Here we store the C++ trees in a map, key = treename, val = cpp tree.
+     * In order to do this in a cleaner way, maybe build trees automatically somehow
+     */
+    CXXTrees["attackertree"] = prototype_tree.createOffensiveStrategy();
+
 
     // TODO Remove this legacy code
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
@@ -56,15 +66,15 @@ void BTFactory::makeTrees() {
 
 /**
  * Currently we hijack this function and only return our current c++ tree with it.
- * @param treeName
- * @return testing_tree (hardcoded)
+ * @param treeName the name of the behaviour tree you are requesting.
+ * @return The behaviourtree corresponding to that treename (currently hardcoded)
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
     // Un-kill the code below by commenting the return statement to restore json functionality
     // TODO: We need a structure for storing the c++ trees (probably a hashmap is fine)
-    return testing_tree;
+    return CXXTrees["attackertree"];
 
 //    Leaving this code commented because it might be useful for later, depending on how we want to structure our tree storage
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
