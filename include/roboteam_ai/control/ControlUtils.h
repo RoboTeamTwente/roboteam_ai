@@ -26,6 +26,10 @@ namespace world {
 namespace control {
 
 class ControlUtils {
+        /**
+         * Another class with glorified global variables
+         * :eyes:
+         */
     public:
         static double TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c);
 

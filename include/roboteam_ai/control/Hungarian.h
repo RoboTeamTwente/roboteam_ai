@@ -25,6 +25,9 @@ class HungarianAlgorithm {
 public:
     HungarianAlgorithm() = default;
     double Solve(vector<vector<double> >& DistMatrix, vector<int>& Assignment);
+    /**
+     * unordered_map
+     */
     std::map<int, Vector2> getRobotPositions(std::vector<int> robotIds, bool ourTeam, std::vector<Vector2> targetLocations);
 
 private:

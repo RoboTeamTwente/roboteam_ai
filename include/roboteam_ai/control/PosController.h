@@ -60,6 +60,13 @@ class PosController {
         double getAvoidBallDistance() const;
         void setAvoidBallDistance(double ballDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS());
         void setAutoListenToInterface(bool listenToInterface);
+        /**
+         * Since these are all the same type
+         * I'd use std::array<double, 3>
+         * It's easier to handle, instead of 
+         * std::get<0>(lastPid);
+         * you can just do lastPid[0];
+         */
         std::tuple<double, double, double> lastPid;
 
         void updatePid(pidVals pid);
