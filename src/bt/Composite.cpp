@@ -23,7 +23,7 @@ void Composite::terminate(Status s) {
     }
 }
 
-std::vector<Node::Ptr>& Composite::getChildren() {
+std::vector<Node::Ptr> Composite::getChildren() {
     return children;
 }
 

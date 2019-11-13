@@ -11,7 +11,7 @@ class Composite : public Node {
         /**
          * Copy of the vector?
          */
-        std::vector<Node::Ptr>& getChildren() override;
+        std::vector<Node::Ptr> getChildren() override;
 
         bool HasNoChildren() const;
 
