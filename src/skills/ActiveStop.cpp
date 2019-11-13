@@ -24,11 +24,7 @@ void ActiveStop::onInitialize() {
 }
 
 Skill::Status ActiveStop::onUpdate() {
-    if (attacker) {
-        targetPos = getOffensiveActivePoint();
-    } else {
-        targetPos = getDefensiveActivePoint();
-    }
+    targetPos = attacker ? getOffensiveActivePoint() : getDefensiveActivePoint();
 
     if (robot->pos.dist(targetPos) > 0.3) {
         command.set_w(static_cast<float>((targetPos - robot->pos).angle()));
