@@ -9,9 +9,9 @@ namespace ai {
 
 class HasClearShot : public Condition {
 private:
-    const double FORCED_SHOOTING_DISTANCE = 2.5;
-    const double MIN_VIEW_AT_GOAL = 0.1;
-    const double MAX_SHOOTING_DISTANCE = 5.5;
+    constexpr static double FORCED_SHOOTING_DISTANCE = 2.5;
+    constexpr static double MIN_VIEW_AT_GOAL = 0.1;
+    constexpr static double MAX_SHOOTING_DISTANCE = 5.5;
 public:
     explicit HasClearShot(std::string name = "HasClearShot", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;

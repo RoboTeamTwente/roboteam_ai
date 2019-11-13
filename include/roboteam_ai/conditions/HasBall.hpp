@@ -1,6 +1,9 @@
 #ifndef ROBOTEAM_AI_IHAVEBALL_HPP
 #define ROBOTEAM_AI_IHAVEBALL_HPP
-
+/**
+ * Why random .hpp?...
+ * Either stick to .h or .hpp for consistency purposes
+ */
 #include "Condition.h"
 
 namespace rtt {
