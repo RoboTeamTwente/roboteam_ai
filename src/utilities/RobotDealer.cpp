@@ -96,7 +96,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
         switch (feature) {
 
         default:
-            std::cout << "[Robotdealer] could not find a match for feature " << std::endl;
+            std::cout << "[Robotdealer] could not find a match for this feature " << std::endl;
             return - 1;
 
         case CLOSE_TO_BALL: {

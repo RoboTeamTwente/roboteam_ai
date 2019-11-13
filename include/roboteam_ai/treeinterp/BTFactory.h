@@ -33,6 +33,8 @@ class BTFactory {
 
         static std::map<std::string, bt::BehaviorTree::Ptr> keeperRepo;
 
+        static std::map<std::string, bt::BehaviorTree::Ptr> codeTrees;
+
         static std::string getCurrentTree();
 
         static bt::BehaviorTree::Ptr getKeeperTree();
@@ -47,12 +49,15 @@ class BTFactory {
 
         static bool hasMadeTrees();
 
-    private:
+
+
+private:
         static std::string currentTree;
         static std::string keeperTree;
         static bool weMadeTrees;
 
-        static std::map<std::string, bt::BehaviorTree::Ptr> CXXTrees;
+
+
         static std::shared_ptr<bt::BehaviorTree> testing_tree;
 
 };

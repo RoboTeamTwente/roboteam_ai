@@ -14,7 +14,12 @@ namespace bt {
 
 class TreeProtoType {
  public:
-
+    TreeProtoType();
+    /**
+     * Creates a Strategy behaviour tree. This tree is created in BTFactory.
+     * @return the behaviour tree that contains this strategy
+     */
+    std::shared_ptr<bt::BehaviorTree> createOffensiveStrategy();
 
 private:
     /**
@@ -22,7 +27,6 @@ private:
      */
     std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
 
-    TreeProtoType();
     /**
      * Creates a defensive tactic. This a tree, which is an ordered collection of nodes with childen (and parents). This is then put into the strategy
      * created in createNormalPlayStrategy(). In this function, normally, the tactic is given 11 children (11 = number of robots).
@@ -31,11 +35,6 @@ private:
      */
     std::shared_ptr<bt::DefaultTactic> createOffensiveTactic(std::shared_ptr<Blackboard> bb);
 
-    /**
-     * Creates a Strategy behaviour tree. This tree is created in BTFactory.
-     * @return the behaviour tree that contains this strategy
-     */
-    std::shared_ptr<bt::BehaviorTree> createOffensiveStrategy();
 
     /**
      * Create an offender robot with a certain name. The role needs to be given to the tactic (so the tactic has 8 children that are roles)

@@ -263,7 +263,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-          )
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -345,7 +345,8 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE roboteam_utils)
+        PRIVATE roboteam_utils
+        )
 
 target_include_directories(roboteam_ai
         INTERFACE include
@@ -384,13 +385,13 @@ if(APPLE)
 endif()
 
 if(UNIX AND NOT APPLE)
-
   target_link_libraries(ai_tests
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE gcov)
+        PRIVATE gcov
+          )
 endif()
 
 target_include_directories(ai_tests

@@ -9,6 +9,8 @@
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
+std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::codeTrees;
+
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
@@ -29,15 +31,15 @@ void BTFactory::makeTrees() {
     // We need this instance of the TreeProtoType Class to use its methods. An alternative would be to make the methods static,
     // but this essentially makes them global which is dangerous and unnecessary in my opinion. Additionally, some settings
     // are initialized in the default constructor of TreeProtoType
-    bt::TreeProtoType prototype_tree;
-    std::shared_ptr<bt::BehaviorTree> testing_tree;
-    testing_tree = prototype_tree.createOffensiveStrategy();
+    bt::TreeProtoType protoTypeTree;
+    std::shared_ptr<bt::BehaviorTree> testingTree;
+    testingTree = protoTypeTree.createOffensiveStrategy();
 
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
-     * In order to do this in a cleaner way, maybe build trees automatically somehow
+     * In order to do this in a cleaner way, maybe build trees automatically by going through directory
      */
-    CXXTrees["attackertree"] = prototype_tree.createOffensiveStrategy();
+    codeTrees["attackertree"] = protoTypeTree.createOffensiveStrategy();
 
 
     // TODO Remove this legacy code
@@ -73,8 +75,8 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
     // Un-kill the code below by commenting the return statement to restore json functionality
-    // TODO: We need a structure for storing the c++ trees (probably a hashmap is fine)
-    return CXXTrees["attackertree"];
+    auto treefound = codeTrees.find("attackertree");
+    return treefound->second;
 
 //    Leaving this code commented because it might be useful for later, depending on how we want to structure our tree storage
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
