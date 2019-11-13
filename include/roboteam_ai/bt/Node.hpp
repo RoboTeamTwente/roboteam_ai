@@ -24,6 +24,23 @@ namespace bt {
 class Node {
     public:
         // When this is updated, updated the tostring method below too!
+        /**
+         * Why mix enum with enum class
+         * stick to enum class entirely
+         * 
+         * enum classes are literally just typesafe enums,
+         * prevents implicit conversions to integers etc
+         * 
+         * enum class Example { one, two, three };
+         * int _one = Example::one; // compiler error
+         * int _one = static_cast<int>(Example::one); // ok
+         * 
+         * enum Example { one, two, three };
+         * int _one = Example::one; // ok
+         * int _one = static_cast<int>(Example::one); // ok
+         * 
+         * You probably know that implicit conversions are considered to be bad
+         */
         enum class Status {
                 Waiting,
                 Success,
