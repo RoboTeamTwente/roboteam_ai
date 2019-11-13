@@ -34,9 +34,9 @@ public:
 
 private:
 
-    const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
+    constexpr double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
 
-    const double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
+    double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
 
     std::chrono::time_point<std::chrono::steady_clock> passStartTime;
     std::chrono::time_point<std::chrono::steady_clock> receiveStartTime;
@@ -44,8 +44,8 @@ private:
     bool passTimerStarted = false;
     bool receiveTimerStarted = false;
 
-    const double MAX_PASS_TIME = 8.0; //seconds
-    const double MAX_RECEIVE_TIME = 5.0; //seconds
+    constexpr double MAX_PASS_TIME = 8.0; //seconds
+    constexpr double MAX_RECEIVE_TIME = 5.0; //seconds
 
     bool readyToReceivePass{};
     int robotPassing = -1;
