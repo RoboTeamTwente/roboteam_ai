@@ -8,7 +8,7 @@
 namespace bt {
 
 Node::Status Inverter::update() {
-    auto s = child->tick();
+    auto s = child->tick(world, field);
 
     if (s == Status::Success) {
         return Status::Failure;

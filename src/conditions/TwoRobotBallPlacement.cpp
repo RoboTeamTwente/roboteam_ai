@@ -17,7 +17,7 @@ TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::P
 
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
-    auto us = world::world->getUs();
+    auto us = world->getUs();
 
     int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
     bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;

@@ -29,7 +29,7 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
         ballPos = ball->getPos();
     }
 
-    auto robotClosestToBall = world::world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
+    auto robotClosestToBall = world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
     if (robotClosestToBall && robotClosestToBall->id == robot->id) {
         return Status::Success;
     }

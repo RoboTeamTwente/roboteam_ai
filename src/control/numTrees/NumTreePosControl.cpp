@@ -50,26 +50,32 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions) {
+    this->world = world;
+    this->field = field;
 
     bool tempAllow = allowIllegalPositions;
     allowIllegalPositions = illegalPositions;
-    RobotCommand robotCommand = NumTreePosControl::getRobotCommand(robotPtr, targetPos, targetAngle);
+    RobotCommand robotCommand = NumTreePosControl::getRobotCommand(world, field, robotPtr, targetPos, targetAngle);
     allowIllegalPositions = tempAllow;
     return robotCommand;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, bool illegalPositions) {
+    this->world = world;
+    this->field = field;
 
     Angle defaultAngle = 0;
-    return getRobotCommand(robotPtr, targetPos, defaultAngle, illegalPositions);
+    return getRobotCommand(world, field, robotPtr, targetPos, defaultAngle, illegalPositions);
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
+        this->world = world;
+        this->field = field;
 
     DT = 0.3/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
     if (DT > 0.12) DT = 0.12;
@@ -286,15 +292,15 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     double futureTime = point->t;
 
     // Collision with Robots
-    auto allRobots = world::world->getAllRobots();
+    auto allRobots = world->getAllRobots();
     for (auto &r : allRobots) {
-        r = world::world->getFutureRobot(r, futureTime);
+        r = world->getFutureRobot(r, futureTime);
     }
     auto robotCollision = getRobotCollision(point, allRobots, collisionRadius);
     if (robotCollision.isCollision) return robotCollision;
 
     // Collision with Ball
-    auto ball = world::world->getFutureBall(futureTime);
+    auto ball = world->getFutureBall(futureTime);
     auto ballCollision = getBallCollision(point, ball);
     if (ballCollision.isCollision) return ballCollision;
 
@@ -375,11 +381,11 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
 
     if (! getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
-        bool isInOurDefenseArea = world::field->pointIsInDefenceArea(point->pos, true, margin, false);
-        bool isInTheirDefenseArea = world::field->pointIsInDefenceArea(point->pos, false, margin, false);
+        bool isInOurDefenseArea = field->pointIsInDefenceArea(point->pos, true, margin, false);
+        bool isInTheirDefenseArea = field->pointIsInDefenceArea(point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            double defenseAreaX = point->pos.x < 0 ? world::field->get_field().get(LEFT_PENALTY_LINE).begin.x:
-                                  world::field->get_field().get(RIGHT_PENALTY_LINE).begin.x;
+            double defenseAreaX = point->pos.x < 0 ? field->get_field().get(LEFT_PENALTY_LINE).begin.x:
+                                  field->get_field().get(RIGHT_PENALTY_LINE).begin.x;
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
             return collision;
         }
@@ -392,11 +398,11 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     if (currentCollisionWithRobot.getCollisionGoalPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionGoalPos() != Vector2()) return collision;
 
-    bool collidesWithOurGoal = world::field->getGoalArea(true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
-    bool collidesWithTheirGoal = world::field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithOurGoal = field->getGoalArea(true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithTheirGoal = field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
-        collision.setGoalCollision(point->pos, world::field->get_field().get(GOAL_WIDTH) / 2 - fabs(point->pos.y) * 1.1);
+        collision.setGoalCollision(point->pos, field->get_field().get(GOAL_WIDTH) / 2 - fabs(point->pos.y) * 1.1);
     }
 
     return collision;
@@ -407,7 +413,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
     if (currentCollisionWithRobot.getCollisionBallPlacement() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionBallPlacement() != Vector2()) return collision;
 
-    auto ball = world::world->getBall();
+    auto ball = world->getBall();
 
     Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
 
@@ -487,9 +493,11 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(const PosController::RobotPtr &robotPtr, const Vector2 &targetPos) {
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
+    this->world = world;
+    this->field = field;
     Angle defaultAngle;
-    return NumTreePosControl::getRobotCommand(robotPtr, targetPos, defaultAngle);
+    return NumTreePosControl::getRobotCommand(world, field, robotPtr, targetPos, defaultAngle);
 }
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,

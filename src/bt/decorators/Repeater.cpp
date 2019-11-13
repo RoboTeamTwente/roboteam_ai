@@ -14,7 +14,7 @@ void Repeater::initialize() {
 
 Node::Status Repeater::update() {
     while (limit >= 0 && (limit != counter++ || limit == 0)) {
-        child->tick();
+        child->tick(world, field);
         return Status::Running;
     }
     return Status::Success;

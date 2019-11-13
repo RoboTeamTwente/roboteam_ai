@@ -94,7 +94,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
             ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
             std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
     };
-    auto ball = world::world->getBall();
+    auto ball = world->getBall();
     Vector2 diff = (ball->getPos() - ballPlacementMarker).rotate(M_PI_2);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() + diff.stretchToLength(0.5),
           ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
@@ -104,7 +104,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
             -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
-    return (tooCloseToLine || !world::field->pointIsInField(pos, 0.0));
+    return (tooCloseToLine || !field->pointIsInField(pos, 0.0));
 }
 
 }

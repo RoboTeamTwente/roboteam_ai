@@ -23,7 +23,7 @@ bt::Node::Status MemSequence::update() {
     while (index < children.size()) {
         auto &child = children.at(index);
 
-        auto status = child->tick();
+        auto status = child->tick(world, field);
 
         // If the child fails, or keeps running, do the same.
         if (status != Status::Success) {

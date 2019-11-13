@@ -26,7 +26,7 @@ Skill::Status Harass::onUpdate() {
     if (harassmentTarget == - 1) {
         pickHarassmentTarget();
     }
-    auto enemyBot = world::world->getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
+    auto enemyBot = world->getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
 
     Vector2 ballPos = ball->getPos();
     Vector2 targetPos;
@@ -44,7 +44,7 @@ Skill::Status Harass::onUpdate() {
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
     std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
 
-    goToPos.getRobotCommand(robot, targetPos);
+    goToPos.getRobotCommand(world, field, robot, targetPos);
 
     if (harassBallOwner && !world::world->theirRobotHasBall(harassmentTarget)) {
         return Status::Success;
