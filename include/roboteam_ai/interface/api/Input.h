@@ -35,7 +35,7 @@ struct Drawing {
 
     Drawing(Visual visual, std::vector<Vector2> points, QColor color, int robotId = -1, DrawingMethod method = DOTS, double width = 0.0, double height = 0.0, double strokeWidth = 0.0)
             : visual(visual),
-            points(std::move(points)),
+            points(std::move(points)), // nice, though i'd take the vector by const& and then copy later
             color(std::move(color)),
             robotId(robotId),
             method(method),
