@@ -24,6 +24,9 @@ class Role : public Node {
 
         void addChild(Node::Ptr newChild) override;
 
+        /**
+         * Copy again
+         */
         std::vector<Node::Ptr> getChildren() override;
 
         std::string node_name() override;
