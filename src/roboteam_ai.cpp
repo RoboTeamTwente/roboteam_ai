@@ -5,7 +5,7 @@
 
 #include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
-
+#include "manual/JoystickManager.h"
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
@@ -44,6 +44,7 @@ int main(int argc, char* argv[]) {
         id = *argv[1] - '0';
     }
 
+    std::thread thread_object(startJoystickInput, params);
 
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
@@ -69,6 +70,8 @@ int main(int argc, char* argv[]) {
 
     rtt::ai::io::io.init();
 
+
+
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());
 
@@ -83,5 +86,10 @@ int main(int argc, char* argv[]) {
     window->show();
 
     return a.exec();
+}
+
+void startJoystickInput() {
+    std::shared_ptr jmanager = std::make_shared<JoystickManager>();
+    jmanager->run();
 }
 

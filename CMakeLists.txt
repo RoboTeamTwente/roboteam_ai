@@ -34,6 +34,7 @@ endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
+find_package(SDL2 REQUIRED sdl2)
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/TreeInterpreter.cpp
@@ -341,18 +342,25 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
+        ${MANUAL_SOURCES}
         )
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE roboteam_utils)
+        PRIVATE roboteam_utils
+        ${SDL2_LIBRARIES})
+
+
 
 target_include_directories(roboteam_ai
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src )
+        PRIVATE src
+        ${SDL2_INCLUDE_DIRS}
+        ${SDL2IMAGE_INCLUDE_DIRS}
+        )
 
 #############
 ## Testing ##
@@ -372,6 +380,7 @@ add_executable(ai_tests
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         ${WORLD_SOURCES}
+        ${MANUAL_SOURCES}
         )
 
 
