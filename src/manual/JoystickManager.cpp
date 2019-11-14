@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_joystick.h>
 #include <memory>
-#include "roboteam_proto/Publisher.h"
 #include "manual/JoystickManager.h"
 
 using namespace std::chrono;
@@ -16,7 +15,7 @@ namespace input {
 std::mutex JoystickManager::runningLock;
 std::mutex JoystickManager::activeLock;
 
-JoystickManager::JoystickManager(){
+JoystickManager::JoystickManager(ai::io::IOManager * ioManager) : ioManager(ioManager){
     std::cout << "[JoystickManager] New JoystickManager" << std::endl;
     // Create publisher to send robot commands
 //    pub = std::make_unique<proto::Publisher<proto::RobotCommand>>("tcp://127.0.0.1:5556");
@@ -137,7 +136,7 @@ void JoystickManager::loop() {
 void JoystickManager::tickJoystickHandlers(){
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
-        // pub->send("robotcommands", joystickHandler.second->getCommand().SerializeAsString());
+        ioManager->publishRobotCommand(joystickHandler.second->getCommand());
     }
 }
 
@@ -183,38 +182,3 @@ void JoystickManager::handleJoystickRemoved(const SDL_Event& event){
 
 } // namespace input
 } // namespace rtt
-
-void startJoystickManager(rtt::input::JoystickManager& manager){
-    std::cout << "[startJoystickManager] Starting JoystickManager in separate thread" << std::endl;
-    manager.run();
-    std::cout << "[startJoystickManager] Exiting separate thread" << std::endl;
-}
-//
-//int main(int argc, char **argv) {
-//    std::cout << "[JoystickManager.cpp][Main] starting" << std::endl;
-//    rtt::input::JoystickManager manager;
-//
-//    // Start manager in separate thread
-//    std::thread joyThread(startJoystickManager, std::ref(manager));
-//
-///** Code to test threading */
-////    sleep(5);
-////    std::cout << "[Main] deactivating" << std::endl;
-////    manager.deactivate();
-////    sleep(5);
-////    std::cout << "[Main] activating" << std::endl;
-////    manager.activate();
-////    sleep(5);
-////    std::cout << "[Main] deactivating" << std::endl;
-////    manager.deactivate();
-////    sleep(5);
-////    std::cout << "[Main] stopping manager" << std::endl;
-////    manager.stop();
-//
-//    // Wait for manager to finish
-//    joyThread.join();
-//    std::cout << "[JoystickManager.cpp][Main] stopping" << std::endl;
-//
-//
-//    return 0;
-//}

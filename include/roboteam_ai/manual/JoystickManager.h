@@ -12,6 +12,7 @@
 #include <mutex>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_joystick.h>
+#include <include/roboteam_ai/io/IOManager.h>
 #include "JoystickHandler.h"
 
 namespace rtt {
@@ -19,13 +20,14 @@ namespace input {
 
 class JoystickManager {
  public:
-  JoystickManager();
+  JoystickManager(ai::io::IOManager * ioManager);
   bool run();
   void activate();
   void deactivate();
   void stop();
 
  private:
+  ai::io::IOManager * ioManager = nullptr;
   const int TICK_INTERVAL = 20;
   std::map<int, JoystickHandler*> joystickHandlers;
 
