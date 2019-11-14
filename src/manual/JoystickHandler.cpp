@@ -169,7 +169,7 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
     }
 }
 
-roboteam_proto::RobotCommand JoystickHandler::getCommand(){
+proto::RobotCommand JoystickHandler::getCommand(){
     return command;
 }
 JoystickState JoystickHandler::getJoystickState(){

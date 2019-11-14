@@ -14,6 +14,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files
 set(CMAKE_AUTOUIC OFF)
+find_package(SDL2 REQUIRED sdl2)
 
 if(SDL2_FOUND)
 message("sdl2 found!")
@@ -42,7 +43,6 @@ endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
-find_package(SDL2 REQUIRED sdl2)
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/TreeInterpreter.cpp
@@ -359,7 +359,7 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
-        ${SDL2_LIBRARIES})
+        PRIVATE ${SDL2_LIBRARIES})
 
 
 target_include_directories(roboteam_ai
