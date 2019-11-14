@@ -7,12 +7,14 @@
 
 #include <QWidget>
 
-namespace rtt{
+namespace rtt {
+namespace ai {
 namespace interface {
 class ManualControlWidget : public QWidget {
  public:
   ManualControlWidget(QWidget *parent);
 };
+}
 }
 }
 #endif //RTT_MANUALCONTROLWIDGET_H

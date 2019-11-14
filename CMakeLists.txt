@@ -266,7 +266,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        )
+        include/roboteam_ai/manual/JoystickState.h)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -353,13 +353,13 @@ target_link_libraries(roboteam_ai
         ${SDL2_LIBRARIES})
 
 
+include_directories(${SDL2_INCLUDE_DIRS}
+        ${SDL2IMAGE_INCLUDE_DIRS})
 
 target_include_directories(roboteam_ai
         INTERFACE include
         PRIVATE include/roboteam_ai
         PRIVATE src
-        ${SDL2_INCLUDE_DIRS}
-        ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
 #############

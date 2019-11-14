@@ -3,6 +3,7 @@
 #include <thread>
 #include <SDL.h>
 #include <SDL_joystick.h>
+#include <memory>
 #include "roboteam_proto/Publisher.h"
 #include "include/roboteam_ai/manual/JoystickManager.h"
 

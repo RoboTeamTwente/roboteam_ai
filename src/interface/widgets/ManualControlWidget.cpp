@@ -3,6 +3,7 @@
 #include "include/roboteam_ai/interface/widgets/ManualControlWidget.h"
 
 namespace rtt{
+namespace ai {
 namespace interface {
 ManualControlWidget::ManualControlWidget(QWidget *parent) : QWidget(parent) {
     auto layout = new QVBoxLayout();
@@ -13,10 +14,10 @@ ManualControlWidget::ManualControlWidget(QWidget *parent) : QWidget(parent) {
     allowCheckBox->setChecked(false);
     layout->addWidget(allowCheckBox);
     connect(allowCheckBox, &QCheckBox::toggled, [](bool checked) {
-       // do whatever on toggle
+      // do whatever on toggle
     });
 
 }
-
+}
 }
 }

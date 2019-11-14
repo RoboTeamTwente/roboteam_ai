@@ -10,6 +10,7 @@
 #include "interface/widgets/PidsWidget.h"
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/VisualizationSettingsWidget.h"
+#include "interface/widgets/ManualControlWidget.h"
 #include <QSplitter>
 #include <interface/widgets/SettingsWidget.h>
 #include <QtWidgets/QMenuBar>
