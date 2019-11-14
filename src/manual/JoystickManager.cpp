@@ -83,6 +83,7 @@ bool JoystickManager::init() {
     return true;
 }
 
+
 /** Main loop */
 void JoystickManager::loop() {
     std::cout << "[JoystickManager][loop] Starting loop" << std::endl;
@@ -188,32 +189,32 @@ void startJoystickManager(rtt::input::JoystickManager& manager){
     manager.run();
     std::cout << "[startJoystickManager] Exiting separate thread" << std::endl;
 }
-
-int main(int argc, char **argv) {
-    std::cout << "[JoystickManager.cpp][Main] starting" << std::endl;
-    rtt::input::JoystickManager manager;
-
-    // Start manager in separate thread
-    std::thread joyThread(startJoystickManager, std::ref(manager));
-
-/** Code to test threading */
-//    sleep(5);
-//    std::cout << "[Main] deactivating" << std::endl;
-//    manager.deactivate();
-//    sleep(5);
-//    std::cout << "[Main] activating" << std::endl;
-//    manager.activate();
-//    sleep(5);
-//    std::cout << "[Main] deactivating" << std::endl;
-//    manager.deactivate();
-//    sleep(5);
-//    std::cout << "[Main] stopping manager" << std::endl;
-//    manager.stop();
-
-    // Wait for manager to finish
-    joyThread.join();
-    std::cout << "[JoystickManager.cpp][Main] stopping" << std::endl;
-
-
-    return 0;
-}
+//
+//int main(int argc, char **argv) {
+//    std::cout << "[JoystickManager.cpp][Main] starting" << std::endl;
+//    rtt::input::JoystickManager manager;
+//
+//    // Start manager in separate thread
+//    std::thread joyThread(startJoystickManager, std::ref(manager));
+//
+///** Code to test threading */
+////    sleep(5);
+////    std::cout << "[Main] deactivating" << std::endl;
+////    manager.deactivate();
+////    sleep(5);
+////    std::cout << "[Main] activating" << std::endl;
+////    manager.activate();
+////    sleep(5);
+////    std::cout << "[Main] deactivating" << std::endl;
+////    manager.deactivate();
+////    sleep(5);
+////    std::cout << "[Main] stopping manager" << std::endl;
+////    manager.stop();
+//
+//    // Wait for manager to finish
+//    joyThread.join();
+//    std::cout << "[JoystickManager.cpp][Main] stopping" << std::endl;
+//
+//
+//    return 0;
+//}

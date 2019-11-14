@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-std=c++17 ${CMAKE_CXX_FLAGS} -g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-std=c++17 ${CMAKE_CXX_FLAGS} -Werror -g -O0")
@@ -17,7 +18,7 @@ set(CMAKE_AUTOUIC OFF)
 find_package(SDL2 REQUIRED sdl2)
 
 if(SDL2_FOUND)
-message("sdl2 found!")
+    message("sdl2 found!")
 endif()
 
 if (NOT SDL2_FOUND)
@@ -359,7 +360,7 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
-        PRIVATE ${SDL2_LIBRARIES})
+        PRIVATE ${SDL2_LIBRARY})
 
 
 target_include_directories(roboteam_ai
