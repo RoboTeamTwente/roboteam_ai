@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include "include/roboteam_ai/manual/JoystickHandler.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 namespace rtt {
 namespace input {

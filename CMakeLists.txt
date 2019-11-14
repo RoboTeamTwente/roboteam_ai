@@ -358,16 +358,16 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
+        PRIVATE roboteam_proto
         ${SDL2_LIBRARIES})
 
-
-include_directories(${SDL2_INCLUDE_DIRS}
-        ${SDL2IMAGE_INCLUDE_DIRS})
 
 target_include_directories(roboteam_ai
         INTERFACE include
         PRIVATE include/roboteam_ai
         PRIVATE src
+        PRIVATE ${SDL2_INCLUDE_DIRS}
+        PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
 #############
@@ -395,6 +395,7 @@ add_executable(ai_tests
 if(APPLE)
     target_link_libraries(ai_tests
             PRIVATE roboteam_utils
+            PRIVATE roboteam_proto
             PRIVATE Qt5::Widgets
             PRIVATE Qt5::Gui
             PRIVATE Qt5::Charts

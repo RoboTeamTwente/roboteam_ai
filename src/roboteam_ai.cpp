@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         id = *argv[1] - '0';
     }
 
-    std::thread thread_object(startJoystickInput, params);
+//    std::thread thread_object(startJoystickInput, params);
 
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
@@ -86,10 +86,5 @@ int main(int argc, char* argv[]) {
     window->show();
 
     return a.exec();
-}
-
-void startJoystickInput() {
-    std::shared_ptr jmanager = std::make_shared<JoystickManager>();
-    jmanager->run();
 }
 

@@ -1,11 +1,11 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <SDL.h>
-#include <SDL_joystick.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_joystick.h>
 #include <memory>
 #include "roboteam_proto/Publisher.h"
-#include "include/roboteam_ai/manual/JoystickManager.h"
+#include "manual/JoystickManager.h"
 
 using namespace std::chrono;
 
@@ -19,7 +19,7 @@ std::mutex JoystickManager::activeLock;
 JoystickManager::JoystickManager(){
     std::cout << "[JoystickManager] New JoystickManager" << std::endl;
     // Create publisher to send robot commands
-    pub = std::make_unique<roboteam_proto::Publisher>("tcp://127.0.0.1:5556");
+//    pub = std::make_unique<proto::Publisher<proto::RobotCommand>>("tcp://127.0.0.1:5556");
 }
 
 /** Calls the initialization and starts the loop */
@@ -136,7 +136,7 @@ void JoystickManager::loop() {
 void JoystickManager::tickJoystickHandlers(){
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
-        pub->send("robotcommands", joystickHandler.second->getCommand().SerializeAsString());
+        // pub->send("robotcommands", joystickHandler.second->getCommand().SerializeAsString());
     }
 }
 

@@ -10,8 +10,8 @@
 #include <map>
 #include <unistd.h>
 #include <mutex>
-#include <SDL.h>
-#include <SDL_joystick.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_joystick.h>
 #include "JoystickHandler.h"
 
 namespace rtt {
@@ -36,7 +36,6 @@ class JoystickManager {
   bool running = true;
   // Indicates whether packets should be handled and joystickHandlers ticked
   bool active = true;
-  std::unique_ptr<roboteam_proto::Publisher> pub;
 
   bool init();
   void loop();
