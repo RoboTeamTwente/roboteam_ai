@@ -294,7 +294,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
-        src/interface/widgets/ManualControlWidget.cpp src/interface/widgets/ManualControlWidget.h)
+        src/interface/widgets/ManualControlWidget.cpp include/roboteam_ai/interface/widgets/ManualControlWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
