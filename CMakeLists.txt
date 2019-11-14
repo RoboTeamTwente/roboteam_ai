@@ -71,7 +71,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/GameAnalyzer.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp)
+        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp )
 
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
 
@@ -89,6 +89,10 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
 
+set(MANUAL_SOURCES
+        src/manual/JoystickManager.cpp
+        src/manual/JoystickHandler.cpp
+        )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/Skill.cpp
@@ -261,7 +265,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-          )
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -290,7 +294,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
-        )
+        src/interface/widgets/ManualControlWidget.cpp src/interface/widgets/ManualControlWidget.h)
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
