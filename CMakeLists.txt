@@ -14,6 +14,13 @@ set(CMAKE_AUTOMOC ON)
 # Create code from a list of Qt designer ui files
 set(CMAKE_AUTOUIC OFF)
 
+if(SDL2_FOUND)
+message("sdl2 found!")
+endif()
+
+if (NOT SDL2_FOUND)
+    message("sdl2 not found!")
+endif()
 
 # for MacOS X or iOS, watchOS, tvOS (since 3.10.3)
 if(APPLE)
