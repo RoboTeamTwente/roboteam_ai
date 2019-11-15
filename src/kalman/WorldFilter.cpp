@@ -24,7 +24,6 @@ namespace world {
         std::lock_guard<std::mutex> lock(filterMutex);
 
         double timeCapture = msg.t_capture();
-        std::cout<<"ReceiveFrame: "<<timeCapture<<std::endl;
         uint cameraID = msg.camera_id();
         for (const proto::SSL_DetectionRobot &robot : msg.robots_yellow()) {
             bool addedBot=false;
@@ -60,7 +59,6 @@ namespace world {
 
 //Creates a world message with the currently observed objects in it
     proto::World WorldFilter::getWorld(double time) {
-        std::cout<<"GetTime: "<<time<<std::endl;
         update(time,true);
         proto::World world;
         world.set_time(time);
@@ -77,8 +75,6 @@ namespace world {
 
         proto::WorldBall worldBall = ball.as_ball_message();
         world.mutable_ball()->CopyFrom(worldBall);
-//        std::cout<<"_____________________"<<std::endl;
-//        world.PrintDebugString();
         return world;
     }
     void WorldFilter::update(double time, bool extrapolateLastStep) {
