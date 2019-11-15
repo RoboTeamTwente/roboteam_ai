@@ -12,9 +12,14 @@ void Blackboard::setBool(std::string key, bool value) {
 }
 
 bool Blackboard::getBool(std::string key) {
-    if (bools.find(key) == bools.end()) {
-        bools[key] = false;
-    }
+    // if (bools.find(key) == bools.end()) {
+    //     bools[key] = false;
+    // }
+    // bools[key] deafult constructs if no exist
+    // https://en.cppreference.com/w/cpp/container/map/operator_at
+    // If an insertion is performed, the mapped value is value-initialized (default-constructed for class types, zero-initialized otherwise) and a reference to it is returned.
+
+    // https://godbolt.org/z/87GUTV
     return bools[key];
 }
 
@@ -42,9 +47,7 @@ void Blackboard::setFloat(std::string key, float value) {
 }
 
 float Blackboard::getFloat(std::string key) {
-    if (floats.find(key) == floats.end()) {
-        floats[key] = 0.0f;
-    }
+    // same story as line 15
     return floats[key];
 }
 
@@ -57,9 +60,6 @@ void Blackboard::setDouble(std::string key, double value) {
 }
 
 double Blackboard::getDouble(std::string key) {
-    if (doubles.find(key) == doubles.end()) {
-        doubles[key] = 0.0f;
-    }
     return doubles[key];
 }
 
@@ -72,9 +72,6 @@ void Blackboard::setString(std::string key, std::string value) {
 }
 
 std::string Blackboard::getString(std::string key) {
-    if (strings.find(key) == strings.end()) {
-        strings[key] = "";
-    }
     return strings[key];
 }
 
@@ -83,9 +80,6 @@ bool Blackboard::hasString(std::string key) const {
 }
 
 rtt::Vector2 Blackboard::getVector2(std::string key) {
-    if (vectors.find(key) == vectors.end()) {
-        vectors[key] = rtt::Vector2(0, 0);
-    }
     return vectors[key];
 }
 void Blackboard::setVector2(std::string key, rtt::Vector2 value) {
