@@ -88,10 +88,13 @@ enum FieldArcName {
 };
 
 /**
- * Stores all singular constant data (data that does not change through the match) about the field, which includes: <br>
+ * Stores all data which is directly obtained by the field camera (this data can change during the match) and store all
+ * singular constant data (data that does not change through the match) about the field, which together includes: <br>
  * - Length, widths, heights of the field, goals and boundary. <br>
  * - The location, direction and sizes of all lines on the field. <br>
- * - The location and sizes of all arcs on the field.
+ * - The location and sizes of all arcs on the field. <br>
+ * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
+ *
  * @author Created by: Lukas Bos <br>
  *         Documented by: Haico Dorenbos
  * @since 2019-08-30
@@ -116,10 +119,6 @@ private:
         std::make_pair("CenterLine", "center_line"),
         std::make_pair("LeftPenaltyStretch", "left_penalty_line"),
         std::make_pair("RightPenaltyStretch", "right_penalty_line"),
-        std::make_pair("LeftFieldLeftPenaltyArc", "top_left_penalty_arc"),
-        std::make_pair("LeftFieldRightPenaltyArc", "bottom_left_penalty_arc"),
-        std::make_pair("RightFieldLeftPenaltyArc", "top_right_penalty_arc"),
-        std::make_pair("RightFieldRightPenaltyArc", "bottom_right_penalty_arc"),
         std::make_pair("LeftFieldLeftPenaltyStretch", "top_left_penalty_stretch"),
         std::make_pair("LeftFieldRightPenaltyStretch", "bottom_left_penalty_stretch"),
         std::make_pair("RightFieldLeftPenaltyStretch", "bottom_right_penalty_stretch"),
@@ -212,12 +211,12 @@ private:
      * Convert a float measured in millimeters to meters (is needed, because proto message contains values measured in
      * millimeters).
      */
-    float mm_to_m(float scalar);
+    static float mm_to_m(float scalar);
 
     /**
      * Convert a vector measured in millimeters to a vector measured in meters.
      */
-    Vector2 mm_to_m(Vector2 vector);
+    static Vector2 mm_to_m(Vector2 vector);
 
     /**
      * Initialize the field values (this function is only called inside the constructor)

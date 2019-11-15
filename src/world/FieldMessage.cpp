@@ -18,17 +18,17 @@ void FieldMessage::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldS
     fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
     fieldValues[GOAL_DEPTH] = mm_to_m(sslFieldSize.goal_depth());
     fieldValues[BOUNDARY_WIDTH] = mm_to_m(sslFieldSize.boundary_width());
-    fieldValues[LEFTMOST_X] = fieldLines[LEFT_LINE].begin.x;
-    fieldValues[RIGHTMOST_X] = fieldLines[RIGHT_LINE].begin.x;
-    fieldValues[BOTTOMMOST_Y] = fieldLines[BOTTOM_LINE].begin.y;
-    fieldValues[TOPMOST_Y] = fieldLines[TOP_LINE].begin.y;
-    fieldValues[CENTER_Y] = fieldLines[CENTER_LINE].begin.y;
+    fieldValues[LEFTMOST_X] = -0.5 * fieldValues[FIELD_LENGTH];
+    fieldValues[RIGHTMOST_X] = 0.5 * fieldValues[FIELD_LENGTH];
+    fieldValues[BOTTOMMOST_Y] = -0.5 * fieldValues[FIELD_WIDTH];
+    fieldValues[TOPMOST_Y] = 0.5 * fieldValues[FIELD_WIDTH];
+    fieldValues[CENTER_Y] = 0.0;
 }
 
 void FieldMessage::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     for (proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
         FieldLineSegment newLine;
-        if (NAME_MAP.count(line.name()) > 0) {
+        if (NAME_MAP.find(line.name()) != NAME_MAP.end()) {
             newLine.name = NAME_MAP[line.name()];
             newLine.begin = mm_to_m(line.p1());
             newLine.end = mm_to_m(line.p2());
@@ -42,7 +42,7 @@ void FieldMessage::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSi
 void FieldMessage::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     for (proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
         FieldArc newArc;
-        if (NAME_MAP.count(arc.name()) > 0) {
+        if (NAME_MAP.find(arc.name()) != NAME_MAP.end()) {
             newArc.name = NAME_MAP[arc.name()];
             newArc.center = mm_to_m(arc.center());
             newArc.a1 = mm_to_m(arc.a1());
@@ -83,7 +83,7 @@ Vector2 FieldMessage::mm_to_m(Vector2 vector) {
 }
 
 double FieldMessage::get(FieldValueName valueName) {
-    if (fieldValues.count(valueName) > 0) {
+    if (fieldValues.find(valueName) != fieldValues.end()) {
         return fieldValues.at(valueName);
     }
     else {
@@ -94,7 +94,7 @@ double FieldMessage::get(FieldValueName valueName) {
 }
 
 FieldLineSegment FieldMessage::get(FieldLineName lineName) {
-    if (fieldLines.count(lineName) > 0) {
+    if (fieldLines.find(lineName) != fieldLines.end()) {
         return fieldLines.at(lineName);
     }
     else {
@@ -105,7 +105,7 @@ FieldLineSegment FieldMessage::get(FieldLineName lineName) {
 }
 
 FieldArc FieldMessage::get(FieldArcName arcName) {
-    if (fieldArcs.count(arcName) > 0) {
+    if (fieldArcs.find(arcName) != fieldArcs.end()) {
         return fieldArcs.at(arcName);
     }
     else {
@@ -116,7 +116,7 @@ FieldArc FieldMessage::get(FieldArcName arcName) {
 }
 
 Vector2 FieldMessage::get(FieldVectorName vectorName) {
-    if (fieldVectors.count(vectorName) > 0) {
+    if (fieldVectors.find(vectorName) != fieldVectors.end()) {
         return fieldVectors.at(vectorName);
     }
     else {
