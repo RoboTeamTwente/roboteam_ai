@@ -5,10 +5,10 @@
 #include "RobotFilter.h"
 
 RobotFilter::RobotFilter(const proto::SSL_DetectionRobot &detectionRobot, double detectTime) :
-lastUpdateTime(detectTime),
-botId(detectionRobot.robot_id())
+lastUpdateTime{detectTime},
+botId{static_cast<int>(detectionRobot.robot_id())},
+frameCount{1}
 {
-    frameCount=1;
     KalmanInit(detectionRobot);
 }
 
@@ -75,7 +75,6 @@ void RobotFilter::KalmanInit(const proto::SSL_DetectionRobot &detectionRobot) {
 }
 
 void RobotFilter::predict(double time, bool permanentUpdate) {
-
     double dt = time - lastUpdateTime;
     // forward model:
     kalman->F.eye();
@@ -114,14 +113,13 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
 void RobotFilter::applyObservation(const proto::SSL_DetectionRobot &detectionRobot) {
     //sanity check
     if (botId!=detectionRobot.robot_id()){
-        std::cout<<"THE FUCKK"<<std::endl;
-        //Something is very very wrong.
+        std::cerr<<"You're applying observations to the wrong robot!"<<std::endl;
         return;
     }
     Kalman::VectorO observation;
     observation.zeros();
-    observation.at(0) = detectionRobot.x();
-    observation.at(1) = detectionRobot.y();
+    observation.at(0) = detectionRobot.x()/1000.0;
+    observation.at(1) = detectionRobot.y()/1000.0;
     // We need to do something about the rotation's discontinuities at -pi/pi so it works correctly.
     // We allow the state to go outside of bounds (-PI,PI) in between updates, but then simply make sure the observation difference is correct
     double stateRot=kalman->state()[2];
@@ -171,9 +169,8 @@ void RobotFilter::addObservation(const proto::SSL_DetectionRobot &detectionRobot
 
 double RobotFilter::distanceTo(double x, double y) const {
     const Kalman::Vector& state=kalman->state();
-    double dx= state[0]-x/1000.0;
+    double dx= state[0]-x/1000.0;//TODO: functionify the 1000
     double dy= state[1]-y/1000.0;
-    std::cout<<state[0]<<" "<<x <<std::endl;
     return sqrt(dx*dx+dy*dy);
 
 }

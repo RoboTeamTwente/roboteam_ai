@@ -24,20 +24,21 @@ namespace world {
         std::lock_guard<std::mutex> lock(filterMutex);
 
         double timeCapture = msg.t_capture();
+        std::cout<<"ReceiveFrame: "<<timeCapture<<std::endl;
         uint cameraID = msg.camera_id();
-        for (const proto::SSL_DetectionRobot &robot : msg.robots_yellow()) {
-            bool addedBot=false;
-            for (const auto &filter : yellowBots[robot.robot_id()]) {
-                if (filter->distanceTo(robot.x(),robot.y())<0.5){
-                    filter->addObservation(robot,timeCapture);
-                    addedBot=true;
-                }
-            }
-            if (!addedBot){
-                // We create a new filter if no filter close to the robot exists
-                yellowBots[robot.robot_id()].push_back(std::make_unique<RobotFilter>(robot,timeCapture));
-            }
-        }
+//        for (const proto::SSL_DetectionRobot &robot : msg.robots_yellow()) {
+//            bool addedBot=false;
+//            for (const auto &filter : yellowBots[robot.robot_id()]) {
+//                if (filter->distanceTo(robot.x(),robot.y())<0.5){
+//                    filter->addObservation(robot,timeCapture);
+//                    addedBot=true;
+//                }
+//            }
+//            if (!addedBot){
+//                // We create a new filter if no filter close to the robot exists
+//                yellowBots[robot.robot_id()].push_back(std::make_unique<RobotFilter>(robot,timeCapture));
+//            }
+//        }
         for (const proto::SSL_DetectionRobot &robot : msg.robots_blue()) {
             bool addedBot=false;
             for (const auto &filter : blueBots[robot.robot_id()]) {
@@ -59,6 +60,7 @@ namespace world {
 
 //Creates a world message with the currently observed objects in it
     proto::World WorldFilter::getWorld(double time) {
+        std::cout<<"GetTime: "<<time<<std::endl;
         update(time,true);
         proto::World world;
         world.set_time(time);
@@ -75,7 +77,8 @@ namespace world {
 
         proto::WorldBall worldBall = ball.as_ball_message();
         world.mutable_ball()->CopyFrom(worldBall);
-
+//        std::cout<<"_____________________"<<std::endl;
+//        world.PrintDebugString();
         return world;
     }
     void WorldFilter::update(double time, bool extrapolateLastStep) {

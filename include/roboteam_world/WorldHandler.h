@@ -17,6 +17,7 @@ class WorldHandler {
   proto::Publisher<proto::SSL_Referee> *ref_pub;
   proto::Publisher<proto::SSL_GeometryData> *geom_pub;
 
+  double lastPacketTime;
   WorldBase *world;
   WorldFilter *KF;
   RoboCupSSLClient *vision_client;
@@ -30,7 +31,7 @@ class WorldHandler {
    */
   void init();
   void start();
-  void handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const;
+  void handleVisionPackets(proto::SSL_WrapperPacket &vision_packet);
   void handleRefboxPackets(proto::SSL_Referee &ref_packet) const;
   void setupSSLClients();
 };

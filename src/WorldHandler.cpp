@@ -15,13 +15,15 @@ void WorldHandler::start() {
     proto::SSL_Referee ref_packet;
 
     roboteam_utils::Timer t;
+
     t.loop([&]() {
       handleVisionPackets(vision_packet);
       handleRefboxPackets(ref_packet);
 
       KF->kalmanUpdate();
-      int usSinceEpoch=std::chrono::system_clock::now().time_since_epoch() /std::chrono::microseconds(1);
-      world_pub->send(KF->getWorld(usSinceEpoch/1000000.0));
+     auto time=std::chrono::system_clock::now();
+     long int ticks=std::chrono::duration_cast<std::chrono::microseconds>(time.time_since_epoch()).count();
+      world_pub->send(KF->getWorld(lastPacketTime));
     }, 100);
 }
 
@@ -31,6 +33,7 @@ void WorldHandler::init() {
     world_pub = new proto::Publisher<proto::World>(proto::WORLD_CHANNEL);
     ref_pub = new proto::Publisher<proto::SSL_Referee>(proto::REFEREE_CHANNEL);
     geom_pub = new proto::Publisher<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL);
+    lastPacketTime=0.0;
 }
 
 
@@ -58,9 +61,13 @@ void WorldHandler::handleRefboxPackets(proto::SSL_Referee &ref_packet) const {
     }
 }
 
-void WorldHandler::handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const {
+void WorldHandler::handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) {
     while (vision_client && vision_client->receive(vision_packet)) {
         if (vision_packet.has_detection()){
+            double time=vision_packet.detection().t_capture();
+            if (time>lastPacketTime){
+                lastPacketTime=time;
+            }
             KF->addFrame(vision_packet.detection());
         }
         if (vision_packet.has_geometry()) {
