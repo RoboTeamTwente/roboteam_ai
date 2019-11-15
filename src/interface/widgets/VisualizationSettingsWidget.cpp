@@ -28,7 +28,6 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
         if (Toggles::toggles[i].showType == GENERAL) {
             select->addItem("Off");
             select->addItem("On");
-
             std::vector<QString> colors = { "red", "green"};
             select->setCurrentIndex(Toggles::toggles[i].generalShowType);
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].generalShowType] + " }");

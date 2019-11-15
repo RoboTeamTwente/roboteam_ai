@@ -8,11 +8,17 @@
 #include <QWidget>
 
 namespace rtt {
+    namespace input { class JoystickManager; }
 namespace ai {
 namespace interface {
 class ManualControlWidget : public QWidget {
  public:
   ManualControlWidget(QWidget *parent);
+private:
+    std::thread joyThread;
+    rtt::input::JoystickManager* manager;
+    Toggle RobotSelector;
+
 };
 }
 }

@@ -10,9 +10,6 @@ namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
 
-void startJoystickManager(rtt::input::JoystickManager& manager){
-    manager.run();
-}
 
 void runBehaviourTrees() {
     rtt::ApplicationManager app;
@@ -75,10 +72,7 @@ int main(int argc, char* argv[]) {
 
     rtt::ai::io::io.init();
 
-    rtt::input::JoystickManager manager;
-
-    // Start manager in separate thread
-    std::thread joyThread(startJoystickManager, std::ref(manager));
+    rtt::input::JoystickManager manager(&rtt::ai::io::io);
 
 
     BTFactory::makeTrees();
