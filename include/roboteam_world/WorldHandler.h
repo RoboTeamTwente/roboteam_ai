@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef WORLDHANDLER_H
+#define WORLDHANDLER_H
 #include "roboteam_proto/messages_robocup_ssl_detection.pb.h"
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/Subscriber.h"
@@ -35,3 +35,4 @@ class WorldHandler {
 };
 
 }
+#endif

@@ -65,6 +65,7 @@ if(UNIX AND NOT APPLE)
             PRIVATE ${ARMADILLO_LIBRARIES}
             PRIVATE net
             PRIVATE roboteam_utils
+            PRIVATE gtest
             PUBLIC roboteam_proto)
 endif()
 
