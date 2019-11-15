@@ -51,17 +51,13 @@ double Field::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
 /// id and ourteam are for a robot not to be taken into account.
 double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &point, const WorldData &data, int id,
                                                   bool ourTeam) {
-  FieldMessage _field;
-  {
-    std::lock_guard<std::mutex> lock(fieldMutex);
-    _field = field;
-  }
-  double goalWidth = _field.get(GOAL_WIDTH);
-  double blockadeLength = 0;
-  for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
-    blockadeLength += blockade.first.dist(blockade.second);
-  }
-  return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
+    auto _field = get_field();
+    double goalWidth = _field.get(GOAL_WIDTH);
+    double blockadeLength = 0;
+    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
+        blockadeLength += blockade.first.dist(blockade.second);
+    }
+    return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
 std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,

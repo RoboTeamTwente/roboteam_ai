@@ -149,7 +149,8 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &line : rtt::ai::world::field->get_field().getField_lines()) {
+    for (auto &item : rtt::ai::world::field->get_field().getField_lines()) {
+        auto &line = item.second;
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);

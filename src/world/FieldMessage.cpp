@@ -89,6 +89,7 @@ double FieldMessage::get(FieldValueName valueName) {
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
+        std::cout << "Access undefined field value in the FieldMessage class." << std::endl;
         return 0.0;
     }
 }
@@ -100,6 +101,7 @@ FieldLineSegment FieldMessage::get(FieldLineName lineName) {
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
+        std::cout << "Access undefined field line in the FieldMessage class." << std::endl;
         return {};
     }
 }
@@ -111,6 +113,7 @@ FieldArc FieldMessage::get(FieldArcName arcName) {
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
+        std::cout << "Access undefined field arc in the FieldMessage class." << std::endl;
         return {};
     }
 }
@@ -122,23 +125,12 @@ Vector2 FieldMessage::get(FieldVectorName vectorName) {
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
+        std::cout << "Access undefined field vector in the FieldMessage class." << std::endl;
         return {};
     }
 }
 
-std::vector<FieldLineSegment> FieldMessage::getField_lines(){
-    std::vector<FieldLineSegment> allLines = {};
-    for (auto &item : fieldLines) {
-        allLines.push_back(item.second);
-    }
-    return allLines;
-}
-
-std::vector<FieldArc> FieldMessage::getField_arcs(){
-    std::vector<FieldArc> allArcs = {};
-    for (auto &item : fieldArcs) {
-        allArcs.push_back(item.second);
-    }
-    return allArcs;
+const std::map<FieldLineName, FieldLineSegment> FieldMessage::getField_lines(){
+    return fieldLines;
 }
 }

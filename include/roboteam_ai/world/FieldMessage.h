@@ -196,15 +196,9 @@ public:
 
     /**
      * Get all the lines of the field
-     * @return A vector which contains all field lines
+     * @return A map which contains all field lines
      */
-    std::vector<FieldLineSegment> getField_lines();
-
-    /**
-     * Get all the arcs of the field
-     * @return A vector which contains all field arcs
-     */
-    std::vector<FieldArc> getField_arcs();
+    const std::map<FieldLineName, FieldLineSegment> getField_lines();
 
 private:
     /**
