@@ -69,7 +69,7 @@ namespace world {
         }
         for (const auto &kalmanBlueBotsOneId : blueBots) {
             if (!kalmanBlueBotsOneId.second.empty()) {
-                world.mutable_yellow()->Add(bestFilter(kalmanBlueBotsOneId.second)->asWorldRobot());
+                world.mutable_blue()->Add(bestFilter(kalmanBlueBotsOneId.second)->asWorldRobot());
             }
         }
 

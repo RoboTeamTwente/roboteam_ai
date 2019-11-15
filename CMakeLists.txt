@@ -23,6 +23,7 @@ add_executable(roboteam_world
         src/util/KalmanFilter.h
         src/util/RobotFilter.cpp
         )
+set_property(TARGET roboteam_world PROPERTY CXX_STANDARD 17)
 
 
 target_include_directories(roboteam_world

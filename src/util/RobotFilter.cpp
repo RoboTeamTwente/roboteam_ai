@@ -16,24 +16,32 @@ bool compareObservation(const RobotFilter::RobotObservation& a, const RobotFilte
     return (a.time<b.time);
 }
 void RobotFilter::update(double time, bool doLastPredict) {
+
     std::sort(observations.begin(),observations.end(),compareObservation); //First sort the observations in time increasing order
     auto it=observations.begin();
     while(it != observations.end()) {
         auto observation=(*it);
         //the observation is either too old (we already updated the robot) or too new and we don't need it yet.
-        if (!(observation.time<lastUpdateTime || observation.time>time)){
-            //TODO: remove old observations so they don't build up.
+        if (observation.time<lastUpdateTime) {
+
+            observations.erase(it);
+            continue;
+        }
+        if(observation.time>time){
+            //relevant update, but we don't need the info yet so we skip it.
             ++it;
             continue;
         }
         // We first predict the robot, and then apply the observation to calculate errors/offsets.
         predict(observation.time,true);
+
         applyObservation(observation.bot);
         observations.erase(it);
     }
     if(doLastPredict){
         predict(time,false);
     }
+
 }
 
 void RobotFilter::KalmanInit(const proto::SSL_DetectionRobot &detectionRobot) {
@@ -67,6 +75,7 @@ void RobotFilter::KalmanInit(const proto::SSL_DetectionRobot &detectionRobot) {
 }
 
 void RobotFilter::predict(double time, bool permanentUpdate) {
+
     double dt = time - lastUpdateTime;
     // forward model:
     kalman->F.eye();
@@ -81,7 +90,7 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
     kalman->u.zeros();
 
     //Set Q
-    Kalman::MatrixSO G;
+    Kalman::MatrixO G;
     G.zeros();
     G.at(0, 0) = dt;
     G.at(0, 3) = 1;
@@ -90,7 +99,7 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
     G.at(2, 2) = dt;
     G.at(2, 5) = 1;
     const float processNoise=1.0;
-    kalman->Q = G * G.t() * processNoise;
+    kalman->Q = G.t() * G * processNoise;
 
     kalman->predict(permanentUpdate);
     if (permanentUpdate) {
@@ -105,6 +114,7 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
 void RobotFilter::applyObservation(const proto::SSL_DetectionRobot &detectionRobot) {
     //sanity check
     if (botId!=detectionRobot.robot_id()){
+        std::cout<<"THE FUCKK"<<std::endl;
         //Something is very very wrong.
         return;
     }
@@ -161,9 +171,11 @@ void RobotFilter::addObservation(const proto::SSL_DetectionRobot &detectionRobot
 
 double RobotFilter::distanceTo(double x, double y) const {
     const Kalman::Vector& state=kalman->state();
-    double dx= state[0]-x;
-    double dy= state[1]-y;
-    return dx*dx+dy*dy;
+    double dx= state[0]-x/1000.0;
+    double dy= state[1]-y/1000.0;
+    std::cout<<state[0]<<" "<<x <<std::endl;
+    return sqrt(dx*dx+dy*dy);
+
 }
 
 int RobotFilter::frames() const {
