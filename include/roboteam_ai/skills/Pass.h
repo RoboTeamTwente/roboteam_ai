@@ -28,8 +28,8 @@ protected:
 
     PassType stringToType(const std::string& type);
 
-    const double CLOSE_ENOUGH_TO_BALL = 0.7;
-    const double SUCCESSFUL_PASS_ANGLE = 0.6;
+    constexpr static double CLOSE_ENOUGH_TO_BALL = 0.7;
+    constexpr static double SUCCESSFUL_PASS_ANGLE = 0.6;
 
     bool forcePass = false;
     int fails = 0;

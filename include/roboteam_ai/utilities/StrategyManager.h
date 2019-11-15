@@ -1,5 +1,5 @@
 /*
- * Created by mrlukasbos on 9-11-18.
+ * Created by mrlukasbos on 9-11-18
  *
  * Set the refgame state according to referee commands.
  */
@@ -26,6 +26,9 @@ public:
     const RefGameState getRefGameStateForRefCommand(RefCommand command);
 
 private:
+    /**
+     * This should be std::array
+     */
     const std::vector<RefGameState> gameStates = {
 
          // failsafe: for an undefined refstate everything should halt

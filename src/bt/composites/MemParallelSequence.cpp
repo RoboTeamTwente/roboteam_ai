@@ -5,7 +5,10 @@ namespace bt {
 MemParallelSequence::MemParallelSequence() { }
 
 void MemParallelSequence::initialize() {
-    for (auto &child : children) {
+    /**
+     * Child itself is not being modified
+     */
+    for (auto const& child : children) {
         memory[child] = Status::Running;
     }
     totalSuccess = 0;

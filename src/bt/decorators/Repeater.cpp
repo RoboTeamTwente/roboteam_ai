@@ -8,6 +8,14 @@ namespace bt {
 
 void Repeater::initialize() {
     counter = 0;
+    /**
+     * You could have blackboard have some sort of member function
+     * value_or() aka std::optional
+     * 
+     * properties->hasInt("limit").value_or(0);
+     * 
+     * properties->value_or<int>("limit", 0);
+     */
     if (properties->hasInt("limit")) limit = properties->getInt("limit");
     else limit = 0;
 }

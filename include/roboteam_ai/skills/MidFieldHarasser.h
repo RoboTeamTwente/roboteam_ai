@@ -17,7 +17,7 @@ namespace ai {
 
 class MidFieldHarasser : public Skill {
 private:
-    const double HARASSING_SAFETY_MARGINS = 1.0;
+    constexpr static double HARASSING_SAFETY_MARGINS = 1.0;
     Vector2 targetPos;
     int robotBeingHarassed;
     Vector2 getHarassTarget();

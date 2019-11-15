@@ -14,8 +14,8 @@ namespace ai {
 
 class Receive : public Skill {
 private:
-    const double RECEIVER_MISSED_BALL_MARGIN = 1.0;
-    const double BALL_DEFLECTION_ANGLE = M_PI_4;
+    constexpr static double RECEIVER_MISSED_BALL_MARGIN = 1.0;
+    constexpr static double BALL_DEFLECTION_ANGLE = M_PI_4;
 
     enum Progression {
         POSITIONING,

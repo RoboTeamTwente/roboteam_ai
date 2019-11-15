@@ -59,6 +59,9 @@ void DefaultTactic::claimRobots(int amount) {
         auto toClaim = getNextClaim();
         robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
         if (robotIDs.find(-1) != robotIDs.end()) {
+            /**
+             * C++20 introduces .contains if i recall correctly
+             */
             robotIDs.erase(-1);
         }
     }
@@ -153,15 +156,21 @@ void DefaultTactic::updateStyle() {
 void DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
-        std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first,
-                                                                                               robot.second);
-        robots.push_back(temp);
+        /**
+         * emplace_back in-place constructs your object
+         * -O1 = http://quick-bench.com/eO6U0hmVQG080eaYScBikhPMHR4
+         * -O3 = http://quick-bench.com/AZpwCnTj0GfmoP7sGYb7Oyrq1nQ
+         */
+        robots.emplace_back(counter, robot.first, robot.second);
+        // std::tuple<int, std::string, RobotType> temp{ counter, robot.first, robot.second };
+        // robots.push_back(temp);
         counter++;
     }
 }
 
 void DefaultTactic::terminate(Node::Status s) {
-    robotIDs = {};
+    robotIDs.clear();
+    // robotIDs = {};
     amountToTick = -1;
     rtt::ai::robotDealer::RobotDealer::removeTactic(name);
     for (const auto &child : children) {

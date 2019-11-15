@@ -9,6 +9,10 @@ namespace rtt {
 namespace ai {
 
 struct GameState {
+    /**
+     * Why is this class defined here, and not in its own
+     * translation unit?
+     */
     GameState() = default;
     GameState(std::string strategyName, std::string keeperStrategyName, std::string ruleSetName)
             : strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSetName(std::move(ruleSetName))

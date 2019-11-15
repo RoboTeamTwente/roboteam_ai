@@ -18,6 +18,9 @@ PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
     if (robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountOfRobots = std::max(0, amountOfRobots-1);
     }
+  /**
+   * This should be std::array
+   */
   PlayStyle styles[9][5]  = {
 
           {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, // 0

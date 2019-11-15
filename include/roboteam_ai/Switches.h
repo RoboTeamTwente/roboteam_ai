@@ -11,6 +11,9 @@
 
 class Switches {
         private:
+    /**
+     * Useless std::map copy right here
+     */
     static void runErrorHandler(std::map<std::string, std::map<std::string, rtt::ai::robotDealer::RobotType>> tactics);
 
     public:

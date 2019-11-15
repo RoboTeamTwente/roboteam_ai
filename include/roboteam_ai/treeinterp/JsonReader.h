@@ -22,7 +22,13 @@
 #else
 
 #include <unistd.h>
-
+/**
+ * Use std::filesystem
+ * C++17 introduced std::filesystem, it was moved from
+ * std::experimental::filesystem, meaning it's completely
+ * stable now
+ * https://en.cppreference.com/w/cpp/filesystem/current_path
+ */
 #define GetCurrentDir getcwd
 #endif
 

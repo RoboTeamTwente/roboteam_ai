@@ -27,6 +27,9 @@ class BTFactory {
 
         static bt::BehaviorTree::Ptr getTree(std::string treeName);
 
+        /**
+         * std::unordered_map
+         */
         static std::map<std::string, bt::BehaviorTree::Ptr> strategyRepo;
 
         static std::map<std::string, bt::Node::Ptr> tacticsRepo;

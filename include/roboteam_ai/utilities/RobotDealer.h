@@ -34,12 +34,19 @@ class RobotDealer {
 
 private:
     static bool hasClaimedKeeper;
+    /**
+     * unordered_map, the performance diff is even bigger
+     * with things like std::string
+     */
     static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
     static int keeperID;
     static std::mutex robotOwnersLock;
     static void removeRobotFromOwnerList(int ID);
     static void addRobotToOwnerList(int ID, const std::string& tacticName, const std::string& roleName);
     static void updateFromWorld();
+    /**
+     * std::unordered_set
+     */
     static std::set<int> getRobots();
     static void unFreeRobot(int ID);
 

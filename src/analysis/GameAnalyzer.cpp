@@ -44,7 +44,13 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
 }
 
 BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possession possession) {
+    /**
+     * Default should usually be the bottom one
+     */
     switch (possession) {
+    case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
+    case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
+    case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
     default:
     case (rtt::ai::BallPossession::LOOSEBALL): {
         auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
@@ -55,17 +61,14 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
             return BallPossession::DEFENSIVE_NEUTRAL;
         }
     }
-    case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
-    case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
-    case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
     }
 }
 
 /// Get the average of the distances of robots to their opponents goal
 double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld) {
-    auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
+    auto const& robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
-    for (auto robot : robots) {
+    for (auto const& robot : robots) {
         total += world::field->getDistanceToGoal(ourTeam, robot->pos);
     }
     return (total/robots.size());
@@ -84,7 +87,7 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttacker
 
     // sort on goal visibility
     std::sort(robotsWithVisibilities.begin(), robotsWithVisibilities.end(),
-            [](std::pair<RobotPtr, double> a, std::pair<RobotPtr, double> b) {
+            [](std::pair<RobotPtr, double> const& a, std::pair<RobotPtr, double> const& b) {
               return a.second < b.second;
             });
 
@@ -93,9 +96,9 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttacker
 
 /// return the average goal vision of a given team towards their opponents goal
 double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld) {
-    auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
+    auto const& robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
-    for (auto robot : robots) {
+    for (auto const& robot : robots) {
         total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
     }
     return (total/robots.size());
@@ -119,6 +122,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam)
 }
 
 std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
+    // what even is the point of this mutex? Is it to prevent issues when **copying** the shared_ptr?
     std::lock_guard<std::mutex> lock(mutex);
     return mostRecentReport;
 }
@@ -127,13 +131,13 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
 /// Returns all robots that can be passed to, along with the distance
 /// we return robot ids instead of robot object because the objects are incorrect (because of simulated world)
 std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
-    auto ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
-    auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
+    auto const& ourRobots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
+    auto const& enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
 
-    std::vector<std::pair<int, double>> robotsToPassTo;
-    for (auto ourRobot : ourRobots) {
+    std::vector<std::pair<int, double>> robotsToPassTo{ }; // explicit initialization
+    for (auto const& ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
-        for (auto theirRobot : enemyRobots) {
+        for (auto const& theirRobot : enemyRobots) {
             auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->pos, Vector2(robot->pos),
                     Vector2(ourRobot->pos));
             if (distToLine < (Constants::ROBOT_RADIUS_MAX() + Constants::BALL_RADIUS())) {
@@ -152,10 +156,10 @@ std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr rob
 /// get the shortest distance to an enemy robot
 /// this is useful to check if a robot stands free
 double GameAnalyzer::shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, WorldData simulatedWorld) {
-    auto enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
+    auto const& enemyRobots = ourTeam ? simulatedWorld.them : simulatedWorld.us;
     Vector2 robotPos = robot->pos;
     double shortestDist = INT_MAX;
-    for (auto opponent : enemyRobots) {
+    for (auto const& opponent : enemyRobots) {
         shortestDist = std::min(robotPos.dist(opponent->pos), shortestDist);
     }
     return shortestDist;
@@ -166,10 +170,10 @@ bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
     double distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
 
     WorldData futureWorld = world::world->getFutureWorld(0.2);
-    auto enemyRobots = ourTeam ? futureWorld.them : futureWorld.us;
+    auto const& enemyRobots = ourTeam ? futureWorld.them : futureWorld.us;
 
     // find the robot in the future and look if it is closer than before
-    for (auto futureRobot : enemyRobots) {
+    for (auto const& futureRobot : enemyRobots) {
         if (futureRobot->id == robot->id && world::field->getDistanceToGoal(ourTeam, futureRobot->pos) < distanceToGoal) {
             return true;
         }
@@ -189,6 +193,15 @@ void GameAnalyzer::start(int iterationsPerSecond) {
 // Stops the background worker thread.
 void GameAnalyzer::stop() {
     stopping = true;
+    /**
+     * Uhm, what?... this condition is always true
+     * 
+     * OR:
+     *  0 0 -> 0
+     *  1 0 -> 1
+     *  0 1 -> 1 // it's either this
+     *  1 1 -> 1 // or this
+     */
     if (running || stopping) {
         std::cout << "GameAnalyzer: " << "Stopping GameAnalyzer" << std::endl;
         thread.join();
@@ -212,13 +225,14 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRob
     auto robots = ourTeam ? world::world->getUs() : world::world->getThem();
     std::vector<std::pair<RobotPtr, RobotDanger>> robotDangers;
 
-    for (auto robot : robots) {
+    for (auto const& robot : robots) {
         robotDangers.emplace_back(robot, evaluateRobotDangerScore(robot, ourTeam));
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),
-            [](std::pair<RobotPtr, RobotDanger> a,
-                    std::pair<RobotPtr, RobotDanger> b) {
+            [](std::pair<RobotPtr, RobotDanger>& a,
+                    std::pair<RobotPtr, RobotDanger>& b) {
+            // getTotalDanger, couldn't that be const?
               return a.second.getTotalDanger() > b.second.getTotalDanger();
             });
 

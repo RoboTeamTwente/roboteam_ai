@@ -10,6 +10,9 @@ namespace ai {
 namespace analysis {
 
 double RobotDanger::getTotalDanger() {
+    /**
+     * This definitely could be const, p sure
+     */
     double total = 0.0;
     if (hasBall) total += 25;
     if (goalVisionPercentage > 20) total += 15;
