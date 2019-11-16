@@ -3,7 +3,7 @@
 //
 
 #include "RobotFilter.h"
-
+#include "Scaling.h"
 RobotFilter::RobotFilter(const proto::SSL_DetectionRobot &detectionRobot, double detectTime) :
 lastUpdateTime{detectTime},
 botId{static_cast<int>(detectionRobot.robot_id())},
@@ -34,7 +34,6 @@ void RobotFilter::update(double time, bool doLastPredict) {
         }
         // We first predict the robot, and then apply the observation to calculate errors/offsets.
         predict(observation.time,true);
-
         applyObservation(observation.bot);
         observations.erase(it);
     }
@@ -46,8 +45,8 @@ void RobotFilter::update(double time, bool doLastPredict) {
 
 void RobotFilter::KalmanInit(const proto::SSL_DetectionRobot &detectionRobot) {
     // SSL units are in mm, we do everything in SI units.
-    double x = detectionRobot.x() / 1000.0;//m
-    double y = detectionRobot.y() / 1000.0;//m
+    double x = mmToM(detectionRobot.x());//m
+    double y = mmToM(detectionRobot.y());//m
     double angle = detectionRobot.orientation(); //radians [-pi,pi)
     Kalman::Vector startState = {
             x, y, angle, 0, 0, 0
@@ -118,8 +117,8 @@ void RobotFilter::applyObservation(const proto::SSL_DetectionRobot &detectionRob
     }
     Kalman::VectorO observation;
     observation.zeros();
-    observation.at(0) = detectionRobot.x()/1000.0;
-    observation.at(1) = detectionRobot.y()/1000.0;
+    observation.at(0) = mmToM(detectionRobot.x());
+    observation.at(1) = mmToM(detectionRobot.y());
     // We need to do something about the rotation's discontinuities at -pi/pi so it works correctly.
     // We allow the state to go outside of bounds (-PI,PI) in between updates, but then simply make sure the observation difference is correct
     double stateRot=kalman->state()[2];
@@ -135,9 +134,6 @@ void RobotFilter::applyObservation(const proto::SSL_DetectionRobot &detectionRob
     kalman->update();
 }
 
-/*
- * Restricts any angle to -PI,PI
- */
 double RobotFilter::limitAngle(double angle) const
 {
     while (angle > M_PI) {
@@ -169,8 +165,8 @@ void RobotFilter::addObservation(const proto::SSL_DetectionRobot &detectionRobot
 
 double RobotFilter::distanceTo(double x, double y) const {
     const Kalman::Vector& state=kalman->state();
-    double dx= state[0]-x/1000.0;//TODO: functionify the 1000
-    double dy= state[1]-y/1000.0;
+    double dx= state[0]-mmToM(x);
+    double dy= state[1]-mmToM(y);
     return sqrt(dx*dx+dy*dy);
 
 }
