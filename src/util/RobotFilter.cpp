@@ -108,8 +108,8 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
 
 /* Updates the kalman filter with the observation.
  * This function assumes you have already predicted until the right time!
- * @param detectionRobot: the seen robot as in vision
  */
+
 void RobotFilter::applyObservation(const proto::SSL_DetectionRobot &detectionRobot) {
     //sanity check
     if (botId!=detectionRobot.robot_id()){
