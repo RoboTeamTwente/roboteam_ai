@@ -1,15 +1,13 @@
-//
-// Created by rolf on 05-11-19.
-//
-
 #ifndef RTT_KALMANFILTER_H
 #define RTT_KALMANFILTER_H
 
 #include "armadillo"
 
-/*
- * A class for generic standard basic linear Kalman Filters using doubles and dense matrixes
+/**
+ * A class for generic standard basic linear Kalman Filters using doubles and dense matrixes.
+ * Variable names are the same as on wikipedia: https://en.wikipedia.org/wiki/Kalman_filter
  * @author Rolf
+ * @date 5 November 2019
  * @param STATEDIM dimension of state vector
  * @param OBSDIM dimension of measurement vector
  */
@@ -23,10 +21,8 @@ public:
     typedef arma::vec::fixed<STATEDIM> Vector;
     typedef arma::vec::fixed<OBSDIM> VectorO;
 private:
-    //Variable names are the same as on Wikipedia: https://en.wikipedia.org/wiki/Kalman_filter
-
-    Vector X;// State of the state
-    Matrix P;// covariance matrix of the state (how sure are we of the state we predict?)
+    Vector X;// State of the system
+    Matrix P;// covariance matrix of the system (how sure are we of the state?)
 
     //Same as above, but only used for prediction. We only save actual observations in X and P, and predictions here, generally.
     Vector Xtemp;
@@ -36,14 +32,17 @@ public:
     MatrixO H;// Observation model/ states how we can interpret observation as our state
     Matrix Q;// Covariance of the process noise. (Amount of "Random Forces" we can expect in the process)
     MatrixOO R;// Observation Noise Covariance. Keeps track of how noisy the observations are.
-    VectorO z;// Observation
-    //These are only really used in extended Kalman Filters
+    VectorO z;// Observation itself.
+
+    //These are only really used in extended Kalman Filters or when we add control input.
     Matrix B;// State transition jacobian
     Vector u;//Control input into the system (e.g. Robot Commands, thermostat)
 
-    /*
+    /**
      * Constructs a Kalman Filter which starts with initial values and noise estimates
      * By default we simply have every column/row independent and no noises anywhere
+     * @param x initial state vector
+     * @param p initial covariance vector
      */
     explicit KalmanFilter(const Vector& x, const Matrix& p) :
             X(x),
@@ -62,8 +61,9 @@ public:
         u.zeros();
 
     };
-    /*
-     * @param permanentUpdate; if set to true, permanently updates the filter's state.
+    /**
+     * Predict the next state using forward model, updating the state and covariance estimates
+     * @param permanentUpdate if set to true, permanently updates the filter's state.
      * Otherwise, the prediction is only stored locally as a prediction
      */
     void predict(bool permanentUpdate) {
@@ -74,9 +74,9 @@ public:
             P = Ptemp;
         }
     };
-    //TODO: use predicted states or old states?? Test/literature review
-    /*
-     * Updates the filter using a prediction.
+
+    /**
+     * Updates the filter using the current observation z that is set
      */
     void update() {
         VectorO y = z - (H * Xtemp);
@@ -88,13 +88,27 @@ public:
         P = (Identity - K * H) * Ptemp;
     };
 
+    /**
+     * Returns the state of the system. Does also include predictions.
+     * @return (predicted) state of the system
+     */
     const Vector& state() const{
         return Xtemp;
     }
+
+    /**
+     * Returns the state of the system. Only includes permanent Updates and observations.
+     * @return State of the system only based on observations (no forward prediction)
+     */
     const Vector& basestate() const{
         return X;
     }
 
+    /**
+     * Manually set state[index]=value, modifying the state of the filter. Should only be used sparsely.
+     * @param index. Index of the state to be modified
+     * @param value. Value to set state[index] to
+     */
     void modifyState(int index, double value){
         Xtemp.at(index) = value;
     }
