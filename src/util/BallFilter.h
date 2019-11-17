@@ -12,6 +12,7 @@
 class BallFilter {
     typedef KalmanFilter<4, 2> Kalman;
 public:
+    //TODO: add documentation
     explicit BallFilter(const proto::SSL_DetectionBall &detectionBall, double detectTime);
     void predict(double time, bool permanentUpdate);
     void update(double time, bool doLastPredict);;
