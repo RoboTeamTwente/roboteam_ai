@@ -1,7 +1,3 @@
-//
-// Created by kjhertenberg on 13-5-19.
-//
-
 #ifndef ROBOTEAM_WORLD_KALMANFILTER_H
 #define ROBOTEAM_WORLD_KALMANFILTER_H
 

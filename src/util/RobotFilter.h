@@ -58,6 +58,11 @@ public:
      */
     proto::WorldRobot asWorldRobot() const;
     /**
+     * The time of the last observation which was processed by the filter
+     * @return The time at which the filter was last updated
+     */
+    double getLastFrameTime() const;
+    /**
      * The amount of observations the filter has processed
      * @return The amount of observations the filter processed
      */

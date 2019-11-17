@@ -78,22 +78,33 @@ namespace world {
         return world;
     }
     void WorldFilter::update(double time, bool extrapolateLastStep) {
-        //TODO: remove filters that haven't had new frames added for a while.
+        //TODO: Find a more pretty way to write a loop like this
         for (auto& filtersAndId : yellowBots) {
-            for (auto &filter : filtersAndId.second){
-                filter->update(time,extrapolateLastStep);
+            auto filter=filtersAndId.second.begin();
+            while (filter != filtersAndId.second.end()){
+                filter->get()->update(time,extrapolateLastStep);
+                if (time-filter->get()->getLastFrameTime()>0.4){
+                    filtersAndId.second.erase(filter);
+                }
+                else{
+                    ++filter;
+                }
             }
         }
         for (auto& filtersAndId : blueBots) {
-            for (auto &filter : filtersAndId.second){
-                filter->update(time,extrapolateLastStep);
+            auto filter=filtersAndId.second.begin();
+            while (filter != filtersAndId.second.end()){
+                filter->get()->update(time,extrapolateLastStep);
+                if (time-filter->get()->getLastFrameTime()>0.4){
+                    filtersAndId.second.erase(filter);
+                }
+                else{
+                    ++filter;
+                }
             }
         }
     }
     std::shared_ptr<RobotFilter> WorldFilter::bestFilter(std::vector<std::shared_ptr<RobotFilter>> filters) {
-        if (filters.empty()){
-            return nullptr;
-        }
         int bestIndex=0;
         int bestFrames=0;
         for (int i = 0; i <filters.size() ; ++i) {

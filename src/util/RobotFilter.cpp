@@ -66,8 +66,8 @@ void RobotFilter::KalmanInit(const proto::SSL_DetectionRobot &detectionRobot) {
 
     kalman->R.zeros();
     //TODO: collect constants somewhere
-    const double posVar = 2.0;
-    const double rotVar = 1.0;
+    const double posVar = 0.02; //variance in meters
+    const double rotVar = 0.01;
     kalman->R.at(0,0) = posVar;
     kalman->R.at(1,1) = posVar;
     kalman->R.at(2,2) = rotVar;
@@ -96,7 +96,7 @@ void RobotFilter::predict(double time, bool permanentUpdate) {
     G.at(1, 4) = 1;
     G.at(2, 2) = dt;
     G.at(2, 5) = 1;
-    const float processNoise=1.0;
+    const float processNoise=0.01;
     kalman->Q = G.t() * G * processNoise;
 
     kalman->predict(permanentUpdate);
@@ -173,4 +173,8 @@ double RobotFilter::distanceTo(double x, double y) const {
 
 int RobotFilter::frames() const {
     return frameCount;
+}
+
+double RobotFilter::getLastFrameTime() const {
+    return lastUpdateTime;
 }
