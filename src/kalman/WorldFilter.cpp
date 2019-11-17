@@ -79,11 +79,12 @@ namespace world {
     }
     void WorldFilter::update(double time, bool extrapolateLastStep) {
         //TODO: Find a more pretty way to write a loop like this
+        const double removeFilterTime=0.4; //Remove filters if no robot's have been added to it for this amount of time
         for (auto& filtersAndId : yellowBots) {
             auto filter=filtersAndId.second.begin();
             while (filter != filtersAndId.second.end()){
                 filter->get()->update(time,extrapolateLastStep);
-                if (time-filter->get()->getLastFrameTime()>0.4){
+                if (time-filter->get()->getLastFrameTime()>removeFilterTime){
                     filtersAndId.second.erase(filter);
                 }
                 else{
@@ -95,7 +96,7 @@ namespace world {
             auto filter=filtersAndId.second.begin();
             while (filter != filtersAndId.second.end()){
                 filter->get()->update(time,extrapolateLastStep);
-                if (time-filter->get()->getLastFrameTime()>0.4){
+                if (time-filter->get()->getLastFrameTime()>removeFilterTime){
                     filtersAndId.second.erase(filter);
                 }
                 else{

@@ -22,7 +22,7 @@ add_executable(roboteam_world
         src/kalman/KalmanRobot.cpp
         src/util/KalmanFilter.h
         src/util/RobotFilter.cpp
-        src/util/Scaling.h)
+        src/util/Scaling.h src/util/BallFilter.cpp src/util/BallFilter.h)
 set_property(TARGET roboteam_world PROPERTY CXX_STANDARD 17)
 
 
