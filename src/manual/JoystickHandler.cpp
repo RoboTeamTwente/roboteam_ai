@@ -108,7 +108,7 @@ void JoystickHandler::toggleDribbler(){
         if(0 < command.dribbler()) {
             command.set_dribbler(0);
         }else{
-            command.set_dribbler(16);
+            command.set_dribbler(22);
         }
     }
 }
@@ -125,7 +125,7 @@ void JoystickHandler::updateOrientation() {
 void JoystickHandler::updateVelocity(){
     /* Robot velocity, value 1 for mutable vel is achieved by dividing by 32768 instead of 22000*/
 
-    rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle)/22000;
+    rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle)/30000;
     command.mutable_vel()->set_y(-driveVector.x);
     command.mutable_vel()->set_x(-driveVector.y);
 }
