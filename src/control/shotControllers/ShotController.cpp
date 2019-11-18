@@ -182,13 +182,9 @@ RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &ro
     // set the kicker and kickforce
     shotData.chipper = chip;
     shotData.kicker = !chip;
-    if (chip) {
-        // TODO calibrate chip speed
-        shotData.kickerVel = determineKickForce(ball->getPos().dist(shotTarget), desiredBallSpeed);
-    }
-    else {
-        shotData.kickerVel = determineKickForce(ball->getPos().dist(shotTarget), desiredBallSpeed);
-    }
+    
+    // TODO calibrate chip speed
+    shotData.kickerVel = determineKickForce(ball->getPos().dist(shotTarget), desiredBallSpeed);        shotData.kickerVel = determineKickForce(ball->getPos().dist(shotTarget), desiredBallSpeed);
 
     if (kickerOnTicks++ > 80) {
         kickerOnTicks = 0;
