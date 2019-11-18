@@ -234,7 +234,9 @@ RobotCommand DribbleBackwards::sendSuccessCommand() {
 }
 
 void DribbleBackwards::printBackwardsProgress() {
-    std::stringstream ss;
+    // what's the point in this streamstream when you could
+    // LITERALLY use std::cout here :thonk:
+    decltype(std::cout)& ss = std::cout;
     ss << "backwards progress:                  ";
     switch (backwardsProgress) {
     case OVERSHOOTING:ss << "overshooting";
@@ -254,7 +256,6 @@ void DribbleBackwards::printBackwardsProgress() {
     case APPROACHING:ss << "approaching";
         break;
     }
-    std::cout << ss.str() << std::endl;
 }
 
 DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() {
@@ -262,9 +263,9 @@ DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() 
 }
 
 DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
-        :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
+        : errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
-
+             // no need to explicitly initialize 0 values
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }

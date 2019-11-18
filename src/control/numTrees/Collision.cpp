@@ -31,11 +31,20 @@ std::string Collision::collisionTypeToString() {
 }
 
 const world::Robot::RobotPtr &Collision::getCollisionRobot() const {
+    /**
+     * Why return a reference to this robot?
+     * What if this reference to this **shared_ptr** lives on
+     * past the lifetime of the shared_ptr itself?
+     * Is that not possible in this case?
+     */
     return collisionRobot;
 }
 
 void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
     type = ROBOT;
+    /**
+     * Why create a new instance when you could have this be the same shared_ptr
+     */
     collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
     setCollision(distance);
 }
