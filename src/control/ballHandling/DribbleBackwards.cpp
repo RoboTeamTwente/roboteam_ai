@@ -19,7 +19,12 @@ namespace ai {
 namespace control {
 
 RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
-
+    /**
+     * Uhmm, this is a shared pointer, the whole point is that you
+     * DONT take ownership of it, but instead share ownership
+     * across multiple resources?...
+     * Why is this std::move'd
+     */
     robot = std::move(r);
     ball = world::world->getBall();
     finalTargetAngle = targetA;
