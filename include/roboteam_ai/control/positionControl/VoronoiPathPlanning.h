@@ -4,9 +4,12 @@
 
 #ifndef RTT_VORONOIPATHPLANNING_H
 #define RTT_VORONOIPATHPLANNING_H
+
 #include "Voronoi.h"
-#include <world/Robot.h>
 #include <queue>
+#include <list>
+#include <roboteam_utils/Vector2.h>
+#include <utilities/Constants.h>
 
 struct GraphNode{
     rtt::Vector2 nextNodePosition;
@@ -27,7 +30,7 @@ private:
     double fieldWidth;
     double fieldLength;
 
-    std::vector<std::shared_ptr<rtt::ai::world::Robot>> robots;
+    std::vector<rtt::Vector2*> robots;
 
     // the adjacency list is a map from the position of the node to the adjacent nodes
     std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> graphAdjacencyList;
@@ -38,16 +41,18 @@ private:
 
     void generateGraphFromDiagram();
 
-    std::vector<rtt::Vector2> generatePathDijkstra(const rtt::Vector2& initialPosition, const rtt::Vector2& targetPosition);
+    std::list<rtt::Vector2> generatePathDijkstra(const rtt::Vector2& initialPosition, const rtt::Vector2& targetPosition);
 
     void computeDiagram(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
     void generateGraph(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
 public:
-    VoronoiPathPlanning(double fieldWidth, double fieldLength, std::vector<std::shared_ptr<rtt::ai::world::Robot>> &robots);
+    VoronoiPathPlanning() = default;
 
-    std::vector<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    VoronoiPathPlanning(double fieldWidth, double fieldLength, const std::vector<rtt::Vector2*> &robotPositions);
+
+    std::list<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
     const std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
 };

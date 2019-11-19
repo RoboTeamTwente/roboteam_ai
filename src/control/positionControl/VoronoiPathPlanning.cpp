@@ -4,16 +4,16 @@
 
 #include <control/positionControl/VoronoiPathPlanning.h>
 
-VoronoiPathPlanning::VoronoiPathPlanning(double fieldWidth, double fieldLength, std::vector<std::shared_ptr<rtt::ai::world::Robot>> &robots) {
+VoronoiPathPlanning::VoronoiPathPlanning(double fieldWidth, double fieldLength, const std::vector<rtt::Vector2*> &robotPositions) {
     this->fieldLength = fieldLength;
     this->fieldWidth = fieldWidth;
-    this->robots = robots;
+    this->robots = robotPositions;
 }
 
 void VoronoiPathPlanning::computeDiagram(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
     std::vector<jcv_point> robotPositions(robots.size());
     std::transform(robots.begin(), robots.end(), robotPositions.begin(),
-            [](auto robot)-> jcv_point {return (jcv_point){(float)robot->pos.x, (float)robot->pos.y};});
+            [](auto robot)-> jcv_point {return {(float)robot->x, (float)robot->y};});
     jcv_rect playArea = {
             (jcv_point){(float)std::min(robotPosition.x,targetPosition.x),(float)std::min(robotPosition.y,targetPosition.y)},
             (jcv_point){(float)std::max(robotPosition.x,targetPosition.x),(float)std::max(robotPosition.y,targetPosition.y)}
@@ -118,15 +118,21 @@ VoronoiPathPlanning::getGraphAdjacencyList() const {
     return graphAdjacencyList;
 }
 
-std::vector<rtt::Vector2> VoronoiPathPlanning::generatePathDijkstra(const rtt::Vector2& initialPosition, const rtt::Vector2& targetPosition) {
+std::list<rtt::Vector2> VoronoiPathPlanning::generatePathDijkstra(const rtt::Vector2& initialPosition, const rtt::Vector2& targetPosition) {
     std::unordered_map<rtt::Vector2, float, hashPoint> distanceVector;
     std::unordered_map<rtt::Vector2, rtt::Vector2, hashPoint> parentVector;
     distanceVector.insert({initialPosition,0});
-    std::queue<rtt::Vector2> nodeQueue;
-    for(auto currentNode = initialPosition; currentNode != targetPosition; currentNode = nodeQueue.front(), nodeQueue.pop()){
+    std::list<rtt::Vector2> nodeQueue(0);
+    nodeQueue.push_front(initialPosition);
+    for(const auto& currentNode: nodeQueue){
+        if (currentNode == targetPosition){
+            break;
+        }
         for (const GraphNode& adjacentNode : graphAdjacencyList[currentNode]){
-            if (distanceVector.find(adjacentNode.nextNodePosition) == distanceVector.end()){
-                nodeQueue.push(adjacentNode.nextNodePosition);
+            if (distanceVector.find(adjacentNode.nextNodePosition) == distanceVector.end()) {
+                if (std::find(nodeQueue.begin(), nodeQueue.end(), adjacentNode.nextNodePosition) == nodeQueue.end()) {
+                    nodeQueue.push_back(adjacentNode.nextNodePosition);
+                }
                 distanceVector.insert({adjacentNode.nextNodePosition, distanceVector[currentNode] + adjacentNode.distance});
                 parentVector.insert({adjacentNode.nextNodePosition, currentNode});
                 continue;
@@ -138,16 +144,15 @@ std::vector<rtt::Vector2> VoronoiPathPlanning::generatePathDijkstra(const rtt::V
         }
     }
 
-    std::vector<rtt::Vector2> pathPoints;
+    std::list<rtt::Vector2> pathPoints;
     for (rtt::Vector2 backtrack = targetPosition; parentVector.find(backtrack) != parentVector.end(); backtrack = parentVector[backtrack]){
         pathPoints.push_back(backtrack);
     }
-    pathPoints.push_back(initialPosition);
     std::reverse(pathPoints.begin(), pathPoints.end());
     return pathPoints;
 }
 
-std::vector<rtt::Vector2> VoronoiPathPlanning::computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
+std::list<rtt::Vector2> VoronoiPathPlanning::computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
     computeDiagram(robotPosition, targetPosition);
     generateGraphFromDiagram();
     generateGraph(robotPosition, targetPosition);
