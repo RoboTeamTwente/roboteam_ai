@@ -16,7 +16,7 @@ public:
     explicit BallFilter(const proto::SSL_DetectionBall &detectionBall, double detectTime);
     void predict(double time, bool permanentUpdate);
     void update(double time, bool doLastPredict);;
-    void addObservation(const proto::SSL_DetectionRobot &detectionRobot, double time);
+    void addObservation(const proto::SSL_DetectionBall &detectionBall, double time);
     /**
      * Distance of the state of the filter to a point.
      * @param x xCoordinate (in millimeters!)
@@ -55,16 +55,17 @@ private:
      * Applies the observation to the kalman Filter at the current time the filter is at.
      * This changes the z and r matrices.
      * Make sure you have predicted until the correct time before calling this!
-     * @param detectionRobot Robot to be applied
+     * @param detectionBall Ball to be applied to the filter
      */
     void applyObservation(const proto::SSL_DetectionBall &detectionBall);
     /**
      * Initializes the kalman Filter structures
-     * @param detectionRobot Contains the initial state of the Filter.
+     * @param detectionBall Contains the initial state of the Filter.
      */
     void KalmanInit(const proto::SSL_DetectionBall &detectionBall);
     std::unique_ptr<Kalman> kalman = nullptr;
     double lastUpdateTime;
+    double lastPredictTime;
     int frameCount = 0;
     std::vector<BallObservation> observations;
 };

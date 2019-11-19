@@ -111,7 +111,7 @@ void KalmanBall::filterVel(rtt::Vector2 curVel) {
 void KalmanBall::kalmanUpdateX() {
     // first we update the visibility and check if the ball has been seen the last time
     if (this->invisibleCounter>BALLEXTRAPOLATEDTIME&&visibility==EXTRAPOLATED){
-        std::cout<<"Invisible ball! Not moving it anymore. "<<std::endl;
+        //std::cout<<"Invisible ball! Not moving it anymore. "<<std::endl;
     }
     updateVisibility();
 
