@@ -339,7 +339,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        src/treeinterp/MidFieldHarassRoleCPP.cpp src/treeinterp/MidFieldHarassRoleCPP.h)
+        src/treeinterp/MidFieldHarassRoleCPP.cpp include/roboteam_ai/treeinterp/MidFieldHarassRoleCPP.h src/TreeHelper/BeingPassedToHelper.cpp include/roboteam_ai/TreeHelper/BeingPassedToHelper.h)
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
