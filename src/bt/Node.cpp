@@ -114,4 +114,11 @@ std::string Node::status_print(Node::Status s) {
     }
 }
 
+void Node::setRole(std::string roleName) {
+    this->properties->setString("ROLE", roleName);
+    for (auto child : this->getChildren()) {
+        child->setRole(roleName);
+    }
+}
+
 }

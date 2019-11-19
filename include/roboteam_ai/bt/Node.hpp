@@ -91,6 +91,8 @@ class Node {
 
         rtt::ai::world::World * world = nullptr;
         rtt::ai::world::Field * field = nullptr;
-};
+
+        void setRole(std::string roleName);
+    };
 
 } // bt
