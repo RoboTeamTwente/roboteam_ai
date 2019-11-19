@@ -18,7 +18,6 @@ class WorldHandler {
   proto::Publisher<proto::SSL_GeometryData> *geom_pub;
 
   double lastPacketTime;
-  WorldBase *world;
   WorldFilter *KF;
   RoboCupSSLClient *vision_client;
   RoboCupSSLClient *refbox_client;

@@ -59,7 +59,7 @@ proto::WorldBall BallFilter::asWorldBall() const {
     msg.mutable_pos()->set_y(state[1]);
     msg.mutable_vel()->set_x(state[2]);
     msg.mutable_vel()->set_y(state[3]);
-    msg.set_visible(lastPredictTime-lastUpdateTime); //If we extrapolated the ball for longer than 0.05 seconds we mark it not visible
+    msg.set_visible(ballIsVisible());
     //TODO: add height filter here, and actually set the z, z_vel, area fields
     return msg;
 }
@@ -131,4 +131,8 @@ void BallFilter::update(double time, bool doLastPredict) {
 void BallFilter::addObservation(const proto::SSL_DetectionBall &detectionBall, double time) {
     observations.emplace_back(BallObservation(time, detectionBall));
     frameCount++;
+}
+bool BallFilter::ballIsVisible() const {
+    //If we extrapolated the ball for longer than 0.05 seconds we mark it not visible
+    return (lastPredictTime-lastUpdateTime)<0.05;
 }

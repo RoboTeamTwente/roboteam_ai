@@ -39,6 +39,7 @@ public:
      * @return The amount of observations the filter processed
      */
     int frames() const;
+    bool ballIsVisible() const;
     /**
      * A struct to keep Ball Data and time as one observation.
      */

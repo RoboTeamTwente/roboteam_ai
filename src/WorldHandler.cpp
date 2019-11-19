@@ -20,15 +20,11 @@ void WorldHandler::start() {
       handleVisionPackets(vision_packet);
       handleRefboxPackets(ref_packet);
 
-      KF->kalmanUpdate();
-     auto time=std::chrono::system_clock::now();
-     long int ticks=std::chrono::duration_cast<std::chrono::microseconds>(time.time_since_epoch()).count();
       world_pub->send(KF->getWorld(lastPacketTime));
     }, 100);
 }
 
 void WorldHandler::init() {
-    world = new WorldBase();
     KF = new WorldFilter;
     world_pub = new proto::Publisher<proto::World>(proto::WORLD_CHANNEL);
     ref_pub = new proto::Publisher<proto::SSL_Referee>(proto::REFEREE_CHANNEL);

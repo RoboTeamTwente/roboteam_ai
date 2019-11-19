@@ -2,6 +2,7 @@
 #define ROBOTEAM_WORLD_KALMANFILTER_H
 
 #include <util/RobotFilter.h>
+#include <util/BallFilter.h>
 #include "KalmanObject.h"
 #include "KalmanBall.h"
 #include "roboteam_utils/Position.h"
@@ -19,11 +20,13 @@ namespace world {
         proto::World getWorld(double time);
     private:
         void update(double time, bool extrapolateLastStep);
-        typedef std::map<int, std::vector<std::shared_ptr<RobotFilter>>> robotMap;
-        std::shared_ptr<RobotFilter> bestFilter(std::vector<std::shared_ptr<RobotFilter>> filters);
+        typedef std::map<int, std::vector<std::unique_ptr<RobotFilter>>> robotMap;
+        const std::unique_ptr<RobotFilter>& bestFilter(const std::vector<std::unique_ptr<RobotFilter>> &filters);
+        const std::unique_ptr<BallFilter>& bestFilter(const std::vector<std::unique_ptr<BallFilter>> &filters);
+
         robotMap blueBots;
         robotMap yellowBots;
-        KalmanBall ball;
+        std::vector<std::unique_ptr<BallFilter>> balls;
 
         std::mutex filterMutex;
     };
