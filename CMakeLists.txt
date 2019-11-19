@@ -17,12 +17,12 @@ add_executable(roboteam_world
         src/main.cpp
         src/WorldHandler.cpp
         src/kalman/WorldFilter.cpp
-        src/kalman/KalmanObject.cpp
-        src/kalman/KalmanBall.cpp
-        src/kalman/KalmanRobot.cpp
         src/util/KalmanFilter.h
         src/util/RobotFilter.cpp
-        src/util/Scaling.h src/util/BallFilter.cpp src/util/BallFilter.h)
+        src/util/Scaling.h
+        src/util/BallFilter.cpp
+        src/util/BallFilter.h
+        )
 set_property(TARGET roboteam_world PROPERTY CXX_STANDARD 17)
 
 
@@ -46,9 +46,6 @@ target_link_libraries(roboteam_world
 add_executable(world_tests
         src/WorldHandler.cpp
         src/kalman/WorldFilter.cpp
-        src/kalman/KalmanObject.cpp
-        src/kalman/KalmanBall.cpp
-        src/kalman/KalmanRobot.cpp
         test/KalmanTest.cpp
         test/main.cpp
         )

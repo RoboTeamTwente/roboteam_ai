@@ -3,8 +3,6 @@
 
 #include <util/RobotFilter.h>
 #include <util/BallFilter.h>
-#include "KalmanObject.h"
-#include "KalmanBall.h"
 #include "roboteam_utils/Position.h"
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_proto/World.pb.h"
@@ -15,7 +13,6 @@ namespace world {
     class WorldFilter {
     public:
         WorldFilter();
-        void kalmanUpdate();
         void addFrame(const proto::SSL_DetectionFrame &msg);
         proto::World getWorld(double time);
     private:
