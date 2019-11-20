@@ -18,7 +18,7 @@ PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
 void PenaltyKeeper::onInitialize() {
     goalLine = getGoalLine();
     state = WAITING;
-    firstBallPos = world::world->getBall()->getPos();
+    firstBallPos = world->getBall()->getPos();
     preparation=properties->getBool("prepare");
     gtp.setAutoListenToInterface(false);
 }
@@ -119,7 +119,7 @@ void PenaltyKeeper::sendWaitCommand() {
 
     Vector2 targetPos = computeDefendPos();
 
-    Vector2 delta = gtp.getRobotCommand(robot, targetPos).vel;
+    Vector2 delta = gtp.getRobotCommand(world, field, robot, targetPos).vel;
     command.mutable_vel()->set_x(delta.x);
     command.mutable_vel()->set_y(delta.y);
     command.set_w(M_PI_2);
@@ -130,7 +130,7 @@ void PenaltyKeeper::sendInterceptCommand() {
     gtp.updatePid({5.2,0.0,0.2});
 
     Vector2 interceptPos = interceptBallPos();
-    Vector2 delta = gtp.getRobotCommand(robot, interceptPos).vel;
+    Vector2 delta = gtp.getRobotCommand(world, field, robot, interceptPos).vel;
     command.mutable_vel()->set_x(delta.x);
     command.mutable_vel()->set_y(delta.y);
     command.set_w(M_PI_2);

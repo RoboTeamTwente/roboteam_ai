@@ -2,6 +2,8 @@
 #include <iostream>
 #include "bt/Blackboard.hpp"
 #include "bt/Node.hpp"
+#include "world/World.h"
+#include "world/Field.h"
 
 namespace bt {
 
@@ -18,7 +20,11 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick() {
+Node::Status Node::tick(rtt::ai::world::World * world, rtt::ai::world::Field * field) {
+
+    this->world = world;
+    this->field = field;
+
     amountOfTicks ++;
 //    lastTickTime = ros::Time::now();
 

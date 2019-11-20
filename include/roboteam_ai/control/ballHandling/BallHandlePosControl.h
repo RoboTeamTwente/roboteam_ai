@@ -10,11 +10,9 @@
 #include "control/RobotCommand.h"
 #include <utilities/Constants.h>
 #include <roboteam_utils/LineSegment.h>
-#include <control/controllers/PidController.h>
+#include <control/pid.h>
 #include <world/Ball.h>
 #include <world/Robot.h>
-#include <control/controllers/PidTwoAxesController.h>
-
 namespace rtt {
 namespace ai {
 namespace control {
@@ -25,6 +23,9 @@ class RotateAroundBall;
 class RotateWithBall;
 class BallHandlePosControl : public NumTreePosControl {
     private:
+        using BallPtr = std::shared_ptr<world::Ball>;
+        using RobotPtr = std::shared_ptr<world::Robot>;
+
         DribbleForwards* dribbleForwards;
         DribbleBackwards* dribbleBackwards;
         RotateWithBall* rotateWithBall;
@@ -49,14 +50,16 @@ class BallHandlePosControl : public NumTreePosControl {
         int ticksNotMoving = 0;
 
         pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.5);
-        PidTwoAxesController goToBallPid = PidTwoAxesController(pidfGoToBall, pidfGoToBall);
+        PID xGoToBallPID = PID(pidfGoToBall);
+        PID yGoToBallPID = PID(pidfGoToBall);
         
         pidfVals pidfBallHandle = std::make_tuple(0.1, 0.0, 0.0, 0.8);
-        PidTwoAxesController ballHandlePid = PidTwoAxesController(pidfBallHandle, pidfBallHandle);
+        PID xBallHandlePID = PID(pidfBallHandle);
+        PID yBallHandlePID = PID(pidfBallHandle);
 
         void updatePID(pidVals newPID);
     public:
-        RobotCommand controlWithPID(PidTwoAxesController &pid, const RobotCommand &robotCommand);
+        RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
 
         enum TravelStrategy : short {
           FORWARDS,
@@ -91,10 +94,10 @@ class BallHandlePosControl : public NumTreePosControl {
         void setMaxVelocity(double maxV);
         void setMaxForwardsVelocity(double maxV);
         void setMaxBackwardsVelocity(double maxV);
-        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
-        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
+        RobotCommand getRobotCommand(world::World * world, world::Field * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
+        RobotCommand getRobotCommand(world::World * world, world::Field * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
                 TravelStrategy travelStrategy);
-        RobotCommand getRobotCommand(const RobotPtr &r, const Vector2 &targetP) override;
+        RobotCommand getRobotCommand(world::World * world, world::Field * field, const RobotPtr &r, const Vector2 &targetP) override;
 
     private:
         bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);

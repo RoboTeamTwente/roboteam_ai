@@ -61,17 +61,15 @@ std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInForm
 
 // determine the angle where the robot should point to (in position)
 void StopFormation::setFinalAngle() {
-    Vector2 targetToLookAtLocation = world::world->getBall()->getPos();
+    Vector2 targetToLookAtLocation = world->getBall()->getPos();
     command.set_w((targetToLookAtLocation - robot->pos).angle());
 }
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
-    auto field = world::field->get_field();
+    auto pp = field->getPenaltyPoint(true); // penalty point
 
-    auto pp = world::field->getPenaltyPoint(true); // penalty point
-
-    auto defenseAreaLineA = world::field->get_field().getLeft_penalty_line().begin;
-    auto defenseAreaLineB = world::field->get_field().getLeft_penalty_line().end;
+    auto defenseAreaLineA = field->get_field().getLeft_penalty_line().begin;
+    auto defenseAreaLineB = field->get_field().getLeft_penalty_line().end;
 
     // divide the upper and bottom lines of the defense area and store those values.
     auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
@@ -79,8 +77,8 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
     // the following statements specify useful stop positions between the ball and the goal
-    auto ourGoalCenterToBall = ball->getPos() - world::field->get_our_goal_center();
-    auto ballToOurGoalCenter = world::field->get_our_goal_center() - ball->getPos();
+    auto ourGoalCenterToBall = ball->getPos() - field->get_our_goal_center();
+    auto ballToOurGoalCenter = field->get_our_goal_center() - ball->getPos();
 
     double distanceFromGoal;
     double distanceToBall = 1.0;
@@ -99,15 +97,15 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             sin(Constants::ROBOT_RADIUS()/distanceToBall));
 
     // for one robot between ball and our goal
-    Vector2 betweenGoalAndBallPosition = world::field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
+    Vector2 betweenGoalAndBallPosition = field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
     Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal).stretchToLength(distanceFromGoal+3*Constants::ROBOT_RADIUS());
 
     // for multiple robots between ball and our goal
-    Vector2 diff = betweenGoalAndBallPosition + world::field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + world::field->get_our_goal_center();
+    Vector2 diff = betweenGoalAndBallPosition + field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
+    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
 
     Vector2 basicOffensivePositionA = {-1, 0.0};
 
@@ -116,7 +114,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionA;
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
-    double goal_width=world::field->get_field().goal_width();
+    double goal_width=field->get_field().goal_width();
     if (ball->getPos().y > goal_width){
         inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
@@ -201,25 +199,25 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 }
 
 bool StopFormation::positionShouldBeAvoided(Vector2 pos) {
-    return (pos.dist(ball->getPos()) < 0.9 || !world::field->pointIsInField(pos, 0.0));
+    return (pos.dist(ball->getPos()) < 0.9 || !field->pointIsInField(pos, 0.0));
 }
 
 std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     std::vector<Vector2> properPositions;
-    auto field = world::field->get_field();
+    auto fieldMsg = field->get_field();
 
     std::vector<Vector2> proposals;
     // near the corners
-    proposals.push_back({-field.field_length()*0.5 + 1.0, -(field.field_width()*0.5-1.5)});
-    proposals.push_back({-field.field_length()*0.5 + 1.0, (field.field_width()*0.5-1.5)});
+    proposals.push_back({-fieldMsg.field_length()*0.5 + 1.0, -(fieldMsg.field_width()*0.5-1.5)});
+    proposals.push_back({-fieldMsg.field_length()*0.5 + 1.0, (fieldMsg.field_width()*0.5-1.5)});
 
     // somewhere in the middle of our half
-    proposals.push_back({-field.field_length()*0.3, -(field.field_width()*0.5-1.5)});
-    proposals.push_back({-field.field_length()*0.3, (field.field_width()*0.5-1.5)});
+    proposals.push_back({-fieldMsg.field_length()*0.3, -(fieldMsg.field_width()*0.5-1.5)});
+    proposals.push_back({-fieldMsg.field_length()*0.3, (fieldMsg.field_width()*0.5-1.5)});
 
     // offensive
-    proposals.push_back({-1, -(field.field_width()*0.5-1.5)});
-    proposals.push_back({-1, (field.field_width()*0.5-1.5)});
+    proposals.push_back({-1, -(fieldMsg.field_width()*0.5-1.5)});
+    proposals.push_back({-1, (fieldMsg.field_width()*0.5-1.5)});
     proposals.push_back({-1, 0});
 
     for (auto proposal : proposals) {
@@ -230,7 +228,7 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     }
 
     while (amount > 0) {
-        properPositions.push_back(world::field->get_our_goal_center());
+        properPositions.push_back(field->get_our_goal_center());
         amount --;
     }
 

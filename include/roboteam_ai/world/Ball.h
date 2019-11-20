@@ -89,7 +89,7 @@ class Ball {
          * Create a Ball object with the current data about the ball.
          * @param copy The current data about the ball
          */
-        explicit Ball(const roboteam_proto::WorldBall &copy);
+        explicit Ball(const proto::WorldBall &copy);
 
         /**
          * Update the expected end (lay still) position of the ball after the ball has followed his path. Moreover
