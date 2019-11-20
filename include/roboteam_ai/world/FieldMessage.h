@@ -110,7 +110,7 @@ class FieldMessage {
 
 private:
     // Used to convert protobuf names to field names.
-    std::map<std::string, std::string> NAME_MAP = {
+    std::unordered_map<std::string, std::string> NAME_MAP = {
         std::make_pair("TopTouchLine", "top_line"),
         std::make_pair("BottomTouchLine", "bottom_line"),
         std::make_pair("LeftGoalLine", "left_line"),
@@ -127,7 +127,7 @@ private:
     };
 
     // Used to convert field line name, in string format, to the corresponding FieldLineName enum value
-    std::map<std::string, FieldLineName> CONVERT_TO_FIELD_LINE_NAME = {
+    std::unordered_map<std::string, FieldLineName> CONVERT_TO_FIELD_LINE_NAME = {
         std::make_pair("top_line", TOP_LINE),
         std::make_pair("bottom_line", BOTTOM_LINE),
         std::make_pair("left_line", LEFT_LINE),
@@ -143,15 +143,16 @@ private:
     };
 
     // Used to convert field arc name, in string format, to the corresponding FieldArcName enum value
-    std::map<std::string, FieldArcName> CONVERT_TO_FIELD_ARC_NAME = {
+    std::unordered_map<std::string, FieldArcName> CONVERT_TO_FIELD_ARC_NAME = {
         std::make_pair("center_circle", CENTER_CIRCLE)
     };
 
 private:
-    std::map<FieldValueName, double> fieldValues = {}; // Stores all the constant of the field (lengths, widths, positions)
-    std::map<FieldLineName, FieldLineSegment> fieldLines = {}; // Stores all the lines of the field
-    std::map<FieldArcName, FieldArc> fieldArcs = {}; // Stores all the arcs of the field
-    std::map<FieldVectorName, Vector2> fieldVectors = {}; // Stores all positions of the field
+    // Stores all the constant of the field (lengths, widths, positions)
+    std::unordered_map<FieldValueName, double> fieldValues = {};
+    std::unordered_map<FieldLineName, FieldLineSegment> fieldLines = {}; // Stores all the lines of the field
+    std::unordered_map<FieldArcName, FieldArc> fieldArcs = {}; // Stores all the arcs of the field
+    std::unordered_map<FieldVectorName, Vector2> fieldVectors = {}; // Stores all positions of the field
 
 public:
     /**
@@ -198,7 +199,7 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    const std::map<FieldLineName, FieldLineSegment> getField_lines();
+    std::unordered_map<FieldLineName, FieldLineSegment> getField_lines();
 
 private:
     /**
