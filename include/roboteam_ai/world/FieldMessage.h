@@ -171,28 +171,28 @@ public:
      * @param valueName The field value name attribute of which we want to get the value.
      * @return The corresponding field value.
      */
-    double get(FieldValueName valueName);
+    double get(FieldValueName valueName) const;
 
     /**
      * Get one of the lines of the field.
      * @param lineName The field line name which we want to get.
      * @return The corresponding field line.
      */
-    FieldLineSegment get(FieldLineName lineName);
+    FieldLineSegment get(FieldLineName lineName) const;
 
     /**
      * Get one of the arcs of the field.
      * @param arcName The field arc name which we want to get.
      * @return The corresponding field arc.
      */
-    FieldArc get(FieldArcName arcName);
+     FieldArc get(FieldArcName arcName) const;
 
     /**
      * Get one of the positions of the field.
      * @param vectorName The field vector name of which we want to know the position.
      * @return The corresponding field vector which points to this position.
      */
-    Vector2 get(FieldVectorName vectorName);
+    Vector2 get(FieldVectorName vectorName) const;
 
     /**
      * Get all the lines of the field

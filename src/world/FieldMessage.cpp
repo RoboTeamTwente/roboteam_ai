@@ -82,7 +82,7 @@ Vector2 FieldMessage::mm_to_m(Vector2 vector) {
     return {vector.x / 1000, vector.y / 1000};
 }
 
-double FieldMessage::get(FieldValueName valueName) {
+double FieldMessage::get(FieldValueName valueName) const {
     if (fieldValues.find(valueName) != fieldValues.end()) {
         return fieldValues.at(valueName);
     }
@@ -94,7 +94,7 @@ double FieldMessage::get(FieldValueName valueName) {
     }
 }
 
-FieldLineSegment FieldMessage::get(FieldLineName lineName) {
+FieldLineSegment FieldMessage::get(FieldLineName lineName) const {
     if (fieldLines.find(lineName) != fieldLines.end()) {
         return fieldLines.at(lineName);
     }
@@ -106,7 +106,7 @@ FieldLineSegment FieldMessage::get(FieldLineName lineName) {
     }
 }
 
-FieldArc FieldMessage::get(FieldArcName arcName) {
+FieldArc FieldMessage::get(FieldArcName arcName) const {
     if (fieldArcs.find(arcName) != fieldArcs.end()) {
         return fieldArcs.at(arcName);
     }
@@ -118,7 +118,7 @@ FieldArc FieldMessage::get(FieldArcName arcName) {
     }
 }
 
-Vector2 FieldMessage::get(FieldVectorName vectorName) {
+Vector2 FieldMessage::get(FieldVectorName vectorName) const {
     if (fieldVectors.find(vectorName) != fieldVectors.end()) {
         return fieldVectors.at(vectorName);
     }
