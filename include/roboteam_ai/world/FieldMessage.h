@@ -111,40 +111,40 @@ class FieldMessage {
 private:
     // Used to convert protobuf names to field names.
     std::unordered_map<std::string, std::string> NAME_MAP = {
-        std::make_pair("TopTouchLine", "top_line"),
-        std::make_pair("BottomTouchLine", "bottom_line"),
-        std::make_pair("LeftGoalLine", "left_line"),
-        std::make_pair("RightGoalLine", "right_line"),
-        std::make_pair("HalfwayLine", "half_line"),
-        std::make_pair("CenterLine", "center_line"),
-        std::make_pair("LeftPenaltyStretch", "left_penalty_line"),
-        std::make_pair("RightPenaltyStretch", "right_penalty_line"),
-        std::make_pair("LeftFieldLeftPenaltyStretch", "top_left_penalty_stretch"),
-        std::make_pair("LeftFieldRightPenaltyStretch", "bottom_left_penalty_stretch"),
-        std::make_pair("RightFieldLeftPenaltyStretch", "bottom_right_penalty_stretch"),
-        std::make_pair("RightFieldRightPenaltyStretch", "top_right_penalty_stretch"),
-        std::make_pair("CenterCircle", "center_circle"),
+        {"TopTouchLine", "top_line"},
+        {"BottomTouchLine", "bottom_line"},
+        {"LeftGoalLine", "left_line"},
+        {"RightGoalLine", "right_line"},
+        {"HalfwayLine", "half_line"},
+        {"CenterLine", "center_line"},
+        {"LeftPenaltyStretch", "left_penalty_line"},
+        {"RightPenaltyStretch", "right_penalty_line"},
+        {"LeftFieldLeftPenaltyStretch", "top_left_penalty_stretch"},
+        {"LeftFieldRightPenaltyStretch", "bottom_left_penalty_stretch"},
+        {"RightFieldLeftPenaltyStretch", "bottom_right_penalty_stretch"},
+        {"RightFieldRightPenaltyStretch", "top_right_penalty_stretch"},
+        {"CenterCircle", "center_circle"},
     };
 
     // Used to convert field line name, in string format, to the corresponding FieldLineName enum value
     std::unordered_map<std::string, FieldLineName> CONVERT_TO_FIELD_LINE_NAME = {
-        std::make_pair("top_line", TOP_LINE),
-        std::make_pair("bottom_line", BOTTOM_LINE),
-        std::make_pair("left_line", LEFT_LINE),
-        std::make_pair("right_line", RIGHT_LINE),
-        std::make_pair("half_line", HALF_LINE),
-        std::make_pair("center_line", CENTER_LINE),
-        std::make_pair("left_penalty_line", LEFT_PENALTY_LINE),
-        std::make_pair("right_penalty_line", RIGHT_PENALTY_LINE),
-        std::make_pair("top_left_penalty_stretch", TOP_LEFT_PENALTY_STRETCH),
-        std::make_pair("bottom_left_penalty_stretch", BOTTOM_LEFT_PENALTY_STRETCH),
-        std::make_pair("top_right_penalty_stretch", TOP_RIGHT_PENALTY_STRETCH),
-        std::make_pair("bottom_right_penalty_stretch", BOTTOM_RIGHT_PENALTY_STRETCH)
+        {"top_line", TOP_LINE},
+        {"bottom_line", BOTTOM_LINE},
+        {"left_line", LEFT_LINE},
+        {"right_line", RIGHT_LINE},
+        {"half_line", HALF_LINE},
+        {"center_line", CENTER_LINE},
+        {"left_penalty_line", LEFT_PENALTY_LINE},
+        {"right_penalty_line", RIGHT_PENALTY_LINE},
+        {"top_left_penalty_stretch", TOP_LEFT_PENALTY_STRETCH},
+        {"bottom_left_penalty_stretch", BOTTOM_LEFT_PENALTY_STRETCH},
+        {"top_right_penalty_stretch", TOP_RIGHT_PENALTY_STRETCH},
+        {"bottom_right_penalty_stretch", BOTTOM_RIGHT_PENALTY_STRETCH},
     };
 
     // Used to convert field arc name, in string format, to the corresponding FieldArcName enum value
     std::unordered_map<std::string, FieldArcName> CONVERT_TO_FIELD_ARC_NAME = {
-        std::make_pair("center_circle", CENTER_CIRCLE)
+        {"center_circle", CENTER_CIRCLE},
     };
 
 private:
