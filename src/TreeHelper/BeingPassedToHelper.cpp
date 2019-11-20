@@ -15,9 +15,8 @@
 #include "include/roboteam_ai/TreeHelper/BeingPassedToHelper.h"
 
 namespace bt {
-    BeingPassedToHelper::BeingPassedToHelper() {
+    BeingPassedToHelper::BeingPassedToHelper() {}
 
-    }
     std::shared_ptr<bt::Node> BeingPassedToHelper::createBeingPassedToChecker() {
         std::shared_ptr<bt::Selector> select;
         std::shared_ptr<rtt::ai::Receive> receive;

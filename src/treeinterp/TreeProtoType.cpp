@@ -2,6 +2,7 @@
 // Created by jesse on 14.10.19.
 //
 
+#include <include/roboteam_ai/treeinterp/MidFieldHarassRole.h>
 #include "bt/RoleDivider.h"
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"
@@ -10,7 +11,7 @@
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
-
+#include "bt/MidFieldHarassRole"
 namespace bt {
 
     /**
@@ -71,6 +72,12 @@ std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
     // set the rolename for the current role. This is important because the robotdealer decides how to deal the robots based on their rolenames
     // The property "ROLE" should be set to the name of the role, which should correspond to the rolename
     // found in the robotdealer robots vector
+    auto temp = bt::MidFieldHarassRole();
+    auto roleo = temp.createMidFieldHarassRole("hi");
+
+    return roleo;
+
+    /// We hijack this code as well xD
     auto localbb = std::make_shared<Blackboard>();
     localbb->setString("ROLE", name);
     std::shared_ptr<Role> role = std::make_shared<Role>(name);
