@@ -82,6 +82,8 @@ class Node {
 
 //        ros::Time getLastTickTime();
 
+        void setRole(std::string roleName);
+
     protected:
         Status status = Status::Waiting;
 
@@ -92,7 +94,6 @@ class Node {
         rtt::ai::world::World * world = nullptr;
         rtt::ai::world::Field * field = nullptr;
 
-        void setRole(std::string roleName);
     };
 
 } // bt

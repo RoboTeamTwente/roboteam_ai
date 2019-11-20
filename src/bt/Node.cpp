@@ -115,7 +115,11 @@ std::string Node::status_print(Node::Status s) {
 }
 
 void Node::setRole(std::string roleName) {
+    auto children = this->getChildren();
+    std::cout << "ehl" << std::endl;
+    int b = 7;
     this->properties->setString("ROLE", roleName);
+
     for (auto child : this->getChildren()) {
         child->setRole(roleName);
     }

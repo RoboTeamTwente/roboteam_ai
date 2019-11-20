@@ -11,7 +11,7 @@
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
-#include "bt/MidFieldHarassRole"
+#include "treeinterp/MidFieldHarassRole.h"
 namespace bt {
 
     /**

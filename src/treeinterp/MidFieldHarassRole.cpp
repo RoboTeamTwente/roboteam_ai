@@ -20,11 +20,11 @@ namespace bt {
     std::shared_ptr<Role> MidFieldHarassRole::createMidFieldHarassRole(std::string name) {
         /// Create the role tree here
         std::shared_ptr<bt::Role> roleNode = std::make_shared<bt::Role>("meow");
-        bt::BeingPassedToHelper helper;
+        bt::BeingPassedToHelper helper = bt::BeingPassedToHelper();
         auto subNode = helper.createBeingPassedToChecker();
 
         /// TOP LAYER:
-        std::shared_ptr<bt::Selector> select;
+        std::shared_ptr<bt::Selector> select = std::make_shared<bt::Selector>();
         select->addChild(subNode);
         auto localbb = std::make_shared<bt::Blackboard>();
         localbb->setString("ROLE", "a");
@@ -32,9 +32,15 @@ namespace bt {
         select->addChild(attack);
         // did some bad things, for testing purposes only!
 
+        roleNode->addChild(select);
+        roleNode->setRole("r1");
+
         return roleNode;
     }
 
+    MidFieldHarassRole::MidFieldHarassRole() {
+
+    }
 
 
 }
