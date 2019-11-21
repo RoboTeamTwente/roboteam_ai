@@ -73,7 +73,7 @@ std::shared_ptr<Role> TreeProtoType::createOffenderRole(std::string name) {
     // The property "ROLE" should be set to the name of the role, which should correspond to the rolename
     // found in the robotdealer robots vector
     auto temp = bt::MidFieldHarassRole();
-    auto roleo = temp.createMidFieldHarassRole("hi");
+    auto roleo = temp.createMidFieldHarassRole(name);
 
     return roleo;
 

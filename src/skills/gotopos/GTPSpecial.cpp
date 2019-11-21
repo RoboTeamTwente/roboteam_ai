@@ -6,7 +6,11 @@
 
 namespace rtt {
 namespace ai {
-
+/**
+ * Creates a movement path for the robot to a certain place. The "type" set in the blackboard given to this function is very important, see the update function.
+ * @param name
+ * @param blackboard
+ */
 GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(std::move(name), std::move(blackboard)) {
 }
