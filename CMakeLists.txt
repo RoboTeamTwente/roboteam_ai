@@ -44,10 +44,11 @@ target_link_libraries(roboteam_world
         PUBLIC roboteam_proto)
 
 add_executable(world_tests
-        src/WorldHandler.cpp
-        src/kalman/WorldFilter.cpp
+        src/util/KalmanFilter.h
         test/KalmanTest.cpp
         test/main.cpp
+        test/KalmanFilterTest.cpp
+
         )
 
 target_include_directories(world_tests
