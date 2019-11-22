@@ -2,10 +2,10 @@
 // Created by kjhertenberg on 16-5-19.
 //
 
-#include "kalman/kalmanBall.h"
+#include "kalman/KalmanBall.h"
 
-namespace rtt {
-kalmanBall::kalmanBall() {
+namespace world {
+KalmanBall::KalmanBall() {
     //initialise everything
     this->id = INVALID_ID; //ball has no id
     this->observationTimeStamp = - 1.0;
@@ -40,7 +40,7 @@ kalmanBall::kalmanBall() {
     this->K.zeros();
 }
 
-void kalmanBall::kalmanUpdateZ(proto::SSL_DetectionBall ball, double timeStamp, uint cameraID) {
+void KalmanBall::kalmanUpdateZ(proto::SSL_DetectionBall ball, double timeStamp, uint cameraID) {
     // if we have a ball already and the measurement is too far off we do not trust it.
 
     // convert mm to m
@@ -65,7 +65,7 @@ void kalmanBall::kalmanUpdateZ(proto::SSL_DetectionBall ball, double timeStamp, 
         this->X(0) = x;
         this->X(2) = y;
     }
-    Position average = calculatePos(Vector2(x,y), z, cameraID);
+    rtt::Position average = calculatePos(rtt::Vector2(x,y), z, cameraID);
     this->cameraId = cameraID;
     this->Z(0) = average.x;
     this->Z(1) = average.y;
@@ -79,11 +79,11 @@ void kalmanBall::kalmanUpdateZ(proto::SSL_DetectionBall ball, double timeStamp, 
     this->visibility = VISIBLE;
 }
 
-proto::WorldBall kalmanBall::as_ball_message() {
+proto::WorldBall KalmanBall::as_ball_message() {
     //Same as the KalmanObject function but then for ball message
     proto::WorldBall msg;
-    Position pos = kalmanGetPos();
-    Position vel = kalmanGetVel();
+    rtt::Position pos = kalmanGetPos();
+    rtt::Position vel = kalmanGetVel();
     // since the balls z axis is being kept in the third place of the vector it is the 'rotation' here
     msg.set_area(1);
     msg.set_visible(isVisible());
@@ -97,18 +97,18 @@ proto::WorldBall kalmanBall::as_ball_message() {
     return msg;
 }
 
-void kalmanBall::filterVel(Vector2 curVel) {
+void KalmanBall::filterVel(rtt::Vector2 curVel) {
 
     double velocityDiff = (curVel - this->oldVel).length();
     double velForMaxFactor = 10.0;
     double maxFactor = 1.0;
     double factor = velocityDiff > velForMaxFactor ? maxFactor : velocityDiff/velForMaxFactor;
-    Vector2 newVel = (this->oldVel*(1 - factor) + curVel*factor);
+    rtt::Vector2 newVel = (this->oldVel*(1 - factor) + curVel*factor);
     this->oldVel.x = newVel.x;
     this->oldVel.y = newVel.y;
 }
 
-void kalmanBall::kalmanUpdateX() {
+void KalmanBall::kalmanUpdateX() {
     // first we update the visibility and check if the ball has been seen the last time
     if (this->invisibleCounter>BALLEXTRAPOLATEDTIME&&visibility==EXTRAPOLATED){
         std::cout<<"Invisible ball! Not moving it anymore. "<<std::endl;
@@ -136,10 +136,10 @@ void kalmanBall::kalmanUpdateX() {
     }
     this->invisibleCounter += 1; // we update the amount of loops which we did without seeing the ball (this is reset to 0 if the ball is seen again).
 }
-bool kalmanBall::isVisible() {
+bool KalmanBall::isVisible() {
     return visibility==VISIBLE;
 }
-void kalmanBall::updateVisibility() {
+void KalmanBall::updateVisibility() {
     if (this->invisibleCounter>BALLDISAPPEARTIME){
         visibility=NOT_VISIBLE;
     }
