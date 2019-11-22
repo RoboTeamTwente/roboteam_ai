@@ -9,6 +9,8 @@
 #include "bt/Role.h"
 #include "skills/Attack.h"
 
+// Reference wrapper
+
 namespace bt {
     RobotOutOfFieldHelper::RobotOutOfFieldHelper() {
 
@@ -17,11 +19,11 @@ namespace bt {
         auto localbb = std::make_shared<bt::Blackboard>();
         auto robotOutsideBB = std::make_shared<bt::Blackboard>();
 
-        robotOutsideBB->setString("type", "getBackIn");
+        robotOutsideBB->setString("type", "defaultType");
 
         std::shared_ptr<bt::Sequence> seque = std::make_shared<bt::Sequence>();
-        std::shared_ptr<rtt::ai::RobotOutside> robotOutside = std::make_shared<rtt::ai::RobotOutside>("RobotOutside", robotOutsideBB);
-        std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", localbb);
+        std::shared_ptr<rtt::ai::RobotOutside> robotOutside = std::make_shared<rtt::ai::RobotOutside>("RobotOutside", localbb);
+        std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", robotOutsideBB);
 
         seque->addChild(robotOutside);
         seque->addChild(gtp);

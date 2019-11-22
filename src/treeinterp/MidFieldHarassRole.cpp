@@ -28,10 +28,11 @@ namespace bt {
         auto outOfFieldNode = temp2->createRobotOutOfFieldHelper();
 
 
+       /// Is on pass line logic
+
         /// Children of select node
         select->addChild(beingPassedToNode);
         select->addChild(outOfFieldNode);
-
 
         /// Give all of the constructed nodes to the role node, set its role, and return this role node.
         roleNode->addChild(select);

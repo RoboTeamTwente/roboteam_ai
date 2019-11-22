@@ -1,7 +1,10 @@
 #include "bt/Composite.hpp"
 
 namespace bt {
-
+/**
+ * The order of the addchild() function is important, nodes that are added earlier will be ticked first.
+ * @param child
+ */
 void Composite::addChild(Node::Ptr child) {
     children.push_back(child);
 }
