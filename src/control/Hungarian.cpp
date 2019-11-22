@@ -102,14 +102,13 @@ double HungarianAlgorithm::Solve(vector<vector<double> >& DistMatrix, vector<int
     /**
      * static_cast<int>(nRows) and nCols can overflow
      */
-    assignmentoptimal(assignment, &cost, distMatrixIn, static_cast<int>(nRows), static_cast<int>(nCols));
+    assignmentoptimal(assignment.get(), &cost, distMatrixIn.get(), static_cast<int>(nRows), static_cast<int>(nCols));
 
     Assignment.clear();
     for (unsigned int r = 0; r<nRows; r++)
         Assignment.push_back(assignment[r]);
 
-    delete[] distMatrixIn;
-    delete[] assignment;
+
     return cost;
 }
 

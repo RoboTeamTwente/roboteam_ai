@@ -23,7 +23,7 @@ int Input::FPS;
 void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId,
         Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
     if (method == Drawing::DrawingMethod::ARROWS) {
-        if (points.size() % 2 == 1) {
+        if (points.size() & 1) {
             points.erase(points.end());
         }
     }

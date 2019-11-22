@@ -20,6 +20,10 @@ bool JoystickDemo::isDemo() {
 
 /// Tool to check if demo stuff should happen every loop
 void JoystickDemo::demoLoop(proto::DemoRobot msg) {
+    /**
+     * pause is nullptr, default constructed integral type
+     * hence all bits are set to zero
+     */
     rtt::ai::Pause* pause{};
 
     std::lock_guard<std::mutex> lock(demoLock);
@@ -32,6 +36,11 @@ void JoystickDemo::demoLoop(proto::DemoRobot msg) {
     }
 
     if (msg.halt() == 1) {
+        /**
+         * Here you use pause as a pointer
+         * You're accessing the pointer and set a member variable
+         * That's undefined behavior
+         */
         pause->setPause(true);
         pause->haltRobots();
     }

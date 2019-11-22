@@ -4,6 +4,10 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
+/**
+ * Seems like the size of this is compiletime known
+ * Consider using std::array<Toggle, 13>
+ */
 std::vector<Toggle> Toggles::toggles = {
         Toggle(Visual::DEBUG,             GeneralShowType::ON,             "Show debug values"),
         Toggle(Visual::BALL_DATA,         GeneralShowType::ON,             "Show ball data"),
