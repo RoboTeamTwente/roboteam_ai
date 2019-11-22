@@ -86,8 +86,8 @@ double HungarianAlgorithm::Solve(vector<vector<double> >& DistMatrix, vector<int
     unsigned long nRows = DistMatrix.size();
     unsigned long nCols = DistMatrix[0].size();
 
-    auto* distMatrixIn = new double[nRows*nCols];
-    int* assignment = new int[nRows];
+    std::unique_ptr<double[]> distMatrixIn = std::make_unique<double[]>(nRows*nCols);
+    std::unique_ptr<int[]> assignment = std::make_unique<int[]>(nRows);
     double cost = 0.0;
 
     // Fill in the distMatrixIn. Mind the index is "i + nRows * j".
@@ -99,6 +99,9 @@ double HungarianAlgorithm::Solve(vector<vector<double> >& DistMatrix, vector<int
             distMatrixIn[i+nRows*j] = DistMatrix[i][j];
 
     // call solving function
+    /**
+     * static_cast<int>(nRows) and nCols can overflow
+     */
     assignmentoptimal(assignment, &cost, distMatrixIn, static_cast<int>(nRows), static_cast<int>(nCols));
 
     Assignment.clear();
@@ -117,7 +120,7 @@ void HungarianAlgorithm::assignmentoptimal(int* assignment, double* cost, double
         int nOfColumns)
 {
     double* distMatrix, * distMatrixTemp, * distMatrixEnd, * columnEnd, value, minValue;
-    bool* coveredColumns, * coveredRows, * starMatrix, * newStarMatrix, * primeMatrix;
+    std::unique_ptr<bool[]> coveredColumns, coveredRows, starMatrix, newStarMatrix, primeMatrix;
     int nOfElements, minDim, row, col;
 
     /* initialization */
@@ -128,7 +131,7 @@ void HungarianAlgorithm::assignmentoptimal(int* assignment, double* cost, double
     /* generate working copy of distance Matrix */
     /* check if all matrix elements are positive */
     nOfElements = nOfRows*nOfColumns;
-    distMatrix = (double*) malloc(nOfElements*sizeof(double));
+    distMatrix = new double[nOfElements];
     distMatrixEnd = distMatrix+nOfElements;
 
     for (row = 0; row<nOfElements; row++) {
@@ -140,11 +143,11 @@ void HungarianAlgorithm::assignmentoptimal(int* assignment, double* cost, double
 
 
     /* memory allocation */
-    coveredColumns = (bool*) calloc(static_cast<size_t>(nOfColumns), sizeof(bool));
-    coveredRows = (bool*) calloc(static_cast<size_t>(nOfRows), sizeof(bool));
-    starMatrix = (bool*) calloc(static_cast<size_t>(nOfElements), sizeof(bool));
-    primeMatrix = (bool*) calloc(static_cast<size_t>(nOfElements), sizeof(bool));
-    newStarMatrix = (bool*) calloc(static_cast<size_t>(nOfElements), sizeof(bool)); /* used in step4 */
+    coveredColumns = std::make_unique<bool[]>(nOfColumns);
+    coveredRows = std::make_unique<bool[]>(nOfRows);
+    starMatrix = std::make_unique<bool[]>(nOfElements);
+    primeMatrix = std::make_unique<bool[]>(nOfElements);
+    newStarMatrix = std::make_unique<bool[]>(nOfElements); /* used in step4 */
 
     /* preliminary steps */
     if (nOfRows<=nOfColumns) {
@@ -218,28 +221,26 @@ void HungarianAlgorithm::assignmentoptimal(int* assignment, double* cost, double
     }
 
     /* move to step 2b */
-    step2b(assignment, distMatrix, starMatrix, newStarMatrix, primeMatrix, coveredColumns, coveredRows, nOfRows,
+    step2b(assignment, distMatrix, starMatrix.get(), newStarMatrix.get(), primeMatrix.get(), coveredColumns.get(), coveredRows.get(), nOfRows,
             nOfColumns, minDim);
 
     /* compute cost and remove invalid assignments */
     computeassignmentcost(assignment, cost, distMatrixIn, nOfRows);
 
     /* free allocated memory */
-    free(distMatrix);
-    free(coveredColumns);
-    free(coveredRows);
-    free(starMatrix);
-    free(primeMatrix);
-    free(newStarMatrix);
+    delete[] distMatrix;
+    // delete[] coverffedColumns;
+    // delete[] coveredRows;
+    // delete[] starMatrix;
+    // delete[] primeMatrix;
+    // delete[] newStarMatrix;
 }
 
 /********************************************************/
 void HungarianAlgorithm::buildassignmentvector(int* assignment, bool* starMatrix, int nOfRows, int nOfColumns)
 {
-    int row, col;
-
-    for (row = 0; row<nOfRows; row++)
-        for (col = 0; col<nOfColumns; col++)
+    for (int row = 0; row<nOfRows; row++)
+        for (int col = 0; col<nOfColumns; col++)
             if (starMatrix[row+nOfRows*col]) {
                 assignment[row] = col;
                 break;
@@ -249,10 +250,8 @@ void HungarianAlgorithm::buildassignmentvector(int* assignment, bool* starMatrix
 /********************************************************/
 void HungarianAlgorithm::computeassignmentcost(int* assignment, double* cost, double* distMatrix, int nOfRows)
 {
-    int row, col;
-
-    for (row = 0; row<nOfRows; row++) {
-        col = assignment[row];
+    for (int row = 0; row<nOfRows; row++) {
+        int col = assignment[row];
         if (col>=0)
             *cost += distMatrix[row+nOfRows*col];
     }

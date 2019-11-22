@@ -75,20 +75,29 @@ class WorldData {
 
 class WorldBuffer {
     private:
-        WorldData* worldBuffer;
+        std::unique_ptr<WorldData[]> worldBuffer;
         int size;
         int lastIndex;
         int amountOfWorlds;
     public:
         explicit WorldBuffer(unsigned int size = 20)
-                :size(size), amountOfWorlds(0) {
-            worldBuffer = new WorldData[size];
-            lastIndex = 0;
+                : worldBuffer{ std::make_unique<WorldData[]>(size) }, size(size) {
         }
 
-        ~WorldBuffer() {
-            delete[] worldBuffer;
-        }
+        /**
+         * Rule of 5
+         * if you define any of:
+         * copy assignment operator
+         * move assignment operator
+         * copy constructor
+         * move constructor
+         * destructor
+         * 
+         * You must define them all
+         */
+        // ~WorldBuffer() {
+        //     delete[] worldBuffer;
+        // }
 
         void addNewWorld(const WorldData &world) {
             lastIndex ++;
