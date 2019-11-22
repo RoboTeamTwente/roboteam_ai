@@ -383,5 +383,13 @@ void PID::setPID(std::tuple<double, double, double> pid) {
 
 
 void PID::setPID(std::tuple<double, double, double> pid, double f) {
+    /**
+     * This might not be that nice here but structured bindings are WAY nicer than std::get<0>() etc
+     * 
+     * auto [p, i, d] = pid; 
+     * assert(p == std::get<0>(pid));
+     * assert(i == std::get<1>(pid));
+     * assert(d == std::get<2>(pid));
+     */
     this->setPID(std::get<0>(pid), std::get<1>(pid), std::get<2>(pid), f);
 }

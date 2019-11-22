@@ -65,6 +65,11 @@ bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool our
 bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
         const Vector2 &robotPosition, double angleMargin) {
 
+    /**
+     * Why the cast?...
+     * 
+     * I'm fairly sure this creates a copy because you cast it to a non-reference
+     */
     const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->getPos());
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
