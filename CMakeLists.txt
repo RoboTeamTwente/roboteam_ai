@@ -45,7 +45,6 @@ target_link_libraries(roboteam_world
 
 add_executable(world_tests
         src/util/KalmanFilter.h
-        test/KalmanTest.cpp
         test/main.cpp
         test/KalmanFilterTest.cpp
 
