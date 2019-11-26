@@ -7,6 +7,7 @@
 
 #include "Skill.h"
 #include <control/numTrees/NumTreePosControl.h>
+#include <control/positionControl/PositionControl.h>
 
 namespace rtt {
 namespace ai {
@@ -17,9 +18,7 @@ class DriveWithInterface : public Skill {
         Status onUpdate() override;
 
     private:
-        control::NumTreePosControl numTreeGtp;
-
-
+        PositionControl numTreeGtp;
 };
 }
 }

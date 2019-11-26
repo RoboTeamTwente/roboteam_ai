@@ -184,6 +184,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/VoronoiPathPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BasicPathTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/NumTreePosControl.cpp
