@@ -45,7 +45,7 @@ private:
 
     void computeDiagram(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
-    void generateGraph(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    void completeGraphWithOriginDestination(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
 public:
     VoronoiPathPlanning() = default;
@@ -55,6 +55,8 @@ public:
     std::list<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
     const std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
+
+    void setRobotPositions(const std::vector<rtt::Vector2 *> &robots);
 };
 
 

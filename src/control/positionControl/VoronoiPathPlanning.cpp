@@ -22,6 +22,7 @@ void VoronoiPathPlanning::computeDiagram(const rtt::Vector2 &robotPosition, cons
 }
 
 void VoronoiPathPlanning::generateGraphFromDiagram(){
+    graphAdjacencyList.clear();
     for(const jcv_edge* edgeIterator = jcv_diagram_get_edges(&voronoiDiagram); edgeIterator != nullptr; edgeIterator = edgeIterator->next){
         //ignore edges of the diagram
         if (edgeIterator->a == 0 && edgeIterator->b == 0 && edgeIterator->c == 0){
@@ -59,17 +60,13 @@ void VoronoiPathPlanning::generateGraphFromDiagram(){
     }
 }
 
-rtt::Vector2 VoronoiPathPlanning::convertFromJcvPoint(jcv_point point) {
-    return rtt::Vector2(point.x, point.y);
-}
-
-void VoronoiPathPlanning::generateGraph(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
-    //less than 1 obstacle in the area
-    if (graphAdjacencyList.empty()){
+void VoronoiPathPlanning::completeGraphWithOriginDestination(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
+    //1 or fewer obstacles in the area - numsites == 1 or 2
+    if (voronoiDiagram.numsites <= 2){
         double distance = (robotPosition - targetPosition).length();
         // no obstacle or the distance to the obstacle safe
-        if (voronoiDiagram.numsites == 0 || computeDistancePointLine(
-                convertFromJcvPoint(voronoiDiagram.internal->sites->p),robotPosition,targetPosition) < 2 * rtt::ai::Constants::ROBOT_RADIUS()) {
+        if (voronoiDiagram.numsites < 2 || computeDistancePointLine(
+                convertFromJcvPoint(voronoiDiagram.internal->sites->p),robotPosition,targetPosition) > 2 * rtt::ai::Constants::ROBOT_RADIUS()) {
             graphAdjacencyList.insert({robotPosition, std::list<GraphNode>(1, (GraphNode) {targetPosition, distance})});
             graphAdjacencyList.insert({targetPosition, std::list<GraphNode>(1, (GraphNode) {robotPosition, distance})});
             return;
@@ -104,15 +101,6 @@ void VoronoiPathPlanning::generateGraph(const rtt::Vector2 &robotPosition, const
     }
 }
 
-double VoronoiPathPlanning::computeDistancePointLine(const rtt::Vector2& point, const rtt::Vector2& linePoint1, const rtt::Vector2& linePoint2) {
-    return std::abs(
-            (linePoint1.y - linePoint2.y) * point.x -
-            (linePoint1.x - linePoint2.x) * point.y +
-            linePoint1.x * linePoint2.y -
-            linePoint1.y * linePoint2.x
-            ) / (linePoint1 - linePoint2).length();
-}
-
 const std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> &
 VoronoiPathPlanning::getGraphAdjacencyList() const {
     return graphAdjacencyList;
@@ -122,9 +110,9 @@ std::list<rtt::Vector2> VoronoiPathPlanning::generatePathDijkstra(const rtt::Vec
     std::unordered_map<rtt::Vector2, float, hashPoint> distanceVector;
     std::unordered_map<rtt::Vector2, rtt::Vector2, hashPoint> parentVector;
     distanceVector.insert({initialPosition,0});
-    std::list<rtt::Vector2> nodeQueue(0);
+    std::list<rtt::Vector2> nodeQueue;
     nodeQueue.push_front(initialPosition);
-    for(const auto& currentNode: nodeQueue){
+    for(const rtt::Vector2& currentNode: nodeQueue){
         if (currentNode == targetPosition){
             break;
         }
@@ -155,6 +143,23 @@ std::list<rtt::Vector2> VoronoiPathPlanning::generatePathDijkstra(const rtt::Vec
 std::list<rtt::Vector2> VoronoiPathPlanning::computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
     computeDiagram(robotPosition, targetPosition);
     generateGraphFromDiagram();
-    generateGraph(robotPosition, targetPosition);
+    completeGraphWithOriginDestination(robotPosition, targetPosition);
     return generatePathDijkstra(robotPosition, targetPosition);
+}
+
+rtt::Vector2 VoronoiPathPlanning::convertFromJcvPoint(jcv_point point) {
+    return rtt::Vector2(std::round(1000.0*point.x)/1000, std::round(1000.0*point.y)/1000);
+}
+
+double VoronoiPathPlanning::computeDistancePointLine(const rtt::Vector2& point, const rtt::Vector2& linePoint1, const rtt::Vector2& linePoint2) {
+    return std::abs(
+            (linePoint1.y - linePoint2.y) * point.x -
+            (linePoint1.x - linePoint2.x) * point.y +
+            linePoint1.x * linePoint2.y -
+            linePoint1.y * linePoint2.x
+    ) / (linePoint1 - linePoint2).length();
+}
+
+void VoronoiPathPlanning::setRobotPositions(const std::vector<rtt::Vector2 *> &robots) {
+    this->robots = robots;
 }

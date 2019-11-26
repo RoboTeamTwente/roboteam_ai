@@ -5,7 +5,6 @@
  * algorithm. Header-only library taken from https://github.com/JCash/voronoi
  * Two changes were made from the initial file:
  * - added #define implementation (line 14)
- * - modified the clipping s.t. it excludes the bounds (line 440)
  */
 
 #ifndef JC_VORONOI_H
@@ -438,8 +437,8 @@ static void jcv_edge_create(jcv_edge* e, jcv_site* s1, jcv_site* s2)
 // CLIPPING
 int inline jcv_boxshape_test(const jcv_clipper* clipper, const jcv_point p)
 {
-    return p.x > clipper->min.x && p.x < clipper->max.x &&
-           p.y > clipper->min.y && p.y < clipper->max.y;
+    return p.x >= clipper->min.x && p.x <= clipper->max.x &&
+           p.y >= clipper->min.y && p.y <= clipper->max.y;
 }
 
 // The line equation: ax + by + c = 0
