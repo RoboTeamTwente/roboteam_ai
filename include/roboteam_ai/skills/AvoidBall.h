@@ -21,7 +21,7 @@ class AvoidBall : public Skill {
 
     public:
         explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        void onInitialize() override;
+        void onInitialize(std::string type);
         bt::Node::Status onUpdate() override;
     private:
         enum Progression {
