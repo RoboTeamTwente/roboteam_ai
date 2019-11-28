@@ -14,6 +14,7 @@
 #include <include/roboteam_ai/conditions/ShouldHandleBall.h>
 #include <include/roboteam_ai/bt/composites/MemSelector.hpp>
 #include <include/roboteam_ai/conditions/HasClearShot.h>
+#include <include/roboteam_ai/skills/Pass.h>
 #include "bt/BehaviorTree.hpp"
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
@@ -36,10 +37,9 @@ namespace bt {
         auto temp2 = std::make_shared<RobotOutOfFieldHelper>();
         auto outOfFieldNode = temp2->createRobotOutOfFieldHelper();
 
-
        /// Is on pass line logic
         auto passSeque = std::make_shared<bt::Sequence>();
-        auto isOnPassLine = std::make_shared<rtt::ai::IsOnPassLine>(name, localbb);
+        auto isOnPassLine = std::make_shared<rtt::ai::IsOnPassLine>("IsOnPassLine", localbb);
 
         auto avoidBallbb = std::make_shared<bt::Blackboard>();
         avoidBallbb->setString("type", "passing");
@@ -49,19 +49,25 @@ namespace bt {
 
         /// Should handle ball logic
         auto shouldHandleBallSeq = std::make_shared<bt::Sequence>();
-        auto shouldHandleBall = std::make_shared<rtt::ai::ShouldHandleBall>(name, localbb);
+        auto shouldHandleBall = std::make_shared<rtt::ai::ShouldHandleBall>("shoudhandleball", localbb);
 
         auto inverterIsInDefenseArea = std::make_shared<bt::Inverter>();
-        auto isIndefenseArea = std::make_shared<rtt::ai::IsInDefenseArea>(localbb);
+        auto isIndefenseArea = std::make_shared<rtt::ai::IsInDefenseArea>("isInDefenseArea", localbb);
 
         auto inverterBallOutOfField = std::make_shared<bt::Inverter>();
-        auto ballOutOfField = std::make_shared<rtt::ai::BallOutOfField>();
+        auto ballOutOfField = std::make_shared<rtt::ai::BallOutOfField>("ballOutOfField", localbb);
 
         auto memSelector = std::make_shared<bt::MemSelector>();
 
         auto clearShotSeque = std::make_shared<bt::Sequence>();
-        auto hasClearShot = std::make_shared<rtt::ai::HasClearShot>();
+        auto hasClearShot = std::make_shared<rtt::ai::HasClearShot>("hasclearshot", localbb);
         auto attack = std::make_shared<rtt::ai::Attack>(name, localbb);
+
+        auto passAttackSeque = std::make_shared<bt::Sequence>();
+        auto passSkill = std::make_shared<rtt::ai::Pass>("Pass", localbb);
+        auto attackPassSkill = std::make_shared<rtt::ai::Attack>("Pass attack", localbb);
+        passAttackSeque->addChild(passSkill);
+        passAttackSeque->addChild(attackPassSkill);
 
         shouldHandleBallSeq->addChild(shouldHandleBall);
         shouldHandleBallSeq->addChild(inverterIsInDefenseArea);
@@ -72,10 +78,11 @@ namespace bt {
         inverterIsInDefenseArea->addChild(isIndefenseArea);
 
         memSelector->addChild(clearShotSeque);
-        //memSelector->addChild()
+        memSelector->addChild(passAttackSeque);
 
         clearShotSeque->addChild(hasClearShot);
         clearShotSeque->addChild(attack);
+
 
 
         /// Children of select node
