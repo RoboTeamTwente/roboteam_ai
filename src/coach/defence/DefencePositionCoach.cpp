@@ -251,7 +251,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     double maxForwardLineX = maxX();
     Vector2 position=getPosOnLine(blockLine, 0.1);
     if (position.x > maxForwardLineX) {
-        double fieldWidth = world::field->get_field().field_width();
+        double fieldWidth = world::field->get_field().get(FIELD_WIDTH);
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5);
         Vector2 topLine(maxForwardLineX, fieldWidth*0.5);
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.first, blockLine.second, bottomLine,
@@ -261,7 +261,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     return position;
 }
 double DefencePositionCoach::maxX() {
-    return world::field->get_field().field_length()/10.0*-1.0;
+    return world::field->get_field().get(FIELD_LENGTH) / 10.0 * -1.0;
 }
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
     std::vector<world::Robot::RobotPtr> theirAttackers;
@@ -347,7 +347,7 @@ std::shared_ptr<DefenderBot> DefencePositionCoach::blockPass(PossiblePass pass) 
             return std::make_shared<DefenderBot>(defender);
         }
         // try putting it on the defence Line instead (as the robot is very likely far away
-        double fieldWidth=world::field->get_field().field_width();
+        double fieldWidth=world::field->get_field().get(FIELD_WIDTH);
 
         // Floating point errors sigh (hence the -0.0001)
         Vector2 bottomLine(maxX()-0.0001, - fieldWidth*0.5);
