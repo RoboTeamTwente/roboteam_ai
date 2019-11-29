@@ -43,7 +43,7 @@ bt::Node::Status Formation::onUpdate() {
 
 // determine the angle where the robot should point to (in position)
 void Formation::setFinalAngle() {
-    Vector2 targetToLookAtLocation = field->get_field().get(THEIR_GOAL_CENTER);
+    Vector2 targetToLookAtLocation = field->get_field()[THEIR_GOAL_CENTER];
     command.set_w(static_cast<float>((targetToLookAtLocation - robot->pos).angle()));
 }
 

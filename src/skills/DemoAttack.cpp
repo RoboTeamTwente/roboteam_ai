@@ -56,10 +56,10 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
     Vector2 velocity;
     if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_field().get(OUR_GOAL_CENTER)).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - world::field->get_field()[OUR_GOAL_CENTER]).stretchToLength(2.0);
     }
     else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_field().get(THEIR_GOAL_CENTER)).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - world::field->get_field()[THEIR_GOAL_CENTER]).stretchToLength(2.0);
     }
     else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};

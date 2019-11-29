@@ -57,9 +57,9 @@ bt::Node::Status AvoidBall::onUpdate() {
 
     // forces from walls
     auto field = world::field->get_field();
-    double boundWidth =  field.get(BOUNDARY_WIDTH);
-    double halfFieldLength = field.get(FIELD_LENGTH) / 2;
-    double halfFieldWidth = field.get(FIELD_WIDTH) / 2;
+    double boundWidth =  field[BOUNDARY_WIDTH];
+    double halfFieldLength = field[FIELD_LENGTH] / 2;
+    double halfFieldWidth = field[FIELD_WIDTH] / 2;
 
     std::vector<Vector2> wallsVectors;
     wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));

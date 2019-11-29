@@ -22,14 +22,14 @@ Vector2 TimeoutFormation::getFormationPosition() {
     // determine if we should be in the top or bottom of the field
     bool topSideOfField = rtt::ai::interface::Output::isTimeOutAtTop();
     int inv = topSideOfField ? 1 : -1;
-    double targetLocationY = field.get(FIELD_WIDTH)/2 * inv;
+    double targetLocationY = field[FIELD_WIDTH] / 2 * inv;
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
     std::vector<int> robotIds;
 
     for (unsigned int i = 0; i<robotsInFormation->size(); i++) {
-        double targetLocationX = - field.get(FIELD_LENGTH) / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
+        double targetLocationX = -field[FIELD_LENGTH] / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
         robotIds.push_back(robotsInFormation->at(i)->id);
     }
