@@ -77,6 +77,7 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     // Un-kill the code below by commenting the return statement to restore json functionality
     auto treefound = codeTrees.find("attackertree");
     return treefound->second;
+    return codeTrees["attackertree"];
 
 //    Leaving this code commented because it might be useful for later, depending on how we want to structure our tree storage
     if (strategyRepo.find(treeName) != strategyRepo.end()) {

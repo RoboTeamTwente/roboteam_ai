@@ -15,7 +15,7 @@
 #include <include/roboteam_ai/bt/composites/MemSelector.hpp>
 #include <include/roboteam_ai/conditions/HasClearShot.h>
 #include <include/roboteam_ai/skills/Pass.h>
-#include "bt/BehaviorTree.hpp"
+#include <include/roboteam_ai/skills/MidFieldHarasser.h>
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
@@ -66,6 +66,7 @@ namespace bt {
         auto passAttackSeque = std::make_shared<bt::Sequence>();
         auto passSkill = std::make_shared<rtt::ai::Pass>("Pass", localbb);
         auto attackPassSkill = std::make_shared<rtt::ai::Attack>("Pass attack", localbb);
+        
         passAttackSeque->addChild(passSkill);
         passAttackSeque->addChild(attackPassSkill);
 
@@ -83,6 +84,7 @@ namespace bt {
         clearShotSeque->addChild(hasClearShot);
         clearShotSeque->addChild(attack);
 
+        auto midFieldHarassSkill = std::make_shared<rtt::ai::MidFieldHarasser>("Midfield harasser", localbb);
 
 
         /// Children of select node
@@ -90,7 +92,7 @@ namespace bt {
         select->addChild(outOfFieldNode);
         select->addChild(passSeque);
         select->addChild(shouldHandleBallSeq);
-
+        select->addChild(midFieldHarassSkill);
 
         /// Give all of the constructed nodes to the role node, set its role, and return this role node.
         roleNode->addChild(select);
