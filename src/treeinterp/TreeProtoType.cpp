@@ -47,7 +47,7 @@ std::shared_ptr<BehaviorTree> TreeProtoType::createOffensiveStrategy() {
 
     auto tree = std::make_shared<BehaviorTree>("defendertree");
     tree->SetRoot(offensiveTactic);
-
+    this->tree = tree;
     return tree;
 }
 

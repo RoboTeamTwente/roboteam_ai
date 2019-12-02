@@ -16,16 +16,20 @@ namespace bt {
     public:
         TreeProtoType();
         /**
-         * Creates a Strategy behaviour tree. This tree is created in BTFactory.
+         * Creates a Strategy behaviour tree. This tree is created in BTFactory. The tree that is created is also given to the TreeProtoType object, so it can be traced and adjusted.
          * @return the behaviour tree that contains this strategy
          */
         std::shared_ptr<bt::BehaviorTree> createOffensiveStrategy();
+
+
 
     private:
         /**
          * Vector that is used by RobotDealer to determine how to match robots to robot IDs.
          */
         std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
+
+        std::shared_ptr<bt::BehaviorTree> tree;
 
         /**
          * Creates a defensive tactic. This a tree, which is an ordered collection of nodes with childen (and parents). This is then put into the strategy
