@@ -103,7 +103,8 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
 
 /// returns a danger score
 RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam) {
-    Vector2 goalCenter = ourTeam ? world::field->get_our_goal_center() : world::field->get_their_goal_center();
+    Vector2 goalCenter = ourTeam ? world::field->get_field().get(OUR_GOAL_CENTER) :
+            world::field->get_field().get(THEIR_GOAL_CENTER);
 
     RobotDanger danger;
     danger.ourTeam = ourTeam;
