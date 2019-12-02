@@ -28,19 +28,12 @@ void BTFactory::makeTrees() {
 
     std::cout << "Re-Make Trees From Json" << std::endl;
 
-    // We need this instance of the OffensiveStrategy Class to use its methods. An alternative would be to make the methods static,
-    // but this essentially makes them global which is dangerous and unnecessary in my opinion. Additionally, some settings
-    // are initialized in the default constructor of OffensiveStrategy
-    bt::OffensiveStrategy protoTypeTree;
-    std::shared_ptr<bt::BehaviorTree> testingTree;
-    testingTree = protoTypeTree.createOffensiveStrategy();
-
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
      * In order to do this in a cleaner way, maybe build trees automatically by going through directory
      */
-    codeTrees["attackertree"] = protoTypeTree.createOffensiveStrategy();
-
+    auto Off = new bt::OffensiveStrategy();
+    codeTrees["attackertree"] = Off->createOffensiveStrategy();
 
     // TODO Remove this legacy code
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with

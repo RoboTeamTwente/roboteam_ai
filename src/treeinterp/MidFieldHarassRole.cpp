@@ -63,9 +63,10 @@ namespace bt {
         auto hasClearShot = std::make_shared<rtt::ai::HasClearShot>("hasclearshot", localbb);
         auto attack = std::make_shared<rtt::ai::Attack>(name, localbb);
 
-        auto passAttackSeque = std::make_shared<bt::Sequence>();
         auto passSkill = std::make_shared<rtt::ai::Pass>("Pass", localbb);
         auto attackPassSkill = std::make_shared<rtt::ai::Attack>("Pass attack", localbb);
+        auto passAttackSeque = std::make_shared<bt::Sequence>(passSkill, attackPassSkill);
+
         
         passAttackSeque->addChild(passSkill);
         passAttackSeque->addChild(attackPassSkill);
