@@ -3,7 +3,7 @@
 //
 
 #include "treeinterp/BTFactory.h"
-#include "treeinterp/TreeProtoType.h"
+#include "treeinterp/OffensiveStrategy.h"
 
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
@@ -28,10 +28,10 @@ void BTFactory::makeTrees() {
 
     std::cout << "Re-Make Trees From Json" << std::endl;
 
-    // We need this instance of the TreeProtoType Class to use its methods. An alternative would be to make the methods static,
+    // We need this instance of the OffensiveStrategy Class to use its methods. An alternative would be to make the methods static,
     // but this essentially makes them global which is dangerous and unnecessary in my opinion. Additionally, some settings
-    // are initialized in the default constructor of TreeProtoType
-    bt::TreeProtoType protoTypeTree;
+    // are initialized in the default constructor of OffensiveStrategy
+    bt::OffensiveStrategy protoTypeTree;
     std::shared_ptr<bt::BehaviorTree> testingTree;
     testingTree = protoTypeTree.createOffensiveStrategy();
 
