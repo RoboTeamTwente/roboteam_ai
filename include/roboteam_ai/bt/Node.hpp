@@ -39,6 +39,11 @@ class Node {
 
         using Ptr = std::shared_ptr<Node>;
 
+        /**
+         * The update function executes the node. This function is overwritten a lot, most interestingly in the Selector/Sequence/Inverter nodes,
+         * since these nodes can have children. Therefore the update function of these nodes ticks their children.
+         * @return Status result of the update (Running, Success, Failure)
+         */
         virtual Status update() = 0;
 
         Status NodeUpdate();
