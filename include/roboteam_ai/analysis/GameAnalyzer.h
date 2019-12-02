@@ -40,6 +40,18 @@ private:
     // Threading
     std::thread thread;
     std::mutex mutex;
+    /**
+     * There is no need for these to be volatile
+     * The compiler will never optimize a variable
+     * away if it really matters, maybe you meant
+     * for these to be std::atomic, safe atomic
+     * operations.
+     * 
+     * Volatile is often confused with threadsafe 
+     * or even concurrent, whereas the only thing
+     * it does, is make sure that the compiler does
+     * not optimize your varable away
+     */
     volatile bool running;
     volatile bool stopping;
     void loop(unsigned delayMillis);
