@@ -41,7 +41,7 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/src/Switches.cpp
-        ${PROJECT_SOURCE_DIR}/src/treeinterp/TreeProtoType.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
         )
 
 set(BT_SOURCES
