@@ -339,7 +339,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        src/treeinterp/MidFieldHarassRole.cpp include/roboteam_ai/treeinterp/MidFieldHarassRole.h src/TreeHelper/BeingPassedToHelper.cpp include/roboteam_ai/TreeHelper/BeingPassedToHelper.h src/TreeHelper/RobotOutOfFieldHelper.cpp include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h src/treeinterp/PassRole.cpp include/roboteam_ai/treeinterp/PassRole.h)
+        src/treeinterp/MidFieldHarassRole.cpp include/roboteam_ai/treeinterp/MidFieldHarassRole.h src/TreeHelper/BeingPassedToHelper.cpp include/roboteam_ai/TreeHelper/BeingPassedToHelper.h src/TreeHelper/RobotOutOfFieldHelper.cpp include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h src/treeinterp/PassRole.cpp include/roboteam_ai/treeinterp/PassRole.h src/treeinterp/SideAttackerRole.cpp include/roboteam_ai/treeinterp/SideAttackerRole.h)
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
