@@ -9,6 +9,10 @@
 #include <include/roboteam_ai/bt/composites/MemSequence.hpp>
 #include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include <include/roboteam_ai/bt/composites/Sequence.hpp>
+#include <include/roboteam_ai/conditions/IsBeingPassedTo.h>
+#include <include/roboteam_ai/conditions/CanReflectKick.h>
+#include <include/roboteam_ai/skills/ReflectKick.h>
+#include <include/roboteam_ai/skills/Receive.h>
 #include "include/roboteam_ai/treeinterp/PassRole.h"
 
 #include "bt/BehaviorTree.hpp"
@@ -27,9 +31,20 @@ namespace bt {
      * @return role for passing and then halting
      */
     std::shared_ptr<Role> SideAttackerRole::createSideAttackerRole(std::string rolename) {
-        auto select = std::make_shared<bt::Selector>();
-        auto sequence = std::make_shared<bt::Sequence>();
-        auto reflectKickSelector = std::make_shared<bt::Selector>();
+        std::shared_ptr<bt::Selector> select;
+        std::shared_ptr<bt::Sequence> seq;
+        std::shared_ptr<bt::Selector> reflectKickSelect;
+        std::shared_ptr<bt::MemSequence> reflectKickMemSeq;
+        auto localbb = std::make_shared<bt::Blackboard>();
+        /// Leftmost tree nodes
+        auto beingPassedTo = std::make_shared<rtt::ai::IsBeingPassedTo>("is being passed to", localbb);
+        auto canReflectKick = std::make_shared<rtt::ai::CanReflectKick>("can reflect kick", localbb);
+        auto reflectKick = std::make_shared<rtt::ai::ReflectKick>("reflectkick", localbb);
+        auto receive = std::make_shared<rtt::ai::Receive>("receive", localbb);
+        std::vector<bt::Node> order = <beingPassedTo, reflectKickSelect>;
+        seq = std::make_shared<bt::Sequence>();
+
+
         // selector
 
         // sequence
