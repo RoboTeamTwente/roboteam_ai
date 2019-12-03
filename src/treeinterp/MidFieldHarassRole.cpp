@@ -16,6 +16,7 @@
 #include <include/roboteam_ai/conditions/HasClearShot.h>
 #include <include/roboteam_ai/skills/Pass.h>
 #include <include/roboteam_ai/skills/MidFieldHarasser.h>
+#include <include/roboteam_ai/treeinterp/PassRole.h>
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
@@ -101,9 +102,7 @@ namespace bt {
         return roleNode;
     }
 
-    MidFieldHarassRole::MidFieldHarassRole() {
 
-    }
 
 
 }

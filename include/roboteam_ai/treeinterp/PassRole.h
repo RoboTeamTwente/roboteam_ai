@@ -1,9 +1,10 @@
 //
-// Created by jessevw on 19.11.19.
+// Created by jessevw on 03.12.19.
 //
 
-#ifndef RTT_MIDFIELDHARASSROLE_H
-#define RTT_MIDFIELDHARASSROLE_H
+#ifndef RTT_PASSROLE_H
+#define RTT_PASSROLE_H
+
 #include <include/roboteam_ai/bt/tactics/DefaultTactic.h>
 #include "bt/BehaviorTree.hpp"
 #include "bt/Role.h"
@@ -11,13 +12,13 @@
 
 namespace bt {
 
-    class MidFieldHarassRole {
+    class PassRole {
     public:
         /**
-         * Creates a Strategy behaviour tree. This tree is created in BTFactory.
-         * @return the behaviour tree that contains this strategy
+         * Creates a pass role behaviour tree. This tree is created in BTFactory.
+         * @return the behaviour tree that contains a pass role
          */
-        std::shared_ptr<Role> createMidFieldHarassRole(std::string rolename);
+        std::shared_ptr<Role> createPassRole(std::string rolename);
 
     private:
         /**
@@ -27,6 +28,4 @@ namespace bt {
 
     };
 }
-
-
-#endif //RTT_MIDFIELDHARASSROLE_H
+#endif //RTT_PASSROLE_H
