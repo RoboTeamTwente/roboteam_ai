@@ -55,8 +55,9 @@ namespace bt {
         std::vector<std::shared_ptr<bt::Node>> order2 { reflectKickMemSeq, receive };
         reflectKickSelect = std::make_shared<bt::Selector>(order2);
 
-        std::vector<std::shared_ptr<bt::Node>> order3 { canReflectKick, reflectKick };
+        nvector order3 { canReflectKick, reflectKick };
         reflectKickMemSeq = std::make_shared<bt::MemSelector>(order3);
+
 
         /// Making middle sequences
         auto outOfFieldHelper = bt::RobotOutOfFieldHelper();
@@ -66,9 +67,10 @@ namespace bt {
         auto isOnPassLine = std::make_shared<rtt::ai::IsOnPassLine>("is on pass line", localbb);
         auto avoidBall = std::make_shared<rtt::ai::AvoidBall>("avoiding the ball", localbb);
 
-        std::vector<std::shared_ptr<bt::Node>> orderPassLine { isOnPassLine, avoidBall };
+
         passLineSequence = std::make_shared<bt::Sequence>();
-        /// Make big ass right tree here
+
+        /// Make big right tree here
 
 
 

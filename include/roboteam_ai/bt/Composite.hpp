@@ -3,9 +3,15 @@
 #include "Node.hpp"
 
 namespace bt {
+    using nvector = std::vector<std::shared_ptr<bt::Node>>;
 
-class Composite : public Node {
+
+    class Composite : public Node {
     public:
+        Composite(std::vector<std::shared_ptr<bt::Node>> children);
+
+        Composite();
+
         void addChild(Node::Ptr child) override;
 
         std::vector<Node::Ptr> getChildren() override;
@@ -17,6 +23,6 @@ class Composite : public Node {
     protected:
         std::vector<Node::Ptr> children;
         size_t index = 0;
-};
+    };
 
 }
