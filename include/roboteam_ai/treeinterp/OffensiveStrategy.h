@@ -51,7 +51,6 @@ namespace bt {
          */
         std::shared_ptr<bt::Role> createOffenderRole(std::string name);
 
-        void change();
     };
 }
 
