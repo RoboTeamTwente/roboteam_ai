@@ -17,16 +17,19 @@ namespace bt {
     }
     std::shared_ptr<bt::Node> RobotOutOfFieldHelper::createRobotOutOfFieldHelper() {
         auto localbb = std::make_shared<bt::Blackboard>();
-        auto robotOutsideBB = std::make_shared<bt::Blackboard>();
+        auto gtpBb = std::make_shared<bt::Blackboard>();
 
-        robotOutsideBB->setString("type", "defaultType");
+        gtpBb->setString("type", "getBackIn");
+        gtpBb->setBool("avoidBall", true);
+        gtpBb->setBool("canGoOutsideField", true);
+        gtpBb->setBool("MoveInDefenseArea", false);
 
-        std::shared_ptr<bt::Sequence> seque = std::make_shared<bt::Sequence>();
+        std::shared_ptr<bt::Sequence> sequence = std::make_shared<bt::Sequence>();
         std::shared_ptr<rtt::ai::RobotOutside> robotOutside = std::make_shared<rtt::ai::RobotOutside>("RobotOutside", localbb);
-        std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", robotOutsideBB);
+        std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", gtpBb);
 
-        seque->addChild(robotOutside);
-        seque->addChild(gtp);
-        return seque;
+        sequence->addChild(robotOutside);
+        sequence->addChild(gtp);
+        return sequence;
     }
 }

@@ -37,4 +37,8 @@ Node::Status Sequence::update() {
     return Status::Success;
 }
 
+    Sequence::Sequence() {
+
+    }
+
 } // bt

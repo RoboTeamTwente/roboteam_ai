@@ -34,4 +34,8 @@ Node::Status Selector::update() {
     return Status::Failure;
 }
 
+    Selector::Selector() {
+
+    }
+
 } // bt
