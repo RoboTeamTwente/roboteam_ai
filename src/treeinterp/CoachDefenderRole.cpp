@@ -22,7 +22,8 @@ namespace bt {
 
     std::shared_ptr<Role> bt::CoachDefenderRole::createCoachDefenderRole(std::string rolename) {
         /// Create the role tree
-        std::shared_ptr<bt::Role> roleNode = std::make_shared<bt::Role>(rolename);
+        auto roleNode = std::make_shared<bt::Role>(rolename);
+        roleNode->setRole(rolename);
         auto roleBb = std::make_shared<bt::Blackboard>();
         roleBb->setString("ROLE", rolename);
 
@@ -70,6 +71,9 @@ namespace bt {
         std::vector<std::shared_ptr<bt::Node>> coachDefenderNodes =
                 {beingPassedToSequence, outOfFieldSequence, isOnPassLineSequence, shouldHandleBallSequence, coachDefendSkill};
         auto selector = std::make_shared<bt::Selector>(coachDefenderNodes);
+        roleNode->addChild(selector);
+
+        return roleNode;
     }
 
     bt::CoachDefenderRole::CoachDefenderRole() {
