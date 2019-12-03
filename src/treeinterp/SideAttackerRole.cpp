@@ -13,6 +13,8 @@
 #include <include/roboteam_ai/conditions/CanReflectKick.h>
 #include <include/roboteam_ai/skills/ReflectKick.h>
 #include <include/roboteam_ai/skills/Receive.h>
+#include <include/roboteam_ai/bt/composites/MemSelector.hpp>
+#include <include/roboteam_ai/conditions/RobotOutside.h>
 #include "include/roboteam_ai/treeinterp/PassRole.h"
 
 #include "bt/BehaviorTree.hpp"
@@ -22,6 +24,9 @@
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
+#include <include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h>
+#include <include/roboteam_ai/conditions/IsOnPassLine.h>
+#include <include/roboteam_ai/skills/AvoidBall.h>
 
 namespace bt {
 
@@ -43,24 +48,32 @@ namespace bt {
         auto canReflectKick = std::make_shared<rtt::ai::CanReflectKick>("can reflect kick", localbb);
         auto reflectKick = std::make_shared<rtt::ai::ReflectKick>("reflectkick", localbb);
         auto receive = std::make_shared<rtt::ai::Receive>("receive", localbb);
+
         std::vector<std::shared_ptr<bt::Node>> order{ beingPassedTo, reflectKickSelect };
-        seq = std::make_shared<bt::Sequence>();
-        seq->order = {beingPassedTo, reflectKickSelect};
+        seq = std::make_shared<bt::Sequence>(order);
 
-        // std::vector<std::shared_ptr<bt::Node>> reflectKickSelect{ beingPassedTo, reflectKickSelect };
-        reflectKickSelect = std::make_shared<bt::Selector>();
+        std::vector<std::shared_ptr<bt::Node>> order2 { reflectKickMemSeq, receive };
+        reflectKickSelect = std::make_shared<bt::Selector>(order2);
+
+        std::vector<std::shared_ptr<bt::Node>> order3 { canReflectKick, reflectKick };
+        reflectKickMemSeq = std::make_shared<bt::MemSelector>(order3);
+
+        /// Making middle sequences
+        auto outOfFieldHelper = bt::RobotOutOfFieldHelper();
+        auto ofOfFieldLogic = outOfFieldHelper.createRobotOutOfFieldHelper();
+
+        std::shared_ptr<Sequence> passLineSequence;
+        auto isOnPassLine = std::make_shared<rtt::ai::IsOnPassLine>("is on pass line", localbb);
+        auto avoidBall = std::make_shared<rtt::ai::AvoidBall>("avoiding the ball", localbb);
+
+        std::vector<std::shared_ptr<bt::Node>> orderPassLine { isOnPassLine, avoidBall };
+        passLineSequence = std::make_shared<bt::Sequence>();
+        /// Make big ass right tree here
 
 
-        // selector
 
-        // sequence
-        // is being passed to
-        // selector
-        //      memseq
-        //      canreflectkick
-        //      reflectkick
-        //
-        //      receive
+
+
         return std::shared_ptr<Role>();
 
     }
