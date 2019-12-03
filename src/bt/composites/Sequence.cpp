@@ -13,7 +13,7 @@ namespace bt {
  * The children are added sequentially, so the first element in the array will be the leftmost child of the sequence
  * @param children vector of nodes that will be the children of this sequence node
  */
-    Sequence::Sequence(std::vector<std::shared_ptr<bt::Node>> children) : Composite(children) {}
+    Sequence::Sequence(nvector children) : Composite(children) {}
 
     Sequence::Sequence() : Composite() {}
 

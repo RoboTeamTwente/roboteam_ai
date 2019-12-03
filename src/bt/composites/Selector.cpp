@@ -8,34 +8,28 @@
 #include "bt/composites/Selector.hpp"
 
 namespace bt {
+    Selector::Selector() {}
 
     /**
      * Use this constructor when you want to initialize the children of the selector using a vector.
      * The children are added sequentially, so the first element in the array will be the leftmost child of the selector
      * @param children vector of nodes that will be the children of this selector node
      */
-    Selector::Selector(std::vector<std::shared_ptr<bt::Node>> children) {
-        for (int i = 0; i < children.size(); i++) {
-            this->addChild(children[i]);
+    Selector::Selector(nvector children) : Composite(children) {}
+
+    Node::Status Selector::update() {
+        // Keep going until a child behavior says it's running.
+        for (auto &child : children) {
+            auto status = child->tick(world, field);
+
+            // If the child succeeds, or keeps running, do the same.
+            if (status != Status::Failure) {
+                return status;
+            }
         }
+
+        return Status::Failure;
     }
 
-Node::Status Selector::update() {
-    // Keep going until a child behavior says it's running.
-    for (auto &child : children) {
-        auto status = child->tick(world, field);
-
-        // If the child succeeds, or keeps running, do the same.
-        if (status != Status::Failure) {
-            return status;
-        }
-    }
-
-    return Status::Failure;
-}
-
-    Selector::Selector() {
-
-    }
 
 } // bt
