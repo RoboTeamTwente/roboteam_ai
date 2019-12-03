@@ -35,14 +35,20 @@ namespace bt {
         std::shared_ptr<bt::Sequence> seq;
         std::shared_ptr<bt::Selector> reflectKickSelect;
         std::shared_ptr<bt::MemSequence> reflectKickMemSeq;
+
         auto localbb = std::make_shared<bt::Blackboard>();
+
         /// Leftmost tree nodes
         auto beingPassedTo = std::make_shared<rtt::ai::IsBeingPassedTo>("is being passed to", localbb);
         auto canReflectKick = std::make_shared<rtt::ai::CanReflectKick>("can reflect kick", localbb);
         auto reflectKick = std::make_shared<rtt::ai::ReflectKick>("reflectkick", localbb);
         auto receive = std::make_shared<rtt::ai::Receive>("receive", localbb);
-        std::vector<bt::Node> order = <beingPassedTo, reflectKickSelect>;
+        std::vector<std::shared_ptr<bt::Node>> order{ beingPassedTo, reflectKickSelect };
         seq = std::make_shared<bt::Sequence>();
+        seq->order = {beingPassedTo, reflectKickSelect};
+
+        // std::vector<std::shared_ptr<bt::Node>> reflectKickSelect{ beingPassedTo, reflectKickSelect };
+        reflectKickSelect = std::make_shared<bt::Selector>();
 
 
         // selector
