@@ -17,7 +17,11 @@
 
 namespace bt {
 
-
+    /**
+     * Creates pass role. This role passes if there is a pass available, otherwise it halts
+     * @param rolename the name of the role (must correspond to the rolename in the robots vector of the tactic
+     * @return role for passing and then halting
+     */
     std::shared_ptr<Role> PassRole::createPassRole(std::string rolename) {
         auto localbb = std::make_shared<bt::Blackboard>();
         std::shared_ptr<Role> roleNode = std::make_shared<Role>(rolename);
@@ -27,6 +31,11 @@ namespace bt {
 
         auto memSeq = std::make_shared<bt::MemSequence>();
 
+        memSeq->addChild(passSkill);
+        memSeq->addChild(repeater);
+        repeater->addChild(halt);
+        roleNode->addChild(memSeq);
+        roleNode->setRole(rolename);
 
         return roleNode;
     }

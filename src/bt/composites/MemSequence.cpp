@@ -13,7 +13,6 @@ namespace bt {
 void MemSequence::initialize() {
     index = 0;
 }
-MemSequence::MemSequence()
 bt::Node::Status MemSequence::update() {
     if (HasNoChildren()) {
         return Status::Success;

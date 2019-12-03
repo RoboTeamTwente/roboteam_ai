@@ -1,6 +1,7 @@
 //
 // Created by jesse on 14.10.19.
 //
+#include <include/roboteam_ai/treeinterp/PassRole.h>
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"
 #include "treeinterp/OffensiveStrategy.h"
@@ -49,8 +50,11 @@ namespace bt {
         for (int i = 1; i < robots.size(); i++) {
             std::string name = "o" + std::to_string(i);
             auto temp = createOffenderRole(name);
-            std::shared_ptr<Role> temprole = createOffenderRole(name);
-            temp->giveProperty("ROLE", name);
+
+            /// For testing purposes, this is changed here:
+            auto temphelper = bt::PassRole();
+            std::shared_ptr<Role> temprole = temphelper.createPassRole(name);
+
             offensiveTactic->addChild(temprole);
         }
 
