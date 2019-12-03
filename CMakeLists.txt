@@ -31,7 +31,6 @@ if(UNIX AND NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
 endif()
-
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 
@@ -339,14 +338,14 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        src/treeinterp/MidFieldHarassRole.cpp include/roboteam_ai/treeinterp/MidFieldHarassRole.h src/TreeHelper/BeingPassedToHelper.cpp include/roboteam_ai/TreeHelper/BeingPassedToHelper.h src/TreeHelper/RobotOutOfFieldHelper.cpp include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h)
+        src/treeinterp/MidFieldHarassRole.cpp include/roboteam_ai/treeinterp/MidFieldHarassRole.h src/TreeHelper/BeingPassedToHelper.cpp include/roboteam_ai/TreeHelper/BeingPassedToHelper.h src/TreeHelper/RobotOutOfFieldHelper.cpp include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h src/treeinterp/CoachDefenderRole.cpp include/roboteam_ai/treeinterp/CoachDefenderRole.h)
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
-        gtest
+
         )
 
 target_include_directories(roboteam_ai
