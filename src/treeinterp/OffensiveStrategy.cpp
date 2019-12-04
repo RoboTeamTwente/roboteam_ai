@@ -9,6 +9,9 @@
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
 
+#include "include/roboteam_ai/treeinterp/CoachDefenderRole.h"
+
+
 namespace bt {
 
     OffensiveStrategy::OffensiveStrategy() {
@@ -48,9 +51,9 @@ namespace bt {
         // Creating the roles for all the robots in the tactic:
         for (int i = 1; i < robots.size(); i++) {
             std::string name = "o" + std::to_string(i);
-            auto temp = createOffenderRole(name);
-            std::shared_ptr<Role> temprole = createOffenderRole(name);
-            temp->giveProperty("ROLE", name);
+            auto temphelper = bt::CoachDefenderRole();
+            std::shared_ptr<Role> temprole = temphelper.createCoachDefenderRole(name);
+            temprole->setRole(name);
             offensiveTactic->addChild(temprole);
         }
 
