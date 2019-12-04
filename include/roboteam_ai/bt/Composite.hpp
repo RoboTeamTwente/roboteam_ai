@@ -3,11 +3,19 @@
 #include "Node.hpp"
 
 namespace bt {
+    /**
+     * a type alias to create a vector of shared ptrs to nodes
+     */
     using nvector = std::vector<std::shared_ptr<bt::Node>>;
 
 
     class Composite : public Node {
     public:
+        /**
+         * Constructor for composite where children vector is automatically added as children. The children are added from left to right,
+         * with left getting ticked first
+         * @param children
+         */
         Composite(std::vector<std::shared_ptr<bt::Node>> children);
 
         Composite();

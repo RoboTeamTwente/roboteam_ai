@@ -2,6 +2,7 @@
 // Created by jesse on 14.10.19.
 //
 #include <include/roboteam_ai/treeinterp/PassRole.h>
+#include <include/roboteam_ai/treeinterp/SideAttackerRole.h>
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"
 #include "treeinterp/OffensiveStrategy.h"
@@ -52,8 +53,10 @@ namespace bt {
             auto temp = createOffenderRole(name);
 
             /// For testing purposes, this is changed here:
-            auto temphelper = bt::PassRole();
-            std::shared_ptr<Role> temprole = temphelper.createPassRole(name);
+            auto temphelper = bt::SideAttackerRole();
+            std::shared_ptr<Role> temprole = temphelper.createSideAttackerRole(name);
+            auto ch = temprole->getChildren();
+            std::cout << ch.size() << "children" << std::endl;
 
             offensiveTactic->addChild(temprole);
         }
