@@ -5,7 +5,6 @@
 #include "include/roboteam_ai/treeinterp/SideAttackerRole.h"
 
 #include <include/roboteam_ai/skills/Pass.h>
-#include <include/roboteam_ai/skills/Halt.h>
 #include <include/roboteam_ai/bt/composites/MemSequence.hpp>
 #include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include <include/roboteam_ai/bt/composites/Sequence.hpp>
@@ -13,16 +12,7 @@
 #include <include/roboteam_ai/conditions/CanReflectKick.h>
 #include <include/roboteam_ai/skills/ReflectKick.h>
 #include <include/roboteam_ai/skills/Receive.h>
-#include <include/roboteam_ai/bt/composites/MemSelector.hpp>
-#include <include/roboteam_ai/conditions/RobotOutside.h>
-#include "include/roboteam_ai/treeinterp/PassRole.h"
-
-#include "bt/BehaviorTree.hpp"
-#include "bt/decorators/Repeater.hpp"
-#include "treeinterp/OffensiveStrategy.h"
-#include "bt/tactics/DefaultTactic.h"
 #include "bt/Role.h"
-#include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
 #include <include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h>
 #include <include/roboteam_ai/conditions/IsOnPassLine.h>

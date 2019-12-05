@@ -67,6 +67,12 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/TreeHelper/BeingPassedToHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/TreeHelper/RobotOutOfFieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
+
         )
 
 set(ANALYSIS_SOURCES
@@ -339,7 +345,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        src/treeinterp/MidFieldHarassRole.cpp include/roboteam_ai/treeinterp/MidFieldHarassRole.h src/TreeHelper/BeingPassedToHelper.cpp include/roboteam_ai/TreeHelper/BeingPassedToHelper.h src/TreeHelper/RobotOutOfFieldHelper.cpp include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h src/treeinterp/PassRole.cpp include/roboteam_ai/treeinterp/PassRole.h src/treeinterp/SideAttackerRole.cpp include/roboteam_ai/treeinterp/SideAttackerRole.h)
+        )
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
