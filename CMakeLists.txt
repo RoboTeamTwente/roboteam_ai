@@ -72,14 +72,14 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/TreeHelper/RobotOutOfFieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
-
         )
 
 set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/GameAnalyzer.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp)
+        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp)
 
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
 

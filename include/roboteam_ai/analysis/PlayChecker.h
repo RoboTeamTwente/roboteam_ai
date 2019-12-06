@@ -6,9 +6,23 @@
 #define RTT_PLAYCHECKER_H
 
 
-class PlayChecker {
+namespace rtt::ai::analysis {
+    class PlayChecker {
+    public:
+        PlayChecker();
+        checkCurrentGameInvariants();
 
-};
+    private:
+        /**
+         * List of the invariants of the current strategy
+         */
+        std::vector<std::string> invariants;
+        /**
+         * Vector of all strategies (before pruning)
+         */
+        std::vector<std::string> allStrategies;
+    }
+}
 
 
 #endif //RTT_PLAYCHECKER_H
