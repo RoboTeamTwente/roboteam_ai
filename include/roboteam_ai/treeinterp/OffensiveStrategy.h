@@ -19,7 +19,7 @@ namespace bt {
          */
         OffensiveStrategy();
         /**
-         * Creates a Strategy behaviour tree. This tree is created in BTFactory. The tree that is created is also given to the OffensiveStrategy object, so it can be traced and adjusted.
+         * Creates a Play behaviour tree. This tree is created in BTFactory. The tree that is created is also given to the OffensiveStrategy object, so it can be traced and adjusted.
          * @return the behaviour tree that contains this strategy
          */
         std::shared_ptr<bt::BehaviorTree> createOffensiveStrategy();

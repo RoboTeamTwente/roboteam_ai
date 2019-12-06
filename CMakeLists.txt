@@ -345,7 +345,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        )
+        src/analysis/PlaysObjects/Invariant.cpp include/roboteam_ai/analysis/PlaysObjects/Invariant.h include/roboteam_ai/analysis/PlaysObjects/BallBelongsToUs.h src/analysis/PlaysObjects/BallBelongsToUs.cpp src/analysis/PlaysObjects/Play.cpp include/roboteam_ai/analysis/PlaysObjects/Play.h src/analysis/PlaysObjects/MyPlay.cpp include/roboteam_ai/analysis/PlaysObjects/MyPlay.h)
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets

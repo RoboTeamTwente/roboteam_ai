@@ -39,4 +39,5 @@ namespace bt {
 
         return roleNode;
     }
+
 }

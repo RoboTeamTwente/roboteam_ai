@@ -14,7 +14,7 @@ namespace bt {
     class MidFieldHarassRole {
     public:
         /**
-         * Creates a Strategy behaviour tree. This tree is created in BTFactory.
+         * Creates a Play behaviour tree. This tree is created in BTFactory.
          * @return the behaviour tree that contains this strategy
          */
         std::shared_ptr<Role> createMidFieldHarassRole(std::string rolename);
