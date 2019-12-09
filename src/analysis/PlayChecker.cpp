@@ -2,9 +2,10 @@
 // Created by jessevw on 04.12.19.
 //
 
+#include "analysis/PlaysObjects/MyPlay.h"
 #include "bt/Composite.hpp"
 #include "analysis/PlayChecker.h"
-#include "analysis/PlaysObjects/BallBelongsToUs.h"
+#include "analysis/PlaysObjects/BallBelongsToUsInvariant.h"
 namespace rtt::ai::analysis {
 
     /**
@@ -13,12 +14,12 @@ namespace rtt::ai::analysis {
      * and will be called after the vision data is received, to determine
      * if we need to switch plays (based on whether the invariants of the current play are false).
      * If the one of the invariants is true, the PlayChecker will signal the PlayDecider to recalculate the play,
-     * and give it the palys that are possible and allowed.
+     * and give it the plays that are possible and allowed.
      */
-    PlayChecker::PlayChecker() {
+    PlayChecker::PlayChecker(std::vector<Invariant> invariants, MyPlay play) {
         // this->invariants will get default initialized :)
-        this->invariants = {rtt::ai::analysis::BallBelongsToUs()};
-        this->currentPlay = myPlay();
+        this->invariants = {rtt::ai::analysis::BallBelongsToUsInvariant()};
+        this->currentPlay = play;
     }
 
     /**
@@ -30,13 +31,6 @@ namespace rtt::ai::analysis {
     bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
         return std::all_of(invariants.begin(), invariants.end(),
                 [&](auto const& inv){ return inv.isTrue(world, field); });
-
-        for (auto const invariant : invariants) {
-            if (!invariant.isTrue(world, field)) {
-                return false;
-            }
-        }
-        return true;
     }
 
 

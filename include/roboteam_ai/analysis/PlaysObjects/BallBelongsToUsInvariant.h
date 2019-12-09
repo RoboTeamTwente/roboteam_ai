@@ -2,14 +2,14 @@
 // Created by jessevw on 06.12.19.
 //
 
-#ifndef RTT_BALLBELONGSTOUS_H
-#define RTT_BALLBELONGSTOUS_H
+#ifndef RTT_BALLBELONGSTOUSINVARIANT_H
+#define RTT_BALLBELONGSTOUSINVARIANT_H
 
 namespace rtt::ai::analysis {
     /**
      * Invariant that is true when the ball belongs to us
      */
-    class BallBelongsToUs : public Invariant {
+    class BallBelongsToUsInvariant : public Invariant {
     public:
         /**
          * Functional implementation of when the ball belongs to us
@@ -21,4 +21,4 @@ namespace rtt::ai::analysis {
     };
 }
 
-#endif //RTT_BALLBELONGSTOUS_H
+#endif //RTT_BALLBELONGSTOUSINVARIANT_H

@@ -16,7 +16,9 @@ namespace rtt::ai::analysis {
      */
     class Play {
     public:
-        Play(std::vector<Invariant> invariants, Invariant inv);
+        Play();
+
+        Play(std::vector<Invariant> invariants);
         void setInvariants(const std::vector<Invariant> &invariants);
         const std::vector<Invariant> &getInvariants() const;
 

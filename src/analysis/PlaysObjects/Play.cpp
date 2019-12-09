@@ -9,10 +9,12 @@ namespace rtt::ai::analysis {
      * @param invariants
      * @param inv
      */
-    Play::Play(std::vector<Invariant> invariants, Invariant inv)
+    Play::Play(std::vector<Invariant> invariants)
         : invariants{ std::move(invariants) } {}
 
+    Play::Play() {
 
+    }
     const std::vector<Invariant> &Play::getInvariants() const {
         return invariants;
     }
