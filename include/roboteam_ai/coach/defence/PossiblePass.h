@@ -9,35 +9,44 @@
 #include "utilities/Constants.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-using Line=std::pair<Vector2, Vector2>;
 
-class PossiblePass {
+    using Line = std::pair<Vector2, Vector2>;
+
+    class PossiblePass {
     public:
         world::Robot toBot;
         Vector2 startPos;
         Vector2 endPos;
-        const double distance();
+
+        double distance();
+
         bool obstacleObstructsPath(const Vector2 &obstPos,
-                double obstRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+                                   double obstRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
+
         int amountOfBlockers(const world::WorldData &world);
+
         PossiblePass(world::Robot _toBot, const Vector2 &ballPos);
+
         double score(const world::WorldData &world);
+
         // scale from startPos to EndPos
         Vector2 posOnLine(double scale);
-        double faceLine();
-    private:
-        Vector2 botReceivePos(const Vector2 &startPos, const Vector2 &botPos);
-        double penaltyForBlocks(const world::WorldData &world);
-        double penaltyForDistance();
-        double scoreForGoalAngle(const world::WorldData &world);
-};
 
-}//coach
-}//ai
-}//rtt
+        [[nodiscard]] double faceLine() const;
+
+    private:
+        static Vector2 botReceivePos(const Vector2 &startPos, const Vector2 &botPos);
+
+        double penaltyForBlocks(const world::WorldData &world);
+
+        double penaltyForDistance();
+
+        double scoreForGoalAngle(const world::WorldData &world);
+    };
+
+
+} // rtt::ai::coach
 
 #endif //ROBOTEAM_AI_POSSIBLEPASS_H

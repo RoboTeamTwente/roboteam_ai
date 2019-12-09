@@ -8,58 +8,65 @@
 #include <chrono>
 #include <world/Robot.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class PassCoach {
-public:
-    using Robot = world::Robot;
-    using RobotPtr = std::shared_ptr<Robot>;
+    class PassCoach {
+    public:
+        using Robot = world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
 
-    PassCoach();
-    void resetPass(int robotID);
-    int initiatePass(int passerID);
-    bool isReadyToReceivePass();
-    void setReadyToReceivePass(bool readyToReceivePass);
-    int getRobotBeingPassedTo();
-    void setRobotBeingPassedTo(int robotBeingPassedTo);
-    bool isPassed();
-    void setPassed(bool passed);
+        PassCoach() = default;
 
-    virtual int determineReceiver(int passerID);
-    bool passTakesTooLong();
-    void updatePassProgression();
-    bool validReceiver(const RobotPtr& passer, const RobotPtr& receiver, bool freeKick = false);
+        void resetPass(int robotID);
 
-private:
+        int initiatePass(int passerID);
 
-    constexpr static double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
+        bool isReadyToReceivePass();
 
-    double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
+        void setReadyToReceivePass(bool readyToReceivePass);
 
-    std::chrono::time_point<std::chrono::steady_clock> passStartTime;
-    std::chrono::time_point<std::chrono::steady_clock> receiveStartTime;
+        int getRobotBeingPassedTo();
 
-    bool passTimerStarted = false;
-    bool receiveTimerStarted = false;
+        void setRobotBeingPassedTo(int robotBeingPassedTo);
 
-    constexpr static double MAX_PASS_TIME = 8.0; //seconds
-    constexpr static double MAX_RECEIVE_TIME = 5.0; //seconds
+        bool isPassed();
 
-    bool readyToReceivePass{};
-    int robotPassing = -1;
-public:
-    int getRobotPassing() const;
+        void setPassed(bool passed);
 
-private:
-    int robotBeingPassedTo = -1;
-    bool passed{ false };
-};
+        virtual int determineReceiver(int passerID);
 
-extern PassCoach g_pass;
+        bool passTakesTooLong();
 
-} // coach
-} // ai
-} // rtt
+        void updatePassProgression();
+
+        bool validReceiver(const RobotPtr &passer, const RobotPtr &receiver, bool freeKick = false);
+
+    private:
+
+        constexpr static double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
+
+        double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
+
+        std::chrono::time_point<std::chrono::steady_clock> passStartTime;
+        std::chrono::time_point<std::chrono::steady_clock> receiveStartTime;
+
+        bool passTimerStarted = false;
+        bool receiveTimerStarted = false;
+
+        constexpr static double MAX_PASS_TIME = 8.0; //seconds
+        constexpr static double MAX_RECEIVE_TIME = 5.0; //seconds
+
+        bool readyToReceivePass{};
+        int robotPassing = -1;
+    public:
+        int getRobotPassing() const;
+
+    private:
+        int robotBeingPassedTo = -1;
+        bool passed{ false };
+    };
+
+    extern PassCoach g_pass;
+
+} // rtt::ai::coach
 #endif //ROBOTEAM_AI_PASSCOACH_H

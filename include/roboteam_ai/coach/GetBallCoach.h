@@ -5,28 +5,29 @@
 #ifndef ROBOTEAM_AI_GETBALLCOACH_H
 #define ROBOTEAM_AI_GETBALLCOACH_H
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class GetBallCoach {
+    class GetBallCoach {
     private:
         bool gettingBall = false;
-        int idGettingBall = - 1;
+        int idGettingBall = -1;
+
         bool shouldWeGetBall();
+
         int bestBallGetterID();
+
     public:
         void update();
+
         bool weAreGettingBall();
+
         int getBallGetterID();
 
-};
+    };
 
-extern GetBallCoach getBallCoachObj;
-extern GetBallCoach* getBallCoach;
+    extern GetBallCoach getBallCoachObj;
+    extern GetBallCoach *getBallCoach;
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_GETBALLCOACH_H

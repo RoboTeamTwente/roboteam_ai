@@ -9,14 +9,10 @@
 #include <world/WorldData.h>
 #include <world/World.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class CoachHeuristics {
-    /**
-     * This could be a singleton or just a namespace
-     */
+
+    class CoachHeuristics {
     private:
 
         using WorldData = world::WorldData;
@@ -24,15 +20,7 @@ class CoachHeuristics {
         using Robot = world::Robot;
         using BallPtr = world::World::BallPtr;
         using RobotPtr = world::World::RobotPtr;
-        /**
-         * These could be constexpr
-         * 
-         * As explain before, constexpr allows complete inlining
-         * Next to that constexpr variables don't take up
-         * space in the binary's .static / .data section
-         * Depends on the compiler where it puts the static
-         * values, of course
-         */
+
         static const double CLOSE_TO_GOAL_WEIGHT;
         static const double SHOT_AT_GOAL_WEIGHT;
         static const double PASS_LINE_WEIGHT;
@@ -42,22 +30,29 @@ class CoachHeuristics {
         static const double ANGLE_TO_GOAL_WEIGHT;
     public:
         static double calculateCloseToGoalScore(const Vector2 &position);
+
         static double calculateShotAtGoalScore(const Vector2 &position, const WorldData &world);
+
         static double calculatePassLineScore(const Vector2 &position, const WorldData &world);
+
         static double calculateBehindBallScore(const Vector2 &position, const WorldData &world);
+
         static double calculatePassDistanceToBallScore(const Vector2 &position, const WorldData &world);
+
         static double calculatePositionDistanceToBallScore(const Vector2 &position, const WorldData &world);
+
         static double calculateAngleToGoalScore(const Vector2 &position);
 
         /// Currently not implemented, but might be again later
         static double calculateDistanceToOpponentsScore(const Vector2 &position);
-        static double calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID = -1);
-        static double getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world,
-                double smallestAngle = 999999);
-};
 
-}
-}
+        static double calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID = -1);
+
+        static double getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world,
+                                                        double smallestAngle = 999999);
+    };
+
+
 }
 
 #endif //ROBOTEAM_AI_COACHHEURISTICS_H

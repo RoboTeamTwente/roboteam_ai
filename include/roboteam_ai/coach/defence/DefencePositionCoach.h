@@ -5,88 +5,132 @@
 #ifndef ROBOTEAM_AI_DEFENSIVECOACH_H
 #define ROBOTEAM_AI_DEFENSIVECOACH_H
 
+#include <map>
+#include <set>
+
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Vector2.h>
 #include "world/WorldData.h"
 #include "world/World.h"
 #include "PossiblePass.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
-using Line=std::pair<Vector2, Vector2>;
-enum botType { BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE };
-struct DefenderBot {
-  int id;
-  Vector2 targetPos;
-  double orientation;
-  int blockFromID;
-  botType type;
+namespace rtt::ai::coach {
 
-  int coveredCount = 0;
-  const world::Robot::RobotPtr toRobot();
-  bool validPosition(const world::WorldData &world);
-};
-class DefencePositionCoach {
-        FRIEND_TEST(defensive_coach,blockPoints);
+    using Line = std::pair<Vector2, Vector2>;
+    enum botType {
+        BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE
+    };
+
+    struct DefenderBot {
+        int id;
+        Vector2 targetPos;
+        double orientation;
+        int blockFromID;
+        botType type;
+
+        int coveredCount = 0;
+
+        [[nodiscard]] world::Robot::RobotPtr toRobot() const noexcept;
+
+        [[nodiscard]] bool validPosition(const world::WorldData &world) const noexcept;
+    };
+
+    class DefencePositionCoach {
+        FRIEND_TEST(defensive_coach, blockPoints);
+
     public:
-        double maxX();//furthest point forwards the availableIDs can go
+        std::map<int, DefenderBot> decidePositions(const std::map<int, DefenderBot> &lockedDefenders,
+                                                   const std::set<int> &freeRobots) noexcept;
 
-        Vector2 getMostDangerousPos(const world::WorldData &world);
+        std::tuple<bool, int, std::set<int>> decideLockedPositions(const std::map<int, DefenderBot> &lockedDefenders,
+                                                                   std::set<int> freeRobots) noexcept;
 
-        DefenderBot createBlockBall(const Line &blockLine);
-        DefenderBot createBlockToGoal(const PossiblePass &pass, double aggressionFactor, const Line &blockLine);
-        DefenderBot createBlockToGoal(const PossiblePass &pass, const Vector2 &position, const Line &blockLine);
-        DefenderBot createBlockPass(PossiblePass &pass, const Vector2 &blockPoint);
-        DefenderBot createBlockOnLine(const PossiblePass &pass, const Vector2 &blockPos);
-
-        std::shared_ptr<Line> blockToGoalLine(const PossiblePass &pass, const world::WorldData &simulatedWorld);
-        std::shared_ptr<Line> blockBallLine(const world::WorldData &simulatedWorld);
-        std::shared_ptr<Vector2> blockOnDefenseAreaLine(const PossiblePass &pass,
-                const world::WorldData &simulatedWorld);
-        std::shared_ptr<Line> getBlockLineSegment(const Line &openGoalSegment, const Vector2 &point,
-                double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(),
-                double margin = - 1.0);
-        std::shared_ptr<Vector2> blockOnDefenseLine(const Line &openGoalSegment, const Vector2 &point);
-        Vector2 getBlockPoint(const Line &openGoalSegment, const Vector2 &point, double collisionRadius);
-        Line shortenLineForDefenseArea(const Vector2 &lineStart, const Vector2 &lineEnd, double defenseMargin);
-        Vector2 getPosOnLine(const Line &line, double aggressionFactor);
-        double getOrientation(const Line &line);
-        Vector2 findPositionForBlockBall(const Line &line);
-
-        std::vector<DefenderBot> decidePositions(const std::vector<DefenderBot> &lockedDefenders,
-                std::vector<int> freeRobots);
-        std::tuple<bool, int, std::vector<int>> decideLockedPositions(const std::vector<DefenderBot> &lockedDefenders,
-                std::vector<int> freeRobots);
+        constexpr static double CALCULATION_COLLISION_RADIUS = 0.15;
+        constexpr static double DEFENSELINE_MARGIN = 0.15;
+        constexpr static double SEARCH_POINTS = 31.0;
     private:
-        const double defenceLineMargin = 0.15; //min distance the points are from defence area. Should atleast be robotradius large.
-        const double calculationCollisionRad = 0.15; // distance at which our own robots are considered to be colliding in our calculation (prevents robots from stacking up too much)
-
-        const double searchPoints = 31.0;// amount of points we search for when we check if we can find points on a line
         world::WorldData simulatedWorld;
-        std::vector<DefenderBot> defenders;
+        std::map<int, DefenderBot> defenders;
 
-        std::vector<PossiblePass> createPassesSortedByDanger(const world::WorldData &world);
-        std::vector<PossiblePass> sortPassesByDanger(std::vector<std::pair<PossiblePass, double>> &passesWithDanger);
-        std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const world::WorldData &world);
-        world::WorldData removeBotFromWorld(world::WorldData world, int id, bool ourTeam);
-        world::WorldData getTheirAttackers(const world::WorldData &world);
+        [[nodiscard]] std::optional<DefenderBot> blockMostDangerousPos() const noexcept;
 
-        bool validNewPosition(const Vector2 &position, const world::WorldData &world);
-        std::shared_ptr<double> pickNewPosition(const Line &line, const world::WorldData &world);
-        std::shared_ptr<Vector2> pickNewPosition(PossiblePass pass, const world::WorldData &world);
+        [[nodiscard]] std::optional<DefenderBot> blockPass(const PossiblePass &pass) const noexcept;
 
-        world::WorldData setupSimulatedWorld();
-        std::shared_ptr<DefenderBot> blockMostDangerousPos();
-        std::shared_ptr<DefenderBot> blockPass(PossiblePass pass);
-        void addDefender(DefenderBot defender);
-        void assignIDs(int lockedCount, std::vector<int> freeRobotIDs, const std::vector<DefenderBot> &oldDefenders);
+        void addDefender(const DefenderBot &defender) noexcept;
 
-};
-extern DefencePositionCoach g_defensivePositionCoach;
+        void assignIDs(int lockedCount, std::set<int> freeRobotIDs, const std::map<int, DefenderBot> &oldDefenders) noexcept;
 
-}
-}
-}
+        void mostDangerousBlocking(const DefenderBot &lockedDefender, bool &blockedMostDangerousPos, int &lockedCount, bool &replacedDefender);
+
+        void setNewDefender(const DefenderBot &lockedDefender, const PossiblePass &pass, int &lockedCount, bool &replacedDefender);
+    };
+
+    namespace defender_pos {
+        [[nodiscard]] Vector2 getMostDangerousPos(const world::WorldData &world);
+
+        [[nodiscard]] std::vector<PossiblePass>
+        sortPassesByDanger(std::vector<std::pair<PossiblePass, double>> &passesWithDanger);
+
+        [[nodiscard]] std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const world::WorldData &world);
+
+        void removeBotFromWorld(world::WorldData &world, int id, bool ourTeam);
+
+        [[nodiscard]] world::WorldData getTheirAttackers(const world::WorldData &world);
+
+        [[nodiscard]] rtt::ai::coach::DefenderBot createBlockPass(PossiblePass const &pass, const Vector2 &blockPoint);
+
+        [[nodiscard]] world::WorldData setupSimulatedWorld();
+
+        [[nodiscard]] Vector2 getBlockPoint(const Line &openGoalSegment, const Vector2 &point, double collisionRadius);
+
+        [[nodiscard]] Line shortenLineForDefenseArea(const Vector2 &lineStart, const Vector2 &lineEnd, double defenseMargin);
+
+        [[nodiscard]] bool validNewPosition(const Vector2 &position, const world::WorldData &world);
+
+        [[nodiscard]] std::optional<double> pickNewPosition(const Line &line, const world::WorldData &world);
+
+        [[nodiscard]] double maxX();//furthest point forwards the availableIDs can go
+
+        [[nodiscard]] std::optional<Vector2> pickNewPosition(PossiblePass pass, const world::WorldData &world);
+
+        [[nodiscard]] Vector2 getPosOnLine(const Line &line, double aggressionFactor);
+
+
+        [[nodiscard]] std::optional<Line> getBlockLineSegment(const Line &openGoalSegment, const Vector2 &point,
+                                                              double collisionRadius = Constants::ROBOT_RADIUS() +
+                                                                                       Constants::BALL_RADIUS(),
+                                                              double margin = -1.0);
+
+        [[nodiscard]] std::optional<Vector2> blockOnDefenseLine(const Line &openGoalSegment, const Vector2 &point);
+
+        [[nodiscard]] double getOrientation(const Line &line);
+
+        [[nodiscard]] std::vector<PossiblePass> createPassesSortedByDanger(const world::WorldData &world);
+
+        [[nodiscard]] DefenderBot createBlockBall(const Line &blockLine);
+
+        [[nodiscard]] DefenderBot
+        createBlockToGoal(const PossiblePass &pass, double aggressionFactor, const Line &blockLine);
+
+        [[nodiscard]] DefenderBot
+        createBlockToGoal(const PossiblePass &pass, const Vector2 &position, const Line &blockLine);
+
+        [[nodiscard]] DefenderBot createBlockOnLine(const PossiblePass &pass, const Vector2 &blockPos);
+
+        [[nodiscard]] std::optional<Line>
+        blockToGoalLine(const PossiblePass &pass, const world::WorldData &simulatedWorld);
+
+        [[nodiscard]] std::optional<Line> blockBallLine(const world::WorldData &simulatedWorld);
+
+        [[nodiscard]] std::optional<Vector2> blockOnDefenseAreaLine(const PossiblePass &pass,
+                                                                    const world::WorldData &simulatedWorld);
+
+        [[nodiscard]] Vector2 findPositionForBlockBall(const Line &line);
+    } // defender
+
+    extern DefencePositionCoach g_defensivePositionCoach;
+
+
+} // rtt::ai::coach
 
 #endif //ROBOTEAM_AI_DEFENSIVECOACH_H

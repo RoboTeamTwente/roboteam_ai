@@ -67,8 +67,8 @@ std::vector<Node::Ptr> Node::getChildren() {
 
 void Node::setProperties(bt::Blackboard::Ptr blackboard) {
     properties = blackboard;
-
 }
+
 Node::Node() {
     globalBB = std::make_shared<Blackboard>();
 }

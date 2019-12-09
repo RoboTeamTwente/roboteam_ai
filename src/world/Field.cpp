@@ -278,7 +278,7 @@ Vector2 Field::getPenaltyPoint(bool ourGoal) {
 
 }
 
-std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal,
+std::optional<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal,
                                                                 const Vector2 &lineStart,
                                                                 const Vector2 &lineEnd,
                                                                 double margin) {
@@ -286,7 +286,7 @@ std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal,
   auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
   if (intersections.size()==1) {
-    return std::make_shared<Vector2>(intersections.at(0));
+    return std::optional<Vector2>(intersections.at(0));
   } else if (intersections.size() > 1) {
     double closestIntersectionToLineStart = INT_MAX;
     Vector2 closestIntersection = intersections.at(0);
@@ -296,9 +296,9 @@ std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal,
         closestIntersectionToLineStart = lineStart.dist(intersection);
       }
     }
-    return std::make_shared<Vector2>(closestIntersection);
+    return std::optional<Vector2>(closestIntersection);
   }
-  return nullptr;
+  return std::nullopt;
 }
 
 bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,

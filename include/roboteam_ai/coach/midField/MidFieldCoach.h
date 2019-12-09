@@ -11,20 +11,18 @@
 #include <world/BallPossession.h>
 #include "coach/heuristics/CoachHeuristics.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class MidFieldCoach {
+    class MidFieldCoach {
     private:
-        const double DISTANCE_FROM_MIDDLE_LINE = 2.0;
-        const double HARASSER_SECONDS_AHEAD = 0.5;
-        const double STAND_STILL_DISTANCE = Constants::ROBOT_RADIUS();
-        const double MIN_OPPONENT_VELOCITY = 0.5;
-        const double DEFAULT_HARASS_DISTANCE = 4 * Constants::ROBOT_RADIUS();
+        constexpr static double DISTANCE_FROM_MIDDLE_LINE = 2.0;
+        constexpr static double HARASSER_SECONDS_AHEAD = 0.5;
+        constexpr static double STAND_STILL_DISTANCE = Constants::ROBOT_RADIUS();
+        constexpr static double MIN_OPPONENT_VELOCITY = 0.5;
+        constexpr static double DEFAULT_HARASS_DISTANCE = 4 * Constants::ROBOT_RADIUS();
 
-        const double GRID_RADIUS = 2;
-        const double GRID_SIZE = 0.05;
+        constexpr static double GRID_RADIUS = 2;
+        constexpr static double GRID_SIZE = 0.05;
 
         int tick = 0;
 
@@ -51,39 +49,48 @@ class MidFieldCoach {
         std::map<int, Vector2> targetPositions;
         std::map<int, RobotPtr> targetRobotsToHarass;
 
-        Target getBall(RobotPtr &thisRobot, const RobotPtr& opponent);
+        Target getBall(RobotPtr &thisRobot, const RobotPtr &opponent);
+
         Target standFree(const RobotPtr &thisRobot);
-        MidFieldCoach::Target
+
+        [[nodiscard]] MidFieldCoach::Target
         harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
-        Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
+
+        [[nodiscard]] Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
+
         Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle);
-        double calculateStandingFreeScore(const Vector2& position, const RobotPtr &thisRobot);
+
+        double calculateStandingFreeScore(const Vector2 &position, const RobotPtr &thisRobot);
+
     public:
         void addMidFielder(RobotPtr &thisRobot);
+
         void removeMidFielder(RobotPtr &thisRobot);
-        bool validOpponent(const RobotPtr& opponent);
 
-        RobotPtr findRobotToHarass(const RobotPtr& thisRobot);
-        HarassType getHarassType(const RobotPtr& thisRobot, const RobotPtr& opponent);
+        bool validOpponent(const RobotPtr &opponent);
+
+        RobotPtr findRobotToHarass(const RobotPtr &thisRobot);
+
+        HarassType getHarassType(const RobotPtr &thisRobot, const RobotPtr &opponent);
 
 
-    Target getTargetPosition(RobotPtr &thisRobot);
+        Target getTargetPosition(RobotPtr &thisRobot);
 
-    HarassType
-    getHarassTypeIfOpponentIsOnTheLeft(const RobotPtr &thisRobot, const BallPtr &ball, BallPossession &ballPossession,
-                                       const BallPossession::Possession &possession) const;
+        HarassType
+        getHarassTypeIfOpponentIsOnTheLeft(const RobotPtr &thisRobot, const BallPtr &ball,
+                                           BallPossession &ballPossession,
+                                           const BallPossession::Possession &possession) const;
 
-    Target &harassSlowRobot(const RobotPtr &opponent, const HarassType &harassType, Target &target) const;
+        Target &harassSlowRobot(const RobotPtr &opponent, const HarassType &harassType, Target &target) const;
 
-    Target &harassFastRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, Target &target) const;
+        Target &harassFastRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, Target &target) const;
 
-    bool isRobotAlreadyBeingHarassed(const RobotPtr &opponent) const;
-};
+        [[nodiscard]] bool isRobotAlreadyBeingHarassed(const RobotPtr &opponent) const;
+    };
 
-extern MidFieldCoach g_midFieldCoach;
+    extern MidFieldCoach g_midFieldCoach;
 
-}
-}
+
 }
 
 
