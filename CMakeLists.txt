@@ -345,7 +345,8 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
-        gtest)
+        gtest
+        )
 
 target_include_directories(roboteam_ai
         INTERFACE include
@@ -382,7 +383,8 @@ if(APPLE)
             PRIVATE Qt5::Charts
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a
-            gtest)
+            gtest
+            )
 endif()
 
 # explicitly link gtest
@@ -394,7 +396,8 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE gcov
-        gtest)
+        gtest
+        )
 endif()
 
 target_include_directories(ai_tests
