@@ -10,6 +10,7 @@
 #include <list>
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
+#include <control/ControlUtils.h>
 
 struct GraphNode{
     rtt::Vector2 nextNodePosition;
@@ -36,8 +37,6 @@ private:
     std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> graphAdjacencyList;
 
     rtt::Vector2 convertFromJcvPoint(jcv_point point);
-
-    double computeDistancePointLine(const rtt::Vector2& point, const rtt::Vector2& linePoint1, const rtt::Vector2& linePoint2);
 
     void generateGraphFromDiagram();
 
