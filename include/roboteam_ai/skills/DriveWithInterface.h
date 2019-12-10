@@ -18,7 +18,7 @@ class DriveWithInterface : public Skill {
         Status onUpdate() override;
 
     private:
-        PositionControl numTreeGtp;
+        PositionControl<> numTreeGtp;
 };
 }
 }

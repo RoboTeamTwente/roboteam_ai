@@ -7,7 +7,7 @@ namespace bt {
     class MemParallelSequence : public Composite {
     public:
         explicit MemParallelSequence();
-        void initialize();
+        void initialize() override;
         Status update() override;
         std::string node_name() override { return "MemParallelSequence"; };
     private:
