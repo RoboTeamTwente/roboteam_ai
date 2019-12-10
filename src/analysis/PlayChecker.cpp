@@ -16,7 +16,7 @@ namespace rtt::ai::analysis {
      * If the one of the invariants is true, the PlayChecker will signal the PlayDecider to recalculate the play,
      * and give it the plays that are possible and allowed.
      */
-    PlayChecker::PlayChecker(std::vector<Invariant> invariants, MyPlay play) {
+    PlayChecker::PlayChecker(std::vector<Invariant> invariants, MyPlay& play) {
         // this->invariants will get default initialized :)
         this->invariants = {rtt::ai::analysis::BallBelongsToUsInvariant()};
         this->currentPlay = play;
@@ -53,8 +53,7 @@ namespace rtt::ai::analysis {
      * Determines what plays are viable given the current world, ref states and invariants/preconditions
      */
     void PlayChecker::determineNewPlays() {
-        for (auto strategy : allStrategies) {
-        }
+
     }
 }
 

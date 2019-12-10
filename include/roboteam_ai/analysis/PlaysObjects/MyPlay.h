@@ -10,7 +10,7 @@
 namespace rtt::ai::analysis {
     class MyPlay : public Play {
     public:
-        MyPlay(std::vector<Invariant> invariants);
+        MyPlay(std::vector<Invariant>& invariants);
     };
 }
 

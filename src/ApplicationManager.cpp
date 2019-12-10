@@ -17,7 +17,7 @@
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
 #include <include/roboteam_ai/world/Field.h>
-
+#include "analysis/PlayChecker.h"
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
@@ -27,6 +27,8 @@ namespace rtt {
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
+    // create playcheck object here
+    auto playcheck = rtt::ai::analysis::PlayChecker();
 
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);

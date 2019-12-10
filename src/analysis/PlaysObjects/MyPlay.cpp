@@ -4,7 +4,8 @@
 
 #include "include/roboteam_ai/analysis/PlaysObjects/MyPlay.h"
 namespace rtt::ai::analysis{
-    MyPlay::MyPlay(std::vector<Invariant> invariants) : Play(invariants) {
+    MyPlay::MyPlay(std::vector<Invariant>& invariants) : Play(invariants) {
 
     }
+    rtt::ai::analysis::MyPlay()
 }

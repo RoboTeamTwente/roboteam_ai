@@ -12,7 +12,7 @@
 namespace rtt::ai::analysis {
     class PlayChecker {
     public:
-        PlayChecker(std::vector<Invariant> invariants, MyPlay play);
+        PlayChecker(std::vector<Invariant> invariants, MyPlay& play);
         bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
         bool checkStrategyInvariants();
         void determineNewPlays();

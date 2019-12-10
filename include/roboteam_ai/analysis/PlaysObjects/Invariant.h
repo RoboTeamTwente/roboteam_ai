@@ -19,7 +19,6 @@ namespace rtt::ai::analysis {
          * @param field
          * @return true when the invariant is true, false otherwise
          */
-         // TODO: this function should be virtual
         bool isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field) const;
     };
 
