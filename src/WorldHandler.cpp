@@ -15,21 +15,21 @@ void WorldHandler::start() {
     proto::SSL_Referee ref_packet;
 
     roboteam_utils::Timer t;
+
     t.loop([&]() {
       handleVisionPackets(vision_packet);
       handleRefboxPackets(ref_packet);
 
-      KF->kalmanUpdate();
-      world_pub->send(KF->getWorld());
+      world_pub->send(KF->getWorld(lastPacketTime));
     }, 100);
 }
 
 void WorldHandler::init() {
-    world = new WorldBase();
-    KF = new KalmanFilter;
+    KF = new WorldFilter;
     world_pub = new proto::Publisher<proto::World>(proto::WORLD_CHANNEL);
     ref_pub = new proto::Publisher<proto::SSL_Referee>(proto::REFEREE_CHANNEL);
     geom_pub = new proto::Publisher<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL);
+    lastPacketTime=0.0;
 }
 
 
@@ -57,10 +57,14 @@ void WorldHandler::handleRefboxPackets(proto::SSL_Referee &ref_packet) const {
     }
 }
 
-void WorldHandler::handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const {
+void WorldHandler::handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) {
     while (vision_client && vision_client->receive(vision_packet)) {
         if (vision_packet.has_detection()){
-            KF->newFrame(vision_packet.detection());
+            double time=vision_packet.detection().t_capture();
+            if (time>lastPacketTime){
+                lastPacketTime=time;
+            }
+            KF->addFrame(vision_packet.detection());
         }
         if (vision_packet.has_geometry()) {
             geom_pub->send(vision_packet.geometry());

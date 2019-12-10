@@ -16,10 +16,14 @@ target_link_libraries(net
 add_executable(roboteam_world
         src/main.cpp
         src/WorldHandler.cpp
-        src/kalman/KalmanFilter.cpp
-        src/kalman/KalmanObject.cpp
-        src/kalman/KalmanBall.cpp
-        src/kalman/KalmanRobot.cpp)
+        src/kalman/WorldFilter.cpp
+        src/util/KalmanFilter.h
+        src/util/RobotFilter.cpp
+        src/util/Scaling.h
+        src/util/BallFilter.cpp
+        src/util/BallFilter.h
+        )
+set_property(TARGET roboteam_world PROPERTY CXX_STANDARD 17)
 
 
 target_include_directories(roboteam_world
@@ -40,13 +44,11 @@ target_link_libraries(roboteam_world
         PUBLIC roboteam_proto)
 
 add_executable(world_tests
-        src/WorldHandler.cpp
-        src/kalman/KalmanFilter.cpp
-        src/kalman/KalmanObject.cpp
-        src/kalman/KalmanBall.cpp
-        src/kalman/KalmanRobot.cpp
-        test/KalmanTest.cpp
-        test/main.cpp)
+        src/util/KalmanFilter.h
+        test/main.cpp
+        test/KalmanFilterTest.cpp
+
+        )
 
 target_include_directories(world_tests
         INTERFACE include

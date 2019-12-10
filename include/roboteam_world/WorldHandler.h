@@ -5,8 +5,8 @@
 #include "roboteam_proto/Subscriber.h"
 #include <roboteam_proto/Publisher.h>
 #include <net/robocup_ssl_client.h>
-#include "kalman/KalmanFilter.h"
-#include <world_base.h>
+#include "kalman/WorldFilter.h"
+#include "util/KalmanFilter.h"
 
 namespace world {
 
@@ -16,8 +16,8 @@ class WorldHandler {
   proto::Publisher<proto::SSL_Referee> *ref_pub;
   proto::Publisher<proto::SSL_GeometryData> *geom_pub;
 
-  WorldBase *world;
-  KalmanFilter *KF;
+  double lastPacketTime;
+  WorldFilter *KF;
   RoboCupSSLClient *vision_client;
   RoboCupSSLClient *refbox_client;
 
@@ -29,7 +29,7 @@ class WorldHandler {
    */
   void init();
   void start();
-  void handleVisionPackets(proto::SSL_WrapperPacket &vision_packet) const;
+  void handleVisionPackets(proto::SSL_WrapperPacket &vision_packet);
   void handleRefboxPackets(proto::SSL_Referee &ref_packet) const;
   void setupSSLClients();
 };
