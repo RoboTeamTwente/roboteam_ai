@@ -6,7 +6,7 @@
 #include <interface/api/Input.h>
 #include "coach/OffensiveCoach.h"
 #include <world/World.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <control/Hungarian.h>
 #include <control/ControlUtils.h>
 
@@ -48,7 +48,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
 std::vector<Vector2> OffensiveCoach::getZoneLocations() {
-    FieldMessage field = world::field->get_field();
+    FieldMessage field = FieldMessage::get_field();
     Vector2 penaltyStretchCorner = field[TOP_RIGHT_PENALTY_STRETCH].end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
@@ -71,7 +71,7 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations() {
 void OffensiveCoach::updateOffensivePositions() {
 
     auto world = world::world->getWorld();
-    auto field = world::field->get_field();
+    auto field = FieldMessage::get_field();
 
     std::vector<Vector2> zoneLocations = getZoneLocations();
 
@@ -160,7 +160,7 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
 
     // get the longest line section op the visible part of the goal
     std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint, world::world->getWorld());
-    if (openSegments.empty()) return world::field->get_field()[THEIR_GOAL_CENTER];
+    if (openSegments.empty()) return FieldMessage::get_field()[THEIR_GOAL_CENTER];
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.
@@ -213,7 +213,7 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
 std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
     std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
     double angleMargin = sin(2.0/180.0*M_PI);
-    double constantMargin = 0.05 * world::field->get_field()[GOAL_WIDTH];
+    double constantMargin = 0.05 * FieldMessage::get_field()[GOAL_WIDTH];
     Vector2 leftPoint(goalSides.first.x,
             goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));
     Vector2 rightPoint(goalSides.second.x,
@@ -240,7 +240,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
 
     // get world & field
     auto world = world::world->getWorld();
-    auto field = world::field->get_field();
+    auto field = FieldMessage::get_field();
 
     OffensivePosition bestPosition = currentBestPosition;
     bestPosition.score =

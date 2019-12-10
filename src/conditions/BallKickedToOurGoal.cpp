@@ -1,7 +1,7 @@
 /*
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <world/Ball.h>
 #include "conditions/BallKickedToOurGoal.h"
 #include "control/ControlUtils.h"
@@ -21,8 +21,8 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
     }
 
     // determine the goalsides
-    Vector2 goalCentre = field->get_field()[OUR_GOAL_CENTER];
-    double goalWidth = field->get_field()[GOAL_WIDTH];
+    Vector2 goalCentre = FieldMessage::get_field()[OUR_GOAL_CENTER];
+    double goalWidth = FieldMessage::get_field()[GOAL_WIDTH];
     double margin = BALL_TO_GOAL_MARGIN;
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth/2 + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth/2 + margin);

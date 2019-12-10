@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_MIDFIELDCOACH_H
 
 #include <roboteam_utils/Vector2.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <control/ControlUtils.h>
 #include <world/BallPossession.h>
 #include "coach/heuristics/CoachHeuristics.h"

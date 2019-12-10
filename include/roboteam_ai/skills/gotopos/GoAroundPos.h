@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_GOAROUNDPOS_H
 
 #include "skills/Skill.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "GoToPos.h"
 
 namespace rtt {

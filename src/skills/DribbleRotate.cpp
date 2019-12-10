@@ -5,7 +5,7 @@
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
 #include "skills/DribbleRotate.h"
 #include "control/ControlUtils.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "coach/BallplacementCoach.h"
 
 namespace rtt {
@@ -38,7 +38,7 @@ void DribbleRotate::onInitialize() {
         targetAngle = Angle(properties->getDouble("Angle"));
     }
     else if (properties->getBool("RotateToTheirGoal")) {
-        Vector2 theirCentre = world::field->get_field()[THEIR_GOAL_CENTER];
+        Vector2 theirCentre = FieldMessage::get_field()[THEIR_GOAL_CENTER];
         targetAngle = (theirCentre - robot->pos).toAngle();
     }
     else if (properties->getBool("BallPlacement")) {

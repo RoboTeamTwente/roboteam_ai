@@ -16,7 +16,7 @@
 #include <coach/defence/DefenceDealer.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
-#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/FieldComputations.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;

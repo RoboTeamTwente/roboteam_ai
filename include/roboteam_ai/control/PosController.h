@@ -9,7 +9,7 @@
 #include <utilities/Constants.h>
 //#include <control/controllers/PidController.h>
 //#include <control/controllers/PidTwoAxesController.h>
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/World.h"
 #include "pid.h"
 
@@ -48,10 +48,10 @@ class PosController {
     public:
         PosController() = default;
         explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-        virtual RobotCommand getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robot,
+        virtual RobotCommand getRobotCommand(world::World * world, world::FieldComputations * field, const RobotPtr &robot,
                 const Vector2 &targetPos, const Angle &targetAngle) = 0;
 
-        virtual RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robot, const Vector2 &targetPos) = 0;
+        virtual RobotCommand getRobotCommand(world::World * world,  world::FieldComputations * field, const RobotPtr &robot, const Vector2 &targetPos) = 0;
 
         bool getCanMoveOutOfField(int robotID) const;
         void setCanMoveOutOfField(bool canMoveOutOfField);

@@ -5,11 +5,24 @@
 #include <include/roboteam_ai/world/FieldMessage.h>
 namespace rtt {
 
+FieldMessage FieldMessage::field = FieldMessage();
+std::mutex FieldMessage::fieldMutex;
+
 FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
     initFieldVectors();
+}
+
+FieldMessage FieldMessage::get_field() {
+    std::lock_guard<std::mutex> lock(fieldMutex);
+    return FieldMessage::field;
+}
+
+void FieldMessage::set_field(FieldMessage _field) {
+    std::lock_guard<std::mutex> lock(fieldMutex);
+    FieldMessage::field = std::move(_field);
 }
 
 void FieldMessage::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {

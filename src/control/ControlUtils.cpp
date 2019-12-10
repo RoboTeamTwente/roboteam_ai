@@ -3,7 +3,7 @@
 //
 
 
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <utilities/GameStateManager.hpp>
 #include <roboteam_utils/Line.h>
 #include "control/ControlUtils.h"
@@ -268,7 +268,7 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
-    auto field = world::field->get_field();
+    auto field = FieldMessage::get_field();
 
     double hFieldLength = field[FIELD_LENGTH] / 2;
     position.x = std::min(position.x, hFieldLength - margin);
@@ -283,11 +283,11 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
     if (world::field->pointIsInDefenceArea(position, true, margin)) {
-        position.x = std::max(position.x, world::field->get_field()[LEFT_PENALTY_LINE].begin.x + margin);
+        position.x = std::max(position.x, FieldMessage::get_field()[LEFT_PENALTY_LINE].begin.x + margin);
         return position;
     }
     if (world::field->pointIsInDefenceArea(position, false, margin)) {
-        position.x = std::min(position.x, world::field->get_field()[RIGHT_PENALTY_LINE].begin.x - margin);
+        position.x = std::min(position.x, FieldMessage::get_field()[RIGHT_PENALTY_LINE].begin.x - margin);
         return position;
     }
     return position;

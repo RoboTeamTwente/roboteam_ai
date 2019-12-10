@@ -2,7 +2,7 @@
 // Created by baris on 1-5-19.
 //
 
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <world/Robot.h>
 #include "conditions/RobotOutside.h"
 
@@ -25,8 +25,8 @@ bool RobotOutside::checkPoint() {
     // return success if the robot is out of the field
     // return success if the ball is out of the field
     double margin = 0.15;
-    return !(abs(robot->pos.x) < field->get_field()[FIELD_LENGTH] / 2 + margin &&
-        abs(robot->pos.y) < field->get_field()[FIELD_WIDTH] / 2 + margin && !field->pointIsInDefenceArea(robot->pos));
+    return !(abs(robot->pos.x) < FieldMessage::get_field()[FIELD_LENGTH] / 2 + margin &&
+        abs(robot->pos.y) < FieldMessage::get_field()[FIELD_WIDTH] / 2 + margin && !field->pointIsInDefenceArea(robot->pos));
 }
 }
 }

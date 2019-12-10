@@ -7,7 +7,7 @@
 #include <cmath>
 #include <coach/BallplacementCoach.h>
 #include <interface/api/Input.h>
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "control/numTrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"
 
@@ -56,7 +56,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + cu::calculateForce(robotPos - ball->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    auto field = world::field->get_field();
+    auto field = FieldMessage::get_field();
     double boundWidth =  field[BOUNDARY_WIDTH];
     double halfFieldLength = field[FIELD_LENGTH] / 2;
     double halfFieldWidth = field[FIELD_WIDTH] / 2;

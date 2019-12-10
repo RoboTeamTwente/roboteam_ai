@@ -96,7 +96,7 @@ enum FieldArcName {
  * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
  *
  * @author Created by: Lukas Bos <br>
- *         Documented by: Haico Dorenbos
+ *         Documented and refactored by: Haico Dorenbos
  * @since 2019-08-30
  */
 class FieldMessage {
@@ -148,6 +148,9 @@ private:
     };
 
 private:
+    static std::mutex fieldMutex; // Prevents situations where the field state is changed and read at the same time.
+    static FieldMessage field; // Stores the field state as a Singleton variable.
+
     // Stores all the constant of the field (lengths, widths, positions)
     std::unordered_map<FieldValueName, double> fieldValues = {};
     std::unordered_map<FieldLineName, FieldLineSegment> fieldLines = {}; // Stores all the lines of the field
@@ -165,7 +168,19 @@ public:
      * @param sslFieldSize The corresponding protobuf message.
      */
     FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize);
-    
+
+    /**
+     * Access the field state (using the Singleton pattern).
+     * @return The field state object
+     */
+    static FieldMessage get_field();
+
+    /**
+     * Set the field state (using the Singleton pattern).
+     * @param field The new field state
+     */
+    static void set_field(FieldMessage _field);
+
     /**
      * Get a value/constant about the field. All values are measured in SI standard units, so lengths/distances/widths
      * are measured in meters.

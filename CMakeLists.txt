@@ -297,7 +297,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
 
         ${PROJECT_SOURCE_DIR}/src/world/World.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp

@@ -3,7 +3,7 @@
 //
 
 #include "skills/ChipForward.h"
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <control/shotControllers/ShotController.h>
 
 namespace rtt {

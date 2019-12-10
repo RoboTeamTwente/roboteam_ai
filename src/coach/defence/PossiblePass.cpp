@@ -4,7 +4,7 @@
 
 #include <control/ControlUtils.h>
 #include "coach/defence/PossiblePass.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/WorldData.h"
 
 namespace rtt {

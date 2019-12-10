@@ -4,7 +4,7 @@
 * - inField: if true, the ball also has to be in the field to return SUCCESS
 */
 
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <world/Ball.h>
 #include "conditions/IsBallOnOurSide.h"
 
@@ -23,8 +23,8 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
 
     if (ballPos.x < 0) {
         if (inField) {
-            if (abs(ballPos.x) < field->get_field()[FIELD_LENGTH] / 2 &&
-                abs(ballPos.y) < field->get_field()[FIELD_WIDTH] / 2) {
+            if (abs(ballPos.x) < FieldMessage::get_field()[FIELD_LENGTH] / 2 &&
+                abs(ballPos.y) < FieldMessage::get_field()[FIELD_WIDTH] / 2) {
                 return Status::Success;
             }
             return Status::Failure;

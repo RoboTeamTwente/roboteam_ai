@@ -9,7 +9,7 @@
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
 #include "analysis/GameAnalyzer.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 
@@ -130,7 +130,7 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
-    FieldMessage field = rtt::ai::world::field->get_field();
+    FieldMessage field = FieldMessage::get_field();
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field[BOUNDARY_WIDTH]);
 
     float widthFactor = this->size().width() / field[FIELD_LENGTH] - (2 * fieldmargin);
@@ -149,7 +149,7 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &item : rtt::ai::world::field->get_field().getField_lines()) {
+    for (auto &item : FieldMessage::get_field().getField_lines()) {
         auto &line = item.second;
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
@@ -157,32 +157,32 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 
     // draw the circle in the middle
-    auto centercircle = rtt::ai::world::field->get_field()[CENTER_CIRCLE];
+    auto centercircle = FieldMessage::get_field()[CENTER_CIRCLE];
     Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
     painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
 
         painter.setPen(Qt::red);
-        auto line = world::field->get_field()[LEFT_PENALTY_LINE];
+        auto line = FieldMessage::get_field()[LEFT_PENALTY_LINE];
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
         painter.setPen(Qt::green);
-        line = world::field->get_field()[RIGHT_PENALTY_LINE];
+        line = FieldMessage::get_field()[RIGHT_PENALTY_LINE];
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         painter.setPen(Qt::green);
-        line = world::field->get_field()[RIGHT_LINE];
+        line = FieldMessage::get_field()[RIGHT_LINE];
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         painter.setPen(Qt::red);
-        line = world::field->get_field()[LEFT_LINE];
+        line = FieldMessage::get_field()[LEFT_LINE];
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
@@ -228,13 +228,13 @@ void Visualizer::drawFieldHints(QPainter &painter) {
 
     // draw the position where robots would be for timeout
     int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : - 1;
-    int lineY = (rtt::ai::world::field->get_field()[FIELD_WIDTH] / 2 + 1)*inv;
+    int lineY = (FieldMessage::get_field()[FIELD_WIDTH] / 2 + 1)*inv;
 
     pen.setBrush(Qt::gray);
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    auto lineStart = toScreenPosition(Vector2(world::field->get_field()[OUR_GOAL_CENTER].x, lineY));
+    auto lineStart = toScreenPosition(Vector2(FieldMessage::get_field()[OUR_GOAL_CENTER].x, lineY));
     auto lineEnd = toScreenPosition(Vector2(0, lineY));
 
     painter.drawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);

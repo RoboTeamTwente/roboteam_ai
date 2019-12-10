@@ -5,7 +5,7 @@
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "coach/heuristics/PassScore.h"
 #include "world/WorldData.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt {
 namespace ai {
@@ -13,7 +13,7 @@ namespace coach {
 
 double PassScore::calculatePassScore(const Vector2 &position) {
     WorldData world = world::world->getWorld();
-    FieldMessage field = world::field->get_field();
+    FieldMessage field = FieldMessage::get_field();
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);

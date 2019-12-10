@@ -3,7 +3,7 @@
 #include "bt/Blackboard.hpp"
 #include "bt/Node.hpp"
 #include "world/World.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace bt {
 
@@ -20,7 +20,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World * world, rtt::ai::world::Field * field) {
+Node::Status Node::tick(rtt::ai::world::World * world, rtt::ai::world::FieldComputations * field) {
 
     this->world = world;
     this->field = field;

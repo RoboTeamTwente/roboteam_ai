@@ -9,7 +9,7 @@
 #include "coach/OffensiveCoach.h"
 #include <control/shotControllers/ShotController.h>
 #include "Skill.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 namespace rtt {
 namespace ai {
 

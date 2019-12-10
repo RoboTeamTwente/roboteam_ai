@@ -2,7 +2,7 @@
  * returns SUCCESS if the ball is in the given defence area (standard ours) 
  * AND if the ball lays still
  */
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <world/Ball.h>
 #include "conditions/BallInDefenseAreaAndStill.h"
 #include "utilities/Constants.h"

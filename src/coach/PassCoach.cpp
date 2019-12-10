@@ -5,7 +5,7 @@
 #include "coach/PassCoach.h"
 #include "coach/heuristics/PassScore.h"
 #include "utilities/RobotDealer.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include <chrono>
 #include <world/World.h>
 
@@ -143,7 +143,7 @@ bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver, 
         if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
             return false;
         }
-        auto MIN_PASS_DISTANCE = std::max((double)world::field->get_field()[GOAL_WIDTH] / 2, SMALLEST_MIN_PASS_DISTANCE);
+        auto MIN_PASS_DISTANCE = std::max((double) FieldMessage::get_field()[GOAL_WIDTH] / 2, SMALLEST_MIN_PASS_DISTANCE);
         if ((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
             return false;
         }

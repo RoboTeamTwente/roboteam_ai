@@ -1,5 +1,5 @@
 /*
- * Field
+ * FieldComputations
  * This class maintains the FieldGeometry object, which is a message that contains the field geometry
  *  This class also provides helper functions to interface with it.
  */
@@ -22,14 +22,8 @@ namespace world {
 using Line=std::pair<Vector2, Vector2>;
 
 class WorldData;
-class Field {
-    private:
-        FieldMessage field;
-        std::mutex fieldMutex;
-
+class FieldComputations {
     public:
-        FieldMessage get_field();
-        void set_field(FieldMessage field);
         bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0,
                 bool includeOutsideField = false);
         bool pointIsInField(const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
@@ -48,8 +42,8 @@ class Field {
         Polygon getFieldEdge(double margin = 0.0);
 };
 
-extern Field fieldObj;
-extern Field* field;
+extern FieldComputations fieldObj;
+extern FieldComputations* field;
 
 } // world
 } // ai

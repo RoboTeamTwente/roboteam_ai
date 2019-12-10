@@ -1,6 +1,6 @@
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "skills/formations/KickOffThemFormation.h"
 #include "control/Hungarian.h"
 
@@ -16,7 +16,7 @@ KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr
 
     Vector2 KickOffThemFormation::getFormationPosition() {
         std::vector<int> robotIds;
-        auto fieldMsg = field->get_field();
+        auto fieldMsg = FieldMessage::get_field();
         double fh = fieldMsg[FIELD_WIDTH];
         double fw = fieldMsg[FIELD_LENGTH];
 

@@ -4,7 +4,7 @@
 
 #include "skills/ReflectKick.h"
 #include "control/numTrees/NumTreePosControl.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt {
 namespace ai {
@@ -15,7 +15,7 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
 
 void ReflectKick::onInitialize() {
     kicked = false;
-    goalTarget = field->get_field()[THEIR_GOAL_CENTER];
+    goalTarget = FieldMessage::get_field()[THEIR_GOAL_CENTER];
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
@@ -81,14 +81,14 @@ void ReflectKick::onTerminate(Status s) {
 
 Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
-    float cornering = field->get_field()[GOAL_WIDTH] / 2.0;
+    float cornering = FieldMessage::get_field()[GOAL_WIDTH] / 2.0;
     if (robotPos.y >= 0) {
-        return {field->get_field()[THEIR_GOAL_CENTER].x,
-                field->get_field()[THEIR_GOAL_CENTER].y + cornering};
+        return {FieldMessage::get_field()[THEIR_GOAL_CENTER].x,
+                FieldMessage::get_field()[THEIR_GOAL_CENTER].y + cornering};
     }
     else {
-        return {field->get_field()[THEIR_GOAL_CENTER].x,
-                field->get_field()[THEIR_GOAL_CENTER].y - cornering};
+        return {FieldMessage::get_field()[THEIR_GOAL_CENTER].x,
+                FieldMessage::get_field()[THEIR_GOAL_CENTER].y - cornering};
     }
 }
 

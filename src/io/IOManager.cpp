@@ -15,7 +15,7 @@
 
 #include "demo/JoystickDemo.h"
 #include "utilities/Pause.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/Robot.h"
 #include "utilities/GameStateManager.hpp"
 #include "interface/api/Input.h"
@@ -51,8 +51,8 @@ void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {
     // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
     FieldMessage msg = FieldMessage(sslData.field());
     this->geometryMsg = sslData;
-    
-    world::field->set_field(msg);
+
+    FieldMessage::set_field(msg);
     hasReceivedGeom = true;
 }
 

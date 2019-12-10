@@ -3,7 +3,7 @@
 //
 
 #include "skills/gotopos/GoToPos.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "control/ControlUtils.h"
 
 namespace rtt {

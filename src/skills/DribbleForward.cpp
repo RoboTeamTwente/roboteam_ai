@@ -2,7 +2,7 @@
 // Created by robzelluf on 5/13/19.
 //
 
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "skills/DribbleForward.h"
 
 namespace rtt {
@@ -19,7 +19,7 @@ void DribbleForward::onInitialize() {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (field->get_field()[THEIR_GOAL_CENTER] - ball->getPos()).toAngle();
+    Angle angleToGoal = (FieldMessage::get_field()[THEIR_GOAL_CENTER] - ball->getPos()).toAngle();
     targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 

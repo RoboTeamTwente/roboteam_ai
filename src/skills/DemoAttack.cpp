@@ -4,7 +4,7 @@
 
 #include <control/PositionUtils.h>
 #include "skills/DemoAttack.h"
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
 
@@ -56,10 +56,10 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
     Vector2 velocity;
     if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_field()[OUR_GOAL_CENTER]).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - FieldMessage::get_field()[OUR_GOAL_CENTER]).stretchToLength(2.0);
     }
     else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_field()[THEIR_GOAL_CENTER]).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - FieldMessage::get_field()[THEIR_GOAL_CENTER]).stretchToLength(2.0);
     }
     else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};

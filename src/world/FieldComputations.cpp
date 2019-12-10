@@ -5,42 +5,32 @@
 #include <interface/api/Input.h>
 #include <control/ControlUtils.h>
 #include "world/WorldData.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/World.h"
 
 namespace rtt {
 namespace ai {
 namespace world {
 
-Field fieldObj;
-Field *field = &fieldObj;
+FieldComputations fieldObj;
+FieldComputations *field = &fieldObj;
 
 using util = control::ControlUtils;
 
-FieldMessage Field::get_field() {
-  std::lock_guard<std::mutex> lock(fieldMutex);
-  return Field::field;
-}
-
-void Field::set_field(FieldMessage _field) {
-  std::lock_guard<std::mutex> lock(fieldMutex);
-  Field::field = std::move(_field);
-}
-
-bool Field::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
+bool FieldComputations::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
   auto defenseArea = getDefenseArea(isOurDefenceArea, margin, includeOutsideField);
   return defenseArea.contains(point);
 }
 
 // the margin is pointed inside the field!
-bool Field::pointIsInField(const Vector2 &point, double margin) {
-  auto field = get_field();
+bool FieldComputations::pointIsInField(const Vector2 &point, double margin) {
+  auto field = FieldMessage::get_field();
   return (point.x <= field[RIGHTMOST_X] - margin && point.x >= field[LEFTMOST_X] + margin
             && point.y <= field[TOPMOST_Y]- margin && point.y >= field[BOTTOMMOST_Y] + margin);
 }
 
 /// returns the angle the goal points make from a point
-double Field::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
+double FieldComputations::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
   std::pair<Vector2, Vector2> goal = getGoalSides(ourGoal);
   double angleLeft = (goal.first - point).angle();
   double angleRight = (goal.second - point).angle();
@@ -49,9 +39,9 @@ double Field::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
 }
 
 /// id and ourteam are for a robot not to be taken into account.
-double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &point, const WorldData &data, int id,
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &point, const WorldData &data, int id,
                                                   bool ourTeam) {
-    auto _field = get_field();
+    auto _field = FieldMessage::get_field();
     double goalWidth = _field[GOAL_WIDTH];
     double blockadeLength = 0;
     for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
@@ -60,7 +50,7 @@ double Field::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &p
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
+std::vector<std::pair<Vector2, Vector2>> FieldComputations::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
                                                                          const WorldData &data, int id, bool ourTeam) {
   const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
@@ -161,7 +151,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::getBlockadesMappedToGoal(bool ou
  * The second element gets erased. if they don't intersect, try the next two obstacles.
  * repeat until no overlaps are left.
 */
-std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
+std::vector<std::pair<Vector2, Vector2>> FieldComputations::mergeBlockades(std::vector<std::pair<Vector2, Vector2>> blockades) {
 
   // sort the blockades from low to high
   std::sort(blockades.begin(), blockades.end(),
@@ -194,7 +184,7 @@ std::vector<std::pair<Vector2, Vector2>> Field::mergeBlockades(std::vector<std::
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGoal, const Vector2 &point,
+std::vector<std::pair<Vector2, Vector2>> FieldComputations::getVisiblePartsOfGoal(bool ourGoal, const Vector2 &point,
                                                                       const WorldData &data) {
   auto blockades = getBlockadesMappedToGoal(ourGoal, point, data);
 
@@ -230,8 +220,8 @@ std::vector<std::pair<Vector2, Vector2>> Field::getVisiblePartsOfGoal(bool ourGo
 }
 
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
-std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
-    FieldMessage _field = get_field();
+std::pair<Vector2, Vector2> FieldComputations::getGoalSides(bool ourGoal) {
+    FieldMessage _field = FieldMessage::get_field();
     if (ourGoal) {
         return std::make_pair(_field[OUR_BOTTOM_GOAL_SIDE], _field[OUR_TOP_GOAL_SIDE]);
     }
@@ -240,20 +230,20 @@ std::pair<Vector2, Vector2> Field::getGoalSides(bool ourGoal) {
     }
 }
 
-double Field::getDistanceToGoal(bool ourGoal, const Vector2 &point) {
+double FieldComputations::getDistanceToGoal(bool ourGoal, const Vector2 &point) {
   auto sides = getGoalSides(ourGoal);
   return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
 }
 
-Vector2 Field::getPenaltyPoint(bool ourGoal) {
+Vector2 FieldComputations::getPenaltyPoint(bool ourGoal) {
     if (ourGoal) {
-        return get_field()[LEFT_PENALTY_POINT];
+        return FieldMessage::get_field()[LEFT_PENALTY_POINT];
     } else {
-        return get_field()[RIGHT_PENALTY_POINT];
+        return FieldMessage::get_field()[RIGHT_PENALTY_POINT];
     }
 }
 
-std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2 &lineStart,
+std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2 &lineStart,
                                                                 const Vector2 &lineEnd, double margin) {
   auto defenseArea = getDefenseArea(ourGoal, margin);
   auto intersections = defenseArea.intersections({lineStart, lineEnd});
@@ -274,14 +264,14 @@ std::shared_ptr<Vector2> Field::lineIntersectionWithDefenceArea(bool ourGoal, co
   return nullptr;
 }
 
-bool Field::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
+bool FieldComputations::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
                                           double margin) {
   auto defenseArea = getDefenseArea(ourGoal, margin);
   return defenseArea.doesIntersect({lineStart, lineEnd});
 }
 
-Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
-  FieldMessage _field = get_field();
+Polygon FieldComputations::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
+  FieldMessage _field = FieldMessage::get_field();
 
   double backLineUsXCoordinate = includeOutSideField ? _field[LEFTMOST_X] - _field[BOUNDARY_WIDTH] :
                                     _field[LEFTMOST_X] - margin;
@@ -307,8 +297,8 @@ Polygon Field::getDefenseArea(bool ourDefenseArea, double margin, bool includeOu
   return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
-Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
-  FieldMessage _field = get_field();
+Polygon FieldComputations::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
+  FieldMessage _field = FieldMessage::get_field();
 
   double marginBackside = hasBackMargin ? margin : 0.0;
   auto goalDepth = _field[GOAL_DEPTH] + marginBackside;
@@ -337,8 +327,8 @@ Polygon Field::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
   return Polygon(areaThemPoints);
 }
 
-Polygon Field::getFieldEdge(double margin) {
-    auto field = get_field();
+Polygon FieldComputations::getFieldEdge(double margin) {
+    auto field = FieldMessage::get_field();
 
     double left = field[LEFTMOST_X] + margin;
     double right = field[RIGHTMOST_X] - margin;

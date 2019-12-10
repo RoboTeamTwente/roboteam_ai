@@ -1,6 +1,6 @@
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "skills/formations/KickOffUsFormation.h"
 #include "control/ControlUtils.h"
 #include "control/Hungarian.h"
@@ -17,7 +17,7 @@ namespace ai {
 
 Vector2 KickOffUsFormation::getFormationPosition() {
     std::vector<int> robotIds;
-    auto fieldMsg = field->get_field();
+    auto fieldMsg = FieldMessage::get_field();
     double fh = fieldMsg[FIELD_WIDTH];
     double fw = fieldMsg[FIELD_LENGTH];
 

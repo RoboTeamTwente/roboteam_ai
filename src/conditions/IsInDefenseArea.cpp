@@ -6,7 +6,7 @@
 * - outsideField: if true, the robot 
 */
 
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/Robot.h"
 #include "world/Ball.h"
 #include "conditions/IsInDefenseArea.hpp"

@@ -6,7 +6,7 @@
 #include <world/BallPossession.h>
 #include "analysis/GameAnalyzer.h"
 #include "world/World.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/Robot.h"
 #include "analysis/RobotDanger.h"
 
@@ -103,8 +103,9 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
 
 /// returns a danger score
 RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam) {
-    Vector2 goalCenter = ourTeam ? world::field->get_field()[OUR_GOAL_CENTER] :
-            world::field->get_field()[THEIR_GOAL_CENTER];
+
+    Vector2 goalCenter = ourTeam ? FieldMessage::get_field()[OUR_GOAL_CENTER] :
+            FieldMessage::get_field()[THEIR_GOAL_CENTER];
 
     RobotDanger danger;
     danger.ourTeam = ourTeam;

@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 12-4-19.
 //
 
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "skills/formations/TimeoutFormation.h"
 #include "control/Hungarian.h"
 
@@ -17,7 +17,7 @@ namespace ai {
     }
 
 Vector2 TimeoutFormation::getFormationPosition() {
-    auto field = world::field->get_field();
+    auto field = FieldMessage::get_field();
 
     // determine if we should be in the top or bottom of the field
     bool topSideOfField = rtt::ai::interface::Output::isTimeOutAtTop();

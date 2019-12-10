@@ -13,7 +13,7 @@ namespace rtt {
     namespace world {
         class World;
 
-        class Field;
+        class FieldComputations;
 
     }
 }
@@ -54,7 +54,7 @@ class Node {
 
         virtual std::vector<Node::Ptr> getChildren();
 
-        virtual Status tick(rtt::ai::world::World * world, rtt::ai::world::Field * field);
+        virtual Status tick(rtt::ai::world::World * world, rtt::ai::world::FieldComputations * field);
 
         bool IsSuccess() const;
 
@@ -90,7 +90,7 @@ class Node {
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
         rtt::ai::world::World * world = nullptr;
-        rtt::ai::world::Field * field = nullptr;
+        rtt::ai::world::FieldComputations * field = nullptr;
 };
 
 } // bt
