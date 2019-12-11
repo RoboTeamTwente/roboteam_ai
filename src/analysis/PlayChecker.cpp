@@ -5,8 +5,17 @@
 #include "analysis/PlaysObjects/MyPlay.h"
 #include "bt/Composite.hpp"
 #include "analysis/PlayChecker.h"
-#include "analysis/PlaysObjects/BallBelongsToUsInvariant.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 namespace rtt::ai::analysis {
+
+    /**
+     * I want this somewhere else but not sure yet where
+     */
+//    auto myPlay = MyPlay();
+//    PlayChecker::allPlays = {myPlay, badPlay, AlwaysTruePlay, TrueWhenBallOnOurSidePlay};
+
+
+    PlayChecker::PlayChecker() {}
 
     /**
      * Object that stores the current strategy, and checks if the invariants
@@ -16,43 +25,43 @@ namespace rtt::ai::analysis {
      * If the one of the invariants is true, the PlayChecker will signal the PlayDecider to recalculate the play,
      * and give it the plays that are possible and allowed.
      */
-    PlayChecker::PlayChecker(std::vector<Invariant> invariants, MyPlay& play) {
-        // this->invariants will get default initialized :)
-        this->invariants = {rtt::ai::analysis::BallBelongsToUsInvariant()};
-        this->currentPlay = play;
+    PlayChecker::PlayChecker(Play& play) : currentPlay {play} {
     }
 
     /**
-     * @brief Checks
+     * @brief Checks if the invariants of the current play are true for the gamestate
      * @param world
      * @param field
-     * @return
+     * @return true if invariants are true, false otherwise
      */
     bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+        std::cout << "checking if the play is still valid" << std::endl;
         return std::all_of(invariants.begin(), invariants.end(),
                 [&](auto const& inv){ return inv.isTrue(world, field); });
     }
 
 
-    /**
-     * Checks if the play's invariants are true for the current game state
-     */
-    bool PlayChecker::checkStrategyInvariants() {
-
-    }
-
-    /**
-     * Checks if the play's preconditions are true for the current game state
-     * @return true if the play's precondition are true, false otherwise
-     */
-    bool PlayChecker::checkStrategyPreconditions() {
-
-    }
 
     /**
      * Determines what plays are viable given the current world, ref states and invariants/preconditions
+     * TODO: add lambda here, to make it faster and cleaner
      */
-    void PlayChecker::determineNewPlays() {
+    void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+        validPlays = {};
+        for (auto& play : allPlays) {
+            if (play.isValidPlay(world, field)) {
+                validPlays.push_back(play);
+            }
+        }
+    }
+    /**
+     * first check if the current play is still ok
+     * if not, loop through every possible play and check for each play if all of its invariants hold
+     * Then add these plays to the list of allowed plays
+     */
+    void PlayChecker::update(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+        checkCurrentGameInvariants(world, field);
+        determineNewPlays(world, field);
 
     }
 }

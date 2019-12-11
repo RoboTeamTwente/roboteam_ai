@@ -18,17 +18,20 @@
 #include <coach/OffensiveCoach.h>
 #include <include/roboteam_ai/world/Field.h>
 #include "analysis/PlayChecker.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/PlaysObjects/MyPlay.h"
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 namespace rtt {
 
-
-/// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
+    /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
     // create playcheck object here
-    auto playcheck = rtt::ai::analysis::PlayChecker();
+    std::vector<ai::analysis::Invariant> invariants = {rtt::ai::analysis::BallBelongsToUsInvariant()};
+    auto play = rtt::ai::analysis::MyPlay(invariants);
+    playcheck = rtt::ai::analysis::PlayChecker(play);
 
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
@@ -62,6 +65,9 @@ void ApplicationManager::start() {
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
+
+        playcheck.checkCurrentGameInvariants(rtt::ai::world::world, rtt::ai::world::field);
+
         updateTrees();
         updateCoaches();
         runKeeperTree();

@@ -6,16 +6,15 @@
 #define RTT_PLAYCHECKER_H
 
 
-#include "analysis/PlaysObjects/Invariant.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
 #include "analysis/PlaysObjects/Play.h"
 
 namespace rtt::ai::analysis {
     class PlayChecker {
     public:
-        PlayChecker(std::vector<Invariant> invariants, MyPlay& play);
+        PlayChecker(Play& play);
+        PlayChecker();
         bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
-        bool checkStrategyInvariants();
-        void determineNewPlays();
 
     private:
         /**
@@ -25,11 +24,18 @@ namespace rtt::ai::analysis {
         /**
          * Vector of all strategies (before pruning)
          */
-        std::vector<std::string> allStrategies;
+        std::vector<Play> allPlays;
+
+        std::vector<Play> validPlays;
 
         Play currentPlay;
 
         bool checkStrategyPreconditions();
+
+        void update(world::World *world, world::Field *field);
+
+        void determineNewPlays(world::World *world, world::Field *field);
+
     };
 }
 

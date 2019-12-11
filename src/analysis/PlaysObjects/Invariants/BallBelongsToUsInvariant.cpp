@@ -5,8 +5,8 @@
 #include <roboteam_utils/Vector2.h>
 #include "world/World.h"
 #include "world/Field.h"
-#include "analysis/PlaysObjects/Invariant.h"
-#include "analysis/PlaysObjects/BallBelongsToUsInvariant.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "world/Ball.h"
 namespace rtt::ai::analysis {
     bool BallBelongsToUsInvariant::isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field) {

@@ -6,7 +6,8 @@
 #define RTT_PLAY_H
 
 #include <vector>
-#include "Invariant.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
+#include "bt/BehaviorTree.hpp"
 
 namespace rtt::ai::analysis {
     /**
@@ -22,9 +23,17 @@ namespace rtt::ai::analysis {
         void setInvariants(const std::vector<Invariant> &invariants);
         const std::vector<Invariant> &getInvariants() const;
 
-    private:
+
+        /**
+         *
+         * @return true if all the invariants of this strategy are true
+         */
+        bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) ;
+
+    protected:
         std::vector<Invariant> invariants;
         Invariant inv;
+        std::shared_ptr<bt::BehaviorTree> tree;
 
     };
 }

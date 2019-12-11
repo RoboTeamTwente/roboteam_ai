@@ -56,7 +56,6 @@ namespace bt {
             auto temphelper = bt::SideAttackerRole();
             std::shared_ptr<Role> temprole = temphelper.createSideAttackerRole(name);
             auto ch = temprole->getChildren();
-            std::cout << ch.size() << "children" << std::endl;
 
             offensiveTactic->addChild(temprole);
         }
