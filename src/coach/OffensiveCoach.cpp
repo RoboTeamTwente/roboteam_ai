@@ -157,10 +157,12 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 
 /// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
 Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
+    FieldMessage field = FieldMessage::get_field();
 
     // get the longest line section op the visible part of the goal
-    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint, world::world->getWorld());
-    if (openSegments.empty()) return FieldMessage::get_field()[THEIR_GOAL_CENTER];
+    std::vector<std::pair<Vector2, Vector2>> openSegments = world::FieldComputations::getVisiblePartsOfGoal(field,
+            false, fromPoint, world::world->getWorld());
+    if (openSegments.empty()) return field[THEIR_GOAL_CENTER];
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.
@@ -211,9 +213,10 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
 
 }
 std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
-    std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
+    FieldMessage field = FieldMessage::get_field();
+    std::pair<Vector2, Vector2> goalSides = world::FieldComputations::getGoalSides(field, false);
     double angleMargin = sin(2.0/180.0*M_PI);
-    double constantMargin = 0.05 * FieldMessage::get_field()[GOAL_WIDTH];
+    double constantMargin = 0.05 * field[GOAL_WIDTH];
     Vector2 leftPoint(goalSides.first.x,
             goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));
     Vector2 rightPoint(goalSides.second.x,

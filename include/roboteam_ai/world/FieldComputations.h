@@ -24,22 +24,26 @@ using Line=std::pair<Vector2, Vector2>;
 class WorldData;
 class FieldComputations {
     public:
-        bool pointIsInDefenceArea(const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0,
-                bool includeOutsideField = false);
-        bool pointIsInField(const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
-        double getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2& point,const WorldData &world, int id = -1, bool ourTeam = false);
-        std::vector<Line> getBlockadesMappedToGoal(bool ourGoal, const Vector2& point, const WorldData &world, int id = -1, bool ourTeam = false);
-        std::vector<Line> mergeBlockades(std::vector<Line> blockades);
-        std::vector<Line> getVisiblePartsOfGoal(bool ourGoal, const Vector2& point,const WorldData &world);
-        Line getGoalSides(bool ourGoal);
-        double getDistanceToGoal(bool ourGoal, const Vector2& point);
-        Vector2 getPenaltyPoint(bool ourGoal);
-        bool lineIntersectsWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
-        std::shared_ptr<Vector2> lineIntersectionWithDefenceArea(bool ourGoal, const Vector2& lineStart, const Vector2& lineEnd,double margin);
-        double getTotalGoalAngle(bool ourGoal, const Vector2& point);
-        Polygon getDefenseArea(bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);
-        Polygon getGoalArea(bool ourGoal = true, double margin = 0.0, bool hasBackMargin = false);
-        Polygon getFieldEdge(double margin = 0.0);
+        static bool pointIsInDefenceArea(FieldMessage &field, const Vector2& point, bool isOurDefenceArea = true,
+                double margin = 0.0, bool includeOutsideField = false);
+        static bool pointIsInField(FieldMessage &field, const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
+        static double getPercentageOfGoalVisibleFromPoint(FieldMessage &field, bool ourGoal, const Vector2& point,
+                const WorldData &world, int id = -1, bool ourTeam = false);
+        static std::vector<Line> getBlockadesMappedToGoal(FieldMessage &field, bool ourGoal, const Vector2& point,
+                const WorldData &world, int id = -1, bool ourTeam = false);
+        static std::vector<Line> mergeBlockades(std::vector<Line> blockades);
+        static std::vector<Line> getVisiblePartsOfGoal(FieldMessage &field, bool ourGoal, const Vector2& point,
+                const WorldData &world);
+        static Line getGoalSides(FieldMessage &field, bool ourGoal);
+        static double getDistanceToGoal(FieldMessage &field, bool ourGoal, const Vector2& point);
+        static Vector2 getPenaltyPoint(FieldMessage &field, bool ourGoal);
+        static std::shared_ptr<Vector2> lineIntersectionWithDefenceArea(FieldMessage &field, bool ourGoal,
+                const Vector2& lineStart, const Vector2& lineEnd,double margin);
+        static double getTotalGoalAngle(FieldMessage &field, bool ourGoal, const Vector2& point);
+        static Polygon getDefenseArea(FieldMessage &field, bool ourDefenseArea = true, double margin = 0.0,
+                bool includeOutSideField = true);
+        static Polygon getGoalArea(FieldMessage &field, bool ourGoal = true, double margin = 0.0, bool hasBackMargin = false);
+        static Polygon getFieldEdge(FieldMessage &field, double margin = 0.0);
 };
 
 extern FieldComputations fieldObj;

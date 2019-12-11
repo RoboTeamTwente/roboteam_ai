@@ -19,18 +19,18 @@ BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, boo
 }
 
 RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::FieldComputations * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
-
+    FieldMessage _field = FieldMessage::get_field();
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
 
     Vector2 target = targetPos;
     if (!getCanMoveOutOfField(robot->id)) {
-        if (!field->pointIsInField(targetPos)) {
+        if (!world::FieldComputations::pointIsInField(_field, targetPos)) {
             target = ControlUtils::projectPositionToWithinField(targetPos);
         }
     }
     if (!getCanMoveInDefenseArea(robot->id)) {
-        if (field->pointIsInDefenceArea(targetPos)) {
+        if (world::FieldComputations::pointIsInDefenceArea(_field, targetPos)) {
             target = ControlUtils::projectPositionToOutsideDefenseArea(targetPos);
         }
     }

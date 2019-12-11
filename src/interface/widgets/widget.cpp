@@ -146,10 +146,12 @@ void Visualizer::drawBackground(QPainter &painter) {
 
 // draws the field lines
 void Visualizer::drawFieldLines(QPainter &painter) {
+    FieldMessage field = FieldMessage::get_field();
+
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &item : FieldMessage::get_field().getField_lines()) {
+    for (auto &item : field.getField_lines()) {
         auto &line = item.second;
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
@@ -157,32 +159,32 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 
     // draw the circle in the middle
-    auto centercircle = FieldMessage::get_field()[CENTER_CIRCLE];
+    auto centercircle = field[CENTER_CIRCLE];
     Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
     painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius*factor, centercircle.radius*factor);
 
         painter.setPen(Qt::red);
-        auto line = FieldMessage::get_field()[LEFT_PENALTY_LINE];
+        auto line = field[LEFT_PENALTY_LINE];
         rtt::Vector2 start = toScreenPosition(line.begin);
         rtt::Vector2 end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
         painter.setPen(Qt::green);
-        line = FieldMessage::get_field()[RIGHT_PENALTY_LINE];
+        line = field[RIGHT_PENALTY_LINE];
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         painter.setPen(Qt::green);
-        line = FieldMessage::get_field()[RIGHT_LINE];
+        line = field[RIGHT_LINE];
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
 
 
         painter.setPen(Qt::red);
-        line = FieldMessage::get_field()[LEFT_LINE];
+        line = field[LEFT_LINE];
         start = toScreenPosition(line.begin);
         end = toScreenPosition(line.end);
         painter.drawLine(start.x, start.y, end.x, end.y);
@@ -195,7 +197,7 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         bool weAreYellow = SETTINGS.isYellow();
 
         // draw the hint for us
-        auto usGoalLine = world::field->getGoalSides(true);
+        auto usGoalLine = world::FieldComputations::getGoalSides(field, true);
         Vector2 ourLineUpper = {usGoalLine.first.x, usGoalLine.first.y};
         Vector2 ourLineLower = {usGoalLine.second.x, usGoalLine.second.y};
         ourLineUpper = toScreenPosition(ourLineUpper);
@@ -208,7 +210,7 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
 
 
-        auto theirGoalLine = world::field->getGoalSides(false);
+        auto theirGoalLine = world::FieldComputations::getGoalSides(field, false);
         Vector2 theirLineUpper = {theirGoalLine.first.x, theirGoalLine.first.y};
         Vector2 theirLineLower = {theirGoalLine.second.x, theirGoalLine.second.y};
         theirLineUpper = toScreenPosition(theirLineUpper);
@@ -224,17 +226,18 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 
 void Visualizer::drawFieldHints(QPainter &painter) {
+    FieldMessage field = FieldMessage::get_field();
     QPen pen;
 
     // draw the position where robots would be for timeout
     int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : - 1;
-    int lineY = (FieldMessage::get_field()[FIELD_WIDTH] / 2 + 1)*inv;
+    int lineY = (field[FIELD_WIDTH] / 2 + 1)*inv;
 
     pen.setBrush(Qt::gray);
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    auto lineStart = toScreenPosition(Vector2(FieldMessage::get_field()[OUR_GOAL_CENTER].x, lineY));
+    auto lineStart = toScreenPosition(Vector2(field[OUR_GOAL_CENTER].x, lineY));
     auto lineEnd = toScreenPosition(Vector2(0, lineY));
 
     painter.drawLine(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);

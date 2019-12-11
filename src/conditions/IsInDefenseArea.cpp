@@ -18,6 +18,8 @@ IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboar
 : Condition(std::move(name), std::move(blackboard)) { }
 
 bt::Node::Status IsInDefenseArea::onUpdate() {
+    FieldMessage field = FieldMessage::get_field();
+
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
     secondsAhead = properties->hasDouble("secondsAhead") ? properties->getDouble("secondsAhead") : 0.0;
@@ -33,7 +35,7 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
 
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 
-    if (field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
+    if (world::FieldComputations::pointIsInDefenceArea(field, point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

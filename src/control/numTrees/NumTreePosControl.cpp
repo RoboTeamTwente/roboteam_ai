@@ -367,25 +367,26 @@ Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
                              currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2() ||
                              getCanMoveOutOfField(robot->id);
 
+    FieldMessage _field = FieldMessage::get_field();
     double margin = canMoveOutOfField ? -0.30 + Constants::ROBOT_RADIUS() : Constants::ROBOT_RADIUS();
-    if (! world::field->pointIsInField(point->pos, margin)) {
+    if (! world::FieldComputations::pointIsInField(_field, point->pos, margin)) {
         collision.setFieldCollision(point->pos, 0.2);
     }
     return collision;
 }
 
 Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
+    FieldMessage field = FieldMessage::get_field();
     Collision collision = {};
     if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
     if (! getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
-        bool isInOurDefenseArea = field->pointIsInDefenceArea(point->pos, true, margin, false);
-        bool isInTheirDefenseArea = field->pointIsInDefenceArea(point->pos, false, margin, false);
+        bool isInOurDefenseArea = world::FieldComputations::pointIsInDefenceArea(field, point->pos, true, margin, false);
+        bool isInTheirDefenseArea = world::FieldComputations::pointIsInDefenceArea(field, point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            double defenseAreaX = point->pos.x < 0 ? FieldMessage::get_field()[LEFT_PENALTY_LINE].begin.x:
-                                  FieldMessage::get_field()[RIGHT_PENALTY_LINE].begin.x;
+            double defenseAreaX = point->pos.x < 0 ? field[LEFT_PENALTY_LINE].begin.x: field[RIGHT_PENALTY_LINE].begin.x;
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
             return collision;
         }
@@ -397,12 +398,15 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     Collision collision = {};
     if (currentCollisionWithRobot.getCollisionGoalPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionGoalPos() != Vector2()) return collision;
+    FieldMessage field = FieldMessage::get_field();
 
-    bool collidesWithOurGoal = field->getGoalArea(true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
-    bool collidesWithTheirGoal = field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithOurGoal = world::FieldComputations::getGoalArea(field, true, Constants::ROBOT_RADIUS(), true)
+            .contains(point->pos);
+    bool collidesWithTheirGoal = world::FieldComputations::getGoalArea(field, false, Constants::ROBOT_RADIUS(), true)
+            .contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
-        collision.setGoalCollision(point->pos, FieldMessage::get_field()[GOAL_WIDTH] / 2 - fabs(point->pos.y) * 1.1);
+        collision.setGoalCollision(point->pos, field[GOAL_WIDTH] / 2 - fabs(point->pos.y) * 1.1);
     }
 
     return collision;

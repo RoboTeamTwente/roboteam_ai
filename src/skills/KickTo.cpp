@@ -22,7 +22,8 @@ void KickTo::onInitialize() {
 }
 /// Get an update on the skill
 bt::Node::Status KickTo::onUpdate() {
-    if (field->pointIsInDefenceArea(ball->getPos(), false)) {
+    FieldMessage field = FieldMessage::get_field();
+    if (world::FieldComputations::pointIsInDefenceArea(field, ball->getPos(), false)) {
         command.set_w(0);
         publishRobotCommand();
         return Status::Running;

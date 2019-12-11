@@ -154,12 +154,13 @@ void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
 }
 
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
+    FieldMessage field = FieldMessage::get_field();
     Vector2 interceptionPoint;
     if (keeper) {
         Line shotLine(startBall, endBall);
         interceptionPoint = shotLine.project(robot->pos);
         //create an area in which the intersection point should be
-        auto DefenceArea = world::field->getDefenseArea(true);
+        auto DefenceArea = world::FieldComputations::getDefenseArea(field, true);
         if (! DefenceArea.contains(interceptionPoint)) {
             auto intersectPoints = DefenceArea.intersections(
                     LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));

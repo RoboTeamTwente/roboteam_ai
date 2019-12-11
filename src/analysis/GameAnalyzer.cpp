@@ -63,10 +63,11 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
 
 /// Get the average of the distances of robots to their opponents goal
 double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld) {
+    FieldMessage field = FieldMessage::get_field();
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getDistanceToGoal(ourTeam, robot->pos);
+        total += world::FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
     }
     return (total/robots.size());
 }
@@ -74,12 +75,14 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedW
 /// return the attackers of a given team sorted on their vision on their opponents goal
 std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam,
         WorldData simulatedWorld) {
+    FieldMessage field = FieldMessage::get_field();
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     std::vector<std::pair<RobotPtr, double>> robotsWithVisibilities;
 
     for (auto robot : robots) {
         robotsWithVisibilities.emplace_back(robot,
-                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld()));
+                world::FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->pos,
+                        world::world->getWorld()));
     }
 
     // sort on goal visibility
@@ -93,26 +96,28 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttacker
 
 /// return the average goal vision of a given team towards their opponents goal
 double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld) {
+    FieldMessage field = FieldMessage::get_field();
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
+        total += world::FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->pos,
+                world::world->getWorld());
     }
     return (total/robots.size());
 }
 
 /// returns a danger score
 RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam) {
-
-    Vector2 goalCenter = ourTeam ? FieldMessage::get_field()[OUR_GOAL_CENTER] :
-            FieldMessage::get_field()[THEIR_GOAL_CENTER];
+    FieldMessage field = FieldMessage::get_field();
+    Vector2 goalCenter = ourTeam ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER];
 
     RobotDanger danger;
     danger.ourTeam = ourTeam;
     danger.id = robot->id;
-    danger.distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
+    danger.distanceToGoal = world::FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
+    danger.goalVisionPercentage = world::FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam,
+            robot->pos, world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
@@ -165,14 +170,16 @@ double GameAnalyzer::shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, Worl
 
 /// check if a robot is closing in to our goal.
 bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
-    double distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
+    FieldMessage field = FieldMessage::get_field();
+    double distanceToGoal = world::FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
 
     WorldData futureWorld = world::world->getFutureWorld(0.2);
     auto enemyRobots = ourTeam ? futureWorld.them : futureWorld.us;
 
     // find the robot in the future and look if it is closer than before
     for (auto futureRobot : enemyRobots) {
-        if (futureRobot->id == robot->id && world::field->getDistanceToGoal(ourTeam, futureRobot->pos) < distanceToGoal) {
+        if (futureRobot->id == robot->id &&
+            world::FieldComputations::getDistanceToGoal(field, ourTeam, futureRobot->pos) < distanceToGoal) {
             return true;
         }
     }

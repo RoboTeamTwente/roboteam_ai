@@ -86,6 +86,7 @@ void BallPlacementFormation::updateFormation() {
 }
 
 bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
+    FieldMessage field = FieldMessage::get_field();
 
     // get designated position from referee and convert from mm to m
     Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
@@ -104,7 +105,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
             -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
-    return (tooCloseToLine || !field->pointIsInField(pos, 0.0));
+    return (tooCloseToLine || !world::FieldComputations::pointIsInField(field, pos, 0.0));
 }
 
 }

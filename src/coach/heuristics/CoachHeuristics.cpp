@@ -33,7 +33,8 @@ double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
 /// Gives a higher score if the line between the position and the goal is free.
 double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, const WorldData &world) {
     WorldData copy = WorldData({}, world.them, world.ball, world.time);
-    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, copy)/100;
+    FieldMessage field = FieldMessage::get_field();
+    double viewAtGoal = world::FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, position, copy) / 100;
     return 1 - exp(SHOT_AT_GOAL_WEIGHT*viewAtGoal);
 }
 
@@ -123,7 +124,8 @@ double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &p
 }
 
 double CoachHeuristics::calculateAngleToGoalScore(const Vector2 &position) {
-    auto goalSides = world::field->getGoalSides(false);
+    FieldMessage field = FieldMessage::get_field();
+    auto goalSides = world::FieldComputations::getGoalSides(field, false);
     Angle angle1 = (goalSides.first - position).toAngle();
     Angle angle2 = (goalSides.second - position).toAngle();
 

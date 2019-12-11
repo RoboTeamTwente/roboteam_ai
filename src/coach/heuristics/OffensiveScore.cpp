@@ -36,8 +36,9 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
 /// Check if a position being checked is not outside field, within the correct zone, etc
 bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck) {
     // check if the offender is not blocking the goal
+    FieldMessage field = FieldMessage::get_field();
     std::vector<Vector2> vertices;
-    auto goalSides = world::field->getGoalSides(false);
+    auto goalSides = world::FieldComputations::getGoalSides(field, false);
     vertices.push_back(goalSides.first);
     vertices.push_back(goalSides.second);
     vertices.push_back(world::world->getBall()->getPos());
@@ -48,13 +49,13 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
     }
 
     // check if the point is in the field and out of the defense area
-    if (! world::field->pointIsInField(positionToCheck, Constants::ROBOT_RADIUS()*6) ||
-            world::field->pointIsInDefenceArea(positionToCheck, false, Constants::ROBOT_RADIUS()*2)) {
+    if (! world::FieldComputations::pointIsInField(field, positionToCheck, Constants::ROBOT_RADIUS()*6) ||
+            world::FieldComputations::pointIsInDefenceArea(field, positionToCheck, false, Constants::ROBOT_RADIUS()*2)) {
         return false;
     }
 
     // check if the point is out of the default zone location
-    if ((positionToCheck - defaultZoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) return false;
+    if ((positionToCheck - defaultZoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) return false;
 
     // check if the point is closer to another zone
     for (auto &otherDefaultPosition : g_offensiveCoach.getZoneLocations()) {

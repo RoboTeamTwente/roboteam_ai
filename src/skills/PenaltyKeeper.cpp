@@ -137,7 +137,8 @@ void PenaltyKeeper::sendInterceptCommand() {
     publishRobotCommand();
 }
 std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
-    std::pair<Vector2, Vector2> originalLine = world::field->getGoalSides(true);
+    FieldMessage field = FieldMessage::get_field();
+    std::pair<Vector2, Vector2> originalLine = world::FieldComputations::getGoalSides(field, true);
     double forwardX = originalLine.first.x + Constants::KEEPER_PENALTY_LINE_MARGIN();
     originalLine.first.x = forwardX;
     originalLine.second.x = forwardX;

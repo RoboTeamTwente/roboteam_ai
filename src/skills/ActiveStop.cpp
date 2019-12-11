@@ -48,24 +48,27 @@ void ActiveStop::onTerminate(Skill::Status s) {
 }
 
 Vector2 ActiveStop::getOffensiveActivePoint() {
-    Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(false);
+    FieldMessage field = FieldMessage::get_field();
+    Vector2 penaltyPos = world::FieldComputations::getPenaltyPoint(field, false);
     return getPoint(penaltyPos);
 }
 
 Vector2 ActiveStop::getDefensiveActivePoint() {
-    Vector2 penaltyPos = rtt::ai::world::field->getPenaltyPoint(true);
+    FieldMessage field = FieldMessage::get_field();
+    Vector2 penaltyPos = world::FieldComputations::getPenaltyPoint(field, true);
     return getPoint(penaltyPos);
 }
 
 Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
+    FieldMessage field = FieldMessage::get_field();
     Vector2 ballPos = world::world->getBall()->getPos();
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer
 
-    if (world::field->pointIsInDefenceArea(ballPos + offset, true, 0.3, true)) {
+    if (world::FieldComputations::pointIsInDefenceArea(field, ballPos + offset, true, 0.3, true)) {
         return offset;
     }
-    if (world::field->pointIsInDefenceArea(ballPos + offset, false, 0.3, true)) {
+    if (world::FieldComputations::pointIsInDefenceArea(field, ballPos + offset, false, 0.3, true)) {
         return offset;
     }
     return ballPos + offset;

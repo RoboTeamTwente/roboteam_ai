@@ -53,9 +53,9 @@ void MidFieldHarasser::onTerminate(Skill::Status s) {
 
 
 Vector2 MidFieldHarasser::getHarassTarget() {
+    FieldMessage _field = FieldMessage::get_field();
     auto harassTarget = coach::g_midFieldCoach.getTargetPosition(robot);
-
-    if (!field->pointIsInField(harassTarget.targetPosition, 0.20)) {
+    if (!world::FieldComputations::pointIsInField(_field, harassTarget.targetPosition, 0.20)) {
         harassTarget.targetPosition = robot->pos;
     }
 

@@ -102,11 +102,12 @@ std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
 }
 std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     // Two availableIDs, one robot to receive the ball, rest 3 in a diagonal
-    auto lengthOffset = FieldMessage::get_field()[FIELD_LENGTH] / 4.0;
-    auto widthOffset = FieldMessage::get_field()[FIELD_WIDTH] / 4.0;
-    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
+    FieldMessage field = FieldMessage::get_field();
+    auto lengthOffset = field[FIELD_LENGTH] / 4.0;
+    auto widthOffset = field[FIELD_WIDTH] / 4.0;
+    Vector2 penaltyUs = world::FieldComputations::getPenaltyPoint(field, true);
     Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
-    Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+    Vector2 penaltyThem = world::FieldComputations::getPenaltyPoint(field, false);
     int ballPosMultiplier = (ballPos.y >= 0 ? (- 1) : 1);
     Vector2 lineProgress = {- 0.4, 0};
 
@@ -134,11 +135,12 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
 }
 std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     // makes a free kick line
-    auto lengthOffset = FieldMessage::get_field()[FIELD_LENGTH] / 100.0;
-    auto widthOffset = FieldMessage::get_field()[FIELD_WIDTH] / 4.0;
-    Vector2 goalUS = FieldMessage::get_field()[OUR_GOAL_CENTER];
+    FieldMessage field = FieldMessage::get_field();
+    auto lengthOffset = field[FIELD_LENGTH] / 100.0;
+    auto widthOffset = field[FIELD_WIDTH] / 4.0;
+    Vector2 goalUS = field[OUR_GOAL_CENTER];
     Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
-    Vector2 penaltyUs = rtt::ai::world::field->getPenaltyPoint(true);
+    Vector2 penaltyUs = world::FieldComputations::getPenaltyPoint(field, true);
 
     Vector2 lineProgress = ((goalUS-ballPos).stretchToLength(0.28)).rotate(M_PI_2);
     Vector2 lineBegin = ballPos + (goalUS - ballPos).stretchToLength(0.75);
@@ -161,9 +163,10 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     return res;
 }
 std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
+    FieldMessage field = FieldMessage::get_field();
     Vector2 lineProgress = {0, 0.4};
 
-    Vector2 lineBegin = {rtt::ai::world::field->getPenaltyPoint(true).x + 1.05, 0};
+    Vector2 lineBegin = {world::FieldComputations::getPenaltyPoint(field, true).x + 1.05, 0};
     Vector2 line2 = lineBegin + lineProgress;
     Vector2 line3 = lineBegin - lineProgress;
     Vector2 line4 = lineBegin - lineProgress*2.0;

@@ -17,21 +17,21 @@ FieldComputations *field = &fieldObj;
 
 using util = control::ControlUtils;
 
-bool FieldComputations::pointIsInDefenceArea(const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
-  auto defenseArea = getDefenseArea(isOurDefenceArea, margin, includeOutsideField);
+bool FieldComputations::pointIsInDefenceArea(FieldMessage &field, const Vector2 &point, bool isOurDefenceArea,
+        double margin, bool includeOutsideField) {
+  auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, includeOutsideField);
   return defenseArea.contains(point);
 }
 
 // the margin is pointed inside the field!
-bool FieldComputations::pointIsInField(const Vector2 &point, double margin) {
-  auto field = FieldMessage::get_field();
+bool FieldComputations::pointIsInField(FieldMessage &field, const Vector2 &point, double margin) {
   return (point.x <= field[RIGHTMOST_X] - margin && point.x >= field[LEFTMOST_X] + margin
             && point.y <= field[TOPMOST_Y]- margin && point.y >= field[BOTTOMMOST_Y] + margin);
 }
 
 /// returns the angle the goal points make from a point
-double FieldComputations::getTotalGoalAngle(bool ourGoal, const Vector2 &point) {
-  std::pair<Vector2, Vector2> goal = getGoalSides(ourGoal);
+double FieldComputations::getTotalGoalAngle(FieldMessage &field, bool ourGoal, const Vector2 &point) {
+  std::pair<Vector2, Vector2> goal = getGoalSides(field, ourGoal);
   double angleLeft = (goal.first - point).angle();
   double angleRight = (goal.second - point).angle();
   return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft),
@@ -39,23 +39,22 @@ double FieldComputations::getTotalGoalAngle(bool ourGoal, const Vector2 &point) 
 }
 
 /// id and ourteam are for a robot not to be taken into account.
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(bool ourGoal, const Vector2 &point, const WorldData &data, int id,
-                                                  bool ourTeam) {
-    auto _field = FieldMessage::get_field();
-    double goalWidth = _field[GOAL_WIDTH];
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(FieldMessage &field, bool ourGoal, const Vector2 &point,
+        const WorldData &data, int id, bool ourTeam) {
+    double goalWidth = field[GOAL_WIDTH];
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(ourGoal, point, data, id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.first.dist(blockade.second);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<std::pair<Vector2, Vector2>> FieldComputations::getBlockadesMappedToGoal(bool ourGoal, const Vector2 &point,
-                                                                         const WorldData &data, int id, bool ourTeam) {
+std::vector<std::pair<Vector2, Vector2>> FieldComputations::getBlockadesMappedToGoal(FieldMessage &field,
+        bool ourGoal, const Vector2 &point, const WorldData &data, int id, bool ourTeam) {
   const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
   Vector2 lowerGoalSide, upperGoalSide;
-  auto sides = getGoalSides(ourGoal);
+  auto sides = getGoalSides(field, ourGoal);
   lowerGoalSide = sides.first;
   upperGoalSide = sides.second;
 
@@ -184,11 +183,11 @@ std::vector<std::pair<Vector2, Vector2>> FieldComputations::mergeBlockades(std::
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<std::pair<Vector2, Vector2>> FieldComputations::getVisiblePartsOfGoal(bool ourGoal, const Vector2 &point,
-                                                                      const WorldData &data) {
-  auto blockades = getBlockadesMappedToGoal(ourGoal, point, data);
+std::vector<std::pair<Vector2, Vector2>> FieldComputations::getVisiblePartsOfGoal(FieldMessage &field, bool ourGoal,
+        const Vector2 &point, const WorldData &data) {
+  auto blockades = getBlockadesMappedToGoal(field, ourGoal, point, data);
 
-  auto sides = getGoalSides(ourGoal);
+  auto sides = getGoalSides(field, ourGoal);
   auto lower = sides.first;
   auto upper = sides.second;
 
@@ -220,32 +219,31 @@ std::vector<std::pair<Vector2, Vector2>> FieldComputations::getVisiblePartsOfGoa
 }
 
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
-std::pair<Vector2, Vector2> FieldComputations::getGoalSides(bool ourGoal) {
-    FieldMessage _field = FieldMessage::get_field();
+std::pair<Vector2, Vector2> FieldComputations::getGoalSides(FieldMessage &field, bool ourGoal) {
     if (ourGoal) {
-        return std::make_pair(_field[OUR_BOTTOM_GOAL_SIDE], _field[OUR_TOP_GOAL_SIDE]);
+        return std::make_pair(field[OUR_BOTTOM_GOAL_SIDE], field[OUR_TOP_GOAL_SIDE]);
     }
     else {
-        return std::make_pair(_field[THEIR_BOTTOM_GOAL_SIDE], _field[THEIR_TOP_GOAL_SIDE]);
+        return std::make_pair(field[THEIR_BOTTOM_GOAL_SIDE], field[THEIR_TOP_GOAL_SIDE]);
     }
 }
 
-double FieldComputations::getDistanceToGoal(bool ourGoal, const Vector2 &point) {
-  auto sides = getGoalSides(ourGoal);
+double FieldComputations::getDistanceToGoal(FieldMessage &field, bool ourGoal, const Vector2 &point) {
+  auto sides = getGoalSides(field, ourGoal);
   return control::ControlUtils::distanceToLineWithEnds(point, sides.first, sides.second);
 }
 
-Vector2 FieldComputations::getPenaltyPoint(bool ourGoal) {
+Vector2 FieldComputations::getPenaltyPoint(FieldMessage &field, bool ourGoal) {
     if (ourGoal) {
-        return FieldMessage::get_field()[LEFT_PENALTY_POINT];
+        return field[LEFT_PENALTY_POINT];
     } else {
-        return FieldMessage::get_field()[RIGHT_PENALTY_POINT];
+        return field[RIGHT_PENALTY_POINT];
     }
 }
 
-std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(bool ourGoal, const Vector2 &lineStart,
-                                                                const Vector2 &lineEnd, double margin) {
-  auto defenseArea = getDefenseArea(ourGoal, margin);
+std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(FieldMessage &field, bool ourGoal,
+        const Vector2 &lineStart, const Vector2 &lineEnd, double margin) {
+  auto defenseArea = getDefenseArea(field, ourGoal, margin);
   auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
   if (intersections.size()==1) {
@@ -264,47 +262,35 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(bool
   return nullptr;
 }
 
-bool FieldComputations::lineIntersectsWithDefenceArea(bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
-                                          double margin) {
-  auto defenseArea = getDefenseArea(ourGoal, margin);
-  return defenseArea.doesIntersect({lineStart, lineEnd});
-}
-
-Polygon FieldComputations::getDefenseArea(bool ourDefenseArea, double margin, bool includeOutSideField) {
-  FieldMessage _field = FieldMessage::get_field();
-
-  double backLineUsXCoordinate = includeOutSideField ? _field[LEFTMOST_X] - _field[BOUNDARY_WIDTH] :
-                                    _field[LEFTMOST_X] - margin;
-  double backLineThemXCoordinate = includeOutSideField ? _field[RIGHTMOST_X] + _field[BOUNDARY_WIDTH]:
-                                    _field[RIGHTMOST_X] + margin;
+Polygon FieldComputations::getDefenseArea(FieldMessage &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
+  double backLineUsXCoordinate = includeOutSideField ? field[LEFTMOST_X] - field[BOUNDARY_WIDTH] : field[LEFTMOST_X] - margin;
+  double backLineThemXCoordinate = includeOutSideField ? field[RIGHTMOST_X] + field[BOUNDARY_WIDTH]: field[RIGHTMOST_X] + margin;
 
   std::vector<Vector2> defenceAreaUsPoints = {
-      {_field[LEFT_PENALTY_LINE].begin.x + margin, _field[LEFT_PENALTY_LINE].begin.y - margin},
-      {_field[LEFT_PENALTY_LINE].end.x + margin, _field[LEFT_PENALTY_LINE].end.y + margin},
-      {backLineUsXCoordinate, _field[LEFT_PENALTY_LINE].end.y + margin},
-      {backLineUsXCoordinate, _field[LEFT_PENALTY_LINE].begin.y - margin}};
+      {field[LEFT_PENALTY_LINE].begin.x + margin, field[LEFT_PENALTY_LINE].begin.y - margin},
+      {field[LEFT_PENALTY_LINE].end.x + margin, field[LEFT_PENALTY_LINE].end.y + margin},
+      {backLineUsXCoordinate, field[LEFT_PENALTY_LINE].end.y + margin},
+      {backLineUsXCoordinate, field[LEFT_PENALTY_LINE].begin.y - margin}};
 
   interface::Input::drawDebugData(defenceAreaUsPoints);
   Polygon defenceAreaUs(defenceAreaUsPoints);
 
   std::vector<Vector2> defenceAreaThemPoints = {
-      {_field[RIGHT_PENALTY_LINE].begin.x - margin, _field[RIGHT_PENALTY_LINE].begin.y - margin},
-      {_field[RIGHT_PENALTY_LINE].end.x - margin, _field[RIGHT_PENALTY_LINE].end.y + margin},
-      {backLineThemXCoordinate, _field[RIGHT_PENALTY_LINE].end.y + margin},
-      {backLineThemXCoordinate, _field[RIGHT_PENALTY_LINE].begin.y - margin}};
+      {field[RIGHT_PENALTY_LINE].begin.x - margin, field[RIGHT_PENALTY_LINE].begin.y - margin},
+      {field[RIGHT_PENALTY_LINE].end.x - margin, field[RIGHT_PENALTY_LINE].end.y + margin},
+      {backLineThemXCoordinate, field[RIGHT_PENALTY_LINE].end.y + margin},
+      {backLineThemXCoordinate, field[RIGHT_PENALTY_LINE].begin.y - margin}};
 
   Polygon defenceAreaThem(defenceAreaThemPoints);
   return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
-Polygon FieldComputations::getGoalArea(bool ourGoal, double margin, bool hasBackMargin) {
-  FieldMessage _field = FieldMessage::get_field();
-
+Polygon FieldComputations::getGoalArea(FieldMessage &field, bool ourGoal, double margin, bool hasBackMargin) {
   double marginBackside = hasBackMargin ? margin : 0.0;
-  auto goalDepth = _field[GOAL_DEPTH] + marginBackside;
+  auto goalDepth = field[GOAL_DEPTH] + marginBackside;
 
   if (ourGoal) {
-    auto ourGoalSides = getGoalSides(true);
+    auto ourGoalSides = getGoalSides(field, true);
     std::vector<Vector2> areaUsPoints = {
         {ourGoalSides.first.x + margin, ourGoalSides.first.y - margin},
         {ourGoalSides.first.x - goalDepth, ourGoalSides.first.y - margin},
@@ -315,7 +301,7 @@ Polygon FieldComputations::getGoalArea(bool ourGoal, double margin, bool hasBack
     return Polygon(areaUsPoints);
   }
 
-  auto theirGoalSides = getGoalSides(false);
+  auto theirGoalSides = getGoalSides(field, false);
   std::vector<Vector2> areaThemPoints = {
       {theirGoalSides.first.x - margin, theirGoalSides.first.y - margin},
       {theirGoalSides.first.x + goalDepth, theirGoalSides.first.y - margin},
@@ -327,9 +313,7 @@ Polygon FieldComputations::getGoalArea(bool ourGoal, double margin, bool hasBack
   return Polygon(areaThemPoints);
 }
 
-Polygon FieldComputations::getFieldEdge(double margin) {
-    auto field = FieldMessage::get_field();
-
+Polygon FieldComputations::getFieldEdge(FieldMessage &field, double margin) {
     double left = field[LEFTMOST_X] + margin;
     double right = field[RIGHTMOST_X] - margin;
     double bottom = field[BOTTOMMOST_Y] + margin;

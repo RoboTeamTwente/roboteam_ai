@@ -28,6 +28,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         return Status::Success;
     }
 
+    FieldMessage _field = FieldMessage::get_field();
     Vector2 ball = world->getBall()->getPos();
     Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
@@ -55,16 +56,17 @@ bt::Node::Status DemoAttack::onUpdate() {
 
     }
     Vector2 velocity;
-    if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+    if (world::FieldComputations::pointIsInDefenceArea(_field, robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - FieldMessage::get_field()[OUR_GOAL_CENTER]).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+    else if (world::FieldComputations::pointIsInDefenceArea(_field, robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - FieldMessage::get_field()[THEIR_GOAL_CENTER]).stretchToLength(2.0);
     }
-    else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
+    else if (world::FieldComputations::pointIsInDefenceArea(_field, ball, ownGoal) ||
+            world::FieldComputations::pointIsInDefenceArea(_field, ball, !ownGoal)) {
         velocity = {0, 0};
     }
-    else if (world::field->pointIsInDefenceArea(targetPos, ownGoal)) {
+    else if (world::FieldComputations::pointIsInDefenceArea(_field, targetPos, ownGoal)) {
         velocity = {0, 0};
     }
     else {
