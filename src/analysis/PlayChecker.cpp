@@ -43,7 +43,7 @@ namespace rtt::ai::analysis {
 
 
     /**
-     * Determines what plays are viable given the current world, ref states and invariants/preconditions
+     * Determines what plays are viable given the current world, ref states and invariants/preconditions, and stores them in the validPlays vector
      * TODO: add lambda here, to make it faster and cleaner
      */
     void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
