@@ -14,33 +14,34 @@
 #include "utilities/Constants.h"
 #include "Team.h"
 #include "WhichRobots.h"
+#include "WorldData.h"
 
 namespace rtt::ai::world {
 
 class Robot;
 class Ball;
-class WorldData;
 class History;
 class FutureWorld;
 class World {
 public:
     using RobotPtr = std::shared_ptr<Robot>;
     using BallPtr = std::shared_ptr<Ball>;
-    using WorldDataPtr = std::shared_ptr<WorldData>;
 
 private:
-    WorldDataPtr worldDataPtr;
+    std::optional<WorldData> worldData;
     std::mutex worldMutex;
-    History * history;
-    FutureWorld * futureWorld;
+    std::unique_ptr<History> history;
+    std::unique_ptr<FutureWorld> futureWorld;
     unsigned long worldNumber = 0;
     const RobotPtr getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots);
     void updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg,
                 std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long worldNumber) const;
 
 public:
-    explicit World();
-    ~World();
+    explicit World() noexcept;
+
+    ~World() = default;
+
     void updateWorld(const proto::World &world);
     bool weHaveRobots();
     double getTimeDifference();
@@ -72,7 +73,7 @@ public:
     const RobotPtr whichRobotHasBall(WhichRobots whichRobots = ALL_ROBOTS);
 
     // future worlds using linear extrapolation
-    const WorldData getFutureWorld(double time);
+    const std::optional<WorldData> getFutureWorld(double time);
     const RobotPtr getFutureRobot(int id, bool ourTeam, double time);
     const RobotPtr getFutureRobot(const RobotPtr &robot, double time);
     const BallPtr getFutureBall(double time);

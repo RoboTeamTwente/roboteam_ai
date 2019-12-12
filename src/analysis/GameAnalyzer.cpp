@@ -164,7 +164,7 @@ double GameAnalyzer::shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, Worl
 bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
     double distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
 
-    WorldData futureWorld = world::world->getFutureWorld(0.2);
+    WorldData futureWorld = world::world->getFutureWorld(0.2).value();
     auto enemyRobots = ourTeam ? futureWorld.them : futureWorld.us;
 
     // find the robot in the future and look if it is closer than before
