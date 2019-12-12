@@ -10,9 +10,7 @@
 #include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
 
@@ -110,8 +108,6 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
 
 
 
-} // interface
-} // ai
 } // rtt
 
 // QT performance improvement

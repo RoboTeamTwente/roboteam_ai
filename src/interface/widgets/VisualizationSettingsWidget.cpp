@@ -6,9 +6,7 @@
 #include "interface/widgets/mainWindow.h"
 #include "interface/api/Toggles.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer, QWidget * parent) {
     auto cbVLayout = new QVBoxLayout();
@@ -67,8 +65,6 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
 
 
 
-} // interface
-} // ai
 } // rtt
 
 // QT performance improvement

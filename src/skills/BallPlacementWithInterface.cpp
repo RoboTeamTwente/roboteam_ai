@@ -11,8 +11,7 @@
 #include <interface/api/Output.h>
 #include "skills/DriveWithInterface.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 BallPlacementWithInterface::BallPlacementWithInterface(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
 
@@ -47,5 +46,4 @@ Skill::Status BallPlacementWithInterface::onUpdate() {
     return Status::Running;
 }
 
-}
 }

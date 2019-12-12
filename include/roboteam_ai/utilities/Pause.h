@@ -9,8 +9,7 @@
 #include "roboteam_proto/RobotCommand.pb.h"
 #include "world/World.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 namespace io {
 class IOManager;
@@ -28,7 +27,6 @@ class Pause {
         void setPause(bool set);
 
 };
-}
 }
 
 #endif //ROBOTEAM_AI_PAUSE_H

@@ -14,9 +14,7 @@
 #include "QLayout"
 #include "interface/widgets/mainWindow.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 TreeVisualizerWidget::TreeVisualizerWidget(MainWindow * parent)
         : QTreeWidget((QWidget *) parent) {
@@ -158,6 +156,4 @@ void TreeVisualizerWidget::invalidateTree() {
     TreeVisualizerWidget::hasCorrectTree = false;
 }
 
-} // interface
-} // ai
 } // rtt

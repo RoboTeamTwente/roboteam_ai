@@ -6,9 +6,7 @@
 #include <interface/api/Output.h>
 #include <cmath>
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 bool Ball::exists = false;
 
@@ -124,6 +122,4 @@ const Vector2 &Ball::getExpectedBallEndPosition() const {
     return expectedBallEndPosition;
 }
 
-} //world
-} //ai
 } //rtt
