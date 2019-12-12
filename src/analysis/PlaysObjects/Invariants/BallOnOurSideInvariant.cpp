@@ -9,7 +9,7 @@
 #include "world/Ball.h"
 
 namespace rtt::ai::analysis {
-    bool BallOnOurSide::isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+    bool BallOnOurSideInvariant::isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         Vector2 ballPos = world->getBall()->getPos();
 
         // force the ball to be in the field

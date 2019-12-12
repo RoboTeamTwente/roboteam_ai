@@ -10,6 +10,10 @@
 #include "analysis/PlaysObjects/Play.h"
 
 namespace rtt::ai::analysis {
+    /**
+     * Typedef to shorten invariant vector declarations.
+     */
+    using ivec = std::vector<Invariant>;
     class PlayChecker {
     public:
         PlayChecker(Play& play);

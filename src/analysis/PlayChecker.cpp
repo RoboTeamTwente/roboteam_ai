@@ -2,20 +2,38 @@
 // Created by jessevw on 04.12.19.
 //
 
+#include <include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h>
 #include "analysis/PlaysObjects/MyPlay.h"
 #include "bt/Composite.hpp"
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
+#include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
+#include "analysis/PlaysObjects/Play.h"
 namespace rtt::ai::analysis {
-
     /**
      * I want this somewhere else but not sure yet where
      */
-//    auto myPlay = MyPlay();
-//    PlayChecker::allPlays = {myPlay, badPlay, AlwaysTruePlay, TrueWhenBallOnOurSidePlay};
 
 
-    PlayChecker::PlayChecker() {}
+
+
+
+
+    PlayChecker::PlayChecker() {
+        auto alwaystrueinv = new AlwaysTrueInvariant();
+        auto falseinv = new AlwaysFalseInvariant();
+        auto ballus = new BallBelongsToUsInvariant();
+        auto onOurSide = new BallOnOurSideInvariant();
+
+        auto AlwaysTruePlay = std::make_unique<Play>();
+        auto badPlay = std::make_unique<Play>();
+        auto TrueWhenBallOnOurSidePlay = std::make_unique<Play>();
+        auto myPlay = std::make_unique<Play>();
+
+        PlayChecker::allPlays = std::vector<Play> {*myPlay, *badPlay, *AlwaysTruePlay, *TrueWhenBallOnOurSidePlay};
+
+    }
 
     /**
      * Object that stores the current strategy, and checks if the invariants

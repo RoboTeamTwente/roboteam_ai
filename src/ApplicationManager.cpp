@@ -29,10 +29,8 @@ namespace rtt {
     /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
     // create playcheck object here
-    std::vector<ai::analysis::Invariant> invariants = {rtt::ai::analysis::BallBelongsToUsInvariant()};
-    auto play = rtt::ai::analysis::MyPlay(invariants);
-    playcheck = rtt::ai::analysis::PlayChecker(play);
-
+    playcheck = rtt::ai::analysis::PlayChecker();
+    playcheck.update(world, field)
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 

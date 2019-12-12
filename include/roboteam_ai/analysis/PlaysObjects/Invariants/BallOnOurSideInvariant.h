@@ -11,7 +11,7 @@ namespace rtt::ai::analysis {
     /**
      * Invariant that is true when the ball belongs to us
      */
-    class BallOnOurSide : public Invariant {
+    class BallOnOurSideInvariant : public Invariant {
     public:
         /**
          * Functional implementation of when the ball is on our side of the field

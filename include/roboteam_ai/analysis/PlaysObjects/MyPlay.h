@@ -11,8 +11,7 @@
 namespace rtt::ai::analysis {
     class MyPlay : public Play {
     public:
-        MyPlay(std::vector<Invariant>& invariants);
-        bool isValidPlay(rtt::ai::world::World * world, rtt::ai::world::Field * field);
+        MyPlay(std::vector<Invariant> invariants);
 
     };
 
