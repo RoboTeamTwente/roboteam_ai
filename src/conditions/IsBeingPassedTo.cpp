@@ -5,7 +5,8 @@
 #include <coach/PassCoach.h>
 #include "conditions/IsBeingPassedTo.h"
 
-namespace rtt::ai {
+namespace rtt {
+namespace ai {
 
 IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -18,5 +19,6 @@ IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {
     return Status::Failure;
 }
 
+} // ai
 } // rtt
 

@@ -16,7 +16,9 @@
 #include <interface/api/Input.h>
 #include <interface/widgets/GraphWidget.h>
 
-namespace rtt::ai::interface {
+namespace rtt {
+namespace ai {
+namespace interface {
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setMinimumWidth(800);
@@ -222,6 +224,8 @@ void MainWindow::refreshJSONSignal() {
 }
 
 
+} // interface
+} // ai
 } // rtt
 
 // QT performance improvement

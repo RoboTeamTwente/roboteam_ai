@@ -5,7 +5,9 @@
 #include "interface/api/Input.h"
 #include "interface/widgets/GraphWidget.h"
 
-namespace rtt::ai::interface {
+namespace rtt {
+namespace ai {
+namespace interface {
 
 GraphWidget::GraphWidget(QWidget * parent) {
     auto verticalLayout = new QVBoxLayout(this);
@@ -56,6 +58,8 @@ void GraphWidget::updateContents() {
     fpsView->chart()->createDefaultAxes();
 }
 
+}
+}
 }
 
 // QT performance improvement

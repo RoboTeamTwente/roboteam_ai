@@ -13,7 +13,8 @@
 #include "RefGameState.h"
 #include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 
-namespace rtt::ai {
+namespace rtt {
+namespace ai {
 
 class StrategyManager {
 public:
@@ -69,6 +70,7 @@ private:
 
 };
 
+} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_STRATEGYMANAGER_H

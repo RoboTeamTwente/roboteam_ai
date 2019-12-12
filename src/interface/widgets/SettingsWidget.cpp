@@ -7,7 +7,9 @@
 #include <Settings/Settings.h>
 #include "interface/widgets/mainWindow.h"
 
-namespace rtt::ai::interface {
+namespace rtt {
+namespace ai {
+namespace interface {
 
 SettingsWidget::SettingsWidget(QWidget * parent) {
     vLayout = new QVBoxLayout();
@@ -54,6 +56,8 @@ void SettingsWidget::changeGrSimPort(int port) {
     SETTINGS.setRobothubSendPort(port);
 }
 
+} // interface
+} // ai
 } // rtt
 
 

@@ -9,7 +9,9 @@
 #include "interface/widgets/RuleSetWidget.h"
 #include "interface/widgets/mainWindow.h"
 
-namespace rtt::ai::interface {
+namespace rtt {
+namespace ai {
+namespace interface {
 
 RuleSetWidget::RuleSetWidget(QWidget * parent) {
     vLayout = new QVBoxLayout();
@@ -47,6 +49,8 @@ void RuleSetWidget::updateLabels() {
     vLayout->addSpacerItem(spacer);
 }
 
+} // interface
+} // ai
 } // rtt
 
 
