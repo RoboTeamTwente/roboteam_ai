@@ -8,8 +8,7 @@
 #include "conditions/IsBallCloseToBorder.h"
 #include <world/Ball.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -42,5 +41,4 @@ bt::Node::Status IsBallCloseToBorder::onUpdate() {
     return Status::Success;
 }
 
-} // ai
 } // rtt

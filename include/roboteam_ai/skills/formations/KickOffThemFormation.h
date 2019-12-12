@@ -7,8 +7,7 @@
 
 #include "skills/formations/Formation.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class KickOffThemFormation : public Formation {
 public:
@@ -19,7 +18,6 @@ private:
     static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
 };
 
-}
 }
 
 

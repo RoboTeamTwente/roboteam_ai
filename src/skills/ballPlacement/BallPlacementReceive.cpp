@@ -8,8 +8,7 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallPlacementReceive::BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard)
 : Receive(std::move(name), std::move(blackboard)) {}
@@ -69,5 +68,4 @@ bool BallPlacementReceive::isInPosition(const Vector2& behindTargetPos) {
     return isBehindTargetPos  && isAimedAtBall;
 }
 
-}
 }

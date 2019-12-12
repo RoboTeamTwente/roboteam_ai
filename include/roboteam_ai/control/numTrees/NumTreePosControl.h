@@ -10,9 +10,7 @@
 #include "PathPoint.h"
 #include "Collision.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class PathPoint;
 class Collision;
@@ -95,8 +93,6 @@ protected:
         bool checkChangeInMaxRobotVel();
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_NUMTREEPOSCONTROL_H

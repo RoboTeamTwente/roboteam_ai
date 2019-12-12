@@ -9,8 +9,7 @@
 #include "control/BasicPosControl.h"
 
 #include "Skill.h"
-namespace rtt{
-namespace ai{
+namespace rtt::ai{
 class InterceptRobot : public Skill{
     private:
       //  control::BasicPosControl gtp;
@@ -22,7 +21,6 @@ class InterceptRobot : public Skill{
 
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_INTERCEPTROBOT_HPP

@@ -11,8 +11,7 @@
 #include "RefGameState.h"
 #include "StrategyManager.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GameStateManager {
 public:
@@ -30,6 +29,5 @@ private:
 
 };
 
-}//ai
 }//rtt
 #endif //ROBOTEAM_AI_GAMESTATEMANAGER_HPP

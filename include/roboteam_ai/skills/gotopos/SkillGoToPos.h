@@ -7,8 +7,7 @@
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
 #define ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class SkillGoToPos : public GoToPos {
 
     private:
@@ -30,7 +29,6 @@ class SkillGoToPos : public GoToPos {
 
 };
 
-} // ai
 } // rtt
 
 

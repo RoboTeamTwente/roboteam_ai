@@ -10,8 +10,7 @@
 #include <control/ballHandling/BallHandlePosControl.h>
 #include "skills/Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GoToPos : public Skill {
     protected:
@@ -41,7 +40,6 @@ class GoToPos : public Skill {
         void onTerminate(Status s) override;
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_GOTOPOS_H

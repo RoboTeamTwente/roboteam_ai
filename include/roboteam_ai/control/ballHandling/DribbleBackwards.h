@@ -10,8 +10,7 @@
 #include "control/RobotCommand.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 namespace world {
     class Ball;
@@ -90,7 +89,6 @@ class DribbleBackwards {
         ~DribbleBackwards();
 };
 
-}
 }
 }
 

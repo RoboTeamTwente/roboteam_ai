@@ -12,20 +12,18 @@
 #include "RobotDanger.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 // define some play styles to influence our decision making
-enum BallPossession : short {
-    THEY_HAVE_BALL,
-    DEFENSIVE_NEUTRAL,
-    NEUTRAL,
-    OFFENSIVE_NEUTRAL,
-    WE_HAVE_BALL
-};
+    enum BallPossession : short {
+        THEY_HAVE_BALL,
+        DEFENSIVE_NEUTRAL,
+        NEUTRAL,
+        OFFENSIVE_NEUTRAL,
+        WE_HAVE_BALL
+    };
 
-struct AnalysisReport {
+    struct AnalysisReport {
     bool reportForUs = true;
     std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> theirRobotSortedOnDanger;
     std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> ourRobotsSortedOnDanger;
@@ -38,8 +36,6 @@ struct AnalysisReport {
 
 };
 
-} // analysis
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_ANALYSISREPORT_H

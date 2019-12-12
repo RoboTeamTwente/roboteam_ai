@@ -6,8 +6,7 @@
 #include <iostream>
 #include <vector>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // static initializers
 bool Constants::isInitialized = false;
@@ -279,5 +278,4 @@ std::vector<RuleSet> Constants::ruleSets() {
     };
 }
 
-}
 }

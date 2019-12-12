@@ -13,8 +13,7 @@
 #include <world/WorldData.h>
 #include "skills/Pass.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Pass::Pass(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
@@ -174,6 +173,5 @@ Pass::PassType Pass::stringToType(const std::string& type) {
     }
 }
 
-} // ai
 } // rtt
 

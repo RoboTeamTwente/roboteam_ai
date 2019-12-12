@@ -6,9 +6,7 @@
 #include "world/History.h"
 #include <utilities/Constants.h>
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 void FutureWorld::updateFutureBall(BallPtr &ball, double time) {
     ball->setPos(ball->getPos() + ball->getVel() * time);
@@ -34,6 +32,4 @@ void FutureWorld::updateFutureWorld(WorldData &worldData, double time) {
     }
 }
 
-}
-}
 }

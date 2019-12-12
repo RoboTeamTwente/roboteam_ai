@@ -11,9 +11,7 @@
 #include "world/Robot.h"
 #include "world/Ball.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class Collision {
 
@@ -76,8 +74,6 @@ class Collision {
     void setCollision(double distance);
 };
 
-} // control
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_COLLISION_H

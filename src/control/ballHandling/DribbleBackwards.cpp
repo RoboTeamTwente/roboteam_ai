@@ -14,9 +14,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
 
@@ -272,6 +270,4 @@ void DribbleBackwards::setMaxVel(double maxV) {
     maxVel = maxV;
 }
 
-}
-}
 }

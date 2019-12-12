@@ -14,8 +14,7 @@
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // fwd declarations
 namespace world {
@@ -78,7 +77,6 @@ class ControlUtils {
 };
 
 } // control
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_CONTROLUTILS_H

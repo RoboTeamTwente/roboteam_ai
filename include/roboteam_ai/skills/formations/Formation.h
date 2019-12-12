@@ -9,8 +9,7 @@
 #include "skills/Skill.h"
 #include "gtest/gtest_prod.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Formation : public Skill {
     FRIEND_TEST(FormationTest, formation_test);
@@ -46,6 +45,5 @@ protected:
     bool updateCounter();
 };
 
-}
 }
 #endif //ROBOTEAM_AI_FORMATION_H

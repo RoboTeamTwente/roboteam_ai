@@ -4,8 +4,7 @@
 
 #include <coach/BallplacementCoach.h>
 #include "skills/Dribble.h"
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
@@ -65,5 +64,4 @@ Dribble::Status Dribble::onUpdate() {
     return Status::Running;
 }
 
-} // ai
 } // rtt

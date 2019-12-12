@@ -6,8 +6,7 @@
 #include "conditions/BallKickedToOurGoal.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -40,5 +39,4 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
     return Status::Failure;
 }
 
-}//ai
 }//rtt

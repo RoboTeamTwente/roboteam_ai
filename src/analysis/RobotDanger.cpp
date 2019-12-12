@@ -5,9 +5,7 @@
 #include <world/Field.h>
 #include "analysis/RobotDanger.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 double RobotDanger::getTotalDanger() {
     double total = 0.0;
@@ -21,6 +19,4 @@ double RobotDanger::getTotalDanger() {
     return total;
 }
 
-} // analysis
-} // ai
 } // rtt

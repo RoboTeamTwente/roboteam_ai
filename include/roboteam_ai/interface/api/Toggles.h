@@ -9,9 +9,7 @@
 #include <QtCore/QString>
 #include <vector>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 enum Visual {
   DEBUG,
@@ -68,8 +66,6 @@ class Toggles {
         static std::vector<Toggle> toggles;
 };
 
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_TOGGLES_H

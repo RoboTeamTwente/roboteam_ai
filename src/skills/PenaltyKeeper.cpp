@@ -10,8 +10,7 @@
 #include <interface/api/Output.h>
 #include "skills/PenaltyKeeper.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) { }
 
@@ -151,6 +150,5 @@ void PenaltyKeeper::onTerminate(rtt::ai::Skill::Status s) {
     state=WAITING;
     ballNotShotTicks=0;
     goalLine=getGoalLine();
-}
 }
 }

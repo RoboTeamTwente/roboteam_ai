@@ -3,18 +3,11 @@
 
 #include "bt/Leaf.hpp"
 
+namespace rtt::ai {
 
-namespace rtt {
-namespace ai {
-
-//forward declare control utils
-namespace control {
-    class ControlUtils;
-}
-
-class Condition : public bt::Leaf {
+    class Condition : public bt::Leaf {
     protected:
-        using Control = control::ControlUtils;
+
         using Status = bt::Node::Status;
 
     public:
@@ -30,7 +23,6 @@ class Condition : public bt::Leaf {
         virtual void onTerminate(Status s) { };
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_CONDITION_H

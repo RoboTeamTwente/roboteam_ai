@@ -6,9 +6,7 @@
 #include "coach/OffensiveCoach.h"
 #include "world/Field.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 OffensiveScore g_offensiveScore;
 
@@ -67,6 +65,4 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
 
 }
 
-}
-}
 }

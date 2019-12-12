@@ -8,8 +8,7 @@
 #include "skills/SlingShot.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 SlingShot::SlingShot(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
@@ -135,5 +134,4 @@ void SlingShot::setRotate() {
     kickPos = robot->pos;
     rotateAngle = control::ControlUtils::constrainAngle(robot->angle + M_PI_2);
 }
-}//ai
 }//rtt

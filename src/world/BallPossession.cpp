@@ -7,8 +7,7 @@
 #include "world/Field.h"
 #include <coach/PassCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallPossession ballPossession;
 BallPossession* ballPossessionPtr = &ballPossession;
@@ -94,5 +93,4 @@ BallPossession::Possession BallPossession::getPossession() {
     return state;
 }
 
-} // ai
 } // rtt

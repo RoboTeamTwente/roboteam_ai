@@ -7,8 +7,7 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class AvoidBall : public Skill {
         const double robotWeight = 0.09;
@@ -41,7 +40,6 @@ class AvoidBall : public Skill {
 
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_AVOIDBALLFORBALLPLACEMENT_H

@@ -7,8 +7,7 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class RotateToAngle : public Skill {
     private:
@@ -26,7 +25,6 @@ class RotateToAngle : public Skill {
         Status onUpdate() override;
         void onTerminate(Status s) override;
 };
-}//ai
 }//rtt
 
 

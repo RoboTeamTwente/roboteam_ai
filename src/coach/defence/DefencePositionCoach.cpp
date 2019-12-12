@@ -8,9 +8,8 @@
 #include "control/ControlUtils.h"
 #include "utilities/RobotDealer.h"
 /// This is a class that computes useful lines and positions for computing defender positions
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
+
 using util = control::ControlUtils;
 
 DefencePositionCoach g_defensivePositionCoach;
@@ -492,6 +491,4 @@ void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobot
         }
     }
 }
-}//coach
-}//ai
 }//rtt

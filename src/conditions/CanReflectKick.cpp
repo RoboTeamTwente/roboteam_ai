@@ -10,8 +10,7 @@
 #include "skills/ReflectKick.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 CanReflectKick::CanReflectKick(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {}
@@ -53,5 +52,4 @@ double CanReflectKick::getApproximateReflectAngle() {
     return angle;
 }
 
-}
 }

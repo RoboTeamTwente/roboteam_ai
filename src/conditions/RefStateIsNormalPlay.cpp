@@ -8,8 +8,7 @@
 #include "conditions/RefStateIsNormalPlay.h"
 #include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 RefStateIsNormalPlay::RefStateIsNormalPlay(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -22,5 +21,4 @@ bt::Node::Status RefStateIsNormalPlay::onUpdate() {
     return Status::Success;
 }
 
-} // ai
 } // rtt

@@ -8,8 +8,7 @@
 
 #include "skills/formations/Formation.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class StopFormation : public Formation {
     public:
@@ -30,6 +29,5 @@ class StopFormation : public Formation {
 
 
 
-}
 }
 #endif //ROBOTEAM_AI_STOPFORMATION_H

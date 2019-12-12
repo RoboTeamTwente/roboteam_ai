@@ -8,9 +8,7 @@
 #include "control/PosController.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea)
         :customAvoidBallDistance(avoidBall), customCanMoveOutOfField(canMoveOutOfField), customCanMoveInDefenseArea(canMoveInDefenseArea) {
@@ -86,6 +84,4 @@ void PosController::updatePid(pidVals pid) {
     }
 }
 
-} // control
-} // ai
 } // rtt

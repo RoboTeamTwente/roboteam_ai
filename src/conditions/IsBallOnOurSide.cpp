@@ -8,8 +8,7 @@
 #include <world/Ball.h>
 #include "conditions/IsBallOnOurSide.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
     :Condition(std::move(name), std::move(blackboard)) { };
@@ -34,6 +33,5 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
     return Status::Failure;
 }
 
-} // ai
 } // rtt
 

@@ -12,9 +12,7 @@
 #include <tuple>
 #include "Toggles.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 /*
  * For drawing to the interface we keep 'drawings' to draw data to the screen.
@@ -74,8 +72,6 @@ private:
     static int FPS;
 };
 
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_INPUT_H

@@ -3,8 +3,7 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class WeHaveBall : public Condition {
     public:
@@ -12,7 +11,6 @@ class WeHaveBall : public Condition {
         Status onUpdate() override;
 };
 
-} //ai
 } //rtt
 
 

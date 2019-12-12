@@ -13,8 +13,7 @@
 #include "utilities/Constants.h"
 #include "Team.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // control forward declarations
 namespace control {
@@ -130,7 +129,6 @@ public:
 };
 
 } // world
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_ROBOT_H

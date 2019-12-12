@@ -9,8 +9,7 @@
 #include "world/Field.h"
 #include "GoToPos.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GoAroundPos : public GoToPos {
     private:
@@ -53,6 +52,5 @@ class GoAroundPos : public GoToPos {
 
 };
 
-}//ai
 }//rtt
 #endif //ROBOTEAM_AI_GOAROUNDPOS_H

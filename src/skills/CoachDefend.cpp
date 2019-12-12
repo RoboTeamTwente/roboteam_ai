@@ -6,8 +6,7 @@
 #include "skills/CoachDefend.h"
 #include "coach/defence/DefenceDealer.h"
 #include "control/ControlUtils.h"
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
@@ -72,6 +71,5 @@ bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
         }
     }
     return true;
-}
 }
 }

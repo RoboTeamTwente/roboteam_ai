@@ -6,9 +6,7 @@
 #include "interface/widgets/PidsWidget.h"
 #include "interface/widgets/PidBox.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 PidsWidget::PidsWidget(QWidget * parent) {
     // initialize values for interface to display
@@ -68,8 +66,6 @@ PidsWidget::PidsWidget(QWidget * parent) {
     this->setLayout(pidVLayout);
 }
 
-} // interface
-} // ai
 } // rtt
 
 // QT performance improvement

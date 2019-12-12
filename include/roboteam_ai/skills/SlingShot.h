@@ -7,8 +7,7 @@
 
 #include "Skill.h"
 #include "control/BasicPosControl.h"
-namespace rtt{
-namespace ai{
+namespace rtt::ai{
 class SlingShot : public Skill {
     private:
         //constants
@@ -39,7 +38,6 @@ class SlingShot : public Skill {
         Status onUpdate() override;
         void onTerminate(Status s) override;
 };
-}
 }
 
 

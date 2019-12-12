@@ -4,8 +4,7 @@
 
 #include "skills/gotopos/GTPSpecial.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(std::move(name), std::move(blackboard)) {
@@ -184,5 +183,4 @@ Skill::Status GTPSpecial::gtpUpdate() {
 void GTPSpecial::gtpTerminate(Status s) {
 }
 
-}
 }

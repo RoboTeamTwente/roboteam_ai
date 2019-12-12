@@ -4,8 +4,7 @@
 
 #include "skills/MidFieldHarasser.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard)
         : Skill(std::move(name), std::move(blackboard)) {
@@ -66,5 +65,4 @@ Vector2 MidFieldHarasser::getHarassTarget() {
     return harassTarget.targetPosition;
 }
 
-} //ai
 } //rtt

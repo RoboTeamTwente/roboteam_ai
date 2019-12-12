@@ -7,8 +7,7 @@
 #include "world/Ball.h"
 #include "control/ControlUtils.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai{
 ResumePlayAfterPenalty::ResumePlayAfterPenalty(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {
 }
@@ -31,6 +30,5 @@ bt::Node::Status ResumePlayAfterPenalty::onUpdate() {
         return Status::Success;
     }
     return Status::Failure;
-}
 }
 }

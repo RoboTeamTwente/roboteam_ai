@@ -6,8 +6,7 @@
 #include "world/Ball.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Harass::Harass(std::string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
@@ -66,5 +65,4 @@ void Harass::pickHarassmentTarget() {
 
 }
 
-} // ai
 } // rtt

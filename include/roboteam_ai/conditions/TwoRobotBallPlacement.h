@@ -4,8 +4,7 @@
 #ifndef ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H
 #define ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class TwoRobotBallPlacement : public Condition {
 public:
@@ -13,7 +12,6 @@ public:
     Status onUpdate() override;
 };
 
-} // ai
 } // rtt
 
 

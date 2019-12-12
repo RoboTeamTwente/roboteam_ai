@@ -11,8 +11,7 @@
 #include "world/Field.h"
 
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class ShootFreeKick : public Skill {
 
@@ -40,7 +39,6 @@ class ShootFreeKick : public Skill {
         Vector2 freeKickPos;
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_SHOOTFREEKICK_H

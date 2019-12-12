@@ -4,8 +4,7 @@
 #include "skills/formations/KickOffThemFormation.h"
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
     std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormation = nullptr;
 
@@ -44,5 +43,4 @@ std::shared_ptr<std::vector<shared_ptr<world::Robot>>> KickOffThemFormation::rob
     return robotsInFormation;
 }
 
-} // ai
 } // rtt

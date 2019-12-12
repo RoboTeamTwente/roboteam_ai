@@ -4,8 +4,7 @@
 #include "World.h"
 #include "gtest/gtest_prod.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 /**
  * Computes and stores the ball possession state which indicates which team controls the ball (can also be both/no team).
@@ -95,7 +94,6 @@ private:
 extern BallPossession ballPossession;
 extern BallPossession* ballPossessionPtr;
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_BALLPOSSESSION_H

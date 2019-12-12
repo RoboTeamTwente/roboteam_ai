@@ -11,8 +11,7 @@
 #include "world/Robot.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
@@ -153,5 +152,4 @@ rtt::Arc Keeper::createKeeperArc() {
            rtt::Arc(center, radius, angle, - angle);
 }
 
-}
 }

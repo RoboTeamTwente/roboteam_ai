@@ -7,8 +7,7 @@
 #include "world/Ball.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
@@ -90,5 +89,4 @@ int ShootPenalty::determineGenevaState() {
     return genevaState=5;
 }
 
-}
 }

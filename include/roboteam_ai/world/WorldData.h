@@ -14,9 +14,7 @@
 #include "Robot.h"
 #include "Ball.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 class WorldData {
     private:
@@ -107,8 +105,6 @@ class WorldBuffer {
         }
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_WORLDDATA_H

@@ -13,8 +13,7 @@
 #include <control/ControlUtils.h>
 #include "coach/OffensiveCoach.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
@@ -38,5 +37,4 @@ bt::Node::Status Attack::onUpdate() {
     return Status::Running;
 }
 
-} // ai
 } // rtt

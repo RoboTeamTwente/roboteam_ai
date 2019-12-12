@@ -6,8 +6,7 @@
 #ifndef ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
 #define ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class BallPlacementFormation : public StopFormation {
     public:
         explicit BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
@@ -19,7 +18,6 @@ class BallPlacementFormation : public StopFormation {
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
         bool positionShouldBeAvoided(Vector2 pos) override;
 };
-}
 }
 
 #endif //ROBOTEAM_AI_BALLPLACEMENTFORMATION_H

@@ -6,9 +6,7 @@
 #ifndef RTT_GRAPHWIDGET_H
 #define RTT_GRAPHWIDGET_H
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class GraphWidget : public QWidget {
     Q_OBJECT
@@ -25,8 +23,6 @@ public slots:
     void updateContents();
 };
 
-}
-}
 }
 
 #endif //RTT_GRAPHWIDGET_H

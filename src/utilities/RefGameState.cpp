@@ -5,8 +5,7 @@
 #include "utilities/RefGameState.h"
 #include "utilities/GameStateManager.hpp"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSetName, bool isFollowUpCommand, RefCommand followUpCommandId)
 : GameState(std::move(strategyName), std::move(keeperStrategyName), std::move(ruleSetName)),
@@ -20,5 +19,4 @@ bool RefGameState::hasFollowUpCommand() const {
 }
 
 
-} // ai
 } // rtt

@@ -12,8 +12,7 @@
 #include "world/World.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), blackboard) { }
 
@@ -21,5 +20,4 @@ bt::Node::Status HasBall::onUpdate() {
     return world->ourRobotHasBall(robot->id) ? Status::Success : Status::Failure;
 }
 
-} // ai
 } // rtt

@@ -9,9 +9,7 @@
 #include "world/World.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 RobotCommand RotateAroundBall::getRobotCommand(RobotPtr robot, const Vector2 &targetP,
         const Angle &targetA) {
@@ -44,7 +42,5 @@ RobotCommand RotateAroundBall::getRobotCommand(RobotPtr robot, const Vector2 &ta
 
     previousVelocity = robotCommand.vel;
     return robotCommand;
-}
-}
 }
 }

@@ -13,9 +13,7 @@
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 Visualizer::Visualizer(QWidget* parent)
         :QWidget(parent) { }
@@ -678,8 +676,6 @@ void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2>
     }
 }
 
-} // interface
-} // ai
 } // rtt
 
 // QT performance improvement

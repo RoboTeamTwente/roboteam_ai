@@ -8,8 +8,7 @@
 #include "skills/Skill.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 /// GTPWithBall should NOT have GoToPos as parent
 class GTPWithBall : public Skill {
@@ -35,7 +34,6 @@ class GTPWithBall : public Skill {
         void onTerminate(Status s) override;
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_GTPWITHBALL_H

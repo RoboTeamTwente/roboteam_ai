@@ -6,8 +6,7 @@
 #include "skills/ActiveStop.h"
 #include "control/ControlUtils.h"
 
-namespace rtt{
-namespace ai {
+namespace rtt::ai {
 
 int ActiveStop::attack = -1;
 
@@ -71,5 +70,4 @@ Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
     return ballPos + offset;
 }
 
-}
 }

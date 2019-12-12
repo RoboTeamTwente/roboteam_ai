@@ -3,8 +3,7 @@
 //
 
 #include "skills/gotopos/GoBehindBall.h"
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(std::move(name), std::move(blackboard)) {
@@ -103,5 +102,4 @@ int GoBehindBall::chooseRandomGeneva(std::vector<std::pair<int,double>> genevaLi
     }
     return treshHolds[treshHolds.size()-1].first; //failsave
 }
-}//ai
 }//rtt

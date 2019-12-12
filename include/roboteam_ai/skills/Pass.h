@@ -13,8 +13,7 @@
 #include <utilities/Constants.h>
 #include <control/shotControllers/ShotController.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Pass : public Skill {
 protected:
@@ -51,7 +50,6 @@ public:
     void onTerminate(Status s) override;
 };
 
-} //ai
 } //rtt
 
 

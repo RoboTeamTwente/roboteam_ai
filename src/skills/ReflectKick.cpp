@@ -6,8 +6,7 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "world/Field.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
@@ -108,5 +107,4 @@ bool ReflectKick::ballDeflected() {
     return (ball->getVel() - ballReceiveVel).toAngle() > 0.01 || ball->getVel().length() < 0.1;
 }
 
-}
 }

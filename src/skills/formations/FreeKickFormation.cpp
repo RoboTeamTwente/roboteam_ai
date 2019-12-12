@@ -6,8 +6,7 @@
 #include "skills/formations/FreeKickFormation.h"
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::vector<Vector2> FreeKickFormation::posses;
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
@@ -40,6 +39,4 @@ void FreeKickFormation::onTerminate(Skill::Status s) {
     Formation::onTerminate(s);
     update = false;
 }
-}
-
 }

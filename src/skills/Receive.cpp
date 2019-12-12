@@ -12,8 +12,7 @@
 #include <control/ControlUtils.h>
 #include <world/WorldData.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
@@ -121,5 +120,4 @@ bool Receive::ballDeflected() {
 
 }
 
-} // ai
 } // rtt

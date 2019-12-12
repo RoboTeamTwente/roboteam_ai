@@ -5,9 +5,7 @@
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Angle.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 class WorldData;
 class Robot;
@@ -137,8 +135,6 @@ class Ball {
         const Vector2 &getExpectedBallEndPosition() const;
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_BALL_H

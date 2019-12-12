@@ -4,8 +4,7 @@
 #include <interface/api/Input.h>
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> StopFormation::robotsInFormation = nullptr;
 
@@ -240,5 +239,4 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     return properPositions;
 }
 
-}
 }

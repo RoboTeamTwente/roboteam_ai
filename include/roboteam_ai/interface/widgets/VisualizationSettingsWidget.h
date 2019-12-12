@@ -9,9 +9,7 @@
 #include "QLayout"
 #include "widget.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class VisualizationSettingsWidget : public QWidget {
 Q_OBJECT
@@ -19,8 +17,6 @@ public:
     explicit VisualizationSettingsWidget(Visualizer * visualizer, QWidget * parent = nullptr);
 };
 
-} // interface
-} // ai
 } // rtt
 
 

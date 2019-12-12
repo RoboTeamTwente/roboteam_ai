@@ -5,9 +5,7 @@
 #include "coach/defence/DefenceDealer.h"
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 DefenceDealer g_DefenceDealer;
 
@@ -68,6 +66,4 @@ void DefenceDealer::updateDefenderLocations() {
     assignedDefenders = foundDefenders;
     visualizePoints();    //visualization
 }
-}//coach
-}//ai
 }//rtt

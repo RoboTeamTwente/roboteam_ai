@@ -5,9 +5,7 @@
 #include <control/ControlUtils.h>
 #include "control/numTrees/PathPoint.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 /// go back in the path until desired time or until Root
 std::shared_ptr<PathPoint> PathPoint::backTrack(double backTime) {
@@ -106,6 +104,4 @@ double PathPoint::maxVel() {
     return std::fmin(absoluteMax, maxVelocity());
 }
 
-} // control
-} // ai
 } // rtt

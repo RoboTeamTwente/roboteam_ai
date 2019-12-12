@@ -5,8 +5,7 @@
 #include <world/Field.h>
 #include "skills/DribbleForward.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard)
         : Skill(std::move(name), std::move(blackboard)) {}
@@ -38,5 +37,4 @@ bt::Node::Status DribbleForward::onUpdate() {
     return Status::Running;
 }
 
-} //ai
 } //rtt

@@ -7,8 +7,7 @@
 #include "io/IOManager.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 bool Pause::pause = false;
 std::mutex Pause::pauseLock;
@@ -40,5 +39,4 @@ void Pause::setPause(bool set) {
 Pause::Pause() {
 }
 
-}
 }

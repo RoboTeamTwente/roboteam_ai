@@ -14,8 +14,7 @@
 #include <world/World.h>
 #include <world/WorldData.h>
 
-namespace rtt{
-namespace ai {
+namespace rtt::ai {
 
 HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {}
@@ -44,5 +43,4 @@ HasClearShot::Status HasClearShot::onUpdate() {
     return hasClearShot ? Status::Success : Status::Failure;
 }
 
-} // ai
 } // rtt

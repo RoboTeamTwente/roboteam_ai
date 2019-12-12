@@ -12,9 +12,7 @@
 #include "QLayout"
 #include "widget.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class MainControlsWidget : public QWidget {
 Q_OBJECT
@@ -54,8 +52,6 @@ public slots:
     void setUseReferee(bool useRef);
     void updateContents();
 };
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_MAINCONTROLSWIDGET_H

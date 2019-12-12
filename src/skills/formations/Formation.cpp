@@ -9,8 +9,7 @@
 #include "world/Field.h"
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 bool Formation::update = false;
 int Formation::updateCount = 0;
@@ -117,5 +116,4 @@ bool Formation::updateCounter() {
     return (++updateCount%200) == 0;
 }
 
-} // ai
 } // rtt

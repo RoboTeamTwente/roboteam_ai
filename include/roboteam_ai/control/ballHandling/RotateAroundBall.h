@@ -7,8 +7,7 @@
 
 #include "control/RobotCommand.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 namespace world {
     class Robot;
@@ -34,7 +33,6 @@ class RotateAroundBall {
                 const Vector2 &targetP, const Angle &targetA);
 };
 
-}
 }
 }
 

@@ -8,8 +8,7 @@
 #include <map>
 #include <vector>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 typedef std::tuple<double, double, double> pidVals;
 typedef std::tuple<double, double, double, double> pidfVals;
@@ -151,7 +150,6 @@ class Constants {
         static bool robotOutputTargetGrSim; // Don't use this value. use GRSIM() instead.
 };
 
-} // ai
 } // rtt
 
 enum class RefCommand {

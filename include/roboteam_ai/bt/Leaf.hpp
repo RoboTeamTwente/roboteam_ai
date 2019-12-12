@@ -5,13 +5,9 @@
 #include "roboteam_utils/Angle.h"
 
 // forward declare Robot and Ball
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
     class Robot;
     class Ball;
-}
-}
 }
 
 namespace bt {

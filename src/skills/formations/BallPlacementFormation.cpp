@@ -29,8 +29,7 @@
 #include "control/Hungarian.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
 
@@ -107,5 +106,4 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
     return (tooCloseToLine || !field->pointIsInField(pos, 0.0));
 }
 
-}
 }

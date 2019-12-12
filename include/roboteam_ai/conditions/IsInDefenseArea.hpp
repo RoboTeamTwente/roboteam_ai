@@ -3,10 +3,9 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-class IsInDefenseArea : public ai::Condition {
+    class IsInDefenseArea : public ai::Condition {
     private:
         using status = bt::Node::Status;
         bool ourDefenseArea;
@@ -19,7 +18,6 @@ class IsInDefenseArea : public ai::Condition {
         Status onUpdate() override;
 };
 
-}// ai
 }// rtt
 
 #endif //ROBOTEAM_AI_ISINDEFENSEAREA_HPP

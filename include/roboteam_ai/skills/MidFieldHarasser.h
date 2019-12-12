@@ -12,8 +12,7 @@
 #include "coach/midField/MidFieldCoach.h"
 #include <interface/api/Input.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class MidFieldHarasser : public Skill {
 private:
@@ -28,7 +27,6 @@ public:
     void onTerminate(Status s) override;
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_MIDFIELDHARASSER_H

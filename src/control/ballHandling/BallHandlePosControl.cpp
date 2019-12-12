@@ -13,9 +13,7 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "control/BasicPosControl.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
 
@@ -549,6 +547,4 @@ bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) 
 
 }
 
-} //control
-} //ai
 } //rtt

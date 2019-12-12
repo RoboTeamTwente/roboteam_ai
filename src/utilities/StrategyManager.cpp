@@ -7,8 +7,7 @@
 #include "utilities/StrategyManager.h"
 #include "utilities/GameStateManager.hpp"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // process ref commands
 void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage) {
@@ -82,5 +81,4 @@ void StrategyManager::forceCurrentRefGameState(RefCommand command) {
     currentRefGameState = newState;
 }
 
-} // ai
 } // rtt

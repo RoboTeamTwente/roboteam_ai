@@ -6,8 +6,7 @@
 #include <world/Field.h>
 #include <control/shotControllers/ShotController.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
     :Skill(std::move(name), std::move(blackboard)) {}
@@ -35,5 +34,4 @@ ChipForward::Status ChipForward::onUpdate() {
     return Status::Running;
 }
 
-}
 }

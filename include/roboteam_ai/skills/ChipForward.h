@@ -7,8 +7,7 @@
 #ifndef ROBOTEAM_AI_CHIPFORWARD_H
 #define ROBOTEAM_AI_CHIPFORWARD_H
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class ChipForward : public Skill {
 private:
@@ -20,7 +19,6 @@ public:
     void onInitialize() override;
 };
 
-}
 }
 
 

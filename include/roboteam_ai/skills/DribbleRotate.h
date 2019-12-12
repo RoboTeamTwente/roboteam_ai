@@ -8,8 +8,8 @@
 #include "Skill.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
+
 class DribbleRotate : public Skill {
     private:
         control::BallHandlePosControl ballHandlePosControl;
@@ -36,7 +36,6 @@ class DribbleRotate : public Skill {
 
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_DRIBBLEROTATE_H

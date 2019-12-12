@@ -6,8 +6,7 @@
 #include <world/Robot.h>
 #include "conditions/RobotOutside.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai{
 
 RobotOutside::RobotOutside(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(name, blackboard) {
@@ -28,6 +27,5 @@ bool RobotOutside::checkPoint() {
     return !(abs(robot->pos.x) < field->get_field().get(FIELD_LENGTH) / 2 + margin &&
             abs(robot->pos.y) < field->get_field().get(FIELD_WIDTH) / 2 + margin &&
             !field->pointIsInDefenceArea(robot->pos));
-}
 }
 }

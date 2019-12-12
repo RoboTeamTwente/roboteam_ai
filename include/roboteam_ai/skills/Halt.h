@@ -7,8 +7,7 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Halt : public Skill {
     public:
@@ -16,7 +15,6 @@ class Halt : public Skill {
         Status onUpdate() override;
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_HALT_H

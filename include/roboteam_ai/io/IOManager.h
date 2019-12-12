@@ -19,8 +19,7 @@
 #include "include/roboteam_ai/world/FieldMessage.h"
 #include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class Pause;
 
 namespace io {
@@ -73,7 +72,6 @@ public:
 extern IOManager io;
 
 } // io
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_IO_MANAGER_H
