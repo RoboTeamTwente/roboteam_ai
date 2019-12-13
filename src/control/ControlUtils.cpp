@@ -283,11 +283,11 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
     FieldMessage field = FieldMessage::get_field();
-    if (world::FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
+    if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
         position.x = std::max(position.x, field[LEFT_PENALTY_LINE].begin.x + margin);
         return position;
     }
-    if (world::FieldComputations::pointIsInDefenceArea(field, position, false, margin)) {
+    if (FieldComputations::pointIsInDefenceArea(field, position, false, margin)) {
         position.x = std::min(position.x, field[RIGHT_PENALTY_LINE].begin.x - margin);
         return position;
     }
@@ -354,13 +354,13 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
         Vector2 projectPos = shotLine.project(position);
         Vector2 closestPoint = projectPos;
 
-        bool pointInOurDefenseArea = world::FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
-        bool pointInTheirDefenseArea = world::FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
+        bool pointInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
+        bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
 
         if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
 
-            Polygon defenceAreaUs(world::FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));
-            Polygon defenceAreaThem(world::FieldComputations::getDefenseArea(field, false, defenseAreamargin, true));
+            Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));
+            Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, true));
 
 
             std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
@@ -372,7 +372,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
             }
             double closestDist = 9e9;
             for (const auto &point :intersects) {
-                if (world::FieldComputations::pointIsInField(field, point, defenseAreamargin)) {
+                if (FieldComputations::pointIsInField(field, point, defenseAreamargin)) {
                     double dist = point.dist(position);
                     if (dist < closestDist) {
                         closestDist = dist;
@@ -382,7 +382,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
             }
         }
 
-        if (!canMoveOutOfField && !world::FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
+        if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
             closestPoint = projectPositionToWithinField(projectPos, defenseAreamargin);
         }
 

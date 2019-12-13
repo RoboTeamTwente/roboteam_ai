@@ -5,6 +5,7 @@
 #include <utilities/RobotDealer.h>
 #include <coach/PassCoach.h>
 #include <utilities/GameStateManager.hpp>
+#include <roboteam_utils/Line.h>
 #include "interface/widgets/widget.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
@@ -197,9 +198,9 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         bool weAreYellow = SETTINGS.isYellow();
 
         // draw the hint for us
-        auto usGoalLine = world::FieldComputations::getGoalSides(field, true);
-        Vector2 ourLineUpper = {usGoalLine.first.x, usGoalLine.first.y};
-        Vector2 ourLineLower = {usGoalLine.second.x, usGoalLine.second.y};
+        auto usGoalLine = FieldComputations::getGoalSides(field, true);
+        Vector2 ourLineUpper = {usGoalLine.start.x, usGoalLine.start.y};
+        Vector2 ourLineLower = {usGoalLine.end.x, usGoalLine.end.y};
         ourLineUpper = toScreenPosition(ourLineUpper);
         ourLineLower = toScreenPosition(ourLineLower);
 
@@ -210,9 +211,9 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
 
 
-        auto theirGoalLine = world::FieldComputations::getGoalSides(field, false);
-        Vector2 theirLineUpper = {theirGoalLine.first.x, theirGoalLine.first.y};
-        Vector2 theirLineLower = {theirGoalLine.second.x, theirGoalLine.second.y};
+        auto theirGoalLine = FieldComputations::getGoalSides(field, false);
+        Vector2 theirLineUpper = {theirGoalLine.start.x, theirGoalLine.start.y};
+        Vector2 theirLineLower = {theirGoalLine.end.x, theirGoalLine.end.y};
         theirLineUpper = toScreenPosition(theirLineUpper);
         theirLineLower = toScreenPosition(theirLineLower);
 

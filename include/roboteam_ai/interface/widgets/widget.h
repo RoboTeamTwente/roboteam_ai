@@ -11,6 +11,7 @@
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
 
+#include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include <world/Robot.h>
 #include <interface/api/Toggles.h>

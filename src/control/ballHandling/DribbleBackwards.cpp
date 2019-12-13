@@ -180,7 +180,7 @@ RobotCommand DribbleBackwards::sendOvershootCommand() {
     command.angle = lockedAngle;
 
     FieldMessage _field = FieldMessage::get_field();
-    if (failedOnce && !world::FieldComputations::pointIsInField(_field, ball->getPos(), Constants::ROBOT_RADIUS())) {
+    if (failedOnce && !FieldComputations::pointIsInField(_field, ball->getPos(), Constants::ROBOT_RADIUS())) {
         command.kickerForced = true;
         command.kickerVel = 2;
         command.kicker = true;

@@ -28,7 +28,7 @@ bool RobotOutside::checkPoint() {
     double margin = 0.15;
     return !(abs(robot->pos.x) < FieldMessage::get_field()[FIELD_LENGTH] / 2 + margin &&
         abs(robot->pos.y) < FieldMessage::get_field()[FIELD_WIDTH] / 2 + margin &&
-        !world::FieldComputations::pointIsInDefenceArea(field, robot->pos));
+        !FieldComputations::pointIsInDefenceArea(field, robot->pos));
 }
 }
 }

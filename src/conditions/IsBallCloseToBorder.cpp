@@ -31,7 +31,7 @@ bt::Node::Status IsBallCloseToBorder::onUpdate() {
             return Status::Failure;
         }
     } 
-    else if (world::FieldComputations::pointIsInField(fieldMsg, ball->getPos(), static_cast<float>(margin))) {
+    else if (FieldComputations::pointIsInField(fieldMsg, ball->getPos(), static_cast<float>(margin))) {
         return Status::Failure;
     }
 

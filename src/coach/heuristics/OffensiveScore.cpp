@@ -38,9 +38,9 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
     // check if the offender is not blocking the goal
     FieldMessage field = FieldMessage::get_field();
     std::vector<Vector2> vertices;
-    auto goalSides = world::FieldComputations::getGoalSides(field, false);
-    vertices.push_back(goalSides.first);
-    vertices.push_back(goalSides.second);
+    auto goalSides = FieldComputations::getGoalSides(field, false);
+    vertices.push_back(goalSides.start);
+    vertices.push_back(goalSides.end);
     vertices.push_back(world::world->getBall()->getPos());
     Polygon goalBallTriangle(vertices);
 
@@ -49,8 +49,8 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
     }
 
     // check if the point is in the field and out of the defense area
-    if (! world::FieldComputations::pointIsInField(field, positionToCheck, Constants::ROBOT_RADIUS()*6) ||
-            world::FieldComputations::pointIsInDefenceArea(field, positionToCheck, false, Constants::ROBOT_RADIUS()*2)) {
+    if (! FieldComputations::pointIsInField(field, positionToCheck, Constants::ROBOT_RADIUS()*6) ||
+        FieldComputations::pointIsInDefenceArea(field, positionToCheck, false, Constants::ROBOT_RADIUS()*2)) {
         return false;
     }
 

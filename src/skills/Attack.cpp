@@ -25,7 +25,7 @@ bt::Node::Status Attack::onUpdate() {
     FieldMessage field = FieldMessage::get_field();
     if (! robot) return Status::Running;
 
-    if (world::FieldComputations::pointIsInDefenceArea(field, ball->getPos(), false)) {
+    if (FieldComputations::pointIsInDefenceArea(field, ball->getPos(), false)) {
         command.set_w(robot->angle);
         publishRobotCommand();
         return Status::Running;

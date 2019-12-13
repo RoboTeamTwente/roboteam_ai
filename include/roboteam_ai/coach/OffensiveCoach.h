@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_OFFENSIVECOACH_H
 #define ROBOTEAM_AI_OFFENSIVECOACH_H
 
+#include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include <algorithm>
 #include "world/WorldData.h"
@@ -51,8 +52,8 @@ class OffensiveCoach {
         OffensivePosition findBestOffensivePosition(const std::vector<Vector2> &positions,
                 const OffensivePosition &currentBestScore, const Vector2 &zoneLocation);
 
-        const std::pair<Vector2, Vector2> &getLongestSegment(const std::vector<std::pair<Vector2, Vector2>> &openSegments);
-        std::pair<Vector2, Vector2> getAimPoints(const Vector2 &fromPoint);
+        const Line &getLongestSegment(const std::vector<Line> &openSegments);
+        Line getAimPoints(const Vector2 &fromPoint);
         coach::OffensiveScore offensiveScore;
         std::vector<OffensivePosition> offensivePositions;
         std::map<int, int> sideAttackers; // Map from robot ids to zones

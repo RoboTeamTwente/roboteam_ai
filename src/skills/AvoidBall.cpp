@@ -35,8 +35,8 @@ bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);
 
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
-    if (!robotIsKeeper && (world::FieldComputations::pointIsInDefenceArea(_field, robotPos, true, 0.10) ||
-        world::FieldComputations::pointIsInDefenceArea(_field, robotPos, false, 0.10))) {
+    if (!robotIsKeeper && (FieldComputations::pointIsInDefenceArea(_field, robotPos, true, 0.10) ||
+        FieldComputations::pointIsInDefenceArea(_field, robotPos, false, 0.10))) {
 
         robot->getNumtreePosControl()->getRobotCommand(world, field, robot, Vector2(0, robotPos.y));
         publishRobotCommand();

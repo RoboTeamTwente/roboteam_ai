@@ -67,7 +67,7 @@ void StopFormation::setFinalAngle() {
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     FieldMessage field = FieldMessage::get_field();
-    auto pp = world::FieldComputations::getPenaltyPoint(field, true); // penalty point
+    auto pp = FieldComputations::getPenaltyPoint(field, true); // penalty point
     auto defenseAreaLineA = field[LEFT_PENALTY_LINE].begin;
     auto defenseAreaLineB = field[LEFT_PENALTY_LINE].end;
 
@@ -205,7 +205,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 
 bool StopFormation::positionShouldBeAvoided(Vector2 pos) {
     FieldMessage field = FieldMessage::get_field();
-    return (pos.dist(ball->getPos()) < 0.9 || !world::FieldComputations::pointIsInField(field, pos, 0.0));
+    return (pos.dist(ball->getPos()) < 0.9 || !FieldComputations::pointIsInField(field, pos, 0.0));
 }
 
 std::vector<Vector2> StopFormation::getProperPositions(int amount) {

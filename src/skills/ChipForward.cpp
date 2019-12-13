@@ -14,7 +14,7 @@ ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
 
 void ChipForward::onInitialize() {
     FieldMessage field = FieldMessage::get_field();
-    aimPoint = world::FieldComputations::getPenaltyPoint(field, false);
+    aimPoint = FieldComputations::getPenaltyPoint(field, false);
     hasChipped = false;
 }
 

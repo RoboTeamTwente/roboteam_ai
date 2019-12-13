@@ -160,26 +160,26 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
     FieldMessage field = FieldMessage::get_field();
 
     // get the longest line section op the visible part of the goal
-    std::vector<std::pair<Vector2, Vector2>> openSegments = world::FieldComputations::getVisiblePartsOfGoal(field,
-            false, fromPoint, world::world->getWorld());
+    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint,
+            world::world->getWorld());
     if (openSegments.empty()) return field[THEIR_GOAL_CENTER];
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.
-    std::pair<Vector2, Vector2> aimPoints = getAimPoints(fromPoint);
-    auto leftPoint = aimPoints.first;
-    auto rightPoint = aimPoints.second;
+    Line aimPoints = getAimPoints(fromPoint);
+    auto leftPoint = aimPoints.start;
+    auto rightPoint = aimPoints.end;
 
     // check if the left and right points are in the largest segment
-    double maxY = std::max(bestSegment.first.y, bestSegment.second.y);
-    double minY = std::min(bestSegment.first.y, bestSegment.second.y);
+    double maxY = std::max(bestSegment.start.y, bestSegment.end.y);
+    double minY = std::min(bestSegment.start.y, bestSegment.end.y);
     bool leftPointInSegment = leftPoint.y < maxY && leftPoint.y > minY;
     bool rightPointInSegment = rightPoint.y < maxY && rightPoint.y > minY;
 
     // if we can aim on only one of the points, aim there, otherwise we want to aim for the centre of the largest open segment
     if (leftPointInSegment && rightPointInSegment) {
         // open goal (mostly), so just shoot in the middle of the largest open segment
-        return (bestSegment.first + bestSegment.second)*0.5;
+        return (bestSegment.start + bestSegment.end) * 0.5;
     }
     else if (leftPointInSegment) {
         return leftPoint;
@@ -188,18 +188,18 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
         return rightPoint;
     }
     else {
-        return (bestSegment.first + bestSegment.second)*0.5;
+        return (bestSegment.start + bestSegment.end) * 0.5;
     }
 
 }
 // we want to shoot quick without changing geneva
-std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, double currentShotAngle,Vector2 keeperPos){
+std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, double currentShotAngle, Vector2 keeperPos){
     // make two aim points which are in the corners.
-    std::pair<Vector2, Vector2> aimPoints = getAimPoints(fromPoint);
-    auto leftPoint = aimPoints.first;
-    auto rightPoint = aimPoints.second;
-    double leftDif=control::ControlUtils::angleDifference((leftPoint-fromPoint).angle(),currentShotAngle);
-    double rightDif=control::ControlUtils::angleDifference((rightPoint-fromPoint).angle(),currentShotAngle);
+    Line aimPoints = getAimPoints(fromPoint);
+    auto leftPoint = aimPoints.start;
+    auto rightPoint = aimPoints.end;
+    double leftDif= control::ControlUtils::angleDifference((leftPoint-fromPoint).angle(),currentShotAngle);
+    double rightDif= control::ControlUtils::angleDifference((rightPoint-fromPoint).angle(),currentShotAngle);
     if (leftDif<=rightDif){
         if((leftPoint - keeperPos).length() >= 0.4){
             return std::make_pair(leftPoint,true);
@@ -212,26 +212,22 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
     return std::make_pair(leftPoint,false);
 
 }
-std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
+Line OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
     FieldMessage field = FieldMessage::get_field();
-    std::pair<Vector2, Vector2> goalSides = world::FieldComputations::getGoalSides(field, false);
+    Line goalSides = FieldComputations::getGoalSides(field, false);
     double angleMargin = sin(2.0/180.0*M_PI);
     double constantMargin = 0.05 * field[GOAL_WIDTH];
-    Vector2 leftPoint(goalSides.first.x,
-            goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));
-    Vector2 rightPoint(goalSides.second.x,
-            goalSides.second.y - angleMargin*goalSides.second.dist(fromPoint) - constantMargin);
-    return std::make_pair(leftPoint, rightPoint);
+    Vector2 leftPoint(goalSides.start.x, goalSides.start.y + constantMargin + angleMargin * goalSides.start.dist(fromPoint));
+    Vector2 rightPoint(goalSides.end.x, goalSides.end.y - angleMargin * goalSides.end.dist(fromPoint) - constantMargin);
+    return Line(leftPoint, rightPoint);
 }
 
-const std::pair<Vector2, Vector2> &OffensiveCoach::getLongestSegment(
-        const std::vector<std::pair<Vector2, Vector2>> &openSegments) {
-
+const Line &OffensiveCoach::getLongestSegment(const std::vector<Line> &openSegments) {
     unsigned long bestIndex = 0;
     for (unsigned long i = 1; i < openSegments.size(); i ++) {
         auto segment = openSegments[i];
         auto bestSegment = openSegments[bestIndex];
-        if (abs(segment.first.y - segment.second.y) > abs(bestSegment.first.y - bestSegment.second.y)) {
+        if (abs(segment.start.y - segment.start.y) > abs(bestSegment.start.y - bestSegment.start.y)) {
             bestIndex = i;
         }
     }

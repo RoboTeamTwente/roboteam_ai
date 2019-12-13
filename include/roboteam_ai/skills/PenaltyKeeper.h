@@ -15,10 +15,10 @@ class PenaltyKeeper : public Skill  {
         PenaltyState state;
         Vector2 firstBallPos;
         int ballNotShotTicks;
-        std::pair<Vector2,Vector2> goalLine;
+        Line goalLine;
         Vector2 computeDefendPos();
         Vector2 interceptBallPos();
-        std::pair<Vector2,Vector2> getGoalLine();
+        Line getGoalLine();
         void sendWaitCommand();
         void sendInterceptCommand();
         control::BasicPosControl gtp;

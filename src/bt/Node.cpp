@@ -20,7 +20,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World * world, rtt::ai::world::FieldComputations * field) {
+Node::Status Node::tick(rtt::ai::world::World * world, rtt::ai::FieldComputations * field) {
 
     this->world = world;
     this->field = field;

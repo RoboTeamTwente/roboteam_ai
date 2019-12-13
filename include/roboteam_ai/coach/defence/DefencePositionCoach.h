@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_DEFENSIVECOACH_H
 
 #include <gtest/gtest_prod.h>
+#include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include "world/WorldData.h"
 #include "world/World.h"
@@ -14,7 +15,6 @@
 namespace rtt {
 namespace ai {
 namespace coach {
-using Line=std::pair<Vector2, Vector2>;
 enum botType { BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE };
 struct DefenderBot {
   int id;

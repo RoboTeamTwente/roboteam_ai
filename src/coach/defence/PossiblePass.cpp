@@ -50,19 +50,19 @@ double PossiblePass::score(const world::WorldData &world) {
 double PossiblePass::scoreForGoalAngle(const world::WorldData &world) {
     FieldMessage field = FieldMessage::get_field();
     // find the largest open angle in the world
-    std::vector<Line> visibleParts = world::FieldComputations::getVisiblePartsOfGoal(field, true, endPos, world);
+    std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, endPos, world);
     std::sort(visibleParts.begin(), visibleParts.end(),
             [](const Line &a, const Line &b) {
-              return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y);
+              return abs(a.end.y - a.start.y) > abs(b.end.y - b.start.y);
             });
     // set the largest open angle, we use a minimum of 0.05 of the goal angle
     double largestOpenGoalAngle;
     if (visibleParts.empty()) {
-        largestOpenGoalAngle = world::FieldComputations::getTotalGoalAngle(field, true, endPos) * 0.05;
+        largestOpenGoalAngle = FieldComputations::getTotalGoalAngle(field, true, endPos) * 0.05;
     }
     else {
-        double angleOne = (visibleParts[0].first - endPos).angle();
-        double angleTwo = (visibleParts[0].second - endPos).angle();
+        double angleOne = (visibleParts[0].start - endPos).angle();
+        double angleTwo = (visibleParts[0].end - endPos).angle();
         largestOpenGoalAngle = control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleOne),
                 control::ControlUtils::constrainAngle(angleTwo));
     }

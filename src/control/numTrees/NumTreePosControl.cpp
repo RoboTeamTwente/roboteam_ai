@@ -50,7 +50,7 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::FieldComputations * field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -62,7 +62,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Fie
     return robotCommand;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::FieldComputations * field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -72,7 +72,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Fie
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::FieldComputations * field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
         this->world = world;
         this->field = field;
@@ -369,7 +369,7 @@ Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
 
     FieldMessage _field = FieldMessage::get_field();
     double margin = canMoveOutOfField ? -0.30 + Constants::ROBOT_RADIUS() : Constants::ROBOT_RADIUS();
-    if (! world::FieldComputations::pointIsInField(_field, point->pos, margin)) {
+    if (!FieldComputations::pointIsInField(_field, point->pos, margin)) {
         collision.setFieldCollision(point->pos, 0.2);
     }
     return collision;
@@ -383,8 +383,8 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
 
     if (! getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
-        bool isInOurDefenseArea = world::FieldComputations::pointIsInDefenceArea(field, point->pos, true, margin, false);
-        bool isInTheirDefenseArea = world::FieldComputations::pointIsInDefenceArea(field, point->pos, false, margin, false);
+        bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, point->pos, true, margin, false);
+        bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
             double defenseAreaX = point->pos.x < 0 ? field[LEFT_PENALTY_LINE].begin.x: field[RIGHT_PENALTY_LINE].begin.x;
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin)*1.1);
@@ -400,9 +400,9 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     if (currentCollisionWithFinalTarget.getCollisionGoalPos() != Vector2()) return collision;
     FieldMessage field = FieldMessage::get_field();
 
-    bool collidesWithOurGoal = world::FieldComputations::getGoalArea(field, true, Constants::ROBOT_RADIUS(), true)
+    bool collidesWithOurGoal = FieldComputations::getGoalArea(field, true, Constants::ROBOT_RADIUS(), true)
             .contains(point->pos);
-    bool collidesWithTheirGoal = world::FieldComputations::getGoalArea(field, false, Constants::ROBOT_RADIUS(), true)
+    bool collidesWithTheirGoal = FieldComputations::getGoalArea(field, false, Constants::ROBOT_RADIUS(), true)
             .contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
@@ -497,7 +497,7 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::FieldComputations * field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
     this->world = world;
     this->field = field;
     Angle defaultAngle;

@@ -21,9 +21,9 @@ bool GetBallCoach::shouldWeGetBall() {
     // should probably listen to ballPossession at some point
     FieldMessage field = FieldMessage::get_field();
     Vector2 ballPos = world::world->getBall()->getPos();
-    return !world::FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) &&
-            !world::FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
-            world::FieldComputations::pointIsInField(field, ballPos, - 0.05);
+    return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) &&
+            !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
+            FieldComputations::pointIsInField(field, ballPos, - 0.05);
 }
 
 bool GetBallCoach::weAreGettingBall() {

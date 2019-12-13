@@ -107,7 +107,7 @@ void ApplicationManager::updateTrees() {
 void ApplicationManager::runKeeperTree() {
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick(ai::world::world, ai::world::field);
+        keeperTree->tick(ai::world::world, ai::field);
     }
 }
 
@@ -118,7 +118,7 @@ Status ApplicationManager::runStrategyTree() {
           return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(ai::world::world, ai::world::field);
+    Status status = strategy->tick(ai::world::world, ai::field);
     return status;
 }
 

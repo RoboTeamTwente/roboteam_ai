@@ -44,7 +44,7 @@ Keeper::Status Keeper::onUpdate() {
 
     blockPoint = computeBlockPoint(ballPos);
 
-    if (!world::FieldComputations::pointIsInField(_field, blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
+    if (!FieldComputations::pointIsInField(_field, blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
         blockPoint = goalPos;
         blockPoint.x += Constants::KEEPER_CENTREGOAL_MARGIN();
         command.set_w(0);
@@ -92,7 +92,7 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
             posA = *intersections.first;
             posB = *intersections.second;
 
-            if (! world::FieldComputations::pointIsInDefenceArea(_field, posA, true)) {
+            if (!FieldComputations::pointIsInDefenceArea(_field, posA, true)) {
                 blockPos = posB;
             }
 
@@ -126,13 +126,13 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
 
     start = attacker->pos;
 
-    auto goal = world::FieldComputations::getGoalSides(fieldMsg, true);
+    auto goal = FieldComputations::getGoalSides(fieldMsg, true);
     Vector2 attackerToBallV2 = ball->getPos() - attacker->pos;
     Vector2 attackerAngleV2 = attacker->angle.toVector2();
-    Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.first,
-            goal.second);
-    Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker->pos, attacker->pos, goal.first,
-            goal.second);
+    Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.start,
+            goal.end);
+    Vector2 i2 = control::ControlUtils::twoLineIntersection(attackerAngleV2 + attacker->pos, attacker->pos, goal.start,
+            goal.end);
     Angle targetAngle = Vector2((i1 + i2)*0.5 - attacker->pos).toAngle();
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
@@ -144,8 +144,9 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
 }
 
 rtt::Arc Keeper::createKeeperArc() {
-    double goalwidth = FieldMessage::get_field()[GOAL_WIDTH];
-    Vector2 goalPos = FieldMessage::get_field()[OUR_GOAL_CENTER];
+    FieldMessage _field = FieldMessage::get_field();
+    double goalwidth = _field[GOAL_WIDTH];
+    Vector2 goalPos = _field[OUR_GOAL_CENTER];
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.

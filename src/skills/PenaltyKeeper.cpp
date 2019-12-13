@@ -74,7 +74,7 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
 Vector2 PenaltyKeeper::computeDefendPos() {
     auto attacker = world::world->getRobotClosestToBall(THEIR_ROBOTS);
     // we check the line defined by attacker's centre and the ball position
-    Vector2 middle=(goalLine.first + goalLine.second)*0.5;
+    Vector2 middle=(goalLine.start + goalLine.end) * 0.5;
 
     if (attacker) {
         Vector2 beginPos = attacker->pos;
@@ -84,7 +84,7 @@ Vector2 PenaltyKeeper::computeDefendPos() {
         // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
         double maxMoveDist=(FieldMessage::get_field()[GOAL_WIDTH] - Constants::ROBOT_RADIUS()) / 2 - 0.2;
         LineSegment shootLine(beginPos,endPos);
-        Line goalKeepingLine(goalLine.first,goalLine.second);
+        Line goalKeepingLine(goalLine.start, goalLine.end);
         auto intersection=goalKeepingLine.intersects(shootLine);
         if (intersection) {
             if (intersection->y>maxMoveDist){
@@ -102,14 +102,14 @@ Vector2 PenaltyKeeper::computeDefendPos() {
 Vector2 PenaltyKeeper::interceptBallPos() {
     Vector2 startBall = world::world->getBall()->getPos();
     Vector2 endBall = world::world->getBall()->getPos() + world::world->getBall()->getVel().stretchToLength(100);
-    Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.first,
-            goalLine.second);
+    Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.start,
+            goalLine.end);
     double margin = 0.05;//m next to the goal
     if (predictedShotLocation.y <= FieldMessage::get_field()[GOAL_WIDTH] * 0.5 + margin
             && predictedShotLocation.y >= -FieldMessage::get_field()[GOAL_WIDTH] * 0.5 - margin) {
         return predictedShotLocation;
     }
-    return (goalLine.first + goalLine.second)*0.5;
+    return (goalLine.start + goalLine.end)*0.5;
 }
 
 void PenaltyKeeper::sendWaitCommand() {
@@ -136,12 +136,12 @@ void PenaltyKeeper::sendInterceptCommand() {
     command.set_w(M_PI_2);
     publishRobotCommand();
 }
-std::pair<Vector2, Vector2> PenaltyKeeper::getGoalLine() {
+Line PenaltyKeeper::getGoalLine() {
     FieldMessage field = FieldMessage::get_field();
-    std::pair<Vector2, Vector2> originalLine = world::FieldComputations::getGoalSides(field, true);
-    double forwardX = originalLine.first.x + Constants::KEEPER_PENALTY_LINE_MARGIN();
-    originalLine.first.x = forwardX;
-    originalLine.second.x = forwardX;
+    Line originalLine = FieldComputations::getGoalSides(field, true);
+    double forwardX = originalLine.start.x + Constants::KEEPER_PENALTY_LINE_MARGIN();
+    originalLine.start.x = forwardX;
+    originalLine.end.x = forwardX;
     return originalLine;
 }
 bool PenaltyKeeper::isBallShot() {

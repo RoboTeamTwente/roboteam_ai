@@ -45,7 +45,7 @@ void GTPSpecial::gtpInitialize() {
         maxVel = 9e9;
         Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
 
-        Vector2 penaltyThem = world::FieldComputations::getPenaltyPoint(field, false);
+        Vector2 penaltyThem = FieldComputations::getPenaltyPoint(field, false);
         targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
         errorMargin = 0.05;
         break;
@@ -61,7 +61,7 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ourDefenseAreaCenter: {
-        targetPos = world::FieldComputations::getDefenseArea(field).centroid();
+        targetPos = FieldComputations::getDefenseArea(field).centroid();
         break;
     }
     }
@@ -153,7 +153,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
         break;
     }
     case ourDefenseAreaCenter: {
-        targetPos = world::FieldComputations::getDefenseArea(_field).centroid();
+        targetPos = FieldComputations::getDefenseArea(_field).centroid();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
         command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;

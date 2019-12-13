@@ -13,8 +13,6 @@ namespace rtt {
 namespace ai {
 namespace coach {
 
-using Line=std::pair<Vector2, Vector2>;
-
 class PossiblePass {
     public:
         world::Robot toBot;

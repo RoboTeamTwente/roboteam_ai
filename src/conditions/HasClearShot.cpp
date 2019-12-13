@@ -34,12 +34,12 @@ HasClearShot::Status HasClearShot::onUpdate() {
         return Status::Failure;
     }
 
-    if (world::FieldComputations::pointIsInDefenceArea(_field, robot->pos, false, 0.5, false)) {
+    if (FieldComputations::pointIsInDefenceArea(_field, robot->pos, false, 0.5, false)) {
         minViewAtGoal /= 4;
     }
 
     // return success if there is a clear line to their goal 
-    bool hasClearShot = world::FieldComputations::getPercentageOfGoalVisibleFromPoint(_field, false, ball->getPos(),
+    bool hasClearShot = FieldComputations::getPercentageOfGoalVisibleFromPoint(_field, false, ball->getPos(),
             world->getWorld(), robot->id, true) > minViewAtGoal * 100;
 
     return hasClearShot ? Status::Success : Status::Failure;

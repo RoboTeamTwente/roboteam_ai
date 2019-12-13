@@ -67,7 +67,7 @@ bool MidFieldCoach::validOpponent(const RobotPtr& opponent) {
         return false;
     }
     FieldMessage field = FieldMessage::get_field();
-    return world::FieldComputations::pointIsInField(field, opponent->pos);
+    return FieldComputations::pointIsInField(field, opponent->pos);
 }
 
 void MidFieldCoach::removeMidFielder(MidFieldCoach::RobotPtr &thisRobot) {
@@ -251,7 +251,7 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angl
                                       bestPosition + thetaMinus.toVector2(4.0  * GRID_SIZE)};
 
     for (const auto& position : positions) {
-        if(!world::FieldComputations::pointIsInField(field, position, 0.20) ||
+        if(!FieldComputations::pointIsInField(field, position, 0.20) ||
             abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
         double score = calculateStandingFreeScore(position, thisRobot);
         if (score > highestScore) {

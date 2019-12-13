@@ -18,22 +18,22 @@
 namespace rtt {
 namespace ai {
 namespace world {
+    class WorldData;
+} // world
 
-using Line=std::pair<Vector2, Vector2>;
 
-class WorldData;
 class FieldComputations {
     public:
         static bool pointIsInDefenceArea(FieldMessage &field, const Vector2& point, bool isOurDefenceArea = true,
                 double margin = 0.0, bool includeOutsideField = false);
         static bool pointIsInField(FieldMessage &field, const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
         static double getPercentageOfGoalVisibleFromPoint(FieldMessage &field, bool ourGoal, const Vector2& point,
-                const WorldData &world, int id = -1, bool ourTeam = false);
+                const world::WorldData &world, int id = -1, bool ourTeam = false);
         static std::vector<Line> getBlockadesMappedToGoal(FieldMessage &field, bool ourGoal, const Vector2& point,
-                const WorldData &world, int id = -1, bool ourTeam = false);
+                const world::WorldData &world, int id = -1, bool ourTeam = false);
         static std::vector<Line> mergeBlockades(std::vector<Line> blockades);
         static std::vector<Line> getVisiblePartsOfGoal(FieldMessage &field, bool ourGoal, const Vector2& point,
-                const WorldData &world);
+                const world::WorldData &world);
         static Line getGoalSides(FieldMessage &field, bool ourGoal);
         static double getDistanceToGoal(FieldMessage &field, bool ourGoal, const Vector2& point);
         static Vector2 getPenaltyPoint(FieldMessage &field, bool ourGoal);
@@ -49,7 +49,6 @@ class FieldComputations {
 extern FieldComputations fieldObj;
 extern FieldComputations* field;
 
-} // world
 } // ai
 } // rtt
 
