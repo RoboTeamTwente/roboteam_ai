@@ -21,7 +21,7 @@ namespace rtt::ai::analysis {
          * @param field
          * @return true when the invariant is true, false otherwise
          */
-        bool isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field) const;
+        //bool isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
     private:
 //        Invariant(const Invariant&);

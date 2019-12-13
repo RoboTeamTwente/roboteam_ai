@@ -8,28 +8,38 @@
 #include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
 #include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
 #include "analysis/PlaysObjects/Play.h"
+#include "functional"
+
+
 namespace rtt::ai::analysis {
 
+    using fun = std::function<bool(world::World*, world::Field*)>;
+
+
+    std::function<bool(world::World*, world::Field*)> isAlwaysTrue;
+    std::function<bool(world::World*, world::Field*)> isAlwaysFalse;
+    void PlayChecker::constructInvariants() {
+        AlwaysTrueInvariant inv = AlwaysTrueInvariant();
+
+        /**
+         * Typedef to facilitate creation of functors for invariant evaluation
+         */
+//
+//        functo f_bla = [&](auto invar, auto world, auto field) {return invar.isTrue(world, field);};
+//        fun f_blub = [&](auto invar, auto world, auto field) {return invar.isTrue(world, field);};
+//
+        isAlwaysTrue = [&](auto world, auto field) {return AlwaysTrueInvariant().isTrue(world, field);};
+        isAlwaysFalse = [&](auto world, auto field) {return AlwaysFalseInvariant().isTrue(world, field);};
+
+
+    }
 
 
 
 
 
     PlayChecker::PlayChecker() {
-        std::shared_ptr<AlwaysTrueInvariant> alwaystrueinv = std::make_shared<AlwaysTrueInvariant>();
-        auto falseinv = std::make_shared<AlwaysFalseInvariant>();
-        auto ballus = std::make_shared<BallBelongsToUsInvariant>();
-        auto onOurSide = std::make_shared<BallOnOurSideInvariant>();
-
-        auto al = ivec{{alwaystrueinv}, {alwaystrueinv}};
-
-        auto AlwaysTruePlay = std::make_unique<Play>("always true play", al);
-        auto badPlay = std::make_unique<Play>("always bad play", ivec{{falseinv}, {alwaystrueinv}});
-        auto TrueWhenBallOnOurSidePlay = std::make_unique<Play>("when ball on our side", ivec{{onOurSide}, {ballus}});
-        auto myPlay = std::make_unique<Play>("when ball belongs to us", ivec{{ballus}, {alwaystrueinv}});
-
-        PlayChecker::allPlays = std::vector<Play> {*myPlay, *badPlay, *AlwaysTruePlay, *TrueWhenBallOnOurSidePlay};
-
+        constructInvariants();
     }
 
     /**
@@ -40,8 +50,7 @@ namespace rtt::ai::analysis {
      * If the one of the invariants is true, the PlayChecker will signal the PlayDecider to recalculate the play,
      * and give it the plays that are possible and allowed.
      */
-    PlayChecker::PlayChecker(Play& play) : currentPlay {play} {
-    }
+
 
     /**
      * @brief Checks if the invariants of the current play are true for the gamestate
@@ -52,8 +61,7 @@ namespace rtt::ai::analysis {
     bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
         std::cout << "checking if the play is still valid" << std::endl;
         std::cout << "Invariants name:";
-        return std::all_of(invariants.begin(), invariants.end(),
-                [&](auto const& inv){ return inv.isTrue(world, field); });
+        return true;
     }
 
 
@@ -63,14 +71,11 @@ namespace rtt::ai::analysis {
      * TODO: add lambda here, to make it faster and cleaner
      */
     void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        validPlays = {};
-        std::cout << "determing new plays" << std::endl;
-        for (auto& play : allPlays) {
-            std::cout << play.getName() << std::endl;
-            if (play.isValidPlay(world, field)) {
-                validPlays.push_back(play);
-                std::cout << "this play is ok: " << play.getName() << std::endl;
-            }
+        std::vector<fun> functionvector = {isAlwaysFalse, isAlwaysTrue};
+        bool result = false;
+        for (auto f : functionvector) {
+            result = f(world, field);
+            std::cout << result << std::endl;
         }
     }
     /**

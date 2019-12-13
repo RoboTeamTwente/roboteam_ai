@@ -20,10 +20,10 @@ namespace rtt::ai::analysis {
         this->invariants = invariants;
     }
 
-    bool Play::isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        return std::all_of(invariants.begin(), invariants.end(),
-                           [world, field](auto invar){ return invar->isTrue(world, field); });
-    }
+//    bool Play::isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+//        return std::all_of(invariants.begin(), invariants.end(),
+//                           [world, field](auto invar){ return invar->isTrue(world, field); });
+//    }
 
     Play::Play(std::string name, std::vector<std::shared_ptr<Invariant>> invariants)
         : invariants {std::move(invariants)}, name {std::move(name)} {

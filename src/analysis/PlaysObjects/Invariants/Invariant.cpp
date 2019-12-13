@@ -12,11 +12,7 @@ namespace rtt::ai::analysis {
 
     }
 
-    bool Invariant::isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field) const {
 
-        std::cerr << "please reimplement this function in your derived class" << std::endl;
-        return false;
-    }
 
 
 }

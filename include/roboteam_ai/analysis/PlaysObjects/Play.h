@@ -34,7 +34,6 @@ namespace rtt::ai::analysis {
         std::string getName();
     protected:
         std::vector<std::shared_ptr<Invariant>> invariants;
-        Invariant inv;
         std::shared_ptr<bt::BehaviorTree> tree;
         std::string name;
 

@@ -13,7 +13,7 @@ namespace rtt::ai::analysis {
 
     class PlayChecker {
     public:
-        PlayChecker(Play& play);
+        void constructInvariants();
         PlayChecker();
         bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
@@ -23,7 +23,7 @@ namespace rtt::ai::analysis {
         /**
          * List of the invariants of the current strategy
          */
-        std::vector<rtt::ai::analysis::Invariant> invariants;
+        std::vector<std::shared_ptr<Invariant>> invariants;
         /**
          * Vector of all strategies (before pruning)
          */
