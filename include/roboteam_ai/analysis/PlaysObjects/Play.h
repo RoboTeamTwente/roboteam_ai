@@ -19,9 +19,10 @@ namespace rtt::ai::analysis {
     public:
         Play();
 
-        Play(std::vector<Invariant> invariants);
-        void setInvariants(const std::vector<Invariant> &invariants);
-        const std::vector<Invariant> &getInvariants() const;
+        Play(std::string name, std::vector<std::shared_ptr<Invariant>> invariants);
+
+        void setInvariants(const std::vector<std::shared_ptr<Invariant>> &invariants);
+        const std::vector<std::shared_ptr<Invariant>> &getInvariants() const;
 
 
         /**
@@ -30,10 +31,12 @@ namespace rtt::ai::analysis {
          */
         bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) ;
 
+        std::string getName();
     protected:
-        std::vector<Invariant> invariants;
+        std::vector<std::shared_ptr<Invariant>> invariants;
         Invariant inv;
         std::shared_ptr<bt::BehaviorTree> tree;
+        std::string name;
 
     };
 }

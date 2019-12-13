@@ -9,22 +9,28 @@ namespace rtt::ai::analysis {
      * @param invariants
      * @param inv
      */
-    Play::Play(std::vector<Invariant> invariants)
-        : invariants{ std::move(invariants) } {}
 
     Play::Play() {}
 
-    const std::vector<Invariant> &Play::getInvariants() const {
+    const std::vector<std::shared_ptr<Invariant>> &Play::getInvariants() const {
         return invariants;
     }
 
-    void Play::setInvariants(const std::vector<Invariant> &invariants) {
+    void Play::setInvariants(const std::vector<std::shared_ptr<Invariant>> &invariants) {
         this->invariants = invariants;
     }
 
     bool Play::isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
         return std::all_of(invariants.begin(), invariants.end(),
-                           [&](auto const& inv){ return inv.isTrue(world, field); });
+                           [world, field](auto invar){ return invar->isTrue(world, field); });
+    }
+
+    Play::Play(std::string name, std::vector<std::shared_ptr<Invariant>> invariants)
+        : invariants {std::move(invariants)}, name {std::move(name)} {
+
+    }
+    std::string Play::getName() {
+        return name;
     }
 
 

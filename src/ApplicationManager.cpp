@@ -30,7 +30,7 @@ namespace rtt {
 void ApplicationManager::start() {
     // create playcheck object here
     playcheck = rtt::ai::analysis::PlayChecker();
-    playcheck.update(world, field)
+
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
@@ -64,7 +64,7 @@ void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
 
-        playcheck.checkCurrentGameInvariants(rtt::ai::world::world, rtt::ai::world::field);
+        playcheck.update(rtt::ai::world::world, rtt::ai::world::field);
 
         updateTrees();
         updateCoaches();

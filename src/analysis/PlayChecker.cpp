@@ -3,17 +3,12 @@
 //
 
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h>
-#include "analysis/PlaysObjects/MyPlay.h"
-#include "bt/Composite.hpp"
 #include "analysis/PlayChecker.h"
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
 #include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
 #include "analysis/PlaysObjects/Play.h"
 namespace rtt::ai::analysis {
-    /**
-     * I want this somewhere else but not sure yet where
-     */
 
 
 
@@ -21,15 +16,17 @@ namespace rtt::ai::analysis {
 
 
     PlayChecker::PlayChecker() {
-        auto alwaystrueinv = new AlwaysTrueInvariant();
-        auto falseinv = new AlwaysFalseInvariant();
-        auto ballus = new BallBelongsToUsInvariant();
-        auto onOurSide = new BallOnOurSideInvariant();
+        std::shared_ptr<AlwaysTrueInvariant> alwaystrueinv = std::make_shared<AlwaysTrueInvariant>();
+        auto falseinv = std::make_shared<AlwaysFalseInvariant>();
+        auto ballus = std::make_shared<BallBelongsToUsInvariant>();
+        auto onOurSide = std::make_shared<BallOnOurSideInvariant>();
 
-        auto AlwaysTruePlay = std::make_unique<Play>();
-        auto badPlay = std::make_unique<Play>();
-        auto TrueWhenBallOnOurSidePlay = std::make_unique<Play>();
-        auto myPlay = std::make_unique<Play>();
+        auto al = ivec{{alwaystrueinv}, {alwaystrueinv}};
+
+        auto AlwaysTruePlay = std::make_unique<Play>("always true play", al);
+        auto badPlay = std::make_unique<Play>("always bad play", ivec{{falseinv}, {alwaystrueinv}});
+        auto TrueWhenBallOnOurSidePlay = std::make_unique<Play>("when ball on our side", ivec{{onOurSide}, {ballus}});
+        auto myPlay = std::make_unique<Play>("when ball belongs to us", ivec{{ballus}, {alwaystrueinv}});
 
         PlayChecker::allPlays = std::vector<Play> {*myPlay, *badPlay, *AlwaysTruePlay, *TrueWhenBallOnOurSidePlay};
 
@@ -54,6 +51,7 @@ namespace rtt::ai::analysis {
      */
     bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
         std::cout << "checking if the play is still valid" << std::endl;
+        std::cout << "Invariants name:";
         return std::all_of(invariants.begin(), invariants.end(),
                 [&](auto const& inv){ return inv.isTrue(world, field); });
     }
@@ -66,9 +64,12 @@ namespace rtt::ai::analysis {
      */
     void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
         validPlays = {};
+        std::cout << "determing new plays" << std::endl;
         for (auto& play : allPlays) {
+            std::cout << play.getName() << std::endl;
             if (play.isValidPlay(world, field)) {
                 validPlays.push_back(play);
+                std::cout << "this play is ok: " << play.getName() << std::endl;
             }
         }
     }
