@@ -119,10 +119,11 @@ Vector2 ShotController::getPlaceBehindBall(const world::Robot &robot, const Vect
 /// use Numtree GTP to go to a place behind the ball
 RobotCommand ShotController::goToPlaceBehindBall(const world::Robot &robot, const Vector2 &robotTargetPosition,
         const std::pair<Vector2, Vector2> &line, int geneva) {
-
+    FieldMessage field = FieldMessage::get_field();
     Vector2 genevaAimTarget = updateGenevaAimTarget(geneva);
-    auto shotData = robot.getBallHandlePosControl()->getRobotCommand(world::world, field, std::make_shared<world::Robot>(robot),
-            genevaAimTarget, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+    auto shotData = robot.getBallHandlePosControl()->getRobotCommand(world::world, &field,
+            std::make_shared<world::Robot>(robot), genevaAimTarget, robot.angle,
+            control::BallHandlePosControl::TravelStrategy::FORWARDS);
 
     //TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
     if ((robot.pos - robotTargetPosition).length() < 0.2) {

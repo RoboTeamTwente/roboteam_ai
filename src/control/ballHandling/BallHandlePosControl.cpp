@@ -29,14 +29,15 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
     setAvoidBallDistance(MAX_BALL_DISTANCE*0.92);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &r, const Vector2 &targetP) {
+RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &r,
+        const Vector2 &targetP) {
     this->world = world;
     this->field = field;
     Angle defaultAngle = lockedAngle;
     return BallHandlePosControl::getRobotCommand(world, field, r, targetP, defaultAngle);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldComputations * field,const RobotPtr &r,
+RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &r,
         const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
     this->world = world;
     this->field = field;
@@ -49,7 +50,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldCo
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
     this->world = world;
     this->field = field;
 

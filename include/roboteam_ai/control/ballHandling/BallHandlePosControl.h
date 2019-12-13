@@ -94,10 +94,12 @@ class BallHandlePosControl : public NumTreePosControl {
         void setMaxVelocity(double maxV);
         void setMaxForwardsVelocity(double maxV);
         void setMaxBackwardsVelocity(double maxV);
-        RobotCommand getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
-        RobotCommand getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
-                TravelStrategy travelStrategy);
-        RobotCommand getRobotCommand(world::World * world, FieldComputations * field, const RobotPtr &r, const Vector2 &targetP) override;
+        RobotCommand getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &r,
+                const Vector2 &targetP, const Angle &targetA) override;
+        RobotCommand getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &r,
+                const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
+        RobotCommand getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &r,
+                const Vector2 &targetP) override;
 
     private:
         bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
