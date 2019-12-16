@@ -6,8 +6,9 @@
 #include "world/World.h"
 #include "world/Field.h"
 #include "world/Ball.h"
+
 namespace rtt::ai::analysis {
-    bool AlwaysTrueInvariant::isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+    bool AlwaysTrueInvariant::isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         return true;
     }
 }

@@ -13,6 +13,7 @@ namespace rtt::ai::analysis {
     class Invariant {
     public:
         Invariant();
+
         Invariant(std::string name);
 
         /**

@@ -8,11 +8,10 @@ namespace rtt::ai::analysis {
     Invariant::Invariant() {
 
     }
+
     Invariant::Invariant(std::string name) {
 
     }
-
-
 
 
 }

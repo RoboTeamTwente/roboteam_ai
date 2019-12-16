@@ -8,13 +8,14 @@
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "world/Ball.h"
+
 namespace rtt::ai::analysis {
-    bool BallBelongsToUsInvariant::isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+    bool BallBelongsToUsInvariant::isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         auto margin = 0;
         auto ball = world->getBall();
         Vector2 ballPos = world->getBall()->getPos();
 
-        bool ballNearGoalLine = ballPos.x < (field->get_field().get(LEFT_LINE).begin.x+margin);
+        bool ballNearGoalLine = ballPos.x < (field->get_field().get(LEFT_LINE).begin.x + margin);
         bool ballIsLayingStill = Vector2(ball->getVel()).length() < Constants::BALL_STILL_VEL();
 
         return ballNearGoalLine && ballIsLayingStill;
