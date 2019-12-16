@@ -12,6 +12,8 @@ namespace rtt::ai::analysis {
      * Invariant that is true when the ball belongs to us
      */
     class AlwaysTrueInvariant {
+    private:
+        std::string name;
     public:
         /**
          * Functional implementation of when the ball belongs to us
@@ -20,6 +22,9 @@ namespace rtt::ai::analysis {
          * @return true if the ball belongs to us, false otherwise
          */
         virtual bool isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+
+        AlwaysTrueInvariant(std::string name);
+
     };
 }
 

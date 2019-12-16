@@ -9,6 +9,8 @@
 #include "world/Ball.h"
 
 namespace rtt::ai::analysis {
+    BallOnOurSideInvariant::BallOnOurSideInvariant(std::string name) : name {name} {};
+
     bool BallOnOurSideInvariant::isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         Vector2 ballPos = world->getBall()->getPos();
 

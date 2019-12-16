@@ -28,18 +28,10 @@ namespace rtt::ai::analysis {
 //        functo f_bla = [&](auto invar, auto world, auto field) {return invar.isTrue(world, field);};
 //        fun f_blub = [&](auto invar, auto world, auto field) {return invar.isTrue(world, field);};
 //
-        isAlwaysTrue = [&](auto world, auto field) {return AlwaysTrueInvariant().isTrue(world, field);};
-        isAlwaysFalse = [&](auto world, auto field) {return AlwaysFalseInvariant().isTrue(world, field);};
+        isAlwaysTrue = [&](auto world, auto field) {return AlwaysTrueInvariant("always false").isTrue(world, field);};
+        isAlwaysFalse = [&](auto world, auto field) {return AlwaysFalseInvariant("always true").isTrue(world, field);};
 
 
-    }
-
-
-
-
-
-    PlayChecker::PlayChecker() {
-        constructInvariants();
     }
 
     /**
@@ -50,7 +42,9 @@ namespace rtt::ai::analysis {
      * If the one of the invariants is true, the PlayChecker will signal the PlayDecider to recalculate the play,
      * and give it the plays that are possible and allowed.
      */
-
+    PlayChecker::PlayChecker() {
+        constructInvariants();
+    }
 
     /**
      * @brief Checks if the invariants of the current play are true for the gamestate

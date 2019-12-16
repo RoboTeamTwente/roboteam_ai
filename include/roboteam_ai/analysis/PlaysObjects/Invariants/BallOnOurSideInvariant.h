@@ -13,6 +13,8 @@ namespace rtt::ai::analysis {
      * Invariant that is true when the ball belongs to us
      */
     class BallOnOurSideInvariant : public Invariant {
+    private:
+        std::string name;
     public:
         /**
          * Functional implementation of when the ball is on our side of the field
@@ -21,6 +23,8 @@ namespace rtt::ai::analysis {
          * @return true if the ball belongs to us, false otherwise
          */
         virtual bool isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+        BallOnOurSideInvariant(std::string name);
+
     };
 }
 

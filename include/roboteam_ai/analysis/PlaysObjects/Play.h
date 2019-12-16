@@ -8,6 +8,7 @@
 #include <vector>
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
 #include "bt/BehaviorTree.hpp"
+#include "functional"
 
 namespace rtt::ai::analysis {
     /**
@@ -19,10 +20,9 @@ namespace rtt::ai::analysis {
     public:
         Play();
 
-        Play(std::string name, std::vector<std::shared_ptr<Invariant>> invariants);
-
-        void setInvariants(const std::vector<std::shared_ptr<Invariant>> &invariants);
-        const std::vector<std::shared_ptr<Invariant>> &getInvariants() const;
+        Play(std::string name, std::vector<std::function<bool(world::World* , world::Field*)>> invariants);
+        void setInvariants(const std::vector<std::function<bool(world::World* , world::Field*)>> &invariants);
+        const std::vector<std::function<bool(world::World* , world::Field*)>> &getInvariants() const;
 
 
         /**
@@ -33,7 +33,7 @@ namespace rtt::ai::analysis {
 
         std::string getName();
     protected:
-        std::vector<std::shared_ptr<Invariant>> invariants;
+        std::vector<std::function<bool(world::World* , world::Field*)>> invariants;
         std::shared_ptr<bt::BehaviorTree> tree;
         std::string name;
 
