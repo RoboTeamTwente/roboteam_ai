@@ -104,7 +104,6 @@ bool World::weHaveRobots() {
 
 const WorldData World::getWorld() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    auto thing = WorldData(*worldDataPtr);
     return WorldData(*worldDataPtr);
 }
 
