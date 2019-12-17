@@ -202,7 +202,7 @@ private:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    std::unordered_map<FieldLineName, FieldLineSegment> getField_lines();
+    std::unordered_map<FieldLineName, FieldLineSegment,  std::hash<int>> getField_lines();
 
 private:
     /**
