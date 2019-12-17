@@ -16,7 +16,6 @@ namespace rtt::ai::analysis {
         void constructInvariants();
         PlayChecker();
         bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
-
         void update(world::World *world, world::Field *field);
 
     private:
@@ -31,8 +30,7 @@ namespace rtt::ai::analysis {
 
         std::vector<Play> validPlays;
 
-        Play currentPlay;
-
+        /// TODO: implement this function. Not a priority right now
         bool checkStrategyPreconditions();
 
         void determineNewPlays(world::World *world, world::Field *field);

@@ -13,13 +13,14 @@ namespace rtt::ai::analysis {
     class Invariant {
     public:
         /**
-         * @brief base class impplementation for invariants. Non virtual inheritance, mainly to save time rewriting base functions of derived invariant classes
+         * @brief base class implementation for invariants. Non virtual inheritance, mainly to save time rewriting base functions of derived invariant classes
          * @param world current world state
          * @param field
          * @return true when the invariant is true, false otherwise
          */
         const std::string getName();
-    private:
+
+    protected:
         std::string name;
     };
 

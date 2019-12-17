@@ -13,6 +13,9 @@
 
 namespace rtt::ai::analysis {
 
+    /**
+     * Typedef to facilitate creation of functors for invariant evaluation
+     */
     using fun = std::function<bool(world::World*, world::Field*)>;
 
 
@@ -23,11 +26,14 @@ namespace rtt::ai::analysis {
     void PlayChecker::constructInvariants() {
 
         /**
-         * Typedef to facilitate creation of functors for invariant evaluation
+         * Below we declare some lambdas to check if the invariants are true. The left side of the expression is
+         * merely a way to store the function that is built. These functions are then given to Plays, and a play
+         * is valid when the functions given to it are true.
          */
-
-        isAlwaysTrue = [&](auto world, auto field) {return AlwaysTrueInvariant("always false").isTrue(world, field);};
-
+        isAlwaysTrue = [&](auto world, auto field) {
+            bool result = AlwaysTrueInvariant("always false").isTrue(world, field);
+            std::cout << "always true " << result << std::endl;
+            return result;};
         isAlwaysFalse = [&](auto world, auto field) {
             bool result = AlwaysFalseInvariant("always true").isTrue(world, field);
             std::cout << "always false: " << result << std::endl;
@@ -62,8 +68,7 @@ namespace rtt::ai::analysis {
      * @return true if invariants are true, false otherwise
      */
     bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        std::cout << "checking if the play is still valid" << std::endl;
-        std::cout << "Invariants name:";
+
         return true;
     }
 
@@ -74,11 +79,15 @@ namespace rtt::ai::analysis {
      * TODO: add lambda here, to make it faster and cleaner
      */
     void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        std::vector<fun> functionvector = {isAlwaysFalse, isAlwaysTrue, ballBelongsToUs, ballOnOurSide};
+        std::vector<fun> functionvector = {isAlwaysTrue,  ballOnOurSide, ballBelongsToUs};
         bool result;
-        for (auto f : functionvector) {
-            result = f(world, field);
-            std::cout << result << std::endl;
+        Play p = Play("myPlay", functionvector);
+        allPlays.push_back(p);
+        for (auto play : allPlays) {
+            result = play.isValidPlay(world, field);
+            if (result) {
+                allPlays.push_back(play);
+            }
         }
     }
     /**
@@ -91,6 +100,7 @@ namespace rtt::ai::analysis {
         determineNewPlays(world, field);
 
     }
+
 }
 
 
