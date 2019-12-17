@@ -449,7 +449,7 @@ void Visualizer::mousePressEvent(QMouseEvent* event) {
     pos.x = event->pos().x();
     pos.y = event->pos().y();
 
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton && rtt::ai::world::world->weHaveRobots()) {
         for (auto &robot : rtt::ai::world::world->getWorld().us) {
             if (pos.dist(toScreenPosition(robot->pos)) < 10) {
                 this->toggleSelectedRobot(robot->id);
