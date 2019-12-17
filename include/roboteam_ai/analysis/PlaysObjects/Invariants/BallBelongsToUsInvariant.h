@@ -9,7 +9,7 @@ namespace rtt::ai::analysis {
     /**
      * Invariant that is true when the ball belongs to us
      */
-    class BallBelongsToUsInvariant {
+    class BallBelongsToUsInvariant : Invariant {
     private:
         std::string name;
     public:

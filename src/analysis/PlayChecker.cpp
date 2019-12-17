@@ -16,21 +16,30 @@ namespace rtt::ai::analysis {
     using fun = std::function<bool(world::World*, world::Field*)>;
 
 
-    std::function<bool(world::World*, world::Field*)> isAlwaysTrue;
-    std::function<bool(world::World*, world::Field*)> isAlwaysFalse;
+    fun isAlwaysTrue;
+    fun isAlwaysFalse;
+    fun ballOnOurSide;
+    fun ballBelongsToUs;
     void PlayChecker::constructInvariants() {
-        AlwaysTrueInvariant inv = AlwaysTrueInvariant();
 
         /**
          * Typedef to facilitate creation of functors for invariant evaluation
          */
-//
-//        functo f_bla = [&](auto invar, auto world, auto field) {return invar.isTrue(world, field);};
-//        fun f_blub = [&](auto invar, auto world, auto field) {return invar.isTrue(world, field);};
-//
-        isAlwaysTrue = [&](auto world, auto field) {return AlwaysTrueInvariant("always false").isTrue(world, field);};
-        isAlwaysFalse = [&](auto world, auto field) {return AlwaysFalseInvariant("always true").isTrue(world, field);};
 
+        isAlwaysTrue = [&](auto world, auto field) {return AlwaysTrueInvariant("always false").isTrue(world, field);};
+
+        isAlwaysFalse = [&](auto world, auto field) {
+            bool result = AlwaysFalseInvariant("always true").isTrue(world, field);
+            std::cout << "always false: " << result << std::endl;
+            return result;};
+        ballOnOurSide = [&](auto world, auto field) {
+            bool result = BallOnOurSideInvariant("always true").isTrue(world, field);
+            std::cout << "ball on our side true: " << result << std::endl;
+            return result;};
+        ballBelongsToUs = [&](auto world, auto field) {
+            bool result = BallBelongsToUsInvariant("Ball belongs to us true").isTrue(world, field);
+            std::cout << "ball belongs to us true: " << result << std::endl;
+            return result;};
 
     }
 
@@ -65,8 +74,8 @@ namespace rtt::ai::analysis {
      * TODO: add lambda here, to make it faster and cleaner
      */
     void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        std::vector<fun> functionvector = {isAlwaysFalse, isAlwaysTrue};
-        bool result = false;
+        std::vector<fun> functionvector = {isAlwaysFalse, isAlwaysTrue, ballBelongsToUs, ballOnOurSide};
+        bool result;
         for (auto f : functionvector) {
             result = f(world, field);
             std::cout << result << std::endl;

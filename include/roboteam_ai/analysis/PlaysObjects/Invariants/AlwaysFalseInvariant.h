@@ -11,7 +11,7 @@ namespace rtt::ai::analysis {
     /**
      * Invariant that is true when the ball belongs to us
      */
-    class AlwaysFalseInvariant {
+    class AlwaysFalseInvariant : Invariant{
     private:
         std::string name;
     public:

@@ -12,20 +12,15 @@
 namespace rtt::ai::analysis {
     class Invariant {
     public:
-        Invariant();
-
-        Invariant(std::string name);
-
         /**
-         * @brief base class implementation to check if the invariant is true. Please override in derived classes
+         * @brief base class impplementation for invariants. Non virtual inheritance, mainly to save time rewriting base functions of derived invariant classes
          * @param world current world state
          * @param field
          * @return true when the invariant is true, false otherwise
          */
-        //bool isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field);
-
+        const std::string getName();
     private:
-//        Invariant(const Invariant&);
+        std::string name;
     };
 
 
