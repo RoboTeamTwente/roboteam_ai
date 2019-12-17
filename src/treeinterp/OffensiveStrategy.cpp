@@ -3,6 +3,7 @@
 //
 #include <include/roboteam_ai/treeinterp/PassRole.h>
 #include <include/roboteam_ai/treeinterp/SideAttackerRole.h>
+#include <include/roboteam_ai/treeinterp/MidFieldHarassRole.h>
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"
 #include "treeinterp/OffensiveStrategy.h"
@@ -53,9 +54,8 @@ namespace bt {
             auto temp = createOffenderRole(name);
 
             /// For testing purposes, this is changed here:
-            auto temphelper = bt::SideAttackerRole();
-            std::shared_ptr<Role> temprole = temphelper.createSideAttackerRole(name);
-            auto ch = temprole->getChildren();
+            auto temphelper = bt::MidFieldHarassRole();
+            std::shared_ptr<Role> temprole = temphelper.createMidFieldHarassRole(name);
 
             offensiveTactic->addChild(temprole);
         }

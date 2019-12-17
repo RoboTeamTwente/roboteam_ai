@@ -32,24 +32,24 @@ namespace bt {
         auto beingPassedToNode = helper.createBeingPassedToChecker();
 
         /// TOP LAYER:
-        std::shared_ptr<bt::Selector> select = std::make_shared<bt::Selector>();
+        std::shared_ptr<bt::Selector> select;
         auto localbb = std::make_shared<bt::Blackboard>();
         localbb->setString("ROLE", name);
         auto temp2 = std::make_shared<RobotOutOfFieldHelper>();
         auto outOfFieldNode = temp2->createRobotOutOfFieldHelper();
 
        /// Is on pass line logic
-        auto passSeque = std::make_shared<bt::Sequence>();
+        std::shared_ptr<Sequence> passSeque;
         auto isOnPassLine = std::make_shared<rtt::ai::IsOnPassLine>("IsOnPassLine", localbb);
 
         auto avoidBallbb = std::make_shared<bt::Blackboard>();
         avoidBallbb->setString("type", "passing");
         auto avoidBall = std::make_shared<rtt::ai::AvoidBall>(name, avoidBallbb);
-        passSeque->addChild(isOnPassLine);
-        passSeque->addChild(avoidBall);
+
+        passSeque = std::make_shared<bt::Sequence>(nvector {isOnPassLine, avoidBall});
 
         /// Should handle ball logic
-        auto shouldHandleBallSeq = std::make_shared<bt::Sequence>();
+        std::shared_ptr<Sequence>  shouldHandleBallSeq;
         auto shouldHandleBall = std::make_shared<rtt::ai::ShouldHandleBall>("shoudhandleball", localbb);
 
         auto inverterIsInDefenseArea = std::make_shared<bt::Inverter>();
@@ -60,7 +60,7 @@ namespace bt {
 
         auto memSelector = std::make_shared<bt::MemSelector>();
 
-        auto clearShotSeque = std::make_shared<bt::Sequence>();
+        std::shared_ptr<Sequence> clearShotSeque;
         auto hasClearShot = std::make_shared<rtt::ai::HasClearShot>("hasclearshot", localbb);
         auto attack = std::make_shared<rtt::ai::Attack>(name, localbb);
 
@@ -72,29 +72,24 @@ namespace bt {
         passAttackSeque->addChild(passSkill);
         passAttackSeque->addChild(attackPassSkill);
 
-        shouldHandleBallSeq->addChild(shouldHandleBall);
-        shouldHandleBallSeq->addChild(inverterIsInDefenseArea);
-        shouldHandleBallSeq->addChild(inverterBallOutOfField);
-        shouldHandleBallSeq->addChild(memSelector);
+        shouldHandleBallSeq = std::make_shared<bt::Sequence>(nvector {shouldHandleBall, inverterIsInDefenseArea, inverterBallOutOfField, memSelector});
+
 
         inverterBallOutOfField->addChild(ballOutOfField);
         inverterIsInDefenseArea->addChild(isIndefenseArea);
 
+        clearShotSeque = std::make_shared<Sequence>(nvector {hasClearShot, attack});
+
+
         memSelector->addChild(clearShotSeque);
         memSelector->addChild(passAttackSeque);
 
-        clearShotSeque->addChild(hasClearShot);
-        clearShotSeque->addChild(attack);
 
         auto midFieldHarassSkill = std::make_shared<rtt::ai::MidFieldHarasser>("Midfield harasser", localbb);
 
 
         /// Children of select node
-        select->addChild(beingPassedToNode);
-        select->addChild(outOfFieldNode);
-        select->addChild(passSeque);
-        select->addChild(shouldHandleBallSeq);
-        select->addChild(midFieldHarassSkill);
+        select = std::make_shared<Selector>(nvector {beingPassedToNode, outOfFieldNode, passSeque, shouldHandleBallSeq, midFieldHarassSkill});
 
         /// Give all of the constructed nodes to the role node, set its role, and return this role node.
         roleNode->addChild(select);
