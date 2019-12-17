@@ -345,7 +345,6 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
-        PRIVATE gtest
         )
 
 target_include_directories(roboteam_ai
@@ -393,8 +392,8 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE gcov
-        PRIVATE gtest)
+        PRIVATE gtest
+    )
 endif()
 
 target_include_directories(ai_tests
@@ -402,20 +401,20 @@ target_include_directories(ai_tests
         PRIVATE include/roboteam_ai
         PRIVATE src )
 
+#
+#include(CodeCoverage)
+#APPEND_COVERAGE_COMPILER_FLAGS()
+#SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
 
-include(CodeCoverage)
-APPEND_COVERAGE_COMPILER_FLAGS()
-SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
-
-# required properties for cotire
-set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 17)
-set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET ai_tests PROPERTY CXX_STANDARD 17)
-set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
-
-
-if(UNIX AND NOT APPLE)
-    cotire(roboteam_ai)
-    cotire(ai_tests)
-endif()
+## required properties for cotire
+#set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 17)
+#set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD_REQUIRED ON)
+#set_property(TARGET ai_tests PROPERTY CXX_STANDARD 17)
+#set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
+#
+#
+#if(UNIX AND NOT APPLE)
+#    cotire(roboteam_ai)
+#    cotire(ai_tests)
+#endif()
 
