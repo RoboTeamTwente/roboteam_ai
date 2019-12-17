@@ -9,7 +9,6 @@
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include <io/IOManager.h>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
-#include <roboteam_utils/constants.h>
 #include <Settings/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 
