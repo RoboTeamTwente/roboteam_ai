@@ -18,8 +18,8 @@ namespace ai {
 Vector2 KickOffUsFormation::getFormationPosition() {
     std::vector<int> robotIds;
     auto fieldMsg = field->get_field();
-    double fh = fieldMsg.field_width();
-    double fw = fieldMsg.field_length();
+    double fh = fieldMsg.get(FIELD_WIDTH);
+    double fw = fieldMsg.get(FIELD_LENGTH);
 
     std::vector<std::vector<Vector2>> locations = {
             {{-0.2,0}},
