@@ -79,8 +79,15 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp)
-
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/Invariants/Invariant.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/Play.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/MyPlay.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.cpp
+        ${PROJECT_SOURCE_DIR}src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp
+        )
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
 
 set(IO_SOURCES
@@ -345,7 +352,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        src/analysis/PlaysObjects/Invariants/Invariant.cpp include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h src/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.cpp src/analysis/PlaysObjects/Play.cpp include/roboteam_ai/analysis/PlaysObjects/Play.h src/analysis/PlaysObjects/MyPlay.cpp include/roboteam_ai/analysis/PlaysObjects/MyPlay.h src/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.cpp include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h src/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.cpp include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h)
+        )
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
