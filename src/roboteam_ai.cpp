@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
 
     rtt::SETTINGS.setSerialMode(false);
     rtt::SETTINGS.setVisionIp("127.0.0.1");
-    rtt::SETTINGS.setVisionPort(10006);
+    rtt::SETTINGS.setVisionPort(10009);
     rtt::SETTINGS.setRefereeIp("224.5.23.1");
     rtt::SETTINGS.setRefereePort(10007);
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
