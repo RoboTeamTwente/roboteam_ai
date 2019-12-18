@@ -148,10 +148,9 @@ private:
     };
 
 private:
-    // Stores all the constant of the field (lengths, widths, positions)
-    // The custom hash is necessary to support the clang compiler.
-    // for more information, see the following link:
-    // https://stackoverflow.com/questions/18837857/cant-use-enum-class-as-unordered-map-key
+    /* Stores all the constant of the field (lengths, widths, positions).
+     * The custom hash for all dictionaries is necessary to support the clang compiler, for more information see the
+     * following link: https://stackoverflow.com/questions/18837857/cant-use-enum-class-as-unordered-map-key */
     std::unordered_map<FieldValueName, double, std::hash<int>> fieldValues = {};
     std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> fieldLines = {}; // Stores all the lines of the field
     std::unordered_map<FieldArcName, FieldArc, std::hash<int>> fieldArcs = {}; // Stores all the arcs of the field
