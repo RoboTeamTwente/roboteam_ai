@@ -301,7 +301,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
         )
 
 set(COACH_SOURCES

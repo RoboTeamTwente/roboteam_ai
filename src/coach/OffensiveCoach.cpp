@@ -48,7 +48,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
 std::vector<Vector2> OffensiveCoach::getZoneLocations() {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 penaltyStretchCorner = field[TOP_RIGHT_PENALTY_STRETCH].end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
@@ -71,7 +71,7 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations() {
 void OffensiveCoach::updateOffensivePositions() {
 
     auto world = world::world->getWorld();
-    auto field = FieldMessage::get_field();
+    auto field = Field::get_field();
 
     std::vector<Vector2> zoneLocations = getZoneLocations();
 
@@ -157,7 +157,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 
 /// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
 Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
 
     // get the longest line section op the visible part of the goal
     std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint,
@@ -213,7 +213,7 @@ std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, dou
 
 }
 Line OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Line goalSides = FieldComputations::getGoalSides(field, false);
     double angleMargin = sin(2.0/180.0*M_PI);
     double constantMargin = 0.05 * field[GOAL_WIDTH];
@@ -239,7 +239,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
 
     // get world & field
     auto world = world::world->getWorld();
-    auto field = FieldMessage::get_field();
+    auto field = Field::get_field();
 
     OffensivePosition bestPosition = currentBestPosition;
     bestPosition.score =

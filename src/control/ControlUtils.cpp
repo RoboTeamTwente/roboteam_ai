@@ -268,7 +268,7 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
-    auto field = FieldMessage::get_field();
+    auto field = Field::get_field();
 
     double hFieldLength = field[FIELD_LENGTH] / 2;
     position.x = std::min(position.x, hFieldLength - margin);
@@ -282,7 +282,7 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
 }
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
         position.x = std::max(position.x, field[LEFT_PENALTY_LINE].begin.x + margin);
         return position;
@@ -349,7 +349,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
 
     Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea,
             bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
-        FieldMessage field = FieldMessage::get_field();
+        Field field = Field::get_field();
         LineSegment shotLine(line.start, line.end + (line.end - line.start));
         Vector2 projectPos = shotLine.project(position);
         Vector2 closestPoint = projectPos;

@@ -16,7 +16,7 @@
 #include "roboteam_proto/GeometryData.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 
-#include "include/roboteam_ai/world/FieldMessage.h"
+#include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
 
 namespace rtt {

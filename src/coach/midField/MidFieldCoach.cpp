@@ -66,7 +66,7 @@ bool MidFieldCoach::validOpponent(const RobotPtr& opponent) {
     if (abs(opponent->pos.x) > DISTANCE_FROM_MIDDLE_LINE) {
         return false;
     }
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     return FieldComputations::pointIsInField(field, opponent->pos);
 }
 
@@ -235,7 +235,7 @@ double MidFieldCoach::calculateStandingFreeScore(const Vector2& position, const 
 }
 
 Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 bestPosition = targetPositions[thisRobot->id];
     double highestScore = calculateStandingFreeScore(bestPosition, thisRobot);
 

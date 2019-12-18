@@ -13,20 +13,20 @@ namespace ai {
 
 using util = control::ControlUtils;
 
-bool FieldComputations::pointIsInDefenceArea(FieldMessage &field, const Vector2 &point, bool isOurDefenceArea,
+bool FieldComputations::pointIsInDefenceArea(Field &field, const Vector2 &point, bool isOurDefenceArea,
         double margin, bool includeOutsideField) {
   auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, includeOutsideField);
   return defenseArea.contains(point);
 }
 
 // the margin is pointed inside the field!
-bool FieldComputations::pointIsInField(FieldMessage &field, const Vector2 &point, double margin) {
+bool FieldComputations::pointIsInField(Field &field, const Vector2 &point, double margin) {
   return (point.x <= field[RIGHTMOST_X] - margin && point.x >= field[LEFTMOST_X] + margin
             && point.y <= field[TOPMOST_Y]- margin && point.y >= field[BOTTOMMOST_Y] + margin);
 }
 
 /// returns the angle the goal points make from a point
-double FieldComputations::getTotalGoalAngle(FieldMessage &field, bool ourGoal, const Vector2 &point) {
+double FieldComputations::getTotalGoalAngle(Field &field, bool ourGoal, const Vector2 &point) {
   Line goal = getGoalSides(field, ourGoal);
   double angleLeft = (goal.start - point).angle();
   double angleRight = (goal.end - point).angle();
@@ -35,7 +35,7 @@ double FieldComputations::getTotalGoalAngle(FieldMessage &field, bool ourGoal, c
 }
 
 /// id and ourteam are for a robot not to be taken into account.
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(FieldMessage &field, bool ourGoal, const Vector2 &point,
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(Field &field, bool ourGoal, const Vector2 &point,
         const world::WorldData &data, int id, bool ourTeam) {
     double goalWidth = field[GOAL_WIDTH];
     double blockadeLength = 0;
@@ -45,7 +45,7 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(FieldMessage &fiel
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<Line> FieldComputations::getBlockadesMappedToGoal(FieldMessage &field,
+std::vector<Line> FieldComputations::getBlockadesMappedToGoal(Field &field,
         bool ourGoal, const Vector2 &point, const world::WorldData &data, int id, bool ourTeam) {
   const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
@@ -178,7 +178,7 @@ std::vector<Line> FieldComputations::mergeBlockades(std::vector<Line> blockades)
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(FieldMessage &field, bool ourGoal, const Vector2 &point,
+std::vector<Line> FieldComputations::getVisiblePartsOfGoal(Field &field, bool ourGoal, const Vector2 &point,
         const world::WorldData &data) {
   auto blockades = getBlockadesMappedToGoal(field, ourGoal, point, data);
 
@@ -214,7 +214,7 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(FieldMessage &field, 
 }
 
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
-Line FieldComputations::getGoalSides(FieldMessage &field, bool ourGoal) {
+Line FieldComputations::getGoalSides(Field &field, bool ourGoal) {
     if (ourGoal) {
         return Line(field[OUR_BOTTOM_GOAL_SIDE], field[OUR_TOP_GOAL_SIDE]);
     }
@@ -223,12 +223,12 @@ Line FieldComputations::getGoalSides(FieldMessage &field, bool ourGoal) {
     }
 }
 
-double FieldComputations::getDistanceToGoal(FieldMessage &field, bool ourGoal, const Vector2 &point) {
+double FieldComputations::getDistanceToGoal(Field &field, bool ourGoal, const Vector2 &point) {
   auto sides = getGoalSides(field, ourGoal);
   return control::ControlUtils::distanceToLineWithEnds(point, sides.start, sides.end);
 }
 
-Vector2 FieldComputations::getPenaltyPoint(FieldMessage &field, bool ourGoal) {
+Vector2 FieldComputations::getPenaltyPoint(Field &field, bool ourGoal) {
     if (ourGoal) {
         return field[LEFT_PENALTY_POINT];
     } else {
@@ -236,7 +236,7 @@ Vector2 FieldComputations::getPenaltyPoint(FieldMessage &field, bool ourGoal) {
     }
 }
 
-std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(FieldMessage &field, bool ourGoal,
+std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(Field &field, bool ourGoal,
         const Vector2 &lineStart, const Vector2 &lineEnd, double margin) {
   auto defenseArea = getDefenseArea(field, ourGoal, margin);
   auto intersections = defenseArea.intersections({lineStart, lineEnd});
@@ -257,7 +257,7 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(Fiel
   return nullptr;
 }
 
-Polygon FieldComputations::getDefenseArea(FieldMessage &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
+Polygon FieldComputations::getDefenseArea(Field &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
   double backLineUsXCoordinate = includeOutSideField ? field[LEFTMOST_X] - field[BOUNDARY_WIDTH] : field[LEFTMOST_X] - margin;
   double backLineThemXCoordinate = includeOutSideField ? field[RIGHTMOST_X] + field[BOUNDARY_WIDTH]: field[RIGHTMOST_X] + margin;
 
@@ -280,7 +280,7 @@ Polygon FieldComputations::getDefenseArea(FieldMessage &field, bool ourDefenseAr
   return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
 }
 
-Polygon FieldComputations::getGoalArea(FieldMessage &field, bool ourGoal, double margin, bool hasBackMargin) {
+Polygon FieldComputations::getGoalArea(Field &field, bool ourGoal, double margin, bool hasBackMargin) {
   double marginBackside = hasBackMargin ? margin : 0.0;
   auto goalDepth = field[GOAL_DEPTH] + marginBackside;
 
@@ -308,7 +308,7 @@ Polygon FieldComputations::getGoalArea(FieldMessage &field, bool ourGoal, double
   return Polygon(areaThemPoints);
 }
 
-Polygon FieldComputations::getFieldEdge(FieldMessage &field, double margin) {
+Polygon FieldComputations::getFieldEdge(Field &field, double margin) {
     double left = field[LEFTMOST_X] + margin;
     double right = field[RIGHTMOST_X] - margin;
     double bottom = field[BOTTOMMOST_Y] + margin;

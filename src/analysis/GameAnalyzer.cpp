@@ -63,7 +63,7 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
 
 /// Get the average of the distances of robots to their opponents goal
 double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
@@ -75,7 +75,7 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedW
 /// return the attackers of a given team sorted on their vision on their opponents goal
 std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam,
         WorldData simulatedWorld) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     std::vector<std::pair<RobotPtr, double>> robotsWithVisibilities;
 
@@ -96,7 +96,7 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttacker
 
 /// return the average goal vision of a given team towards their opponents goal
 double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
@@ -108,7 +108,7 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
 
 /// returns a danger score
 RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 goalCenter = ourTeam ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER];
 
     RobotDanger danger;
@@ -170,7 +170,7 @@ double GameAnalyzer::shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, Worl
 
 /// check if a robot is closing in to our goal.
 bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     double distanceToGoal = FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
 
     WorldData futureWorld = world::world->getFutureWorld(0.2);

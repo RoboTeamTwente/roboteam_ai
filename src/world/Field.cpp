@@ -2,30 +2,30 @@
 // Created by Lukas Bos on 30/08/2019.
 //
 
-#include <include/roboteam_ai/world/FieldMessage.h>
+#include <include/roboteam_ai/world/Field.h>
 namespace rtt {
 
-FieldMessage FieldMessage::field = FieldMessage();
-std::mutex FieldMessage::fieldMutex;
+Field Field::field = Field();
+std::mutex Field::fieldMutex;
 
-FieldMessage::FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize) {
+Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
     initFieldVectors();
 }
 
-FieldMessage FieldMessage::get_field() {
+Field Field::get_field() {
     std::lock_guard<std::mutex> lock(fieldMutex);
-    return FieldMessage::field;
+    return Field::field;
 }
 
-void FieldMessage::set_field(FieldMessage _field) {
+void Field::set_field(Field _field) {
     std::lock_guard<std::mutex> lock(fieldMutex);
-    FieldMessage::field = std::move(_field);
+    Field::field = std::move(_field);
 }
 
-void FieldMessage::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
+void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     fieldValues[FIELD_LENGTH] = mm_to_m(sslFieldSize.field_length());
     fieldValues[FIELD_WIDTH] = mm_to_m(sslFieldSize.field_width());
     fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
@@ -38,7 +38,7 @@ void FieldMessage::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldS
     fieldValues[CENTER_Y] = 0.0;
 }
 
-void FieldMessage::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
+void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     for (proto::SSL_FieldLineSegment line : sslFieldSize.field_lines()) {
         FieldLineSegment newLine;
         if (NAME_MAP.find(line.name()) != NAME_MAP.end()) {
@@ -52,7 +52,7 @@ void FieldMessage::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSi
     }
 }
 
-void FieldMessage::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
+void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     for (proto::SSL_FieldCicularArc arc : sslFieldSize.field_arcs()) {
         FieldArc newArc;
         if (NAME_MAP.find(arc.name()) != NAME_MAP.end()) {
@@ -68,7 +68,7 @@ void FieldMessage::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSiz
     }
 }
 
-void FieldMessage::initFieldVectors() {
+void Field::initFieldVectors() {
     fieldVectors[OUR_GOAL_CENTER] = Vector2(fieldValues[LEFTMOST_X], fieldValues[CENTER_Y]);
     fieldVectors[THEIR_GOAL_CENTER] = Vector2(fieldValues[RIGHTMOST_X], fieldValues[CENTER_Y]);
 
@@ -87,63 +87,63 @@ void FieldMessage::initFieldVectors() {
     fieldVectors[RIGHT_PENALTY_POINT] = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
 }
 
-float FieldMessage::mm_to_m(float scalar) {
+float Field::mm_to_m(float scalar) {
     return scalar / 1000;
 }
 
-Vector2 FieldMessage::mm_to_m(Vector2 vector) {
+Vector2 Field::mm_to_m(Vector2 vector) {
     return {vector.x / 1000, vector.y / 1000};
 }
 
-double FieldMessage::operator[](FieldValueName valueName) const {
+double Field::operator[](FieldValueName valueName) const {
     if (fieldValues.find(valueName) != fieldValues.end()) {
         return fieldValues.at(valueName);
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
-        std::cout << "Access undefined field value in the FieldMessage class." << std::endl;
+        std::cout << "Access undefined field value in the Field class." << std::endl;
         return 0.0;
     }
 }
 
-FieldLineSegment FieldMessage::operator[](FieldLineName lineName) const {
+FieldLineSegment Field::operator[](FieldLineName lineName) const {
     if (fieldLines.find(lineName) != fieldLines.end()) {
         return fieldLines.at(lineName);
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Access undefined field line in the FieldMessage class." << std::endl;
+        std::cout << "Access undefined field line in the Field class." << std::endl;
         return {};
     }
 }
 
-FieldArc FieldMessage::operator[](FieldArcName arcName) const {
+FieldArc Field::operator[](FieldArcName arcName) const {
     if (fieldArcs.find(arcName) != fieldArcs.end()) {
         return fieldArcs.at(arcName);
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Access undefined field arc in the FieldMessage class." << std::endl;
+        std::cout << "Access undefined field arc in the Field class." << std::endl;
         return {};
     }
 }
 
-Vector2 FieldMessage::operator[](FieldVectorName vectorName) const {
+Vector2 Field::operator[](FieldVectorName vectorName) const {
     if (fieldVectors.find(vectorName) != fieldVectors.end()) {
         return fieldVectors.at(vectorName);
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Access undefined field vector in the FieldMessage class." << std::endl;
+        std::cout << "Access undefined field vector in the Field class." << std::endl;
         return {};
     }
 }
 
-std::unordered_map<FieldLineName, FieldLineSegment> FieldMessage::getField_lines(){
+std::unordered_map<FieldLineName, FieldLineSegment> Field::getField_lines(){
     return fieldLines;
 }
 }

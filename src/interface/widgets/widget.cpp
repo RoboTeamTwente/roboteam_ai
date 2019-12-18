@@ -131,7 +131,7 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor() {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field[BOUNDARY_WIDTH]);
 
     float widthFactor = this->size().width() / field[FIELD_LENGTH] - (2 * fieldmargin);
@@ -147,7 +147,7 @@ void Visualizer::drawBackground(QPainter &painter) {
 
 // draws the field lines
 void Visualizer::drawFieldLines(QPainter &painter) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
 
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
@@ -227,7 +227,7 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     }
 
 void Visualizer::drawFieldHints(QPainter &painter) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     QPen pen;
 
     // draw the position where robots would be for timeout

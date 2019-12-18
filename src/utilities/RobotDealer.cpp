@@ -111,7 +111,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
 
         case BETWEEN_BALL_AND_OUR_GOAL: {
             auto ball = world::world->getBall();
-            rtt::Vector2 ourGoal = FieldMessage::get_field()[OUR_GOAL_CENTER];
+            rtt::Vector2 ourGoal = Field::get_field()[OUR_GOAL_CENTER];
             auto robots = world::world->getRobotsForIds(idVector, true);
             if (! robots.empty()) {
                 id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
@@ -122,7 +122,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
             break;
         }
         case CLOSE_TO_OUR_GOAL: {
-            rtt::Vector2 ourGoal = FieldMessage::get_field()[OUR_GOAL_CENTER];
+            rtt::Vector2 ourGoal = Field::get_field()[OUR_GOAL_CENTER];
             auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
             if (robot) {
                 id = robot->id;
@@ -134,7 +134,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
         }
 
         case CLOSE_TO_THEIR_GOAL: {
-            rtt::Vector2 theirGoal = FieldMessage::get_field()[THEIR_GOAL_CENTER];
+            rtt::Vector2 theirGoal = Field::get_field()[THEIR_GOAL_CENTER];
             auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
             if (robot) {
                 id = robot->id;

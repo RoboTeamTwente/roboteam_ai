@@ -105,7 +105,7 @@ void ApplicationManager::updateTrees() {
 
 /// Tick the keeper tree if both the tree and keeper exist
 void ApplicationManager::runKeeperTree() {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         keeperTree->tick(ai::world::world, &field);
@@ -118,7 +118,7 @@ Status ApplicationManager::runStrategyTree() {
         std::cout << "NaN tree probably Halting" << std::endl;
           return Status::Waiting;
     }
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
     Status status = strategy->tick(ai::world::world, &field);
     return status;

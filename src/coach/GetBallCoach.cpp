@@ -19,7 +19,7 @@ GetBallCoach* getBallCoach = &getBallCoachObj;
 bool GetBallCoach::shouldWeGetBall() {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 ballPos = world::world->getBall()->getPos();
     return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) &&
             !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&

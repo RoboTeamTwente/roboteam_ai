@@ -49,7 +49,7 @@ double DefencePositionCoach::getOrientation(const Line &line) {
 //computes a line segment on which the entirety of openGoalSegment is blocked as seen from point with robots with radius collissionRadius
 std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(const Line &openGoalSegment, const Vector2 &point,
         double collisionRadius, double margin) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     if (margin == - 1.0) { margin = defenceLineMargin; }
 
     Vector2 FurthestBlock = getBlockPoint(openGoalSegment, point, collisionRadius);
@@ -67,7 +67,7 @@ std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(const Line &open
 }
 /// computes the intersection of the bisector of the angle to OpenGoalsegment from point and the defence area line
 std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Line &openGoalSegment, const Vector2 &point) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     // margin by which we shift the defence area line forwards
     double margin = defenceLineMargin;
     double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
@@ -103,7 +103,7 @@ Vector2 DefencePositionCoach::getBlockPoint(const Line &openGoalSegment, const V
 // if the line hits the defence area shorten it, otherwise just return the original line
 Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, const Vector2 &lineEnd,
         double defenseMargin) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Line line;
     std::shared_ptr<Vector2> intersectPos = FieldComputations::lineIntersectionWithDefenceArea(field, true, lineStart,
             lineEnd, defenseMargin);
@@ -200,7 +200,7 @@ DefenderBot DefencePositionCoach::createBlockPass(PossiblePass &pass,
 }
 std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const PossiblePass &pass,
         const world::WorldData &world) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     auto visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, pass.endPos, world);
     // get the largest segment
     std::sort(visibleParts.begin(), visibleParts.end(),
@@ -215,7 +215,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const Poss
 /// checks for a given pass in a simulatedWorld if we can block it's receiver shot to goal and returns a line on which to stand if this is the case
 std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const PossiblePass &pass,
         const world::WorldData &world) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     // get the blockLine segment from the ending position of the pass
     auto visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, pass.endPos, world);
     // get the largest segment (sort by size)
@@ -231,7 +231,7 @@ std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const PossiblePass &
 }
 /// searches the most dangerous position and then gets the segment which blocks that (if it exists/is possible)
 std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const world::WorldData &world) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     if (world.ball) {
         Vector2 mostDangerousPos = getMostDangerousPos(world);
         if (FieldComputations::pointIsInField(field, mostDangerousPos, - 0.1)) {
@@ -256,7 +256,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     double maxForwardLineX = maxX();
     Vector2 position=getPosOnLine(blockLine, 0.1);
     if (position.x > maxForwardLineX) {
-        double fieldWidth = FieldMessage::get_field()[FIELD_WIDTH];
+        double fieldWidth = Field::get_field()[FIELD_WIDTH];
         Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5);
         Vector2 topLine(maxForwardLineX, fieldWidth*0.5);
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.start, blockLine.end, bottomLine,
@@ -266,11 +266,11 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Line &blockLine) {
     return position;
 }
 double DefencePositionCoach::maxX() {
-    return FieldMessage::get_field()[FIELD_LENGTH] / 10.0 * -1.0;
+    return Field::get_field()[FIELD_LENGTH] / 10.0 * -1.0;
 }
 
 world::WorldData DefencePositionCoach::getTheirAttackers(const world::WorldData &world) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     std::vector<world::Robot::RobotPtr> theirAttackers;
     for (auto &robot :world.them) {
         // we remove any attackers that are outside of the field or in our defence area
@@ -308,7 +308,7 @@ std::shared_ptr<double> DefencePositionCoach::pickNewPosition(const Line &line,
 }
 std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(PossiblePass pass,
         const world::WorldData &world) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     std::shared_ptr<Vector2> point = nullptr;
     double segments = 30.0;
     // we pick new points on which we can defend preferably as close as possible to the middle of the pass.
@@ -357,7 +357,7 @@ std::shared_ptr<DefenderBot> DefencePositionCoach::blockPass(PossiblePass pass) 
             return std::make_shared<DefenderBot>(defender);
         }
         // try putting it on the defence Line instead (as the robot is very likely far away
-        double fieldWidth= FieldMessage::get_field()[FIELD_WIDTH];
+        double fieldWidth= Field::get_field()[FIELD_WIDTH];
 
         // Floating point errors sigh (hence the -0.0001)
         Vector2 bottomLine(maxX()-0.0001, - fieldWidth*0.5);

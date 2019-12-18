@@ -48,19 +48,19 @@ void ActiveStop::onTerminate(Skill::Status s) {
 }
 
 Vector2 ActiveStop::getOffensiveActivePoint() {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, false);
     return getPoint(penaltyPos);
 }
 
 Vector2 ActiveStop::getDefensiveActivePoint() {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, true);
     return getPoint(penaltyPos);
 }
 
 Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     Vector2 ballPos = world::world->getBall()->getPos();
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer

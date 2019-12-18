@@ -179,7 +179,7 @@ RobotCommand DribbleBackwards::sendOvershootCommand() {
     command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
 
-    FieldMessage _field = FieldMessage::get_field();
+    Field _field = Field::get_field();
     if (failedOnce && !FieldComputations::pointIsInField(_field, ball->getPos(), Constants::ROBOT_RADIUS())) {
         command.kickerForced = true;
         command.kickerVel = 2;

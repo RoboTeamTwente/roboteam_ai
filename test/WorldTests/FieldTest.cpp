@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <world/World.h>
-#include <world/FieldMessage.h>
+#include <world/Field.h>
 
 #include <test/helpers/FieldHelper.h>
 #include "world/Field.h"

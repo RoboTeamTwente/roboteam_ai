@@ -14,7 +14,7 @@ OffensiveScore g_offensiveScore;
 
 /// Calculates a total score based on all the sub-scores
 double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,
-        const WorldData &world, const FieldMessage &field) {
+        const WorldData &world, const Field &field) {
 
     if (!positionIsValid(zoneLocation, position)) return 0.0;
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
@@ -36,7 +36,7 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
 /// Check if a position being checked is not outside field, within the correct zone, etc
 bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck) {
     // check if the offender is not blocking the goal
-    FieldMessage field = FieldMessage::get_field();
+    Field field = Field::get_field();
     std::vector<Vector2> vertices;
     auto goalSides = FieldComputations::getGoalSides(field, false);
     vertices.push_back(goalSides.start);

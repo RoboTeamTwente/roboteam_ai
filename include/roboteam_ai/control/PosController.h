@@ -48,10 +48,10 @@ class PosController {
     public:
         PosController() = default;
         explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-        virtual RobotCommand getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &robot,
+        virtual RobotCommand getRobotCommand(world::World * world, Field *field, const RobotPtr &robot,
                 const Vector2 &targetPos, const Angle &targetAngle) = 0;
 
-        virtual RobotCommand getRobotCommand(world::World * world, FieldMessage *field, const RobotPtr &robot,
+        virtual RobotCommand getRobotCommand(world::World * world, Field *field, const RobotPtr &robot,
                 const Vector2 &targetPos) = 0;
 
         bool getCanMoveOutOfField(int robotID) const;

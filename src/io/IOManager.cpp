@@ -49,10 +49,10 @@ void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {
     std::lock_guard<std::mutex> lock(geometryMutex);
     
     // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
-    FieldMessage msg = FieldMessage(sslData.field());
+    Field msg = Field(sslData.field());
     this->geometryMsg = sslData;
 
-    FieldMessage::set_field(msg);
+    Field::set_field(msg);
     hasReceivedGeom = true;
 }
 
