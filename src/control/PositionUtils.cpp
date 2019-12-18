@@ -20,8 +20,8 @@ namespace ai {
 namespace control {
 
 rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
-    const Vector2 &goal = (ourGoal ? FieldMessage::get_field()[OUR_GOAL_CENTER] :
-            FieldMessage::get_field()[THEIR_GOAL_CENTER]);
+    FieldMessage field = FieldMessage::get_field();
+    const Vector2 &goal = (ourGoal ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER]);
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
@@ -48,8 +48,8 @@ Vector2 PositionUtils::getPositionBehindPositionToPosition(
 }
 
 bool PositionUtils::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
-    const Vector2 &goal = (ourGoal ? FieldMessage::get_field()[OUR_GOAL_CENTER] :
-            FieldMessage::get_field()[THEIR_GOAL_CENTER]);
+    FieldMessage field = FieldMessage::get_field();
+    const Vector2 &goal = (ourGoal ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER]);
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
@@ -80,9 +80,9 @@ bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const
     return inLargeTriangleOnPosition;
 }
 std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
-
-    auto lengthOffset = FieldMessage::get_field()[FIELD_LENGTH] / 4.0;
-    auto widthOffset = FieldMessage::get_field()[FIELD_WIDTH] / 4.0;
+    FieldMessage field = FieldMessage::get_field();
+    auto lengthOffset = field[FIELD_LENGTH] / 4.0;
+    auto widthOffset = field[FIELD_WIDTH] / 4.0;
 
     std::vector<Vector2> temp = {{- lengthOffset, widthOffset},
                                  {0, widthOffset},

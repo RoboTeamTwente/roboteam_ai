@@ -12,7 +12,6 @@ GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void GTPSpecial::gtpInitialize() {
-    FieldMessage field = FieldMessage::get_field();
     type = stringToType(properties->getString("type"));
     switch (type) {
     case goToBall: {
@@ -45,7 +44,7 @@ void GTPSpecial::gtpInitialize() {
         maxVel = 9e9;
         Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
 
-        Vector2 penaltyThem = FieldComputations::getPenaltyPoint(field, false);
+        Vector2 penaltyThem = FieldComputations::getPenaltyPoint(*field, false);
         targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
         errorMargin = 0.05;
         break;
@@ -57,11 +56,11 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ourGoalCenter: {
-        targetPos = field[OUR_GOAL_CENTER];
+        targetPos = (*field)[OUR_GOAL_CENTER];
         break;
     }
     case ourDefenseAreaCenter: {
-        targetPos = FieldComputations::getDefenseArea(field).centroid();
+        targetPos = FieldComputations::getDefenseArea(*field).centroid();
         break;
     }
     }
@@ -69,11 +68,10 @@ void GTPSpecial::gtpInitialize() {
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
-    FieldMessage field = FieldMessage::get_field();
-    double distanceFromTop = abs(field[FIELD_WIDTH] * 0.5 - ball->getPos().y);
-    double distanceFromBottom = abs(- field[FIELD_WIDTH] * 0.5 - ball->getPos().y);
-    double distanceFromLeft = abs(- field[FIELD_LENGTH] * 0.5 - ball->getPos().x);
-    double distanceFromRight = abs(field[FIELD_LENGTH] * 0.5 - ball->getPos().x);
+    double distanceFromTop = abs((*field)[FIELD_WIDTH] * 0.5 - ball->getPos().y);
+    double distanceFromBottom = abs(- (*field)[FIELD_WIDTH] * 0.5 - ball->getPos().y);
+    double distanceFromLeft = abs(- (*field)[FIELD_LENGTH] * 0.5 - ball->getPos().x);
+    double distanceFromRight = abs((*field)[FIELD_LENGTH] * 0.5 - ball->getPos().x);
 
     double distance = 9e9;
     Vector2 pos;
@@ -131,7 +129,6 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
 }
 
 Skill::Status GTPSpecial::gtpUpdate() {
-    FieldMessage _field = FieldMessage::get_field();
     switch (type) {
     default:break;
     case goToBall: {
@@ -147,13 +144,13 @@ Skill::Status GTPSpecial::gtpUpdate() {
         maxVel = 1.0;
         break;
     case ourGoalCenter: {
-        targetPos = _field[OUR_GOAL_CENTER];
+        targetPos = (*field)[OUR_GOAL_CENTER];
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
         command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;
     }
     case ourDefenseAreaCenter: {
-        targetPos = FieldComputations::getDefenseArea(_field).centroid();
+        targetPos = FieldComputations::getDefenseArea(*field).centroid();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
         command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;

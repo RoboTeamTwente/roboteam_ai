@@ -59,10 +59,9 @@ bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
     if (driveLine.length()>=0.2){
         return false;
     }
-    FieldMessage field = FieldMessage::get_field();
 
     // if line intersects our defence area or other robots we do not do it.
-    if (FieldComputations::getDefenseArea(field, true, 0.15, false).doesIntersect(driveLine)){
+    if (FieldComputations::getDefenseArea(*field, true, 0.15, false).doesIntersect(driveLine)){
         return false;
     }
     auto robots=world::world->getThem();

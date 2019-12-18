@@ -16,9 +16,8 @@ KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr
 
     Vector2 KickOffThemFormation::getFormationPosition() {
         std::vector<int> robotIds;
-        auto fieldMsg = FieldMessage::get_field();
-        double fh = fieldMsg[FIELD_WIDTH];
-        double fw = fieldMsg[FIELD_LENGTH];
+        double fh = (*field)[FIELD_WIDTH];
+        double fw = (*field)[FIELD_LENGTH];
 
         std::vector<std::vector<Vector2>> locations = {
                 {{-0.8,0}},

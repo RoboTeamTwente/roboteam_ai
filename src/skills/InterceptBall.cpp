@@ -154,13 +154,12 @@ void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
 }
 
 Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall) {
-    FieldMessage field = FieldMessage::get_field();
     Vector2 interceptionPoint;
     if (keeper) {
         Line shotLine(startBall, endBall);
         interceptionPoint = shotLine.project(robot->pos);
         //create an area in which the intersection point should be
-        auto DefenceArea = FieldComputations::getDefenseArea(field, true);
+        auto DefenceArea = FieldComputations::getDefenseArea(*field, true);
         if (! DefenceArea.contains(interceptionPoint)) {
             auto intersectPoints = DefenceArea.intersections(
                     LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
@@ -238,8 +237,8 @@ void InterceptBall::sendStopCommand() {
 
 //Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
-    Vector2 goalCentre = FieldMessage::get_field()[OUR_GOAL_CENTER];
-    double goalWidth = FieldMessage::get_field()[GOAL_WIDTH];
+    Vector2 goalCentre = (*field)[OUR_GOAL_CENTER];
+    double goalWidth = (*field)[GOAL_WIDTH];
     Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
@@ -250,11 +249,11 @@ bool InterceptBall::ballToGoal() {
 }
 // Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
-    Vector2 goalCentre = FieldMessage::get_field()[OUR_GOAL_CENTER];
-    double goalWidth = FieldMessage::get_field()[GOAL_WIDTH];
+    Vector2 goalCentre = (*field)[OUR_GOAL_CENTER];
+    double goalWidth = (*field)[GOAL_WIDTH];
     Vector2 lowerPost = goalCentre + Vector2(0.0, -goalWidth);
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
-    Vector2 depth = Vector2(-FieldMessage::get_field()[GOAL_DEPTH], 0.0);
+    Vector2 depth = Vector2(-(*field)[GOAL_DEPTH], 0.0);
     return control::ControlUtils::pointInRectangle(ball->getPos(), lowerPost, lowerPost + depth,
             upperPost + depth, upperPost);
 }

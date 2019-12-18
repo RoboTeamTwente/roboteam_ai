@@ -11,9 +11,6 @@
 namespace rtt {
 namespace ai {
 
-FieldComputations fieldObj;
-FieldComputations *field = &fieldObj;
-
 using util = control::ControlUtils;
 
 bool FieldComputations::pointIsInDefenceArea(FieldMessage &field, const Vector2 &point, bool isOurDefenceArea,

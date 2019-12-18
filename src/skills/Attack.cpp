@@ -22,10 +22,9 @@ Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    FieldMessage field = FieldMessage::get_field();
     if (! robot) return Status::Running;
 
-    if (FieldComputations::pointIsInDefenceArea(field, ball->getPos(), false)) {
+    if (FieldComputations::pointIsInDefenceArea(*field, ball->getPos(), false)) {
         command.set_w(robot->angle);
         publishRobotCommand();
         return Status::Running;

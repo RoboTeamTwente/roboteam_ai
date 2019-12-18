@@ -46,9 +46,6 @@ class FieldComputations {
         static Polygon getFieldEdge(FieldMessage &field, double margin = 0.0);
 };
 
-extern FieldComputations fieldObj;
-extern FieldComputations* field;
-
 } // ai
 } // rtt
 

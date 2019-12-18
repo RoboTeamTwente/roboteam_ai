@@ -16,7 +16,7 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = world->getBall()->getPos();
     freeKickPos = ballPos;
-    Vector2 goal = FieldMessage::get_field()[THEIR_GOAL_CENTER];
+    Vector2 goal = (*field)[THEIR_GOAL_CENTER];
 
     // behind the ball looking at the goal
     targetPos = ballPos + (ballPos - goal).stretchToLength(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
@@ -24,7 +24,6 @@ void ShootFreeKick::onInitialize() {
 }
 
 Skill::Status ShootFreeKick::onUpdate() {
-    FieldMessage _field = FieldMessage::get_field();
     Vector2 target;
     switch (progress) {
 
@@ -55,7 +54,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 // Find a target and draw a vector to it
                 // TODO make targeting functions based on our robots positions maybe coach
                 // TODO for now it shoots at the goal
-                Vector2 target = FieldComputations::getPenaltyPoint(_field, false);
+                Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
                 Vector2 ballPos = world->getBall()->getPos();
                 targetPos = ballPos + (ballPos - target).stretchToLength(
                         Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
@@ -77,7 +76,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 
         case SHOOTING: {
             if (! isShot()) {
-                Vector2 target = FieldComputations::getPenaltyPoint(_field, false);
+                Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
 
                 auto shotData = robot->getShotController()->getRobotCommand(*robot, target, false, control::BallSpeed::PASS);
                 command = shotData.makeROSCommand();

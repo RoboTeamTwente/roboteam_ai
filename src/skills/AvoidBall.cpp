@@ -31,12 +31,11 @@ void AvoidBall::onInitialize() {
 }
 
 bt::Node::Status AvoidBall::onUpdate() {
-    FieldMessage _field = FieldMessage::get_field();
     auto robotPos = rtt::Vector2(robot->pos);
 
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
-    if (!robotIsKeeper && (FieldComputations::pointIsInDefenceArea(_field, robotPos, true, 0.10) ||
-        FieldComputations::pointIsInDefenceArea(_field, robotPos, false, 0.10))) {
+    if (!robotIsKeeper && (FieldComputations::pointIsInDefenceArea(*field, robotPos, true, 0.10) ||
+        FieldComputations::pointIsInDefenceArea(*field, robotPos, false, 0.10))) {
 
         robot->getNumtreePosControl()->getRobotCommand(world, field, robot, Vector2(0, robotPos.y));
         publishRobotCommand();
@@ -56,9 +55,9 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + cu::calculateForce(robotPos - ball->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    double boundWidth =  _field[BOUNDARY_WIDTH];
-    double halfFieldLength = _field[FIELD_LENGTH] / 2;
-    double halfFieldWidth = _field[FIELD_WIDTH] / 2;
+    double boundWidth =  (*field)[BOUNDARY_WIDTH];
+    double halfFieldLength = (*field)[FIELD_LENGTH] / 2;
+    double halfFieldWidth = (*field)[FIELD_WIDTH] / 2;
 
     std::vector<Vector2> wallsVectors;
     wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));

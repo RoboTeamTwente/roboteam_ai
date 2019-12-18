@@ -107,8 +107,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, FieldMe
                          (ballIsMovingTooFast && ! robotIsTouchingBall)
                                  || (robotDoesNotHaveBall || robotIsTooFarFromBall);
 
-    FieldMessage _field = FieldMessage::get_field();
-    bool ballIsOutsideField = !FieldComputations::pointIsInField(_field, ball->getPos(), 0.0);
+    bool ballIsOutsideField = !FieldComputations::pointIsInField(*field, ball->getPos(), 0.0);
     if (ballIsOutsideField) {
         status = HANDLING_BALL;
         Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(ball->getPos(), 1.0);
@@ -313,11 +312,10 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
 }
 
 RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition) {
-    FieldMessage _field = FieldMessage::get_field();
     Vector2 numTreesTarget = ballStillPosition;
-    if (!FieldComputations::pointIsInField(_field, ballStillPosition, Constants::ROBOT_RADIUS())) {
+    if (!FieldComputations::pointIsInField(*field, ballStillPosition, Constants::ROBOT_RADIUS())) {
         LineSegment ballLine = LineSegment(ball->getPos(), ballStillPosition);
-        Polygon fieldEdge = FieldComputations::getFieldEdge(_field, Constants::ROBOT_RADIUS());
+        Polygon fieldEdge = FieldComputations::getFieldEdge(*field, Constants::ROBOT_RADIUS());
 
         auto intersections = fieldEdge.intersections(ballLine);
         if (intersections.size() == 1) {
@@ -345,7 +343,6 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
 }
 
 RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
-    FieldMessage _field = FieldMessage::get_field();
     Angle robotAngleTowardsBall = ball->getVel().toAngle() - (ball->getPos() - robot->pos).toAngle();
 
     if (fabs(robotAngleTowardsBall) < M_PI*0.12) {
@@ -364,9 +361,9 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
         movingBallTowardsBallTarget = ball->getPos() / 2 + projection / 2;
     }
 
-    if (!FieldComputations::pointIsInField(_field, movingBallTowardsBallTarget, Constants::ROBOT_RADIUS())) {
+    if (!FieldComputations::pointIsInField(*field, movingBallTowardsBallTarget, Constants::ROBOT_RADIUS())) {
         LineSegment ballLine = LineSegment(ball->getPos(), movingBallTowardsBallTarget);
-        Polygon fieldEdge = FieldComputations::getFieldEdge(_field, Constants::ROBOT_RADIUS());
+        Polygon fieldEdge = FieldComputations::getFieldEdge(*field, Constants::ROBOT_RADIUS());
 
         auto intersections = fieldEdge.intersections(ballLine);
         if (intersections.size() == 1) {
@@ -384,7 +381,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
     setAvoidBallDistance(tempAvoidBallDistance);
 
-    if (FieldComputations::pointIsInField(_field, robot->pos + robot->vel)) {
+    if (FieldComputations::pointIsInField(*field, robot->pos + robot->vel)) {
         double ballVel = ball->getVel().length();
         double targetVel = ballVel*2.4;
 
@@ -520,8 +517,7 @@ bool BallHandlePosControl::isCrashingIntoOpponentRobot(const LineSegment &driveL
 }
 
 bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) {
-    FieldMessage _field = FieldMessage::get_field();
-    if (!FieldComputations::pointIsInField(_field, driveLine.end)) {
+    if (!FieldComputations::pointIsInField(*field, driveLine.end)) {
 
         interface::Input::drawData(interface::Visual::BALL_HANDLING,
                 {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
@@ -533,7 +529,7 @@ bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) 
     }
 
     double maxRobotVel = 3.0;
-    if (!FieldComputations::pointIsInField(_field, driveLine.start + (driveLine.end - driveLine.start)*2)) {
+    if (!FieldComputations::pointIsInField(*field, driveLine.start + (driveLine.end - driveLine.start)*2)) {
 
         if (robot->vel.length() > maxRobotVel) {
             interface::Input::drawData(interface::Visual::BALL_HANDLING,

@@ -18,8 +18,8 @@ Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
 void Keeper::onInitialize() {
-    goalPos = FieldMessage::get_field()[OUR_GOAL_CENTER];
-    goalwidth = FieldMessage::get_field()[GOAL_WIDTH];
+    goalPos = (*field)[OUR_GOAL_CENTER];
+    goalwidth = (*field)[GOAL_WIDTH];
     //Create arc for keeper to drive on
     blockCircle = createKeeperArc();
 
@@ -32,8 +32,7 @@ Keeper::Status Keeper::onUpdate() {
     Vector2 ballPos = world->getBall()->getPos();
     Vector2 blockPoint;
 
-    FieldMessage _field = FieldMessage::get_field();
-    goalPos = _field[OUR_GOAL_CENTER];
+    goalPos = (*field)[OUR_GOAL_CENTER];
 
     if (ball->getPos().x < 0) {
         auto attacker = world->getRobotClosestToPoint(ball->getPos(), THEIR_ROBOTS);
@@ -44,7 +43,7 @@ Keeper::Status Keeper::onUpdate() {
 
     blockPoint = computeBlockPoint(ballPos);
 
-    if (!FieldComputations::pointIsInField(_field, blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
+    if (!FieldComputations::pointIsInField(*field, blockPoint, static_cast<float>(-Constants::OUT_OF_FIELD_MARGIN()))) {
         blockPoint = goalPos;
         blockPoint.x += Constants::KEEPER_CENTREGOAL_MARGIN();
         command.set_w(0);
@@ -67,9 +66,8 @@ void Keeper::onTerminate(Status s) {
 }
 
 Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
-    FieldMessage _field = FieldMessage::get_field();
     Vector2 blockPos, posA, posB;
-    if (defendPos.x < _field[OUR_GOAL_CENTER].x) {
+    if (defendPos.x < (*field)[OUR_GOAL_CENTER].x) {
         if (abs(defendPos.y) >= goalwidth) {
             blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
                     *signum(defendPos.y));
@@ -92,7 +90,7 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
             posA = *intersections.first;
             posB = *intersections.second;
 
-            if (!FieldComputations::pointIsInDefenceArea(_field, posA, true)) {
+            if (!FieldComputations::pointIsInDefenceArea(*field, posA, true)) {
                 blockPos = posB;
             }
 
@@ -119,14 +117,13 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
 }
 
 void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
-    auto fieldMsg = FieldMessage::get_field();
     Vector2 start;
     Vector2 end;
-    double distanceToGoal = ((Vector2) attacker->pos - fieldMsg[OUR_GOAL_CENTER]).length();
+    double distanceToGoal = ((Vector2) attacker->pos - (*field)[OUR_GOAL_CENTER]).length();
 
     start = attacker->pos;
 
-    auto goal = FieldComputations::getGoalSides(fieldMsg, true);
+    auto goal = FieldComputations::getGoalSides(*field, true);
     Vector2 attackerToBallV2 = ball->getPos() - attacker->pos;
     Vector2 attackerAngleV2 = attacker->angle.toVector2();
     Vector2 i1 = control::ControlUtils::twoLineIntersection(attackerToBallV2 + attacker->pos, attacker->pos, goal.start,
@@ -136,17 +133,16 @@ void Keeper::setGoalPosWithAttacker(RobotPtr attacker) {
     Angle targetAngle = Vector2((i1 + i2)*0.5 - attacker->pos).toAngle();
     end = start + (Vector2) {distanceToGoal*1.2, 0}.rotate(targetAngle);
 
-    Vector2 startGoal = {-fieldMsg[FIELD_LENGTH] / 2, - fieldMsg[GOAL_WIDTH] / 2};
-    Vector2 endGoal = {-fieldMsg[FIELD_LENGTH] / 2, fieldMsg[GOAL_WIDTH] / 2};
+    Vector2 startGoal = {-(*field)[FIELD_LENGTH] / 2, -(*field)[GOAL_WIDTH] / 2};
+    Vector2 endGoal = {-(*field)[FIELD_LENGTH] / 2, (*field)[GOAL_WIDTH] / 2};
     if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
         goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
     }
 }
 
 rtt::Arc Keeper::createKeeperArc() {
-    FieldMessage _field = FieldMessage::get_field();
-    double goalwidth = _field[GOAL_WIDTH];
-    Vector2 goalPos = _field[OUR_GOAL_CENTER];
+    double goalwidth = (*field)[GOAL_WIDTH];
+    Vector2 goalPos = (*field)[OUR_GOAL_CENTER];
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.

@@ -48,10 +48,9 @@ bt::Node::Status ShootPenalty::onUpdate() {
         }
     }
     else {
-        FieldMessage _field = FieldMessage::get_field();
-        if (ball && !FieldComputations::pointIsInDefenceArea(_field, ballPos,false,-0.1)){
+        if (ball && !FieldComputations::pointIsInDefenceArea(*field, ballPos,false,-0.1)){
             Vector2 targetPos = world::world->getBall()->getPos() + additionalBallDist;
-            if (FieldComputations::pointIsInDefenceArea(_field, ballPos, false, 0.2)){
+            if (FieldComputations::pointIsInDefenceArea(*field, ballPos, false, 0.2)){
                 auto cmd=gtp.getRobotCommand(world, field, robot,targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y+gain);

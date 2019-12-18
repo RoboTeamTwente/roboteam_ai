@@ -24,11 +24,10 @@ Condition::Status RobotOutside::onUpdate() {
 bool RobotOutside::checkPoint() {
     // return success if the robot is out of the field
     // return success if the ball is out of the field
-    FieldMessage field = FieldMessage::get_field();
     double margin = 0.15;
-    return !(abs(robot->pos.x) < FieldMessage::get_field()[FIELD_LENGTH] / 2 + margin &&
-        abs(robot->pos.y) < FieldMessage::get_field()[FIELD_WIDTH] / 2 + margin &&
-        !FieldComputations::pointIsInDefenceArea(field, robot->pos));
+    return !(abs(robot->pos.x) < (*field)[FIELD_LENGTH] / 2 + margin &&
+        abs(robot->pos.y) < (*field)[FIELD_WIDTH] / 2 + margin &&
+        !FieldComputations::pointIsInDefenceArea(*field, robot->pos));
 }
 }
 }

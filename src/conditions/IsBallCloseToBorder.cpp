@@ -22,16 +22,15 @@ void IsBallCloseToBorder::onInitialize() {
 }
 
 bt::Node::Status IsBallCloseToBorder::onUpdate() {
-    auto fieldMsg = FieldMessage::get_field();
     if (properties->getBool("corner")) {
-        double xDiff = fieldMsg[FIELD_LENGTH] / 2 - abs(ball->getPos().x);
-        double yDiff = fieldMsg[FIELD_WIDTH] / 2 - abs(ball->getPos().y);
+        double xDiff = (*field)[FIELD_LENGTH] / 2 - abs(ball->getPos().x);
+        double yDiff = (*field)[FIELD_WIDTH] / 2 - abs(ball->getPos().y);
 
         if (xDiff >= margin || yDiff >= margin) {
             return Status::Failure;
         }
     } 
-    else if (FieldComputations::pointIsInField(fieldMsg, ball->getPos(), static_cast<float>(margin))) {
+    else if (FieldComputations::pointIsInField(*field, ball->getPos(), static_cast<float>(margin))) {
         return Status::Failure;
     }
 
