@@ -9,6 +9,17 @@
 
 namespace bt {
 
+/**
+ * Use this constructor when you want to initialize the children of the selector using a vector.
+ * The children are added sequentially, so the first element in the array will be the leftmost child of the selector
+ * @param children vector of nodes that will be the children of this selector node
+ */
+Selector::Selector(const std::vector<std::shared_ptr<bt::Node>>& children) {
+    for (auto &child : children) {
+        this->addChild(child);
+    }
+}
+
 Node::Status Selector::update() {
     // Keep going until a child behavior says it's running.
     for (auto &child : children) {

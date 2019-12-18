@@ -9,7 +9,6 @@
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include <io/IOManager.h>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
-#include <roboteam_utils/constants.h>
 #include <Settings/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 
@@ -46,15 +45,12 @@ void IOManager::handleWorldState(proto::World & world) {
 }
 
 void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {
-  std::lock_guard<std::mutex> lock(geometryMutex);
-
-  // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
-  FieldMessage msg = FieldMessage(sslData.field());
-  if (!SETTINGS.isLeft()) { msg.invert(); }
-
-
+    std::lock_guard<std::mutex> lock(geometryMutex);
+    
+    // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
+    FieldMessage msg = FieldMessage(sslData.field());
     this->geometryMsg = sslData;
-
+    
     world::field->set_field(msg);
     hasReceivedGeom = true;
 }

@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-std=c++17 ${CMAKE_CXX_FLAGS} -g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "-std=c++17 ${CMAKE_CXX_FLAGS} -Werror -g -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
 
+set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
 
@@ -217,6 +218,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
 
+
 #        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
 
         #
@@ -235,7 +237,7 @@ set(TEST_SOURCES
 
 
 
-        #${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
 #
@@ -343,7 +345,9 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE roboteam_utils)
+        PRIVATE roboteam_utils
+        gtest
+        )
 
 target_include_directories(roboteam_ai
         INTERFACE include
@@ -388,7 +392,9 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE gcov)
+        PRIVATE gcov
+          gtest
+          )
 endif()
 
 target_include_directories(ai_tests
