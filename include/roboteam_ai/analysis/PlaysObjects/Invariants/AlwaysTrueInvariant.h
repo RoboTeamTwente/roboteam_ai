@@ -21,7 +21,7 @@ namespace rtt::ai::analysis {
          * @param field
          * @return true if the ball belongs to us, false otherwise
          */
-        virtual bool isTrue(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+        static bool isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field);
 
         AlwaysTrueInvariant(std::string name);
 

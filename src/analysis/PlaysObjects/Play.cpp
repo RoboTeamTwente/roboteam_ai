@@ -4,6 +4,11 @@
 
 #include <functional>
 #include "analysis/PlaysObjects/Play.h"
+#include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
+#include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
+#include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
+
 
 namespace rtt::ai::analysis {
     /**
@@ -26,6 +31,12 @@ namespace rtt::ai::analysis {
     }
 
     bool Play::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        BallOnOurSideInvariant::isValid(world, field);
+        BallBelongsToUsInvariant::isValid(world, field);
+        AlwaysFalseInvariant::isValid(world, field);
+        AlwaysTrueInvariant::isValid(world, field);
+
+
         for (auto i : invariants) {
             if(!i(world, field)) {
                 return false;

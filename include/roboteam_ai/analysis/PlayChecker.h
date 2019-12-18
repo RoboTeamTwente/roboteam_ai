@@ -14,7 +14,7 @@ namespace rtt::ai::analysis {
     class PlayChecker {
     public:
         void constructInvariants();
-        PlayChecker();
+        PlayChecker() = default;
         bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
         void update(world::World *world, world::Field *field);
 

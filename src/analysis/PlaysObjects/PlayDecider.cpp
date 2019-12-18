@@ -5,7 +5,7 @@
 #include "include/roboteam_ai/analysis/PlaysObjects/PlayDecider.h"
 
 namespace rtt::ai::analysis {
-
+    // Maybe plays should have some sort of score based on the world how good they are
     Play PlayDecider::decideBestPlay(world::World *world, world::Field *field, std::vector<Play> validPlays) {
 
 

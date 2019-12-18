@@ -10,9 +10,8 @@
 #include "world/Ball.h"
 
 namespace rtt::ai::analysis {
-    BallBelongsToUsInvariant::BallBelongsToUsInvariant(std::string name) : name {name}{};
 
-    bool BallBelongsToUsInvariant::isTrue(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+    bool BallBelongsToUsInvariant::isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         auto margin = 0;
         auto ball = world->getBall();
         Vector2 ballPos = world->getBall()->getPos();
