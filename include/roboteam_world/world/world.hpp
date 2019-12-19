@@ -5,8 +5,8 @@
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
 #include <vector>
+#include "roboteam_proto/RobotFeedback.pb.h"
 #include "world_data.hpp"
-
 
 namespace rtt::world {
 
@@ -27,6 +27,8 @@ namespace rtt::world {
     private:
         void toHistory(WorldData& world) noexcept;
 
+        std::mutex updateMutex;
+        std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
         std::vector<WorldData> history{ HISTORY_SIZE };
         size_t currentIndex{ 0 };
         WorldData currentWorld;

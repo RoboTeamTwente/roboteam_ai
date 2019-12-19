@@ -25,6 +25,7 @@ namespace rtt::world::robot {
      *
      * robot still changes:
      *  battery
+     *  spinner speed
      */
     class Robot {
     private:

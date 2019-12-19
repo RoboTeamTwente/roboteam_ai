@@ -8,7 +8,7 @@
 #include "roboteam_world/world/robot.hpp"
 
 namespace rtt::world {
-    WorldData::WorldData(proto::World& protoMsg, settings::Settings const& settings) noexcept
+    WorldData::WorldData(proto::World& protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback> const& feedback) noexcept
         : time{ protoMsg.time() } {
         auto genevaState = 3;
 
@@ -16,11 +16,11 @@ namespace rtt::world {
         auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
         for (auto &each : ours) {
-            us.emplace_back(&robots.emplace_back(each, team::us, genevaState));
+            us.emplace_back(&robots.emplace_back(each, team::us, genevaState, feedback));
         }
 
         for (auto &each : others) {
-            them.emplace_back(&robots.emplace_back(each, team::them, genevaState));
+            them.emplace_back(&robots.emplace_back(each, team::them, genevaState, ));
         }
 
         if (protoMsg.has_ball()) {

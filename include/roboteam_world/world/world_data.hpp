@@ -9,6 +9,7 @@
 
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/Setting.pb.h"
+#include "roboteam_proto/RobotFeedback.pb.h"
 
 #include "settings.hpp"
 #include "ball.hpp"
@@ -37,7 +38,7 @@ namespace rtt::world {
 
         uint64_t time;
     public:
-        WorldData(proto::World &protoMsg, settings::Settings const& settings) noexcept;
+        WorldData(proto::World &protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback> const& feedback) noexcept;
 
         std::vector<rtt::world::robot::Robot*> const& getUs() const noexcept;
         std::vector<rtt::world::robot::Robot*> const& getThem() const noexcept;
