@@ -24,9 +24,10 @@ private:
     bool weHaveRobots = false;
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
+    ::rtt::world::settings::Settings* settings;
 
 public:
-    void start();
+    void start(::rtt::world::settings::Settings& settings);
     void checkForShutdown();
     void checkForFreeRobots();
     void updateCoaches() const;

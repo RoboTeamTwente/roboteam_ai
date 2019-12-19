@@ -54,8 +54,6 @@ class Robot {
         int previousGenevaState = 0;
         double timeGenevaChanged = 0;
         double timeToChangeOneGenevaState = 0.2;
-public:
-    void setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState);
 
 private:
     bool workingGeneva;

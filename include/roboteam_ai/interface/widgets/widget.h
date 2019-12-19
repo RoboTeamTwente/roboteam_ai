@@ -14,16 +14,17 @@
 #include <roboteam_utils/Vector2.h>
 #include <world/Robot.h>
 #include <interface/api/Toggles.h>
+#include "roboteam_world/world/settings.hpp"
 
 namespace rtt::ai::interface {
-
 class Visualizer : public QWidget {
+
     Q_OBJECT
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
     public:
         using Robot = rtt::ai::world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
-        explicit Visualizer(QWidget* parent = nullptr);
+        explicit Visualizer(QWidget* parent, rtt::world::settings::Settings& settings);
         const std::vector<Robot> &getSelectedRobots() const;
         bool robotIsSelected(Robot robotToCheck);
         bool robotIsSelected(int id);
@@ -80,6 +81,8 @@ class Visualizer : public QWidget {
         int tacticCount = 0; // increases when a new tactic is used
 
         std::vector<Robot> selectedRobots;
+
+        rtt::world::settings::Settings* settings;
 
         // toggles
         bool showRoles = Constants::STD_SHOW_ROLES();

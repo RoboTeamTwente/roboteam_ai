@@ -7,6 +7,11 @@
 
 #include "PosController.h"
 
+namespace rtt::ai::world {
+    class World;
+    class Field;
+}
+
 namespace rtt::ai::control {
 
 class BasicPosControl : public PosController {

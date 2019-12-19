@@ -36,7 +36,7 @@ Q_OBJECT
     FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 public:
-    explicit MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(QWidget* parent, ::rtt::world::settings::Settings& settings);
 
     // this function is useful everywhere
     static void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method,

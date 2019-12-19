@@ -9,8 +9,8 @@
 #include <utilities/Constants.h>
 //#include <control/controllers/PidController.h>
 //#include <control/controllers/PidTwoAxesController.h>
-#include "world/Field.h"
-#include "world/World.h"
+#include "../roboteam_ai/include/roboteam_ai/world/World.h"
+#include "../roboteam_ai/include/roboteam_ai/world/Field.h"
 #include "pid.h"
 
 

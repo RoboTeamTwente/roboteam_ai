@@ -1,4 +1,3 @@
-#include <Settings/Settings.h>
 #include "interface/api/Output.h"
 #include "utilities/GameStateManager.hpp"
 #include <skills/Halt.h>
@@ -15,12 +14,12 @@ proto::SSL_Referee GameStateManager::getRefereeData() {
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
+void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, ::rtt::world::settings::Settings const& settings) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
     RefCommand cmd;
     // COLOR DEPENDENT STATES
-    if (SETTINGS.isYellow()) {
+    if (settings.isYellow()) {
         switch (refMsg.command()) {
             case proto::SSL_Referee_Command_HALT: cmd = RefCommand::HALT; break;
             case proto::SSL_Referee_Command_STOP: cmd = RefCommand::STOP; break;
@@ -82,7 +81,7 @@ GameState GameStateManager::getCurrentGameState() {
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
-        if (SETTINGS.isYellow()) {
+        if (rtt::world::settings::Settings::settings->isYellow()) {
             newGameState.keeperId = getRefereeData().yellow().goalie();
         } else {
             newGameState.keeperId = getRefereeData().blue().goalie();
@@ -106,7 +105,7 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
     strategymanager.forceCurrentRefGameState(cmd);
 }
 
-bool GameStateManager::canEnterDefenseArea(int robotId) {
+bool GameStateManager::canEnterDefenseArea(int robotId, ::rtt::world::settings::Settings const& settings) {
     GameState currentState = getCurrentGameState();
     if (robotId != currentState.keeperId) {
         return currentState.getRuleSet().robotsCanEnterDefenseArea();
@@ -115,7 +114,7 @@ bool GameStateManager::canEnterDefenseArea(int robotId) {
     return true;
 }
 
-bool GameStateManager::canMoveOutsideField(int robotId) {
+bool GameStateManager::canMoveOutsideField(int robotId, ::rtt::world::settings::Settings const& settings) {
     GameState currentState = getCurrentGameState();
     if (robotId != currentState.keeperId) {
         return currentState.getRuleSet().robotsCanGoOutOfField;

@@ -18,7 +18,7 @@ void World::updateWorld(const proto::World &message) {
         // create a worldData if there is none
         if (!worldData) {
             std::cout << "Creating first world" << std::endl;
-            worldData = WorldData(message);
+            worldData = WorldData(message, *rtt::world::settings::Settings::settings);
 
         }
 
@@ -29,7 +29,7 @@ void World::updateWorld(const proto::World &message) {
     }
 
     // update ballmodel, dribbling, position if not visible etc.
-    auto tempWorldData = WorldData(message);
+    auto tempWorldData = WorldData(message, *rtt::world::settings::Settings::settings);
     if (oldBall) {
         tempWorldData.ball->updateBall(oldBall, tempWorldData);
     }
@@ -45,7 +45,7 @@ void World::updateWorld(const proto::World &message) {
         std::vector<proto::WorldRobot>usMsg;
         std::vector<proto::WorldRobot>themMsg;
 
-        if (SETTINGS.isYellow()) {
+        if (rtt::world::settings::Settings::settings->isYellow()) {
             usMsg = std::vector<proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
             themMsg = std::vector<proto::WorldRobot>(message.blue().begin(), message.blue().end());
         } else {

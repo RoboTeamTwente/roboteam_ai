@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_WORLDDATA_H
 #define ROBOTEAM_AI_WORLDDATA_H
 
-#include <Settings/Settings.h>
+#include "roboteam_world/world/settings.hpp"
 #include "roboteam_proto/World.pb.h"
 
 #include "roboteam_utils/Vector2.h"
@@ -23,11 +23,11 @@ class WorldData {
         using WorldDataPtr = std::shared_ptr<WorldData>;
     public:
         WorldData() = default;
-        explicit WorldData(const proto::World &copy)
+        explicit WorldData(const proto::World &copy, ::rtt::world::settings::Settings const& settings)
                 :time(copy.time()) {
 
           // TODO switch colors for teams
-          if (SETTINGS.isYellow()) {
+          if (settings.isYellow()) {
             for (auto &robot : copy.yellow()) {
                 RobotPtr r = std::make_shared<Robot>(Robot(robot, Team::us, 3));
                 us.emplace_back(r);

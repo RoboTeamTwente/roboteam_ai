@@ -20,12 +20,12 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget* parent, rtt::world::settings::Settings& settings) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
     // layouts
-    visualizer = new Visualizer(this);
+    visualizer = new Visualizer(this, settings);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
   // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
-    auto mainControlsWidget = new MainControlsWidget(this);
+    auto mainControlsWidget = new MainControlsWidget(this, settings);
     vLayout->addWidget(mainControlsWidget);
 
 
@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     keeperTreeWidget = new TreeVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
-    auto settingsWidget = new SettingsWidget(this);
+    auto settingsWidget = new SettingsWidget(this, settings);
 
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);

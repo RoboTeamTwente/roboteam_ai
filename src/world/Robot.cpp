@@ -2,7 +2,6 @@
 // Created by thijs on 1-4-19.
 //
 
-#include <Settings/Settings.h>
 #include "world/Robot.h"
 #include "world/World.h"
 #include "world/Ball.h"
@@ -268,11 +267,7 @@ void Robot::setHasWorkingBallSensor(bool hasWorkingBallSensor) {
     workingBallSensor = hasWorkingBallSensor;
 }
 
-void Robot::setTimeToChangeOneGenevaState(double timeToChangeOneGenevaState) {
-    Robot::timeToChangeOneGenevaState = timeToChangeOneGenevaState;
-}
-
-bool Robot::isBatteryLow() const {
+    bool Robot::isBatteryLow() const {
     return batteryLow;
 }
 

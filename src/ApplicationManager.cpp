@@ -8,7 +8,6 @@
 #include <bt/Node.hpp>
 #include <ApplicationManager.h>
 #include <utilities/GameStateManager.hpp>
-#include <Settings/Settings.h>
 #include <interface/api/Input.h>
 #include <world/World.h>
 #include <coach/GetBallCoach.h>
@@ -17,17 +16,17 @@
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
 #include <include/roboteam_ai/world/Field.h>
+#include "roboteam_world/world/settings.hpp"
 
-namespace io = rtt::ai::io;
-namespace ai = rtt::ai;
-using Status = bt::Node::Status;
 
 namespace rtt {
 
+namespace io = rtt::ai::io;
+using Status = bt::Node::Status;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
-void ApplicationManager::start() {
-
+void ApplicationManager::start(::rtt::world::settings::Settings& _settings) {
+    this->settings = &_settings;
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
@@ -50,7 +49,7 @@ void ApplicationManager::start() {
 
         // publish settings, but limit this function call to only run 1 times/s at most
         t.limit([&]() {
-            io::io.publishSettings(SETTINGS.toMessage());
+            io::io.publishSettings();
         }, 1);
 
     }, ai::Constants::TICK_RATE());

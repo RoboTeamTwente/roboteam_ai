@@ -87,8 +87,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
-        ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
-
+        )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/Skill.cpp
@@ -291,6 +290,10 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
+
+
+        # Temporary solution
+        ${PROJECT_SOURCE_DIR}/../roboteam_world/src/world/settings.cpp
         )
 
 set(WORLD_SOURCES
@@ -351,6 +354,7 @@ target_link_libraries(roboteam_ai
 target_include_directories(roboteam_ai
         INTERFACE include
         PRIVATE include/roboteam_ai
+        PRIVATE ../roboteam_world/include
         PRIVATE src )
 
 #############

@@ -15,8 +15,8 @@
 
 namespace rtt::ai::interface {
 
-Visualizer::Visualizer(QWidget* parent)
-        :QWidget(parent) { }
+Visualizer::Visualizer(QWidget* parent, rtt::world::settings::Settings& settings)
+        :QWidget(parent), settings{ &settings } { }
 
 /// The update loop of the field widget. Invoked by widget->update();
 void Visualizer::paintEvent(QPaintEvent* event) {
@@ -190,7 +190,7 @@ void Visualizer::drawFieldLines(QPainter &painter) {
         pen.setWidth(3);
 
         // update the we are yellow
-        bool weAreYellow = SETTINGS.isYellow();
+        bool weAreYellow = settings->isYellow();
 
         // draw the hint for us
         auto usGoalLine = world::field->getGoalSides(true);
@@ -301,7 +301,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     QPointF qrobotPosition(robotpos.x, robotpos.y);
 
     // update the we are yellow
-    bool weAreYellow = SETTINGS.isYellow();
+    bool weAreYellow = settings->isYellow();
 
     QColor robotColor;
     if (ourTeam) {

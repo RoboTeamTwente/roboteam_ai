@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <utilities/Constants.h>
-#include <Settings/Settings.h>
+#include "roboteam_world/world/settings.hpp"
 
 #include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
@@ -9,14 +9,14 @@
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
-void runBehaviourTrees() {
+void runBehaviourTrees(::rtt::world::settings::Settings& settings) {
     rtt::ApplicationManager app;
-    app.start();
+    app.start(settings);
     app.checkForShutdown();
 }
 
 void setDarkTheme() {
-    qApp->setStyle(QStyleFactory::create("Fusion"));
+     qApp->setStyle(QStyleFactory::create("Fusion"));
     QPalette darkPalette;
     darkPalette.setColor(QPalette::Window, QColor(53,53,53));
     darkPalette.setColor(QPalette::WindowText, Qt::white);
@@ -44,40 +44,35 @@ int main(int argc, char* argv[]) {
         id = *argv[1] - '0';
     }
 
+    rtt::world::settings::Settings settings{ };
+    rtt::world::settings::Settings::settings = &settings;
 
     // some default settings for different team ids (saves time while testing)
-    if (id == 1) {
-        // standard blue team on right
-        rtt::SETTINGS.init(id);
-        rtt::SETTINGS.setYellow(false);
-        rtt::SETTINGS.setLeft(false);
-    } else {
-        // standard yellow team on left
-        rtt::SETTINGS.init(id);
-        rtt::SETTINGS.setYellow(true);
-        rtt::SETTINGS.setLeft(true);
-    }
+    settings.init(id);
+    settings.setYellow(id != 1);
+    settings.setLeft(id != 1);
+    settings.setSerialMode(false);
+    settings.setVisionIp("127.0.0.1");
+    settings.setVisionPort(10006);
+    settings.setRefereeIp("224.5.23.1");
+    settings.setRefereePort(10007);
+    settings.setRobothubSendIp("127.0.0.1");
+    settings.setRobothubSendPort(20011);
 
-    rtt::SETTINGS.setSerialMode(false);
-    rtt::SETTINGS.setVisionIp("127.0.0.1");
-    rtt::SETTINGS.setVisionPort(10006);
-    rtt::SETTINGS.setRefereeIp("224.5.23.1");
-    rtt::SETTINGS.setRefereePort(10007);
-    rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
-    rtt::SETTINGS.setRobothubSendPort(20011);
-
-
+    rtt::ai::io::io = rtt::ai::io::IOManager(settings);
     rtt::ai::io::io.init();
 
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());
 
-    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
+    std::thread behaviourTreeThread = std::thread([&](){
+        runBehaviourTrees(settings);
+    });
 
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
-    window = std::make_shared<ui::MainWindow>();
+    window = std::make_shared<ui::MainWindow>(nullptr, settings);
     window->setWindowState(Qt::WindowMaximized);
 
     window->show();

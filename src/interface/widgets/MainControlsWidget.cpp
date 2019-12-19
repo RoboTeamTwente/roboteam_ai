@@ -10,7 +10,6 @@
 #include "interface/widgets/mainWindow.h"
 #include "treeinterp/BTFactory.h"
 #include <utilities/GameStateManager.hpp>
-#include <include/roboteam_ai/Settings/Settings.h>
 #include <include/roboteam_ai/interface/api/Input.h>
 #include "utilities/GameState.h"
 
@@ -20,17 +19,17 @@ namespace interface {
 
 
 
-MainControlsWidget::MainControlsWidget(QWidget * parent) {
+MainControlsWidget::MainControlsWidget(QWidget *parent, rtt::world::settings::Settings &settings)
+        : settings{&settings} {
 
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     vLayout = new QVBoxLayout();
 
 
-
-  pauseBtn = new QPushButton("Stop");
-  QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
-  vLayout->addWidget(pauseBtn);
+    pauseBtn = new QPushButton("Stop");
+    QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
+    vLayout->addWidget(pauseBtn);
   pauseBtn->setStyleSheet("background-color: #cc0000;");
   pauseBtn->setMinimumHeight(40);
 
@@ -171,20 +170,20 @@ void MainControlsWidget::setUseReferee(bool useRef) {
 
 /// toggle the setting 'isYellow'
 void MainControlsWidget::toggleOurColorParam() {
-    SETTINGS.setYellow(!SETTINGS.isYellow());
-    setToggleColorBtnLayout();
+        settings->setYellow(!settings->isYellow());
+        setToggleColorBtnLayout();
 }
 
 /// toggle the the setting 'isLeft'
 void MainControlsWidget::toggleOurSideParam() {
-    SETTINGS.setLeft(!SETTINGS.isLeft());
-    setToggleSideBtnLayout();
+        settings->setLeft(!settings->isLeft());
+        setToggleSideBtnLayout();
 }
 
 /// toggle the the setting 'isSerialMode'
 void MainControlsWidget::toggleSerialParam() {
-    SETTINGS.setSerialMode(!SETTINGS.isSerialMode());
-    setToggleSerialBtnLayout();
+        settings->setSerialMode(!settings->isSerialMode());
+        setToggleSerialBtnLayout();
 }
 
 /// send a halt signal to stop all trees from executing
@@ -205,7 +204,7 @@ void MainControlsWidget::updatePause() {
 }
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
-    if (SETTINGS.isYellow()) {
+    if (settings->isYellow()) {
         toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
         toggleColorBtn->setText("Playing as Yellow");
     } else {
@@ -215,7 +214,7 @@ void MainControlsWidget::setToggleColorBtnLayout() const {
 }
 
 void MainControlsWidget::setToggleSideBtnLayout() const {
-    if (SETTINGS.isLeft()) {
+    if (settings->isLeft()) {
         toggleSideBtn->setText("◀ Playing as left");
     } else {
         toggleSideBtn->setText("Playing as right ▶");
@@ -223,7 +222,7 @@ void MainControlsWidget::setToggleSideBtnLayout() const {
 }
 
 void MainControlsWidget::setToggleSerialBtnLayout() const {
-    if (SETTINGS.isSerialMode()) {
+    if (settings->isSerialMode()) {
         toggleSerialBtn->setText("BaseStation");
     } else {
         toggleSerialBtn->setText("GrSim");

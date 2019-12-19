@@ -7,8 +7,6 @@
 #include "world/World.h"
 #include "world/Ball.h"
 #include <cmath>
-#include <Settings/Settings.h>
-
 
 namespace rtt::ai {
 
@@ -19,7 +17,7 @@ Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
 }
 
 void Skill::publishRobotCommand() {
-    if(!SETTINGS.isLeft()){
+    if(!::rtt::world::settings::Settings::settings->isLeft()){
       command=rotateRobotCommand(command);
     }
 

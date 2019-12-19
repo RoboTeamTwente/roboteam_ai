@@ -5,12 +5,13 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
+#include "roboteam_proto/Channels.h"
+#include "roboteam_proto/Setting.pb.h"
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include <io/IOManager.h>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/constants.h>
-#include <Settings/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 
 #include "demo/JoystickDemo.h"
@@ -35,7 +36,7 @@ IOManager io;
 void IOManager::handleWorldState(proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
 
-  if (!SETTINGS.isLeft()) {
+  if (!settings->isLeft()) {
     std::cout << "rotating message" << std::endl;
     roboteam_utils::rotate(&world); }
 
@@ -59,25 +60,16 @@ void IOManager::handleReferee(proto::SSL_Referee & refData) {
 
   if (interface::Output::usesRefereeCommands()) {
     // Rotate the data from the referee (designated position, e.g. for ballplacement)
-    if (!SETTINGS.isLeft()) { roboteam_utils::rotate(&refData); }
+    if (!settings->isLeft()) { roboteam_utils::rotate(&refData); }
 
     this->refDataMsg = refData;
 
     // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
     std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-    if (refData.yellow().name()==ROBOTEAM_TWENTE) {
-      SETTINGS.setYellow(true);
-    } else if (refData.blue().name()==ROBOTEAM_TWENTE) {
-      SETTINGS.setYellow(false);
-    }
+    settings->setYellow(refData.yellow().name() == ROBOTEAM_TWENTE);
+    settings->setLeft(!(refData.blueteamonpositivehalf() ^ settings->isYellow()));
 
-    if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
-      SETTINGS.setLeft(false);
-    } else {
-      SETTINGS.setLeft(true);
-    }
-
-    GameStateManager::setRefereeData(refData);
+    GameStateManager::setRefereeData(refData, *settings);
   }
 }
 
@@ -174,7 +166,7 @@ void IOManager::init() {
   refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
 
   // set up advertisement to publish robotcommands and settings
-  if (SETTINGS.getId() == 1) {
+  if (settings->getId() == 1) {
 
       feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>
           (proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
@@ -191,8 +183,8 @@ void IOManager::init() {
   }
 }
 
-void IOManager::publishSettings(proto::Setting setting) {
-  settingsPublisher->send(setting);
+void IOManager::publishSettings() {
+  settingsPublisher->send(settings->toMessage());
 }
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
@@ -215,6 +207,11 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
         }
     }
 }
+
+    IOManager::IOManager(::rtt::world::settings::Settings &settings) 
+        : settings{ &settings }{
+        init();
+    }
 
 
 } // rtt

@@ -4,14 +4,12 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QLineEdit>
-#include <Settings/Settings.h>
 #include "interface/widgets/mainWindow.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
-SettingsWidget::SettingsWidget(QWidget * parent) {
+SettingsWidget::SettingsWidget(QWidget * parent, ::rtt::world::settings::Settings& settings)
+    : settings{ settings } {
     vLayout = new QVBoxLayout();
     this->setLayout(vLayout);
 
@@ -19,12 +17,12 @@ SettingsWidget::SettingsWidget(QWidget * parent) {
     QGroupBox * grsimSettingsGroup = new QGroupBox("grsim transmission ip + port");
     auto grsimSettingsWidgetLayout = new QHBoxLayout();
     grsimIpText = new QLineEdit();
-    grsimIpText->setText(QString::fromStdString(SETTINGS.getRobothubSendIp()));
+    grsimIpText->setText(QString::fromStdString(settings.getRobothubSendIp()));
     QObject::connect(grsimIpText, SIGNAL(textChanged(QString)), this, SLOT(changeGrSimIp(QString)));
     grsimSettingsWidgetLayout->addWidget(grsimIpText);
     grsimPort = new QSpinBox();
     grsimPort->setRange(0, 999999);
-    grsimPort->setValue(SETTINGS.getRobothubSendPort());
+    grsimPort->setValue(settings.getRobothubSendPort());
     grsimSettingsWidgetLayout->addWidget(grsimPort);
     grsimSettingsGroup->setLayout(grsimSettingsWidgetLayout);
     QObject::connect(grsimPort, SIGNAL(textChanged(QString)), this, SLOT(changeGrSimPort(int)));
@@ -35,29 +33,27 @@ SettingsWidget::SettingsWidget(QWidget * parent) {
 }
 
 void SettingsWidget::changeTeamColor(bool isYellow) {
-    SETTINGS.setYellow(isYellow);
+    settings.setYellow(isYellow);
 }
 
 void SettingsWidget::changeTeamSide(bool isLeft) {
-    SETTINGS.setLeft(isLeft);
+    settings.setLeft(isLeft);
 }
 
 void SettingsWidget::changeMode(bool serial) {
-    SETTINGS.setSerialMode(serial);
+    settings.setSerialMode(serial);
 }
 
 void SettingsWidget::changeGrSimIp(QString ip) {
     std::cout << "setting grsimip" << std::endl;
-    SETTINGS.setRobothubSendIp(ip.toStdString());
+    settings.setRobothubSendIp(ip.toStdString());
 }
 
 void SettingsWidget::changeGrSimPort(int port) {
     std::cout << "setting grsimport" << std::endl;
-    SETTINGS.setRobothubSendPort(port);
+    settings.setRobothubSendPort(port);
 }
 
-} // interface
-} // ai
 } // rtt
 
 
