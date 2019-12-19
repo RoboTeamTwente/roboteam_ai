@@ -5,6 +5,7 @@ project(roboteam_world)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 find_package(Armadillo REQUIRED)
+SET(CMAKE_CXX_STANDARD 17)
 
 add_library(net STATIC
         src/net/netraw.cpp
@@ -19,12 +20,20 @@ add_executable(roboteam_world
         src/kalman/KalmanFilter.cpp
         src/kalman/KalmanObject.cpp
         src/kalman/KalmanBall.cpp
-        src/kalman/KalmanRobot.cpp)
+        src/kalman/KalmanRobot.cpp
+        src/world/world.cpp
+        src/world/world_data.cpp
+        src/world/robot.cpp
+        src/world/settings.cpp
+        src/world/ball.cpp
+        )
 
 
 target_include_directories(roboteam_world
         INTERFACE include
-        PRIVATE include/roboteam_world
+        PRIVATE ../roboteam_world/include
+        PRIVATE ../roboteam_proto/include
+        PRIVATE ../roboteam_ai/include
         PRIVATE src
         )
 
@@ -50,7 +59,7 @@ add_executable(world_tests
 
 target_include_directories(world_tests
         INTERFACE include
-        PRIVATE include/roboteam_world
+        PRIVATE ../cmake-build-debug
         PRIVATE src
         )
 
