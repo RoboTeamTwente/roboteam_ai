@@ -15,10 +15,6 @@ std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
 
-// C++ code trees
-
-
-
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory

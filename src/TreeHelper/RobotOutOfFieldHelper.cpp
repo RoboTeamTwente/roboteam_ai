@@ -21,12 +21,12 @@ namespace bt {
 
         robotOutsideBB->setString("type", "defaultType");
 
-        std::shared_ptr<bt::Sequence> seque = std::make_shared<bt::Sequence>();
+        std::shared_ptr<bt::Sequence> sequence = std::make_shared<bt::Sequence>();
         std::shared_ptr<rtt::ai::RobotOutside> robotOutside = std::make_shared<rtt::ai::RobotOutside>("RobotOutside", localbb);
         std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", robotOutsideBB);
 
-        seque->addChild(robotOutside);
-        seque->addChild(gtp);
-        return seque;
+        sequence->addChild(robotOutside);
+        sequence->addChild(gtp);
+        return sequence;
     }
 }
