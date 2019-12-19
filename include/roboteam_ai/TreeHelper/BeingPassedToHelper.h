@@ -6,9 +6,6 @@
 #define RTT_BEINGPASSEDTOHELPER_H
 #include "bt/BehaviorTree.hpp"
 
-/**
- * Wonder if this should be a class in itself as it is now, or part of a class and as a function.
- */
 
 namespace bt {
     class BeingPassedToHelper {

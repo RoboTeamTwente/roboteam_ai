@@ -13,32 +13,36 @@ namespace rtt::ai::analysis {
 
     class PlayChecker {
     public:
-        void constructInvariants();
         PlayChecker() = default;
-        bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+        /**
+         * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
+         * and if it is not new plays are calculated that are valid for the gamestate.
+         */
         void update(world::World *world, world::Field *field);
 
     private:
         /**
-         * List of the invariants of the current strategy
+         * @brief Checks if the invariants of the current play are true for the gamestate
+         * @param world the current world
+         * @param field the current field
+         * @return true if invariants of the play being executed are true, false otherwise
          */
-        std::vector<std::shared_ptr<Invariant>> invariants;
+        bool checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+
         /**
-         * Vector of all strategies (before pruning)
+         * Vector of all plays (before pruning)
          */
         std::vector<Play> allPlays;
 
+        /**
+         * Vector of all plays that are valid for the current world and field state
+         */
         std::vector<Play> validPlays;
 
         /// TODO: implement this function. Not a priority right now
         bool checkStrategyPreconditions();
 
         void determineNewPlays(world::World *world, world::Field *field);
-
-        /**
-         * private typedef to shorten declarations in this class
-         */
-        using ivec = std::vector<std::shared_ptr<Invariant>>;
 
     };
 }
