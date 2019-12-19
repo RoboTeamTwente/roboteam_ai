@@ -42,6 +42,11 @@ namespace rtt::ai::analysis {
         /// TODO: implement this function. Not a priority right now
         bool checkStrategyPreconditions();
 
+        /**
+         * Determines which plays are valid by cycling through the allplays vector and seeing which plays' isValid() methods return true
+         * @param world
+         * @param field
+         */
         void determineNewPlays(world::World *world, world::Field *field);
 
     };
