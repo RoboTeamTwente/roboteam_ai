@@ -18,7 +18,7 @@ namespace rtt::ai::analysis {
         /**
          * Functional implementation of when the ball belongs to us
          * @param world the current world state
-         * @param field
+         * @param field the current field state
          * @return true if the ball belongs to us, false otherwise
          */
         static bool isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field);

@@ -83,7 +83,6 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/Invariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/MyPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp

@@ -19,7 +19,6 @@
 #include <include/roboteam_ai/world/Field.h>
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
-#include "analysis/PlaysObjects/MyPlay.h"
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
