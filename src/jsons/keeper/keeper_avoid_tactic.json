@@ -10,6 +10,15 @@
             },
             "title": "Keeper"
           },
+          "0u0udu3hw198rpu5": {
+            "children": [
+              "coakwmsnvt7wvxeq",
+              "bzbgo4m5vgx4oxfu"
+            ],
+            "id": "0u0udu3hw198rpu5",
+            "properties": {},
+            "title": "Selector"
+          },
           "14ogji2mo71brkg7": {
             "children": [
               "nesp5h5cs9jhn48a",
@@ -33,16 +42,21 @@
             "id": "bzbgo4m5vgx4oxfu",
             "properties": {
               "ROLE": "Keeper",
-              "distance": "1.5"
+              "distance": "1.0"
             },
             "title": "BallIsClose"
           },
-          "gn3cfw76e75uae3p": {
-            "id": "gn3cfw76e75uae3p",
+          "coakwmsnvt7wvxeq": {
+            "id": "coakwmsnvt7wvxeq",
             "properties": {
-              "ROLE": "Keeper"
+              "ROLE": "Keeper",
+              "margin": "",
+              "ourDefenseArea": "true",
+              "outsideField": "true",
+              "secondsAhead": "",
+              "useRobot": ""
             },
-            "title": "AvoidBall"
+            "title": "IsInDefenseArea"
           },
           "i7u4pvlduj7zzvy5": {
             "id": "i7u4pvlduj7zzvy5",
@@ -71,8 +85,8 @@
           },
           "nesp5h5cs9jhn48a": {
             "children": [
-              "bzbgo4m5vgx4oxfu",
-              "gn3cfw76e75uae3p"
+              "0u0udu3hw198rpu5",
+              "xuxw8dfxdut72281"
             ],
             "id": "nesp5h5cs9jhn48a",
             "properties": {
@@ -112,6 +126,13 @@
               "ROLE": "Keeper"
             },
             "title": "Sequence"
+          },
+          "xuxw8dfxdut72281": {
+            "id": "xuxw8dfxdut72281",
+            "properties": {
+              "ROLE": "Keeper"
+            },
+            "title": "BallPlacementFormation"
           },
           "y8y3m5t2cpeqq793": {
             "children": [
