@@ -102,8 +102,7 @@ bool World::weHaveRobots() {
 
 const WorldData World::getWorld() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    auto thing = WorldData(*worldDataPtr);
-    return thing;
+    return WorldData(*worldDataPtr);
 }
 
 World::BallPtr World::getBall() {

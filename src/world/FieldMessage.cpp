@@ -130,7 +130,7 @@ Vector2 FieldMessage::get(FieldVectorName vectorName) const {
     }
 }
 
-std::unordered_map<FieldLineName, FieldLineSegment> FieldMessage::getField_lines(){
+std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> FieldMessage::getField_lines(){
     return fieldLines;
 }
 }
