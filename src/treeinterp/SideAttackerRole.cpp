@@ -109,7 +109,7 @@ namespace bt {
         auto roleNode = std::make_shared<Role>(rolename);
         select = std::make_shared<bt::Selector>(nvector { seq, outOfFieldLogic, passLineSequence, rightSequence, sideAttacker });
         roleNode->addChild(select);
-        roleNode->setRole(rolename);
+        roleNode->setRoleString(rolename);
         std::cout << (roleNode->getChildren().size() > 0) << std::endl;
         return roleNode;
 

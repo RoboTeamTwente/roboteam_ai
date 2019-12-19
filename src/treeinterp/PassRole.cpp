@@ -35,7 +35,7 @@ namespace bt {
         memSeq->addChild(repeater);
         repeater->addChild(halt);
         roleNode->addChild(memSeq);
-        roleNode->setRole(rolename);
+        roleNode->setRoleString(rolename);
 
         return roleNode;
     }

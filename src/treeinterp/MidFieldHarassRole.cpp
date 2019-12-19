@@ -93,7 +93,7 @@ namespace bt {
 
         /// Give all of the constructed nodes to the role node, set its role, and return this role node.
         roleNode->addChild(select);
-        roleNode->setRole(name);
+        roleNode->setRoleString(name);
         return roleNode;
     }
 

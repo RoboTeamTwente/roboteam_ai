@@ -87,7 +87,11 @@ class Node {
 
 //        ros::Time getLastTickTime();
 
-        void setRole(std::string roleName);
+        /**
+         * recursively goes through all the children of the node and sets their blackboard property ROLE to roleName,
+         * @param roleName the name you want the role to have
+         */
+        void setRoleString(std::string roleName);
 
     protected:
         Status status = Status::Waiting;
