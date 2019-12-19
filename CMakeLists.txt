@@ -394,7 +394,7 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE gcov
-          gtest
+ #         gtest
           )
 endif()
 
