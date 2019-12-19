@@ -37,9 +37,15 @@ namespace rtt::world {
 
         uint64_t time;
     public:
-        WorldData(proto::World &protoMsg, settings::Settings const& settings);
+        WorldData(proto::World &protoMsg, settings::Settings const& settings) noexcept;
 
+        std::vector<rtt::world::robot::Robot*> const& getUs() const noexcept;
+        std::vector<rtt::world::robot::Robot*> const& getThem() const noexcept;
+        std::vector<rtt::world::robot::Robot> const& getRobots() const noexcept;
+        std::optional<rtt::world::ball::Ball> const& getBall() const noexcept;
 
+        std::optional<Robot const*> getRobotForId(uint8_t id, bool ourTeam = true) const noexcept;
+        std::vector<Robot const*> getRobotsForIds(std::initializer_list<uint8_t> const& robots, bool ourTeam = true) const noexcept;
     };
 
 } // namespace rtt::world

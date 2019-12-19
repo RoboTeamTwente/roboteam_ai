@@ -11,14 +11,21 @@
 
 #include "roboteam_world/world/team.hpp"
 
-#include "control/shotControllers/ShotController.h"
-#include "control/numTrees/NumTreePosControl.h"
-#include "control/BasicPosControl.h"
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "roboteam_ai/control/shotControllers/ShotController.h"
+#include "roboteam_ai/control/numTrees/NumTreePosControl.h"
+#include "roboteam_ai/control/BasicPosControl.h"
+#include "roboteam_ai/control/ballHandling/BallHandlePosControl.h"
 
 
 namespace rtt::world::robot {
 
+    /**
+     * Geneva driver gone
+     * 30 / 50 watt motor flag
+     *
+     * robot still changes:
+     *  battery
+     */
     class Robot {
     private:
         uint32_t id;

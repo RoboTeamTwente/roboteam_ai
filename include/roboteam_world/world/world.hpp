@@ -17,10 +17,12 @@ namespace rtt::world {
      * and currentWorld is re-constructed
      */
     class World {
+    public:
         constexpr static size_t HISTORY_SIZE = 20;
 
         WorldData const& setWorld(WorldData& currentWorld) noexcept;
         [[nodiscard]] WorldData const& getWorld() const noexcept;
+        [[nodiscard]] WorldData const& getHistoryWorld(size_t ticksAgo) const noexcept;
 
     private:
         void toHistory(WorldData& world) noexcept;
@@ -28,7 +30,6 @@ namespace rtt::world {
         std::vector<WorldData> history{ HISTORY_SIZE };
         size_t currentIndex{ 0 };
         WorldData currentWorld;
-
     };
 }
 
