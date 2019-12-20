@@ -233,7 +233,10 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
 
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/AnalysisTests/InvariantsTests/BallOnOurSideInvariantTest.cpp
+
+
+        #        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
 
         #
 
@@ -243,10 +246,10 @@ set(TEST_SOURCES
 #        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/TreeVisualizerTest.cpp
 
 
-#        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
-#        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
-#        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PositionUtilsTest.cpp
 
 
