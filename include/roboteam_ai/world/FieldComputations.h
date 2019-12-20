@@ -4,8 +4,8 @@
  *  This class also provides helper functions to interface with it.
  */
 
-#ifndef ROBOTEAM_AI_FIELD_H
-#define ROBOTEAM_AI_FIELD_H
+#ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
+#define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
 
 #include <roboteam_utils/Polygon.h>
@@ -49,4 +49,4 @@ class FieldComputations {
 } // ai
 } // rtt
 
-#endif //ROBOTEAM_AI_FIELD_H
+#endif //ROBOTEAM_AI_FIELDCOMPUTATIONS_H
