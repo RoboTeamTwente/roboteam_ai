@@ -2,7 +2,6 @@
 // Created by jessevw on 06.12.19.
 //
 
-#include <functional>
 #include "analysis/PlaysObjects/Play.h"
 #include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
 #include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
@@ -11,15 +10,7 @@
 
 
 namespace rtt::ai::analysis {
-    /**
-     * @brief
-     * @param invariants
-     * @param inv
-     */
-
     Play::Play() {}
-
-
 
     std::string Play::getName() {
         return name;
@@ -31,19 +22,10 @@ namespace rtt::ai::analysis {
     }
 
     bool Play::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        BallOnOurSideInvariant::isValid(world, field);
-        BallBelongsToUsInvariant::isValid(world, field);
-        AlwaysFalseInvariant::isValid(world, field);
-        AlwaysTrueInvariant::isValid(world, field);
-
-
-        for (auto i : invariants) {
-            if(!i(world, field)) {
-                return false;
-            }
-        }
-        return true;
-//        return std::all_of(invariants.cbegin(), invariants.cend(), [&](auto inv){inv(world, field);});
+        return BallOnOurSideInvariant::isValid(world, field)
+            && BallBelongsToUsInvariant::isValid(world, field)
+            && AlwaysFalseInvariant::isValid(world, field)
+            && AlwaysTrueInvariant::isValid(world, field);
     }
 
     void Play::setInvariants(const std::vector<std::function<bool(world::World *, world::Field *)>> &invariants) {

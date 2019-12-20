@@ -56,20 +56,18 @@ void BTFactory::makeTrees() {
 }
 
 /**
- * Currently we hijack this function and only return our current c++ tree with it.
+ * This function now still uses the JSON trees, but by uncommenting at the guard "HERE" you can use a different tree for testing purposes
  * @param treeName the name of the behaviour tree you are requesting.
- * @return The behaviourtree corresponding to that treename (currently hardcoded)
+ * @return The behaviourtree corresponding to that treename
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
+// HERE
+//    // Un-kill the code below by commenting the return statement to restore json functionality
+//    auto treefound = codeTrees.find("attackertree");
+//    return treefound->second;
 
-    // Un-kill the code below by commenting the return statement to restore json functionality
-    auto treefound = codeTrees.find("attackertree");
-    return treefound->second;
-    return codeTrees["attackertree"];
-
-//    Leaving this code commented because it might be useful for later, depending on how we want to structure our tree storage
-    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
     std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
