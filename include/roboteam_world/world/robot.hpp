@@ -5,6 +5,7 @@
 #ifndef RTT_ROBOT_HPP
 #define RTT_ROBOT_HPP
 
+#include <roboteam_proto/RobotFeedback.pb.h>
 #include "roboteam_utils/Angle.h"
 
 #include "roboteam_proto/WorldRobot.pb.h"
@@ -63,6 +64,8 @@ namespace rtt::world::robot {
         std::unique_ptr<ai::control::BallHandlePosControl> ballHandlePosControl{};
 
     public:
+        void updateFromFeedback(proto::RobotFeedback& feedback) noexcept;
+
         [[nodiscard]] uint32_t getId() const noexcept;
 
         void setId(uint32_t id) noexcept;
@@ -159,9 +162,8 @@ namespace rtt::world::robot {
 
         void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
 
-
     public:
-        explicit Robot(const proto::WorldRobot &copy, team::Team team = team::invalid,
+        explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback>& feedback, const proto::WorldRobot &copy, team::Team team = team::invalid,
                        unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
     };

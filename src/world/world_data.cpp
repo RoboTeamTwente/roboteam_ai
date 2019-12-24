@@ -8,7 +8,7 @@
 #include "roboteam_world/world/robot.hpp"
 
 namespace rtt::world {
-    WorldData::WorldData(proto::World& protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback> const& feedback) noexcept
+    WorldData::WorldData(proto::World& protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept
         : time{ protoMsg.time() } {
         auto genevaState = 3;
 
@@ -16,11 +16,11 @@ namespace rtt::world {
         auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
         for (auto &each : ours) {
-            us.emplace_back(&robots.emplace_back(each, team::us, genevaState, feedback));
+            us.emplace_back(&robots.emplace_back(feedback, each, team::us, genevaState));
         }
 
         for (auto &each : others) {
-            them.emplace_back(&robots.emplace_back(each, team::them, genevaState, ));
+            them.emplace_back(&robots.emplace_back(feedback, each, team::them, genevaState));
         }
 
         if (protoMsg.has_ball()) {
@@ -30,11 +30,11 @@ namespace rtt::world {
         }
     }
 
-    std::vector<rtt::world::robot::Robot *> const &WorldData::getUs() const noexcept {
+    std::vector<const rtt::world::robot::Robot *> const &WorldData::getUs() const noexcept {
         return us;
     }
 
-    std::vector<rtt::world::robot::Robot *> const &WorldData::getThem() const noexcept {
+    std::vector<const rtt::world::robot::Robot *> const &WorldData::getThem() const noexcept {
         return them;
     }
 
@@ -51,17 +51,17 @@ namespace rtt::world {
             auto robot = std::find(us.begin(), us.end(), [&](auto const &rbt) {
                 return rbt->id == id;
             });
-            return robot == getUs().end() ? std::optional<robot::Robot *>() : *robot;
+            return robot == getUs().end() ? std::optional<robot::Robot const *>() : *robot;
         } else {
             auto robot = std::find(getThem().begin(), getThem().end(), [&](auto const &rbt) {
                 return rbt->id == id;
             });
-            return robot == getThem().end() ? std::optional<robot::Robot *>() : *robot;
+            return robot == getThem().end() ? std::optional<robot::Robot const *>() : *robot;
         }
     }
 
     std::vector<const robot::Robot *>
-    WorldData::getRobotsForIds(std::initializer_list<uint8_t> const &_robots, bool ourTeam) const noexcept {
+    WorldData::getRobotsForIds(std::set<uint8_t> const &_robots, bool ourTeam) const noexcept {
         auto isInList = [&](const robot::Robot *ptr) {
             return std::find(_robots.begin(), _robots.end(), [&](auto robotId) {
                 return robotId == ptr->getId();

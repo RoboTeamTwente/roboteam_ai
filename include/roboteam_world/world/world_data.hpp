@@ -31,22 +31,22 @@ namespace rtt::world {
      */
     class WorldData {
         std::vector<rtt::world::robot::Robot> robots;
-        std::vector<rtt::world::robot::Robot*> us;
-        std::vector<rtt::world::robot::Robot*> them;
+        std::vector<const rtt::world::robot::Robot*> us;
+        std::vector<const rtt::world::robot::Robot*> them;
 
         std::optional<rtt::world::ball::Ball> ball;
 
         uint64_t time;
     public:
-        WorldData(proto::World &protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback> const& feedback) noexcept;
+        WorldData(proto::World &protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept;
 
-        std::vector<rtt::world::robot::Robot*> const& getUs() const noexcept;
-        std::vector<rtt::world::robot::Robot*> const& getThem() const noexcept;
+        std::vector<const rtt::world::robot::Robot*> const& getUs() const noexcept;
+        std::vector<const rtt::world::robot::Robot*> const& getThem() const noexcept;
         std::vector<rtt::world::robot::Robot> const& getRobots() const noexcept;
         std::optional<rtt::world::ball::Ball> const& getBall() const noexcept;
 
         std::optional<Robot const*> getRobotForId(uint8_t id, bool ourTeam = true) const noexcept;
-        std::vector<Robot const*> getRobotsForIds(std::initializer_list<uint8_t> const& robots, bool ourTeam = true) const noexcept;
+        std::vector<Robot const*> getRobotsForIds(std::set<uint8_t> const& robots, bool ourTeam = true) const noexcept;
     };
 
 } // namespace rtt::world

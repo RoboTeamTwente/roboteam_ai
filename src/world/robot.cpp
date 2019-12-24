@@ -8,7 +8,8 @@
 #include <cassert>
 
 namespace rtt::world::robot {
-    Robot::Robot(const proto::WorldRobot &copy, rtt::world::team::Team team,
+    Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback,
+                 const proto::WorldRobot &copy, rtt::world::team::Team team,
                  unsigned char genevaState,
                  unsigned char dribblerState, unsigned long worldNumber)
             : team{team},
@@ -28,6 +29,10 @@ namespace rtt::world::robot {
         } else {
             std::cerr << "Warning: Creating robot with id = " << id << std::endl;
             assert(false);
+        }
+
+        if (feedback.find(id) != feedback.end()) {
+            updateFromFeedback(feedback[id]);
         }
 
         resetShotController();
@@ -228,4 +233,11 @@ namespace rtt::world::robot {
         Robot::lastUpdatedWorldNumber = _lastUpdatedWorldNumber;
     }
 
+    void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
+        if (ai::Constants::FEEDBACK_ENABLED()) {
+            setWorkingGeneva(feedback.genevaisworking());
+            setWorkingBallSensor(feedback.ballsensorisworking());
+            setBatteryLow(feedback.batterylow());
+        }
+    }
 } // namespace rtt::world::robot
