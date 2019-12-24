@@ -36,8 +36,6 @@ void Constants::OVERWRITE_GRSIM(bool grsim) {
 
 int Constants::DEFAULT_KEEPER_ID() {return 0; }
 
-bool Constants::FEEDBACK_ENABLED() { return true; }
-
 double Constants::FRONT_LENGTH() { return 0.118; }
 
 double Constants::MAX_ANGULAR_VELOCITY() { return 6.0; }

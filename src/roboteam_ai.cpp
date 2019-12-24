@@ -59,8 +59,9 @@ int main(int argc, char* argv[]) {
     settings.setRobothubSendIp("127.0.0.1");
     settings.setRobothubSendPort(20011);
 
-    rtt::ai::io::io = rtt::ai::io::IOManager(settings);
-    rtt::ai::io::io.init();
+    auto io = rtt::ai::io::IOManager(settings);
+    rtt::ai::io::io = &io;
+
 
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());

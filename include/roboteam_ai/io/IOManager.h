@@ -77,7 +77,7 @@ public:
         bool hasReceivedGeom = false;
 };
 
-extern IOManager io;
+extern IOManager* io;
 
 } // io
 } // rtt

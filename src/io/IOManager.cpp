@@ -11,7 +11,6 @@
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include <io/IOManager.h>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
-#include <roboteam_utils/constants.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 
 #include "demo/JoystickDemo.h"
@@ -31,7 +30,7 @@ std::mutex IOManager::robotFeedbackMutex;
 std::mutex IOManager::refereeMutex;
 std::mutex IOManager::demoMutex;
 
-IOManager io;
+IOManager* io;
 
 void IOManager::handleWorldState(proto::World & world) {
   std::lock_guard<std::mutex> lock(worldStateMutex);
@@ -210,6 +209,7 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
 
     IOManager::IOManager(::rtt::world::settings::Settings &settings) 
         : settings{ &settings }{
+        std::cout << "Construction" << std::endl;
         init();
     }
 

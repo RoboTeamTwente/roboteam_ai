@@ -49,7 +49,7 @@ void ApplicationManager::start(::rtt::world::settings::Settings& _settings) {
 
         // publish settings, but limit this function call to only run 1 times/s at most
         t.limit([&]() {
-            io::io.publishSettings();
+            io::io->publishSettings();
         }, 1);
 
     }, ai::Constants::TICK_RATE());
@@ -57,7 +57,7 @@ void ApplicationManager::start(::rtt::world::settings::Settings& _settings) {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
-    if (weHaveRobots && io::io.hasReceivedGeom) {
+    if (weHaveRobots && io::io->hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
         updateTrees();
         updateCoaches();
