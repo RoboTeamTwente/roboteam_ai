@@ -26,7 +26,7 @@ add_executable(roboteam_world
         src/world/robot.cpp
         src/world/settings.cpp
         src/world/ball.cpp
-        )
+        src/world/world_data_view.cpp include/roboteam_world/world/world_data_view.hpp)
 
 
 target_include_directories(roboteam_world

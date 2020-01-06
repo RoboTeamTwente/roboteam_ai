@@ -46,36 +46,5 @@ namespace rtt::world {
         return ball;
     }
 
-    std::optional<robot::Robot const *> WorldData::getRobotForId(uint8_t id, bool ourTeam) const noexcept {
-        if (ourTeam) {
-            auto robot = std::find(us.begin(), us.end(), [&](auto const &rbt) {
-                return rbt->id == id;
-            });
-            return robot == getUs().end() ? std::optional<robot::Robot const *>() : *robot;
-        } else {
-            auto robot = std::find(getThem().begin(), getThem().end(), [&](auto const &rbt) {
-                return rbt->id == id;
-            });
-            return robot == getThem().end() ? std::optional<robot::Robot const *>() : *robot;
-        }
-    }
-
-    std::vector<const robot::Robot *>
-    WorldData::getRobotsForIds(std::set<uint8_t> const &_robots, bool ourTeam) const noexcept {
-        auto isInList = [&](const robot::Robot *ptr) {
-            return std::find(_robots.begin(), _robots.end(), [&](auto robotId) {
-                return robotId == ptr->getId();
-            }) != _robots.end();
-        };
-
-        std::vector<const robot::Robot *> retRobots{};
-        if (ourTeam) {
-            std::copy_if(getUs().begin(), getUs().end(), retRobots.begin(), isInList);
-        } else {
-            std::copy_if(getThem().begin(), getThem().end(), retRobots.begin(), isInList);
-        }
-        return retRobots;
-    }
-
 
 } // namespace rtt::world
