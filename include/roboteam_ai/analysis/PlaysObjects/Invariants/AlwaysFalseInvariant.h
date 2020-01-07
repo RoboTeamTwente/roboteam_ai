@@ -5,7 +5,9 @@
 #ifndef RTT_ALWAYSFALSEINVARIANT_H
 #define RTT_ALWAYSFALSEINVARIANT_H
 
-#include "analysis/PlaysObjects/Invariants/Invariant.h"
+
+#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world/Field.h>
 
 namespace rtt::ai::analysis {
     /**

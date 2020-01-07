@@ -5,7 +5,6 @@
 #include <roboteam_utils/Vector2.h>
 #include "world/World.h"
 #include "world/Field.h"
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "world/Ball.h"
 

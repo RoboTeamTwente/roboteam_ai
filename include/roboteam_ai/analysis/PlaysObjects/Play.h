@@ -6,7 +6,6 @@
 #define RTT_PLAY_H
 
 #include <vector>
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
 #include "bt/BehaviorTree.hpp"
 #include "functional"
 

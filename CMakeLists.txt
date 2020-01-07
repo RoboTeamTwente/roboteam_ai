@@ -80,7 +80,6 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/Invariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.cpp

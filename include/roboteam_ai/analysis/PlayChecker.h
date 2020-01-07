@@ -6,7 +6,6 @@
 #define RTT_PLAYCHECKER_H
 
 
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/Invariant.h"
 #include "analysis/PlaysObjects/Play.h"
 
 namespace rtt::ai::analysis {

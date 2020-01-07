@@ -6,8 +6,7 @@
 #define RTT_BALLONOURSIDEINVARIANT_H
 
 #include "world/World.h"
-#include "analysis/PlaysObjects/Invariants/Invariant.h"
-
+#include "world/Field.h"
 namespace rtt::ai::analysis {
     /**
      * Invariant that is true when the ball belongs to us

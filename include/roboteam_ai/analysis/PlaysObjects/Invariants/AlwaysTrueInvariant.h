@@ -5,7 +5,9 @@
 #ifndef RTT_ALWAYSTRUEINVARIANT_H
 #define RTT_ALWAYSTRUEINVARIANT_H
 
-#include "analysis/PlaysObjects/Invariants/Invariant.h"
+
+#include "world/Field.h"
+#include "world/World.h"
 
 namespace rtt::ai::analysis {
     /**
