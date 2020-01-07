@@ -143,7 +143,7 @@ Vector2 Field::operator[](FieldVectorName vectorName) const {
     }
 }
 
-std::optional<FieldLineSegment>* Field::getField_lines(){
+const std::optional<FieldLineSegment>* Field::getField_lines(){
     return fieldLines;
 }
 }

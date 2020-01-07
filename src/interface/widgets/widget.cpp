@@ -152,11 +152,11 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    auto fls = field.getField_lines();
+    auto fieldLines = field.getField_lines();
     for (int i = 0; i < NUMBER_FIELD_LINE_NAMES; i++) {
-        if (fls[i]) {
-            rtt::Vector2 start = toScreenPosition(fls[i]->begin);
-            rtt::Vector2 end = toScreenPosition(fls[i]->end);
+        if (fieldLines[i]) {
+            rtt::Vector2 start = toScreenPosition(fieldLines[i]->begin);
+            rtt::Vector2 end = toScreenPosition(fieldLines[i]->end);
             painter.drawLine(start.x, start.y, end.x, end.y);
         }
     }

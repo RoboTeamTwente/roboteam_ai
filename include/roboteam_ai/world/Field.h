@@ -225,7 +225,7 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    std::optional<FieldLineSegment>* getField_lines();
+    const std::optional<FieldLineSegment>* getField_lines();
 
 private:
     /**
