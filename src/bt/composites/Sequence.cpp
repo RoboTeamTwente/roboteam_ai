@@ -8,14 +8,18 @@
 #include "bt/composites/Sequence.hpp"
 
 namespace bt {
-    /**
+/**
  * Use this constructor when you want to initialize the children of the sequence using a vector.
  * The children are added sequentially, so the first element in the array will be the leftmost child of the sequence
  * @param children vector of nodes that will be the children of this sequence node
  */
-    Sequence::Sequence(nvector children) : Composite(children) {}
 
-    Sequence::Sequence() : Composite() {}
+Sequence::Sequence(const std::vector<std::shared_ptr<bt::Node>>& children) {
+    for (auto &child : children) {
+        this->addChild(child);
+    }
+}
+
 
     Node::Status Sequence::update() {
         if (HasNoChildren()) {
