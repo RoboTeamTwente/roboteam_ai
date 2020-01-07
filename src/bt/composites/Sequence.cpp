@@ -13,28 +13,32 @@ namespace bt {
  * The children are added sequentially, so the first element in the array will be the leftmost child of the sequence
  * @param children vector of nodes that will be the children of this sequence node
  */
+
 Sequence::Sequence(const std::vector<std::shared_ptr<bt::Node>>& children) {
     for (auto &child : children) {
         this->addChild(child);
     }
 }
 
-Node::Status Sequence::update() {
-    if (HasNoChildren()) {
+
+    Node::Status Sequence::update() {
+        if (HasNoChildren()) {
+            return Status::Success;
+        }
+
+        // Keep going until a child behavior says it's running.
+        for (auto &child : children) {
+            auto status = child->tick(world, field);
+
+            // If the child fails, or keeps running, do the same.
+            if (status != Status::Success) {
+                return status;
+            }
+        }
+
         return Status::Success;
     }
 
-    // Keep going until a child behavior says it's running.
-    for (auto &child : children) {
-        auto status = child->tick(world, field);
 
-        // If the child fails, or keeps running, do the same.
-        if (status != Status::Success) {
-            return status;
-        }
-    }
-
-    return Status::Success;
-}
 
 } // bt

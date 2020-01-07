@@ -95,7 +95,9 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
 
         switch (feature) {
 
-        default:return - 1;
+        default:
+            std::cout << "[Robotdealer] could not find a match for this feature " << std::endl;
+            return - 1;
 
         case CLOSE_TO_BALL: {
             auto ball = world::world->getBall();
@@ -335,7 +337,7 @@ int RobotDealer::findRobotForRole(const std::string &roleName) {
             }
         }
     }
-    // std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
     return - 1;
 }
 

@@ -20,12 +20,14 @@ AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) {
 }
 
-void AvoidBall::onInitialize() {
+void AvoidBall::onInitialize(std::string type) {
     minRobotDistanceForForce = 0.9;
     stop = properties->getBool("Stop");
     if(stop) minRobotDistanceForForce = 0.7*1.5;
-    type = stringToType(properties->getString("type"));
-    if (type == PASSING) {
+    //type = stringToType(properties->getString("type"));
+    this->type = stringToType(type);
+
+    if (this->type == PASSING) {
         receiver = world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
     }
 }
