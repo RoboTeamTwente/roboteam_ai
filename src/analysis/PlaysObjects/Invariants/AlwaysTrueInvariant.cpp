@@ -8,8 +8,6 @@
 #include "world/Ball.h"
 
 namespace rtt::ai::analysis {
-    AlwaysTrueInvariant::AlwaysTrueInvariant(std::string name) : name {name} {}
-
     bool AlwaysTrueInvariant::isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         return true;
     };

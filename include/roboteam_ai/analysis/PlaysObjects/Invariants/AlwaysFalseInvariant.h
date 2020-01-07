@@ -11,9 +11,7 @@ namespace rtt::ai::analysis {
     /**
      * Invariant that is true when the ball belongs to us
      */
-    class AlwaysFalseInvariant : Invariant{
-    private:
-        std::string name;
+    class AlwaysFalseInvariant {
     public:
         /**
          * Functional implementation of when the ball belongs to us
@@ -22,7 +20,6 @@ namespace rtt::ai::analysis {
          * @return true if the ball belongs to us, false otherwise
          */
         static bool isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field);
-        AlwaysFalseInvariant(std::string name);
 
     };
 }
