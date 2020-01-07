@@ -43,6 +43,9 @@ enum FieldValueName {
     RIGHTMOST_X, //The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
     BOTTOMMOST_Y, //The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
     TOPMOST_Y, //The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
+
+    // Enum item used to indicate the number of Field Value Names (make sure that this always is the last item of this enum)
+    NUMBER_FIELD_VALUE_NAMES
 };
 
 enum FieldLineName {
@@ -69,7 +72,10 @@ enum FieldLineName {
     TOP_RIGHT_PENALTY_STRETCH,
     /* The line closest (of all the opponents goal area lines) to the bottom line and parallel to the bottom line. This
      * line marks the opponents goal area. */
-    BOTTOM_RIGHT_PENALTY_STRETCH
+    BOTTOM_RIGHT_PENALTY_STRETCH,
+
+    // Enum item used to indicate the number of Field Line Names (make sure that this always is the last item of this enum)
+    NUMBER_FIELD_LINE_NAMES
 };
 
 enum FieldVectorName {
@@ -81,10 +87,16 @@ enum FieldVectorName {
     OUR_TOP_GOAL_SIDE, // The top most point of our goal (this point is on the left line).
     THEIR_BOTTOM_GOAL_SIDE, // The bottom most point of the opponents goal (this point is on the right line).
     THEIR_TOP_GOAL_SIDE, // The top most point of the opponents goal (this point is on the right line).
+
+    // Enum item used to indicate the number of Field Vector Names (make sure that this always is the last item of this enum)
+    NUMBER_FIELD_VECTOR_NAMES
 };
 
 enum FieldArcName {
-    CENTER_CIRCLE // The circle in the middle from which the ball will be kicked off
+    CENTER_CIRCLE, // The circle in the middle from which the ball will be kicked off
+
+    // Enum item used to indicate the number of Field Arc Names (make sure that this always is the last item of this enum)
+    NUMBER_FIELD_ARC_NAMES
 };
 
 /**
@@ -151,11 +163,10 @@ private:
     static std::mutex fieldMutex; // Prevents situations where the field state is changed and read at the same time.
     static Field field; // Stores the field state as a Singleton variable.
 
-    // Stores all the constant of the field (lengths, widths, positions)
-    std::unordered_map<FieldValueName, double> fieldValues = {};
-    std::unordered_map<FieldLineName, FieldLineSegment> fieldLines = {}; // Stores all the lines of the field
-    std::unordered_map<FieldArcName, FieldArc> fieldArcs = {}; // Stores all the arcs of the field
-    std::unordered_map<FieldVectorName, Vector2> fieldVectors = {}; // Stores all positions of the field
+    std::optional<double> fieldValues[NUMBER_FIELD_VALUE_NAMES]; // Stores all the constant of the field (lengths, widths, positions)
+    std::optional<FieldLineSegment> fieldLines[NUMBER_FIELD_LINE_NAMES]; // Stores all the lines of the field
+    std::optional<Vector2> fieldVectors[NUMBER_FIELD_VECTOR_NAMES]; // Stores all positions of the field
+    std::optional<FieldArc> fieldArcs[NUMBER_FIELD_ARC_NAMES]; // Stores all the arcs of the field
 
 public:
     /**
@@ -214,7 +225,7 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    std::unordered_map<FieldLineName, FieldLineSegment> getField_lines();
+    std::optional<FieldLineSegment>* getField_lines();
 
 private:
     /**

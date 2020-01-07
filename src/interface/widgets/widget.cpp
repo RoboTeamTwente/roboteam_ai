@@ -152,11 +152,13 @@ void Visualizer::drawFieldLines(QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
-    for (auto &item : field.getField_lines()) {
-        auto &line = item.second;
-        rtt::Vector2 start = toScreenPosition(line.begin);
-        rtt::Vector2 end = toScreenPosition(line.end);
-        painter.drawLine(start.x, start.y, end.x, end.y);
+    auto fls = field.getField_lines();
+    for (int i = 0; i < NUMBER_FIELD_LINE_NAMES; i++) {
+        if (fls[i]) {
+            rtt::Vector2 start = toScreenPosition(fls[i]->begin);
+            rtt::Vector2 end = toScreenPosition(fls[i]->end);
+            painter.drawLine(start.x, start.y, end.x, end.y);
+        }
     }
 
     // draw the circle in the middle

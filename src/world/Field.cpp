@@ -31,10 +31,10 @@ void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     fieldValues[GOAL_WIDTH] = mm_to_m(sslFieldSize.goal_width());
     fieldValues[GOAL_DEPTH] = mm_to_m(sslFieldSize.goal_depth());
     fieldValues[BOUNDARY_WIDTH] = mm_to_m(sslFieldSize.boundary_width());
-    fieldValues[LEFTMOST_X] = -0.5 * fieldValues[FIELD_LENGTH];
-    fieldValues[RIGHTMOST_X] = 0.5 * fieldValues[FIELD_LENGTH];
-    fieldValues[BOTTOMMOST_Y] = -0.5 * fieldValues[FIELD_WIDTH];
-    fieldValues[TOPMOST_Y] = 0.5 * fieldValues[FIELD_WIDTH];
+    fieldValues[LEFTMOST_X] = -0.5 * fieldValues[FIELD_LENGTH].value();
+    fieldValues[RIGHTMOST_X] = 0.5 * fieldValues[FIELD_LENGTH].value();
+    fieldValues[BOTTOMMOST_Y] = -0.5 * fieldValues[FIELD_WIDTH].value();
+    fieldValues[TOPMOST_Y] = 0.5 * fieldValues[FIELD_WIDTH].value();
     fieldValues[CENTER_Y] = 0.0;
 }
 
@@ -69,21 +69,21 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
 }
 
 void Field::initFieldVectors() {
-    fieldVectors[OUR_GOAL_CENTER] = Vector2(fieldValues[LEFTMOST_X], fieldValues[CENTER_Y]);
-    fieldVectors[THEIR_GOAL_CENTER] = Vector2(fieldValues[RIGHTMOST_X], fieldValues[CENTER_Y]);
+    fieldVectors[OUR_GOAL_CENTER] = Vector2(fieldValues[LEFTMOST_X].value(), fieldValues[CENTER_Y].value());
+    fieldVectors[THEIR_GOAL_CENTER] = Vector2(fieldValues[RIGHTMOST_X].value(), fieldValues[CENTER_Y].value());
 
-    Vector2 goalWidthAdjust = Vector2(0, fieldValues[GOAL_WIDTH] / 2);
-    fieldVectors[OUR_BOTTOM_GOAL_SIDE] = fieldVectors[OUR_GOAL_CENTER] - goalWidthAdjust;
-    fieldVectors[OUR_TOP_GOAL_SIDE] = fieldVectors[OUR_GOAL_CENTER] + goalWidthAdjust;
-    fieldVectors[THEIR_BOTTOM_GOAL_SIDE] = fieldVectors[THEIR_GOAL_CENTER] - goalWidthAdjust;
-    fieldVectors[THEIR_TOP_GOAL_SIDE] = fieldVectors[THEIR_GOAL_CENTER] + goalWidthAdjust;
+    Vector2 goalWidthAdjust = Vector2(0, fieldValues[GOAL_WIDTH].value() / 2);
+    fieldVectors[OUR_BOTTOM_GOAL_SIDE] = fieldVectors[OUR_GOAL_CENTER].value() - goalWidthAdjust;
+    fieldVectors[OUR_TOP_GOAL_SIDE] = fieldVectors[OUR_GOAL_CENTER].value() + goalWidthAdjust;
+    fieldVectors[THEIR_BOTTOM_GOAL_SIDE] = fieldVectors[THEIR_GOAL_CENTER].value() - goalWidthAdjust;
+    fieldVectors[THEIR_TOP_GOAL_SIDE] = fieldVectors[THEIR_GOAL_CENTER].value() + goalWidthAdjust;
 
-    Vector2 lpl_begin = fieldLines[LEFT_PENALTY_LINE].begin;
-    Vector2 lpl_end = fieldLines[LEFT_PENALTY_LINE].end;
+    Vector2 lpl_begin = fieldLines[LEFT_PENALTY_LINE].value().begin;
+    Vector2 lpl_end = fieldLines[LEFT_PENALTY_LINE].value().end;
     fieldVectors[LEFT_PENALTY_POINT] = lpl_begin + ((lpl_end - lpl_begin) * 0.5);
 
-    Vector2 rpl_begin = fieldLines[RIGHT_PENALTY_LINE].begin;
-    Vector2 rpl_end = fieldLines[RIGHT_PENALTY_LINE].end;
+    Vector2 rpl_begin = fieldLines[RIGHT_PENALTY_LINE].value().begin;
+    Vector2 rpl_end = fieldLines[RIGHT_PENALTY_LINE].value().end;
     fieldVectors[RIGHT_PENALTY_POINT] = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
 }
 
@@ -96,8 +96,8 @@ Vector2 Field::mm_to_m(Vector2 vector) {
 }
 
 double Field::operator[](FieldValueName valueName) const {
-    if (fieldValues.find(valueName) != fieldValues.end()) {
-        return fieldValues.at(valueName);
+    if (fieldValues[valueName]) {
+        return fieldValues[valueName].value();
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
@@ -108,8 +108,8 @@ double Field::operator[](FieldValueName valueName) const {
 }
 
 FieldLineSegment Field::operator[](FieldLineName lineName) const {
-    if (fieldLines.find(lineName) != fieldLines.end()) {
-        return fieldLines.at(lineName);
+    if (fieldLines[lineName]) {
+        return fieldLines[lineName].value();
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
@@ -120,8 +120,8 @@ FieldLineSegment Field::operator[](FieldLineName lineName) const {
 }
 
 FieldArc Field::operator[](FieldArcName arcName) const {
-    if (fieldArcs.find(arcName) != fieldArcs.end()) {
-        return fieldArcs.at(arcName);
+    if (fieldArcs[arcName]) {
+        return fieldArcs[arcName].value();
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
@@ -132,8 +132,8 @@ FieldArc Field::operator[](FieldArcName arcName) const {
 }
 
 Vector2 Field::operator[](FieldVectorName vectorName) const {
-    if (fieldVectors.find(vectorName) != fieldVectors.end()) {
-        return fieldVectors.at(vectorName);
+    if (fieldVectors[vectorName]) {
+        return fieldVectors[vectorName].value();
     }
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
@@ -143,7 +143,7 @@ Vector2 Field::operator[](FieldVectorName vectorName) const {
     }
 }
 
-std::unordered_map<FieldLineName, FieldLineSegment> Field::getField_lines(){
+std::optional<FieldLineSegment>* Field::getField_lines(){
     return fieldLines;
 }
 }
