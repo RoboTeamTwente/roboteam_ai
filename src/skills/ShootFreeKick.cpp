@@ -16,7 +16,8 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = world->getBall()->getPos();
     freeKickPos = ballPos;
-    Vector2 goal = field->get_their_goal_center();
+    Vector2 goal = field->get_field().get(THEIR_GOAL_CENTER);
+
     // behind the ball looking at the goal
     targetPos = ballPos + (ballPos - goal).stretchToLength(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
     progress = GOING;

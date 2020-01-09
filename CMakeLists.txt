@@ -183,9 +183,6 @@ set(CONTROL_SOURCES
         # PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/VoronoiPathPlanning.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BasicPathTracking.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/NumTreePosControl.cpp
@@ -220,6 +217,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
 
+
 #        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
 
         #
@@ -238,7 +236,7 @@ set(TEST_SOURCES
 
 
 
-        #${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
 #
@@ -264,8 +262,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/VoronoiPathPlanningTest.cpp
-        )
+          )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -347,7 +344,9 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE roboteam_utils)
+        PRIVATE roboteam_utils
+        gtest
+        )
 
 target_include_directories(roboteam_ai
         INTERFACE include
@@ -393,7 +392,8 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE gcov
-        PRIVATE gtest)
+          gtest
+          )
 endif()
 
 target_include_directories(ai_tests

@@ -67,9 +67,8 @@ void StopFormation::setFinalAngle() {
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto pp = field->getPenaltyPoint(true); // penalty point
-
-    auto defenseAreaLineA = field->get_field().getLeft_penalty_line().begin;
-    auto defenseAreaLineB = field->get_field().getLeft_penalty_line().end;
+    auto defenseAreaLineA = field->get_field().get(LEFT_PENALTY_LINE).begin;
+    auto defenseAreaLineB = field->get_field().get(LEFT_PENALTY_LINE).end;
 
     // divide the upper and bottom lines of the defense area and store those values.
     auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
@@ -77,8 +76,8 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
     // the following statements specify useful stop positions between the ball and the goal
-    auto ourGoalCenterToBall = ball->getPos() - field->get_our_goal_center();
-    auto ballToOurGoalCenter = field->get_our_goal_center() - ball->getPos();
+    auto ourGoalCenterToBall = ball->getPos() - field->get_field().get(OUR_GOAL_CENTER);
+    auto ballToOurGoalCenter = field->get_field().get(OUR_GOAL_CENTER) - ball->getPos();
 
     double distanceFromGoal;
     double distanceToBall = 1.0;
@@ -97,15 +96,21 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
             sin(Constants::ROBOT_RADIUS()/distanceToBall));
 
     // for one robot between ball and our goal
-    Vector2 betweenGoalAndBallPosition = field->get_our_goal_center() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
-    Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal).stretchToLength(distanceFromGoal+3*Constants::ROBOT_RADIUS());
+    Vector2 betweenGoalAndBallPosition = field->get_field().get(OUR_GOAL_CENTER) +
+            ourGoalCenterToBall.stretchToLength(distanceFromGoal);
+    Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+            .stretchToLength(distanceFromGoal + 3 * Constants::ROBOT_RADIUS());
 
     // for multiple robots between ball and our goal
-    Vector2 diff = betweenGoalAndBallPosition + field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
-    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_our_goal_center();
+    Vector2 diff = betweenGoalAndBallPosition + field->get_field().get(OUR_GOAL_CENTER);
+    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+            .rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_field().get(OUR_GOAL_CENTER);
+    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+            .rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_field().get(OUR_GOAL_CENTER);
+    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+            .rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_field().get(OUR_GOAL_CENTER);
+    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+            .rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + field->get_field().get(OUR_GOAL_CENTER);
 
     Vector2 basicOffensivePositionA = {-1, 0.0};
 
@@ -114,7 +119,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionA;
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
-    double goal_width=field->get_field().goal_width();
+    double goal_width = field->get_field().get(GOAL_WIDTH);
     if (ball->getPos().y > goal_width){
         inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
@@ -208,16 +213,16 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
 
     std::vector<Vector2> proposals;
     // near the corners
-    proposals.push_back({-fieldMsg.field_length()*0.5 + 1.0, -(fieldMsg.field_width()*0.5-1.5)});
-    proposals.push_back({-fieldMsg.field_length()*0.5 + 1.0, (fieldMsg.field_width()*0.5-1.5)});
+    proposals.push_back({-fieldMsg.get(FIELD_LENGTH) * 0.5 + 1.0, -(fieldMsg.get(FIELD_WIDTH)*0.5-1.5)});
+    proposals.push_back({-fieldMsg.get(FIELD_LENGTH) * 0.5 + 1.0, (fieldMsg.get(FIELD_WIDTH)*0.5-1.5)});
 
     // somewhere in the middle of our half
-    proposals.push_back({-fieldMsg.field_length()*0.3, -(fieldMsg.field_width()*0.5-1.5)});
-    proposals.push_back({-fieldMsg.field_length()*0.3, (fieldMsg.field_width()*0.5-1.5)});
+    proposals.push_back({-fieldMsg.get(FIELD_LENGTH) * 0.3, -(fieldMsg.get(FIELD_WIDTH)*0.5-1.5)});
+    proposals.push_back({-fieldMsg.get(FIELD_LENGTH) * 0.3, (fieldMsg.get(FIELD_WIDTH)*0.5-1.5)});
 
     // offensive
-    proposals.push_back({-1, -(fieldMsg.field_width()*0.5-1.5)});
-    proposals.push_back({-1, (fieldMsg.field_width()*0.5-1.5)});
+    proposals.push_back({-1, -(fieldMsg.get(FIELD_WIDTH)*0.5-1.5)});
+    proposals.push_back({-1, (fieldMsg.get(FIELD_WIDTH)*0.5-1.5)});
     proposals.push_back({-1, 0});
 
     for (auto proposal : proposals) {
@@ -228,7 +233,7 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     }
 
     while (amount > 0) {
-        properPositions.push_back(field->get_our_goal_center());
+        properPositions.push_back(field->get_field().get(OUR_GOAL_CENTER));
         amount --;
     }
 
