@@ -40,15 +40,14 @@ Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &bot
             botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
 }
-double PossiblePass::score(const world::WorldData &world) {
+double PossiblePass::score(const Field &field, const world::WorldData &world) {
     double score = 1.0;
-    score *= scoreForGoalAngle(world);
+    score *= scoreForGoalAngle(field, world);
     score *= penaltyForBlocks(world);
     score *= penaltyForDistance();
     return score;
 }
-double PossiblePass::scoreForGoalAngle(const world::WorldData &world) {
-    Field field = Field::get_field();
+double PossiblePass::scoreForGoalAngle(const Field &field, const world::WorldData &world) {
     // find the largest open angle in the world
     std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, endPos, world);
     std::sort(visibleParts.begin(), visibleParts.end(),

@@ -16,10 +16,9 @@ namespace coach {
 GetBallCoach getBallCoachObj;
 GetBallCoach* getBallCoach = &getBallCoachObj;
 
-bool GetBallCoach::shouldWeGetBall() {
+bool GetBallCoach::shouldWeGetBall(const Field &field) {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
-    Field field = Field::get_field();
     Vector2 ballPos = world::world->getBall()->getPos();
     return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) &&
             !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
@@ -66,8 +65,8 @@ int GetBallCoach::bestBallGetterID() {
     return closestId;
 }
 
-void GetBallCoach::update() {
-    if (shouldWeGetBall()) {
+void GetBallCoach::update(const Field &field) {
+    if (shouldWeGetBall(field)) {
         gettingBall = true;
         idGettingBall = bestBallGetterID();
     }

@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <cstdarg>
 #include <include/roboteam_ai/world/Field.h>
-
 #include "Blackboard.hpp"
 
 // fwd declare
@@ -58,7 +57,7 @@ class Node {
 
         virtual std::vector<Node::Ptr> getChildren();
 
-        virtual Status tick(rtt::ai::world::World *world, rtt::Field *field);
+        virtual Status tick(rtt::ai::world::World *world, const rtt::Field *field);
 
         bool IsSuccess() const;
 
@@ -93,8 +92,8 @@ class Node {
 
         unsigned long long amountOfTicks = 0; // ticks can increase fast
 
-        rtt::ai::world::World * world = nullptr;
-        rtt::Field *field = nullptr;
+        rtt::ai::world::World *world = nullptr;
+        const rtt::Field *field = nullptr;
 };
 
 } // bt

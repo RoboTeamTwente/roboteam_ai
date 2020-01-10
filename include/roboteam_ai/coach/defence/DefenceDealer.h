@@ -19,7 +19,7 @@ class DefenceDealer {
         std::vector<DefenderBot> assignedDefenders;
         std::vector<int> availableIDs;
     public:
-        void updateDefenderLocations();
+        void updateDefenderLocations(const Field &field);
         void addDefender(int id);
         std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
         void visualizePoints();

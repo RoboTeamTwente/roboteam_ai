@@ -14,6 +14,8 @@
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 
+namespace io = rtt::ai::io;
+
 namespace rtt {
 namespace ai {
 namespace interface {
@@ -25,11 +27,12 @@ Visualizer::Visualizer(QWidget* parent)
 void Visualizer::paintEvent(QPaintEvent* event) {
     QPainter painter(this);
 
-    calculateFieldSizeFactor();
+    const Field &field = io::io.getField();
+    calculateFieldSizeFactor(field);
     if (rtt::ai::world::world->weHaveRobots()) {
         drawBackground(painter);
-        drawFieldHints(painter);
-        drawFieldLines(painter);
+        drawFieldHints(field, painter);
+        drawFieldLines(field, painter);
         drawRobots(painter);
         drawBall(painter);
 
@@ -130,8 +133,7 @@ bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
 }
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
-void Visualizer::calculateFieldSizeFactor() {
-    Field field = Field::get_field();
+void Visualizer::calculateFieldSizeFactor(const Field &field) {
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field[BOUNDARY_WIDTH]);
 
     float widthFactor = this->size().width() / field[FIELD_LENGTH] - (2 * fieldmargin);
@@ -146,9 +148,7 @@ void Visualizer::drawBackground(QPainter &painter) {
 }
 
 // draws the field lines
-void Visualizer::drawFieldLines(QPainter &painter) {
-    Field field = Field::get_field();
-
+void Visualizer::drawFieldLines(const Field &field, QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
@@ -228,8 +228,7 @@ void Visualizer::drawFieldLines(QPainter &painter) {
 
     }
 
-void Visualizer::drawFieldHints(QPainter &painter) {
-    Field field = Field::get_field();
+void Visualizer::drawFieldHints(const Field &field, QPainter &painter) {
     QPen pen;
 
     // draw the position where robots would be for timeout

@@ -29,10 +29,10 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
 
     Vector2 ball = world->getBall()->getPos();
-    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
+    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(*field, BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
-    if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
+    if (!control::PositionUtils::isRobotBehindBallToGoal(*field, BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
         command.set_w(static_cast<float>((ball - (Vector2) (robot->pos)).angle()));
         robot->getNumtreePosControl()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());

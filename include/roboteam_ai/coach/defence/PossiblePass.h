@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_POSSIBLEPASS_H
 
 #include <roboteam_utils/Vector2.h>
+#include <include/roboteam_ai/world/Field.h>
 #include "utilities/Constants.h"
 #include "world/Robot.h"
 
@@ -23,7 +24,7 @@ class PossiblePass {
                 double obstRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
         int amountOfBlockers(const world::WorldData &world);
         PossiblePass(world::Robot _toBot, const Vector2 &ballPos);
-        double score(const world::WorldData &world);
+        double score(const Field &field, const world::WorldData &world);
         // scale from startPos to EndPos
         Vector2 posOnLine(double scale);
         double faceLine();
@@ -31,7 +32,7 @@ class PossiblePass {
         Vector2 botReceivePos(const Vector2 &startPos, const Vector2 &botPos);
         double penaltyForBlocks(const world::WorldData &world);
         double penaltyForDistance();
-        double scoreForGoalAngle(const world::WorldData &world);
+        double scoreForGoalAngle(const Field &field, const world::WorldData &world);
 };
 
 }//coach

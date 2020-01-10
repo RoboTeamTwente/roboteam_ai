@@ -24,7 +24,7 @@ private:
 
     const double ZONE_RADIUS = 1.06;
 
-    bool positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck);
+    bool positionIsValid(const Field &field, const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck);
 public:
     using WorldData = world::WorldData;
     double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,

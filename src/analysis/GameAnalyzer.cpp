@@ -4,6 +4,7 @@
 
 #include <control/ControlUtils.h>
 #include <world/BallPossession.h>
+#include <include/roboteam_ai/io/IOManager.h>
 #include "analysis/GameAnalyzer.h"
 #include "world/World.h"
 #include "world/FieldComputations.h"
@@ -23,16 +24,16 @@ GameAnalyzer &GameAnalyzer::getInstance() {
 }
 
 /// Generate a report with the game analysis
-std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
+std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow(const Field &field) {
 
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
         report->ballPossession = convertPossession(ballPossessionPtr->getPossession());
-        report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(true);
-        report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(false);
-        report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(false);
-        report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(true);
+        report->ourDistanceToGoalAvg = getTeamDistanceToGoalAvg(field, true);
+        report->theirDistanceToGoalAvg = getTeamDistanceToGoalAvg(field, false);
+        report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(field, false);
+        report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(field, true);
 
         std::lock_guard<std::mutex> lock(mutex);
         mostRecentReport = report;
@@ -62,8 +63,7 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
 }
 
 /// Get the average of the distances of robots to their opponents goal
-double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld) {
-    Field field = Field::get_field();
+double GameAnalyzer::getTeamDistanceToGoalAvg(const Field &field, bool ourTeam, WorldData simulatedWorld) {
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
@@ -72,43 +72,8 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedW
     return (total/robots.size());
 }
 
-/// return the attackers of a given team sorted on their vision on their opponents goal
-std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam,
-        WorldData simulatedWorld) {
-    Field field = Field::get_field();
-    auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
-    std::vector<std::pair<RobotPtr, double>> robotsWithVisibilities;
-
-    for (auto robot : robots) {
-        robotsWithVisibilities.emplace_back(robot,
-                        FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->pos,
-                        world::world->getWorld()));
-    }
-
-    // sort on goal visibility
-    std::sort(robotsWithVisibilities.begin(), robotsWithVisibilities.end(),
-            [](std::pair<RobotPtr, double> a, std::pair<RobotPtr, double> b) {
-              return a.second < b.second;
-            });
-
-    return robotsWithVisibilities;
-}
-
-/// return the average goal vision of a given team towards their opponents goal
-double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld) {
-    Field field = Field::get_field();
-    auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
-    double total = 0.0;
-    for (auto robot : robots) {
-        total += FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->pos,
-                world::world->getWorld());
-    }
-    return (total/robots.size());
-}
-
 /// returns a danger score
-RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam) {
-    Field field = Field::get_field();
+RobotDanger GameAnalyzer::evaluateRobotDangerScore(const Field &field, RobotPtr robot, bool ourTeam) {
     Vector2 goalCenter = ourTeam ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER];
 
     RobotDanger danger;
@@ -119,7 +84,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam)
     danger.goalVisionPercentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam,
             robot->pos, world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
-    danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
+    danger.closingInToGoal = isClosingInToGoal(field, robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
 
     return danger;
@@ -169,8 +134,7 @@ double GameAnalyzer::shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, Worl
 }
 
 /// check if a robot is closing in to our goal.
-bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
-    Field field = Field::get_field();
+bool GameAnalyzer::isClosingInToGoal(const Field &field, RobotPtr robot, bool ourTeam) {
     double distanceToGoal = FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
 
     WorldData futureWorld = world::world->getFutureWorld(0.2);
@@ -212,23 +176,24 @@ void GameAnalyzer::stop() {
 void GameAnalyzer::loop(unsigned delayMillis) {
     std::chrono::milliseconds delay(delayMillis);
     while (! stopping) {
-        generateReportNow();
+        const Field &field = io::io.getField();
+        generateReportNow(field);
         std::this_thread::sleep_for(delay);
     }
 }
 
-std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(bool ourTeam) {
+std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(const Field &field,
+        bool ourTeam) {
     auto robots = ourTeam ? world::world->getUs() : world::world->getThem();
     std::vector<std::pair<RobotPtr, RobotDanger>> robotDangers;
 
     for (auto robot : robots) {
-        robotDangers.emplace_back(robot, evaluateRobotDangerScore(robot, ourTeam));
+        robotDangers.emplace_back(robot, evaluateRobotDangerScore(field, robot, ourTeam));
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),
-            [](std::pair<RobotPtr, RobotDanger> a,
-                    std::pair<RobotPtr, RobotDanger> b) {
-              return a.second.getTotalDanger() > b.second.getTotalDanger();
+            [field](std::pair<RobotPtr, RobotDanger> a, std::pair<RobotPtr, RobotDanger> b) {
+              return a.second.getTotalDanger(field) > b.second.getTotalDanger(field);
             });
 
     return robotDangers;

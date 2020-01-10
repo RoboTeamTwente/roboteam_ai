@@ -78,7 +78,8 @@ Skill::Status ShootFreeKick::onUpdate() {
             if (! isShot()) {
                 Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
 
-                auto shotData = robot->getShotController()->getRobotCommand(*robot, target, false, control::BallSpeed::PASS);
+                auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, target, false,
+                        control::BallSpeed::PASS);
                 command = shotData.makeROSCommand();
                 publishRobotCommand();
                 return Status::Running;

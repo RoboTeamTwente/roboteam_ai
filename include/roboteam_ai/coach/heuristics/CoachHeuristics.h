@@ -8,6 +8,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <world/WorldData.h>
 #include <world/World.h>
+#include <include/roboteam_ai/world/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -30,13 +31,13 @@ class CoachHeuristics {
         static const double MAX_INTERCEPT_ANGLE; // Maximum angle to check for whether a opponent can intercept the ball
         static const double ANGLE_TO_GOAL_WEIGHT;
     public:
-        static double calculateCloseToGoalScore(const Vector2 &position);
-        static double calculateShotAtGoalScore(const Vector2 &position, const WorldData &world);
+        static double calculateCloseToGoalScore(const Field &field, const Vector2 &position);
+        static double calculateShotAtGoalScore(const Field &field, const Vector2 &position, const WorldData &world);
         static double calculatePassLineScore(const Vector2 &position, const WorldData &world);
         static double calculateBehindBallScore(const Vector2 &position, const WorldData &world);
-        static double calculatePassDistanceToBallScore(const Vector2 &position, const WorldData &world);
-        static double calculatePositionDistanceToBallScore(const Vector2 &position, const WorldData &world);
-        static double calculateAngleToGoalScore(const Vector2 &position);
+        static double calculatePassDistanceToBallScore(const Field &field, const Vector2 &position, const WorldData &world);
+        static double calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position, const WorldData &world);
+        static double calculateAngleToGoalScore(const Field &field, const Vector2 &position);
 
         /// Currently not implemented, but might be again later
         static double calculateDistanceToOpponentsScore(const Vector2 &position);

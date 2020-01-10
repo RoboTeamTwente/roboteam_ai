@@ -14,7 +14,7 @@ namespace ai {
 namespace control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
-RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip,
+RobotCommand ShotController::getRobotCommand(const Field &field, world::Robot robot, const Vector2 &shotTarget, bool chip,
         BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision, int fixedGeneva) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (! isShooting) {
@@ -76,7 +76,7 @@ RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &
     else {
         kickerOnTicks = 0;
         isShooting = false;
-        shotData = goToPlaceBehindBall(robot, lineToDriveOver.first, lineToDriveOver, currentDesiredGeneva);
+        shotData = goToPlaceBehindBall(field, robot, lineToDriveOver.first, lineToDriveOver, currentDesiredGeneva);
     }
 
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->getPos(), aimTarget}, Qt::yellow, robot.id,
@@ -117,9 +117,8 @@ Vector2 ShotController::getPlaceBehindBall(const world::Robot &robot, const Vect
 }
 
 /// use Numtree GTP to go to a place behind the ball
-RobotCommand ShotController::goToPlaceBehindBall(const world::Robot &robot, const Vector2 &robotTargetPosition,
-        const std::pair<Vector2, Vector2> &line, int geneva) {
-    Field field = Field::get_field();
+RobotCommand ShotController::goToPlaceBehindBall(const Field &field, const world::Robot &robot,
+        const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &line, int geneva) {
     Vector2 genevaAimTarget = updateGenevaAimTarget(geneva);
     auto shotData = robot.getBallHandlePosControl()->getRobotCommand(world::world, &field,
             std::make_shared<world::Robot>(robot), genevaAimTarget, robot.angle,

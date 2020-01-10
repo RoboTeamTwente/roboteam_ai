@@ -27,6 +27,8 @@ namespace io {
 
 class IOManager {
 private:
+        Field field;
+
         proto::World worldMsg;
         proto::SSL_GeometryData geometryMsg;
         proto::RobotFeedback robotFeedbackMsg;
@@ -55,6 +57,7 @@ public:
         void publishRobotCommand(proto::RobotCommand cmd);
         void publishSettings(proto::Setting setting);
         void init();
+        const Field &getField();
         const proto::World &getWorldState();
         const proto::SSL_GeometryData &getGeometryData();
         const proto::RobotFeedback &getRobotFeedback();

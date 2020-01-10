@@ -15,6 +15,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <world/Robot.h>
 #include <interface/api/Toggles.h>
+#include <include/roboteam_ai/io/IOManager.h>
 
 namespace rtt {
 namespace ai {
@@ -51,8 +52,8 @@ class Visualizer : public QWidget {
         float factor;
         int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
         void drawBackground(QPainter &painter);
-        void drawFieldLines(QPainter &painter);
-        void drawFieldHints(QPainter &painter);
+        void drawFieldLines(const Field &field, QPainter &painter);
+        void drawFieldHints(const Field &field, QPainter &painter);
 
         void drawRobots(QPainter &painter);
         void drawRobot(QPainter &painter, Robot, bool ourTeam);
@@ -75,7 +76,7 @@ class Visualizer : public QWidget {
         rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
 
 
-        void calculateFieldSizeFactor();
+        void calculateFieldSizeFactor(const Field &field);
 
         // interface variables
         std::vector<std::pair<std::string,

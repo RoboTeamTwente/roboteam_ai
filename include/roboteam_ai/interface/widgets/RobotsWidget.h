@@ -17,7 +17,7 @@ Q_OBJECT
     public:
         using Robot = world::Robot;
 private:
-    QVBoxLayout* createRobotGroupItem(Robot robot);
+    QVBoxLayout* createRobotGroupItem(const Field &field, Robot robot);
     int amountOfSelectedRobots = 0;
     QVBoxLayout * VLayout;
 public:

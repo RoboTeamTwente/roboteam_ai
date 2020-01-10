@@ -79,7 +79,7 @@ Pass::Status Pass::onUpdate() {
 
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
-        if (! coach::g_pass.validReceiver(robot, robotToPassTo)) {
+        if (! coach::g_pass.validReceiver(*field, robot, robotToPassTo)) {
             return Status::Failure;
         }
 
@@ -131,7 +131,7 @@ Pass::Status Pass::onUpdate() {
 void Pass::makeCommand() {
     RobotCommand shotdata;
 
-    shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS,
+    shotdata = robot->getShotController()->getRobotCommand(*field, *robot, getKicker(), forcePass, control::PASS,
                                                            false, control::HIGH);
     command = shotdata.makeROSCommand();
 }
@@ -152,7 +152,7 @@ Vector2 Pass::getKicker() {
 }
 
 void Pass::initiatePass() {
-    coach::g_pass.initiatePass(robot->id);
+    coach::g_pass.initiatePass(*field, robot->id);
 }
 
 bool Pass::didShootProperly() {

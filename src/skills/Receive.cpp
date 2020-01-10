@@ -72,8 +72,8 @@ void Receive::onTerminate(Status s) {
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
     double defenseAreaMargin = 0.3;
     double outOfFieldMargin = -Constants::ROBOT_RADIUS();
-    return control::ControlUtils::getInterceptPointOnLegalPosition(
-            robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
+    return control::ControlUtils::getInterceptPointOnLegalPosition(*field, robot->pos, {startBall, endBall}, false,
+            false, defenseAreaMargin, outOfFieldMargin);
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {

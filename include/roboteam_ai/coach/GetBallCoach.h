@@ -13,10 +13,10 @@ class GetBallCoach {
     private:
         bool gettingBall = false;
         int idGettingBall = - 1;
-        bool shouldWeGetBall();
+        bool shouldWeGetBall(const Field &field);
         int bestBallGetterID();
     public:
-        void update();
+        void update(const Field &field);
         bool weAreGettingBall();
         int getBallGetterID();
 

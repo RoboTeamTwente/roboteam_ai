@@ -5,24 +5,11 @@
 #include <include/roboteam_ai/world/Field.h>
 namespace rtt {
 
-Field Field::field = Field();
-std::mutex Field::fieldMutex;
-
 Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
     initFieldVectors();
-}
-
-Field Field::get_field() {
-    std::lock_guard<std::mutex> lock(fieldMutex);
-    return Field::field;
-}
-
-void Field::set_field(Field _field) {
-    std::lock_guard<std::mutex> lock(fieldMutex);
-    Field::field = std::move(_field);
 }
 
 void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -143,7 +130,7 @@ Vector2 Field::operator[](FieldVectorName vectorName) const {
     }
 }
 
-const std::optional<FieldLineSegment>* Field::getField_lines(){
+const std::optional<FieldLineSegment>* Field::getField_lines() const {
     return fieldLines;
 }
 }

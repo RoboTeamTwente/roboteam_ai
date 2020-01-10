@@ -105,7 +105,7 @@ void ApplicationManager::updateTrees() {
 
 /// Tick the keeper tree if both the tree and keeper exist
 void ApplicationManager::runKeeperTree() {
-    Field field = Field::get_field();
+    const Field &field = io::io.getField();
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         keeperTree->tick(ai::world::world, &field);
@@ -114,11 +114,11 @@ void ApplicationManager::runKeeperTree() {
 
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree() {
+    const Field &field = io::io.getField();
     if (BTFactory::getCurrentTree() == "NaN") {
         std::cout << "NaN tree probably Halting" << std::endl;
           return Status::Waiting;
     }
-    Field field = Field::get_field();
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
     Status status = strategy->tick(ai::world::world, &field);
     return status;
@@ -127,9 +127,10 @@ Status ApplicationManager::runStrategyTree() {
 /// Update the coaches information
 void ApplicationManager::updateCoaches() const {
     auto coachesCalculationTime = roboteam_utils::Timer::measure([&](){
-        ai::coach::getBallCoach->update();
-        ai::coach::g_DefenceDealer.updateDefenderLocations();
-        ai::coach::g_offensiveCoach.updateOffensivePositions();
+        const Field &field = io::io.getField();
+        ai::coach::getBallCoach->update(field);
+        ai::coach::g_DefenceDealer.updateDefenderLocations(field);
+        ai::coach::g_offensiveCoach.updateOffensivePositions(field);
         ai::coach::g_pass.updatePassProgression();
     });
     std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;

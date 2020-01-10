@@ -17,7 +17,7 @@ Vector2 DefendFreeKick::getFormationPosition() {
     robot->getNumtreePosControl()->setAvoidBallDistance(0.55);
 
     update = true;
-    posses = rtt::ai::control::PositionUtils::getDefendFreeKick(robotsInFormation->size());
+    posses = rtt::ai::control::PositionUtils::getDefendFreeKick(*field, robotsInFormation->size());
     std::vector<int> robotIds;
 
     for (auto & i : *robotsInFormation) {

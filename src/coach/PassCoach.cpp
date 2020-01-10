@@ -30,7 +30,7 @@ void PassCoach::resetPass(int robotID) {
     }
 }
 
-int PassCoach::initiatePass(int passerID) {
+int PassCoach::initiatePass(const Field &field, int passerID) {
     // Check whether a pass is already in progress that is not taking too long yet
     if (robotBeingPassedTo != -1) {
         if(!passTakesTooLong()) {
@@ -42,7 +42,7 @@ int PassCoach::initiatePass(int passerID) {
     passStartTime = std::chrono::steady_clock::now();
     passTimerStarted = true;
 
-    robotBeingPassedTo = determineReceiver(passerID);
+    robotBeingPassedTo = determineReceiver(field, passerID);
     if (robotBeingPassedTo == -1) {
         resetPass(-1);
         return -1;
@@ -72,14 +72,14 @@ bool PassCoach::isPassed() {
     return passed;
 }
 
-int PassCoach::determineReceiver(int passerID) {
+int PassCoach::determineReceiver(const Field &field, int passerID) {
     coach::PassScore passScore;
     double bestScore = 0;
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
     for(auto &robot : world::world->getUs()) {
-        if (!validReceiver(passer, robot)) continue;
-        double score = passScore.calculatePassScore(robot->pos);
+        if (!validReceiver(field, passer, robot)) continue;
+        double score = passScore.calculatePassScore(field, robot->pos);
         if (score > bestScore) {
             bestScore = score;
             bestRobotID = robot->id;
@@ -129,7 +129,7 @@ void PassCoach::updatePassProgression() {
     }
 
 }
-bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver,  bool freeKick) {
+bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const RobotPtr& receiver,  bool freeKick) {
     auto ball = world::world->getBall();
 
     if (!ball || !passer || !receiver) {
@@ -143,7 +143,7 @@ bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver, 
         if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
             return false;
         }
-        auto MIN_PASS_DISTANCE = std::max((double) Field::get_field()[GOAL_WIDTH] / 2, SMALLEST_MIN_PASS_DISTANCE);
+        auto MIN_PASS_DISTANCE = std::max((double) field[GOAL_WIDTH] / 2, SMALLEST_MIN_PASS_DISTANCE);
         if ((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
             return false;
         }

@@ -12,12 +12,12 @@ SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
 }
 
 void SideAttacker::onInitialize() {
-    coach::g_offensiveCoach.addSideAttacker(robot);
+    coach::g_offensiveCoach.addSideAttacker(*field, robot);
 }
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
-    targetPos = getOffensivePosition();
+    targetPos = getOffensivePosition(*field);
     auto newPosition = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
     Vector2 velocity = newPosition.vel;
     command.mutable_vel()->set_x(velocity.x);
@@ -30,8 +30,8 @@ bt::Node::Status SideAttacker::onUpdate() {
     return status;
 }
 
-Vector2 SideAttacker::getOffensivePosition() {
-    return coach::g_offensiveCoach.getPositionForRobotID(robot->id);
+Vector2 SideAttacker::getOffensivePosition(const Field &field) {
+    return coach::g_offensiveCoach.getPositionForRobotID(field, robot->id);
 }
 
 void SideAttacker::onTerminate(Status s) {

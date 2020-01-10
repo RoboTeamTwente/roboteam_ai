@@ -19,8 +19,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
-    Field field = Field::get_field();
+rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER]);
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
@@ -47,8 +46,8 @@ Vector2 PositionUtils::getPositionBehindPositionToPosition(
     return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
 }
 
-bool PositionUtils::isRobotBehindBallToGoal(double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
-    Field field = Field::get_field();
+bool PositionUtils::isRobotBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal,
+        const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER]);
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
@@ -79,8 +78,7 @@ bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const
 
     return inLargeTriangleOnPosition;
 }
-std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
-    Field field = Field::get_field();
+std::vector<Vector2> PositionUtils::getPenaltyPositions(const Field &field, int number) {
     auto lengthOffset = field[FIELD_LENGTH] / 4.0;
     auto widthOffset = field[FIELD_WIDTH] / 4.0;
 
@@ -100,9 +98,8 @@ std::vector<Vector2> PositionUtils::getPenaltyPositions(int number) {
     return res;
 
 }
-std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
+std::vector<Vector2> PositionUtils::getFreeKickPositions(const Field &field, int number) {
     // Two availableIDs, one robot to receive the ball, rest 3 in a diagonal
-    Field field = Field::get_field();
     auto lengthOffset = field[FIELD_LENGTH] / 4.0;
     auto widthOffset = field[FIELD_WIDTH] / 4.0;
     Vector2 penaltyUs = FieldComputations::getPenaltyPoint(field, true);
@@ -133,9 +130,8 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(int number) {
     }
     return res;
 }
-std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
+std::vector<Vector2> PositionUtils::getDefendFreeKick(const Field &field, int number) {
     // makes a free kick line
-    Field field = Field::get_field();
     auto lengthOffset = field[FIELD_LENGTH] / 100.0;
     auto widthOffset = field[FIELD_WIDTH] / 4.0;
     Vector2 goalUS = field[OUR_GOAL_CENTER];
@@ -162,8 +158,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(int number) {
     }
     return res;
 }
-std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
-    Field field = Field::get_field();
+std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(const Field &field, int number) {
     Vector2 lineProgress = {0, 0.4};
 
     Vector2 lineBegin = {FieldComputations::getPenaltyPoint(field, true).x + 1.05, 0};

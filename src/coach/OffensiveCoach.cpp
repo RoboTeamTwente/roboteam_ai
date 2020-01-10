@@ -19,8 +19,8 @@ OffensiveCoach g_offensiveCoach;
 /// Calculate new positions close to the robot in the corresponding zone.
 /// In the current implementation, there are 4 zones, which are circles with radius ZONE_RADIUS in the opponent half
 /// of the field. an optimal position is found within these zones using this function.
-OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition &currentPosition,
-        const Vector2 &zoneLocation, int &tick, Angle &targetAngle) {
+OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const Field &field,
+        const OffensivePosition &currentPosition, const Vector2 &zoneLocation, int &tick, Angle &targetAngle) {
 
     OffensivePosition bestPosition = currentPosition;
     // project the current position to the zoneLocation if it is outside
@@ -38,7 +38,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
                                       bestPosition.position + thetaMinus.toVector2(3.0  * SEARCH_GRID_ROBOT_POSITIONS),
                                       bestPosition.position + thetaMinus.toVector2(12.0 * SEARCH_GRID_ROBOT_POSITIONS)};
 
-    auto newPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
+    auto newPosition = findBestOffensivePosition(field, positions, bestPosition, zoneLocation);
     if (newPosition.position != currentPosition.position) {
         tick = 0;
         targetAngle = newPosition.position - currentPosition.position;
@@ -47,8 +47,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 }
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
-std::vector<Vector2> OffensiveCoach::getZoneLocations() {
-    Field field = Field::get_field();
+std::vector<Vector2> OffensiveCoach::getZoneLocations(const Field &field) {
     Vector2 penaltyStretchCorner = field[TOP_RIGHT_PENALTY_STRETCH].end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
@@ -68,12 +67,9 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations() {
     return zoneLocations;
 }
 
-void OffensiveCoach::updateOffensivePositions() {
-
+void OffensiveCoach::updateOffensivePositions(const Field &field) {
     auto world = world::world->getWorld();
-    auto field = Field::get_field();
-
-    std::vector<Vector2> zoneLocations = getZoneLocations();
+    std::vector<Vector2> zoneLocations = getZoneLocations(field);
 
     if (offensivePositions.size() != zoneLocations.size()) {
         offensivePositions = {};
@@ -93,39 +89,39 @@ void OffensiveCoach::updateOffensivePositions() {
             if (zoneTargets.find(i) == zoneTargets.end()) {
                 zoneTargets[i] = std::make_pair(0, Angle());
             }
-            offensivePositions[i] = calculateNewRobotPosition(offensivePosition, zoneLocation,
+            offensivePositions[i] = calculateNewRobotPosition(field, offensivePosition, zoneLocation,
                     zoneTargets[i].first, zoneTargets[i].second);
         }
     }
 }
 
-void OffensiveCoach::addSideAttacker(const OffensiveCoach::RobotPtr &robot) {
+void OffensiveCoach::addSideAttacker(const Field &field, const OffensiveCoach::RobotPtr &robot) {
     sideAttackers[robot->id] = - 1;
-    redistributePositions();
+    redistributePositions(field);
 }
 
 void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr &robot) {
     sideAttackers.erase(robot->id);
 }
 
-Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
+Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
     if (sideAttackers.find(robotID) != sideAttackers.end()) {
         int zone = sideAttackers[robotID];
         return offensivePositions[zone].position;
     }
     else {
-        redistributePositions();
+        redistributePositions(field);
         return Vector2();
     }
 }
 
-void OffensiveCoach::redistributePositions() {
+void OffensiveCoach::redistributePositions(const Field &field) {
     std::vector<int> robotIDs;
     for (auto &robot : sideAttackers) {
         robotIDs.emplace_back(robot.first);
     }
 
-    updateOffensivePositions();
+    updateOffensivePositions(field);
     std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
 
     rtt::HungarianAlgorithm hungarian;
@@ -156,9 +152,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 }
 
 /// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
-Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
-    Field field = Field::get_field();
-
+Vector2 OffensiveCoach::getShootAtGoalPoint(const Field &field, const Vector2 &fromPoint) {
     // get the longest line section op the visible part of the goal
     std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint,
             world::world->getWorld());
@@ -166,7 +160,7 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.
-    Line aimPoints = getAimPoints(fromPoint);
+    Line aimPoints = getAimPoints(field, fromPoint);
     auto leftPoint = aimPoints.start;
     auto rightPoint = aimPoints.end;
 
@@ -192,28 +186,8 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
     }
 
 }
-// we want to shoot quick without changing geneva
-std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, double currentShotAngle, Vector2 keeperPos){
-    // make two aim points which are in the corners.
-    Line aimPoints = getAimPoints(fromPoint);
-    auto leftPoint = aimPoints.start;
-    auto rightPoint = aimPoints.end;
-    double leftDif= control::ControlUtils::angleDifference((leftPoint-fromPoint).angle(),currentShotAngle);
-    double rightDif= control::ControlUtils::angleDifference((rightPoint-fromPoint).angle(),currentShotAngle);
-    if (leftDif<=rightDif){
-        if((leftPoint - keeperPos).length() >= 0.4){
-            return std::make_pair(leftPoint,true);
-        }
-        return std::make_pair(rightPoint,false);
-    }
-    if(( rightPoint - keeperPos).length() >= 0.4){
-        return std::make_pair(rightPoint,true);
-    }
-    return std::make_pair(leftPoint,false);
 
-}
-Line OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
-    Field field = Field::get_field();
+Line OffensiveCoach::getAimPoints(const Field &field, const Vector2 &fromPoint) {
     Line goalSides = FieldComputations::getGoalSides(field, false);
     double angleMargin = sin(2.0/180.0*M_PI);
     double constantMargin = 0.05 * field[GOAL_WIDTH];
@@ -234,12 +208,12 @@ const Line &OffensiveCoach::getLongestSegment(const std::vector<Line> &openSegme
     return openSegments[bestIndex];
 }
 
-OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const std::vector<Vector2> &positions,
-        const OffensiveCoach::OffensivePosition &currentBestPosition, const Vector2 &zoneLocation) {
+OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const Field &field,
+        const std::vector<Vector2> &positions, const OffensiveCoach::OffensivePosition &currentBestPosition,
+        const Vector2 &zoneLocation) {
 
     // get world & field
     auto world = world::world->getWorld();
-    auto field = Field::get_field();
 
     OffensivePosition bestPosition = currentBestPosition;
     bestPosition.score =

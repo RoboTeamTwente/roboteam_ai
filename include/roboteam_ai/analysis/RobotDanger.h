@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_ROBOTDANGER_H
 #define ROBOTEAM_AI_ROBOTDANGER_H
 
+#include "world/Field.h"
+
 namespace rtt {
 namespace ai {
 namespace analysis {
@@ -20,7 +22,7 @@ struct RobotDanger {
     bool hasBall;
     double goalVisionPercentage;
     std::vector<std::pair<int, double>> robotsToPassTo;
-    double getTotalDanger();
+    double getTotalDanger(const Field &field);
 };
 
 } // analysis

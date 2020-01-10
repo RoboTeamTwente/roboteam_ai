@@ -10,7 +10,7 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const proto::World &message) {
+void World::updateWorld(const Field &field, const proto::World &message) {
     worldNumber ++;
 
     BallPtr oldBall = nullptr;
@@ -62,7 +62,7 @@ void World::updateWorld(const proto::World &message) {
         history->addWorld(worldDataCopyForHistory);
     }
 
-    ballPossessionPtr->update();
+    ballPossessionPtr->update(field);
 }
 
 void World::updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg,

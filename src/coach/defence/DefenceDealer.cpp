@@ -2,6 +2,7 @@
 // Created by rolf on 3-4-19.
 //
 
+#include <include/roboteam_ai/world/Field.h>
 #include "coach/defence/DefenceDealer.h"
 #include "interface/api/Input.h"
 
@@ -38,7 +39,7 @@ void DefenceDealer::visualizePoints() {
             ai::interface::Drawing::CIRCLES);
 }
 /// calculates the defender locations for all available defenders
-void DefenceDealer::updateDefenderLocations() {
+void DefenceDealer::updateDefenderLocations(const Field &field) {
     std::vector<DefenderBot> lockedDefenders;
     std::vector<int> freeDefenders;
     // LockedDefenders are defenders that are locked to a target for atleast LOCKTIME ticks
@@ -46,7 +47,7 @@ void DefenceDealer::updateDefenderLocations() {
         bool idFound = false;
         for (const auto &defender: assignedDefenders) {
             if (id == defender.id) {
-                if (defender.coveredCount>LOCKTIME){
+                if (defender.coveredCount > LOCKTIME){
                     freeDefenders.push_back(defender.id);
                 }
                 else{
@@ -60,7 +61,7 @@ void DefenceDealer::updateDefenderLocations() {
             freeDefenders.push_back(id);
         }
     }
-    auto foundDefenders=g_defensivePositionCoach.decidePositions(lockedDefenders, freeDefenders);
+    auto foundDefenders = g_defensivePositionCoach.decidePositions(field, lockedDefenders, freeDefenders);
     availableIDs.clear();
     if (foundDefenders.size()<freeDefenders.size()+lockedDefenders.size()){
         std::cout<<"[DefenceDealer] Warning: There is no opponent to defend against"<<std::endl;

@@ -25,9 +25,9 @@ void ActiveStop::onInitialize() {
 
 Skill::Status ActiveStop::onUpdate() {
     if (attacker) {
-        targetPos = getOffensiveActivePoint();
+        targetPos = getOffensiveActivePoint(*field);
     } else {
-        targetPos = getDefensiveActivePoint();
+        targetPos = getDefensiveActivePoint(*field);
     }
 
     if (robot->pos.dist(targetPos) > 0.3) {
@@ -47,20 +47,17 @@ void ActiveStop::onTerminate(Skill::Status s) {
     attack = -1;
 }
 
-Vector2 ActiveStop::getOffensiveActivePoint() {
-    Field field = Field::get_field();
+Vector2 ActiveStop::getOffensiveActivePoint(const Field &field) {
     Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, false);
-    return getPoint(penaltyPos);
+    return getPoint(field, penaltyPos);
 }
 
-Vector2 ActiveStop::getDefensiveActivePoint() {
-    Field field = Field::get_field();
+Vector2 ActiveStop::getDefensiveActivePoint(const Field &field) {
     Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, true);
-    return getPoint(penaltyPos);
+    return getPoint(field, penaltyPos);
 }
 
-Vector2 ActiveStop::getPoint(const Vector2 &penaltyPos) {
-    Field field = Field::get_field();
+Vector2 ActiveStop::getPoint(const Field &field, const Vector2 &penaltyPos) {
     Vector2 ballPos = world::world->getBall()->getPos();
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer

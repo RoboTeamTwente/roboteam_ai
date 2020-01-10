@@ -160,9 +160,6 @@ private:
     };
 
 private:
-    static std::mutex fieldMutex; // Prevents situations where the field state is changed and read at the same time.
-    static Field field; // Stores the field state as a Singleton variable.
-
     std::optional<double> fieldValues[NUMBER_FIELD_VALUE_NAMES]; // Stores all the constant of the field (lengths, widths, positions)
     std::optional<FieldLineSegment> fieldLines[NUMBER_FIELD_LINE_NAMES]; // Stores all the lines of the field
     std::optional<Vector2> fieldVectors[NUMBER_FIELD_VECTOR_NAMES]; // Stores all positions of the field
@@ -179,18 +176,6 @@ public:
      * @param sslFieldSize The corresponding protobuf message.
      */
     Field(proto::SSL_GeometryFieldSize sslFieldSize);
-
-    /**
-     * Access the field state (using the Singleton pattern).
-     * @return The field state object
-     */
-    static Field get_field();
-
-    /**
-     * Set the field state (using the Singleton pattern).
-     * @param field The new field state
-     */
-    static void set_field(Field _field);
 
     /**
      * Get a value/constant about the field. All values are measured in SI standard units, so lengths/distances/widths
@@ -225,7 +210,7 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    const std::optional<FieldLineSegment>* getField_lines();
+    const std::optional<FieldLineSegment>* getField_lines() const;
 
 private:
     /**

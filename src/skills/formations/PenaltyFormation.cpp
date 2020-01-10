@@ -22,7 +22,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         for (auto & i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
-        auto poses = rtt::ai::control::PositionUtils::getPenaltyPositions(robotsInFormation->size());
+        auto poses = rtt::ai::control::PositionUtils::getPenaltyPositions(*field, robotsInFormation->size());
 
         rtt::HungarianAlgorithm hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
@@ -33,7 +33,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         for (auto & i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
-        auto poses = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(robotsInFormation->size());
+        auto poses = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(*field, robotsInFormation->size());
 
         rtt::HungarianAlgorithm hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);

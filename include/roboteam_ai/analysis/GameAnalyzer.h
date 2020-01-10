@@ -27,7 +27,7 @@ public:
     void stop();
 
     std::shared_ptr<AnalysisReport> getMostRecentReport();
-    std::shared_ptr<AnalysisReport> generateReportNow();
+    std::shared_ptr<AnalysisReport> generateReportNow(const Field &field);
 
 private:
         using WorldData = world::WorldData;
@@ -46,16 +46,14 @@ private:
 
     std::shared_ptr<AnalysisReport> mostRecentReport;
 
-    std::vector<std::pair<RobotPtr, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
+    std::vector<std::pair<RobotPtr, RobotDanger>> getRobotsSortedOnDanger(const Field &field, bool ourTeam);
     BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
-    double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    RobotDanger evaluateRobotDangerScore(RobotPtr robot, bool ourTeam);
-    std::vector<std::pair<RobotPtr, double>> getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    double getTeamDistanceToGoalAvg(const Field &field, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
+    RobotDanger evaluateRobotDangerScore(const Field &field, RobotPtr robot, bool ourTeam);;
 
     std::vector<std::pair<int, double>> getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
     double shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    bool isClosingInToGoal(RobotPtr robot, bool ourTeam);
+    bool isClosingInToGoal(const Field &field, RobotPtr robot, bool ourTeam);
 };
 
 

@@ -58,19 +58,18 @@ private:
     std::pair<Vector2, Vector2> shiftLineForGeneva(const std::pair<Vector2, Vector2> &line, int genevaState);
 
     // RobotCommand calculation
-    RobotCommand goToPlaceBehindBall(const world::Robot &robot, const Vector2 &robotTargetPosition,
+    RobotCommand goToPlaceBehindBall(const Field &field, const world::Robot &robot, const Vector2 &robotTargetPosition,
                                      const std::pair<Vector2, Vector2> &driveLine, int geneva);
     RobotCommand moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2> &lineToDriveOver);
-    RobotCommand shoot(RobotCommand shotData, const world::Robot& robot, const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget,
-                       bool chip,
-                       BallSpeed desiredBallSpeed);
+    RobotCommand shoot(RobotCommand shotData, const world::Robot& robot, const std::pair<Vector2, Vector2> &driveLine,
+            const Vector2 &shotTarget, bool chip, BallSpeed desiredBallSpeed);
     int kickerOnTicks = 0;
     Vector2 updateGenevaAimTarget(int geneva);
 
 public:
     explicit ShotController() = default;
-    RobotCommand getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip = false,
-                                 BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
+    RobotCommand getRobotCommand(const Field &field, world::Robot robot, const Vector2 &shotTarget, bool chip = false,
+            BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
 };
 
 } // control

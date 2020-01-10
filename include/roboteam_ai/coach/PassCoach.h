@@ -7,6 +7,7 @@
 
 #include <chrono>
 #include <world/Robot.h>
+#include <include/roboteam_ai/world/Field.h>
 
 namespace rtt {
 namespace ai {
@@ -19,7 +20,7 @@ public:
 
     PassCoach();
     void resetPass(int robotID);
-    int initiatePass(int passerID);
+    int initiatePass(const Field &field, int passerID);
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
     int getRobotBeingPassedTo();
@@ -27,10 +28,10 @@ public:
     bool isPassed();
     void setPassed(bool passed);
 
-    virtual int determineReceiver(int passerID);
+    virtual int determineReceiver(const Field &field, int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
-    bool validReceiver(const RobotPtr& passer, const RobotPtr& receiver, bool freeKick = false);
+    bool validReceiver(const Field &field, const RobotPtr& passer, const RobotPtr& receiver, bool freeKick = false);
 
 private:
 

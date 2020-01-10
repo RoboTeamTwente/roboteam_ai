@@ -71,18 +71,17 @@ class DribbleBackwards {
 
         // functions for backwards progress
         void updateBackwardsProgress();
-        RobotCommand sendBackwardsCommand();
+        RobotCommand sendBackwardsCommand(const Field &field);
         RobotCommand startTravelBackwards();
         RobotCommand sendTurnCommand();
         RobotCommand sendApproachCommand();
-        RobotCommand sendOvershootCommand();
+        RobotCommand sendOvershootCommand(const Field &field);
         RobotCommand sendDribblingCommand();
         RobotCommand sendDribbleBackwardsCommand();
         RobotCommand sendSuccessCommand();
 
     public:
-        RobotCommand getRobotCommand(RobotPtr r,
-                const Vector2 &targetP, const Angle &targetA);
+        RobotCommand getRobotCommand(const Field &field, RobotPtr r, const Vector2 &targetP, const Angle &targetA);
         void reset();
 
         explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02,

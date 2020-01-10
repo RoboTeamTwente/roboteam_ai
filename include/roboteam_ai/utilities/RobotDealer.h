@@ -10,6 +10,7 @@
 #include <set>
 #include <mutex>
 #include <vector>
+#include <include/roboteam_ai/world/Field.h>
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {
@@ -46,7 +47,7 @@ private:
     static void claimKeeper();
 
 public:
-    static int claimRobotForTactic(RobotType feature, const std::string& tacticName, const std::string& roleName);
+    static int claimRobotForTactic(const Field &field, RobotType feature, const std::string& tacticName, const std::string& roleName);
     static std::set<int> getAvailableRobots();
     static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
     static void releaseRobotForRole(const std::string& roleName);

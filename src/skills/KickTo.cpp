@@ -30,8 +30,8 @@ bt::Node::Status KickTo::onUpdate() {
 
     Vector2 aimPoint = shootPos;
     //TODO: tune kick velocity
-    auto shotData = robot->getShotController()->getRobotCommand(
-            *robot, aimPoint, false, control::BallSpeed::BALL_PLACEMENT, true, control::ShotPrecision::HIGH);
+    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, false,
+            control::BallSpeed::BALL_PLACEMENT, true, control::ShotPrecision::HIGH);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;

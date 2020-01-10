@@ -14,6 +14,7 @@
 #include "utilities/Constants.h"
 #include "Team.h"
 #include "WhichRobots.h"
+#include "Field.h"
 
 namespace rtt {
 namespace ai {
@@ -43,7 +44,7 @@ private:
 public:
     explicit World();
     ~World();
-    void updateWorld(const proto::World &world);
+    void updateWorld(const Field &field, const proto::World &world);
     bool weHaveRobots();
     double getTimeDifference();
     double getTime();

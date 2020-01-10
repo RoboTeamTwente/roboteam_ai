@@ -29,7 +29,7 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
     setAvoidBallDistance(MAX_BALL_DISTANCE*0.92);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &r,
+RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &r,
         const Vector2 &targetP) {
     this->world = world;
     this->field = field;
@@ -37,7 +37,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, Field *
     return BallHandlePosControl::getRobotCommand(world, field, r, targetP, defaultAngle);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &r,
+RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &r,
         const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
     this->world = world;
     this->field = field;
@@ -50,7 +50,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, Field *
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
     this->world = world;
     this->field = field;
 
@@ -110,7 +110,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, Field *
     bool ballIsOutsideField = !FieldComputations::pointIsInField(*field, ball->getPos(), 0.0);
     if (ballIsOutsideField) {
         status = HANDLING_BALL;
-        Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(ball->getPos(), 1.0);
+        Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(*field, ball->getPos(), 1.0);
         return handleBall(targetBallPos, BACKWARDS, shouldGetBall);
     }
 
@@ -229,7 +229,7 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
     // check if we are doing something already
     if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
         return controlWithPID(xBallHandlePID, yBallHandlePID,
-                dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
+                dribbleBackwards->getRobotCommand(*field, robot, targetBallPos, targetAngle));
     }
 
     if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
@@ -244,7 +244,7 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
 
     case BACKWARDS:
         return controlWithPID(xBallHandlePID, yBallHandlePID,
-                dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
+                dribbleBackwards->getRobotCommand(*field, robot, targetBallPos, targetAngle));
 
     default:
     case NO_PREFERENCE: {
@@ -254,7 +254,7 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
                     dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
         }
         return controlWithPID(xBallHandlePID, yBallHandlePID,
-                dribbleBackwards->getRobotCommand(robot, targetBallPos, targetAngle));
+                dribbleBackwards->getRobotCommand(*field, robot, targetBallPos, targetAngle));
     }
     }
 
@@ -322,7 +322,7 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
             numTreesTarget = intersections[0];
         }
         else {
-            numTreesTarget = ControlUtils::projectPositionToWithinField(ballStillPosition);
+            numTreesTarget = ControlUtils::projectPositionToWithinField(*field, ballStillPosition);
         }
     }
 
@@ -370,7 +370,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
             movingBallTowardsBallTarget = intersections[0];
         }
         else {
-            movingBallTowardsBallTarget = ControlUtils::projectPositionToWithinField(ball->getExpectedBallEndPosition());
+            movingBallTowardsBallTarget = ControlUtils::projectPositionToWithinField(*field, ball->getExpectedBallEndPosition());
         }
     }
 
@@ -520,7 +520,7 @@ bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) 
     if (!FieldComputations::pointIsInField(*field, driveLine.end)) {
 
         interface::Input::drawData(interface::Visual::BALL_HANDLING,
-                {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
+                {control::ControlUtils::projectPositionToWithinField(*field, driveLine.end)},
                 Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
         interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
                 Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
@@ -533,7 +533,7 @@ bool BallHandlePosControl::isCrashingOutsideField(const LineSegment &driveLine) 
 
         if (robot->vel.length() > maxRobotVel) {
             interface::Input::drawData(interface::Visual::BALL_HANDLING,
-                    {control::ControlUtils::projectPositionToWithinField(driveLine.end)},
+                    {control::ControlUtils::projectPositionToWithinField(*field, driveLine.end)},
                     Qt::red, robot->id, interface::Drawing::CIRCLES, 24, 24, 12);
             interface::Input::drawData(interface::Visual::BALL_HANDLING, {driveLine.start, driveLine.end},
                     Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);

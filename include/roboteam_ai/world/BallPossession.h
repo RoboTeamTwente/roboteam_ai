@@ -3,6 +3,7 @@
 
 #include "World.h"
 #include "gtest/gtest_prod.h"
+#include "Field.h"
 
 namespace rtt {
 namespace ai {
@@ -52,7 +53,7 @@ public:
     /**
      * Runs every tick to update which team possess the ball (can also be both/no team).
      */
-    void update();
+    void update(const Field &field);
 
     /**
      * Check which team possess the ball (can also be both/no team).
@@ -89,7 +90,7 @@ private:
     /**
      * Recompute which team possess the ball (can also be both/no team).
      */
-    void recomputeState();
+    void recomputeState(const Field &field);
 };
 
 extern BallPossession ballPossession;

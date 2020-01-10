@@ -13,12 +13,12 @@ namespace ai {
 BallPossession ballPossession;
 BallPossession* ballPossessionPtr = &ballPossession;
 
-void BallPossession::update() {
+void BallPossession::update(const Field &field) {
     updateCloseAndFarTimes();
-    recomputeState();
+    recomputeState(field);
 }
 
-void BallPossession::recomputeState() {
+void BallPossession::recomputeState(const Field &field) {
     if (coach::g_pass.getRobotBeingPassedTo() != -1) {
         return;
     }
@@ -28,7 +28,6 @@ void BallPossession::recomputeState() {
     bool weAreFar = farFromUsTime > FAR_TIME_TRESHOLD;
     bool theyAreFar = farFromThemTime > FAR_TIME_TRESHOLD;
 
-    Field field = Field::get_field();
     double ourPossessionX = field[LEFTMOST_X] + OUR_POSSESSION_RELATIVE_LENGTH_THRESHOLD * field[FIELD_LENGTH];
     double theirPossessionX = field[LEFTMOST_X] + THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD * field[FIELD_LENGTH];
     if ((weAreClose && !theyAreClose) || (world::world->getBall()->getPos().x > ourPossessionX)) {

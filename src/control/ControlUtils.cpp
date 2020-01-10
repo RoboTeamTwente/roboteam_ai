@@ -267,9 +267,7 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 }
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
-Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
-    auto field = Field::get_field();
-
+Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 position, double margin) {
     double hFieldLength = field[FIELD_LENGTH] / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, - hFieldLength + margin);
@@ -281,8 +279,7 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
     return position;
 }
 
-Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
-    Field field = Field::get_field();
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const Field &field, Vector2 position, double margin) {
     if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
         position.x = std::max(position.x, field[LEFT_PENALTY_LINE].begin.x + margin);
         return position;
@@ -347,9 +344,8 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
     return closestRobot;
 }
 
-    Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea,
-            bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
-        Field field = Field::get_field();
+Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line,
+        bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
         LineSegment shotLine(line.start, line.end + (line.end - line.start));
         Vector2 projectPos = shotLine.project(position);
         Vector2 closestPoint = projectPos;
@@ -383,7 +379,7 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
         }
 
         if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
-            closestPoint = projectPositionToWithinField(projectPos, defenseAreamargin);
+            closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
         }
 
         return closestPoint;

@@ -16,13 +16,13 @@ OffensiveScore g_offensiveScore;
 double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,
         const WorldData &world, const Field &field) {
 
-    if (!positionIsValid(zoneLocation, position)) return 0.0;
-    double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(position);
+    if (!positionIsValid(field, zoneLocation, position)) return 0.0;
+    double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(field, position);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
-    double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(position, world);
+    double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(field, position, world);
     double distanceToOpponentScore = CoachHeuristics::calculateDistanceToOpponentsScore(position);
-    double distanceToBallScore = CoachHeuristics::calculatePositionDistanceToBallScore(position, world);
-    double angleToGoalScore = CoachHeuristics::calculateAngleToGoalScore(position);
+    double distanceToBallScore = CoachHeuristics::calculatePositionDistanceToBallScore(field, position, world);
+    double angleToGoalScore = CoachHeuristics::calculateAngleToGoalScore(field, position);
 
     double score = SHOT_AT_GOAL_WEIGHT*shotAtGoalScore +
             PASS_LINE_WEIGHT*passLineScore +
@@ -34,9 +34,8 @@ double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocati
 }
 
 /// Check if a position being checked is not outside field, within the correct zone, etc
-bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck) {
+bool OffensiveScore::positionIsValid(const Field &field, const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck) {
     // check if the offender is not blocking the goal
-    Field field = Field::get_field();
     std::vector<Vector2> vertices;
     auto goalSides = FieldComputations::getGoalSides(field, false);
     vertices.push_back(goalSides.start);
@@ -58,7 +57,7 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
     if ((positionToCheck - defaultZoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) return false;
 
     // check if the point is closer to another zone
-    for (auto &otherDefaultPosition : g_offensiveCoach.getZoneLocations()) {
+    for (auto &otherDefaultPosition : g_offensiveCoach.getZoneLocations(field)) {
         if (otherDefaultPosition != defaultZoneLocation &&
                 (otherDefaultPosition - positionToCheck).length2()
                         < (defaultZoneLocation - positionToCheck).length2()) {

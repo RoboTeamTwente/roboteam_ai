@@ -57,7 +57,7 @@ void DefaultTactic::claimRobots(int amount) {
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
-        robotIDs.insert(dealer::claimRobotForTactic(toClaim.second, toClaim.first, name));
+        robotIDs.insert(dealer::claimRobotForTactic(*field, toClaim.second, toClaim.first, name));
         if (robotIDs.find(-1) != robotIDs.end()) {
             robotIDs.erase(-1);
         }

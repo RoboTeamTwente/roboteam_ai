@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Arc.h>
 #include "utilities/Constants.h"
+#include "world/FieldComputations.h"
 #include <cmath>
 #include <optional>
 
@@ -47,8 +48,8 @@ class ControlUtils {
         static double angleDifference(double A1, double A2);
         static int rotateDirection(double currentAngle, double targetAngle);
 
-        static Vector2 projectPositionToWithinField(Vector2 position, double margin = Constants::ROBOT_RADIUS());
-        static Vector2 projectPositionToOutsideDefenseArea(Vector2 position, double margin = Constants::ROBOT_RADIUS());
+        static Vector2 projectPositionToWithinField(const Field &field, Vector2 position, double margin = Constants::ROBOT_RADIUS());
+        static Vector2 projectPositionToOutsideDefenseArea(const Field &field, Vector2 position, double margin = Constants::ROBOT_RADIUS());
 
         static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
 
@@ -72,9 +73,10 @@ class ControlUtils {
         static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
         static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
                 const Vector2 &point, double maxDifference = 0.3);
-        static const std::shared_ptr<world::Robot> getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
-        static Vector2 getInterceptPointOnLegalPosition(
-                Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
+        static const std::shared_ptr<world::Robot> getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots,
+                Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds);
+        static Vector2 getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line,
+                bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
 };
 
 } // control

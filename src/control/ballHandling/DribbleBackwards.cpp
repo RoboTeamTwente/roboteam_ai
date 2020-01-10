@@ -18,7 +18,7 @@ namespace rtt {
 namespace ai {
 namespace control {
 
-RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand DribbleBackwards::getRobotCommand(const Field &field, RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
 
     robot = std::move(r);
     ball = world::world->getBall();
@@ -28,7 +28,7 @@ RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &target
     targetPos = targetP;
 
     updateBackwardsProgress();
-    return sendBackwardsCommand();
+    return sendBackwardsCommand(field);
 }
 
 void DribbleBackwards::reset() {
@@ -132,12 +132,12 @@ void DribbleBackwards::updateBackwardsProgress() {
     }
 }
 
-RobotCommand DribbleBackwards::sendBackwardsCommand() {
+RobotCommand DribbleBackwards::sendBackwardsCommand(const Field &field) {
     switch (backwardsProgress) {
     case START: return startTravelBackwards();
     case TURNING:return sendTurnCommand();
     case APPROACHING:return sendApproachCommand();
-    case OVERSHOOTING:return sendOvershootCommand();
+    case OVERSHOOTING:return sendOvershootCommand(field);
     case DRIBBLING:return sendDribblingCommand();
     case DRIBBLE_BACKWARDS:return sendDribbleBackwardsCommand();
     case SUCCESS:return sendSuccessCommand();
@@ -173,14 +173,13 @@ RobotCommand DribbleBackwards::sendApproachCommand() {
     return command;
 }
 
-RobotCommand DribbleBackwards::sendOvershootCommand() {
+RobotCommand DribbleBackwards::sendOvershootCommand(const Field &field) {
     RobotCommand command;
     command.dribbler = 31;
     command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
 
-    Field _field = Field::get_field();
-    if (failedOnce && !FieldComputations::pointIsInField(_field, ball->getPos(), Constants::ROBOT_RADIUS())) {
+    if (failedOnce && !FieldComputations::pointIsInField(field, ball->getPos(), Constants::ROBOT_RADIUS())) {
         command.kickerForced = true;
         command.kickerVel = 2;
         command.kicker = true;

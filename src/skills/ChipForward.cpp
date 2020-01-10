@@ -18,8 +18,8 @@ void ChipForward::onInitialize() {
 }
 
 ChipForward::Status ChipForward::onUpdate() {
-    auto shotData = robot->getShotController()->getRobotCommand(
-            *robot, aimPoint, true, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
+    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, true,
+            control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
     command = shotData.makeROSCommand();
     if (!hasChipped && command.chipper()) {
         if (command.chip_kick_forced() || robot->hasBall())

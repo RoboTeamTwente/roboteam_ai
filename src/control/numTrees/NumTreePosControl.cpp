@@ -50,7 +50,7 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -62,7 +62,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, Field *fie
     return robotCommand;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -72,7 +72,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, Field *fie
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
         this->world = world;
         this->field = field;
@@ -494,7 +494,7 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos) {
     this->world = world;
     this->field = field;
@@ -541,8 +541,8 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
         if (currentCollisionWithFinalTarget.getCollisionType() == Collision::DEFENSE_AREA ||
                 currentCollisionWithRobot.getCollisionType() == Collision::DEFENSE_AREA) {
 
-            finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(
-                    finalTargetPos, Constants::ROBOT_RADIUS()*1.1);
+            finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(*field, finalTargetPos,
+                    Constants::ROBOT_RADIUS() * 1.1);
 
             currentlyAvoidingDefenseArea = finalTargetPos == currentlyAvoidingDefenseAreaPosition;
             if (! currentlyAvoidingDefenseArea) {
