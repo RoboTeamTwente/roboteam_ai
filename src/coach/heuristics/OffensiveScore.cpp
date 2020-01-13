@@ -62,6 +62,7 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
             return false;
         }
     }
+    return false;
 
 }
 

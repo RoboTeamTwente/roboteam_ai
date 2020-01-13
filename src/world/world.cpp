@@ -2,16 +2,18 @@
 // Created by john on 12/16/19.
 //
 
-#include "roboteam_world/world_old/world.hpp"
+#include "world/world.hpp"
+#include "world/views/world_data_view.hpp"
+#include "settings/settings.hpp"
 
 #include <utility>
 
-namespace rtt::world {
-    WorldData const &World::setWorld(WorldData const &newWorld) noexcept {
+namespace rtt::world_new {
+    WorldData const &World::setWorld(WorldData& newWorld) noexcept {
         if (currentWorld) {
             toHistory(currentWorld.value());
         }
-        currentWorld = newWorld;
+        currentWorld = std::move(newWorld);
         return currentWorld.value();
     }
 
@@ -26,8 +28,12 @@ namespace rtt::world {
         currentIndex++;
     }
 
-    const std::optional<WorldData> &World::getWorld() const noexcept {
-        return currentWorld;
+    std::optional<view::WorldDataView> World::getWorld() const noexcept {
+        if (currentWorld) {
+            return view::WorldDataView{ &*currentWorld };
+        } else {
+            return std::nullopt;
+        }
     }
 
     WorldData const &World::getHistoryWorld(size_t ticksAgo) const noexcept {
@@ -39,10 +45,11 @@ namespace rtt::world {
 
     void World::updateWorld(proto::World &world) {
         std::scoped_lock<std::mutex> lock{ updateMutex };
-        setWorld(WorldData{world, *settings, updateMap});
+        WorldData data{ world, *settings, updateMap };
+        setWorld(data);
     }
 
-    World::World(settings::Settings *settings)
+    World::World(Settings *settings)
             : settings{settings}, currentWorld{std::nullopt} {}
 
     void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {

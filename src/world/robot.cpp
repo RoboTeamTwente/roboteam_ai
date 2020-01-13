@@ -2,14 +2,14 @@
 // Created by john on 12/16/19.
 //
 
-#include "roboteam_ai/utilities/Constants.h"
-#include "roboteam_world/world_old/robot.hpp"
+#include "utilities/Constants.h"
+#include "world/robot.hpp"
 
 #include <cassert>
 
-namespace rtt::world::robot {
+namespace rtt::world_new::robot {
     Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback,
-                 const proto::WorldRobot &copy, rtt::world::team::Team team,
+                 const proto::WorldRobot &copy, rtt::world_new::team::Team team,
                  unsigned char genevaState,
                  unsigned char dribblerState, unsigned long worldNumber)
             : team{team},
@@ -240,4 +240,4 @@ namespace rtt::world::robot {
             setBatteryLow(feedback.batterylow());
         }
     }
-} // namespace rtt::world::robot
+} // namespace rtt::world_new::robot

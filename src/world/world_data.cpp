@@ -2,14 +2,15 @@
 // Created by john on 12/16/19.
 //
 
-#include "roboteam_world/world_old/team.hpp"
-#include "roboteam_world/world_old/world_data.hpp"
+#include "world/team.hpp"
+#include "world/world_data.hpp"
 #include "include/roboteam_ai/settings/settings.hpp"
-#include "roboteam_world/world_old/robot.hpp"
+#include "world/robot.hpp"
 
-namespace rtt::world {
-    WorldData::WorldData(proto::World& protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept
-        : time{ protoMsg.time() } {
+namespace rtt::world_new {
+    WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings,
+                         std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept
+            : time{protoMsg.time()} {
         auto genevaState = 3;
 
         auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
@@ -30,20 +31,29 @@ namespace rtt::world {
         }
     }
 
-    std::vector<const rtt::world::robot::Robot *> const &WorldData::getUs() const noexcept {
+    std::vector<const rtt::world_new::robot::Robot *> const &WorldData::getUs() const noexcept {
         return us;
     }
 
-    std::vector<const rtt::world::robot::Robot *> const &WorldData::getThem() const noexcept {
+    std::vector<const rtt::world_new::robot::Robot *> const &WorldData::getThem() const noexcept {
         return them;
     }
 
-    std::vector<rtt::world::robot::Robot> const &WorldData::getRobots() const noexcept {
+    std::vector<rtt::world_new::robot::Robot> const &WorldData::getRobots() const noexcept {
         return robots;
     }
 
     std::optional<ball::Ball> const &WorldData::getBall() const noexcept {
         return ball;
+    }
+
+    WorldData::WorldData(WorldData &&old) noexcept
+            : robots{std::move(old.robots)},
+              us{std::move(old.us)},
+              them{std::move(old.them)},
+              ball{std::move(old.ball)},
+              time{old.time} {
+
     }
 
 

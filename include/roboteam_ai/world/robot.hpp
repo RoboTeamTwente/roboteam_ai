@@ -6,19 +6,19 @@
 #define RTT_ROBOT_HPP
 
 #include <roboteam_proto/RobotFeedback.pb.h>
-#include "Angle.h"
+#include "roboteam_utils/Angle.h"
 
 #include "roboteam_proto/WorldRobot.pb.h"
 
 
-#include "roboteam_ai/control/shotControllers/ShotController.h"
-#include "roboteam_ai/control/numTrees/NumTreePosControl.h"
-#include "roboteam_ai/control/BasicPosControl.h"
-#include "roboteam_ai/control/ballHandling/BallHandlePosControl.h"
+#include "control/shotControllers/ShotController.h"
+#include "control/numTrees/NumTreePosControl.h"
+#include "control/BasicPosControl.h"
+#include "control/ballHandling/BallHandlePosControl.h"
 #include "team.hpp"
 
 
-namespace rtt::world::robot {
+namespace rtt::world_new::robot {
 
     /**
      * Geneva driver gone
@@ -165,6 +165,12 @@ namespace rtt::world::robot {
     public:
         explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback>& feedback, const proto::WorldRobot &copy, team::Team team = team::invalid,
                        unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
+
+        Robot& operator=(Robot&) = delete;
+        Robot(Robot const&) = delete;
+
+        Robot& operator=(Robot&&) = default;
+        Robot(Robot&&) = default;
 
     };
 } // namespace rtt::world::robot

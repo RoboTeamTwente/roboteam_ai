@@ -5,10 +5,11 @@
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
 #include <vector>
+#include "views/world_data_view.hpp"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "world_data.hpp"
 
-namespace rtt::world {
+namespace rtt::world_new {
 
     /**
      * Structure that represents the world and history of the world.
@@ -33,6 +34,15 @@ namespace rtt::world {
     class World {
     public:
         /**
+         * Not copyable, movable or assignable, global state
+         */
+         World(World const&) = delete;
+         World& operator=(World&) = delete;
+
+         World(World&&) = delete;
+         World& operator=(World&&) = delete;
+
+        /**
          * Amount of ticks to store in history
          */
         constexpr static size_t HISTORY_SIZE = 20;
@@ -43,7 +53,7 @@ namespace rtt::world {
          *
          * Undefined behavior if the pointer to settings outlives the lifetime of the settings instance
          */
-        explicit World(settings::Settings* settings);
+        explicit World(Settings* settings);
 
         /**
          * Updates feedback for a specific robot
@@ -64,7 +74,7 @@ namespace rtt::world {
          * Gets the current world
          * @return std::nullopt if there is no currentWorld, otherwise Some with the value
          */
-        [[nodiscard]] const std::optional<WorldData>& getWorld() const noexcept;
+        [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
 
         /**
          * Gets a certain world from history
@@ -88,10 +98,11 @@ namespace rtt::world {
 
         /**
          * Sets the current world, also pushes the old currentWorld into history if this is Some
+         * Usage of currentWorld after call will result in UB
          * @param currentWorld New currentWorld
          * @return Returns a reference to the new currentWorld
          */
-        WorldData const& setWorld(WorldData const& currentWorld) noexcept;
+        WorldData const& setWorld(WorldData& currentWorld) noexcept;
 
         /**
          * Pushes a world to history, takes ownership of world
@@ -102,7 +113,7 @@ namespace rtt::world {
         /**
          * Pointer to GUI settings
          */
-        settings::Settings* settings;
+        Settings* settings;
 
         /**
          * Mutex used when constructing robots to prevent updating of updateMap without wanting it
@@ -118,7 +129,7 @@ namespace rtt::world {
         /**
          * History of the world, this is where old world data is pushed to
          */
-        std::vector<WorldData> history{ HISTORY_SIZE };
+        std::vector<rtt::world_new::WorldData> history{ HISTORY_SIZE };
 
         /**
          * Current index into the ringbuffer that's the world history

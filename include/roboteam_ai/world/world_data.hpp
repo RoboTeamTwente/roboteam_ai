@@ -11,13 +11,10 @@
 #include "roboteam_proto/Setting.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 
-#include "settings.hpp"
-#include "../roboteam_world/include/roboteam_world/world/robot.hpp"
-#include "../roboteam_world/include/roboteam_world/world/ball.hpp"
+#include "world/robot.hpp"
+#include "world/ball.hpp"
 
-
-
-namespace rtt::world {
+namespace rtt::world_new {
 
     namespace robot {
         class Robot;
@@ -31,21 +28,29 @@ namespace rtt::world {
      *  Ball
      *  Timepoint
      */
-    struct WorldData {
+    class WorldData {
     private:
-        std::vector<rtt::world::robot::Robot> robots;
-        std::vector<const rtt::world::robot::Robot*> us;
-        std::vector<const rtt::world::robot::Robot*> them;
+        std::vector<rtt::world_new::robot::Robot> robots;
+        std::vector<const rtt::world_new::robot::Robot*> us;
+        std::vector<const rtt::world_new::robot::Robot*> them;
 
-        std::optional<rtt::world::ball::Ball> ball;
+        std::optional<rtt::world_new::ball::Ball> ball;
 
-        uint64_t time;
+        uint64_t time{};
     public:
-        WorldData(proto::World &protoMsg, settings::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept;
-        std::vector<const rtt::world::robot::Robot*> const& getUs() const noexcept;
-        std::vector<const rtt::world::robot::Robot*> const& getThem() const noexcept;
-        std::vector<rtt::world::robot::Robot> const& getRobots() const noexcept;
-        std::optional<ball::Ball> const& getBall() const noexcept;
+        WorldData() = default;
+
+        WorldData& operator=(WorldData const&) = delete;
+        WorldData(WorldData const&) = delete;
+
+        WorldData(WorldData&& old) noexcept;
+        WorldData& operator=(WorldData&&) = default;
+
+        WorldData(proto::World &protoMsg, rtt::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept;
+        [[nodiscard]] std::vector<const rtt::world_new::robot::Robot*> const& getUs() const noexcept;
+        [[nodiscard]] std::vector<const rtt::world_new::robot::Robot*> const& getThem() const noexcept;
+        [[nodiscard]] std::vector<rtt::world_new::robot::Robot> const& getRobots() const noexcept;
+        [[nodiscard]] std::optional<ball::Ball> const& getBall() const noexcept;
     };
 
 } // namespace rtt::world

@@ -261,7 +261,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-          )
+        include/roboteam_ai/world/team.hpp src/world/ball.cpp include/roboteam_ai/world/ball.hpp src/world/world_data.cpp include/roboteam_ai/world/world_data.hpp src/world/world.cpp include/roboteam_ai/world/world.hpp src/world/views/world_data_view.cpp include/roboteam_ai/world/views/world_data_view.hpp src/world/views/ball_view.cpp include/roboteam_ai/world/views/ball_view.hpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -303,7 +303,16 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_old/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world_old/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/world_old/FieldMessage.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/settings/settings.cpp
+#        ${PROJECT_SOURCE_DIR}/src/world/ball.cpp
+#        ${PROJECT_SOURCE_DIR}/src/world/world.cpp
+#        ${PROJECT_SOURCE_DIR}/src/world/world_data.cpp
+#        ${PROJECT_SOURCE_DIR}/src/world/robot.cpp
+#        ${PROJECT_SOURCE_DIR}/src/world/views/ball_view.cpp
+#        ${PROJECT_SOURCE_DIR}/src/world/views/world_data_view.cpp
+
+
+        src/world/robot.cpp include/roboteam_ai/world/robot.hpp include/roboteam_ai/world/team.hpp src/world/ball.cpp include/roboteam_ai/world/ball.hpp src/world/world_data.cpp include/roboteam_ai/world/world_data.hpp src/world/world.cpp include/roboteam_ai/world/world.hpp src/world/views/world_data_view.cpp include/roboteam_ai/world/views/world_data_view.hpp src/world/views/ball_view.cpp include/roboteam_ai/world/views/ball_view.hpp)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/heuristics/CoachHeuristics.cpp
@@ -338,7 +347,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        src/settings/settings.cpp include/roboteam_ai/settings/settings.hpp)
+        )
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets

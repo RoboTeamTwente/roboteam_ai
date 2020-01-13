@@ -16,11 +16,12 @@
 
 namespace rtt::ai {
 
-namespace world {
-class Robot;
-class WorldData;
-class Ball;
-}
+//namespace world {
+//class Robot;
+//class WorldData;
+//class Ball;
+//}
+
 
 namespace control {
 

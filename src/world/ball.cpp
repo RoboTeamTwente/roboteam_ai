@@ -2,18 +2,14 @@
 // Created by john on 12/18/19.
 //
 
-#include "roboteam_world/world_old/ball.hpp"
+#include "world/ball.hpp"
+#include "world/world.hpp"
 
-namespace rtt::world::ball {
+namespace rtt::world_new::ball {
 
     Ball::Ball(const proto::WorldBall &copy)
-        : position { copy.pos() }, velocity{ copy.vel() },
-          filteredVelocity{ velocity }, visible{ copy.visible() } {
-    }
-
-    void Ball::initBallAtRobotPosition(const rtt::world::ball::Ball &oldBall,
-                                       const world::WorldData &worldData) {
-
+            : position { copy.pos() }, velocity{ copy.vel() },
+              filteredVelocity{ velocity }, visible{ copy.visible() } {
     }
 
     const Vector2 &Ball::getPos() const noexcept {
@@ -44,4 +40,4 @@ namespace rtt::world::ball {
      updateBallAtRobotPosition(oldBall, worldData);
     **/
 
-} // namespace rtt::world::ball
+} // namespace rtt::world_new::ball

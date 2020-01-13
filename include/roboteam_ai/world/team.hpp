@@ -5,7 +5,7 @@
 #ifndef RTT_TEAM_HPP
 #define RTT_TEAM_HPP
 
-namespace rtt::world::team {
+namespace rtt::world_new::team {
     enum Team : short {
         us,
         them,

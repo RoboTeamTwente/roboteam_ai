@@ -72,5 +72,6 @@ namespace rtt {
 
         inline static Settings* settings;
     };
+
 }
 #endif //RTT_SETTINGS_H

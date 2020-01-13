@@ -9,8 +9,8 @@
 #include <WorldRobot.pb.h>
 #include <World.pb.h>
 #include <random>
-#include <roboteam_ai/world/Robot.h>
-#include <roboteam_ai/world/World.h>
+#include <roboteam_ai/world_old/Robot.h>
+#include <roboteam_ai/world_old/World.h>
 #include "roboteam_ai/utilities/Constants.h"
 
 namespace testhelpers {
