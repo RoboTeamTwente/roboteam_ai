@@ -205,7 +205,7 @@ DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, 
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
 
     robot = std::make_shared<world::Robot>(world::Robot());
-    ball = std::make_shared<world::Ball>(::rtt::world::Ball());
+    ball = std::make_shared<world::Ball>(world::Ball());
 
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();

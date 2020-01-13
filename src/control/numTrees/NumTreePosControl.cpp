@@ -48,7 +48,7 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field,const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -60,7 +60,7 @@ RobotCommand NumTreePosControl::getRobotCommand(::rtt::world::World * world, wor
     return robotCommand;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field,const RobotPtr &robotPtr,
         const Vector2 &targetPos, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -70,7 +70,7 @@ RobotCommand NumTreePosControl::getRobotCommand(::rtt::world::World * world, wor
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field,const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
         this->world = world;
         this->field = field;
@@ -491,7 +491,7 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
+RobotCommand NumTreePosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robotPtr,const Vector2 &targetPos) {
     this->world = world;
     this->field = field;
     Angle defaultAngle;

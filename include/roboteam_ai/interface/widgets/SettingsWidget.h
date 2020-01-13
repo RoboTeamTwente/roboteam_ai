@@ -21,7 +21,7 @@ private:
     QVBoxLayout *vLayout;
     QLineEdit * grsimIpText;
     QSpinBox * grsimPort;
-    world::settings::Settings& settings;
+    rtt::Settings& settings;
 public:
     SettingsWidget(QWidget*parent, Settings& settings);
 

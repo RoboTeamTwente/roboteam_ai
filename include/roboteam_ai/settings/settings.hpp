@@ -70,7 +70,7 @@ namespace rtt {
         void init(int id);
         proto::Setting toMessage();
 
-        static Settings* settings;
+        inline static Settings* settings;
     };
 }
 #endif //RTT_SETTINGS_H
