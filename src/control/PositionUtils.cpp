@@ -9,10 +9,10 @@
  */
 
 #include <control/ControlUtils.h>
-#include <world/Field.h>
-#include <world/World.h>
-#include <world/Robot.h>
-#include <world/Ball.h>
+#include "world_old/Field.h"
+#include "world_old/World.h"
+#include "world_old/Robot.h"
+#include "world_old/Ball.h"
 #include "control/PositionUtils.h"
 
 namespace rtt::ai::control {

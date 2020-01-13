@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_PASSCOACH_H
 
 #include <chrono>
-#include <world/Robot.h>
+#include "world_old/Robot.h"
 
 namespace rtt::ai::coach {
 

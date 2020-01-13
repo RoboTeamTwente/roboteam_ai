@@ -19,7 +19,7 @@ namespace interface {
 
 
 
-MainControlsWidget::MainControlsWidget(QWidget *parent, rtt::world::settings::Settings &settings)
+MainControlsWidget::MainControlsWidget(QWidget *parent, rtt::Settings &settings)
         : settings{&settings} {
 
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());

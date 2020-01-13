@@ -4,7 +4,6 @@
 #include <iostream>
 #include <mutex>
 
-#include "roboteam_world/world/settings.hpp"
 
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
@@ -18,8 +17,9 @@
 #include "roboteam_proto/GeometryData.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 
-#include "include/roboteam_ai/world/FieldMessage.h"
+#include "include/roboteam_ai/settings/settings.hpp"
 #include "utilities/Constants.h"
+#include "world_old/FieldMessage.h"
 
 namespace rtt::ai {
 class Pause;
@@ -33,7 +33,7 @@ private:
         proto::RobotFeedback robotFeedbackMsg;
         proto::SSL_Referee refDataMsg;
         proto::DemoRobot demoInfoMsg;
-        ::rtt::world::settings::Settings* settings{};
+        Settings* settings{};
 
         proto::Subscriber<proto::World> * worldSubscriber{};
         void handleWorldState(proto::World & world);
@@ -58,7 +58,7 @@ public:
          * Constructs an IOManager from a settings object
          * @param settings Parameter MUST outlive the duration of the struct, otherwise a dangling pointer will be used in future interaction
          */
-        explicit IOManager(::rtt::world::settings::Settings& settings);
+        explicit IOManager(Settings& settings);
         void publishRobotCommand(proto::RobotCommand cmd);
         void publishSettings();
         void init();

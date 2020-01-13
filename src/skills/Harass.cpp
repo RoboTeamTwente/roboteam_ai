@@ -1,10 +1,10 @@
 //
 // Created by baris on 12-12-18.
 //
-#include "world/World.h"
+#include "world_old/World.h"
 #include "skills/Harass.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
+#include "world_old/Ball.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai {
 

@@ -13,8 +13,8 @@
 #include <utilities/GameStateManager.hpp>
 #include "coach/BallplacementCoach.h"
 #include "interface/api/Input.h"
-#include "world/Ball.h"
-#include "world/World.h"
+#include "world_old/Ball.h"
+#include "world_old/World.h"
 
 namespace rtt {
 namespace ai {

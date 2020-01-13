@@ -5,8 +5,8 @@
 #include <interface/widgets/widget.h>
 #include <interface/api/Input.h>
 #include "coach/OffensiveCoach.h"
-#include <world/World.h>
-#include <world/Field.h>
+#include "world_old/World.h"
+#include "world_old/Field.h"
 #include <control/Hungarian.h>
 #include <control/ControlUtils.h>
 

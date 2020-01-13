@@ -2,7 +2,9 @@
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
 
+#ifndef _EXCLUDE_QT5_
 #include <QColor>
+#endif
 #include "math.h"
 #include "RuleSet.h"
 #include <map>
@@ -127,6 +129,7 @@ class Constants {
         static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
         static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
 
+#ifndef _EXCLUDE_QT5_
         static QColor FIELD_COLOR();
         static QColor FIELD_LINE_COLOR();
         static QColor ROBOT_COLOR_BLUE(); // Blue
@@ -136,6 +139,7 @@ class Constants {
         static QColor SELECTED_ROBOT_COLOR();
 
         static std::vector<QColor> TACTIC_COLORS();
+#endif
 
         // Default PID values for the gotoposses/interface
         static pidVals standardNumTreePID();

@@ -3,8 +3,8 @@
 */
 
 #include "conditions/TheyHaveBall.h"
-#include "world/World.h"
-#include "world/Robot.h"
+#include "world_old/World.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai {
 

@@ -3,8 +3,8 @@
 //
 
 #include "conditions/IsOnPassLine.h"
-#include <world/World.h>
-#include <world/Ball.h>
+#include "world_old/World.h"
+#include "world_old/Ball.h"
 #include <control/ControlUtils.h>
 
 namespace rtt::ai {

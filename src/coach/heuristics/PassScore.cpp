@@ -4,8 +4,8 @@
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "coach/heuristics/PassScore.h"
-#include "world/WorldData.h"
-#include "world/Field.h"
+#include "world_old/WorldData.h"
+#include "world_old/Field.h"
 
 namespace rtt::ai::coach {
 

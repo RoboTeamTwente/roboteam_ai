@@ -4,8 +4,8 @@
  * Otherwise FAILURE
  */
 
-#include <world/World.h>
-#include <world/Ball.h>
+#include "world_old/World.h"
+#include "world_old/Ball.h"
 #include "conditions/BallNearOurGoalLineAndStill.h"
 
 namespace rtt::ai {

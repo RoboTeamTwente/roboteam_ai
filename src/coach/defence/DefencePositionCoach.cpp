@@ -4,7 +4,7 @@
 //
 
 #include "coach/defence/DefencePositionCoach.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 #include "control/ControlUtils.h"
 #include "utilities/RobotDealer.h"
 /// This is a class that computes useful lines and positions for computing defender positions
@@ -114,7 +114,7 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Vector2 &lineStart, c
     }
     return line;
 }
-world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
+world::WorldData DefencePositionCoach::removeBotFromWorld(::rtt::world::WorldData world, int id, bool ourTeam) {
     auto robots = ourTeam ? world.us : world.them;
     robots.erase(std::remove_if(robots.begin(),robots.end(),[id](world::Robot::RobotPtr robot){return robot->id==id;}));
     ourTeam ? world.us=robots : world.them=robots;

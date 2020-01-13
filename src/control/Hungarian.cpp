@@ -13,7 +13,7 @@
 #include <cfloat> // for DBL_MAX
 #include <cmath>  // for fabs()
 #include "control/Hungarian.h"
-#include "world/World.h"
+#include "world_old/World.h"
 
 namespace rtt {
 

@@ -5,7 +5,7 @@
 #include "io/IOManager.h"
 #include "roboteam_proto/RobotCommand.pb.h"
 #include <roboteam_utils/Angle.h>
-#include "roboteam_world/world/settings.hpp"
+#include "include/roboteam_ai/settings/settings.hpp"
 
 namespace rtt::ai {
 

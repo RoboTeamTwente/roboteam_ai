@@ -7,7 +7,7 @@
 
 #include "CoachHeuristics.h"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
-#include <include/roboteam_ai/world/FieldMessage.h>
+#include "world_old/FieldMessage.h"
 
 namespace rtt::ai::coach {
 

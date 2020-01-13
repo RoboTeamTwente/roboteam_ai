@@ -5,8 +5,8 @@
 #include "interface/api/Output.h"
 #include "interface/api/Input.h"
 #include "control/BasicPosControl.h"
-#include "world/Robot.h"
-#include "world/Field.h"
+#include "world_old/Robot.h"
+#include "world_old/Field.h"
 #include "control/ControlUtils.h"
 
 namespace rtt::ai::control {
@@ -16,7 +16,7 @@ BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, boo
 
 }
 
-RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand BasicPosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
 
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
             interface::Drawing::CIRCLES, 8, 8, 6);
@@ -48,7 +48,7 @@ void BasicPosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field * field, const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+RobotCommand BasicPosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     Angle defaultAngle = 0;
     return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }

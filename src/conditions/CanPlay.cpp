@@ -8,7 +8,7 @@
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
 #include "conditions/CanPlay.h"
-#include "world/Ball.h"
+#include "world_old/Ball.h"
 
 namespace rtt::ai {
 

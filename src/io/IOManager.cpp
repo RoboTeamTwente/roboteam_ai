@@ -15,8 +15,8 @@
 
 #include "demo/JoystickDemo.h"
 #include "utilities/Pause.h"
-#include "world/Field.h"
-#include "world/Robot.h"
+#include "world_old/Field.h"
+#include "world_old/Robot.h"
 #include "utilities/GameStateManager.hpp"
 #include "interface/api/Input.h"
 
@@ -207,7 +207,7 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
     }
 }
 
-    IOManager::IOManager(::rtt::world::settings::Settings &settings) 
+    IOManager::IOManager(Settings &settings)
         : settings{ &settings }{
         std::cout << "Construction" << std::endl;
         init();

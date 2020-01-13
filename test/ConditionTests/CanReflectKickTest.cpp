@@ -5,8 +5,8 @@
 #include <gtest/gtest.h>
 #include "conditions/CanReflectKick.h"
 #include "../helpers/FieldHelper.h"
-#include "world/World.h"
-#include "world/Robot.h"
+#include "world_old/World.h"
+#include "world_old/Robot.h"
 #include "utilities/Constants.h"
 #include "utilities/RobotDealer.h"
 

@@ -9,13 +9,13 @@
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
 #include "analysis/GameAnalyzer.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 
 namespace rtt::ai::interface {
 
-Visualizer::Visualizer(QWidget* parent, rtt::world::settings::Settings& settings)
+Visualizer::Visualizer(QWidget* parent, rtt::Settings& settings)
         :QWidget(parent), settings{ &settings } { }
 
 /// The update loop of the field widget. Invoked by widget->update();

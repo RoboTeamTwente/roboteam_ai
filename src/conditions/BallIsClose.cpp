@@ -2,9 +2,9 @@
 // Created by baris on 25-4-19.
 //
 
-#include <world/Ball.h>
-#include <world/World.h>
-#include <world/Robot.h>
+#include "world_old/Ball.h"
+#include "world_old/World.h"
+#include "world_old/Robot.h"
 #include "conditions/BallIsClose.h"
 
 rtt::ai::BallIsClose::BallIsClose(std::string name, bt::Blackboard::Ptr blackboard)

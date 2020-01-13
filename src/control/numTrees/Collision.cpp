@@ -45,7 +45,7 @@ void Collision::setCollision(double distance) {
 
     void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
     type = BALL;
-    collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
+    collisionBall = std::make_shared<world::Ball>(::rtt::world::Ball(*ball));
     collisionBall->setVisible(true);
     setCollision(distance);
 }

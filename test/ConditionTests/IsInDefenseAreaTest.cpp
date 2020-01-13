@@ -5,7 +5,7 @@
 #include "include/roboteam_ai/conditions/IsInDefenseArea.hpp"
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Ball.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
 
 TEST(DetectsInOurDefenseArea, IsInDefenseAreaTest)

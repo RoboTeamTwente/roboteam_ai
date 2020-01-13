@@ -13,7 +13,7 @@
 #include <cmath>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
-#include <include/roboteam_ai/world/FieldMessage.h>
+#include "FieldMessage.h"
 
 namespace rtt::ai::world {
 

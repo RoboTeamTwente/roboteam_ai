@@ -7,8 +7,8 @@
 
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Vector2.h>
-#include "world/WorldData.h"
-#include "world/World.h"
+#include "world_old/WorldData.h"
+#include "world_old/World.h"
 #include "PossiblePass.h"
 
 namespace rtt::ai::coach {

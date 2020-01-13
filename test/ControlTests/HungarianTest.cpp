@@ -5,7 +5,7 @@
 #include <control/Hungarian.h>
 #include <gtest/gtest.h>
 //#include <roboteam_ai/test/helpers/WorldHelper.h>
-#include <world/World.h>
+#include "world_old/World.h"
 
 TEST(HungarianTest, it_works_properly) {
     std::vector<int> assignments;

@@ -4,9 +4,9 @@
 
 #include <gtest/gtest.h>
 #include <control/PositionUtils.h>
-#include <world/Field.h>
-#include <world/Ball.h>
-#include <world/World.h>
+#include "world_old/Field.h"
+#include "world_old/Ball.h"
+#include "world_old/World.h"
 #include <control/ControlUtils.h>
 #include "roboteam_ai/test/helpers/WorldHelper.h"
 

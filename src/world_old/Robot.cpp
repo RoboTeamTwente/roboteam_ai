@@ -2,9 +2,9 @@
 // Created by thijs on 1-4-19.
 //
 
-#include "world/Robot.h"
-#include "world/World.h"
-#include "world/Ball.h"
+#include "world_old/Robot.h"
+#include "world_old/World.h"
+#include "world_old/Ball.h"
 #include "control/ControlUtils.h"
 #include "control/shotControllers/ShotController.h"
 #include "control/ballHandling/BallHandlePosControl.h"

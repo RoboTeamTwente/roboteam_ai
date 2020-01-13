@@ -4,9 +4,9 @@
 
 #include <gtest/gtest.h>
 #include <utilities/RobotDealer.h>
-#include <world/World.h>
+#include "world_old/World.h"
 #include "include/roboteam_ai/conditions/IsBallCloseToBorder.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;

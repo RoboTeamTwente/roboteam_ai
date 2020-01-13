@@ -1,7 +1,7 @@
-#include "world/World.h"
-#include "world/FutureWorld.h"
-#include "world/BallPossession.h"
-#include "world/History.h"
+#include "world_old/World.h"
+#include "world_old/FutureWorld.h"
+#include "world_old/BallPossession.h"
+#include "world_old/History.h"
 
 namespace rtt::ai::world {
 
@@ -18,7 +18,7 @@ void World::updateWorld(const proto::World &message) {
         // create a worldData if there is none
         if (!worldData) {
             std::cout << "Creating first world" << std::endl;
-            worldData = WorldData(message, *rtt::world::settings::Settings::settings);
+            worldData = WorldData(message, *rtt::Settings::settings);
 
         }
 
@@ -29,7 +29,7 @@ void World::updateWorld(const proto::World &message) {
     }
 
     // update ballmodel, dribbling, position if not visible etc.
-    auto tempWorldData = WorldData(message, *rtt::world::settings::Settings::settings);
+    auto tempWorldData = WorldData(message, *rtt::Settings::settings);
     if (oldBall) {
         tempWorldData.ball->updateBall(oldBall, tempWorldData);
     }
@@ -45,7 +45,7 @@ void World::updateWorld(const proto::World &message) {
         std::vector<proto::WorldRobot>usMsg;
         std::vector<proto::WorldRobot>themMsg;
 
-        if (rtt::world::settings::Settings::settings->isYellow()) {
+        if (rtt::Settings::settings->isYellow()) {
             usMsg = std::vector<proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
             themMsg = std::vector<proto::WorldRobot>(message.blue().begin(), message.blue().end());
         } else {
@@ -109,7 +109,7 @@ const WorldData World::getWorld() {
 World::BallPtr World::getBall() {
     std::lock_guard<std::mutex> lock(worldMutex);
 
-    if (world::Ball::exists) {
+    if (::rtt::world::Ball::exists) {
         return worldData->ball;
     }
 

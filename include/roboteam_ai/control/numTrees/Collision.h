@@ -8,8 +8,8 @@
 #include <memory>
 #include <roboteam_utils/Vector2.h>
 #include <utilities/GameStateManager.hpp>
-#include "world/Robot.h"
-#include "world/Ball.h"
+#include "world_old/Robot.h"
+#include "world_old/Ball.h"
 
 namespace rtt::ai::control {
 

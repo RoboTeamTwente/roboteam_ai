@@ -4,7 +4,7 @@
 
 #include "coach/heuristics/OffensiveScore.h"
 #include "coach/OffensiveCoach.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 
 namespace rtt::ai::coach {
 

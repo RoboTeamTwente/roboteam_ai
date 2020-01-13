@@ -5,7 +5,7 @@
 #include <utilities/Constants.h>
 #include <treeinterp/BTFactory.h>
 #include "interface/api/Output.h"
-#include "world/Ball.h"
+#include "world_old/Ball.h"
 
 namespace rtt::ai::interface {
 

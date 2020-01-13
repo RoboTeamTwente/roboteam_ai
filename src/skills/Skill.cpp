@@ -3,22 +3,22 @@
 #include "utilities/Constants.h"
 #include "utilities/GameStateManager.hpp"
 #include "control/ControlUtils.h"
-#include "world/Robot.h"
-#include "world/World.h"
-#include "world/Ball.h"
+#include "world_old/Robot.h"
+#include "world_old/World.h"
+#include "world_old/Ball.h"
 #include <cmath>
 
 namespace rtt::ai {
 
-Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
-        :bt::Leaf(std::move(name), std::move(blackboard)) {
-    robot = std::make_shared<Robot>(Robot());
-    ball = std::make_shared<Ball>(Ball());
-}
+    Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
+            : bt::Leaf(std::move(name), std::move(blackboard)) {
+        robot = std::make_shared<Robot>(Robot());
+        ball = std::make_shared<Ball>(Ball());
+    }
 
 void Skill::publishRobotCommand() {
-    if(!::rtt::world::settings::Settings::settings->isLeft()){
-      command=rotateRobotCommand(command);
+    if (!rtt::Settings::settings->isLeft()) {
+        command = rotateRobotCommand(command);
     }
 
     limitRobotCommand();

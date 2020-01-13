@@ -9,8 +9,8 @@
 #include <control/ballHandling/BallHandlePosControl.h>
 #include <control/BasicPosControl.h>
 #include <interface/api/Input.h>
-#include <world/Robot.h>
-#include <world/WorldData.h>
+#include "world_old/Robot.h"
+#include "world_old/WorldData.h"
 #include "skills/Pass.h"
 
 namespace rtt::ai {

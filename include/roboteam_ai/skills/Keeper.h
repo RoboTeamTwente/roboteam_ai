@@ -9,7 +9,7 @@
 #include "Skill.h"
 #include "roboteam_utils/Arc.h"
 #include "roboteam_utils/Mathematics.h"
-#include <world/BallPossession.h>
+#include "world_old/BallPossession.h"
 
 namespace rtt::ai {
 class Keeper : public Skill {

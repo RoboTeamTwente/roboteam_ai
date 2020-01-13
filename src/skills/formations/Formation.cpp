@@ -6,7 +6,7 @@
 #include <analysis/DecisionMaker.h>
 #include "skills/formations/Formation.h"
 #include "control/ControlUtils.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 #include "control/Hungarian.h"
 
 namespace rtt::ai {

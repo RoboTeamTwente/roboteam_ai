@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <utilities/Constants.h>
-#include "roboteam_world/world/settings.hpp"
+#include "include/roboteam_ai/settings/settings.hpp"
 
 #include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
@@ -9,7 +9,7 @@
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 
-void runBehaviourTrees(::rtt::world::settings::Settings& settings) {
+void runBehaviourTrees(rtt::Settings& settings) {
     rtt::ApplicationManager app;
     app.start(settings);
     app.checkForShutdown();
@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
         id = *argv[1] - '0';
     }
 
-    rtt::world::settings::Settings settings{ };
-    rtt::world::settings::Settings::settings = &settings;
+    rtt::Settings settings{ };
+    rtt::Settings::settings = &settings;
 
     // some default settings for different team ids (saves time while testing)
     settings.init(id);

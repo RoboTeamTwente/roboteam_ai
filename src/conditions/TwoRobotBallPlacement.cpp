@@ -5,9 +5,9 @@
  */
 
 #include "conditions/TwoRobotBallPlacement.h"
-#include <world/World.h>
+#include "world_old/World.h"
 #include <utilities/RobotDealer.h>
-#include <world/Ball.h>
+#include "world_old/Ball.h"
 
 namespace rtt::ai {
 

@@ -4,7 +4,7 @@
 
 #include <interface/api/Input.h>
 #include <control/ControlUtils.h>
-#include <world/Field.h>
+#include "world_old/Field.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 #include "control/ballHandling/DribbleBackwards.h"
 #include "control/ballHandling/DribbleForwards.h"
@@ -27,14 +27,14 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
     setAvoidBallDistance(MAX_BALL_DISTANCE*0.92);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, world::Field * field,const RobotPtr &r, const Vector2 &targetP) {
+RobotCommand BallHandlePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field,const RobotPtr &r, const Vector2 &targetP) {
     this->world = world;
     this->field = field;
     Angle defaultAngle = lockedAngle;
     return BallHandlePosControl::getRobotCommand(world, field, r, targetP, defaultAngle);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, world::Field * field,const RobotPtr &r,
+RobotCommand BallHandlePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field,const RobotPtr &r,
         const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy) {
     this->world = world;
     this->field = field;
@@ -47,7 +47,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, world::
 }
 
 /// targetP is the target position of the BALL, targetA is the (final) target angle of the ROBOT
-RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand BallHandlePosControl::getRobotCommand(::rtt::world::World * world, world::Field * field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) {
     this->world = world;
     this->field = field;
 
@@ -60,7 +60,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, world::
     updatePID(newPidValues);
 
     double expectedDelay = 0.04;
-    ball = std::make_shared<world::Ball>(world::Ball(*world->getBall()));
+    ball = std::make_shared<world::Ball>(::rtt::world::Ball(*world->getBall()));
     robot = world->getFutureRobot(r, expectedDelay);
 
     if ((targetPos - targetP).length2() > 0.10) {

@@ -8,7 +8,7 @@
 
 namespace rtt::ai::interface {
 
-SettingsWidget::SettingsWidget(QWidget * parent, ::rtt::world::settings::Settings& settings)
+SettingsWidget::SettingsWidget(QWidget * parent, Settings& settings)
     : settings{ settings } {
     vLayout = new QVBoxLayout();
     this->setLayout(vLayout);

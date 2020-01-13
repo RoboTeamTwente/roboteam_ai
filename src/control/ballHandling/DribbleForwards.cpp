@@ -3,9 +3,9 @@
 //
 
 #include <control/ControlUtils.h>
-#include <world/World.h>
-#include <world/Robot.h>
-#include "world/Ball.h"
+#include "world_old/World.h"
+#include "world_old/Robot.h"
+#include "world_old/Ball.h"
 #include "control/ballHandling/DribbleForwards.h"
 #include "control/ballHandling/RotateAroundBall.h"
 #include "control/ballHandling/RotateWithBall.h"
@@ -205,7 +205,7 @@ DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, 
          ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
 
     robot = std::make_shared<world::Robot>(world::Robot());
-    ball = std::make_shared<world::Ball>(world::Ball());
+    ball = std::make_shared<world::Ball>(::rtt::world::Ball());
 
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();

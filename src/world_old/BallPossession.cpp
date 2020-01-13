@@ -2,9 +2,9 @@
 // Created by rolf on 15-4-19.
 //
 
-#include "world/BallPossession.h"
-#include "world/WorldData.h"
-#include "world/Field.h"
+#include "world_old/BallPossession.h"
+#include "world_old/WorldData.h"
+#include "world_old/Field.h"
 #include <coach/PassCoach.h>
 
 namespace rtt::ai {

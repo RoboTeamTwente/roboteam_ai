@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include "../helpers/WorldHelper.h"
 #include "conditions/WeHaveBall.h"
-#include "world/World.h"
+#include "world_old/World.h"
 
 TEST(WeHaveBallTest, WeHaveBallTest) {
 //    auto BB = std::make_shared<bt::Blackboard>();

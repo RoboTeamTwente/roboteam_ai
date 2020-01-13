@@ -4,8 +4,8 @@
 
 #include "skills/RotateToAngle.h"
 #include "control/ControlUtils.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
+#include "world_old/Ball.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai {
 RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)

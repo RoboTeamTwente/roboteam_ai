@@ -4,8 +4,8 @@
 
 #include <control/ControlUtils.h>
 #include "coach/defence/PossiblePass.h"
-#include "world/Field.h"
-#include "world/WorldData.h"
+#include "world_old/Field.h"
+#include "world_old/WorldData.h"
 
 namespace rtt::ai::coach {
 const double PossiblePass::distance() {

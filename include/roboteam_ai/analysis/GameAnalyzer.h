@@ -7,9 +7,9 @@
 
 #include "gtest/gtest_prod.h"
 #include "AnalysisReport.h"
-#include "world/WorldData.h"
-#include "world/World.h"
-#include "world/BallPossession.h"
+#include "world_old/WorldData.h"
+#include "world_old/World.h"
+#include "world_old/BallPossession.h"
 
 namespace rtt::ai::analysis {
 

@@ -10,7 +10,7 @@
 
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "RobotDanger.h"
-#include "world/Robot.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai::analysis {
 

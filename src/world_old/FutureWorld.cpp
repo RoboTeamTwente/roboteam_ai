@@ -2,8 +2,8 @@
 // Created by thijs on 19-3-19.
 //
 
-#include "world/FutureWorld.h"
-#include "world/History.h"
+#include "world_old/FutureWorld.h"
+#include "world_old/History.h"
 #include <utilities/Constants.h>
 
 namespace rtt::ai::world {

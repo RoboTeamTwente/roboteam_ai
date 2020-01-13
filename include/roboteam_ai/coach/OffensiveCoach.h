@@ -7,7 +7,7 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <algorithm>
-#include "world/WorldData.h"
+#include "world_old/WorldData.h"
 #include "coach/heuristics/OffensiveScore.h"
 
 namespace rtt::ai::coach {

@@ -12,9 +12,9 @@
 #include <gtest/gtest_prod.h>
 
 #include <roboteam_utils/Vector2.h>
-#include <world/Robot.h>
+#include "world_old/Robot.h"
 #include <interface/api/Toggles.h>
-#include "roboteam_world/world/settings.hpp"
+#include "include/roboteam_ai/settings/settings.hpp"
 
 namespace rtt::ai::interface {
 class Visualizer : public QWidget {
@@ -24,7 +24,7 @@ class Visualizer : public QWidget {
     public:
         using Robot = rtt::ai::world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
-        explicit Visualizer(QWidget* parent, rtt::world::settings::Settings& settings);
+        explicit Visualizer(QWidget* parent, rtt::Settings& settings);
         const std::vector<Robot> &getSelectedRobots() const;
         bool robotIsSelected(Robot robotToCheck);
         bool robotIsSelected(int id);
@@ -82,7 +82,7 @@ class Visualizer : public QWidget {
 
         std::vector<Robot> selectedRobots;
 
-        rtt::world::settings::Settings* settings;
+        rtt::Settings* settings;
 
         // toggles
         bool showRoles = Constants::STD_SHOW_ROLES();

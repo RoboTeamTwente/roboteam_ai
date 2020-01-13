@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
-#include "world/World.h"
-#include "world/Ball.h"
+#include "world_old/World.h"
+#include "world_old/Ball.h"
 #include "utilities/StrategyManager.h"
 #include "utilities/GameStateManager.hpp"
 

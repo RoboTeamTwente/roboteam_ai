@@ -3,11 +3,11 @@
 //
 
 #include <control/ControlUtils.h>
-#include <world/BallPossession.h>
+#include "world_old/BallPossession.h"
 #include "analysis/GameAnalyzer.h"
-#include "world/World.h"
-#include "world/Field.h"
-#include "world/Robot.h"
+#include "world_old/World.h"
+#include "world_old/Field.h"
+#include "world_old/Robot.h"
 #include "analysis/RobotDanger.h"
 
 namespace rtt::ai::analysis {
@@ -23,7 +23,7 @@ GameAnalyzer &GameAnalyzer::getInstance() {
 /// Generate a report with the game analysis
 std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
 
-    if (world::world->weHaveRobots()) {
+    if (ai::world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
         report->ballPossession = convertPossession(ballPossessionPtr->getPossession());

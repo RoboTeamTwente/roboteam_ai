@@ -291,21 +291,18 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
 
-
-        # Temporary solution
-        ${PROJECT_SOURCE_DIR}/../roboteam_world/src/world/settings.cpp
         )
 
 set(WORLD_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/Ball.cpp
 
-        ${PROJECT_SOURCE_DIR}/src/world/World.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/History.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/World.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/Field.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/History.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/FutureWorld.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/BallPossession.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_old/FieldMessage.cpp
         )
 
 set(COACH_SOURCES
@@ -341,7 +338,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        )
+        src/settings/settings.cpp include/roboteam_ai/settings/settings.hpp)
 
 target_link_libraries(roboteam_ai
         PRIVATE Qt5::Widgets

@@ -4,9 +4,9 @@
 
 #include <interface/api/Input.h>
 #include <control/ControlUtils.h>
-#include "world/WorldData.h"
-#include "world/Field.h"
-#include "world/World.h"
+#include "world_old/WorldData.h"
+#include "world_old/Field.h"
+#include "world_old/World.h"
 
 namespace rtt::ai::world {
 

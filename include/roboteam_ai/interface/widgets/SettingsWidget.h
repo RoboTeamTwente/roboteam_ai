@@ -10,7 +10,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
 
-#include "roboteam_world/world/settings.hpp"
+#include "include/roboteam_ai/settings/settings.hpp"
 
 namespace rtt::ai::interface {
 
@@ -21,9 +21,9 @@ private:
     QVBoxLayout *vLayout;
     QLineEdit * grsimIpText;
     QSpinBox * grsimPort;
-    ::rtt::world::settings::Settings& settings;
+    world::settings::Settings& settings;
 public:
-    SettingsWidget(QWidget*parent, ::rtt::world::settings::Settings& settings);
+    SettingsWidget(QWidget*parent, Settings& settings);
 
 public slots:
     void changeTeamColor(bool isYellow);

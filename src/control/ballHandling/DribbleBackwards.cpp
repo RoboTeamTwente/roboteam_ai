@@ -3,14 +3,14 @@
 // Created by thijs on 25-5-19.
 //
 
-#include <world/Field.h>
+#include "world_old/Field.h"
 #include <interface/api/Input.h>
 #include "control/ControlUtils.h"
 #include "control/ballHandling/DribbleBackwards.h"
 #include "control/ballHandling/RotateAroundBall.h"
 #include "control/ballHandling/RotateWithBall.h"
-#include "world/Ball.h"
-#include "world/World.h"
+#include "world_old/Ball.h"
+#include "world_old/World.h"
 #include <iostream>
 #include <sstream>
 

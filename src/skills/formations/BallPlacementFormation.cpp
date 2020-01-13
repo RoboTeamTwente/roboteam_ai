@@ -24,7 +24,7 @@
  */
 
 #include "skills/formations/BallPlacementFormation.h"
-#include <world/Field.h>
+#include "world_old/Field.h"
 #include <interface/api/Input.h>
 #include "control/Hungarian.h"
 #include "control/ControlUtils.h"

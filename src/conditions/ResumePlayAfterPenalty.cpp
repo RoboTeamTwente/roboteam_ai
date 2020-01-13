@@ -2,9 +2,9 @@
 // Created by rolf on 15-6-19.
 //
 #include <utilities/GameStateManager.hpp>
-#include <world/Field.h>
+#include "world_old/Field.h"
 #include "conditions/ResumePlayAfterPenalty.h"
-#include "world/Ball.h"
+#include "world_old/Ball.h"
 #include "control/ControlUtils.h"
 
 namespace rtt::ai{

@@ -3,13 +3,13 @@
 //
 
 #include <gtest/gtest.h>
-#include <world/World.h>
-#include <world/FieldMessage.h>
+#include "world_old/World.h"
+#include "world_old/FieldMessage.h"
 
 #include <test/helpers/FieldHelper.h>
-#include "world/Field.h"
+#include "world_old/Field.h"
 #include "test/helpers/WorldHelper.h"
-#include "world/WorldData.h"
+#include "world_old/WorldData.h"
 namespace rtt {
 
 TEST(FieldTest, it_gets_and_sets_the_field) {

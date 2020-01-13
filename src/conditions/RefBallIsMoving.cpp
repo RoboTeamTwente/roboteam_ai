@@ -4,7 +4,7 @@
 
 #include <utilities/GameStateManager.hpp>
 #include "conditions/RefBallIsMoving.h"
-#include "world/Ball.h"
+#include "world_old/Ball.h"
 
 namespace rtt::ai {
 

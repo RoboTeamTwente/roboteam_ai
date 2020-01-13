@@ -4,7 +4,7 @@
 
 #include <analysis/GameAnalyzer.h>
 #include "coach/heuristics/CoachHeuristics.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 #include "control/ControlUtils.h"
 
 #include <cmath>

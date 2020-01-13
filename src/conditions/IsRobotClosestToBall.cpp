@@ -6,9 +6,9 @@
  */ 
 
 #include "conditions/IsRobotClosestToBall.h"
-#include "world/World.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
+#include "world_old/World.h"
+#include "world_old/Ball.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai {
 

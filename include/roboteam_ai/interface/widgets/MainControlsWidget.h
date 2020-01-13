@@ -17,7 +17,7 @@ namespace rtt::ai::interface {
 class MainControlsWidget : public QWidget {
 Q_OBJECT
 public:
-    explicit MainControlsWidget(QWidget *parent, rtt::world::settings::Settings &settings);
+    explicit MainControlsWidget(QWidget *parent, rtt::Settings &settings);
 
 signals:
     void treeHasChanged();
@@ -31,7 +31,7 @@ private:
     QPushButton* toggleSerialBtn;
     QShortcut* spaceClick;
 
-    rtt::world::settings::Settings* const settings;
+    rtt::Settings* const settings;
 
 
 

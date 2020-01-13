@@ -5,9 +5,9 @@
 #include "coach/PassCoach.h"
 #include "coach/heuristics/PassScore.h"
 #include "utilities/RobotDealer.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 #include <chrono>
-#include <world/World.h>
+#include "world_old/World.h"
 
 namespace rtt::ai::coach {
 

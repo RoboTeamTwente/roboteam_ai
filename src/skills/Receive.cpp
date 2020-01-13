@@ -10,7 +10,7 @@
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
 #include <control/ControlUtils.h>
-#include <world/WorldData.h>
+#include "world_old/WorldData.h"
 
 namespace rtt::ai {
 

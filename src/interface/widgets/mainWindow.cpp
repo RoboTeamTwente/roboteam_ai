@@ -20,7 +20,7 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-MainWindow::MainWindow(QWidget* parent, rtt::world::settings::Settings& settings) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget* parent, rtt::Settings& settings) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 

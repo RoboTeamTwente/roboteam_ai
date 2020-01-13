@@ -6,7 +6,7 @@
 #include <control/ControlUtils.h>
 #include <utilities/GameStateManager.hpp>
 #include "control/PosController.h"
-#include "world/Robot.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai::control {
 
@@ -41,7 +41,7 @@ Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, Robot
 
 // Getters & Setters
 bool PosController::getCanMoveOutOfField(int robotID) const {
-    if (GameStateManager::canMoveOutsideField(robotID, *rtt::world::settings::Settings::settings)){
+    if (GameStateManager::canMoveOutsideField(robotID, *rtt::Settings::settings)){
         return customCanMoveOutOfField;
     }
     return false;
@@ -52,7 +52,7 @@ void PosController::setCanMoveOutOfField(bool moveOutOfField) {
 }
 
 bool PosController::getCanMoveInDefenseArea(int robotID) const {
-    if (GameStateManager::canEnterDefenseArea(robotID, *rtt::world::settings::Settings::settings)){
+    if (GameStateManager::canEnterDefenseArea(robotID, *rtt::Settings::settings)){
         return customCanMoveInDefenseArea;
     }
     return false;

@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <analysis/DecisionMaker.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
-#include <world/World.h>
+#include "world_old/World.h"
 #include <utilities/RobotDealer.h>
 
 namespace rtt {

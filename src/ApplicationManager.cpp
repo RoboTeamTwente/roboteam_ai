@@ -9,14 +9,14 @@
 #include <ApplicationManager.h>
 #include <utilities/GameStateManager.hpp>
 #include <interface/api/Input.h>
-#include <world/World.h>
+#include "world_old/World.h"
 #include <coach/GetBallCoach.h>
 #include <coach/PassCoach.h>
 #include <coach/defence/DefenceDealer.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
-#include <include/roboteam_ai/world/Field.h>
-#include "roboteam_world/world/settings.hpp"
+#include "world_old/Field.h"
+#include "include/roboteam_ai/settings/settings.hpp"
 
 
 namespace rtt {
@@ -25,7 +25,7 @@ namespace io = rtt::ai::io;
 using Status = bt::Node::Status;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
-void ApplicationManager::start(::rtt::world::settings::Settings& _settings) {
+void ApplicationManager::start(Settings& _settings) {
     this->settings = &_settings;
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);

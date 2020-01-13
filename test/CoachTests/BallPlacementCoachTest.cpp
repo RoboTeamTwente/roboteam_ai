@@ -6,7 +6,7 @@
 #include <coach/BallplacementCoach.h>
 #include <interface/api/Output.h>
 #include <control/ControlUtils.h>
-#include <world/World.h>
+#include "world_old/World.h"
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
     rtt::ai::interface::Output::setMarkerPosition({2.3, 0.3});

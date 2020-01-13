@@ -1,8 +1,8 @@
 /*
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
-#include <world/Field.h>
-#include <world/Ball.h>
+#include "world_old/Field.h"
+#include "world_old/Ball.h"
 #include "conditions/BallKickedToOurGoal.h"
 #include "control/ControlUtils.h"
 

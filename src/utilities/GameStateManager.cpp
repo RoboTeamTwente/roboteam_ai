@@ -14,7 +14,7 @@ proto::SSL_Referee GameStateManager::getRefereeData() {
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, ::rtt::world::settings::Settings const& settings) {
+void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, Settings const& settings) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
     RefCommand cmd;
@@ -81,7 +81,7 @@ GameState GameStateManager::getCurrentGameState() {
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
-        if (rtt::world::settings::Settings::settings->isYellow()) {
+        if (rtt::Settings::settings->isYellow()) {
             newGameState.keeperId = getRefereeData().yellow().goalie();
         } else {
             newGameState.keeperId = getRefereeData().blue().goalie();
@@ -105,7 +105,7 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
     strategymanager.forceCurrentRefGameState(cmd);
 }
 
-bool GameStateManager::canEnterDefenseArea(int robotId, ::rtt::world::settings::Settings const& settings) {
+bool GameStateManager::canEnterDefenseArea(int robotId, Settings const& settings) {
     GameState currentState = getCurrentGameState();
     if (robotId != currentState.keeperId) {
         return currentState.getRuleSet().robotsCanEnterDefenseArea();
@@ -114,7 +114,7 @@ bool GameStateManager::canEnterDefenseArea(int robotId, ::rtt::world::settings::
     return true;
 }
 
-bool GameStateManager::canMoveOutsideField(int robotId, ::rtt::world::settings::Settings const& settings) {
+bool GameStateManager::canMoveOutsideField(int robotId, Settings const& settings) {
     GameState currentState = getCurrentGameState();
     if (robotId != currentState.keeperId) {
         return currentState.getRuleSet().robotsCanGoOutOfField;

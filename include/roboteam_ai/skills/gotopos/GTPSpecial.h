@@ -7,7 +7,7 @@
 
 #include <control/PositionUtils.h>
 #include <coach/BallplacementCoach.h>
-#include <world/Field.h>
+#include "world_old/Field.h"
 #include "skills/Skill.h"
 #include "GoToPos.h"
 #include "interface/api/Input.h"

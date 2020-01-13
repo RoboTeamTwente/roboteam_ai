@@ -101,7 +101,7 @@ bool PathPoint::isCollision(const Vector2 &target, double distance) {
 double PathPoint::maxVel() {
     double distanceRemaining = (finalTarget - pos).length();
     double absoluteMax = sqrt(2.0*Constants::MAX_DEC_UPPER()*distanceRemaining)*0.8;
-    return std::fmin(absoluteMax, maxVelocity(*rtt::world::settings::Settings::settings));
+    return std::fmin(absoluteMax, maxVelocity(*rtt::Settings::settings));
 }
 
 } // rtt

@@ -9,10 +9,10 @@
 #include <control/ControlUtils.h>
 #include <coach/PassCoach.h>
 #include "conditions/HasClearShot.h"
-#include <world/Ball.h>
-#include <world/Field.h>
-#include <world/World.h>
-#include <world/WorldData.h>
+#include "world_old/Ball.h"
+#include "world_old/Field.h"
+#include "world_old/World.h"
+#include "world_old/WorldData.h"
 
 namespace rtt::ai {
 

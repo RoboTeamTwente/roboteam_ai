@@ -5,7 +5,7 @@
 #include "include/roboteam_ai/world/World.h"
 #include "include/roboteam_ai/world/Ball.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
-#include "world/Field.h"
+#include "world_old/Field.h"
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;

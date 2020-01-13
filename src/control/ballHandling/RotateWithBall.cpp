@@ -4,7 +4,7 @@
 
 #include "control/ControlUtils.h"
 #include "control/ballHandling/RotateWithBall.h"
-#include "world/Robot.h"
+#include "world_old/Robot.h"
 
 namespace rtt::ai::control {
 
