@@ -16,6 +16,26 @@ namespace rtt::world::ball {
 
     }
 
+    const Vector2 &Ball::getPosition() const {
+        return position;
+    }
+
+    const Vector2 &Ball::getVelocity() const {
+        return velocity;
+    }
+
+    bool Ball::isVisible() const {
+        return visible;
+    }
+
+    const Vector2 &Ball::getExpectedEndPosition() const {
+        return expectedEndPosition;
+    }
+
+    const Vector2 &Ball::getFilteredVelocity() const {
+        return filteredVelocity;
+    }
+
 
     /**
      initBallAtRobotPosition(oldBall, worldData);

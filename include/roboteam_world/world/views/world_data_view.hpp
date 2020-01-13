@@ -6,7 +6,7 @@
 #define RTT_WORLD_DATA_VIEW_HPP
 
 #include "roboteam_world/world/robot.hpp"
-#include "ball.hpp"
+#include "roboteam_world/world/ball.hpp"
 
 
 namespace rtt::world {
@@ -20,6 +20,14 @@ namespace rtt::world {
          * undefined behavior.
          */
         class WorldDataView {
+            /**
+             * Constructs a WorldDataView from a WorldData const*
+             * @param _ptr Pointer to construct from
+             *
+             * Pointer is asserted in debug
+             */
+            explicit WorldDataView(WorldData const* _ptr) noexcept;
+
             /**
              * Gets our own robots
              * @return data->getUs();
@@ -63,6 +71,9 @@ namespace rtt::world {
             getRobotsForIds(std::set<uint8_t> const &robots, bool ourTeam = true) const noexcept;
 
         private:
+            /**
+             * Constant world data that's used in the view
+             */
             WorldData const *data;
         };
     }

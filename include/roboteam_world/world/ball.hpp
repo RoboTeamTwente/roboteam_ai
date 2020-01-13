@@ -5,9 +5,9 @@
 #ifndef RTT_BALL_HPP
 #define RTT_BALL_HPP
 
-#include <roboteam_utils/Vector2.h>
+#include "../roboteam_utils/include/roboteam_utils/Vector2.h"
 
-#include "roboteam_world/world/world_data.hpp"
+#include "../roboteam_world/include/roboteam_world/world/world_data.hpp"
 #include "world_data.hpp"
 
 namespace rtt::world::ball {
@@ -20,6 +20,18 @@ namespace rtt::world::ball {
     
     class Ball {
         Vector2 position;
+    public:
+        const Vector2 &getPosition() const;
+
+        const Vector2 &getVelocity() const;
+
+        bool isVisible() const;
+
+        const Vector2 &getExpectedEndPosition() const;
+
+        const Vector2 &getFilteredVelocity() const;
+
+    private:
         Vector2 velocity;
         bool visible = false;
         Vector2 expectedEndPosition;

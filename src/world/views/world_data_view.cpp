@@ -2,7 +2,7 @@
 // Created by john on 1/6/20.
 //
 
-#include "roboteam_world/world/world_data_view.hpp"
+#include "roboteam_world/world/views/world_data_view.hpp"
 #include "roboteam_world/world/world_data.hpp"
 
 namespace rtt::world::view {
@@ -39,7 +39,7 @@ namespace rtt::world::view {
 
     std::vector<const robot::Robot *>
     WorldDataView::getRobotsForIds(std::set<uint8_t> const &_robots, bool ourTeam) const noexcept {
-        auto isInList = [&](const robot::Robot *ptr) {
+        auto isInSet = [&](const robot::Robot *ptr) {
             return std::find(_robots.begin(), _robots.end(), [&](auto robotId) {
                 return robotId == ptr->getId();
             }) != _robots.end();
@@ -47,10 +47,15 @@ namespace rtt::world::view {
 
         std::vector<const robot::Robot *> retRobots{};
         if (ourTeam) {
-            std::copy_if(getUs().begin(), getUs().end(), retRobots.begin(), isInList);
+            std::copy_if(getUs().begin(), getUs().end(), retRobots.begin(), isInSet);
         } else {
-            std::copy_if(getThem().begin(), getThem().end(), retRobots.begin(), isInList);
+            std::copy_if(getThem().begin(), getThem().end(), retRobots.begin(), isInSet);
         }
         return retRobots;
+    }
+
+    WorldDataView::WorldDataView(WorldData const *_ptr) noexcept
+        : data{ _ptr } {
+            assert(_ptr && "WorldDatat const* _ptr in explicit WorldDataView(WorldDatat const* _ptr) was null");
     }
 }
