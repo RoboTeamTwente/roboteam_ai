@@ -12,6 +12,7 @@
 #include <io/IOManager.h>
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <include/roboteam_ai/interface/api/Output.h>
+#include <include/roboteam_ai/world/world.hpp>
 
 #include "demo/JoystickDemo.h"
 #include "utilities/Pause.h"
@@ -204,6 +205,10 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
             robot->setBatteryLow(feedback.batterylow());
             // robot->setGenevaStateFromFeedback(feedback.genevastate());
         }
+        /**
+         * Last, because it takes ownership of the feedback
+         */
+        world_new::World::instance()->updateFeedback(feedback.id(), feedback);
     }
 }
 

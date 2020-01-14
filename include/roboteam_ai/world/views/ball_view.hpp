@@ -48,7 +48,7 @@ namespace rtt::world_new::view {
          * _ptr is asserted
          * @param _ptr Pointer that this BallView should provide a view of
          */
-        explicit BallView(ball::Ball const* const _ptr) noexcept;
+        explicit BallView(ball::Ball const* _ptr) noexcept;
 
         /**
          * Dereference operator that allows std::optional style dereferencing

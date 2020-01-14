@@ -34,6 +34,15 @@ namespace rtt::world_new {
     class World {
     public:
         /**
+         * Global singleton for World, scott-meyers style
+         * @return A pointer to a static World
+         */
+        inline static World* instance() {
+            static World wlrd{ rtt::Settings::settings };
+            return &wlrd;
+        }
+
+        /**
          * Not copyable, movable or assignable, global state
          */
          World(World const&) = delete;
