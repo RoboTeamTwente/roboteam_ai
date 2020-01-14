@@ -6,7 +6,7 @@
 #include <QtWidgets/QApplication>
 #include <utilities/Constants.h>
 #include <utilities/RobotDealer.h>
-#include <Settings/Settings.h>
+#include "settings/settings.hpp"
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);

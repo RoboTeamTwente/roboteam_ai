@@ -10,12 +10,12 @@
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
     proto::SSL_Referee refereeData;
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
-    rtt::ai::GameStateManager::setRefereeData(refereeData);
+    rtt::ai::GameStateManager::setRefereeData(refereeData, *rtt::Settings::settings);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command(), proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
 
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_KICKOFF_YELLOW);
-    rtt::ai::GameStateManager::setRefereeData(refereeData);
+    rtt::ai::GameStateManager::setRefereeData(refereeData, *rtt::Settings::settings);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getRefereeData().command(), proto::SSL_Referee_Command_PREPARE_KICKOFF_YELLOW);
 
@@ -24,14 +24,14 @@ TEST(RefereeTest, it_gets_and_sets_the_ref) {
 
     refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_YELLOW);
-    rtt::ai::GameStateManager::setRefereeData(refereeData);
+    rtt::ai::GameStateManager::setRefereeData(refereeData, *rtt::Settings::settings);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"keeper_penalty_prepare_tactic");
 
     refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
-    rtt::ai::GameStateManager::setRefereeData(refereeData);
+    rtt::ai::GameStateManager::setRefereeData(refereeData, *rtt::Settings::settings);
 
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
     EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"shootout_prepare_tactic");
