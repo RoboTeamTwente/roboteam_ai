@@ -41,7 +41,7 @@ Robot::Robot(const proto::WorldRobot &copy, Team team,
 Robot::Robot()
         :distanceToBall(- 1.0), iHaveBall(false), lastUpdatedWorldNumber(0), genevaState(0), workingGeneva(false),
          dribblerState(0), workingDribbler(false), workingBallSensor(false),
-         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(invalid) {
+         id(- 1), angle(- 1.0), angularVelocity(- 1.0), team(both) {
 
     shotController = nullptr;
     numTreePosControl = nullptr;
