@@ -18,16 +18,16 @@ namespace rtt::world_new::view {
         const ball::Ball* const _ptr;
     public:
         /**
-         * Explicitly delete move constructors, copying this POD type is trivial
+         * Move constructor and copy assignment operator
          */
-        BallView(BallView&&) = delete;
-        BallView& operator=(BallView&&) = delete;
+        BallView(BallView&&) noexcept;
+        BallView& operator=(BallView&&) noexcept;
 
         /**
          * Copy constructor, internal pointer is copied over
          * @param old Old BallView to copy from
          */
-        BallView(BallView const& old) noexcept;
+        BallView(BallView const& old) noexcept = default;
 
         /**
          * Copy assignment operatorm, does nothing important.
@@ -41,7 +41,6 @@ namespace rtt::world_new::view {
          * this struct does not own the robot
          */
         ~BallView() = default;
-
 
         /**
          * Constructs a BallView

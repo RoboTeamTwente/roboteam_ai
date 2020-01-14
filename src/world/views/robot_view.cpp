@@ -19,4 +19,22 @@ namespace rtt::world_new::view {
     robot::Robot const *RobotView::operator->() const noexcept {
         return get();
     }
+
+    RobotView &RobotView::operator=(RobotView const &o) noexcept {
+        if (&o == this) {
+            return *this;
+        }
+        return *this;
+    }
+
+    RobotView &RobotView::operator=(RobotView &&o) noexcept {
+        if (&o == this) {
+            return *this;
+        }
+        return *this;
+    }
+
+    RobotView::RobotView(RobotView &&o) noexcept
+            : rbt{o.rbt} {}
+
 }

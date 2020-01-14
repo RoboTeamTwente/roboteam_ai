@@ -77,7 +77,7 @@ namespace rtt::world_new {
          * Updates the currentWorld
          * @param world World to construct currentWorld from
          */
-        void updateWorld(proto::World& world);
+        void updateWorld(proto::World& protoWorld);
 
         /**
          * Gets the current world
@@ -90,7 +90,7 @@ namespace rtt::world_new {
          * @param ticksAgo Ticks ago to fetch from
          * @return Returns the world at index currentIndex - ticksAgo
          */
-        [[nodiscard]] WorldData const& getHistoryWorld(size_t ticksAgo) const noexcept;
+        [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) const noexcept;
 
         /**
          * Gets the amount of nanoseconds between the current worlddata object and the last one

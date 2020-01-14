@@ -31,11 +31,11 @@ namespace rtt::world_new {
         }
     }
 
-    std::vector<const rtt::world_new::robot::Robot *> const &WorldData::getUs() const noexcept {
+    std::vector<view::RobotView> const &WorldData::getUs() const noexcept {
         return us;
     }
 
-    std::vector<const rtt::world_new::robot::Robot *> const &WorldData::getThem() const noexcept {
+    std::vector<view::RobotView> const &WorldData::getThem() const noexcept {
         return them;
     }
 
@@ -43,18 +43,11 @@ namespace rtt::world_new {
         return robots;
     }
 
-    std::optional<ball::Ball> const &WorldData::getBall() const noexcept {
-        return ball;
+    std::optional<view::BallView> WorldData::getBall() const noexcept {
+        if (ball.has_value()) {
+            return std::optional<view::BallView>(&ball.value());
+        } else {
+            return std::nullopt;
+        }
     }
-
-    WorldData::WorldData(WorldData &&old) noexcept
-            : robots{std::move(old.robots)},
-              us{std::move(old.us)},
-              them{std::move(old.them)},
-              ball{std::move(old.ball)},
-              time{old.time} {
-
-    }
-
-
 } // namespace rtt::world

@@ -39,6 +39,28 @@ namespace rtt::world_new::view {
          * @return Returns get()
          */
         robot::Robot const* operator->() const noexcept;
+
+        /**
+         * Copy assignment operator
+         * @return *this
+         */
+        RobotView& operator=(RobotView const&) noexcept;
+
+        /**
+         * Move assignment operator
+         * @return *this
+         */
+        RobotView& operator=(RobotView&&) noexcept;
+
+        /**
+         * Copy constructor
+         */
+        RobotView(RobotView const&) noexcept = default;
+
+        /**
+         * Move constructor, same as copy ctor
+         */
+        RobotView(RobotView&&) noexcept;
     };
 
 }

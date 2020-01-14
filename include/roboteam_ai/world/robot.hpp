@@ -63,70 +63,38 @@ namespace rtt::world_new::robot {
         std::unique_ptr<ai::control::BasicPosControl> basicPosControl{};
         std::unique_ptr<ai::control::BallHandlePosControl> ballHandlePosControl{};
 
-    public:
-        void updateFromFeedback(proto::RobotFeedback& feedback) noexcept;
-
-        [[nodiscard]] uint32_t getId() const noexcept;
+    private:
+        void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 
         void setId(uint32_t id) noexcept;
 
-        [[nodiscard]] team::Team getTeam() const noexcept;
-
         void setTeam(team::Team team) noexcept;
-
-        [[nodiscard]] uint8_t getGenevaState() const noexcept;
 
         void setGenevaState(uint8_t genevaState) noexcept;
 
-        [[nodiscard]] uint8_t getPreviousGenevaState() const noexcept;
-
         void setPreviousGenevaState(uint8_t previousGenevaState) noexcept;
-
-        [[nodiscard]] const Vector2 &getPos() const noexcept;
 
         void setPos(const Vector2 &pos) noexcept;
 
-        [[nodiscard]] const Vector2 &getVel() const noexcept;
-
         void setVel(const Vector2 &vel) noexcept;
-
-        [[nodiscard]] const Angle &getAngle() const noexcept;
 
         void setAngle(const Angle &angle) noexcept;
 
-        [[nodiscard]] double getAngularVelocity() const noexcept;
-
         void setAngularVelocity(double angularVelocity) noexcept;
-
-        [[nodiscard]] double getTimeGenevaChanged() const noexcept;
 
         void setTimeGenevaChanged(double timeGenevaChanged) noexcept;
 
-        [[nodiscard]] bool isWorkingGeneva() const noexcept;
-
         void setWorkingGeneva(bool workingGeneva) noexcept;
-
-        [[nodiscard]] bool isBatteryLow() const noexcept;
 
         void setBatteryLow(bool batteryLow) noexcept;
 
-        [[nodiscard]] unsigned char getDribblerState() const noexcept;
-
         void setDribblerState(unsigned char dribblerState) noexcept;
-
-        [[nodiscard]] unsigned char getPreviousDribblerState() const noexcept;
 
         void setPreviousDribblerState(unsigned char previousDribblerState) noexcept;
 
-        [[nodiscard]] double getTimeDribblerChanged() const noexcept;
-
         void setTimeDribblerChanged(double timeDribblerChanged) noexcept;
 
-        [[nodiscard]] bool isWorkingDribbler() const noexcept;
-
         void setWorkingDribbler(bool workingDribbler) noexcept;
-
-        [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
         void setWorkingBallSensor(bool workingBallSensor) noexcept;
 
@@ -138,6 +106,63 @@ namespace rtt::world_new::robot {
 
         void resetBallHandlePosControl() noexcept;
 
+        void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
+
+        void setDistanceToBall(double distanceToBall) noexcept;
+
+        void setIHaveBall(bool iHaveBall) noexcept;
+
+        void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
+
+    public:
+        [[nodiscard]] uint32_t getId() const noexcept;
+
+
+        [[nodiscard]] team::Team getTeam() const noexcept;
+
+
+        [[nodiscard]] uint8_t getGenevaState() const noexcept;
+
+
+        [[nodiscard]] uint8_t getPreviousGenevaState() const noexcept;
+
+
+        [[nodiscard]] const Vector2 &getPos() const noexcept;
+
+
+        [[nodiscard]] const Vector2 &getVel() const noexcept;
+
+
+        [[nodiscard]] const Angle &getAngle() const noexcept;
+
+
+        [[nodiscard]] double getAngularVelocity() const noexcept;
+
+
+        [[nodiscard]] double getTimeGenevaChanged() const noexcept;
+
+
+        [[nodiscard]] bool isWorkingGeneva() const noexcept;
+
+
+        [[nodiscard]] bool isBatteryLow() const noexcept;
+
+
+        [[nodiscard]] unsigned char getDribblerState() const noexcept;
+
+
+        [[nodiscard]] unsigned char getPreviousDribblerState() const noexcept;
+
+
+        [[nodiscard]] double getTimeDribblerChanged() const noexcept;
+
+
+        [[nodiscard]] bool isWorkingDribbler() const noexcept;
+
+
+        [[nodiscard]] bool isWorkingBallSensor() const noexcept;
+
+
         [[nodiscard]] ai::control::ShotController *getShotController() const noexcept;
 
         [[nodiscard]] ai::control::NumTreePosControl *getNumTreePosControl() const noexcept;
@@ -148,29 +173,27 @@ namespace rtt::world_new::robot {
 
         [[nodiscard]] const Vector2 &getPidPreviousVel() const noexcept;
 
-        void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
         [[nodiscard]] double getDistanceToBall() const noexcept;
 
-        void setDistanceToBall(double distanceToBall) noexcept;
 
         [[nodiscard]] bool isIHaveBall() const noexcept;
 
-        void setIHaveBall(bool iHaveBall) noexcept;
 
         [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 
-        void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
-
     public:
-        explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback>& feedback, const proto::WorldRobot &copy, team::Team team = team::invalid,
+        explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy,
+                       team::Team team = team::invalid,
                        unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
-        Robot& operator=(Robot&) = delete;
-        Robot(Robot const&) = delete;
+        Robot &operator=(Robot &) = delete;
 
-        Robot& operator=(Robot&&) = default;
-        Robot(Robot&&) = default;
+        Robot(Robot const &) = delete;
+
+        Robot &operator=(Robot &&) = default;
+
+        Robot(Robot &&) = default;
 
     };
 } // namespace rtt::world::robot

@@ -6,6 +6,7 @@
 #define RTT_WORLD_DATA_HPP
 
 #include <vector>
+#include <include/roboteam_ai/world/views/ball_view.hpp>
 
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/Setting.pb.h"
@@ -13,6 +14,7 @@
 
 #include "world/robot.hpp"
 #include "world/ball.hpp"
+#include "world/views/robot_view.hpp"
 
 namespace rtt::world_new {
 
@@ -29,28 +31,93 @@ namespace rtt::world_new {
      *  Timepoint
      */
     class WorldData {
-    private:
-        std::vector<rtt::world_new::robot::Robot> robots;
-        std::vector<const rtt::world_new::robot::Robot*> us;
-        std::vector<const rtt::world_new::robot::Robot*> them;
+        friend class World;
 
+    private:
+        /**
+         * Constructs new world data
+         * @param protoMsg Proto message to construct he world from
+         * @param settings Settings for team stuff etc
+         * @param feedback Feedback to apply to robots that'll be constructed
+         *
+         * Ownership is taken of protoMsg
+         */
+        WorldData(proto::World &protoMsg, rtt::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept;
+
+        /**
+         * Owning container of robots
+         */
+        std::vector<rtt::world_new::robot::Robot> robots;
+
+        /**
+         * Non-owning container of Robot const* const's (aka RobotView) for our team
+         */
+        std::vector<view::RobotView> us;
+
+        /**
+         * Non-owning container of RobotViews of the enemy team
+         */
+        std::vector<view::RobotView> them;
+
+        /**
+         * Optional ball, None variant if not visible
+         */
         std::optional<rtt::world_new::ball::Ball> ball;
 
+        /**
+         * Timestamp identical to the protobuf message's time()
+         */
         uint64_t time{};
+
     public:
+        /**
+         * Default ctor for default STL container initialization
+         */
         WorldData() = default;
 
+        /**
+         * Copy assignment operator and constructor, explicitly deleted
+         */
         WorldData& operator=(WorldData const&) = delete;
         WorldData(WorldData const&) = delete;
 
-        WorldData(WorldData&& old) noexcept;
+        /**
+         * Move constructor, simply moves all members
+         * @param old Data to move
+         */
+        WorldData(WorldData&& old) noexcept = default;
+
+        /**
+         * Move assignment operator
+         * @return *this
+         */
         WorldData& operator=(WorldData&&) = default;
 
-        WorldData(proto::World &protoMsg, rtt::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept;
-        [[nodiscard]] std::vector<const rtt::world_new::robot::Robot*> const& getUs() const noexcept;
-        [[nodiscard]] std::vector<const rtt::world_new::robot::Robot*> const& getThem() const noexcept;
+        /**
+         * Gets a non-owning container of robots that are in our team
+         * @return this->us
+         */
+        [[nodiscard]] std::vector<view::RobotView> const& getUs() const noexcept;
+
+        /**
+         * Gets a non-owning container of robots that are in the enemy team
+         * @return this->them
+         */
+        [[nodiscard]] std::vector<view::RobotView> const& getThem() const noexcept;
+
+        /**
+         * Gets a constant reference to the owning container of robots
+         * @return this->robots
+         *
+         * Modifying either: the container, the contained values -> introduces in dataraces and undefined behavior
+         */
         [[nodiscard]] std::vector<rtt::world_new::robot::Robot> const& getRobots() const noexcept;
-        [[nodiscard]] std::optional<ball::Ball> const& getBall() const noexcept;
+
+        /**
+         * Gets a Some or None non-owning variant of a Ball, aka a BallView
+         * @return ball ? Some(BallView) : None
+         */
+        [[nodiscard]] std::optional<view::BallView> getBall() const noexcept;
     };
 
 } // namespace rtt::world

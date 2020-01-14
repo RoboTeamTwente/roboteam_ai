@@ -8,53 +8,66 @@
 
 namespace rtt::world_new::view {
 
-    std::vector<const rtt::world_new::robot::Robot *> const &WorldDataView::getUs() const noexcept {
+    std::vector<view::RobotView> const &WorldDataView::getUs() const noexcept {
         return data->getUs();
     }
 
-    std::vector<const rtt::world_new::robot::Robot *> const &WorldDataView::getThem() const noexcept {
+    std::vector<view::RobotView> const &WorldDataView::getThem() const noexcept {
         return data->getThem();
     }
 
-    std::vector<rtt::world_new::robot::Robot> const &WorldDataView::getRobots() const noexcept {
+    std::vector<robot::Robot> const &WorldDataView::getRobots() const noexcept {
         return data->getRobots();
     }
 
-    std::optional<rtt::world_new::ball::Ball> const &WorldDataView::getBall() const noexcept {
+    std::optional<view::BallView> WorldDataView::getBall() const noexcept {
         return data->getBall();
     }
 
-    std::optional<robot::Robot const *> WorldDataView::getRobotForId(uint8_t id, bool ourTeam) const noexcept {
-        if (ourTeam) {
-            auto robot = std::find_if(getUs().begin(), getUs().end(), [&](auto const &rbt) {
-                return rbt->getId() == id;
-            });
-            return robot == getUs().end() ? std::optional<robot::Robot const *>() : *robot;
-        } else {
-            auto robot = std::find_if(getThem().begin(), getThem().end(), [&](auto const &rbt) {
-                return rbt->getId() == id;
-            });
-            return robot == getThem().end() ? std::optional<robot::Robot const *>() : *robot;
-        }
+    std::optional<view::RobotView> WorldDataView::getRobotForId(uint8_t id, bool ourTeam) const noexcept {
+        auto const &_data = ourTeam ? getUs() : getThem(); // const&, prevents copy
+
+        // return if the lambda evaluates to true
+        auto _rbt = std::find_if(_data.begin(), _data.end(), [id](RobotView rbt) {
+            return rbt->getId() == id;
+        });
+
+        // not found ? None, else Some(*_robot);
+        return _rbt == _data.end() ? std::optional<RobotView>() : *_rbt;
     }
 
-    std::vector<const robot::Robot *>
+
+    std::vector<RobotView>
     WorldDataView::getRobotsForIds(std::set<uint8_t> const &_robots, bool ourTeam) const noexcept {
-        auto isInSet = [&](const robot::Robot* ptr) {
-            return static_cast<bool>(_robots.count(ptr->getId()));
+        auto isInSet = [&](RobotView view) {
+            return static_cast<bool>(_robots.count(view->getId()));
         };
 
-        std::vector<const robot::Robot *> retRobots{};
-        if (ourTeam) {
-            std::copy_if(getUs().begin(), getUs().end(), retRobots.begin(), isInSet);
-        } else {
-            std::copy_if(getThem().begin(), getThem().end(), retRobots.begin(), isInSet);
-        }
+        std::vector<RobotView> retRobots{};
+        auto const &_data = ourTeam ? getUs() : getThem();
+        std::copy_if(_data.begin(), _data.end(), retRobots.begin(), isInSet);
         return retRobots;
     }
 
-    WorldDataView::WorldDataView(WorldData const * const _ptr) noexcept
-            : data{ _ptr } {
+    WorldDataView::WorldDataView(WorldData const *const _ptr) noexcept
+            : data{_ptr} {
         assert(_ptr && "WorldDatat const* _ptr in explicit WorldDataView(WorldDatat const* _ptr) was null");
     }
+
+    WorldDataView &WorldDataView::operator=(WorldDataView const &o) noexcept {
+        if (this == &o) {
+            return *this;
+        }
+        return *this;
+    }
+
+    WorldDataView &WorldDataView::operator=(WorldDataView &&o) noexcept {
+        if (this == &o) {
+            return *this;
+        }
+        return *this;
+    }
+
+    WorldDataView::WorldDataView(WorldDataView &&o) noexcept
+            : data{o.data} {}
 }

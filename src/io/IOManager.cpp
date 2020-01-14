@@ -42,6 +42,10 @@ void IOManager::handleWorldState(proto::World & world) {
 
   this->worldMsg = world;
   world::world->updateWorld(this->worldMsg);
+  /**
+   * Taken ownership of @refitem world
+   */
+  world_new::World::instance()->updateWorld(world);
 }
 
 void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {

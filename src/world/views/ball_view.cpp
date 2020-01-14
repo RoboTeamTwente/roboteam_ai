@@ -33,13 +33,20 @@ namespace rtt::world_new::view {
         return get();
     }
 
-    BallView::BallView(const BallView &old) noexcept
-            : _ptr{old.get()} {}
-
     BallView &BallView::operator=(const BallView &old) noexcept {
         if (this == &old) {
             return *this;
         }
         return *this;
     }
+
+    BallView &BallView::operator=(BallView &&other) noexcept {
+        if (this == &other) {
+            return *this;
+        }
+        return *this;
+    }
+
+    BallView::BallView(BallView &&other) noexcept
+            : _ptr{other._ptr} {}
 }

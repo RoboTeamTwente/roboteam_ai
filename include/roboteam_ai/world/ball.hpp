@@ -50,15 +50,15 @@ namespace rtt::world_new::ball {
 //        void updateBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData);
 
 
-        const Vector2 &getPos() const noexcept;
+        [[nodiscard]] const Vector2 &getPos() const noexcept;
 
-        const Vector2 &getVelocity() const noexcept;
+        [[nodiscard]] const Vector2 &getVelocity() const noexcept;
 
-        bool isVisible() const noexcept;
+        [[nodiscard]] bool isVisible() const noexcept;
 
-        const Vector2 &getExpectedEndPosition() const noexcept;
+        [[nodiscard]] const Vector2 &getExpectedEndPosition() const noexcept;
 
-        const Vector2 &getFilteredVelocity() const noexcept;
+        [[nodiscard]] const Vector2 &getFilteredVelocity() const noexcept;
 
         Ball() = default;
 
