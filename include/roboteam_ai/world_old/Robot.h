@@ -113,7 +113,7 @@ public:
     public:
 
         Robot();
-        explicit Robot(const proto::WorldRobot &copy, Team team = invalid,
+        explicit Robot(const proto::WorldRobot &copy, Team team = both,
                 unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
         void updateRobot(const proto::WorldRobot &robotMsg, const BallPtr &ball, unsigned long worldNumber);
         const unsigned long getLastUpdatedWorldNumber() const;

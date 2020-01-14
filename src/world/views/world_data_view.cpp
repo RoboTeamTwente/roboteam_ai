@@ -70,4 +70,120 @@ namespace rtt::world_new::view {
 
     WorldDataView::WorldDataView(WorldDataView &&o) noexcept
             : data{o.data} {}
+
+    WorldData const &WorldDataView::operator*() const noexcept {
+        return *get();
+    }
+
+    WorldData const *WorldDataView::operator->() const noexcept {
+        return get();
+    }
+
+    WorldData const *WorldDataView::get() const noexcept {
+        return data;
+    }
+
+    RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, std::set<uint8_t> const &robotIds,
+                                                    bool ourTeam) const noexcept {
+        RobotView closestBot{nullptr};
+        double maxDist = 9e9;
+        for (auto const &id : robotIds) {
+            auto robot = getRobotForId(id, ourTeam);
+            if (!robot) {
+                continue;
+            }
+            auto _robot = *robot;
+            auto dist = _robot->getPos().dist(point);
+            if (dist < maxDist) {
+                maxDist = dist;
+                closestBot = _robot;
+            }
+        }
+        return closestBot;
+    }
+
+    RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
+        RobotView closest{nullptr};
+        std::vector<RobotView> robots;
+        if (team == us)
+            robots = getUs();
+        if (team == them)
+            robots = getThem();
+        else
+            robots = getRobotsNonOwning();
+
+        return getRobotClosestToPoint(point, robots);
+    }
+
+    RobotView WorldDataView::getRobotClosestToBall(Team team) const noexcept {
+        return getRobotClosestToPoint((*getBall())->getPos(), team);
+    }
+
+    bool WorldDataView::robotHasBall(uint8_t id, bool ourTeam, double maxDist) const noexcept {
+        return ourTeam ? ourRobotHasBal(id, maxDist) : theirRobotHasBall(id, maxDist);
+    }
+
+    bool WorldDataView::ourRobotHasBal(uint8_t id, double maxDist) const noexcept {
+        auto robot = getRobotForId(id, true);
+        if (!robot)
+            return false;
+
+        return (*robot).hasBall(maxDist);
+    }
+
+    bool WorldDataView::theirRobotHasBall(int id, double maxDist) const noexcept {
+        auto robot = getRobotForId(id, false);
+        if (!robot)
+            return false;
+
+        return (*robot).hasBall(maxDist);
+    }
+
+    RobotView WorldDataView::whichRobotHasBall(Team team) {
+        std::vector<RobotView> robots;
+        if (team == us) {
+            robots = getUs();
+        } else if (team == them) {
+            robots = getThem();
+        } else {
+            robots = getRobotsNonOwning();
+        }
+
+        double bestDistance = 9e9;
+        RobotView bestRobot = RobotView{ nullptr };
+        for (auto &robot : robots) {
+            if (robot.hasBall()) {
+                if (robot->getDistanceToBall() < bestDistance) {
+                    bestRobot = robot;
+                }
+            }
+        }
+
+        return bestRobot;
+    }
+
+    RobotView
+    WorldDataView::getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotView> &robots) const noexcept {
+        if (robots.empty())
+            return RobotView{nullptr};
+
+        size_t bestIndex = 0;
+        double closest = 9e9;
+        for (size_t i = 0; i < robots.size(); i++) {
+            double distance = (robots[i]->getPos() - point).length();
+            if (distance < closest) {
+                closest = distance;
+                bestIndex = i;
+            }
+        }
+
+        return robots[bestIndex];
+    }
+
+    std::vector<RobotView> WorldDataView::getRobotsNonOwning() const noexcept {
+        std::vector<RobotView> robots;
+        robots.insert(robots.begin(), getUs().begin(), getUs().end());
+        robots.insert(robots.begin(), getThem().begin(), getThem().end());
+        return robots;
+    }
 }

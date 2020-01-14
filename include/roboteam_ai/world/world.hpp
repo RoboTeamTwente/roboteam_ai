@@ -96,7 +96,13 @@ namespace rtt::world_new {
          * Gets the amount of nanoseconds between the current worlddata object and the last one
          * @return Returns an std::chrono::nanoseconds, the amount of nanoseconds between these 2 ticks
          */
-        [[nodiscard]] const std::chrono::nanoseconds &getTickDuration() const noexcept;
+        [[nodiscard]] uint64_t getTickDuration() const noexcept;
+
+        /**
+         * Gets the difference in time between the last tick and the current tick
+         * @return this->getWorldData()->getTime() - this->getHistoryWorld(1)->getTime();
+         */
+        [[nodiscard]] uint64_t getTimeDifference() const noexcept;
 
     private:
         /**
@@ -157,12 +163,12 @@ namespace rtt::world_new {
         /**
          * Timestamp of the last tick
          */
-        std::chrono::time_point<std::chrono::high_resolution_clock> lastTick;
+        uint64_t lastTick;
 
         /**
-         * Amount of nanoseconds between 2 ticks
+         * Duration between ticks
          */
-        std::chrono::nanoseconds tickDuration{};
+        uint64_t tickDuration{};
     };
 } // namespace rtt::world
 

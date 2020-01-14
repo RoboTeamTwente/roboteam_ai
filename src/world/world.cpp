@@ -50,7 +50,7 @@ namespace rtt::world_new {
     }
 
     World::World(Settings *settings)
-            : settings{settings}, currentWorld{std::nullopt} {}
+            : settings{settings}, currentWorld{std::nullopt}, lastTick{ 0 } {}
 
     void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
         std::scoped_lock<std::mutex> lock{ updateMutex };
@@ -58,12 +58,24 @@ namespace rtt::world_new {
     }
 
     void World::updateTickTime() noexcept {
-        std::chrono::time_point<std::chrono::high_resolution_clock> now = std::chrono::high_resolution_clock::now();
-        tickDuration = std::chrono::duration_cast<std::chrono::nanoseconds>(now - lastTick);
-        lastTick = now;
+        if (!getWorld()) { // no world currently
+            return;
+        }
+
+        if (lastTick == 0) { // last tick not set yet
+            lastTick = (*getWorld())->getTime();
+            return;
+        }
+
+        tickDuration = (*getWorld())->getTime() - lastTick;
+        lastTick = (*getWorld())->getTime();
     }
 
-    const std::chrono::nanoseconds &World::getTickDuration() const noexcept {
+    uint64_t World::getTickDuration() const noexcept {
         return tickDuration;
+    }
+
+    uint64_t World::getTimeDifference() const noexcept {
+        return getTickDuration();
     }
 } // namespace rtt::world

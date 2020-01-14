@@ -37,4 +37,8 @@ namespace rtt::world_new::view {
     RobotView::RobotView(RobotView &&o) noexcept
             : rbt{o.rbt} {}
 
+    bool RobotView::hasBall(double maxDist) const noexcept {
+        return get()->isIHaveBall() && get()->getDistanceToBall() < maxDist;
+    }
+
 }

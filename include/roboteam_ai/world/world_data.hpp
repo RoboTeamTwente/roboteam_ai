@@ -111,13 +111,27 @@ namespace rtt::world_new {
          *
          * Modifying either: the container, the contained values -> introduces in dataraces and undefined behavior
          */
-        [[nodiscard]] std::vector<rtt::world_new::robot::Robot> const& getRobots() const noexcept;
+        [[nodiscard]] std::vector<rtt::world_new::robot::Robot> const &getRobots() const noexcept;
 
         /**
          * Gets a Some or None non-owning variant of a Ball, aka a BallView
          * @return ball ? Some(BallView) : None
          */
         [[nodiscard]] std::optional<view::BallView> getBall() const noexcept;
+
+        /**
+         * Check whether we have robots in the field
+         * @return !getWorldData()->getUs().empty();
+         */
+        [[nodiscard]] bool weHaveRobots() const noexcept;
+
+        /**
+         * Gets the time for the current contained world
+         * @return
+         */
+        [[nodiscard]] uint64_t getTime() const noexcept;
+
+
     };
 
 } // namespace rtt::world

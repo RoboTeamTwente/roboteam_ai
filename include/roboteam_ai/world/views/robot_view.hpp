@@ -5,6 +5,7 @@
 #ifndef RTT_ROBOT_VIEW_HPP
 #define RTT_ROBOT_VIEW_HPP
 
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "world/robot.hpp"
 
 namespace rtt::world_new::view {
@@ -61,6 +62,13 @@ namespace rtt::world_new::view {
          * Move constructor, same as copy ctor
          */
         RobotView(RobotView&&) noexcept;
+
+        /**
+         * Check whether the current robot has the ball
+         * @param maxDist maximum distance for ball posession
+         * @return true if dist(ball, robot) < maxDist else false
+         */
+        [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE()) const noexcept;
     };
 
 }

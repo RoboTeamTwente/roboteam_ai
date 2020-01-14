@@ -8,7 +8,7 @@
 enum Team : short {
     us,
     them,
-    invalid
+    both
 };
 
 #endif //ROBOTEAM_AI_TEAM_H

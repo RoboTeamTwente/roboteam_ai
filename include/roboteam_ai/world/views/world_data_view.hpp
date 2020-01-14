@@ -6,6 +6,7 @@
 #define RTT_WORLD_DATA_VIEW_HPP
 
 #include <vector>
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "world/robot.hpp"
 #include "world/ball.hpp"
 #include "robot_view.hpp"
@@ -30,6 +31,24 @@ namespace rtt::world_new::view {
          * Pointer is asserted in debug
          */
         explicit WorldDataView(WorldData const *_ptr) noexcept;
+
+        /**
+         * Overloads the dereference operator
+         * @return Returns a constant reference to the contained data
+         */
+        [[nodiscard]] WorldData const &operator*() const noexcept;
+
+        /**
+         * Overloads the dereference (->) operator to allow for std::unique_ptr style member access
+         * @return get();
+         */
+        [[nodiscard]] WorldData const *operator->() const noexcept;
+
+        /**
+         * Gets the internal data pointer
+         * @return this->data
+         */
+        [[nodiscard]] WorldData const *get() const noexcept;
 
         /**
          * Gets our own robots
@@ -95,6 +114,76 @@ namespace rtt::world_new::view {
          */
         WorldDataView(WorldDataView&& o) noexcept;
 
+        /**
+         * Gets a non-owning container of Robot*, aka RobotView
+         * Complexity: O(n) -> do not use too often.
+         * @return A vector of robots
+         */
+        [[nodiscard]] std::vector<RobotView> getRobotsNonOwning() const noexcept;
+
+        /**
+         * Gets a view of the closest robot to a point
+         * @param point Point to check to
+         * @param robotIds Set of robotIDs
+         * @param ourTeam true if it should be fetched from our team, false if theirs
+         * @return A non-owning view over the robot
+         */
+        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2& point, std::set<uint8_t> const& robotIds, bool ourTeam) const noexcept;
+
+        /**
+          * Gets a view of the closest robot to a point
+          * @param point Point to check to
+          * @param team `us` if it should be fetched from our team, `them` if theirs, `both` if both teams
+          * @return A non-owning view over the robot
+          */
+        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2& point, Team team = both) const noexcept;
+
+        /**
+         * Gets a view of the robot closes to a point
+         * @param point Point to check to
+         * @param robots Vector of RobotViews
+         * @return Gets a non-owning view over the robot that's closest
+         */
+        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotView> &robots) const noexcept;
+
+        /**
+         * Gest the robot closest to a ball
+         * @param team Team to fetch from
+         * @return getRobotClosestToPoint(ball.pos(), team);
+         */
+        [[nodiscard]] RobotView getRobotClosestToBall(Team team = both) const noexcept;
+
+        /**
+         * Checks whether a robot has the ball
+         * @param id Id of robot to check
+         * @param ourTeam whether or not it should be fetched from our team
+         * @param maxDist maximum distance for "having ball"
+         * @return true if the robot with id has the ball, false if not
+         */
+        [[nodiscard]] bool robotHasBall(uint8_t id, bool ourTeam, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
+
+        /**
+         * Check whether our robot with @refitem id has the ball
+         * @param id Id of robot to check
+         * @param maxDist Maximum distance for "having ball"
+         * @return Returns true if that robot has the ball, false if not
+         */
+        [[nodiscard]] bool ourRobotHasBal(uint8_t id, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
+
+        /**
+         * Check whether their robot with @refitem id has the ball
+         * @param id The ID of the robot to check
+         * @param maxDist Maximum distance for "having ball"
+         * @return true if that robot has the ball, false if not
+         */
+        [[nodiscard]] bool theirRobotHasBall(int id, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
+
+        /**
+         * Gets a view over the robot that currently has the ball
+         * @param team Team enum of team to fetch from
+         * @return A non-owning view of the robot that has the ball
+         */
+        [[nodiscard]] RobotView whichRobotHasBall(Team team = both);
     private:
         /**
          * Constant world data that's used in the view

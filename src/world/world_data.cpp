@@ -50,4 +50,12 @@ namespace rtt::world_new {
             return std::nullopt;
         }
     }
+
+    bool WorldData::weHaveRobots() const noexcept {
+        return !getUs().empty();
+    }
+
+    uint64_t WorldData::getTime() const noexcept {
+        return time;
+    }
 } // namespace rtt::world
