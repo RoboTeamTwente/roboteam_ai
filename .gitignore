@@ -1,4 +1,6 @@
-.idea/**/*
+# Vim temporaries
+*.swp
+*~
 
-cmake-build-debug/**/*
-documentation/**/*
+.idea
+cmake-build-debug

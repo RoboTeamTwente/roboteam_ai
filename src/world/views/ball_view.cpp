@@ -2,7 +2,6 @@
 // Created by john on 1/13/20.
 //
 
-#define _EXCLUDE_QT5_
 #include <cassert>
 #include "world/views/ball_view.hpp"
 #include "utilities/Constants.h"

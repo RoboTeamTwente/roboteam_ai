@@ -1,5 +1,5 @@
-# This travis image builds roboteam_suite and runs the target 'ai_tests'.
-# All other repositories of roboteam_suit are set to the master branch.
+# This travis image builds roboteam_suite and runs the target 'world_tests'.
+# All other repositories of roboteam_suite are set to the master branch.
 # We need all dependencies to parse the cmake files. This can be optimized later,
 # but with caching this is not a large performance hit anyway.
 
@@ -39,9 +39,11 @@ install:
   - make
   - sudo make install
 
+
 # First we set up the compiler to use ccache.
 # then clone roboteam_suite and put all repositories on master.
-# then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
+# then we replace roboteam_world from rtt_suite with the branch you are currently on to test this branch specifically.
+# As a temporary solution we currently need development of roboteam_ai since master has no mac support yet.
 # Finally, we run the tests.
 script:
   - cd ~
