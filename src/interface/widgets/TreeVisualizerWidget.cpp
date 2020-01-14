@@ -98,7 +98,7 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     QString status = QString::fromStdString(node->status_print(node->getStatus()));//statusToString(node->getStatus()));
     if (row->text(1)!=status) {
         row->setText(1, status);
-        row->setTextColor(1, getColorForStatus(node->getStatus()));
+        row->setForeground(1, getColorForStatus(node->getStatus()));
     }
 
     // Update the elapsed time (if ticked)
@@ -106,22 +106,22 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
 
     if (node->getAmountOfTicks() > 0) {
 //        if (duration.toSec() < 1) {
-//            row->setTextColor(2, Qt::white);
+//            row->setForeground(2, Qt::white);
 //            row->setText(2, "Just now");
 //        } else if (duration.toSec() < 60){
-//            row->setTextColor(2, Qt::gray);
+//            row->setForeground(2, Qt::gray);
 //            row->setText(2, QString::number(duration.toSec(), 'f', 1)+"s ago");
 //        } else {
-//            row->setTextColor(2, Qt::darkGray);
+//            row->setForeground(2, Qt::darkGray);
 //            row->setText(2, "> 1m ago");
 //        }
     } else {
-        row->setTextColor(2, Qt::darkGray);
+        row->setForeground(2, Qt::darkGray);
         row->setText(2, "N/A");
     }
 
     // update the total amount of ticks
-    row->setTextColor(3, Qt::darkGray);
+        row->setForeground(3, Qt::darkGray);
 
 
     // go from yellow to red
@@ -132,7 +132,7 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
         double div = (node->getAmountOfTicks()*1.0) / (mostTicks*1.0);
         div = log( (127)*div + 1) / log(128);
         auto factor = static_cast<int>(255 * div);
-        row->setTextColor(3, {255, 255-factor, factor});
+        row->setForeground(3, QColor{255, 255 - factor, factor});
     }
     row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));
 
