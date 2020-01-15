@@ -4,13 +4,12 @@
 
 #include <control/positionControl/VoronoiPathPlanning.h>
 
-VoronoiPathPlanning::VoronoiPathPlanning(double fieldWidth, double fieldLength, const std::vector<rtt::Vector2*> &robotPositions) {
-    this->fieldLength = fieldLength;
-    this->fieldWidth = fieldWidth;
-    this->robots = robotPositions;
-}
+namespace rtt::ai::control{
+
+VoronoiPathPlanning::VoronoiPathPlanning(CollisionDetector& collisionDetector) : collisionDetector(collisionDetector){}
 
 void VoronoiPathPlanning::computeDiagram(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
+    auto robots = collisionDetector.getRobotPositions();
     std::vector<jcv_point> robotPositions(robots.size());
     std::transform(robots.begin(), robots.end(), robotPositions.begin(),
             [](auto robot)-> jcv_point {return {(float)robot->x, (float)robot->y};});
@@ -151,6 +150,4 @@ rtt::Vector2 VoronoiPathPlanning::convertFromJcvPoint(jcv_point point) {
     return rtt::Vector2(std::round(1000.0*point.x)/1000, std::round(1000.0*point.y)/1000);
 }
 
-void VoronoiPathPlanning::setRobotPositions(const std::vector<rtt::Vector2 *> &robots) {
-    this->robots = robots;
 }

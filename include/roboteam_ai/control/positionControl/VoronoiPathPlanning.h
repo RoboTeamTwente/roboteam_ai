@@ -11,7 +11,9 @@
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
 #include <control/ControlUtils.h>
+#include "CollisionDetector.h"
 
+namespace rtt::ai::control{
 struct GraphNode{
     rtt::Vector2 nextNodePosition;
     double distance;
@@ -28,10 +30,8 @@ struct hashPoint{
 class VoronoiPathPlanning {
 private:
     jcv_diagram voronoiDiagram{};
-    double fieldWidth;
-    double fieldLength;
 
-    std::vector<rtt::Vector2*> robots;
+    CollisionDetector &collisionDetector;
 
     // the adjacency list is a map from the position of the node to the adjacent nodes
     std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> graphAdjacencyList;
@@ -47,16 +47,13 @@ private:
     void completeGraphWithOriginDestination(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
 public:
-    VoronoiPathPlanning() = default;
-
-    VoronoiPathPlanning(double fieldWidth, double fieldLength, const std::vector<rtt::Vector2*> &robotPositions);
+    VoronoiPathPlanning(CollisionDetector& collisionDetector);
 
     std::list<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
     const std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
 
-    void setRobotPositions(const std::vector<rtt::Vector2 *> &robots);
 };
-
+}
 
 #endif //RTT_VORONOIPATHPLANNING_H
