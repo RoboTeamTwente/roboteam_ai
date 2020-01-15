@@ -2,30 +2,28 @@
 // Created by ratoone on 18-11-19.
 //
 
-#include <control/positionControl/PositionControl.h>
-#include <interface/api/Input.h>
+#include "control/positionControl/PositionControl.h"
 
-using namespace rtt::ai;
+namespace rtt::ai::control {
 
-PositionControl::PositionControl(double fieldWidth, double fieldLength,
-                                 const std::vector<rtt::Vector2 *> &robotPositions) {
-    pathPlanningAlgorithm = VoronoiPathPlanning(fieldWidth, fieldLength, robotPositions);
+PositionControl::PositionControl(world::World& world, world::Field& field): world(world), field(field) {
+    collisionDetector = new CollisionDetector(world, field);
+    pathPlanningAlgorithm = new NumTreesPlanning(*collisionDetector);
+    pathTrackingAlgorithm = new BasicPathTracking();
 }
 
-//TODO: add collision sensing
-RobotCommand
-PositionControl::computeAndTrackPath(const std::vector<std::shared_ptr<ai::world::Robot>>&robots,
-        int robotId, const Vector2 &currentPosition,
+//TODO: add projection to outside defence area (project target position)(is this really needed?)
+RobotCommand PositionControl::computeAndTrackPath(int robotId, const Vector2 &currentPosition,
         const Vector2 &currentVelocity, const Vector2 &targetPosition) {
     if (computedPaths.find(robotId) == computedPaths.end()) {
         computedPaths.insert({robotId, std::list<Vector2>()});
     }
 
-    if (computedPaths[robotId].empty() || computedPaths[robotId].back() != targetPosition) {
-        std::vector<Vector2*> robotPositions(robots.size());
+    if (shouldRecalculatePath(currentPosition, targetPosition, robotId)) {
+        auto robots = world.getAllRobots();
+        std::vector<Vector2 *> robotPositions(robots.size());
         std::transform(robots.begin(), robots.end(), robotPositions.begin(),
-                       [](auto robot)-> Vector2* {return &(robot->pos);});
-        pathPlanningAlgorithm.setRobotPositions(robotPositions);
+                       [](auto robot) -> Vector2 * { return &(robot->pos); });
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
 
@@ -40,7 +38,7 @@ PositionControl::computeAndTrackPath(const std::vector<std::shared_ptr<ai::world
             angle);
     command.angle = angle;
 
-    for (const auto& point: computedPaths[robotId]) {
+    for (const auto &point: computedPaths[robotId]) {
         rtt::ai::interface::Input::drawData(rtt::ai::interface::Visual::PATHFINDING_DEBUG, {point}, Qt::green,
                                             robotId,
                                             rtt::ai::interface::Drawing::DOTS, 12, 12);
@@ -52,3 +50,12 @@ PositionControl::computeAndTrackPath(const std::vector<std::shared_ptr<ai::world
     return command;
 }
 
+bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId) {
+    return computedPaths[robotId].empty() ||
+            // distance between the new target and the former target
+            (targetPos - computedPaths[robotId].back()).length() > MAX_DEVIATION ||
+            collisionDetector->isRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
+
+}
+
+}
