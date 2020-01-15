@@ -16,7 +16,7 @@ Skill::Status DriveWithInterface::onUpdate() {
         return Status::Failure;
     }
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
-    auto robotCommand = numTreeGtp.computeAndTrackPath(robot->id, robot->pos,
+    auto robotCommand = numTreeGtp->computeAndTrackPath(robot->id, robot->pos,
                                                        robot->vel, targetPos);
 
     command.mutable_vel()->set_x(robotCommand.vel.x);

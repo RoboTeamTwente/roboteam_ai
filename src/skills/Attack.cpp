@@ -30,6 +30,7 @@ bt::Node::Status Attack::onUpdate() {
         return Status::Running;
     }
 
+
     Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->getPos());
     auto shotData = robot->getShotController()->getRobotCommand(
             *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM,3);

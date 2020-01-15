@@ -24,13 +24,13 @@ RobotCommand PositionControl::computeAndTrackPath(int robotId, const Vector2 &cu
         std::vector<Vector2 *> robotPositions(robots.size());
         std::transform(robots.begin(), robots.end(), robotPositions.begin(),
                        [](auto robot) -> Vector2 * { return &(robot->pos); });
-        computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
+        computedPaths[robotId] = pathPlanningAlgorithm->computePath(currentPosition, targetPosition);
     }
 
     RobotCommand command = RobotCommand();
     double angle;
     command.pos = computedPaths[robotId].front();
-    pathTrackingAlgorithm.trackPath(
+    pathTrackingAlgorithm->trackPath(
             currentPosition,
             currentVelocity,
             computedPaths[robotId],
