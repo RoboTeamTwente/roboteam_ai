@@ -183,6 +183,10 @@ set(CONTROL_SOURCES
         # PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/NumTreesPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/VoronoiPathPlanning.cpp
 
         # NumTrees
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/NumTreePosControl.cpp
