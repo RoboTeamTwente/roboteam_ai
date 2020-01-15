@@ -17,7 +17,7 @@ namespace rtt::ai {
     }
 
 void Skill::publishRobotCommand() {
-    if (!rtt::Settings::settings->isLeft()) {
+    if (!rtt::Settings::instance()->isLeft()) {
         command = rotateRobotCommand(command);
     }
 

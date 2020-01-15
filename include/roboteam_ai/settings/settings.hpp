@@ -10,6 +10,11 @@
 namespace rtt {
 
     class Settings {
+    public:
+        static Settings* instance() {
+            static Settings inst;
+            return &inst;
+        }
 
     private:
         int id = 0;
@@ -69,8 +74,6 @@ namespace rtt {
     public:
         void init(int id);
         proto::Setting toMessage();
-
-        inline static Settings* settings;
     };
 
 }

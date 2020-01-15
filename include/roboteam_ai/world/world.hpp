@@ -38,7 +38,7 @@ namespace rtt::world_new {
          * @return A pointer to a static World
          */
         inline static World* instance() {
-            static World wlrd{ rtt::Settings::settings };
+            static World wlrd{ rtt::Settings::instance() };
             return &wlrd;
         }
 

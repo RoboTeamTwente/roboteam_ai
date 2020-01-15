@@ -5,8 +5,6 @@
 #include "roboteam_world/world/settings.hpp"
 
 namespace rtt::world::settings {
-    Settings* Settings::settings = nullptr;
-
     size_t Settings::getId() const noexcept {
         return id;
     }

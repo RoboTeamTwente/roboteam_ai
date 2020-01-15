@@ -81,7 +81,7 @@ GameState GameStateManager::getCurrentGameState() {
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
-        if (rtt::Settings::settings->isYellow()) {
+        if (rtt::Settings::instance()->isYellow()) {
             newGameState.keeperId = getRefereeData().yellow().goalie();
         } else {
             newGameState.keeperId = getRefereeData().blue().goalie();
