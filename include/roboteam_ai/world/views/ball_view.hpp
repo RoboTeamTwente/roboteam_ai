@@ -68,14 +68,7 @@ namespace rtt::world_new::view {
          * Undefined behavior will occur if _ptr is nullptr
          * @return Returns get()
          */
-        const ball::Ball* operator->() const noexcept;
-
-        /**
-         * Get the expected position where the ball will end (lay still) after following his path.
-         * @return A vector which represents this position.
-         */
-        [[nodiscard]] Vector2 getExpectedBallEndPosition() const noexcept;
-
+        const ball::Ball *operator->() const noexcept;
     };
 }
 

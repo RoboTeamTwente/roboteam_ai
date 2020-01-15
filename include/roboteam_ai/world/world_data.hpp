@@ -12,9 +12,8 @@
 #include "roboteam_proto/Setting.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 
-#include "world/robot.hpp"
-#include "world/ball.hpp"
 #include "world/views/robot_view.hpp"
+#include "world/views/ball_view.hpp"
 
 namespace rtt::world_new {
 

@@ -12,14 +12,6 @@ namespace rtt::world_new::view {
         assert(_ptr && "_ptr in ball_view ctor is nullptr");
     }
 
-    rtt::Vector2 BallView::getExpectedBallEndPosition() const noexcept {
-        const double ballVelocitySquared = _ptr->getFilteredVelocity().length2();
-        const double friction = ai::Constants::GRSIM() ? ball::SIMULATION_FRICTION : ball::REAL_FRICTION;
-        return _ptr->getPos() + _ptr->getFilteredVelocity().stretchToLength(
-                ballVelocitySquared / friction
-        );
-    }
-
     const ball::Ball *BallView::get() const noexcept {
         return _ptr;
     }

@@ -19,37 +19,62 @@ namespace rtt::world_new::ball {
 
     class Ball {
     private:
+        /**
+         * The position where this ball currently is
+         */
         Vector2 position;
+
+        /**
+         * The current velocity of the ball
+         */
         Vector2 velocity;
+
+        /**
+         * Boolean flag that indicates whether the ball is currently visible by any camera
+         */
         bool visible = false;
+
+        /**
+         * Expected ball end position (where it lays still) after following its path
+         */
         Vector2 expectedEndPosition;
+
+        /**
+         * The velocity but thn adjusted to determine a more realistic end position
+         */
         Vector2 filteredVelocity;
 
+        /**
+         * Initializes:
+         *  Filtered velocity
+         *  Expected end pos
+         *  Sets position if it's currently unknown
+         *  Updates position
+         */
+        void initializeCalculations() noexcept;
+
+        /**
+         * Initializes ball at the robot's position if `this` does not have a position
+         */
+        void initBallAtRobotPosition() noexcept;
+
+        /**
+         * Sets filteredVelocity
+         */
+        void filterBallVelocity() noexcept;
+
+        /**
+         * Updates the expected ball end position
+         */
+        void updateExpectedBallEndPosition() noexcept;
+
+        /**
+         * Draws expectedEndPosition and draws to inteface
+         */
+        void updateBallAtRobotPosition() noexcept;
+
+
     public:
-//        /**
-//         * When the position of the ball is not yet initialized, but was previously near to a robot then initialize
-//         * the position of the ball to a position close to that robot.
-//         */
-//        void initBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData);
-//
-//        /**
-//         * Adds a moving average over the Kalman filter to make the ball-velocity more stable (this method could be
-//         * moved to rtt_world).
-//        */
-//        void filterBallVelocity(Ball const& oldBall, const WorldData &worldData);
-//
-//        /**
-//         * Update the expected position where the ball will end (lay still) after following his path.
-//         */
-//        void updateExpectedBallEndPosition(const Ball &oldBall, const WorldData &worldData);
-//
-//        /**
-//         * When the position of the ball is close to a robot and not visible by camera then update the ball according
-//         * to the movement and rotation of that robot (which happens during dribbling).
-//         */
-//        void updateBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData);
-
-
         [[nodiscard]] const Vector2 &getPos() const noexcept;
 
         [[nodiscard]] const Vector2 &getVelocity() const noexcept;
@@ -60,6 +85,9 @@ namespace rtt::world_new::ball {
 
         [[nodiscard]] const Vector2 &getFilteredVelocity() const noexcept;
 
+        /**
+         * Default ctor for containers
+         */
         Ball() = default;
 
         /**
@@ -68,11 +96,18 @@ namespace rtt::world_new::ball {
          */
         explicit Ball(const proto::WorldBall &copy);
 
-        Ball& operator=(Ball const&) = default;
-        Ball(Ball const&) = default;
+        /**
+         * Defaulted constructors
+         */
+        Ball &operator=(Ball const &) = default;
 
-        Ball& operator=(Ball&&) = default;
-        Ball(Ball&&) = default;
+        Ball(Ball const &) = default;
+
+        Ball &operator=(Ball &&) = default;
+
+        Ball(Ball &&) = default;
+
+        ~Ball() = default;
 
     };
 
