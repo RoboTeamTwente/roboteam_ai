@@ -10,6 +10,7 @@ void Role::initialize() {
     // Get the robot ID for this Role
 
 }
+
 Node::Status Role::update() {
     auto status = child->tick(world, field);
     if (status == Status::Success) {
@@ -23,18 +24,17 @@ Node::Status Role::update() {
         return Status::Running;
     }
 }
+
 void Role::addChild(Node::Ptr newChild) {
     this->child = newChild;
-
 }
+
 std::string Role::node_name() {
     return name;
 
 }
-Role::Role(std::string name) {
-    this->name = std::move(name);
+Role::Role(std::string name) : name(name) {
     globalBB = std::make_shared<Blackboard>();
-
 }
 
 std::vector<Node::Ptr> Role::getChildren() {

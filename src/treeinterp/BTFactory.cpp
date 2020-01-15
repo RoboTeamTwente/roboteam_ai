@@ -3,13 +3,18 @@
 //
 
 #include "treeinterp/BTFactory.h"
+#include "treeinterp/OffensiveStrategy.h"
+
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
 std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
 std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
+std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::codeTrees;
+
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
+
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
@@ -19,6 +24,14 @@ void BTFactory::makeTrees() {
 
     std::cout << "Re-Make Trees From Json" << std::endl;
 
+    /*
+     * Here we store the C++ trees in a map, key = treename, val = cpp tree.
+     * In order to do this in a cleaner way, maybe build trees automatically by going through directory
+     */
+    auto Off = new bt::OffensiveStrategy();
+    codeTrees["attackertree"] = Off->createOffensiveStrategy();
+
+    // TODO Remove this legacy code
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
     //-O1 flag this takes like 20 ms so it is totally fine.
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
@@ -42,10 +55,19 @@ void BTFactory::makeTrees() {
     std::cout << "Done making trees" << std::endl;
 }
 
+/**
+ * This function now still uses the JSON trees, but by uncommenting at the guard "HERE" you can use a different tree for testing purposes
+ * @param treeName the name of the behaviour tree you are requesting.
+ * @return The behaviourtree corresponding to that treename
+ */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
+// HERE
+//    // Un-kill the code below by commenting the return statement to restore json functionality
+//    auto treefound = codeTrees.find("attackertree");
+//    return treefound->second;
 
-    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
     std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;

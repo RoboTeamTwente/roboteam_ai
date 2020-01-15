@@ -6,8 +6,6 @@
 
 #include "WorldHelper.h"
 #include <roboteam_utils/Vector2.h>
-#include <WorldRobot.pb.h>
-#include <World.pb.h>
 #include <random>
 #include <roboteam_ai/world_old/Robot.h>
 #include <roboteam_ai/world_old/World.h>
