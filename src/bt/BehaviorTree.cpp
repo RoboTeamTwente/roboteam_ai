@@ -6,7 +6,10 @@ namespace bt {
 BehaviorTree::BehaviorTree() {
     globalBB = std::make_shared<Blackboard>();
 }
-
+BehaviorTree::BehaviorTree(std::string name) {
+    globalBB = std::make_shared<Blackboard>();
+    this->name = name;
+}
 BehaviorTree::BehaviorTree(const Node::Ptr &rootNode)
         :BehaviorTree() {
     root = rootNode;
@@ -17,6 +20,7 @@ BehaviorTree::BehaviorTree(const Blackboard::Ptr &shared)
         :BehaviorTree() {
     globalBB = shared;
 }
+
 
 Node::Status BehaviorTree::update() {
     return root->tick(world, field);

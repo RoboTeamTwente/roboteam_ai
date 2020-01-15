@@ -10,6 +10,12 @@
 namespace rtt {
 namespace ai {
 
+    /**
+     * Checks if the robot is on the pass line. Initialize this skill with a name corresponding to the role,
+     * and a blackboard (that can be empty as of writing this documentation)
+     * @param name
+     * @param blackboard the blackboard passed into the function from which the skill can be given data
+     */
 IsOnPassLine::IsOnPassLine(std::string name, bt::Blackboard::Ptr blackboard)
     :Condition(std::move(name), std::move(blackboard)) { };
 

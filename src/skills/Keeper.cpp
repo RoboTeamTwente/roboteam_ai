@@ -82,7 +82,7 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
         Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
         double dist = (defendPos - goalPos).length();
         Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
-        std::pair<boost::optional<Vector2>, boost::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
+        std::pair<std::optional<Vector2>, std::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
                 blockLineStart, defendPos);
 
         // go stand on the intersection of the lines. Pick the one that is closest to (0,0) if there are multiple

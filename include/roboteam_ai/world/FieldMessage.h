@@ -148,13 +148,15 @@ private:
     };
 
 private:
-    // Stores all the constant of the field (lengths, widths, positions)
-    std::unordered_map<FieldValueName, double> fieldValues = {};
-    std::unordered_map<FieldLineName, FieldLineSegment> fieldLines = {}; // Stores all the lines of the field
-    std::unordered_map<FieldArcName, FieldArc> fieldArcs = {}; // Stores all the arcs of the field
-    std::unordered_map<FieldVectorName, Vector2> fieldVectors = {}; // Stores all positions of the field
+    /* Stores all the constant of the field (lengths, widths, positions).
+     * The custom hash for all dictionaries is necessary to support the clang compiler, for more information see the
+     * following link: https://stackoverflow.com/questions/18837857/cant-use-enum-class-as-unordered-map-key */
+    std::unordered_map<FieldValueName, double, std::hash<int>> fieldValues = {};
+    std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> fieldLines = {}; // Stores all the lines of the field
+    std::unordered_map<FieldArcName, FieldArc, std::hash<int>> fieldArcs = {}; // Stores all the arcs of the field
+    std::unordered_map<FieldVectorName, Vector2, std::hash<int>> fieldVectors = {}; // Stores all positions of the field
 
-public:
+ public:
     /**
      * Constructor that creates an unitialized FieldMessage
      */
@@ -199,7 +201,7 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    std::unordered_map<FieldLineName, FieldLineSegment> getField_lines();
+    std::unordered_map<FieldLineName, FieldLineSegment,  std::hash<int>> getField_lines();
 
 private:
     /**
