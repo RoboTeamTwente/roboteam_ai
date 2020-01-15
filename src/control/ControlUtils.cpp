@@ -10,9 +10,7 @@
 #include "world/World.h"
 #include "world/WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 
 // Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
@@ -388,7 +386,5 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
     }
 
 
-} // control
-} // ai
 } // rtt
 

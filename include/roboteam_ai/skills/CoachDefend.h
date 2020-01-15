@@ -10,8 +10,7 @@
 #include "Skill.h"
 #include "control/numTrees/NumTreePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class CoachDefend : public Skill {
     private:
         bool useBasicGtp(Vector2 targetLocation);
@@ -20,7 +19,6 @@ class CoachDefend : public Skill {
         void onInitialize() override;
         bt::Node::Status onUpdate() override;
 };
-}
 }
 
 #endif //ROBOTEAM_AI_COACHDEFEND_H

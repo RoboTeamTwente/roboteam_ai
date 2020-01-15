@@ -4,8 +4,7 @@
 
 #include "skills/InterceptRobot.hpp"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai{
 
 InterceptRobot::InterceptRobot(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
@@ -53,5 +52,4 @@ Vector2 InterceptRobot::getInterceptPos(Robot robotToIntercept) {
 
 
 
-}
 }

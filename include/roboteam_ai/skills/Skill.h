@@ -6,8 +6,7 @@
 #include "roboteam_proto/RobotCommand.pb.h"
 #include <roboteam_utils/Angle.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // forward declare control Utils
 namespace control {
@@ -56,7 +55,6 @@ class Skill : public bt::Leaf {
         void refreshRobotPositionControllers();
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_SKILL_H

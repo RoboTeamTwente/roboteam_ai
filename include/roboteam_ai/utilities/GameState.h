@@ -5,8 +5,7 @@
 #include "RuleSet.h"
 #include "Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 struct GameState {
     GameState() = default;
@@ -31,7 +30,6 @@ struct GameState {
     }
 };
 
-} // ai
 } // rtt
 
 

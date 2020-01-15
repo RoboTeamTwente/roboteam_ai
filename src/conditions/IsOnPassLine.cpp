@@ -7,8 +7,7 @@
 #include <world/Ball.h>
 #include <control/ControlUtils.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
     /**
      * Checks if the robot is on the pass line. Initialize this skill with a name corresponding to the role,
@@ -36,5 +35,4 @@ IsOnPassLine::Status IsOnPassLine::onUpdate() {
     return Status::Failure;
 }
 
-}
 }

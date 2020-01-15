@@ -10,8 +10,7 @@
 #include <Settings/Settings.h>
 
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(std::move(name), std::move(blackboard)) {
@@ -121,5 +120,4 @@ void Skill::refreshRobotPositionControllers() {
     robot->resetBasicPosControl();
 }
 
-} // ai
 } // rtt

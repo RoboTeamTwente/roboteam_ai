@@ -7,9 +7,7 @@
 
 #include "WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 
 class History {
@@ -23,8 +21,6 @@ class History {
         const WorldData getPreviousWorld(int worldsBack = 1);
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_HISTORY_H

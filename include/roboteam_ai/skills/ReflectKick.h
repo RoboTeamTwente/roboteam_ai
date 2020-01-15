@@ -10,8 +10,7 @@
 #include <coach/PassCoach.h>
 #include <coach/BallplacementCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class ReflectKick : public Skill {
 private:
@@ -41,7 +40,6 @@ public:
     Vector2 getFarSideOfGoal();
 };
 
-}
 }
 
 

@@ -6,8 +6,7 @@
 #include "skills/gotopos/GTPWithBall.h"
 #include <coach/BallplacementCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 GTPWithBall::GTPWithBall(string name, bt::Blackboard::Ptr blackboard)
         : Skill(std::move(name), std::move(blackboard)) { }
@@ -53,5 +52,4 @@ void GTPWithBall::updateTarget() {
     }
 }
 
-}
 }

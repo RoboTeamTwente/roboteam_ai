@@ -8,9 +8,7 @@
 #include "QLayout"
 #include "widget.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class RobotsWidget: public QWidget {
 Q_OBJECT
@@ -26,8 +24,6 @@ public slots:
     void updateContents(Visualizer* visualizer);
 };
 
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_ROBOTSWIDGET_H

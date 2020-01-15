@@ -7,9 +7,7 @@
 #include "world/Field.h"
 #include "world/WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 const double PossiblePass::distance() {
     return (endPos - startPos).length();
 }
@@ -87,7 +85,5 @@ Vector2 PossiblePass::posOnLine(double scale) {
 }
 double PossiblePass::faceLine() {
     return (startPos - endPos).angle();
-}
-}
 }
 }

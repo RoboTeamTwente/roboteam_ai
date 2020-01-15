@@ -4,9 +4,7 @@
 
 #include "control/numTrees/Collision.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 std::string Collision::collisionTypeToString() {
     std::string s;
@@ -108,6 +106,4 @@ void Collision::setBallPlacementCollision(const Vector2 &collisionPos, double di
     setCollision(distance);
 }
 
-}
-}
 }

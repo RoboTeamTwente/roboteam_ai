@@ -7,8 +7,7 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Wait : public Skill {
 private:
@@ -21,7 +20,6 @@ public:
     Status onUpdate() override;
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_WAIT_H

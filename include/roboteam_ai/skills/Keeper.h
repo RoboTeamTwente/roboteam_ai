@@ -11,8 +11,7 @@
 #include "roboteam_utils/Mathematics.h"
 #include <world/BallPossession.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class Keeper : public Skill {
 
         const double KEEPER_POSDIF = 0.01;
@@ -32,7 +31,6 @@ class Keeper : public Skill {
         void onInitialize() override;
         void onTerminate(Status s) override;
 };
-}
 }
 
 #endif //ROBOTEAM_AI_KEEPER_H

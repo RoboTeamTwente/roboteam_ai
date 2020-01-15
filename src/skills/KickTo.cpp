@@ -5,8 +5,7 @@
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 KickTo::KickTo(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) {
@@ -37,5 +36,4 @@ bt::Node::Status KickTo::onUpdate() {
     return Status::Running;
 }
 
-} // ai
 } // rtt

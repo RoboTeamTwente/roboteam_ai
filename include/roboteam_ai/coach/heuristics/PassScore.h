@@ -7,26 +7,22 @@
 
 #include "CoachHeuristics.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class PassScore {
-private:
-    const double CLOSE_TO_GOAL_WEIGHT = 2.0;
-    const double SHOT_AT_GOAL_WEIGHT = 1.0;
-    const double PASS_LINE_WEIGHT = 6.0;
-    const double BEHIND_BALL_WEIGHT = 2.0;
-    const double DISTANCE_TO_OPPONENT_WEIGHT = 1.0;
-    const double DISTANCE_FROM_BALL_WEIGHT = 2.0;
-    
-public:
+    class PassScore {
+    private:
+        const double CLOSE_TO_GOAL_WEIGHT = 2.0;
+        const double SHOT_AT_GOAL_WEIGHT = 1.0;
+        const double PASS_LINE_WEIGHT = 6.0;
+        const double BEHIND_BALL_WEIGHT = 2.0;
+        const double DISTANCE_TO_OPPONENT_WEIGHT = 1.0;
+        const double DISTANCE_FROM_BALL_WEIGHT = 2.0;
+
+    public:
     using WorldData = world::WorldData;
     double  calculatePassScore(const Vector2& position);
 };
 
-}
-}
 }
 
 

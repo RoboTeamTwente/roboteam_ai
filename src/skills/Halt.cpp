@@ -4,8 +4,7 @@
 
 #include "skills/Halt.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Halt::Halt(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
@@ -17,5 +16,4 @@ Halt::Status Halt::onUpdate() {
     return Status::Running;
 }
 
-} // ai
 } // rtt

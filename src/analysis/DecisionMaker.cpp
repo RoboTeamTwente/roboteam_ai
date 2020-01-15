@@ -7,9 +7,7 @@
 #include "analysis/GameAnalyzer.h"
 
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
     int amountOfRobots = world::world->getUs().size();
@@ -37,6 +35,4 @@ PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
 }
 
 
-} // analysis
-} // ai
 } // rtt

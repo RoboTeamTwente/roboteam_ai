@@ -9,8 +9,7 @@
 #include <control/BasicPosControl.h>
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class InterceptBall : public Skill {
     private:
@@ -61,7 +60,6 @@ class InterceptBall : public Skill {
 
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_INTERCEPTBALL_H

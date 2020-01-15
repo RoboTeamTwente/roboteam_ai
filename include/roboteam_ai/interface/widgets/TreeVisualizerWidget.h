@@ -10,9 +10,7 @@
 #include <bt/Node.hpp>
 #include <bt/BehaviorTree.hpp>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class MainWindow;
 class TreeVisualizerWidget : public QTreeWidget {
@@ -36,7 +34,5 @@ public slots:
     void populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate = false);
 };
 
-}
-}
 }
 #endif //ROBOTEAM_AI_TREEVISUALIZER_H

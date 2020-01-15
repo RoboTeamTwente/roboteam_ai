@@ -8,16 +8,16 @@
 
 #include "Condition.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai {
 
-class RefStateIsNormalPlay : public Condition {
-public:
-    explicit RefStateIsNormalPlay(std::string name = "RefStateIsNormalPlay", bt::Blackboard::Ptr blackboard = nullptr);
-    Status onUpdate() override;
-};
+    class RefStateIsNormalPlay : public Condition {
+    public:
+        explicit RefStateIsNormalPlay(std::string name = "RefStateIsNormalPlay",
+                                      bt::Blackboard::Ptr blackboard = nullptr);
 
-} // ai
+        Status onUpdate() override;
+    };
+
 } // rtt
 
 #endif //ROBOTEAM_AI_REFSTATEISNORMALPLAY_H

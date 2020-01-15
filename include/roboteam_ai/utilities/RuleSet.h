@@ -5,8 +5,7 @@
 #ifndef ROBOTEAM_AI_RULESET_H
 #define ROBOTEAM_AI_RULESET_H
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 struct RuleSet {
     RuleSet() = default;
@@ -33,7 +32,6 @@ struct RuleSet {
 
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_RULESET_H

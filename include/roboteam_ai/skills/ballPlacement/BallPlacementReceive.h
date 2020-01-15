@@ -7,8 +7,7 @@
 
 #include "skills/Receive.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class BallPlacementReceive : public Receive {
 
@@ -20,7 +19,6 @@ private:
     void moveToCatchPosition(const Vector2& position);
 
 };
-}
 }
 
 #endif //ROBOTEAM_AI_BALLPLACEMENTRECEIVE_H

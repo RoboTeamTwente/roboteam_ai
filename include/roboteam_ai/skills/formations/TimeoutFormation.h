@@ -7,8 +7,7 @@
 
 #include "skills/formations/Formation.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class TimeoutFormation : public Formation {
 public:
@@ -22,6 +21,5 @@ private:
 
 
 
-}
 }
 #endif //ROBOTEAM_AI_TIMEOUTFORMATION_H

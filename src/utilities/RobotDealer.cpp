@@ -13,9 +13,7 @@
 #include "coach/BallplacementCoach.h"
 
 
-namespace rtt {
-namespace ai {
-namespace robotDealer {
+namespace rtt::ai::robotDealer {
 
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners = {};
 
@@ -466,8 +464,6 @@ bool RobotDealer::hasFree() {
     return false;
 }
 
-} // robotDealer
-} // ai
 } // rtt
 
 

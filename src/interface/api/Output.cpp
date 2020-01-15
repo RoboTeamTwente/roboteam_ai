@@ -7,9 +7,7 @@
 #include "interface/api/Output.h"
 #include "world/Ball.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 // these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
@@ -187,6 +185,4 @@ void Output::setBallHandlePid(const pidVals &ballHandlePid) {
 }
 
 
-} // interface
-} // ai
 } // rtt

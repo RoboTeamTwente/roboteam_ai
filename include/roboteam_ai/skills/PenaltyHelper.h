@@ -6,8 +6,7 @@
 #define ROBOTEAM_AI_PENALTYHELPER_H
 #include "Skill.h"
 
-namespace rtt{
-namespace ai {
+namespace rtt::ai {
 
 
 class PenaltyHelper : public Skill {
@@ -20,6 +19,5 @@ class PenaltyHelper : public Skill {
 
 
 };
-}
 }
 #endif //ROBOTEAM_AI_PENALTYHELPER_H

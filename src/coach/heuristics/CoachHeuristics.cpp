@@ -9,9 +9,7 @@
 
 #include <cmath>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = - 0.1;
 const double CoachHeuristics::SHOT_AT_GOAL_WEIGHT = - 3.0;
@@ -133,6 +131,4 @@ double CoachHeuristics::calculateAngleToGoalScore(const Vector2 &position) {
 
 }
 
-}
-}
 }

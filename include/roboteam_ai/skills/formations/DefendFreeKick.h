@@ -6,8 +6,7 @@
 #define ROBOTEAM_AI_DEFENDFREEKICK_H
 
 #include "Formation.h"
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class DefendFreeKick : public Formation {
 public:
@@ -19,6 +18,5 @@ private:
     static std::vector<Vector2> posses;
     void onTerminate(Status s) override;
 };
-}
 }
 #endif //ROBOTEAM_AI_DEFENDFREEKICK_H

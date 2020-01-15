@@ -11,19 +11,20 @@
 #include "world/World.h"
 #include "PossiblePass.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
-using Line=std::pair<Vector2, Vector2>;
-enum botType { BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE };
-struct DefenderBot {
-  int id;
-  Vector2 targetPos;
-  double orientation;
-  int blockFromID;
-  botType type;
+namespace rtt::ai::coach {
+    using Line=std::pair<Vector2, Vector2>;
+    enum botType {
+        BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE
+    };
 
-  int coveredCount = 0;
+    struct DefenderBot {
+        int id;
+        Vector2 targetPos;
+        double orientation;
+        int blockFromID;
+        botType type;
+
+        int coveredCount = 0;
   const world::Robot::RobotPtr toRobot();
   bool validPosition(const world::WorldData &world);
 };
@@ -85,8 +86,6 @@ class DefencePositionCoach {
 };
 extern DefencePositionCoach g_defensivePositionCoach;
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_DEFENSIVECOACH_H

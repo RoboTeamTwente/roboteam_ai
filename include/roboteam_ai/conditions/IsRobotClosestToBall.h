@@ -3,16 +3,15 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-class IsRobotClosestToBall : public Condition {
+    class IsRobotClosestToBall : public Condition {
     public:
         IsRobotClosestToBall(std::string name = "IsRobotClosestToBall", bt::Blackboard::Ptr blackboard = nullptr);
-        Status onUpdate() override;
-};
 
-} // ai
+        Status onUpdate() override;
+    };
+
 } // rtt
 
 #endif //ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H

@@ -9,9 +9,7 @@
 #include "world/Field.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
@@ -55,6 +53,4 @@ RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field
     return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }
 
-} // control
-} // ai
 } // rtt

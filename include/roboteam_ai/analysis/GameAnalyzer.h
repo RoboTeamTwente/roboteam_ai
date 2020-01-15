@@ -11,19 +11,20 @@
 #include "world/World.h"
 #include "world/BallPossession.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
-class GameAnalyzer {
-    FRIEND_TEST(GameAnalyzerTest, it_works);
-public:
-    // It's a singleton; don't copy it.
-    GameAnalyzer(const GameAnalyzer &) = delete;
-    void operator=(const GameAnalyzer &) = delete;
-    static GameAnalyzer &getInstance();
+    class GameAnalyzer {
+        FRIEND_TEST(GameAnalyzerTest, it_works);
 
-    void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
+    public:
+        // It's a singleton; don't copy it.
+        GameAnalyzer(const GameAnalyzer &) = delete;
+
+        void operator=(const GameAnalyzer &) = delete;
+
+        static GameAnalyzer &getInstance();
+
+        void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
     void stop();
 
     std::shared_ptr<AnalysisReport> getMostRecentReport();
@@ -59,7 +60,5 @@ private:
 };
 
 
-}
-}
 }
 #endif //ROBOTEAM_AI_GAMEANALYZER_H

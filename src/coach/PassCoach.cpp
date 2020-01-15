@@ -9,9 +9,7 @@
 #include <chrono>
 #include <world/World.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 PassCoach g_pass;
 
@@ -142,6 +140,4 @@ bool PassCoach::validReceiver(const RobotPtr& passer, const RobotPtr& receiver, 
     return true;
 }
 
-} // coach
-} // ai
 } // rtt

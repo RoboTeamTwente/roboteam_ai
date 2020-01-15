@@ -8,8 +8,7 @@
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
@@ -86,5 +85,4 @@ void DemoAttack::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-} // ai
 } // rtt

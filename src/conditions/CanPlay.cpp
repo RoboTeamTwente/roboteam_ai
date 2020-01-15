@@ -10,8 +10,7 @@
 #include "conditions/CanPlay.h"
 #include "world/Ball.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) {
@@ -33,5 +32,4 @@ bt::Node::Status CanPlay::onUpdate() {
     return Status::Success;
 }
 
-} // ai
 } // rtt

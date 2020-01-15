@@ -10,8 +10,7 @@
 #include "RuleSet.h"
 #include "GameState.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 struct RefGameState : public GameState {
     RefCommand commandId;
@@ -22,7 +21,6 @@ struct RefGameState : public GameState {
     bool hasFollowUpCommand() const;
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_REFGAMESTATE_H

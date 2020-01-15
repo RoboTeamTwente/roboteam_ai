@@ -10,9 +10,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class SettingsWidget : public QWidget {
 Q_OBJECT
@@ -32,8 +30,6 @@ public slots:
     void changeGrSimPort(int port);
 };
 
-}
-}
 }
 
 

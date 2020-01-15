@@ -9,18 +9,18 @@
 #include "utilities/Constants.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-using Line=std::pair<Vector2, Vector2>;
+    using Line=std::pair<Vector2, Vector2>;
 
-class PossiblePass {
+    class PossiblePass {
     public:
         world::Robot toBot;
         Vector2 startPos;
         Vector2 endPos;
+
         const double distance();
+
         bool obstacleObstructsPath(const Vector2 &obstPos,
                 double obstRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS());
         int amountOfBlockers(const world::WorldData &world);
@@ -36,8 +36,6 @@ class PossiblePass {
         double scoreForGoalAngle(const world::WorldData &world);
 };
 
-}//coach
-}//ai
 }//rtt
 
 #endif //ROBOTEAM_AI_POSSIBLEPASS_H

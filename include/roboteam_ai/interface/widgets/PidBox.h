@@ -11,9 +11,7 @@
 #include <QtWidgets/QGroupBox>
 #include <interface/api/Output.h>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class PidBox : public QGroupBox {
 Q_OBJECT
@@ -36,8 +34,6 @@ signals:
     void pidChanged(pidVals newPid);
 };
 
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_PIDBOX_H

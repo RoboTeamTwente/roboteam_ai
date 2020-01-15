@@ -9,8 +9,7 @@
 #include <roboteam_utils/Vector2.h>
 #include "control/RobotCommand.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 namespace world {
     class Robot;
@@ -83,7 +82,6 @@ class DribbleForwards {
 
 };
 
-}
 }
 }
 

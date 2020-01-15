@@ -8,19 +8,20 @@
 #include <chrono>
 #include <world/Robot.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class PassCoach {
-public:
-    using Robot = world::Robot;
-    using RobotPtr = std::shared_ptr<Robot>;
+    class PassCoach {
+    public:
+        using Robot = world::Robot;
+        using RobotPtr = std::shared_ptr<Robot>;
 
-    PassCoach();
-    void resetPass(int robotID);
-    int initiatePass(int passerID);
-    bool isReadyToReceivePass();
+        PassCoach();
+
+        void resetPass(int robotID);
+
+        int initiatePass(int passerID);
+
+        bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
     int getRobotBeingPassedTo();
     void setRobotBeingPassedTo(int robotBeingPassedTo);
@@ -59,7 +60,5 @@ private:
 
 extern PassCoach g_pass;
 
-} // coach
-} // ai
 } // rtt
 #endif //ROBOTEAM_AI_PASSCOACH_H

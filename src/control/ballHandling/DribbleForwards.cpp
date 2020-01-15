@@ -12,9 +12,7 @@
 #include "interface/api/Input.h"
 #include <sstream>
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 
 RobotCommand DribbleForwards::getRobotCommand(RobotPtr r, const Vector2 &targetP,
@@ -222,6 +220,4 @@ void DribbleForwards::setMaxVel(double maxV) {
     maxVel = maxV;
 }
 
-}
-}
 }

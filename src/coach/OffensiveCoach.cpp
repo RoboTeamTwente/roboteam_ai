@@ -10,9 +10,7 @@
 #include <control/Hungarian.h>
 #include <control/ControlUtils.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 OffensiveCoach g_offensiveCoach;
 
@@ -270,6 +268,4 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
 }
 
 
-}
-}
 }

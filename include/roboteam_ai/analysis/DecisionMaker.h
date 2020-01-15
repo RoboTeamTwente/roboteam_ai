@@ -15,28 +15,26 @@ enum playStyleScore : short {
 
 
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
-struct PlayStyle {
-    int amountOfDefenders;
-    int amountOfMidfielders;
-    int amountOfAttackers;
-    PlayStyle() =default;
-    PlayStyle(int def, int mid, int att)
-            : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
-};
+    struct PlayStyle {
+        int amountOfDefenders;
+        int amountOfMidfielders;
+        int amountOfAttackers;
+
+        PlayStyle() = default;
+
+        PlayStyle(int def, int mid, int att)
+                : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
+    };
 
 
-class DecisionMaker {
+    class DecisionMaker {
 public:
     explicit DecisionMaker() = default;
     PlayStyle getRecommendedPlayStyle(BallPossession possession);
 };
 
-} // analysis
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_DECISIONMAKER_H

@@ -9,9 +9,7 @@
 #include "roboteam_utils/Vector2.h"
 #include <utilities/Constants.h>
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class PositionUtils {
 public:
@@ -30,8 +28,6 @@ public:
 
 };
 
-} // coach
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_GENERALPOSITIONCOACH_H

@@ -8,8 +8,7 @@
 #include <control/numTrees/NumTreePosControl.h>
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class DemoAttack : public Skill {
 private:
@@ -29,6 +28,5 @@ public:
     void onTerminate(Status s) override;
 };
 
-} // ai
 } // rtt
 #endif //ROBOTEAM_AI_DEMOATTACK_H

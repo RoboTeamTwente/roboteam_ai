@@ -7,8 +7,7 @@
 #include <control/ballHandling/BallHandlePosControl.h>
 #include "skills/gotopos/SkillGoToPos.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 /// GoToPosLuTh: obstacle avoidance following Lukas & Thijs principles
 SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard)
@@ -53,5 +52,4 @@ SkillGoToPos::Progression SkillGoToPos::checkProgression() {
     else return DONE;
 }
 
-} // ai
 } // rtt

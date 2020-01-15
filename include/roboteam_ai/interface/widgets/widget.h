@@ -15,9 +15,7 @@
 #include <world/Robot.h>
 #include <interface/api/Toggles.h>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class Visualizer : public QWidget {
     Q_OBJECT
@@ -26,7 +24,7 @@ class Visualizer : public QWidget {
         using Robot = rtt::ai::world::Robot;
         using RobotPtr = std::shared_ptr<Robot>;
         explicit Visualizer(QWidget* parent = nullptr);
-        const  std::vector<Robot> &getSelectedRobots() const;
+        const std::vector<Robot> &getSelectedRobots() const;
         bool robotIsSelected(Robot robotToCheck);
         bool robotIsSelected(int id);
 
@@ -95,8 +93,6 @@ class Visualizer : public QWidget {
         bool fieldInversed = false;
 };
 
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_WIDGET_H

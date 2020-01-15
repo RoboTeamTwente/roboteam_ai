@@ -9,9 +9,7 @@
 #include "control/shotControllers/ShotController.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 RobotCommand ShotController::getRobotCommand(world::Robot robot, const Vector2 &shotTarget, bool chip,
@@ -335,6 +333,4 @@ void ShotController::updatePid(pidVals pidValues) {
     }
 }
 
-}// control
-} // ai
 } // rtt

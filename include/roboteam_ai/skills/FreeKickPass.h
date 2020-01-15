@@ -8,8 +8,7 @@
 #include "Skill.h"
 #include "Pass.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class FreeKickPass : public Pass {
 private:
@@ -21,7 +20,6 @@ public:
     void onInitialize() override;
 };
 
-}
 }
 
 

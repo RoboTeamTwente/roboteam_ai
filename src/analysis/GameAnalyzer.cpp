@@ -10,9 +10,7 @@
 #include "world/Robot.h"
 #include "analysis/RobotDanger.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 GameAnalyzer::GameAnalyzer()
         :running(false), stopping(false) { }
@@ -226,6 +224,4 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRob
     return robotDangers;
 }
 
-} // analysis
-} // ai
 } // rtt

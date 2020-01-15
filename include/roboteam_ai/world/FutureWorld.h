@@ -7,9 +7,7 @@
 
 #include "WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 class FutureWorld {
     private:
@@ -23,8 +21,6 @@ class FutureWorld {
         void updateFutureWorld(WorldData &worldData, double time);
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_PROCESSEDWORLD_H

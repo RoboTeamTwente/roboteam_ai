@@ -8,8 +8,7 @@
 #include <control/BasicPosControl.h>
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Harass : public Skill {
 
@@ -24,6 +23,5 @@ class Harass : public Skill {
         control::BasicPosControl goToPos;
 };
 
-}
 }
 #endif //ROBOTEAM_AI_HARASS_H

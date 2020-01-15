@@ -4,8 +4,7 @@
 #include <skills/Halt.h>
 
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 proto::SSL_Referee GameStateManager::refMsg;
 StrategyManager GameStateManager::strategymanager;
@@ -128,5 +127,4 @@ bool GameStateManager::canMoveOutsideField(int robotId) {
         auto designatedPos = rtt::ai::GameStateManager::getRefereeData().designated_position();
         return Vector2(designatedPos.x()/1000, designatedPos.x()/1000);
     }
-}//ai
 }//rtt

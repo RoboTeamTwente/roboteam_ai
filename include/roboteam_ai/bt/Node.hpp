@@ -8,16 +8,12 @@
 #include "Blackboard.hpp"
 
 // fwd declare
-namespace rtt {
-    namespace ai {
-    namespace world {
+namespace rtt::ai::world {
         class World;
 
         class Field;
 
     }
-}
-}
 
 namespace bt {
 

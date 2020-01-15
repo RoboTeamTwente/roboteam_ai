@@ -27,9 +27,7 @@
 #include "RuleSetWidget.h"
 #include "GraphWidget.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
@@ -68,8 +66,6 @@ private:
     GraphWidget * graphWidget;
 };
 
-} // interface
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_MAINWINDOW_H

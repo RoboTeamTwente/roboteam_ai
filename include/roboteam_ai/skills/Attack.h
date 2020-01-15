@@ -9,8 +9,7 @@
 #include <control/shotControllers/ShotController.h>
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Attack : public Skill {
 public:
@@ -18,6 +17,5 @@ public:
     Status onUpdate() override;
 };
 
-} // ai
 } // rtt
 #endif //ROBOTEAM_AI_ATTACK_H

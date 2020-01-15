@@ -15,9 +15,7 @@
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include <include/roboteam_ai/world/FieldMessage.h>
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 using Line=std::pair<Vector2, Vector2>;
 
@@ -51,8 +49,6 @@ class Field {
 extern Field fieldObj;
 extern Field* field;
 
-} // world
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_FIELD_H

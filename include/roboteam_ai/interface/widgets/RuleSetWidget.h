@@ -7,9 +7,7 @@
 
 #include <QtWidgets/QWidget>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class RuleSetWidget : public QWidget {
     Q_OBJECT
@@ -26,8 +24,6 @@ public slots:
 
 };
 
-} // interface
-} // ai
 } // rtt
 
 

@@ -7,9 +7,7 @@
 #include "world/Robot.h"
 #include "world/Ball.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 MidFieldCoach g_midFieldCoach;
 
@@ -264,6 +262,4 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angl
     return bestPosition;
 }
 
-} //coach
-} //ai
 } //rtt

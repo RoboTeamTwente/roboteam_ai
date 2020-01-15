@@ -11,8 +11,7 @@
 #include "world/Ball.h"
 #include "conditions/IsInDefenseArea.hpp"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) 
 : Condition(std::move(name), std::move(blackboard)) { }
@@ -39,5 +38,4 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
     return Status::Failure;
 }
 
-} // ai
 } // rtt

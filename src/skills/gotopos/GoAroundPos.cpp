@@ -6,8 +6,7 @@
 #include "skills/gotopos/GoAroundPos.h"
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(name, blackboard) { }
@@ -162,6 +161,5 @@ void GoAroundPos::sendRotateCommand() {
     command.mutable_vel()->set_y(static_cast<float>(deltaCommandPos.y));
     command.set_w((float) deltaPos.angle());
     publishRobotCommand();
-}
 }
 }

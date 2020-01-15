@@ -3,16 +3,15 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-class IsBeingPassedTo : public Condition {
-public:
-    explicit IsBeingPassedTo(std::string name = "IsBeingPassedTo", bt::Blackboard::Ptr blackboard = nullptr);
-    Status onUpdate() override;
-};
+    class IsBeingPassedTo : public Condition {
+    public:
+        explicit IsBeingPassedTo(std::string name = "IsBeingPassedTo", bt::Blackboard::Ptr blackboard = nullptr);
 
-} //ai
+        Status onUpdate() override;
+    };
+
 } //rtt
 
 #endif //ROBOTEAM_AI_ISBEINGPASSEDTO_H

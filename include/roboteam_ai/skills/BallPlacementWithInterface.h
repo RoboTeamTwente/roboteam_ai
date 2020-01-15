@@ -8,8 +8,7 @@
 #include "Skill.h"
 #include <control/ballHandling/BallHandlePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class BallPlacementWithInterface : public Skill {
     public:
@@ -22,7 +21,6 @@ class BallPlacementWithInterface : public Skill {
 
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H

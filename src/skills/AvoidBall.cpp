@@ -11,8 +11,7 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 using cu = control::ControlUtils;
 
@@ -114,5 +113,4 @@ AvoidBall::Type AvoidBall::stringToType(std::string string) {
     }
 }
 
-} // ai
 } // rtt

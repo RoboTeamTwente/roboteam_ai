@@ -4,9 +4,7 @@
 
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 // declare static variables
 std::vector<Drawing> Input::drawings;
@@ -68,6 +66,4 @@ void Input::setFps(int fps) {
 }
 
 
-} // interface
-} // ai
 } // rtt

@@ -9,11 +9,9 @@
 #include <world/WorldData.h>
 #include <world/World.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class CoachHeuristics {
+    class CoachHeuristics {
     private:
 
         using WorldData = world::WorldData;
@@ -45,8 +43,6 @@ class CoachHeuristics {
                 double smallestAngle = 999999);
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_COACHHEURISTICS_H

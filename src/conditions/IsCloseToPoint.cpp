@@ -10,8 +10,7 @@
 #include "world/Ball.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -36,5 +35,4 @@ IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
     return Status::Success;
 }
 
-} // ai
 } // rtt

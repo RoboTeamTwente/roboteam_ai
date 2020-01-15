@@ -8,9 +8,7 @@
 #include "world/Field.h"
 #include "world/World.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 Field fieldObj;
 Field *field = &fieldObj;
@@ -356,6 +354,4 @@ Polygon Field::getFieldEdge(double margin) {
     return Polygon(fieldEdge);
 }
 
-} // world
-} // ai
 } // rtt

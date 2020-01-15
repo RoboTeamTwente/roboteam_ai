@@ -6,8 +6,7 @@
 #define ROBOTEAM_AI_PENALTYFORMATION_H
 #include "Formation.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class PenaltyFormation : public Formation {
     public:
@@ -18,7 +17,6 @@ class PenaltyFormation : public Formation {
         static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
         std::vector<Vector2> getPenaltyPositions(int number);
     };
-}
 }
 
 

@@ -21,9 +21,7 @@
 
 #include "roboteam_utils/normalize.h"
 
-namespace rtt {
-namespace ai {
-namespace io {
+namespace rtt::ai::io {
 
 std::mutex IOManager::worldStateMutex;
 std::mutex IOManager::geometryMutex;
@@ -218,8 +216,6 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
 }
 
 
-} // io
-} // ai
 } // rtt
 
 

@@ -4,9 +4,7 @@
 
 #include <interface/widgets/PidBox.h>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 PidBox::PidBox(const QString &title, QWidget *parent) : QGroupBox(title, parent) {
     spinBoxLayout = new QHBoxLayout();
@@ -54,8 +52,6 @@ void PidBox::updatePID() {
 }
 
 
-} // interface
-} // ai
 } // rtt
 
 // QT performance improvement

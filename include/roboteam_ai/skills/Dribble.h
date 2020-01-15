@@ -10,8 +10,7 @@
 #include "control/ControlUtils.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 ///Dribbles the ball from start position to an end position in a straight line, used for ball placement.
 /// Assumes we already have the ball when skill is initialized.
@@ -29,7 +28,6 @@ class Dribble : public Skill {
         void onInitialize() override;
         Status onUpdate() override;
 };
-}//ai
 }//rtt
 
 

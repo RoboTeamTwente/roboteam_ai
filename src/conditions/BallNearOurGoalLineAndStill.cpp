@@ -8,8 +8,7 @@
 #include <world/Ball.h>
 #include "conditions/BallNearOurGoalLineAndStill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallNearOurGoalLineAndStill::BallNearOurGoalLineAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -33,5 +32,4 @@ bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
     return Status::Failure; 
 }
 
-} // ai
 } // rtt

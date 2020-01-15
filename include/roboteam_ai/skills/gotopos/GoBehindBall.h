@@ -10,8 +10,7 @@
 #include "GoToPos.h"
 #include <random>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GoBehindBall : public GoToPos {
 
@@ -41,7 +40,6 @@ class GoBehindBall : public GoToPos {
 
 };
 
-} //ai
 } //rtt
 
 #endif //ROBOTEAM_AI_GOBEHINDBALL_H

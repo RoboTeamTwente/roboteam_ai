@@ -5,8 +5,7 @@
 #include "control/ControlUtils.h"
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
     std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormation = nullptr;
 
@@ -47,5 +46,4 @@ std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFor
     return robotsInFormation;
 }
 
-} // ai
 } // rtt

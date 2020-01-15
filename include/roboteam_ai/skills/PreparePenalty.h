@@ -7,8 +7,7 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class PreparePenalty : public Skill {
 
@@ -24,7 +23,6 @@ class PreparePenalty : public Skill {
         void onInitialize() override;
         Status onUpdate() override;
 };
-}
 }
 
 #endif //ROBOTEAM_AI_PREPAREPENALTY_H

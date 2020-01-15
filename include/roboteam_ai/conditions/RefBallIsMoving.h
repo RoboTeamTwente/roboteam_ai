@@ -7,16 +7,15 @@
 
 #include "Condition.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai {
 
-class RefBallIsMoving : public Condition {
-public:
-    explicit RefBallIsMoving(std::string name = "RefBallIsMoving", bt::Blackboard::Ptr blackboard = nullptr);
-    Status onUpdate() override;
-};
+    class RefBallIsMoving : public Condition {
+    public:
+        explicit RefBallIsMoving(std::string name = "RefBallIsMoving", bt::Blackboard::Ptr blackboard = nullptr);
 
-} // ai
+        Status onUpdate() override;
+    };
+
 } // rtt
 
 

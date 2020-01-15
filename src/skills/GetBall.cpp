@@ -6,8 +6,7 @@
 #include "utilities/Constants.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 //TODO: do obstacle checking and return fail if there is an obstacle in the way.
 //GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
@@ -45,5 +44,4 @@ void GetBall::onTerminate(Status s) {
     }
 }
 
-}//rtt
 }//ai

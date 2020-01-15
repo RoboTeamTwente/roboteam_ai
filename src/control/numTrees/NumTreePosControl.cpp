@@ -13,9 +13,7 @@
 #include "control/numTrees/Collision.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         :BasicPosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
@@ -674,6 +672,4 @@ const Collision &NumTreePosControl::getCurrentCollisionWithFinalTarget() const {
 }
 
 
-} // control
-} // ai
 } // rtt

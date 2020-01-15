@@ -14,8 +14,7 @@
 #include "pid.h"
 
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 namespace world {
 class Robot;
@@ -66,7 +65,6 @@ class PosController {
 };
 
 } // control
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_POSCONTROLLER_H

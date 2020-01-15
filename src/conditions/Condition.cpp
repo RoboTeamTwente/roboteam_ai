@@ -3,8 +3,7 @@
 #include <world/Robot.h>
 #include "conditions/Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Condition::Condition(std::string name, bt::Blackboard::Ptr blackboard)
         :bt::Leaf(name, blackboard) { }
@@ -45,5 +44,4 @@ void Condition::terminate(Condition::Status s) {
     onTerminate(s);
 }
 
-} // ai
 } // rtt

@@ -10,9 +10,7 @@
 #include "utilities/Pause.h"
 #include "utilities/GameState.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
     typedef std::tuple<double, double, double> pidVals;
 
@@ -82,8 +80,6 @@ public:
     static void setKeeperId(int id);
 };
 
-}
-}
 }
 
 #endif //ROBOTEAM_AI_OUTPUT_H

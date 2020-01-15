@@ -12,9 +12,7 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "control/BasicPosControl.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 Robot::Robot(const proto::WorldRobot &copy, Team team,
         unsigned char genevaState, unsigned char dribblerState, unsigned long worldNumber)
@@ -301,6 +299,4 @@ Vector2 Robot::getKicker() const {
     return this->pos + distanceToKicker.rotate(this->angle);
 }
 
-} //world
-} //ai
 } //rtt

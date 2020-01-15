@@ -7,15 +7,14 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-class BallOutOfField : public Condition {
-public:
-    explicit BallOutOfField(std::string name = "BallOutOfField", bt::Blackboard::Ptr blackboard = nullptr);
-    Status onUpdate() override;
-};
+    class BallOutOfField : public Condition {
+    public:
+        explicit BallOutOfField(std::string name = "BallOutOfField", bt::Blackboard::Ptr blackboard = nullptr);
 
-} // ai
+        Status onUpdate() override;
+    };
+
 } // rtt
 #endif //ROBOTEAM_AI_BALLOUTOFFIELD_H

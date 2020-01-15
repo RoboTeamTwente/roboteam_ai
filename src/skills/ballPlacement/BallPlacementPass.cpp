@@ -5,8 +5,7 @@
 #include <coach/BallplacementCoach.h>
 #include "skills/ballPlacement/BallPlacementPass.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 
 BallPlacementPass::BallPlacementPass(string name, bt::Blackboard::Ptr blackboard)
@@ -68,5 +67,4 @@ bt::Node::Status BallPlacementPass::onUpdate() {
 }
 
 
-}
 }

@@ -5,8 +5,7 @@
 #include "skills/FreeKickPass.h"
 #include <control/ballHandling/BallHandlePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 FreeKickPass::FreeKickPass(string name, bt::Blackboard::Ptr blackboard)
         :Pass(std::move(name), std::move(blackboard)) { }
@@ -31,5 +30,4 @@ void FreeKickPass::makeCommand() {
     command = shotdata.makeROSCommand();
 }
 
-}
 }

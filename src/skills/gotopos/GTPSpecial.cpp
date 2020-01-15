@@ -4,8 +4,7 @@
 
 #include "skills/gotopos/GTPSpecial.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 /**
  * Creates a movement path for the robot to a certain place. The "type" set in the blackboard given to this function is very important, see the update function.
  * Before using this class, it is nice to have a look inside, as its behaviour is not
@@ -189,5 +188,4 @@ Skill::Status GTPSpecial::gtpUpdate() {
 void GTPSpecial::gtpTerminate(Status s) {
 }
 
-}
 }

@@ -8,8 +8,7 @@
 #include "Skill.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GetBall : public Skill {
     private:
@@ -23,7 +22,6 @@ class GetBall : public Skill {
         void onTerminate(Status s) override;
 
 };
-}
 }
 
 #endif //ROBOTEAM_AI_GETBALL_H

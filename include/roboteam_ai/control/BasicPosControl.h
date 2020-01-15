@@ -7,9 +7,7 @@
 
 #include "PosController.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class BasicPosControl : public PosController {
     private:
@@ -22,8 +20,6 @@ class BasicPosControl : public PosController {
 
 };
 
-} // control
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_BASICPOSCONTROL_H

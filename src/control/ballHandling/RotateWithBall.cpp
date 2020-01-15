@@ -6,9 +6,7 @@
 #include "control/ballHandling/RotateWithBall.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 RobotCommand RotateWithBall::getRobotCommand(const std::shared_ptr<world::Robot> &r, const Vector2 &targetP,
         const Angle &targetA) {
@@ -20,6 +18,4 @@ RobotCommand RotateWithBall::getRobotCommand(const std::shared_ptr<world::Robot>
     return robotCommand;
 }
 
-}
-}
 }

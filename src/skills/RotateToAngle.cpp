@@ -7,8 +7,7 @@
 #include "world/Ball.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { }
 
@@ -53,5 +52,4 @@ RotateToAngle::Progression RotateToAngle::checkProgression() {
     else return DONE;
 }
 
-} // ai
 } // rtt

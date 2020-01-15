@@ -8,8 +8,8 @@
 #include "Condition.h"
 #include "coach/PassCoach.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
+
 class ShouldHandleBall : public Condition {
     public:
         explicit ShouldHandleBall(std::string name = "ShouldHandleBall", bt::Blackboard::Ptr blackboard = nullptr);
@@ -17,7 +17,6 @@ class ShouldHandleBall : public Condition {
         void onTerminate(Status s) override;
         std::string node_name() override;
 };
-}
 }
 
 #endif //ROBOTEAM_AI_SHOULDHANDLEBALL_H

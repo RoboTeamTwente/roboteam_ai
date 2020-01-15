@@ -10,8 +10,7 @@
 #include "world/Ball.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Condition(std::move(name), std::move(blackboard)) { }
@@ -37,5 +36,4 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
     return Status::Failure;
 }
 
-} // ai
 } // rtt

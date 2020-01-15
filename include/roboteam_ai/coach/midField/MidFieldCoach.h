@@ -11,11 +11,9 @@
 #include <world/BallPossession.h>
 #include "coach/heuristics/CoachHeuristics.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
-class MidFieldCoach {
+    class MidFieldCoach {
     private:
         const double DISTANCE_FROM_MIDDLE_LINE = 2.0;
         const double HARASSER_SECONDS_AHEAD = 0.5;
@@ -82,8 +80,6 @@ class MidFieldCoach {
 
 extern MidFieldCoach g_midFieldCoach;
 
-}
-}
 }
 
 

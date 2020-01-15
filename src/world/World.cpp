@@ -3,9 +3,7 @@
 #include "world/BallPossession.h"
 #include "world/History.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 World worldObj;
 World* world = &worldObj;
@@ -345,6 +343,4 @@ World::~World() {
     delete history;
 }
 
-} //world
-} //ai
 } //rtt

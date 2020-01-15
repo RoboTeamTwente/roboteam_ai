@@ -15,9 +15,7 @@
 #include "Team.h"
 #include "WhichRobots.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 class Robot;
 class Ball;
@@ -83,8 +81,6 @@ public:
 extern World worldObj;
 extern World* world;
 
-} //world
-} //ai
 } //rtt
 
 

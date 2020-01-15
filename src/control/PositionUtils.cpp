@@ -15,9 +15,7 @@
 #include <world/Ball.h>
 #include "control/PositionUtils.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? world::field->get_field().get(OUR_GOAL_CENTER) :
@@ -185,6 +183,4 @@ std::vector<Vector2> PositionUtils::getDefendPenaltyPositions(int number) {
 }
 
 
-} // coach
-} // ai
 } // rtt

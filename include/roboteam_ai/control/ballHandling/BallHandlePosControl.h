@@ -13,9 +13,7 @@
 #include <control/pid.h>
 #include <world/Ball.h>
 #include <world/Robot.h>
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class DribbleBackwards;
 class DribbleForwards;
@@ -114,8 +112,6 @@ class BallHandlePosControl : public NumTreePosControl {
         Vector2 movingBallTowardsBallTarget;
         };
 
-} //control
-} //ai
 } //rtt
 
 #endif //ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H

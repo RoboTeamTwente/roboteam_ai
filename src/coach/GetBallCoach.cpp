@@ -9,9 +9,7 @@
 #include "coach/GetBallCoach.h"
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 GetBallCoach getBallCoachObj;
 GetBallCoach* getBallCoach = &getBallCoachObj;
@@ -75,6 +73,4 @@ void GetBallCoach::update() {
     }
 }
 
-} //coach
-} //ai
 } //rtt

@@ -1,8 +1,6 @@
 #include "interface/api/Toggles.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 std::vector<Toggle> Toggles::toggles = {
         Toggle(Visual::DEBUG,             GeneralShowType::ON,             "Show debug values"),
@@ -20,6 +18,4 @@ std::vector<Toggle> Toggles::toggles = {
 
 };
 
-} // interface
-} // ai
 } // rtt

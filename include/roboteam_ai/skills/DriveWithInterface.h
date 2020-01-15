@@ -8,8 +8,7 @@
 #include "Skill.h"
 #include <control/numTrees/NumTreePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class DriveWithInterface : public Skill {
     public:
@@ -21,7 +20,6 @@ class DriveWithInterface : public Skill {
 
 
 };
-}
 }
 
 #endif //ROBOTEAM_AI_DRIVEWITHINTERFACE_H

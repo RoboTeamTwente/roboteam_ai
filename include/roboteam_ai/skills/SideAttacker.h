@@ -10,8 +10,7 @@
 #include <control/numTrees/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class SideAttacker : public Skill {
     private:
@@ -27,7 +26,6 @@ class SideAttacker : public Skill {
         void onTerminate(Status s) override;
 };
 
-} // ai
 } // rtt
 
 #endif //ROBOTEAM_AI_SIDEATTACKER_H

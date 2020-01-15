@@ -5,8 +5,7 @@
 #include <world/World.h>
 #include "skills/ShootFreeKick.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
         :Skill(name, blackboard) {
@@ -103,6 +102,5 @@ bool ShootFreeKick::isShot() {
     Vector2 ballPos = world->getBall()->getPos();
     return ((ballPos - freeKickPos).length() > 0.05);
 
-}
 }
 }

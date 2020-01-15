@@ -9,8 +9,7 @@
 #include <control/BasicPosControl.h>
 #include <control/ballHandling/BallHandlePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class DribbleForward : public Skill {
 private:
@@ -25,7 +24,6 @@ public:
     Status onUpdate() override;
 };
 
-}
 }
 
 

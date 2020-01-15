@@ -7,8 +7,7 @@
 #include "world/Field.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 InterceptBall::InterceptBall(string name, bt::Blackboard::Ptr blackboard)
         :Skill(std::move(name), std::move(blackboard)) { };
@@ -258,5 +257,4 @@ bool InterceptBall::ballInGoal() {
             upperPost + depth, upperPost);
 }
 
-}//ai
 }//rtt

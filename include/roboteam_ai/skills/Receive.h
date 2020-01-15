@@ -9,8 +9,7 @@
 #include "Skill.h"
 #include "control/PositionUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Receive : public Skill {
 private:
@@ -50,7 +49,6 @@ public:
     bool ballDeflected();
 };
 
-} //ai
 } //rtt
 
 #endif //ROBOTEAM_AI_RECEIVE_H

@@ -6,8 +6,7 @@
 #define ROBOTEAM_AI_PENALTYKEEPER_H
 #include "Skill.h"
 #include <control/BasicPosControl.h>
-namespace rtt{
-namespace ai{
+namespace rtt::ai{
 class PenaltyKeeper : public Skill  {
     private:
         // three states, one for waiting until they kick, one for intercepting the kick and one for after the kick
@@ -38,7 +37,6 @@ class PenaltyKeeper : public Skill  {
         void onTerminate(Status s) override;
 
 };
-}
 }
 
 

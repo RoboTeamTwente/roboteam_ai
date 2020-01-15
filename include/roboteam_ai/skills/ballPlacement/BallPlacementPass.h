@@ -7,8 +7,7 @@
 
 #include "skills/Pass.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class BallPlacementPass : public Pass {
 
@@ -19,7 +18,6 @@ public:
 
 };
 
-}
 }
 
 #endif //ROBOTEAM_AI_BALLPLACEMENTPASS_H

@@ -7,8 +7,7 @@
 #include "conditions/BallInDefenseAreaAndStill.h"
 #include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Blackboard::Ptr blackboard)
         :Condition(std::move(name), std::move(blackboard)) { };
@@ -30,5 +29,4 @@ bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
     return Status::Failure;
 }
 
-} // ai
 } // rtt
