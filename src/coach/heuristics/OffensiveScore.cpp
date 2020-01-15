@@ -52,17 +52,19 @@ bool OffensiveScore::positionIsValid(const Vector2 &defaultZoneLocation, const V
     }
 
     // check if the point is out of the default zone location
-    if ((positionToCheck - defaultZoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) return false;
+        if ((positionToCheck - defaultZoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) return false;
 
-    // check if the point is closer to another zone
-    for (auto &otherDefaultPosition : g_offensiveCoach.getZoneLocations()) {
-        if (otherDefaultPosition != defaultZoneLocation &&
+        // check if the point is closer to another zone
+        for (auto &otherDefaultPosition : g_offensiveCoach.getZoneLocations()) {
+            if (otherDefaultPosition != defaultZoneLocation &&
                 (otherDefaultPosition - positionToCheck).length2()
-                        < (defaultZoneLocation - positionToCheck).length2()) {
-            return false;
+                < (defaultZoneLocation - positionToCheck).length2()) {
+                return false;
+            }
         }
-    }
 
-}
+        return false;
+
+    }
 
 }
