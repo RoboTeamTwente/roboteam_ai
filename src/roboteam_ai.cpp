@@ -45,7 +45,6 @@ int main(int argc, char* argv[]) {
     }
 
     rtt::Settings settings{ };
-    rtt::Settings::instance() = &settings;
 
     // some default settings for different team ids (saves time while testing)
     settings.init(id);
