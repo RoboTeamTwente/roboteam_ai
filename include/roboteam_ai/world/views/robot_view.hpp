@@ -56,7 +56,7 @@ namespace rtt::world_new::view {
         /**
          * Copy constructor
          */
-        RobotView(RobotView const&) noexcept = default;
+        RobotView(RobotView const&) = default;
 
         /**
          * Move constructor, same as copy ctor

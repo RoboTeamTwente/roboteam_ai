@@ -28,7 +28,7 @@ namespace rtt::world_new::view {
          * Copy constructor, internal pointer is copied over
          * @param old Old BallView to copy from
          */
-        BallView(BallView const& old) noexcept = default;
+        BallView(BallView const& old) = default;
 
         /**
          * Copy assignment operatorm, does nothing important.

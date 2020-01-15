@@ -6,7 +6,6 @@
 #define RTT_WORLD_DATA_HPP
 
 #include <vector>
-#include <include/roboteam_ai/world/views/ball_view.hpp>
 
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/Setting.pb.h"
@@ -84,7 +83,7 @@ namespace rtt::world_new {
          * Move constructor, simply moves all members
          * @param old Data to move
          */
-        WorldData(WorldData&& old) noexcept = default;
+        WorldData(WorldData&& old) = default;
 
         /**
          * Move assignment operator
