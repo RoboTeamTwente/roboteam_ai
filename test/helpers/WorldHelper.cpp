@@ -6,10 +6,8 @@
 
 #include "WorldHelper.h"
 #include <roboteam_utils/Vector2.h>
-#include <random>
-#include <roboteam_ai/world_old/Robot.h>
-#include <roboteam_ai/world_old/World.h>
-#include "roboteam_ai/utilities/Constants.h"
+#include "world_old/World.h"
+#include "utilities/Constants.h"
 
 namespace testhelpers {
 
