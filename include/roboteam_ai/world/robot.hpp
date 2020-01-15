@@ -32,8 +32,7 @@ namespace rtt::world_new::robot {
     private:
         uint32_t id;
         team::Team team;
-        uint8_t genevaState;
-        uint8_t previousGenevaState{};
+        uint8_t wattage = 30;
 
         Vector2 pos;
         Vector2 vel;
@@ -45,9 +44,6 @@ namespace rtt::world_new::robot {
         unsigned long lastUpdatedWorldNumber = 0;
 
         double angularVelocity;
-        double timeGenevaChanged{};
-        constexpr static double timeToChangeOneGenevaState{0.2};
-        bool workingGeneva;
         bool batteryLow{false};
 
         unsigned char dribblerState = 0;
@@ -66,13 +62,11 @@ namespace rtt::world_new::robot {
     private:
         void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 
+        void setWattage(uint8_t _wattage) noexcept;
+
         void setId(uint32_t id) noexcept;
 
         void setTeam(team::Team team) noexcept;
-
-        void setGenevaState(uint8_t genevaState) noexcept;
-
-        void setPreviousGenevaState(uint8_t previousGenevaState) noexcept;
 
         void setPos(const Vector2 &pos) noexcept;
 
@@ -81,10 +75,6 @@ namespace rtt::world_new::robot {
         void setAngle(const Angle &angle) noexcept;
 
         void setAngularVelocity(double angularVelocity) noexcept;
-
-        void setTimeGenevaChanged(double timeGenevaChanged) noexcept;
-
-        void setWorkingGeneva(bool workingGeneva) noexcept;
 
         void setBatteryLow(bool batteryLow) noexcept;
 
@@ -117,15 +107,9 @@ namespace rtt::world_new::robot {
     public:
         [[nodiscard]] uint32_t getId() const noexcept;
 
+        [[nodiscard]] uint8_t getWattage() const noexcept;
 
         [[nodiscard]] team::Team getTeam() const noexcept;
-
-
-        [[nodiscard]] uint8_t getGenevaState() const noexcept;
-
-
-        [[nodiscard]] uint8_t getPreviousGenevaState() const noexcept;
-
 
         [[nodiscard]] const Vector2 &getPos() const noexcept;
 
@@ -137,13 +121,6 @@ namespace rtt::world_new::robot {
 
 
         [[nodiscard]] double getAngularVelocity() const noexcept;
-
-
-        [[nodiscard]] double getTimeGenevaChanged() const noexcept;
-
-
-        [[nodiscard]] bool isWorkingGeneva() const noexcept;
-
 
         [[nodiscard]] bool isBatteryLow() const noexcept;
 
@@ -184,8 +161,7 @@ namespace rtt::world_new::robot {
 
     public:
         explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy,
-                       team::Team team = team::invalid,
-                       unsigned char genevaState = 3, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
+                       team::Team team = team::invalid, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
         Robot &operator=(Robot &) = delete;
 

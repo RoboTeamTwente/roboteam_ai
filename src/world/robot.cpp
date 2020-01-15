@@ -10,10 +10,8 @@
 namespace rtt::world_new::robot {
     Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback,
                  const proto::WorldRobot &copy, rtt::world_new::team::Team team,
-                 unsigned char genevaState,
                  unsigned char dribblerState, unsigned long worldNumber)
             : team{team},
-              genevaState{genevaState},
               distanceToBall{-1.0},
               lastUpdatedWorldNumber{worldNumber},
               dribblerState{dribblerState},
@@ -23,7 +21,6 @@ namespace rtt::world_new::robot {
               vel{copy.vel()},
               angularVelocity{copy.w()} {
         if (id < 16) {
-            workingGeneva = ai::Constants::ROBOT_HAS_WORKING_GENEVA(id);
             workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
             workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
         } else {
@@ -57,22 +54,6 @@ namespace rtt::world_new::robot {
         Robot::team = _team;
     }
 
-    uint8_t Robot::getGenevaState() const noexcept {
-        return genevaState;
-    }
-
-    void Robot::setGenevaState(uint8_t _genevaState) noexcept {
-        Robot::genevaState = _genevaState;
-    }
-
-    uint8_t Robot::getPreviousGenevaState() const noexcept {
-        return previousGenevaState;
-    }
-
-    void Robot::setPreviousGenevaState(uint8_t _previousGenevaState) noexcept {
-        Robot::previousGenevaState = _previousGenevaState;
-    }
-
     const Vector2 &Robot::getPos() const noexcept {
         return pos;
     }
@@ -103,22 +84,6 @@ namespace rtt::world_new::robot {
 
     void Robot::setAngularVelocity(double _angularVelocity) noexcept {
         Robot::angularVelocity = _angularVelocity;
-    }
-
-    double Robot::getTimeGenevaChanged() const noexcept {
-        return timeGenevaChanged;
-    }
-
-    void Robot::setTimeGenevaChanged(double _timeGenevaChanged) noexcept {
-        Robot::timeGenevaChanged = _timeGenevaChanged;
-    }
-
-    bool Robot::isWorkingGeneva() const noexcept {
-        return workingGeneva;
-    }
-
-    void Robot::setWorkingGeneva(bool _workingGeneva) noexcept {
-        Robot::workingGeneva = _workingGeneva;
     }
 
     bool Robot::isBatteryLow() const noexcept {
@@ -234,10 +199,17 @@ namespace rtt::world_new::robot {
     }
 
     void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
-        if (ai::Constants::FEEDBACK_ENABLED()) {
-            setWorkingGeneva(feedback.genevaisworking());
+        if constexpr (ai::Constants::FEEDBACK_ENABLED()) {
             setWorkingBallSensor(feedback.ballsensorisworking());
             setBatteryLow(feedback.batterylow());
         }
+    }
+
+    void Robot::setWattage(uint8_t _wattage) noexcept {
+        this->wattage = _wattage;
+    }
+
+    uint8_t Robot::getWattage() const noexcept {
+        return wattage;
     }
 } // namespace rtt::world_new::robot

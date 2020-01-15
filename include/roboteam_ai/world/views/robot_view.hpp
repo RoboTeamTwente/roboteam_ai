@@ -69,6 +69,12 @@ namespace rtt::world_new::view {
          * @return true if dist(ball, robot) < maxDist else false
          */
         [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE()) const noexcept;
+
+        /**
+         * Gets the kicker for the Robot that this view is viewing
+         * @return A vector2 representation of the kicker
+         */
+        [[nodiscard]] Vector2 getKicker() const noexcept;
     };
 
 }

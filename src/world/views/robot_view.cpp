@@ -2,6 +2,7 @@
 // Created by john on 1/14/20.
 //
 
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "include/roboteam_ai/world/views/robot_view.hpp"
 
 namespace rtt::world_new::view {
@@ -39,6 +40,11 @@ namespace rtt::world_new::view {
 
     bool RobotView::hasBall(double maxDist) const noexcept {
         return get()->isIHaveBall() && get()->getDistanceToBall() < maxDist;
+    }
+
+    Vector2 RobotView::getKicker() const noexcept {
+        Vector2 distanceToKicker {ai::Constants::CENTRE_TO_FRONT() + 0.1, 0};
+        return get()->getPos() + distanceToKicker.rotate(get()->getAngle());
     }
 
 }

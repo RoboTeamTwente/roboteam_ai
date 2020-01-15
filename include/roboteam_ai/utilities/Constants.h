@@ -15,17 +15,23 @@ typedef std::tuple<double, double, double, double> pidfVals;
 
 class Constants {
 
-    public:
-        static void init();
-        static bool GRSIM();
-        static void OVERWRITE_GRSIM(bool grsim);
-        constexpr static bool FEEDBACK_ENABLED(){ return true; }
+public:
+    static void init();
 
-        /// TICK RATE ///
-        static constexpr int GAME_ANALYSIS_TICK_RATE()      { return 5; };
-        static constexpr int TICK_RATE()                    { return 60; };
+    static bool GRSIM();
 
-        /// LOGGING ///
+    static void OVERWRITE_GRSIM(bool grsim);
+
+    constexpr static bool FEEDBACK_ENABLED() {
+        return true;
+    }
+
+    /// TICK RATE ///
+    static constexpr int GAME_ANALYSIS_TICK_RATE() { return 5; };
+
+    static constexpr int TICK_RATE() { return 60; };
+
+    /// LOGGING ///
         static bool SHOW_LONGEST_TICK();
         static bool SHOW_TICK_TIME_TAKEN();
 
