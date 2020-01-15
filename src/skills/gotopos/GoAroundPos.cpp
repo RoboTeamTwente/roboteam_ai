@@ -11,7 +11,9 @@ namespace rtt::ai {
 GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(name, blackboard) { }
 
-void GoAroundPos::gtpInitialize() {
+
+
+    void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {
         if (ball) {
             ballIsTarget = true;
