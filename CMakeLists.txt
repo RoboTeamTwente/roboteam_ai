@@ -275,7 +275,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        )
+        src/world_new/controllers/RobotController.cpp include/roboteam_ai/world_new/controllers/RobotController.hpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -323,7 +323,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
-        )
+        src/world_new/controllers/RobotController.cpp include/roboteam_ai/world_new/controllers/RobotController.hpp)
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/heuristics/CoachHeuristics.cpp
