@@ -112,6 +112,7 @@ RobotCommand DribbleForwards::sendForwardsCommand() {
             return {};
         }
     }
+    return {};
 }
 
 RobotCommand DribbleForwards::sendTurnCommand() {

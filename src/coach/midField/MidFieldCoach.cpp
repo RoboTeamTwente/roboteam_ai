@@ -54,9 +54,9 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &
                 return standFree(thisRobot);
             }
         }
-    } else {
-        return standFree(thisRobot);
     }
+
+    return standFree(thisRobot);
 }
 
 bool MidFieldCoach::validOpponent(const RobotPtr &opponent) {
