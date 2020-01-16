@@ -316,6 +316,13 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
         )
 
 set(COACH_SOURCES
