@@ -7,6 +7,11 @@
 
 namespace rtt::ai::interface {
 
+/* axisY() and axisX() are deprecated
+ * A non-deprecated method can be found here https://stackoverflow.com/questions/53812267/qtcharts-axisx-depreciated
+ * However, for some reason it gave segfaults the last time I tried this (jan 16 2020)
+ */
+
 GraphWidget::GraphWidget(QWidget* parent) {
     auto verticalLayout = new QVBoxLayout(this);
 
@@ -22,12 +27,8 @@ GraphWidget::GraphWidget(QWidget* parent) {
     fpsView->chart()->setMinimumHeight(300);
     fpsView->chart()->setTheme(QChart::ChartThemeDark);
     fpsView->chart()->setBackgroundBrush(QColor(53, 53, 53));
-
-    auto axisX = fpsView->chart()->axes(Qt::Horizontal).back();
-    auto axisY = fpsView->chart()->axes(Qt::Vertical).back();
-
-    axisY->setMinorGridLineColor(Qt::gray);
-    axisY->setGridLineVisible(true);
+    fpsView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
+    fpsView->chart()->axisY()->setGridLineVisible(true);
 
     connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
         qreal y = fpsSeries->at(index).y();
@@ -35,7 +36,7 @@ GraphWidget::GraphWidget(QWidget* parent) {
 
         if (y > fpsGraphYMax) {
             if (y > fpsGraphYMax) fpsGraphYMax = y;
-            axisY->setRange(0, fpsGraphYMax + 20);
+            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
         }
 
         if (x < fpsGraphXMin || x > fpsGraphXMax) {
@@ -45,7 +46,7 @@ GraphWidget::GraphWidget(QWidget* parent) {
             if (fpsGraphXMax - fpsGraphXMin > 30) {
                 fpsGraphXMin = fpsGraphXMax - 30;
             }
-            axisX->setRange(fpsGraphXMin, fpsGraphXMax);
+            fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
         }
     });
 
