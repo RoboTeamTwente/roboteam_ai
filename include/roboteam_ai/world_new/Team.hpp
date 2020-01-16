@@ -14,7 +14,9 @@ namespace rtt::world_new {
         us,
         // their team
         them,
-        // uh oh
+        /**
+         * If a robot has both as team -> invalid.
+         */
         both
     };
 } // namespace rtt::world::team

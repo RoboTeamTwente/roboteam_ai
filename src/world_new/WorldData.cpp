@@ -11,17 +11,16 @@ namespace rtt::world_new {
     WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings,
                          std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept
             : time{protoMsg.time()} {
-        auto genevaState = 3;
 
         auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
         auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
         for (auto &each : ours) {
-            us.emplace_back(&robots.emplace_back(feedback, each, Team::us, genevaState));
+            us.emplace_back(&robots.emplace_back(feedback, each, Team::us));
         }
 
         for (auto &each : others) {
-            them.emplace_back(&robots.emplace_back(feedback, each, Team::them, genevaState));
+            them.emplace_back(&robots.emplace_back(feedback, each, Team::them));
         }
 
         if (protoMsg.has_ball()) {

@@ -61,6 +61,9 @@ namespace rtt::world_new {
          * @param settings Settings to use to construct the world, will be stored
          *
          * Undefined behavior if the pointer to settings outlives the lifetime of the settings instance
+         *
+         * Usage of settings before construction of the applicationmanager will result in undefined
+         * behavior due to uninitialized memory
          */
         explicit World(Settings* settings);
 
