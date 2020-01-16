@@ -4,6 +4,8 @@
 #include <include/roboteam_ai/treeinterp/PassRole.h>
 #include <include/roboteam_ai/treeinterp/SideAttackerRole.h>
 #include <include/roboteam_ai/treeinterp/MidFieldHarassRole.h>
+#include <include/roboteam_ai/skills/Pass2.h>
+#include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"
 #include "treeinterp/OffensiveStrategy.h"
@@ -11,7 +13,7 @@
 #include "bt/Role.h"
 #include "skills/gotopos/GoToPos.h"
 #include "skills/Attack.h"
-
+#include "skills/Halt.h"
 namespace bt {
 
     OffensiveStrategy::OffensiveStrategy() {
@@ -56,8 +58,26 @@ namespace bt {
             /// For testing purposes, this is changed here:
             auto temphelper = bt::MidFieldHarassRole();
             std::shared_ptr<Role> temprole = temphelper.createMidFieldHarassRole(name);
+            if (i != 5) {
+                // offensiveTactic->addChild(temprole);
+                auto temp2 = std::make_shared<bt::Role>(name);
+                auto localbb = std::make_shared<bt::Blackboard>();
+                auto pass2 = std::make_shared<rtt::ai::Halt>(name, localbb);
+                temp2->addChild(pass2);
+                temp2->setRoleString(name);
+                offensiveTactic->addChild(temp2);
+            }
 
-            offensiveTactic->addChild(temprole);
+            else {
+                auto selector = std::make_shared<bt::Selector>();
+                auto temp2 = std::make_shared<bt::Role>(name);
+                auto localbb = std::make_shared<bt::Blackboard>();
+                localbb->setInt("PassTo", 3);
+                auto pass2 = std::make_shared<rtt::ai::Pass2>(name, localbb);
+                temp2->addChild(pass2);
+                temp2->setRoleString(name);
+                offensiveTactic->addChild(temp2);
+            }
         }
 
         return offensiveTactic;

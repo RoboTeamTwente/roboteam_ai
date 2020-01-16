@@ -135,6 +135,7 @@ class Ball {
          * @return A vector which represents this position.
          */
         const Vector2 &getExpectedBallEndPosition() const;
+
 };
 
 }

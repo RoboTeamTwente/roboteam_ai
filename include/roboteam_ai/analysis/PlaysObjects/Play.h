@@ -28,7 +28,7 @@ namespace rtt::ai::analysis {
          *
          * @return true if all the invariants of this strategy are true
          */
-        bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) ;
+        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) ;
 
         std::string getName();
     protected:
@@ -36,6 +36,7 @@ namespace rtt::ai::analysis {
         std::shared_ptr<bt::BehaviorTree> tree;
         std::string name;
 
+        //virtual void executePlay();
     };
 }
 

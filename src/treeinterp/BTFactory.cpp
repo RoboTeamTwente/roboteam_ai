@@ -62,10 +62,10 @@ void BTFactory::makeTrees() {
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
-// HERE
-//    // Un-kill the code below by commenting the return statement to restore json functionality
-//    auto treefound = codeTrees.find("attackertree");
-//    return treefound->second;
+ // HERE
+    // Un-kill the code below by commenting the return statement to restore json functionality
+    auto treefound = codeTrees.find("attackertree");
+    return treefound->second;
 
 if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;

@@ -88,6 +88,9 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/PlayDecider.cpp
 
+        # Plays (under construction)
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/PassAndPlayPlay.cpp
+
         )
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
 
@@ -143,6 +146,9 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/ActiveStop.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/ChipForward.cpp
+
+        # Plays skills sources
+        ${PROJECT_SOURCE_DIR}/src/skills/Pass2.cpp
 
         ${PROJECT_SOURCE_DIR}/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp

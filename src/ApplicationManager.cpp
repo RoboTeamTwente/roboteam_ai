@@ -19,6 +19,8 @@
 #include <include/roboteam_ai/world/Field.h>
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/PlaysObjects/PassAndPlayPlay.h"
+
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
@@ -118,13 +120,13 @@ void ApplicationManager::runKeeperTree() {
 
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree() {
-    if (BTFactory::getCurrentTree() == "NaN") {
-        std::cout << "NaN tree probably Halting" << std::endl;
-          return Status::Waiting;
-    }
-    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(ai::world::world, ai::world::field);
-    return status;
+//    if (BTFactory::getCurrentTree() == "NaN") {
+//        std::cout << "NaN tree probably Halting" << std::endl;
+//          return Status::Waiting;
+//    }
+//    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+    auto play = std::make_shared<ai::analysis::PassAndPlayPlay>();
+    return play->executePlay(ai::world::world, ai::world::field);
 }
 
 /// Update the coaches information

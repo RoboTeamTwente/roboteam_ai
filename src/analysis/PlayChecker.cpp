@@ -22,12 +22,12 @@ namespace rtt::ai::analysis {
      * TODO: add lambda here, to make it faster and cleaner
      */
     void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        validPlays.clear();
-        for (auto play : allPlays) {
-            if (play.isValidPlay(world, field)) {
-                validPlays.push_back(play);
-            }
-        }
+//        validPlays.clear();
+//        for (auto play : allPlays) {
+//            if (play.isValidPlay(world, field)) {
+//                validPlays.push_back(play);
+//            }
+//        }
     }
 
     void PlayChecker::update(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
