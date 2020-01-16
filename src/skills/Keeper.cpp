@@ -3,7 +3,9 @@
 //
 
 #include "skills/Keeper.h"
+
 #include <boost/optional.hpp>
+
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"

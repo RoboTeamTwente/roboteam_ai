@@ -3,8 +3,11 @@
 //
 
 #include "control/numTrees/NumTreePosControl.h"
+
 #include <interface/api/Input.h>
+
 #include <queue>
+
 #include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
 #include "control/numTrees/Collision.h"

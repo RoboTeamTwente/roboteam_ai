@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/FieldHelper.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
+
 #include "coach/defence/DefenceDealer.h"
 #include "coach/defence/DefencePositionCoach.h"
 #include "control/ControlUtils.h"

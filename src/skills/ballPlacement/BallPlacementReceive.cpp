@@ -3,8 +3,10 @@
 //
 
 #include "skills/ballPlacement/BallPlacementReceive.h"
+
 #include <coach/BallplacementCoach.h>
 #include <coach/PassCoach.h>
+
 #include "control/ControlUtils.h"
 #include "control/numTrees/NumTreePosControl.h"
 

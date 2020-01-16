@@ -8,9 +8,12 @@
  */
 
 #include "interface/widgets/TreeVisualizerWidget.h"
+
 #include <treeinterp/BTFactory.h>
+
 #include <QtWidgets/QLayoutItem>
 #include <utilities/GameStateManager.hpp>
+
 #include "QLayout"
 #include "interface/widgets/mainWindow.h"
 

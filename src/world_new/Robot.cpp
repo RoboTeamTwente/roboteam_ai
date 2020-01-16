@@ -2,214 +2,130 @@
 // Created by john on 12/16/19.
 //
 
-#include "utilities/Constants.h"
 #include "world_new/Robot.hpp"
 
 #include <cassert>
 
+#include "utilities/Constants.h"
+
 namespace rtt::world_new::robot {
-    Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback,
-                 const proto::WorldRobot &copy, rtt::world_new::Team team,
-                 unsigned char dribblerState, unsigned long worldNumber)
-            : team{team},
-              distanceToBall{-1.0},
-              lastUpdatedWorldNumber{worldNumber},
-              dribblerState{dribblerState},
-              id{copy.id()},
-              angle{copy.angle()},
-              pos{copy.pos()},
-              vel{copy.vel()},
-              angularVelocity{copy.w()} {
-        if (id < 16) {
-            workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
-            workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
-        } else {
-            std::cerr << "Warning: Creating robot with id = " << id << std::endl;
-            assert(false);
-        }
-
-        if (feedback.find(id) != feedback.end()) {
-            updateFromFeedback(feedback[id]);
-        }
-
-        resetShotController();
-        resetNumTreePosControl();
-        resetBasicPosControl();
-        resetBallHandlePosControl();
+Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world_new::Team team, unsigned char dribblerState,
+             unsigned long worldNumber)
+    : team{team},
+      distanceToBall{-1.0},
+      lastUpdatedWorldNumber{worldNumber},
+      dribblerState{dribblerState},
+      id{copy.id()},
+      angle{copy.angle()},
+      pos{copy.pos()},
+      vel{copy.vel()},
+      angularVelocity{copy.w()} {
+    if (id < 16) {
+        workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
+        workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
+    } else {
+        std::cerr << "Warning: Creating robot with id = " << id << std::endl;
+        assert(false);
     }
 
-    uint32_t Robot::getId() const noexcept {
-        return id;
+    if (feedback.find(id) != feedback.end()) {
+        updateFromFeedback(feedback[id]);
     }
 
-    void Robot::setId(uint32_t _id) noexcept {
-        Robot::id = _id;
-    }
+    resetShotController();
+    resetNumTreePosControl();
+    resetBasicPosControl();
+    resetBallHandlePosControl();
+}
 
-    Team Robot::getTeam() const noexcept {
-        return team;
-    }
+uint32_t Robot::getId() const noexcept { return id; }
 
-    void Robot::setTeam(Team _team) noexcept {
-        Robot::team = _team;
-    }
+void Robot::setId(uint32_t _id) noexcept { Robot::id = _id; }
 
-    const Vector2 &Robot::getPos() const noexcept {
-        return pos;
-    }
+Team Robot::getTeam() const noexcept { return team; }
 
-    void Robot::setPos(const Vector2 &_pos) noexcept {
-        Robot::pos = _pos;
-    }
+void Robot::setTeam(Team _team) noexcept { Robot::team = _team; }
 
-    const Vector2 &Robot::getVel() const noexcept {
-        return vel;
-    }
+const Vector2 &Robot::getPos() const noexcept { return pos; }
 
-    void Robot::setVel(const Vector2 &_vel) noexcept {
-        Robot::vel = _vel;
-    }
+void Robot::setPos(const Vector2 &_pos) noexcept { Robot::pos = _pos; }
 
-    const Angle &Robot::getAngle() const noexcept {
-        return angle;
-    }
+const Vector2 &Robot::getVel() const noexcept { return vel; }
 
-    void Robot::setAngle(const Angle &_angle) noexcept {
-        Robot::angle = _angle;
-    }
+void Robot::setVel(const Vector2 &_vel) noexcept { Robot::vel = _vel; }
 
-    double Robot::getAngularVelocity() const noexcept {
-        return angularVelocity;
-    }
+const Angle &Robot::getAngle() const noexcept { return angle; }
 
-    void Robot::setAngularVelocity(double _angularVelocity) noexcept {
-        Robot::angularVelocity = _angularVelocity;
-    }
+void Robot::setAngle(const Angle &_angle) noexcept { Robot::angle = _angle; }
 
-    bool Robot::isBatteryLow() const noexcept {
-        return batteryLow;
-    }
+double Robot::getAngularVelocity() const noexcept { return angularVelocity; }
 
-    void Robot::setBatteryLow(bool _batteryLow) noexcept {
-        Robot::batteryLow = _batteryLow;
-    }
+void Robot::setAngularVelocity(double _angularVelocity) noexcept { Robot::angularVelocity = _angularVelocity; }
 
-    unsigned char Robot::getDribblerState() const noexcept {
-        return dribblerState;
-    }
+bool Robot::isBatteryLow() const noexcept { return batteryLow; }
 
-    void Robot::setDribblerState(unsigned char _dribblerState) noexcept {
-        Robot::dribblerState = _dribblerState;
-    }
+void Robot::setBatteryLow(bool _batteryLow) noexcept { Robot::batteryLow = _batteryLow; }
 
-    unsigned char Robot::getPreviousDribblerState() const noexcept {
-        return previousDribblerState;
-    }
+unsigned char Robot::getDribblerState() const noexcept { return dribblerState; }
 
-    void Robot::setPreviousDribblerState(unsigned char _previousDribblerState) noexcept {
-        Robot::previousDribblerState = _previousDribblerState;
-    }
+void Robot::setDribblerState(unsigned char _dribblerState) noexcept { Robot::dribblerState = _dribblerState; }
 
-    double Robot::getTimeDribblerChanged() const noexcept {
-        return timeDribblerChanged;
-    }
+unsigned char Robot::getPreviousDribblerState() const noexcept { return previousDribblerState; }
 
-    void Robot::setTimeDribblerChanged(double _timeDribblerChanged) noexcept {
-        Robot::timeDribblerChanged = _timeDribblerChanged;
-    }
+void Robot::setPreviousDribblerState(unsigned char _previousDribblerState) noexcept { Robot::previousDribblerState = _previousDribblerState; }
 
-    bool Robot::isWorkingDribbler() const noexcept {
-        return workingDribbler;
-    }
+double Robot::getTimeDribblerChanged() const noexcept { return timeDribblerChanged; }
 
-    void Robot::setWorkingDribbler(bool _workingDribbler) noexcept {
-        Robot::workingDribbler = _workingDribbler;
-    }
+void Robot::setTimeDribblerChanged(double _timeDribblerChanged) noexcept { Robot::timeDribblerChanged = _timeDribblerChanged; }
 
-    bool Robot::isWorkingBallSensor() const noexcept {
-        return workingBallSensor;
-    }
+bool Robot::isWorkingDribbler() const noexcept { return workingDribbler; }
 
-    void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept {
-        Robot::workingBallSensor = _workingBallSensor;
-    }
+void Robot::setWorkingDribbler(bool _workingDribbler) noexcept { Robot::workingDribbler = _workingDribbler; }
 
-    void Robot::resetShotController() noexcept {
-        shotController = std::make_unique<ai::control::ShotController>();
-    }
+bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
-    void Robot::resetNumTreePosControl() noexcept {
-        numTreePosControl = std::make_unique<ai::control::NumTreePosControl>();
-    }
+void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-    void Robot::resetBasicPosControl() noexcept {
-        basicPosControl = std::make_unique<ai::control::BasicPosControl>();
-    }
+void Robot::resetShotController() noexcept { shotController = std::make_unique<ai::control::ShotController>(); }
 
-    void Robot::resetBallHandlePosControl() noexcept {
-        ballHandlePosControl = std::make_unique<ai::control::BallHandlePosControl>();
-    }
+void Robot::resetNumTreePosControl() noexcept { numTreePosControl = std::make_unique<ai::control::NumTreePosControl>(); }
 
-    ai::control::ShotController *Robot::getShotController() const noexcept {
-        return shotController.get();
-    }
+void Robot::resetBasicPosControl() noexcept { basicPosControl = std::make_unique<ai::control::BasicPosControl>(); }
 
-    ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept {
-        return numTreePosControl.get();
-    }
+void Robot::resetBallHandlePosControl() noexcept { ballHandlePosControl = std::make_unique<ai::control::BallHandlePosControl>(); }
 
-    ai::control::BasicPosControl *Robot::getBasicPosControl() const noexcept {
-        return basicPosControl.get();
-    }
+ai::control::ShotController *Robot::getShotController() const noexcept { return shotController.get(); }
 
-    ai::control::BallHandlePosControl *Robot::getBallHandlePosControl() const noexcept {
-        return ballHandlePosControl.get();
-    }
+ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept { return numTreePosControl.get(); }
 
-    const Vector2 &Robot::getPidPreviousVel() const noexcept {
-        return pidPreviousVel;
-    }
+ai::control::BasicPosControl *Robot::getBasicPosControl() const noexcept { return basicPosControl.get(); }
 
-    void Robot::setPidPreviousVel(const Vector2 &_pidPreviousVel) noexcept {
-        Robot::pidPreviousVel = _pidPreviousVel;
-    }
+ai::control::BallHandlePosControl *Robot::getBallHandlePosControl() const noexcept { return ballHandlePosControl.get(); }
 
-    double Robot::getDistanceToBall() const noexcept {
-        return distanceToBall;
-    }
+const Vector2 &Robot::getPidPreviousVel() const noexcept { return pidPreviousVel; }
 
-    void Robot::setDistanceToBall(double _distanceToBall) noexcept {
-        Robot::distanceToBall = _distanceToBall;
-    }
+void Robot::setPidPreviousVel(const Vector2 &_pidPreviousVel) noexcept { Robot::pidPreviousVel = _pidPreviousVel; }
 
-    bool Robot::isIHaveBall() const noexcept {
-        return iHaveBall;
-    }
+double Robot::getDistanceToBall() const noexcept { return distanceToBall; }
 
-    void Robot::setIHaveBall(bool _iHaveBall) noexcept {
-        Robot::iHaveBall = _iHaveBall;
-    }
+void Robot::setDistanceToBall(double _distanceToBall) noexcept { Robot::distanceToBall = _distanceToBall; }
 
-    unsigned long Robot::getLastUpdatedWorldNumber() const noexcept {
-        return lastUpdatedWorldNumber;
-    }
+bool Robot::isIHaveBall() const noexcept { return iHaveBall; }
 
-    void Robot::setLastUpdatedWorldNumber(unsigned long _lastUpdatedWorldNumber) noexcept {
-        Robot::lastUpdatedWorldNumber = _lastUpdatedWorldNumber;
-    }
+void Robot::setIHaveBall(bool _iHaveBall) noexcept { Robot::iHaveBall = _iHaveBall; }
 
-    void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
-        if (ai::Constants::FEEDBACK_ENABLED()) {
-            setWorkingBallSensor(feedback.ballsensorisworking());
-            setBatteryLow(feedback.batterylow());
-        }
-    }
+unsigned long Robot::getLastUpdatedWorldNumber() const noexcept { return lastUpdatedWorldNumber; }
 
-    void Robot::setWattage(uint8_t _wattage) noexcept {
-        this->wattage = _wattage;
-    }
+void Robot::setLastUpdatedWorldNumber(unsigned long _lastUpdatedWorldNumber) noexcept { Robot::lastUpdatedWorldNumber = _lastUpdatedWorldNumber; }
 
-    uint8_t Robot::getWattage() const noexcept {
-        return wattage;
+void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
+    if (ai::Constants::FEEDBACK_ENABLED()) {
+        setWorkingBallSensor(feedback.ballsensorisworking());
+        setBatteryLow(feedback.batterylow());
     }
-} // namespace rtt::world_new::robot
+}
+
+void Robot::setWattage(uint8_t _wattage) noexcept { this->wattage = _wattage; }
+
+uint8_t Robot::getWattage() const noexcept { return wattage; }
+}  // namespace rtt::world_new::robot

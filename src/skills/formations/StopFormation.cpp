@@ -1,7 +1,9 @@
 
 #include "skills/formations/StopFormation.h"
+
 #include <interface/api/Input.h>
 #include <world/Field.h>
+
 #include "control/Hungarian.h"
 
 namespace rtt::ai {

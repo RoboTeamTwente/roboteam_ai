@@ -3,6 +3,7 @@
 //
 
 #include "conditions/ShouldHandleBall.h"
+
 #include "coach/GetBallCoach.h"
 
 namespace rtt::ai {

@@ -3,9 +3,12 @@
 //
 
 #include "control/PosController.h"
+
 #include <control/ControlUtils.h>
 #include <interface/api/Output.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "world/Robot.h"
 
 namespace rtt::ai::control {

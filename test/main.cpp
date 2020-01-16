@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include <utilities/Constants.h>
 #include <utilities/RobotDealer.h>
+
 #include <QtWidgets/QApplication>
 
 int main(int argc, char** argv) {

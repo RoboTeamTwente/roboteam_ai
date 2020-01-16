@@ -1,6 +1,7 @@
 
 #include <conditions/IsBallOnOurSide.h>
 #include <gtest/gtest.h>
+
 #include "include/roboteam_ai/conditions/BallInDefenseAreaAndStill.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "include/roboteam_ai/world/Ball.h"

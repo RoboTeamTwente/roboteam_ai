@@ -3,6 +3,7 @@
 //
 
 #include "skills/FreeKickPass.h"
+
 #include <control/ballHandling/BallHandlePosControl.h>
 
 namespace rtt::ai {

@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <utilities/RobotDealer.h>
 #include <world/World.h>
+
 #include "include/roboteam_ai/conditions/IsBallCloseToBorder.h"
 #include "world/Field.h"
 

@@ -3,6 +3,7 @@
 //
 
 #include "interface/widgets/GraphWidget.h"
+
 #include "interface/api/Input.h"
 
 namespace rtt::ai::interface {

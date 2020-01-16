@@ -8,18 +8,18 @@
 #include <Settings/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 #include <io/IOManager.h>
+
 #include <include/roboteam_ai/world_new/World.hpp>
-#include "roboteam_proto/DemoRobot.pb.h"
-#include "roboteam_proto/RobotFeedback.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
 #include "demo/JoystickDemo.h"
 #include "interface/api/Input.h"
+#include "roboteam_proto/DemoRobot.pb.h"
+#include "roboteam_proto/RobotFeedback.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
+#include "roboteam_utils/normalize.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
 #include "world/Field.h"
-
-#include "roboteam_utils/normalize.h"
 
 namespace rtt::ai::io {
 

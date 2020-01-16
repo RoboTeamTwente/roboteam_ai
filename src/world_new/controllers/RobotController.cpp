@@ -4,6 +4,4 @@
 
 #include "include/roboteam_ai/world_new/controllers/RobotController.hpp"
 
-namespace rtt::world_new::controller {
-
-}
+namespace rtt::world_new::controller {}

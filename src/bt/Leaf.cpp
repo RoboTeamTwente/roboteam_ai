@@ -1,7 +1,9 @@
+#include "bt/Leaf.hpp"
+
 #include <world/World.h>
+
 #include <memory>
 
-#include "bt/Leaf.hpp"
 #include "utilities/RobotDealer.h"
 #include "world/Ball.h"
 #include "world/Robot.h"

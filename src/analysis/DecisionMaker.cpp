@@ -3,7 +3,9 @@
 //
 
 #include "analysis/DecisionMaker.h"
+
 #include <utilities/RobotDealer.h>
+
 #include "analysis/GameAnalyzer.h"
 
 namespace rtt::ai::analysis {

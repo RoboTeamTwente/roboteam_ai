@@ -3,6 +3,7 @@
 //
 
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
+
 #include "world/Ball.h"
 #include "world/Field.h"
 #include "world/World.h"

@@ -1,7 +1,9 @@
 #include "skills/formations/KickOffThemFormation.h"
+
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 #include <world/Field.h>
+
 #include "control/Hungarian.h"
 
 namespace rtt::ai {

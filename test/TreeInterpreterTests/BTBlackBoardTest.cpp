@@ -1,8 +1,8 @@
 
-#include <utility>
-
 #include <gtest/gtest.h>
+
 #include <bt/Blackboard.hpp>
+#include <utility>
 
 TEST(BTBlackBoardTest, Blackboard) {
     bt::Blackboard::Ptr bbmsg = std::make_shared<bt::Blackboard>();

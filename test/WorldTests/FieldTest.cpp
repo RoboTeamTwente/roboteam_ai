@@ -3,10 +3,10 @@
 //
 
 #include <gtest/gtest.h>
+#include <test/helpers/FieldHelper.h>
 #include <world/FieldMessage.h>
 #include <world/World.h>
 
-#include <test/helpers/FieldHelper.h>
 #include "test/helpers/WorldHelper.h"
 #include "world/Field.h"
 #include "world/WorldData.h"

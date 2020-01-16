@@ -3,6 +3,7 @@
 //
 
 #include "skills/Pass.h"
+
 #include <coach/BallplacementCoach.h>
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
