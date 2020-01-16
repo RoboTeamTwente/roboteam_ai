@@ -5,6 +5,9 @@
 #ifndef RTT_BALLBELONGSTOUSINVARIANT_H
 #define RTT_BALLBELONGSTOUSINVARIANT_H
 
+#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/World.h>
+
 namespace rtt::ai::analysis {
 /**
  * Invariant that is true when the ball belongs to us

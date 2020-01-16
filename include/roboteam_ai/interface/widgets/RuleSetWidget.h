@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_RULESETWIDGET_H
 #define ROBOTEAM_AI_RULESETWIDGET_H
 
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 namespace rtt::ai::interface {

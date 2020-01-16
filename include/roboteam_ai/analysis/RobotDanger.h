@@ -5,6 +5,8 @@
 #ifndef ROBOTEAM_AI_ROBOTDANGER_H
 #define ROBOTEAM_AI_ROBOTDANGER_H
 
+#include <vector>
+
 namespace rtt::ai::analysis {
 
 struct RobotDanger {

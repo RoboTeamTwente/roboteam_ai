@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_POSSIBLEPASS_H
 #define ROBOTEAM_AI_POSSIBLEPASS_H
 
+#include <include/roboteam_ai/world/WorldData.h>
 #include <roboteam_utils/Vector2.h>
 #include "utilities/Constants.h"
 #include "world/Robot.h"
