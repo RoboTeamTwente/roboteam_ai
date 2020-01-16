@@ -11,4 +11,4 @@ Node::Status Failer::update() {
     return Status::Failure;
 }
 
-} // bt
+}  // namespace bt

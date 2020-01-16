@@ -10,20 +10,22 @@
 
 namespace rtt::ai::interface {
 
-class RobotsWidget: public QWidget {
-Q_OBJECT
-    public:
-        using Robot = world::Robot;
-private:
+class RobotsWidget : public QWidget {
+    Q_OBJECT
+   public:
+    using Robot = world::Robot;
+
+   private:
     QVBoxLayout* createRobotGroupItem(Robot robot);
     int amountOfSelectedRobots = 0;
-    QVBoxLayout * VLayout;
-public:
-    explicit RobotsWidget(QWidget * parent);
-public slots:
+    QVBoxLayout* VLayout;
+
+   public:
+    explicit RobotsWidget(QWidget* parent);
+   public slots:
     void updateContents(Visualizer* visualizer);
 };
 
-} // rtt
+}  // namespace rtt::ai::interface
 
-#endif //ROBOTEAM_AI_ROBOTSWIDGET_H
+#endif  // ROBOTEAM_AI_ROBOTSWIDGET_H

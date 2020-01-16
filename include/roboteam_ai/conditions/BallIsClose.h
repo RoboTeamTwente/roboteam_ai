@@ -8,15 +8,15 @@
 #include "Condition.h"
 namespace rtt::ai {
 
-    class BallIsClose : public Condition {
-    public:
-        explicit BallIsClose(std::string name = "BallIsClose", bt::Blackboard::Ptr blackboard = nullptr);
+class BallIsClose : public Condition {
+   public:
+    explicit BallIsClose(std::string name = "BallIsClose", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
+    Status onUpdate() override;
 
-        double distance = 1.0;
-    };
+    double distance = 1.0;
+};
 
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_BALLISCLOSE_H
+#endif  // ROBOTEAM_AI_BALLISCLOSE_H

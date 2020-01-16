@@ -2,10 +2,10 @@
 // Created by mrlukasbos on 14-11-18.
 //
 
-#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 #include <interface/api/Output.h>
-#include "utilities/GameStateManager.hpp"
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 #include "gtest/gtest.h"
+#include "utilities/GameStateManager.hpp"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
     proto::SSL_Referee refereeData;
@@ -26,14 +26,13 @@ TEST(RefereeTest, it_gets_and_sets_the_ref) {
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_YELLOW);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"keeper_penalty_prepare_tactic");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName, "time_out_strategy");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName, "keeper_penalty_prepare_tactic");
 
     refereeData.set_stage(proto::SSL_Referee_Stage_PENALTY_SHOOTOUT);
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_PENALTY_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
 
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName,"time_out_strategy");
-    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName,"shootout_prepare_tactic");
-
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().strategyName, "time_out_strategy");
+    EXPECT_EQ(rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName, "shootout_prepare_tactic");
 }

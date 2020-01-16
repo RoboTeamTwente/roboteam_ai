@@ -4,17 +4,15 @@
  * USED FOR CHECKING GAME STATE CHANGES DONT USE IF YOU DONT KNOW WHEN TO
  */
 
+#include "conditions/CanPlay.h"
 #include <interface/api/Output.h>
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
-#include "conditions/CanPlay.h"
 #include "world/Ball.h"
 
 namespace rtt::ai {
 
-CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {
-};
+CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 bt::Node::Status CanPlay::onUpdate() {
     double margin = 0.05;
@@ -22,8 +20,7 @@ bt::Node::Status CanPlay::onUpdate() {
         margin = 0.15;
     }
 
-    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->getPos())
-                            < margin;
+    bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->getPos()) < margin;
     auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command());
     if (ballIsLayingStill || (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START)) {
         // this should keep running, because otherwise the condition would re initialize
@@ -32,4 +29,4 @@ bt::Node::Status CanPlay::onUpdate() {
     return Status::Success;
 }
 
-} // rtt
+}  // namespace rtt::ai

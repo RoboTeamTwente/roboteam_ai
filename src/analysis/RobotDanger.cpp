@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 5-3-19.
 //
 
-#include <world/Field.h>
 #include "analysis/RobotDanger.h"
+#include <world/Field.h>
 
 namespace rtt::ai::analysis {
 
@@ -18,4 +18,4 @@ double RobotDanger::getTotalDanger() {
     return total;
 }
 
-} // rtt
+}  // namespace rtt::ai::analysis

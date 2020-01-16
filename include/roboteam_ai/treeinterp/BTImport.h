@@ -12,12 +12,12 @@
 #include "bt/Leaf.hpp"
 #include "bt/Node.hpp"
 
-#include "bt/composites/MemSequence.hpp"
-#include "bt/composites/Sequence.hpp"
-#include "bt/composites/MemSelector.hpp"
-#include "bt/composites/ParallelSequence.hpp"
 #include "bt/composites/MemParallelSequence.h"
+#include "bt/composites/MemSelector.hpp"
+#include "bt/composites/MemSequence.hpp"
+#include "bt/composites/ParallelSequence.hpp"
 #include "bt/composites/Selector.hpp"
+#include "bt/composites/Sequence.hpp"
 
 #include "bt/decorators/Failer.hpp"
 #include "bt/decorators/Inverter.hpp"
@@ -26,4 +26,4 @@
 #include "bt/decorators/UntilFail.hpp"
 #include "bt/decorators/UntilSuccess.hpp"
 
-#endif //ROBOTEAM_AI_BTIMPORT_H
+#endif  // ROBOTEAM_AI_BTIMPORT_H

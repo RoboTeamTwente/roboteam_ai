@@ -2,11 +2,11 @@
 // Created by rolf on 17-4-19.
 //
 
-#include <world/World.h>
+#include "coach/GetBallCoach.h"
 #include <utilities/RobotDealer.h>
 #include <world/Field.h>
+#include <world/World.h>
 #include "coach/defence/DefencePositionCoach.h"
-#include "coach/GetBallCoach.h"
 #include "interface/api/Input.h"
 
 namespace rtt::ai::coach {
@@ -18,22 +18,17 @@ bool GetBallCoach::shouldWeGetBall() {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
     Vector2 ballPos = world::world->getBall()->getPos();
-    return ! world::field->pointIsInDefenceArea(ballPos, true, 0.04) &&
-            ! world::field->pointIsInDefenceArea(ballPos, false) && world::field->pointIsInField(ballPos, - 0.05);
+    return !world::field->pointIsInDefenceArea(ballPos, true, 0.04) && !world::field->pointIsInDefenceArea(ballPos, false) && world::field->pointIsInField(ballPos, -0.05);
 }
 
-bool GetBallCoach::weAreGettingBall() {
-    return gettingBall;
-}
+bool GetBallCoach::weAreGettingBall() { return gettingBall; }
 
-int GetBallCoach::getBallGetterID() {
-    return idGettingBall;
-}
+int GetBallCoach::getBallGetterID() { return idGettingBall; }
 
 int GetBallCoach::bestBallGetterID() {
     auto ball = world::world->getBall();
     double a = 0.5;
-    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1-a) + ball->getPos() * a;
+    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1 - a) + ball->getPos() * a;
 
     double closestDistSquared = 9e9;
     int closestId = idGettingBall;
@@ -45,7 +40,7 @@ int GetBallCoach::bestBallGetterID() {
         closestDistSquared = (closestPos - ballPos).length2() * 0.65;
     }
 
-    for (const auto &robot : world::world->getUs()) {
+    for (const auto& robot : world::world->getUs()) {
         if (robot->id != robotDealer::RobotDealer::getKeeperID() && robot->id != idGettingBall) {
             double distToBallSquared = (robot->pos - ballPos).length2();
             if (distToBallSquared < closestDistSquared) {
@@ -56,8 +51,7 @@ int GetBallCoach::bestBallGetterID() {
         }
     }
 
-    interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::lightGray, closestId,
-            interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::lightGray, closestId, interface::Drawing::LINES_CONNECTED);
 
     return closestId;
 }
@@ -66,11 +60,10 @@ void GetBallCoach::update() {
     if (shouldWeGetBall()) {
         gettingBall = true;
         idGettingBall = bestBallGetterID();
-    }
-    else {
-        idGettingBall = - 1;
+    } else {
+        idGettingBall = -1;
         gettingBall = false;
     }
 }
 
-} //rtt
+}  // namespace rtt::ai::coach

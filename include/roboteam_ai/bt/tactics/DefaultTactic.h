@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_DEFAULTTACTIC_H
 #define ROBOTEAM_AI_DEFAULTTACTIC_H
 
-#include <mutex>
 #include <analysis/DecisionMaker.h>
-#include <bt/Node.hpp>
 #include <utilities/RobotDealer.h>
+#include <bt/Node.hpp>
+#include <mutex>
 
 namespace bt {
 
@@ -17,9 +17,9 @@ class DefaultTactic : public Node {
     FRIEND_TEST(DefaultTacticTest, offensive_defensive_midfield_tactics_work);
     FRIEND_TEST(DefaultTacticTest, claim_test);
 
-        using RobotType = rtt::ai::robotDealer::RobotType;
+    using RobotType = rtt::ai::robotDealer::RobotType;
 
-private:
+   private:
     int amountToTick = -1;
     void claimRobots(int amount);
     void disClaimRobots(int amount);
@@ -37,24 +37,18 @@ private:
     void giveProperty(std::string a, std::string b) override;
     std::vector<Node::Ptr> getChildren() override;
 
-public:
+   public:
     std::vector<std::tuple<int, std::string, RobotType>> robots;
     DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::vector<std::pair<std::string, RobotType>>& robots);
 
     void initialize() override;
     Node::Status update() override;
-    enum TacticType : short {
-      Defensive,
-      Middle,
-      Offensive,
-      General
-    };
+    enum TacticType : short { Defensive, Middle, Offensive, General };
     TacticType thisType = TacticType::General;
     void terminate(Node::Status s) override;
     std::string node_name() override;
     void addChild(Node::Ptr newChild) override;
-
 };
-}
+}  // namespace bt
 
-#endif //ROBOTEAM_AI_DEFAULTTACTIC_H
+#endif  // ROBOTEAM_AI_DEFAULTTACTIC_H

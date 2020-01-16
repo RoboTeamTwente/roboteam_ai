@@ -5,13 +5,13 @@
 
 namespace rtt::ai {
 
-    class IsBeingPassedTo : public Condition {
-    public:
-        explicit IsBeingPassedTo(std::string name = "IsBeingPassedTo", bt::Blackboard::Ptr blackboard = nullptr);
+class IsBeingPassedTo : public Condition {
+   public:
+    explicit IsBeingPassedTo(std::string name = "IsBeingPassedTo", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    Status onUpdate() override;
+};
 
-} //rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_ISBEINGPASSEDTO_H
+#endif  // ROBOTEAM_AI_ISBEINGPASSEDTO_H

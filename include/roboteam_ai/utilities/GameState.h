@@ -2,16 +2,15 @@
 #define ROBOTEAM_AI_GAMESTATE_H
 
 #include <roboteam_utils/Vector2.h>
-#include "RuleSet.h"
 #include "Constants.h"
+#include "RuleSet.h"
 
 namespace rtt::ai {
 
 struct GameState {
     GameState() = default;
     GameState(std::string strategyName, std::string keeperStrategyName, std::string ruleSetName)
-            : strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSetName(std::move(ruleSetName))
-            { };
+        : strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSetName(std::move(ruleSetName)){};
 
     std::string strategyName;
     std::string keeperStrategyName;
@@ -30,7 +29,6 @@ struct GameState {
     }
 };
 
-} // rtt
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_GAMESTATE_H
+#endif  // ROBOTEAM_AI_GAMESTATE_H

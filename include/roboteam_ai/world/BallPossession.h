@@ -16,8 +16,8 @@ class BallPossession {
     FRIEND_TEST(BallPossessionTest, team_far_or_close_to_ball);
     FRIEND_TEST(BallPossessionTest, it_properly_computes);
 
-private:
-    const double MIDDLE_LINE_X = 0.0; // The x coordinate that corresponds to the middle of the field.
+   private:
+    const double MIDDLE_LINE_X = 0.0;  // The x coordinate that corresponds to the middle of the field.
     /* If a teams distance to the ball is larger or equal than STANDARD_FAR_THRESHOLD at a moment then that team is
      * considered to be far from the ball at that moment. */
     const double STANDARD_FAR_THRESHOLD = 0.4;
@@ -34,18 +34,18 @@ private:
     /* If the ball x coordinate is larger than relatively OUR_POSSESSION_RELATIVE_LENGTH_THRESHOLD of the length of the
      * field (with respect to the leftmost x-coordinate of the field) then the ball is considered to be always in our
      * possession. */
-    const double OUR_POSSESSION_RELATIVE_LENGTH_THRESHOLD = 0.75; // 6/8 of the field
+    const double OUR_POSSESSION_RELATIVE_LENGTH_THRESHOLD = 0.75;  // 6/8 of the field
     /* If the ball x coordinate is smaller than relatively THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD of the length of
      * the field (with respect to the leftmost x-coordinate of the field) then the ball is always considered to be in
      * their possession. */
-    const double THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD = 0.375; // 3/8 of the field
+    const double THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD = 0.375;  // 3/8 of the field
 
-public:
+   public:
     enum Possession {
-        LOOSEBALL,      // If neither us nor the opponent possess the ball.
-        OURBALL,        // If we possess the ball.
-        THEIRBALL,      // If the opponent possess the ball.
-        CONTENDEDBALL   // If we and the opponent both possess the ball.
+        LOOSEBALL,     // If neither us nor the opponent possess the ball.
+        OURBALL,       // If we possess the ball.
+        THEIRBALL,     // If the opponent possess the ball.
+        CONTENDEDBALL  // If we and the opponent both possess the ball.
     };
 
     /**
@@ -59,13 +59,13 @@ public:
      */
     Possession getPossession();
 
-private:
+   private:
     Possession state = LOOSEBALL;
 
-    double closeToUsTime = 0.0; // For how many seconds uninterrupted our team has remained close to the ball.
-    double closeToThemTime = 0.0; // For how many seconds uninterrupted the opponents team has remained close to the ball.
-    double farFromUsTime = 0.0; // For how many seconds uninterrupted our team has remained far from the ball.
-    double farFromThemTime = 0.0; // For how many seconds uninterrupted the opponents team has remained far from the ball.
+    double closeToUsTime = 0.0;    // For how many seconds uninterrupted our team has remained close to the ball.
+    double closeToThemTime = 0.0;  // For how many seconds uninterrupted the opponents team has remained close to the ball.
+    double farFromUsTime = 0.0;    // For how many seconds uninterrupted our team has remained far from the ball.
+    double farFromThemTime = 0.0;  // For how many seconds uninterrupted the opponents team has remained far from the ball.
 
     /**
      * Updates all close and far away times (for how many seconds uninterrupted each team has remained close/far from
@@ -94,6 +94,6 @@ private:
 extern BallPossession ballPossession;
 extern BallPossession* ballPossessionPtr;
 
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_BALLPOSSESSION_H
+#endif  // ROBOTEAM_AI_BALLPOSSESSION_H

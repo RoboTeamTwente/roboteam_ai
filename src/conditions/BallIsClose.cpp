@@ -2,13 +2,12 @@
 // Created by baris on 25-4-19.
 //
 
-#include <world/Ball.h>
-#include <world/World.h>
-#include <world/Robot.h>
 #include "conditions/BallIsClose.h"
+#include <world/Ball.h>
+#include <world/Robot.h>
+#include <world/World.h>
 
-rtt::ai::BallIsClose::BallIsClose(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
+rtt::ai::BallIsClose::BallIsClose(std::string name, bt::Blackboard::Ptr blackboard) : Condition(name, blackboard) {
     if (properties->getDouble("distance") > 0.02) {
         distance = properties->getDouble("distance");
     }

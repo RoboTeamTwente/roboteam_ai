@@ -30,9 +30,7 @@ PidBox::PidBox(const QString &title, QWidget *parent) : QGroupBox(title, parent)
     this->setLayout(spinBoxLayout);
 }
 
-const pidVals &PidBox::getPid() const {
-    return pid;
-}
+const pidVals &PidBox::getPid() const { return pid; }
 
 // update the checkbox values
 void PidBox::setPid(const pidVals &pid) {
@@ -51,8 +49,7 @@ void PidBox::updatePID() {
     }
 }
 
-
-} // rtt
+}  // namespace rtt::ai::interface
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_PidBox.cpp"

@@ -7,21 +7,20 @@
 
 namespace rtt::ai::analysis {
 
-    struct RobotDanger {
-        bool ourTeam;
-        int id;
+struct RobotDanger {
+    bool ourTeam;
+    int id;
 
-        double shortestDistToEnemy;
-        double distanceToGoal;
-        bool aimedAtGoal;
-        bool closingInToGoal;
-        bool hasBall;
+    double shortestDistToEnemy;
+    double distanceToGoal;
+    bool aimedAtGoal;
+    bool closingInToGoal;
+    bool hasBall;
     double goalVisionPercentage;
     std::vector<std::pair<int, double>> robotsToPassTo;
     double getTotalDanger();
 };
 
-} // rtt
+}  // namespace rtt::ai::analysis
 
-
-#endif //ROBOTEAM_AI_ROBOTDANGER_H
+#endif  // ROBOTEAM_AI_ROBOTDANGER_H

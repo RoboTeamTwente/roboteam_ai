@@ -12,10 +12,10 @@
 //#include "../helpers/FieldHelper.h"
 //#include <cmath>
 //
-//namespace rd = rtt::ai::robotDealer;
-//namespace w = rtt::ai::world;
-//using Vector2 = rtt::Vector2;
-//TEST(PassTest, PassTest) {
+// namespace rd = rtt::ai::robotDealer;
+// namespace w = rtt::ai::world;
+// using Vector2 = rtt::Vector2;
+// TEST(PassTest, PassTest) {
 //    roboteam_msgs::GeometryFieldSize field = testhelpers::FieldHelper::generateField();
 //    rtt::ai::world::field->set_field(field);
 //    roboteam_msgs::World world;

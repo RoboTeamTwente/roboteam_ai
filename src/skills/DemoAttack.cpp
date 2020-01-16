@@ -2,16 +2,15 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <control/PositionUtils.h>
 #include "skills/DemoAttack.h"
-#include <world/Field.h>
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
+#include <control/PositionUtils.h>
+#include <world/Field.h>
 
 namespace rtt::ai {
 
-DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DemoAttack::onInitialize() {
     robot->getNumtreePosControl()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());
@@ -21,7 +20,7 @@ void DemoAttack::onInitialize() {
 
 /// Get an update on the skill
 bt::Node::Status DemoAttack::onUpdate() {
-    if (! robot) return Status::Running;
+    if (!robot) return Status::Running;
 
     if (shot && !world->robotHasBall(robot->id, true)) {
         return Status::Success;
@@ -33,43 +32,36 @@ bt::Node::Status DemoAttack::onUpdate() {
 
     if (!control::PositionUtils::isRobotBehindBallToGoal(BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
-        command.set_w(static_cast<float>((ball - (Vector2) (robot->pos)).angle()));
+        command.set_w(static_cast<float>((ball - (Vector2)(robot->pos)).angle()));
         robot->getNumtreePosControl()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
-        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
+        if (abs(((Vector2)robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             robot->getNumtreePosControl()->setAvoidBallDistance(0);
         }
-    }
-    else {
+    } else {
         targetPos = ball;
         robot->getNumtreePosControl()->setAvoidBallDistance(0);
 
-        command.set_w(static_cast<float>(((Vector2) {- 1.0, - 1.0}*deltaBall).angle()));
+        command.set_w(static_cast<float>(((Vector2){-1.0, -1.0} * deltaBall).angle()));
         if (world::world->robotHasBall(robot->id, true)) {
             command.set_kicker(true);
             command.set_chip_kick_vel(static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER()));
             command.set_chip_kick_forced(true);
             shot = true;
         }
-
     }
     Vector2 velocity;
     if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_field().get(OUR_GOAL_CENTER)).stretchToLength(2.0);
-    }
-    else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_field().get(THEIR_GOAL_CENTER)).stretchToLength(2.0);
-    }
-    else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
+        velocity = ((Vector2)robot->pos - world::field->get_field().get(OUR_GOAL_CENTER)).stretchToLength(2.0);
+    } else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
+        velocity = ((Vector2)robot->pos - world::field->get_field().get(THEIR_GOAL_CENTER)).stretchToLength(2.0);
+    } else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};
-    }
-    else if (world::field->pointIsInDefenceArea(targetPos, ownGoal)) {
+    } else if (world::field->pointIsInDefenceArea(targetPos, ownGoal)) {
         velocity = {0, 0};
-    }
-    else {
+    } else {
         velocity = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos).vel;
     }
-
 
     command.mutable_vel()->set_x(static_cast<float>(velocity.x));
     command.mutable_vel()->set_y(static_cast<float>(velocity.y));
@@ -85,4 +77,4 @@ void DemoAttack::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-} // rtt
+}  // namespace rtt::ai

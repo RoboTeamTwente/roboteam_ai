@@ -11,17 +11,17 @@
 namespace rtt::ai {
 
 class Harass : public Skill {
+   public:
+    explicit Harass(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
 
-    public:
-        explicit Harass(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-    private:
-        int harassmentTarget = - 1;
-        void pickHarassmentTarget();
-        bool harassBallOwner = false;
-        control::BasicPosControl goToPos;
+   private:
+    int harassmentTarget = -1;
+    void pickHarassmentTarget();
+    bool harassBallOwner = false;
+    control::BasicPosControl goToPos;
 };
 
-}
-#endif //ROBOTEAM_AI_HARASS_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_HARASS_H

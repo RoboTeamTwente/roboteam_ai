@@ -4,15 +4,13 @@
  * Otherwise FAILURE
  */
 
-#include <world/World.h>
-#include <world/Ball.h>
 #include "conditions/BallNearOurGoalLineAndStill.h"
+#include <world/Ball.h>
+#include <world/World.h>
 
 namespace rtt::ai {
 
-BallNearOurGoalLineAndStill::BallNearOurGoalLineAndStill(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
-
+BallNearOurGoalLineAndStill::BallNearOurGoalLineAndStill(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 void BallNearOurGoalLineAndStill::onInitialize() {
     if (properties->hasDouble("margin")) {
@@ -23,13 +21,13 @@ void BallNearOurGoalLineAndStill::onInitialize() {
 bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
     Vector2 ballPos = world->getBall()->getPos();
 
-    bool ballNearGoalLine = ballPos.x < (field->get_field().get(LEFT_LINE).begin.x+margin);
+    bool ballNearGoalLine = ballPos.x < (field->get_field().get(LEFT_LINE).begin.x + margin);
     bool ballIsLayingStill = Vector2(ball->getVel()).length() < Constants::BALL_STILL_VEL();
 
     if (ballNearGoalLine && ballIsLayingStill) {
         return Status::Success;
-    } 
-    return Status::Failure; 
+    }
+    return Status::Failure;
 }
 
-} // rtt
+}  // namespace rtt::ai

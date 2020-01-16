@@ -19,4 +19,4 @@ RobotDanger AnalysisReport::getRobotDangerForId(int id, bool ourTeam) {
 
     return {};
 }
-} // rtt
+}  // namespace rtt::ai::analysis

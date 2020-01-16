@@ -1,27 +1,26 @@
 /*
-* Returns true if the position is within the defence area.
-* properties:
-* - useRobot: if true, use the robot location, otherwise use the ball location
-* - ourDefenceArea: if true, the condition returns true if the point is in our defence area. otherwise it is their defence area
-* - outsideField: if true, the robot 
-*/
+ * Returns true if the position is within the defence area.
+ * properties:
+ * - useRobot: if true, use the robot location, otherwise use the ball location
+ * - ourDefenceArea: if true, the condition returns true if the point is in our defence area. otherwise it is their defence area
+ * - outsideField: if true, the robot
+ */
 
+#include "conditions/IsInDefenseArea.hpp"
+#include "world/Ball.h"
 #include "world/Field.h"
 #include "world/Robot.h"
-#include "world/Ball.h"
-#include "conditions/IsInDefenseArea.hpp"
 
 namespace rtt::ai {
 
-IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) 
-: Condition(std::move(name), std::move(blackboard)) { }
+IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status IsInDefenseArea::onUpdate() {
     ourDefenseArea = properties->getBool("ourDefenseArea");
     outsideField = properties->getBool("outsideField");
     secondsAhead = properties->hasDouble("secondsAhead") ? properties->getDouble("secondsAhead") : 0.0;
-    if(secondsAhead >= 0.0) {
-        if(properties->getBool("useRobot")) {
+    if (secondsAhead >= 0.0) {
+        if (properties->getBool("useRobot")) {
             point = robot->pos + robot->vel * secondsAhead;
         } else {
             point = ball->getPos() + ball->getVel() * secondsAhead;
@@ -38,4 +37,4 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
     return Status::Failure;
 }
 
-} // rtt
+}  // namespace rtt::ai

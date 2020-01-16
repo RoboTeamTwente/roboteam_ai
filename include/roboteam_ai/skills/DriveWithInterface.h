@@ -5,21 +5,19 @@
 #ifndef ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 #define ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 
-#include "Skill.h"
 #include <control/numTrees/NumTreePosControl.h>
+#include "Skill.h"
 
 namespace rtt::ai {
 
 class DriveWithInterface : public Skill {
-    public:
-        explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
+   public:
+    explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
 
-    private:
-        control::NumTreePosControl numTreeGtp;
-
-
+   private:
+    control::NumTreePosControl numTreeGtp;
 };
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_DRIVEWITHINTERFACE_H
+#endif  // ROBOTEAM_AI_DRIVEWITHINTERFACE_H

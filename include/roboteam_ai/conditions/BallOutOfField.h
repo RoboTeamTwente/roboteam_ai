@@ -9,12 +9,12 @@
 
 namespace rtt::ai {
 
-    class BallOutOfField : public Condition {
-    public:
-        explicit BallOutOfField(std::string name = "BallOutOfField", bt::Blackboard::Ptr blackboard = nullptr);
+class BallOutOfField : public Condition {
+   public:
+    explicit BallOutOfField(std::string name = "BallOutOfField", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    Status onUpdate() override;
+};
 
-} // rtt
-#endif //ROBOTEAM_AI_BALLOUTOFFIELD_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_BALLOUTOFFIELD_H

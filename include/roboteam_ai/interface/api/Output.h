@@ -7,24 +7,25 @@
 
 #include <mutex>
 #include "roboteam_utils/Vector2.h"
-#include "utilities/Pause.h"
 #include "utilities/GameState.h"
+#include "utilities/Pause.h"
 
 namespace rtt::ai::interface {
 
-    typedef std::tuple<double, double, double> pidVals;
-
+typedef std::tuple<double, double, double> pidVals;
 
 class Output {
-private:
+   private:
     static pidVals basicPID;
     static pidVals numTreePID;
     static pidVals forcePID;
     static pidVals shotControllerPID;
-public:
+
+   public:
     static const pidVals &getShotControllerPID();
     static void setShotControllerPID(const pidVals &shotControllerPID);
-private:
+
+   private:
     static pidVals keeperPID;
     static pidVals keeperInterceptPID;
     static pidVals ballHandlePID;
@@ -39,13 +40,14 @@ private:
     static bool timeOutAtTop;
 
     static GameState interfaceGameState;
-public:
+
+   public:
     static void setInterfaceGameState(GameState interfaceGameState);
 
-public:
+   public:
     static const GameState &getInterfaceGameState();
 
-public:
+   public:
     static bool isTimeOutAtTop();
     static void setShowDebugValues(bool showDebug);
     static bool getShowDebugValues();
@@ -53,8 +55,8 @@ public:
     static bool showDebugTickTimeTaken();
     static bool showDebugNumTreeTimeTaken();
     static bool showDebugNumTreeInfo();
-        static bool showCoachTimeTaken();
-        static bool showFullDebugNumTreeInfo();
+    static bool showCoachTimeTaken();
+    static bool showFullDebugNumTreeInfo();
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
@@ -80,6 +82,6 @@ public:
     static void setKeeperId(int id);
 };
 
-}
+}  // namespace rtt::ai::interface
 
-#endif //ROBOTEAM_AI_OUTPUT_H
+#endif  // ROBOTEAM_AI_OUTPUT_H

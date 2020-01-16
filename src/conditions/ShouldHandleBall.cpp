@@ -7,9 +7,7 @@
 
 namespace rtt::ai {
 
-ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {
-}
+ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 std::string ShouldHandleBall::node_name() { return "ShouldHandleBall"; }
 
@@ -30,10 +28,6 @@ ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
     return Status::Failure;
 }
 
-void ShouldHandleBall::onTerminate(Condition::Status s) {
-    Condition::onTerminate(s);
+void ShouldHandleBall::onTerminate(Condition::Status s) { Condition::onTerminate(s); }
 
-}
-
-}//rtt
-
+}  // namespace rtt::ai

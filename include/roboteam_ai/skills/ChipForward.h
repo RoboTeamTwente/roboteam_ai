@@ -10,16 +10,16 @@
 namespace rtt::ai {
 
 class ChipForward : public Skill {
-private:
+   private:
     Vector2 aimPoint;
     bool hasChipped = false;
-public:
+
+   public:
     explicit ChipForward(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
 };
 
-}
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_CHIPFORWARD_H
+#endif  // ROBOTEAM_AI_CHIPFORWARD_H

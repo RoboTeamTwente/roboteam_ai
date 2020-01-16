@@ -13,83 +13,73 @@
 namespace rtt::ai {
 
 namespace world {
-    class Ball;
-    class Robot;
-}
+class Ball;
+class Robot;
+}  // namespace world
 
 namespace control {
 
 class RotateAroundBall;
 class RotateWithBall;
 class DribbleBackwards {
-    public:
-        enum BackwardsProgress : short {
-          START,
-          TURNING,
-          APPROACHING,
-          OVERSHOOTING,
-          DRIBBLING,
-          DRIBBLE_BACKWARDS,
-          SUCCESS,
-          FAIL
-        };
-        BackwardsProgress getBackwardsProgression();
+   public:
+    enum BackwardsProgress : short { START, TURNING, APPROACHING, OVERSHOOTING, DRIBBLING, DRIBBLE_BACKWARDS, SUCCESS, FAIL };
+    BackwardsProgress getBackwardsProgression();
 
-    private:
-        RotateAroundBall* rotateAroundBall;
-        RotateWithBall* rotateAroundRobot;
+   private:
+    RotateAroundBall* rotateAroundBall;
+    RotateWithBall* rotateAroundRobot;
 
-        using RobotPtr = std::shared_ptr<world::Robot>;
-        using BallPtr = std::shared_ptr<world::Ball>;
-        RobotPtr robot;
-        BallPtr ball;
+    using RobotPtr = std::shared_ptr<world::Robot>;
+    using BallPtr = std::shared_ptr<world::Ball>;
+    RobotPtr robot;
+    BallPtr ball;
 
-        BackwardsProgress backwardsProgress = START;
-        void printBackwardsProgress();
+    BackwardsProgress backwardsProgress = START;
+    void printBackwardsProgress();
 
-        // variables for backwards progress
-        Vector2 approachPosition;
-        std::pair<Vector2, Vector2> backwardsDribbleLine;
-        Angle lockedAngle;
-        Angle targetAngle;
-        Angle finalTargetAngle;
-        Vector2 targetPos;
-        Vector2 finalTargetPos;
+    // variables for backwards progress
+    Vector2 approachPosition;
+    std::pair<Vector2, Vector2> backwardsDribbleLine;
+    Angle lockedAngle;
+    Angle targetAngle;
+    Angle finalTargetAngle;
+    Vector2 targetPos;
+    Vector2 finalTargetPos;
 
-        // error margins and accuracy
-        int waitingTicks;
-        bool failedOnce;
+    // error margins and accuracy
+    int waitingTicks;
+    bool failedOnce;
 
-        double errorMargin;
-        double angleErrorMargin = 10.0 / 180.0 * M_PI;
-        double ballPlacementAccuracy;
-        double maxVel;
-    public:
-        void setMaxVel(double maxVel);
-    private:
+    double errorMargin;
+    double angleErrorMargin = 10.0 / 180.0 * M_PI;
+    double ballPlacementAccuracy;
+    double maxVel;
 
-        // functions for backwards progress
-        void updateBackwardsProgress();
-        RobotCommand sendBackwardsCommand();
-        RobotCommand startTravelBackwards();
-        RobotCommand sendTurnCommand();
-        RobotCommand sendApproachCommand();
-        RobotCommand sendOvershootCommand();
-        RobotCommand sendDribblingCommand();
-        RobotCommand sendDribbleBackwardsCommand();
-        RobotCommand sendSuccessCommand();
+   public:
+    void setMaxVel(double maxVel);
 
-    public:
-        RobotCommand getRobotCommand(RobotPtr r,
-                const Vector2 &targetP, const Angle &targetA);
-        void reset();
+   private:
+    // functions for backwards progress
+    void updateBackwardsProgress();
+    RobotCommand sendBackwardsCommand();
+    RobotCommand startTravelBackwards();
+    RobotCommand sendTurnCommand();
+    RobotCommand sendApproachCommand();
+    RobotCommand sendOvershootCommand();
+    RobotCommand sendDribblingCommand();
+    RobotCommand sendDribbleBackwardsCommand();
+    RobotCommand sendSuccessCommand();
 
-        explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02,
-                double ballPlacementAccuracy = 0.04, double maxVel = 0.4);
-        ~DribbleBackwards();
+   public:
+    RobotCommand getRobotCommand(RobotPtr r, const Vector2& targetP, const Angle& targetA);
+    void reset();
+
+    explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.4);
+    ~DribbleBackwards();
 };
 
-}
-}
+}  // namespace control
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_DRIBBLEBACKWARDS_H
+#endif  // ROBOTEAM_AI_DRIBBLEBACKWARDS_H
