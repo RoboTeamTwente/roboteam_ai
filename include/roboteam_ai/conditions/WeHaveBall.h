@@ -6,13 +6,11 @@
 namespace rtt::ai {
 
 class WeHaveBall : public Condition {
-    public:
-        explicit WeHaveBall(std::string name = "WeHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
-        Status onUpdate() override;
+   public:
+    explicit WeHaveBall(std::string name = "WeHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
+    Status onUpdate() override;
 };
 
-} //rtt
+}  // namespace rtt::ai
 
-
-
-#endif //ROBOTEAM_AI_WEHAVEBALL_H
+#endif  // ROBOTEAM_AI_WEHAVEBALL_H

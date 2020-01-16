@@ -5,22 +5,21 @@
 
 namespace rtt::ai {
 
-    class BallInDefenseAreaAndStill : public Condition {
-        FRIEND_TEST(DetectsDefenseArea, BallInDefenseAreaAndStill);
+class BallInDefenseAreaAndStill : public Condition {
+    FRIEND_TEST(DetectsDefenseArea, BallInDefenseAreaAndStill);
 
-    private:
-        bool theirDefenceArea;
-        bool outsideField = false;
-    public:
-        explicit BallInDefenseAreaAndStill(std::string name = "BallInDefenseAreaAndStill",
-                                           bt::Blackboard::Ptr blackboard = nullptr);
+   private:
+    bool theirDefenceArea;
+    bool outsideField = false;
 
-        void onInitialize() override;
+   public:
+    explicit BallInDefenseAreaAndStill(std::string name = "BallInDefenseAreaAndStill", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
+    void onInitialize() override;
+
+    Status onUpdate() override;
 };
 
-} // rtt
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_BALLINDEFENSEAREAANDSTILL_H
+#endif  // ROBOTEAM_AI_BALLINDEFENSEAREAANDSTILL_H

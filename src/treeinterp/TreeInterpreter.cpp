@@ -26,7 +26,6 @@ std::map<std::string, bt::BehaviorTree::Ptr> TreeInterpreter::getTrees(std::stri
 
 /// Build a BehaviorTree from a JSON object
 bt::BehaviorTree::Ptr TreeInterpreter::buildTreeFromJSON(json jsonTree) {
-
     // ID of the root
     std::string rootID = jsonTree["root"];
 
@@ -42,10 +41,8 @@ bt::BehaviorTree::Ptr TreeInterpreter::buildTreeFromJSON(json jsonTree) {
 
 /// Builds nodes recursively from json objects
 bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboard::Ptr globalBlackBoard) {
-
     // Dealing with a leaf, the properties are set internally
     if (TreeInterpreter::isLeaf(nodeJSON)) {
-
         bt::Leaf::Ptr leaf;
         leaf = TreeInterpreter::makeLeafNode(nodeJSON);
         leaf->globalBB = globalBlackBoard;
@@ -62,8 +59,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         tempNode->properties = propertyParser.parse(nodeJSON);
         node = tempNode;
         // Build and actual normal node
-    }
-    else {
+    } else {
         auto test = nodeJSON["title"];
         bt::Node::Ptr tempNode = makeNonLeafNode(nodeJSON["title"]);
         tempNode->globalBB = globalBlackBoard;
@@ -71,7 +67,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
         node = tempNode;
     }
 
-    if (! jsonReader.checkIfKeyExists("children", nodeJSON)) {
+    if (!jsonReader.checkIfKeyExists("children", nodeJSON)) {
         std::cerr << "Well this is a non leaf node without children and this should never happen. Like really never" << std::endl;
     }
 
@@ -86,7 +82,6 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
 
 /// Makes a non leaf node
 bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
-
     bt::Node::Ptr node = Switches::nonLeafSwitch(std::move(name));
 
     // TODO maybe process the node here a little otherwise this is a very redundant function
@@ -95,14 +90,13 @@ bt::Node::Ptr TreeInterpreter::makeNonLeafNode(std::string name) {
 
 /// Returns if there is any element in a json called "child" or "children"
 bool TreeInterpreter::isLeaf(json jsonTree) {
-    bool hasChild = jsonReader.checkIfKeyExists("child", jsonTree); // legacy
+    bool hasChild = jsonReader.checkIfKeyExists("child", jsonTree);  // legacy
     bool hasChildren = jsonReader.checkIfKeyExists("children", jsonTree);
-    return ! (hasChild || hasChildren);
+    return !(hasChild || hasChildren);
 }
 
 /// Make a leaf node depending on the name of the node
 bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
-
     if (jsonLeaf["title"] == "Tactic") {
         auto properties = propertyParser.parse(jsonLeaf);
         // This is the point where strategy trees get the tactics attached to them
@@ -112,12 +106,10 @@ bt::Leaf::Ptr TreeInterpreter::makeLeafNode(json jsonLeaf) {
     bt::Blackboard::Ptr properties = propertyParser.parse(jsonLeaf);
     rtt::ai::Skill::Ptr skill = Switches::leafSwitch(jsonLeaf["title"], properties);
     return skill;
-
 }
 
 /// Reads all the tactics from one JSON project, puts them in a local repositopry and returns them
 std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB) {
-
     json tacticJson = jsonReader.readJSON("tactics/" + fileName);
     std::map<std::string, bt::Node::Ptr> resultMap;
 
@@ -133,23 +125,13 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 }
 
 bt::Node::Ptr TreeInterpreter::tacticSwitch(std::string name, bt::Blackboard::Ptr properties) {
-
     bt::Node::Ptr tacticNode = Switches::tacticSwitch(name, std::move(properties));
     // Hacky child abduction
     bt::Node::Ptr kid = tactics.find(name)->second;
-    for (const auto& child : kid->getChildren()) {
+    for (const auto &child : kid->getChildren()) {
         tacticNode->addChild(child);
     }
     tacticNode->giveProperty("TacticType", kid->properties->getString("TacticType"));
 
     return tacticNode;
 }
-
-
-
-
-
-
-
-
-

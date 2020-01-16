@@ -7,15 +7,8 @@
 
 namespace rtt::ai {
 
-PreparePenalty::PreparePenalty(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+PreparePenalty::PreparePenalty(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+void PreparePenalty::onInitialize() {}
 
-}
-void PreparePenalty::onInitialize() {
- }
-
-
-Skill::Status PreparePenalty::onUpdate() {
-    return Status::Failure;
-}
-}
+Skill::Status PreparePenalty::onUpdate() { return Status::Failure; }
+}  // namespace rtt::ai

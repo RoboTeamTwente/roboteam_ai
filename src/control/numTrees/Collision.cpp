@@ -9,28 +9,34 @@ namespace rtt::ai::control {
 std::string Collision::collisionTypeToString() {
     std::string s;
     switch (getCollisionType()) {
-    case Collision::ROBOT: s = "ROBOT          ";
-        break;
-    case Collision::BALL: s = "BALL           ";
-        break;
-    case Collision::FIELD: s = "FIELD          ";
-        break;
-    case Collision::DEFENSE_AREA: s = "DEFENSE_AREA   ";
-        break;
-    case Collision::GOAL: s = "GOAL   ";
-        break;
-    case Collision::BALL_PLACEMENT: s = "BALL_PLACEMENT    ";
-        break;
-    case Collision::NO_COLLISION: s = "NO COLLISION?!?";
-        break;
-    default: s = "ERROR! CollisionType does not exist";
+        case Collision::ROBOT:
+            s = "ROBOT          ";
+            break;
+        case Collision::BALL:
+            s = "BALL           ";
+            break;
+        case Collision::FIELD:
+            s = "FIELD          ";
+            break;
+        case Collision::DEFENSE_AREA:
+            s = "DEFENSE_AREA   ";
+            break;
+        case Collision::GOAL:
+            s = "GOAL   ";
+            break;
+        case Collision::BALL_PLACEMENT:
+            s = "BALL_PLACEMENT    ";
+            break;
+        case Collision::NO_COLLISION:
+            s = "NO COLLISION?!?";
+            break;
+        default:
+            s = "ERROR! CollisionType does not exist";
     }
     return s;
 }
 
-const world::Robot::RobotPtr &Collision::getCollisionRobot() const {
-    return collisionRobot;
-}
+const world::Robot::RobotPtr &Collision::getCollisionRobot() const { return collisionRobot; }
 
 void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
     type = ROBOT;
@@ -43,7 +49,7 @@ void Collision::setCollision(double distance) {
     collisionRadius = distance;
 }
 
-    void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
+void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
     type = BALL;
     collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
     collisionBall->setVisible(true);
@@ -69,36 +75,29 @@ void Collision::setGoalCollision(const Vector2 &collisionPos, double distance) {
 }
 
 const Vector2 Collision::collisionPosition() const {
-    if (collisionRobot->id != - 1) return collisionRobot->pos;
-    else if (collisionBall->getVisible()) return collisionBall->getPos();
-    else if (fieldCollision != Vector2()) return fieldCollision;
-    else if (defenseAreaCollision != Vector2()) return defenseAreaCollision;
-    else return {};
+    if (collisionRobot->id != -1)
+        return collisionRobot->pos;
+    else if (collisionBall->getVisible())
+        return collisionBall->getPos();
+    else if (fieldCollision != Vector2())
+        return fieldCollision;
+    else if (defenseAreaCollision != Vector2())
+        return defenseAreaCollision;
+    else
+        return {};
 }
 
-const Collision::CollisionType Collision::getCollisionType() const {
-    return type;
-}
+const Collision::CollisionType Collision::getCollisionType() const { return type; }
 
-const Vector2 &Collision::getCollisionDefenseAreaPos() const {
-    return defenseAreaCollision;
-}
+const Vector2 &Collision::getCollisionDefenseAreaPos() const { return defenseAreaCollision; }
 
-const Vector2 &Collision::getCollisionFieldPos() const {
-    return fieldCollision;
-}
+const Vector2 &Collision::getCollisionFieldPos() const { return fieldCollision; }
 
-const world::Ball::BallPtr &Collision::getCollisionBall() const {
-    return collisionBall;
-}
+const world::Ball::BallPtr &Collision::getCollisionBall() const { return collisionBall; }
 
-const Vector2 &Collision::getCollisionGoalPos() const {
-    return goalCollision;
-}
+const Vector2 &Collision::getCollisionGoalPos() const { return goalCollision; }
 
-const Vector2 &Collision::getCollisionBallPlacement() const {
-    return ballPlacementCollision;
-}
+const Vector2 &Collision::getCollisionBallPlacement() const { return ballPlacementCollision; }
 
 void Collision::setBallPlacementCollision(const Vector2 &collisionPos, double distance) {
     type = BALL_PLACEMENT;
@@ -106,4 +105,4 @@ void Collision::setBallPlacementCollision(const Vector2 &collisionPos, double di
     setCollision(distance);
 }
 
-}
+}  // namespace rtt::ai::control

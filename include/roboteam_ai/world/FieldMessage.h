@@ -1,11 +1,11 @@
 #ifndef RTT_FIELDMESSAGE_H
 #define RTT_FIELDMESSAGE_H
 
-#include "roboteam_proto/FieldLineSegment.pb.h"
-#include "roboteam_proto/FieldCircularArc.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/Vector2.h>
 #include "gtest/gtest_prod.h"
+#include "roboteam_proto/FieldCircularArc.pb.h"
+#include "roboteam_proto/FieldLineSegment.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
 namespace rtt {
 
@@ -19,8 +19,8 @@ struct FieldLineSegment {
 struct FieldArc {
     Vector2 center;
     float radius;
-    float a1; // The start angle, which is also called angle 1.
-    float a2; // The end angle, which is also called angle 2.
+    float a1;  // The start angle, which is also called angle 1.
+    float a2;  // The end angle, which is also called angle 2.
     std::string name;
     float thickness;
 };
@@ -37,27 +37,27 @@ enum FieldValueName {
     GOAL_WIDTH,
     // The difference in x-coordinate (measured in meters) between the open part of the goal and the closed part of the goal.
     GOAL_DEPTH,
-    BOUNDARY_WIDTH, // The width (measured in meters) of the boundary around the field.
-    CENTER_Y, // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
-    LEFTMOST_X, //The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
-    RIGHTMOST_X, //The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
-    BOTTOMMOST_Y, //The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
-    TOPMOST_Y, //The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
+    BOUNDARY_WIDTH,  // The width (measured in meters) of the boundary around the field.
+    CENTER_Y,        // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
+    LEFTMOST_X,      // The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
+    RIGHTMOST_X,     // The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
+    BOTTOMMOST_Y,    // The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
+    TOPMOST_Y,       // The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
 };
 
 enum FieldLineName {
-    TOP_LINE, // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
-    BOTTOM_LINE, // The field line with the lowest y-coordinate which goes from the left side to the right side of the field.
-    LEFT_LINE, // The field line left from our goal (our goal is always adjacent to this line).
-    RIGHT_LINE, // The field line right from the opponents goal (their goal is always adjacent to this line)
+    TOP_LINE,     // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
+    BOTTOM_LINE,  // The field line with the lowest y-coordinate which goes from the left side to the right side of the field.
+    LEFT_LINE,    // The field line left from our goal (our goal is always adjacent to this line).
+    RIGHT_LINE,   // The field line right from the opponents goal (their goal is always adjacent to this line)
     /* The line that seperates our side from the field and the opponent side of the field (this line moves in the y
      * direction of the field, i.e. the width of the field) */
     HALF_LINE,
     /* The line that start from the middle point of our goal and ends at the middle point of the opponents goal (this
      * line moves in the x direction of the field, i.e. the length of the field) */
     CENTER_LINE,
-    LEFT_PENALTY_LINE, // The line parallel to the left line and our goal. This line marks our goal area.
-    RIGHT_PENALTY_LINE, // The line parallel to the right line and the opponents goal. This line marks their goal area.
+    LEFT_PENALTY_LINE,   // The line parallel to the left line and our goal. This line marks our goal area.
+    RIGHT_PENALTY_LINE,  // The line parallel to the right line and the opponents goal. This line marks their goal area.
     /* The line closest (of all our goal area lines) to the top line and parallel to the top line. This line marks our
      * goal area. */
     TOP_LEFT_PENALTY_STRETCH,
@@ -73,18 +73,18 @@ enum FieldLineName {
 };
 
 enum FieldVectorName {
-    OUR_GOAL_CENTER, // The middle point of our goal (this point is on the left line).
-    THEIR_GOAL_CENTER, // The middle point of the opponents goal (this point is on the right line).
-    LEFT_PENALTY_POINT, // The penalty point from which penalties are made towards our goal.
-    RIGHT_PENALTY_POINT, // The penalty point from which penalties are made towards the opponents goal.
-    OUR_BOTTOM_GOAL_SIDE, // The bottom most point of our goal (this point is on the left line).
-    OUR_TOP_GOAL_SIDE, // The top most point of our goal (this point is on the left line).
-    THEIR_BOTTOM_GOAL_SIDE, // The bottom most point of the opponents goal (this point is on the right line).
-    THEIR_TOP_GOAL_SIDE, // The top most point of the opponents goal (this point is on the right line).
+    OUR_GOAL_CENTER,         // The middle point of our goal (this point is on the left line).
+    THEIR_GOAL_CENTER,       // The middle point of the opponents goal (this point is on the right line).
+    LEFT_PENALTY_POINT,      // The penalty point from which penalties are made towards our goal.
+    RIGHT_PENALTY_POINT,     // The penalty point from which penalties are made towards the opponents goal.
+    OUR_BOTTOM_GOAL_SIDE,    // The bottom most point of our goal (this point is on the left line).
+    OUR_TOP_GOAL_SIDE,       // The top most point of our goal (this point is on the left line).
+    THEIR_BOTTOM_GOAL_SIDE,  // The bottom most point of the opponents goal (this point is on the right line).
+    THEIR_TOP_GOAL_SIDE,     // The top most point of the opponents goal (this point is on the right line).
 };
 
 enum FieldArcName {
-    CENTER_CIRCLE // The circle in the middle from which the ball will be kicked off
+    CENTER_CIRCLE  // The circle in the middle from which the ball will be kicked off
 };
 
 /**
@@ -108,7 +108,7 @@ class FieldMessage {
     FRIEND_TEST(FieldTest, penalty_points);
     FRIEND_TEST(FieldTest, goal_angle);
 
-private:
+   private:
     // Used to convert protobuf names to field names.
     std::unordered_map<std::string, std::string> NAME_MAP = {
         {"TopTouchLine", "top_line"},
@@ -147,16 +147,16 @@ private:
         {"center_circle", CENTER_CIRCLE},
     };
 
-private:
+   private:
     /* Stores all the constant of the field (lengths, widths, positions).
      * The custom hash for all dictionaries is necessary to support the clang compiler, for more information see the
      * following link: https://stackoverflow.com/questions/18837857/cant-use-enum-class-as-unordered-map-key */
     std::unordered_map<FieldValueName, double, std::hash<int>> fieldValues = {};
-    std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> fieldLines = {}; // Stores all the lines of the field
-    std::unordered_map<FieldArcName, FieldArc, std::hash<int>> fieldArcs = {}; // Stores all the arcs of the field
-    std::unordered_map<FieldVectorName, Vector2, std::hash<int>> fieldVectors = {}; // Stores all positions of the field
+    std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> fieldLines = {};  // Stores all the lines of the field
+    std::unordered_map<FieldArcName, FieldArc, std::hash<int>> fieldArcs = {};            // Stores all the arcs of the field
+    std::unordered_map<FieldVectorName, Vector2, std::hash<int>> fieldVectors = {};       // Stores all positions of the field
 
- public:
+   public:
     /**
      * Constructor that creates an unitialized FieldMessage
      */
@@ -167,7 +167,7 @@ private:
      * @param sslFieldSize The corresponding protobuf message.
      */
     FieldMessage(proto::SSL_GeometryFieldSize sslFieldSize);
-    
+
     /**
      * Get a value/constant about the field. All values are measured in SI standard units, so lengths/distances/widths
      * are measured in meters.
@@ -188,7 +188,7 @@ private:
      * @param arcName The field arc name which we want to get.
      * @return The corresponding field arc.
      */
-     FieldArc get(FieldArcName arcName) const;
+    FieldArc get(FieldArcName arcName) const;
 
     /**
      * Get one of the positions of the field.
@@ -201,9 +201,9 @@ private:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    std::unordered_map<FieldLineName, FieldLineSegment,  std::hash<int>> getField_lines();
+    std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> getField_lines();
 
-private:
+   private:
     /**
      * Convert a float measured in millimeters to meters (is needed, because proto message contains values measured in
      * millimeters).
@@ -236,5 +236,5 @@ private:
     void initFieldVectors();
 };
 
-}
-#endif //RTT_FIELDMESSAGE_H
+}  // namespace rtt
+#endif  // RTT_FIELDMESSAGE_H

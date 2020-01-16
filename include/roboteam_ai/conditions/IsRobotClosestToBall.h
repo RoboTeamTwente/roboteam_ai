@@ -5,13 +5,13 @@
 
 namespace rtt::ai {
 
-    class IsRobotClosestToBall : public Condition {
-    public:
-        IsRobotClosestToBall(std::string name = "IsRobotClosestToBall", bt::Blackboard::Ptr blackboard = nullptr);
+class IsRobotClosestToBall : public Condition {
+   public:
+    IsRobotClosestToBall(std::string name = "IsRobotClosestToBall", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    Status onUpdate() override;
+};
 
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H
+#endif  // ROBOTEAM_AI_ISROBOTCLOSETSTOBALL_H

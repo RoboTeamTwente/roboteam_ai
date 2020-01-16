@@ -2,18 +2,17 @@
 // Created by mrlukasbos on 19-2-19.
 //
 
+#include "analysis/GameAnalyzer.h"
 #include <control/ControlUtils.h>
 #include <world/BallPossession.h>
-#include "analysis/GameAnalyzer.h"
-#include "world/World.h"
+#include "analysis/RobotDanger.h"
 #include "world/Field.h"
 #include "world/Robot.h"
-#include "analysis/RobotDanger.h"
+#include "world/World.h"
 
 namespace rtt::ai::analysis {
 
-GameAnalyzer::GameAnalyzer()
-        :running(false), stopping(false) { }
+GameAnalyzer::GameAnalyzer() : running(false), stopping(false) {}
 
 GameAnalyzer &GameAnalyzer::getInstance() {
     static GameAnalyzer instance;
@@ -22,7 +21,6 @@ GameAnalyzer &GameAnalyzer::getInstance() {
 
 /// Generate a report with the game analysis
 std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
-
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
@@ -43,19 +41,21 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow() {
 
 BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possession possession) {
     switch (possession) {
-    default:
-    case (rtt::ai::BallPossession::LOOSEBALL): {
-        auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
-        if (ballPosX > 0) {
-            return BallPossession::OFFENSIVE_NEUTRAL;
+        default:
+        case (rtt::ai::BallPossession::LOOSEBALL): {
+            auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
+            if (ballPosX > 0) {
+                return BallPossession::OFFENSIVE_NEUTRAL;
+            } else {
+                return BallPossession::DEFENSIVE_NEUTRAL;
+            }
         }
-        else{
-            return BallPossession::DEFENSIVE_NEUTRAL;
-        }
-    }
-    case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
-    case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
-    case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
+        case (rtt::ai::BallPossession::CONTENDEDBALL):
+            return BallPossession::NEUTRAL;
+        case (rtt::ai::BallPossession::THEIRBALL):
+            return BallPossession::THEY_HAVE_BALL;
+        case (rtt::ai::BallPossession::OURBALL):
+            return BallPossession::WE_HAVE_BALL;
     }
 }
 
@@ -66,25 +66,20 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedW
     for (auto robot : robots) {
         total += world::field->getDistanceToGoal(ourTeam, robot->pos);
     }
-    return (total/robots.size());
+    return (total / robots.size());
 }
 
 /// return the attackers of a given team sorted on their vision on their opponents goal
-std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam,
-        WorldData simulatedWorld) {
+std::vector<std::pair<GameAnalyzer::RobotPtr, double>> GameAnalyzer::getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld) {
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     std::vector<std::pair<RobotPtr, double>> robotsWithVisibilities;
 
     for (auto robot : robots) {
-        robotsWithVisibilities.emplace_back(robot,
-                world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld()));
+        robotsWithVisibilities.emplace_back(robot, world::field->getPercentageOfGoalVisibleFromPoint(!ourTeam, robot->pos, world::world->getWorld()));
     }
 
     // sort on goal visibility
-    std::sort(robotsWithVisibilities.begin(), robotsWithVisibilities.end(),
-            [](std::pair<RobotPtr, double> a, std::pair<RobotPtr, double> b) {
-              return a.second < b.second;
-            });
+    std::sort(robotsWithVisibilities.begin(), robotsWithVisibilities.end(), [](std::pair<RobotPtr, double> a, std::pair<RobotPtr, double> b) { return a.second < b.second; });
 
     return robotsWithVisibilities;
 }
@@ -94,22 +89,21 @@ double GameAnalyzer::getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld
     auto robots = ourTeam ? simulatedWorld.us : simulatedWorld.them;
     double total = 0.0;
     for (auto robot : robots) {
-        total += world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
+        total += world::field->getPercentageOfGoalVisibleFromPoint(!ourTeam, robot->pos, world::world->getWorld());
     }
-    return (total/robots.size());
+    return (total / robots.size());
 }
 
 /// returns a danger score
 RobotDanger GameAnalyzer::evaluateRobotDangerScore(RobotPtr robot, bool ourTeam) {
-    Vector2 goalCenter = ourTeam ? world::field->get_field().get(OUR_GOAL_CENTER) :
-            world::field->get_field().get(THEIR_GOAL_CENTER);
+    Vector2 goalCenter = ourTeam ? world::field->get_field().get(OUR_GOAL_CENTER) : world::field->get_field().get(THEIR_GOAL_CENTER);
 
     RobotDanger danger;
     danger.ourTeam = ourTeam;
     danger.id = robot->id;
     danger.distanceToGoal = world::field->getDistanceToGoal(ourTeam, robot->pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(! ourTeam, robot->pos, world::world->getWorld());
+    danger.goalVisionPercentage = world::field->getPercentageOfGoalVisibleFromPoint(!ourTeam, robot->pos, world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
@@ -133,8 +127,7 @@ std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr rob
     for (auto ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
         for (auto theirRobot : enemyRobots) {
-            auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->pos, Vector2(robot->pos),
-                    Vector2(ourRobot->pos));
+            auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->pos, Vector2(robot->pos), Vector2(ourRobot->pos));
             if (distToLine < (Constants::ROBOT_RADIUS_MAX() + Constants::BALL_RADIUS())) {
                 canPassToThisRobot = false;
                 break;
@@ -177,9 +170,10 @@ bool GameAnalyzer::isClosingInToGoal(RobotPtr robot, bool ourTeam) {
 }
 
 void GameAnalyzer::start(int iterationsPerSecond) {
-    if (! running && world::world->weHaveRobots()) {
-        std::cout << "GameAnalyzer: " << "Starting at " << iterationsPerSecond << " iterations per second" << std::endl;
-        auto delay = (unsigned) (1000.0/iterationsPerSecond);
+    if (!running && world::world->weHaveRobots()) {
+        std::cout << "GameAnalyzer: "
+                  << "Starting at " << iterationsPerSecond << " iterations per second" << std::endl;
+        auto delay = (unsigned)(1000.0 / iterationsPerSecond);
         thread = std::thread(&GameAnalyzer::loop, this, delay);
         running = true;
     }
@@ -189,19 +183,20 @@ void GameAnalyzer::start(int iterationsPerSecond) {
 void GameAnalyzer::stop() {
     stopping = true;
     if (running || stopping) {
-        std::cout << "GameAnalyzer: " << "Stopping GameAnalyzer" << std::endl;
+        std::cout << "GameAnalyzer: "
+                  << "Stopping GameAnalyzer" << std::endl;
         thread.join();
         running = false;
         stopping = false;
-    }
-    else {
-        std::cout << "GameAnalyzer: " << "Could not stop since it was not running in the first place." << std::endl;
+    } else {
+        std::cout << "GameAnalyzer: "
+                  << "Could not stop since it was not running in the first place." << std::endl;
     }
 }
 
 void GameAnalyzer::loop(unsigned delayMillis) {
     std::chrono::milliseconds delay(delayMillis);
-    while (! stopping) {
+    while (!stopping) {
         generateReportNow();
         std::this_thread::sleep_for(delay);
     }
@@ -216,12 +211,9 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRob
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),
-            [](std::pair<RobotPtr, RobotDanger> a,
-                    std::pair<RobotPtr, RobotDanger> b) {
-              return a.second.getTotalDanger() > b.second.getTotalDanger();
-            });
+              [](std::pair<RobotPtr, RobotDanger> a, std::pair<RobotPtr, RobotDanger> b) { return a.second.getTotalDanger() > b.second.getTotalDanger(); });
 
     return robotDangers;
 }
 
-} // rtt
+}  // namespace rtt::ai::analysis

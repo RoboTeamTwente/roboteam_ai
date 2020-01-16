@@ -11,4 +11,4 @@ Node::Status Succeeder::update() {
     return Status::Success;
 }
 
-} // bt
+}  // namespace bt

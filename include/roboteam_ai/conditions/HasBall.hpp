@@ -5,13 +5,13 @@
 
 namespace rtt::ai {
 
-    class HasBall : public Condition {
-    public:
-        explicit HasBall(std::string name = "HasBall", bt::Blackboard::Ptr blackboard = nullptr);
+class HasBall : public Condition {
+   public:
+    explicit HasBall(std::string name = "HasBall", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    Status onUpdate() override;
+};
 
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_IHAVEBALL_HPP
+#endif  // ROBOTEAM_AI_IHAVEBALL_HPP

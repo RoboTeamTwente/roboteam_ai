@@ -3,7 +3,7 @@
  *   If a child fails or runs, the sequence returns the same status.
  *   In the next tick, it will try to run each child in order again.
  *   If all children succeeds, only then does the sequence succeed.
-*/
+ */
 
 #include "bt/composites/Sequence.hpp"
 
@@ -14,31 +14,28 @@ namespace bt {
  * @param children vector of nodes that will be the children of this sequence node
  */
 
-Sequence::Sequence(const std::vector<std::shared_ptr<bt::Node>>& children) {
+Sequence::Sequence(const std::vector<std::shared_ptr<bt::Node>> &children) {
     for (auto &child : children) {
         this->addChild(child);
     }
 }
 
-
-    Node::Status Sequence::update() {
-        if (HasNoChildren()) {
-            return Status::Success;
-        }
-
-        // Keep going until a child behavior says it's running.
-        for (auto &child : children) {
-            auto status = child->tick(world, field);
-
-            // If the child fails, or keeps running, do the same.
-            if (status != Status::Success) {
-                return status;
-            }
-        }
-
+Node::Status Sequence::update() {
+    if (HasNoChildren()) {
         return Status::Success;
     }
 
+    // Keep going until a child behavior says it's running.
+    for (auto &child : children) {
+        auto status = child->tick(world, field);
 
+        // If the child fails, or keeps running, do the same.
+        if (status != Status::Success) {
+            return status;
+        }
+    }
 
-} // bt
+    return Status::Success;
+}
+
+}  // namespace bt

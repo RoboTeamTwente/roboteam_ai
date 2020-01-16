@@ -6,17 +6,13 @@
 
 namespace rtt::ai::world {
 
-void History::addWorld(const WorldData &worldData) {
-    worldBuffer.addNewWorld(worldData);
-}
+void History::addWorld(const WorldData &worldData) { worldBuffer.addNewWorld(worldData); }
 
 void History::addWorld(WorldDataPtr &worldDataPtr) {
     WorldData worldData = WorldData(worldDataPtr);
     addWorld(worldData);
 }
 
-const WorldData History::getPreviousWorld(int worldsBack) {
-    return worldBuffer.getPreviousWorld(worldsBack);
-}
+const WorldData History::getPreviousWorld(int worldsBack) { return worldBuffer.getPreviousWorld(worldsBack); }
 
-}
+}  // namespace rtt::ai::world

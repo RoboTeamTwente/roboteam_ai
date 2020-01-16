@@ -2,21 +2,19 @@
 // Created by robzelluf on 6/14/19.
 //
 
-#include <world/World.h>
-#include <world/Field.h>
 #include "conditions/CanReflectKick.h"
-#include "world/Robot.h"
-#include "world/Ball.h"
-#include "skills/ReflectKick.h"
+#include <world/Field.h>
+#include <world/World.h>
 #include "control/ControlUtils.h"
+#include "skills/ReflectKick.h"
+#include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt::ai {
 
-CanReflectKick::CanReflectKick(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {}
+CanReflectKick::CanReflectKick(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status CanReflectKick::onUpdate() {
-
     if (!control::ControlUtils::objectVelocityAimedToPoint(ball->getPos(), ball->getVel(), robot->pos, 0.6)) {
         return Status::Failure;
     }
@@ -36,7 +34,7 @@ bt::Node::Status CanReflectKick::onUpdate() {
     Angle receiveAngle = getApproximateReflectAngle();
 
     Angle angleDifference = abs(robotToGoalAngle.angleDiff(receiveAngle));
-    if(angleDifference.getAngle() < MAX_BALL_RECEIVE_ANGLE) {
+    if (angleDifference.getAngle() < MAX_BALL_RECEIVE_ANGLE) {
         return Status::Success;
     } else {
         return Status::Failure;
@@ -52,4 +50,4 @@ double CanReflectKick::getApproximateReflectAngle() {
     return angle;
 }
 
-}
+}  // namespace rtt::ai

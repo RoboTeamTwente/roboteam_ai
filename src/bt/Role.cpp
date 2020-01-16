@@ -8,39 +8,26 @@ namespace bt {
 
 void Role::initialize() {
     // Get the robot ID for this Role
-
 }
 
 Node::Status Role::update() {
     auto status = child->tick(world, field);
     if (status == Status::Success) {
         return Status::Success;
-    }
-    else if (status == Status::Waiting) {
+    } else if (status == Status::Waiting) {
         return Status::Failure;
-    }
-    else /* if (status == Status::Failure || status == Status::Running) */ {
+    } else /* if (status == Status::Failure || status == Status::Running) */ {
         // If the status was anything but success/invalid, keep running
         return Status::Running;
     }
 }
 
-void Role::addChild(Node::Ptr newChild) {
-    this->child = newChild;
-}
+void Role::addChild(Node::Ptr newChild) { this->child = newChild; }
 
-std::string Role::node_name() {
-    return name;
+std::string Role::node_name() { return name; }
+Role::Role(std::string name) : name(name) { globalBB = std::make_shared<Blackboard>(); }
 
-}
-Role::Role(std::string name) : name(name) {
-    globalBB = std::make_shared<Blackboard>();
-}
-
-std::vector<Node::Ptr> Role::getChildren() {
-    return std::vector<Node::Ptr>{child};
-}
-
+std::vector<Node::Ptr> Role::getChildren() { return std::vector<Node::Ptr>{child}; }
 
 void Role::terminate(Status s) {
     for (auto child : getChildren()) {
@@ -54,4 +41,4 @@ void Role::terminate(Status s) {
     }
 }
 
-}
+}  // namespace bt

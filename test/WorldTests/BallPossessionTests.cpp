@@ -9,10 +9,10 @@
 //#include <coach/PassCoach.h>
 //#include "include/roboteam_ai/world/BallPossession.h"
 //
-//namespace rtt {
-//namespace ai {
+// namespace rtt {
+// namespace ai {
 //
-//TEST(BallPossessionTest, stateAsString) {
+// TEST(BallPossessionTest, stateAsString) {
 //    rtt::ai::BallPossession bp;
 //    EXPECT_EQ(bp.stateAsString(rtt::ai::BallPossession::LOOSEBALL), "LOOSE");
 //    EXPECT_EQ(bp.stateAsString(rtt::ai::BallPossession::OURBALL), "OURBALL");
@@ -21,7 +21,7 @@
 //}
 //
 //
-//TEST(BallPossessionTest, team_far_or_close_to_ball) {
+// TEST(BallPossessionTest, team_far_or_close_to_ball) {
 //    rtt::ai::BallPossession bp;
 //    roboteam_msgs::GeometryFieldSize field;
 //    field.field_width = 8;
@@ -56,7 +56,7 @@
 //    EXPECT_FALSE(bp.teamCloseToBall(world::world->getWorld(), false));
 //}
 //
-//TEST(BallPossessionTest, it_properly_computes) {
+// TEST(BallPossessionTest, it_properly_computes) {
 //    rtt::ai::BallPossession bp;
 //    roboteam_msgs::GeometryFieldSize field;
 //    field.field_width = 8;

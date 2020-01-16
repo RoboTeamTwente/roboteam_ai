@@ -9,14 +9,15 @@
 namespace rtt::ai {
 
 class FreeKickFormation : public Formation {
-public:
+   public:
     explicit FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-private:
+
+   private:
     Vector2 getFormationPosition() override;
     std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
     static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
     static std::vector<Vector2> posses;
     void onTerminate(Status s) override;
 };
-}
-#endif //ROBOTEAM_AI_FREEKICKFORMATION_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_FREEKICKFORMATION_H

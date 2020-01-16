@@ -1,16 +1,15 @@
-/* 
+/*
  * Return SUCCESS if the ball is out of the field
  * otherwise FAILURE
  */
 
-#include <world/Field.h>
-#include <world/Ball.h>
 #include "conditions/BallOutOfField.h"
+#include <world/Ball.h>
+#include <world/Field.h>
 
 namespace rtt::ai {
 
-BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
+BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos;
@@ -28,4 +27,4 @@ bt::Node::Status BallOutOfField::onUpdate() {
     }
 }
 
-} // rtt
+}  // namespace rtt::ai

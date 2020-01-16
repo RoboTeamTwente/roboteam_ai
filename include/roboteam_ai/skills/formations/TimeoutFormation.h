@@ -10,16 +10,14 @@
 namespace rtt::ai {
 
 class TimeoutFormation : public Formation {
-public:
+   public:
     explicit TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-private:
+
+   private:
     Vector2 getFormationPosition() override;
     std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
     static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
 };
 
-
-
-
-}
-#endif //ROBOTEAM_AI_TIMEOUTFORMATION_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_TIMEOUTFORMATION_H

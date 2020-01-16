@@ -10,16 +10,16 @@
 namespace rtt::ai::control {
 
 class BasicPosControl : public PosController {
-    private:
-        void checkInterfacePID() override;
-    public:
-        BasicPosControl() = default;
-        explicit BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
-        RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
-        RobotCommand getRobotCommand(world::World * world,  world::Field * field, const RobotPtr &robot, const Vector2 &targetPos) override;
+   private:
+    void checkInterfacePID() override;
 
+   public:
+    BasicPosControl() = default;
+    explicit BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea);
+    RobotCommand getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) override;
+    RobotCommand getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robot, const Vector2 &targetPos) override;
 };
 
-} // rtt
+}  // namespace rtt::ai::control
 
-#endif //ROBOTEAM_AI_BASICPOSCONTROL_H
+#endif  // ROBOTEAM_AI_BASICPOSCONTROL_H

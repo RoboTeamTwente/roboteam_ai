@@ -10,7 +10,7 @@
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;
-namespace rtt{
+namespace rtt {
 namespace ai {
 TEST(IsBallCloseToBorderTest, is_not_close_to_border) {
     rd::RobotDealer::halt();
@@ -60,6 +60,5 @@ TEST(IsBallCloseToBorderTest, is_close_to_border) {
     ASSERT_EQ(node.update(), bt::Node::Status::Failure);
 }
 
-} //ai
-} //rtt
-
+}  // namespace ai
+}  // namespace rtt

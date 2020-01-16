@@ -3,13 +3,11 @@
 //
 
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
-#include "world/World.h"
-#include "world/Field.h"
 #include "world/Ball.h"
+#include "world/Field.h"
+#include "world/World.h"
 
 namespace rtt::ai::analysis {
-    bool AlwaysTrueInvariant::isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        return true;
-    };
+bool AlwaysTrueInvariant::isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field) { return true; };
 
-}
+}  // namespace rtt::ai::analysis

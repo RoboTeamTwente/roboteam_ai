@@ -3,28 +3,25 @@
  * properties:
  *  - secondsAhead: the amount of seconds to linearly extrapolate the ball position
  *  - atBallStillPosition: the position where the ball is expected to lay still due to rolling friction
- */ 
+ */
 
 #include "conditions/IsRobotClosestToBall.h"
-#include "world/World.h"
 #include "world/Ball.h"
 #include "world/Robot.h"
+#include "world/World.h"
 
 namespace rtt::ai {
 
-IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
-: Condition(std::move(name), std::move(blackboard)) { }
+IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
     Vector2 ballPos;
     if (properties->getBool("atBallStillPosition")) {
         ballPos = ball->getExpectedBallEndPosition();
-    }
-    else if (properties->hasDouble("secondsAhead")) {
+    } else if (properties->hasDouble("secondsAhead")) {
         double t = properties->getDouble("secondsAhead");
         ballPos = ball->getPos() + ball->getVel() * t;
-    }
-    else {
+    } else {
         ballPos = ball->getPos();
     }
 
@@ -36,4 +33,4 @@ bt::Node::Status IsRobotClosestToBall::onUpdate() {
     return Status::Failure;
 }
 
-} // rtt
+}  // namespace rtt::ai

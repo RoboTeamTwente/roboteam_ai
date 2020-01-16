@@ -24,28 +24,26 @@
  */
 
 #include "skills/formations/BallPlacementFormation.h"
-#include <world/Field.h>
 #include <interface/api/Input.h>
-#include "control/Hungarian.h"
+#include <world/Field.h>
 #include "control/ControlUtils.h"
+#include "control/Hungarian.h"
 
 namespace rtt::ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
 
-BallPlacementFormation::BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        : StopFormation(name, blackboard) {
+BallPlacementFormation::BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard) : StopFormation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
 
 Vector2 BallPlacementFormation::getFormationPosition() {
-
-    //failsafe to prevent segfaults
+    // failsafe to prevent segfaults
     int amountOfRobots = robotsInFormation->size();
     if (amountOfRobots <= 0) {
         return {};
     }
-    auto formationPositions = getStopPositions().at(amountOfRobots-1);
+    auto formationPositions = getStopPositions().at(amountOfRobots - 1);
     std::vector<Vector2> properPositions;
     for (auto pos : formationPositions) {
         if (!positionShouldBeAvoided(pos)) {
@@ -60,11 +58,9 @@ Vector2 BallPlacementFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-
-
     std::vector<int> robotIds;
     for (auto &i : *robotsInFormation) {
-        if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
+        if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
             robotIds.push_back(i->id);
         }
     }
@@ -74,9 +70,7 @@ Vector2 BallPlacementFormation::getFormationPosition() {
     return shortestDistances.at(robot->id);
 }
 
-std::shared_ptr<std::vector<world::World::RobotPtr>> BallPlacementFormation::robotsInFormationPtr() {
-    return robotsInFormation;
-}
+std::shared_ptr<std::vector<world::World::RobotPtr>> BallPlacementFormation::robotsInFormationPtr() { return robotsInFormation; }
 
 // adapt to the change of robot amount in formation
 void BallPlacementFormation::updateFormation() {
@@ -85,25 +79,23 @@ void BallPlacementFormation::updateFormation() {
 }
 
 bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
-
     // get designated position from referee and convert from mm to m
     Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
 
     if (!interface::Output::usesRefereeCommands()) {
-            ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
-            std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+        ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
+        std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
     };
     auto ball = world->getBall();
     Vector2 diff = (ball->getPos() - ballPlacementMarker).rotate(M_PI_2);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() + diff.stretchToLength(0.5),
-          ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() - diff.stretchToLength(0.5),
-          ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ballPlacementMarker}, Qt::magenta,
-            -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() + diff.stretchToLength(0.5), ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1,
+                               interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() - diff.stretchToLength(0.5), ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1,
+                               interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
     return (tooCloseToLine || !field->pointIsInField(pos, 0.0));
 }
 
-}
+}  // namespace rtt::ai

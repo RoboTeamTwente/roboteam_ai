@@ -7,26 +7,25 @@
 
 namespace rtt::ai::coach {
 
-    class GetBallCoach {
-    private:
-        bool gettingBall = false;
-        int idGettingBall = -1;
+class GetBallCoach {
+   private:
+    bool gettingBall = false;
+    int idGettingBall = -1;
 
-        bool shouldWeGetBall();
+    bool shouldWeGetBall();
 
-        int bestBallGetterID();
+    int bestBallGetterID();
 
-    public:
-        void update();
+   public:
+    void update();
 
-        bool weAreGettingBall();
-        int getBallGetterID();
-
+    bool weAreGettingBall();
+    int getBallGetterID();
 };
 
 extern GetBallCoach getBallCoachObj;
 extern GetBallCoach* getBallCoach;
 
-}
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_GETBALLCOACH_H
+#endif  // ROBOTEAM_AI_GETBALLCOACH_H

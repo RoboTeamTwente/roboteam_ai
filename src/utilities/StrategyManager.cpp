@@ -2,10 +2,10 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
-#include "world/World.h"
-#include "world/Ball.h"
 #include "utilities/StrategyManager.h"
 #include "utilities/GameStateManager.hpp"
+#include "world/Ball.h"
+#include "world/World.h"
 
 namespace rtt::ai {
 
@@ -15,8 +15,7 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
     if (stage == proto::SSL_Referee_Stage_PENALTY_SHOOTOUT) {
         if (command == RefCommand::PREPARE_PENALTY_US) {
             command = RefCommand::PREPARE_SHOOTOUT_US;
-        }
-        else if (command == RefCommand::PREPARE_PENALTY_THEM) {
+        } else if (command == RefCommand::PREPARE_PENALTY_THEM) {
             command = RefCommand::PREPARE_SHOOTOUT_THEM;
         }
     }
@@ -40,23 +39,19 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
     RefGameState newState;
     if (currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
         newState = getRefGameStateForRefCommand(currentRefGameState.followUpCommandId);
-    }
-    else {
+    } else {
         newState = getRefGameStateForRefCommand(command);
     }
     if (world::world->getBall()) {
         newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
-    }
-    else {
+    } else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
     currentRefGameState = newState;
     currentRefCmd = command;
 }
 
-RefGameState StrategyManager::getCurrentRefGameState() {
-    return currentRefGameState;
-}
+RefGameState StrategyManager::getCurrentRefGameState() { return currentRefGameState; }
 
 const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand command) {
     for (auto gameState : this->gameStates) {
@@ -73,12 +68,11 @@ void StrategyManager::forceCurrentRefGameState(RefCommand command) {
     RefGameState newState = getRefGameStateForRefCommand(command);
     if (world::world->getBall()) {
         newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
-    }
-    else {
+    } else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
 
     currentRefGameState = newState;
 }
 
-} // rtt
+}  // namespace rtt::ai

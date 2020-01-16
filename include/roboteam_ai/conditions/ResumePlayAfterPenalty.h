@@ -9,17 +9,16 @@
 
 namespace rtt::ai {
 
-    class ResumePlayAfterPenalty : public Condition {
-    private:
-        int ticks = 0;
-        bool ballShot = false;
-    public:
-        explicit ResumePlayAfterPenalty(std::string name = "ResumePlayAfterPenalty",
-                                        bt::Blackboard::Ptr blackboard = nullptr);
+class ResumePlayAfterPenalty : public Condition {
+   private:
+    int ticks = 0;
+    bool ballShot = false;
 
-        Status onUpdate() override;
-    };
-}
+   public:
+    explicit ResumePlayAfterPenalty(std::string name = "ResumePlayAfterPenalty", bt::Blackboard::Ptr blackboard = nullptr);
 
+    Status onUpdate() override;
+};
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_RESUMEPLAYAFTERPENALTY_H
+#endif  // ROBOTEAM_AI_RESUMEPLAYAFTERPENALTY_H

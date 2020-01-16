@@ -9,17 +9,17 @@
 
 namespace rtt::ai {
 
-    class CanReflectKick : public Condition {
-    private:
-        const double MAX_BALL_RECEIVE_ANGLE = 55.0 / 180.0 * M_PI; // 70 degrees
-        double getApproximateReflectAngle();
+class CanReflectKick : public Condition {
+   private:
+    const double MAX_BALL_RECEIVE_ANGLE = 55.0 / 180.0 * M_PI;  // 70 degrees
+    double getApproximateReflectAngle();
 
-    public:
-        explicit CanReflectKick(std::string name = "CanReflectKick", bt::Blackboard::Ptr blackboard = nullptr);
+   public:
+    explicit CanReflectKick(std::string name = "CanReflectKick", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    Status onUpdate() override;
+};
 
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_CANREFLECTKICK_H
+#endif  // ROBOTEAM_AI_CANREFLECTKICK_H

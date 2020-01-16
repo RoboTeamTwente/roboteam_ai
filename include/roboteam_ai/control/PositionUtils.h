@@ -2,17 +2,16 @@
 // Created by mrlukasbos on 19-3-19.
 //
 
-
 #ifndef ROBOTEAM_AI_GENERALPOSITIONCOACH_H
 #define ROBOTEAM_AI_GENERALPOSITIONCOACH_H
 
-#include "roboteam_utils/Vector2.h"
 #include <utilities/Constants.h>
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt::ai::control {
 
 class PositionUtils {
-public:
+   public:
     static Vector2 getPositionBehindBallToGoal(double distanceBehindBall, bool ourGoal);
     static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
     static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
@@ -25,9 +24,8 @@ public:
     static std::vector<Vector2> getFreeKickPositions(int number);
     static std::vector<Vector2> getDefendFreeKick(int number);
     static std::vector<Vector2> getDefendPenaltyPositions(int number);
-
 };
 
-} // rtt
+}  // namespace rtt::ai::control
 
-#endif //ROBOTEAM_AI_GENERALPOSITIONCOACH_H
+#endif  // ROBOTEAM_AI_GENERALPOSITIONCOACH_H

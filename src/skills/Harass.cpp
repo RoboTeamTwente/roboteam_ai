@@ -1,15 +1,14 @@
 //
 // Created by baris on 12-12-18.
 //
-#include "world/World.h"
 #include "skills/Harass.h"
 #include "world/Ball.h"
 #include "world/Robot.h"
+#include "world/World.h"
 
 namespace rtt::ai {
 
-Harass::Harass(std::string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+Harass::Harass(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Harass::onInitialize() {
     harassBallOwner = properties->getBool("harassBallOwner");
@@ -17,12 +16,11 @@ void Harass::onInitialize() {
 }
 
 Skill::Status Harass::onUpdate() {
-
     updateRobot();
-    if (! robot) {
+    if (!robot) {
         return Status::Failure;
     }
-    if (harassmentTarget == - 1) {
+    if (harassmentTarget == -1) {
         pickHarassmentTarget();
     }
     auto enemyBot = world->getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
@@ -34,8 +32,7 @@ Skill::Status Harass::onUpdate() {
     if (harassBallOwner) {
         Vector2 vec = {ballPos - enemyPos};
         targetPos = ballPos + vec;
-    }
-    else {
+    } else {
         Vector2 i(enemyPos.x + 0.35, enemyPos.y + 0.35);
         targetPos = i;
     }
@@ -54,15 +51,14 @@ Skill::Status Harass::onUpdate() {
 }
 
 void Harass::pickHarassmentTarget() {
-//    if (harassBallOwner) {
-//        harassmentTarget = Coach::whichRobotHasBall(false);
-//    }
-//    else {
-//        harassmentTarget = Coach::pickHarassmentTarget(robot->id);
-//    }
+    //    if (harassBallOwner) {
+    //        harassmentTarget = Coach::whichRobotHasBall(false);
+    //    }
+    //    else {
+    //        harassmentTarget = Coach::pickHarassmentTarget(robot->id);
+    //    }
 
     harassmentTarget = 0;
-
 }
 
-} // rtt
+}  // namespace rtt::ai

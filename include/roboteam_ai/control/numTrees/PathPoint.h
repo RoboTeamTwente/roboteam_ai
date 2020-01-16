@@ -5,50 +5,49 @@
 #ifndef ROBOTEAM_AI_PATHPOINT_H
 #define ROBOTEAM_AI_PATHPOINT_H
 
-#include <memory>
 #include <roboteam_utils/Vector2.h>
+#include <memory>
 #include <utilities/GameStateManager.hpp>
-#include "world/Robot.h"
 #include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt::ai::control {
 
 class PathPoint : public std::enable_shared_from_this<PathPoint> {
-    private:
-        using PathPointer = std::shared_ptr<PathPoint>;
+   private:
+    using PathPointer = std::shared_ptr<PathPoint>;
 
-    public:
-        Vector2 currentTarget;  //Either the endPoint or an in between target
-        Vector2 finalTarget;    //Always the endPoint
-        Vector2 pos;
-        Vector2 vel;
-        Vector2 acc;
+   public:
+    Vector2 currentTarget;  // Either the endPoint or an in between target
+    Vector2 finalTarget;    // Always the endPoint
+    Vector2 pos;
+    Vector2 vel;
+    Vector2 acc;
 
-        double maxVelocity() { return rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel; }
-        double maxAcceleration() { return Constants::MAX_ACC_UPPER(); }
-        double maxDeceleration() { return Constants::MAX_DEC_UPPER(); }
-        double maxVel();
+    double maxVelocity() { return rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel; }
+    double maxAcceleration() { return Constants::MAX_ACC_UPPER(); }
+    double maxDeceleration() { return Constants::MAX_DEC_UPPER(); }
+    double maxVel();
 
-        explicit PathPoint() = default;
+    explicit PathPoint() = default;
 
-        double t = 0;
-        int collisions = 0;
-        PathPointer parent = {};
-        std::vector<PathPointer> children = {};
-        PathPointer backTrack(double backTime);
-        PathPointer backTrack(int maxCollisionDiff);
-        PathPointer backTrack(double backTime, int maxCollisionDiff);
-        void addChild(PathPointer &newChild);
-        void addChildren(std::vector<PathPointer> &newChildren);
-        bool isCollision(const Vector2 &target, double distance);
+    double t = 0;
+    int collisions = 0;
+    PathPointer parent = {};
+    std::vector<PathPointer> children = {};
+    PathPointer backTrack(double backTime);
+    PathPointer backTrack(int maxCollisionDiff);
+    PathPointer backTrack(double backTime, int maxCollisionDiff);
+    void addChild(PathPointer &newChild);
+    void addChildren(std::vector<PathPointer> &newChildren);
+    bool isCollision(const Vector2 &target, double distance);
 
-        bool branchHasTarget(const Vector2 &target);
-        bool anyBranchHasTarget(const Vector2 &target);
-        bool anyChildHasTarget(const Vector2 &target);
-        bool anyParentHasTarget(const Vector2 &target);
-
+    bool branchHasTarget(const Vector2 &target);
+    bool anyBranchHasTarget(const Vector2 &target);
+    bool anyChildHasTarget(const Vector2 &target);
+    bool anyParentHasTarget(const Vector2 &target);
 };
 
-} // rtt
+}  // namespace rtt::ai::control
 
-#endif //ROBOTEAM_AI_PATHPOINT_H
+#endif  // ROBOTEAM_AI_PATHPOINT_H

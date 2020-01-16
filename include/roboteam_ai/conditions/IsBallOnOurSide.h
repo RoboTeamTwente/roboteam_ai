@@ -5,19 +5,20 @@
 
 namespace rtt::ai {
 
-    class IsBallOnOurSide : public Condition {
-        FRIEND_TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side);
+class IsBallOnOurSide : public Condition {
+    FRIEND_TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side);
 
-    private:
-        bool inField = false;
-    public:
-        explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
+   private:
+    bool inField = false;
 
-        void onInitialize() override;
+   public:
+    explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    void onInitialize() override;
 
-} //rtt
+    Status onUpdate() override;
+};
 
-#endif //ROBOTEAM_AI_ISBALLONOURSIDE_H
+}  // namespace rtt::ai
+
+#endif  // ROBOTEAM_AI_ISBALLONOURSIDE_H

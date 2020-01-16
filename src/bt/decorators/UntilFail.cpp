@@ -18,4 +18,4 @@ Node::Status UntilFail::update() {
     }
 }
 
-} // bt
+}  // namespace bt

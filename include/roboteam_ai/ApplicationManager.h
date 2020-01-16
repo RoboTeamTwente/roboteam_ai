@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <utilities/StrategyManager.h>
 #include <roboteam_utils/Timer.h>
+#include <utilities/StrategyManager.h>
 #include "analysis/PlayChecker.h"
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
@@ -15,7 +15,7 @@
 namespace rtt {
 
 class ApplicationManager {
-private:
+   private:
     rtt::ai::analysis::PlayChecker playcheck;
 
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
@@ -28,7 +28,7 @@ private:
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
 
-public:
+   public:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
@@ -38,6 +38,6 @@ public:
     void runKeeperTree();
 };
 
-} // rtt
+}  // namespace rtt
 
-#endif //ROBOTEAM_AI_APPLICATIONMANAGER_H
+#endif  // ROBOTEAM_AI_APPLICATIONMANAGER_H

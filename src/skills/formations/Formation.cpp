@@ -2,20 +2,19 @@
 // Created by mrlukasbos on 23-1-19.
 //
 
-#include <analysis/GameAnalyzer.h>
-#include <analysis/DecisionMaker.h>
 #include "skills/formations/Formation.h"
+#include <analysis/DecisionMaker.h>
+#include <analysis/GameAnalyzer.h>
 #include "control/ControlUtils.h"
-#include "world/Field.h"
 #include "control/Hungarian.h"
+#include "world/Field.h"
 
 namespace rtt::ai {
 
 bool Formation::update = false;
 int Formation::updateCount = 0;
 
-Formation::Formation(std::string name, bt::Blackboard::Ptr blackboard)
-: Skill(std::move(name), std::move(blackboard)) {}
+Formation::Formation(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Formation::onInitialize() {
     robotsInFormationMemory = 0;
@@ -24,8 +23,7 @@ void Formation::onInitialize() {
 
 bt::Node::Status Formation::onUpdate() {
     if (!robotIsInFormation()) return Status::Failure;
-    updateFormation(); // if the amount of robots in the formation changes, we want to update the locations
-
+    updateFormation();  // if the amount of robots in the formation changes, we want to update the locations
 
     // if the robot is in position we just need to give it the right angle
     // otherwise it needs to move to the target.
@@ -46,9 +44,7 @@ void Formation::setFinalAngle() {
     command.set_w(static_cast<float>((targetToLookAtLocation - robot->pos).angle()));
 }
 
-void Formation::terminate(Status s) {
-    onTerminate(s);
-}
+void Formation::terminate(Status s) { onTerminate(s); }
 
 void Formation::onTerminate(bt::Node::Status s) {
     if (robot) {
@@ -76,7 +72,7 @@ void Formation::removeRobotFromFormation() {
 // in that case, use robotIsInPosition()
 bool Formation::robotIsInFormation() {
     bool isIn = false;
-    for (auto const &bot : * robotsInFormationPtr()) {
+    for (auto const &bot : *robotsInFormationPtr()) {
         if (bot->id == robot->id) {
             isIn = true;
         }
@@ -85,9 +81,7 @@ bool Formation::robotIsInFormation() {
 }
 
 // return true if the number of robots in the formation changed.
-bool Formation::formationHasChanged() {
-    return robotsInFormationMemory != static_cast<int>(robotsInFormationPtr()->size());
-}
+bool Formation::formationHasChanged() { return robotsInFormationMemory != static_cast<int>(robotsInFormationPtr()->size()); }
 
 // adapt to the change of robot amount in formation
 void Formation::updateFormation() {
@@ -107,13 +101,13 @@ bool Formation::robotIsInPosition() {
 void Formation::moveToTarget() {
     auto velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetLocation);
     command.mutable_vel()->set_x(velocities.vel.x);
-  command.mutable_vel()->set_y(velocities.vel.y);
+    command.mutable_vel()->set_y(velocities.vel.y);
     command.set_w(static_cast<float>((targetLocation - robot->pos).angle()));
 }
 
 bool Formation::updateCounter() {
     if (!update) return false;
-    return (++updateCount%200) == 0;
+    return (++updateCount % 200) == 0;
 }
 
-} // rtt
+}  // namespace rtt::ai

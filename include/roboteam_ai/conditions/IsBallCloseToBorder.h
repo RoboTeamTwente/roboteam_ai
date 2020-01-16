@@ -5,25 +5,25 @@
 #ifndef ROBOTEAM_AI_ISBALLCLOSETOBORDER_H
 #define ROBOTEAM_AI_ISBALLCLOSETOBORDER_H
 
-#include "Condition.h"
 #include <utilities/Constants.h>
+#include "Condition.h"
 #include "world/Field.h"
 
 namespace rtt::ai {
 
-    class IsBallCloseToBorder : public Condition {
-    private:
-        double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
-        bool ballShouldLayStill = false;
-    public:
-        explicit IsBallCloseToBorder(std::string name = "IsBallCloseToBorder",
-                                     bt::Blackboard::Ptr blackboard = nullptr);
+class IsBallCloseToBorder : public Condition {
+   private:
+    double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
+    bool ballShouldLayStill = false;
 
-        void onInitialize() override;
+   public:
+    explicit IsBallCloseToBorder(std::string name = "IsBallCloseToBorder", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    void onInitialize() override;
 
-}
+    Status onUpdate() override;
+};
 
-#endif //ROBOTEAM_AI_ISBALLCLOSETOBORDER_H
+}  // namespace rtt::ai
+
+#endif  // ROBOTEAM_AI_ISBALLCLOSETOBORDER_H

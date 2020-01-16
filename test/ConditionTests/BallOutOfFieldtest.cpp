@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
 #include <conditions/BallOutOfField.h>
+#include <gtest/gtest.h>
+#include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "include/roboteam_ai/world/World.h"
 #include "world/Field.h"
-#include "include/roboteam_ai/utilities/RobotDealer.h"
 
 namespace rd = rtt::ai::robotDealer;
 namespace w = rtt::ai::world;
@@ -42,7 +42,6 @@ TEST(BallOutOfFieldTest, it_detects_ball_out_of_field) {
     worldMsg.ball.pos.x = 3.9;
     w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Failure);
-
 }
-}
-}
+}  // namespace ai
+}  // namespace rtt

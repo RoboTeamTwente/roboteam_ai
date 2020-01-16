@@ -7,18 +7,18 @@
 
 namespace rtt::ai {
 
-    class BallNearOurGoalLineAndStill : public Condition {
-    private:
-        double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
-    public:
-        explicit BallNearOurGoalLineAndStill(std::string name = "BallNearOurGoalLineAndStill",
-                                             bt::Blackboard::Ptr blackboard = nullptr);
+class BallNearOurGoalLineAndStill : public Condition {
+   private:
+    double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
 
-        void onInitialize() override;
+   public:
+    explicit BallNearOurGoalLineAndStill(std::string name = "BallNearOurGoalLineAndStill", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    void onInitialize() override;
 
-} // rtt
+    Status onUpdate() override;
+};
 
-#endif //ROBOTEAM_AI_BALLNEAROURGOALLINEANDSTILL_H
+}  // namespace rtt::ai
+
+#endif  // ROBOTEAM_AI_BALLNEAROURGOALLINEANDSTILL_H

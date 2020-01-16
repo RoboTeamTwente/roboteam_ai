@@ -12,10 +12,10 @@
 namespace rtt::ai {
 
 class Attack : public Skill {
-public:
+   public:
     explicit Attack(string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
 };
 
-} // rtt
-#endif //ROBOTEAM_AI_ATTACK_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_ATTACK_H

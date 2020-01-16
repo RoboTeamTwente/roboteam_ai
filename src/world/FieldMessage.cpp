@@ -74,19 +74,14 @@ void FieldMessage::initFieldVectors() {
     fieldVectors[RIGHT_PENALTY_POINT] = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
 }
 
-float FieldMessage::mm_to_m(float scalar) {
-    return scalar / 1000;
-}
+float FieldMessage::mm_to_m(float scalar) { return scalar / 1000; }
 
-Vector2 FieldMessage::mm_to_m(Vector2 vector) {
-    return {vector.x / 1000, vector.y / 1000};
-}
+Vector2 FieldMessage::mm_to_m(Vector2 vector) { return {vector.x / 1000, vector.y / 1000}; }
 
 double FieldMessage::get(FieldValueName valueName) const {
     if (fieldValues.find(valueName) != fieldValues.end()) {
         return fieldValues.at(valueName);
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
         std::cout << "Access undefined field value in the FieldMessage class." << std::endl;
@@ -97,8 +92,7 @@ double FieldMessage::get(FieldValueName valueName) const {
 FieldLineSegment FieldMessage::get(FieldLineName lineName) const {
     if (fieldLines.find(lineName) != fieldLines.end()) {
         return fieldLines.at(lineName);
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Access undefined field line in the FieldMessage class." << std::endl;
@@ -109,8 +103,7 @@ FieldLineSegment FieldMessage::get(FieldLineName lineName) const {
 FieldArc FieldMessage::get(FieldArcName arcName) const {
     if (fieldArcs.find(arcName) != fieldArcs.end()) {
         return fieldArcs.at(arcName);
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Access undefined field arc in the FieldMessage class." << std::endl;
@@ -121,8 +114,7 @@ FieldArc FieldMessage::get(FieldArcName arcName) const {
 Vector2 FieldMessage::get(FieldVectorName vectorName) const {
     if (fieldVectors.find(vectorName) != fieldVectors.end()) {
         return fieldVectors.at(vectorName);
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Access undefined field vector in the FieldMessage class." << std::endl;
@@ -130,7 +122,5 @@ Vector2 FieldMessage::get(FieldVectorName vectorName) const {
     }
 }
 
-std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> FieldMessage::getField_lines(){
-    return fieldLines;
-}
-}
+std::unordered_map<FieldLineName, FieldLineSegment, std::hash<int>> FieldMessage::getField_lines() { return fieldLines; }
+}  // namespace rtt

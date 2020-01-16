@@ -10,11 +10,11 @@
 namespace rtt::ai {
 
 class Halt : public Skill {
-    public:
-        explicit Halt(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
+   public:
+    explicit Halt(string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
 };
 
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_HALT_H
+#endif  // ROBOTEAM_AI_HALT_H

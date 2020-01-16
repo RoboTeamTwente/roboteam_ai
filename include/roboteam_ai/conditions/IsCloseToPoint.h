@@ -5,18 +5,19 @@
 
 namespace rtt::ai {
 
-    class IsCloseToPoint : public Condition {
-    private:
-        double margin = 0.0;
-        Vector2 position;
-    public:
-        explicit IsCloseToPoint(std::string name = "IsCloseToPoint", bt::Blackboard::Ptr blackboard = nullptr);
+class IsCloseToPoint : public Condition {
+   private:
+    double margin = 0.0;
+    Vector2 position;
 
-        void onInitialize() override;
+   public:
+    explicit IsCloseToPoint(std::string name = "IsCloseToPoint", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    void onInitialize() override;
 
-} // rtt
+    Status onUpdate() override;
+};
 
-#endif //ROBOTEAM_AI_ISCLOSETOPOINT_H
+}  // namespace rtt::ai
+
+#endif  // ROBOTEAM_AI_ISCLOSETOPOINT_H
