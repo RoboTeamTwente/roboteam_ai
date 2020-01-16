@@ -5,12 +5,13 @@
 namespace bt {
 
 class ParallelSequence : public Composite {
-public:
+   public:
     explicit ParallelSequence(bool successOnAll = true, bool failOnAll = true);
     ParallelSequence(int minSuccess, int minFail);
     Status update() override;
     std::string node_name() override { return "ParallelSequence"; };
-private:
+
+   private:
     bool useSuccessFailPolicy = false;
     bool successOnAll = true;
     bool failOnAll = true;
@@ -18,4 +19,4 @@ private:
     int minFail = 0;
 };
 
-} // bt
+}  // namespace bt

@@ -7,14 +7,14 @@
 #ifndef ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 #define ROBOTEAM_AI_GAMESTATEMANAGER_HPP
 
-#include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 #include "RefGameState.h"
 #include "StrategyManager.h"
+#include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 
 namespace rtt::ai {
 
 class GameStateManager {
-public:
+   public:
     static void setRefereeData(proto::SSL_Referee refMsg);
     static proto::SSL_Referee getRefereeData();
     static GameState getCurrentGameState();
@@ -22,12 +22,12 @@ public:
     static bool canMoveOutsideField(int robotId);
     static void forceNewGameState(RefCommand cmd);
     static Vector2 getRefereeDesignatedPosition();
-private:
+
+   private:
     static proto::SSL_Referee refMsg;
     static StrategyManager strategymanager;
     static std::mutex refMsgLock;
-
 };
 
-}//rtt
-#endif //ROBOTEAM_AI_GAMESTATEMANAGER_HPP
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_GAMESTATEMANAGER_HPP

@@ -3,34 +3,33 @@
 #include "Node.hpp"
 
 namespace bt {
+/**
+ * a type alias to create a vector of shared ptrs to nodes
+ */
+using nvector = std::vector<std::shared_ptr<bt::Node>>;
+
+class Composite : public Node {
+   public:
     /**
-     * a type alias to create a vector of shared ptrs to nodes
+     * Constructor for composite where children vector is automatically added as children. The children are added from left to right,
+     * with left getting ticked first
+     * @param children
      */
-    using nvector = std::vector<std::shared_ptr<bt::Node>>;
+    Composite(std::vector<std::shared_ptr<bt::Node>> children);
 
+    Composite();
 
-    class Composite : public Node {
-    public:
-        /**
-         * Constructor for composite where children vector is automatically added as children. The children are added from left to right,
-         * with left getting ticked first
-         * @param children
-         */
-        Composite(std::vector<std::shared_ptr<bt::Node>> children);
+    void addChild(Node::Ptr child) override;
 
-        Composite();
+    std::vector<Node::Ptr> getChildren() override;
 
-        void addChild(Node::Ptr child) override;
+    bool HasNoChildren() const;
 
-        std::vector<Node::Ptr> getChildren() override;
+    void terminate(Status s) override;
 
-        bool HasNoChildren() const;
+   protected:
+    std::vector<Node::Ptr> children;
+    size_t index = 0;
+};
 
-        void terminate(Status s) override;
-
-    protected:
-        std::vector<Node::Ptr> children;
-        size_t index = 0;
-    };
-
-}
+}  // namespace bt

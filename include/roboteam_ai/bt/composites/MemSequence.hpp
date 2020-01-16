@@ -1,17 +1,16 @@
 #pragma once
 
-#include "bt/Composite.hpp"
-#include <string>
 #include <iostream>
+#include <string>
+#include "bt/Composite.hpp"
 
 namespace bt {
 
 class MemSequence : public Composite {
-private:
-
+   private:
     size_t index = 0;
 
-public:
+   public:
     void initialize() override;
     Status update() override;
     void terminate(Status s) override;
@@ -23,7 +22,5 @@ public:
      * with left getting ticked first.
      */
     MemSequence(nvector children);
-
-
 };
-} // bt
+}  // namespace bt
