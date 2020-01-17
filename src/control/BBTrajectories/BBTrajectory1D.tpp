@@ -34,45 +34,17 @@ template<class num>
 void
 BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc,
         bool invertedSign) noexcept {
-    std::chrono::nanoseconds start = std::chrono::system_clock::now().time_since_epoch();
-    num brakeTime;
-    num topVel;
-    num switchTime;
-    num acc;
-    num switchPos;
-
-    if (invertedSign) {
-        //compute the final time difference at which we switch from accelerating to breaking
-        num sq = (maxAcc*(finalPos - initialPos) + 0.5*initialVel*initialVel)/(maxAcc*maxAcc);
-        if (sq > 0) {
-            brakeTime = sqrt(sq);
-        }
-        else {
-            brakeTime = 0;
-        }
-        topVel = maxAcc*brakeTime;
-        switchTime = (topVel - initialVel)/maxAcc;
-        acc = maxAcc;
-        switchPos = initialPos + (initialVel + topVel)*0.5*switchTime;
-    }
-    else {
-        num sq = (maxAcc*(initialPos - finalPos) + 0.5*initialVel*initialVel)/(maxAcc*maxAcc);
-        if (sq > 0) {
-            brakeTime = sqrt(sq);
-        }
-        else {
-            brakeTime = 0;
-        }
-        topVel = - maxAcc*brakeTime;
-        switchTime = (topVel - initialVel)/- maxAcc;
-        acc = - maxAcc;
-        switchPos = initialPos + (initialVel + topVel)*0.5*switchTime;
-    }
+    num acc = invertedSign ? maxAcc : - maxAcc;
+    //compute the final time difference at which we switch from accelerating to breaking
+    num sq = (acc*(finalPos - initialPos) + 0.5*initialVel*initialVel)/(acc*acc);
+    num brakeTime = sq > 0 ? sqrt(sq) : 0;
+    num topVel = acc*brakeTime;
+    num switchTime = (topVel - initialVel)/acc;
+    num switchPos = initialPos + (initialVel + topVel)*0.5*switchTime;
     updatePart(0, switchTime, acc, initialVel, initialPos);
     updatePart(1, switchTime + brakeTime, - acc, topVel, switchPos);
     numParts = 2;
-    std::chrono::nanoseconds end = std::chrono::system_clock::now().time_since_epoch();
-    std::cout << (end - start).count() << std::endl;
+
 }
 template<class num>
 void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept {
@@ -140,7 +112,7 @@ void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num
 
 }
 template<class num>
-BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num finalPos, num initialVel, num maxAcc, num maxVel) noexcept
+BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept
         :
         initialPos{initialPos},
         initialVel{initialVel},

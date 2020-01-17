@@ -56,7 +56,7 @@ class BBTrajectory1D {
         * @param maxAcc maximum allowed acceleration/deceleration
         */
         void generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept ;
-        BBTrajectory1D(num initialPos, num finalPos, num initialVel, num maxAcc, num maxVel) noexcept;
+        BBTrajectory1D(num initialPos, num initialVel,num finalPos, num maxVel, num maxAcc) noexcept;
         BBTrajectory1D() noexcept = default;
     private:
 
@@ -94,7 +94,7 @@ class BBTrajectory1D {
          * @param finalPos Desired final position
          * @param maxAcc Maximum allowed acceleration/deceleration
          */
-        void trapezoidalProfile(num initialPos, num initialVel, num maxVel, num finalPos, num maxAcc) noexcept;
+        void trapezoidalProfile(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept;
         /**
          * Updates a part of the trajectory
          * @param index which part to update
