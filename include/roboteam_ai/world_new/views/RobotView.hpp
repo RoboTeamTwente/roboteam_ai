@@ -72,6 +72,8 @@ namespace rtt::world_new::view {
          */
         RobotView(RobotView&&) = default;
 
+        ~RobotView() = default;
+
         /**
          * Check whether the current robot has the ball
          * @param maxDist maximum distance for ball posession
