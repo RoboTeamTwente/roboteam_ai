@@ -24,7 +24,7 @@ const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI/4.0;
 
 /// Gives a higher score to positions closer to the oppontents goal
 double CoachHeuristics::calculateCloseToGoalScore(const Field &field, const Vector2 &position) {
-    double distanceFromGoal = (field[THEIR_GOAL_CENTER] - position).length();
+    double distanceFromGoal = (field.getTheirGoalCenter() - position).length();
 
     double score = exp(CLOSE_TO_GOAL_WEIGHT*distanceFromGoal);
     return score;
@@ -86,7 +86,7 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
 double CoachHeuristics::calculatePassDistanceToBallScore(const Field &field, const Vector2 &position,
         const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (field[THEIR_GOAL_CENTER] - ball->getPos()).length()*0.5;
+    double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length()*0.5;
     double distanceFromBall = (position - ball->getPos()).length();
 
     if (distanceFromBall < Constants::MAX_PASS_DISTANCE()) {
@@ -99,7 +99,7 @@ double CoachHeuristics::calculatePassDistanceToBallScore(const Field &field, con
 double CoachHeuristics::calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position,
                                                          const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (field[THEIR_GOAL_CENTER] - ball->getPos()).length()*0.75;
+    double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length()*0.75;
     double distanceFromBall = (position - ball->getPos()).length();
     return fmax(0.0, - pow(distanceFromBall/(0.5*idealDistance), 2.0) + 2.0*(distanceFromBall/(0.5*idealDistance)));
 }

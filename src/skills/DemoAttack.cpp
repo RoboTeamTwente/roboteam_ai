@@ -56,10 +56,10 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
     Vector2 velocity;
     if (FieldComputations::pointIsInDefenceArea(*field, robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - (*field)[OUR_GOAL_CENTER]).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - (*field).getOurGoalCenter()).stretchToLength(2.0);
     }
     else if (FieldComputations::pointIsInDefenceArea(*field, robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - (*field)[THEIR_GOAL_CENTER]).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - (*field).getTheirGoalCenter()).stretchToLength(2.0);
     }
     else if (FieldComputations::pointIsInDefenceArea(*field, ball, ownGoal) ||
              FieldComputations::pointIsInDefenceArea(*field, ball, !ownGoal)) {

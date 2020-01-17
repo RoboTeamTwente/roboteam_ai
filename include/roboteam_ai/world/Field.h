@@ -25,80 +25,6 @@ struct FieldArc {
     float thickness;
 };
 
-enum FieldValueName {
-    /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of
-     * the field and the lower part of the field. */
-    FIELD_WIDTH,
-    /* The length of the field (measured in meters), which is the difference in x-coordinate between the left side of
-     * the field (where our goal is placed) and the right side of the field (where the opponents goal is placed). */
-    FIELD_LENGTH,
-    /* The width of both ours and the opponents goal (measured in meters, which is the y-coordinate difference between
-     * both goalposts). */
-    GOAL_WIDTH,
-    // The difference in x-coordinate (measured in meters) between the open part of the goal and the closed part of the goal.
-    GOAL_DEPTH,
-    BOUNDARY_WIDTH, // The width (measured in meters) of the boundary around the field.
-    CENTER_Y, // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
-    LEFTMOST_X, //The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
-    RIGHTMOST_X, //The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
-    BOTTOMMOST_Y, //The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
-    TOPMOST_Y, //The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
-
-    // Enum item used to indicate the number of Field Value Names (make sure that this always is the last item of this enum)
-    NUMBER_FIELD_VALUE_NAMES
-};
-
-enum FieldLineName {
-    TOP_LINE, // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
-    BOTTOM_LINE, // The field line with the lowest y-coordinate which goes from the left side to the right side of the field.
-    LEFT_LINE, // The field line left from our goal (our goal is always adjacent to this line).
-    RIGHT_LINE, // The field line right from the opponents goal (their goal is always adjacent to this line)
-    /* The line that seperates our side from the field and the opponent side of the field (this line moves in the y
-     * direction of the field, i.e. the width of the field) */
-    HALF_LINE,
-    /* The line that start from the middle point of our goal and ends at the middle point of the opponents goal (this
-     * line moves in the x direction of the field, i.e. the length of the field) */
-    CENTER_LINE,
-    LEFT_PENALTY_LINE, // The line parallel to the left line and our goal. This line marks our goal area.
-    RIGHT_PENALTY_LINE, // The line parallel to the right line and the opponents goal. This line marks their goal area.
-    /* The line closest (of all our goal area lines) to the top line and parallel to the top line. This line marks our
-     * goal area. */
-    TOP_LEFT_PENALTY_STRETCH,
-    /* The line closest (of all our goal area lines) to the bottom line and parallel to the bottom line. This line marks
-     * our goal area. */
-    BOTTOM_LEFT_PENALTY_STRETCH,
-    /* The line closest (of all the opponents goal area lines) to the top line and parallel to the top line. This line
-     * marks the opponents goal area. */
-    TOP_RIGHT_PENALTY_STRETCH,
-    /* The line closest (of all the opponents goal area lines) to the bottom line and parallel to the bottom line. This
-     * line marks the opponents goal area. */
-    BOTTOM_RIGHT_PENALTY_STRETCH,
-
-    // Enum item used to indicate the number of Field Line Names (make sure that this always is the last item of this enum)
-    NUMBER_FIELD_LINE_NAMES
-};
-
-enum FieldVectorName {
-    OUR_GOAL_CENTER, // The middle point of our goal (this point is on the left line).
-    THEIR_GOAL_CENTER, // The middle point of the opponents goal (this point is on the right line).
-    LEFT_PENALTY_POINT, // The penalty point from which penalties are made towards our goal.
-    RIGHT_PENALTY_POINT, // The penalty point from which penalties are made towards the opponents goal.
-    OUR_BOTTOM_GOAL_SIDE, // The bottom most point of our goal (this point is on the left line).
-    OUR_TOP_GOAL_SIDE, // The top most point of our goal (this point is on the left line).
-    THEIR_BOTTOM_GOAL_SIDE, // The bottom most point of the opponents goal (this point is on the right line).
-    THEIR_TOP_GOAL_SIDE, // The top most point of the opponents goal (this point is on the right line).
-
-    // Enum item used to indicate the number of Field Vector Names (make sure that this always is the last item of this enum)
-    NUMBER_FIELD_VECTOR_NAMES
-};
-
-enum FieldArcName {
-    CENTER_CIRCLE, // The circle in the middle from which the ball will be kicked off
-
-    // Enum item used to indicate the number of Field Arc Names (make sure that this always is the last item of this enum)
-    NUMBER_FIELD_ARC_NAMES
-};
-
 /**
  * Stores all data which is directly obtained by the field camera (this data can change during the match) and store all
  * singular constant data (data that does not change through the match) about the field, which together includes: <br>
@@ -139,31 +65,130 @@ private:
     };
 
     // Used to convert field line name, in string format, to the corresponding FieldLineName enum value
-    std::unordered_map<std::string, FieldLineName> CONVERT_TO_FIELD_LINE_NAME = {
-        {"top_line", TOP_LINE},
-        {"bottom_line", BOTTOM_LINE},
-        {"left_line", LEFT_LINE},
-        {"right_line", RIGHT_LINE},
-        {"half_line", HALF_LINE},
-        {"center_line", CENTER_LINE},
-        {"left_penalty_line", LEFT_PENALTY_LINE},
-        {"right_penalty_line", RIGHT_PENALTY_LINE},
-        {"top_left_penalty_stretch", TOP_LEFT_PENALTY_STRETCH},
-        {"bottom_left_penalty_stretch", BOTTOM_LEFT_PENALTY_STRETCH},
-        {"top_right_penalty_stretch", TOP_RIGHT_PENALTY_STRETCH},
-        {"bottom_right_penalty_stretch", BOTTOM_RIGHT_PENALTY_STRETCH},
+    std::unordered_map<std::string, std::optional<FieldLineSegment>*> RELATED_FIELD_LINE = {
+        {"top_line", &topLine},
+        {"bottom_line", &bottomLine},
+        {"left_line", &leftLine},
+        {"right_line", &rightLine},
+        {"half_line", &halfLine},
+        {"center_line", &centerLine},
+        {"left_penalty_line", &leftPenaltyLine},
+        {"right_penalty_line", &rightPenaltyLine},
+        {"top_left_penalty_stretch", &topLeftPenaltyStretch},
+        {"bottom_left_penalty_stretch", &bottomLeftPenaltyStretch},
+        {"top_right_penalty_stretch", &topRightPenaltyStretch},
+        {"bottom_right_penalty_stretch", &bottomRightPenaltyStretch}
     };
 
     // Used to convert field arc name, in string format, to the corresponding FieldArcName enum value
-    std::unordered_map<std::string, FieldArcName> CONVERT_TO_FIELD_ARC_NAME = {
-        {"center_circle", CENTER_CIRCLE},
+    std::unordered_map<std::string, std::optional<FieldArc>*> RELATED_FIELD_ARC = {
+        {"center_circle", &centerCircle},
     };
 
 private:
-    std::optional<double> fieldValues[NUMBER_FIELD_VALUE_NAMES]; // Stores all the constant of the field (lengths, widths, positions)
-    std::optional<FieldLineSegment> fieldLines[NUMBER_FIELD_LINE_NAMES]; // Stores all the lines of the field
-    std::optional<Vector2> fieldVectors[NUMBER_FIELD_VECTOR_NAMES]; // Stores all positions of the field
-    std::optional<FieldArc> fieldArcs[NUMBER_FIELD_ARC_NAMES]; // Stores all the arcs of the field
+    std::vector<FieldLineSegment> allFieldLines;
+
+    /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of
+     * the field and the lower part of the field. */
+    std::optional<double> fieldWidth;
+
+    /* The length of the field (measured in meters), which is the difference in x-coordinate between the left side of
+     * the field (where our goal is placed) and the right side of the field (where the opponents goal is placed). */
+    std::optional<double> fieldLength;
+
+    /* The width of both ours and the opponents goal (measured in meters, which is the y-coordinate difference between
+     * both goalposts). */
+    std::optional<double> goalWidth;
+
+    // The difference in x-coordinate (measured in meters) between the open part of the goal and the closed part of the goal.
+    std::optional<double> goalDepth;
+
+    // The width (measured in meters) of the boundary around the field.
+    std::optional<double> boundaryWidth;
+
+    // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
+    std::optional<double> centerY;
+
+    // The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
+    std::optional<double> leftmostX;
+
+    //The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
+    std::optional<double> rightmostX;
+
+    //The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
+    std::optional<double> bottommostY;
+
+    //The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
+    std::optional<double> topmostY;
+
+    // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
+    std::optional<FieldLineSegment> topLine;
+
+    // The field line with the lowest y-coordinate which goes from the left side to the right side of the field.
+    std::optional<FieldLineSegment> bottomLine;
+
+    // The field line left from our goal (our goal is always adjacent to this line).
+    std::optional<FieldLineSegment> leftLine;
+
+    // The field line right from the opponents goal (their goal is always adjacent to this line).
+    std::optional<FieldLineSegment> rightLine;
+
+    /* The line that seperates our side from the field and the opponent side of the field (this line moves in the y
+     * direction of the field, i.e. the width of the field) */
+    std::optional<FieldLineSegment> halfLine;
+
+    /* The line that start from the middle point of our goal and ends at the middle point of the opponents goal (this
+     * line moves in the x direction of the field, i.e. the length of the field) */
+    std::optional<FieldLineSegment> centerLine;
+
+    // The line parallel to the left line and our goal. This line marks our goal area.
+    std::optional<FieldLineSegment> leftPenaltyLine;
+
+    // The line parallel to the right line and the opponents goal. This line marks their goal area.
+    std::optional<FieldLineSegment> rightPenaltyLine;
+
+    /* The line closest (of all our goal area lines) to the top line and parallel to the top line. This line marks our
+     * goal area. */
+    std::optional<FieldLineSegment> topLeftPenaltyStretch;
+
+    /* The line closest (of all our goal area lines) to the bottom line and parallel to the bottom line. This line marks
+     * our goal area. */
+    std::optional<FieldLineSegment> bottomLeftPenaltyStretch;
+
+    /* The line closest (of all the opponents goal area lines) to the top line and parallel to the top line. This line
+     * marks the opponents goal area. */
+    std::optional<FieldLineSegment> topRightPenaltyStretch;
+
+    /* The line closest (of all the opponents goal area lines) to the bottom line and parallel to the bottom line. This
+     * line marks the opponents goal area. */
+    std::optional<FieldLineSegment> bottomRightPenaltyStretch;
+
+    // The middle point of our goal (this point is on the left line).
+    std::optional<Vector2> ourGoalCenter;
+
+    // The middle point of the opponents goal (this point is on the right line).
+    std::optional<Vector2>  theirGoalCenter;
+
+    // The penalty point from which penalties are made towards our goal.
+    std::optional<Vector2> leftPenaltyPoint;
+
+    // The penalty point from which penalties are made towards the opponents goal.
+    std::optional<Vector2> rightPenaltyPoint;
+
+    // The bottom most point of our goal (this point is on the left line).
+    std::optional<Vector2> ourBottomGoalSide;
+
+    // The top most point of our goal (this point is on the left line).
+    std::optional<Vector2> ourTopGoalSide;
+
+    // The bottom most point of the opponents goal (this point is on the right line).
+    std::optional<Vector2> theirBottomGoalSide;
+
+    // The top most point of the opponents goal (this point is on the right line).
+    std::optional<Vector2> theirTopGoalSide;
+
+    // The circle in the middle from which the ball will be kicked off
+    std::optional<FieldArc> centerCircle;
 
 public:
     /**
@@ -177,42 +202,66 @@ public:
      */
     Field(proto::SSL_GeometryFieldSize sslFieldSize);
 
-    /**
-     * Get a value/constant about the field. All values are measured in SI standard units, so lengths/distances/widths
-     * are measured in meters.
-     * @param valueName The field value name attribute of which we want to get the value.
-     * @return The corresponding field value.
-     */
-    double operator[](FieldValueName arcName) const;
-
-    /**
-     * Get one of the lines of the field.
-     * @param lineName The field line name which we want to get.
-     * @return The corresponding field line.
-     */
-    FieldLineSegment operator[](FieldLineName lineName) const;
-
-    /**
-     * Get one of the arcs of the field.
-     * @param arcName The field arc name which we want to get.
-     * @return The corresponding field arc.
-     */
-     FieldArc operator[](FieldArcName arcName) const;
-
-    /**
-     * Get one of the positions of the field.
-     * @param vectorName The field vector name of which we want to know the position.
-     * @return The corresponding field vector which points to this position.
-     */
-    Vector2 operator[](FieldVectorName arcName) const;
+    // All getters for the different stored field constants.
+    double getFieldWidth() const;
+    double getFieldLength() const;
+    double getGoalWidth() const;
+    double getGoalDepth() const;
+    double getBoundaryWidth() const;
+    double getCenterY() const;
+    double getLeftmostX() const;
+    double getRightmostX() const;
+    double getBottommostY() const;
+    double getTopmostY() const;
+    const FieldLineSegment &getTopLine() const;
+    const FieldLineSegment &getBottomLine() const;
+    const FieldLineSegment &getLeftLine() const;
+    const FieldLineSegment &getRightLine() const;
+    const FieldLineSegment &getHalfLine() const;
+    const FieldLineSegment &getCenterLine() const;
+    const FieldLineSegment &getLeftPenaltyLine() const;
+    const FieldLineSegment &getRightPenaltyLine() const;
+    const FieldLineSegment &getTopLeftPenaltyStretch() const;
+    const FieldLineSegment &getBottomLeftPenaltyStretch() const;
+    const FieldLineSegment &getTopRightPenaltyStretch() const;
+    const FieldLineSegment &getBottomRightPenaltyStretch() const;
+    const Vector2 &getOurGoalCenter() const;
+    const Vector2 &getTheirGoalCenter() const;
+    const Vector2 &getLeftPenaltyPoint() const;
+    const Vector2 &getRightPenaltyPoint() const;
+    const Vector2 &getOurBottomGoalSide() const;
+    const Vector2 &getOurTopGoalSide() const;
+    const Vector2 &getTheirBottomGoalSide() const;
+    const Vector2 &getTheirTopGoalSide() const;
+    const FieldArc &getCenterCircle() const;
 
     /**
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    const std::optional<FieldLineSegment>* getField_lines() const;
+    const std::vector<FieldLineSegment> &getField_lines() const;
 
 private:
+    /**
+     * This method deals with getting field values and what should happen when a field value is missing.
+     */
+    double getFieldValue(const std::optional<double> &fieldValue) const;
+
+    /**
+     * This method deals with getting field lines and what should happen when a field line is missing.
+     */
+    const FieldLineSegment &getFieldLine(const std::optional<FieldLineSegment> &fieldLine) const;
+
+    /**
+     * This method deals with getting field vectors and what should happen when a field vector is missing.
+     */
+    const Vector2 &getFieldVector(const std::optional<Vector2> &fieldLine) const;
+
+    /**
+     * This method deals with getting field arcs and what should happen when a field arc is missing.
+     */
+    const FieldArc &getFieldArc(const std::optional<FieldArc> &fieldArc) const;
+
     /**
      * Convert a float measured in millimeters to meters (is needed, because proto message contains values measured in
      * millimeters).

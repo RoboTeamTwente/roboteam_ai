@@ -56,7 +56,7 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ourGoalCenter: {
-        targetPos = (*field)[OUR_GOAL_CENTER];
+        targetPos = (*field).getOurGoalCenter();
         break;
     }
     case ourDefenseAreaCenter: {
@@ -68,10 +68,10 @@ void GTPSpecial::gtpInitialize() {
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
-    double distanceFromTop = abs((*field)[FIELD_WIDTH] * 0.5 - ball->getPos().y);
-    double distanceFromBottom = abs(- (*field)[FIELD_WIDTH] * 0.5 - ball->getPos().y);
-    double distanceFromLeft = abs(- (*field)[FIELD_LENGTH] * 0.5 - ball->getPos().x);
-    double distanceFromRight = abs((*field)[FIELD_LENGTH] * 0.5 - ball->getPos().x);
+    double distanceFromTop = abs((*field).getFieldWidth() * 0.5 - ball->getPos().y);
+    double distanceFromBottom = abs(- (*field).getFieldWidth() * 0.5 - ball->getPos().y);
+    double distanceFromLeft = abs(- (*field).getFieldLength() * 0.5 - ball->getPos().x);
+    double distanceFromRight = abs((*field).getFieldLength() * 0.5 - ball->getPos().x);
 
     double distance = 9e9;
     Vector2 pos;
@@ -144,7 +144,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
         maxVel = 1.0;
         break;
     case ourGoalCenter: {
-        targetPos = (*field)[OUR_GOAL_CENTER];
+        targetPos = (*field).getOurGoalCenter();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
         command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;

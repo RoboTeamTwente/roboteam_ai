@@ -14,7 +14,7 @@ KickTo::KickTo(string name, bt::Blackboard::Ptr blackboard)
 void KickTo::onInitialize() {
     std::string type=properties->getString("type");
     if (type=="shootout"){
-        shootPos = Vector2((*field)[FIELD_LENGTH] * 0.2, 0); // 2.4 m for A field, 1.8 for B
+        shootPos = Vector2((*field).getFieldLength() * 0.2, 0); // 2.4 m for A field, 1.8 for B
     }
     else{
         shootPos = Vector2(0,0);

@@ -48,7 +48,7 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
 std::vector<Vector2> OffensiveCoach::getZoneLocations(const Field &field) {
-    Vector2 penaltyStretchCorner = field[TOP_RIGHT_PENALTY_STRETCH].end;
+    Vector2 penaltyStretchCorner = field.getTopRightPenaltyStretch().end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
 
@@ -156,7 +156,7 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Field &field, const Vector2 &f
     // get the longest line section op the visible part of the goal
     std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint,
             world::world->getWorld());
-    if (openSegments.empty()) return field[THEIR_GOAL_CENTER];
+    if (openSegments.empty()) return field.getTheirGoalCenter();
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.
@@ -190,7 +190,7 @@ Vector2 OffensiveCoach::getShootAtGoalPoint(const Field &field, const Vector2 &f
 Line OffensiveCoach::getAimPoints(const Field &field, const Vector2 &fromPoint) {
     Line goalSides = FieldComputations::getGoalSides(field, false);
     double angleMargin = sin(2.0/180.0*M_PI);
-    double constantMargin = 0.05 * field[GOAL_WIDTH];
+    double constantMargin = 0.05 * field.getGoalWidth();
     Vector2 leftPoint(goalSides.start.x, goalSides.start.y + constantMargin + angleMargin * goalSides.start.dist(fromPoint));
     Vector2 rightPoint(goalSides.end.x, goalSides.end.y - angleMargin * goalSides.end.dist(fromPoint) - constantMargin);
     return Line(leftPoint, rightPoint);

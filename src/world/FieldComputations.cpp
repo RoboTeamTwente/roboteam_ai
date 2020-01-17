@@ -21,8 +21,8 @@ bool FieldComputations::pointIsInDefenceArea(const Field &field, const Vector2 &
 
 // the margin is pointed inside the field!
 bool FieldComputations::pointIsInField(const Field &field, const Vector2 &point, double margin) {
-  return (point.x <= field[RIGHTMOST_X] - margin && point.x >= field[LEFTMOST_X] + margin
-            && point.y <= field[TOPMOST_Y]- margin && point.y >= field[BOTTOMMOST_Y] + margin);
+  return (point.x <= field.getRightmostX() - margin && point.x >= field.getLeftmostX() + margin
+            && point.y <= field.getTopmostY()- margin && point.y >= field.getBottommostY() + margin);
 }
 
 /// returns the angle the goal points make from a point
@@ -37,7 +37,7 @@ double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, co
 /// id and ourteam are for a robot not to be taken into account.
 double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point,
         const world::WorldData &data, int id, bool ourTeam) {
-    double goalWidth = field[GOAL_WIDTH];
+    double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
     for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, data, id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
@@ -216,10 +216,10 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, b
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 Line FieldComputations::getGoalSides(const Field &field, bool ourGoal) {
     if (ourGoal) {
-        return Line(field[OUR_BOTTOM_GOAL_SIDE], field[OUR_TOP_GOAL_SIDE]);
+        return Line(field.getOurBottomGoalSide(), field.getOurTopGoalSide());
     }
     else {
-        return Line(field[THEIR_BOTTOM_GOAL_SIDE], field[THEIR_TOP_GOAL_SIDE]);
+        return Line(field.getTheirBottomGoalSide(), field.getTheirTopGoalSide());
     }
 }
 
@@ -230,9 +230,9 @@ double FieldComputations::getDistanceToGoal(const Field &field, bool ourGoal, co
 
 Vector2 FieldComputations::getPenaltyPoint(const Field &field, bool ourGoal) {
     if (ourGoal) {
-        return field[LEFT_PENALTY_POINT];
+        return field.getLeftPenaltyPoint();
     } else {
-        return field[RIGHT_PENALTY_POINT];
+        return field.getRightPenaltyPoint();
     }
 }
 
@@ -258,23 +258,23 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
 }
 
 Polygon FieldComputations::getDefenseArea(const Field &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
-  double backLineUsXCoordinate = includeOutSideField ? field[LEFTMOST_X] - field[BOUNDARY_WIDTH] : field[LEFTMOST_X] - margin;
-  double backLineThemXCoordinate = includeOutSideField ? field[RIGHTMOST_X] + field[BOUNDARY_WIDTH]: field[RIGHTMOST_X] + margin;
+  double backLineUsXCoordinate = includeOutSideField ? field.getLeftmostX() - field.getBoundaryWidth() : field.getLeftmostX() - margin;
+  double backLineThemXCoordinate = includeOutSideField ? field.getRightmostX() + field.getBoundaryWidth(): field.getRightmostX() + margin;
 
   std::vector<Vector2> defenceAreaUsPoints = {
-      {field[LEFT_PENALTY_LINE].begin.x + margin, field[LEFT_PENALTY_LINE].begin.y - margin},
-      {field[LEFT_PENALTY_LINE].end.x + margin, field[LEFT_PENALTY_LINE].end.y + margin},
-      {backLineUsXCoordinate, field[LEFT_PENALTY_LINE].end.y + margin},
-      {backLineUsXCoordinate, field[LEFT_PENALTY_LINE].begin.y - margin}};
+      {field.getLeftPenaltyLine().begin.x + margin, field.getLeftPenaltyLine().begin.y - margin},
+      {field.getLeftPenaltyLine().end.x + margin, field.getLeftPenaltyLine().end.y + margin},
+      {backLineUsXCoordinate, field.getLeftPenaltyLine().end.y + margin},
+      {backLineUsXCoordinate, field.getLeftPenaltyLine().begin.y - margin}};
 
   interface::Input::drawDebugData(defenceAreaUsPoints);
   Polygon defenceAreaUs(defenceAreaUsPoints);
 
   std::vector<Vector2> defenceAreaThemPoints = {
-      {field[RIGHT_PENALTY_LINE].begin.x - margin, field[RIGHT_PENALTY_LINE].begin.y - margin},
-      {field[RIGHT_PENALTY_LINE].end.x - margin, field[RIGHT_PENALTY_LINE].end.y + margin},
-      {backLineThemXCoordinate, field[RIGHT_PENALTY_LINE].end.y + margin},
-      {backLineThemXCoordinate, field[RIGHT_PENALTY_LINE].begin.y - margin}};
+      {field.getRightPenaltyLine().begin.x - margin, field.getRightPenaltyLine().begin.y - margin},
+      {field.getRightPenaltyLine().end.x - margin, field.getRightPenaltyLine().end.y + margin},
+      {backLineThemXCoordinate, field.getRightPenaltyLine().end.y + margin},
+      {backLineThemXCoordinate, field.getRightPenaltyLine().begin.y - margin}};
 
   Polygon defenceAreaThem(defenceAreaThemPoints);
   return ourDefenseArea ? defenceAreaUs : defenceAreaThem;
@@ -282,7 +282,7 @@ Polygon FieldComputations::getDefenseArea(const Field &field, bool ourDefenseAre
 
 Polygon FieldComputations::getGoalArea(const Field &field, bool ourGoal, double margin, bool hasBackMargin) {
   double marginBackside = hasBackMargin ? margin : 0.0;
-  auto goalDepth = field[GOAL_DEPTH] + marginBackside;
+  auto goalDepth = field.getGoalDepth() + marginBackside;
 
   if (ourGoal) {
     auto ourGoalSides = getGoalSides(field, true);
@@ -309,10 +309,10 @@ Polygon FieldComputations::getGoalArea(const Field &field, bool ourGoal, double 
 }
 
 Polygon FieldComputations::getFieldEdge(const Field &field, double margin) {
-    double left = field[LEFTMOST_X] + margin;
-    double right = field[RIGHTMOST_X] - margin;
-    double bottom = field[BOTTOMMOST_Y] + margin;
-    double top = field[TOPMOST_Y] - margin;
+    double left = field.getLeftmostX() + margin;
+    double right = field.getRightmostX() - margin;
+    double bottom = field.getBottommostY() + margin;
+    double top = field.getTopmostY() - margin;
 
     std::vector<Vector2> fieldEdge = {
       {left, bottom},

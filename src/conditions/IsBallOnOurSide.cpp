@@ -23,8 +23,8 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
 
     if (ballPos.x < 0) {
         if (inField) {
-            if (abs(ballPos.x) < (*field)[FIELD_LENGTH] / 2 &&
-                abs(ballPos.y) < (*field)[FIELD_WIDTH] / 2) {
+            if (abs(ballPos.x) < (*field).getFieldLength() / 2 &&
+                abs(ballPos.y) < (*field).getFieldWidth() / 2) {
                 return Status::Success;
             }
             return Status::Failure;

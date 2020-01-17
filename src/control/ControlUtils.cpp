@@ -268,11 +268,11 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 position, double margin) {
-    double hFieldLength = field[FIELD_LENGTH] / 2;
+    double hFieldLength = field.getFieldLength() / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, - hFieldLength + margin);
 
-    double hFieldWidth = field[FIELD_WIDTH] / 2;
+    double hFieldWidth = field.getFieldWidth() / 2;
     position.y = std::min(position.y, hFieldWidth - margin);
     position.y = std::max(position.y, - hFieldWidth + margin);
 
@@ -281,11 +281,11 @@ Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 p
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const Field &field, Vector2 position, double margin) {
     if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
-        position.x = std::max(position.x, field[LEFT_PENALTY_LINE].begin.x + margin);
+        position.x = std::max(position.x, field.getLeftPenaltyLine().begin.x + margin);
         return position;
     }
     if (FieldComputations::pointIsInDefenceArea(field, position, false, margin)) {
-        position.x = std::min(position.x, field[RIGHT_PENALTY_LINE].begin.x - margin);
+        position.x = std::min(position.x, field.getRightPenaltyLine().begin.x - margin);
         return position;
     }
     return position;

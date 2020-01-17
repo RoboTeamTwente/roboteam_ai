@@ -74,7 +74,7 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(const Field &field, bool ourTeam, 
 
 /// returns a danger score
 RobotDanger GameAnalyzer::evaluateRobotDangerScore(const Field &field, RobotPtr robot, bool ourTeam) {
-    Vector2 goalCenter = ourTeam ? field[OUR_GOAL_CENTER] : field[THEIR_GOAL_CENTER];
+    Vector2 goalCenter = ourTeam ? field.getOurGoalCenter() : field.getTheirGoalCenter();
 
     RobotDanger danger;
     danger.ourTeam = ourTeam;

@@ -79,10 +79,10 @@ Vector2 PenaltyKeeper::computeDefendPos() {
     if (attacker) {
         Vector2 beginPos = attacker->pos;
         Vector2 endPos = attacker->pos + (world::world->getBall()->getPos() - attacker->pos).stretchToLength(
-                (*field)[FIELD_LENGTH]);
+                (*field).getFieldLength());
 
         // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
-        double maxMoveDist=((*field)[GOAL_WIDTH] - Constants::ROBOT_RADIUS()) / 2 - 0.2;
+        double maxMoveDist=((*field).getGoalWidth() - Constants::ROBOT_RADIUS()) / 2 - 0.2;
         LineSegment shootLine(beginPos,endPos);
         Line goalKeepingLine(goalLine.start, goalLine.end);
         auto intersection=goalKeepingLine.intersects(shootLine);
@@ -105,8 +105,8 @@ Vector2 PenaltyKeeper::interceptBallPos() {
     Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.start,
             goalLine.end);
     double margin = 0.05;//m next to the goal
-    if (predictedShotLocation.y <= (*field)[GOAL_WIDTH] * 0.5 + margin
-            && predictedShotLocation.y >= -(*field)[GOAL_WIDTH] * 0.5 - margin) {
+    if (predictedShotLocation.y <= (*field).getGoalWidth() * 0.5 + margin
+            && predictedShotLocation.y >= -(*field).getGoalWidth() * 0.5 - margin) {
         return predictedShotLocation;
     }
     return (goalLine.start + goalLine.end)*0.5;

@@ -143,7 +143,7 @@ bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const 
         if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
             return false;
         }
-        auto MIN_PASS_DISTANCE = std::max((double) field[GOAL_WIDTH] / 2, SMALLEST_MIN_PASS_DISTANCE);
+        auto MIN_PASS_DISTANCE = std::max((double) field.getGoalWidth() / 2, SMALLEST_MIN_PASS_DISTANCE);
         if ((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
             return false;
         }
