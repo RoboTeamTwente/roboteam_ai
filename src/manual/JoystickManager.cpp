@@ -10,10 +10,6 @@ using namespace std::chrono;
 
 namespace rtt::input {
 
-// TODO Check if these can be non-static
-std::mutex JoystickManager::runningLock;
-std::mutex JoystickManager::activeLock;
-
 JoystickManager::JoystickManager(ai::io::IOManager* ioManager) : ioManager(ioManager) {
     std::cout << "[JoystickManager] New JoystickManager" << std::endl;
     // Create publisher to send robot commands

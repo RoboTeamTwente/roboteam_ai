@@ -14,8 +14,7 @@
 #include <mutex>
 #include "JoystickHandler.h"
 
-namespace rtt {
-namespace input {
+namespace rtt::input {
 
 class JoystickManager {
    public:
@@ -47,7 +46,6 @@ class JoystickManager {
     void handleEvent(SDL_Event& event);
 };
 
-}  // namespace input
-}  // namespace rtt
+}  // namespace rtt::input
 
 #endif  // RTT_JOYSTICKMANAGER_H
