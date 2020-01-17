@@ -9,11 +9,11 @@ namespace rtt::ai::control{
 CollisionDetector::CollisionDetector(world::World& world, world::Field& field):
 world(world), field(field){}
 
-bool CollisionDetector::canFollowPoint(Vector2 initialPoint, Vector2 nextPoint){
+bool CollisionDetector::canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint){
     return isRobotCollisionBetweenPoints(initialPoint, nextPoint);
 }
 
-bool CollisionDetector::isRobotCollisionBetweenPoints(Vector2 initialPoint, Vector2 nextPoint){
+bool CollisionDetector::isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint){
     for (const auto& robot: world.getAllRobots()){
         if (robot->pos != initialPoint && ControlUtils::distanceToLine(robot->pos, initialPoint, nextPoint) < this->DEFAULT_ROBOT_COLLISION_RADIUS){
             return true;

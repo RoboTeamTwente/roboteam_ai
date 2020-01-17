@@ -22,7 +22,7 @@ private:
 public:
     CollisionDetector(world::World &world, world::Field &field);
 
-    bool canFollowPoint(Vector2 initialPoint, Vector2 nextPoint);
+    bool canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint);
 
     /**
      * Checks whether the line drawn by the two points comes close to any robot (excepting the current one).
@@ -30,7 +30,7 @@ public:
      * @param nextPoint
      * @return
      */
-    bool isRobotCollisionBetweenPoints(Vector2 initialPoint, Vector2 nextPoint);
+    bool isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
 
     std::vector<Vector2 *> getRobotPositions();
 };

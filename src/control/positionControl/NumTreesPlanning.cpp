@@ -194,7 +194,8 @@ NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const rtt::Vecto
 
     // determine the position at backtrack and vector towards the collision
     //TODO: workaround warning: used half the distance instead of collision distance
-    Vector2 deltaPosition = (collisionPoint->parent->pos + collisionPoint->pos)/2;
+    Vector2 collisionPosition = (collisionPoint->parent->pos + collisionPoint->pos)/2;
+    Vector2 deltaPosition = collisionPosition - collisionPoint->pos;
     double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS;
     int factor = collisionPoint->collisions - startPoint->collisions;
 

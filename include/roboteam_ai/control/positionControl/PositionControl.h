@@ -21,14 +21,14 @@ private:
 
     const double MAX_DEVIATION = 0.3;
 
-    NumTreesPlanning *pathPlanningAlgorithm;
-    BasicPathTracking *pathTrackingAlgorithm;
-    CollisionDetector *collisionDetector;
+    NumTreesPlanning *pathPlanningAlgorithm = nullptr;
+    BasicPathTracking *pathTrackingAlgorithm = nullptr;
+    CollisionDetector *collisionDetector = nullptr;
 
     world::World& world;
     world::Field& field;
 
-    std::map<int, std::list<Vector2>> computedPaths;
+    std::unordered_map<int, std::list<Vector2>> computedPaths;
 
 public:
     PositionControl(world::World &world, world::Field &field);

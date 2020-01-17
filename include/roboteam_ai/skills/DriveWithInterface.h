@@ -16,7 +16,7 @@ class DriveWithInterface : public Skill {
     Status onUpdate() override;
 
     private:
-        control::PositionControl *numTreeGtp;
+        control::PositionControl *numTreeGtp = nullptr;
 };
 }  // namespace rtt::ai
 

@@ -15,9 +15,6 @@ PositionControl::PositionControl(world::World& world, world::Field& field): worl
 //TODO: add projection to outside defence area (project target position)(is this really needed?)
 RobotCommand PositionControl::computeAndTrackPath(int robotId, const Vector2 &currentPosition,
         const Vector2 &currentVelocity, const Vector2 &targetPosition) {
-    if (computedPaths.find(robotId) == computedPaths.end()) {
-        computedPaths.insert({robotId, std::list<Vector2>()});
-    }
 
     if (shouldRecalculatePath(currentPosition, targetPosition, robotId)) {
         auto robots = world.getAllRobots();
