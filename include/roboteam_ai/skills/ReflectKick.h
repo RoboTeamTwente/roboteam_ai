@@ -5,16 +5,15 @@
 #ifndef ROBOTEAM_AI_REFLECTKICK_H
 #define ROBOTEAM_AI_REFLECTKICK_H
 
+#include <coach/BallplacementCoach.h>
+#include <coach/PassCoach.h>
 #include <control/BasicPosControl.h>
 #include "Skill.h"
-#include <coach/PassCoach.h>
-#include <coach/BallplacementCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class ReflectKick : public Skill {
-private:
+   private:
     const double TOWARDS_GOAL_FACTOR = 0.8;
     Vector2 goalTarget;
     Vector2 reflectionPos;
@@ -33,7 +32,8 @@ private:
     Vector2 getKicker();
     double getAngle();
     bool ballDeflected();
-public:
+
+   public:
     explicit ReflectKick(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
@@ -41,8 +41,6 @@ public:
     Vector2 getFarSideOfGoal();
 };
 
-}
-}
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_REFLECTKICK_H
+#endif  // ROBOTEAM_AI_REFLECTKICK_H

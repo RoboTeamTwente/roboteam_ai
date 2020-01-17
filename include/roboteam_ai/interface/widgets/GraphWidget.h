@@ -6,27 +6,24 @@
 #ifndef RTT_GRAPHWIDGET_H
 #define RTT_GRAPHWIDGET_H
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class GraphWidget : public QWidget {
     Q_OBJECT
-private:
+   private:
     float seriesIndex = 0;
     float fpsGraphYMax = 0;
-    float fpsGraphXMin =0;
+    float fpsGraphXMin = 0;
     float fpsGraphXMax = 0;
-    QChartView * fpsView;
-    QLineSeries * fpsSeries;
-public:
-    explicit GraphWidget(QWidget * parent = nullptr);
-public slots:
+    QChartView* fpsView;
+    QLineSeries* fpsSeries;
+
+   public:
+    explicit GraphWidget(QWidget* parent = nullptr);
+   public slots:
     void updateContents();
 };
 
-}
-}
-}
+}  // namespace rtt::ai::interface
 
-#endif //RTT_GRAPHWIDGET_H
+#endif  // RTT_GRAPHWIDGET_H

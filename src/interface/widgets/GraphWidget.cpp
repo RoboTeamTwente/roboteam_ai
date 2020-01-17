@@ -2,16 +2,18 @@
 // Created by mrlukasbos on 22-9-19.
 //
 
-#include "interface/api/Input.h"
 #include "interface/widgets/GraphWidget.h"
+#include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
-GraphWidget::GraphWidget(QWidget * parent) {
+/* axisY() and axisX() are deprecated
+ * A non-deprecated method can be found here https://stackoverflow.com/questions/53812267/qtcharts-axisx-depreciated
+ * However, for some reason it gave segfaults the last time I tried this (jan 16 2020)
+ */
+
+GraphWidget::GraphWidget(QWidget* parent) {
     auto verticalLayout = new QVBoxLayout(this);
-
 
     fpsView = new QChartView();
 
@@ -24,22 +26,22 @@ GraphWidget::GraphWidget(QWidget * parent) {
     fpsView->chart()->createDefaultAxes();
     fpsView->chart()->setMinimumHeight(300);
     fpsView->chart()->setTheme(QChart::ChartThemeDark);
-    fpsView->chart()->setBackgroundBrush(QColor(53,53,53));
+    fpsView->chart()->setBackgroundBrush(QColor(53, 53, 53));
     fpsView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
     fpsView->chart()->axisY()->setGridLineVisible(true);
 
-    connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index){
+    connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
         qreal y = fpsSeries->at(index).y();
         qreal x = fpsSeries->at(index).x();
 
-        if(y > fpsGraphYMax){
-            if(y> fpsGraphYMax) fpsGraphYMax = y;
-            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax+20);
+        if (y > fpsGraphYMax) {
+            if (y > fpsGraphYMax) fpsGraphYMax = y;
+            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
         }
 
-        if(x< fpsGraphXMin || x > fpsGraphXMax){
-            if(x < fpsGraphXMin) fpsGraphXMin = x;
-            if(x> fpsGraphXMax) fpsGraphXMax = x;
+        if (x < fpsGraphXMin || x > fpsGraphXMax) {
+            if (x < fpsGraphXMin) fpsGraphXMin = x;
+            if (x > fpsGraphXMax) fpsGraphXMax = x;
 
             if (fpsGraphXMax - fpsGraphXMin > 30) {
                 fpsGraphXMin = fpsGraphXMax - 30;
@@ -54,13 +56,11 @@ GraphWidget::GraphWidget(QWidget * parent) {
 
 void GraphWidget::updateContents() {
     fpsSeries->append(seriesIndex, Input::getFps());
-    seriesIndex+=0.2;
+    seriesIndex += 0.2;
     fpsView->chart()->createDefaultAxes();
 }
 
-}
-}
-}
+}  // namespace rtt::ai::interface
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_GraphWidget.cpp"

@@ -4,14 +4,13 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-#include "WorldHelper.h"
+#include <roboteam_proto/World.pb.h>
+#include <roboteam_proto/WorldRobot.pb.h>
 #include <roboteam_utils/Vector2.h>
-#include <WorldRobot.pb.h>
-#include <World.pb.h>
 #include <random>
-#include <roboteam_ai/world/Robot.h>
-#include <roboteam_ai/world/World.h>
-#include "roboteam_ai/utilities/Constants.h"
+#include "WorldHelper.h"
+#include "world/Robot.h"
+#include "world/World.h"
 
 namespace testhelpers {
 
@@ -29,8 +28,8 @@ double WorldHelper::getRandomValue(double min, double max) {
  * Generate a random position on a field
  */
 rtt::Vector2 WorldHelper::getRandomFieldPosition(proto::GeometryFieldSize field) {
-    auto randomX = getRandomValue(-(field.field_length()/2), field.field_length()/2);
-    auto randomY = getRandomValue(-(field.field_width()/2), field.field_width()/2);
+    auto randomX = getRandomValue(-(field.field_length() / 2), field.field_length() / 2);
+    auto randomY = getRandomValue(-(field.field_width() / 2), field.field_width() / 2);
     return {randomX, randomY};
 }
 
@@ -60,13 +59,12 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 
     std::vector<std::pair<int, rtt::Vector2>> robotPositions;
     for (unsigned int i = 0; i < robots.size(); i++) {
-        robotPositions.emplace_back(std::make_pair(i, robots.at((unsigned long) i).pos()));
+        robotPositions.emplace_back(std::make_pair(i, robots.at((unsigned long)i).pos()));
     }
 
     // for each position, check all other positions and see if the distance is large enough.
     for (auto &pos : robotPositions) {
         for (auto &posToCompore : robotPositions) {
-
             // if the position is itself we don't need to do anything
             if (pos.first != posToCompore.first) {
                 if (pos.second.dist((posToCompore.second)) < 2 * rtt::ai::Constants::ROBOT_RADIUS()) return false;
@@ -87,12 +85,11 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
  * Generate a robot on a random position
  */
 proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
-
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
     proto::WorldRobot robot;
-    robot.set_id((unsigned) id);
+    robot.set_id((unsigned)id);
     robot.mutable_pos()->set_x(randomFieldPos.x);
     robot.mutable_pos()->set_y(randomFieldPos.y);
     robot.set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
@@ -108,7 +105,6 @@ proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldS
  * Generate a ball at a random position
  */
 proto::WorldBall WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
-
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
@@ -154,7 +150,7 @@ proto::WorldBall WorldHelper::generateBallAtLocation(const rtt::Vector2 &loc) {
  */
 google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRandomRobots(int amount, const proto::GeometryFieldSize &field) {
     google::protobuf::RepeatedPtrField<proto::WorldRobot> robots;
-    for (int i = 0; i<amount; i++) {
+    for (int i = 0; i < amount; i++) {
         auto randombot = generateRandomRobot(i, field);
         auto botmsg = robots.Add();
         botmsg->CopyFrom(randombot);
@@ -172,20 +168,18 @@ proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBal
     auto randomYellow = generateRandomRobots(amountUs, field);
     auto randomBlue = generateRandomRobots(amountThem, field);
 
-
-//            auto copy = [&](const gen_ProposedSegment *) {
-//                auto temp_seg = this->add_proposedsegments();
-//                temp_seg->CopyFrom(*gen_ProposedSegment);
-//            };
-//            std::for_each(proposedSegment.cbegin(), proposedSegment.cend(), copy);
-
+    //            auto copy = [&](const gen_ProposedSegment *) {
+    //                auto temp_seg = this->add_proposedsegments();
+    //                temp_seg->CopyFrom(*gen_ProposedSegment);
+    //            };
+    //            std::for_each(proposedSegment.cbegin(), proposedSegment.cend(), copy);
 
     do {
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
 
         if (withBall) msg.set_allocated_ball(&randomBall);
-    } while (! allPositionsAreValid(msg, true));
+    } while (!allPositionsAreValid(msg, true));
     return msg;
 }
 
@@ -215,7 +209,7 @@ std::pair<proto::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(int amoun
         validWorld = allPositionsAreValid(msg, false);
         rtt::ai::world::world->updateWorld(msg);
         if (rtt::ai::world::world->whichRobotHasBall() && rtt::ai::world::world->whichRobotHasBall()->id != robotWithBallId) {
-            wrongMsg ++;
+            wrongMsg++;
             validWorld = false;
         }
     }
@@ -227,4 +221,4 @@ std::pair<proto::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(int amoun
     return std::make_pair(msg, robotWithBallId);
 }
 
-} // testhelpers
+}  // namespace testhelpers

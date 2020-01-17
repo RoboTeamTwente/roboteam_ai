@@ -3,12 +3,10 @@
 //
 
 #include "interface/widgets/VisualizationSettingsWidget.h"
-#include "interface/widgets/mainWindow.h"
 #include "interface/api/Toggles.h"
+#include "interface/widgets/mainWindow.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer, QWidget * parent) {
     auto cbVLayout = new QVBoxLayout();
@@ -28,30 +26,28 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
         if (Toggles::toggles[i].showType == GENERAL) {
             select->addItem("Off");
             select->addItem("On");
-            std::vector<QString> colors = { "red", "green"};
+
+            std::vector<QString> colors = {"red", "green"};
             select->setCurrentIndex(Toggles::toggles[i].generalShowType);
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].generalShowType] + " }");
 
-            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
-                    [=](const int index) {
-                      Toggles::toggles[i].generalShowType = static_cast<GeneralShowType>(index);
-                      select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<GeneralShowType>(index)] + " }");
-                    });
-        }
-        else if (Toggles::toggles[i].showType == ROBOT) {
+            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated), [=](const int index) {
+                Toggles::toggles[i].generalShowType = static_cast<GeneralShowType>(index);
+                select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<GeneralShowType>(index)] + " }");
+            });
+        } else if (Toggles::toggles[i].showType == ROBOT) {
             select->addItem("No robots");
             select->addItem("Selected robots");
             select->addItem("All robots");
 
-            std::vector<QString> colors = { "red", "#888800", "green"};
+            std::vector<QString> colors = {"red", "#888800", "green"};
             select->setCurrentIndex(Toggles::toggles[i].robotShowType);
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].robotShowType] + " }");
 
-            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated),
-                    [=](const int index) {
-                      Toggles::toggles[i].robotShowType = static_cast<RobotShowType>(index);
-                      select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
-                    });
+            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated), [=](const int index) {
+                Toggles::toggles[i].robotShowType = static_cast<RobotShowType>(index);
+                select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
+            });
         }
 
 
@@ -64,11 +60,7 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
     this->setLayout(cbVLayout);
 }
 
-
-
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_VisualizationSettingsWidget.cpp"

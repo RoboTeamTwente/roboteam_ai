@@ -4,9 +4,7 @@
 
 #include "analysis/AnalysisReport.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 RobotDanger AnalysisReport::getRobotDangerForId(int id, bool ourTeam) {
     auto robotDangers = ourTeam ? ourRobotsSortedOnDanger : theirRobotSortedOnDanger;
@@ -21,6 +19,4 @@ RobotDanger AnalysisReport::getRobotDangerForId(int id, bool ourTeam) {
 
     return {};
 }
-} // analysis
-} // ai
-} // rtt
+}  // namespace rtt::ai::analysis

@@ -2,64 +2,67 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-
-#include <roboteam_utils/Timer.h>
-#include "utilities/Constants.h"
-#include <bt/Node.hpp>
 #include <ApplicationManager.h>
-#include <utilities/GameStateManager.hpp>
 #include <Settings/Settings.h>
-#include <interface/api/Input.h>
-#include <world/World.h>
+#include <analysis/GameAnalyzer.h>
 #include <coach/GetBallCoach.h>
+#include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
 #include <coach/defence/DefenceDealer.h>
-#include <analysis/GameAnalyzer.h>
-#include <coach/OffensiveCoach.h>
 #include <include/roboteam_ai/world/Field.h>
-
+#include <interface/api/Input.h>
+#include <roboteam_utils/Timer.h>
+#include <world/World.h>
+#include <bt/Node.hpp>
+#include <utilities/GameStateManager.hpp>
+#include "analysis/PlayChecker.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
+#include "utilities/Constants.h"
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 namespace rtt {
 
-
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
+    // create playcheck object here
+    playcheck = rtt::ai::analysis::PlayChecker();
 
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
-    t.loop([&]() {
+    t.loop(
+        [&]() {
+            // This function runs the behaviour trees
+            runOneLoopCycle();
 
-        // This function runs the behaviour trees
-        runOneLoopCycle();
+            amountOfCycles++;
 
-        amountOfCycles++;
+            // update the measured FPS, but limit this function call to only run 5 times/s at most
+            int fpsUpdateRate = 5;
+            t.limit(
+                [&]() {
+                    ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
+                    amountOfCycles = 0;
+                },
+                fpsUpdateRate);
 
-        // update the measured FPS, but limit this function call to only run 5 times/s at most
-        int fpsUpdateRate = 5;
-        t.limit([&]() {
-            ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
-            amountOfCycles = 0;
-        }, fpsUpdateRate);
-
-
-        // publish settings, but limit this function call to only run 1 times/s at most
-        t.limit([&]() {
-            io::io.publishSettings(SETTINGS.toMessage());
-        }, 1);
-
-    }, ai::Constants::TICK_RATE());
+            // publish settings, but limit this function call to only run 1 times/s at most
+            t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
+        },
+        ai::Constants::TICK_RATE());
 }
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
+
+        playcheck.update(rtt::ai::world::world, rtt::ai::world::field);
+
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -70,9 +73,9 @@ void ApplicationManager::runOneLoopCycle() {
     }
     weHaveRobots = ai::world::world->weHaveRobots();
     /*
-    * This is a hack performed at the robocup.
-    * It does a soft refresh when robots are not properly claimed by robotdealer.
-    */
+     * This is a hack performed at the robocup.
+     * It does a soft refresh when robots are not properly claimed by robotdealer.
+     */
     checkForFreeRobots();
 }
 
@@ -115,7 +118,7 @@ void ApplicationManager::runKeeperTree() {
 Status ApplicationManager::runStrategyTree() {
     if (BTFactory::getCurrentTree() == "NaN") {
         std::cout << "NaN tree probably Halting" << std::endl;
-          return Status::Waiting;
+        return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
     Status status = strategy->tick(ai::world::world, ai::world::field);
@@ -124,7 +127,7 @@ Status ApplicationManager::runStrategyTree() {
 
 /// Update the coaches information
 void ApplicationManager::updateCoaches() const {
-    auto coachesCalculationTime = roboteam_utils::Timer::measure([&](){
+    auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
         ai::coach::getBallCoach->update();
         ai::coach::g_DefenceDealer.updateDefenderLocations();
         ai::coach::g_offensiveCoach.updateOffensivePositions();
@@ -156,19 +159,20 @@ void ApplicationManager::checkForFreeRobots() {
 /// handle the status of a tree, and traverse to normal play when a tree either succeeds or fails.
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
-    case Status::Running:break;
-    case Status::Success:
-        std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
-        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
-        break;
-    case Status::Failure:
-        std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
-        ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
-      break;
-    case Status::Waiting:
-        std::cout << " === Status returned: Waiting === " << std::endl;
-        break;
+        case Status::Running:
+            break;
+        case Status::Success:
+            std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+            break;
+        case Status::Failure:
+            std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+            break;
+        case Status::Waiting:
+            std::cout << " === Status returned: Waiting === " << std::endl;
+            break;
     }
 }
 
-} // rtt
+}  // namespace rtt

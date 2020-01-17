@@ -6,11 +6,9 @@
 #include "skills/gotopos/GTPWithBall.h"
 #include <coach/BallplacementCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-GTPWithBall::GTPWithBall(string name, bt::Blackboard::Ptr blackboard)
-        : Skill(std::move(name), std::move(blackboard)) { }
+GTPWithBall::GTPWithBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void GTPWithBall::onInitialize() {
     targetType = stringToTargetType(properties->getString("type"));
@@ -32,26 +30,23 @@ void GTPWithBall::onTerminate(Skill::Status s) {
     publishRobotCommand();
 }
 
-GTPWithBall::TargetType GTPWithBall::stringToTargetType(const std::string &string) {
-    return ballPlacement;
-}
+GTPWithBall::TargetType GTPWithBall::stringToTargetType(const std::string &string) { return ballPlacement; }
 
 void GTPWithBall::updateTarget() {
     switch (targetType) {
-    default:return;
-    case ballPlacement: {
-        targetPos = coach::g_ballPlacement.getBallPlacementPos();
-        Vector2 delta = (targetPos - ball->getPos());
-        if (fabs(robot->angle - delta.toAngle()) < M_PI_2) {
-            targetAngle = delta;
+        default:
+            return;
+        case ballPlacement: {
+            targetPos = coach::g_ballPlacement.getBallPlacementPos();
+            Vector2 delta = (targetPos - ball->getPos());
+            if (fabs(robot->angle - delta.toAngle()) < M_PI_2) {
+                targetAngle = delta;
+            } else {
+                targetAngle = delta + M_PI;
+            }
+            return;
         }
-        else {
-            targetAngle = delta + M_PI;
-        }
-        return;
-    }
     }
 }
 
-}
-}
+}  // namespace rtt::ai

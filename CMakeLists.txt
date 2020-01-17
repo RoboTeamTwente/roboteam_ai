@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
-set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(CMAKE_CXX_FLAGS_DEBUG "-std=c++17 ${CMAKE_CXX_FLAGS} -g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "-std=c++17 ${CMAKE_CXX_FLAGS} -Werror -g -O0")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
 
+set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
 include(FindSDL2)
@@ -17,12 +17,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC OFF)
 find_package(SDL2 REQUIRED sdl2)
 
-if(SDL2_FOUND)
-    message("sdl2 found!")
-endif()
-
 if (NOT SDL2_FOUND)
-    message("sdl2 not found!")
+    message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
 endif()
 
 # for MacOS X or iOS, watchOS, tvOS (since 3.10.3)
@@ -50,7 +46,9 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/BTFactory.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PropertiesParser.cpp
-        ${PROJECT_SOURCE_DIR}/src/Switches.cpp)
+        ${PROJECT_SOURCE_DIR}/src/Switches.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
+        )
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
@@ -75,14 +73,27 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/TreeHelper/BeingPassedToHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/TreeHelper/RobotOutOfFieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
         )
 
 set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/GameAnalyzer.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp )
+        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Play.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/PlayDecider.cpp
 
+        )
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
 
 set(IO_SOURCES
@@ -100,8 +111,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
 
 set(MANUAL_SOURCES
-        src/manual/JoystickManager.cpp
-        src/manual/JoystickHandler.cpp
+        ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/manual/JoystickHandler.cpp
         )
 
 set(SKILLS_SOURCES
@@ -233,23 +244,21 @@ set(TEST_SOURCES
 
 #        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
 
-        #
-
 
 #        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/InterfaceTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainWindowTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/TreeVisualizerTest.cpp
 
 
-#        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
-#        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
-#        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PositionUtilsTest.cpp
 
 
 
-        #${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
 #
@@ -275,7 +284,8 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        include/roboteam_ai/manual/JoystickState.h)
+        )
+
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -292,6 +302,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/GraphWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
 
         # QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
@@ -304,7 +315,8 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
-        src/interface/widgets/ManualControlWidget.cpp include/roboteam_ai/interface/widgets/ManualControlWidget.h)
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
+        )
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
@@ -360,7 +372,8 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
-        PRIVATE ${SDL2_LIBRARY})
+        PRIVATE ${SDL2_LIBRARY}
+        )
 
 
 target_include_directories(roboteam_ai
@@ -405,7 +418,6 @@ if(APPLE)
 endif()
 
 if(UNIX AND NOT APPLE)
-
   target_link_libraries(ai_tests
         PRIVATE roboteam_utils
         PRIVATE Qt5::Widgets

@@ -35,9 +35,9 @@ class JoystickManager {
   static std::mutex runningLock;
   static std::mutex activeLock;
   // Indicates whether the loop should stop
-  bool running = true;
+  bool running = false;
   // Indicates whether packets should be handled and joystickHandlers ticked
-  bool active = true;
+  bool active = false;
 
   bool init();
   void loop();

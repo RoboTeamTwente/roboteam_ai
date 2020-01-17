@@ -8,8 +8,7 @@
 
 using namespace std::chrono;
 
-namespace rtt {
-namespace input {
+namespace rtt::input {
 
 // TODO Check if these can be non-static
 std::mutex JoystickManager::runningLock;
@@ -32,7 +31,6 @@ bool JoystickManager::run() {
     running = true;
     runningLock.unlock();
 
-    activate();
     loop();
     return true;
 }
@@ -180,5 +178,4 @@ void JoystickManager::handleJoystickRemoved(const SDL_Event& event){
     std::cout << "[JoystickManager][handleJoystickAdded] Removed joystick with InstanceID " << event.jdevice.which << std::endl;
 }
 
-} // namespace input
-} // namespace rtt
+} // namespace rtt::input

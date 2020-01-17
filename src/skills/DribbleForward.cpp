@@ -2,14 +2,12 @@
 // Created by robzelluf on 5/13/19.
 //
 
-#include <world/Field.h>
 #include "skills/DribbleForward.h"
+#include <world/Field.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard)
-        : Skill(std::move(name), std::move(blackboard)) {}
+DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleForward::onInitialize() {
     initialBallPos = ball->getPos();
@@ -19,13 +17,11 @@ void DribbleForward::onInitialize() {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (field->get_their_goal_center() - ball->getPos()).toAngle();
+    Angle angleToGoal = (field->get_field().get(THEIR_GOAL_CENTER) - ball->getPos()).toAngle();
     targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 
-
 bt::Node::Status DribbleForward::onUpdate() {
-
     auto c = ballHandlePosControl.getRobotCommand(world, field, robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
 
     if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
@@ -38,5 +34,4 @@ bt::Node::Status DribbleForward::onUpdate() {
     return Status::Running;
 }
 
-} //ai
-} //rtt
+}  // namespace rtt::ai

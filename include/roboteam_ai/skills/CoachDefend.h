@@ -5,22 +5,21 @@
 #ifndef ROBOTEAM_AI_COACHDEFEND_H
 #define ROBOTEAM_AI_COACHDEFEND_H
 
-#include <control/numTrees/NumTreePosControl.h>
 #include <control/BasicPosControl.h>
+#include <control/numTrees/NumTreePosControl.h>
 #include "Skill.h"
 #include "control/numTrees/NumTreePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class CoachDefend : public Skill {
-    private:
-        bool useBasicGtp(Vector2 targetLocation);
-    public:
-        explicit CoachDefend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        void onInitialize() override;
-        bt::Node::Status onUpdate() override;
-};
-}
-}
+   private:
+    bool useBasicGtp(Vector2 targetLocation);
 
-#endif //ROBOTEAM_AI_COACHDEFEND_H
+   public:
+    explicit CoachDefend(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    void onInitialize() override;
+    bt::Node::Status onUpdate() override;
+};
+}  // namespace rtt::ai
+
+#endif  // ROBOTEAM_AI_COACHDEFEND_H

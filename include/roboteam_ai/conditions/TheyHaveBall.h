@@ -3,16 +3,14 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class TheyHaveBall : public Condition {
-public:
+   public:
     explicit TheyHaveBall(std::string name = "TheyHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
     Status onUpdate() override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_THEYHAVEBALL_H
+#endif  // ROBOTEAM_AI_THEYHAVEBALL_H

@@ -3,23 +3,21 @@
 //
 
 #include "interface/widgets/mainWindow.h"
-#include "utilities/Constants.h"
-#include <treeinterp/BTFactory.h>
-#include "interface/api/Output.h"
-#include "interface/widgets/RobotsWidget.h"
-#include "interface/widgets/PidsWidget.h"
-#include "interface/widgets/MainControlsWidget.h"
-#include "interface/widgets/VisualizationSettingsWidget.h"
-#include "interface/widgets/ManualControlWidget.h"
-#include <QSplitter>
-#include <interface/widgets/SettingsWidget.h>
-#include <QtWidgets/QMenuBar>
 #include <interface/api/Input.h>
 #include <interface/widgets/GraphWidget.h>
+#include <interface/widgets/SettingsWidget.h>
+#include <treeinterp/BTFactory.h>
+#include <QSplitter>
+#include <QtWidgets/QMenuBar>
+#include "interface/api/Output.h"
+#include "interface/widgets/MainControlsWidget.h"
+#include "interface/widgets/ManualControlWidget.h"
+#include "interface/widgets/PidsWidget.h"
+#include "interface/widgets/RobotsWidget.h"
+#include "interface/widgets/VisualizationSettingsWidget.h"
+#include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setMinimumWidth(800);
@@ -95,7 +93,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
-    auto manualWidget = new ManualControlWidget(this);
+    manualControlWidget = new ManualControlWidget(this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -115,13 +113,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
-    tabWidget->addTab(manualWidget, tr("Manual"));
+    tabWidget->addTab(manualControlWidget, tr("Manual"));
 
     vLayout->addWidget(tabWidget);
 
     // set up the general layout structure
     // visualizer on the left, sidebar (with maincontrols and tabs) on the right.
-    auto splitter = new QSplitter(); // the splitter is an horizontal view that allows to be changed by the user
+    auto splitter = new QSplitter();  // the splitter is an horizontal view that allows to be changed by the user
     splitter->addWidget(visualizer);
     auto sideBarWidget = new QWidget;
     sideBarWidget->setLayout(vLayout);
@@ -138,7 +136,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     // update mainwindow and field visualization
     auto* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(40); // 25fps
+    timer->start(40);  // 25fps
 
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
@@ -226,10 +224,7 @@ void MainWindow::refreshJSONSignal() {
     robotDealer::RobotDealer::refresh();
 }
 
-
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_mainWindow.cpp"

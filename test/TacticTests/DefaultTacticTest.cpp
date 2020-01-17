@@ -11,10 +11,10 @@
 //#include <roboteam_ai/test/helpers/WorldHelper.h>
 //#include <analysis/GameAnalyzer.h>
 //
-//namespace w = rtt::ai::world;
-//namespace rd = rtt::ai::robotDealer;
+// namespace w = rtt::ai::world;
+// namespace rd = rtt::ai::robotDealer;
 //
-//namespace bt {
+// namespace bt {
 ////
 ////TEST(DefaultTacticTest, default_general_tactic_works) {
 ////    roboteam_msgs::GeometryFieldSize field;

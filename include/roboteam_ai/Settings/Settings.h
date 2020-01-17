@@ -10,8 +10,7 @@
 namespace rtt {
 
 class Settings {
-
-private:
+   private:
     int id = 0;
     bool yellow;
     bool left;
@@ -20,7 +19,8 @@ private:
     std::string visionIp;
     int visionPort;
     std::string refereeIp;
-public:
+
+   public:
     int getId() const;
 
     void setId(int id);
@@ -61,16 +61,16 @@ public:
 
     void setRobothubSendPort(int robothubSendPort);
 
-private:
+   private:
     int refereePort;
     std::string robothubSendIp;
     int robothubSendPort;
 
-public:
+   public:
     void init(int id);
     proto::Setting toMessage();
 };
 
 extern Settings SETTINGS;
-}
-#endif //RTT_SETTINGS_H
+}  // namespace rtt
+#endif  // RTT_SETTINGS_H

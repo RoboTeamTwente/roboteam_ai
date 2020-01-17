@@ -1,40 +1,41 @@
 #pragma once
 
-#include "Node.hpp"
 #include "Blackboard.hpp"
+#include "Node.hpp"
 #include "mutex"
 
 namespace bt {
 
 class BehaviorTree : public Node {
-        FRIEND_TEST(BehaviorTreeTest, it_sets_blackboards);
-    public:
+    FRIEND_TEST(BehaviorTreeTest, it_sets_blackboards);
 
-        using Ptr = std::shared_ptr<BehaviorTree>;
+   public:
+    std::string name;
+    using Ptr = std::shared_ptr<BehaviorTree>;
 
-        BehaviorTree();
+    BehaviorTree();
 
-        explicit BehaviorTree(const Node::Ptr &rootNode);
+    BehaviorTree(std::string name);
 
-        explicit BehaviorTree(const Blackboard::Ptr &shared);
+    explicit BehaviorTree(const Node::Ptr &rootNode);
 
-        std::string node_name() override;
+    explicit BehaviorTree(const Blackboard::Ptr &shared);
 
-        Status update() override;
+    std::string node_name() override;
 
-        void terminate(Status s) override;
+    Status update() override;
 
-        void SetRoot(const Node::Ptr &node);
+    void terminate(Status s) override;
 
-        Node::Ptr GetRoot();
+    void SetRoot(const Node::Ptr &node);
 
-        void SetGlobalBlackboard(const Blackboard::Ptr &globalBB);
+    Node::Ptr GetRoot();
 
-    private:
+    void SetGlobalBlackboard(const Blackboard::Ptr &globalBB);
 
-        Node::Ptr root = nullptr;
-        Blackboard::Ptr globalBB = nullptr;
-
+   private:
+    Node::Ptr root = nullptr;
+    Blackboard::Ptr globalBB = nullptr;
 };
 
-} // bt
+}  // namespace bt

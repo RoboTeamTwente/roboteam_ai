@@ -2,20 +2,26 @@
 
 namespace bt {
 
-void Composite::addChild(Node::Ptr child) {
-    children.push_back(child);
+Composite::Composite(std::vector<std::shared_ptr<bt::Node>> children) {
+    for (int i = 0; i < children.size(); i++) {
+        this->addChild(children[i]);
+    }
 }
+Composite::Composite() {}
 
-bool Composite::HasNoChildren() const {
-    return children.empty();
-}
+/**
+ * The order of the addchild() function is important, nodes that are added earlier will be ticked first.
+ * @param child
+ */
+void Composite::addChild(Node::Ptr child) { children.push_back(child); }
+
+bool Composite::HasNoChildren() const { return children.empty(); }
 
 void Composite::terminate(Status s) {
-
     for (auto child : children) {
-       // if (child->getStatus() == Status::Running) {
+        // if (child->getStatus() == Status::Running) {
         child->terminate(child->getStatus());
-       //   }
+        //   }
     }
 
     if (s == Status::Running) {
@@ -23,8 +29,6 @@ void Composite::terminate(Status s) {
     }
 }
 
-std::vector<Node::Ptr> Composite::getChildren() {
-    return children;
-}
+std::vector<Node::Ptr> Composite::getChildren() { return children; }
 
-} // bt
+}  // namespace bt

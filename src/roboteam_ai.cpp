@@ -1,15 +1,14 @@
+#include <Settings/Settings.h>
+#include <utilities/Constants.h>
 #include <QApplication>
 #include <QStyleFactory>
-#include <utilities/Constants.h>
-#include <Settings/Settings.h>
 
-#include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
+#include "interface/widgets/mainWindow.h"
 #include "manual/JoystickManager.h"
+
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
-
-
 
 void runBehaviourTrees() {
     rtt::ApplicationManager app;
@@ -46,7 +45,6 @@ int main(int argc, char* argv[]) {
         id = *argv[1] - '0';
     }
 
-//    std::thread thread_object(startJoystickInput, params);
 
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
@@ -72,9 +70,6 @@ int main(int argc, char* argv[]) {
 
     rtt::ai::io::io.init();
 
-    rtt::input::JoystickManager manager(&rtt::ai::io::io);
-
-
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());
 
@@ -90,5 +85,3 @@ int main(int argc, char* argv[]) {
 
     return a.exec();
 }
-
-

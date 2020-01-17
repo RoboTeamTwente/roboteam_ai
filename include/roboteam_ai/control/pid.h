@@ -7,8 +7,8 @@
 
 #include <tuple>
 
-class PID{
-public:
+class PID {
+   public:
     PID(double, double, double);
     PID(double, double, double, double);
     PID(std::tuple<double, double, double>);
@@ -20,12 +20,12 @@ public:
     void setF(double);
     void setPID(double, double, double);
     void setPID(std::tuple<double, double, double>);
-        void setPID(std::tuple<double, double, double>, double);
+    void setPID(std::tuple<double, double, double>, double);
 
-        void setPID(double, double, double, double);
+    void setPID(double, double, double, double);
     void setMaxIOutput(double);
     void setOutputLimits(double);
-    void setOutputLimits(double,double);
+    void setOutputLimits(double, double);
     void setDirection(bool);
     void setSetpoint(double);
     void reset();
@@ -36,7 +36,7 @@ public:
     double getOutput(double);
     double getOutput(double, double);
 
-private:
+   private:
     double clamp(double, double, double);
     bool bounded(double, double, double);
     void checkSigns();
@@ -68,4 +68,4 @@ private:
     double setpointRange;
 };
 
-#endif //ROBOTEAM_AI_PID_H
+#endif  // ROBOTEAM_AI_PID_H

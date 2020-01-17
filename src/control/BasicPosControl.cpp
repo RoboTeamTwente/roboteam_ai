@@ -2,26 +2,19 @@
 // Created by mrlukasbos on 27-3-19.
 //
 
-#include "interface/api/Output.h"
-#include "interface/api/Input.h"
 #include "control/BasicPosControl.h"
-#include "world/Robot.h"
-#include "world/Field.h"
 #include "control/ControlUtils.h"
+#include "interface/api/Input.h"
+#include "interface/api/Output.h"
+#include "world/Field.h"
+#include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
-BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea) : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {}
 
-}
-
-RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field * field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
-
-    interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
-            interface::Drawing::CIRCLES, 8, 8, 6);
+RobotCommand BasicPosControl::getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) {
+    interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id, interface::Drawing::CIRCLES, 8, 8, 6);
 
     Vector2 target = targetPos;
     if (!getCanMoveOutOfField(robot->id)) {
@@ -50,11 +43,9 @@ void BasicPosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand BasicPosControl::getRobotCommand(world::World * world, world::Field * field, const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+RobotCommand BasicPosControl::getRobotCommand(world::World *world, world::Field *field, const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     Angle defaultAngle = 0;
     return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }
 
-} // control
-} // ai
-} // rtt
+}  // namespace rtt::ai::control

@@ -8,8 +8,10 @@ namespace bt {
 
 void Repeater::initialize() {
     counter = 0;
-    if (properties->hasInt("limit")) limit = properties->getInt("limit");
-    else limit = 0;
+    if (properties->hasInt("limit"))
+        limit = properties->getInt("limit");
+    else
+        limit = 0;
 }
 
 Node::Status Repeater::update() {
@@ -20,4 +22,4 @@ Node::Status Repeater::update() {
     return Status::Success;
 }
 
-} // bt
+}  // namespace bt

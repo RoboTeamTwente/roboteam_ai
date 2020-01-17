@@ -4,9 +4,7 @@
 
 #include <interface/widgets/PidBox.h>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 PidBox::PidBox(const QString &title, QWidget *parent) : QGroupBox(title, parent) {
     spinBoxLayout = new QHBoxLayout();
@@ -32,9 +30,7 @@ PidBox::PidBox(const QString &title, QWidget *parent) : QGroupBox(title, parent)
     this->setLayout(spinBoxLayout);
 }
 
-const pidVals &PidBox::getPid() const {
-    return pid;
-}
+const pidVals &PidBox::getPid() const { return pid; }
 
 // update the checkbox values
 void PidBox::setPid(const pidVals &pid) {
@@ -53,10 +49,7 @@ void PidBox::updatePID() {
     }
 }
 
-
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_PidBox.cpp"

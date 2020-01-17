@@ -2,9 +2,9 @@
 // Created by robzelluf on 4/4/19.
 //
 
-#include <gtest/gtest.h>
 #include <coach/OffensiveCoach.h>
 #include <control/ControlUtils.h>
+#include <gtest/gtest.h>
 #include "../helpers/FieldHelper.h"
 #include "../helpers/WorldHelper.h"
 
@@ -19,12 +19,12 @@ TEST(CoachTest, offensive_coach_test) {
     std::vector<Vector2> newOffensivePositions;
 
     // Calculate the next offensive positions 100 times
-    for(int i = 0; i < 500; i++) {
+    for (int i = 0; i < 500; i++) {
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
     }
     newOffensivePositions = rtt::ai::coach::g_offensiveCoach.getOffensivePositions(4);
 
-    for(unsigned int i = 0; i < newOffensivePositions.size(); i++) {
+    for (unsigned int i = 0; i < newOffensivePositions.size(); i++) {
         ASSERT_NE(offensivePositions.at(i), newOffensivePositions.at(i));
     }
 
@@ -33,13 +33,12 @@ TEST(CoachTest, offensive_coach_test) {
     std::vector<Vector2> evenNewerOffensivePositions;
 
     // Calculate the next offensive positions 100 times
-    for(int i = 0; i < 500; i++) {
+    for (int i = 0; i < 500; i++) {
         rtt::ai::coach::g_offensiveCoach.updateOffensivePositions();
     }
     evenNewerOffensivePositions = rtt::ai::coach::g_offensiveCoach.getOffensivePositions(4);
 
-    for(unsigned int i = 0; i < newOffensivePositions.size(); i++) {
+    for (unsigned int i = 0; i < newOffensivePositions.size(); i++) {
         ASSERT_NE(evenNewerOffensivePositions.at(i), newOffensivePositions.at(i));
     }
-
 }
