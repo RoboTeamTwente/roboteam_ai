@@ -16,6 +16,7 @@ namespace rtt::world_new::robot {
     class RobotControllers {
         /**
          * These are self-explanatory, for more information about them check their actual classes
+         * Taking ownership of any of these unique_ptr's will result in undefined behavior
          */
         std::unique_ptr<ai::control::ShotController> shotController{};
         std::unique_ptr<ai::control::NumTreePosControl> numTreePosControl{};
