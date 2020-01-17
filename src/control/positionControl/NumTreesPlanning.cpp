@@ -121,7 +121,7 @@ std::list<Vector2> NumTreesPlanning::tracePath(const rtt::Vector2 &currentPositi
     if (rtt::ai::interface::Output::showDebugNumTreeInfo()) {
         std::cout << "ROBOT " << ": reached end of while loop, no path found" << std::endl;
     }
-    path = {};
+    return {};
 }
 
 /// calculate the remaining pathlength using straigth lines from current position to a posititon halfway and from
