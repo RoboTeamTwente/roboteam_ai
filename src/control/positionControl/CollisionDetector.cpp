@@ -10,7 +10,17 @@ CollisionDetector::CollisionDetector(world::World& world, world::Field& field):
 world(world), field(field){}
 
 bool CollisionDetector::canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint){
-    return isRobotCollisionBetweenPoints(initialPoint, nextPoint);
+    return isRobotCollisionBetweenPoints(initialPoint, nextPoint) ||
+            isPointInsideField(nextPoint) ||
+            !isPointInDefenseArea(nextPoint);
+}
+
+bool CollisionDetector::isPointInsideField(const Vector2 &point){
+    return field.pointIsInField(point, Constants::ROBOT_RADIUS());
+}
+
+bool CollisionDetector::isPointInDefenseArea(const Vector2 &point){
+    return field.pointIsInDefenceArea(point, true) || field.pointIsInDefenceArea(point, false);
 }
 
 bool CollisionDetector::isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint){

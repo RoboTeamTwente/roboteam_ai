@@ -32,6 +32,10 @@ public:
      */
     bool isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
 
+    bool isPointInsideField(const Vector2 &point);
+
+    bool isPointInDefenseArea(const Vector2 &point);
+
     std::vector<Vector2 *> getRobotPositions();
 };
 
