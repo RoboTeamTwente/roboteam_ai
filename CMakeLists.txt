@@ -214,7 +214,8 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp
-         )
+        src/control/BBTrajectories/BBTrajectory2D.cpp
+        include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h)
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
@@ -276,7 +277,7 @@ set(TEST_SOURCES
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
         test/ControlTests/BBTrajectoryTests/BBTrajectoryTest.cpp
-        )
+        test/ControlTests/BBTrajectoryTests/BBTrajectory2DTest.cpp)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
