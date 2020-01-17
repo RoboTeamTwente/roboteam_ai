@@ -4,14 +4,16 @@
 
 #include "control/BBTrajectories/BBTrajectory1D.h"
 #include <cmath>
+#include <iostream>
+#include <chrono>
 template<class num>
-num BBTrajectory1D<num>::fullBrakePos(num pos, num vel, num accMax) noexcept{
+num BBTrajectory1D<num>::fullBrakePos(num pos, num vel, num accMax) noexcept {
     num acc = vel <= 0 ? accMax : - accMax;
     num t = - vel/acc; // (inverted) time needed to break to zero velocity
     return pos + 0.5*vel*t; // position after breaking
 }
 template<class num>
-num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num accMax) noexcept{
+num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num accMax) noexcept {
     num acc1;
     num acc2;
     if (vel1 >= vel0) {
@@ -30,7 +32,9 @@ num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num ac
 }
 template<class num>
 void
-BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc, bool invertedSign) noexcept{
+BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc,
+        bool invertedSign) noexcept {
+    std::chrono::nanoseconds start = std::chrono::system_clock::now().time_since_epoch();
     num brakeTime;
     num topVel;
     num switchTime;
@@ -67,16 +71,19 @@ BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num final
     updatePart(0, switchTime, acc, initialVel, initialPos);
     updatePart(1, switchTime + brakeTime, - acc, topVel, switchPos);
     numParts = 2;
+    std::chrono::nanoseconds end = std::chrono::system_clock::now().time_since_epoch();
+    std::cout << (end - start).count() << std::endl;
 }
 template<class num>
-void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept{
+void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept {
     parts[index].acc = acc;
     parts[index].startPos = pos;
     parts[index].startVel = vel;
     parts[index].tEnd = tEnd;
 }
 template<class num>
-void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num maxVel, num finalPos, num maxAcc) noexcept{
+void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num maxVel, num finalPos,
+        num maxAcc) noexcept {
     num acc1;
     num acc3;
 
@@ -107,7 +114,8 @@ void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num
 
 }
 template<class num>
-void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept {
+void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel,
+        num maxAcc) noexcept {
     num brakePos = fullBrakePos(initialPos, initialVel, maxAcc);
     if (brakePos <= finalPos) {
         //Check if we need triangular profile or trapezoidal:
@@ -147,7 +155,7 @@ PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) noexcept {
     part piece = parts[0];
     if (trajTime >= getTotalTime()) {
         //The time is not on the trajectory so we just return the last known element
-        return PosVelAcc<num>(finalPos,0,0) ;//can also be computed from parts if necessary
+        return PosVelAcc<num>(finalPos, 0, 0);//can also be computed from parts if necessary
     }
     //we step through the parts and try to find the relevant part on which the time is.
     num tPieceStart = 0;
@@ -165,6 +173,6 @@ PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) noexcept {
             piece.acc);
 }
 template<class num>
-num BBTrajectory1D<num>::getTotalTime() noexcept{
+num BBTrajectory1D<num>::getTotalTime() noexcept {
     return parts[numParts - 1].tEnd;
 }
