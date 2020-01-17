@@ -44,7 +44,6 @@ BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num final
     updatePart(0, switchTime, acc, initialVel, initialPos);
     updatePart(1, switchTime + brakeTime, - acc, topVel, switchPos);
     numParts = 2;
-
 }
 template<class num>
 void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept {
@@ -109,16 +108,15 @@ void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num
             trapezoidalProfile(initialPos, initialVel, - maxVel, finalPos, maxAcc);
         }
     }
-
 }
 template<class num>
 BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept
         :
-        initialPos{initialPos},
-        initialVel{initialVel},
-        finalPos{finalPos},
-        maxAcc{maxAcc},
-        maxVel{maxVel} {
+        m_initialPos{initialPos},
+        m_initialVel{initialVel},
+        m_finalPos{finalPos},
+        m_maxAcc{maxAcc},
+        m_maxVel{maxVel} {
     generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
 template<class num>
@@ -127,7 +125,7 @@ PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) noexcept {
     part piece = parts[0];
     if (trajTime >= getTotalTime()) {
         //The time is not on the trajectory so we just return the last known element
-        return PosVelAcc<num>(finalPos, 0, 0);//can also be computed from parts if necessary
+        return PosVelAcc<num>(m_finalPos, 0, 0);//can also be computed from parts if necessary
     }
     //we step through the parts and try to find the relevant part on which the time is.
     num tPieceStart = 0;

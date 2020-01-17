@@ -109,11 +109,11 @@ class BBTrajectory1D {
         unsigned short int numParts{};
         //TODO: if in the future one of these fields is uncalled (particularly initialVel, intialPos are redundant) they can be removed.
         //The memory overhead for now seems minimal
-        num initialPos; // m
-        num finalPos; // m
-        num initialVel; // m/s
-        num maxAcc; // m/s^2
-        num maxVel; // m/s
+        num m_initialPos; // m
+        num m_finalPos; // m
+        num m_initialVel; // m/s
+        num m_maxAcc; // m/s^2
+        num m_maxVel; // m/s
 
 };
 #include "src/control/BBTrajectories/BBTrajectory1D.tpp"
