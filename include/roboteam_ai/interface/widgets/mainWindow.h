@@ -17,6 +17,7 @@
 #include <iostream>
 #include <memory>
 #include "GraphWidget.h"
+#include "ManualControlWidget.h"
 #include "PidBox.h"
 #include "QColor"
 #include "QHBoxLayout"
@@ -26,7 +27,6 @@
 #include "RuleSetWidget.h"
 #include "TreeVisualizerWidget.h"
 #include "widget.h"
-#include "ManualControlWidget.h"
 
 namespace rtt::ai::interface {
 

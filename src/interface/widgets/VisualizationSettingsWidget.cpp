@@ -8,7 +8,7 @@
 
 namespace rtt::ai::interface {
 
-VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer, QWidget * parent) {
+VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer* visualizer, QWidget* parent) {
     auto cbVLayout = new QVBoxLayout();
 
     for (int i = 0; i < Toggles::toggles.size(); i++) {
@@ -49,7 +49,6 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer * visualizer
                 select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
             });
         }
-
 
         customToggle->setLayout(hbox);
         cbVLayout->addWidget(customToggle);

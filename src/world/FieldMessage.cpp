@@ -84,7 +84,7 @@ double FieldMessage::get(FieldValueName valueName) const {
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
-//        std::cout << "Access undefined field value in the FieldMessage class." << std::endl;
+        //        std::cout << "Access undefined field value in the FieldMessage class." << std::endl;
         return 0.0;
     }
 }
@@ -95,7 +95,7 @@ FieldLineSegment FieldMessage::get(FieldLineName lineName) const {
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-//        std::cout << "Access undefined field line in the FieldMessage class." << std::endl;
+        //        std::cout << "Access undefined field line in the FieldMessage class." << std::endl;
         return {};
     }
 }
@@ -106,7 +106,7 @@ FieldArc FieldMessage::get(FieldArcName arcName) const {
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-//        std::cout << "Access undefined field arc in the FieldMessage class." << std::endl;
+        //        std::cout << "Access undefined field arc in the FieldMessage class." << std::endl;
         return {};
     }
 }
@@ -117,7 +117,7 @@ Vector2 FieldMessage::get(FieldVectorName vectorName) const {
     } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-//        std::cout << "Access undefined field vector in the FieldMessage class." << std::endl;
+        //        std::cout << "Access undefined field vector in the FieldMessage class." << std::endl;
         return {};
     }
 }
