@@ -99,7 +99,9 @@ namespace rtt::world_new::ball {
         void updateExpectedBallEndPosition() noexcept;
 
         /**
-         * Draws expectedEndPosition and draws to inteface
+         * Updates expectedEndPosition and draws to interface
+         * If ball not visible -> get last position if robot can confirm
+         * Also updates which robot has the ball and the location
          */
         void updateBallAtRobotPosition() noexcept;
 
