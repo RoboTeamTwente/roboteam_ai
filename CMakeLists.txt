@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O3")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O3")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O2")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -Ofast")
 
 set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
@@ -214,7 +214,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp
-        src/control/BBTrajectories/BBTrajectory2D.cpp
         include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h)
 
 set(TEST_SOURCES

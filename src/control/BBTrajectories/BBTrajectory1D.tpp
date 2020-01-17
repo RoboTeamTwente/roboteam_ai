@@ -5,13 +5,13 @@
 #include "control/BBTrajectories/BBTrajectory1D.h"
 #include <cmath>
 template<class num>
-num BBTrajectory1D<num>::fullBrakePos(num pos, num vel, num accMax) {
+num BBTrajectory1D<num>::fullBrakePos(num pos, num vel, num accMax) noexcept{
     num acc = vel <= 0 ? accMax : - accMax;
     num t = - vel/acc; // (inverted) time needed to break to zero velocity
     return pos + 0.5*vel*t; // position after breaking
 }
 template<class num>
-num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num accMax) {
+num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num accMax) noexcept{
     num acc1;
     num acc2;
     if (vel1 >= vel0) {
@@ -30,7 +30,7 @@ num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num ac
 }
 template<class num>
 void
-BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc, bool invertedSign) {
+BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc, bool invertedSign) noexcept{
     num brakeTime;
     num topVel;
     num switchTime;
@@ -69,14 +69,14 @@ BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num final
     numParts = 2;
 }
 template<class num>
-void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) {
+void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept{
     parts[index].acc = acc;
     parts[index].startPos = pos;
     parts[index].startVel = vel;
     parts[index].tEnd = tEnd;
 }
 template<class num>
-void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num maxVel, num finalPos, num maxAcc) {
+void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num maxVel, num finalPos, num maxAcc) noexcept{
     num acc1;
     num acc3;
 
@@ -107,7 +107,7 @@ void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num
 
 }
 template<class num>
-void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) {
+void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept {
     num brakePos = fullBrakePos(initialPos, initialVel, maxAcc);
     if (brakePos <= finalPos) {
         //Check if we need triangular profile or trapezoidal:
@@ -132,7 +132,7 @@ void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num
 
 }
 template<class num>
-BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num finalPos, num initialVel, num maxAcc, num maxVel)
+BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num finalPos, num initialVel, num maxAcc, num maxVel) noexcept
         :
         initialPos{initialPos},
         initialVel{initialVel},
@@ -142,7 +142,7 @@ BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num finalPos, num initialVel
     generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
 template<class num>
-PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) {
+PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) noexcept {
     num trajTime = fmax(0, t);
     part piece = parts[0];
     if (trajTime >= getTotalTime()) {
@@ -165,6 +165,6 @@ PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) {
             piece.acc);
 }
 template<class num>
-num BBTrajectory1D<num>::getTotalTime() {
+num BBTrajectory1D<num>::getTotalTime() noexcept{
     return parts[numParts - 1].tEnd;
 }

@@ -4,39 +4,43 @@
 
 #include "include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h"
 namespace rtt {
-BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
-        float maxVel, float maxAcc, float alpha) {
+template<class num>
+BBTrajectory2D<num>::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
+        num maxVel, num maxAcc, num alpha) noexcept {
     generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc, alpha);
 }
-BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
-        float maxVel, float maxAcc) {
-    generateSyncedTrajectory(initialPos,initialVel,finalPos,maxVel,maxAcc);
+template<class num>
+BBTrajectory2D<num>::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
+        num maxVel, num maxAcc) noexcept {
+    generateSyncedTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
-void BBTrajectory2D::generateTrajectory(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
-        float maxVel,
-        float maxAcc, float alpha) {
+template<class num> void BBTrajectory2D<num>::generateTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,
+        const Vector2 &finalPos,
+        num maxVel, num maxAcc, num alpha) noexcept {
     x.generateTrajectory(initialPos.x, initialVel.x, finalPos.x, maxVel*cosf(alpha), maxAcc*cosf(alpha));
     y.generateTrajectory(initialPos.x, initialVel.x, finalPos.x, maxVel*sinf(alpha), maxAcc*sinf(alpha));
 }
-void BBTrajectory2D::generateSyncedTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,
-        const Vector2 &finalPos, float maxVel, float maxAcc) {
+template<class num>
+void BBTrajectory2D<num>::generateSyncedTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,
+        const Vector2 &finalPos, num maxVel, num maxAcc) noexcept {
     //The idea is to do a binary search over alpha to find a trajectory in x and y direction (which is minimal time)
-    float inc = M_PI_4*0.5f;
+    float inc = M_PI_4*0.5;
     float alpha = M_PI_4;
-    //TODO: tune magic numbers here.
-    while(inc>1e-7){
-        generateTrajectory(initialPos,initialVel,finalPos,maxVel,maxAcc,alpha);
-        float diff=abs(x.getTotalTime()-y.getTotalTime());
+    //TODO: tune convergence numbers
+    while (inc > 1e-7) {
+        generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc, alpha);
+        float diff = abs(x.getTotalTime() - y.getTotalTime());
         //If the trajectories match enough we stop earlier
-        if (diff<0.001){
+        if (diff < 0.001) {
             return;
         }
-        if (x.getTotalTime()>y.getTotalTime()){
-            alpha-=inc;
-        } else{
-            alpha+=inc;
+        if (x.getTotalTime() > y.getTotalTime()) {
+            alpha -= inc;
         }
-        inc*=0.5f;
+        else {
+            alpha += inc;
+        }
+        inc *= 0.5;
     }
 }
 

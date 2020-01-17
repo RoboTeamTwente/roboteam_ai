@@ -8,16 +8,18 @@
 #include <control/BBTrajectories/BBTrajectory1D.h>
 #include <roboteam_utils/Vector2.h>
 namespace rtt {
+template<class num>
 class BBTrajectory2D {
     public:
         BBTrajectory2D() = default;
-        BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc);
-        BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc,float alpha);
-        void generateTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc, float alpha);
-        void generateSyncedTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc);
-        BBTrajectory1D<double> x;
-        BBTrajectory1D<double> y;
+        BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc) noexcept;
+        BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc,num alpha) noexcept;
+        void generateTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc, num alpha) noexcept;
+        void generateSyncedTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc) noexcept;
+        BBTrajectory1D<num> x;
+        BBTrajectory1D<num> y;
 
 };
 }
+#include "src/control/BBTrajectories/BBTrajectory2D.cpp"
 #endif //RTT_BBTRAJECTORY2D_H
