@@ -31,6 +31,10 @@ void World::toHistory(WorldData &world) noexcept {
 
 std::optional<view::WorldDataView> World::getWorld() const noexcept {
     if (currentWorld) {
+        /**
+         * *currentWorld == a ref to the world data
+         * &*currentWorld == a pointer to the world data
+         */
         return view::WorldDataView{&*currentWorld};
     } else {
         return std::nullopt;
