@@ -9,7 +9,7 @@
 #include "utilities/Constants.h"
 
 namespace rtt::world_new::view {
-BallView::BallView(const rtt::world_new::ball::Ball *const _ptr) noexcept : _ptr{_ptr} { assert(_ptr && "_ptr in ball_view ctor is nullptr"); }
+BallView::BallView(const rtt::world_new::ball::Ball *const _ptr) noexcept : _ptr{_ptr} {}
 
 const ball::Ball *BallView::get() const noexcept { return _ptr; }
 
@@ -33,3 +33,6 @@ BallView &BallView::operator=(BallView &&other) noexcept {
 
 BallView::BallView(BallView &&other) noexcept : _ptr{other._ptr} {}
 }  // namespace rtt::world_new::view
+rtt::world_new::view::BallView::operator bool() const noexcept {
+    return get() != nullptr;
+}

@@ -37,7 +37,6 @@ std::vector<RobotView> WorldDataView::getRobotsForIds(std::set<uint8_t> const &_
 }
 
 WorldDataView::WorldDataView(WorldData const *const _ptr) noexcept : data{_ptr} {
-    assert(_ptr && "WorldDatat const* _ptr in explicit WorldDataView(WorldDatat const* _ptr) was null");
 }
 
 WorldDataView &WorldDataView::operator=(WorldDataView const &o) noexcept {
@@ -80,17 +79,21 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, std::set<u
     return closestBot;
 }
 
-RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
-    RobotView closest{nullptr};
-    std::vector<RobotView> robots;
-    if (team == us) robots = getUs();
-    if (team == them)
-        robots = getThem();
-    else
-        robots = getRobotsNonOwning();
+    rtt::world_new::view::WorldDataView::operator bool() const noexcept {
+        return get() != nullptr;
+    }
 
-    return getRobotClosestToPoint(point, robots);
-}
+    RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
+        RobotView closest{nullptr};
+        std::vector<RobotView> robots;
+        if (team == us) robots = getUs();
+        if (team == them)
+            robots = getThem();
+        else
+            robots = getRobotsNonOwning();
+
+        return getRobotClosestToPoint(point, robots);
+    }
 
 RobotView WorldDataView::getRobotClosestToBall(Team team) const noexcept { return getRobotClosestToPoint((*getBall())->getPos(), team); }
 

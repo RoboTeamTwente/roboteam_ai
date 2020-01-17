@@ -27,6 +27,11 @@ namespace rtt::world_new::view {
     class WorldDataView {
     public:
         /**
+         * @return get() != nullptr
+         */
+        explicit operator bool() const noexcept;
+
+        /**
          * Constructs a WorldDataView from a WorldData const*
          * @param _ptr Pointer to construct from
          *

@@ -27,6 +27,11 @@ namespace rtt::world_new::view {
         explicit RobotView(robot::Robot const* _ptr) noexcept;
 
         /**
+         * @return get() != null;
+         */
+        explicit operator bool() const noexcept;
+
+        /**
          * Gets the internal pointer to the robot (std::unique_ptr style)
          * @return Returns the internal pointer
          */

@@ -22,6 +22,11 @@ namespace rtt::world_new::view {
          */
         BallView(BallView &&) noexcept;
 
+        /**
+         * @return get() != nullptr;
+         */
+        explicit operator bool() const noexcept;
+
         BallView &operator=(BallView &&) noexcept;
 
         /**
