@@ -4,34 +4,47 @@
 
 #include <gtest/gtest.h>
 #include "control/BBTrajectories/BBTrajectory2D.h"
-
+#include "test/helpers/WorldHelper.h"
+#include <roboteam_utils/Timer.h>
 using namespace rtt;
 TEST(BBTrajectories, BBTrajectory2D) {
 
-    float inc = M_PI_4*0.5f;
-    float alpha = M_PI_4;
-    Vector2 startPos(0, 0);
-    Vector2 initialVel(- 2, 0);
-    Vector2 endPos(4, 4);
-    double maxVel=3.0;
-    double maxAcc=1.0;
-    while (inc>0.000001){
-        BBTrajectory2D trajectory(startPos,initialVel,endPos,maxVel,maxAcc,alpha);
-        float diff=abs(trajectory.x.getTotalTime()-trajectory.y.getTotalTime());
-        if (diff<0.001){
-            break;
-        }
-        if(trajectory.x.getTotalTime()>trajectory.y.getTotalTime()){
-            alpha-=inc;
-        }
-        else{
-            alpha+=inc;
-        }
-        inc*=0.5f;
+    BBTrajectory2D trajectory;
+    proto::GeometryFieldSize field;
+    field.set_field_width(9.0);
+    field.set_field_length(12.0);
+    std::chrono::nanoseconds totalTime=std::chrono::nanoseconds(0);
+    for (int j = 0; j < 60000; ++ j) {
+        Vector2 startPos = testhelpers::WorldHelper::getRandomFieldPosition(field);
+        Vector2 initialVel = testhelpers::WorldHelper::getRandomVelocity();
+        Vector2 endPos = testhelpers::WorldHelper::getRandomFieldPosition(field);
+        float maxVel = testhelpers::WorldHelper::getRandomValue(0, 8.0);
+        float maxAcc = testhelpers::WorldHelper::getRandomValue(0, 4.0);
+        std::chrono::nanoseconds start=std::chrono::system_clock::now().time_since_epoch();
+        trajectory.generateSyncedTrajectory(startPos, initialVel, endPos, maxVel, maxAcc);
+        std::chrono::nanoseconds end=std::chrono::system_clock::now().time_since_epoch();
+        totalTime+=(end-start);
     }
-    BBTrajectory2D endTrajectory(startPos,initialVel,endPos,maxVel,maxAcc,alpha);
-    float endTime = endTrajectory.x.getTotalTime();
-    for (int i = 0; i <= 30; ++ i) {
-        std::cout<<endTrajectory.x.getValues(endTime/30.0*i).pos<<" "<< endTrajectory.y.getValues(endTime/30.0*i).pos<<std::endl;
+    std::cout<<totalTime.count()/60000.0<<std::endl;
+}
+TEST(BBTrajectories, BBTrajectory2D2) {
+
+    BBTrajectory2D trajectory;
+    proto::GeometryFieldSize field;
+    field.set_field_width(9.0);
+    field.set_field_length(12.0);
+    std::chrono::nanoseconds totalTime=std::chrono::nanoseconds(0);
+    for (int j = 0; j < 60000; ++ j) {
+        Vector2 startPos = testhelpers::WorldHelper::getRandomFieldPosition(field);
+        Vector2 initialVel = testhelpers::WorldHelper::getRandomVelocity();
+        Vector2 endPos = testhelpers::WorldHelper::getRandomFieldPosition(field);
+        float maxVel = testhelpers::WorldHelper::getRandomValue(0, 8.0);
+        float maxAcc = testhelpers::WorldHelper::getRandomValue(0, 4.0);
+        float alpha = testhelpers::WorldHelper::getRandomValue(0,M_PI_2);
+        std::chrono::nanoseconds start=std::chrono::system_clock::now().time_since_epoch();
+        trajectory.generateTrajectory(startPos, initialVel, endPos, maxVel, maxAcc,alpha);
+        std::chrono::nanoseconds end=std::chrono::system_clock::now().time_since_epoch();
+        totalTime+=(end-start);
     }
+    std::cout<<totalTime.count()/60000.0<<std::endl;
 }

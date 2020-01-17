@@ -120,7 +120,7 @@ void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num
         }
     }
     else {
-        //similar to above
+        //similar to above but with slightly mirrored logic
         num accBrakePos = accelerateBrakePos(initialPos, initialVel, - maxVel, maxAcc);
         if (accBrakePos <= finalPos) {
             triangularProfile(initialPos, initialVel, finalPos, maxAcc, false);

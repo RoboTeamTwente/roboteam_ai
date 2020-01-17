@@ -10,9 +10,13 @@
 namespace rtt {
 class BBTrajectory2D {
     public:
-        BBTrajectory2D(Vector2 initialPos, Vector2 initialVel, Vector2 finalPos, float maxVel, float maxAcc,float alpha);
-        BBTrajectory1D<float> x;
-        BBTrajectory1D<float> y;
+        BBTrajectory2D() = default;
+        BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc);
+        BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc,float alpha);
+        void generateTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc, float alpha);
+        void generateSyncedTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, float maxVel, float maxAcc);
+        BBTrajectory1D<double> x;
+        BBTrajectory1D<double> y;
 
 };
 }
