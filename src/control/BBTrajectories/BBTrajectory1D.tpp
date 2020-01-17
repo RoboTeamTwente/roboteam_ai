@@ -7,7 +7,7 @@
 template<class num>
 num BBTrajectory1D<num>::fullBrakePos(num pos, num vel, num accMax) {
     num acc = vel <= 0 ? accMax : - accMax;
-    num t = - vel/acc; // time needed to break to zero velocity
+    num t = - vel/acc; // (inverted) time needed to break to zero velocity
     return pos + 0.5*vel*t; // position after breaking
 }
 template<class num>
