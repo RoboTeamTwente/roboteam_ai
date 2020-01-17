@@ -8,6 +8,7 @@
 #include "views/WorldDataView.hpp"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "WorldData.hpp"
+#include "RobotControllers.hpp"
 
 namespace rtt::world_new {
 
@@ -102,6 +103,13 @@ namespace rtt::world_new {
          */
         [[nodiscard]] uint64_t getTimeDifference() const noexcept;
 
+        /**
+         * Gets robot controllers for a specific robot
+         * @param id Id of the robot to get the controllers from
+         * @return A constant reference to the robot controller struct
+         */
+        [[nodiscard]] robot::RobotControllers& getControllersForRobot(uint8_t id) noexcept;
+
     private:
         /**
          * Upates the tickCount, sets lastTick to now(), sets duration to
@@ -143,6 +151,11 @@ namespace rtt::world_new {
          * History of the world, this is where old world data is pushed to
          */
         std::vector<rtt::world_new::WorldData> history{ HISTORY_SIZE };
+
+        /**
+         * Map that maps robot ID's to their robot controllers
+         */
+        std::unordered_map<uint8_t, robot::RobotControllers> robotControllers {};
 
         /**
          * Current index into the ringbuffer that's the world history

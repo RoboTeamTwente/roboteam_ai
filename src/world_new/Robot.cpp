@@ -7,6 +7,7 @@
 #include <cassert>
 
 #include "utilities/Constants.h"
+#include "world_new/World.hpp"
 
 namespace rtt::world_new::robot {
 Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world_new::Team team, unsigned char dribblerState,
@@ -86,21 +87,26 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-void Robot::resetShotController() noexcept { shotController = std::make_unique<ai::control::ShotController>(); }
+void Robot::resetShotController() noexcept { World::instance()->getControllersForRobot(getId()).getShotController() = std::make_unique<ai::control::ShotController>(); }
 
-void Robot::resetNumTreePosControl() noexcept { numTreePosControl = std::make_unique<ai::control::NumTreePosControl>(); }
+void Robot::resetNumTreePosControl() noexcept { World::instance()->getControllersForRobot(getId()).getNumTreePosController() = std::make_unique<ai::control::NumTreePosControl>(); }
 
-void Robot::resetBasicPosControl() noexcept { basicPosControl = std::make_unique<ai::control::BasicPosControl>(); }
+void Robot::resetBasicPosControl() noexcept { World::instance()->getControllersForRobot(getId()).getBasicPosController() = std::make_unique<ai::control::BasicPosControl>(); }
 
-void Robot::resetBallHandlePosControl() noexcept { ballHandlePosControl = std::make_unique<ai::control::BallHandlePosControl>(); }
+void Robot::resetBallHandlePosControl() noexcept {
+    World::instance()->getControllersForRobot(getId()).getBallHandlePosController() = std::make_unique<ai::control::BallHandlePosControl>();
+}
 
-ai::control::ShotController *Robot::getShotController() const noexcept { return shotController.get(); }
+ai::control::ShotController *Robot::getShotController() const noexcept { return World::instance()->getControllersForRobot(getId()).getShotController().get(); }
 
-ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept { return numTreePosControl.get(); }
+ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept {
+    return World::instance()->getControllersForRobot(getId()).getNumTreePosController().get();
+    ;
+}
 
-ai::control::BasicPosControl *Robot::getBasicPosControl() const noexcept { return basicPosControl.get(); }
+ai::control::BasicPosControl *Robot::getBasicPosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getBasicPosController().get(); }
 
-ai::control::BallHandlePosControl *Robot::getBallHandlePosControl() const noexcept { return ballHandlePosControl.get(); }
+ai::control::BallHandlePosControl *Robot::getBallHandlePosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getBallHandlePosController().get(); }
 
 const Vector2 &Robot::getPidPreviousVel() const noexcept { return pidPreviousVel; }
 

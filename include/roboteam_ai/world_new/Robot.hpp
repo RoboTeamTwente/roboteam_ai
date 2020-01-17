@@ -54,11 +54,6 @@ namespace rtt::world_new::robot {
         bool workingDribbler;
         bool workingBallSensor;
 
-        std::unique_ptr<ai::control::ShotController> shotController{};
-        std::unique_ptr<ai::control::NumTreePosControl> numTreePosControl{};
-        std::unique_ptr<ai::control::BasicPosControl> basicPosControl{};
-        std::unique_ptr<ai::control::BallHandlePosControl> ballHandlePosControl{};
-
     private:
         void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 

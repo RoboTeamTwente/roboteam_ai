@@ -33,6 +33,4 @@ BallView &BallView::operator=(BallView &&other) noexcept {
 
 BallView::BallView(BallView &&other) noexcept : _ptr{other._ptr} {}
 }  // namespace rtt::world_new::view
-rtt::world_new::view::BallView::operator bool() const noexcept {
-    return get() != nullptr;
-}
+rtt::world_new::view::BallView::operator bool() const noexcept { return get() != nullptr; }

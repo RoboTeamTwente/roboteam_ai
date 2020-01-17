@@ -7,6 +7,7 @@
 
 #include <include/roboteam_ai/utilities/Constants.h>
 #include "world_new/Robot.hpp"
+#include "world_new/RobotControllers.hpp"
 
 namespace rtt::world_new::view {
 
@@ -83,6 +84,12 @@ namespace rtt::world_new::view {
          * @return A vector2 representation of the kicker
          */
         [[nodiscard]] Vector2 getKicker() const noexcept;
+
+        /**
+         * Gets the controllers for a robot
+         * @return World->getControllersForRobot(robotPtr->id);
+         */
+        [[nodiscard]] robot::RobotControllers const &getControllers() const noexcept;
     };
 
 }
