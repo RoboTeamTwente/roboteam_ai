@@ -12,6 +12,9 @@ namespace rtt::world_new::view {
 
     /**
      * Class that offers a read-only memory view of the Robots
+     *
+     * Imagine RobotView being to Robot what string_view is to std::string,
+     * except it provides more utility functions
      */
     class RobotView {
         robot::Robot const* const rbt;
