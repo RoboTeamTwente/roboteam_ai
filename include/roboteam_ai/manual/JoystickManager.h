@@ -30,9 +30,8 @@ class JoystickManager {
     const int TICK_INTERVAL = 20;
     std::map<int, JoystickHandler*> joystickHandlers;
 
-    // TODO Check if these can be non-static
-    static std::mutex runningLock;
-    static std::mutex activeLock;
+    std::mutex runningLock;
+    std::mutex activeLock;
     // Indicates whether the loop should stop
     bool running = false;
     // Indicates whether packets should be handled and joystickHandlers ticked
