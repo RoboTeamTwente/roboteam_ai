@@ -91,11 +91,12 @@ void Ball::updateExpectedBallEndPosition() noexcept {
 
     expectedEndPosition = ball->getPos() + ball->filteredVelocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
-    namespace interface = ai::interface;
 
     // Visualize the Expected Ball End Position
-    interface::Input::drawData(interface::Visual::BALL_DATA, {getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1, interface::Drawing::CIRCLES, 8, 8, 6);
-    interface::Input::drawData(interface::Visual::BALL_DATA, {position, getExpectedEndPosition()}, ai::Constants::BALL_COLOR(), -1, interface::Drawing::LINES_CONNECTED);
+    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {getExpectedEndPosition()},
+                                   ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::CIRCLES, 8, 8, 6);
+    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {position, getExpectedEndPosition()},
+                                   ai::Constants::BALL_COLOR(), -1, ai::interface::Drawing::LINES_CONNECTED);
 }
 
 void Ball::updateBallAtRobotPosition() noexcept {
