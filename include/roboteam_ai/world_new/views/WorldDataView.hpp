@@ -175,7 +175,7 @@ namespace rtt::world_new::view {
          * @param maxDist Maximum distance for "having ball"
          * @return Returns true if that robot has the ball, false if not
          */
-        [[nodiscard]] bool ourRobotHasBal(uint8_t id, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
+        [[nodiscard]] bool ourRobotHasBall(uint8_t id, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
 
         /**
          * Check whether their robot with @refitem id has the ball

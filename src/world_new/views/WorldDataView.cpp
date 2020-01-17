@@ -97,9 +97,9 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, std::set<u
 
 RobotView WorldDataView::getRobotClosestToBall(Team team) const noexcept { return getRobotClosestToPoint((*getBall())->getPos(), team); }
 
-bool WorldDataView::robotHasBall(uint8_t id, bool ourTeam, double maxDist) const noexcept { return ourTeam ? ourRobotHasBal(id, maxDist) : theirRobotHasBall(id, maxDist); }
+bool WorldDataView::robotHasBall(uint8_t id, bool ourTeam, double maxDist) const noexcept { return ourTeam ? ourRobotHasBall(id, maxDist) : theirRobotHasBall(id, maxDist); }
 
-bool WorldDataView::ourRobotHasBal(uint8_t id, double maxDist) const noexcept {
+bool WorldDataView::ourRobotHasBall(uint8_t id, double maxDist) const noexcept {
     auto robot = getRobotForId(id, true);
     if (!robot) return false;
 
