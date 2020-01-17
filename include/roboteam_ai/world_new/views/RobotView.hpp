@@ -17,7 +17,7 @@ namespace rtt::world_new::view {
      * except it provides more utility functions
      */
     class RobotView {
-        robot::Robot const* const rbt;
+        robot::Robot const* const robotPtr;
     public:
         /**
          * Constructs a RobotView from a Robot

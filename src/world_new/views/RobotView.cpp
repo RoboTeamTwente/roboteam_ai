@@ -7,9 +7,9 @@
 #include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt::world_new::view {
-RobotView::RobotView(const rtt::world_new::robot::Robot *const _ptr) noexcept : rbt{_ptr} {}
+RobotView::RobotView(const rtt::world_new::robot::Robot *const _ptr) noexcept : robotPtr{_ptr} {}
 
-robot::Robot const *RobotView::get() const noexcept { return rbt; }
+robot::Robot const *RobotView::get() const noexcept { return robotPtr; }
 
 robot::Robot const &RobotView::operator*() const noexcept { return *get(); }
 
@@ -29,7 +29,7 @@ RobotView &RobotView::operator=(RobotView &&o) noexcept {
     return *this;
 }
 
-RobotView::RobotView(RobotView &&o) noexcept : rbt{o.rbt} {}
+RobotView::RobotView(RobotView &&o) noexcept : robotPtr{o.robotPtr} {}
 
 bool RobotView::hasBall(double maxDist) const noexcept { return get()->isIHaveBall() && get()->getDistanceToBall() < maxDist; }
 
