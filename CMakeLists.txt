@@ -214,7 +214,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp
-        )
+         )
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
@@ -275,6 +275,7 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
+        test/ControlTests/BBTrajectoryTests/BBTrajectoryTest.cpp
         )
 
 set(INTERFACE_SOURCES
