@@ -36,24 +36,6 @@ std::vector<RobotView> WorldDataView::getRobotsForIds(std::set<uint8_t> const &_
     return retRobots;
 }
 
-WorldDataView::WorldDataView(WorldData const *const _ptr) noexcept : data{_ptr} {}
-
-WorldDataView &WorldDataView::operator=(WorldDataView const &o) noexcept {
-    if (this == &o) {
-        return *this;
-    }
-    return *this;
-}
-
-WorldDataView &WorldDataView::operator=(WorldDataView &&o) noexcept {
-    if (this == &o) {
-        return *this;
-    }
-    return *this;
-}
-
-WorldDataView::WorldDataView(WorldDataView &&o) noexcept : data{o.data} {}
-
 WorldData const &WorldDataView::operator*() const noexcept { return *get(); }
 
 WorldData const *WorldDataView::operator->() const noexcept { return get(); }
@@ -149,10 +131,13 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, const std:
     return robots[bestIndex];
 }
 
-std::vector<RobotView> WorldDataView::getRobotsNonOwning() const noexcept {
-    std::vector<RobotView> robots;
-    robots.insert(robots.begin(), getUs().begin(), getUs().end());
-    robots.insert(robots.begin(), getThem().begin(), getThem().end());
-    return robots;
-}
+    std::vector<RobotView> WorldDataView::getRobotsNonOwning() const noexcept {
+        std::vector<RobotView> robots;
+        robots.insert(robots.begin(), getUs().begin(), getUs().end());
+        robots.insert(robots.begin(), getThem().begin(), getThem().end());
+        return robots;
+    }
+
+    WorldDataView::WorldDataView(WorldData const *_ptr) noexcept
+            : data{_ptr} {}
 }  // namespace rtt::world_new::view

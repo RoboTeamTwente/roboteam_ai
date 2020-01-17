@@ -14,6 +14,7 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
     for (auto &each : ours) {
+        std::cout << "Constructing ours" << std::endl;
         us.emplace_back(&robots.emplace_back(feedback, each, Team::us));
     }
 

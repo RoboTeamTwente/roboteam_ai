@@ -15,7 +15,7 @@ namespace rtt::world_new::view {
      * Ball view class, provides the Ball interface with uility functions that don't belong on a POD type
      */
     class BallView {
-        const ball::Ball *const _ptr;
+        ball::Ball const*_ptr;
     public:
         /**
          * Move constructor and copy assignment operator

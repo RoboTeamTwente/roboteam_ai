@@ -17,22 +17,6 @@ robot::Robot const &RobotView::operator*() const noexcept { return *get(); }
 
 robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 
-RobotView &RobotView::operator=(RobotView const &o) noexcept {
-    if (&o == this) {
-        return *this;
-    }
-    return *this;
-}
-
-RobotView &RobotView::operator=(RobotView &&o) noexcept {
-    if (&o == this) {
-        return *this;
-    }
-    return *this;
-}
-
-RobotView::RobotView(RobotView &&o) noexcept : robotPtr{o.robotPtr} {}
-
 bool RobotView::hasBall(double maxDist) const noexcept { return get()->isIHaveBall() && get()->getDistanceToBall() < maxDist; }
 
 Vector2 RobotView::getKicker() const noexcept {

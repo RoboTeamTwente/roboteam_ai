@@ -18,7 +18,7 @@ namespace rtt::world_new::view {
      * except it provides more utility functions
      */
     class RobotView {
-        robot::Robot const* const robotPtr;
+        robot::Robot const *robotPtr;
     public:
         /**
          * Constructs a RobotView from a Robot
@@ -54,13 +54,13 @@ namespace rtt::world_new::view {
          * Copy assignment operator
          * @return *this
          */
-        RobotView& operator=(RobotView const&) noexcept;
+        RobotView& operator=(RobotView const&) = default;
 
         /**
          * Move assignment operator
          * @return *this
          */
-        RobotView& operator=(RobotView&&) noexcept;
+        RobotView& operator=(RobotView&&) = default;
 
         /**
          * Copy constructor
@@ -70,7 +70,7 @@ namespace rtt::world_new::view {
         /**
          * Move constructor, same as copy ctor
          */
-        RobotView(RobotView&&) noexcept;
+        RobotView(RobotView&&) = default;
 
         /**
          * Check whether the current robot has the ball

@@ -102,12 +102,12 @@ namespace rtt::world_new::view {
         /**
          * Copy assignment operator, does nothing
          */
-        WorldDataView& operator=(WorldDataView const& o) noexcept;
+        WorldDataView &operator=(WorldDataView const &o) = default;
 
         /**
          * Move assignment operator, does nothing
          */
-        WorldDataView& operator=(WorldDataView&& o) noexcept;
+        WorldDataView &operator=(WorldDataView &&o) = default;
 
         /**
          * Copy constructor
@@ -119,7 +119,7 @@ namespace rtt::world_new::view {
          * Move constructor, same as copy ctor
          * @param o Object to move
          */
-        WorldDataView(WorldDataView&& o) noexcept;
+        WorldDataView(WorldDataView &&o) = default;
 
         /**
          * Gets a non-owning container of Robot*, aka RobotView
@@ -195,7 +195,7 @@ namespace rtt::world_new::view {
         /**
          * Constant world data that's used in the view
          */
-        WorldData const *const data;
+        WorldData const *data;
     };
 }
 

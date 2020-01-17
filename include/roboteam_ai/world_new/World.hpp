@@ -22,7 +22,7 @@ namespace rtt::world_new {
      * a shared immutable state.
      *
      * WorldData is a snapshot of the current world as seen by the camera
-     * Feeback is already applied to the robots when they are constructed
+     * Feedback is already applied to the robots when they are constructed
      * As soon as a new world is constructed, which should only be done
      * through updateWorld, the current world is pushed to history, given that
      * this is a Some variant. Using any other unconventional way to push

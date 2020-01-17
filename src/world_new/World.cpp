@@ -42,13 +42,15 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
 }
 
 view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-    assert(ticksAgo < 20 && ticksAgo >= 1 && ticksAgo < history.size() && currentIndex > ticksAgo && "Invalid tick");
+    assert(ticksAgo < 20 && ticksAgo >= 1 && "Invalid tick");
+    if (ticksAgo > history.size()) {
+        return view::WorldDataView(nullptr);
+    }
     // say ticksAgo is 3, then you'd want the currentIndex - 3 index, so
     return view::WorldDataView(&history[currentIndex - ticksAgo]);
 }
 
 void World::updateWorld(proto::World &protoWorld) {
-    std::scoped_lock<std::mutex> lock{updateMutex};
     WorldData data{protoWorld, *settings, updateMap};
     setWorld(data);
 }
