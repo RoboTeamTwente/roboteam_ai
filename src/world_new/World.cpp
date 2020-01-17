@@ -74,7 +74,5 @@ void World::updateTickTime() noexcept {
     lastTick = (*getWorld())->getTime();
 }
 
-uint64_t World::getTickDuration() const noexcept { return tickDuration; }
-
-uint64_t World::getTimeDifference() const noexcept { return getTickDuration(); }
+uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 }  // namespace rtt::world_new

@@ -96,14 +96,9 @@ namespace rtt::world_new {
         [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) const noexcept;
 
         /**
-         * Gets the amount of nanoseconds between the current worlddata object and the last one
-         * @return Returns an std::chrono::nanoseconds, the amount of nanoseconds between these 2 ticks
-         */
-        [[nodiscard]] uint64_t getTickDuration() const noexcept;
-
-        /**
          * Gets the difference in time between the last tick and the current tick
          * @return this->getWorldData()->getTime() - this->getHistoryWorld(1)->getTime();
+         * Time format is in whatever protobuf provides
          */
         [[nodiscard]] uint64_t getTimeDifference() const noexcept;
 
