@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include "treeinterp/BTFactory.h"
 
-TEST (BT, JsonEditor) {
+TEST(BT, JsonEditor) {
     std::string testProject = "sample";
     std::string testTree = "sAmPleNamE";
     JsonReader pathReader;

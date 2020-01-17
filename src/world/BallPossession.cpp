@@ -3,15 +3,14 @@
 //
 
 #include "world/BallPossession.h"
-#include "world/WorldData.h"
-#include "world/Field.h"
 #include <coach/PassCoach.h>
+#include "world/Field.h"
+#include "world/WorldData.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallPossession ballPossession;
-BallPossession* ballPossessionPtr = &ballPossession;
+BallPossession *ballPossessionPtr = &ballPossession;
 
 void BallPossession::update() {
     updateCloseAndFarTimes();
@@ -33,14 +32,11 @@ void BallPossession::recomputeState() {
     double theirPossessionX = field.get(LEFTMOST_X) + THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD * field.get(FIELD_LENGTH);
     if ((weAreClose && !theyAreClose) || (world::world->getBall()->getPos().x > ourPossessionX)) {
         state = OURBALL;
-    }
-    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->getPos().x < theirPossessionX)) {
+    } else if ((theyAreClose && !weAreClose) || (world::world->getBall()->getPos().x < theirPossessionX)) {
         state = THEIRBALL;
-    }
-    else if (weAreClose && theyAreClose) {
+    } else if (weAreClose && theyAreClose) {
         state = CONTENDEDBALL;
-    }
-    else if (weAreFar && theyAreFar) {
+    } else if (weAreFar && theyAreFar) {
         state = LOOSEBALL;
     }
     // In the other cases we stay in the same state (so we do nothing).
@@ -90,9 +86,6 @@ bool BallPossession::teamFarFromBall(const world::WorldData &world, bool ourTeam
     return false;
 }
 
-BallPossession::Possession BallPossession::getPossession() {
-    return state;
-}
+BallPossession::Possession BallPossession::getPossession() { return state; }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

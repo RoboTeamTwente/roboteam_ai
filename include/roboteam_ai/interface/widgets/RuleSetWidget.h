@@ -5,30 +5,26 @@
 #ifndef ROBOTEAM_AI_RULESETWIDGET_H
 #define ROBOTEAM_AI_RULESETWIDGET_H
 
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class RuleSetWidget : public QWidget {
     Q_OBJECT
 
-private:
-    QVBoxLayout * vLayout;
+   private:
+    QVBoxLayout* vLayout;
     void updateLabels();
-    QWidget * contentsWidget;
-public:
-    explicit RuleSetWidget(QWidget * parent = nullptr);
+    QWidget* contentsWidget;
 
-public slots:
+   public:
+    explicit RuleSetWidget(QWidget* parent = nullptr);
+
+   public slots:
     void updateContents();
-
 };
 
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
-
-#endif //ROBOTEAM_AI_RULESETWIDGET_H
+#endif  // ROBOTEAM_AI_RULESETWIDGET_H

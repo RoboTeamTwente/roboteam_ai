@@ -2,7 +2,6 @@
 #include "treeinterp/TreeInterpreter.h"
 
 TEST(JsonBasics, JsonTest) {
-
     // Get the instance of the interpreter
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
 
@@ -47,8 +46,3 @@ TEST(JsonBasics, JsonTest) {
         EXPECT_EQ(current["scope"], "tree");
     }
 }
-
-
-
-
-

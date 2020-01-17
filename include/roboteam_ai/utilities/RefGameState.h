@@ -7,22 +7,21 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "Constants.h"
-#include "RuleSet.h"
 #include "GameState.h"
+#include "RuleSet.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 struct RefGameState : public GameState {
     RefCommand commandId;
     bool isfollowUpCommand;
     RefCommand followUpCommandId;
     RefGameState() = default;
-    RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet,  bool isFollowUpCommand = false, RefCommand followUpCommandId = RefCommand::UNDEFINED);
+    RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet, bool isFollowUpCommand = false,
+                 RefCommand followUpCommandId = RefCommand::UNDEFINED);
     bool hasFollowUpCommand() const;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_REFGAMESTATE_H
+#endif  // ROBOTEAM_AI_REFGAMESTATE_H

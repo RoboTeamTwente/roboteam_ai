@@ -1,10 +1,10 @@
 
-#include <gtest/gtest.h>
 #include <conditions/IsBallOnOurSide.h>
+#include <gtest/gtest.h>
 #include "include/roboteam_ai/conditions/BallInDefenseAreaAndStill.h"
-#include "include/roboteam_ai/world/World.h"
-#include "include/roboteam_ai/world/Ball.h"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
+#include "include/roboteam_ai/world/Ball.h"
+#include "include/roboteam_ai/world/World.h"
 #include "world/Field.h"
 
 namespace rd = rtt::ai::robotDealer;
@@ -13,8 +13,7 @@ namespace w = rtt::ai::world;
 namespace rtt {
 namespace ai {
 
-TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
-{
+TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side) {
     rtt::ai::world::Ball::exists = false;
     bt::Blackboard BB;
     auto BBpointer = std::make_shared<bt::Blackboard>(BB);
@@ -39,7 +38,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
 
     w::world->updateWorld(worldMsg);
     node.initialize();
-    EXPECT_EQ(node.update(), bt::Node::Status::Success); // return failure because no ball visible
+    EXPECT_EQ(node.update(), bt::Node::Status::Success);  // return failure because no ball visible
 
     // our side
     worldMsg.ball.pos.x = -1.5;
@@ -49,7 +48,7 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
 
     w::world->updateWorld(worldMsg);
     node.initialize();
-    EXPECT_TRUE(node.inField); // check if the property is handled properly
+    EXPECT_TRUE(node.inField);  // check if the property is handled properly
 
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 
@@ -83,5 +82,5 @@ TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side)
     w::world->updateWorld(worldMsg);
     EXPECT_EQ(node.update(), bt::Node::Status::Success);
 }
-}
-}
+}  // namespace ai
+}  // namespace rtt

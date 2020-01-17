@@ -1,10 +1,10 @@
+#include <Settings/Settings.h>
+#include <utilities/Constants.h>
 #include <QApplication>
 #include <QStyleFactory>
-#include <utilities/Constants.h>
-#include <Settings/Settings.h>
 
-#include "interface/widgets/mainWindow.h"
 #include "ApplicationManager.h"
+#include "interface/widgets/mainWindow.h"
 
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
@@ -18,14 +18,14 @@ void runBehaviourTrees() {
 void setDarkTheme() {
     qApp->setStyle(QStyleFactory::create("Fusion"));
     QPalette darkPalette;
-    darkPalette.setColor(QPalette::Window, QColor(53,53,53));
+    darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
     darkPalette.setColor(QPalette::WindowText, Qt::white);
-    darkPalette.setColor(QPalette::Base, QColor(25,25,25));
-    darkPalette.setColor(QPalette::AlternateBase, QColor(53,53,53));
+    darkPalette.setColor(QPalette::Base, QColor(25, 25, 25));
+    darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
     darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
     darkPalette.setColor(QPalette::ToolTipText, Qt::white);
     darkPalette.setColor(QPalette::Text, Qt::white);
-    darkPalette.setColor(QPalette::Button, QColor(53,53,53));
+    darkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
     darkPalette.setColor(QPalette::ButtonText, Qt::white);
     darkPalette.setColor(QPalette::BrightText, Qt::red);
     darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
@@ -43,7 +43,6 @@ int main(int argc, char* argv[]) {
     if (argc == 2) {
         id = *argv[1] - '0';
     }
-
 
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
@@ -66,11 +65,11 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
 
-
     rtt::ai::io::io.init();
 
     BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees());
+    while (!BTFactory::hasMadeTrees())
+        ;
 
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
@@ -84,4 +83,3 @@ int main(int argc, char* argv[]) {
 
     return a.exec();
 }
-

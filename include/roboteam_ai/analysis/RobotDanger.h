@@ -5,9 +5,9 @@
 #ifndef ROBOTEAM_AI_ROBOTDANGER_H
 #define ROBOTEAM_AI_ROBOTDANGER_H
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+#include <vector>
+
+namespace rtt::ai::analysis {
 
 struct RobotDanger {
     bool ourTeam;
@@ -23,9 +23,6 @@ struct RobotDanger {
     double getTotalDanger();
 };
 
-} // analysis
-} // ai
-} // rtt
+}  // namespace rtt::ai::analysis
 
-
-#endif //ROBOTEAM_AI_ROBOTDANGER_H
+#endif  // ROBOTEAM_AI_ROBOTDANGER_H

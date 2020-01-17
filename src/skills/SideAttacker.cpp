@@ -4,16 +4,11 @@
 
 #include "skills/SideAttacker.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
-        : Skill(std::move(name), std::move(blackboard)) {
-}
+SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
-void SideAttacker::onInitialize() {
-    coach::g_offensiveCoach.addSideAttacker(robot);
-}
+void SideAttacker::onInitialize() { coach::g_offensiveCoach.addSideAttacker(robot); }
 
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
@@ -30,9 +25,7 @@ bt::Node::Status SideAttacker::onUpdate() {
     return status;
 }
 
-Vector2 SideAttacker::getOffensivePosition() {
-    return coach::g_offensiveCoach.getPositionForRobotID(robot->id);
-}
+Vector2 SideAttacker::getOffensivePosition() { return coach::g_offensiveCoach.getPositionForRobotID(robot->id); }
 
 void SideAttacker::onTerminate(Status s) {
     command.set_w(robot->angle);
@@ -42,5 +35,4 @@ void SideAttacker::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-    } // ai
-} // rtt
+}  // namespace rtt::ai

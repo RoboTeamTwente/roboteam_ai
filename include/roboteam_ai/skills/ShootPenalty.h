@@ -6,15 +6,14 @@
 #define ROBOTEAM_AI_SHOOTPENALTY_H
 
 #include <control/BasicPosControl.h>
-#include "coach/OffensiveCoach.h"
 #include <control/shotControllers/ShotController.h>
 #include "Skill.h"
+#include "coach/OffensiveCoach.h"
 #include "world/Field.h"
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class ShootPenalty : public Skill {
-private:
+   private:
     bool genevaSet = false;
     int genevaState;
     Vector2 aimPoint;
@@ -22,21 +21,19 @@ private:
     control::BasicPosControl gtp;
     int tick = 0;
     int genevaChangeTicks = 60;
-    double lineP=0;
+    double lineP = 0;
     Vector2 additionalBallDist;
-    bool forcedKickOn=true;
+    bool forcedKickOn = true;
     double forcedKickRange;
 
     Vector2 ballPos;
-public:
+
+   public:
     explicit ShootPenalty(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
-
-
 };
 
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_SHOOTPENALTY_H
+#endif  // ROBOTEAM_AI_SHOOTPENALTY_H

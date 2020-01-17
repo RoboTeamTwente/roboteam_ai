@@ -8,18 +8,14 @@
 #include "QLayout"
 #include "widget.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class PidsWidget : public QWidget {
-Q_OBJECT
-public:
-    explicit PidsWidget(QWidget * parent = nullptr);
+    Q_OBJECT
+   public:
+    explicit PidsWidget(QWidget* parent = nullptr);
 };
 
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
-#endif //ROBOTEAM_AI_PIDSWIDGET_H
+#endif  // ROBOTEAM_AI_PIDSWIDGET_H

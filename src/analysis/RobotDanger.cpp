@@ -2,12 +2,10 @@
 // Created by mrlukasbos on 5-3-19.
 //
 
-#include <world/Field.h>
 #include "analysis/RobotDanger.h"
+#include <world/Field.h>
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 double RobotDanger::getTotalDanger() {
     double total = 0.0;
@@ -20,6 +18,4 @@ double RobotDanger::getTotalDanger() {
     return total;
 }
 
-} // analysis
-} // ai
-} // rtt
+}  // namespace rtt::ai::analysis

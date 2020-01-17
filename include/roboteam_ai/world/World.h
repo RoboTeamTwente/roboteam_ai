@@ -3,21 +3,19 @@
 #ifndef ROBOTEAM_AI_WORLD_H
 #define ROBOTEAM_AI_WORLD_H
 
-#include <utility>
+#include <roboteam_utils/Vector2.h>
 #include <mutex>
 #include <thread>
+#include <utility>
 #include <vector>
-#include <roboteam_utils/Vector2.h>
-#include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_proto/World.pb.h"
+#include "roboteam_proto/WorldRobot.pb.h"
 
-#include "utilities/Constants.h"
 #include "Team.h"
 #include "WhichRobots.h"
+#include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 class Robot;
 class Ball;
@@ -25,22 +23,21 @@ class WorldData;
 class History;
 class FutureWorld;
 class World {
-public:
+   public:
     using RobotPtr = std::shared_ptr<Robot>;
     using BallPtr = std::shared_ptr<Ball>;
     using WorldDataPtr = std::shared_ptr<WorldData>;
 
-private:
+   private:
     WorldDataPtr worldDataPtr;
     std::mutex worldMutex;
-    History * history;
-    FutureWorld * futureWorld;
+    History *history;
+    FutureWorld *futureWorld;
     unsigned long worldNumber = 0;
     const RobotPtr getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots);
-    void updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg,
-                std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long worldNumber) const;
+    void updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg, std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long worldNumber) const;
 
-public:
+   public:
     explicit World();
     ~World();
     void updateWorld(const proto::World &world);
@@ -81,11 +78,8 @@ public:
 };
 
 extern World worldObj;
-extern World* world;
+extern World *world;
 
-} //world
-} //ai
-} //rtt
+}  // namespace rtt::ai::world
 
-
-#endif //ROBOTEAM_AI_WORLD_H
+#endif  // ROBOTEAM_AI_WORLD_H

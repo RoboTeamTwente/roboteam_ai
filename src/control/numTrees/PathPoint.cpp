@@ -2,16 +2,14 @@
 // Created by mrlukasbos on 28-3-19.
 //
 
-#include <control/ControlUtils.h>
 #include "control/numTrees/PathPoint.h"
+#include <control/ControlUtils.h>
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 /// go back in the path until desired time or until Root
 std::shared_ptr<PathPoint> PathPoint::backTrack(double backTime) {
-    if (! parent)
+    if (!parent)
         return shared_from_this();
     else if (backTime > t)
         return shared_from_this();
@@ -21,7 +19,7 @@ std::shared_ptr<PathPoint> PathPoint::backTrack(double backTime) {
 
 /// go back in the path until desired collision difference or until Root
 std::shared_ptr<PathPoint> PathPoint::backTrack(int maxCollisionDiff) {
-    if (! parent)
+    if (!parent)
         return shared_from_this();
     else if (maxCollisionDiff == 0)
         return shared_from_this();
@@ -35,8 +33,7 @@ std::shared_ptr<PathPoint> PathPoint::backTrack(int maxCollisionDiff) {
 
 /// go back in the path until desired time, collision difference or until Root
 std::shared_ptr<PathPoint> PathPoint::backTrack(double backTime, int maxCollisionDiff) {
-
-    if (! parent)
+    if (!parent)
         return shared_from_this();
     else if (maxCollisionDiff == 0)
         return shared_from_this();
@@ -49,18 +46,13 @@ std::shared_ptr<PathPoint> PathPoint::backTrack(double backTime, int maxCollisio
 }
 
 /// add a child to the current path
-void PathPoint::addChild(std::shared_ptr <PathPoint> &newChild) {
-    children.push_back(newChild);
-}
+void PathPoint::addChild(std::shared_ptr<PathPoint> &newChild) { children.push_back(newChild); }
 
 /// add multiple children to the current path
-void PathPoint::addChildren(std::vector <std::shared_ptr<PathPoint>> &newChildren) {
-    children.insert(children.end(), newChildren.begin(), newChildren.end());
-}
+void PathPoint::addChildren(std::vector<std::shared_ptr<PathPoint>> &newChildren) { children.insert(children.end(), newChildren.begin(), newChildren.end()); }
 
 /// check if a branch already has the target
 bool PathPoint::branchHasTarget(const Vector2 &target) {
-
     for (const auto &child : children) {
         if ((child->currentTarget - target).length() < 0.15) {
             return true;
@@ -96,16 +88,12 @@ bool PathPoint::anyParentHasTarget(const Vector2 &target) {
 }
 
 /// check if a collision is occuring
-bool PathPoint::isCollision(const Vector2 &target, double distance) {
-    return pos.dist2(target) < distance*distance;
-}
+bool PathPoint::isCollision(const Vector2 &target, double distance) { return pos.dist2(target) < distance * distance; }
 
 double PathPoint::maxVel() {
     double distanceRemaining = (finalTarget - pos).length();
-    double absoluteMax = sqrt(2.0*Constants::MAX_DEC_UPPER()*distanceRemaining)*0.8;
+    double absoluteMax = sqrt(2.0 * Constants::MAX_DEC_UPPER() * distanceRemaining) * 0.8;
     return std::fmin(absoluteMax, maxVelocity());
 }
 
-} // control
-} // ai
-} // rtt
+}  // namespace rtt::ai::control

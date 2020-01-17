@@ -2,15 +2,12 @@
 // Created by baris on 10-5-19.
 //
 
-#include <interface/api/Output.h>
 #include "skills/DriveWithInterface.h"
+#include <interface/api/Output.h>
 
 namespace rtt {
 namespace ai {
-DriveWithInterface::DriveWithInterface(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-    numTreeGtp = new control::PositionControl(*world, *field);
-}
+DriveWithInterface::DriveWithInterface(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 Skill::Status DriveWithInterface::onUpdate() {
     if (interface::Output::usesRefereeCommands()) {
         return Status::Failure;
@@ -25,5 +22,5 @@ Skill::Status DriveWithInterface::onUpdate() {
     publishRobotCommand();
     return Status::Running;
 }
-}
-}
+}  // namespace ai
+}  // namespace rtt

@@ -1,4 +1,4 @@
-/* 
+/*
  *  Returns Success:
  *  - if the robot has the ball
  *
@@ -7,19 +7,15 @@
  *  - if robot or ball is undefined
  */
 
-#include <control/ControlUtils.h>
 #include "conditions/HasBall.hpp"
-#include "world/World.h"
+#include <control/ControlUtils.h>
 #include "world/Robot.h"
+#include "world/World.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), blackboard) { }
+HasBall::HasBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), blackboard) {}
 
-bt::Node::Status HasBall::onUpdate() {
-    return world->ourRobotHasBall(robot->id) ? Status::Success : Status::Failure;
-}
+bt::Node::Status HasBall::onUpdate() { return world->ourRobotHasBall(robot->id) ? Status::Success : Status::Failure; }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

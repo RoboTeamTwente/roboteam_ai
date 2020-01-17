@@ -2,28 +2,24 @@
 // Created by thijs on 19-11-18.
 //
 
-#include <control/numTrees/NumTreePosControl.h>
+#include "skills/gotopos/SkillGoToPos.h"
 #include <control/BasicPosControl.h>
 #include <control/ballHandling/BallHandlePosControl.h>
-#include "skills/gotopos/SkillGoToPos.h"
+#include <control/numTrees/NumTreePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 /// GoToPosLuTh: obstacle avoidance following Lukas & Thijs principles
-SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :GoToPos(std::move(name), std::move(blackboard)) {
-}
+SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
 
 /// Called when the Skill is Initialized
 void SkillGoToPos::gtpInitialize() {
     goToBall = properties->getBool("goToBall");
-    currentProgress=ON_THE_WAY;
+    currentProgress = ON_THE_WAY;
 }
 
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
-
     if (goToBall) targetPos = ball->getPos();
 
     // Now check the progress we made
@@ -44,14 +40,13 @@ SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 }
 
 /// Called when the Skill is Terminated
-void SkillGoToPos::gtpTerminate(Status s) {
-    currentProgress=ON_THE_WAY;
-}
+void SkillGoToPos::gtpTerminate(Status s) { currentProgress = ON_THE_WAY; }
 
 SkillGoToPos::Progression SkillGoToPos::checkProgression() {
-    if ((targetPos - robot->pos).length2() > errorMargin*errorMargin) return ON_THE_WAY;
-    else return DONE;
+    if ((targetPos - robot->pos).length2() > errorMargin * errorMargin)
+        return ON_THE_WAY;
+    else
+        return DONE;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

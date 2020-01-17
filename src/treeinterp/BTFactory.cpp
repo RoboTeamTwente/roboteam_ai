@@ -5,11 +5,10 @@
 #include "treeinterp/BTFactory.h"
 #include "treeinterp/OffensiveStrategy.h"
 
-
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
-std::map<std::string, bt::Node::Ptr>BTFactory::tacticsRepo;
-std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::keeperRepo;
-std::map<std::string, bt::BehaviorTree::Ptr>BTFactory::codeTrees;
+std::map<std::string, bt::Node::Ptr> BTFactory::tacticsRepo;
+std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::keeperRepo;
+std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::codeTrees;
 
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
@@ -37,18 +36,18 @@ void BTFactory::makeTrees() {
     TreeInterpreter interpreter = TreeInterpreter::getInstance();
 
     for (const auto &tacticName : Switches::tacticJsonFileNames) {
-        auto BB = std::make_shared<bt::Blackboard>(); //TODO maybe make the BB somewhere else that makes sense
+        auto BB = std::make_shared<bt::Blackboard>();  // TODO maybe make the BB somewhere else that makes sense
         auto tempMap = interpreter.makeTactics(tacticName, BB);
-        for (auto &it : tempMap) tacticsRepo[it.first] = it.second; // may break
+        for (auto &it : tempMap) tacticsRepo[it.first] = it.second;  // may break
     }
 
     for (const auto &strategyName : Switches::strategyJsonFileNames) {
         auto tempMap = interpreter.getTrees("strategies/" + strategyName);
-        for (auto &it : tempMap) strategyRepo[it.first] = it.second; // may break
+        for (auto &it : tempMap) strategyRepo[it.first] = it.second;  // may break
     }
     for (const auto &strategyNameKeeper : Switches::keeperJsonFiles) {
         auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
-        for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
+        for (auto &it : tempMap) keeperRepo[it.first] = it.second;  // may break
     }
 
     BTFactory::weMadeTrees = true;
@@ -62,12 +61,12 @@ void BTFactory::makeTrees() {
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
-// HERE
-//    // Un-kill the code below by commenting the return statement to restore json functionality
-//    auto treefound = codeTrees.find("attackertree");
-//    return treefound->second;
+    // HERE
+    //    // Un-kill the code below by commenting the return statement to restore json functionality
+    //    auto treefound = codeTrees.find("attackertree");
+    //    return treefound->second;
 
-if (strategyRepo.find(treeName) != strategyRepo.end()) {
+    if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
     std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
@@ -84,7 +83,6 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
         std::lock_guard<std::mutex> lock(keeperTreeMutex);
 
         if (newTree != BTFactory::currentTree) {
-
             if (BTFactory::currentTree == "NaN") {
                 BTFactory::currentTree = newTree;
                 return;
@@ -97,7 +95,6 @@ void BTFactory::setCurrentTree(const std::string &newTree) {
 
     rtt::ai::robotDealer::RobotDealer::halt();
     BTFactory::currentTree = newTree;
-
 }
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
@@ -124,6 +121,3 @@ bool BTFactory::hasMadeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return BTFactory::weMadeTrees;
 }
-
-
-

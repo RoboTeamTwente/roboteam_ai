@@ -6,15 +6,13 @@
 #define RTT_BEINGPASSEDTOHELPER_H
 #include "bt/BehaviorTree.hpp"
 
-
 namespace bt {
-    class BeingPassedToHelper {
-    public:
-        BeingPassedToHelper();
+class BeingPassedToHelper {
+   public:
+    BeingPassedToHelper();
 
-        std::shared_ptr<bt::Node> createBeingPassedToChecker();
+    std::shared_ptr<bt::Node> createBeingPassedToChecker();
+};
+}  // namespace bt
 
-    };
-}
-
-#endif //RTT_BEINGPASSEDTOHELPER_H
+#endif  // RTT_BEINGPASSEDTOHELPER_H

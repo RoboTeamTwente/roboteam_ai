@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_ROBOTDEALER_H
 #define ROBOTEAM_AI_ROBOTDEALER_H
 
-#include <utility>
 #include <map>
-#include <set>
 #include <mutex>
+#include <set>
+#include <utility>
 #include <vector>
 #include "roboteam_utils/Vector2.h"
 
@@ -31,8 +31,7 @@ enum RobotType : short {
 };
 
 class RobotDealer {
-
-private:
+   private:
     static bool hasClaimedKeeper;
     static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
     static int keeperID;
@@ -45,7 +44,7 @@ private:
 
     static void claimKeeper();
 
-public:
+   public:
     static int claimRobotForTactic(RobotType feature, const std::string& tacticName, const std::string& roleName);
     static std::set<int> getAvailableRobots();
     static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
@@ -62,10 +61,9 @@ public:
     static void refresh();
     static bool keeperExistsInWorld();
     static bool hasFree();
-
 };
 
-} //robotDealer
-} //ai
-} //rtt
-#endif //ROBOTEAM_AI_ROBOTDEALER_H
+}  // namespace robotDealer
+}  // namespace ai
+}  // namespace rtt
+#endif  // ROBOTEAM_AI_ROBOTDEALER_H

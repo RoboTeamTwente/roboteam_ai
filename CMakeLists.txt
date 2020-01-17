@@ -364,7 +364,7 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
-        gtest
+#        gtest
         )
 
 target_include_directories(roboteam_ai
@@ -410,7 +410,7 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE gcov
-          gtest
+ #         gtest
           )
 endif()
 

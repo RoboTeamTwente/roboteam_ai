@@ -2,13 +2,11 @@
 // Created by baris on 15-2-19.
 //
 
-
 #include "utilities/Pause.h"
 #include "io/IOManager.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 bool Pause::pause = false;
 std::mutex Pause::pauseLock;
@@ -18,7 +16,6 @@ bool Pause::getPause() {
     return pause;
 }
 void Pause::haltRobots() {
-
     auto us = world::world->getUs();
     for (const auto &robot : us) {
         proto::RobotCommand cmd;
@@ -30,15 +27,11 @@ void Pause::haltRobots() {
         cmd.set_w(static_cast<float>(robot->angle));
         io::io.publishRobotCommand(cmd);
     }
-
 }
 void Pause::setPause(bool set) {
     std::lock_guard<std::mutex> lock(pauseLock);
     pause = set;
+}
+Pause::Pause() {}
 
-}
-Pause::Pause() {
-}
-
-}
-}
+}  // namespace rtt::ai

@@ -4,21 +4,19 @@
 
 #include <control/controllers/PidTwoAxesController.h>
 
-PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, double> pidXParams, std::tuple<double, double, double, double> pidYParams){
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, double> pidXParams, std::tuple<double, double, double, double> pidYParams) {
     pidXAxis = PidController(pidXParams);
     pidYAxis = PidController(pidYParams);
 }
 
-PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double> pidXParams, std::tuple<double, double, double> pidYParams){
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double> pidXParams, std::tuple<double, double, double> pidYParams) {
     pidXAxis = PidController(pidXParams);
     pidYAxis = PidController(pidYParams);
 }
 
-PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double> pidParams)
-        : PidTwoAxesController(pidParams, pidParams){}
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double> pidParams) : PidTwoAxesController(pidParams, pidParams) {}
 
-PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, double> pidParams)
-        : PidTwoAxesController(pidParams, pidParams){}
+PidTwoAxesController::PidTwoAxesController(std::tuple<double, double, double, double> pidParams) : PidTwoAxesController(pidParams, pidParams) {}
 
 Vector2 PidTwoAxesController::computeOutput(Vector2 setPointInput, Vector2 actualInput) {
     Vector2 outputCommand;
@@ -37,10 +35,6 @@ void PidTwoAxesController::setOutputRampRate(double rampRateX, double rampRateY)
     this->pidYAxis.setOutputRampRate(rampRateY);
 }
 
-void PidTwoAxesController::setXPid(std::tuple<double, double, double> pidXParams) {
-    this->pidXAxis.setPID(pidXParams);
-}
+void PidTwoAxesController::setXPid(std::tuple<double, double, double> pidXParams) { this->pidXAxis.setPID(pidXParams); }
 
-void PidTwoAxesController::setYPid(std::tuple<double, double, double> pidYParams) {
-    this->pidYAxis.setPID(pidYParams);
-}
+void PidTwoAxesController::setYPid(std::tuple<double, double, double> pidYParams) { this->pidYAxis.setPID(pidYParams); }
