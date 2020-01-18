@@ -120,13 +120,12 @@ void ApplicationManager::runKeeperTree() {
 
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree() {
-//    if (BTFactory::getCurrentTree() == "NaN") {
-//        std::cout << "NaN tree probably Halting" << std::endl;
-//          return Status::Waiting;
-//    }
-//    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    auto play = std::make_shared<ai::analysis::PassAndPlayPlay>();
-    return play->executePlay(ai::world::world, ai::world::field);
+    if (BTFactory::getCurrentTree() == "NaN") {
+        std::cout << "NaN tree probably Halting" << std::endl;
+          return Status::Waiting;
+    }
+    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
+    return strategy->tick(ai::world::world, ai::world::field);
 }
 
 /// Update the coaches information

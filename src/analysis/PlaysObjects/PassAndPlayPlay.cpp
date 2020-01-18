@@ -3,6 +3,9 @@
 //
 
 #include <include/roboteam_ai/skills/CoachDefend.h>
+#include <include/roboteam_ai/bt/Role.h>
+#include <include/roboteam_ai/skills/Halt.h>
+#include <include/roboteam_ai/skills/Attack.h>
 #include "analysis/PlaysObjects/PassAndPlayPlay.h"
 #include "skills/Pass2.h"
 #include "bt/Blackboard.hpp"
@@ -15,15 +18,8 @@ namespace rtt::ai::analysis {
      * The play will consist of multiple strategies which in turn consist of multiple roles. We build the tree in the constructor for now
      */
     PassAndPlayPlay::PassAndPlayPlay() {
-
-
-
-
-    }
-
-    // Select which robot to pass to
-    bt::Node::Status PassAndPlayPlay::executePlay(world::World* world, world::Field* field) {
         tree = std::make_shared<bt::BehaviorTree>();
+        auto bb = std::make_shared<bt::Blackboard>();
         std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {
                 {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
@@ -34,21 +30,31 @@ namespace rtt::ai::analysis {
                 {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
         };
+        std::shared_ptr<bt::DefaultTactic> offensiveTactic = std::make_shared<bt::DefaultTactic>("offensiveTactic", bb, robots);
 
-        auto localbb = std::make_shared<bt::Blackboard>();
+        // Creating the roles for all the robots in the tactic:
+        for (int i = 1; i < robots.size(); i++) {
+            auto localb = std::make_shared<bt::Blackboard>();
+            std::string rolename = "o" + std::to_string(i);
+            localb->setString("ROLE", rolename);
+            std::shared_ptr<bt::Role> temprole = std::make_shared<bt::Role>(rolename);
 
-        auto tactic = std::make_shared<bt::DefaultTactic>("Tactic trial", localbb, robots);
+            if (i == 5) {
+                auto pass = std::make_shared<rtt::ai::Pass2>("pass", localb);
+                pass->properties->setInt("PassTo", 2);
+                temprole->addChild(pass);
+            }
+            else {
+                auto halt = std::make_shared<rtt::ai::Halt>("pass", localb);
+                temprole->addChild(halt);
+            }
 
-        localbb->setInt("PassTo", 3);
-        auto passto = std::make_shared<rtt::ai::Pass2>("Pass to robot 3 node", localbb);
-        tactic->addChild(passto);
+            temprole->setRoleString(rolename);
+            offensiveTactic->addChild(temprole);
+        }
+        tree->SetRoot(offensiveTactic);
 
-        std::shared_ptr<bt::Blackboard> bb = std::make_shared<bt::Blackboard>();
-        // Set the tactictype so the robotdealer can divide the robots
-        bb->setString("TacticType", "General");
-        tactic->setProperties(bb);
-
-        tree->SetRoot(tactic);
-        return tree->tick(world, field);
     }
+
+
 }

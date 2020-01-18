@@ -15,7 +15,7 @@
 #include <map>
 #include "TreeInterpreter.h"
 #include "BTImport.h"
-
+#include "analysis/PlaysObjects/PassAndPlayPlay.h"
 class BTFactory {
 
         // TODO: have the names of all the project before here
@@ -49,17 +49,15 @@ class BTFactory {
 
         static bool hasMadeTrees();
 
+        static void setCurrentTree(std::shared_ptr<bt::BehaviorTree> tree);
 
 
 private:
         static std::string currentTree;
         static std::string keeperTree;
         static bool weMadeTrees;
-
-
-
-        static std::shared_ptr<bt::BehaviorTree> testing_tree;
-
+        static std::shared_ptr<bt::BehaviorTree> runningTree;
+        static std::shared_ptr<rtt::ai::analysis::PassAndPlayPlay> play;
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

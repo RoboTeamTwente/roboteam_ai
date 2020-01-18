@@ -58,26 +58,7 @@ namespace bt {
             /// For testing purposes, this is changed here:
             auto temphelper = bt::MidFieldHarassRole();
             std::shared_ptr<Role> temprole = temphelper.createMidFieldHarassRole(name);
-            if (i != 5) {
-                // offensiveTactic->addChild(temprole);
-                auto temp2 = std::make_shared<bt::Role>(name);
-                auto localbb = std::make_shared<bt::Blackboard>();
-                auto pass2 = std::make_shared<rtt::ai::Halt>(name, localbb);
-                temp2->addChild(pass2);
-                temp2->setRoleString(name);
-                offensiveTactic->addChild(temp2);
-            }
-
-            else {
-                auto selector = std::make_shared<bt::Selector>();
-                auto temp2 = std::make_shared<bt::Role>(name);
-                auto localbb = std::make_shared<bt::Blackboard>();
-                localbb->setInt("PassTo", 3);
-                auto pass2 = std::make_shared<rtt::ai::Pass2>(name, localbb);
-                temp2->addChild(pass2);
-                temp2->setRoleString(name);
-                offensiveTactic->addChild(temp2);
-            }
+            offensiveTactic->addChild(temprole);
         }
 
         return offensiveTactic;

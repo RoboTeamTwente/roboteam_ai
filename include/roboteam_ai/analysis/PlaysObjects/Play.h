@@ -20,9 +20,6 @@ namespace rtt::ai::analysis {
         Play();
 
         Play(std::string name, std::vector<std::function<bool(world::World* , world::Field*)>> invariants);
-        void setInvariants(const std::vector<std::function<bool(world::World* , world::Field*)>> &invariants);
-        const std::vector<std::function<bool(world::World* , world::Field*)>> &getInvariants() const;
-
 
         /**
          *
@@ -31,6 +28,9 @@ namespace rtt::ai::analysis {
         virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) ;
 
         std::string getName();
+
+        virtual std::shared_ptr<bt::BehaviorTree> getTree();
+
     protected:
         std::vector<std::function<bool(world::World* , world::Field*)>> invariants;
         std::shared_ptr<bt::BehaviorTree> tree;

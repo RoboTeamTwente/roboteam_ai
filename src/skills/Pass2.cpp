@@ -59,6 +59,7 @@ Pass2::Status Pass2::onUpdate() {
 }
 
 void Pass2::makeCommand() {
+    std::cout << "made command in pass!" << std::endl;
     RobotCommand shotdata;
 
     shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS,

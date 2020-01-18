@@ -16,6 +16,7 @@ std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
 
 bool BTFactory::weMadeTrees = false;
+std::shared_ptr<rtt::ai::analysis::PassAndPlayPlay> BTFactory::play;
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
@@ -50,6 +51,8 @@ void BTFactory::makeTrees() {
         auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
         for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
     }
+    // THis needs to be a playdecider object
+    play = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>();
 
     BTFactory::weMadeTrees = true;
     std::cout << "Done making trees" << std::endl;
@@ -62,16 +65,8 @@ void BTFactory::makeTrees() {
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
- // HERE
-    // Un-kill the code below by commenting the return statement to restore json functionality
-    auto treefound = codeTrees.find("attackertree");
-    return treefound->second;
-
-if (strategyRepo.find(treeName) != strategyRepo.end()) {
-        return strategyRepo.find(treeName)->second;
-    }
-    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
-    return nullptr;
+    auto tree = BTFactory::play->getTree();
+    return tree;
 }
 
 std::string BTFactory::getCurrentTree() {

@@ -28,10 +28,9 @@ namespace rtt::ai::analysis {
             && AlwaysTrueInvariant::isValid(world, field);
     }
 
-    void Play::setInvariants(const std::vector<std::function<bool(world::World *, world::Field *)>> &invariants) {
-        this->invariants = invariants;
+    std::shared_ptr<bt::BehaviorTree> Play::getTree() {
+        return tree;
     }
-
 
 
 
