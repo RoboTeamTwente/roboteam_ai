@@ -52,4 +52,12 @@ std::string BehaviorTree::node_name() {
     return "Behaviour Tree";
 }
 
+    const std::shared_ptr<BehaviorTree> &BehaviorTree::getNext() const {
+        return next;
+    }
+
+    void BehaviorTree::setNext(const std::shared_ptr<BehaviorTree> &next) {
+        BehaviorTree::next = next;
+    }
+
 }

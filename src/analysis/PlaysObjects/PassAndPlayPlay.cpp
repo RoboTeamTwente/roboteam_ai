@@ -95,18 +95,25 @@ namespace rtt::ai::analysis {
         tree1->properties->setString("NAME", "FIRST");
         tree2->properties->setString("NAME", "SECOND");
 
+        tree1->setNext(tree2);
+
     }
 
     void PassAndPlayPlay::executePlay(world::World *world, world::Field *field) {
 
     }
 
+
     std::shared_ptr<bt::BehaviorTree> PassAndPlayPlay::getTreeForWorld() {
-        if (tree1->getStatus() == bt::BehaviorTree::Status::Success) {
-            std::cout << "swapping now!" << std::endl;
-            tree = tree2;
-        }
+        moveToNextTactic();
         return tree;
+    }
+
+    void PassAndPlayPlay::moveToNextTactic() {
+        if (tree->getStatus() == bt::BehaviorTree::Status::Success) {
+            std::cout << "moving to next tactic!" << std::endl;
+            tree = tree->getNext();
+        }
     }
 
 

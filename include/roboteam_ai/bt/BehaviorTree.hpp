@@ -33,8 +33,14 @@ class BehaviorTree : public Node {
         void SetGlobalBlackboard(const Blackboard::Ptr &globalBB);
 
     private:
+        std::shared_ptr<BehaviorTree> next;
+public:
+    const std::shared_ptr<BehaviorTree> &getNext() const;
 
-        Node::Ptr root = nullptr;
+    void setNext(const std::shared_ptr<BehaviorTree> &next);
+
+private:
+    Node::Ptr root = nullptr;
         Blackboard::Ptr globalBB = nullptr;
 
 };

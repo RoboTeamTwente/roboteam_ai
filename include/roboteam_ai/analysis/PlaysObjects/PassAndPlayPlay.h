@@ -14,6 +14,7 @@ namespace rtt::ai::analysis {
         PassAndPlayPlay();
         void executePlay(world::World* world, world::Field* field);
         std::shared_ptr<bt::BehaviorTree> getTreeForWorld();
+        void moveToNextTactic();
 
     private:
         std::shared_ptr<bt::BehaviorTree> tree1;
