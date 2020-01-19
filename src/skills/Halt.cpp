@@ -14,7 +14,7 @@ Halt::Status Halt::onUpdate() {
     // send slowing down command
     command.set_geneva_state(3);
     publishRobotCommand();
-    return Status::Running;
+    return Status::Success;
 }
 
 } // ai

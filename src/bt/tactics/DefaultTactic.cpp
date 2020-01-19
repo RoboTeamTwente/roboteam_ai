@@ -29,16 +29,24 @@ Node::Status DefaultTactic::update() {
     if (amountToTick > children.size()) {
         amountToTick = children.size();
     }
-
+    bool allSuccess = true;
     for (int i = 0; i < amountToTick; i ++) {
         if (children.size() > i && children.at(i)) {
-            children.at(i)->tick(world, field);
+            auto stat = children.at(i)->tick(world, field);
+            if (stat != Status::Success) {
+                allSuccess = false;
+            }
         } else {
             std::cerr << "trying to tick a non-existent robot!" << std::endl;
         }
     }
+    if (allSuccess) {
+        return Status::Success;
+    }
+    else {
+        return Status::Running;
+    }
 
-    return status == Status::Success ? status : Status::Running;
 
 }
 

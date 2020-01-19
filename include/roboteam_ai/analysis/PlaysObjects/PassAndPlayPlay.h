@@ -12,7 +12,13 @@ namespace rtt::ai::analysis {
     public:
         //std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
         PassAndPlayPlay();
-        bt::Node::Status executePlay(world::World* world, world::Field* field);
+        void executePlay(world::World* world, world::Field* field);
+        std::shared_ptr<bt::BehaviorTree> getTreeForWorld();
+
+    private:
+        std::shared_ptr<bt::BehaviorTree> tree1;
+        std::shared_ptr<bt::BehaviorTree> tree2;
+
     };
 }
 
