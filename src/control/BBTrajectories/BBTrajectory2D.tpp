@@ -17,8 +17,8 @@ BBTrajectory2D<num>::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &in
 template<class num> void BBTrajectory2D<num>::generateTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,
         const Vector2 &finalPos,
         num maxVel, num maxAcc, num alpha) noexcept {
-    x.generateTrajectory(initialPos.x, initialVel.x, finalPos.x, maxVel*cosf(alpha), maxAcc*cosf(alpha));
-    y.generateTrajectory(initialPos.x, initialVel.x, finalPos.x, maxVel*sinf(alpha), maxAcc*sinf(alpha));
+    x = BBTrajectory1D<num>(initialPos.x, initialVel.x, finalPos.x, maxVel*cosf(alpha), maxAcc*cosf(alpha));
+    y = BBTrajectory1D<num>(initialPos.y, initialVel.y, finalPos.y, maxVel*sinf(alpha), maxAcc*sinf(alpha));
 }
 template<class num>
 void BBTrajectory2D<num>::generateSyncedTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,

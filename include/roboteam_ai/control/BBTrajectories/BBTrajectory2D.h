@@ -21,5 +21,5 @@ class BBTrajectory2D {
 
 };
 }
-#include "src/control/BBTrajectories/BBTrajectory2D.cpp"
+#include "src/control/BBTrajectories/BBTrajectory2D.tpp"
 #endif //RTT_BBTRAJECTORY2D_H
