@@ -90,7 +90,10 @@ namespace rtt::ai::analysis {
             temprole2->setRoleString(rolename);
             offensiveTactic2->addChild(temprole2);
         }
-        tree2->SetRoot(offensiveTactic);
+        tree2->SetRoot(offensiveTactic2);
+        tree = tree1;
+        tree1->properties->setString("NAME", "FIRST");
+        tree2->properties->setString("NAME", "SECOND");
 
     }
 
@@ -100,12 +103,9 @@ namespace rtt::ai::analysis {
 
     std::shared_ptr<bt::BehaviorTree> PassAndPlayPlay::getTreeForWorld() {
         if (tree1->getStatus() == bt::BehaviorTree::Status::Success) {
+            std::cout << "swapping now!" << std::endl;
             tree = tree2;
         }
-        else {
-            tree = tree1;
-        }
-        tree = tree1;
         return tree;
     }
 

@@ -66,6 +66,8 @@ void BTFactory::makeTrees() {
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     auto tree = BTFactory::play->getTreeForWorld();
+    std::cout << "getting tree in BTFactory" << std::endl;
+    std::cout << tree->properties->getString("NAME");
     return tree;
 }
 
