@@ -131,7 +131,9 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     }
 }
 
-void Robot::setWattage(uint8_t _wattage) noexcept { this->wattage = _wattage; }
+void Robot::setRobotType(RobotType _type) noexcept {
+    this->type = _type;
+}
 
-uint8_t Robot::getWattage() const noexcept { return wattage; }
+RobotType Robot::getRobotType() const noexcept { return type; }
 }  // namespace rtt::world_new::robot

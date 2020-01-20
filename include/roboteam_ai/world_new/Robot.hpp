@@ -16,6 +16,7 @@
 #include "control/BasicPosControl.h"
 #include "control/ballHandling/BallHandlePosControl.h"
 #include "world_new/Team.hpp"
+#include "RobotType.hpp"
 
 
 namespace rtt::world_new::robot {
@@ -32,7 +33,7 @@ namespace rtt::world_new::robot {
     private:
         uint32_t id;
         Team team;
-        uint8_t wattage = 30;
+        RobotType type = RobotType::THIRTY_WATT;
 
         Vector2 pos;
         Vector2 vel;
@@ -57,7 +58,7 @@ namespace rtt::world_new::robot {
     private:
         void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 
-        void setWattage(uint8_t _wattage) noexcept;
+        void setRobotType(RobotType type) noexcept;
 
         void setId(uint32_t id) noexcept;
 
@@ -102,7 +103,7 @@ namespace rtt::world_new::robot {
     public:
         [[nodiscard]] uint32_t getId() const noexcept;
 
-        [[nodiscard]] uint8_t getWattage() const noexcept;
+        [[nodiscard]] RobotType getRobotType() const noexcept;
 
         [[nodiscard]] Team getTeam() const noexcept;
 
