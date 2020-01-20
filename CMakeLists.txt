@@ -320,6 +320,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
