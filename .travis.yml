@@ -22,9 +22,8 @@ notifications:
 # then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
 # Finally, we run the tests.
 script:
-  - echo $TRAVIS_BRANCH
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
-  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
+  - docker run yuhanuncitgez/roboteamtwente:latest --env BRANCH_NAME="$TRAVIS_BRANCH" --env REPO_NAME="roboteam_ai"
   - echo "Completed build <3"
 
 #Lets not do coverage yet
