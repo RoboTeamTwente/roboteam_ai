@@ -20,12 +20,6 @@ void JoystickHandler::tick() {
     doChip();
     changeRobotID();
     toggleDribbler();
-
-    //            std::cout << command.id();
-    //            std::cout << " vel=" << command.vel();
-    //            std::cout << " w=" << command.w();
-    //            std::cout << " use_angle=" << command.use_angle();
-    //            std::cout << std::endl;
 }
 
 /** Receives event data and checks the event type.

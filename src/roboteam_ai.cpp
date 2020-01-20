@@ -5,7 +5,6 @@
 
 #include "ApplicationManager.h"
 #include "interface/widgets/mainWindow.h"
-#include "manual/JoystickManager.h"
 
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;

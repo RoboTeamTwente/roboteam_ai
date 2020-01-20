@@ -10,11 +10,7 @@ using namespace std::chrono;
 
 namespace rtt::input {
 
-JoystickManager::JoystickManager(ai::io::IOManager* ioManager) : ioManager(ioManager) {
-    std::cout << "[JoystickManager] New JoystickManager" << std::endl;
-    // Create publisher to send robot commands
-    //    pub = std::make_unique<proto::Publisher<proto::RobotCommand>>("tcp://127.0.0.1:5556");
-}
+JoystickManager::JoystickManager(ai::io::IOManager* ioManager) : ioManager(ioManager) { std::cout << "[JoystickManager] New JoystickManager" << std::endl; }
 
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {
@@ -104,7 +100,6 @@ void JoystickManager::loop() {
         /* Ensure that we're waiting for a positive amount of time, else SDL_WaitEventTimeout will halt */
         msToNextTick = std::max(msToNextTick, 1);
 
-        // std::cout << "msToNextTick=" << msToNextTick << std::endl;
         /* Wait for an event or until it is time for the next tick */
         while (SDL_WaitEventTimeout(&event, msToNextTick)) {
             /* Handle the received event */
