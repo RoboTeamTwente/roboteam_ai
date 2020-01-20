@@ -11,6 +11,7 @@
 #include <QtWidgets/QMenuBar>
 #include "interface/api/Output.h"
 #include "interface/widgets/MainControlsWidget.h"
+#include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
 #include "interface/widgets/RobotsWidget.h"
 #include "interface/widgets/VisualizationSettingsWidget.h"
@@ -76,6 +77,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
     refWidget = new RuleSetWidget(this);
+    manualControlWidget = new ManualControlWidget(this);
 
     // add the tab widget
     auto tabWidget = new QTabWidget;
@@ -95,6 +97,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
+    tabWidget->addTab(manualControlWidget, tr("Manual"));
 
     vLayout->addWidget(tabWidget);
 
