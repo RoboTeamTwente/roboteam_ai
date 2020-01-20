@@ -5,13 +5,12 @@
 
 language: cpp
 dist: bionic
-# osx_image: xcode11.2
 
 services:
   - docker
 
-# before_install:
-#   - docker pull 
+before_install:
+  - docker pull yuhanuncitgez/roboteamtwente:latest 
 
 notifications:
   email: false
@@ -23,19 +22,10 @@ notifications:
 # then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
 # Finally, we run the tests.
 script:
-  # - cd /opt/roboteam
   - echo $TRAVIS_BRANCH
-
-  # - export CC="/usr/bin/gcc"
-  # - export CXX="/usr/bin/g++"
-  # - rm -rf roboteam_ai
-  # - git submodule foreach git checkout master
-  # - mv ${TRAVIS_BUILD_DIR} .
-  # - mkdir cmake-build-debug && cd cmake-build-debug;
-  # - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
-  # - cmake --build . --target ai_tests -- -j 8
-  # - cd roboteam_ai
-  # - ./ai_tests
+  # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
+  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
+  - echo "Completed build <3"
 
 #Lets not do coverage yet
 #after_success:
