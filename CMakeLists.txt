@@ -323,7 +323,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
-        src/world_new/RobotControllers.cpp include/roboteam_ai/world_new/RobotControllers.hpp)
+        )
 
 set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/heuristics/CoachHeuristics.cpp
