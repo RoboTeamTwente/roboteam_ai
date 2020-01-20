@@ -4,60 +4,28 @@
 # but with caching this is not a large performance hit anyway.
 
 language: cpp
-os: osx
-osx_image: xcode11.2
+dist: bionic
 
-addons:
-  homebrew:
-    packages:
-      - zmq       # proto dependency
-      - zmqpp     # proto dependency
-      - protobuf  # proto dependency
-      - armadillo # world dependency
-      - ccache    # speeding up build
-      - ninja     # speeding up build
-      - qt        # roboteam_ai dependency
+services:
+  - docker
+
+before_install:
+  - docker pull yuhanuncitgez/roboteamtwente:latest
 
 notifications:
   email: false
   slack:
     secure: f0ZitTIc4ub7ek/OeN1WliiWJv6dTMnIbLY4Cy1SnMJKLUagkcjX+oMW00QHJ5aCPFKxamoWyEymJ34XL8VaUb2NhAHyIFy1Go5Z43IS0fNGUMuqEeuOsmwzMTIrrzOAyQ36OmyMknEQaAFICX2oZHqNgQQfe7S5Pna3v4tOkHSlAPrBmPyADvkcWG1wKhmnw+/9ExEu8xPooKehqSZEzRa++4R2RFQ1pp130c/qe3q/HOrBoDmzFERJA6ZhiukdNNKMRYvJSFQyzEOu6lmmFd68T5c5cxZM/RUA4xEu7ih6x/N/Se4AndhRHSCMoAB2aZuSOD32Wo1kZBg1oO4MjpvPdE7BHfMmZFY0GXpmVt7dvimHYw4L2hpih3szXTMcYk+aPjvCIAZEedqNmQouR28+Oz6eMZYPC1zG76rGGo/bx104BDNLsILaz+5/dUmF1sIqiY2DfJ4Ppqp7WkTcB1TOdIWKnFE7zC/zdscvgBMBNyeWaRskHnIzn3oyMDiCX6PAYqufYldr89ew2Yzg7bDLIz5JWVPHRffdAVK6SoMTg9ncXGQMGMfRCTR1pTM5kUL5rp49jECEf8KTQ3koQemcl/TRvSMEsoATPVEQNNtpJtWa5aRdlrPtkqA/iuIiR34Maia3RcSXwdd46guS0lv0Jcu+cV2M+lQHH4rgZUs=
 
-cache:
-  directories:
-    - $HOME/Library/Caches/Homebrew
-    - $HOME/.ccache
-
-# Install Google Test from source
-install:
-  - cd ~/
-  - git clone https://github.com/google/googletest.git
-  - cd googletest
-  - mkdir install
-  - cd install
-  - cmake ../
-  - make
-  - sudo make install
 
 # First we set up the compiler to use ccache.
 # then clone roboteam_suite and put all repositories on master.
 # then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
 # Finally, we run the tests.
 script:
-  - cd ~
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
-  - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
-  - cd ~/roboteam_suite
-  - rm -rf roboteam_ai
-  - git submodule foreach git checkout master
-  - mv ${TRAVIS_BUILD_DIR} .
-  - mkdir cmake-build-debug && cd cmake-build-debug;
-  - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
-  - cmake --build . --target ai_tests -- -j 8
-  - cd roboteam_ai
-  - ./ai_tests
+  # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
+  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
+  - echo "Completed build <3"
 
 #Lets not do coverage yet
 #after_success:
