@@ -4,8 +4,8 @@
 # but with caching this is not a large performance hit anyway.
 
 language: cpp
-os: osx
-osx_image: xcode11.2
+dist: bionic
+# osx_image: xcode11.2
 
 # services:
 #   - docker
