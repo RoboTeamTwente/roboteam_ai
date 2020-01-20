@@ -7,8 +7,8 @@ language: cpp
 dist: bionic
 # osx_image: xcode11.2
 
-# services:
-#   - docker
+services:
+  - docker
 
 # before_install:
 #   - docker pull 
@@ -25,6 +25,7 @@ notifications:
 script:
   # - cd /opt/roboteam
   - echo $TRAVIS_BRANCH
+
   # - export CC="/usr/bin/gcc"
   # - export CXX="/usr/bin/g++"
   # - rm -rf roboteam_ai
