@@ -24,7 +24,7 @@ notifications:
 # Finally, we run the tests.
 script:
   # - cd /opt/roboteam
-  - echo $project_name
+  - echo $TRAVIS_BRANCH
   # - export CC="/usr/bin/gcc"
   # - export CXX="/usr/bin/g++"
   # - rm -rf roboteam_ai
