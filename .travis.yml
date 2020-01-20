@@ -23,7 +23,7 @@ notifications:
 # Finally, we run the tests.
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
-  - docker run yuhanuncitgez/roboteamtwente:latest --env BRANCH_NAME="$TRAVIS_BRANCH" --env REPO_NAME="roboteam_ai"
+  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
   - echo "Completed build <3"
 
 
