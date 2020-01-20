@@ -17,7 +17,6 @@ notifications:
   slack:
     secure: f0ZitTIc4ub7ek/OeN1WliiWJv6dTMnIbLY4Cy1SnMJKLUagkcjX+oMW00QHJ5aCPFKxamoWyEymJ34XL8VaUb2NhAHyIFy1Go5Z43IS0fNGUMuqEeuOsmwzMTIrrzOAyQ36OmyMknEQaAFICX2oZHqNgQQfe7S5Pna3v4tOkHSlAPrBmPyADvkcWG1wKhmnw+/9ExEu8xPooKehqSZEzRa++4R2RFQ1pp130c/qe3q/HOrBoDmzFERJA6ZhiukdNNKMRYvJSFQyzEOu6lmmFd68T5c5cxZM/RUA4xEu7ih6x/N/Se4AndhRHSCMoAB2aZuSOD32Wo1kZBg1oO4MjpvPdE7BHfMmZFY0GXpmVt7dvimHYw4L2hpih3szXTMcYk+aPjvCIAZEedqNmQouR28+Oz6eMZYPC1zG76rGGo/bx104BDNLsILaz+5/dUmF1sIqiY2DfJ4Ppqp7WkTcB1TOdIWKnFE7zC/zdscvgBMBNyeWaRskHnIzn3oyMDiCX6PAYqufYldr89ew2Yzg7bDLIz5JWVPHRffdAVK6SoMTg9ncXGQMGMfRCTR1pTM5kUL5rp49jECEf8KTQ3koQemcl/TRvSMEsoATPVEQNNtpJtWa5aRdlrPtkqA/iuIiR34Maia3RcSXwdd46guS0lv0Jcu+cV2M+lQHH4rgZUs=
 
-
 # First we set up the compiler to use ccache.
 # then clone roboteam_suite and put all repositories on master.
 # then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
