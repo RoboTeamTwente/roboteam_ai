@@ -378,48 +378,48 @@ target_include_directories(roboteam_ai
 ## Testing ##
 #############
 add_executable(ai_tests
-        ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${IO_SOURCES}
-        ${CONDITIONS_SOURCES}
-        ${SKILLS_SOURCES}
-        ${CONTROL_SOURCES}
-        ${ANALYSIS_SOURCES}
-        ${TACTIC_SOURCES}
-        ${DEMO_SOURCES}
-        ${COACH_SOURCES}
-        ${INTERFACE_SOURCES}
-        ${TEST_SOURCES}
-        ${WORLD_SOURCES}
+#        ${UTILS_SOURCES}
+#        ${JSON_SOURCES}
+#        ${BT_SOURCES}
+#        ${IO_SOURCES}
+#        ${CONDITIONS_SOURCES}
+#        ${SKILLS_SOURCES}
+#        ${CONTROL_SOURCES}
+#        ${ANALYSIS_SOURCES}
+#        ${TACTIC_SOURCES}
+#        ${DEMO_SOURCES}
+#        ${COACH_SOURCES}
+#        ${INTERFACE_SOURCES}
+#        ${TEST_SOURCES}
+#        ${WORLD_SOURCES}
         )
-
-
-if(APPLE)
-    target_link_libraries(ai_tests
-            PRIVATE roboteam_utils
-            PRIVATE Qt5::Widgets
-            PRIVATE Qt5::Gui
-            PRIVATE Qt5::Charts
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a)
-endif()
-
-if(UNIX AND NOT APPLE)
-  target_link_libraries(ai_tests
-        PRIVATE roboteam_utils
-        PRIVATE Qt5::Widgets
-        PRIVATE Qt5::Gui
-        PRIVATE Qt5::Charts
-        PRIVATE gcov
- #         gtest
-          )
-endif()
-
-target_include_directories(ai_tests
-        INTERFACE include
-        PRIVATE include/roboteam_ai
-        PRIVATE src )
+zz
+#
+#if(APPLE)
+#    target_link_libraries(ai_tests
+#            PRIVATE roboteam_utils
+#            PRIVATE Qt5::Widgets
+#            PRIVATE Qt5::Gui
+#            PRIVATE Qt5::Charts
+#            /usr/local/lib/libgtest.a
+#            /usr/local/lib/libgtest_main.a)
+#endif()
+#
+#if(UNIX AND NOT APPLE)
+#  target_link_libraries(ai_tests
+#        PRIVATE roboteam_utils
+#        PRIVATE Qt5::Widgets
+#        PRIVATE Qt5::Gui
+#        PRIVATE Qt5::Charts
+#        PRIVATE gcov
+# #         gtest
+#          )
+#endif()
+#
+#target_include_directories(ai_tests
+#        INTERFACE include
+#        PRIVATE include/roboteam_ai
+#        PRIVATE src )
 #
 #
 #include(CodeCoverage)
