@@ -25,7 +25,9 @@ namespace rtt::ai::analysis {
          *
          * @return true if all the invariants of this strategy are true
          */
-        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) ;
+        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+
+        virtual int scorePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
         std::string getName();
 

@@ -7,6 +7,8 @@
 #include <include/roboteam_ai/skills/Halt.h>
 #include <include/roboteam_ai/skills/Attack.h>
 #include <include/roboteam_ai/bt/Node.hpp>
+#include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h>
+#include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h>
 #include "analysis/PlaysObjects/PassAndPlayPlay.h"
 #include "skills/Pass2.h"
 #include "bt/Blackboard.hpp"
@@ -115,6 +117,20 @@ namespace rtt::ai::analysis {
             tree = tree->getNext();
         }
     }
+
+    int PassAndPlayPlay::scorePlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        int score = 0;
+        if (BallBelongsToUsInvariant::isValid(world, field)) {
+            score = 10;
+        }
+        return score;
+    }
+
+    bool PassAndPlayPlay::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        return BallOnOurSideInvariant::isValid(world, field);
+    }
+
+
 
 
 }
