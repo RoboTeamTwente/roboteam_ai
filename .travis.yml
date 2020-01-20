@@ -8,6 +8,7 @@ dist: bionic
 
 services:
   - docker
+  - xvfb
 
 before_install:
   - docker pull yuhanuncitgez/roboteamtwente:latest
