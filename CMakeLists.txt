@@ -413,6 +413,7 @@ if(APPLE)
             PRIVATE Qt5::Widgets
             PRIVATE Qt5::Gui
             PRIVATE Qt5::Charts
+            PRIVATE ${SDL2_LIBRARY} 
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a)
 endif()
@@ -423,13 +424,17 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
+        PRIVATE ${SDL2_LIBRARY} 
         PRIVATE gcov)
 endif()
 
 target_include_directories(ai_tests
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src )
+        PRIVATE src 
+        PRIVATE ${SDL2_INCLUDE_DIRS}
+        PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
+        )
 #
 #
 #include(CodeCoverage)
