@@ -17,7 +17,7 @@ addons:
       - ccache    # speeding up build
       - ninja     # speeding up build
       - qt        # roboteam_ai dependency
-      - sdl2      # roboteam_ai joystick dependency
+      - sdl       # roboteam_ai joystick dependency
 
 notifications:
   email: false
