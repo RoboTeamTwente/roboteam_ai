@@ -26,6 +26,7 @@ script:
   - docker run yuhanuncitgez/roboteamtwente:latest --env BRANCH_NAME="$TRAVIS_BRANCH" --env REPO_NAME="roboteam_ai"
   - echo "Completed build <3"
 
+
 #Lets not do coverage yet
 #after_success:
 #- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
