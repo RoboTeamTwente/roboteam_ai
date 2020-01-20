@@ -24,7 +24,7 @@ notifications:
 # Finally, we run the tests.
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
-  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
+  - docker run --priviledged yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
   - echo "Completed build <3"
   
 #Lets not do coverage yet
