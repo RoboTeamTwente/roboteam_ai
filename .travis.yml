@@ -17,8 +17,6 @@ env:
 
 # This happens before your build
 before_install:
-  # Login to docker
-  - echo "$DOCKER_PASSWORD" | docker login --username yuhanuncitgez --password-stdin
   # Pull the docker image, cached
   - bash -c "if [[ -f ~/cache/docker/roboteamtwente.tar ]]; then docker load ~/cache/docker/roboteamtwente.tar; else docker pull yuhanuncitgez/roboteamtwente:latest; fi"
   - mkdir -p ~/cache/build
