@@ -213,7 +213,7 @@ double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
-        // std::cout << "Access undefined field value in the Field class." << std::endl;
+        std::cout << "Warning: access undefined field value in the Field class (world might not be turned on?)." << std::endl;
         return 0.0;
     }
 }
@@ -225,7 +225,7 @@ const FieldLineSegment &Field::getFieldLine(const std::optional<FieldLineSegment
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        // std::cout << "Access undefined field line in the Field class." << std::endl;
+        std::cout << "Warning: access undefined field line in the Field class (world might not be turned on?)." << std::endl;
 
         static FieldLineSegment standard = {};
         return standard;
@@ -239,7 +239,7 @@ const Vector2 &Field::getFieldVector(const std::optional<Vector2> &fieldVector) 
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        // std::cout << "Access undefined field vector in the Field class." << std::endl;
+        std::cout << "Warning: access undefined field vector in the Field class (world might not be turned on?)." << std::endl;
 
         static Vector2 standard = {};
         return standard;
@@ -253,7 +253,7 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
     else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
-        std::cout << "Access undefined field arc in the Field class." << std::endl;
+        std::cout << "Warning: access undefined field arc in the Field class (world might not be turned on?)." << std::endl;
 
         static FieldArc standard = {};
         return standard;
