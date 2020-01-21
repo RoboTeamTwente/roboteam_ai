@@ -31,10 +31,10 @@ script:
   - docker run --privileged yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
   - echo "Completed build <3"
   
-  after_success:
-    # Login to docker
-    - docker login --username yuhanuncitgez --password $DOCKER_KEY
-    #Push image for caching
-    - docker push yuhanuncitgez/roboteamtwente:latest
-    #Lets not do coverage yet
-    #- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+after_success:
+  # Login to docker
+  - docker login --username yuhanuncitgez --password $DOCKER_KEY
+  #Push image for caching
+  - docker push yuhanuncitgez/roboteamtwente:latest
+  #Lets not do coverage yet
+  #- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
