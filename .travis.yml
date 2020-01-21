@@ -15,15 +15,10 @@ services:
 git:
   clone: false
 
-# Set the variable
-env:
-  global:
-    - DOCKER_USERNAME = yuhanuncitgez
-
 # This happens before your build
 before_install:
   # Pull the docker image, not cached, caching is slower
-  - docker pull "$DOCKER_USERNAME/roboteamtwente:latest"
+  - docker pull yuhanuncitgez/roboteamtwente:latest
 
 # Notifications, no email, post to slack channel
 notifications:
@@ -34,7 +29,7 @@ notifications:
 
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
-  - docker run "$DOCKER_USERNAME/roboteamtwente:latest" "$TRAVIS_BRANCH" roboteam_ai
+  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
   
 # after_success:
   # Lets not do coverage yet
