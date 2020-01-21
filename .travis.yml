@@ -1,5 +1,5 @@
 # This travis image builds roboteam_suite and runs the target 'ai_tests'.
-# All other repositories of roboteam_suit are set to the master branch.
+# All other repositories of roboteam_suite are set to the master branch.
 # We need all dependencies to parse the cmake files. This can be optimized later,
 # but with caching this is not a large performance hit anyway.
 
@@ -15,6 +15,7 @@ services:
 git:
   clone: false
 
+# Set the variable
 env:
   global:
     - DOCKER_USERNAME = yuhanuncitgez
@@ -22,11 +23,7 @@ env:
 # This happens before your build
 before_install:
   # Pull the docker image, not cached, caching is slower
-  - docker pull yuhanuncitgez/roboteamtwente:latest
-
-# Uncached docker image
-# before_install:
-#   - docker pull yuhanuncitgez/roboteamtwente_base:latest
+  - docker pull "$DOCKER_USERNAME/roboteamtwente:latest"
 
 # Notifications, no email, post to slack channel
 notifications:
@@ -35,16 +32,10 @@ notifications:
     # Slack secure key, this should be an environment variable
     secure: f0ZitTIc4ub7ek/OeN1WliiWJv6dTMnIbLY4Cy1SnMJKLUagkcjX+oMW00QHJ5aCPFKxamoWyEymJ34XL8VaUb2NhAHyIFy1Go5Z43IS0fNGUMuqEeuOsmwzMTIrrzOAyQ36OmyMknEQaAFICX2oZHqNgQQfe7S5Pna3v4tOkHSlAPrBmPyADvkcWG1wKhmnw+/9ExEu8xPooKehqSZEzRa++4R2RFQ1pp130c/qe3q/HOrBoDmzFERJA6ZhiukdNNKMRYvJSFQyzEOu6lmmFd68T5c5cxZM/RUA4xEu7ih6x/N/Se4AndhRHSCMoAB2aZuSOD32Wo1kZBg1oO4MjpvPdE7BHfMmZFY0GXpmVt7dvimHYw4L2hpih3szXTMcYk+aPjvCIAZEedqNmQouR28+Oz6eMZYPC1zG76rGGo/bx104BDNLsILaz+5/dUmF1sIqiY2DfJ4Ppqp7WkTcB1TOdIWKnFE7zC/zdscvgBMBNyeWaRskHnIzn3oyMDiCX6PAYqufYldr89ew2Yzg7bDLIz5JWVPHRffdAVK6SoMTg9ncXGQMGMfRCTR1pTM5kUL5rp49jECEf8KTQ3koQemcl/TRvSMEsoATPVEQNNtpJtWa5aRdlrPtkqA/iuIiR34Maia3RcSXwdd46guS0lv0Jcu+cV2M+lQHH4rgZUs=
 
-cache:
-  directories:
-    - ~/.ccache
-
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
-  - docker run yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
+  - docker run "$DOCKER_USERNAME/roboteamtwente:latest" "$TRAVIS_BRANCH" roboteam_ai
   
-after_success:
-  # Push image for caching
-  # - docker push yuhanuncitgez/roboteamtwente:latest
-  #Lets not do coverage yet
-  #- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+# after_success:
+  # Lets not do coverage yet
+  # - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
