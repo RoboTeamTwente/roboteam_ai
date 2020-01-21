@@ -38,7 +38,8 @@ notifications:
 
 cache:
   directories:
-    - /vol/cache/build
+    - ~/cache/build
+    - ~/.ccache
 
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
