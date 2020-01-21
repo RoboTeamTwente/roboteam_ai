@@ -13,6 +13,9 @@ services:
 
 # This happens before your install
 before_install:
+  # Login to docker
+  - echo $DOCKER_KEY
+  - docker login --username yuhanuncitgez --password $DOCKER_KEY
   # Pull the docker image, cached
   - docker pull yuhanuncitgez/roboteamtwente:latest
 
@@ -33,9 +36,7 @@ script:
   - echo "Completed build <3"
   
 after_success:
-  # Login to docker
-  - docker login --username yuhanuncitgez --password $DOCKER_KEY
-  #Push image for caching
+  # Push image for caching
   - docker push yuhanuncitgez/roboteamtwente:latest
   #Lets not do coverage yet
   #- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
