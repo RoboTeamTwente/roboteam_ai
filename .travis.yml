@@ -11,10 +11,14 @@ dist: bionic
 services:
   - docker
 
+env:
+  global:
+    - DOCKER_USERNAME = yuhanuncitgez
+
 # This happens before your install
 before_install:
   # Login to docker
-  - echo "$DOCKER_KEY" | docker login --username yuhanuncitgez --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
   # Pull the docker image, cached
   - docker pull yuhanuncitgez/roboteamtwente:latest
 
