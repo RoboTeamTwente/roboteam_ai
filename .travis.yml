@@ -20,7 +20,7 @@ before_install:
   # Login to docker
   - echo "$DOCKER_PASSWORD" | docker login --username yuhanuncitgez --password-stdin
   # Pull the docker image, cached
-  - bash -c "if [[ -f /vol/cache/docker/roboteamtwente.tar ]]; then docker import /vol/cache/docker/roboteamtwente.tar; else; docker pull yuhanuncitgez/roboteamtwente:latest; fi"
+  - bash -c "if [[ -f /vol/cache/docker/roboteamtwente.tar ]]; then docker import /vol/cache/docker/roboteamtwente.tar; else docker pull yuhanuncitgez/roboteamtwente:latest; fi"
   - mkdir -p /vol/cache/build
   - mkdir -p /vol/cache/docker
   - docker export -o /vol/cache/docker/roboteamtwente.tar
