@@ -15,7 +15,7 @@ services:
 before_install:
   # Login to docker
   - echo $DOCKER_KEY
-  - docker login --username yuhanuncitgez --password $DOCKER_KEY
+  - docker login --username yuhanuncitgez --password 0417813e-54ad-4eeb-b498-5a39d8a790c1
   # Pull the docker image, cached
   - docker pull yuhanuncitgez/roboteamtwente:latest
 
