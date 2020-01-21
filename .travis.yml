@@ -38,7 +38,7 @@ notifications:
 
 cache:
   directories:
-    - ~/cache/build
+    - ~/cache
     - ~/.ccache
 
 script:
