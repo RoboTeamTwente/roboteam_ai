@@ -14,7 +14,7 @@ services:
 # This happens before your install
 before_install:
   # Login to docker
-  - docker login --username yuhanuncitgez --password "$DOCKER_KEY"
+  - echo "$DOCKER_KEY" | docker login --username yuhanuncitgez --password-stdin
   # Pull the docker image, cached
   - docker pull yuhanuncitgez/roboteamtwente:latest
 
