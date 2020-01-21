@@ -15,12 +15,15 @@ env:
   global:
     - DOCKER_USERNAME = yuhanuncitgez
 
-# This happens before your install
+# This happens before your build
 before_install:
   # Login to docker
   - echo "$DOCKER_PASSWORD" | docker login --username yuhanuncitgez --password-stdin
   # Pull the docker image, cached
-  - docker pull yuhanuncitgez/roboteamtwente:latest
+  - bash -c "if [[ -f /vol/cache/docker/roboteamtwente.tar ]]; then docker import /vol/cache/docker/roboteamtwente.tar; else; docker pull yuhanuncitgez/roboteamtwente:latest; fi"
+  - mkdir -p /vol/cache/build
+  - mkdir -p /vol/cache/docker
+  - docker export -o /vol/cache/docker/roboteamtwente.tar
 
 # Uncached docker image
 # before_install:
@@ -33,13 +36,16 @@ notifications:
     # Slack secure key, this should be an environment variable
     secure: f0ZitTIc4ub7ek/OeN1WliiWJv6dTMnIbLY4Cy1SnMJKLUagkcjX+oMW00QHJ5aCPFKxamoWyEymJ34XL8VaUb2NhAHyIFy1Go5Z43IS0fNGUMuqEeuOsmwzMTIrrzOAyQ36OmyMknEQaAFICX2oZHqNgQQfe7S5Pna3v4tOkHSlAPrBmPyADvkcWG1wKhmnw+/9ExEu8xPooKehqSZEzRa++4R2RFQ1pp130c/qe3q/HOrBoDmzFERJA6ZhiukdNNKMRYvJSFQyzEOu6lmmFd68T5c5cxZM/RUA4xEu7ih6x/N/Se4AndhRHSCMoAB2aZuSOD32Wo1kZBg1oO4MjpvPdE7BHfMmZFY0GXpmVt7dvimHYw4L2hpih3szXTMcYk+aPjvCIAZEedqNmQouR28+Oz6eMZYPC1zG76rGGo/bx104BDNLsILaz+5/dUmF1sIqiY2DfJ4Ppqp7WkTcB1TOdIWKnFE7zC/zdscvgBMBNyeWaRskHnIzn3oyMDiCX6PAYqufYldr89ew2Yzg7bDLIz5JWVPHRffdAVK6SoMTg9ncXGQMGMfRCTR1pTM5kUL5rp49jECEf8KTQ3koQemcl/TRvSMEsoATPVEQNNtpJtWa5aRdlrPtkqA/iuIiR34Maia3RcSXwdd46guS0lv0Jcu+cV2M+lQHH4rgZUs=
 
+cache:
+  directories:
+    - /vol/cache/build
+
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
-  - docker run --privileged yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
-  - echo "Completed build <3"
+  - docker run -v /vol/cache/build:/opt/roboteam/roboteam_suite/build yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
   
 after_success:
   # Push image for caching
-  - docker push yuhanuncitgez/roboteamtwente:latest
+  # - docker push yuhanuncitgez/roboteamtwente:latest
   #Lets not do coverage yet
   #- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
