@@ -11,6 +11,10 @@ dist: bionic
 services:
   - docker
 
+# Disable git cloning cause we do that in docker
+git:
+  clone: false
+
 env:
   global:
     - DOCKER_USERNAME = yuhanuncitgez
@@ -20,7 +24,7 @@ before_install:
   # Pull the docker image, not cached, caching is slower
   - docker pull yuhanuncitgez/roboteamtwente:latest
   - mkdir -p ~/cache/build
-  
+
 # Uncached docker image
 # before_install:
 #   - docker pull yuhanuncitgez/roboteamtwente_base:latest
