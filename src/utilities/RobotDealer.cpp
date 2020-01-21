@@ -5,8 +5,6 @@
 #include "utilities/RobotDealer.h"
 #include "control/ControlUtils.h"
 #include "world/World.h"
-#include "world/FieldComputations.h"
-#include "world/Robot.h"
 #include "world/Ball.h"
 #include "treeinterp/BTFactory.h"
 #include "coach/PassCoach.h"

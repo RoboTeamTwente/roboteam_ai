@@ -192,7 +192,7 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRob
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),
-            [field](std::pair<RobotPtr, RobotDanger> a, std::pair<RobotPtr, RobotDanger> b) {
+            [&field](std::pair<RobotPtr, RobotDanger> a, std::pair<RobotPtr, RobotDanger> b) {
               return a.second.getTotalDanger(field) > b.second.getTotalDanger(field);
             });
 

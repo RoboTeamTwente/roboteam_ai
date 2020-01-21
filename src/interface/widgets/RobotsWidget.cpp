@@ -29,7 +29,7 @@ RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent){
 }
 
 void RobotsWidget::updateContents(Visualizer* visualizer) {
-    const Field &field = io::io.getField();
+    auto const &field = io::io.getField();
     auto us = rtt::ai::world::world->getUs();
 
     // reload the widgets completely if a robot is added or removed

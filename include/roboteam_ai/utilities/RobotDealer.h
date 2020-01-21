@@ -10,7 +10,7 @@
 #include <set>
 #include <mutex>
 #include <vector>
-#include <include/roboteam_ai/world/Field.h>
+#include "world/Field.h"
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {

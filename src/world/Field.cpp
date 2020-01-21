@@ -260,7 +260,7 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
     }
 }
 
-const std::vector<FieldLineSegment> &Field::getField_lines() const {
+const std::vector<FieldLineSegment> &Field::getFieldLines() const {
     return allFieldLines;
 }
 

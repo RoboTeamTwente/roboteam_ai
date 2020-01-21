@@ -239,7 +239,7 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    const std::vector<FieldLineSegment> &getField_lines() const;
+    const std::vector<FieldLineSegment> &getFieldLines() const;
 
 private:
     /**
