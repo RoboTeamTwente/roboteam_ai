@@ -103,7 +103,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
             -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
-    return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos, 0.0));
+    return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos));
 }
 
 }

@@ -368,7 +368,7 @@ Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vecto
             }
             double closestDist = 9e9;
             for (const auto &point :intersects) {
-                if (FieldComputations::pointIsInField(field, point, defenseAreamargin)) {
+                if (FieldComputations::pointIsInField(field, point, -defenseAreamargin)) {
                     double dist = point.dist(position);
                     if (dist < closestDist) {
                         closestDist = dist;
@@ -378,7 +378,7 @@ Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vecto
             }
         }
 
-        if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
+        if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, -defenseAreamargin)) {
             closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
         }
 

@@ -19,10 +19,9 @@ bool FieldComputations::pointIsInDefenceArea(const Field &field, const Vector2 &
   return defenseArea.contains(point);
 }
 
-// the margin is pointed inside the field!
 bool FieldComputations::pointIsInField(const Field &field, const Vector2 &point, double margin) {
-  return (point.x <= field.getRightmostX() - margin && point.x >= field.getLeftmostX() + margin
-            && point.y <= field.getTopmostY()- margin && point.y >= field.getBottommostY() + margin);
+  return (point.x <= field.getRightmostX() + margin && point.x >= field.getLeftmostX() - margin
+            && point.y <= field.getTopmostY() + margin && point.y >= field.getBottommostY() - margin);
 }
 
 /// returns the angle the goal points make from a point

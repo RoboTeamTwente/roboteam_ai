@@ -48,7 +48,7 @@ bool OffensiveScore::positionIsValid(const Field &field, const Vector2 &defaultZ
     }
 
     // check if the point is in the field and out of the defense area
-    if (! FieldComputations::pointIsInField(field, positionToCheck, Constants::ROBOT_RADIUS()*6) ||
+    if (! FieldComputations::pointIsInField(field, positionToCheck, -Constants::ROBOT_RADIUS()*6) ||
         FieldComputations::pointIsInDefenceArea(field, positionToCheck, false, Constants::ROBOT_RADIUS()*2)) {
         return false;
     }

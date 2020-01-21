@@ -227,7 +227,7 @@ std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const Field &field, 
 std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const Field &field, const world::WorldData &world) {
     if (world.ball) {
         Vector2 mostDangerousPos = getMostDangerousPos(world);
-        if (FieldComputations::pointIsInField(field, mostDangerousPos, - 0.1)) {
+        if (FieldComputations::pointIsInField(field, mostDangerousPos, 0.1)) {
             return getBlockLineSegment(field, FieldComputations::getGoalSides(field, true), mostDangerousPos);
         }
     }
@@ -248,9 +248,8 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Field &field, const
     double maxForwardLineX = maxX(field);
     Vector2 position=getPosOnLine(blockLine, 0.1);
     if (position.x > maxForwardLineX) {
-        double fieldWidth = field.getFieldWidth();
-        Vector2 bottomLine(maxForwardLineX, - fieldWidth*0.5);
-        Vector2 topLine(maxForwardLineX, fieldWidth*0.5);
+        Vector2 bottomLine(maxForwardLineX, field.getBottommostY());
+        Vector2 topLine(maxForwardLineX, field.getTopmostY());
         Vector2 intersect = control::ControlUtils::twoLineIntersection(blockLine.start, blockLine.end, bottomLine,
                 topLine);
         return intersect;
@@ -266,7 +265,7 @@ world::WorldData DefencePositionCoach::getTheirAttackers(const Field &field, con
     for (auto &robot :world.them) {
         // we remove any attackers that are outside of the field or in our defence area
         if (!FieldComputations::pointIsInDefenceArea(field, robot->pos, true, 0.04) &&
-            FieldComputations::pointIsInField(field, robot->pos, -0.1)) {
+            FieldComputations::pointIsInField(field, robot->pos, 0.1)) {
             theirAttackers.push_back(robot);
         }
     }

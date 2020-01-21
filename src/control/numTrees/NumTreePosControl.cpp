@@ -368,7 +368,7 @@ Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
                              getCanMoveOutOfField(robot->id);
 
     double margin = canMoveOutOfField ? -0.30 + Constants::ROBOT_RADIUS() : Constants::ROBOT_RADIUS();
-    if (!FieldComputations::pointIsInField(*field, point->pos, margin)) {
+    if (!FieldComputations::pointIsInField(*field, point->pos, -margin)) {
         collision.setFieldCollision(point->pos, 0.2);
     }
     return collision;

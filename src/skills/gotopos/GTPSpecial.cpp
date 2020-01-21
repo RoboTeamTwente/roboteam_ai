@@ -68,10 +68,10 @@ void GTPSpecial::gtpInitialize() {
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
-    double distanceFromTop = abs((*field).getFieldWidth() * 0.5 - ball->getPos().y);
-    double distanceFromBottom = abs(- (*field).getFieldWidth() * 0.5 - ball->getPos().y);
-    double distanceFromLeft = abs(- (*field).getFieldLength() * 0.5 - ball->getPos().x);
-    double distanceFromRight = abs((*field).getFieldLength() * 0.5 - ball->getPos().x);
+    double distanceFromTop = abs(field->getTopmostY() - ball->getPos().y);
+    double distanceFromBottom = abs(field->getBottommostY() - ball->getPos().y);
+    double distanceFromLeft = abs(field->getLeftmostX() - ball->getPos().x);
+    double distanceFromRight = abs(field->getRightmostX() - ball->getPos().x);
 
     double distance = 9e9;
     Vector2 pos;

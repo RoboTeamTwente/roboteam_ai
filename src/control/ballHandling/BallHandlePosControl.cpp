@@ -107,7 +107,7 @@ RobotCommand BallHandlePosControl::getRobotCommand(world::World * world, const F
                          (ballIsMovingTooFast && ! robotIsTouchingBall)
                                  || (robotDoesNotHaveBall || robotIsTooFarFromBall);
 
-    bool ballIsOutsideField = !FieldComputations::pointIsInField(*field, ball->getPos(), 0.0);
+    bool ballIsOutsideField = !FieldComputations::pointIsInField(*field, ball->getPos());
     if (ballIsOutsideField) {
         status = HANDLING_BALL;
         Vector2 targetBallPos = ControlUtils::projectPositionToWithinField(*field, ball->getPos(), 1.0);
@@ -313,7 +313,7 @@ RobotCommand BallHandlePosControl::goToMovingBall() {
 
 RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition) {
     Vector2 numTreesTarget = ballStillPosition;
-    if (!FieldComputations::pointIsInField(*field, ballStillPosition, Constants::ROBOT_RADIUS())) {
+    if (!FieldComputations::pointIsInField(*field, ballStillPosition, -Constants::ROBOT_RADIUS())) {
         LineSegment ballLine = LineSegment(ball->getPos(), ballStillPosition);
         Polygon fieldEdge = FieldComputations::getFieldEdge(*field, Constants::ROBOT_RADIUS());
 
@@ -361,7 +361,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
         movingBallTowardsBallTarget = ball->getPos() / 2 + projection / 2;
     }
 
-    if (!FieldComputations::pointIsInField(*field, movingBallTowardsBallTarget, Constants::ROBOT_RADIUS())) {
+    if (!FieldComputations::pointIsInField(*field, movingBallTowardsBallTarget, -Constants::ROBOT_RADIUS())) {
         LineSegment ballLine = LineSegment(ball->getPos(), movingBallTowardsBallTarget);
         Polygon fieldEdge = FieldComputations::getFieldEdge(*field, Constants::ROBOT_RADIUS());
 

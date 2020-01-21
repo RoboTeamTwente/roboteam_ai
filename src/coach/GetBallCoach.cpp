@@ -22,7 +22,7 @@ bool GetBallCoach::shouldWeGetBall(const Field &field) {
     Vector2 ballPos = world::world->getBall()->getPos();
     return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) &&
             !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
-            FieldComputations::pointIsInField(field, ballPos, - 0.05);
+            FieldComputations::pointIsInField(field, ballPos, 0.05);
 }
 
 bool GetBallCoach::weAreGettingBall() {

@@ -203,7 +203,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
 }
 
 bool StopFormation::positionShouldBeAvoided(Vector2 pos) {
-    return (pos.dist(ball->getPos()) < 0.9 || !FieldComputations::pointIsInField(*field, pos, 0.0));
+    return (pos.dist(ball->getPos()) < 0.9 || !FieldComputations::pointIsInField(*field, pos));
 }
 
 std::vector<Vector2> StopFormation::getProperPositions(int amount) {

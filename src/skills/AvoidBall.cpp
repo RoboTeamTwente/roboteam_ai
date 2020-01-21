@@ -55,9 +55,9 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + cu::calculateForce(robotPos - ball->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    double boundWidth =  (*field).getBoundaryWidth();
-    double halfFieldLength = (*field).getFieldLength() / 2;
-    double halfFieldWidth = (*field).getFieldWidth() / 2;
+    double boundWidth =  field->getBoundaryWidth();
+    double halfFieldLength = field->getFieldLength() / 2;
+    double halfFieldWidth = field->getFieldWidth() / 2;
 
     std::vector<Vector2> wallsVectors;
     wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));

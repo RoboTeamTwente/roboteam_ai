@@ -248,7 +248,7 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const Field &field, const Robot
                                       bestPosition + thetaMinus.toVector2(4.0  * GRID_SIZE)};
 
     for (const auto& position : positions) {
-        if(!FieldComputations::pointIsInField(field, position, 0.20) ||
+        if(!FieldComputations::pointIsInField(field, position, -0.20) ||
             abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
         double score = calculateStandingFreeScore(field, position, thisRobot);
         if (score > highestScore) {

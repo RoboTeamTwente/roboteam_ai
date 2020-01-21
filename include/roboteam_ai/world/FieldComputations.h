@@ -26,7 +26,7 @@ class FieldComputations {
     public:
         static bool pointIsInDefenceArea(const Field &field, const Vector2& point, bool isOurDefenceArea = true,
                 double margin = 0.0, bool includeOutsideField = false);
-        static bool pointIsInField(const Field &field, const Vector2& point, double margin = 0.0); //TODO: Remove margin hack
+        static bool pointIsInField(const Field &field, const Vector2& point, double margin = 0.0);
         static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2& point,
                 const world::WorldData &world, int id = -1, bool ourTeam = false);
         static std::vector<Line> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2& point,
