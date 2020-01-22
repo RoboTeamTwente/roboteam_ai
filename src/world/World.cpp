@@ -10,7 +10,7 @@ namespace world {
 World worldObj;
 World* world = &worldObj;
 
-void World::updateWorld(const roboteam_proto::World &message) {
+void World::updateWorld(const proto::World &message) {
     worldNumber ++;
 
     BallPtr oldBall = nullptr;
@@ -44,15 +44,15 @@ void World::updateWorld(const roboteam_proto::World &message) {
         worldDataPtr->ball = tempWorldData.ball;
         worldDataPtr->time = message.time();
 
-        std::vector<roboteam_proto::WorldRobot>usMsg;
-        std::vector<roboteam_proto::WorldRobot>themMsg;
+        std::vector<proto::WorldRobot>usMsg;
+        std::vector<proto::WorldRobot>themMsg;
 
         if (SETTINGS.isYellow()) {
-            usMsg = std::vector<roboteam_proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
-            themMsg = std::vector<roboteam_proto::WorldRobot>(message.blue().begin(), message.blue().end());
+            usMsg = std::vector<proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
+            themMsg = std::vector<proto::WorldRobot>(message.blue().begin(), message.blue().end());
         } else {
-            usMsg = std::vector<roboteam_proto::WorldRobot>(message.blue().begin(), message.blue().end());
-            themMsg = std::vector<roboteam_proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
+            usMsg = std::vector<proto::WorldRobot>(message.blue().begin(), message.blue().end());
+            themMsg = std::vector<proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
         }
         updateRobotsFromData(us, usMsg, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(them, themMsg, worldDataPtr->them, worldDataPtr->ball, worldNumber);
@@ -65,7 +65,7 @@ void World::updateWorld(const roboteam_proto::World &message) {
     ballPossessionPtr->update();
 }
 
-void World::updateRobotsFromData(Team team, const std::vector<roboteam_proto::WorldRobot> &robotsFromMsg,
+void World::updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg,
         std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long newWorldNumber) const {
     for (auto robotMsg : robotsFromMsg) {
 
@@ -104,8 +104,7 @@ bool World::weHaveRobots() {
 
 const WorldData World::getWorld() {
     std::lock_guard<std::mutex> lock(worldMutex);
-    auto thing = WorldData(*worldDataPtr);
-    return thing;
+    return WorldData(*worldDataPtr);
 }
 
 World::BallPtr World::getBall() {

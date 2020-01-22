@@ -20,13 +20,15 @@ AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
 : Skill(std::move(name), std::move(blackboard)) {
 }
 
-void AvoidBall::onInitialize() {
+void AvoidBall::onInitialize(std::string type) {
     minRobotDistanceForForce = 0.9;
     stop = properties->getBool("Stop");
     if(stop) minRobotDistanceForForce = 0.7*1.5;
-    type = stringToType(properties->getString("type"));
-    if (type == PASSING) {
-        receiver = world::world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
+    //type = stringToType(properties->getString("type"));
+    this->type = stringToType(type);
+
+    if (this->type == PASSING) {
+        receiver = world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
     }
 }
 
@@ -38,7 +40,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
     if (!robotIsKeeper && (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10))) {
 
-        robot->getNumtreePosControl()->getRobotCommand(robot, Vector2(0, robotPos.y));
+        robot->getNumtreePosControl()->getRobotCommand(world, field, robot, Vector2(0, robotPos.y));
         publishRobotCommand();
         return Status::Running;
 
@@ -57,9 +59,9 @@ bt::Node::Status AvoidBall::onUpdate() {
 
     // forces from walls
     auto field = world::field->get_field();
-    double boundWidth =  field.boundary_width();
-    double halfFieldLength = field.field_length()/2;
-    double halfFieldWidth = field.field_width()/2;
+    double boundWidth =  field.get(BOUNDARY_WIDTH);
+    double halfFieldLength = field.get(FIELD_LENGTH) / 2;
+    double halfFieldWidth = field.get(FIELD_WIDTH) / 2;
 
     std::vector<Vector2> wallsVectors;
     wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));

@@ -7,7 +7,7 @@
 namespace bt {
 
 Node::Status Failer::update() {
-    child->tick();
+    child->tick(world, field);
     return Status::Failure;
 }
 

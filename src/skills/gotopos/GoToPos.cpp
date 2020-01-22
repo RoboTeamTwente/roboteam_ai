@@ -21,6 +21,7 @@ GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
 }
 
 void GoToPos::onInitialize() {
+
     targetPos = properties->getVector2("targetPos");
     if (properties->hasDouble("errorMargin")) {
         errorMargin = properties->getDouble("errorMargin");
@@ -77,7 +78,7 @@ bt::Node::Status GoToPos::onUpdate() {
         }
     }
     if (command.vel().x() == 0 || command.vel().y() == 0 || command.w() == 0) {
-    auto robotCommand = posController->getRobotCommand(robot, targetPos, targetAngle);
+    auto robotCommand = posController->getRobotCommand(world, field, robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
 

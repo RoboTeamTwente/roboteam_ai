@@ -24,11 +24,11 @@ void DemoAttack::onInitialize() {
 bt::Node::Status DemoAttack::onUpdate() {
     if (! robot) return Status::Running;
 
-    if (shot && !world::world->robotHasBall(robot->id, true)) {
+    if (shot && !world->robotHasBall(robot->id, true)) {
         return Status::Success;
     }
 
-    Vector2 ball = world::world->getBall()->getPos();
+    Vector2 ball = world->getBall()->getPos();
     Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(BEHIND_BALL_TARGET, ownGoal);
     Vector2 deltaBall = behindBall - ball;
 
@@ -56,10 +56,10 @@ bt::Node::Status DemoAttack::onUpdate() {
     }
     Vector2 velocity;
     if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_our_goal_center()).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - world::field->get_field().get(OUR_GOAL_CENTER)).stretchToLength(2.0);
     }
     else if (world::field->pointIsInDefenceArea(robot->pos, ownGoal, 0.0)) {
-        velocity = ((Vector2) robot->pos - world::field->get_their_goal_center()).stretchToLength(2.0);
+        velocity = ((Vector2) robot->pos - world::field->get_field().get(THEIR_GOAL_CENTER)).stretchToLength(2.0);
     }
     else if (world::field->pointIsInDefenceArea(ball, ownGoal) || world::field->pointIsInDefenceArea(ball, !ownGoal)) {
         velocity = {0, 0};
@@ -68,7 +68,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         velocity = {0, 0};
     }
     else {
-        velocity = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos).vel;
+        velocity = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos).vel;
     }
 
 

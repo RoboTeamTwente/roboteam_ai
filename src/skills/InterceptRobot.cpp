@@ -20,12 +20,12 @@ void InterceptRobot::onInitialize() {
 
 Skill::Status InterceptRobot::onUpdate() {
     //TODO: fix that the robotToIntercept is called from coach
-    RobotPtr robotToIntercept=world::world->getRobotForId(1,true);
+    RobotPtr robotToIntercept=world->getRobotForId(1,true);
     if (!robotToIntercept){
         return Status::Failure;
     }
     Vector2 interceptPos = getInterceptPos(*robotToIntercept);
-    auto velocities = robot->getBasicPosControl()->getRobotCommand(robot, interceptPos);
+    auto velocities = robot->getBasicPosControl()->getRobotCommand(world, field, robot, interceptPos);
     command.mutable_vel()->set_x(velocities.vel.x);
     command.mutable_vel()->set_y(velocities.vel.y);
     command.set_w(velocities.angle.getAngle());

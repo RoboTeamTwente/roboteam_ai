@@ -26,7 +26,7 @@ Skill::Status BallPlacementWithInterface::onUpdate() {
 
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
 
-    auto robotCommand = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS );
+    auto robotCommand = ballHandlePosControl.getRobotCommand(world, field, robot, targetPos, robot->angle, control::BallHandlePosControl::TravelStrategy::FORWARDS );
 
     if (targetPos == previousTargetPos &&
         ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {

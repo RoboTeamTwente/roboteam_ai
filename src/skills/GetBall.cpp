@@ -22,8 +22,8 @@ GetBall::Status GetBall::onUpdate() {
     if ((lockedTargetPos - ball->getPos()).length() > 0.2) {
         lockedTargetPos = ball->getPos() + (ball->getPos() - robot->pos).stretchToLength(0.1);
     }
-    auto c = ballHandlePosControl.getRobotCommand(
-            robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS);
+    auto c = ballHandlePosControl.getRobotCommand(world, field,
+                                                  robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS);
 
     if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;

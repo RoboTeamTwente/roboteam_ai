@@ -169,17 +169,6 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
     return false; // Doesn't fall in any of the above cases
 
 }
-rtt::Arc ControlUtils::createKeeperArc() {
-    double goalwidth = rtt::ai::world::field->get_field().goal_width();
-    Vector2 goalPos = rtt::ai::world::field->get_our_goal_center();
-    double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
-
-    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
-    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
-    Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
-    return diff > 0 ? rtt::Arc(center, radius, M_PI - angle, angle - M_PI) :
-           rtt::Arc(center, radius, angle, - angle);
-}
 
 //Computes the absolute difference between 2 angles (the shortest orientation direction)
 ///both angles must go from[-pi,pi]!!
@@ -281,11 +270,11 @@ double ControlUtils::twoLineForwardIntersection(const Vector2& a1,const Vector2&
 Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
     auto field = world::field->get_field();
 
-    double hFieldLength = field.field_length()/2;
+    double hFieldLength = field.get(FIELD_LENGTH) / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, - hFieldLength + margin);
 
-    double hFieldWidth = field.field_width()/2;
+    double hFieldWidth = field.get(FIELD_WIDTH) / 2;
     position.y = std::min(position.y, hFieldWidth - margin);
     position.y = std::max(position.y, - hFieldWidth + margin);
 
@@ -294,11 +283,11 @@ Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double marg
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
     if (world::field->pointIsInDefenceArea(position, true, margin)) {
-        position.x = std::max(position.x, world::field->get_field().getLeft_penalty_line().begin.x + margin);
+        position.x = std::max(position.x, world::field->get_field().get(LEFT_PENALTY_LINE).begin.x + margin);
         return position;
     }
     if (world::field->pointIsInDefenceArea(position, false, margin)) {
-        position.x = std::min(position.x, world::field->get_field().getRight_penalty_line().begin.x - margin);
+        position.x = std::min(position.x, world::field->get_field().get(RIGHT_PENALTY_LINE).begin.x - margin);
         return position;
     }
     return position;

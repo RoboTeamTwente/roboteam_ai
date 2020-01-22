@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 14-1-19.
 //
 
-#include <roboteam_utils/Timer.h>
 
+#include <roboteam_utils/Timer.h>
 #include "utilities/Constants.h"
 #include <bt/Node.hpp>
 #include <ApplicationManager.h>
@@ -16,16 +16,19 @@
 #include <coach/defence/DefenceDealer.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
-
+#include <include/roboteam_ai/world/Field.h>
+#include "analysis/PlayChecker.h"
+#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 namespace rtt {
 
-
-/// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
+    /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
+    // create playcheck object here
+    playcheck = rtt::ai::analysis::PlayChecker();
 
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
@@ -59,6 +62,9 @@ void ApplicationManager::start() {
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
+
+        playcheck.update(rtt::ai::world::world, rtt::ai::world::field);
+
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -68,7 +74,6 @@ void ApplicationManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
     weHaveRobots = ai::world::world->weHaveRobots();
-
     /*
     * This is a hack performed at the robocup.
     * It does a soft refresh when robots are not properly claimed by robotdealer.
@@ -107,7 +112,7 @@ void ApplicationManager::updateTrees() {
 void ApplicationManager::runKeeperTree() {
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick();
+        keeperTree->tick(ai::world::world, ai::world::field);
     }
 }
 
@@ -118,7 +123,7 @@ Status ApplicationManager::runStrategyTree() {
           return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick();
+    Status status = strategy->tick(ai::world::world, ai::world::field);
     return status;
 }
 

@@ -15,7 +15,7 @@ void MemParallelSequence::initialize() {
 bt::Node::Status MemParallelSequence::update() {
     for (auto &child : children) {
         if (memory[child] == Status::Running) {
-            auto status = child->tick();
+            auto status = child->tick(world, field);
             if (status == Status::Success) {
                 memory[child] = Status::Success;
                 totalSuccess++;

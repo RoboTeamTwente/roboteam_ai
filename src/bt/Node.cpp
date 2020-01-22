@@ -2,6 +2,8 @@
 #include <iostream>
 #include "bt/Blackboard.hpp"
 #include "bt/Node.hpp"
+#include "world/World.h"
+#include "world/Field.h"
 
 namespace bt {
 
@@ -18,7 +20,11 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick() {
+Node::Status Node::tick(rtt::ai::world::World * world, rtt::ai::world::Field * field) {
+
+    this->world = world;
+    this->field = field;
+
     amountOfTicks ++;
 //    lastTickTime = ros::Time::now();
 
@@ -105,6 +111,19 @@ std::string Node::status_print(Node::Status s) {
     case Status::Running:return "Running";
     default:std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
         return "ERROR!!";
+    }
+}
+
+void Node::setRoleString(std::string roleName) {
+    auto children = this->getChildren();
+    if (properties) {
+        this->properties->setString("ROLE", roleName);
+    }
+
+    for (auto child : this->getChildren()) {
+        if (child) {
+            child->setRoleString(roleName);
+        }
     }
 }
 

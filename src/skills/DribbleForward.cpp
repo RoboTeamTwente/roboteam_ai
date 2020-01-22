@@ -19,14 +19,14 @@ void DribbleForward::onInitialize() {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (world::field->get_their_goal_center() - ball->getPos()).toAngle();
+    Angle angleToGoal = (field->get_field().get(THEIR_GOAL_CENTER) - ball->getPos()).toAngle();
     targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 
 
 bt::Node::Status DribbleForward::onUpdate() {
 
-    auto c = ballHandlePosControl.getRobotCommand(robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
+    auto c = ballHandlePosControl.getRobotCommand(world, field, robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
 
     if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;

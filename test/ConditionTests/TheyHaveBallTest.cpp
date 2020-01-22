@@ -12,8 +12,8 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
 //
 //    EXPECT_EQ(node.node_name(), "TheyHaveBall");
 //
-//    roboteam_proto::World worldMsg;
-//    roboteam_proto::WorldRobot robot;
+//    proto::World worldMsg;
+//    proto::WorldRobot robot;
 //
 //    rtt::ai::world::world->updateWorld(worldMsg);
 //
@@ -30,7 +30,7 @@ TEST(TheyHaveBallTest, TheyHaveBallTest) {
 //
 //    EXPECT_EQ(node.update(), bt::Node::Status::Failure);
 //
-//    roboteam_proto::WorldRobot robot2;
+//    proto::WorldRobot robot2;
 //
 //    robot2.id = 1;
 //    robot2.pos.x = 0;

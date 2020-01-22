@@ -43,7 +43,7 @@ bt::Node::Status Formation::onUpdate() {
 
 // determine the angle where the robot should point to (in position)
 void Formation::setFinalAngle() {
-    Vector2 targetToLookAtLocation = world::field->get_their_goal_center();
+    Vector2 targetToLookAtLocation = field->get_field().get(THEIR_GOAL_CENTER);
     command.set_w(static_cast<float>((targetToLookAtLocation - robot->pos).angle()));
 }
 
@@ -106,7 +106,7 @@ bool Formation::robotIsInPosition() {
 
 // set up the command such that a robot moves towards the targetLocation
 void Formation::moveToTarget() {
-    auto velocities = robot->getNumtreePosControl()->getRobotCommand(robot, targetLocation);
+    auto velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetLocation);
     command.mutable_vel()->set_x(velocities.vel.x);
   command.mutable_vel()->set_y(velocities.vel.y);
     command.set_w(static_cast<float>((targetLocation - robot->pos).angle()));

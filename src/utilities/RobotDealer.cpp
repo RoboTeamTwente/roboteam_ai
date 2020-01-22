@@ -95,7 +95,9 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
 
         switch (feature) {
 
-        default:return - 1;
+        default:
+            std::cout << "[Robotdealer] could not find a match for this feature " << std::endl;
+            return - 1;
 
         case CLOSE_TO_BALL: {
             auto ball = world::world->getBall();
@@ -111,7 +113,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
 
         case BETWEEN_BALL_AND_OUR_GOAL: {
             auto ball = world::world->getBall();
-            rtt::Vector2 ourGoal = world::field->get_our_goal_center();
+            rtt::Vector2 ourGoal = world::field->get_field().get(OUR_GOAL_CENTER);
             auto robots = world::world->getRobotsForIds(idVector, true);
             if (! robots.empty()) {
                 id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
@@ -122,7 +124,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
             break;
         }
         case CLOSE_TO_OUR_GOAL: {
-            rtt::Vector2 ourGoal = world::field->get_our_goal_center();
+            rtt::Vector2 ourGoal = world::field->get_field().get(OUR_GOAL_CENTER);
             auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
             if (robot) {
                 id = robot->id;
@@ -134,7 +136,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
         }
 
         case CLOSE_TO_THEIR_GOAL: {
-            rtt::Vector2 theirGoal = world::field->get_their_goal_center();
+            rtt::Vector2 theirGoal = world::field->get_field().get(THEIR_GOAL_CENTER);
             auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
             if (robot) {
                 id = robot->id;
@@ -335,7 +337,7 @@ int RobotDealer::findRobotForRole(const std::string &roleName) {
             }
         }
     }
-    // std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
+    std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
     return - 1;
 }
 

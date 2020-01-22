@@ -12,7 +12,9 @@ namespace ai {
 GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(name, blackboard) { }
 
-void GoAroundPos::gtpInitialize() {
+
+
+    void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {
         if (ball) {
             ballIsTarget = true;
@@ -31,7 +33,7 @@ void GoAroundPos::gtpInitialize() {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
     }
     else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = Control::constrainAngle((world::field->get_their_goal_center() - targetPos).angle());
+        endAngle = Control::constrainAngle((field->get_field().get(THEIR_GOAL_CENTER) - targetPos).angle());
     }
     else {
         endAngle = 0;

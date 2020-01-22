@@ -38,7 +38,7 @@ void DribbleRotate::onInitialize() {
         targetAngle = Angle(properties->getDouble("Angle"));
     }
     else if (properties->getBool("RotateToTheirGoal")) {
-        Vector2 theirCentre = world::field->get_their_goal_center();
+        Vector2 theirCentre = world::field->get_field().get(THEIR_GOAL_CENTER);
         targetAngle = (theirCentre - robot->pos).toAngle();
     }
     else if (properties->getBool("BallPlacement")) {
@@ -74,7 +74,7 @@ DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
     switch (currentProgression) {
     case ROTATING:
-        command = ballHandlePosControl.getRobotCommand(robot, ball->getPos(), targetAngle).makeROSCommand();
+        command = ballHandlePosControl.getRobotCommand(world, field, robot, ball->getPos(), targetAngle).makeROSCommand();
         publishRobotCommand();
         return Status::Running;
     case SUCCESS:return Status::Success;

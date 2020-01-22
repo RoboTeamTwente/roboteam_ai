@@ -8,6 +8,7 @@
 #include <gtest/gtest_prod.h>
 #include <utilities/StrategyManager.h>
 #include <roboteam_utils/Timer.h>
+#include "analysis/PlayChecker.h"
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
 
@@ -15,6 +16,8 @@ namespace rtt {
 
 class ApplicationManager {
 private:
+    rtt::ai::analysis::PlayChecker playcheck;
+
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     int ticksFree = 0;
     bt::BehaviorTree::Ptr strategy;

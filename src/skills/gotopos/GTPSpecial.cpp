@@ -6,7 +6,12 @@
 
 namespace rtt {
 namespace ai {
-
+/**
+ * Creates a movement path for the robot to a certain place. The "type" set in the blackboard given to this function is very important, see the update function.
+ * Before using this class, it is nice to have a look inside, as its behaviour is not
+ * @param name the name for the node (shows up in the tree visualiser widget (probably))
+ * @param blackboard the blackboard passed into the GTPSpecial, for example, to set the "type" of the GTPSpecial
+ */
 GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard)
         :GoToPos(std::move(name), std::move(blackboard)) {
 }
@@ -57,7 +62,7 @@ void GTPSpecial::gtpInitialize() {
         break;
     }
     case ourGoalCenter: {
-        targetPos = world::field->get_our_goal_center();
+        targetPos = world::field->get_field().get(OUR_GOAL_CENTER);
         break;
     }
     case ourDefenseAreaCenter: {
@@ -71,10 +76,10 @@ void GTPSpecial::gtpInitialize() {
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
     FieldMessage field = world::field->get_field();
-    double distanceFromTop = abs(field.field_width()*0.5 - ball->getPos().y);
-    double distanceFromBottom = abs(- field.field_width()*0.5 - ball->getPos().y);
-    double distanceFromLeft = abs(- field.field_length()*0.5 - ball->getPos().x);
-    double distanceFromRight = abs(field.field_length()*0.5 - ball->getPos().x);
+    double distanceFromTop = abs(field.get(FIELD_WIDTH) * 0.5 - ball->getPos().y);
+    double distanceFromBottom = abs(- field.get(FIELD_WIDTH) * 0.5 - ball->getPos().y);
+    double distanceFromLeft = abs(- field.get(FIELD_LENGTH) * 0.5 - ball->getPos().x);
+    double distanceFromRight = abs(field.get(FIELD_LENGTH) * 0.5 - ball->getPos().x);
 
     double distance = 9e9;
     Vector2 pos;
@@ -147,20 +152,20 @@ Skill::Status GTPSpecial::gtpUpdate() {
         maxVel = 1.0;
         break;
     case ourGoalCenter: {
-        targetPos = world::field->get_our_goal_center();
+        targetPos = world::field->get_field().get(OUR_GOAL_CENTER);
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
-        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
+        command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;
     }
     case ourDefenseAreaCenter: {
         targetPos = rtt::ai::world::field->getDefenseArea().centroid();
         robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
-        command = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos, true).makeROSCommand();
+        command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
         break;
     }
     case ballPlacementAfter:{
         targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
-            auto c = robot->getNumtreePosControl()->getRobotCommand(robot, targetPos);
+            auto c = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
             command = c.makeROSCommand();
             command.set_w((ball->getPos() - robot->pos).toAngle());
             maxVel = 2.0;
