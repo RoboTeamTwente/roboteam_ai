@@ -425,7 +425,9 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE ${SDL2_LIBRARY} 
-        PRIVATE gcov)
+        PRIVATE gcov
+        PRIVATE gtest
+        )
 endif()
 
 target_include_directories(ai_tests
