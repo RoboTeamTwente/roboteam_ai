@@ -43,5 +43,25 @@ void BBTrajectory2D<num>::generateSyncedTrajectory(const Vector2 &initialPos, co
         inc *= 0.5;
     }
 }
-
+template<class num>
+Vector2 BBTrajectory2D<num>::getPosition(num t) const {
+    return Vector2(x.getPosition(t),y.getPosition(t));
+}
+template<class num>
+Vector2 BBTrajectory2D<num>::getVelocity(num t) const {
+    return Vector2(x.getVelocity(),y.getVelocity(t));
+}
+template<class num>
+Vector2 BBTrajectory2D<num>::getAcceleration(num t) const {
+    return Vector2(x.getAcceleration(),y.getAcceleration());
+}
+template<class num>
+std::vector<Vector2> BBTrajectory2D<num>::visCurve() const {
+    std::vector<Vector2> points;
+    num timeStep=fmax(x.getTotalTime(),y.getTotalTime())/30.0;
+    for (int i = 0; i <= 30; ++ i) {
+        points.push_back(getPosition(timeStep*i));
+    }
+    return points;
+}
 }

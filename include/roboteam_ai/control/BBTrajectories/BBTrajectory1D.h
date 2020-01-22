@@ -45,8 +45,12 @@ template<class num>
 class BBTrajectory1D {
     public:
         typedef BBTrajectoryPart<num> part;
-        PosVelAcc<num> getValues(num t) noexcept ;
-        num getTotalTime() noexcept ;
+        PosVelAcc<num> getValues(num t) const noexcept ;
+        num getPosition(num t) const noexcept;
+        num getVelocity(num t) const noexcept;
+        num getAcceleration(num t) const noexcept;
+        num getTotalTime() const noexcept ;
+        bool inLastPart(num t) const noexcept;
         /**
         * Generate a time-optimal trajectory given the parameters
         * @param initialPos Current position

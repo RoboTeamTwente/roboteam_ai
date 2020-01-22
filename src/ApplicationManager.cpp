@@ -17,6 +17,8 @@
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
 #include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h>
+#include <include/roboteam_ai/control/BBTrajectories/BBTrajectory2DAsync.h>
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 namespace io = rtt::ai::io;
@@ -74,6 +76,18 @@ void ApplicationManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
     }
     weHaveRobots = ai::world::world->weHaveRobots();
+    Vector2 startPos(-5,-2);
+    Vector2 startVel(-0.5,1.0);
+    float maxVel=8.0;
+    float maxAcc=4.0;
+    LineSegment line(Vector2(-3,-3),Vector2(3,3));
+    Vector2 endPos=line.start+line.direction()*0.4;
+    BBTrajectory2D<float> test(startPos,startVel,endPos,maxVel,maxAcc);
+    BBTrajectory2DAsync<float> test2(startPos,startVel,endPos,maxVel,maxAcc,line);
+    ai::interface::Input::drawData(ai::interface::PATHFINDING,test.visCurve(),Qt::red,-1);
+    ai::interface::Input::drawData(ai::interface::PATHFINDING,test2.visCurve(),Qt::green,-1,ai::interface::Drawing::LINES_CONNECTED);
+    ai::interface::Input::drawData(ai::interface::PATHFINDING,{line.start,line.end},Qt::blue,-1,ai::interface::Drawing::LINES_CONNECTED);
+
     /*
     * This is a hack performed at the robocup.
     * It does a soft refresh when robots are not properly claimed by robotdealer.

@@ -120,7 +120,7 @@ BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num initialVel, num finalPos
     generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
 template<class num>
-PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) noexcept {
+PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) const noexcept {
     num trajTime = fmax(0, t);
     part piece = parts[0];
     if (trajTime >= getTotalTime()) {
@@ -143,6 +143,68 @@ PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) noexcept {
             piece.acc);
 }
 template<class num>
-num BBTrajectory1D<num>::getTotalTime() noexcept {
+num BBTrajectory1D<num>::getTotalTime() const noexcept {
     return parts[numParts - 1].tEnd;
+}
+template<class num>
+num BBTrajectory1D<num>::getAcceleration(num t) const noexcept {
+    num trajTime = fmax(0, t);
+    if (trajTime >= getTotalTime()) {
+       return 0;
+    }
+    part piece = parts[0];
+    //we step through the parts and try to find the relevant part on which the time is.
+    num tPieceStart = 0;
+    for (int i = 0; i < numParts; ++ i) {
+        piece = parts[i];
+        if (trajTime <= parts[i].tEnd) {
+            break;
+        }
+    }
+    return piece.acc;
+}
+template<class num>
+num BBTrajectory1D<num>::getVelocity(num t) const noexcept {
+    num trajTime = fmax(0, t);
+    part piece = parts[0];
+    if (trajTime >= getTotalTime()) {
+        //The time is not on the trajectory so we just return the last known element
+        return 0;
+    }
+    //we step through the parts and try to find the relevant part on which the time is.
+    num tPieceStart = 0;
+    for (int i = 0; i < numParts; ++ i) {
+        piece = parts[i];
+        if (trajTime <= parts[i].tEnd) {
+            break;
+        }
+        tPieceStart = parts[i].tEnd;
+    }
+    num tPiece = trajTime - tPieceStart;
+    //extrapolate the state given the information we have.
+    return piece.startVel + piece.acc*tPiece;
+}
+template<class num>
+num BBTrajectory1D<num>::getPosition(num t) const noexcept {
+    num trajTime = fmax(0, t);
+    part piece = parts[0];
+    if (trajTime >= getTotalTime()) {
+        return m_finalPos;
+    }
+    //we step through the parts and try to find the relevant part on which the time is.
+    num tPieceStart = 0;
+    for (int i = 0; i < numParts; ++ i) {
+        piece = parts[i];
+        if (trajTime <= parts[i].tEnd) {
+            break;
+        }
+        tPieceStart = parts[i].tEnd;
+    }
+    num tPiece = trajTime - tPieceStart;
+    //extrapolate the state given the information we have.
+    return piece.startPos + piece.startVel*tPiece + 0.5*piece.acc*tPiece*tPiece;
+}
+template<class num>
+bool BBTrajectory1D<num>::inLastPart(num t) const noexcept {
+    return t>parts[numParts-2].tEnd;
 }

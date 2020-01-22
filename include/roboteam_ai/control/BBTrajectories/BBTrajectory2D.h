@@ -16,6 +16,10 @@ class BBTrajectory2D {
         BBTrajectory2D(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc,num alpha) noexcept;
         void generateTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc, num alpha) noexcept;
         void generateSyncedTrajectory(const Vector2& initialPos, const Vector2& initialVel, const Vector2& finalPos, num maxVel, num maxAcc) noexcept;
+        Vector2 getPosition(num t) const;
+        Vector2 getVelocity(num t) const;
+        Vector2 getAcceleration(num t) const;
+        std::vector<Vector2> visCurve() const;
         BBTrajectory1D<num> x;
         BBTrajectory1D<num> y;
 
