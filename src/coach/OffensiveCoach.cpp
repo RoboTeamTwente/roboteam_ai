@@ -108,18 +108,15 @@ Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
 }
 
 void OffensiveCoach::redistributePositions() {
-    std::vector<int> robotIDs;
-    for (auto &robot : sideAttackers) {
-        robotIDs.emplace_back(robot.first);
+    std::unordered_map<int, Vector2> currentAttackerLocations;
+    for (auto &robotIdPair : sideAttackers) {
+      auto robot = world::world->getRobotForId(robotIdPair.first);
+      currentAttackerLocations.insert({robot->id, robot->pos});
     }
-
     updateOffensivePositions();
-    std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
-
-    rtt::Hungarian hungarian;
-    map<int, Vector2> shortestDistances;
-    shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
-
+    std::vector<Vector2> positions = getOffensivePositions(currentAttackerLocations.size());
+    std::unordered_map<int, Vector2> shortestDistances;
+    shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(currentAttackerLocations, positions);
     for (auto &robot : sideAttackers) {
         int zone = std::find(positions.begin(), positions.end(), shortestDistances[robot.first]) - positions.begin();
         sideAttackers[robot.first] = zone;
@@ -134,7 +131,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 
     int numberOfPositions = numberOfRobots + numberOfRobots % 2;
 
-    std::vector<Vector2> positionVectors;
+    std::vector<Vector2> positionVectors(numberOfPositions);
 
     for (int i = 0; i < numberOfPositions; i++) {
         positionVectors.emplace_back(offensivePositions[i].position);
