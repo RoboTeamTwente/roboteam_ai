@@ -1,5 +1,4 @@
 #include "skills/formations/KickOffThemFormation.h"
-
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 #include <world/Field.h>
@@ -29,13 +28,7 @@ Vector2 KickOffThemFormation::getFormationPosition() {
         {{-0.8, 0}, {-0.4, fh / 5}, {-0.4, -fh / 5}, {-fw / 6, -fh / 4}, {-fw / 6, fh / 4}, {-fw / 7, 0}, {-fw / 3, 0}},
         {{-0.8, 0}, {-0.4, fh / 5}, {-0.4, -fh / 5}, {-fw / 6, -fh / 4}, {-fw / 6, fh / 4}, {-fw / 7, 0}, {-fw / 3, -fh / 6}, {-fw / 3, fh / 6}}};
 
-    for (auto const &robot : *robotsInFormation) {
-        robotIds.push_back(robot->id);
-    }
-
-    rtt::Hungarian hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, locations[robotsInFormation->size() - 1]);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, locations[robotsInFormation->size() - 1]);
 }
 
 std::shared_ptr<std::vector<shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() { return robotsInFormation; }

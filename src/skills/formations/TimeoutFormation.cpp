@@ -20,17 +20,12 @@ Vector2 TimeoutFormation::getFormationPosition() {
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
-    std::unordered_map<int, Vector2> robotLocations;
-
     for (unsigned int i = 0; i < robotsInFormation->size(); i++) {
         double targetLocationX = -field.get(FIELD_LENGTH) / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
-        auto formationRobot = robotsInFormation->at(i);
-        robotLocations.insert({formationRobot->id, formationRobot->pos});
     }
 
-    auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotLocations, targetLocations);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, targetLocations);
 }
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() { return robotsInFormation; }

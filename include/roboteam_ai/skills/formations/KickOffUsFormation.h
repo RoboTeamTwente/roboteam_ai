@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 15-4-19.
-//
-
 #ifndef ROBOTEAM_AI_KICKOFFFORMATION_H
 #define ROBOTEAM_AI_KICKOFFFORMATION_H
 

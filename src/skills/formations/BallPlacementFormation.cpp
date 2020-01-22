@@ -35,15 +35,7 @@ Vector2 BallPlacementFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-    std::unordered_map<int, Vector2> robotLocations;
-    for (auto &robot : *robotsInFormation) {
-        if (robotLocations.size() < 8) {  // check for amount of robots, we dont want more than 8
-          robotLocations.insert({robot->id, robot->pos});
-        }
-    }
-
-    auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotLocations, properPositions);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, properPositions);
 }
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> BallPlacementFormation::robotsInFormationPtr() { return robotsInFormation; }

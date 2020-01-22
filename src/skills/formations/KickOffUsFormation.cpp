@@ -1,9 +1,6 @@
 #include "skills/formations/KickOffUsFormation.h"
-
-#include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 #include <world/Field.h>
-
 #include "control/ControlUtils.h"
 #include "roboteam_utils/Hungarian.h"
 
@@ -30,16 +27,7 @@ Vector2 KickOffUsFormation::getFormationPosition() {
         {{-0.2, 0}, {-0.2, -fh / 3}, {-0.2, fh / 3}, {-fw / 6, -fh / 4}, {-fw / 6, fh / 4}, {-fw / 7, 0}, {-fw / 3, 0}},
         {{-0.2, 0}, {-0.2, -fh / 3}, {-0.2, fh / 3}, {-fw / 6, -fh / 4}, {-fw / 6, fh / 4}, {-fw / 7, 0}, {-fw / 3, -fh / 6}, {-fw / 3, fh / 6}}};
 
-    std::unordered_map<int, Vector2> robotLocations;
-
-    for (auto const &robot : *robotsInFormation) {
-          if (robot) {
-            robotIds.push_back(robot->id);
-        }
-    }
-
-    auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotIds, true, locations[robotsInFormation->size() - 1]);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, locations[robotsInFormation->size() - 1]);
 }
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormationPtr() { return robotsInFormation; }

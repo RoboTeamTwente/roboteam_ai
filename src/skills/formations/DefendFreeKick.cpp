@@ -2,8 +2,7 @@
 #include <control/PositionUtils.h>
 #include "roboteam_utils/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::vector<Vector2> DefendFreeKick::posses;
 std::shared_ptr<std::vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::DefendFreeKick::robotsInFormation = nullptr;
@@ -13,15 +12,8 @@ Vector2 DefendFreeKick::getFormationPosition() {
 
     update = true;
     posses = rtt::ai::control::PositionUtils::getDefendFreeKick(robotsInFormation->size());
-    std::vector<int> robotIds;
 
-    for (auto& i : *robotsInFormation) {
-        robotIds.push_back(i->id);
-    }
-
-    rtt::Hungarian hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
-    return shortestDistances[robot->id];
+    return getOptimalPosition(robot->id, *robotsInFormation, posses);
 }
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> DefendFreeKick::robotsInFormationPtr() { return robotsInFormation; }
@@ -29,10 +21,10 @@ std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> DefendFreeKick::robotsInFormati
 DefendFreeKick::DefendFreeKick(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
+
 void DefendFreeKick::onTerminate(Skill::Status s) {
     Formation::onTerminate(s);
     update = false;
 }
-}  // namespace ai
+}  // namespace rtt::ai
 
-}  // namespace rtt
