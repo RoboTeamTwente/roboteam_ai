@@ -49,15 +49,16 @@ class BTFactory {
 
         static bool hasMadeTrees();
 
-        static void setCurrentTree(std::shared_ptr<bt::BehaviorTree> tree);
-
+        static void setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> otherPlay);
 
 private:
         static std::string currentTree;
         static std::string keeperTree;
         static bool weMadeTrees;
         static std::shared_ptr<bt::BehaviorTree> runningTree;
-        static std::shared_ptr<rtt::ai::analysis::PassAndPlayPlay> play;
+        // static std::shared_ptr<rtt::ai::analysis::PassAndPlayPlay> play;
+        static std::shared_ptr<rtt::ai::analysis::Play> play;
+
 };
 
 #endif //ROBOTEAM_AI_BTFACTORY_H

@@ -20,6 +20,7 @@
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "analysis/PlaysObjects/PassAndPlayPlay.h"
+#include "analysis/PlaysObjects/PlayDecider.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -31,7 +32,7 @@ namespace rtt {
 void ApplicationManager::start() {
     // create playcheck object here
     playcheck = rtt::ai::analysis::PlayChecker();
-
+    playdecide = rtt::ai::analysis::PlayDecider();
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
@@ -62,11 +63,13 @@ void ApplicationManager::start() {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
+    auto world = rtt::ai::world::world;
+    auto field = rtt::ai::world::field;
+
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
 
-        playcheck.update(rtt::ai::world::world, rtt::ai::world::field);
-
+        decidePlay(world, field);
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -136,7 +139,6 @@ void ApplicationManager::updateCoaches() const {
         ai::coach::g_offensiveCoach.updateOffensivePositions();
         ai::coach::g_pass.updatePassProgression();
     });
-    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
 }
 
 /// Terminate trees
@@ -176,5 +178,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         break;
     }
 }
+
+    void ApplicationManager::decidePlay(ai::world::World *world, ai::world::Field *field) {
+        bool stillValidPlay = playcheck.update(world, field);
+        if (!stillValidPlay) {
+            auto bestplay = playdecide.decideBestPlay(world, field, playcheck.getValidPlays());
+            BTFactory::setCurrentTree(bestplay);
+            playcheck.setCurrentPlay(bestplay);
+        }
+    }
+
 
 } // rtt

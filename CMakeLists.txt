@@ -90,6 +90,8 @@ set(ANALYSIS_SOURCES
 
         # Plays (under construction)
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/PassAndPlayPlay.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/DummyPlay.cpp
+
 
         )
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)

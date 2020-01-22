@@ -11,12 +11,13 @@
 #include "analysis/PlayChecker.h"
 #include "io/IOManager.h"
 #include "treeinterp/BTFactory.h"
-
+#include "analysis/PlaysObjects/PlayDecider.h"
 namespace rtt {
 
 class ApplicationManager {
 private:
     rtt::ai::analysis::PlayChecker playcheck;
+    rtt::ai::analysis::PlayDecider playdecide;
 
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     int ticksFree = 0;
@@ -36,6 +37,7 @@ public:
     void updateTrees();
     bt::Node::Status runStrategyTree();
     void runKeeperTree();
+    void decidePlay(ai::world::World* world, ai::world::Field* field);
 };
 
 } // rtt

@@ -12,13 +12,16 @@ namespace rtt::ai::analysis {
 
     class PlayChecker {
     public:
-        PlayChecker() = default;
+        PlayChecker();
         /**
          * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
          * and if it is not new plays are calculated that are valid for the gamestate.
          */
-        void update(world::World *world, world::Field *field);
+        bool update(world::World *world, world::Field *field);
 
+        const std::vector<std::shared_ptr<rtt::ai::analysis::Play>> &getValidPlays() const;
+
+        void setCurrentPlay(std::shared_ptr<rtt::ai::analysis::Play> newPlay);
     private:
         /**
          * @brief Checks if the invariants of the current play are true for the gamestate
@@ -31,12 +34,12 @@ namespace rtt::ai::analysis {
         /**
          * Vector of all plays (before pruning)
          */
-        std::vector<Play> allPlays;
+        std::vector<std::shared_ptr<rtt::ai::analysis::Play>> allPlays;
 
         /**
          * Vector of all plays that are valid for the current world and field state
          */
-        std::vector<Play> validPlays;
+        std::vector<std::shared_ptr<rtt::ai::analysis::Play>> validPlays;
 
         /// TODO: implement this function. Not a priority right now
         bool checkStrategyPreconditions();
@@ -47,6 +50,8 @@ namespace rtt::ai::analysis {
          * @param field
          */
         void determineNewPlays(world::World *world, world::Field *field);
+
+        std::shared_ptr<rtt::ai::analysis::Play> currentPlay;
 
     };
 }

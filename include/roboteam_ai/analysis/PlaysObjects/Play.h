@@ -13,28 +13,31 @@ namespace rtt::ai::analysis {
     /**
      * The play has a vector of invariants, when the invariants are false the play is abandoned.
      *
-     * TODO: Should this object have a behaviourtree associated to it? I think yes
      */
     class Play {
     public:
-        Play();
-
-        Play(std::string name, std::vector<std::function<bool(world::World* , world::Field*)>> invariants);
-
+        Play(std::string name);
         /**
          *
          * @return true if all the invariants of this strategy are true
          */
-        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) = 0;
 
-        virtual int scorePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+        /**
+         * returns a score for how good the play is for the current world and field states
+         * @param world
+         * @param field
+         * @return
+         */
+        virtual int scorePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) = 0;
+
+        virtual std::shared_ptr<bt::BehaviorTree> getTreeForWorld() = 0;
 
         std::string getName();
 
         virtual std::shared_ptr<bt::BehaviorTree> getTree();
 
     protected:
-        std::vector<std::function<bool(world::World* , world::Field*)>> invariants;
         std::shared_ptr<bt::BehaviorTree> tree;
         std::string name;
 

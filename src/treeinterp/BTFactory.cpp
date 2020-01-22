@@ -16,7 +16,7 @@ std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
 
 bool BTFactory::weMadeTrees = false;
-std::shared_ptr<rtt::ai::analysis::PassAndPlayPlay> BTFactory::play;
+std::shared_ptr<rtt::ai::analysis::Play> BTFactory::play = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("Pass and Play Play BTFACTORY INITIAL");
 
 /// Initiate the BTFactory
 void BTFactory::makeTrees() {
@@ -51,8 +51,6 @@ void BTFactory::makeTrees() {
         auto tempMap = interpreter.getTrees("keeper/" + strategyNameKeeper);
         for (auto &it : tempMap) keeperRepo[it.first] = it.second; // may break
     }
-    // THis needs to be a playdecider object
-    play = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>();
 
     BTFactory::weMadeTrees = true;
     std::cout << "Done making trees" << std::endl;
@@ -65,9 +63,8 @@ void BTFactory::makeTrees() {
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
+    std::cout << play->getName() << " is currently being played" << std::endl;
     auto tree = BTFactory::play->getTreeForWorld();
-    std::cout << "getting tree in BTFactory" << std::endl;
-    std::cout << tree->properties->getString("NAME");
     return tree;
 }
 
@@ -120,6 +117,11 @@ void BTFactory::halt() {
 bool BTFactory::hasMadeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return BTFactory::weMadeTrees;
+}
+
+void BTFactory::setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> otherPlay) {
+    std::cout << "setting the play to " << otherPlay->getName() << std::endl;
+    BTFactory::play = otherPlay;
 }
 
 

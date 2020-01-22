@@ -13,14 +13,14 @@
 #include "skills/Pass2.h"
 #include "bt/Blackboard.hpp"
 #include "bt/tactics/DefaultTactic.h"
-
+#include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
 
 namespace rtt::ai::analysis {
     /// make tactic and execute this
     /**
      * The play will consist of multiple strategies which in turn consist of multiple roles. We build the tree in the constructor for now
      */
-    PassAndPlayPlay::PassAndPlayPlay() {
+    PassAndPlayPlay::PassAndPlayPlay(std::string name) : Play(name) {
         tree1 = std::make_shared<bt::BehaviorTree>();
         auto bb = std::make_shared<bt::Blackboard>();
         std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {

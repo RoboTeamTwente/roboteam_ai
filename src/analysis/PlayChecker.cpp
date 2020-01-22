@@ -3,6 +3,8 @@
 //
 
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h>
+#include <include/roboteam_ai/analysis/PlaysObjects/PassAndPlayPlay.h>
+#include <include/roboteam_ai/analysis/PlaysObjects/DummyPlay.h>
 #include "analysis/PlayChecker.h"
 #include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
@@ -12,29 +14,49 @@
 
 
 namespace rtt::ai::analysis {
-
-    bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        return true;
+    PlayChecker::PlayChecker(){
+        currentPlay = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("Pass and Play Play");
+        allPlays.push_back(std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("Pass and Play Playy"));
+        allPlays.push_back(std::make_shared<rtt::ai::analysis::DummyPlay>("dummy"));
     }
 
-    /**
-     * Determines what plays are viable given the current world, ref states and invariants/preconditions, and stores them in the validPlays vector
-     * TODO: add lambda here, to make it faster and cleaner
-     */
-    void PlayChecker::determineNewPlays(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-//        validPlays.clear();
-//        for (auto play : allPlays) {
-//            if (play.isValidPlay(world, field)) {
-//                validPlays.push_back(play);
-//            }
-//        }
+
+    bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        currentPlay->isValidPlay(world, field);
     }
 
-    void PlayChecker::update(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
-        if (!checkCurrentGameInvariants(world, field)) {
-            determineNewPlays(world, field);
-            /// TODO: there should be a call to PlayDecider here, but this is not implemented yet.
+
+
+    void PlayChecker::determineNewPlays(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        validPlays.clear();
+        for (auto play : allPlays) {
+            if (play->isValidPlay(world, field)) {
+                validPlays.push_back(play);
+            }
         }
+    }
+
+    bool PlayChecker::update(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+        // Check if the current play we are doing is still ok
+        if (checkCurrentGameInvariants(world, field)) {
+            std::cout << "current play is still valid" << std::endl;
+            return true;
+        }
+        // Otherwise we select new plays for the playdecider and we send them to the playdecider
+        else {
+            std::cout << "current play is not valid anymore, calculating new valid plays" << std::endl;
+            determineNewPlays(world, field);
+            return false;
+        }
+
+    }
+
+    const std::vector<std::shared_ptr<rtt::ai::analysis::Play>> &PlayChecker::getValidPlays() const {
+        return validPlays;
+    }
+
+    void PlayChecker::setCurrentPlay(std::shared_ptr<rtt::ai::analysis::Play> newPlay) {
+        currentPlay = newPlay;
     }
 
 }

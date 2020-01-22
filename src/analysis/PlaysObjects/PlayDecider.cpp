@@ -5,10 +5,22 @@
 #include "include/roboteam_ai/analysis/PlaysObjects/PlayDecider.h"
 
 namespace rtt::ai::analysis {
-    // Maybe plays should have some sort of score based on the world how good they are
-    Play PlayDecider::decideBestPlay(world::World *world, world::Field *field, std::vector<Play> validPlays) {
 
+    std::shared_ptr<rtt::ai::analysis::Play> PlayDecider::decideBestPlay(world::World *world, world::Field *field, std::vector<std::shared_ptr<rtt::ai::analysis::Play>> validPlays) {
+        int max = -1;
+        if (validPlays.empty()) {
+            std::cerr << "validPlays array is empty!" << std::endl;
+        }
+        // Each play has its own internal score based on how it good it is, independent of things like our current score.
+        for (auto play : validPlays) {
+            int temp = play->scorePlay(world, field);
+            if(temp > max) {
+                max = temp;
+                bestPlay = play;
+            }
+        }
+        std::cout << max;
+        return bestPlay;
 
-        return Play();
     }
 }
