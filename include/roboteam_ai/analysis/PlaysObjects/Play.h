@@ -11,7 +11,7 @@
 
 namespace rtt::ai::analysis {
     /**
-     * The play has a vector of invariants, when the invariants are false the play is abandoned.
+     * The play has some invariants, defined in the isValidPlay function. When the invariants are false the play is abandoned.
      *
      */
     class Play {
@@ -31,6 +31,10 @@ namespace rtt::ai::analysis {
          */
         virtual int scorePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field) = 0;
 
+        /**
+         * See derived class for documentation
+         * @return to the derived class for documentation
+         */
         virtual std::shared_ptr<bt::BehaviorTree> getTreeForWorld() = 0;
 
         std::string getName();
@@ -38,10 +42,11 @@ namespace rtt::ai::analysis {
         virtual std::shared_ptr<bt::BehaviorTree> getTree();
 
     protected:
+        /**
+         * Internal tree for each play (current tree being executed)
+         */
         std::shared_ptr<bt::BehaviorTree> tree;
         std::string name;
-
-        //virtual void executePlay();
     };
 }
 

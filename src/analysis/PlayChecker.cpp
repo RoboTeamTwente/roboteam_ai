@@ -15,9 +15,10 @@
 
 namespace rtt::ai::analysis {
     PlayChecker::PlayChecker(){
-        currentPlay = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("Pass and Play Play");
         allPlays.push_back(std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("Pass and Play Playy"));
         allPlays.push_back(std::make_shared<rtt::ai::analysis::DummyPlay>("dummy"));
+        currentPlay = allPlays[0];
+
     }
 
 
