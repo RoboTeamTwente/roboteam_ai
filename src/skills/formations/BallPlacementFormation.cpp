@@ -27,7 +27,7 @@
 #include <interface/api/Input.h>
 #include <world/Field.h>
 #include "control/ControlUtils.h"
-#include "control/Hungarian.h"
+#include "roboteam_utils/Hungarian.h"
 
 namespace rtt::ai {
 

@@ -4,7 +4,7 @@
 
 #include "skills/formations/DefendFreeKick.h"
 #include <control/PositionUtils.h>
-#include "control/Hungarian.h"
+#include "roboteam_utils/Hungarian.h"
 
 namespace rtt {
 namespace ai {

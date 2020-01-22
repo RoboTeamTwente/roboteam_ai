@@ -105,7 +105,6 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
