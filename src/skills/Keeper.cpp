@@ -2,7 +2,6 @@
 // Created by rolf on 10/12/18.
 //
 
-#include <boost/optional.hpp>
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
 #include "skills/Keeper.h"
