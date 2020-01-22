@@ -1,6 +1,8 @@
 #include "skills/formations/BallPlacementFormation.h"
+
 #include <interface/api/Input.h>
 #include <world/Field.h>
+
 #include "control/ControlUtils.h"
 #include "roboteam_utils/Hungarian.h"
 

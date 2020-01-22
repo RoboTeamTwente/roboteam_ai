@@ -3,7 +3,9 @@
 //
 
 #include "demo/JoystickDemo.h"
+
 #include <algorithm>
+
 #include "utilities/Pause.h"
 
 namespace demo {

@@ -3,6 +3,7 @@
 //
 
 #include "skills/InterceptBall.h"
+
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
 #include "world/Field.h"

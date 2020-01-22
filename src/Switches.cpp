@@ -24,6 +24,7 @@
 #include <skills/PenaltyKeeper.h>
 #include <skills/Wait.h>
 #include <skills/gotopos/GTPSpecial.h>
+
 #include "skills/ActiveStop.h"
 #include "skills/Attack.h"
 #include "skills/ChipForward.h"
@@ -83,6 +84,7 @@
 #include <skills/formations/KickOffUsFormation.h>
 #include <skills/formations/StopFormation.h>
 #include <skills/formations/TimeoutFormation.h>
+
 #include <bt/composites/MemSelector.hpp>
 #include <bt/composites/MemSequence.hpp>
 #include <bt/composites/ParallelSequence.hpp>
@@ -94,12 +96,11 @@
 #include <bt/decorators/Succeeder.hpp>
 #include <bt/decorators/UntilFail.hpp>
 #include <bt/decorators/UntilSuccess.hpp>
-#include "conditions/HasBall.hpp"
-#include "conditions/ShouldHandleBall.h"
 
 #include "conditions/BallInDefenseAreaAndStill.h"
 #include "conditions/BallNearOurGoalLineAndStill.h"
 #include "conditions/BallOutOfField.h"
+#include "conditions/HasBall.hpp"
 #include "conditions/HasClearShot.h"
 #include "conditions/IsBallCloseToBorder.h"
 #include "conditions/IsBeingPassedTo.h"
@@ -107,6 +108,7 @@
 #include "conditions/IsInDefenseArea.hpp"
 #include "conditions/IsOnPassLine.h"
 #include "conditions/ResumePlayAfterPenalty.h"
+#include "conditions/ShouldHandleBall.h"
 #include "conditions/TwoRobotBallPlacement.h"
 
 /**

@@ -3,6 +3,7 @@
 //
 
 #include "conditions/RobotOutside.h"
+
 #include <world/Field.h>
 #include <world/Robot.h>
 

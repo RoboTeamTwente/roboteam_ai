@@ -8,18 +8,18 @@
 #include <Settings/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 #include <io/IOManager.h>
-#include "roboteam_proto/DemoRobot.pb.h"
-#include "roboteam_proto/RobotFeedback.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
+
+#include <include/roboteam_ai/world_new/World.hpp>
 
 #include "demo/JoystickDemo.h"
 #include "interface/api/Input.h"
+#include "roboteam_proto/DemoRobot.pb.h"
+#include "roboteam_proto/RobotFeedback.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
+#include "roboteam_utils/normalize.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
 #include "world/Field.h"
-#include "world/Robot.h"
-
-#include "roboteam_utils/normalize.h"
 
 namespace rtt::ai::io {
 
@@ -41,6 +41,8 @@ void IOManager::handleWorldState(proto::World &world) {
 
     this->worldMsg = world;
     world::world->updateWorld(this->worldMsg);
+
+    world_new::World::instance()->updateWorld(world);
 }
 
 void IOManager::handleGeometry(proto::SSL_GeometryData &sslData) {
@@ -201,6 +203,8 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
             robot->setBatteryLow(feedback.batterylow());
             // robot->setGenevaStateFromFeedback(feedback.genevastate());
         }
+
+        world_new::World::instance()->updateFeedback(feedback.id(), feedback);
     }
 }
 

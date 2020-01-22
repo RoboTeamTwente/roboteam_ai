@@ -3,6 +3,7 @@
 //
 
 #include "control/ballHandling/RotateWithBall.h"
+
 #include "control/ControlUtils.h"
 #include "world/Robot.h"
 

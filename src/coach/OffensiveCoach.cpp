@@ -3,6 +3,7 @@
 //
 
 #include "coach/OffensiveCoach.h"
+
 #include <control/ControlUtils.h>
 #include <roboteam_utils/Hungarian.h>
 #include <interface/api/Input.h>

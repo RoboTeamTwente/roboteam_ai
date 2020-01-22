@@ -8,7 +8,9 @@
  */
 
 #include "conditions/HasBall.hpp"
+
 #include <control/ControlUtils.h>
+
 #include "world/Robot.h"
 #include "world/World.h"
 

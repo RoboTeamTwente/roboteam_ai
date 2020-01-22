@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include "../helpers/FieldHelper.h"
 #include "coach/PassCoach.h"
 #include "conditions/IsBeingPassedTo.h"

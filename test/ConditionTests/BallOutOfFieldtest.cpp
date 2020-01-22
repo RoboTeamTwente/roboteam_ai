@@ -1,5 +1,6 @@
 #include <conditions/BallOutOfField.h>
 #include <gtest/gtest.h>
+
 #include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "include/roboteam_ai/world/World.h"
 #include "world/Field.h"

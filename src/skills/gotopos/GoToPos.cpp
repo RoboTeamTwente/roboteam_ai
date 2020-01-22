@@ -3,6 +3,7 @@
 //
 
 #include "skills/gotopos/GoToPos.h"
+
 #include "control/ControlUtils.h"
 #include "world/Field.h"
 

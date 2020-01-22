@@ -2,8 +2,11 @@
 // Created by rolf on 15-6-19.
 //
 #include "conditions/ResumePlayAfterPenalty.h"
+
 #include <world/Field.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "control/ControlUtils.h"
 #include "world/Ball.h"
 

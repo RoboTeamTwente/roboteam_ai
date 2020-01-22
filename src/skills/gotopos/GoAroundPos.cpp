@@ -3,7 +3,9 @@
 //
 
 #include "skills/gotopos/GoAroundPos.h"
+
 #include <control/ControlUtils.h>
+
 #include "interface/api/Input.h"
 
 namespace rtt::ai {

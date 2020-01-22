@@ -9,9 +9,12 @@
  */
 
 #include "coach/BallplacementCoach.h"
+
 #include <interface/api/Output.h>
 #include <roboteam_utils/Vector2.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "interface/api/Input.h"
 #include "world/Ball.h"
 #include "world/World.h"

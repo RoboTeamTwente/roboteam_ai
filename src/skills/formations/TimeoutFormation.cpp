@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 12-4-19.
-//
-
 #include "skills/formations/TimeoutFormation.h"
 #include <world/Field.h>
 #include "roboteam_utils/Hungarian.h"

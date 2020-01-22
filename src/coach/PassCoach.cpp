@@ -3,8 +3,11 @@
 //
 
 #include "coach/PassCoach.h"
+
 #include <world/World.h>
+
 #include <chrono>
+
 #include "coach/heuristics/PassScore.h"
 #include "utilities/RobotDealer.h"
 #include "world/Field.h"

@@ -3,6 +3,7 @@
 //
 
 #include "skills/formations/PenaltyFormation.h"
+
 #include <control/ControlUtils.h>
 #include <roboteam_utils/Hungarian.h>
 #include <control/PositionUtils.h>

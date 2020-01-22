@@ -1,7 +1,3 @@
-//
-// Created by baris on 24-4-19.
-//
-
 #include "skills/formations/DefendFreeKick.h"
 #include <control/PositionUtils.h>
 #include "roboteam_utils/Hungarian.h"

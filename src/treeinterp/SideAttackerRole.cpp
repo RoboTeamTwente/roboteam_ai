@@ -18,11 +18,13 @@
 #include <include/roboteam_ai/skills/Receive.h>
 #include <include/roboteam_ai/skills/ReflectKick.h>
 #include <include/roboteam_ai/skills/SideAttacker.h>
+
 #include <include/roboteam_ai/bt/composites/MemSequence.hpp>
 #include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include <include/roboteam_ai/bt/composites/Sequence.hpp>
 #include <include/roboteam_ai/bt/decorators/Inverter.hpp>
 #include <include/roboteam_ai/conditions/IsInDefenseArea.hpp>
+
 #include "bt/Role.h"
 #include "skills/Attack.h"
 

@@ -2,9 +2,11 @@
 // Created by jesse on 14.10.19.
 //
 #include "treeinterp/OffensiveStrategy.h"
+
 #include <include/roboteam_ai/treeinterp/MidFieldHarassRole.h>
 #include <include/roboteam_ai/treeinterp/PassRole.h>
 #include <include/roboteam_ai/treeinterp/SideAttackerRole.h>
+
 #include "bt/BehaviorTree.hpp"
 #include "bt/Role.h"
 #include "bt/decorators/Repeater.hpp"

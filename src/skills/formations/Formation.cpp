@@ -3,8 +3,10 @@
 //
 
 #include "skills/formations/Formation.h"
+
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
+
 #include "control/ControlUtils.h"
 #include "roboteam_utils/Hungarian.h"
 #include "world/Field.h"

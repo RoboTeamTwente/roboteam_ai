@@ -3,9 +3,11 @@
 //
 
 #include "coach/GetBallCoach.h"
+
 #include <utilities/RobotDealer.h>
 #include <world/Field.h>
 #include <world/World.h>
+
 #include "coach/defence/DefencePositionCoach.h"
 #include "interface/api/Input.h"
 

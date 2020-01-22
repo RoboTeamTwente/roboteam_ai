@@ -115,7 +115,7 @@ class Ball {
      * @return A vector which represents the direction and the magnitude of this velocity.
      */
     const Vector2 &getVel() const;
-
+   
     /**
      * Check if the ball is visible by any camera.
      * @return True if the ball is visible by any camera, false otherwise.

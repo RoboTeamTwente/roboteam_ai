@@ -3,6 +3,7 @@
 //
 
 #include "treeinterp/BTFactory.h"
+
 #include "treeinterp/OffensiveStrategy.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;

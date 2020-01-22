@@ -3,6 +3,7 @@
 //
 
 #include "coach/heuristics/PassScore.h"
+
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "world/Field.h"
 #include "world/WorldData.h"

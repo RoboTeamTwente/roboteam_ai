@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include <utilities/RobotDealer.h>
+
 #include <utilities/GameStateManager.hpp>
 
 namespace rtt {
