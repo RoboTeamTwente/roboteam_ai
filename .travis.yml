@@ -19,7 +19,7 @@ git:
 before_install:
   # Pull the docker image, not cached, caching is slower
   - docker pull yuhanuncitgez/roboteamtwente:latest
-
+ 
 # Notifications, no email, post to slack channel
 notifications:
   email: false
