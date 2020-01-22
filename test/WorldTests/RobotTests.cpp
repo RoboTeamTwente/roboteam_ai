@@ -39,5 +39,7 @@ namespace rtt::world_new::robot {
 
         ASSERT_EQ(data.isWorkingBallSensor(), true);
         ASSERT_EQ(data.isBatteryLow(), true);
+
+        ASSERT_EQ(view::RobotView{ &data }.get(), &data);
     }
 } // namespace rtt::world_new
