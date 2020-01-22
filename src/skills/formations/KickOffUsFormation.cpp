@@ -2,7 +2,6 @@
 #include <analysis/GameAnalyzer.h>
 #include <world/Field.h>
 #include "control/ControlUtils.h"
-#include "roboteam_utils/Hungarian.h"
 
 namespace rtt::ai {
 

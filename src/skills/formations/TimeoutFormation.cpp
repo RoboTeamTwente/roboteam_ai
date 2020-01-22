@@ -1,6 +1,5 @@
 #include "skills/formations/TimeoutFormation.h"
 #include <world/Field.h>
-#include "roboteam_utils/Hungarian.h"
 
 namespace rtt::ai {
 
