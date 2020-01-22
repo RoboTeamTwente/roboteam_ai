@@ -441,7 +441,7 @@ target_include_directories(ai_tests
 #include(CodeCoverage)
 #APPEND_COVERAGE_COMPILER_FLAGS()
 #SETUP_TARGET_FOR_COVERAGE_LCOV( \
-    NAME ${PROJECT_NAME} _coverage EXECUTABLE ai_tests)
+#    NAME ${PROJECT_NAME} _coverage EXECUTABLE ai_tests)
 #
 ## required properties for cotire
 #set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 11)
