@@ -280,9 +280,7 @@ set(TEST_SOURCES
 #${PROJECT_SOURCE_DIR } / test / ControlTests / ShotControllerTest.cpp
 #
 #${PROJECT_SOURCE_DIR } / test / ControlTests / PosControllerTests / \
-   NumTreePosControlTest.cpp
 #${PROJECT_SOURCE_DIR } / test / ControlTests / PosControllerTests / \
-   RobotCommandTest.cpp
         )
 
 
