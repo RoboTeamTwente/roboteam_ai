@@ -22,15 +22,12 @@ namespace rtt::ai::analysis {
      */
     PassAndPlayPlay::PassAndPlayPlay(std::string name) : Play(name) {
         tree1 = std::make_shared<bt::BehaviorTree>();
-
-        tree1->SetRoot(offensiveTactic);
-
-
-        tree2->SetRoot(offensiveTactic2);
+        tree2 = std::make_shared<bt::BehaviorTree>();
+        makeTree1();
+        makeTree2();
         tree = tree1;
         tree1->properties->setString("NAME", "FIRST");
         tree2->properties->setString("NAME", "SECOND");
-
         tree1->setNext(tree2);
 
     }
@@ -64,11 +61,9 @@ namespace rtt::ai::analysis {
         return BallOnOurSideInvariant::isValid(world, field);
     }
 
-    void PassAndPlayPlay::makeTree1() {
-        /// TREE 2
-        tree2 = std::make_shared<bt::BehaviorTree>();
-        auto bb2 = std::make_shared<bt::Blackboard>();
-        std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots2 = {
+    void PassAndPlayPlay::makeTree2() {
+        auto bb = std::make_shared<bt::Blackboard>();
+        std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {
                 {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o3", rtt::ai::robotDealer::RobotType::RANDOM},
@@ -78,31 +73,70 @@ namespace rtt::ai::analysis {
                 {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
         };
-        std::shared_ptr<bt::DefaultTactic> offensiveTactic2 = std::make_shared<bt::DefaultTactic>("offensiveTactic", bb, robots);
+        std::shared_ptr<bt::DefaultTactic> tactic = std::make_shared<bt::DefaultTactic>("offensiveTactic", bb, robots);
+
+        // Creating the roles for all the robots in the tactic:
+        for (int i = 1; i < robots.size(); i++) {
+            auto localbb = std::make_shared<bt::Blackboard>();
+            std::string rolename = "o" + std::to_string(i);
+            localbb->setString("ROLE", rolename);
+            std::shared_ptr<bt::Role> temprole2 = std::make_shared<bt::Role>(rolename);
+
+            if (i == 5) {
+                auto pass = std::make_shared<rtt::ai::Attack>("Attack2", localbb);
+                pass->properties->setInt("PassTo", 2);
+                temprole2->addChild(pass);
+            }
+            else {
+                auto halt = std::make_shared<rtt::ai::Halt>("halt2", localbb);
+                temprole2->addChild(halt);
+            }
+
+            temprole2->setRoleString(rolename);
+            tactic->addChild(temprole2);
+        }
+        tree2->SetRoot(tactic);
+    }
+
+    void PassAndPlayPlay::makeTree1() {
+        auto bb = std::make_shared<bt::Blackboard>();
+        std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {
+                {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o2", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o3", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o4", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o5", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o6", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
+                {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
+        };
+        std::shared_ptr<bt::DefaultTactic> tactic = std::make_shared<bt::DefaultTactic>("tactic", bb, robots);
 
         // Creating the roles for all the robots in the tactic:
         for (int i = 1; i < robots.size(); i++) {
             auto localb = std::make_shared<bt::Blackboard>();
             std::string rolename = "o" + std::to_string(i);
             localb->setString("ROLE", rolename);
-            std::shared_ptr<bt::Role> temprole2 = std::make_shared<bt::Role>(rolename);
+            std::shared_ptr<bt::Role> temprole = std::make_shared<bt::Role>(rolename);
 
             if (i == 5) {
-                auto pass = std::make_shared<rtt::ai::Attack>("Attack2", localb);
+                auto pass = std::make_shared<rtt::ai::Pass2>("pass", localb);
                 pass->properties->setInt("PassTo", 2);
-                temprole2->addChild(pass);
+                temprole->addChild(pass);
+            }
+            else if (i == 2) {
+                auto receive = std::make_shared<rtt::ai::Receive>("receive", localb);
+                temprole->addChild(receive);
             }
             else {
-                auto halt = std::make_shared<rtt::ai::Halt>("halt2", localb);
-                temprole2->addChild(halt);
+                auto halt = std::make_shared<rtt::ai::Halt>("halt", localb);
+                temprole->addChild(halt);
             }
 
-            temprole2->setRoleString(rolename);
-            offensiveTactic2->addChild(temprole2);
+            temprole->setRoleString(rolename);
+            tactic->addChild(temprole);
         }
-    }
-
-    void PassAndPlayPlay::makeTree2() {
+        tree2->SetRoot(tactic);
 
     }
 
