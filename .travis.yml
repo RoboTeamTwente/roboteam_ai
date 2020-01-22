@@ -12,10 +12,6 @@ language: cpp
 services:
   - docker
 
-# Disable git cloning cause we do that in docker
-git:
-  clone: false
-
 # This happens before your build
 before_install:
   # Pull the docker image, not cached, caching is slower
