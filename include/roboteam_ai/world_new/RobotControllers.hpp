@@ -32,9 +32,7 @@ namespace rtt::world_new::robot {
         [[nodiscard]] std::unique_ptr<ai::control::BasicPosControl> &getBasicPosController() noexcept;
 
         [[nodiscard]] std::unique_ptr<ai::control::BallHandlePosControl> &getBallHandlePosController() noexcept;
-
     };
-
 }
 
 #endif //RTT_ROBOTCONTROLLERS_HPP

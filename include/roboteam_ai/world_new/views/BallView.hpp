@@ -16,6 +16,7 @@ namespace rtt::world_new::view {
      */
     class BallView {
         ball::Ball const*_ptr;
+
     public:
         /**
          * Move constructor and copy assignment operator

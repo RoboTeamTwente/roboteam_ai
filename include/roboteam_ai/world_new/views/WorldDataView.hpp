@@ -191,6 +191,7 @@ namespace rtt::world_new::view {
          * @return A non-owning view of the robot that has the ball
          */
         [[nodiscard]] RobotView whichRobotHasBall(Team team = both);
+
     private:
         /**
          * Constant world data that's used in the view

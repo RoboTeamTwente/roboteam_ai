@@ -129,10 +129,7 @@ namespace rtt::world_new {
          * @return
          */
         [[nodiscard]] uint64_t getTime() const noexcept;
-
-
     };
-
 } // namespace rtt::world
 
 

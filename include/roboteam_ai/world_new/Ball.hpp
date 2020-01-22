@@ -140,7 +140,6 @@ namespace rtt::world_new::ball {
         Ball(Ball &&) = default;
 
         ~Ball() = default;
-
     };
 
 } // namespace rtt::world::ball

@@ -166,7 +166,6 @@ namespace rtt::world_new::robot {
         Robot &operator=(Robot &&) = default;
 
         Robot(Robot &&) = default;
-
     };
 } // namespace rtt::world::robot
 
