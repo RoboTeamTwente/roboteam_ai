@@ -1,28 +1,3 @@
-/*
-                    ▄              ▄
-                  ▌▒█           ▄▀▒▌
-                  ▌▒▒█        ▄▀▒▒▒▐
-                 ▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐
-               ▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐
-             ▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌
-            ▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒▌
-            ▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐
-           ▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄▌
-           ▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒▌
-          ▌▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒▐
-          ▐▒▒▐▀▐▀▒░▄▄▒▄▒▒▒▒▒▒░▒░▒░▒▒▒▒▌
-          ▐▒▒▒▀▀▄▄▒▒▒▄▒▒▒▒▒▒▒▒░▒░▒░▒▒▐
-           ▌▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒░▒░▒░▒░▒▒▒▌
-           ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▒▄▒▒▐
-            ▀▄▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▄▒▒▒▒▌
-              ▀▄▒▒▒▒▒▒▒▒▒▒▄▄▄▀▒▒▒▒▄▀
-                ▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀
-                   ▒▒▒▒▒▒▒▒▒▒▀▀
-
-    "It's not a robocup if you didn't pull an all-nighter"
-                                    - random ER-Force guy
- */
-
 #include "skills/formations/BallPlacementFormation.h"
 #include <interface/api/Input.h>
 #include <world/Field.h>
@@ -58,15 +33,14 @@ Vector2 BallPlacementFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-    std::vector<int> robotIds;
-    for (auto &i : *robotsInFormation) {
-        if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
-            robotIds.push_back(i->id);
+    std::unordered_map<int, Vector2> robotLocations;
+    for (auto &robot : *robotsInFormation) {
+        if (robotLocations.size() < 8) {  // check for amount of robots, we dont want more than 8
+          robotLocations.insert({robot->id, robot->pos});
         }
     }
 
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, properPositions);
+    auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotLocations, properPositions);
     return shortestDistances.at(robot->id);
 }
 

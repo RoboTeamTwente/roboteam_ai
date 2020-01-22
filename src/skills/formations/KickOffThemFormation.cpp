@@ -32,7 +32,7 @@ Vector2 KickOffThemFormation::getFormationPosition() {
         robotIds.push_back(robot->id);
     }
 
-    rtt::HungarianAlgorithm hungarian;
+    rtt::Hungarian hungarian;
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, locations[robotsInFormation->size() - 1]);
     return shortestDistances.at(robot->id);
 }

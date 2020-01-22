@@ -26,6 +26,7 @@ class Formation : public Skill {
     virtual Vector2 getFormationPosition() = 0;
     virtual std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() = 0;
 
+
     double errorMargin = 0.1;
     static std::vector<RobotPtr> robotsInFormation;
     static bool update;

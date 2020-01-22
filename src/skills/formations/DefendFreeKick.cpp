@@ -23,7 +23,7 @@ Vector2 DefendFreeKick::getFormationPosition() {
         robotIds.push_back(i->id);
     }
 
-    rtt::HungarianAlgorithm hungarian;
+    rtt::Hungarian hungarian;
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
     return shortestDistances[robot->id];
 }

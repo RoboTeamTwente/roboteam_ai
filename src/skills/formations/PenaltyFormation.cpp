@@ -22,7 +22,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         }
         auto poses = rtt::ai::control::PositionUtils::getPenaltyPositions(robotsInFormation->size());
 
-        rtt::HungarianAlgorithm hungarian;
+        rtt::Hungarian hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
         return shortestDistances.at(robot->id);
     } else {
@@ -33,7 +33,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
         }
         auto poses = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(robotsInFormation->size());
 
-        rtt::HungarianAlgorithm hungarian;
+        rtt::Hungarian hungarian;
         auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
         return shortestDistances.at(robot->id);
     }

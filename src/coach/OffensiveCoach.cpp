@@ -115,7 +115,7 @@ void OffensiveCoach::redistributePositions() {
     updateOffensivePositions();
     std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
 
-    rtt::HungarianAlgorithm hungarian;
+    rtt::Hungarian hungarian;
     map<int, Vector2> shortestDistances;
     shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
 

@@ -24,16 +24,16 @@ Vector2 TimeoutFormation::getFormationPosition() {
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
-    std::vector<int> robotIds;
+    std::unordered_map<int, Vector2> robotLocations;
 
     for (unsigned int i = 0; i < robotsInFormation->size(); i++) {
         double targetLocationX = -field.get(FIELD_LENGTH) / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
-        robotIds.push_back(robotsInFormation->at(i)->id);
+        auto formationRobot = robotsInFormation->at(i);
+        robotLocations.insert({formationRobot->id, formationRobot->pos});
     }
 
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
+    auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotLocations, targetLocations);
     return shortestDistances.at(robot->id);
 }
 
