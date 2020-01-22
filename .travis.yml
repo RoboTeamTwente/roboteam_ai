@@ -30,7 +30,7 @@ notifications:
 script:
   # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
   - docker run -v ~/.ccache:/opt/.ccache yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
-  
+
 cache:
   directories:
     - ~/.ccache
