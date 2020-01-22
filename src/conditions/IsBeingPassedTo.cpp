@@ -3,6 +3,7 @@
  */
 
 #include "conditions/IsBeingPassedTo.h"
+
 #include <coach/PassCoach.h>
 
 namespace rtt::ai {

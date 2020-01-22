@@ -3,6 +3,7 @@
 //
 
 #include "utilities/StrategyManager.h"
+
 #include "utilities/GameStateManager.hpp"
 #include "world/Ball.h"
 #include "world/World.h"

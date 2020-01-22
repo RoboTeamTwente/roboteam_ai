@@ -3,7 +3,9 @@
 //
 
 #include "skills/Wait.h"
+
 #include <utilities/Constants.h>
+
 #include "world/Robot.h"
 
 namespace rtt::ai {

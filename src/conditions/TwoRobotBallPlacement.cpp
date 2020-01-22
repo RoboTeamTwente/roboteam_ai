@@ -5,6 +5,7 @@
  */
 
 #include "conditions/TwoRobotBallPlacement.h"
+
 #include <utilities/RobotDealer.h>
 #include <world/Ball.h>
 #include <world/World.h>

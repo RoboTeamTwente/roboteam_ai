@@ -3,7 +3,9 @@
 //
 
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
+
 #include <roboteam_utils/Vector2.h>
+
 #include "world/Ball.h"
 #include "world/Field.h"
 #include "world/World.h"

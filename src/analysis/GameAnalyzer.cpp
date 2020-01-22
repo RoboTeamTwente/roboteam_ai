@@ -3,8 +3,10 @@
 //
 
 #include "analysis/GameAnalyzer.h"
+
 #include <control/ControlUtils.h>
 #include <world/BallPossession.h>
+
 #include "analysis/RobotDanger.h"
 #include "world/Field.h"
 #include "world/Robot.h"

@@ -3,7 +3,9 @@
 //
 
 #include "world/Robot.h"
+
 #include <Settings/Settings.h>
+
 #include "control/BasicPosControl.h"
 #include "control/ControlUtils.h"
 #include "control/ballHandling/BallHandlePosControl.h"

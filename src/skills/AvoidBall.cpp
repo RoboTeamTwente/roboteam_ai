@@ -3,9 +3,12 @@
 //
 
 #include "skills/AvoidBall.h"
+
 #include <coach/BallplacementCoach.h>
 #include <interface/api/Input.h>
+
 #include <cmath>
+
 #include "control/ControlUtils.h"
 #include "control/numTrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"

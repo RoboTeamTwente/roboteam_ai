@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include "../helpers/FieldHelper.h"
 #include "conditions/CanReflectKick.h"
 #include "utilities/Constants.h"

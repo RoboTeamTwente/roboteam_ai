@@ -1,7 +1,9 @@
 #include "skills/formations/KickOffUsFormation.h"
+
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 #include <world/Field.h>
+
 #include "control/ControlUtils.h"
 #include "control/Hungarian.h"
 

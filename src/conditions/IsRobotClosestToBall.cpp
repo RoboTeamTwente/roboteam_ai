@@ -6,6 +6,7 @@
  */
 
 #include "conditions/IsRobotClosestToBall.h"
+
 #include "world/Ball.h"
 #include "world/Robot.h"
 #include "world/World.h"

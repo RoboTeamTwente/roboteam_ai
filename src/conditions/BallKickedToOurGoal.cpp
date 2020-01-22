@@ -2,8 +2,10 @@
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
 #include "conditions/BallKickedToOurGoal.h"
+
 #include <world/Ball.h>
 #include <world/Field.h>
+
 #include "control/ControlUtils.h"
 
 namespace rtt::ai {

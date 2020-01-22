@@ -8,6 +8,7 @@
 #include <utilities/RobotDealer.h>
 #include <world/Field.h>
 #include <world/World.h>
+
 #include "test/helpers/WorldHelper.h"
 namespace rtt::ai::analysis {
 

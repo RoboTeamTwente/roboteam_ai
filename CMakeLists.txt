@@ -279,9 +279,16 @@ set(TEST_SOURCES
 #${PROJECT_SOURCE_DIR } / test / AnalysisTests / DecisionmakerTest.cpp
 #${PROJECT_SOURCE_DIR } / test / ControlTests / ShotControllerTest.cpp
 #
-#${PROJECT_SOURCE_DIR } / test / ControlTests / PosControllerTests / \
-#${PROJECT_SOURCE_DIR } / test / ControlTests / PosControllerTests / \
-        )
+
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
+#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
+
+
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
+        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+       ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp)
+
 
 
 set(INTERFACE_SOURCES
@@ -325,6 +332,14 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
         )
 
 set(COACH_SOURCES

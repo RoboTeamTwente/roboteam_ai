@@ -7,6 +7,7 @@
 #include <test/helpers/FieldHelper.h>
 #include <test/helpers/WorldHelper.h>
 #include <world/Field.h>
+
 #include "control/ControlUtils.h"
 #include "utilities/Constants.h"
 

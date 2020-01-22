@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include "../helpers/WorldHelper.h"
 #include "conditions/WeHaveBall.h"
 #include "world/World.h"

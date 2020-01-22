@@ -3,6 +3,7 @@
 //
 
 #include "analysis/RobotDanger.h"
+
 #include <world/Field.h>
 
 namespace rtt::ai::analysis {

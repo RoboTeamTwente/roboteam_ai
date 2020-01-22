@@ -3,6 +3,7 @@
 //
 
 #include "skills/PreparePenalty.h"
+
 #include "skills/Skill.h"
 
 namespace rtt::ai {

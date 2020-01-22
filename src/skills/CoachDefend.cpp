@@ -3,7 +3,9 @@
 //
 
 #include "skills/CoachDefend.h"
+
 #include <world/Field.h>
+
 #include "coach/defence/DefenceDealer.h"
 #include "control/ControlUtils.h"
 namespace rtt::ai {

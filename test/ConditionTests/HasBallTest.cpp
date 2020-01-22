@@ -2,6 +2,7 @@
 // Created by rolf on 19-10-18.
 //
 #include <gtest/gtest.h>
+
 #include "include/roboteam_ai/conditions/HasBall.hpp"
 #include "include/roboteam_ai/utilities/RobotDealer.h"
 #include "include/roboteam_ai/world/Ball.h"

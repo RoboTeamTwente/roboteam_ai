@@ -3,7 +3,9 @@
 //
 
 #include "skills/formations/FreeKickFormation.h"
+
 #include <control/PositionUtils.h>
+
 #include "control/Hungarian.h"
 
 namespace rtt::ai {

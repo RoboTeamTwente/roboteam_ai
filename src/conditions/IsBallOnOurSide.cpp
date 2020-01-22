@@ -5,6 +5,7 @@
  */
 
 #include "conditions/IsBallOnOurSide.h"
+
 #include <world/Ball.h>
 #include <world/Field.h>
 

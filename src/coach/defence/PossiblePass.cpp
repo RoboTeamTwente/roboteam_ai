@@ -3,7 +3,9 @@
 //
 
 #include "coach/defence/PossiblePass.h"
+
 #include <control/ControlUtils.h>
+
 #include "world/Field.h"
 #include "world/WorldData.h"
 

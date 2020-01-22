@@ -1,5 +1,6 @@
 
 #include <gtest/gtest.h>
+
 #include "treeinterp/BTFactory.h"
 
 TEST(BT, JsonEditor) {

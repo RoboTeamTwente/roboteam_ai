@@ -3,9 +3,11 @@
 //
 
 #include "interface/widgets/RobotsWidget.h"
+
 #include <QScrollArea>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
+
 #include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
 #include "roboteam_proto/WorldRobot.pb.h"

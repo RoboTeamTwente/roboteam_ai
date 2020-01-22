@@ -3,7 +3,9 @@
 //
 
 #include <gtest/gtest.h>
+
 #include <utility>
+
 #include "treeinterp/TreeInterpreter.h"
 #include "treeinterp/json.h"
 

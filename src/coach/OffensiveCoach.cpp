@@ -3,6 +3,7 @@
 //
 
 #include "coach/OffensiveCoach.h"
+
 #include <control/ControlUtils.h>
 #include <control/Hungarian.h>
 #include <interface/api/Input.h>

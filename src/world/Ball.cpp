@@ -1,8 +1,11 @@
 #include "world/Ball.h"
+
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
 #include <interface/api/Output.h>
+
 #include <cmath>
+
 #include "world/World.h"
 #include "world/WorldData.h"
 

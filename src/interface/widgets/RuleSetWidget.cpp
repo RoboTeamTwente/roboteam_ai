@@ -3,10 +3,12 @@
 //
 
 #include "interface/widgets/RuleSetWidget.h"
+
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <utilities/GameStateManager.hpp>
+
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {

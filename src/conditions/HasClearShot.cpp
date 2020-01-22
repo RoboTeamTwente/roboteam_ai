@@ -6,6 +6,7 @@
  */
 
 #include "conditions/HasClearShot.h"
+
 #include <coach/PassCoach.h>
 #include <control/ControlUtils.h>
 #include <world/Ball.h>

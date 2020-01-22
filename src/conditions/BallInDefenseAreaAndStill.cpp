@@ -3,8 +3,10 @@
  * AND if the ball lays still
  */
 #include "conditions/BallInDefenseAreaAndStill.h"
+
 #include <world/Ball.h>
 #include <world/Field.h>
+
 #include "utilities/Constants.h"
 
 namespace rtt::ai {

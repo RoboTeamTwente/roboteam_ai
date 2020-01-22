@@ -9,6 +9,7 @@
  */
 
 #include "control/PositionUtils.h"
+
 #include <control/ControlUtils.h>
 #include <world/Ball.h>
 #include <world/Field.h>

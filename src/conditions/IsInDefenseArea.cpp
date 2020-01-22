@@ -7,6 +7,7 @@
  */
 
 #include "conditions/IsInDefenseArea.hpp"
+
 #include "world/Ball.h"
 #include "world/Field.h"
 #include "world/Robot.h"

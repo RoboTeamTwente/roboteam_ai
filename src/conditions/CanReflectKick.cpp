@@ -3,8 +3,10 @@
 //
 
 #include "conditions/CanReflectKick.h"
+
 #include <world/Field.h>
 #include <world/World.h>
+
 #include "control/ControlUtils.h"
 #include "skills/ReflectKick.h"
 #include "world/Ball.h"
