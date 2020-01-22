@@ -46,7 +46,7 @@ void Ball::initBallAtRobotPosition() noexcept {
 
     // Current ball does not have a position, set it to the old pos
     auto rbtView = previousWorld.getRobotClosestToBall(us);
-    if (rbtView.get()) {
+    if (rbtView) {
         this->position = previousBall->getPos();
     }
 }
@@ -80,7 +80,7 @@ void Ball::updateExpectedBallEndPosition() noexcept {
     auto previousWorld = World::instance()->getHistoryWorld(1);
     auto optionalPreviousBall = previousWorld->getBall();
 
-    if (!optionalPreviousBall.has_value()) {
+    if (!optionalPreviousBall) {
         return;
     }
 
@@ -105,7 +105,7 @@ void Ball::updateBallAtRobotPosition() noexcept {
     auto world = World::instance()->getWorld();
 
     auto robotWithBall = world->whichRobotHasBall();
-    if (!robotWithBall.get()) {
+    if (!robotWithBall) {
         return;
     }
 
@@ -117,7 +117,7 @@ void Ball::updateBallAtRobotPosition() noexcept {
         }
         newRobotWithBall = robot;
     }
-    if (!newRobotWithBall.get()) {
+    if (!newRobotWithBall) {
         return;
     }
     double distanceInFrontOfRobot = ai::Constants::ROBOT_RADIUS() + ai::Constants::BALL_RADIUS();

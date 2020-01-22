@@ -284,7 +284,12 @@ set(TEST_SOURCES
 #
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        )
+
+
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
+        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+       ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp)
 
 
 set(INTERFACE_SOURCES
@@ -433,7 +438,9 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE ${SDL2_LIBRARY} 
-        PRIVATE gcov)
+        PRIVATE gcov
+        PRIVATE gtest
+        )
 endif()
 
 target_include_directories(ai_tests
