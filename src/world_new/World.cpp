@@ -11,7 +11,7 @@
 
 namespace rtt::world_new {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
-//    std::lock_guard mtx{ updateMutex };
+    std::lock_guard mtx{ updateMutex };
     if (currentWorld) {
         toHistory(currentWorld.value());
     }
@@ -20,7 +20,7 @@ WorldData const &World::setWorld(WorldData &newWorld) noexcept {
 }
 
 void World::toHistory(WorldData &world) noexcept {
-//    std::lock_guard mtx{ updateMutex };
+    std::lock_guard mtx{ updateMutex };
     updateTickTime();
     if (history.size() < HISTORY_SIZE && currentIndex < history.size()) {
         history.emplace_back(std::move(world));
