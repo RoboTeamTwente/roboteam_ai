@@ -7,7 +7,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_joystick.h>
-#include <include/roboteam_ai/io/IOManager.h>
+#include <include/roboteam_ai/utilities/IOManager.h>
 #include <unistd.h>
 #include <map>
 #include <memory>

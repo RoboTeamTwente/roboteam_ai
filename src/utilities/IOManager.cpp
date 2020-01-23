@@ -5,9 +5,9 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
-#include <io/IOManager.h>
+#include <include/roboteam_ai/utilities/IOManager.h>
 
 #include <include/roboteam_ai/world_new/World.hpp>
 

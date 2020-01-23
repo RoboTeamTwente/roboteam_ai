@@ -4,7 +4,7 @@
 
 #include "world/Robot.h"
 
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 
 #include "control/BasicPosControl.h"
 #include "control/ControlUtils.h"

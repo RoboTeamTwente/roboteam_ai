@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 1-9-19.
 //
 
-#include "Settings/Settings.h"
+#include "include/roboteam_ai/utilities/Settings.h"
 
 namespace rtt {
 Settings SETTINGS;

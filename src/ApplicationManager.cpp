@@ -3,7 +3,7 @@
 //
 
 #include <ApplicationManager.h>
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>

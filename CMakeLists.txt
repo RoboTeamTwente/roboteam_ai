@@ -92,14 +92,9 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/PlayDecider.cpp
-
         )
+
 set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
-
-set(IO_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/io/IOManager.cpp)
-
-set(DEMO_SOURCES ${PROJECT_SOURCE_DIR}/src/demo/JoystickDemo.cpp)
 
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
@@ -108,7 +103,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
-        ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
+        ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp)
 
 set(MANUAL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
@@ -358,11 +354,9 @@ set(COACH_SOURCES
 
 #Main Executable
 add_executable(roboteam_ai
-
         src/roboteam_ai.cpp
         src/ApplicationManager.cpp
         include/roboteam_ai/ApplicationManager.h
-        ${IO_SOURCES}
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
@@ -372,7 +366,6 @@ add_executable(roboteam_ai
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
         ${COACH_SOURCES}
-        ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
@@ -403,13 +396,11 @@ add_executable(ai_tests
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
-        ${IO_SOURCES}
         ${CONDITIONS_SOURCES}
         ${SKILLS_SOURCES}
         ${CONTROL_SOURCES}
         ${ANALYSIS_SOURCES}
         ${TACTIC_SOURCES}
-        ${DEMO_SOURCES}
         ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
