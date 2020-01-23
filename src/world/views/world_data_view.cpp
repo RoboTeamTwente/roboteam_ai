@@ -49,27 +49,8 @@ namespace rtt::world_new::view {
         return retRobots;
     }
 
-    WorldDataView::WorldDataView(WorldData const *const _ptr) noexcept
-            : data{_ptr} {
-        assert(_ptr && "WorldDatat const* _ptr in explicit WorldDataView(WorldDatat const* _ptr) was null");
-    }
-
-    WorldDataView &WorldDataView::operator=(WorldDataView const &o) noexcept {
-        if (this == &o) {
-            return *this;
-        }
-        return *this;
-    }
-
-    WorldDataView &WorldDataView::operator=(WorldDataView &&o) noexcept {
-        if (this == &o) {
-            return *this;
-        }
-        return *this;
-    }
-
-    WorldDataView::WorldDataView(WorldDataView &&o) noexcept
-            : data{o.data} {}
+    WorldDataView::WorldDataView(WorldData * _ptr) noexcept
+            : data{_ptr} {}
 
     WorldData const &WorldDataView::operator*() const noexcept {
         return *get();
@@ -103,7 +84,6 @@ namespace rtt::world_new::view {
     }
 
     RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
-        RobotView closest{nullptr};
         std::vector<RobotView> robots;
         if (team == us)
             robots = getUs();
@@ -185,5 +165,9 @@ namespace rtt::world_new::view {
         robots.insert(robots.begin(), getUs().begin(), getUs().end());
         robots.insert(robots.begin(), getThem().begin(), getThem().end());
         return robots;
+    }
+
+    WorldDataView::operator bool() noexcept {
+        return static_cast<bool>(get());
     }
 }

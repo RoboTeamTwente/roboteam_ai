@@ -30,7 +30,7 @@ namespace rtt::world_new::view {
          *
          * Pointer is asserted in debug
          */
-        explicit WorldDataView(WorldData const *_ptr) noexcept;
+        explicit WorldDataView(WorldData *_ptr) noexcept;
 
         /**
          * Overloads the dereference operator
@@ -95,12 +95,12 @@ namespace rtt::world_new::view {
         /**
          * Copy assignment operator, does nothing
          */
-        WorldDataView& operator=(WorldDataView const& o) noexcept;
+        WorldDataView& operator=(WorldDataView const& o) = default;
 
         /**
          * Move assignment operator, does nothing
          */
-        WorldDataView& operator=(WorldDataView&& o) noexcept;
+        WorldDataView& operator=(WorldDataView&& o) = default;
 
         /**
          * Copy constructor
@@ -112,7 +112,7 @@ namespace rtt::world_new::view {
          * Move constructor, same as copy ctor
          * @param o Object to move
          */
-        WorldDataView(WorldDataView&& o) noexcept;
+        WorldDataView(WorldDataView&& o) = default;
 
         /**
          * Gets a non-owning container of Robot*, aka RobotView
@@ -184,11 +184,17 @@ namespace rtt::world_new::view {
          * @return A non-owning view of the robot that has the ball
          */
         [[nodiscard]] RobotView whichRobotHasBall(Team team = both);
+
+        /**
+         * Gets bool value of internal pointer
+         * @return bool(get())
+         */
+        [[nodiscard]] operator bool() noexcept;
     private:
         /**
          * Constant world data that's used in the view
          */
-        WorldData const *const data;
+        WorldData* data;
     };
 }
 

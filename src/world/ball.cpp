@@ -44,6 +44,9 @@ namespace rtt::world_new::ball {
 
     void Ball::initBallAtRobotPosition() noexcept {
         auto previousWorld = World::instance()->getHistoryWorld(1);
+        if (!previousWorld) {
+            return;
+        }
         auto optionalPreviousBall = previousWorld->getBall();
 
         if (!optionalPreviousBall.has_value()) {
@@ -66,6 +69,9 @@ namespace rtt::world_new::ball {
 
     void Ball::filterBallVelocity() noexcept {
         auto previousWorld = World::instance()->getHistoryWorld(1);
+        if (!previousWorld) {
+            return;
+        }
         auto optionalPreviousBall = previousWorld->getBall();
 
         if (!optionalPreviousBall.has_value()) {
@@ -92,6 +98,9 @@ namespace rtt::world_new::ball {
 
     void Ball::updateExpectedBallEndPosition() noexcept {
         auto previousWorld = World::instance()->getHistoryWorld(1);
+        if (!previousWorld) {
+            return;
+        }
         auto optionalPreviousBall = previousWorld->getBall();
 
         if (!optionalPreviousBall.has_value()) {

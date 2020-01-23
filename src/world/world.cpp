@@ -18,6 +18,7 @@ namespace rtt::world_new {
     }
 
     void World::toHistory(WorldData &world) noexcept {
+        std::scoped_lock<std::mutex> lock{ updateMutex };
         updateTickTime();
         if (history.size() < HISTORY_SIZE && currentIndex < history.size()) {
             history.emplace_back(std::move(world));
@@ -28,7 +29,7 @@ namespace rtt::world_new {
         currentIndex++;
     }
 
-    std::optional<view::WorldDataView> World::getWorld() const noexcept {
+    std::optional<view::WorldDataView> World::getWorld() noexcept {
         if (currentWorld) {
             return view::WorldDataView{ &*currentWorld };
         } else {
@@ -36,11 +37,16 @@ namespace rtt::world_new {
         }
     }
 
-    view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-        assert(ticksAgo < 20 && ticksAgo >= 1 && ticksAgo < history.size() && currentIndex > ticksAgo &&
-               "Invalid tick");
+    view::WorldDataView World::getHistoryWorld(size_t ticksAgo) noexcept {
+        if (!(ticksAgo < 20 && ticksAgo >= 1 && ticksAgo < history.size() && currentIndex > ticksAgo)) {
+            return view::WorldDataView{ nullptr };
+        };
         // say ticksAgo is 3, then you'd want the currentIndex - 3 index, so
-        return view::WorldDataView(&history[currentIndex - ticksAgo]);
+        size_t index = currentIndex - ticksAgo;
+        if (index < 0) {
+            index = (20 - index);
+        }
+        return view::WorldDataView(&history[index]);
     }
 
     void World::updateWorld(proto::World &protoWorld) {

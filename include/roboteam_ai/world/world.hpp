@@ -83,14 +83,14 @@ namespace rtt::world_new {
          * Gets the current world
          * @return std::nullopt if there is no currentWorld, otherwise Some with the value
          */
-        [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
+        [[nodiscard]] std::optional<view::WorldDataView> getWorld() noexcept;
 
         /**
          * Gets a certain world from history
          * @param ticksAgo Ticks ago to fetch from
          * @return Returns the world at index currentIndex - ticksAgo
          */
-        [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) const noexcept;
+        [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) noexcept;
 
         /**
          * Gets the amount of nanoseconds between the current worlddata object and the last one
