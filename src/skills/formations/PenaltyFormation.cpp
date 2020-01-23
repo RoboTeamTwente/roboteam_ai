@@ -3,6 +3,7 @@
 //
 
 #include "skills/formations/PenaltyFormation.h"
+
 #include <control/ControlUtils.h>
 #include <control/Hungarian.h>
 #include <control/PositionUtils.h>

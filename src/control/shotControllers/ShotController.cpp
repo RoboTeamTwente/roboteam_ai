@@ -3,10 +3,12 @@
 //
 
 #include "control/shotControllers/ShotController.h"
+
 #include <control/ControlUtils.h>
 #include <control/PositionUtils.h>
 #include <interface/api/Input.h>
 #include <world/World.h>
+
 #include "control/ballHandling/BallHandlePosControl.h"
 
 namespace rtt::ai::control {

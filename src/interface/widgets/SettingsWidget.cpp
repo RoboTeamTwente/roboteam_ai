@@ -2,9 +2,11 @@
 #include "interface/widgets/SettingsWidget.h"
 
 #include <Settings/Settings.h>
+
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
+
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {

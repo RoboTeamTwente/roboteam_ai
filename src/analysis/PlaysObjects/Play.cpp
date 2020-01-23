@@ -3,6 +3,7 @@
 //
 
 #include "analysis/PlaysObjects/Play.h"
+
 #include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
 #include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
 #include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"

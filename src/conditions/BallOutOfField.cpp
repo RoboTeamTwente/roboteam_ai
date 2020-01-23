@@ -4,6 +4,7 @@
  */
 
 #include "conditions/BallOutOfField.h"
+
 #include <world/Ball.h>
 #include <world/Field.h>
 

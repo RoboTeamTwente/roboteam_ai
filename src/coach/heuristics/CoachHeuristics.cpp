@@ -3,11 +3,13 @@
 //
 
 #include "coach/heuristics/CoachHeuristics.h"
+
 #include <analysis/GameAnalyzer.h>
-#include "control/ControlUtils.h"
-#include "world/Field.h"
 
 #include <cmath>
+
+#include "control/ControlUtils.h"
+#include "world/Field.h"
 
 namespace rtt::ai::coach {
 

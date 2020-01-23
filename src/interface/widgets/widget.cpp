@@ -3,15 +3,17 @@
 //
 
 #include "interface/widgets/widget.h"
+
 #include <coach/PassCoach.h>
 #include <utilities/RobotDealer.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "analysis/GameAnalyzer.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
-#include "world/Field.h"
-
 #include "roboteam_proto/GeometryFieldSize.pb.h"
+#include "world/Field.h"
 
 namespace rtt::ai::interface {
 

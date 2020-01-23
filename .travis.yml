@@ -1,64 +1,37 @@
 # This travis image builds roboteam_suite and runs the target 'ai_tests'.
-# All other repositories of roboteam_suit are set to the master branch.
+# All other repositories of roboteam_suite are set to the master branch.
 # We need all dependencies to parse the cmake files. This can be optimized later,
 # but with caching this is not a large performance hit anyway.
 
+# Language C++, Ubuntu 18
+os: linux
+dist: bionic
 language: cpp
-os: osx
-osx_image: xcode11.2
 
-addons:
-  homebrew:
-    packages:
-      - zmq       # proto dependency
-      - zmqpp     # proto dependency
-      - protobuf  # proto dependency
-      - armadillo # world dependency
-      - ccache    # speeding up build
-      - ninja     # speeding up build
-      - qt        # roboteam_ai dependency
+# Services require docker, docker already contains everything
+services:
+  - docker
 
+# This happens before your build
+before_install:
+  # Pull the docker image, not cached, caching is slower
+  - docker pull yuhanuncitgez/roboteamtwente:latest
+
+# Notifications, no email, post to slack channel
 notifications:
   email: false
   slack:
+    # Slack secure key, this should be an environment variable
     secure: f0ZitTIc4ub7ek/OeN1WliiWJv6dTMnIbLY4Cy1SnMJKLUagkcjX+oMW00QHJ5aCPFKxamoWyEymJ34XL8VaUb2NhAHyIFy1Go5Z43IS0fNGUMuqEeuOsmwzMTIrrzOAyQ36OmyMknEQaAFICX2oZHqNgQQfe7S5Pna3v4tOkHSlAPrBmPyADvkcWG1wKhmnw+/9ExEu8xPooKehqSZEzRa++4R2RFQ1pp130c/qe3q/HOrBoDmzFERJA6ZhiukdNNKMRYvJSFQyzEOu6lmmFd68T5c5cxZM/RUA4xEu7ih6x/N/Se4AndhRHSCMoAB2aZuSOD32Wo1kZBg1oO4MjpvPdE7BHfMmZFY0GXpmVt7dvimHYw4L2hpih3szXTMcYk+aPjvCIAZEedqNmQouR28+Oz6eMZYPC1zG76rGGo/bx104BDNLsILaz+5/dUmF1sIqiY2DfJ4Ppqp7WkTcB1TOdIWKnFE7zC/zdscvgBMBNyeWaRskHnIzn3oyMDiCX6PAYqufYldr89ew2Yzg7bDLIz5JWVPHRffdAVK6SoMTg9ncXGQMGMfRCTR1pTM5kUL5rp49jECEf8KTQ3koQemcl/TRvSMEsoATPVEQNNtpJtWa5aRdlrPtkqA/iuIiR34Maia3RcSXwdd46guS0lv0Jcu+cV2M+lQHH4rgZUs=
+
+script:
+  # pass variables TRAVIS_BRANCH and roboteam_ai to entrypoint
+  - docker run -v ~/.ccache:/opt/.ccache yuhanuncitgez/roboteamtwente:latest "$TRAVIS_BRANCH" roboteam_ai
 
 cache:
   directories:
-    - $HOME/Library/Caches/Homebrew
-    - $HOME/.ccache
+    - ~/.ccache
 
-# Install Google Test from source
-install:
-  - cd ~/
-  - git clone https://github.com/google/googletest.git
-  - cd googletest
-  - mkdir install
-  - cd install
-  - cmake ../
-  - make
-  - sudo make install
-
-# First we set up the compiler to use ccache.
-# then clone roboteam_suite and put all repositories on master.
-# then we replace roboteam_ai from rtt_suite with the branch you are currently on to test this branch specifically.
-# Finally, we run the tests.
-script:
-  - cd ~
-  - export CC="ccache gcc"
-  - export CXX="ccache g++"
-  - export CCACHE_SLOPPINESS=pch_defines,time_macros
-  - git clone https://github.com/RoboTeamTwente/roboteam_suite roboteam_suite --recurse-submodules
-  - cd ~/roboteam_suite
-  - rm -rf roboteam_ai
-  - git submodule foreach git checkout master
-  - mv ${TRAVIS_BUILD_DIR} .
-  - mkdir cmake-build-debug && cd cmake-build-debug;
-  - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Ninja" ..
-  - cmake --build . --target ai_tests -- -j 8
-  - cd roboteam_ai
-  - ./ai_tests
-
-#Lets not do coverage yet
-#after_success:
-#- bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+# after_success:
+  # Lets not do coverage yet
+  # - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"

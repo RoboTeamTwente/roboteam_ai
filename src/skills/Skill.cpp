@@ -1,6 +1,9 @@
 #include "skills/Skill.h"
+
 #include <Settings/Settings.h>
+
 #include <cmath>
+
 #include "control/ControlUtils.h"
 #include "utilities/Constants.h"
 #include "utilities/GameStateManager.hpp"

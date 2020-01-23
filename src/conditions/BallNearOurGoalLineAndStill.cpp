@@ -5,6 +5,7 @@
  */
 
 #include "conditions/BallNearOurGoalLineAndStill.h"
+
 #include <world/Ball.h>
 #include <world/World.h>
 

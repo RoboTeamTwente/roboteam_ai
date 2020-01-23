@@ -7,16 +7,21 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
 set(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
+include(FindSDL2)
 
-# Find includes in corresponding build directories
+#Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-# Instruct CMake to run moc automatically when needed
+#Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOMOC ON)
-# Create code from a list of Qt designer ui files
+#Create code from a list of Qt designer ui files
 set(CMAKE_AUTOUIC OFF)
+find_package(SDL2 REQUIRED sdl2)
 
+if (NOT SDL2_FOUND)
+    message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
+endif()
 
-# for MacOS X or iOS, watchOS, tvOS (since 3.10.3)
+#for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if(APPLE)
     set(Qt5Widgets_DIR "/usr/local/opt/qt5/lib/cmake/Qt5Widgets")
     set(Qt5Core_DIR "/usr/local/opt/qt/lib/cmake/Qt5Core")
@@ -27,7 +32,7 @@ if(APPLE)
     find_package(Qt5Gui REQUIRED)
 endif()
 
-# for Linux, BSD, Solaris, Minix
+#for Linux, BSD, Solaris, Minix
 if(UNIX AND NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
@@ -105,12 +110,16 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
 
+set(MANUAL_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
+        ${PROJECT_SOURCE_DIR}/src/manual/JoystickHandler.cpp
+        )
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoToPos.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/TurnGeneva.h
-#        ${PROJECT_SOURCE_DIR}/src/skills/TurnGeneva.cpp
+#${PROJECT_SOURCE_DIR } / src / skills / TurnGeneva.h
+#${PROJECT_SOURCE_DIR } / src / skills / TurnGeneva.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/gotopos/SkillGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/Dribble.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/RotateToAngle.cpp
@@ -196,7 +205,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/pid.cpp
 
-        # PositionControllers
+#PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/NumTreesPlanning.cpp
@@ -206,15 +215,15 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/BasicPathTracking.cpp
 
 
-        # NumTrees
+#NumTrees
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/PathPoint.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numTrees/Collision.cpp
 
-        # ShotController
+#ShotController
         ${PROJECT_SOURCE_DIR}/src/control/shotControllers/ShotController.cpp
 
-        # BallHandling
+#BallHandling
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/BallHandlePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleBackwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
@@ -239,49 +248,54 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
 
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
+#${PROJECT_SOURCE_DIR } / test / CoachTests / BallPlacementCoachTest.cpp
 
-
-#        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/InterfaceTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/MainWindowTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/InterfaceTests/TreeVisualizerTest.cpp
+#${PROJECT_SOURCE_DIR } / test / InterfaceTests / InterfaceTest.cpp
+#${PROJECT_SOURCE_DIR } / test / InterfaceTests / MainWindowTest.cpp
+#${PROJECT_SOURCE_DIR } / test / InterfaceTests / TreeVisualizerTest.cpp
 
 
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PositionUtilsTest.cpp
+#${PROJECT_SOURCE_DIR } / test / ControlTests / PositionUtilsTest.cpp
 
+#${PROJECT_SOURCE_DIR } / test / WorldTests / WorldTest.cpp
+#${PROJECT_SOURCE_DIR } / test / WorldTests / FieldTest.cpp
+#${PROJECT_SOURCE_DIR } / test / ControlTests / ControlUtilsTest.cpp
+#
+#${PROJECT_SOURCE_DIR } / test / TacticTests / DefaultTacticTest.cpp
+#${PROJECT_SOURCE_DIR } / test / ControlTests / HungarianTest.cpp
+#${PROJECT_SOURCE_DIR } / test / WorldTests / BallPossessionTests.cpp
+#${PROJECT_SOURCE_DIR } / test / WorldTests / HistoryTests.cpp
+#
+#${PROJECT_SOURCE_DIR } / test / SkillTests / PassTest.cpp
+#
+#${PROJECT_SOURCE_DIR } / test / ConditionTests / BallOutOfFieldtest.cpp
+#${PROJECT_SOURCE_DIR } / test / ConditionTests / IsBallOnOurSideTest.cpp
+#${PROJECT_SOURCE_DIR } / test / ConditionTests / IsBallCloseToBorderTest.cpp
+#${PROJECT_SOURCE_DIR } / test / UtilTests / JoyStickTest.cpp
+#${PROJECT_SOURCE_DIR } / test / CoachTests / BallPlacementCoachTest.cpp
+#${PROJECT_SOURCE_DIR } / test / CoachTests / OffensiveCoachTest.cpp
+#${PROJECT_SOURCE_DIR } / test / SkillTests / FormationTest.cpp
+#${PROJECT_SOURCE_DIR } / test / CoachTests / BallPlacementCoachTest.cpp
+#${PROJECT_SOURCE_DIR } / test / CoachTests / DefensiveCoachTest.cpp
+#${PROJECT_SOURCE_DIR } / test / CoachTests / OffensiveCoachTest.cpp
+#${PROJECT_SOURCE_DIR } / test / AnalysisTests / DecisionmakerTest.cpp
+#${PROJECT_SOURCE_DIR } / test / ControlTests / ShotControllerTest.cpp
+#
 
-
-#        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-#
-#        ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ControlTests/HungarianTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallPossessionTests.cpp
-#        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryTests.cpp
-#
-#        ${PROJECT_SOURCE_DIR}/test/SkillTests/PassTest.cpp
-#
-#        ${PROJECT_SOURCE_DIR}/test/ConditionTests/BallOutOfFieldtest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBallOnOurSideTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ConditionTests/IsBallCloseToBorderTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/UtilTests/JoyStickTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/OffensiveCoachTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/SkillTests/FormationTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/BallPlacementCoachTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/DefensiveCoachTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/CoachTests/OffensiveCoachTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/AnalysisTests/DecisionmakerTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ControlTests/ShotControllerTest.cpp
-#
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
 #        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-        )
+
+
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
+        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+       ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp)
+
+
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -298,8 +312,9 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/GraphWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
 
-        # QT wants to know about these headers
+#QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
@@ -310,6 +325,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         )
 
 set(WORLD_SOURCES
@@ -322,6 +338,14 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
         )
 
 set(COACH_SOURCES
@@ -338,7 +362,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/midField/MidFieldCoach.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
 
-# Main Executable
+#Main Executable
 add_executable(roboteam_ai
 
         src/roboteam_ai.cpp
@@ -357,6 +381,7 @@ add_executable(roboteam_ai
         ${DEMO_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
+        ${MANUAL_SOURCES}
         )
 
 target_link_libraries(roboteam_ai
@@ -364,13 +389,18 @@ target_link_libraries(roboteam_ai
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
-#        gtest
+        PRIVATE roboteam_proto
+        PRIVATE ${SDL2_LIBRARY}
         )
+
 
 target_include_directories(roboteam_ai
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src )
+        PRIVATE src
+        PRIVATE ${SDL2_INCLUDE_DIRS}
+        PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
+        )
 
 #############
 ## Testing ##
@@ -390,15 +420,18 @@ add_executable(ai_tests
         ${INTERFACE_SOURCES}
         ${TEST_SOURCES}
         ${WORLD_SOURCES}
+        ${MANUAL_SOURCES}
         )
 
 
 if(APPLE)
     target_link_libraries(ai_tests
             PRIVATE roboteam_utils
+            PRIVATE roboteam_proto
             PRIVATE Qt5::Widgets
             PRIVATE Qt5::Gui
             PRIVATE Qt5::Charts
+            PRIVATE ${SDL2_LIBRARY} 
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a)
 endif()
@@ -409,20 +442,25 @@ if(UNIX AND NOT APPLE)
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
+        PRIVATE ${SDL2_LIBRARY} 
         PRIVATE gcov
- #         gtest
-          )
+        PRIVATE gtest
+        )
 endif()
 
 target_include_directories(ai_tests
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src )
+        PRIVATE src 
+        PRIVATE ${SDL2_INCLUDE_DIRS}
+        PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
+        )
 #
 #
 #include(CodeCoverage)
 #APPEND_COVERAGE_COMPILER_FLAGS()
-#SETUP_TARGET_FOR_COVERAGE_LCOV(NAME ${PROJECT_NAME}_coverage EXECUTABLE ai_tests)
+#SETUP_TARGET_FOR_COVERAGE_LCOV( \
+#    NAME ${PROJECT_NAME} _coverage EXECUTABLE ai_tests)
 #
 ## required properties for cotire
 #set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 11)
@@ -431,8 +469,7 @@ target_include_directories(ai_tests
 #set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
 #
 #
-#if(UNIX AND NOT APPLE)
-#    cotire(roboteam_ai)
-#    cotire(ai_tests)
+#if (UNIX AND NOT APPLE)
+#cotire(roboteam_ai)
+#cotire(ai_tests)
 #endif()
-

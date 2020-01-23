@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include "include/roboteam_ai/conditions/BallKickedToOurGoal.h"
 #include "include/roboteam_ai/world/World.h"
 #include "world/Field.h"

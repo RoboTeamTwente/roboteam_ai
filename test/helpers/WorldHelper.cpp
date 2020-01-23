@@ -7,7 +7,9 @@
 #include <roboteam_proto/World.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 #include <roboteam_utils/Vector2.h>
+
 #include <random>
+
 #include "WorldHelper.h"
 #include "world/Robot.h"
 #include "world/World.h"

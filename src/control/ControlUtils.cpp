@@ -3,9 +3,12 @@
 //
 
 #include "control/ControlUtils.h"
+
 #include <roboteam_utils/Line.h>
 #include <world/Field.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "world/World.h"
 #include "world/WorldData.h"
 

@@ -4,6 +4,7 @@
 
 #include <interface/api/Output.h>
 #include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+
 #include "gtest/gtest.h"
 #include "utilities/GameStateManager.hpp"
 

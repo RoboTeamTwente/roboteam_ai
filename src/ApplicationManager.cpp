@@ -13,8 +13,10 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
+
 #include <bt/Node.hpp>
 #include <utilities/GameStateManager.hpp>
+
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "utilities/Constants.h"
@@ -133,7 +135,7 @@ void ApplicationManager::updateCoaches() const {
         ai::coach::g_offensiveCoach.updateOffensivePositions();
         ai::coach::g_pass.updatePassProgression();
     });
-    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
+//    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
 }
 
 /// Terminate trees

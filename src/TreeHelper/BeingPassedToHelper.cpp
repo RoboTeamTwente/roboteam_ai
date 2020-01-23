@@ -2,11 +2,14 @@
 // Created by jessevw on 19.11.19.
 //
 #include "include/roboteam_ai/TreeHelper/BeingPassedToHelper.h"
+
 #include <include/roboteam_ai/conditions/IsBeingPassedTo.h>
 #include <include/roboteam_ai/skills/Receive.h>
+
 #include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include <include/roboteam_ai/bt/composites/Sequence.hpp>
 #include <include/roboteam_ai/conditions/IsInDefenseArea.hpp>
+
 #include "bt/Role.h"
 #include "bt/RoleDivider.h"
 #include "bt/tactics/DefaultTactic.h"

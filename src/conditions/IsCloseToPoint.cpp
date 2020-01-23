@@ -7,6 +7,7 @@
  */
 
 #include "conditions/IsCloseToPoint.h"
+
 #include "world/Ball.h"
 #include "world/Robot.h"
 

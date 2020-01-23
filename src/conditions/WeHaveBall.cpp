@@ -3,6 +3,7 @@
  */
 
 #include "conditions/WeHaveBall.h"
+
 #include "world/Robot.h"
 #include "world/World.h"
 

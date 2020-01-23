@@ -3,6 +3,7 @@
 //
 
 #include <gtest/gtest.h>
+
 #include "conditions/IsRobotClosestToBall.h"
 #include "utilities/RobotDealer.h"
 #include "world/Ball.h"

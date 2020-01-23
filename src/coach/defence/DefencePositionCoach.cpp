@@ -4,6 +4,7 @@
 //
 
 #include "coach/defence/DefencePositionCoach.h"
+
 #include "control/ControlUtils.h"
 #include "utilities/RobotDealer.h"
 #include "world/Field.h"

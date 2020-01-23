@@ -4,6 +4,7 @@
  */
 
 #include "interface/widgets/PidsWidget.h"
+
 #include "interface/widgets/PidBox.h"
 
 namespace rtt::ai::interface {

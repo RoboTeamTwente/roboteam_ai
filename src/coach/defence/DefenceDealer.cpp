@@ -3,6 +3,7 @@
 //
 
 #include "coach/defence/DefenceDealer.h"
+
 #include "interface/api/Input.h"
 
 namespace rtt::ai::coach {
