@@ -2,12 +2,8 @@
 // Created by robzelluf on 5/27/19.
 //
 
-#include "coach/midField/MidFieldCoach.h"
-
-#include <world/WorldData.h>
-
+#include "coach/midfield/MidFieldCoach.h"
 #include "world/Ball.h"
-#include "world/Robot.h"
 
 namespace rtt::ai::coach {
 

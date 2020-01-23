@@ -327,7 +327,7 @@ set(AI_INCLUDES
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
-#Main Executable
+# Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
 target_link_libraries(roboteam_ai ${AI_LIBS})
 target_include_directories(roboteam_ai ${AI_INCLUDES})

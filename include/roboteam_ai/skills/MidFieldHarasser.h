@@ -10,7 +10,7 @@
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
 #include "Skill.h"
-#include "coach/midField/MidFieldCoach.h"
+#include "coach/midfield/MidFieldCoach.h"
 
 namespace rtt::ai {
 
