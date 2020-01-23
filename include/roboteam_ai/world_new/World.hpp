@@ -158,7 +158,7 @@ namespace rtt::world_new {
         /**
          * History of the world, this is where old world data is pushed to
          */
-        std::vector<rtt::world_new::WorldData> history{ HISTORY_SIZE };
+        std::vector<rtt::world_new::WorldData> history;
 
         /**
          * Map that maps robot ID's to their robot controllers
