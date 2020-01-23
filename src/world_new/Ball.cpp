@@ -32,6 +32,9 @@ void Ball::initializeCalculations() noexcept {
 
 void Ball::initBallAtRobotPosition() noexcept {
     auto previousWorld = World::instance()->getHistoryWorld(1);
+    if (!previousWorld) {
+        return;
+    }
     auto optionalPreviousBall = previousWorld->getBall();
 
     if (!optionalPreviousBall.has_value()) {
@@ -53,6 +56,9 @@ void Ball::initBallAtRobotPosition() noexcept {
 
 void Ball::filterBallVelocity() noexcept {
     auto previousWorld = World::instance()->getHistoryWorld(1);
+    if (!previousWorld) {
+        return;
+    }
     auto optionalPreviousBall = previousWorld->getBall();
 
     if (!optionalPreviousBall.has_value()) {
@@ -78,6 +84,10 @@ void Ball::filterBallVelocity() noexcept {
 
 void Ball::updateExpectedBallEndPosition() noexcept {
     auto previousWorld = World::instance()->getHistoryWorld(1);
+    if (!previousWorld) {
+        return;
+    }
+
     auto optionalPreviousBall = previousWorld->getBall();
 
     if (!optionalPreviousBall) {

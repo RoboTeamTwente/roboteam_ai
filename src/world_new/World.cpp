@@ -44,7 +44,6 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
 }
 
 view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-    assert(ticksAgo < 20 && ticksAgo >= 1 && "Invalid tick");
     if (ticksAgo > history.size()) {
         return view::WorldDataView(nullptr);
     }
@@ -57,7 +56,10 @@ void World::updateWorld(proto::World &protoWorld) {
     setWorld(data);
 }
 
-World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {}
+World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0}
+{
+    history.reserve(HISTORY_SIZE);
+}
 
 void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
     std::scoped_lock<std::mutex> lock{updateMutex};
