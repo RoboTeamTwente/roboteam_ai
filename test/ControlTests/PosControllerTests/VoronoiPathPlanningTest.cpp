@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <control/positionControl/VoronoiPathPlanning.h>
+#include <control/positionControl/pathPlanning/VoronoiPathPlanning.h>
 #include <world/Robot.h>
 #include <control/ControlUtils.h>
 

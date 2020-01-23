@@ -11,7 +11,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
 #include <control/ControlUtils.h>
-#include "CollisionDetector.h"
+#include "control/positionControl/CollisionDetector.h"
 
 namespace rtt::ai::control{
 struct GraphNode{

@@ -14,7 +14,7 @@
 #include <control/ControlUtils.h>
 #include <interface/api/Output.h>
 #include <control/ControlUtils.h>
-#include "CollisionDetector.h"
+#include "control/positionControl/CollisionDetector.h"
 
 namespace rtt::ai::control{
 

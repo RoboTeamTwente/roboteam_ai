@@ -7,8 +7,8 @@
 
 
 #include "control/RobotCommand.h"
-#include "NumTreesPlanning.h"
-#include "BasicPathTracking.h"
+#include "control/positionControl/pathPlanning/NumTreesPlanning.h"
+#include "control/positionControl/pathTracking/BasicPathTracking.h"
 #include "world/Robot.h"
 #include "CollisionDetector.h"
 #include <interface/api/Input.h>

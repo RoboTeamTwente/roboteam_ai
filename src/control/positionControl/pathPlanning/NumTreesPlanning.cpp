@@ -2,7 +2,7 @@
 // Created by ratoone on 09-12-19.
 //
 
-#include "control/positionControl/NumTreesPlanning.h"
+#include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 
 namespace rtt::ai::control{
 

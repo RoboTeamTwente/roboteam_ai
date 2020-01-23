@@ -2,7 +2,7 @@
 // Created by ratoone on 12-11-19.
 //
 
-#include <control/positionControl/BasicPathTracking.h>
+#include <control/positionControl/pathTracking/BasicPathTracking.h>
 
 void BasicPathTracking::trackPath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &currentVelocity,
         std::list<rtt::Vector2> &pathPoints, rtt::Vector2 &outputVelocity, double &outputAngle) {
