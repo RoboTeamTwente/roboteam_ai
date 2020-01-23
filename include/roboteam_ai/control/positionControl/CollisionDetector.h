@@ -6,9 +6,8 @@
 #define RTT_COLLISIONDETECTOR_H
 
 #include <world/Field.h>
-#include "world/World.h"
+#include <world_new/Robot.hpp>
 #include "control/ControlUtils.h"
-#include "world/Robot.h"
 
 
 namespace rtt::ai::control{
@@ -17,10 +16,11 @@ class CollisionDetector {
 private:
     const double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0*Constants::ROBOT_RADIUS();
 
-    world::World& world;
-    world::Field& field;
+    const std::vector<rtt::world_new::robot::Robot> &robots;
+    world::Field* field = nullptr;
+
 public:
-    CollisionDetector(world::World &world, world::Field &field);
+    CollisionDetector(const std::vector<rtt::world_new::robot::Robot> &robots);
 
     bool canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint);
 
@@ -36,7 +36,9 @@ public:
 
     bool isPointInDefenseArea(const Vector2 &point);
 
-    std::vector<Vector2 *> getRobotPositions();
+    std::vector<const Vector2 *> getRobotPositions();
+
+    void setField(const world::Field &field);
 };
 
 }

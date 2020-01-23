@@ -9,9 +9,8 @@
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
-#include "world/Robot.h"
 #include "CollisionDetector.h"
-#include <interface/api/Input.h>
+#include <world_new/Robot.hpp>
 
 
 namespace rtt::ai::control {
@@ -25,16 +24,15 @@ private:
     BasicPathTracking *pathTrackingAlgorithm = nullptr;
     CollisionDetector *collisionDetector = nullptr;
 
-    world::World& world;
-    world::Field& field;
+    const std::vector<rtt::world_new::robot::Robot> &robots;
 
     std::unordered_map<int, std::list<Vector2>> computedPaths;
 
 public:
-    PositionControl(world::World &world, world::Field &field);
+    explicit PositionControl(const std::vector<rtt::world_new::robot::Robot> &robots);
 
-    RobotCommand computeAndTrackPath(int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                     const Vector2 &targetPosition);
+    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition,
+                                     const Vector2 &currentVelocity, const Vector2 &targetPosition);
 
     /**
      * The computed path should be recalculated if: <br>

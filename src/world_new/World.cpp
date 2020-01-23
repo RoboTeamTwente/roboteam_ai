@@ -83,4 +83,12 @@ uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept {
     return robotControllers[id];
 }
+
+ai::control::PositionControl* World::getRobotPositionController() noexcept {
+    if (positionControl == nullptr){
+        positionControl = new ai::control::PositionControl(this->currentWorld->getRobots());
+    }
+    return positionControl;
+}
+
 }  // namespace rtt::world_new

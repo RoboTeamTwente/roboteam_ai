@@ -9,6 +9,7 @@
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "WorldData.hpp"
 #include "RobotControllers.hpp"
+#include "control/positionControl/PositionControl.h"
 
 namespace rtt::world_new {
 
@@ -110,6 +111,13 @@ namespace rtt::world_new {
          */
         [[nodiscard]] robot::RobotControllers& getControllersForRobot(uint8_t id) noexcept;
 
+        /**
+         * Get a pointer to the general position control, which can be used by all robots.
+         * If the object does not exist, it is created
+         * @return position control object. See its documentation for more info
+         */
+        [[nodiscard]] ai::control::PositionControl* getRobotPositionController() noexcept;
+
     private:
         /**
          * Upates the tickCount, sets lastTick to now(), sets duration to
@@ -180,6 +188,11 @@ namespace rtt::world_new {
          * Duration between ticks
          */
         uint64_t tickDuration{};
+
+        /**
+         * The position controller, initially null
+         */
+        ai::control::PositionControl *positionControl = nullptr;
     };
 } // namespace rtt::world
 
