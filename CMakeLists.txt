@@ -203,7 +203,6 @@ set(CONDITIONS_SOURCES
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/pid.cpp
 
 #PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
