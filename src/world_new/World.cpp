@@ -20,9 +20,8 @@ WorldData const &World::setWorld(WorldData &newWorld) noexcept {
 }
 
 void World::toHistory(WorldData &world) noexcept {
-    std::lock_guard mtx{ updateMutex };
     updateTickTime();
-    if (history.size() < HISTORY_SIZE && currentIndex < history.size()) {
+    if (history.size() < HISTORY_SIZE) {
         history.emplace_back(std::move(world));
     } else {
         history[currentIndex] = std::move(world);
@@ -80,7 +79,9 @@ void World::updateTickTime() noexcept {
     lastTick = (*getWorld())->getTime();
 }
 
-uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
+uint64_t World::getTimeDifference() const noexcept {
+    return tickDuration;
+}
 
 robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept {
     return robotControllers[id];
