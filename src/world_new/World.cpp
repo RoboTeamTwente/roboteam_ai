@@ -58,7 +58,7 @@ void World::updateWorld(proto::World &protoWorld) {
 
 World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0}
 {
-    history.reserve(HISTORY_SIZE)
+    history.reserve(HISTORY_SIZE);
 }
 
 void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
