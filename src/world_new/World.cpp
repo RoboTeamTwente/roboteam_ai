@@ -44,7 +44,6 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
 }
 
 view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-    assert(ticksAgo < 20 && ticksAgo >= 1 && "Invalid tick");
     if (ticksAgo > history.size()) {
         return view::WorldDataView(nullptr);
     }
