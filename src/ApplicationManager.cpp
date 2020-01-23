@@ -132,7 +132,6 @@ void ApplicationManager::updateCoaches() const {
         ai::coach::g_offensiveCoach.updateOffensivePositions();
         ai::coach::g_pass.updatePassProgression();
     });
-    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
 }
 
 /// Terminate trees
