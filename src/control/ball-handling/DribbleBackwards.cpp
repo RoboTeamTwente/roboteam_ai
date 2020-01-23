@@ -3,7 +3,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/ballHandling/DribbleBackwards.h"
+#include "control/ball-handling/DribbleBackwards.h"
 
 #include <interface/api/Input.h>
 #include <world/Field.h>
@@ -12,8 +12,8 @@
 #include <sstream>
 
 #include "control/ControlUtils.h"
-#include "control/ballHandling/RotateAroundBall.h"
-#include "control/ballHandling/RotateWithBall.h"
+#include "control/ball-handling/RotateAroundBall.h"
+#include "control/ball-handling/RotateWithBall.h"
 #include "world/Ball.h"
 #include "world/World.h"
 

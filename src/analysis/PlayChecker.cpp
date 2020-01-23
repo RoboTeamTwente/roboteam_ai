@@ -4,12 +4,12 @@
 
 #include "analysis/PlayChecker.h"
 
-#include <include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h>
+#include <include/roboteam_ai/analysis/play-utilities/Invariants/AlwaysTrueInvariant.h>
 
-#include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
-#include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
-#include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
-#include "analysis/PlaysObjects/Play.h"
+#include "analysis/play-utilities/Invariants/AlwaysFalseInvariant.h"
+#include "analysis/play-utilities/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/play-utilities/Invariants/BallOnOurSideInvariant.h"
+#include "analysis/play-utilities/Play.h"
 #include "functional"
 
 namespace rtt::ai::analysis {

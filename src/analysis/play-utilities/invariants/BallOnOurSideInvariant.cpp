@@ -2,7 +2,7 @@
 // Created by jessevw on 11.12.19.
 //
 
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
+#include "include/roboteam_ai/analysis/play-utilities/Invariants/BallOnOurSideInvariant.h"
 
 #include <roboteam_utils/Vector2.h>
 

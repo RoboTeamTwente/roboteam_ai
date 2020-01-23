@@ -4,7 +4,7 @@
 
 #include "skills/ReflectKick.h"
 
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "world/Field.h"
 
 namespace rtt::ai {

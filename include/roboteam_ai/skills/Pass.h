@@ -8,8 +8,8 @@
 #include <coach/PassCoach.h>
 #include <control/BasicPosControl.h>
 #include <control/PositionUtils.h>
-#include <control/numTrees/NumTreePosControl.h>
-#include <control/shotControllers/ShotController.h>
+#include <control/numtrees/NumTreePosControl.h>
+#include <control/shot-controllers/ShotController.h>
 #include <utilities/Constants.h>
 #include "Skill.h"
 

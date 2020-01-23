@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SHOTCONTROLLER_H
 
 #include <control/BasicPosControl.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 

@@ -12,7 +12,7 @@
 #include <world/Ball.h>
 #include <world/Robot.h>
 #include "control/RobotCommand.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 namespace rtt::ai::control {
 
 class DribbleBackwards;

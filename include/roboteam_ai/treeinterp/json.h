@@ -8619,7 +8619,7 @@ inline void grisu2_digit_gen(char* buffer, int& length, int& decimal_exponent, d
 
     int n = k;
     while (n > 0) {
-        // Invariants:
+        // invariants:
         //      M+ = buffer * 10^n + (p1 + p2 * 2^e)    (buffer = 0 for n = k)
         //      pow10 = 10^(n-1) <= p1 < 10^n
         //
@@ -8673,7 +8673,7 @@ inline void grisu2_digit_gen(char* buffer, int& length, int& decimal_exponent, d
         pow10 /= 10;
         //
         //      pow10 = 10^(n-1) <= p1 < 10^n
-        // Invariants restored.
+        // invariants restored.
     }
 
     // 2)

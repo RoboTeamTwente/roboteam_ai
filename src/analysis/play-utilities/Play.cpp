@@ -2,12 +2,12 @@
 // Created by jessevw on 06.12.19.
 //
 
-#include "analysis/PlaysObjects/Play.h"
+#include "analysis/play-utilities/Play.h"
 
-#include "analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
-#include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
-#include "analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
-#include "analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h"
+#include "analysis/play-utilities/Invariants/AlwaysFalseInvariant.h"
+#include "analysis/play-utilities/Invariants/AlwaysTrueInvariant.h"
+#include "analysis/play-utilities/Invariants/BallBelongsToUsInvariant.h"
+#include "analysis/play-utilities/Invariants/BallOnOurSideInvariant.h"
 
 namespace rtt::ai::analysis {
 Play::Play() {}

@@ -7,7 +7,7 @@
 #include <coach/BallplacementCoach.h>
 #include <coach/PassCoach.h>
 #include <control/ControlUtils.h>
-#include <control/ballHandling/BallHandlePosControl.h>
+#include <control/ball-handling/BallHandlePosControl.h>
 #include <interface/api/Input.h>
 #include <world/WorldData.h>
 

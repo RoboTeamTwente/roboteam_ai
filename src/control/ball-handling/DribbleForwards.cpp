@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/ballHandling/DribbleForwards.h"
+#include "control/ball-handling/DribbleForwards.h"
 
 #include <control/ControlUtils.h>
 #include <world/Robot.h>
@@ -10,8 +10,8 @@
 
 #include <sstream>
 
-#include "control/ballHandling/RotateAroundBall.h"
-#include "control/ballHandling/RotateWithBall.h"
+#include "control/ball-handling/RotateAroundBall.h"
+#include "control/ball-handling/RotateWithBall.h"
 #include "interface/api/Input.h"
 #include "world/Ball.h"
 

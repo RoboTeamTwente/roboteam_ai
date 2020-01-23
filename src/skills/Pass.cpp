@@ -8,7 +8,7 @@
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
 #include <control/PositionUtils.h>
-#include <control/ballHandling/BallHandlePosControl.h>
+#include <control/ball-handling/BallHandlePosControl.h>
 #include <interface/api/Input.h>
 #include <utilities/Constants.h>
 #include <world/Robot.h>

@@ -6,7 +6,7 @@
 #define RTT_PLAYDECIDER_H
 
 #include <include/roboteam_ai/world/Field.h>
-#include "analysis/PlaysObjects/Play.h"
+#include "analysis/play-utilities/Play.h"
 
 namespace rtt::ai::analysis {
 class PlayDecider {

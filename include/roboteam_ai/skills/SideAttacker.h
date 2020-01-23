@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_SIDEATTACKER_H
 
 #include <coach/OffensiveCoach.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
 #include "Skill.h"
 

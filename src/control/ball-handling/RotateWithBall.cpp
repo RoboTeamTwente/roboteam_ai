@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/ballHandling/RotateWithBall.h"
+#include "control/ball-handling/RotateWithBall.h"
 
 #include "control/ControlUtils.h"
 #include "world/Robot.h"

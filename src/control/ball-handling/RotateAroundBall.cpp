@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/ballHandling/RotateAroundBall.h"
+#include "control/ball-handling/RotateAroundBall.h"
 
 #include <interface/api/Input.h>
 

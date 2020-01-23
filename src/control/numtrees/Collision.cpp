@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/numTrees/Collision.h"
+#include "control/numtrees/Collision.h"
 
 namespace rtt::ai::control {
 

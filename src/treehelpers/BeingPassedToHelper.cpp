@@ -1,7 +1,7 @@
 //
 // Created by jessevw on 19.11.19.
 //
-#include "include/roboteam_ai/TreeHelper/BeingPassedToHelper.h"
+#include "include/roboteam_ai/treehelpers/BeingPassedToHelper.h"
 
 #include <include/roboteam_ai/conditions/IsBeingPassedTo.h>
 #include <include/roboteam_ai/skills/Receive.h>

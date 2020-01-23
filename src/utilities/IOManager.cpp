@@ -8,10 +8,7 @@
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
 #include <include/roboteam_ai/utilities/IOManager.h>
-
 #include <include/roboteam_ai/world_new/World.hpp>
-
-#include "demo/JoystickDemo.h"
 #include "interface/api/Input.h"
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
@@ -107,7 +104,6 @@ const proto::SSL_Referee &IOManager::getRefereeData() {
 
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
     if (!pause->getPause()) {
-        if (demo::JoystickDemo::checkIfDemoSafe(cmd.id())) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id(), true);
             if (robot) {
@@ -153,9 +149,6 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
                 robotCommandPublisher->send(cmd);
             }
         } else {
-            //   ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
-        }
-    } else {
         //     ROS_ERROR("HALT!");
     }
 }

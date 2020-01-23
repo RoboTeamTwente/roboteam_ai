@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 28-3-19.
 //
 
-#include "control/numTrees/PathPoint.h"
+#include "control/numtrees/PathPoint.h"
 
 #include <control/ControlUtils.h>
 

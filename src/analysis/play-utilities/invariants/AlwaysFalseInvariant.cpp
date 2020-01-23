@@ -2,7 +2,7 @@
 // Created by jessevw on 11.12.19.
 //
 
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.h"
+#include "include/roboteam_ai/analysis/play-utilities/Invariants/AlwaysFalseInvariant.h"
 
 #include "world/Ball.h"
 #include "world/Field.h"

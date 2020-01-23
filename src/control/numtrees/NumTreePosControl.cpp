@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 
 #include <interface/api/Input.h>
 
@@ -10,8 +10,8 @@
 
 #include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
-#include "control/numTrees/Collision.h"
-#include "control/numTrees/PathPoint.h"
+#include "control/numtrees/Collision.h"
+#include "control/numtrees/PathPoint.h"
 #include "world/Ball.h"
 #include "world/Field.h"
 #include "world/Robot.h"

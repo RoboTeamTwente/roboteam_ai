@@ -2,18 +2,18 @@
 // Created by thijs on 18-12-18.
 //
 
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
 
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
 #include <world/Field.h>
 
 #include "control/BasicPosControl.h"
-#include "control/ballHandling/DribbleBackwards.h"
-#include "control/ballHandling/DribbleForwards.h"
-#include "control/ballHandling/RotateAroundBall.h"
-#include "control/ballHandling/RotateWithBall.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/ball-handling/DribbleBackwards.h"
+#include "control/ball-handling/DribbleForwards.h"
+#include "control/ball-handling/RotateAroundBall.h"
+#include "control/ball-handling/RotateWithBall.h"
+#include "control/numtrees/NumTreePosControl.h"
 
 namespace rtt::ai::control {
 

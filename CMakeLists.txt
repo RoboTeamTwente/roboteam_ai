@@ -3,23 +3,16 @@ project(roboteam_ai)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
-
 set(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
+
+# QT settings
+set(CMAKE_INCLUDE_CURRENT_DIR ON) #Find includes in corresponding build directories
+set(CMAKE_AUTOMOC ON) #Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
+
 include(cotire)
 include(FindSDL2)
-
-#Find includes in corresponding build directories
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-#Instruct CMake to run moc automatically when needed
-set(CMAKE_AUTOMOC ON)
-#Create code from a list of Qt designer ui files
-set(CMAKE_AUTOUIC OFF)
-find_package(SDL2 REQUIRED sdl2)
-
-if (NOT SDL2_FOUND)
-    message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
-endif()
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if(APPLE)
@@ -27,19 +20,22 @@ if(APPLE)
     set(Qt5Core_DIR "/usr/local/opt/qt/lib/cmake/Qt5Core")
     set(Qt5Gui_DIR "/usr/local/opt/qt/lib/cmake/Qt5Gui")
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
-
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-endif()
-
-#for Linux, BSD, Solaris, Minix
-if(UNIX AND NOT APPLE)
+    set(GTEST_LIB  /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
+else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
+    set(GTEST_LIB PRIVATE gtest)
 endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
+find_package(SDL2 REQUIRED sdl2)
+
+if (NOT SDL2_FOUND)
+    message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
+endif()
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/TreeInterpreter.cpp
@@ -63,7 +59,6 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/bt/decorators/Succeeder.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilFail.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilSuccess.cpp
-
         ${PROJECT_SOURCE_DIR}/src/bt/BehaviorTree.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
@@ -74,10 +69,11 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
         ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
-        ${PROJECT_SOURCE_DIR}/src/TreeHelper/BeingPassedToHelper.cpp
-        ${PROJECT_SOURCE_DIR}/src/TreeHelper/RobotOutOfFieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -86,15 +82,13 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysFalseInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlaysObjects/PlayDecider.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
         )
-
-set(TACTIC_SOURCES ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp)
 
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
@@ -104,7 +98,8 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp)
+        ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
+        )
 
 set(MANUAL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
@@ -114,8 +109,6 @@ set(MANUAL_SOURCES
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoToPos.cpp
-#${PROJECT_SOURCE_DIR } / src / skills / TurnGeneva.h
-#${PROJECT_SOURCE_DIR } / src / skills / TurnGeneva.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/gotopos/SkillGoToPos.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/Dribble.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/RotateToAngle.cpp
@@ -148,7 +141,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/ActiveStop.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/ChipForward.cpp
-
         ${PROJECT_SOURCE_DIR}/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffUsFormation.cpp
@@ -165,9 +157,9 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/BallPlacementWithInterface.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/Wait.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
-
-        src/skills/formations/StopFormation.cpp
-        src/skills/formations/BallPlacementFormation.cpp)
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/StopFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
@@ -195,97 +187,45 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp)
+        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
+        )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/pid.cpp
-
-#PositionControllers
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
-
-#NumTrees
-        ${PROJECT_SOURCE_DIR}/src/control/numTrees/NumTreePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numTrees/PathPoint.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numTrees/Collision.cpp
-
-#ShotController
-        ${PROJECT_SOURCE_DIR}/src/control/shotControllers/ShotController.cpp
-
-#BallHandling
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/BallHandlePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleBackwards.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/DribbleForwards.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateAroundBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ballHandling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/numtrees/Collision.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/shot-controllers/ShotController.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/BallHandlePosControl.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleBackwards.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
         )
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
-
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
         ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
         ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
         ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-
         ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
         ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
-
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
-
-#${PROJECT_SOURCE_DIR } / test / CoachTests / BallPlacementCoachTest.cpp
-
-#${PROJECT_SOURCE_DIR } / test / InterfaceTests / InterfaceTest.cpp
-#${PROJECT_SOURCE_DIR } / test / InterfaceTests / MainWindowTest.cpp
-#${PROJECT_SOURCE_DIR } / test / InterfaceTests / TreeVisualizerTest.cpp
-
-
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
-#${PROJECT_SOURCE_DIR } / test / ControlTests / PositionUtilsTest.cpp
-
-#${PROJECT_SOURCE_DIR } / test / WorldTests / WorldTest.cpp
-#${PROJECT_SOURCE_DIR } / test / WorldTests / FieldTest.cpp
-#${PROJECT_SOURCE_DIR } / test / ControlTests / ControlUtilsTest.cpp
-#
-#${PROJECT_SOURCE_DIR } / test / TacticTests / DefaultTacticTest.cpp
-#${PROJECT_SOURCE_DIR } / test / ControlTests / HungarianTest.cpp
-#${PROJECT_SOURCE_DIR } / test / WorldTests / BallPossessionTests.cpp
-#${PROJECT_SOURCE_DIR } / test / WorldTests / HistoryTests.cpp
-#
-#${PROJECT_SOURCE_DIR } / test / SkillTests / PassTest.cpp
-#
-#${PROJECT_SOURCE_DIR } / test / ConditionTests / BallOutOfFieldtest.cpp
-#${PROJECT_SOURCE_DIR } / test / ConditionTests / IsBallOnOurSideTest.cpp
-#${PROJECT_SOURCE_DIR } / test / ConditionTests / IsBallCloseToBorderTest.cpp
-#${PROJECT_SOURCE_DIR } / test / UtilTests / JoyStickTest.cpp
-#${PROJECT_SOURCE_DIR } / test / CoachTests / BallPlacementCoachTest.cpp
-#${PROJECT_SOURCE_DIR } / test / CoachTests / OffensiveCoachTest.cpp
-#${PROJECT_SOURCE_DIR } / test / SkillTests / FormationTest.cpp
-#${PROJECT_SOURCE_DIR } / test / CoachTests / BallPlacementCoachTest.cpp
-#${PROJECT_SOURCE_DIR } / test / CoachTests / DefensiveCoachTest.cpp
-#${PROJECT_SOURCE_DIR } / test / CoachTests / OffensiveCoachTest.cpp
-#${PROJECT_SOURCE_DIR } / test / AnalysisTests / DecisionmakerTest.cpp
-#${PROJECT_SOURCE_DIR } / test / ControlTests / ShotControllerTest.cpp
-#
-
-#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/NumTreePosControlTest.cpp
-#        ${PROJECT_SOURCE_DIR}/test/ControlTests/PosControllerTests/RobotCommandTest.cpp
-
-
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
-        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
-        #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
-       ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp)
-
-
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
+        )
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -352,9 +292,8 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/midField/MidFieldCoach.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
 
-#Main Executable
-add_executable(roboteam_ai
-        src/roboteam_ai.cpp
+# Putting it all together so we can use it in both the main executable and the test executable
+set(AI_SOURCES
         src/ApplicationManager.cpp
         include/roboteam_ai/ApplicationManager.h
         ${UTILS_SOURCES}
@@ -371,7 +310,7 @@ add_executable(roboteam_ai
         ${MANUAL_SOURCES}
         )
 
-target_link_libraries(roboteam_ai
+set(AI_LIBS
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
@@ -380,8 +319,7 @@ target_link_libraries(roboteam_ai
         PRIVATE ${SDL2_LIBRARY}
         )
 
-
-target_include_directories(roboteam_ai
+set(AI_INCLUDES
         INTERFACE include
         PRIVATE include/roboteam_ai
         PRIVATE src
@@ -389,72 +327,12 @@ target_include_directories(roboteam_ai
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
-#############
-## Testing ##
-#############
-add_executable(ai_tests
-        ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${CONDITIONS_SOURCES}
-        ${SKILLS_SOURCES}
-        ${CONTROL_SOURCES}
-        ${ANALYSIS_SOURCES}
-        ${TACTIC_SOURCES}
-        ${COACH_SOURCES}
-        ${INTERFACE_SOURCES}
-        ${TEST_SOURCES}
-        ${WORLD_SOURCES}
-        ${MANUAL_SOURCES}
-        )
+#Main Executable
+add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
+target_link_libraries(roboteam_ai ${AI_LIBS})
+target_include_directories(roboteam_ai ${AI_INCLUDES})
 
-
-if(APPLE)
-    target_link_libraries(ai_tests
-            PRIVATE roboteam_utils
-            PRIVATE roboteam_proto
-            PRIVATE Qt5::Widgets
-            PRIVATE Qt5::Gui
-            PRIVATE Qt5::Charts
-            PRIVATE ${SDL2_LIBRARY} 
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a)
-endif()
-
-if(UNIX AND NOT APPLE)
-  target_link_libraries(ai_tests
-        PRIVATE roboteam_utils
-        PRIVATE Qt5::Widgets
-        PRIVATE Qt5::Gui
-        PRIVATE Qt5::Charts
-        PRIVATE ${SDL2_LIBRARY} 
-        PRIVATE gcov
-        PRIVATE gtest
-        )
-endif()
-
-target_include_directories(ai_tests
-        INTERFACE include
-        PRIVATE include/roboteam_ai
-        PRIVATE src 
-        PRIVATE ${SDL2_INCLUDE_DIRS}
-        PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
-        )
-#
-#
-#include(CodeCoverage)
-#APPEND_COVERAGE_COMPILER_FLAGS()
-#SETUP_TARGET_FOR_COVERAGE_LCOV( \
-#    NAME ${PROJECT_NAME} _coverage EXECUTABLE ai_tests)
-#
-## required properties for cotire
-#set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD 11)
-#set_property(TARGET roboteam_ai PROPERTY CXX_STANDARD_REQUIRED ON)
-#set_property(TARGET ai_tests PROPERTY CXX_STANDARD 11)
-#set_property(TARGET ai_tests PROPERTY CXX_STANDARD_REQUIRED ON)
-#
-#
-#if (UNIX AND NOT APPLE)
-#cotire(roboteam_ai)
-#cotire(ai_tests)
-#endif()
+# Testing #
+add_executable(ai_tests ${AI_SOURCES} ${TEST_SOURCES})
+target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB})
+target_include_directories(ai_tests ${AI_INCLUDES})
