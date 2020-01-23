@@ -16,7 +16,7 @@
 #include "PropertiesParser.h"
 #include "Switches.h"
 #include "bt/Role.h"
-#include "json.h"
+#include <roboteam_utils/json.hpp>
 #include "skills/Skill.h"
 #include "vector"
 

@@ -6,14 +6,14 @@
 #define ROBOTEAM_AI_JSONREADER_H
 
 #include <gtest/gtest_prod.h>
-#include <stdio.h> /* defines FILENAME_MAX */
+#include <cstdio> /* defines FILENAME_MAX */
 #include <unistd.h>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
 #include "BTImport.h"
-#include "json.h"
+#include <roboteam_utils/json.hpp>
 #include "vector"
 
 #ifdef WINDOWS
