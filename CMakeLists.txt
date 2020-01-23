@@ -289,7 +289,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/defence/DefencePositionCoach.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/defence/PossiblePass.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/midField/MidFieldCoach.cpp
+        ${PROJECT_SOURCE_DIR}/src/coach/midfield/MidFieldCoach.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
 
 # Putting it all together so we can use it in both the main executable and the test executable
