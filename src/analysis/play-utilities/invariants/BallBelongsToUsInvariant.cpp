@@ -2,7 +2,7 @@
 // Created by jessevw on 06.12.19.
 //
 
-#include "include/roboteam_ai/analysis/play-utilities/Invariants/BallBelongsToUsInvariant.h"
+#include "include/roboteam_ai/analysis/play-utilities/invariants/BallBelongsToUsInvariant.h"
 
 #include <roboteam_utils/Vector2.h>
 

@@ -4,10 +4,10 @@
 
 #include "analysis/play-utilities/Play.h"
 
-#include "analysis/play-utilities/Invariants/AlwaysFalseInvariant.h"
-#include "analysis/play-utilities/Invariants/AlwaysTrueInvariant.h"
-#include "analysis/play-utilities/Invariants/BallBelongsToUsInvariant.h"
-#include "analysis/play-utilities/Invariants/BallOnOurSideInvariant.h"
+#include "analysis/play-utilities/invariants/AlwaysFalseInvariant.h"
+#include "analysis/play-utilities/invariants/AlwaysTrueInvariant.h"
+#include "analysis/play-utilities/invariants/BallBelongsToUsInvariant.h"
+#include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
 
 namespace rtt::ai::analysis {
 Play::Play() {}
