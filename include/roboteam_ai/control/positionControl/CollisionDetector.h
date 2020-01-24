@@ -12,6 +12,10 @@
 
 namespace rtt::ai::control{
 
+/**
+ * Checks for collision between points and different components of the field: robots, defence area, etc.
+ * Check isCollisionBetweenPoints method for more details
+ */
 class CollisionDetector {
 private:
     const double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0*Constants::ROBOT_RADIUS();
@@ -20,9 +24,20 @@ private:
     world::Field* field = nullptr;
 
 public:
+    /**
+     * Initialize the collision detector with the robot objects
+     * @param robots
+     */
     explicit CollisionDetector(const std::vector<rtt::world_new::robot::Robot> &robots);
 
-    bool canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint);
+    /**
+     * Checks if a new point can be followed by a robot from a starting position. This implies having
+     * no collisions with other robots, the outside of the field, or the defence area
+     * @param initialPoint the starting point
+     * @param nextPoint the destination point
+     * @return true if there is no collision, false otherwise
+     */
+    bool isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
 
     /**
      * Checks whether the line drawn by the two points comes close to any robot (excepting the current one).

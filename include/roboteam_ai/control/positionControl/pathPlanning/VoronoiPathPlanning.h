@@ -27,6 +27,9 @@ struct hashPoint{
     }
 };
 
+/**
+ * Path planning algorithm. See method computePath for details.
+ */
 class VoronoiPathPlanning {
 private:
     jcv_diagram voronoiDiagram{};
@@ -47,11 +50,30 @@ private:
     void completeGraphWithOriginDestination(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
 public:
-    VoronoiPathPlanning(CollisionDetector& collisionDetector);
+    /**
+    * The collision detector is provided by the position control. This class was intended
+    * to be used only with the PositionControl
+    * @param collisionDetector
+    */
+    explicit VoronoiPathPlanning(CollisionDetector& collisionDetector);
 
+    /**
+     * Computes a path using the implemented algorithm. It takes into account the
+     * obstacles present in the field. <br><br>
+     * VoronoiPathPlanning generates the Voronoi diagram using the robots in the rectangle
+     * between the initial and final position. Then it creates a graph with the resulting lines
+     * and using Dijkstra, it computes the shortest graph path.
+     * @param robotPosition the current robot position
+     * @param targetPosition the goal position
+     * @return a list of points representing the path
+     */
     std::list<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 
-    const std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
+    /**
+     * Used for testing and debugging purposes
+     * @return the graph adjancency list build on top of the Voronoi
+     */
+    const std::unordered_map<Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
 
 };
 }

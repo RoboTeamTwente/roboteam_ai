@@ -16,6 +16,10 @@
 
 namespace rtt::ai::control {
 
+/**
+ * The main position control class. Use this for your robot position control
+ * requirements.
+ */
 class PositionControl {
 private:
 
@@ -32,6 +36,17 @@ private:
 public:
     explicit PositionControl(const std::vector<rtt::world_new::robot::Robot> &robots);
 
+    /**
+     * Generates a path according to the selected planning algorithm,
+     * and tracks it using the selected tracking algorithm. In the case a collision
+     * is detected (using the collision detector), the path is recalculated.
+     * @param field the field object, used onwards by the collision detector
+     * @param robotId the ID of the robot for which the path is calculated
+     * @param currentPosition the current position of the aforementioned robot
+     * @param currentVelocity its velocity
+     * @param targetPosition the desired position that the robot has to reach
+     * @return a RobotCommand, which can be fed directly in the output
+     */
     RobotCommand computeAndTrackPath(world::Field *field, int robotId, const Vector2 &currentPosition,
                                      const Vector2 &currentVelocity, const Vector2 &targetPosition);
 

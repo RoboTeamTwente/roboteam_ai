@@ -97,7 +97,7 @@ std::list<Vector2> NumTreesPlanning::tracePath(const rtt::Vector2 &currentPositi
                 break; // break from current while loop, we start looking at different branches again
             }
             // if we have collided with an obstacle; backtrack and branch to both sides using new intermediary points
-            if (collisionDetector.canFollowPoint(point->parent->pos, point->pos)) {
+            if (collisionDetector.isCollisionBetweenPoints(point->parent->pos, point->pos)) {
                 int collisions = ++ point->collisions;
                 std::pair<std::vector<Vector2>, PathPointer> newTargetsAndBranch = getNewTargets(point);
                 std::vector<Vector2> newTargets = newTargetsAndBranch.first;
