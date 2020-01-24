@@ -9,9 +9,9 @@ namespace rtt::ai::control{
 CollisionDetector::CollisionDetector(const std::vector<rtt::world_new::robot::Robot> &robots): robots(robots){}
 
 bool CollisionDetector::canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint){
-    bool isFieldSafeFromColliding = field ? isPointInsideField(nextPoint) || !isPointInDefenseArea(nextPoint) : true;
+    bool isFieldColliding = field ? !isPointInsideField(nextPoint) || isPointInDefenseArea(nextPoint) : false;
 
-    return isRobotCollisionBetweenPoints(initialPoint, nextPoint) || isFieldSafeFromColliding;
+    return !isRobotCollisionBetweenPoints(initialPoint, nextPoint) && !isFieldColliding;
 }
 
 bool CollisionDetector::isPointInsideField(const Vector2 &point){
@@ -24,7 +24,8 @@ bool CollisionDetector::isPointInDefenseArea(const Vector2 &point){
 
 bool CollisionDetector::isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint){
     for (const auto& robot: robots){
-        if (robot.getPos() != initialPoint && ControlUtils::distanceToLine(robot.getPos(), initialPoint, nextPoint) < this->DEFAULT_ROBOT_COLLISION_RADIUS){
+        // if the initial point is already close to a robot, then either 1. there is a collision, or 2. it is the original robot
+        if ((robot.getPos() - initialPoint).length() > Constants::ROBOT_RADIUS() && ControlUtils::distanceToLineWithEnds(robot.getPos(), initialPoint, nextPoint) < this->DEFAULT_ROBOT_COLLISION_RADIUS){
             return true;
         }
     }
