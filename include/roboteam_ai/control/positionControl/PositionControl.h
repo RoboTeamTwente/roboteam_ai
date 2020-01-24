@@ -31,7 +31,7 @@ private:
 public:
     explicit PositionControl(const std::vector<rtt::world_new::robot::Robot> &robots);
 
-    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition,
+    RobotCommand computeAndTrackPath(world::Field *field, int robotId, const Vector2 &currentPosition,
                                      const Vector2 &currentVelocity, const Vector2 &targetPosition);
 
     /**

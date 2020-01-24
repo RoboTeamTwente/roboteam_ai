@@ -14,7 +14,7 @@ PositionControl::PositionControl(const std::vector<rtt::world_new::robot::Robot>
 
 //TODO: add projection to outside defence area (project target position)(is this really needed?)
 RobotCommand
-PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition,
+PositionControl::computeAndTrackPath(world::Field *field, int robotId, const Vector2 &currentPosition,
                                      const Vector2 &currentVelocity, const Vector2 &targetPosition) {
     //TODO: this is a workaround caused by the fact that the field is not global
     collisionDetector->setField(field);

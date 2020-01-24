@@ -20,7 +20,7 @@ private:
     world::Field* field = nullptr;
 
 public:
-    CollisionDetector(const std::vector<rtt::world_new::robot::Robot> &robots);
+    explicit CollisionDetector(const std::vector<rtt::world_new::robot::Robot> &robots);
 
     bool canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint);
 
@@ -38,7 +38,7 @@ public:
 
     std::vector<const Vector2 *> getRobotPositions();
 
-    void setField(const world::Field &field);
+    void setField(world::Field *field);
 };
 
 }

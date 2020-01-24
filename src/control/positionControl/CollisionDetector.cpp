@@ -39,8 +39,8 @@ std::vector<const Vector2 *> CollisionDetector::getRobotPositions(){
     return robotPositions;
 }
 
-void CollisionDetector::setField(const world::Field &field) {
-    this->field = const_cast<world::Field *>(&field);
+void CollisionDetector::setField(world::Field *field) {
+    this->field = field;
 }
 
 }
