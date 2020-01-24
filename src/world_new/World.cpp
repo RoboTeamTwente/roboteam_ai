@@ -26,9 +26,9 @@ void World::toHistory(WorldData &world) noexcept {
         history.emplace_back(std::move(world));
     } else {
         history[currentIndex] = std::move(world);
+        currentIndex++;
+        currentIndex %= HISTORY_SIZE;
     }
-    currentIndex++;
-    currentIndex %= HISTORY_SIZE;
 }
 
 std::optional<view::WorldDataView> World::getWorld() const noexcept {
