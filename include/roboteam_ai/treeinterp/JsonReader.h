@@ -13,7 +13,7 @@
 #include <map>
 #include <string>
 #include "BTImport.h"
-#include <roboteam_utils/json.hpp>
+#include <nlohmann/json.hpp>
 #include "vector"
 
 #ifdef WINDOWS

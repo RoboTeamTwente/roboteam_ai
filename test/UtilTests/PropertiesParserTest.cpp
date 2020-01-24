@@ -7,7 +7,7 @@
 #include <utility>
 
 #include "treeinterp/TreeInterpreter.h"
-#include <roboteam_utils/json.hpp>
+#include <nlohmann/json.hpp>
 
 TEST(PropertiesParserTest, ParseCorrectVars) {
     using json = nlohmann::json;
