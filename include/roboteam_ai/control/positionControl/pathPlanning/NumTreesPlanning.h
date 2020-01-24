@@ -18,6 +18,9 @@
 
 namespace rtt::ai::control{
 
+/**
+ * Path planning algorithm. See method computePath for details.
+ */
 class NumTreesPlanning {
 private:
     using PathPointer = std::shared_ptr<rtt::ai::control::PathPoint>;
@@ -41,9 +44,24 @@ private:
 
     PathPointer computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget);
 public:
+    /**
+     * The collision detector is provided by the position control. This class was intended
+     * to be used only with the PositionControl
+     * @param collisionDetector
+     */
     explicit NumTreesPlanning(const CollisionDetector& collisionDetector);
 
-    std::list<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    /**
+     * Computes a path using the implemented algorithm. It takes into account the
+     * obstacles present in the field. <br><br>
+     * NumTreesPlanning uses an algorithm wrote by an old team member. It tries to
+     * trace a path to the destination, and if there is a collision, it traces back
+     * and branches into two points to the side of the obstacle, trying them afterwards.
+     * @param robotPosition the current robot position
+     * @param targetPosition the goal position
+     * @return a list of points representing the path
+     */
+    std::list<Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
 };
 
 }

@@ -8,7 +8,7 @@ namespace rtt::ai::control{
 
 CollisionDetector::CollisionDetector(const std::vector<rtt::world_new::robot::Robot> &robots): robots(robots){}
 
-bool CollisionDetector::canFollowPoint(const Vector2& initialPoint, const Vector2& nextPoint){
+bool CollisionDetector::isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint){
     bool isFieldColliding = field ? !isPointInsideField(nextPoint) || isPointInDefenseArea(nextPoint) : false;
 
     return !isRobotCollisionBetweenPoints(initialPoint, nextPoint) && !isFieldColliding;

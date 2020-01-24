@@ -12,21 +12,38 @@
 
 namespace rtt::ai::control{
 
+/**
+ * Path tracking algorithm. See method computePath for details.
+ */
 class PidTracking {
 private:
     double maxVelocity = rtt::ai::Constants::MAX_VEL();
     double minimumDistance = 2*rtt::ai::Constants::ROBOT_RADIUS();
 
+    // the PID controllers on the two axes
     PID xPid = PID(0,0,0,0);
     PID yPid = PID(0,0,0,0);
 
+    void updatePidValues();
 public:
+    /**
+     * The constructor only initializes the maximum velocity to the PID clamping.
+     */
     PidTracking();
 
+    /**
+     * Generates an output velocity and angle according to the implemented algorithm.
+     * After reaching a certain distance to the closest path point, it will go to the next one. <br><br>
+     * PidTracking applied a PID to the difference of positions, to obtain a velocity. The values are
+     * taken from the interface.
+     * @param currentPosition
+     * @param currentVelocity
+     * @param pathPoints the path as a list of points
+     * @param outputVelocity control velocity that will be outputted to the robot at the current tick
+     * @param outputAngle the resulting orientation of the robot at the current tick
+     */
     void trackPath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &currentVelocity,
                    std::list<rtt::Vector2> &pathPoints, rtt::Vector2 &outputVelocity, double &outputAngle);
-
-    void updatePidValues();
 };
 
 }
