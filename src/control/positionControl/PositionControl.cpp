@@ -3,13 +3,15 @@
 //
 
 #include "control/positionControl/PositionControl.h"
+#include <interface/api/Input.h>
+#include <control/positionControl/pathTracking/NumTreesTracking.h>
 
 namespace rtt::ai::control {
 
 PositionControl::PositionControl(const std::vector<rtt::world_new::robot::Robot> &robots): robots(robots) {
     collisionDetector = new CollisionDetector(robots);
     pathPlanningAlgorithm = new NumTreesPlanning(*collisionDetector);
-    pathTrackingAlgorithm = new BasicPathTracking();
+    pathTrackingAlgorithm = new NumTreesTracking();
 }
 
 //TODO: add projection to outside defence area (project target position)(is this really needed?)
@@ -32,6 +34,10 @@ PositionControl::computeAndTrackPath(world::Field *field, int robotId, const Vec
             command.vel,
             angle);
     command.angle = angle;
+
+    std::vector<Vector2> path(computedPaths[robotId].begin(),computedPaths[robotId].end());
+    interface::Input::drawData(interface::Visual::PATHFINDING, path, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::PATHFINDING, path, Qt::blue, robotId, interface::Drawing::DOTS);
 
     return command;
 }

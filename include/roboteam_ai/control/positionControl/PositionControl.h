@@ -11,6 +11,7 @@
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
 #include "CollisionDetector.h"
 #include <world_new/Robot.hpp>
+#include <control/positionControl/pathTracking/NumTreesTracking.h>
 
 
 namespace rtt::ai::control {
@@ -21,7 +22,7 @@ private:
     const double MAX_DEVIATION = 0.3;
 
     NumTreesPlanning *pathPlanningAlgorithm = nullptr;
-    BasicPathTracking *pathTrackingAlgorithm = nullptr;
+    rtt::ai::control::NumTreesTracking *pathTrackingAlgorithm = nullptr;
     CollisionDetector *collisionDetector = nullptr;
 
     const std::vector<rtt::world_new::robot::Robot> &robots;
