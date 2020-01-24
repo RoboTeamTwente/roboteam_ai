@@ -9,7 +9,7 @@
 #include "RobotCommand.h"
 //#include <control/controllers/PidController.h>
 //#include <control/controllers/PidTwoAxesController.h>
-#include "pid.h"
+#include "roboteam_utils/pid.h"
 #include "world/Field.h"
 #include "world/World.h"
 
