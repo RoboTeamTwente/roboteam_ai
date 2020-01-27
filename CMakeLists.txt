@@ -9,6 +9,13 @@ SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 include(cotire)
 include(FindSDL2)
 
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    message("Ccache found!")
+    SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+endif(CCACHE_FOUND)
+
 #Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #Instruct CMake to run moc automatically when needed
@@ -108,7 +115,9 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
-        ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp)
+        ${PROJECT_SOURCE_DIR}/src/Settings/Settings.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
+        )
 
 set(MANUAL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
@@ -287,7 +296,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
         #        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
-       ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp)
+       ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp test/UtilTests/DealerTest.cpp)
 
 
 
