@@ -2,25 +2,20 @@
 // Created by jessevw on 14.01.20.
 //
 
-#include <include/roboteam_ai/skills/CoachDefend.h>
 #include <include/roboteam_ai/bt/Role.h>
 #include <include/roboteam_ai/skills/Halt.h>
 #include <include/roboteam_ai/skills/Attack.h>
 #include <include/roboteam_ai/bt/Node.hpp>
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h>
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h>
-#include <include/roboteam_ai/bt/composites/Selector.hpp>
-#include <include/roboteam_ai/bt/composites/MemSelector.hpp>
-#include <include/roboteam_ai/bt/composites/ParallelSequence.hpp>
 #include <include/roboteam_ai/bt/composites/Sequence.hpp>
 #include "analysis/PlaysObjects/PassAndPlayPlay.h"
-#include "skills/Pass2.h"
+#include "skills/NewPass.h"
 #include "bt/Blackboard.hpp"
 #include "bt/tactics/DefaultTactic.h"
-#include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
 #include "skills/Receive.h"
 #include "skills/KickTo.h"
-
+#include "skills/gotopos/SkillGoToPos.h"
 
 namespace rtt::ai::analysis {
     /// make tactic and execute this
@@ -129,12 +124,15 @@ namespace rtt::ai::analysis {
             std::shared_ptr<bt::Role> temprole = std::make_shared<bt::Role>(rolename);
 
             if (i == 5) {
-                auto pass = std::make_shared<rtt::ai::Pass2>("pass", localb);
+                auto pass = std::make_shared<rtt::ai::NewPass>("pass", localb);
                 pass->properties->setInt("PassTo", 2);
                 auto s = std::make_shared<bt::Sequence>();
                 s->addChild(pass);
-                auto halt = std::make_shared<rtt::ai::Halt>("halt after passing", localb);
-                s->addChild(halt);
+                auto posbb = std::make_shared<bt::Blackboard>();
+                posbb->setString("goToType", "numTrees");
+                posbb->setVector2("targetPos", Vector2(2,2));
+                auto gtp = std::make_shared<rtt::ai::SkillGoToPos>("go to pos 2,2", posbb);
+                s->addChild(gtp);
                 temprole->addChild(s);
             }
             else if (i == 2) {

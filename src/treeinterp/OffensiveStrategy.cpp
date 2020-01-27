@@ -4,7 +4,7 @@
 #include <include/roboteam_ai/treeinterp/PassRole.h>
 #include <include/roboteam_ai/treeinterp/SideAttackerRole.h>
 #include <include/roboteam_ai/treeinterp/MidFieldHarassRole.h>
-#include <include/roboteam_ai/skills/Pass2.h>
+#include <include/roboteam_ai/skills/NewPass.h>
 #include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include "bt/BehaviorTree.hpp"
 #include "bt/decorators/Repeater.hpp"

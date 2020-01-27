@@ -150,7 +150,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/ChipForward.cpp
 
         # Plays skills sources
-        ${PROJECT_SOURCE_DIR}/src/skills/Pass2.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/NewPass.cpp
 
         ${PROJECT_SOURCE_DIR}/src/skills/formations/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp

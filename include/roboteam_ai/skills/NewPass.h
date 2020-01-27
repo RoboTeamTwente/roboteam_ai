@@ -16,7 +16,7 @@
 namespace rtt {
 namespace ai {
 
-class Pass2 : public Skill {
+class NewPass : public Skill {
 protected:
     enum PassType {
         DEFAULT,
@@ -45,7 +45,7 @@ protected:
     virtual void makeCommand();
 
 public:
-    explicit Pass2(string name, bt::Blackboard::Ptr blackboard);
+    explicit NewPass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

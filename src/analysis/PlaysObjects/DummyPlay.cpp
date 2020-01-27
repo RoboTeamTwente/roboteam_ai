@@ -12,7 +12,7 @@
 #include <include/roboteam_ai/skills/Attack.h>
 #include <include/roboteam_ai/bt/Node.hpp>
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h>
-#include "skills/Pass2.h"
+#include "skills/NewPass.h"
 #include "bt/Blackboard.hpp"
 #include "bt/tactics/DefaultTactic.h"
 #include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"

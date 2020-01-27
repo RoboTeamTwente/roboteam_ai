@@ -57,11 +57,7 @@ Receive::Status Receive::onUpdate() {
 }
 
 void Receive::onTerminate(Status s) {
-//    readyToPassSet = false;
-//    currentProgress = POSITIONING;
-//    if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
-//        coach::g_pass.resetPass(robot->id);
-//    }
+
 }
 
 
