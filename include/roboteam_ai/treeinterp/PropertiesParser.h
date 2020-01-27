@@ -10,7 +10,7 @@
 #include <vector>
 #include "JsonReader.h"
 #include "bt/Blackboard.hpp"
-#include "json.h"
+#include <nlohmann/json.hpp>
 #include "roboteam_utils/Vector2.h"
 
 class PropertiesParser {

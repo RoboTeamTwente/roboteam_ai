@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
-#include <control/pid.h>
+#include <roboteam_utils/pid.h>
 #include <roboteam_utils/LineSegment.h>
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
