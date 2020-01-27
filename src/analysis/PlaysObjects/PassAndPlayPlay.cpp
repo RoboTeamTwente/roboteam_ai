@@ -9,12 +9,19 @@
 #include <include/roboteam_ai/bt/Node.hpp>
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h>
 #include <include/roboteam_ai/analysis/PlaysObjects/Invariants/BallOnOurSideInvariant.h>
+#include <include/roboteam_ai/bt/composites/Selector.hpp>
+#include <include/roboteam_ai/bt/composites/MemSelector.hpp>
+#include <include/roboteam_ai/bt/composites/ParallelSequence.hpp>
+#include <include/roboteam_ai/bt/composites/Sequence.hpp>
 #include "analysis/PlaysObjects/PassAndPlayPlay.h"
 #include "skills/Pass2.h"
 #include "bt/Blackboard.hpp"
 #include "bt/tactics/DefaultTactic.h"
 #include "analysis/PlaysObjects/Invariants/AlwaysTrueInvariant.h"
 #include "skills/Receive.h"
+#include "skills/KickTo.h"
+
+
 namespace rtt::ai::analysis {
     /// make tactic and execute this
     /**
@@ -27,8 +34,8 @@ namespace rtt::ai::analysis {
         makeTree2();
         tree = tree1;
         tree1->properties->setString("NAME", "FIRST");
-        tree2->properties->setString("NAME", "SECOND");
-        tree1->setNext(tree2);
+//        tree2->properties->setString("NAME", "SECOND");
+//        tree1->setNext(tree2);
 
     }
 
@@ -45,7 +52,9 @@ namespace rtt::ai::analysis {
     void PassAndPlayPlay::moveToNextTactic() {
         if (tree->getStatus() == bt::BehaviorTree::Status::Success) {
             std::cout << "moving to next tactic!" << std::endl;
-            tree = tree->getNext();
+            if (tree->getNext()) {
+                tree = tree->getNext();
+            }
         }
     }
 
@@ -58,7 +67,7 @@ namespace rtt::ai::analysis {
     }
 
     bool PassAndPlayPlay::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        return BallOnOurSideInvariant::isValid(world, field);
+        return BallOnOurSideInvariant::isValid(world, field)  || true;
     }
 
     void PassAndPlayPlay::makeTree2() {
@@ -73,7 +82,7 @@ namespace rtt::ai::analysis {
                 {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
         };
-        std::shared_ptr<bt::DefaultTactic> tactic = std::make_shared<bt::DefaultTactic>("offensiveTactic", bb, robots);
+        std::shared_ptr<bt::DefaultTactic> tactic = std::make_shared<bt::DefaultTactic>("tree2", bb, robots);
 
         // Creating the roles for all the robots in the tactic:
         for (int i = 1; i < robots.size(); i++) {
@@ -122,11 +131,20 @@ namespace rtt::ai::analysis {
             if (i == 5) {
                 auto pass = std::make_shared<rtt::ai::Pass2>("pass", localb);
                 pass->properties->setInt("PassTo", 2);
-                temprole->addChild(pass);
+                auto s = std::make_shared<bt::Sequence>();
+                s->addChild(pass);
+                auto halt = std::make_shared<rtt::ai::Halt>("halt after passing", localb);
+                s->addChild(halt);
+                temprole->addChild(s);
             }
             else if (i == 2) {
                 auto receive = std::make_shared<rtt::ai::Receive>("receive", localb);
-                temprole->addChild(receive);
+                localb->setVector2("where", Vector2(2, 2));
+                auto shootAtPoint = std::make_shared<rtt::ai::KickTo>("shoot at point", localb);
+                auto s = std::make_shared<bt::Sequence>();
+                temprole->addChild(s);
+                s->addChild(receive);
+                s->addChild(shootAtPoint);
             }
             else {
                 auto halt = std::make_shared<rtt::ai::Halt>("halt", localb);
@@ -136,7 +154,7 @@ namespace rtt::ai::analysis {
             temprole->setRoleString(rolename);
             tactic->addChild(temprole);
         }
-        tree2->SetRoot(tactic);
+        tree1->SetRoot(tactic);
 
     }
 

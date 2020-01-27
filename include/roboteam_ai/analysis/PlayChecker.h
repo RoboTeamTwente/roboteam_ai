@@ -12,6 +12,12 @@ namespace rtt::ai::analysis {
 
     class PlayChecker {
     public:
+        /**
+         * The playchecker gets initialized with some initial plays in the allPlays vector. It also starts with a play in action. On call of the update function it will
+         * check if the current play is still valid. If it is then the execution of this play proceeds as normal. If the play is no longer deemed valid, then
+         * the PlayDecider will recalculate plays that are valid for the world and field state and store them in validPlays, and these plays will then be passed
+         * to the PlayDecider
+         */
         PlayChecker();
         /**
          * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,

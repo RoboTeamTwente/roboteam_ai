@@ -35,7 +35,7 @@ namespace rtt::ai::analysis {
                 {"o7", rtt::ai::robotDealer::RobotType::RANDOM},
                 {"o8", rtt::ai::robotDealer::RobotType::RANDOM}
         };
-        std::shared_ptr<bt::DefaultTactic> offensiveTactic = std::make_shared<bt::DefaultTactic>("offensiveTactic", bb, robots);
+        std::shared_ptr<bt::DefaultTactic> offensiveTactic = std::make_shared<bt::DefaultTactic>("DummyPlay", bb, robots);
 
         // Creating the roles for all the robots in the tactic:
         for (int i = 1; i < robots.size(); i++) {

@@ -25,7 +25,7 @@ private:
     bool readyToPassSet = false;
     bool canMoveInDefenseArea = false;
     Progression currentProgress = POSITIONING;
-
+    bool wasSuccessFull = false;
     Vector2 ballStartPos;
     Vector2 ballEndPos;
     Vector2 ballStartVel;

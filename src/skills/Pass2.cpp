@@ -22,7 +22,7 @@ Pass2::Pass2(string name, bt::Blackboard::Ptr blackboard)
 void Pass2::onInitialize() {
     robotToPassToID = - 1;
     passInitialized = false;
-    hasShot = false;
+    // hasShot = false;
     forcePass = false;
     fails = 0;
     maxTries = - 1;
@@ -42,8 +42,9 @@ Pass2::Status Pass2::onUpdate() {
     }
 
     robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
-
-    if (didShootProperly()) {
+    std::cout << "has shot: " << hasShot << std::endl;
+    if (didShootProperly() || hasShot) {
+        hasShot = true;
         return Status::Success;
     }
 
@@ -68,13 +69,13 @@ void Pass2::makeCommand() {
 }
 
 void Pass2::onTerminate(Status s) {
-    hasShot = false;
-    passInitialized = false;
-    if (! coach::g_pass.isPassed() || forcePass) {
-        coach::g_pass.resetPass(robot->id);
-    }
-    else if (s == Status::Success) {
-    }
+//    hasShot = false;
+//    passInitialized = false;
+//    if (! coach::g_pass.isPassed() || forcePass) {
+//        coach::g_pass.resetPass(robot->id);
+//    }
+//    else if (s == Status::Success) {
+//    }
 }
 
 Vector2 Pass2::getKicker() {

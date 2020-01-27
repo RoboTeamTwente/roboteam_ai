@@ -23,12 +23,9 @@ void Receive::onInitialize() {
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world->robotHasBall(robot->id, true)) {
+    if (world->robotHasBall(robot->id, true) || wasSuccessFull) {
+        wasSuccessFull = true;
         return Status::Success;
-    }
-
-    if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
-        return Status::Failure;
     }
 
     if (coach::g_pass.isPassed()) {
@@ -60,11 +57,11 @@ Receive::Status Receive::onUpdate() {
 }
 
 void Receive::onTerminate(Status s) {
-    readyToPassSet = false;
-    currentProgress = POSITIONING;
-    if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
-        coach::g_pass.resetPass(robot->id);
-    }
+//    readyToPassSet = false;
+//    currentProgress = POSITIONING;
+//    if (passFailed() || coach::g_pass.getRobotBeingPassedTo() != robot->id) {
+//        coach::g_pass.resetPass(robot->id);
+//    }
 }
 
 

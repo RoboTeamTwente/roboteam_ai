@@ -21,6 +21,7 @@
 #include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "analysis/PlaysObjects/PassAndPlayPlay.h"
 #include "analysis/PlaysObjects/PlayDecider.h"
+#include "interface/widgets/TreeVisualizerWidget.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -183,8 +184,11 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         bool stillValidPlay = playcheck.update(world, field);
         if (!stillValidPlay) {
             auto bestplay = playdecide.decideBestPlay(world, field, playcheck.getValidPlays());
+            rtt::ai::interface::TreeVisualizerWidget::setHasCorrectTree(false);
             BTFactory::setCurrentTree(bestplay);
             playcheck.setCurrentPlay(bestplay);
+        }
+        else {
         }
     }
 

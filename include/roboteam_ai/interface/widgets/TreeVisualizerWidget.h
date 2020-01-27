@@ -23,13 +23,13 @@ private:
     QColor getColorForStatus(bt::Node::Status status);
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent);
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
-    bool hasCorrectTree = false;
+    static bool hasCorrectTree;
     MainWindow * parent = nullptr;
     unsigned long long mostTicks = 0;
     GameState recentGameState;
 public:
     explicit TreeVisualizerWidget(MainWindow * parent);
-    void setHasCorrectTree(bool hasCorrectTree);
+    static void setHasCorrectTree(bool hasCorrectTree);
 public slots:
     void invalidateTree();
     void updateContents(bt::BehaviorTree::Ptr tree);

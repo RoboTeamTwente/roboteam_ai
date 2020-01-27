@@ -17,8 +17,9 @@
 namespace rtt {
 namespace ai {
 namespace interface {
+    bool TreeVisualizerWidget::hasCorrectTree = false;
 
-TreeVisualizerWidget::TreeVisualizerWidget(MainWindow * parent)
+    TreeVisualizerWidget::TreeVisualizerWidget(MainWindow * parent)
         : QTreeWidget((QWidget *) parent) {
     this->parent = parent;
     this->setColumnCount(4);
@@ -65,7 +66,6 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree){
 
             this->expandAll();
             this->update();
-            hasCorrectTree = true;
         }
     }
 }

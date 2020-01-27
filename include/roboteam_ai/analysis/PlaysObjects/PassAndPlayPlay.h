@@ -23,8 +23,9 @@ namespace rtt::ai::analysis {
          * Checks if we need to move to the next tree in the play.
          */
         void moveToNextTactic();
+
          /**
-          * Decides if the play is valid to start for the given world
+          * Decides if the play is valid to keep playing for the given world
           * @param world the current world
           * @param field the current field
           * @return true if the play is valid, false otherwise
@@ -32,7 +33,6 @@ namespace rtt::ai::analysis {
         virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
         /**
-         *
          * @param world
          * @param field
          * @return the internal score of the play, based on the world and the field (and thus no meta strategy)
