@@ -1,35 +1,6 @@
-/*
-                    ▄              ▄
-                  ▌▒█           ▄▀▒▌
-                  ▌▒▒█        ▄▀▒▒▒▐
-                 ▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐
-               ▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐
-             ▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌
-            ▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒▌
-            ▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐
-           ▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄▌
-           ▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒▌
-          ▌▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒▐
-          ▐▒▒▐▀▐▀▒░▄▄▒▄▒▒▒▒▒▒░▒░▒░▒▒▒▒▌
-          ▐▒▒▒▀▀▄▄▒▒▒▄▒▒▒▒▒▒▒▒░▒░▒░▒▒▐
-           ▌▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒░▒░▒░▒░▒▒▒▌
-           ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▒▄▒▒▐
-            ▀▄▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▄▒▒▒▒▌
-              ▀▄▒▒▒▒▒▒▒▒▒▒▄▄▄▀▒▒▒▒▄▀
-                ▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀
-                   ▒▒▒▒▒▒▒▒▒▒▀▀
-
-    "It's not a robocup if you didn't pull an all-nighter"
-                                    - random ER-Force guy
- */
-
 #include "skills/formations/BallPlacementFormation.h"
-
 #include <interface/api/Input.h>
-#include <world/Field.h>
-
 #include "control/ControlUtils.h"
-#include "control/Hungarian.h"
 
 namespace rtt::ai {
 
@@ -60,16 +31,7 @@ Vector2 BallPlacementFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-    std::vector<int> robotIds;
-    for (auto &i : *robotsInFormation) {
-        if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
-            robotIds.push_back(i->id);
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, properPositions);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, properPositions);
 }
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> BallPlacementFormation::robotsInFormationPtr() { return robotsInFormation; }

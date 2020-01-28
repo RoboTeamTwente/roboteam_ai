@@ -1,14 +1,10 @@
-//
-// Created by mrlukasbos on 23-1-19.
-//
-
 #include "skills/formations/Formation.h"
 
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 
 #include "control/ControlUtils.h"
-#include "control/Hungarian.h"
+#include "roboteam_utils/Hungarian.h"
 #include "world/Field.h"
 
 namespace rtt::ai {
@@ -110,6 +106,17 @@ void Formation::moveToTarget() {
 bool Formation::updateCounter() {
     if (!update) return false;
     return (++updateCount % 200) == 0;
+}
+
+Vector2 Formation::getOptimalPosition(int robotId, const vector<RobotPtr>& robots, std::vector<Vector2> targetLocations) {
+  std::unordered_map<int, Vector2> robotLocations;
+
+  for (auto formationRobot : robots) {
+    robotLocations.insert({formationRobot->id, formationRobot->pos});
+  }
+
+  auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotLocations, std::move(targetLocations));
+  return shortestDistances.at(robotId);
 }
 
 }  // namespace rtt::ai
