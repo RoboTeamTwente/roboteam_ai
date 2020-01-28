@@ -8,15 +8,16 @@ namespace rtt::ai::control{
 
 void
 NumTreesTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                              std::list<Vector2> &pathPoints, Vector2 &outputVelocity,
+                                              std::vector<Vector2> &pathPoints, Vector2 &outputVelocity,
                                               double &outputAngle) {
     int lookAhead = std::min(pathPoints.size()-1, stepsAhead);
     Vector2 currentTarget = *std::next(pathPoints.begin(), lookAhead);
     if (pathPoints.size() > 1 && (currentTarget - currentPosition).length() < minimumDistance){
+        //track the Nth point, or the last if the size is smaller than N; the untracked ones are discarded
         pathPoints.erase(pathPoints.begin(), std::next(pathPoints.begin(),lookAhead));
     }
 
-    std::list<Vector2> tempPath(1,currentTarget);
+    std::vector<Vector2> tempPath{currentTarget};
     pidTracking.trackPath(currentPosition, currentVelocity, tempPath, outputVelocity, outputAngle);
 }
 

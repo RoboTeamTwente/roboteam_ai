@@ -5,7 +5,7 @@
 #ifndef RTT_NUMTREESPLANNING_H
 #define RTT_NUMTREESPLANNING_H
 
-#include <list>
+#include <vector>
 #include "roboteam_utils/Vector2.h"
 #include "control/numTrees/PathPoint.h"
 #include "utilities/GameStateManager.hpp"
@@ -34,13 +34,13 @@ private:
     double
     remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
 
-    std::list<Vector2>
+    std::vector<Vector2>
     backTrackPath(std::shared_ptr<PathPoint> point, const std::shared_ptr<PathPoint> &root);
 
     std::pair<std::vector<Vector2>, PathPointer>
     getNewTargets(const PathPointer &collisionPoint);
 
-    std::list<Vector2> tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition);
+    std::vector<Vector2> tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition);
 
     PathPointer computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget);
 public:
@@ -61,7 +61,7 @@ public:
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    std::list<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
+    std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
 };
 
 }

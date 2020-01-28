@@ -25,7 +25,8 @@ bool CollisionDetector::isPointInDefenseArea(const Vector2 &point){
 bool CollisionDetector::isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint){
     for (const auto& robot: robots){
         // if the initial point is already close to a robot, then either 1. there is a collision, or 2. it is the original robot
-        if ((robot.getPos() - initialPoint).length() > Constants::ROBOT_RADIUS() && ControlUtils::distanceToLineWithEnds(robot.getPos(), initialPoint, nextPoint) < this->DEFAULT_ROBOT_COLLISION_RADIUS){
+        if ((robot.getPos() - initialPoint).length() > Constants::ROBOT_RADIUS() &&
+            ControlUtils::distanceToLineWithEnds(robot.getPos(), initialPoint, nextPoint) < this->DEFAULT_ROBOT_COLLISION_RADIUS){
             return true;
         }
     }

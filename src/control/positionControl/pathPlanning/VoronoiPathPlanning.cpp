@@ -42,7 +42,7 @@ void VoronoiPathPlanning::generateGraphFromDiagram(){
 
         //if the vertex is a new one (not found in the map), add it
         if(graphAdjacencyList.empty() || graphAdjacencyList.find(firstEdgePoint) == graphAdjacencyList.end()){
-            graphAdjacencyList.insert({firstEdgePoint, std::list<GraphNode>(1,(GraphNode){secondEdgePoint, distance})});
+            graphAdjacencyList[firstEdgePoint] = std::list<GraphNode>(1,(GraphNode){secondEdgePoint, distance});
         }
         //else append the adjacency list with the new neighbouring site and the new node connection
         else{
@@ -66,13 +66,13 @@ void VoronoiPathPlanning::completeGraphWithOriginDestination(const Vector2 &robo
         // no obstacle or the distance to the obstacle safe
         if (voronoiDiagram.numsites < 2 || ControlUtils::distanceToLine(
                 convertFromJcvPoint(voronoiDiagram.internal->sites->p),robotPosition,targetPosition) > 2 * Constants::ROBOT_RADIUS()) {
-            graphAdjacencyList.insert({robotPosition, std::list<GraphNode>(1, (GraphNode) {targetPosition, distance})});
-            graphAdjacencyList.insert({targetPosition, std::list<GraphNode>(1, (GraphNode) {robotPosition, distance})});
+            graphAdjacencyList[robotPosition] = std::list<GraphNode>(1, (GraphNode) {targetPosition, distance});
+            graphAdjacencyList[targetPosition] = std::list<GraphNode>(1, (GraphNode) {robotPosition, distance});
             return;
         }
         //TODO: avoid one obstacle in voronoi
-        graphAdjacencyList.insert({robotPosition, std::list<GraphNode>(1, (GraphNode) {targetPosition, distance})});
-        graphAdjacencyList.insert({targetPosition, std::list<GraphNode>(1, (GraphNode) {robotPosition, distance})});
+        graphAdjacencyList[robotPosition] = std::list<GraphNode>(1, (GraphNode) {targetPosition, distance});
+        graphAdjacencyList[targetPosition] = std::list<GraphNode>(1, (GraphNode) {robotPosition, distance});
         return;
     }
 
@@ -105,7 +105,7 @@ VoronoiPathPlanning::getGraphAdjacencyList() const {
     return graphAdjacencyList;
 }
 
-std::list<Vector2> VoronoiPathPlanning::generatePathDijkstra(const Vector2& initialPosition, const Vector2& targetPosition) {
+std::vector<Vector2> VoronoiPathPlanning::generatePathDijkstra(const Vector2& initialPosition, const Vector2& targetPosition) {
     std::unordered_map<Vector2, float, hashPoint> distanceVector;
     std::unordered_map<Vector2, Vector2, hashPoint> parentVector;
     distanceVector.insert({initialPosition,0});
@@ -131,15 +131,17 @@ std::list<Vector2> VoronoiPathPlanning::generatePathDijkstra(const Vector2& init
         }
     }
 
-    std::list<Vector2> pathPoints;
+    std::vector<Vector2> pathPoints;
     for (Vector2 backtrack = targetPosition; parentVector.find(backtrack) != parentVector.end(); backtrack = parentVector[backtrack]){
         pathPoints.push_back(backtrack);
     }
+
+    //as older points get pushed back, the vector has to be reversed
     std::reverse(pathPoints.begin(), pathPoints.end());
     return pathPoints;
 }
 
-std::list<Vector2> VoronoiPathPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
+std::vector<Vector2> VoronoiPathPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
     computeDiagram(robotPosition, targetPosition);
     generateGraphFromDiagram();
     completeGraphWithOriginDestination(robotPosition, targetPosition);

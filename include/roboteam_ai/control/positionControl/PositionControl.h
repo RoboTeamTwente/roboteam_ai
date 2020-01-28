@@ -21,7 +21,7 @@ namespace rtt::ai::control {
 class PositionControl {
 private:
 
-    const double MAX_DEVIATION = 0.3;
+    static constexpr double MAX_DEVIATION = 0.2;
 
     NumTreesPlanning *pathPlanningAlgorithm = nullptr;
     NumTreesTracking *pathTrackingAlgorithm = nullptr;
@@ -29,7 +29,7 @@ private:
 
     const std::vector<world_new::robot::Robot> &robots;
 
-    std::unordered_map<int, std::list<Vector2>> computedPaths;
+    std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
 public:
     /**
@@ -37,7 +37,7 @@ public:
      * case another one is needed.
      * @param robots
      */
-    explicit PositionControl(const std::vector<rtt::world_new::robot::Robot> &robots);
+    explicit PositionControl(const std::vector<world_new::robot::Robot> &robots);
 
     /**
      * Generates a path according to the selected planning algorithm,

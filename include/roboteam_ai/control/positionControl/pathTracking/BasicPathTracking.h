@@ -33,7 +33,7 @@ public:
      * @param outputAngle the resulting orientation of the robot at the current tick
      */
     void trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-            std::list<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle);
+            std::vector<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle);
 };
 }
 

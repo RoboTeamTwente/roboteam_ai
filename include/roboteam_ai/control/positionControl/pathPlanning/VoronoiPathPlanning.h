@@ -43,7 +43,7 @@ private:
 
     void generateGraphFromDiagram();
 
-    std::list<Vector2> generatePathDijkstra(const Vector2& initialPosition, const Vector2& targetPosition);
+    std::vector<Vector2> generatePathDijkstra(const Vector2& initialPosition, const Vector2& targetPosition);
 
     void computeDiagram(const Vector2 &robotPosition, const Vector2 &targetPosition);
 
@@ -67,7 +67,7 @@ public:
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    std::list<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
+    std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
 
     /**
      * Used for testing and debugging purposes
