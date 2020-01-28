@@ -44,35 +44,16 @@ class Dealer {
     explicit Role(std::string roleName, int robotId);
   };
 
+  using FlagMap = std::unordered_map<std::string, std::vector<DealerFlag>>;
+
  private:
   std::unordered_map<std::string, Role> claimedRoles;
 
  public:
   Dealer() = default;
-
-  // Claim a robot. Returns Nothing if robot could not be claimed
-  std::optional<int> claimRobot(std::vector<int> allRobots, const std::string& roleName, std::vector<DealerFlag> flags, bool allowShuffle);
-
-  // Free robot
-  void freeRobot(const std::string& roleName);
-
-  // Get a list of claimed robots for a key
-  std::vector<Role> getClaimedRoles();
-
-  std::vector<int> getClaimedRobotIds();
-
-  // Free all robots
-  void freeAllRobots();
-
-  // Reshuffle all robots to maximize flag utility
-  void reshuffle();
-
-  // get the optimal robot for a given set of flags
-  std::optional<int> getOptimalRobot(std::vector<int> allRobots, const std::unordered_map<std::string, std::vector<DealerFlag>>& flagMap);
-
-  std::vector<int> getFreeRobots(std::vector<int> allRobots, std::vector<int> claimedRobots);
-
+  std::unordered_map<std::string, int> distribute(std::vector<int> allRobots, const FlagMap& flagMap);
   int getScoreForFlag(int robotId, DealerFlag flag);
+  std::vector<std::vector<double>> getScoreMatrix(std::vector<int> &allRobots, const FlagMap &flagMap);
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
