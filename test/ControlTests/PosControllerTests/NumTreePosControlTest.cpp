@@ -2,7 +2,7 @@
 // Created by mrlukasbos on 21-5-19.
 //
 
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
 #include <utilities/RobotDealer.h>

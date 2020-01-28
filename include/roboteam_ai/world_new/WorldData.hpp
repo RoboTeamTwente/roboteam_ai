@@ -11,7 +11,7 @@
 #include "roboteam_proto/Setting.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 
-#include "Settings/Settings.h"
+#include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/RobotView.hpp"
 #include "world_new/views/BallView.hpp"
 

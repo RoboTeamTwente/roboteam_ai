@@ -10,7 +10,7 @@
 #include <cmath>
 
 #include "control/ControlUtils.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"
 #include "world/Field.h"
 

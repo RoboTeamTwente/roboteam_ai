@@ -6,8 +6,8 @@
 #define RTT_ROBOTCONTROLLERS_HPP
 
 #include <memory>
-#include <control/shotControllers/ShotController.h>
-#include <control/ballHandling/BallHandlePosControl.h>
+#include <control/shot-controllers/ShotController.h>
+#include <control/ball-handling/BallHandlePosControl.h>
 
 namespace rtt::world_new::robot {
 

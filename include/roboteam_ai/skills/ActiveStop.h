@@ -4,7 +4,7 @@
 
 #ifndef ROBOTEAM_AI_ACTIVESTOP_H
 #define ROBOTEAM_AI_ACTIVESTOP_H
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {
