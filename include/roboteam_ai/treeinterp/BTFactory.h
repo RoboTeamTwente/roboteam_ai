@@ -15,7 +15,7 @@
 #include "BTImport.h"
 #include "TreeInterpreter.h"
 #include <nlohmann/json.hpp>
-
+#include "analysis/play-utilities/Play.h"
 class BTFactory {
     // TODO: have the names of all the project before here
 
@@ -38,7 +38,9 @@ class BTFactory {
 
     static bt::BehaviorTree::Ptr getKeeperTree();
 
-    static void setCurrentTree(const std::string &currentTree);
+    static void setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> );
+
+    static void setCurrentTree(const std::string &newTree);
 
     static void setKeeperTree(const std::string &keeperTree);
 
@@ -52,7 +54,7 @@ class BTFactory {
     static std::string currentTree;
     static std::string keeperTree;
     static bool weMadeTrees;
-
+    static std::shared_ptr<rtt::ai::analysis::Play> play;
     static std::shared_ptr<bt::BehaviorTree> testing_tree;
 };
 

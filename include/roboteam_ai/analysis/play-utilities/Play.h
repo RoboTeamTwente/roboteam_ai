@@ -28,12 +28,16 @@ class Play {
      * @return true if all the invariants of this strategy are true
      */
     bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
-
+    int scorePlay(world::World* world, world::Field* field);
     std::string getName();
 
    protected:
     std::vector<std::function<bool(world::World*, world::Field*)>> invariants;
     std::shared_ptr<bt::BehaviorTree> tree;
+public:
+    const std::shared_ptr<bt::BehaviorTree> &getTree() const;
+
+protected:
     std::string name;
 };
 }  // namespace rtt::ai::analysis

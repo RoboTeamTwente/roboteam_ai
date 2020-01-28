@@ -9,44 +9,51 @@
 
 namespace rtt::ai::analysis {
 
-class PlayChecker {
-   public:
-    PlayChecker() = default;
-    /**
-     * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
-     * and if it is not new plays are calculated that are valid for the gamestate.
-     */
-    void update(world::World *world, world::Field *field);
+    class PlayChecker {
+    public:
+        PlayChecker() = default;
 
-   private:
-    /**
-     * @brief Checks if the invariants of the current play are true for the gamestate
-     * @param world the current world
-     * @param field the current field
-     * @return true if invariants of the play being executed are true, false otherwise
-     */
-    bool checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+        /**
+         * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
+         * and if it is not new plays are calculated that are valid for the gamestate.
+         */
+        bool update(world::World *world, world::Field *field);
 
-    /**
-     * Vector of all plays (before pruning)
-     */
-    std::vector<Play> allPlays;
+    private:
+        /**
+         * @brief Checks if the invariants of the current play are true for the gamestate
+         * @param world the current world
+         * @param field the current field
+         * @return true if invariants of the play being executed are true, false otherwise
+         */
+        bool checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field);
 
-    /**
-     * Vector of all plays that are valid for the current world and field state
-     */
-    std::vector<Play> validPlays;
+        /**
+         * Vector of all plays (before pruning)
+         */
+        std::vector<std::shared_ptr<Play>> allPlays;
 
-    /// TODO: implement this function. Not a priority right now
-    bool checkStrategyPreconditions();
+        /**
+         * Vector of all plays that are valid for the current world and field state
+         */
+        std::vector<std::shared_ptr<Play>> validPlays;
+    public:
+        const std::vector<std::shared_ptr<Play>> &getValidPlays() const;
 
-    /**
-     * Determines which plays are valid by cycling through the allplays vector and seeing which plays' isValid() methods return true
-     * @param world
-     * @param field
-     */
-    void determineNewPlays(world::World *world, world::Field *field);
-};
+    private:
+
+        /// TODO: implement this function. Not a priority right now
+        bool checkStrategyPreconditions();
+
+        /**
+         * Determines which plays are valid by cycling through the allplays vector and seeing which plays' isValid() methods return true
+         * @param world
+         * @param field
+         */
+        void determineNewPlays(world::World *world, world::Field *field);
+
+
+    };
 }  // namespace rtt::ai::analysis
 
 #endif  // RTT_PLAYCHECKER_H

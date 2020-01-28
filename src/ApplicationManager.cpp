@@ -27,8 +27,8 @@ namespace rtt {
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
     // create playcheck object here
-    playcheck = rtt::ai::analysis::PlayChecker();
-
+    playChecker = ai::analysis::PlayChecker();
+    playDecider = ai::analysis::PlayDecider();
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
@@ -61,7 +61,7 @@ void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
 
-        playcheck.update(rtt::ai::world::world, rtt::ai::world::field);
+        playChecker.update(rtt::ai::world::world, rtt::ai::world::field);
 
         updateTrees();
         updateCoaches();
@@ -174,5 +174,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             break;
     }
 }
+
+    void ApplicationManager::decidePlay(ai::world::World *world, ai::world::Field *field) {
+        bool stillValidPlay = playChecker.update(world, field);
+        if (!stillValidPlay) {
+            auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
+            BTFactory::setCurrentTree(bestplay);
+        }
+        else {
+        }
+    }
 
 }  // namespace rtt

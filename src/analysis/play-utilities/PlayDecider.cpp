@@ -6,5 +6,18 @@
 
 namespace rtt::ai::analysis {
 // Maybe plays should have some sort of score based on the world how good they are
-Play PlayDecider::decideBestPlay(world::World *world, world::Field *field, std::vector<Play> validPlays) { return Play(); }
-}  // namespace rtt::ai::analysis
+    std::shared_ptr<Play> PlayDecider::decideBestPlay(world::World *world, world::Field *field, std::vector<std::shared_ptr<Play>> validPlays) {
+        int max = -1;
+        if (validPlays.empty()) {
+            std::cerr << "valid plays are empty" << std::endl;
+        }
+        for (auto const& play : validPlays) {
+            int temp = play->scorePlay(world, field);
+            if (temp > max) {
+                max = temp;
+            }
+            bestPlay = play;
+        }
+        return bestPlay;
+    }
+}

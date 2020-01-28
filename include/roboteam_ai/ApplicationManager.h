@@ -11,13 +11,11 @@
 #include "analysis/PlayChecker.h"
 #include "include/roboteam_ai/utilities/IOManager.h"
 #include "treeinterp/BTFactory.h"
-
+#include "analysis/play-utilities/PlayDecider.h"
 namespace rtt {
 
 class ApplicationManager {
    private:
-    rtt::ai::analysis::PlayChecker playcheck;
-
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     int ticksFree = 0;
     bt::BehaviorTree::Ptr strategy;
@@ -27,6 +25,9 @@ class ApplicationManager {
     bool weHaveRobots = false;
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
+    rtt::ai::analysis::PlayChecker playChecker;
+    rtt::ai::analysis::PlayDecider playDecider;
+    void decidePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
    public:
     void start();
