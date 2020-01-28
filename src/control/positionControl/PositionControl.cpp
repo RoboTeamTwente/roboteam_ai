@@ -3,12 +3,12 @@
 //
 
 #include "control/positionControl/PositionControl.h"
-#include <interface/api/Input.h>
-#include <control/positionControl/pathTracking/NumTreesTracking.h>
+#include "interface/api/Input.h"
+#include "control/positionControl/pathTracking/NumTreesTracking.h"
 
 namespace rtt::ai::control {
 
-PositionControl::PositionControl(const std::vector<rtt::world_new::robot::Robot> &robots): robots(robots) {
+PositionControl::PositionControl(const std::vector<world_new::robot::Robot> &robots): robots(robots) {
     collisionDetector = new CollisionDetector(robots);
     pathPlanningAlgorithm = new NumTreesPlanning(*collisionDetector);
     pathTrackingAlgorithm = new NumTreesTracking();

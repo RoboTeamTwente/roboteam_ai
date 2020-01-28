@@ -7,8 +7,8 @@
 namespace rtt::ai::control{
 
 void
-NumTreesTracking::trackPath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &currentVelocity,
-                                              std::list<rtt::Vector2> &pathPoints, rtt::Vector2 &outputVelocity,
+NumTreesTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+                                              std::list<Vector2> &pathPoints, Vector2 &outputVelocity,
                                               double &outputAngle) {
     int lookAhead = std::min(pathPoints.size()-1, stepsAhead);
     Vector2 currentTarget = *std::next(pathPoints.begin(), lookAhead);

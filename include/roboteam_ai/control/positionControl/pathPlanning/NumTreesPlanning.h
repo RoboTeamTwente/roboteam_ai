@@ -6,14 +6,14 @@
 #define RTT_NUMTREESPLANNING_H
 
 #include <list>
-#include <roboteam_utils/Vector2.h>
-#include <control/numTrees/PathPoint.h>
-#include <utilities/GameStateManager.hpp>
-#include <utilities/Constants.h>
+#include "roboteam_utils/Vector2.h"
+#include "control/numTrees/PathPoint.h"
+#include "utilities/GameStateManager.hpp"
+#include "utilities/Constants.h"
 #include <queue>
-#include <control/ControlUtils.h>
-#include <interface/api/Output.h>
-#include <control/ControlUtils.h>
+#include "control/ControlUtils.h"
+#include "interface/api/Output.h"
+#include "control/ControlUtils.h"
 #include "control/positionControl/CollisionDetector.h"
 
 namespace rtt::ai::control{
@@ -23,7 +23,7 @@ namespace rtt::ai::control{
  */
 class NumTreesPlanning {
 private:
-    using PathPointer = std::shared_ptr<rtt::ai::control::PathPoint>;
+    using PathPointer = std::shared_ptr<PathPoint>;
 
     double DT = 0.1;
     static constexpr double MAX_CALCULATION_TIME = 10.0;
@@ -35,10 +35,10 @@ private:
     remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
 
     std::list<Vector2>
-    backTrackPath(std::shared_ptr<rtt::ai::control::PathPoint> point, const std::shared_ptr<rtt::ai::control::PathPoint> &root);
+    backTrackPath(std::shared_ptr<PathPoint> point, const std::shared_ptr<PathPoint> &root);
 
-    std::pair<std::vector<Vector2>, NumTreesPlanning::PathPointer>
-    getNewTargets(const NumTreesPlanning::PathPointer &collisionPoint);
+    std::pair<std::vector<Vector2>, PathPointer>
+    getNewTargets(const PathPointer &collisionPoint);
 
     std::list<Vector2> tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition);
 
@@ -61,7 +61,7 @@ public:
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    std::list<Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    std::list<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
 };
 
 }

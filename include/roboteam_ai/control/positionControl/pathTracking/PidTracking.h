@@ -5,10 +5,10 @@
 #ifndef RTT_PIDTRACKING_H
 #define RTT_PIDTRACKING_H
 
-#include <utilities/Constants.h>
-#include <roboteam_utils/Vector2.h>
-#include <interface/api/Output.h>
-#include <roboteam_utils/pid.h>
+#include "utilities/Constants.h"
+#include "roboteam_utils/Vector2.h"
+#include "interface/api/Output.h"
+#include "roboteam_utils/pid.h"
 
 namespace rtt::ai::control{
 
@@ -17,8 +17,8 @@ namespace rtt::ai::control{
  */
 class PidTracking {
 private:
-    double maxVelocity = rtt::ai::Constants::MAX_VEL();
-    double minimumDistance = 2*rtt::ai::Constants::ROBOT_RADIUS();
+    double maxVelocity = Constants::MAX_VEL();
+    double minimumDistance = 2*Constants::ROBOT_RADIUS();
 
     // the PID controllers on the two axes
     PID xPid = PID(0,0,0,0);
@@ -42,8 +42,8 @@ public:
      * @param outputVelocity control velocity that will be outputted to the robot at the current tick
      * @param outputAngle the resulting orientation of the robot at the current tick
      */
-    void trackPath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &currentVelocity,
-                   std::list<rtt::Vector2> &pathPoints, rtt::Vector2 &outputVelocity, double &outputAngle);
+    void trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+                   std::list<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle);
 };
 
 }

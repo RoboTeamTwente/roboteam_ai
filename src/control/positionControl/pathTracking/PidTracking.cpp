@@ -11,8 +11,8 @@ PidTracking::PidTracking(){
     yPid.setMaxIOutput(maxVelocity);
 }
 
-void PidTracking::trackPath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &currentVelocity,
-                                              std::list<rtt::Vector2> &pathPoints, rtt::Vector2 &outputVelocity,
+void PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+                                              std::list<Vector2> &pathPoints, Vector2 &outputVelocity,
                                               double &outputAngle) {
     if (pathPoints.size() > 1 && (pathPoints.front() - currentPosition).length() < minimumDistance){
         pathPoints.pop_front();

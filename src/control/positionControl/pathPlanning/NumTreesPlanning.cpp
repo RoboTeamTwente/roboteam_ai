@@ -9,9 +9,9 @@ namespace rtt::ai::control{
 NumTreesPlanning::NumTreesPlanning(const CollisionDetector &collisionDetector) :
     collisionDetector(collisionDetector) {}
 
-std::list<rtt::Vector2>
-NumTreesPlanning::computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition) {
-    DT = 0.3 / rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+std::list<Vector2>
+NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
+    DT = 0.3 / GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
     if (DT > 0.12) DT = 0.12;
     if (DT < 0.06) DT = 0.06;
 
@@ -24,12 +24,12 @@ NumTreesPlanning::computePath(const rtt::Vector2 &robotPosition, const rtt::Vect
     return path;
 }
 
-std::list<Vector2> NumTreesPlanning::tracePath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &targetPosition) {
+std::list<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition) {
 
 // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
 // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
 // target, while taking into account the length of path already calculated.
-    auto compAStar = [targetPosition, this](PathPointer lhs, PathPointer rhs) {
+    auto compAStar = [targetPosition, this](const PathPointer& lhs, const PathPointer& rhs) {
         if (lhs->collisions - rhs->collisions > 2)
             return true;
         else if (lhs->collisions - rhs->collisions < - 2)
@@ -40,11 +40,11 @@ std::list<Vector2> NumTreesPlanning::tracePath(const rtt::Vector2 &currentPositi
                       + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, targetPosition));
     };
 
-    std::vector<rtt::ai::control::PathPoint> path;
+    std::vector<PathPoint> path;
 
     // create a new path with a root
     std::priority_queue<PathPointer, std::vector<PathPointer>, decltype(compAStar)> pathQueue(compAStar);
-    PathPointer root = std::make_shared<rtt::ai::control::PathPoint>();
+    PathPointer root = std::make_shared<PathPoint>();
     root->currentTarget = targetPosition;
     root->pos = currentPosition;
     root->vel = Vector2();
@@ -61,7 +61,7 @@ std::list<Vector2> NumTreesPlanning::tracePath(const rtt::Vector2 &currentPositi
                 std::chrono::system_clock::now().time_since_epoch()
         );
         if ((now - start).count()*1000 > MAX_CALCULATION_TIME) {
-            if (rtt::ai::interface::Output::showDebugNumTreeInfo()) {
+            if (interface::Output::showDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << ": Tick took too long!" << std::endl;
             }
             PathPointer bestPath = pathQueue.top();
@@ -118,7 +118,7 @@ std::list<Vector2> NumTreesPlanning::tracePath(const rtt::Vector2 &currentPositi
             }
         }
     }
-    if (rtt::ai::interface::Output::showDebugNumTreeInfo()) {
+    if (interface::Output::showDebugNumTreeInfo()) {
         std::cout << "ROBOT " << ": reached end of while loop, no path found" << std::endl;
     }
     return {};
@@ -149,11 +149,11 @@ std::list<Vector2> NumTreesPlanning::backTrackPath(PathPointer point,
 }
 
 /// create a new pathPoint using a linear acceleration ODE
-NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const rtt::Vector2 &targetPosition,
-        const PathPointer &oldPoint, const rtt::Vector2 &subTarget) {
+NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &targetPosition,
+        const PathPointer &oldPoint, const Vector2 &subTarget) {
 
     // Copy parent
-    PathPointer newPoint = std::make_shared<rtt::ai::control::PathPoint>();
+    PathPointer newPoint = std::make_shared<PathPoint>();
     newPoint->parent = oldPoint;
     oldPoint->addChild(newPoint);
     newPoint->t = oldPoint->t + DT;

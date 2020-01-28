@@ -8,20 +8,20 @@
 #include "Voronoi.h"
 #include <queue>
 #include <list>
-#include <roboteam_utils/Vector2.h>
-#include <utilities/Constants.h>
-#include <control/ControlUtils.h>
+#include "roboteam_utils/Vector2.h"
+#include "utilities/Constants.h"
+#include "control/ControlUtils.h"
 #include "control/positionControl/CollisionDetector.h"
 
 namespace rtt::ai::control{
 struct GraphNode{
-    rtt::Vector2 nextNodePosition;
+    Vector2 nextNodePosition;
     double distance;
 };
 
 //black magic vector hashing - taken from the boost hash combine
 struct hashPoint{
-    size_t operator()(const rtt::Vector2& point) const {
+    size_t operator()(const Vector2& point) const {
         size_t xHash = std::hash<double>()(point.x) + 0x9e3779b9;
         return xHash ^ (std::hash<double>()(point.y) + 0x9e3779b9 + (xHash<<6) + (xHash>>2));
     }
@@ -37,17 +37,17 @@ private:
     CollisionDetector &collisionDetector;
 
     // the adjacency list is a map from the position of the node to the adjacent nodes
-    std::unordered_map<rtt::Vector2, std::list<GraphNode>, hashPoint> graphAdjacencyList;
+    std::unordered_map<Vector2, std::list<GraphNode>, hashPoint> graphAdjacencyList;
 
-    rtt::Vector2 convertFromJcvPoint(jcv_point point);
+    Vector2 convertFromJcvPoint(jcv_point point);
 
     void generateGraphFromDiagram();
 
-    std::list<rtt::Vector2> generatePathDijkstra(const rtt::Vector2& initialPosition, const rtt::Vector2& targetPosition);
+    std::list<Vector2> generatePathDijkstra(const Vector2& initialPosition, const Vector2& targetPosition);
 
-    void computeDiagram(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    void computeDiagram(const Vector2 &robotPosition, const Vector2 &targetPosition);
 
-    void completeGraphWithOriginDestination(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    void completeGraphWithOriginDestination(const Vector2 &robotPosition, const Vector2 &targetPosition);
 
 public:
     /**
@@ -67,7 +67,7 @@ public:
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    std::list<rtt::Vector2> computePath(const rtt::Vector2 &robotPosition, const rtt::Vector2 &targetPosition);
+    std::list<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
 
     /**
      * Used for testing and debugging purposes

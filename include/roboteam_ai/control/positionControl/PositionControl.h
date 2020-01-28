@@ -5,14 +5,12 @@
 #ifndef RTT_POSITIONCONTROL_H
 #define RTT_POSITIONCONTROL_H
 
-
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
 #include "CollisionDetector.h"
-#include <world_new/Robot.hpp>
-#include <control/positionControl/pathTracking/NumTreesTracking.h>
-
+#include "world_new/Robot.hpp"
+#include "control/positionControl/pathTracking/NumTreesTracking.h"
 
 namespace rtt::ai::control {
 
@@ -26,10 +24,10 @@ private:
     const double MAX_DEVIATION = 0.3;
 
     NumTreesPlanning *pathPlanningAlgorithm = nullptr;
-    rtt::ai::control::NumTreesTracking *pathTrackingAlgorithm = nullptr;
+    NumTreesTracking *pathTrackingAlgorithm = nullptr;
     CollisionDetector *collisionDetector = nullptr;
 
-    const std::vector<rtt::world_new::robot::Robot> &robots;
+    const std::vector<world_new::robot::Robot> &robots;
 
     std::unordered_map<int, std::list<Vector2>> computedPaths;
 

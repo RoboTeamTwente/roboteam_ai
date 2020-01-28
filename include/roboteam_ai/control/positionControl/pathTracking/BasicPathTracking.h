@@ -6,8 +6,10 @@
 #define RTT_BASICPATHTRACKING_H
 
 
-#include <utilities/Constants.h>
-#include <roboteam_utils/Vector2.h>
+#include "utilities/Constants.h"
+#include "roboteam_utils/Vector2.h"
+
+namespace rtt::ai::control{
 
 /**
  * Path tracking algorithm. See method computePath for details.
@@ -30,9 +32,9 @@ public:
      * @param outputVelocity control velocity that will be outputted to the robot at the current tick
      * @param outputAngle the resulting orientation of the robot at the current tick
      */
-    void trackPath(const rtt::Vector2 &currentPosition, const rtt::Vector2 &currentVelocity,
-            std::list<rtt::Vector2> &pathPoints, rtt::Vector2 &outputVelocity, double &outputAngle);
+    void trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+            std::list<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle);
 };
-
+}
 
 #endif //RTT_BASICPATHTRACKING_H
