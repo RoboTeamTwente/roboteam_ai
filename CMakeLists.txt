@@ -22,7 +22,12 @@ if(APPLE)
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-    set(GTEST_LIB  /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
+    set(GTEST_LIB
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a
+            /usr/local/lib/libgmock.a
+            /usr/local/lib/libgmock_main.a
+            )
 else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
