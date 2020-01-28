@@ -30,7 +30,9 @@ namespace rtt::ai::analysis {
           * @param field the current field
           * @return true if the play is valid, false otherwise
           */
-        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+        virtual bool isValidPlayToKeep(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+
+        virtual bool isValidPlayToStart(world::World *world, world::Field *field);
 
         /**
          * @param world

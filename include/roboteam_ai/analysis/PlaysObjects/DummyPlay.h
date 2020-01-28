@@ -11,12 +11,11 @@
 namespace rtt::ai::analysis {
     class DummyPlay : public Play {
     public:
-        //std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
         DummyPlay(std::string name);
         void executePlay(world::World* world, world::Field* field);
         std::shared_ptr<bt::BehaviorTree> getTreeForWorld();
         void moveToNextTactic();
-        virtual bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+        virtual bool isValidPlayToKeep(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
         virtual int scorePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
 
@@ -24,6 +23,7 @@ namespace rtt::ai::analysis {
         std::shared_ptr<bt::BehaviorTree> tree1;
         // std::shared_ptr<bt::BehaviorTree> tree2;
 
+        bool isValidPlayToStart(world::World *world, world::Field *field);
     };
 }
 

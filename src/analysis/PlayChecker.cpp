@@ -23,7 +23,7 @@ namespace rtt::ai::analysis {
 
 
     bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        currentPlay->isValidPlay(world, field);
+        currentPlay->isValidPlayToKeep(world, field);
     }
 
 
@@ -31,7 +31,7 @@ namespace rtt::ai::analysis {
     void PlayChecker::determineNewPlays(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         validPlays.clear();
         for (auto play : allPlays) {
-            if (play->isValidPlay(world, field)) {
+            if (play->isValidPlayToKeep(world, field)) {
                 validPlays.push_back(play);
             }
         }
@@ -59,6 +59,8 @@ namespace rtt::ai::analysis {
     void PlayChecker::setCurrentPlay(std::shared_ptr<rtt::ai::analysis::Play> newPlay) {
         currentPlay = newPlay;
     }
+
+
 
 }
 

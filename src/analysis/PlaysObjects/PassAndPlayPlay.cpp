@@ -38,6 +38,13 @@ namespace rtt::ai::analysis {
 
     }
 
+    bool PassAndPlayPlay::isValidPlayToKeep(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        return true;
+    }
+
+    bool PassAndPlayPlay::isValidPlayToStart(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        return BallOnOurSideInvariant::isValid(world, field);
+    }
 
     std::shared_ptr<bt::BehaviorTree> PassAndPlayPlay::getTreeForWorld() {
         moveToNextTactic();
@@ -61,9 +68,6 @@ namespace rtt::ai::analysis {
         return score;
     }
 
-    bool PassAndPlayPlay::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        return BallOnOurSideInvariant::isValid(world, field)  || true;
-    }
 
     void PassAndPlayPlay::makeTree2() {
         auto bb = std::make_shared<bt::Blackboard>();

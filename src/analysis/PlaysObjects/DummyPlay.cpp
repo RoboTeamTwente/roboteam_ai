@@ -82,8 +82,12 @@ namespace rtt::ai::analysis {
         return score;
     }
 
-    bool DummyPlay::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+    bool DummyPlay::isValidPlayToKeep(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         return !BallOnOurSideInvariant::isValid(world, field);
+    }
+
+    bool DummyPlay::isValidPlayToStart(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        return true;
     }
 
 
