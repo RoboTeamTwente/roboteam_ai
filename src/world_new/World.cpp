@@ -6,12 +6,12 @@
 
 #include <utility>
 
-#include "Settings/Settings.h"
+#include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/WorldDataView.hpp"
 
 namespace rtt::world_new {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
-//    std::lock_guard mtx{ updateMutex };
+    std::lock_guard mtx{ updateMutex };
     if (currentWorld) {
         toHistory(currentWorld.value());
     }
@@ -20,9 +20,8 @@ WorldData const &World::setWorld(WorldData &newWorld) noexcept {
 }
 
 void World::toHistory(WorldData &world) noexcept {
-//    std::lock_guard mtx{ updateMutex };
     updateTickTime();
-    if (history.size() < HISTORY_SIZE && currentIndex < history.size()) {
+    if (history.size() < HISTORY_SIZE) {
         history.emplace_back(std::move(world));
     } else {
         history[currentIndex] = std::move(world);
@@ -44,7 +43,6 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
 }
 
 view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-    assert(ticksAgo < 20 && ticksAgo >= 1 && "Invalid tick");
     if (ticksAgo > history.size()) {
         return view::WorldDataView(nullptr);
     }
@@ -57,7 +55,10 @@ void World::updateWorld(proto::World &protoWorld) {
     setWorld(data);
 }
 
-World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {}
+World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0}
+{
+    history.reserve(HISTORY_SIZE);
+}
 
 void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
     std::scoped_lock<std::mutex> lock{updateMutex};
@@ -78,7 +79,9 @@ void World::updateTickTime() noexcept {
     lastTick = (*getWorld())->getTime();
 }
 
-uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
+uint64_t World::getTimeDifference() const noexcept {
+    return tickDuration;
+}
 
 robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept {
     return robotControllers[id];

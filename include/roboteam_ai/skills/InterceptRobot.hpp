@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_INTERCEPTROBOT_HPP
 #define ROBOTEAM_AI_INTERCEPTROBOT_HPP
 
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "control/BasicPosControl.h"
 
 #include "Skill.h"

@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_DRIBBLEROTATE_H
 
 #include "Skill.h"
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
 
 namespace rtt::ai {
 

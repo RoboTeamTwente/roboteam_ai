@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_WORLDDATA_H
 #define ROBOTEAM_AI_WORLDDATA_H
 
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include "roboteam_proto/World.pb.h"
 
 #include "roboteam_utils/Angle.h"

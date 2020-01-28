@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_FORMATION_H
 #define ROBOTEAM_AI_FORMATION_H
 
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "gtest/gtest_prod.h"
 #include "skills/Skill.h"
 

@@ -54,7 +54,7 @@ bt::Node::Ptr TreeInterpreter::buildNode(json nodeJSON, json tree, bt::Blackboar
 
     // It might be a Role (Special Case)
     if (nodeJSON["title"] == "Role") {
-        bt::Role::Ptr tempNode = std::make_shared<bt::Role>(nodeJSON["name"]);
+        bt::Role::Ptr tempNode = std::make_shared<bt::Role>(nodeJSON["name"].get<std::string>());
         tempNode->globalBB = globalBlackBoard;
         tempNode->properties = propertyParser.parse(nodeJSON);
         node = tempNode;
@@ -118,8 +118,8 @@ std::map<std::string, bt::Node::Ptr> TreeInterpreter::makeTactics(std::string fi
 
         bt::Node::Ptr buildingNode = TreeInterpreter::buildNode(tactic["nodes"][rootID], tactic, globalBB);
 
-        resultMap.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
-        tactics.insert(std::pair<std::string, bt::Node::Ptr>(tactic["title"], buildingNode));
+        resultMap[tactic["title"]] = buildingNode;
+        tactics[tactic["title"]] = buildingNode;
     }
     return resultMap;
 }
