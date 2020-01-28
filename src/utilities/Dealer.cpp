@@ -68,7 +68,7 @@ double Dealer::getScoreForFlag(const Data& data, v::RobotView robot, Dealer::Dea
     return factor * getDefaultFlagScores(data, robot, flag);
 }
 
-double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) const {
+double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
     switch (flag.priority) {
         case DealerFlagPriority::LOW_PRIORITY: return 1.0;
         case DealerFlagPriority::MEDIUM_PRIORITY: return 2.0;
@@ -77,7 +77,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) const {
 }
 
 // TODO 'invert' the matrix scores
-double Dealer::getDefaultFlagScores(const Data& data, const v::RobotView &robot, const Dealer::DealerFlag &flag) const {
+double Dealer::getDefaultFlagScores(const Data& data, const v::RobotView &robot, const Dealer::DealerFlag &flag) {
     auto world = data.world;
     auto field = data.field;
 
@@ -90,8 +90,17 @@ double Dealer::getDefaultFlagScores(const Data& data, const v::RobotView &robot,
         }
         case DealerFlagTitle::CLOSE_TO_BALL: {
             auto ball = world.getBall();
-            if (!ball) return 0;
+            if (!ball) return 0.0;
             return robot->getPos().dist(ball.value()->getPos());
+        }
+        case DealerFlagTitle::HAS_WORKING_BALL_SENSOR: {
+            return robot->isWorkingBallSensor() ? 1.0 : 0.0;
+        }
+        case DealerFlagTitle::ROBOT_TYPE_50W: {
+            return robot->getRobotType() == world_new::robot::RobotType::FIFTY_WATT ? 1.0 : 0.0;
+        }
+        case DealerFlagTitle::ROBOT_TYPE_30W: {
+            return robot->getRobotType() == world_new::robot::RobotType::THIRTY_WATT ? 1.0 : 0.0;
         }
         default: {
             std::cerr << "[Dealer] Unhandled dealerflag!" << endl;

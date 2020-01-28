@@ -55,11 +55,11 @@ class Dealer {
 
  public:
   Dealer() = default;
-  std::unordered_map<std::string, v::RobotView> distribute(const Data& data, std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
-  double getScoreForFlag(const Data& data, v::RobotView robot, DealerFlag flag);
-  std::vector<std::vector<double>> getScoreMatrix(const Data& data, std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
-  double getDefaultFlagScores(const Data& data, const v::RobotView &robot, const DealerFlag &flag) const;
-  double getFactorForPriority(const DealerFlag &flag) const;
+  static std::unordered_map<std::string, v::RobotView> distribute(const Data& data, std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
+  static double getScoreForFlag(const Data& data, v::RobotView robot, DealerFlag flag);
+  static std::vector<std::vector<double>> getScoreMatrix(const Data& data, std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
+  static double getDefaultFlagScores(const Data& data, const v::RobotView &robot, const DealerFlag &flag) ;
+  static double getFactorForPriority(const DealerFlag &flag) ;
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
