@@ -15,7 +15,7 @@
 #include <world/World.h>
 #include <bt/Node.hpp>
 #include <utilities/GameStateManager.hpp>
-#include "include/roboteam_ai/analysis/play-utilities/PlayChecker.h"
+#include "analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -26,9 +26,6 @@ namespace rtt {
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
-    // create playcheck object here
-    playChecker = ai::analysis::PlayChecker();
-    playDecider = ai::analysis::PlayDecider();
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 

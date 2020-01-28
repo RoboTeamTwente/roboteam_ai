@@ -38,7 +38,7 @@ class BTFactory {
 
     static bt::BehaviorTree::Ptr getKeeperTree();
 
-    static void setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> );
+    static void setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> play);
 
     static void setCurrentTree(const std::string &newTree);
 
