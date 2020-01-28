@@ -40,6 +40,7 @@ enum class DealerFlagPriority {
 
 class Dealer {
   FRIEND_TEST(DealerTest, it_properly_distributes_robots);
+
  private:
   v::WorldDataView world;
   world::Field * field;
@@ -50,7 +51,6 @@ class Dealer {
     DealerFlagPriority priority;
     explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority important);
   };
-
   using FlagMap = std::unordered_map<std::string, std::vector<DealerFlag>>;
   Dealer(v::WorldDataView world, world::Field * field);
   std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
@@ -58,11 +58,10 @@ class Dealer {
   std::vector<std::vector<double>> getScoreMatrix(std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
   static double getFactorForPriority(const DealerFlag &flag);
 
-  // This function is virtual such that it can be mocked in the tests.
+  // These functions is virtual such that it can be mocked in the tests.
   // the performance hit is minimal (in the scope of nanoseconds)
   virtual double getDefaultFlagScores(const v::RobotView &robot, const DealerFlag &flag) ;
-  virtual ~Dealer() = default;
-
+  virtual ~Dealer() = default; // needed for test
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

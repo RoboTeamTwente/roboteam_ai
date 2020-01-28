@@ -40,7 +40,6 @@ TEST_F(DealerTest, it_properly_distributes_robots) {
     // create a dealer whose 'getDefaultFlagScores' method always returns 1;
     MockDealer dealer(World::instance()->getWorld().value());
     ON_CALL(dealer, getDefaultFlagScores(_,_)).WillByDefault(Return(1));
-
 }
 
 /*
