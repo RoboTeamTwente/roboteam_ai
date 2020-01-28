@@ -3,7 +3,7 @@
 //
 
 #include <ApplicationManager.h>
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>
@@ -13,13 +13,11 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
-
 #include <bt/Node.hpp>
 #include <utilities/GameStateManager.hpp>
-
 #include "analysis/PlayChecker.h"
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 #include "utilities/Constants.h"
+
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;

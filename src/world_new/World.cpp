@@ -6,7 +6,7 @@
 
 #include <utility>
 
-#include "Settings/Settings.h"
+#include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/WorldDataView.hpp"
 
 namespace rtt::world_new {
