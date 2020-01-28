@@ -15,7 +15,7 @@ using::testing::_;
 class DealerTest : public ::testing::Test {
  protected:
   virtual void SetUp(){
-      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(11,11,true,testhelpers::FieldHelper::generateField());
+      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(11,11,false,testhelpers::FieldHelper::generateField());
       World::instance()->updateWorld(protoWorld);
       // expect we are yellow and we have 11 robots
       EXPECT_EQ(World::instance()->getWorld()->getThem().size(), 11);

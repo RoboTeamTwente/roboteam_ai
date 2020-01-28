@@ -158,6 +158,7 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
 proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::GeometryFieldSize &field) {
     proto::World msg;
 
+
     auto randomBall = generateRandomBall(field);
     auto randomYellow = generateRandomRobots(amountUs, field);
     auto randomBlue = generateRandomRobots(amountThem, field);
@@ -172,8 +173,12 @@ proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBal
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
 
-        if (withBall) msg.set_allocated_ball(randomBall);
-    } while (!allPositionsAreValid(msg, true));
+        if (withBall) {
+            std::cerr << "[WorldHelper] Caution: generating a world with a ball is not stable!" << std::endl;
+            msg.set_allocated_ball(randomBall);
+        }
+    } while (!allPositionsAreValid(msg, withBall));
+
     return msg;
 }
 
