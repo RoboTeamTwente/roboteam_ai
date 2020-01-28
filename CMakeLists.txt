@@ -31,7 +31,9 @@ if(APPLE)
 else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
-    set(GTEST_LIB PRIVATE gtest)
+    set(GTEST_LIB
+            PRIVATE gtest
+            PRIVATE gmock)
 endif()
 
 find_package(Qt5Charts REQUIRED)
