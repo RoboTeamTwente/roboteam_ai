@@ -12,25 +12,30 @@ using namespace rtt::world_new::robot;
 using ::testing::Return;
 using::testing::_;
 
+/*
+ * @brief Fixture for the dealing test
+ *
+ * Every Test case will be booted with a world with 11+11 robots and no ball.
+ */
 class DealerTest : public ::testing::Test {
  protected:
+  // DO NOT OVERRIDE STYLING ACCORDING TO CLANG TIDY
   virtual void SetUp(){
       auto protoWorld = testhelpers::WorldHelper::getWorldMsg(11,11,false,testhelpers::FieldHelper::generateField());
       World::instance()->updateWorld(protoWorld);
-      // expect we are yellow and we have 11 robots
-      EXPECT_EQ(World::instance()->getWorld()->getThem().size(), 11);
   }
 };
 
+/*
+ * @brief Mock class for Dealer.
+ *
+ * The getDefaultFlagScores() function can be overridden,
+ * Since it brings in a lot of uncertainty from world and field.
+ */
 class MockDealer : public rtt::ai::Dealer {
  public:
-  explicit MockDealer(v::WorldDataView world)
-        : Dealer(world, nullptr) {}
-
-  MOCK_METHOD(double,
-              getDefaultFlagScores,
-              (const RobotView &robot, const Dealer::DealerFlag &flag),
-              (override));
+  explicit MockDealer(v::WorldDataView world) : Dealer(world, nullptr) {}
+  MOCK_METHOD(double, getDefaultFlagScores, (const RobotView &robot, const Dealer::DealerFlag &flag), (override));
 };
 
 /*
@@ -40,6 +45,29 @@ TEST_F(DealerTest, it_properly_distributes_robots) {
     // create a dealer whose 'getDefaultFlagScores' method always returns 1;
     MockDealer dealer(World::instance()->getWorld().value());
     ON_CALL(dealer, getDefaultFlagScores(_,_)).WillByDefault(Return(1));
+
+    Dealer::FlagMap flagMap;
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+
+    flagMap.insert({"Test_role_1", {closeToBallFlag}});
+    flagMap.insert({"Test_role_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"Test_role_3", {closeToTheirGoalFlag, closeToBallFlag}});
+
+    auto matrix = dealer.getScoreMatrix(World::instance()->getWorld()->getUs(), flagMap);
+    EXPECT_EQ(matrix.size(), 11); // columns
+    EXPECT_EQ(matrix.at(0).size(), 3); // rows
+
+    // the values inside the matrix
+    EXPECT_DOUBLE_EQ(matrix[0][0], 5);
+    EXPECT_DOUBLE_EQ(matrix[0][1], 2);
+    EXPECT_DOUBLE_EQ(matrix[0][2], 3);
+    EXPECT_DOUBLE_EQ(matrix[1][0], 5);
+    EXPECT_DOUBLE_EQ(matrix[1][1], 2);
+    EXPECT_DOUBLE_EQ(matrix[1][2], 3);
+    EXPECT_DOUBLE_EQ(matrix[2][0], 5);
+    EXPECT_DOUBLE_EQ(matrix[2][1], 2);
+    EXPECT_DOUBLE_EQ(matrix[2][2], 3);
 }
 
 /*

@@ -12,7 +12,7 @@ Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priorit
     : title(std::move(title)), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::RobotView> allRobots, const FlagMap &flagMap) {
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> allRobots, const FlagMap &flagMap) {
     std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap);
     std::vector<int> assignment;
 
@@ -50,19 +50,20 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
  * role_3     22       1      2
  * ---------------------------------
  */
-std::vector<vector<double>> Dealer::getScoreMatrix(std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
+std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
     vector<vector<double>> scores;
     for (int column = 0; column < allRobots.size(); column++) {
         auto robot = allRobots.at(column);
-        int row = 0;
+
+        std::vector<double> row;
         for (auto const& [roleName, dealerFlags] : flagMap) {
             double robotScore = 0;
             for (auto flag : dealerFlags) {
                 robotScore += getScoreForFlag(robot, flag);
             }
-            scores[column][row] = robotScore;
-            row++;
+            row.push_back(robotScore);
         }
+        scores.push_back(row);
     }
     return scores;
 }
