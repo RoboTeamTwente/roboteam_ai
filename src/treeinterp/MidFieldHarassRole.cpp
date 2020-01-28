@@ -4,8 +4,8 @@
 
 #include "include/roboteam_ai/treeinterp/MidFieldHarassRole.h"
 
-#include <include/roboteam_ai/TreeHelper/BeingPassedToHelper.h>
-#include <include/roboteam_ai/TreeHelper/RobotOutOfFieldHelper.h>
+#include <include/roboteam_ai/treehelpers/BeingPassedToHelper.h>
+#include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
 #include <include/roboteam_ai/conditions/BallOutOfField.h>
 #include <include/roboteam_ai/conditions/HasClearShot.h>
 #include <include/roboteam_ai/conditions/IsOnPassLine.h>
@@ -13,8 +13,6 @@
 #include <include/roboteam_ai/skills/AvoidBall.h>
 #include <include/roboteam_ai/skills/MidFieldHarasser.h>
 #include <include/roboteam_ai/skills/Pass.h>
-#include <include/roboteam_ai/treeinterp/PassRole.h>
-
 #include <include/roboteam_ai/bt/composites/MemSelector.hpp>
 #include <include/roboteam_ai/bt/composites/Selector.hpp>
 #include <include/roboteam_ai/bt/composites/Sequence.hpp>

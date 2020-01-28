@@ -6,8 +6,8 @@
 #define ROBOTEAM_AI_GOTOPOS_H
 
 #include <control/BasicPosControl.h>
-#include <control/ballHandling/BallHandlePosControl.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/ball-handling/BallHandlePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "skills/Skill.h"
 
 namespace rtt::ai {

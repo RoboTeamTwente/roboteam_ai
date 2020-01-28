@@ -4,13 +4,13 @@
 
 #include "world/Robot.h"
 
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 
 #include "control/BasicPosControl.h"
 #include "control/ControlUtils.h"
-#include "control/ballHandling/BallHandlePosControl.h"
-#include "control/numTrees/NumTreePosControl.h"
-#include "control/shotControllers/ShotController.h"
+#include "control/ball-handling/BallHandlePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
+#include "control/shot-controllers/ShotController.h"
 #include "world/Ball.h"
 #include "world/World.h"
 

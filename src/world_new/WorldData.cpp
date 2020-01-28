@@ -4,7 +4,7 @@
 
 #include "world_new/WorldData.hpp"
 
-#include "Settings/Settings.h"
+#include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/Robot.hpp"
 #include "world_new/Team.hpp"
 

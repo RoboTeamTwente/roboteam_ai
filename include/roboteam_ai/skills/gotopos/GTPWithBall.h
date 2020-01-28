@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_GTPWITHBALL_H
 #define ROBOTEAM_AI_GTPWITHBALL_H
 
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
 #include "skills/Skill.h"
 
 namespace rtt::ai {

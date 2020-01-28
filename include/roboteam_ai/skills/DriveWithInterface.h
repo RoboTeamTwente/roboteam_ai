@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 #define ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {

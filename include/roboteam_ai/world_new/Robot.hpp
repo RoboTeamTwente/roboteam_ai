@@ -7,14 +7,11 @@
 
 #include <roboteam_proto/RobotFeedback.pb.h>
 #include "roboteam_utils/Angle.h"
-
 #include "roboteam_proto/WorldRobot.pb.h"
-
-
-#include "control/shotControllers/ShotController.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/shot-controllers/ShotController.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "control/BasicPosControl.h"
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
 #include "world_new/Team.hpp"
 #include "RobotType.hpp"
 
