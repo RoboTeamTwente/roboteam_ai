@@ -5,8 +5,8 @@
 #include "skills/gotopos/SkillGoToPos.h"
 
 #include <control/BasicPosControl.h>
-#include <control/ballHandling/BallHandlePosControl.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/ball-handling/BallHandlePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 
 namespace rtt::ai {
 

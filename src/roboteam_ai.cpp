@@ -1,4 +1,4 @@
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <utilities/Constants.h>
 
 #include <QApplication>
@@ -69,8 +69,7 @@ int main(int argc, char* argv[]) {
     rtt::ai::io::io.init();
 
     BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees())
-        ;
+    while (!BTFactory::hasMadeTrees());
 
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 

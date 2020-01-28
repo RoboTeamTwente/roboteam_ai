@@ -4,7 +4,7 @@
 
 #include "skills/FreeKickPass.h"
 
-#include <control/ballHandling/BallHandlePosControl.h>
+#include <control/ball-handling/BallHandlePosControl.h>
 
 namespace rtt::ai {
 
