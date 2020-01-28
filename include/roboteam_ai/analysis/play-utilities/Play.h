@@ -24,7 +24,7 @@ class Play {
     bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
     // TODO: Move this to the derived class
     /**
-     * Returns a score based on how fitting this play is given a world and field state
+     * Returns a score based on how fitting this play is given a world and field state (currently hardcoded, should be moved to derived classes)
      * @param world the current world
      * @param field the current field
      * @return a score between 0 and 10, 10 being the best
