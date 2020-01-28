@@ -15,7 +15,7 @@
 #include <world/World.h>
 #include <bt/Node.hpp>
 #include <utilities/GameStateManager.hpp>
-#include "analysis/PlayChecker.h"
+#include "include/roboteam_ai/analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;

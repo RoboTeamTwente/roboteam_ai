@@ -55,7 +55,6 @@ class BTFactory {
     static std::string keeperTree;
     static bool weMadeTrees;
     static std::shared_ptr<rtt::ai::analysis::Play> play;
-    static std::shared_ptr<bt::BehaviorTree> testing_tree;
 };
 
 #endif  // ROBOTEAM_AI_BTFACTORY_H

@@ -2,7 +2,7 @@
 // Created by jessevw on 04.12.19.
 //
 
-#include "analysis/PlayChecker.h"
+#include "include/roboteam_ai/analysis/play-utilities/PlayChecker.h"
 
 #include <include/roboteam_ai/analysis/play-utilities/invariants/AlwaysTrueInvariant.h>
 
