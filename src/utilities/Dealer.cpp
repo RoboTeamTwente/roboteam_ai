@@ -1,36 +1,51 @@
 #include "include/roboteam_ai/utilities/Dealer.h"
 
+
 namespace rtt::ai {
 
+// DealerFlag constructor
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, bool important)
     : title(std::move(title)), important(important) {}
 
+// Role constructor
 Dealer::Role::Role(std::string roleName, int robot) : name(std::move(roleName)), robotId(robot) {}
 
+/*
+ *
+ * Claim a Robot for a specific rolename and a set of flags
+ */
 std::optional<int> Dealer::claimRobot(std::vector<int> allRobots, const std::string& roleName, std::vector<DealerFlag> flags, bool allowShuffle) {
     if (claimedRoles.count(roleName) == 0) {
         auto robot = getOptimalRobot(std::move(allRobots), {});
         if (robot) {
-            auto newRole = Role(roleName, robot.value());
+            auto newRobotId = robot.value();
+            auto newRole = Role(roleName, newRobotId);
             claimedRoles.insert({roleName, newRole});
-        } else {
-            std::cerr << "[Dealer] Could not find optimal robot for role: " << roleName << std::endl;
-            return std::nullopt;
+            return std::optional<int>(newRobotId);
         }
+        std::cerr << "[Dealer] Could not find optimal robot for role: " << roleName << std::endl;
+        return std::nullopt;
     }
     std::cout << "[Dealer] Robot was already claimed for role " << roleName << std::endl;
     return std::nullopt;
 }
 
+/*
+ *
+ * Free a robot
+ */
 void Dealer::freeRobot(const std::string& roleName) {
     if (claimedRoles.count(roleName) == 0) {
         std::cout << "[Dealer] Robot was already free for role: " << roleName << std::endl;
         return;
-    } else {
-        claimedRoles.erase(roleName);
     }
+    claimedRoles.erase(roleName);
 }
 
+/*
+ *
+ * Return roles of currently claimed robots
+ */
 std::vector<Dealer::Role> Dealer::getClaimedRoles() {
     std::vector<Role> vec;
     for (const auto& pair : claimedRoles) {
@@ -39,6 +54,10 @@ std::vector<Dealer::Role> Dealer::getClaimedRoles() {
     return vec;
 }
 
+/*
+ *
+ * Return all the ids of currently claimed robots
+ */
 std::vector<int> Dealer::getClaimedRobotIds() {
     std::vector<int> claimedRobotIds;
     for (const auto& pair : claimedRoles) {
@@ -47,6 +66,10 @@ std::vector<int> Dealer::getClaimedRobotIds() {
     return claimedRobotIds;
 }
 
+/*
+ *
+ * Free all robots
+ */
 void Dealer::freeAllRobots() {
     claimedRoles.clear();
 }
@@ -64,21 +87,23 @@ std::vector<int> Dealer::getFreeRobots(std::vector<int> allRobots, std::vector<i
 }
 
 std::optional<int> Dealer::getOptimalRobot(std::vector<int> allRobots, const std::unordered_map<std::string, std::vector<DealerFlag>>& flagMap) {
+
     // populate a matrix with scores
     std::vector<std::vector<double>> scores;
 
     for (int i = 0; i < allRobots.size(); i++) {
         auto robot = allRobots.at(i);
 
-        for (auto flagPair : flagMap) {
-            auto flagPair = flagMap.at(j);
+        int flagIndex = 0;
+        for (auto p : flagMap) {
             double robotScore = 0;
 
             // the list of flag enums is in second
-            for (auto flag : flagPair.second) {
-                robotScore += getRobotScore(robot, flag);
+            for (auto flag : p.second) {
+                robotScore += getScoreForFlag(robot, flag);
             }
-            scores[i][j] = robotScore;
+            scores[i][flagIndex] = robotScore;
+            flagIndex++;
         }
     }
 
