@@ -3,11 +3,14 @@
 //
 
 #include <include/roboteam_ai/utilities/Settings.h>
+#include <include/roboteam_ai/world_new/World.hpp>
+
 #include <gtest/gtest.h>
 #include <utilities/Constants.h>
 #include <utilities/RobotDealer.h>
-
 #include <QtWidgets/QApplication>
+#include <roboteam_proto/World.pb.h>
+
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);

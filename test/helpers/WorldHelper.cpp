@@ -1,15 +1,7 @@
 #include <random>
-
-//
-// Created by mrlukasbos on 14-1-19.
-//
-
 #include <roboteam_proto/World.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 #include <roboteam_utils/Vector2.h>
-
-#include <random>
-
 #include "WorldHelper.h"
 #include "world/Robot.h"
 #include "world/World.h"
@@ -180,7 +172,7 @@ proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBal
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
 
-        if (withBall) msg.set_allocated_ball(&randomBall);
+        if (withBall) msg.set_allocated_ball(&randomBall); // TODO this is broken
     } while (!allPositionsAreValid(msg, true));
     return msg;
 }
