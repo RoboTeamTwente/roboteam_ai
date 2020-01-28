@@ -199,15 +199,14 @@ NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &t
     //TODO: workaround warning: used half the distance instead of collision distance
     Vector2 collisionPosition = (collisionPoint->parent->pos + collisionPoint->pos)/2;
     Vector2 deltaPosition = collisionPosition - collisionPoint->pos;
-    double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS;
     int factor = collisionPoint->collisions - startPoint->collisions;
 
     // get positions left and right, perpendicular to the vector towards collision, next to the collisionPoint
     Vector2 leftTargetPosition = collisionPoint->pos +
-                                 Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
+                                 Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(DEFAULT_ROBOT_COLLISION_RADIUS*sqrt(factor)*1.2);
 
     Vector2 rightTargetPosition = collisionPoint->pos +
-                                  Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(- collisionRadius*sqrt(factor)*1.2);
+                                  Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(- DEFAULT_ROBOT_COLLISION_RADIUS*sqrt(factor)*1.2);
 
     // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};

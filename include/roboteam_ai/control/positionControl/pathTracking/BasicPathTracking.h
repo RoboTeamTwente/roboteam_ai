@@ -8,6 +8,7 @@
 
 #include "utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/Position.h"
 
 namespace rtt::ai::control{
 
@@ -16,9 +17,9 @@ namespace rtt::ai::control{
  */
 class BasicPathTracking {
 private:
-    double maxVelocity = rtt::ai::Constants::MAX_VEL();
+    static constexpr double MAX_VELOCITY = Constants::MAX_VEL();
     // minimum distance needed to consider the current target reached
-    double minimumDistance = 2*rtt::ai::Constants::ROBOT_RADIUS();
+    static constexpr double MIN_DISTANCE = 2 * Constants::ROBOT_RADIUS();
 
 public:
     /**
@@ -32,8 +33,8 @@ public:
      * @param outputVelocity control velocity that will be outputted to the robot at the current tick
      * @param outputAngle the resulting orientation of the robot at the current tick
      */
-    void trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-            std::vector<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle);
+    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+            std::vector<Vector2> &pathPoints);
 };
 }
 

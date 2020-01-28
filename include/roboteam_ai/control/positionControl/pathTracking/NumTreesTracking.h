@@ -8,6 +8,7 @@
 #include "utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "PidTracking.h"
+#include "roboteam_utils/Position.h"
 
 namespace rtt::ai::control{
 
@@ -18,6 +19,7 @@ class NumTreesTracking {
 private:
     double minimumDistance = 2*Constants::ROBOT_RADIUS();
     unsigned long stepsAhead = 4;
+
 
     PidTracking pidTracking;
 public:
@@ -32,8 +34,7 @@ public:
      * @param outputVelocity control velocity that will be outputted to the robot at the current tick
      * @param outputAngle the resulting orientation of the robot at the current tick
      */
-    void trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                   std::vector<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle);
+    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints);
 };
 
 }

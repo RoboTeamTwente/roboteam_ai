@@ -11,17 +11,17 @@ PidTracking::PidTracking(){
     yPid.setMaxIOutput(maxVelocity);
 }
 
-void PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                              std::vector<Vector2> &pathPoints, Vector2 &outputVelocity,
-                                              double &outputAngle) {
+Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+                                              std::vector<Vector2> &pathPoints) {
     if (pathPoints.size() > 1 && (pathPoints.front() - currentPosition).length() < minimumDistance){
         pathPoints.erase(pathPoints.begin());
     }
     updatePidValues();
 
-    outputVelocity.x = xPid.getOutput(currentPosition.x, pathPoints.front().x);
-    outputVelocity.y = yPid.getOutput(currentPosition.y, pathPoints.front().y);
-    outputAngle = outputVelocity.angle();
+    Vector2 velocity;
+    velocity.x = xPid.getOutput(currentPosition.x, pathPoints.front().x);
+    velocity.y = yPid.getOutput(currentPosition.y, pathPoints.front().y);
+    return Position(velocity, velocity.angle());
 }
 
 void PidTracking::updatePidValues(){

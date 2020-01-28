@@ -25,15 +25,10 @@ PositionControl::computeAndTrackPath(world::Field *field, int robotId, const Vec
     }
 
     RobotCommand command = RobotCommand();
-    double angle = 0;
     command.pos = computedPaths[robotId].front();
-    pathTrackingAlgorithm->trackPath(
-            currentPosition,
-            currentVelocity,
-            computedPaths[robotId],
-            command.vel,
-            angle);
-    command.angle = angle;
+    Position trackingVelocity = pathTrackingAlgorithm->trackPath(currentPosition, currentVelocity,computedPaths[robotId]);
+    command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
+    command.angle = trackingVelocity.rot;
 
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);

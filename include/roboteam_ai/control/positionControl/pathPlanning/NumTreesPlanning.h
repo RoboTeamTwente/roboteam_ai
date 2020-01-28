@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "roboteam_utils/Vector2.h"
-#include "control/numTrees/PathPoint.h"
+#include "control/numtrees/PathPoint.h"
 #include "utilities/GameStateManager.hpp"
 #include "utilities/Constants.h"
 #include <queue>
@@ -27,7 +27,7 @@ private:
 
     double DT = 0.1;
     static constexpr double MAX_CALCULATION_TIME = 10.0;
-    static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 3 * Constants::ROBOT_RADIUS();
+    static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 4 * Constants::ROBOT_RADIUS();
 
     CollisionDetector collisionDetector;
 

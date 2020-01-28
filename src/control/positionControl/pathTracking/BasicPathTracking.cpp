@@ -6,19 +6,18 @@
 
 namespace rtt::ai::control{
 
-void BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-        std::vector<Vector2> &pathPoints, Vector2 &outputVelocity, double &outputAngle) {
-    if (pathPoints.size() > 1 && (pathPoints.front() - currentPosition).length() < minimumDistance){
+Position BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+        std::vector<Vector2> &pathPoints) {
+    if (pathPoints.size() > 1 && (pathPoints.front() - currentPosition).length() < MIN_DISTANCE){
         pathPoints.erase(pathPoints.begin());
     }
 
     Vector2 velocity = pathPoints.front() - currentPosition;
 
-    if (velocity.length() > maxVelocity){
-        velocity = velocity.stretchToLength(maxVelocity);
+    if (velocity.length() > MAX_VELOCITY) {
+        velocity = velocity.stretchToLength(MAX_VELOCITY);
     }
 
-    outputVelocity = velocity;
-    outputAngle = velocity.angle();
+    return Position(velocity, velocity.angle());
 }
 }
