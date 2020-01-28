@@ -12,9 +12,12 @@
 #include <iostream>
 #include "gtest/gtest_prod.h"
 #include <functional>
+#include "include/roboteam_ai/world_new/views/RobotView.hpp"
+#include "include/roboteam_ai/world_new/views/WorldDataView.hpp"
 
 namespace rtt::ai {
 
+namespace v = rtt::world_new::view;
 
 /*
  * Set up a struct for dealerflags.
@@ -29,31 +32,34 @@ enum class DealerFlagTitle {
   ROBOT_TYPE_30W,
 };
 
+enum class DealerFlagPriority {
+  LOW_PRIORITY,
+  MEDIUM_PRIORITY,
+  HIGH_PRIORITY,
+};
+
+struct Data {
+  v::WorldDataView world;
+  world::Field * field; // TODO make this neater after field refactor
+};
+
 class Dealer {
   FRIEND_TEST(DealerTest, it_claims);
 
   struct DealerFlag {
     DealerFlagTitle title;
-    bool important;
-    explicit DealerFlag(DealerFlagTitle title, bool important);
+    DealerFlagPriority priority;
+    explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority important);
   };
-
-  struct Role {
-    std::string name;
-    int robotId;
-    explicit Role(std::string roleName, int robotId);
-  };
-
   using FlagMap = std::unordered_map<std::string, std::vector<DealerFlag>>;
-
- private:
-  std::unordered_map<std::string, Role> claimedRoles;
 
  public:
   Dealer() = default;
-  std::unordered_map<std::string, int> distribute(std::vector<int> allRobots, const FlagMap& flagMap);
-  int getScoreForFlag(int robotId, DealerFlag flag);
-  std::vector<std::vector<double>> getScoreMatrix(std::vector<int> &allRobots, const FlagMap &flagMap);
+  std::unordered_map<std::string, v::RobotView> distribute(const Data& data, std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
+  double getScoreForFlag(const Data& data, v::RobotView robot, DealerFlag flag);
+  std::vector<std::vector<double>> getScoreMatrix(const Data& data, std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
+  double getDefaultFlagScores(const Data& data, const v::RobotView &robot, const DealerFlag &flag) const;
+  double getFactorForPriority(const DealerFlag &flag) const;
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

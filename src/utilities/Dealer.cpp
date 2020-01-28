@@ -4,15 +4,12 @@
 namespace rtt::ai {
 
 // DealerFlag constructor
-Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, bool important)
-    : title(std::move(title)), important(important) {}
-
-// Role constructor
-Dealer::Role::Role(std::string roleName, int robot) : name(std::move(roleName)), robotId(robot) {}
+Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority)
+    : title(std::move(title)), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, int> Dealer::distribute(std::vector<int> allRobots, const FlagMap &flagMap) {
-    std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap);
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(const Data& data, std::vector<v::RobotView> allRobots, const FlagMap &flagMap) {
+    std::vector<std::vector<double>> scores = getScoreMatrix(data, allRobots, flagMap);
     std::vector<int> assignment;
 
     // solve the matrix and put the results in 'assignment'
@@ -29,9 +26,14 @@ std::unordered_map<std::string, int> Dealer::distribute(std::vector<int> allRobo
      * and roleNames[0] = role_1
      * --> we can therefore make a map of <rolename, robot_id>
      */
-    std::unordered_map<std::string, int> result;
+    std::unordered_map<std::string, v::RobotView> result;
     for (int i = 0; i < roleNames.size(); i++) {
-        result.insert({roleNames[i], assignment[i]});
+        auto robot = data.world.getRobotForId(assignment[i]);
+        if (robot) {
+            result.insert({roleNames[i], robot.value()});
+        } else {
+            std::cerr << "[Dealer] A robot was assigned but it got removed from world!" << std::endl;
+        }
     }
     return result;
 }
@@ -44,8 +46,7 @@ std::unordered_map<std::string, int> Dealer::distribute(std::vector<int> allRobo
  * role_3     22       1      2
  * ---------------------------------
  */
-// TODO 'invert' the matrix scores
-std::vector<vector<double>> Dealer::getScoreMatrix(vector<int> &allRobots, const Dealer::FlagMap &flagMap) {
+std::vector<vector<double>> Dealer::getScoreMatrix(const Data& data, std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
     vector<vector<double>> scores;
     for (int column = 0; column < allRobots.size(); column++) {
         auto robot = allRobots.at(column);
@@ -53,7 +54,7 @@ std::vector<vector<double>> Dealer::getScoreMatrix(vector<int> &allRobots, const
         for (auto const& [roleName, dealerFlags] : flagMap) {
             double robotScore = 0;
             for (auto flag : dealerFlags) {
-                robotScore += getScoreForFlag(robot, flag);
+                robotScore += getScoreForFlag(data, robot, flag);
             }
             scores[column][row] = robotScore;
             row++;
@@ -62,24 +63,41 @@ std::vector<vector<double>> Dealer::getScoreMatrix(vector<int> &allRobots, const
     return scores;
 }
 
-int Dealer::getScoreForFlag(int robotId, Dealer::DealerFlag flag) {
+double Dealer::getScoreForFlag(const Data& data, v::RobotView robot, Dealer::DealerFlag flag) {
+    double factor = getFactorForPriority(flag);
+    return factor * getDefaultFlagScores(data, robot, flag);
+}
+
+double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) const {
+    switch (flag.priority) {
+        case DealerFlagPriority::LOW_PRIORITY: return 1.0;
+        case DealerFlagPriority::MEDIUM_PRIORITY: return 2.0;
+        case DealerFlagPriority::HIGH_PRIORITY: return 3.0;
+    }
+}
+
+// TODO 'invert' the matrix scores
+double Dealer::getDefaultFlagScores(const Data& data, const v::RobotView &robot, const Dealer::DealerFlag &flag) const {
+    auto world = data.world;
+    auto field = data.field;
 
     switch (flag.title) {
         case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: {
-            return 0;
+            return field->getDistanceToGoal(false, robot->getPos());
         }
         case DealerFlagTitle::CLOSE_TO_OUR_GOAL: {
-            return 0;
+            return field->getDistanceToGoal(true, robot->getPos());
         }
         case DealerFlagTitle::CLOSE_TO_BALL: {
-            return 0;
+            auto ball = world.getBall();
+            if (!ball) return 0;
+            return robot->getPos().dist(ball.value()->getPos());
         }
         default: {
-            std::cerr << "[Dealer] Unhandled dealerflag!" << std::endl;
+            std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
             return 0;
         }
     }
 }
-
 
 } // rtt::ai
