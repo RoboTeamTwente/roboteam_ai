@@ -98,19 +98,19 @@ proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldS
 /*
  * Generate a ball at a random position
  */
-proto::WorldBall WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
+proto::WorldBall * WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
-    proto::WorldBall ball;
-    ball.mutable_pos()->set_x(randomFieldPos.x);
-    ball.mutable_pos()->set_y(randomFieldPos.y);
+    auto ball = new proto::WorldBall;
+    ball->mutable_pos()->set_x(randomFieldPos.x);
+    ball->mutable_pos()->set_y(randomFieldPos.y);
 
-    ball.mutable_vel()->set_x(randomVel.x);
-    ball.mutable_vel()->set_y(randomVel.x);
+    ball->mutable_vel()->set_x(randomVel.x);
+    ball->mutable_vel()->set_y(randomVel.x);
 
-    ball.set_visible(true);
-    ball.set_area(99999);
+    ball->set_visible(true);
+    ball->set_area(99999);
     return ball;
 }
 
@@ -172,7 +172,7 @@ proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBal
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
 
-        if (withBall) msg.set_allocated_ball(&randomBall); // TODO this is broken
+        if (withBall) msg.set_allocated_ball(randomBall);
     } while (!allPositionsAreValid(msg, true));
     return msg;
 }

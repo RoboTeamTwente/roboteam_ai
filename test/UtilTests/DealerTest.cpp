@@ -15,8 +15,10 @@ using::testing::_;
 class DealerTest : public ::testing::Test {
  protected:
   virtual void SetUp(){
-      proto::World emptyWorld;
-      rtt::world_new::World::instance()->updateWorld(emptyWorld);
+      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(11,11,true,testhelpers::FieldHelper::generateField());
+      World::instance()->updateWorld(protoWorld);
+      // expect we are yellow and we have 11 robots
+      EXPECT_EQ(World::instance()->getWorld()->getThem().size(), 11);
   }
 };
 
@@ -35,15 +37,10 @@ class MockDealer : public rtt::ai::Dealer {
  * Check if the robots are properly distributed
  */
 TEST_F(DealerTest, it_properly_distributes_robots) {
-    auto protoWorld = testhelpers::WorldHelper::getWorldMsg(11,11,false,testhelpers::FieldHelper::generateField());
-    World::instance()->updateWorld(protoWorld);
-
-    // expect we are yellow and we have 11 robots
-    EXPECT_EQ(World::instance()->getWorld()->getThem().size(), 11);
-
     // create a dealer whose 'getDefaultFlagScores' method always returns 1;
     MockDealer dealer(World::instance()->getWorld().value());
     ON_CALL(dealer, getDefaultFlagScores(_,_)).WillByDefault(Return(1));
+
 }
 
 /*
@@ -56,9 +53,9 @@ TEST_F(DealerTest, the_score_factor_increases_with_priority) {
     Dealer::DealerFlag mediumPriorityFlag(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag lowPriorityFlag(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
-    auto priority1 = dealer.getFactorForPriority(lowPriorityFlag);
-    auto priority2 = dealer.getFactorForPriority(mediumPriorityFlag);
-    auto priority3 = dealer.getFactorForPriority(highPriorityFlag);
+    auto priority1 = MockDealer::getFactorForPriority(lowPriorityFlag);
+    auto priority2 = MockDealer::getFactorForPriority(mediumPriorityFlag);
+    auto priority3 = MockDealer::getFactorForPriority(highPriorityFlag);
     EXPECT_LT(priority1, priority2);
     EXPECT_LT(priority2, priority3);
 }
