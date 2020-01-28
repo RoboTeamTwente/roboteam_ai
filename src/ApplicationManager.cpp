@@ -60,9 +60,8 @@ void ApplicationManager::start() {
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
-
-        playChecker.update(rtt::ai::world::world, rtt::ai::world::field);
-
+        // TODO: connect this to actual plays
+        //decidePlay(world, field);
         updateTrees();
         updateCoaches();
         runKeeperTree();

@@ -28,7 +28,8 @@ class Play {
      * @return true if all the invariants of this strategy are true
      */
     bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
-    int scorePlay(world::World* world, world::Field* field);
+    // TODO: Move this to the derived class
+    int scorePlay(world::World* world, world::Field* field) {return 1;};
     std::string getName();
 
    protected:
