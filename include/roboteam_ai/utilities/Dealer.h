@@ -38,13 +38,11 @@ enum class DealerFlagPriority {
   HIGH_PRIORITY,
 };
 
-struct Data {
-  v::WorldDataView world;
-  world::Field * field; // TODO make this neater after field refactor
-};
-
 class Dealer {
   FRIEND_TEST(DealerTest, it_properly_distributes_robots);
+ private:
+  v::WorldDataView world;
+  world::Field * field;
 
  public:
   struct DealerFlag {
@@ -54,15 +52,15 @@ class Dealer {
   };
 
   using FlagMap = std::unordered_map<std::string, std::vector<DealerFlag>>;
-  Dealer() = default;
-  std::unordered_map<std::string, v::RobotView> distribute(const Data& data, std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
-  double getScoreForFlag(const Data& data, v::RobotView robot, DealerFlag flag);
-  std::vector<std::vector<double>> getScoreMatrix(const Data& data, std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
+  Dealer(v::WorldDataView world, world::Field * field);
+  std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
+  double getScoreForFlag(v::RobotView robot, DealerFlag flag);
+  std::vector<std::vector<double>> getScoreMatrix(std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
+  static double getFactorForPriority(const DealerFlag &flag);
 
   // This function is virtual such that it can be mocked in the tests.
   // the performance hit is minimal (in the scope of nanoseconds)
-  virtual double getDefaultFlagScores(const Data& data, const v::RobotView &robot, const DealerFlag &flag) ;
-  double getFactorForPriority(const DealerFlag &flag);
+  virtual double getDefaultFlagScores(const v::RobotView &robot, const DealerFlag &flag) ;
   virtual ~Dealer() = default;
 
 };
