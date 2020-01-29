@@ -23,7 +23,7 @@ void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
     std::cout << "Re-Make Trees From Json" << std::endl;
-    BTFactory::play = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("hello");
+    BTFactory::play = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("initial pass and play play");
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
      * In order to do this in a cleaner way, maybe build trees automatically by going through directory

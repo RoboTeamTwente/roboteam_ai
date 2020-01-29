@@ -89,6 +89,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Plays/PassAndPlayPlay.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Plays/PassAndAttackPlay.cpp
         )
 
 set(UTILS_SOURCES

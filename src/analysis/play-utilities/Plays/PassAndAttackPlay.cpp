@@ -1,5 +1,5 @@
 //
-// Created by jessevw on 14.01.20.
+// Created by jessevw on 29.01.20.
 //
 
 #include "skills/Halt.h"
@@ -9,7 +9,7 @@
 #include "skills/Pass.h"
 #include "analysis/play-utilities/invariants/BallBelongsToUsInvariant.h"
 #include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
-#include "analysis/play-utilities/Plays/PassAndPlayPlay.h"
+#include "analysis/play-utilities/Plays/PassAndAttackPlay.h"
 #include "bt/Role.h"
 #include "bt/tactics/DefaultTactic.h"
 #include "bt/composites/Sequence.hpp"
@@ -17,36 +17,33 @@
 #include "bt/BehaviorTree.hpp"
 
 namespace rtt::ai::analysis {
-    PassAndPlayPlay::PassAndPlayPlay(std::string name) : Play(name) {
+    PassAndAttackPlay::PassAndAttackPlay(std::string name) : Play(name) {
         tree = std::make_shared<bt::BehaviorTree>();
         makeTree();
     }
 
-    void PassAndPlayPlay::executePlay(world::World *world, world::Field *field) {
+    void PassAndAttackPlay::executePlay(world::World *world, world::Field *field) {
 
     }
 
-    bool PassAndPlayPlay::isValidPlayToKeep(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+    bool PassAndAttackPlay::isValidPlayToKeep(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        return BallBelongsToUsInvariant::isValid(world, field);
+    }
+
+    bool PassAndAttackPlay::isValidPlayToStart(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         return true;
     }
 
-    bool PassAndPlayPlay::isValidPlayToStart(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        return BallOnOurSideInvariant::isValid(world, field);
-    }
 
-
-    uint8_t PassAndPlayPlay::scorePlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        int score = 9;
-        if (BallBelongsToUsInvariant::isValid(world, field)) {
-            score = 10;
-        }
+    uint8_t PassAndAttackPlay::scorePlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+        int score = 3;
         return score;
     }
 
     /**
      * The numbers in this function are magic by design :D
      */
-    void PassAndPlayPlay::makeTree() {
+    void PassAndAttackPlay::makeTree() {
         auto bb = std::make_shared<bt::Blackboard>();
         std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots = {
                 {"o1", rtt::ai::robotDealer::RobotType::RANDOM},
