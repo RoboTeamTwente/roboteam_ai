@@ -32,13 +32,13 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
      */
     std::unordered_map<std::string, v::RobotView> result;
     for (int i = 0; i < roleNames.size(); i++) {
-        auto robot = world.getRobotForId(assignment[i]);
-        if (robot) {
-            result.insert({roleNames[i], robot.value()});
-        } else {
-            std::cerr << "[Dealer] A robot was assigned but it got removed from world!" << std::endl;
+        for (auto robot : allRobots) {
+            if (robot->getId() == assignment[i]) {
+                result.insert({roleNames[i], robot});
+            }
         }
     }
+
     return result;
 }
 

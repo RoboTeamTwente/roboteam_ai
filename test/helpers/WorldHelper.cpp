@@ -78,20 +78,18 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 /*
  * Generate a robot on a random position
  */
-proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
+proto::WorldRobot * WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
-    proto::WorldRobot robot;
-    robot.set_id((unsigned)id);
-    robot.mutable_pos()->set_x(randomFieldPos.x);
-    robot.mutable_pos()->set_y(randomFieldPos.y);
-    robot.set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
-
-    robot.mutable_vel()->set_x(randomVel.x);
-    robot.mutable_vel()->set_y(randomVel.x);
-
-    robot.set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
+    auto robot = new proto::WorldRobot();
+    robot->set_id((unsigned)id);
+    robot->mutable_pos()->set_x(randomFieldPos.x);
+    robot->mutable_pos()->set_y(randomFieldPos.y);
+    robot->set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
+    robot->mutable_vel()->set_x(randomVel.x);
+    robot->mutable_vel()->set_y(randomVel.x);
+    robot->set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
     return robot;
 }
 
@@ -147,7 +145,7 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
     for (int i = 0; i < amount; i++) {
         auto randombot = generateRandomRobot(i, field);
         auto botmsg = robots.Add();
-        botmsg->CopyFrom(randombot);
+        botmsg->CopyFrom(*randombot);
     }
     return robots;
 }
@@ -155,13 +153,13 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
 /*
  * Generate a world message for both teams
  */
-proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::GeometryFieldSize &field) {
+proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool withBall, const proto::GeometryFieldSize &field) {
     proto::World msg;
 
 
     auto randomBall = generateRandomBall(field);
-    auto randomYellow = generateRandomRobots(amountUs, field);
-    auto randomBlue = generateRandomRobots(amountThem, field);
+    auto randomYellow = generateRandomRobots(amountYellow, field);
+    auto randomBlue = generateRandomRobots(amountBlue, field);
 
     //            auto copy = [&](const gen_ProposedSegment *) {
     //                auto temp_seg = this->add_proposedsegments();
@@ -186,7 +184,7 @@ proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBal
  * Generate a world message for both teams where one of the robots has the ball.
  * Returns the id of the robot with the ball and and the world message
  */
-std::pair<proto::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(int amountUs, int amountThem, bool weHaveBall, proto::GeometryFieldSize field) {
+std::pair<proto::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(int amountYellow, int amountBlue, bool weHaveBall, proto::GeometryFieldSize field) {
     // first create a message with both teams and a ball
     proto::World msg;
     rtt::Vector2 ballLocation;
@@ -194,7 +192,7 @@ std::pair<proto::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(int amoun
     int wrongMsg = 0;
     bool validWorld = false;
     while (!validWorld) {
-        msg = getWorldMsg(amountUs, amountThem, false, field);
+        msg = getWorldMsg(amountYellow, amountBlue, false, field);
         // determine a list with robots of which one should have the ball
         google::protobuf::RepeatedPtrField<proto::WorldRobot> robots = weHaveBall ? msg.yellow() : msg.blue();
         std::shuffle(robots.begin(), robots.end(), std::mt19937(std::random_device()()));

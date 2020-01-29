@@ -116,7 +116,13 @@ namespace rtt::world_new {
          */
          [[nodiscard]] size_t getHistorySize() const noexcept;
 
-    private:
+         /**
+          * Gets a copy of the settings
+          * @return a copy of the settings
+          */
+         [[nodiscard]] Settings getSettings() const noexcept;
+
+     private:
         /**
          * Upates the tickCount, sets lastTick to now(), sets duration to
          * oldNow - now();
@@ -138,13 +144,13 @@ namespace rtt::world_new {
         void toHistory(WorldData& world) noexcept;
 
         /**
-         * Pointer to GUI settings
+         * Pointer to settings
          */
         Settings* settings;
 
-        /**
-         * Mutex used when constructing robots to prevent updating of updateMap without wanting it
-         */
+      /**
+       * Mutex used when constructing robots to prevent updating of updateMap without wanting it
+       */
         std::mutex updateMutex;
 
         /**

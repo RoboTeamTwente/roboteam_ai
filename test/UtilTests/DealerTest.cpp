@@ -15,13 +15,18 @@ using::testing::_;
 /*
  * @brief Fixture for the dealing test
  *
- * Every Test case will be booted with a world with 11+11 robots and no ball.
+ * Every Test case will be booted with a world with 3+1 robots and no ball.
  */
 class DealerTest : public ::testing::Test {
  protected:
   // DO NOT OVERRIDE STYLING ACCORDING TO CLANG TIDY
   virtual void SetUp(){
-      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(11,11,false,testhelpers::FieldHelper::generateField());
+      int yellow = 1, blue = 3;
+      if (World::instance()->getSettings().isYellow()) {
+          yellow = 3;
+          blue = 1;
+      }
+      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(yellow,blue,false,testhelpers::FieldHelper::generateField());
       World::instance()->updateWorld(protoWorld);
   }
 };
@@ -45,17 +50,18 @@ TEST_F(DealerTest, it_properly_distributes_robots) {
     // create a dealer whose 'getDefaultFlagScores' method always returns 1;
     MockDealer dealer(World::instance()->getWorld().value());
     ON_CALL(dealer, getDefaultFlagScores(_,_)).WillByDefault(Return(1));
+    EXPECT_CALL(dealer, getDefaultFlagScores(_,_)).WillRepeatedly(Return(1));
 
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
 
-    flagMap.insert({"Test_role_1", {closeToBallFlag}});
-    flagMap.insert({"Test_role_2", {closeToTheirGoalFlag}});
-    flagMap.insert({"Test_role_3", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_1", {closeToBallFlag}});
+    flagMap.insert({"test_role_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_3", {closeToTheirGoalFlag, closeToBallFlag}});
 
     auto matrix = dealer.getScoreMatrix(World::instance()->getWorld()->getUs(), flagMap);
-    EXPECT_EQ(matrix.size(), 11); // columns
+    EXPECT_EQ(matrix.size(), 3); // columns
     EXPECT_EQ(matrix.at(0).size(), 3); // rows
 
     // the values inside the matrix
@@ -68,7 +74,14 @@ TEST_F(DealerTest, it_properly_distributes_robots) {
     EXPECT_DOUBLE_EQ(matrix[2][0], 5);
     EXPECT_DOUBLE_EQ(matrix[2][1], 2);
     EXPECT_DOUBLE_EQ(matrix[2][2], 3);
+
+    auto distribution = dealer.distribute(World::instance()->getWorld()->getUs(), flagMap);
+    EXPECT_EQ(distribution.at("test_role_1")->getId(), 0);
+    EXPECT_EQ(distribution.at("test_role_2")->getId(), 1);
+    EXPECT_EQ(distribution.at("test_role_3")->getId(), 2);
 }
+
+
 
 /*
  * Check if the values of the priorities make sense.

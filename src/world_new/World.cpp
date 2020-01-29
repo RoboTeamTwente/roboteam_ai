@@ -55,8 +55,7 @@ void World::updateWorld(proto::World &protoWorld) {
     setWorld(data);
 }
 
-World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0}
-{
+World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
     history.reserve(HISTORY_SIZE);
 }
 
@@ -89,5 +88,9 @@ void World::updateTickTime() noexcept {
 
     size_t World::getHistorySize() const noexcept {
         return history.size();
+    }
+
+    Settings World::getSettings() const noexcept {
+        return Settings(*settings);
     }
 }  // namespace rtt::world_new
