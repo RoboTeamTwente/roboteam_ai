@@ -37,11 +37,11 @@ namespace rtt::ai::analysis {
          * Vector of all plays that are valid for the current world and field state
          */
         std::vector<std::shared_ptr<Play>> validPlays;
+
     public:
         const std::vector<std::shared_ptr<Play>> &getValidPlays() const;
 
     private:
-
         /// TODO: implement this function. Not a priority right now
         bool checkStrategyPreconditions();
 
@@ -51,8 +51,6 @@ namespace rtt::ai::analysis {
          * @param field
          */
         void determineNewPlays(world::World *world, world::Field *field);
-
-
     };
 }  // namespace rtt::ai::analysis
 

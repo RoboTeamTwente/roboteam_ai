@@ -17,7 +17,7 @@ namespace rtt::ai::analysis {
  */
     class Play {
     public:
-        Play();
+        Play() = default;
 
         /**
          * @return true if all the invariants of this strategy are true
@@ -32,15 +32,16 @@ namespace rtt::ai::analysis {
          */
         uint8_t scorePlay(world::World *world, world::Field *field) { return 1; };
 
-        std::string getName();
+        std::string_view getName();
 
         const std::shared_ptr<bt::BehaviorTree> &getTree() const;
+
     protected:
         /**
          * Internal tree of the play, where the execution of the play is done
          */
         std::shared_ptr<bt::BehaviorTree> tree;
-        std::string name;
+        std::string_view name;
     };
 }  // namespace rtt::ai::analysis
 
