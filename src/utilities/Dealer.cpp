@@ -17,8 +17,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     std::vector<int> assignment;
 
     // solve the matrix and put the results in 'assignment'
-    auto score = rtt::Hungarian::Solve(scores, assignment);
-    std::cout << score << std::endl;
+    rtt::Hungarian::Solve(scores, assignment);
 
     // get a list of rolenames in order
     std::vector<std::string> roleNames;
@@ -53,7 +52,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
  */
 std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
     vector<vector<double>> scores;
-    
+
     for (auto const& [roleName, dealerFlags] : flagMap) {
         std::vector<double> row;
         for (int column = 0; column < allRobots.size(); column++) {
