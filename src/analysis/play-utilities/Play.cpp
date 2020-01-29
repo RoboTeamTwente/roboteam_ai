@@ -10,16 +10,11 @@
 #include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
 
 namespace rtt::ai::analysis {
-    std::string_view Play::getName() { return name; }
+    Play::Play(std::string name) : name {name} {};
 
-    bool Play::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
-        return BallOnOurSideInvariant::isValid(world, field) && BallBelongsToUsInvariant::isValid(world, field) &&
-               AlwaysFalseInvariant::isValid(world, field) &&
-               AlwaysTrueInvariant::isValid(world, field);
-    }
+    std::string_view Play::getName() { return name; }
 
     const std::shared_ptr<bt::BehaviorTree> &Play::getTree() const {
         return tree;
     }
-
 }  // namespace rtt::ai::analysis

@@ -2,6 +2,7 @@
 // Created by baris on 04/10/18.
 //
 
+#include <include/roboteam_ai/analysis/play-utilities/Plays/PassAndPlayPlay.h>
 #include "treeinterp/BTFactory.h"
 
 #include "treeinterp/OffensiveStrategy.h"
@@ -21,9 +22,8 @@ bool BTFactory::weMadeTrees = false;
 void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
-
     std::cout << "Re-Make Trees From Json" << std::endl;
-
+    BTFactory::play = std::make_shared<rtt::ai::analysis::PassAndPlayPlay>("hello");
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
      * In order to do this in a cleaner way, maybe build trees automatically by going through directory
@@ -61,15 +61,15 @@ void BTFactory::makeTrees() {
  * @return The behaviourtree corresponding to that treename
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
-//    // Comment the lines below until the return statement to restore json functionaility
-//    std::cout << play->getName() << " is currently being played" << std::endl;
-//    return BTFactory::play->getTree();
-    std::lock_guard<std::mutex> lock(keeperTreeMutex);
-    if (strategyRepo.find(treeName) != strategyRepo.end()) {
-        return strategyRepo.find(treeName)->second;
-    }
-    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
-    return nullptr;
+    // Comment the lines below until the return statement to restore json functionaility
+    std::cout << BTFactory::play->getName() << " is currently being played" << std::endl;
+    return BTFactory::play->getTree();
+//    std::lock_guard<std::mutex> lock(keeperTreeMutex);
+//    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+//        return strategyRepo.find(treeName)->second;
+//    }
+//    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
+//    return nullptr;
 }
 
 std::string BTFactory::getCurrentTree() {

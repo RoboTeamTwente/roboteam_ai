@@ -15,7 +15,6 @@
 #include <world/World.h>
 #include <bt/Node.hpp>
 #include <utilities/GameStateManager.hpp>
-#include "analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -56,9 +55,11 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
+        auto world = rtt::ai::world::world;
+        auto field = rtt::ai::world::field;
         ai::analysis::GameAnalyzer::getInstance().start();
         // TODO: connect this to actual plays
-        //decidePlay(world, field);
+        decidePlay(world, field);
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -175,6 +176,7 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         bool stillValidPlay = playChecker.update(world, field);
         if (!stillValidPlay) {
             auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
+            playChecker.setCurrentPlay(bestplay);
             BTFactory::setCurrentTree(bestplay);
         }
         else {

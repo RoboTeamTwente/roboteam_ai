@@ -3,28 +3,23 @@
 //
 
 #include "include/roboteam_ai/analysis/play-utilities/PlayChecker.h"
-
-#include <include/roboteam_ai/analysis/play-utilities/invariants/AlwaysTrueInvariant.h>
-
+#include "analysis/play-utilities/invariants/AlwaysTrueInvariant.h"
 #include "analysis/play-utilities/invariants/AlwaysFalseInvariant.h"
 #include "analysis/play-utilities/invariants/BallBelongsToUsInvariant.h"
 #include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
 #include "analysis/play-utilities/Play.h"
-#include "functional"
-
+#include "analysis/play-utilities/Plays/PassAndPlayPlay.h"
 namespace rtt::ai::analysis {
+    PlayChecker::PlayChecker() {
+        currentPlay = std::make_shared<PassAndPlayPlay>("meow");
+        allPlays.push_back(std::make_shared<PassAndPlayPlay>("PassAndPlay"));
+    }
+    bool PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field) { return currentPlay->isValidPlayToKeep(world, field); }
 
-    bool
-    PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field) { return true; }
-
-/**
- * Determines what plays are viable given the current world, ref states and invariants/preconditions, and stores them in the validPlays vector
- * TODO: add lambda here, to make it faster and cleaner
- */
     void PlayChecker::determineNewPlays(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
         validPlays.clear();
         for (auto play : allPlays) {
-            if (play->isValidPlay(world, field)) {
+            if (play->isValidPlayToStart(world, field)) {
                 validPlays.push_back(play);
             }
         }
@@ -46,6 +41,14 @@ namespace rtt::ai::analysis {
 
     const std::vector<std::shared_ptr<Play>> &PlayChecker::getValidPlays() const {
         return validPlays;
+    }
+
+    const std::shared_ptr<Play> &PlayChecker::getCurrentPlay() const {
+        return currentPlay;
+    }
+
+    void PlayChecker::setCurrentPlay(const std::shared_ptr<Play> &currentPlay) {
+        PlayChecker::currentPlay = currentPlay;
     }
 }
 // namespace rtt::ai::analysis

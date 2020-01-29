@@ -11,7 +11,11 @@ namespace rtt::ai::analysis {
 
     class PlayChecker {
     public:
-        PlayChecker() = default;
+        PlayChecker();
+
+        const std::shared_ptr<Play> &getCurrentPlay() const;
+
+        void setCurrentPlay(const std::shared_ptr<Play> &currentPlay);
 
         /**
          * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
@@ -38,13 +42,15 @@ namespace rtt::ai::analysis {
          */
         std::vector<std::shared_ptr<Play>> validPlays;
 
+        /**
+         * The play currently in execution
+         */
+        std::shared_ptr<Play> currentPlay;
+
     public:
         const std::vector<std::shared_ptr<Play>> &getValidPlays() const;
 
     private:
-        /// TODO: implement this function. Not a priority right now
-        bool checkStrategyPreconditions();
-
         /**
          * Determines which plays are valid by cycling through the allplays vector and seeing which plays' isValid() methods return true
          * @param world
