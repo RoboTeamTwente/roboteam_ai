@@ -13,27 +13,27 @@ namespace rtt {
 namespace input {
 
 class JoystickHandler {
-   private:
-    proto::RobotCommand command;
-    JoystickState joystickState;
-    float robotAngle = 0.0;
-    int robotId = -1;
+ private:
+  proto::RobotCommand command;
+  JoystickState joystickState;
+  float robotAngle = 0.0;
+  int robotId = -1;
 
-   public:
-    JoystickHandler();
-    void tick();
-    void handleEvent(SDL_Event &event);
-    void handleJoystickMotion(SDL_Event &event);
-    void handleJoystickButton(SDL_Event &event);
-    proto::RobotCommand getCommand();
+ public:
+  JoystickHandler();
+  void tick();
+  void handleEvent(SDL_Event &event);
+  void handleJoystickMotion(SDL_Event &event);
+  void handleJoystickButton(SDL_Event &event);
+  proto::RobotCommand getCommand();
 
-    void updateVelocity();
-    void updateOrientation();
-    void doKick();
-    void doChip();
-    void toggleDribbler();
-    void changeRobotID();
-    JoystickState getJoystickState();
+  void updateVelocity();
+  void updateOrientation();
+  void doKick();
+  void doChip();
+  void toggleDribbler();
+  void changeRobotID();
+  JoystickState getJoystickState();
 };
 
 }  // namespace input

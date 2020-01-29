@@ -53,7 +53,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
 }
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
-Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
+Vector2 ReflectKick::computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall) {
     Vector2 interceptPoint = reflectionPos.project(startBall, endBall);
     Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
     return interceptPoint - distanceToKicker.rotate(robot->angle);
@@ -82,8 +82,7 @@ Vector2 ReflectKick::getFarSideOfGoal() {
     if (robotPos.y >= 0) {
         return {(*field).getTheirGoalCenter().x,
                 (*field).getTheirGoalCenter().y + cornering};
-    }
-    else {
+    } else {
         return {(*field).getTheirGoalCenter().x,
                 (*field).getTheirGoalCenter().y - cornering};
     }

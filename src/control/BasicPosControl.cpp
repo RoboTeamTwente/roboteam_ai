@@ -12,14 +12,14 @@
 namespace rtt::ai::control {
 
 BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
+    : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
 
 }
 
-RobotCommand BasicPosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robot,
-        const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand BasicPosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robot,
+                                              const Vector2 &targetPos, const Angle &targetAngle) {
     interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id,
-            interface::Drawing::CIRCLES, 8, 8, 6);
+                               interface::Drawing::CIRCLES, 8, 8, 6);
 
     Vector2 target = targetPos;
     if (!getCanMoveOutOfField(robot->id)) {
@@ -49,7 +49,7 @@ void BasicPosControl::checkInterfacePID() {
 }
 
 RobotCommand BasicPosControl::getRobotCommand(world::World *world, const Field *field,
-        const PosController::RobotPtr &robot, const Vector2 &targetPos) {
+                                              const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     Angle defaultAngle = 0;
     return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }

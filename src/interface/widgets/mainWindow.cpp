@@ -19,7 +19,7 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -118,7 +118,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     // start the UI update cycles
     // update mainwindow and field visualization
-    auto* timer = new QTimer(this);
+    auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
     timer->start(40);  // 25fps
 
@@ -127,7 +127,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
     // start the UI update cycles
     // these are slower than the tick rate
-    auto* robotsTimer = new QTimer(this);
+    auto *robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
@@ -136,7 +136,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
     robotsTimer->start(200);  // 5fps
 
-    auto* graphTimer = new QTimer(this);
+    auto *graphTimer = new QTimer(this);
     connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
     graphTimer->start(200);  // 5fps
 
@@ -144,15 +144,15 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 /// Set up a checkbox and add it to the layout
-void MainWindow::configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method, bool defaultState) {
+void MainWindow::configureCheckBox(QString title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState) {
     auto checkbox = new QCheckBox(title);
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
 }
 
-void MainWindow::configureCheckableMenuItem(QString title, QString hint, QMenu* menu, const QObject* receiver, const char* method, bool defaultState) {
-    QAction* action = new QAction(title, menu);
+void MainWindow::configureCheckableMenuItem(QString title, QString hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState) {
+    QAction *action = new QAction(title, menu);
     action->setStatusTip(hint);
     action->setCheckable(true);
     action->setChecked(defaultState);
@@ -161,8 +161,8 @@ void MainWindow::configureCheckableMenuItem(QString title, QString hint, QMenu* 
 }
 
 /// delete a layout and its children
-void MainWindow::clearLayout(QLayout* layout) {
-    QLayoutItem* item;
+void MainWindow::clearLayout(QLayout *layout) {
+    QLayoutItem *item;
     while ((item = layout->takeAt(0))) {
         if (item->layout()) {
             clearLayout(item->layout());

@@ -11,10 +11,10 @@
 namespace rtt::ai {
 
 IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
-    : Condition(std::move(name), std::move(blackboard)) { };
+    : Condition(std::move(name), std::move(blackboard)) {};
 
 void IsBallOnOurSide::onInitialize() {
-    inField = properties->getBool("inField");    
+    inField = properties->getBool("inField");
 }
 
 bt::Node::Status IsBallOnOurSide::onUpdate() {

@@ -32,17 +32,17 @@ bt::Node::Status DemoAttack::onUpdate() {
 
     if (!control::PositionUtils::isRobotBehindBallToGoal(*field, BEHIND_BALL_CHECK, ownGoal, robot->pos)) {
         targetPos = behindBall;
-        command.set_w(static_cast<float>((ball - (Vector2)(robot->pos)).angle()));
+        command.set_w(static_cast<float>((ball - (Vector2) (robot->pos)).angle()));
         robot->getNumtreePosControl()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
-        if (abs(((Vector2)robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
+        if (abs(((Vector2) robot->pos - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             robot->getNumtreePosControl()->setAvoidBallDistance(0);
         }
     } else {
         targetPos = ball;
         robot->getNumtreePosControl()->setAvoidBallDistance(0);
 
-        command.set_w(static_cast<float>(((Vector2){-1.0, -1.0} * deltaBall).angle()));
+        command.set_w(static_cast<float>(((Vector2) {-1.0, -1.0} * deltaBall).angle()));
         if (world::world->robotHasBall(robot->id, true)) {
             command.set_kicker(true);
             command.set_chip_kick_vel(static_cast<float>(rtt::ai::Constants::MAX_KICK_POWER()));
@@ -53,15 +53,12 @@ bt::Node::Status DemoAttack::onUpdate() {
     Vector2 velocity;
     if (FieldComputations::pointIsInDefenceArea(*field, robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - (*field).getOurGoalCenter()).stretchToLength(2.0);
-    }
-    else if (FieldComputations::pointIsInDefenceArea(*field, robot->pos, ownGoal, 0.0)) {
+    } else if (FieldComputations::pointIsInDefenceArea(*field, robot->pos, ownGoal, 0.0)) {
         velocity = ((Vector2) robot->pos - (*field).getTheirGoalCenter()).stretchToLength(2.0);
-    }
-    else if (FieldComputations::pointIsInDefenceArea(*field, ball, ownGoal) ||
-             FieldComputations::pointIsInDefenceArea(*field, ball, !ownGoal)) {
+    } else if (FieldComputations::pointIsInDefenceArea(*field, ball, ownGoal) ||
+        FieldComputations::pointIsInDefenceArea(*field, ball, !ownGoal)) {
         velocity = {0, 0};
-    }
-    else if (FieldComputations::pointIsInDefenceArea(*field, targetPos, ownGoal)) {
+    } else if (FieldComputations::pointIsInDefenceArea(*field, targetPos, ownGoal)) {
         velocity = {0, 0};
     } else {
         velocity = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos).vel;

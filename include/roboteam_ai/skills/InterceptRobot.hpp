@@ -11,14 +11,14 @@
 #include "Skill.h"
 namespace rtt::ai {
 class InterceptRobot : public Skill {
-   private:
-    //  control::BasicPosControl gtp;
-    Vector2 getInterceptPos(Robot robotToIntercept);
+ private:
+  //  control::BasicPosControl gtp;
+  Vector2 getInterceptPos(Robot robotToIntercept);
 
-   public:
-    explicit InterceptRobot(string name, bt::Blackboard::Ptr blackboard);
-    Status onUpdate() override;
-    void onInitialize() override;
+ public:
+  explicit InterceptRobot(string name, bt::Blackboard::Ptr blackboard);
+  Status onUpdate() override;
+  void onInitialize() override;
 };
 
 }  // namespace rtt::ai

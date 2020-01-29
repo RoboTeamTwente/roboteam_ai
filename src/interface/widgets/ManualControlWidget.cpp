@@ -19,11 +19,11 @@ ManualControlWidget::ManualControlWidget(QWidget *parent) : QWidget(parent) {
     joyThread = std::thread(&rtt::input::JoystickManager::run, manager);
 
     connect(allowCheckBox, &QCheckBox::toggled, [this](bool checked) {
-        if (checked) {
-            manager->activate();
-        } else {
-            manager->deactivate();
-        }
+      if (checked) {
+          manager->activate();
+      } else {
+          manager->deactivate();
+      }
     });
 }
 

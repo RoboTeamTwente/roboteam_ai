@@ -117,28 +117,28 @@ MainControlsWidget::MainControlsWidget(QWidget *parent) {
     // MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
     QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &strategyName) {
-        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        interface::Output::setStrategyTree(strategyName.toStdString());
-        emit treeHasChanged();
+      // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+      interface::Output::setStrategyTree(strategyName.toStdString());
+      emit treeHasChanged();
     });
 
     QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &keeperStrategyName) {
-        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        interface::Output::setKeeperTree(keeperStrategyName.toStdString());
-        emit treeHasChanged();
+      // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+      interface::Output::setKeeperTree(keeperStrategyName.toStdString());
+      emit treeHasChanged();
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
-        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        interface::Output::setKeeperId(goalieId.toInt());
-        emit treeHasChanged();
+      // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+      interface::Output::setKeeperId(goalieId.toInt());
+      emit treeHasChanged();
     });
 
     QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &rulesetName) {
-        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        // robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
-        interface::Output::setRuleSetName(rulesetName.toStdString());
-        emit treeHasChanged();
+      // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+      // robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
+      interface::Output::setRuleSetName(rulesetName.toStdString());
+      emit treeHasChanged();
     });
 
     setUseReferee(Output::usesRefereeCommands());

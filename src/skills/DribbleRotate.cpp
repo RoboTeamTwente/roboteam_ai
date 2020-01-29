@@ -50,7 +50,7 @@ void DribbleRotate::onInitialize() {
     currentTick = 0;
     extraTick = static_cast<int>(WAIT_TIME * Constants::TICK_RATE());
     dir = Control::rotateDirection(startAngle, targetAngle);
-    maxTick = (int)floor(Control::angleDifference(startAngle, targetAngle) / maxSpeed * Constants::TICK_RATE());
+    maxTick = (int) floor(Control::angleDifference(startAngle, targetAngle) / maxSpeed * Constants::TICK_RATE());
     if (!world::world->ourRobotHasBall(robot->id, Constants::MAX_BALL_RANGE())) {
         std::cout << "RobotPtr does not have ball in dribbleRotateInitialize" << std::endl;
         std::cout << "Distance" << (Vector2(robot->pos) - Vector2(ball->getPos())).length() - Constants::ROBOT_RADIUS() << "Max distance:" << Constants::MAX_BALL_RANGE()
@@ -65,14 +65,11 @@ void DribbleRotate::onInitialize() {
 DribbleRotate::Status DribbleRotate::onUpdate() {
     checkProgression();
     switch (currentProgression) {
-        case ROTATING:
-            command = ballHandlePosControl.getRobotCommand(world, field, robot, ball->getPos(), targetAngle).makeROSCommand();
+        case ROTATING:command = ballHandlePosControl.getRobotCommand(world, field, robot, ball->getPos(), targetAngle).makeROSCommand();
             publishRobotCommand();
             return Status::Running;
-        case SUCCESS:
-            return Status::Success;
-        case FAIL:
-            return Status::Failure;
+        case SUCCESS:return Status::Success;
+        case FAIL:return Status::Failure;
     }
     return Status::Failure;
 }

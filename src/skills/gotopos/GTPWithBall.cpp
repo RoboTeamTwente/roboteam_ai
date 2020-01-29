@@ -34,8 +34,7 @@ GTPWithBall::TargetType GTPWithBall::stringToTargetType(const std::string &strin
 
 void GTPWithBall::updateTarget() {
     switch (targetType) {
-        default:
-            return;
+        default:return;
         case ballPlacement: {
             targetPos = coach::g_ballPlacement.getBallPlacementPos();
             Vector2 delta = (targetPos - ball->getPos());

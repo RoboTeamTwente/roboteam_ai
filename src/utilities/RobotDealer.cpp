@@ -83,8 +83,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
     int id;
     if (!ids.empty()) {
         switch (feature) {
-            default:
-                std::cout << "[Robotdealer] could not find a match for this feature " << std::endl;
+            default:std::cout << "[Robotdealer] could not find a match for this feature " << std::endl;
                 return -1;
 
             case CLOSE_TO_BALL: {
@@ -98,38 +97,38 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
                 break;
             }
 
-        case BETWEEN_BALL_AND_OUR_GOAL: {
-            auto ball = world::world->getBall();
-            rtt::Vector2 ourGoal = field.getOurGoalCenter();
-            auto robots = world::world->getRobotsForIds(idVector, true);
-            if (!robots.empty()) {
-                id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
-            } else {
-                id = -1;
+            case BETWEEN_BALL_AND_OUR_GOAL: {
+                auto ball = world::world->getBall();
+                rtt::Vector2 ourGoal = field.getOurGoalCenter();
+                auto robots = world::world->getRobotsForIds(idVector, true);
+                if (!robots.empty()) {
+                    id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
+                } else {
+                    id = -1;
+                }
+                break;
             }
-            break;
-        }
-        case CLOSE_TO_OUR_GOAL: {
-            rtt::Vector2 ourGoal = field.getOurGoalCenter();
-            auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
-            if (robot) {
-                id = robot->id;
-            } else {
-                id = -1;
+            case CLOSE_TO_OUR_GOAL: {
+                rtt::Vector2 ourGoal = field.getOurGoalCenter();
+                auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
+                if (robot) {
+                    id = robot->id;
+                } else {
+                    id = -1;
+                }
+                break;
             }
-            break;
-        }
 
-        case CLOSE_TO_THEIR_GOAL: {
-            rtt::Vector2 theirGoal = field.getTheirGoalCenter();
-            auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
-            if (robot) {
-                id = robot->id;
-            } else {
-                id = - 1;
+            case CLOSE_TO_THEIR_GOAL: {
+                rtt::Vector2 theirGoal = field.getTheirGoalCenter();
+                auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
+                if (robot) {
+                    id = robot->id;
+                } else {
+                    id = -1;
+                }
+                break;
             }
-            break;
-        }
 
             case RANDOM: {
                 id = *ids.begin();

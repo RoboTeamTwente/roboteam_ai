@@ -9,7 +9,7 @@
 namespace rtt::ai {
 
 BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
+    : Condition(std::move(name), std::move(blackboard)) {};
 
 bt::Node::Status BallKickedToOurGoal::onUpdate() {
     // Check if the ball is moving at all

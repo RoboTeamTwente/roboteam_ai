@@ -12,7 +12,7 @@
 
 namespace rtt::ai::interface {
 
-RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent) {
+RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
     // make sure it is scrollable
     auto container = new QVBoxLayout();
     VLayout = new QVBoxLayout();
@@ -25,23 +25,23 @@ RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent) {
     this->setLayout(container);
 }
 
-void RobotsWidget::updateContents(Visualizer* visualizer) {
+void RobotsWidget::updateContents(Visualizer *visualizer) {
     auto const &field = io::io.getField();
     auto us = rtt::ai::world::world->getUs();
 
     // reload the widgets completely if a robot is added or removed
     // or if the amount of selected robots is not accurate
     if (VLayout->count() != static_cast<int>(us.size())
-            || amountOfSelectedRobots != static_cast<int>(visualizer->getSelectedRobots().size())) {
+        || amountOfSelectedRobots != static_cast<int>(visualizer->getSelectedRobots().size())) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
         MainWindow::clearLayout(VLayout);
 
         for (auto &robot : us) {
-            QGroupBox* groupBox = new QGroupBox("Robot "+QString::number(robot->id));
+            QGroupBox *groupBox = new QGroupBox("Robot " + QString::number(robot->id));
             groupBox->setCheckable(true);
             groupBox->setChecked(visualizer->robotIsSelected((*robot)));
             QObject::connect(groupBox, &QGroupBox::clicked, [=]() {
-                visualizer->toggleSelectedRobot(robot->id);
+              visualizer->toggleSelectedRobot(robot->id);
             });
             groupBox->setLayout(createRobotGroupItem(field, *robot));
             VLayout->addWidget(groupBox);
@@ -63,14 +63,14 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
 }
 
 /// create a single layout with robot information for a specific robot
-QVBoxLayout* RobotsWidget::createRobotGroupItem(const Field &field, Robot robot) {
+QVBoxLayout *RobotsWidget::createRobotGroupItem(const Field &field, Robot robot) {
     auto vbox = new QVBoxLayout();
 
     auto absVel = robot.vel.length();
 
     auto velLabel = new QLabel(
-            "vel: {x = "+QString::number(robot.vel.x, 'G', 3)+", y = "+QString::number(robot.vel.y, 'g', 3)+"} m/s,\n"
-            "    absolute: "+QString::number(absVel, 'G', 3)+" m/s");
+        "vel: {x = " + QString::number(robot.vel.x, 'G', 3) + ", y = " + QString::number(robot.vel.y, 'g', 3) + "} m/s,\n"
+                                                                                                                "    absolute: " + QString::number(absVel, 'G', 3) + " m/s");
     velLabel->setFixedWidth(250);
     vbox->addWidget(velLabel);
 
@@ -79,7 +79,7 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(const Field &field, Robot robot)
     vbox->addWidget(angleLabel);
 
     auto posLabel = new QLabel("pos: (x = " + QString::number(robot.pos.x, 'g', 3) + ", y = " +
-            QString::number(robot.pos.y, 'g', 3) + ")");
+        QString::number(robot.pos.y, 'g', 3) + ")");
     posLabel->setFixedWidth(250);
     vbox->addWidget(posLabel);
 

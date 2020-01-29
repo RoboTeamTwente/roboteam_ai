@@ -48,11 +48,9 @@ void GoToPos::onInitialize() {
 void GoToPos::setPositionController(const GoToType &gTT) {
     switch (gTT) {
         default:
-        case numTree:
-            posController = robot->getNumtreePosControl();
+        case numTree:posController = robot->getNumtreePosControl();
             return;
-        case basic:
-            posController = robot->getBasicPosControl();
+        case basic:posController = robot->getBasicPosControl();
             return;
     }
 }

@@ -46,7 +46,7 @@ void GTPSpecial::gtpInitialize() {
             maxVel = 9e9;
             Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
             Vector2 penaltyThem = FieldComputations::getPenaltyPoint(*field, false);
-            targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length()/2.0));
+            targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length() / 2.0));
             errorMargin = 0.05;
             break;
         }
@@ -69,8 +69,8 @@ void GTPSpecial::gtpInitialize() {
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
     double distanceFromTop = abs((*field).getFieldWidth() * 0.5 - ball->getPos().y);
-    double distanceFromBottom = abs(- (*field).getFieldWidth() * 0.5 - ball->getPos().y);
-    double distanceFromLeft = abs(- (*field).getFieldLength() * 0.5 - ball->getPos().x);
+    double distanceFromBottom = abs(-(*field).getFieldWidth() * 0.5 - ball->getPos().y);
+    double distanceFromLeft = abs(-(*field).getFieldLength() * 0.5 - ball->getPos().x);
     double distanceFromRight = abs((*field).getFieldLength() * 0.5 - ball->getPos().x);
 
     double distance = 9e9;
@@ -122,8 +122,7 @@ GTPSpecial::Type GTPSpecial::stringToType(const std::string &string) {
 
 Skill::Status GTPSpecial::gtpUpdate() {
     switch (type) {
-        default:
-            break;
+        default:break;
         case goToBall: {
             maxVel = 9e9;
             targetPos = ball->getPos();
@@ -133,8 +132,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
             targetPos = {0, 0};
             break;
         }
-        case ballPlacementBefore:
-            maxVel = 1.0;
+        case ballPlacementBefore:maxVel = 1.0;
             break;
         case ourGoalCenter: {
             targetPos = (*field).getOurGoalCenter();
@@ -148,19 +146,17 @@ Skill::Status GTPSpecial::gtpUpdate() {
             command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
             break;
         }
-        case ballPlacementAfter:{
+        case ballPlacementAfter: {
             targetPos = coach::g_ballPlacement.getBallPlacementAfterPos(robot);
-                auto c = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
-                command = c.makeROSCommand();
-                command.set_w((ball->getPos() - robot->pos).toAngle());
-                maxVel = 2.0;
-                break;
-            }
-        case getBallFromSide:
-            maxVel = 9e9;
+            auto c = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
+            command = c.makeROSCommand();
+            command.set_w((ball->getPos() - robot->pos).toAngle());
+            maxVel = 2.0;
             break;
-        case defaultType:
-            maxVel = 9e9;
+        }
+        case getBallFromSide:maxVel = 9e9;
+            break;
+        case defaultType:maxVel = 9e9;
             break;
         case freeKick: {
             maxVel = 9e9;

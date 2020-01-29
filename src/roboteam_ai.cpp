@@ -35,7 +35,7 @@ void setDarkTheme() {
     qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     rtt::ai::Constants::init();
 
     // get the id of the ai from the init
@@ -68,8 +68,7 @@ int main(int argc, char* argv[]) {
     rtt::ai::io::io.init();
 
     BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees())
-        ;
+    while (!BTFactory::hasMadeTrees());
 
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 

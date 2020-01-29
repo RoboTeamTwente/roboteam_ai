@@ -8,7 +8,7 @@
 
 namespace rtt::ai::interface {
 
-VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer* visualizer, QWidget* parent) {
+VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer, QWidget *parent) {
     auto cbVLayout = new QVBoxLayout();
 
     for (int i = 0; i < Toggles::toggles.size(); i++) {
@@ -32,8 +32,8 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer* visualizer,
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].generalShowType] + " }");
 
             QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated), [=](const int index) {
-                Toggles::toggles[i].generalShowType = static_cast<GeneralShowType>(index);
-                select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<GeneralShowType>(index)] + " }");
+              Toggles::toggles[i].generalShowType = static_cast<GeneralShowType>(index);
+              select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<GeneralShowType>(index)] + " }");
             });
         } else if (Toggles::toggles[i].showType == ROBOT) {
             select->addItem("No robots");
@@ -45,8 +45,8 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer* visualizer,
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].robotShowType] + " }");
 
             QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated), [=](const int index) {
-                Toggles::toggles[i].robotShowType = static_cast<RobotShowType>(index);
-                select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
+              Toggles::toggles[i].robotShowType = static_cast<RobotShowType>(index);
+              select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
             });
         }
 

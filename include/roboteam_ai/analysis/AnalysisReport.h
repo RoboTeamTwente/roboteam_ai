@@ -18,15 +18,15 @@ namespace rtt::ai::analysis {
 enum BallPossession : short { THEY_HAVE_BALL, DEFENSIVE_NEUTRAL, NEUTRAL, OFFENSIVE_NEUTRAL, WE_HAVE_BALL };
 
 struct AnalysisReport {
-    bool reportForUs = true;
-    std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> theirRobotSortedOnDanger;
-    std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> ourRobotsSortedOnDanger;
+  bool reportForUs = true;
+  std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> theirRobotSortedOnDanger;
+  std::vector<std::pair<world::Robot::RobotPtr, RobotDanger>> ourRobotsSortedOnDanger;
 
-    BallPossession ballPossession = NEUTRAL;
-    double ourDistanceToGoalAvg = 0.0;
-    double theirDistanceToGoalAvg = 0.0;
+  BallPossession ballPossession = NEUTRAL;
+  double ourDistanceToGoalAvg = 0.0;
+  double theirDistanceToGoalAvg = 0.0;
 
-    RobotDanger getRobotDangerForId(int id, bool ourTeam);
+  RobotDanger getRobotDangerForId(int id, bool ourTeam);
 };
 
 }  // namespace rtt::ai::analysis

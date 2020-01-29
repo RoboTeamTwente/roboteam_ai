@@ -11,7 +11,7 @@
 
 namespace rtt::ai::interface {
 
-RuleSetWidget::RuleSetWidget(QWidget* parent) {
+RuleSetWidget::RuleSetWidget(QWidget *parent) {
     vLayout = new QVBoxLayout();
     this->setLayout(vLayout);
 }

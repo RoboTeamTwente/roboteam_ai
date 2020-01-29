@@ -12,7 +12,7 @@
 
 namespace rtt::ai {
 
-CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
+CanPlay::CanPlay(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {};
 
 bt::Node::Status CanPlay::onUpdate() {
     double margin = 0.05;

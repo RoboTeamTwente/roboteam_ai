@@ -10,15 +10,15 @@
 namespace rtt::ai {
 
 class Wait : public Skill {
-   private:
-    Angle lockedAngle;
-    int tick = 0;
-    int ticks = 0;
+ private:
+  Angle lockedAngle;
+  int tick = 0;
+  int ticks = 0;
 
-   public:
-    explicit Wait(string name, bt::Blackboard::Ptr blackboard);
-    void onInitialize() override;
-    Status onUpdate() override;
+ public:
+  explicit Wait(string name, bt::Blackboard::Ptr blackboard);
+  void onInitialize() override;
+  Status onUpdate() override;
 };
 
 }  // namespace rtt::ai

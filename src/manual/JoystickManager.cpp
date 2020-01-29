@@ -10,7 +10,7 @@ using namespace std::chrono;
 
 namespace rtt::input {
 
-JoystickManager::JoystickManager(ai::io::IOManager* ioManager) : ioManager(ioManager) { std::cout << "[JoystickManager] New JoystickManager" << std::endl; }
+JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioManager) { std::cout << "[JoystickManager] New JoystickManager" << std::endl; }
 
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {
@@ -96,7 +96,7 @@ void JoystickManager::loop() {
         iTicks++;
 
         /* Calculate the milliseconds to the next tick */
-        int msToNextTick = (int)duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
+        int msToNextTick = (int) duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
         /* Ensure that we're waiting for a positive amount of time, else SDL_WaitEventTimeout will halt */
         msToNextTick = std::max(msToNextTick, 1);
 
@@ -110,7 +110,7 @@ void JoystickManager::loop() {
             if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX) std::terminate();
 
             /* Check if there is time for another event, of if it is time for the next tick */
-            msToNextTick = (int)duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
+            msToNextTick = (int) duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
             if (msToNextTick <= 0) break;
         }
     }
@@ -119,33 +119,30 @@ void JoystickManager::loop() {
 
 /** Sends commands from JoystickHandlers */
 void JoystickManager::tickJoystickHandlers() {
-    for (const auto& joystickHandler : joystickHandlers) {
+    for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
         ioManager->publishRobotCommand(joystickHandler.second->getCommand());
     }
 }
 
 /** Handles events and forwards them if needed */
-void JoystickManager::handleEvent(SDL_Event& event) {
+void JoystickManager::handleEvent(SDL_Event &event) {
     /* Catch device events if needed, else forward event to corresponding JoystickHandler */
     switch (event.type) {
-        case SDL_JOYDEVICEADDED:
-            handleJoystickAdded(event);
+        case SDL_JOYDEVICEADDED:handleJoystickAdded(event);
             break;
-        case SDL_JOYDEVICEREMOVED:
-            handleJoystickRemoved(event);
+        case SDL_JOYDEVICEREMOVED:handleJoystickRemoved(event);
             break;
-        default:
-            joystickHandlers.at(event.jdevice.which)->handleEvent(event);
+        default:joystickHandlers.at(event.jdevice.which)->handleEvent(event);
             break;
     }
 }
 
 /** Takes an SDL_Event and adds a new JoystickHandler to the map of JoystickHandlers */
-void JoystickManager::handleJoystickAdded(const SDL_Event& event) {
+void JoystickManager::handleJoystickAdded(const SDL_Event &event) {
     std::cout << "[JoystickManager][handleJoystickAdded] Adding joystick " << event.jdevice.which << std::endl;
 
-    SDL_Joystick* joystick = SDL_JoystickOpen(event.jdevice.which);
+    SDL_Joystick *joystick = SDL_JoystickOpen(event.jdevice.which);
     if (!joystick) {
         std::cout << "[JoystickManager][handleJoystickAdded] Error! Could not open joystick!" << std::endl;
         return;
@@ -158,7 +155,7 @@ void JoystickManager::handleJoystickAdded(const SDL_Event& event) {
 }
 
 /** Takes an SDL_Event and deletes and removes the correct JoystickHandler from the map of JoystickHandlers */
-void JoystickManager::handleJoystickRemoved(const SDL_Event& event) {
+void JoystickManager::handleJoystickRemoved(const SDL_Event &event) {
     std::cout << "[JoystickManager][handleJoystickRemoved] Removing joystick " << event.jdevice.which << std::endl;
     delete joystickHandlers.at(event.jdevice.which);
     joystickHandlers.erase(event.jdevice.which);

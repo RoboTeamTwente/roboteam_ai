@@ -16,7 +16,7 @@ void RotateToAngle::onInitialize() {
     }
 
     if (properties->getBool("rotateToBall")) {
-        targetAngle = ((Vector2)ball->getPos() - robot->pos).angle();
+        targetAngle = ((Vector2) ball->getPos() - robot->pos).angle();
     }
 }
 
@@ -30,10 +30,8 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
             publishRobotCommand();
             return Status::Running;
         }
-        case DONE:
-            return Status::Success;
-        case FAIL:
-            return Status::Failure;
+        case DONE:return Status::Success;
+        case FAIL:return Status::Failure;
     }
 
     return Status::Failure;

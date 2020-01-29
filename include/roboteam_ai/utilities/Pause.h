@@ -16,15 +16,15 @@ class IOManager;
 }
 
 class Pause {
-   private:
-    static bool pause;
-    static std::mutex pauseLock;
+ private:
+  static bool pause;
+  static std::mutex pauseLock;
 
-   public:
-    Pause();
-    bool getPause();
-    void haltRobots();
-    void setPause(bool set);
+ public:
+  Pause();
+  bool getPause();
+  void haltRobots();
+  void setPause(bool set);
 };
 }  // namespace rtt::ai
 

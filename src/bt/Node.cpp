@@ -18,7 +18,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World * world, const rtt::Field *field) {
+Node::Status Node::tick(rtt::ai::world::World *world, const rtt::Field *field) {
     this->world = world;
     this->field = field;
 
@@ -54,7 +54,7 @@ std::string Node::node_name() {
     return "Node name undefined node.cpp";
 }
 
-void Node::addChild(bt::Node::Ptr) { }
+void Node::addChild(bt::Node::Ptr) {}
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
@@ -102,16 +102,11 @@ void Node::giveProperty(std::string a, std::string b) {
 
 std::string Node::status_print(Node::Status s) {
     switch (s) {
-        case Status::Waiting:
-            return "Waiting";
-        case Status::Success:
-            return "Success";
-        case Status::Failure:
-            return "Failure";
-        case Status::Running:
-            return "Running";
-        default:
-            std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
+        case Status::Waiting:return "Waiting";
+        case Status::Success:return "Success";
+        case Status::Failure:return "Failure";
+        case Status::Running:return "Running";
+        default:std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
             return "ERROR!!";
     }
 }

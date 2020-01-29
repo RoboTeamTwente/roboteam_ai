@@ -163,9 +163,9 @@ std::vector<std::string> Switches::strategyJsonFileNames = {"kickoff_them_format
                                                             "interface_drive_strategy",
                                                             "interface_ball_placement_strategy"};
 
-std::vector<std::string> Switches::keeperJsonFiles = {"keeper_default_tactic",   "keeper_halt_tactic",           "keeper_avoid_tactic",           "keeper_time_out_tactic",
+std::vector<std::string> Switches::keeperJsonFiles = {"keeper_default_tactic", "keeper_halt_tactic", "keeper_avoid_tactic", "keeper_time_out_tactic",
                                                       "keeper_formation_tactic", "keeper_penalty_defend_tactic", "keeper_penalty_prepare_tactic", "shootout_prepare_tactic",
-                                                      "shootout_shoot_tactic",   "shootout_defend_tactic"};
+                                                      "shootout_shoot_tactic", "shootout_defend_tactic"};
 
 /// If you are touching this either you know what you are doing or you are making a mistake,
 /// have a look around with the names and see if what you made is on the same level as these are

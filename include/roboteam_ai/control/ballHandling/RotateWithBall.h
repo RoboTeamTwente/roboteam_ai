@@ -7,9 +7,9 @@
 namespace rtt::ai::control {
 
 class RotateWithBall {
-   public:
-    explicit RotateWithBall() = default;
-    RobotCommand getRobotCommand(const std::shared_ptr<world::Robot> &r, const Vector2 &targetP, const Angle &targetA);
+ public:
+  explicit RotateWithBall() = default;
+  RobotCommand getRobotCommand(const std::shared_ptr<world::Robot> &r, const Vector2 &targetP, const Angle &targetA);
 };
 
 }  // namespace rtt::ai::control

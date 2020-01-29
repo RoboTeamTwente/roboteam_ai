@@ -13,22 +13,22 @@
 namespace rtt::ai::interface {
 
 class SettingsWidget : public QWidget {
-    Q_OBJECT
+ Q_OBJECT
 
-   private:
-    QVBoxLayout *vLayout;
-    QLineEdit *grsimIpText;
-    QSpinBox *grsimPort;
+ private:
+  QVBoxLayout *vLayout;
+  QLineEdit *grsimIpText;
+  QSpinBox *grsimPort;
 
-   public:
-    explicit SettingsWidget(QWidget *parent = nullptr);
+ public:
+  explicit SettingsWidget(QWidget *parent = nullptr);
 
-   public slots:
-    void changeTeamColor(bool isYellow);
-    void changeTeamSide(bool isLeft);
-    void changeMode(bool serial);
-    void changeGrSimIp(QString ip);
-    void changeGrSimPort(int port);
+ public slots:
+  void changeTeamColor(bool isYellow);
+  void changeTeamSide(bool isLeft);
+  void changeMode(bool serial);
+  void changeGrSimIp(QString ip);
+  void changeGrSimPort(int port);
 };
 
 }  // namespace rtt::ai::interface

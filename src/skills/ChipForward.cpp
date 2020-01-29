@@ -9,7 +9,7 @@
 namespace rtt::ai {
 
 ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
-    :Skill(std::move(name), std::move(blackboard)) {}
+    : Skill(std::move(name), std::move(blackboard)) {}
 
 void ChipForward::onInitialize() {
     aimPoint = FieldComputations::getPenaltyPoint(*field, false);
@@ -18,7 +18,7 @@ void ChipForward::onInitialize() {
 
 ChipForward::Status ChipForward::onUpdate() {
     auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, true,
-            control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
+                                                                control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
     command = shotData.makeROSCommand();
     if (!hasChipped && command.chipper()) {
         if (command.chip_kick_forced() || robot->hasBall()) hasChipped = true;

@@ -9,7 +9,7 @@ namespace rtt::ai {
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> StopFormation::robotsInFormation = nullptr;
 
 StopFormation::StopFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        : Formation(name, blackboard) {
+    : Formation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
 
@@ -42,7 +42,7 @@ Vector2 StopFormation::getFormationPosition() {
     }
 
     std::vector<int> robotIds;
-    for (auto& i : *robotsInFormation) {
+    for (auto &i : *robotsInFormation) {
         if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
             robotIds.push_back(i->id);
         }
@@ -89,25 +89,25 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 closeToBallMiddle = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall);
 
     Vector2 closeToBallA = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(
-            -sin(Constants::ROBOT_RADIUS() / distanceToBall));
+        -sin(Constants::ROBOT_RADIUS() / distanceToBall));
     Vector2 closeToBallB = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(
-            sin(Constants::ROBOT_RADIUS()/distanceToBall));
+        sin(Constants::ROBOT_RADIUS() / distanceToBall));
 
     // for one robot between ball and our goal
     Vector2 betweenGoalAndBallPosition = (*field).getOurGoalCenter() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
     Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .stretchToLength(distanceFromGoal + 3 * Constants::ROBOT_RADIUS());
+        .stretchToLength(distanceFromGoal + 3 * Constants::ROBOT_RADIUS());
 
     // for multiple robots between ball and our goal
     Vector2 diff = betweenGoalAndBallPosition + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionA = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+        .rotate(-sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionB = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+        .rotate(sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionC = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+        .rotate(2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionD = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
+        .rotate(-2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
 
     Vector2 basicOffensivePositionA = {-1, 0.0};
 
@@ -116,9 +116,9 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
     double goal_width = (*field).getGoalWidth();
-    if (ball->getPos().y > goal_width){
-        inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
-        inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
+    if (ball->getPos().y > goal_width) {
+        inFrontOfDefenseAreaPositionA = {pp.x + offset, 0};
+        inFrontOfDefenseAreaPositionB = {pp.x + offset, dBtmY};
         inFrontOfDefenseAreaPositionC = {pp.x + offset, dTopY};
     } else if (ball->getPos().y < -goal_width) {
         inFrontOfDefenseAreaPositionA = {pp.x + offset, 0};

@@ -60,7 +60,7 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(const Field &field, MidFi
 
 }
 
-bool MidFieldCoach::validOpponent(const Field &field, const RobotPtr& opponent) {
+bool MidFieldCoach::validOpponent(const Field &field, const RobotPtr &opponent) {
     if (abs(opponent->pos.x) > DISTANCE_FROM_MIDDLE_LINE) {
         return false;
     }
@@ -120,7 +120,7 @@ MidFieldCoach::Target &MidFieldCoach::harassFastRobot(const MidFieldCoach::Robot
 }
 
 MidFieldCoach::Target &MidFieldCoach::harassSlowRobot(const MidFieldCoach::RobotPtr &opponent,
-        const MidFieldCoach::HarassType &harassType, MidFieldCoach::Target &target) const {
+                                                      const MidFieldCoach::HarassType &harassType, MidFieldCoach::Target &target) const {
     if (harassType == HARASS_DEFENSIVE) {
         target.targetPosition = opponent->pos - Vector2{DEFAULT_HARASS_DISTANCE, 0};
     } else {
@@ -129,7 +129,7 @@ MidFieldCoach::Target &MidFieldCoach::harassSlowRobot(const MidFieldCoach::Robot
     return target;
 }
 
-MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const Field &field, const RobotPtr& thisRobot) {
+MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const Field &field, const RobotPtr &thisRobot) {
     RobotPtr closestRobot = nullptr;
     auto shortestDistance = 9e9;
 
@@ -190,7 +190,9 @@ MidFieldCoach::HarassType MidFieldCoach::getHarassType(const RobotPtr &thisRobot
 }
 
 MidFieldCoach::HarassType MidFieldCoach::getHarassTypeIfOpponentIsOnTheLeft(const MidFieldCoach::RobotPtr &thisRobot,
-        const world::World::BallPtr &ball, BallPossession &ballPossession, const BallPossession::Possession &possession) const {
+                                                                            const world::World::BallPtr &ball,
+                                                                            BallPossession &ballPossession,
+                                                                            const BallPossession::Possession &possession) const {
     if (ball->getPos().x < thisRobot->pos.x) {
         if (possession == BallPossession::OURBALL) {
             return STAND_FREE;
@@ -214,7 +216,7 @@ MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr
     return target;
 }
 
-double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vector2& position, const RobotPtr &thisRobot) {
+double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vector2 &position, const RobotPtr &thisRobot) {
     WorldData world = world::world->getWorld();
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
@@ -239,9 +241,10 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const Field &field, const Robot
                                       bestPosition + thetaMinus.toVector2(2.0 * GRID_SIZE),
                                       bestPosition + thetaMinus.toVector2(4.0 * GRID_SIZE)};
 
-    for (const auto& position : positions) {
-        if(!FieldComputations::pointIsInField(field, position, 0.20) ||
-            abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
+    for (const auto &position : positions) {
+        if (!FieldComputations::pointIsInField(field, position, 0.20) ||
+            abs(position.x) > DISTANCE_FROM_MIDDLE_LINE)
+            continue;
         double score = calculateStandingFreeScore(field, position, thisRobot);
         if (score > highestScore) {
             highestScore = score;

@@ -15,27 +15,27 @@
 namespace rtt {
 
 class ApplicationManager {
-   private:
-    rtt::ai::analysis::PlayChecker playcheck;
+ private:
+  rtt::ai::analysis::PlayChecker playcheck;
 
-    FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
-    int ticksFree = 0;
-    bt::BehaviorTree::Ptr strategy;
-    bt::BehaviorTree::Ptr keeperTree;
-    void notifyTreeStatus(bt::Node::Status status);
-    void runOneLoopCycle();
-    bool weHaveRobots = false;
-    std::string oldKeeperTreeName = "";
-    std::string oldStrategyName = "";
+  FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
+  int ticksFree = 0;
+  bt::BehaviorTree::Ptr strategy;
+  bt::BehaviorTree::Ptr keeperTree;
+  void notifyTreeStatus(bt::Node::Status status);
+  void runOneLoopCycle();
+  bool weHaveRobots = false;
+  std::string oldKeeperTreeName = "";
+  std::string oldStrategyName = "";
 
-   public:
-    void start();
-    void checkForShutdown();
-    void checkForFreeRobots();
-    void updateCoaches() const;
-    void updateTrees();
-    bt::Node::Status runStrategyTree();
-    void runKeeperTree();
+ public:
+  void start();
+  void checkForShutdown();
+  void checkForFreeRobots();
+  void updateCoaches() const;
+  void updateTrees();
+  bt::Node::Status runStrategyTree();
+  void runKeeperTree();
 };
 
 }  // namespace rtt

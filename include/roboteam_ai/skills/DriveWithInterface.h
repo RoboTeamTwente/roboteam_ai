@@ -11,12 +11,12 @@
 namespace rtt::ai {
 
 class DriveWithInterface : public Skill {
-   public:
-    explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
-    Status onUpdate() override;
+ public:
+  explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
+  Status onUpdate() override;
 
-   private:
-    control::NumTreePosControl numTreeGtp;
+ private:
+  control::NumTreePosControl numTreeGtp;
 };
 }  // namespace rtt::ai
 

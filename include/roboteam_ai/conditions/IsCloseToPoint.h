@@ -6,16 +6,16 @@
 namespace rtt::ai {
 
 class IsCloseToPoint : public Condition {
-   private:
-    double margin = 0.0;
-    Vector2 position;
+ private:
+  double margin = 0.0;
+  Vector2 position;
 
-   public:
-    explicit IsCloseToPoint(std::string name = "IsCloseToPoint", bt::Blackboard::Ptr blackboard = nullptr);
+ public:
+  explicit IsCloseToPoint(std::string name = "IsCloseToPoint", bt::Blackboard::Ptr blackboard = nullptr);
 
-    void onInitialize() override;
+  void onInitialize() override;
 
-    Status onUpdate() override;
+  Status onUpdate() override;
 };
 
 }  // namespace rtt::ai

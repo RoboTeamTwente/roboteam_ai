@@ -10,28 +10,28 @@
 namespace bt {
 
 class Role : public Node {
-   public:
-    /**
-     * By default, a role already has 1 child, initialised to nullptr. Therefore, calling setRoleString(string name) on a role without children will result in segfault
-     * @param name the name you want the role to have. Be sure to call "setRoleString(string name) on this so all the nodes below it are also recursively given the same role name
-     */
-    Role(std::string name);
+ public:
+  /**
+   * By default, a role already has 1 child, initialised to nullptr. Therefore, calling setRoleString(string name) on a role without children will result in segfault
+   * @param name the name you want the role to have. Be sure to call "setRoleString(string name) on this so all the nodes below it are also recursively given the same role name
+   */
+  Role(std::string name);
 
-    Node::Ptr child = nullptr;
+  Node::Ptr child = nullptr;
 
-    std::string name = "Role";
+  std::string name = "Role";
 
-    void initialize() override;
+  void initialize() override;
 
-    Status update() override;
+  Status update() override;
 
-    void addChild(Node::Ptr newChild) override;
+  void addChild(Node::Ptr newChild) override;
 
-    std::vector<Node::Ptr> getChildren() override;
+  std::vector<Node::Ptr> getChildren() override;
 
-    std::string node_name() override;
+  std::string node_name() override;
 
-    void terminate(Status s) override;
+  void terminate(Status s) override;
 };
 }  // namespace bt
 

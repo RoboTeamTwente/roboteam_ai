@@ -6,17 +6,17 @@
 namespace rtt::ai {
 
 class IsBallOnOurSide : public Condition {
-    FRIEND_TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side);
+  FRIEND_TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side);
 
-   private:
-    bool inField = false;
+ private:
+  bool inField = false;
 
-   public:
-    explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
+ public:
+  explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
 
-    void onInitialize() override;
+  void onInitialize() override;
 
-    Status onUpdate() override;
+  Status onUpdate() override;
 };
 
 }  // namespace rtt::ai

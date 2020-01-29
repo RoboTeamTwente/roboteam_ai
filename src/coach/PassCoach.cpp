@@ -74,7 +74,7 @@ int PassCoach::determineReceiver(const Field &field, int passerID) {
     double bestScore = 0;
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
-    for(auto &robot : world::world->getUs()) {
+    for (auto &robot : world::world->getUs()) {
         if (!validReceiver(field, passer, robot)) continue;
         double score = passScore.calculatePassScore(field, robot->pos);
         if (score > bestScore) {
@@ -127,7 +127,7 @@ void PassCoach::updatePassProgression() {
     }
 }
 
-bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const RobotPtr& receiver,  bool freeKick) {
+bool PassCoach::validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick) {
     auto ball = world::world->getBall();
 
     if (!ball || !passer || !receiver) {

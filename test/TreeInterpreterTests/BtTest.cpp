@@ -21,77 +21,77 @@ namespace {
 std::vector<std::string> traces;
 
 class Tracer : public bt::Leaf {
-   public:
-    std::string id;
+ public:
+  std::string id;
 
-    explicit Tracer(std::string id) : id{std::move(id)} {}
+  explicit Tracer(std::string id) : id{std::move(id)} {}
 
-    void initialize() override {
-        traces.push_back("Initialize: " + id);
-        initialize_();
-    }
+  void initialize() override {
+      traces.push_back("Initialize: " + id);
+      initialize_();
+  }
 
-    Status update() override {
-        traces.push_back("Update: " + id);
-        return update_();
-    }
+  Status update() override {
+      traces.push_back("Update: " + id);
+      return update_();
+  }
 
-    void terminate(Status s) override {
-        traces.push_back("Terminate: " + id);
-        terminate_(s);
-    }
+  void terminate(Status s) override {
+      traces.push_back("Terminate: " + id);
+      terminate_(s);
+  }
 
-    // Spoofed functions
-    virtual void initialize_() {}
+  // Spoofed functions
+  virtual void initialize_() {}
 
-    virtual Status update_() { return status; }
+  virtual Status update_() { return status; }
 
-    virtual void terminate_(Status) {}
+  virtual void terminate_(Status) {}
 };
 
 class Once : public Tracer {
-   public:
-    explicit Once(const std::string &id) : Tracer("Once-" + id) {}
+ public:
+  explicit Once(const std::string &id) : Tracer("Once-" + id) {}
 };
 
 class Runner : public Tracer {
-   public:
-    explicit Runner(const std::string &id) : Tracer("Runner-" + id) {}
+ public:
+  explicit Runner(const std::string &id) : Tracer("Runner-" + id) {}
 
-    Status update_() override { return Status::Running; }
+  Status update_() override { return Status::Running; }
 
-    void terminate_(Status s) override {
-        if (s == Status::Running || s == Status::Waiting) {
-            setStatus(Status::Failure);
-        }
-    }
+  void terminate_(Status s) override {
+      if (s == Status::Running || s == Status::Waiting) {
+          setStatus(Status::Failure);
+      }
+  }
 };
 
 class Counter : public Tracer {
-   public:
-    int max;
-    int runningCount;
-    Status statusToReturn;
+ public:
+  int max;
+  int runningCount;
+  Status statusToReturn;
 
-    Counter(Status statusToReturn, const std::string &id, int max) : Tracer("Counter-" + id), max{max}, runningCount{0} { this->statusToReturn = statusToReturn; }
+  Counter(Status statusToReturn, const std::string &id, int max) : Tracer("Counter-" + id), max{max}, runningCount{0} { this->statusToReturn = statusToReturn; }
 
-    void initialize_() override { runningCount = 0; }
+  void initialize_() override { runningCount = 0; }
 
-    Status update_() override {
-        runningCount++;
+  Status update_() override {
+      runningCount++;
 
-        if (runningCount == max) {
-            return statusToReturn;
-        }
+      if (runningCount == max) {
+          return statusToReturn;
+      }
 
-        return Status::Running;
-    }
+      return Status::Running;
+  }
 
-    void terminate_(Status s) override {
-        if (s == Status::Running || s == Status::Waiting) {
-            setStatus(Status::Failure);
-        }
-    }
+  void terminate_(Status s) override {
+      if (s == Status::Running || s == Status::Waiting) {
+          setStatus(Status::Failure);
+      }
+  }
 };
 
 }  // anonymous namespace
@@ -260,9 +260,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt.tick(nullptr, nullptr);
 
         std::vector<std::string> expectedTrace = {
-            "Initialize: Counter-A", "Update: Counter-A",     "Update: Counter-A",    "Terminate: Counter-A", "Initialize: Counter-B",
-            "Update: Counter-B",     "Initialize: Counter-A", "Update: Counter-A",    "Update: Counter-A",    "Terminate: Counter-A",
-            "Update: Counter-B",     "Terminate: Counter-B",  "Terminate: Counter-A", "Terminate: Counter-B"
+            "Initialize: Counter-A", "Update: Counter-A", "Update: Counter-A", "Terminate: Counter-A", "Initialize: Counter-B",
+            "Update: Counter-B", "Initialize: Counter-A", "Update: Counter-A", "Update: Counter-A", "Terminate: Counter-A",
+            "Update: Counter-B", "Terminate: Counter-B", "Terminate: Counter-A", "Terminate: Counter-B"
             // note: the double terminates are expected. the counters should terminate themselves after 2 ticks,
         };
 
@@ -284,8 +284,8 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {
-            "Initialize: Counter-A", "Update: Counter-A",     "Update: Counter-A", "Terminate: Counter-A", "Initialize: Counter-B",
-            "Update: Counter-B",     "Initialize: Counter-A", "Update: Counter-A", "Terminate: Counter-A", "Terminate: Counter-B",
+            "Initialize: Counter-A", "Update: Counter-A", "Update: Counter-A", "Terminate: Counter-A", "Initialize: Counter-B",
+            "Update: Counter-B", "Initialize: Counter-A", "Update: Counter-A", "Terminate: Counter-A", "Terminate: Counter-B",
         };
 
         EXPECT_EQ(expectedTrace, traces);
@@ -348,7 +348,7 @@ TEST(BehaviorTreeTest, selectorComposites) {
     EXPECT_EQ(memSelector.getStatus(), bt::Node::Status::Waiting);
     memSelector.index = 22;
     memSelector.initialize();
-    EXPECT_EQ(memSelector.index, (unsigned int)0);
+    EXPECT_EQ(memSelector.index, (unsigned int) 0);
 
     // return success if no children
     EXPECT_EQ(memSelector.update(), bt::Node::Status::Success);

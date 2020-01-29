@@ -17,7 +17,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     if (properties->getBool("Offensive")) {
         // first we calculate all the positions for the defense
         std::vector<int> robotIds;
-        for (auto& i : *robotsInFormation) {
+        for (auto &i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
         auto poses = rtt::ai::control::PositionUtils::getPenaltyPositions(*field, robotsInFormation->size());
@@ -28,7 +28,7 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     } else {
         robot->getNumtreePosControl()->setAvoidBallDistance(0.4);
         std::vector<int> robotIds;
-        for (auto& i : *robotsInFormation) {
+        for (auto &i : *robotsInFormation) {
             robotIds.push_back(i->id);
         }
         auto poses = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(*field, robotsInFormation->size());

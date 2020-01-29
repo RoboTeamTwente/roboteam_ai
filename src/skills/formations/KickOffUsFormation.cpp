@@ -6,12 +6,12 @@
 #include "control/Hungarian.h"
 
 namespace rtt::ai {
-    std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormation = nullptr;
+std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormation = nullptr;
 
-    KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        : Formation(name, blackboard) {
-        robotsInFormation = std::make_shared<std::vector<bt::Leaf::RobotPtr>>();
-    }
+KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard)
+    : Formation(name, blackboard) {
+    robotsInFormation = std::make_shared<std::vector<bt::Leaf::RobotPtr>>();
+}
 
 Vector2 KickOffUsFormation::getFormationPosition() {
     std::vector<int> robotIds;

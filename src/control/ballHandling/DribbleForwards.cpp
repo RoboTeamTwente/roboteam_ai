@@ -73,12 +73,9 @@ void DribbleForwards::updateForwardsProgress() {
             }
             return;
         }
-        case FAIL:
-            return;
-        case START:
-            return;
-        default:
-            return;
+        case FAIL:return;
+        case START:return;
+        default:return;
         case SUCCESS: {
             if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy * ballPlacementAccuracy) {
                 return;
@@ -97,16 +94,11 @@ RobotCommand DribbleForwards::startTravelForwards() {
 
 RobotCommand DribbleForwards::sendForwardsCommand() {
     switch (forwardsProgress) {
-        case START:
-            return startTravelForwards();
-        case TURNING:
-            return sendTurnCommand();
-        case APPROACHING:
-            return sendApproachCommand();
-        case DRIBBLE_FORWARD:
-            return sendDribbleForwardsCommand();
-        case SUCCESS:
-            return sendSuccessCommand();
+        case START:return startTravelForwards();
+        case TURNING:return sendTurnCommand();
+        case APPROACHING:return sendApproachCommand();
+        case DRIBBLE_FORWARD:return sendDribbleForwardsCommand();
+        case SUCCESS:return sendSuccessCommand();
         case FAIL: {
             forwardsProgress = START;
             return {};
@@ -177,23 +169,17 @@ void DribbleForwards::printForwardsProgress() {
     std::stringstream ss;
     ss << "forwards progress:                  ";
     switch (forwardsProgress) {
-        case START:
-            ss << "start";
+        case START:ss << "start";
             break;
-        case TURNING:
-            ss << "turning";
+        case TURNING:ss << "turning";
             break;
-        case APPROACHING:
-            ss << "approaching";
+        case APPROACHING:ss << "approaching";
             break;
-        case DRIBBLE_FORWARD:
-            ss << "dribble forwards";
+        case DRIBBLE_FORWARD:ss << "dribble forwards";
             break;
-        case SUCCESS:
-            ss << "success";
+        case SUCCESS:ss << "success";
             break;
-        case FAIL:
-            ss << "fail";
+        case FAIL:ss << "fail";
             break;
     }
     std::cout << ss.str() << std::endl;

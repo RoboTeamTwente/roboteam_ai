@@ -12,14 +12,14 @@ namespace rtt::ai::analysis {
  * Invariant that is true when the ball belongs to us
  */
 class BallOnOurSideInvariant {
-   public:
-    /**
-     * Functional implementation of when the ball is on our side of the field
-     * @param world the current world state
-     * @param field the current field state
-     * @return true if the ball belongs to us, false otherwise
-     */
-    static bool isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+ public:
+  /**
+   * Functional implementation of when the ball is on our side of the field
+   * @param world the current world state
+   * @param field the current field state
+   * @return true if the ball belongs to us, false otherwise
+   */
+  static bool isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field);
 };
 }  // namespace rtt::ai::analysis
 

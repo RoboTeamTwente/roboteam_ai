@@ -50,8 +50,7 @@ Pass::Status Pass::onUpdate() {
 
         if (!robotToPassTo || robotToPassToID == -1) {
             robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, ball->getPos());
-        }
-        else {
+        } else {
             robotCommand = robot->getBallHandlePosControl()->getRobotCommand(world, field,
                                                                              robot, robotToPassTo->pos, control::BallHandlePosControl::TravelStrategy::FORWARDS);
         }
@@ -90,13 +89,11 @@ Pass::Status Pass::onUpdate() {
         // If this is both not the case, check if there's a clear line to the target
         // If not, either ++ fails or fail immediately
         if (!forcePass && !hasShot && !control::ControlUtils::clearLine(ball->getPos(), robotToPassTo->pos,
-                world::world->getWorld(), 1)) {
+                                                                        world::world->getWorld(), 1)) {
             // If the passType is defensive, force to immediately chip as soon as the pass is blocked
             if (passType == DEFENSIVE || passType == FREEKICK) {
                 forcePass = true;
-            } else
-
-            if (maxTries == -1) {
+            } else if (maxTries == -1) {
                 return Status::Failure;
             } else {
                 fails++;
@@ -149,12 +146,12 @@ void Pass::initiatePass() {
 bool Pass::didShootProperly() {
     bool ballIsMovingFast = Vector2(world::world->getBall()->getVel()).length() > 0.6;
     bool ballIsMovingToReceiver = true; // control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
-                                        // robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
+    // robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 
     return (hasShot && ballIsMovingFast && ballIsMovingToReceiver);
 }
 
-Pass::PassType Pass::stringToType(const std::string& type) {
+Pass::PassType Pass::stringToType(const std::string &type) {
     if (type == "defensive") {
         return DEFENSIVE;
     } else if (type == "freeKick") {

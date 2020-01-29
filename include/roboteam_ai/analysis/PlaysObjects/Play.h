@@ -16,25 +16,25 @@ namespace rtt::ai::analysis {
  * TODO: Should this object have a behaviourtree associated to it? I think yes
  */
 class Play {
-   public:
-    Play();
+ public:
+  Play();
 
-    Play(std::string name, std::vector<std::function<bool(world::World*, world::Field*)>> invariants);
-    void setInvariants(const std::vector<std::function<bool(world::World*, world::Field*)>>& invariants);
-    const std::vector<std::function<bool(world::World*, world::Field*)>>& getInvariants() const;
+  Play(std::string name, std::vector<std::function<bool(world::World * , world::Field * )>> invariants);
+  void setInvariants(const std::vector<std::function<bool(world::World * , world::Field * )>> &invariants);
+  const std::vector<std::function<bool(world::World * , world::Field * )>> &getInvariants() const;
 
-    /**
-     *
-     * @return true if all the invariants of this strategy are true
-     */
-    bool isValidPlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+  /**
+   *
+   * @return true if all the invariants of this strategy are true
+   */
+  bool isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field);
 
-    std::string getName();
+  std::string getName();
 
-   protected:
-    std::vector<std::function<bool(world::World*, world::Field*)>> invariants;
-    std::shared_ptr<bt::BehaviorTree> tree;
-    std::string name;
+ protected:
+  std::vector<std::function<bool(world::World * , world::Field * )>> invariants;
+  std::shared_ptr<bt::BehaviorTree> tree;
+  std::string name;
 };
 }  // namespace rtt::ai::analysis
 

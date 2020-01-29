@@ -209,8 +209,7 @@ const FieldArc &Field::getCenterCircle() const {
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
         return fieldValue.value();
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. So the values are equal to 0.0 */
         std::cout << "Warning: access undefined field value in the Field class (world might not be turned on?)." << std::endl;
@@ -221,8 +220,7 @@ double Field::getFieldValue(const std::optional<double> &fieldValue) const {
 const FieldLineSegment &Field::getFieldLine(const std::optional<FieldLineSegment> &fieldLine) const {
     if (fieldLine) {
         return fieldLine.value();
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Warning: access undefined field line in the Field class (world might not be turned on?)." << std::endl;
@@ -235,8 +233,7 @@ const FieldLineSegment &Field::getFieldLine(const std::optional<FieldLineSegment
 const Vector2 &Field::getFieldVector(const std::optional<Vector2> &fieldVector) const {
     if (fieldVector) {
         return fieldVector.value();
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Warning: access undefined field vector in the Field class (world might not be turned on?)." << std::endl;
@@ -249,8 +246,7 @@ const Vector2 &Field::getFieldVector(const std::optional<Vector2> &fieldVector) 
 const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) const {
     if (fieldArc) {
         return fieldArc.value();
-    }
-    else {
+    } else {
         /* This clause is needed, because the default constructor could have been called. In which case the variables
         have not been assigned a value. */
         std::cout << "Warning: access undefined field arc in the Field class (world might not be turned on?)." << std::endl;
@@ -273,10 +269,10 @@ Polygon Field::getFieldEdge(double margin) {
     double top = field.get(TOPMOST_Y) - margin;
 
     std::vector<Vector2> fieldEdge = {
-      {left, bottom},
-      {left, top},
-      {right, top},
-      {right, bottom}};
+        {left, bottom},
+        {left, top},
+        {right, top},
+        {right, bottom}};
 
     interface::Input::drawDebugData(fieldEdge, Qt::red, interface::Drawing::LINES_CONNECTED);
 

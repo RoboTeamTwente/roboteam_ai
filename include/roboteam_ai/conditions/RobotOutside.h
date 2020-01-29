@@ -10,13 +10,13 @@
 namespace rtt::ai {
 
 class RobotOutside : public Condition {
-   public:
-    explicit RobotOutside(std::string name = "RobotOutside", bt::Blackboard::Ptr blackboard = nullptr);
+ public:
+  explicit RobotOutside(std::string name = "RobotOutside", bt::Blackboard::Ptr blackboard = nullptr);
 
-    Status onUpdate() override;
+  Status onUpdate() override;
 
-   private:
-    bool checkPoint();
+ private:
+  bool checkPoint();
 };
 
 }  // namespace rtt::ai

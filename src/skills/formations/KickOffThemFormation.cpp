@@ -5,17 +5,17 @@
 #include "control/Hungarian.h"
 
 namespace rtt::ai {
-    std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormation = nullptr;
+std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormation = nullptr;
 
-    KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard)
-            : Formation(name, blackboard) {
-        robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
-    }
+KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard)
+    : Formation(name, blackboard) {
+    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
+}
 
-    Vector2 KickOffThemFormation::getFormationPosition() {
-        std::vector<int> robotIds;
-        double fh = (*field).getFieldWidth();
-        double fw = (*field).getFieldLength();
+Vector2 KickOffThemFormation::getFormationPosition() {
+    std::vector<int> robotIds;
+    double fh = (*field).getFieldWidth();
+    double fw = (*field).getFieldLength();
 
     std::vector<std::vector<Vector2>> locations = {
         {{-0.8, 0}},

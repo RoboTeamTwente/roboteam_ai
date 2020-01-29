@@ -12,7 +12,7 @@ namespace rtt::ai::interface {
  * However, for some reason it gave segfaults the last time I tried this (jan 16 2020)
  */
 
-GraphWidget::GraphWidget(QWidget* parent) {
+GraphWidget::GraphWidget(QWidget *parent) {
     auto verticalLayout = new QVBoxLayout(this);
 
     fpsView = new QChartView();
@@ -31,23 +31,23 @@ GraphWidget::GraphWidget(QWidget* parent) {
     fpsView->chart()->axisY()->setGridLineVisible(true);
 
     connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
-        qreal y = fpsSeries->at(index).y();
-        qreal x = fpsSeries->at(index).x();
+      qreal y = fpsSeries->at(index).y();
+      qreal x = fpsSeries->at(index).x();
 
-        if (y > fpsGraphYMax) {
-            if (y > fpsGraphYMax) fpsGraphYMax = y;
-            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
-        }
+      if (y > fpsGraphYMax) {
+          if (y > fpsGraphYMax) fpsGraphYMax = y;
+          fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
+      }
 
-        if (x < fpsGraphXMin || x > fpsGraphXMax) {
-            if (x < fpsGraphXMin) fpsGraphXMin = x;
-            if (x > fpsGraphXMax) fpsGraphXMax = x;
+      if (x < fpsGraphXMin || x > fpsGraphXMax) {
+          if (x < fpsGraphXMin) fpsGraphXMin = x;
+          if (x > fpsGraphXMax) fpsGraphXMax = x;
 
-            if (fpsGraphXMax - fpsGraphXMin > 30) {
-                fpsGraphXMin = fpsGraphXMax - 30;
-            }
-            fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
-        }
+          if (fpsGraphXMax - fpsGraphXMin > 30) {
+              fpsGraphXMin = fpsGraphXMax - 30;
+          }
+          fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
+      }
     });
 
     verticalLayout->addWidget(fpsView);

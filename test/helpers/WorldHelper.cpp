@@ -59,7 +59,7 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 
     std::vector<std::pair<int, rtt::Vector2>> robotPositions;
     for (unsigned int i = 0; i < robots.size(); i++) {
-        robotPositions.emplace_back(std::make_pair(i, robots.at((unsigned long)i).pos()));
+        robotPositions.emplace_back(std::make_pair(i, robots.at((unsigned long) i).pos()));
     }
 
     // for each position, check all other positions and see if the distance is large enough.
@@ -89,7 +89,7 @@ proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldS
     auto randomVel = getRandomVelocity();
 
     proto::WorldRobot robot;
-    robot.set_id((unsigned)id);
+    robot.set_id((unsigned) id);
     robot.mutable_pos()->set_x(randomFieldPos.x);
     robot.mutable_pos()->set_y(randomFieldPos.y);
     robot.set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));

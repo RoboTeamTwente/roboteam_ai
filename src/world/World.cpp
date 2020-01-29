@@ -9,7 +9,7 @@ World worldObj;
 World *world = &worldObj;
 
 void World::updateWorld(const Field &field, const proto::World &message) {
-    worldNumber ++;
+    worldNumber++;
 
     BallPtr oldBall = nullptr;
     {
@@ -63,7 +63,7 @@ void World::updateWorld(const Field &field, const proto::World &message) {
 }
 
 void World::updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg,
-        std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long newWorldNumber) const {
+                                 std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long newWorldNumber) const {
     for (auto robotMsg : robotsFromMsg) {
         // find robots that areor/ both in the vector and in the message
         bool robotFound = false;
@@ -172,15 +172,12 @@ const World::RobotPtr World::getRobotClosestToPoint(const Vector2 &point, WhichR
             return {nullptr};
         }
         switch (whichRobots) {
-            case OUR_ROBOTS:
-                robotsCopy = worldDataPtr->us;
+            case OUR_ROBOTS:robotsCopy = worldDataPtr->us;
                 break;
-            case THEIR_ROBOTS:
-                robotsCopy = worldDataPtr->them;
+            case THEIR_ROBOTS:robotsCopy = worldDataPtr->them;
                 break;
             case ALL_ROBOTS:
-            default:
-                robotsCopy.insert(robotsCopy.end(), worldDataPtr->us.begin(), worldDataPtr->us.end());
+            default:robotsCopy.insert(robotsCopy.end(), worldDataPtr->us.begin(), worldDataPtr->us.end());
                 robotsCopy.insert(robotsCopy.end(), worldDataPtr->them.begin(), worldDataPtr->them.end());
                 break;
         }
@@ -239,17 +236,13 @@ const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
     // checks for all robots which robot has the ball AND is closest to the ball
     std::vector<RobotPtr> allRobots;
     switch (whichRobots) {
-        default:
-            allRobots = getAllRobots();
+        default:allRobots = getAllRobots();
             break;
-        case OUR_ROBOTS:
-            allRobots = getUs();
+        case OUR_ROBOTS:allRobots = getUs();
             break;
-        case THEIR_ROBOTS:
-            allRobots = getThem();
+        case THEIR_ROBOTS:allRobots = getThem();
             break;
-        case ALL_ROBOTS:
-            allRobots = getAllRobots();
+        case ALL_ROBOTS:allRobots = getAllRobots();
             break;
     }
     if (allRobots.empty()) {

@@ -8,10 +8,10 @@
 
 namespace bt {
 class BeingPassedToHelper {
-   public:
-    BeingPassedToHelper();
+ public:
+  BeingPassedToHelper();
 
-    std::shared_ptr<bt::Node> createBeingPassedToChecker();
+  std::shared_ptr<bt::Node> createBeingPassedToChecker();
 };
 }  // namespace bt
 

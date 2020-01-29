@@ -10,28 +10,28 @@
 namespace rtt::ai {
 
 class AvoidBall : public Skill {
-    const double robotWeight = 0.09;
-    double minRobotDistanceForForce;
-    const double ballWeight = 0.24;
-    const double minBallDistanceForForce = 1.1;
-    const double wallWeight = 0.05;
-    const double minWallDistanceForForce = 0.4;
-    bool stop = false;  // might be useful in the future
+  const double robotWeight = 0.09;
+  double minRobotDistanceForForce;
+  const double ballWeight = 0.24;
+  const double minBallDistanceForForce = 1.1;
+  const double wallWeight = 0.05;
+  const double minWallDistanceForForce = 0.4;
+  bool stop = false;  // might be useful in the future
 
-   public:
-    explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-    void onInitialize(std::string type);
-    bt::Node::Status onUpdate() override;
+ public:
+  explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+  void onInitialize(std::string type);
+  bt::Node::Status onUpdate() override;
 
-   private:
-    enum Progression { RUNNING, DONE, FAIL };
-    Progression currentProgress;
+ private:
+  enum Progression { RUNNING, DONE, FAIL };
+  Progression currentProgress;
 
-    enum Type { BALLPLACEMENT, PASSING, DEFAULT };
+  enum Type { BALLPLACEMENT, PASSING, DEFAULT };
 
-    Type type;
-    Type stringToType(std::string string);
-    RobotPtr receiver;
+  Type type;
+  Type stringToType(std::string string);
+  RobotPtr receiver;
 };
 
 }  // namespace rtt::ai

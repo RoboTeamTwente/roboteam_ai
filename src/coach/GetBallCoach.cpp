@@ -12,15 +12,15 @@
 namespace rtt::ai::coach {
 
 GetBallCoach getBallCoachObj;
-GetBallCoach* getBallCoach = &getBallCoachObj;
+GetBallCoach *getBallCoach = &getBallCoachObj;
 
 bool GetBallCoach::shouldWeGetBall(const Field &field) {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
     Vector2 ballPos = world::world->getBall()->getPos();
     return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) &&
-            !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
-            FieldComputations::pointIsInField(field, ballPos, - 0.05);
+        !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
+        FieldComputations::pointIsInField(field, ballPos, -0.05);
 }
 
 bool GetBallCoach::weAreGettingBall() {
@@ -58,7 +58,7 @@ int GetBallCoach::bestBallGetterID() {
     }
 
     interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::lightGray, closestId,
-            interface::Drawing::LINES_CONNECTED);
+                               interface::Drawing::LINES_CONNECTED);
 
     return closestId;
 }

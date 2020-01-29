@@ -13,15 +13,15 @@ namespace rtt::ai::coach {
 
 /// This class keeps track of what all the defenders are doing and assigns them and communicates with them
 class DefenceDealer {
-    private:
-        const int LOCKTIME = 18;
-        std::vector<DefenderBot> assignedDefenders;
-        std::vector<int> availableIDs;
-    public:
-        void updateDefenderLocations(const Field &field);
-        void addDefender(int id);
-        std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
-        void visualizePoints();
+ private:
+  const int LOCKTIME = 18;
+  std::vector<DefenderBot> assignedDefenders;
+  std::vector<int> availableIDs;
+ public:
+  void updateDefenderLocations(const Field &field);
+  void addDefender(int id);
+  std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
+  void visualizePoints();
 };
 extern DefenceDealer g_DefenceDealer;
 

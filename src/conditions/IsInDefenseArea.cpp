@@ -13,8 +13,8 @@
 
 namespace rtt::ai {
 
-IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard) 
-    : Condition(std::move(name), std::move(blackboard)) { }
+IsInDefenseArea::IsInDefenseArea(std::string name, bt::Blackboard::Ptr blackboard)
+    : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status IsInDefenseArea::onUpdate() {
     ourDefenseArea = properties->getBool("ourDefenseArea");

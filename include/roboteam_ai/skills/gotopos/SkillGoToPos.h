@@ -9,18 +9,18 @@
 
 namespace rtt::ai {
 class SkillGoToPos : public GoToPos {
-   private:
-    bool goToBall;
+ private:
+  bool goToBall;
 
-    enum Progression { ON_THE_WAY, DONE, FAIL };
-    Progression currentProgress;
-    Progression checkProgression();
+  enum Progression { ON_THE_WAY, DONE, FAIL };
+  Progression currentProgress;
+  Progression checkProgression();
 
-   public:
-    explicit SkillGoToPos(std::string name, bt::Blackboard::Ptr blackboard);
-    void gtpInitialize() override;
-    Status gtpUpdate() override;
-    void gtpTerminate(Status s) override;
+ public:
+  explicit SkillGoToPos(std::string name, bt::Blackboard::Ptr blackboard);
+  void gtpInitialize() override;
+  Status gtpUpdate() override;
+  void gtpTerminate(Status s) override;
 };
 
 }  // namespace rtt::ai

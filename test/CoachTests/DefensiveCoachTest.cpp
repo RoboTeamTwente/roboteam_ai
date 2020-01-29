@@ -136,7 +136,7 @@ TEST(defensive_coach, complete) {
     w::field->set_field(field);
     w::world->updateWorld(testhelpers::WorldHelper::getWorldMsg(8, 8, false, field));
     for (int j = 0; j < 1000; ++j) {
-        double r = (double)rand() / RAND_MAX;
+        double r = (double) rand() / RAND_MAX;
         w::world->updateWorld(testhelpers::WorldHelper::getWorldMsg(8, 8, r < 0.5, field));
         for (const auto &robot : w::world->getUs()) {
             g_DefenceDealer.addDefender(robot->id);

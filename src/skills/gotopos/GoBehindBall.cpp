@@ -17,7 +17,7 @@ Skill::Status GoBehindBall::gtpUpdate() {
         case penalty: {
             return penaltyUpdate(penaltyGenevaState);
         }
-        case shootOut:{
+        case shootOut: {
             return penaltyUpdate(3);
         }
         case freeKick: {
@@ -34,8 +34,7 @@ Skill::Status GoBehindBall::gtpUpdate() {
                 return Status::Success;
             }
         }
-        case corner:
-            break;
+        case corner:break;
     }
     return Status::Failure;
 }

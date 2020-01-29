@@ -15,7 +15,7 @@ namespace rtt::ai::control {
 // Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
 /// Returns if PointToCheck is within the triangle constructed by three points.
 bool ControlUtils::pointInTriangle(const Vector2 &pointToCheck,
-        const Vector2 &tp1, const Vector2 &tp2, const Vector2 &tp3) {
+                                   const Vector2 &tp1, const Vector2 &tp2, const Vector2 &tp3) {
 
     double as_x = pointToCheck.x - tp1.x;
     double as_y = pointToCheck.y - tp1.y;
@@ -26,7 +26,7 @@ bool ControlUtils::pointInTriangle(const Vector2 &pointToCheck,
 
 /// Returns the area of a triangle constructed from three points.
 double ControlUtils::TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c) {
-    return abs((a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y))*0.5);
+    return abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) * 0.5);
 }
 
 /// Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
@@ -73,7 +73,7 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
 }
 
 bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world,
-        double safeDistanceFactor, bool includeKeeper) {
+                             double safeDistanceFactor, bool includeKeeper) {
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
     int keeperID = GameStateManager::getRefereeData().blue().goalie();
 
@@ -129,7 +129,7 @@ int ControlUtils::lineOrientation(const Vector2 &p, const Vector2 &q, const Vect
     return (val > 0) ? 1 : 2;  // clock or counterclock wise
 }
 bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart,
-        const Vector2 &lineBEnd) {
+                                         const Vector2 &lineBEnd) {
 
     int o1 = lineOrientation(lineAStart, lineAEnd, lineBStart);
     int o2 = lineOrientation(lineAStart, lineAEnd, lineBEnd);
@@ -198,7 +198,7 @@ Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double 
 
 /// Limits acceleration
 Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector2 &prevVel, const Angle &targetAngle,
-        double sidewaysAcceleration, double forwardsAcceleration, double sidewaysDeceleration, double forwardsDeceleration) {
+                                          double sidewaysAcceleration, double forwardsAcceleration, double sidewaysDeceleration, double forwardsDeceleration) {
 
     Vector2 deltaVel = targetVel - prevVel;
 
@@ -232,8 +232,7 @@ Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, 
         double numerator = ((a1.x - b1.x) * (b1.y - b2.y) - (a1.y - b1.y) * (b1.x - b2.x));
         double t = numerator / denominator;
         return (a1 + (Vector2) {t, t} * (a2 - a1));
-    }
-    else {
+    } else {
         return Vector2();
     }
 }
@@ -295,14 +294,14 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &poin
 }
 
 bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity,
-        const Vector2 &point, double maxDifference) {
+                                              const Vector2 &point, double maxDifference) {
 
     double exactAngleTowardsPoint = (point - objectPosition).angle();
 
     // Note: The angles should NOT be constrained here. This is necessary.
     return (velocity.length() > 0
-    && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2
-    && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
+        && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2
+        && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 
 }
 
@@ -326,40 +325,40 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
 }
 
 Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line,
-        bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
-        LineSegment shotLine(line.start, line.end + (line.end - line.start));
-        Vector2 projectPos = shotLine.project(position);
-        Vector2 closestPoint = projectPos;
+                                                       bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin) {
+    LineSegment shotLine(line.start, line.end + (line.end - line.start));
+    Vector2 projectPos = shotLine.project(position);
+    Vector2 closestPoint = projectPos;
 
-        bool pointInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
-        bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
+    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
+    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
 
-        if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
-            Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));
-            Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, true));
+    if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
+        Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));
+        Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, true));
 
-            std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
-            std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
+        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
 
-            intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
-            if (intersects.empty()) {
-                return projectPos;
-            }
-            double closestDist = 9e9;
-            for (const auto &point :intersects) {
-                if (FieldComputations::pointIsInField(field, point, defenseAreamargin)) {
-                    double dist = point.dist(position);
-                    if (dist < closestDist) {
-                        closestDist = dist;
-                        closestPoint = point;
-                    }
+        intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
+        if (intersects.empty()) {
+            return projectPos;
+        }
+        double closestDist = 9e9;
+        for (const auto &point :intersects) {
+            if (FieldComputations::pointIsInField(field, point, defenseAreamargin)) {
+                double dist = point.dist(position);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestPoint = point;
                 }
             }
         }
+    }
 
-        if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
-            closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
-        }
+    if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
+        closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
+    }
 
     return closestPoint;
 }

@@ -10,7 +10,7 @@
 namespace rtt::ai {
 
 InterceptBall::InterceptBall(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {};
+    : Skill(std::move(name), std::move(blackboard)) {};
 
 // TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
 void InterceptBall::onInitialize() {
@@ -43,15 +43,15 @@ InterceptBall::Status InterceptBall::onUpdate() {
     // The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
 
     interceptPos = computeInterceptPoint(ball->getPos(),
-            Vector2(ball->getPos()) + Vector2(ball->getVel())*Constants::MAX_INTERCEPT_TIME());
+                                         Vector2(ball->getPos()) + Vector2(ball->getVel()) * Constants::MAX_INTERCEPT_TIME());
 
     deltaPos = interceptPos - robot->pos;
     checkProgression();
 
     interface::Input::drawData(interface::Visual::INTERCEPT, {ballStartPos, ballEndPos}, Qt::darkCyan, robot->id,
-            interface::Drawing::LINES_CONNECTED);
+                               interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::INTERCEPT, {interceptPos}, Qt::cyan, robot->id,
-            interface::Drawing::DOTS, 5, 5);
+                               interface::Drawing::DOTS, 5, 5);
     // if we are not already rotating
     if (deltaPos.length() < TURNING_DISTANCE && !orientationLocked) {
         // update if we want to rotate or not; if we have time to turn we do so, otherwise not.
@@ -61,16 +61,12 @@ InterceptBall::Status InterceptBall::onUpdate() {
     }
     tickCount++;
     switch (currentProgression) {
-        case INTERCEPTING:
-            sendMoveCommand(interceptPos);
+        case INTERCEPTING:sendMoveCommand(interceptPos);
             return Status::Running;
-        case INPOSITION:
-            sendStopCommand();
+        case INPOSITION:sendStopCommand();
             return Status::Running;
-        case BALLDEFLECTED:
-            return Status::Success;
-        case BALLMISSED:
-            return Status::Failure;
+        case BALLDEFLECTED:return Status::Success;
+        case BALLMISSED:return Status::Failure;
     }
 
     return Status::Failure;
@@ -118,7 +114,7 @@ void InterceptBall::checkProgression() {
             currentProgression = BALLMISSED;
             return;
         }
-        // check if ball is deflected
+            // check if ball is deflected
         else if (ballDeflected()) {
             currentProgression = BALLDEFLECTED;
             return;
@@ -139,10 +135,8 @@ void InterceptBall::checkProgression() {
                 currentProgression = INTERCEPTING;
                 return;
             }  // Stay here until either ball misses or is deflected;
-        case BALLDEFLECTED:
-            return;
-        case BALLMISSED:
-            return;
+        case BALLDEFLECTED:return;
+        case BALLMISSED:return;
     }
 };
 void InterceptBall::onTerminate(rtt::ai::Skill::Status s) {
@@ -160,7 +154,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         auto DefenceArea = FieldComputations::getDefenseArea(*field, true);
         if (!DefenceArea.contains(interceptionPoint)) {
             auto intersectPoints = DefenceArea.intersections(
-                    LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
+                LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
             if (intersectPoints.empty()) {
                 return interceptionPoint;
             }
@@ -191,7 +185,7 @@ bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballV
     Vector2 startCentre = startBall + ballVel.stretchToLength(interceptDist + Constants::ROBOT_RADIUS());
     Vector2 endCentre = startBall + (endBall - startBall) * 2;  // twice the predicted length to be sure
     return control::ControlUtils::pointInRectangle(ball->getPos(), startCentre - rectSide, startCentre + rectSide,
-            endCentre + rectSide, endCentre - rectSide);
+                                                   endCentre + rectSide, endCentre - rectSide);
 }
 
 // Checks if the ball was deflected by the RobotPtr
@@ -199,7 +193,7 @@ bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
     if (abs(control::ControlUtils::constrainAngle(Vector2(ball->getVel()).angle() - ballStartVel.angle()))
-            > BALL_DEFLECTION_ANGLE) {
+        > BALL_DEFLECTION_ANGLE) {
         return true;
     }
     // BallPtr Position is behind the line orthogonal to the ball velocity going through the ballStartPos
@@ -231,7 +225,7 @@ void InterceptBall::sendStopCommand() {
 bool InterceptBall::ballToGoal() {
     Vector2 goalCentre = (*field).getOurGoalCenter();
     double goalWidth = (*field).getGoalWidth();
-    Vector2 lowerPost = goalCentre + Vector2(0.0, - (goalWidth + GOAL_MARGIN));
+    Vector2 lowerPost = goalCentre + Vector2(0.0, -(goalWidth + GOAL_MARGIN));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
     Vector2 ballPos = ball->getPos();
@@ -247,7 +241,7 @@ bool InterceptBall::ballInGoal() {
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
     Vector2 depth = Vector2(-(*field).getGoalDepth(), 0.0);
     return control::ControlUtils::pointInRectangle(ball->getPos(), lowerPost, lowerPost + depth,
-            upperPost + depth, upperPost);
+                                                   upperPost + depth, upperPost);
 }
 
 }  // namespace rtt::ai

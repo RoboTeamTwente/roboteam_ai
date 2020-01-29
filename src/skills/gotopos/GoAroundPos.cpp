@@ -89,16 +89,14 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
             sendRotateCommand();
             return Status::Running;
         }
-        case FAIL:
-            return Status::Failure;
-        case DONE:
-            return Status::Success;
+        case FAIL:return Status::Failure;
+        case DONE:return Status::Success;
     }
     return Status::Failure;
 }
 
 void GoAroundPos::gtpTerminate(rtt::ai::Skill::Status s) {
-    command.set_w((float)deltaPos.angle());
+    command.set_w((float) deltaPos.angle());
 }
 
 GoAroundPos::Progression GoAroundPos::checkProgression() {
@@ -143,7 +141,7 @@ bool GoAroundPos::checkPosition() {
         return false;
     }
     return ((deltaPos.length() <= (distanceFromPoint + MAX_DIST_DEVIATION))
-            && deltaPos.length() > distanceFromPoint - MAX_DIST_DEVIATION);
+        && deltaPos.length() > distanceFromPoint - MAX_DIST_DEVIATION);
 }
 
 void GoAroundPos::sendRotateCommand() {
@@ -151,7 +149,7 @@ void GoAroundPos::sendRotateCommand() {
     command.set_dribbler(0);
     command.mutable_vel()->set_x(static_cast<float>(deltaCommandPos.x));
     command.mutable_vel()->set_y(static_cast<float>(deltaCommandPos.y));
-    command.set_w((float)deltaPos.angle());
+    command.set_w((float) deltaPos.angle());
     publishRobotCommand();
 }
 }  // namespace rtt::ai

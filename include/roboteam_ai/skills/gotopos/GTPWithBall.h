@@ -12,27 +12,27 @@ namespace rtt::ai {
 
 /// GTPWithBall should NOT have GoToPos as parent
 class GTPWithBall : public Skill {
-   private:
-    control::BallHandlePosControl ballHandlePosControl;
-    Vector2 targetPos;
-    Angle targetAngle;
+ private:
+  control::BallHandlePosControl ballHandlePosControl;
+  Vector2 targetPos;
+  Angle targetAngle;
 
-    enum TargetType {
-        rotateToTheirGoal,
-        ballPlacement,
+  enum TargetType {
+    rotateToTheirGoal,
+    ballPlacement,
 
-    };
-    TargetType targetType;
-    TargetType stringToTargetType(const std::string &string);
+  };
+  TargetType targetType;
+  TargetType stringToTargetType(const std::string &string);
 
-    void updateTarget();
+  void updateTarget();
 
-   public:
-    explicit GTPWithBall(string name, bt::Blackboard::Ptr blackboard);
+ public:
+  explicit GTPWithBall(string name, bt::Blackboard::Ptr blackboard);
 
-    void onInitialize() override;
-    Status onUpdate() override;
-    void onTerminate(Status s) override;
+  void onInitialize() override;
+  Status onUpdate() override;
+  void onTerminate(Status s) override;
 };
 
 }  // namespace rtt::ai

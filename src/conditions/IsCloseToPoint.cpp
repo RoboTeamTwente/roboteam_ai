@@ -12,7 +12,7 @@
 
 namespace rtt::ai {
 
-IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
+IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {};
 
 void IsCloseToPoint::onInitialize() {
     if (properties->hasDouble("margin")) {

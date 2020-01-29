@@ -69,18 +69,18 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
 Vector2 PenaltyKeeper::computeDefendPos() {
     auto attacker = world::world->getRobotClosestToBall(THEIR_ROBOTS);
     // we check the line defined by attacker's centre and the ball position
-    Vector2 middle=(goalLine.start + goalLine.end) * 0.5;
+    Vector2 middle = (goalLine.start + goalLine.end) * 0.5;
 
     if (attacker) {
         Vector2 beginPos = attacker->pos;
         Vector2 endPos = attacker->pos + (world::world->getBall()->getPos() - attacker->pos).stretchToLength(
-                (*field).getFieldLength());
+            (*field).getFieldLength());
 
         // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
-        double maxMoveDist=((*field).getGoalWidth() - Constants::ROBOT_RADIUS()) / 2 - 0.2;
-        LineSegment shootLine(beginPos,endPos);
+        double maxMoveDist = ((*field).getGoalWidth() - Constants::ROBOT_RADIUS()) / 2 - 0.2;
+        LineSegment shootLine(beginPos, endPos);
         Line goalKeepingLine(goalLine.start, goalLine.end);
-        auto intersection=goalKeepingLine.intersects(shootLine);
+        auto intersection = goalKeepingLine.intersects(shootLine);
         if (intersection) {
             if (intersection->y > maxMoveDist) {
                 return Vector2(middle.x, 0.4 * maxMoveDist);
@@ -97,10 +97,10 @@ Vector2 PenaltyKeeper::interceptBallPos() {
     Vector2 startBall = world::world->getBall()->getPos();
     Vector2 endBall = world::world->getBall()->getPos() + world::world->getBall()->getVel().stretchToLength(100);
     Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.start,
-            goalLine.end);
+                                                                               goalLine.end);
     double margin = 0.05;//m next to the goal
     if (predictedShotLocation.y <= (*field).getGoalWidth() * 0.5 + margin
-            && predictedShotLocation.y >= -(*field).getGoalWidth() * 0.5 - margin) {
+        && predictedShotLocation.y >= -(*field).getGoalWidth() * 0.5 - margin) {
         return predictedShotLocation;
     }
     return (goalLine.start + goalLine.end) * 0.5;
@@ -145,8 +145,8 @@ bool PenaltyKeeper::isBallShot() {
 }
 
 void PenaltyKeeper::onTerminate(rtt::ai::Skill::Status s) {
-    state=WAITING;
-    ballNotShotTicks=0;
-    goalLine=getGoalLine();
+    state = WAITING;
+    ballNotShotTicks = 0;
+    goalLine = getGoalLine();
 }
 }  // namespace rtt::ai

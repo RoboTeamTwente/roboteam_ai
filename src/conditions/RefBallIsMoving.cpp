@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-RefBallIsMoving::RefBallIsMoving(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
+RefBallIsMoving::RefBallIsMoving(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {};
 
 bt::Node::Status RefBallIsMoving::onUpdate() {
     bool ballIsLayingStill = GameStateManager::getCurrentGameState().ballPositionAtStartOfGameState.dist(ball->getPos()) < 0.05;

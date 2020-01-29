@@ -8,7 +8,7 @@
 #include <utilities/RobotDealer.h>
 #include <QtWidgets/QApplication>
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     QApplication app(argc, argv);  // initialize qt5
     rtt::ai::Constants::init();

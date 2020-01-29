@@ -10,8 +10,8 @@
 
 namespace rtt::ai::analysis {
 class PlayDecider {
-    PlayDecider() = default;
-    Play decideBestPlay(world::World* world, world::Field* field, std::vector<Play> validPlays);
+  PlayDecider() = default;
+  Play decideBestPlay(world::World *world, world::Field *field, std::vector<Play> validPlays);
 };
 }  // namespace rtt::ai::analysis
 

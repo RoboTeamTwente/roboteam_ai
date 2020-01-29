@@ -8,9 +8,9 @@
 
 namespace bt {
 class RobotOutOfFieldHelper {
-   public:
-    RobotOutOfFieldHelper();
-    std::shared_ptr<Node> createRobotOutOfFieldHelper();
+ public:
+  RobotOutOfFieldHelper();
+  std::shared_ptr<Node> createRobotOutOfFieldHelper();
 };
 
 }  // namespace bt

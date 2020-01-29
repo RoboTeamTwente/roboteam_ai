@@ -10,10 +10,10 @@
 namespace rtt::ai {
 
 class RefStateIsNormalPlay : public Condition {
-   public:
-    explicit RefStateIsNormalPlay(std::string name = "RefStateIsNormalPlay", bt::Blackboard::Ptr blackboard = nullptr);
+ public:
+  explicit RefStateIsNormalPlay(std::string name = "RefStateIsNormalPlay", bt::Blackboard::Ptr blackboard = nullptr);
 
-    Status onUpdate() override;
+  Status onUpdate() override;
 };
 
 }  // namespace rtt::ai

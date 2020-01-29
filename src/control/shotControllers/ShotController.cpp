@@ -13,7 +13,7 @@ namespace rtt::ai::control {
 
 /// return a ShotData (which contains data for robotcommands) for a specific robot to shoot at a specific target.
 RobotCommand ShotController::getRobotCommand(const Field &field, world::Robot robot, const Vector2 &shotTarget, bool chip,
-        BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision, int fixedGeneva) {
+                                             BallSpeed ballspeed, bool useAutoGeneva, ShotPrecision precision, int fixedGeneva) {
     // we only allow the external command to change the target if we are not already shooting. Otherwise we use the previous command sent
     if (!isShooting) {
         aimTarget = shotTarget;
@@ -75,9 +75,9 @@ RobotCommand ShotController::getRobotCommand(const Field &field, world::Robot ro
     }
 
     interface::Input::drawData(interface::Visual::SHOTLINES, {ball->getPos(), aimTarget}, Qt::yellow, robot.id,
-            interface::Drawing::LINES_CONNECTED);
+                               interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::DEBUG, {lineToDriveOver.first, lineToDriveOver.second}, Qt::red,
-            robot.id, interface::Drawing::LINES_CONNECTED);
+                               robot.id, interface::Drawing::LINES_CONNECTED);
 
     // if we are chipping then the geneva state of 3 was actually just a way of proper positioning
     // we can secretly just keep it's state
@@ -110,10 +110,10 @@ Vector2 ShotController::getPlaceBehindBall(const world::Robot &robot, const Vect
 
 /// use Numtree GTP to go to a place behind the ball
 RobotCommand ShotController::goToPlaceBehindBall(const Field &field, const world::Robot &robot,
-        const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &line, int geneva) {
+                                                 const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &line, int geneva) {
     Vector2 genevaAimTarget = updateGenevaAimTarget(geneva);
     auto shotData = robot.getBallHandlePosControl()->getRobotCommand(world::world, &field, std::make_shared<world::Robot>(robot),
-            genevaAimTarget, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
+                                                                     genevaAimTarget, robot.angle, control::BallHandlePosControl::TravelStrategy::FORWARDS);
 
     // TODO: if (rotating to this angle from current angle will hit ball) then pva.angle=angle towards ball
     if ((robot.pos - robotTargetPosition).length() < 0.2) {
@@ -162,7 +162,7 @@ RobotCommand ShotController::moveStraightToBall(world::Robot robot, const std::p
 
 /// Now we should have the ball and kick it.
 RobotCommand ShotController::shoot(RobotCommand shotData, const world::Robot &robot,
-        const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget, bool chip, BallSpeed desiredBallSpeed) {
+                                   const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget, bool chip, BallSpeed desiredBallSpeed) {
 
     auto ball = world::world->getBall();
 
@@ -230,7 +230,7 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
 }
 
 bool ShotController::robotAngleIsGood(world::Robot &robot, const std::pair<Vector2, Vector2> &lineToDriveOver,
-        ShotPrecision precision) {
+                                      ShotPrecision precision) {
     Angle aim((lineToDriveOver.second - lineToDriveOver.first).angle());
     double diff = abs(aim - robot.angle);
     if (precision == HIGH) {
@@ -246,28 +246,22 @@ bool ShotController::robotAngleIsGood(world::Robot &robot, const std::pair<Vecto
 // we rotate this vector according to the angle with the shot line
 // we intentionally need to remove ball pos because we are rotating the vector
 Vector2 ShotController::getPlaceBehindBallForGenevaState(const world::Robot &robot, const Vector2 &shotTarget,
-        int genevaState) {
+                                                         int genevaState) {
     auto ball = world::world->getBall();
     Vector2 placeStraightBehindBallVector = getPlaceBehindBall(robot, shotTarget) - ball->getPos();
 
     switch (genevaState) {
-        case 1:
-            return placeStraightBehindBallVector.rotate(toRadians(20));
-        case 2:
-            return placeStraightBehindBallVector.rotate(toRadians(10));
-        case 3:
-            return placeStraightBehindBallVector;
-        case 4:
-            return placeStraightBehindBallVector.rotate(-toRadians(10));
-        case 5:
-            return placeStraightBehindBallVector.rotate(-toRadians(20));
-        default:
-            return placeStraightBehindBallVector;
+        case 1:return placeStraightBehindBallVector.rotate(toRadians(20));
+        case 2:return placeStraightBehindBallVector.rotate(toRadians(10));
+        case 3:return placeStraightBehindBallVector;
+        case 4:return placeStraightBehindBallVector.rotate(-toRadians(10));
+        case 5:return placeStraightBehindBallVector.rotate(-toRadians(20));
+        default:return placeStraightBehindBallVector;
     }
 }
 
 std::pair<Vector2, Vector2> ShotController::shiftLineForGeneva(const std::pair<Vector2, Vector2> &line,
-        int genevaState) {
+                                                               int genevaState) {
 
     std::pair<Vector2, Vector2> shiftedLine = line;
     if (genevaState < 1 || genevaState > 5) return shiftedLine;
@@ -304,18 +298,12 @@ Vector2 ShotController::updateGenevaAimTarget(int geneva) {
     Vector2 ballToAimTarget = aimTarget - ballPos;
 
     switch (geneva) {
-        case 1:
-            return ballPos + ballToAimTarget.rotate(toRadians(20));
-        case 2:
-            return ballPos + ballToAimTarget.rotate(toRadians(10));
-        case 3:
-            return ballPos + ballToAimTarget;
-        case 4:
-            return ballPos + ballToAimTarget.rotate(-toRadians(10));
-        case 5:
-            return ballPos + ballToAimTarget.rotate(-toRadians(20));
-        default:
-            return ballPos + ballToAimTarget;
+        case 1:return ballPos + ballToAimTarget.rotate(toRadians(20));
+        case 2:return ballPos + ballToAimTarget.rotate(toRadians(10));
+        case 3:return ballPos + ballToAimTarget;
+        case 4:return ballPos + ballToAimTarget.rotate(-toRadians(10));
+        case 5:return ballPos + ballToAimTarget.rotate(-toRadians(20));
+        default:return ballPos + ballToAimTarget;
     }
 }
 

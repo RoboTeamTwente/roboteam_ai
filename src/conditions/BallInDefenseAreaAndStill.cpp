@@ -10,7 +10,7 @@
 namespace rtt::ai {
 
 BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
+    : Condition(std::move(name), std::move(blackboard)) {};
 
 void BallInDefenseAreaAndStill::onInitialize() {
     theirDefenceArea = properties->getBool("theirDefenceArea");

@@ -124,75 +124,54 @@ void JoystickHandler::handleJoystickMotion(SDL_Event &event) {
         event.jaxis.value = 0;
     }
     switch (event.jaxis.axis) {
-        case 0:
-            joystickState.stickLeft.x = event.jaxis.value;
+        case 0:joystickState.stickLeft.x = event.jaxis.value;
             break;
-        case 1:
-            joystickState.stickLeft.y = event.jaxis.value;
+        case 1:joystickState.stickLeft.y = event.jaxis.value;
             break;
-        case 2:
-            joystickState.triggerLeft = event.jaxis.value;
+        case 2:joystickState.triggerLeft = event.jaxis.value;
             break;
-        case 3:
-            joystickState.stickRight.x = event.jaxis.value;
+        case 3:joystickState.stickRight.x = event.jaxis.value;
             break;
-        case 4:
-            joystickState.stickRight.y = event.jaxis.value;
+        case 4:joystickState.stickRight.y = event.jaxis.value;
             break;
-        case 5:
-            joystickState.triggerRight = event.jaxis.value;
+        case 5:joystickState.triggerRight = event.jaxis.value;
             break;
     }
 }
 
 /* Maps buttons*/
 void JoystickHandler::handleJoystickButton(SDL_Event &event) {
-    bool button_State = (int)event.jbutton.state == 1;
+    bool button_State = (int) event.jbutton.state == 1;
     switch (event.jbutton.button) {
-        case 0:
-            joystickState.A = button_State;
+        case 0:joystickState.A = button_State;
             break;
-        case 1:
-            joystickState.B = button_State;
+        case 1:joystickState.B = button_State;
             break;
-        case 2:
-            joystickState.X = button_State;
+        case 2:joystickState.X = button_State;
             break;
-        case 3:
-            joystickState.Y = button_State;
+        case 3:joystickState.Y = button_State;
             break;
-        case 4:
-            joystickState.bumperLeft = button_State;
+        case 4:joystickState.bumperLeft = button_State;
             break;
-        case 5:
-            joystickState.bumperRight = button_State;
+        case 5:joystickState.bumperRight = button_State;
             break;
-        case 6:
-            joystickState.back = button_State;
+        case 6:joystickState.back = button_State;
             break;
-        case 7:
-            joystickState.start = button_State;
+        case 7:joystickState.start = button_State;
             break;
-        case 8:
-            joystickState.XBOX = button_State;
+        case 8:joystickState.XBOX = button_State;
             break;
-        case 9:
-            joystickState.stickLeftBtn = button_State;
+        case 9:joystickState.stickLeftBtn = button_State;
             break;
-        case 10:
-            joystickState.stickRightBtn = button_State;
+        case 10:joystickState.stickRightBtn = button_State;
             break;
-        case 11:
-            joystickState.dpadLeft = button_State;
+        case 11:joystickState.dpadLeft = button_State;
             break;
-        case 12:
-            joystickState.dpadRight = button_State;
+        case 12:joystickState.dpadRight = button_State;
             break;
-        case 13:
-            joystickState.dpadUp = button_State;
+        case 13:joystickState.dpadUp = button_State;
             break;
-        case 14:
-            joystickState.dpadDown = button_State;
+        case 14:joystickState.dpadDown = button_State;
             break;
     }
 }

@@ -49,7 +49,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
                 Vector2 ballPos = world->getBall()->getPos();
                 targetPos = ballPos + (ballPos - target).stretchToLength(
-                        Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
+                    Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
 
             }
             return Status::Running;
@@ -70,7 +70,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
 
                 auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, target, false,
-                        control::BallSpeed::PASS);
+                                                                            control::BallSpeed::PASS);
                 command = shotData.makeROSCommand();
                 publishRobotCommand();
                 return Status::Running;

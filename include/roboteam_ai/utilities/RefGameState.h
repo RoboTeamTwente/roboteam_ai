@@ -13,13 +13,13 @@
 namespace rtt::ai {
 
 struct RefGameState : public GameState {
-    RefCommand commandId;
-    bool isfollowUpCommand;
-    RefCommand followUpCommandId;
-    RefGameState() = default;
-    RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet, bool isFollowUpCommand = false,
-                 RefCommand followUpCommandId = RefCommand::UNDEFINED);
-    bool hasFollowUpCommand() const;
+  RefCommand commandId;
+  bool isfollowUpCommand;
+  RefCommand followUpCommandId;
+  RefGameState() = default;
+  RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet, bool isFollowUpCommand = false,
+               RefCommand followUpCommandId = RefCommand::UNDEFINED);
+  bool hasFollowUpCommand() const;
 };
 
 }  // namespace rtt::ai

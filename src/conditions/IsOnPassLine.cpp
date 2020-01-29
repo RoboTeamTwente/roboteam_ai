@@ -15,7 +15,7 @@ namespace rtt::ai {
  * @param name
  * @param blackboard the blackboard passed into the function from which the skill can be given data
  */
-IsOnPassLine::IsOnPassLine(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
+IsOnPassLine::IsOnPassLine(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {};
 
 IsOnPassLine::Status IsOnPassLine::onUpdate() {
     int receiverID = coach::g_pass.getRobotBeingPassedTo();

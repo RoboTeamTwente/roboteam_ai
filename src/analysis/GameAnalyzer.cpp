@@ -51,12 +51,9 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
                 return BallPossession::DEFENSIVE_NEUTRAL;
             }
         }
-        case (rtt::ai::BallPossession::CONTENDEDBALL):
-            return BallPossession::NEUTRAL;
-        case (rtt::ai::BallPossession::THEIRBALL):
-            return BallPossession::THEY_HAVE_BALL;
-        case (rtt::ai::BallPossession::OURBALL):
-            return BallPossession::WE_HAVE_BALL;
+        case (rtt::ai::BallPossession::CONTENDEDBALL):return BallPossession::NEUTRAL;
+        case (rtt::ai::BallPossession::THEIRBALL):return BallPossession::THEY_HAVE_BALL;
+        case (rtt::ai::BallPossession::OURBALL):return BallPossession::WE_HAVE_BALL;
     }
 }
 
@@ -80,7 +77,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(const Field &field, RobotPtr 
     danger.distanceToGoal = FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
     danger.goalVisionPercentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->pos,
-            world::world->getWorld());
+                                                                                         world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(field, robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
@@ -105,7 +102,7 @@ std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(RobotPtr rob
         bool canPassToThisRobot = true;
         for (auto theirRobot : enemyRobots) {
             auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->pos, Vector2(robot->pos),
-                    Vector2(ourRobot->pos));
+                                                                            Vector2(ourRobot->pos));
             if (distToLine < (Constants::ROBOT_RADIUS_MAX() + Constants::BALL_RADIUS())) {
                 canPassToThisRobot = false;
                 break;
@@ -149,9 +146,9 @@ bool GameAnalyzer::isClosingInToGoal(const Field &field, RobotPtr robot, bool ou
 }
 
 void GameAnalyzer::start(int iterationsPerSecond) {
-    if (! running && world::world->weHaveRobots()) {
+    if (!running && world::world->weHaveRobots()) {
         std::cout << "GameAnalyzer: " << "Starting at " << iterationsPerSecond << " iterations per second" << std::endl;
-        auto delay = (unsigned) (1000.0/iterationsPerSecond);
+        auto delay = (unsigned) (1000.0 / iterationsPerSecond);
         thread = std::thread(&GameAnalyzer::loop, this, delay);
         running = true;
     }
@@ -165,8 +162,7 @@ void GameAnalyzer::stop() {
         thread.join();
         running = false;
         stopping = false;
-    }
-    else {
+    } else {
         std::cout << "GameAnalyzer: " << "Could not stop since it was not running in the first place." << std::endl;
     }
 }
@@ -181,7 +177,7 @@ void GameAnalyzer::loop(unsigned delayMillis) {
 }
 
 std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(const Field &field,
-        bool ourTeam) {
+                                                                                                  bool ourTeam) {
     auto robots = ourTeam ? world::world->getUs() : world::world->getThem();
     std::vector<std::pair<RobotPtr, RobotDanger>> robotDangers;
 
@@ -190,9 +186,9 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRob
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),
-            [&field](std::pair<RobotPtr, RobotDanger> a, std::pair<RobotPtr, RobotDanger> b) {
-              return a.second.getTotalDanger(field) > b.second.getTotalDanger(field);
-            });
+              [&field](std::pair<RobotPtr, RobotDanger> a, std::pair<RobotPtr, RobotDanger> b) {
+                return a.second.getTotalDanger(field) > b.second.getTotalDanger(field);
+              });
 
     return robotDangers;
 }

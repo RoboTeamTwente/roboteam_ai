@@ -8,7 +8,7 @@
 #include "control/ControlUtils.h"
 
 namespace rtt::ai {
-    ResumePlayAfterPenalty::ResumePlayAfterPenalty(std::string name, bt::Blackboard::Ptr blackboard)
+ResumePlayAfterPenalty::ResumePlayAfterPenalty(std::string name, bt::Blackboard::Ptr blackboard)
     : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status ResumePlayAfterPenalty::onUpdate() {

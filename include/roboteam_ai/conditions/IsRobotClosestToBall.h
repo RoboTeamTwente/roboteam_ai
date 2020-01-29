@@ -6,10 +6,10 @@
 namespace rtt::ai {
 
 class IsRobotClosestToBall : public Condition {
-   public:
-    IsRobotClosestToBall(std::string name = "IsRobotClosestToBall", bt::Blackboard::Ptr blackboard = nullptr);
+ public:
+  IsRobotClosestToBall(std::string name = "IsRobotClosestToBall", bt::Blackboard::Ptr blackboard = nullptr);
 
-    Status onUpdate() override;
+  Status onUpdate() override;
 };
 
 }  // namespace rtt::ai

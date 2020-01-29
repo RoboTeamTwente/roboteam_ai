@@ -11,8 +11,7 @@
 namespace rtt::ai {
 
 BallNearOurGoalLineAndStill::BallNearOurGoalLineAndStill(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
-
+    : Condition(std::move(name), std::move(blackboard)) {};
 
 void BallNearOurGoalLineAndStill::onInitialize() {
     if (properties->hasDouble("margin")) {

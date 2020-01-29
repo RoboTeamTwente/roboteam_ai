@@ -23,7 +23,7 @@ rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(const Field &field, doub
 }
 
 Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot,
-        const unsigned int &robotID) {
+                                                    const unsigned int &robotID) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
         robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
@@ -40,18 +40,18 @@ Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall
 }
 
 Vector2 PositionUtils::getPositionBehindPositionToPosition(
-        double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition) {
+    double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition) {
     return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
 }
 
 bool PositionUtils::isRobotBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal,
-        const Vector2 &robotPosition, double angleMargin) {
+                                            const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? field.getOurGoalCenter() : field.getTheirGoalCenter());
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
 bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID,
-        const Vector2 &robotPosition, double angleMargin) {
+                                             const Vector2 &robotPosition, double angleMargin) {
     Vector2 robot;
     if (world::world->getRobotForId(robotID, ourRobot)) {
         robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
@@ -61,7 +61,7 @@ bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool our
 }
 
 bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position,
-        const Vector2 &robotPosition, double angleMargin) {
+                                                const Vector2 &robotPosition, double angleMargin) {
 
     const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->getPos());
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
@@ -72,7 +72,7 @@ bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const
     Vector2 trianglePoint3 = ball + deltaBall.rotate(M_PI * -angleMargin).scale(2.0);
 
     bool inLargeTriangleOnPosition = control::ControlUtils::pointInTriangle(robotPosition, trianglePoint1,
-            trianglePoint2, trianglePoint3);
+                                                                            trianglePoint2, trianglePoint3);
 
     return inLargeTriangleOnPosition;
 }

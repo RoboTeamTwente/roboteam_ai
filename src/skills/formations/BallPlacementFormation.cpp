@@ -34,7 +34,7 @@ namespace rtt::ai {
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
 
 BallPlacementFormation::BallPlacementFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        : StopFormation(name, blackboard) {
+    : StopFormation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
 
@@ -92,11 +92,11 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
     auto ball = world->getBall();
     Vector2 diff = (ball->getPos() - ballPlacementMarker).rotate(M_PI_2);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() + diff.stretchToLength(0.5),
-          ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+                                                                  ballPlacementMarker + diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() - diff.stretchToLength(0.5),
-          ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
+                                                                  ballPlacementMarker - diff.stretchToLength(0.5)}, Qt::magenta, -1, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ballPlacementMarker}, Qt::magenta,
-            -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
+                               -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
     return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos, 0.0));

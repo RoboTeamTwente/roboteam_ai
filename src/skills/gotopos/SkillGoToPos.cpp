@@ -28,12 +28,9 @@ SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 
     switch (currentProgress) {
         // Return the progression in terms of status
-        case ON_THE_WAY:
-            return Status::Running;
-        case DONE:
-            return Status::Success;
-        case FAIL:
-            return Status::Failure;
+        case ON_THE_WAY:return Status::Running;
+        case DONE:return Status::Success;
+        case FAIL:return Status::Failure;
     }
 
     return Status::Failure;

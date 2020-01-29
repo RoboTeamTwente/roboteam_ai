@@ -7,12 +7,12 @@
 #include "control/Hungarian.h"
 
 namespace rtt::ai {
-    std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
+std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
 
-    TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        : Formation(name, blackboard) {
-        robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
-    }
+TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard)
+    : Formation(name, blackboard) {
+    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
+}
 
 Vector2 TimeoutFormation::getFormationPosition() {
     const Field &_field = *field;
@@ -26,7 +26,7 @@ Vector2 TimeoutFormation::getFormationPosition() {
     std::vector<Vector2> targetLocations;
     std::vector<int> robotIds;
 
-    for (unsigned int i = 0; i<robotsInFormation->size(); i++) {
+    for (unsigned int i = 0; i < robotsInFormation->size(); i++) {
         double targetLocationX = -_field.getFieldLength() / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
         robotIds.push_back(robotsInFormation->at(i)->id);

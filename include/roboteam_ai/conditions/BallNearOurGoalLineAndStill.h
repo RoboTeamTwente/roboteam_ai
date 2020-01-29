@@ -8,15 +8,15 @@
 namespace rtt::ai {
 
 class BallNearOurGoalLineAndStill : public Condition {
-   private:
-    double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
+ private:
+  double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
 
-   public:
-    explicit BallNearOurGoalLineAndStill(std::string name = "BallNearOurGoalLineAndStill", bt::Blackboard::Ptr blackboard = nullptr);
+ public:
+  explicit BallNearOurGoalLineAndStill(std::string name = "BallNearOurGoalLineAndStill", bt::Blackboard::Ptr blackboard = nullptr);
 
-    void onInitialize() override;
+  void onInitialize() override;
 
-    Status onUpdate() override;
+  Status onUpdate() override;
 };
 
 }  // namespace rtt::ai

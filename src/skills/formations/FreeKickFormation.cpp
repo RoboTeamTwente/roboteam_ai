@@ -16,7 +16,7 @@ Vector2 FreeKickFormation::getFormationPosition() {
     posses = rtt::ai::control::PositionUtils::getFreeKickPositions(*field, robotsInFormation->size());
     std::vector<int> robotIds;
 
-    for (auto& i : *robotsInFormation) {
+    for (auto &i : *robotsInFormation) {
         robotIds.push_back(i->id);
     }
 

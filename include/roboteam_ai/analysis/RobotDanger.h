@@ -11,17 +11,17 @@
 namespace rtt::ai::analysis {
 
 struct RobotDanger {
-    bool ourTeam;
-    int id;
+  bool ourTeam;
+  int id;
 
-    double shortestDistToEnemy;
-    double distanceToGoal;
-    bool aimedAtGoal;
-    bool closingInToGoal;
-    bool hasBall;
-    double goalVisionPercentage;
-    std::vector<std::pair<int, double>> robotsToPassTo;
-    double getTotalDanger(const Field &field);
+  double shortestDistToEnemy;
+  double distanceToGoal;
+  bool aimedAtGoal;
+  bool closingInToGoal;
+  bool hasBall;
+  double goalVisionPercentage;
+  std::vector<std::pair<int, double>> robotsToPassTo;
+  double getTotalDanger(const Field &field);
 };
 
 }  // namespace rtt::ai::analysis

@@ -9,29 +9,21 @@ namespace rtt::ai::control {
 std::string Collision::collisionTypeToString() {
     std::string s;
     switch (getCollisionType()) {
-        case Collision::ROBOT:
-            s = "ROBOT          ";
+        case Collision::ROBOT:s = "ROBOT          ";
             break;
-        case Collision::BALL:
-            s = "BALL           ";
+        case Collision::BALL:s = "BALL           ";
             break;
-        case Collision::FIELD:
-            s = "FIELD          ";
+        case Collision::FIELD:s = "FIELD          ";
             break;
-        case Collision::DEFENSE_AREA:
-            s = "DEFENSE_AREA   ";
+        case Collision::DEFENSE_AREA:s = "DEFENSE_AREA   ";
             break;
-        case Collision::GOAL:
-            s = "GOAL   ";
+        case Collision::GOAL:s = "GOAL   ";
             break;
-        case Collision::BALL_PLACEMENT:
-            s = "BALL_PLACEMENT    ";
+        case Collision::BALL_PLACEMENT:s = "BALL_PLACEMENT    ";
             break;
-        case Collision::NO_COLLISION:
-            s = "NO COLLISION?!?";
+        case Collision::NO_COLLISION:s = "NO COLLISION?!?";
             break;
-        default:
-            s = "ERROR! CollisionType does not exist";
+        default:s = "ERROR! CollisionType does not exist";
     }
     return s;
 }

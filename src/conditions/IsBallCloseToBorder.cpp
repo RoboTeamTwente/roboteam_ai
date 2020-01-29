@@ -11,7 +11,7 @@
 namespace rtt::ai {
 
 IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
-        : Condition(std::move(name), std::move(blackboard)) { };
+    : Condition(std::move(name), std::move(blackboard)) {};
 
 void IsBallCloseToBorder::onInitialize() {
     if (properties->hasDouble("margin")) {

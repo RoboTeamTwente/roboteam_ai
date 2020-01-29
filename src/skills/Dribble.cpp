@@ -25,7 +25,7 @@ void Dribble::onInitialize() {
         } else {
             targetAngle = robot->angle - M_PI;
         }
-        targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
+        targetPos = (Vector2) robot->pos + Vector2({distance, 0}).rotate(targetAngle);
     }
 
     if (properties->hasVector2("Position")) {

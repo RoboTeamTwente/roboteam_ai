@@ -11,14 +11,14 @@ namespace rtt {
 TEST(RobotCommandTest, it_converts_to_ros_command) {
     for (int i = 0; i < 100; i++) {
         RobotCommand rc;
-        rc.id = (int)testhelpers::WorldHelper::getRandomValue(0, 15);
+        rc.id = (int) testhelpers::WorldHelper::getRandomValue(0, 15);
         rc.vel = testhelpers::WorldHelper::getRandomVelocity();
         rc.angle = testhelpers::WorldHelper::getRandomValue(0, 9.0);
-        rc.kicker = (int)testhelpers::WorldHelper::getRandomValue(0, 2);
-        rc.chipper = (int)testhelpers::WorldHelper::getRandomValue(0, 1);
-        rc.geneva = (int)testhelpers::WorldHelper::getRandomValue(0, 5);
+        rc.kicker = (int) testhelpers::WorldHelper::getRandomValue(0, 2);
+        rc.chipper = (int) testhelpers::WorldHelper::getRandomValue(0, 1);
+        rc.geneva = (int) testhelpers::WorldHelper::getRandomValue(0, 5);
         rc.kickerVel = testhelpers::WorldHelper::getRandomValue(0, 6);
-        rc.dribbler = (int)testhelpers::WorldHelper::getRandomValue(0, 32);
+        rc.dribbler = (int) testhelpers::WorldHelper::getRandomValue(0, 32);
         auto cmd = rc.makeROSCommand();
 
         EXPECT_EQ(cmd.id, rc.id);

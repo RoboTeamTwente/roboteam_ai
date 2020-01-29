@@ -118,7 +118,7 @@ int Robot::getGenevaState() const { return genevaState; }
 bool Robot::genevaStateIsValid(int state) {
     // if the state is invalid
     if (state < 0 || state > 5) {
-        std::cout << "Invalid geneva state (" << (int)state << ") for robot with id " << id << std::endl;
+        std::cout << "Invalid geneva state (" << (int) state << ") for robot with id " << id << std::endl;
         return false;
     }
 
@@ -126,7 +126,7 @@ bool Robot::genevaStateIsValid(int state) {
 
     if (!workingGeneva) {
         if (genevaStateIsDifferent(state)) {
-            std::cout << "Trying to set geneva state (" << (int)state << ") for robot without working geneva with id " << id << std::endl;
+            std::cout << "Trying to set geneva state (" << (int) state << ") for robot without working geneva with id " << id << std::endl;
         }
         return false;
     }
@@ -178,9 +178,9 @@ unsigned char Robot::getDribblerState() const { return dribblerState; }
 
 void Robot::setDribblerState(unsigned char dribbler) {
     if (dribbler < 0 || dribbler > 31) {
-        std::cout << "setting invalid dribbler state (" << (int)dribbler << ") for robot with id " << id << std::endl;
+        std::cout << "setting invalid dribbler state (" << (int) dribbler << ") for robot with id " << id << std::endl;
     } else if (!workingDribbler && dribbler != 0) {
-        std::cout << "setting dribbler state (" << (int)dribbler << ") for robot without working dribbler with id " << id << std::endl;
+        std::cout << "setting dribbler state (" << (int) dribbler << ") for robot without working dribbler with id " << id << std::endl;
     } else {
         if (previousDribblerState != dribblerState) {
             auto maxStatesChanged = static_cast<int>((world::world->getTime() - timeDribblerChanged) / timeToChangeOneDribblerLevel);

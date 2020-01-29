@@ -48,37 +48,44 @@ void Visualizer::paintEvent(QPaintEvent *event) {
                             painter.setPen(Qt::NoPen);
                             painter.setBrush(drawing.color);
                             drawPoints(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
+                        }
+                            break;
                         case Drawing::CIRCLES: {
                             painter.setPen(drawing.color);
                             painter.setBrush(Qt::transparent);
                             drawPoints(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
+                        }
+                            break;
                         case Drawing::LINES_CONNECTED: {
                             painter.setPen(drawing.color);
                             painter.setBrush(Qt::transparent);
                             drawLines(painter, drawing.points);
-                        } break;
+                        }
+                            break;
                         case Drawing::CROSSES: {
                             painter.setPen(drawing.color);
                             painter.setBrush(Qt::transparent);
                             drawCrosses(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
+                        }
+                            break;
                         case Drawing::PLUSSES: {
                             painter.setPen(drawing.color);
                             painter.setBrush(Qt::transparent);
                             drawPlusses(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
+                        }
+                            break;
                         case Drawing::ARROWS: {
                             painter.setPen(drawing.color);
                             painter.setBrush(Qt::transparent);
                             drawArrows(painter, drawing.points, drawing.width, drawing.height, drawing.strokeWidth == 1);
-                        } break;
+                        }
+                            break;
                         case Drawing::REAL_LIFE_CIRCLES: {
                             painter.setPen(drawing.color);
                             painter.setBrush(Qt::transparent);
                             drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
+                        }
+                            break;
                         case Drawing::REAL_LIFE_DOTS: {
                             painter.setPen(Qt::NoPen);
                             painter.setBrush(drawing.color);
@@ -99,29 +106,21 @@ void Visualizer::paintEvent(QPaintEvent *event) {
 
 bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
     switch (toggle.showType) {
-        default:
-            return false;
+        default:return false;
         case GENERAL: {
             switch (toggle.generalShowType) {
-                default:
-                    return false;
-                case OFF:
-                    return false;
-                case ON:
-                    return true;
+                default:return false;
+                case OFF:return false;
+                case ON:return true;
             }
             break;
         }
         case ROBOT: {
             switch (toggle.robotShowType) {
-                default:
-                    return false;
-                case NO_ROBOTS:
-                    return false;
-                case SELECTED_ROBOTS:
-                    return robotIsSelected(robotId);
-                case ALL_ROBOTS:
-                    return true;
+                default:return false;
+                case NO_ROBOTS:return false;
+                case SELECTED_ROBOTS:return robotIsSelected(robotId);
+                case ALL_ROBOTS:return true;
             }
         }
     }
@@ -158,73 +157,69 @@ void Visualizer::drawFieldLines(const Field &field, QPainter &painter) {
     Vector2 screenPos = toScreenPosition({centercircle.center.x, centercircle.center.y});
     painter.drawEllipse(QPointF(screenPos.x, screenPos.y), centercircle.radius * factor, centercircle.radius * factor);
 
-        painter.setPen(Qt::red);
-        auto line = field.getLeftPenaltyLine();
-        rtt::Vector2 start = toScreenPosition(line.begin);
-        rtt::Vector2 end = toScreenPosition(line.end);
-        painter.drawLine(start.x, start.y, end.x, end.y);
+    painter.setPen(Qt::red);
+    auto line = field.getLeftPenaltyLine();
+    rtt::Vector2 start = toScreenPosition(line.begin);
+    rtt::Vector2 end = toScreenPosition(line.end);
+    painter.drawLine(start.x, start.y, end.x, end.y);
 
-        painter.setPen(Qt::green);
-        line = field.getRightPenaltyLine();
-        start = toScreenPosition(line.begin);
-        end = toScreenPosition(line.end);
-        painter.drawLine(start.x, start.y, end.x, end.y);
+    painter.setPen(Qt::green);
+    line = field.getRightPenaltyLine();
+    start = toScreenPosition(line.begin);
+    end = toScreenPosition(line.end);
+    painter.drawLine(start.x, start.y, end.x, end.y);
 
+    painter.setPen(Qt::green);
+    line = field.getRightLine();
+    start = toScreenPosition(line.begin);
+    end = toScreenPosition(line.end);
+    painter.drawLine(start.x, start.y, end.x, end.y);
 
-        painter.setPen(Qt::green);
-        line = field.getRightLine();
-        start = toScreenPosition(line.begin);
-        end = toScreenPosition(line.end);
-        painter.drawLine(start.x, start.y, end.x, end.y);
+    painter.setPen(Qt::red);
+    line = field.getLeftLine();
+    start = toScreenPosition(line.begin);
+    end = toScreenPosition(line.end);
+    painter.drawLine(start.x, start.y, end.x, end.y);
 
+    QPen pen;
+    pen.setWidth(3);
 
-        painter.setPen(Qt::red);
-        line = field.getLeftLine();
-        start = toScreenPosition(line.begin);
-        end = toScreenPosition(line.end);
-        painter.drawLine(start.x, start.y, end.x, end.y);
+    // update the we are yellow
+    bool weAreYellow = SETTINGS.isYellow();
 
-        QPen pen;
-        pen.setWidth(3);
+    // draw the hint for us
+    auto usGoalLine = FieldComputations::getGoalSides(field, true);
+    Vector2 ourLineUpper = {usGoalLine.start.x, usGoalLine.start.y};
+    Vector2 ourLineLower = {usGoalLine.end.x, usGoalLine.end.y};
+    ourLineUpper = toScreenPosition(ourLineUpper);
+    ourLineLower = toScreenPosition(ourLineLower);
 
-        // update the we are yellow
-        bool weAreYellow = SETTINGS.isYellow();
+    auto color = weAreYellow ? QColor(255, 255, 0, 255) : QColor(80, 80, 255, 255);
+    pen.setBrush(color);
+    pen.setColor(color);
+    painter.setPen(pen);
+    painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
 
-        // draw the hint for us
-        auto usGoalLine = FieldComputations::getGoalSides(field, true);
-        Vector2 ourLineUpper = {usGoalLine.start.x, usGoalLine.start.y};
-        Vector2 ourLineLower = {usGoalLine.end.x, usGoalLine.end.y};
-        ourLineUpper = toScreenPosition(ourLineUpper);
-        ourLineLower = toScreenPosition(ourLineLower);
+    auto theirGoalLine = FieldComputations::getGoalSides(field, false);
+    Vector2 theirLineUpper = {theirGoalLine.start.x, theirGoalLine.start.y};
+    Vector2 theirLineLower = {theirGoalLine.end.x, theirGoalLine.end.y};
+    theirLineUpper = toScreenPosition(theirLineUpper);
+    theirLineLower = toScreenPosition(theirLineLower);
 
-        auto color = weAreYellow ? QColor(255, 255, 0, 255) : QColor(80, 80, 255, 255);
-        pen.setBrush(color);
-        pen.setColor(color);
-        painter.setPen(pen);
-        painter.drawLine(ourLineUpper.x, ourLineUpper.y, ourLineLower.x, ourLineLower.y);
+    color = weAreYellow ? QColor(80, 80, 255, 255) : QColor(255, 255, 0, 255);
+    pen.setBrush(color);
+    pen.setColor(color);
+    painter.setPen(pen);
+    painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
 
-
-        auto theirGoalLine = FieldComputations::getGoalSides(field, false);
-        Vector2 theirLineUpper = {theirGoalLine.start.x, theirGoalLine.start.y};
-        Vector2 theirLineLower = {theirGoalLine.end.x, theirGoalLine.end.y};
-        theirLineUpper = toScreenPosition(theirLineUpper);
-        theirLineLower = toScreenPosition(theirLineLower);
-
-        color = weAreYellow ? QColor(80, 80, 255, 255) : QColor(255, 255, 0, 255);
-        pen.setBrush(color);
-        pen.setColor(color);
-        painter.setPen(pen);
-        painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
-
-
-    }
+}
 
 void Visualizer::drawFieldHints(const Field &field, QPainter &painter) {
     QPen pen;
 
     // draw the position where robots would be for timeout
-    int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : - 1;
-    int lineY = (field.getFieldWidth() / 2 + 1)*inv;
+    int inv = rtt::ai::interface::Output::isTimeOutAtTop() ? 1 : -1;
+    int lineY = (field.getFieldWidth() / 2 + 1) * inv;
 
     pen.setBrush(Qt::gray);
     pen.setColor(Qt::gray);
@@ -369,7 +364,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
                 painter.setPen(Qt::red);
                 painter.setBrush(Qt::red);
             }
-            painter.drawEllipse({(int)robotpos.x + 10, (int)robotpos.y - 10}, 2, 2);
+            painter.drawEllipse({(int) robotpos.x + 10, (int) robotpos.y - 10}, 2, 2);
         }
     }
 
@@ -404,7 +399,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
 
     painter.setOpacity(1);
 
-    int robotDrawSize = std::max(Constants::ROBOT_RADIUS() * factor * 2, (double)Constants::ROBOT_DRAWING_SIZE());
+    int robotDrawSize = std::max(Constants::ROBOT_RADIUS() * factor * 2, (double) Constants::ROBOT_DRAWING_SIZE());
 
     // draw the shape of the robot with the right angle
     QPainterPath rectPath;

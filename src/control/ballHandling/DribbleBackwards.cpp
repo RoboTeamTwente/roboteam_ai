@@ -116,8 +116,7 @@ void DribbleBackwards::updateBackwardsProgress() {
         case START: {
             failedOnce = false;
         }
-        default:
-            return;
+        default:return;
         case SUCCESS: {
             if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy * ballPlacementAccuracy) {
                 return;
@@ -129,26 +128,18 @@ void DribbleBackwards::updateBackwardsProgress() {
 
 RobotCommand DribbleBackwards::sendBackwardsCommand(const Field &field) {
     switch (backwardsProgress) {
-        case START:
-            return startTravelBackwards();
-        case TURNING:
-            return sendTurnCommand();
-        case APPROACHING:
-            return sendApproachCommand();
-        case OVERSHOOTING:
-            return sendOvershootCommand(field);
-        case DRIBBLING:
-            return sendDribblingCommand();
-        case DRIBBLE_BACKWARDS:
-            return sendDribbleBackwardsCommand();
-        case SUCCESS:
-            return sendSuccessCommand();
+        case START:return startTravelBackwards();
+        case TURNING:return sendTurnCommand();
+        case APPROACHING:return sendApproachCommand();
+        case OVERSHOOTING:return sendOvershootCommand(field);
+        case DRIBBLING:return sendDribblingCommand();
+        case DRIBBLE_BACKWARDS:return sendDribbleBackwardsCommand();
+        case SUCCESS:return sendSuccessCommand();
         case FAIL: {
             backwardsProgress = START;
             return {};
         }
-        default:
-            return {};
+        default:return {};
     }
 }
 
@@ -213,10 +204,10 @@ RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
     Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine * 2.72, 0.05));
     command.vel += compensation;
 
-    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
-            Qt::white, robot->id, interface::Drawing::ARROWS);
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation + robot->pos, robot->pos},
+                               Qt::white, robot->id, interface::Drawing::ARROWS);
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {backwardsDribbleLine.first, backwardsDribbleLine.second},
-            Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
+                               Qt::white, robot->id, interface::Drawing::LINES_CONNECTED);
 
     return command;
 }
@@ -232,29 +223,21 @@ void DribbleBackwards::printBackwardsProgress() {
     std::stringstream ss;
     ss << "backwards progress:                  ";
     switch (backwardsProgress) {
-        case OVERSHOOTING:
-            ss << "overshooting";
+        case OVERSHOOTING:ss << "overshooting";
             break;
-        case DRIBBLING:
-            ss << "dribbling";
+        case DRIBBLING:ss << "dribbling";
             break;
-        case DRIBBLE_BACKWARDS:
-            ss << "dribbleBackwards";
+        case DRIBBLE_BACKWARDS:ss << "dribbleBackwards";
             break;
-        case SUCCESS:
-            ss << "success";
+        case SUCCESS:ss << "success";
             break;
-        case FAIL:
-            ss << "fail";
+        case FAIL:ss << "fail";
             break;
-        case START:
-            ss << "start";
+        case START:ss << "start";
             break;
-        case TURNING:
-            ss << "turning";
+        case TURNING:ss << "turning";
             break;
-        case APPROACHING:
-            ss << "approaching";
+        case APPROACHING:ss << "approaching";
             break;
     }
     std::cout << ss.str() << std::endl;

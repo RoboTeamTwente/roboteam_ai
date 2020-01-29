@@ -43,7 +43,7 @@ double CoachHeuristics::calculatePassLineScore(const Vector2 &position, const Wo
 }
 
 double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world,
-        double smallestAngle) {
+                                                          double smallestAngle) {
     auto ball = world.ball;
     for (const auto &robot : world.them) {
         if (control::ControlUtils::isPointProjectedOnLineSegment(robot->pos, ball->getPos(), position)) {
@@ -79,9 +79,9 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
 }
 
 double CoachHeuristics::calculatePassDistanceToBallScore(const Field &field, const Vector2 &position,
-        const CoachHeuristics::WorldData &world) {
+                                                         const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length()*0.5;
+    double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length() * 0.5;
     double distanceFromBall = (position - ball->getPos()).length();
 
     if (distanceFromBall < Constants::MAX_PASS_DISTANCE()) {
@@ -92,7 +92,7 @@ double CoachHeuristics::calculatePassDistanceToBallScore(const Field &field, con
 }
 
 double CoachHeuristics::calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position,
-                                                         const CoachHeuristics::WorldData &world) {
+                                                             const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
     double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length() * 0.75;
     double distanceFromBall = (position - ball->getPos()).length();
