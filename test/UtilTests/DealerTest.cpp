@@ -62,17 +62,18 @@ TEST_F(DealerTest, it_properly_distributes_robots) {
     EXPECT_EQ(matrix.size(), 3); // columns
     EXPECT_EQ(matrix.at(0).size(), 3); // rows
 
-    // the values inside the matrix
-    EXPECT_DOUBLE_EQ(matrix[0][0], 5); // robot 0, test_role_0
-    EXPECT_DOUBLE_EQ(matrix[0][1], 2); // robot 0, test_role_1
-    EXPECT_DOUBLE_EQ(matrix[0][2], 3); // robot 0, test_role_2
-    EXPECT_DOUBLE_EQ(matrix[1][0], 10); // robot 1, test_role_0
-    EXPECT_DOUBLE_EQ(matrix[1][1], 4); // etc...
+    // the values inside the matrix (format: matrix[role][robotId])
+    EXPECT_DOUBLE_EQ(matrix[0][0], 3);
+    EXPECT_DOUBLE_EQ(matrix[0][1], 6);
+    EXPECT_DOUBLE_EQ(matrix[0][2], 9);
+    EXPECT_DOUBLE_EQ(matrix[1][0], 2);
+    EXPECT_DOUBLE_EQ(matrix[1][1], 4);
     EXPECT_DOUBLE_EQ(matrix[1][2], 6);
-    EXPECT_DOUBLE_EQ(matrix[2][0], 15);
-    EXPECT_DOUBLE_EQ(matrix[2][1], 6);
-    EXPECT_DOUBLE_EQ(matrix[2][2], 9);
+    EXPECT_DOUBLE_EQ(matrix[2][0], 5);
+    EXPECT_DOUBLE_EQ(matrix[2][1], 10);
+    EXPECT_DOUBLE_EQ(matrix[2][2], 15);
 
+    // these values should correspons with the scores above.
     auto distribution = dealer.distribute(World::instance()->getWorld()->getUs(), flagMap);
     EXPECT_EQ(distribution.at("test_role_0")->getId(), 1);
     EXPECT_EQ(distribution.at("test_role_1")->getId(), 2);

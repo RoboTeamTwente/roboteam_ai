@@ -8,7 +8,7 @@
  */
 
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <iostream>
 #include "gtest/gtest_prod.h"
 #include <functional>
@@ -51,7 +51,7 @@ class Dealer {
     DealerFlagPriority priority;
     explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
   };
-  using FlagMap = std::unordered_map<std::string, std::vector<DealerFlag>>;
+  using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
   Dealer(v::WorldDataView world, world::Field * field);
   std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
