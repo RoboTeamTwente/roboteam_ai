@@ -14,20 +14,17 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
     for (auto &each : ours) {
-        robots.emplace_back(feedback, each, Team::us);
+        auto robot = new robot::Robot(feedback, each, Team::us);
+        robots.push_back(std::move(*robot));
+        us.emplace_back(robot);
     }
 
     for (auto &each : others) {
-        robots.emplace_back(feedback, each, Team::them);
+        auto robot = new robot::Robot(feedback, each, Team::them);
+        robots.push_back(std::move(*robot));
+        them.emplace_back(robot);
     }
 
-    for (auto &robot : robots) {
-        if (robot.getTeam() == Team::us) {
-            us.emplace_back(&robot);
-        } else if (robot.getTeam() == Team::them) {
-            them.emplace_back(&robot);
-        }
-    }
 
     if (protoMsg.has_ball()) {
         ball = ball::Ball{protoMsg.ball()};
