@@ -29,27 +29,25 @@ private:
     static constexpr double MAX_CALCULATION_TIME = 10.0;
     static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 4 * Constants::ROBOT_RADIUS();
 
-    CollisionDetector collisionDetector;
+    CollisionDetector &collisionDetector;
 
-    double
-    remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
+    double remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
 
-    std::vector<Vector2>
-    backTrackPath(std::shared_ptr<PathPoint> point, const std::shared_ptr<PathPoint> &root);
+    std::vector<Vector2> backTrackPath(std::shared_ptr<PathPoint> point, const std::shared_ptr<PathPoint> &root);
 
-    std::pair<std::vector<Vector2>, PathPointer>
-    getNewTargets(const PathPointer &collisionPoint);
+    std::pair<std::vector<Vector2>, PathPointer> getNewTargets(const PathPointer &collisionPoint);
 
     std::vector<Vector2> tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition);
 
     PathPointer computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget);
+
 public:
     /**
      * The collision detector is provided by the position control. This class was intended
      * to be used only with the PositionControl
      * @param collisionDetector
      */
-    explicit NumTreesPlanning(const CollisionDetector& collisionDetector);
+    explicit NumTreesPlanning(CollisionDetector& collisionDetector);
 
     /**
      * Computes a path using the implemented algorithm. It takes into account the

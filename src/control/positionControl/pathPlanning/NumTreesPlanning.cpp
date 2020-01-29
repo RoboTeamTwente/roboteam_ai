@@ -6,11 +6,10 @@
 
 namespace rtt::ai::control{
 
-NumTreesPlanning::NumTreesPlanning(const CollisionDetector &collisionDetector) :
+NumTreesPlanning::NumTreesPlanning(CollisionDetector &collisionDetector) :
     collisionDetector(collisionDetector) {}
 
-std::vector<Vector2>
-NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
+std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
     DT = 0.3 / GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
     if (DT > 0.12) DT = 0.12;
     if (DT < 0.06) DT = 0.06;
@@ -25,7 +24,6 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
 }
 
 std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition) {
-
 // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
 // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
 // target, while taking into account the length of path already calculated.
@@ -132,9 +130,7 @@ double NumTreesPlanning::remainingStraightLinePathLength(
 }
 
 ///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point,
-                                                        const PathPointer &root) {
-
+std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point, const PathPointer &root) {
     // backtrack the whole path till it hits the root node and return the vector of PathPoints
     std::vector<Vector2> backTrackedPath = {};
     while (point) {
@@ -152,9 +148,7 @@ std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point,
 }
 
 /// create a new pathPoint using a linear acceleration ODE
-NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &targetPosition,
-        const PathPointer &oldPoint, const Vector2 &subTarget) {
-
+NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget) {
     // Copy parent
     PathPointer newPoint = std::make_shared<PathPoint>();
     newPoint->parent = oldPoint;
@@ -188,9 +182,7 @@ NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &t
 }
 
 /// after a collision, get new half-way targets to try to go towards
-    std::pair<std::vector<Vector2>, NumTreesPlanning::PathPointer>
-    NumTreesPlanning::getNewTargets(const NumTreesPlanning::PathPointer &collisionPoint) {
-
+std::pair<std::vector<Vector2>, NumTreesPlanning::PathPointer> NumTreesPlanning::getNewTargets(const NumTreesPlanning::PathPointer &collisionPoint) {
     // backtrack to 0.75 seconds before the collision
     double timeBeforeCollision = 0.75;
     PathPointer startPoint = collisionPoint->backTrack(collisionPoint->t - timeBeforeCollision);

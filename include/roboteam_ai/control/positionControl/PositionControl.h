@@ -20,12 +20,11 @@ namespace rtt::ai::control {
  */
 class PositionControl {
 private:
+    static constexpr double MAX_TARGET_DEVIATION = 0.3;
 
-    static constexpr double MAX_DEVIATION = 0.2;
-
-    NumTreesPlanning *pathPlanningAlgorithm = nullptr;
-    NumTreesTracking *pathTrackingAlgorithm = nullptr;
-    CollisionDetector *collisionDetector = nullptr;
+    std::unique_ptr<NumTreesPlanning> pathPlanningAlgorithm;
+    std::unique_ptr<NumTreesTracking> pathTrackingAlgorithm;
+    std::unique_ptr<CollisionDetector> collisionDetector;
 
     const std::vector<world_new::robot::Robot> &robots;
 
@@ -56,7 +55,7 @@ public:
     /**
      * The computed path should be recalculated if: <br>
      * - it is empty (no path yet) <br>
-     * - the target position changed with at least MAX_DEVIATION <br>
+     * - the target position changed with at least MAX_TARGET_DEVIATION <br>
      * - the robot will collide with another one by the next path point
      * @param targetPos final target position
      * @param robotId the ID of the current robot

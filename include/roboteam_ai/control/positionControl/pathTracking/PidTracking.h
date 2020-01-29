@@ -18,14 +18,16 @@ namespace rtt::ai::control{
  */
 class PidTracking {
 private:
-    double maxVelocity = Constants::MAX_VEL();
-    double minimumDistance = 2*Constants::ROBOT_RADIUS();
+    static constexpr double MAX_VELOCITY = Constants::MAX_VEL();
+    // minimum distance needed to consider the current target reached
+    static constexpr double MIN_DISTANCE = 2 * Constants::ROBOT_RADIUS();
 
     // the PID controllers on the two axes
     PID xPid = PID(0,0,0,0);
     PID yPid = PID(0,0,0,0);
 
     void updatePidValues();
+
 public:
     /**
      * The constructor only initializes the maximum velocity to the PID clamping.
@@ -45,8 +47,6 @@ public:
      */
     Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints);
 };
-
-}
-
+} //namespace
 
 #endif //RTT_PIDTRACKING_H

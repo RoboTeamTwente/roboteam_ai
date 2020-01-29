@@ -9,9 +9,9 @@
 namespace rtt::ai::control {
 
 PositionControl::PositionControl(const std::vector<world_new::robot::Robot> &robots): robots(robots) {
-    collisionDetector = new CollisionDetector(robots);
-    pathPlanningAlgorithm = new NumTreesPlanning(*collisionDetector);
-    pathTrackingAlgorithm = new NumTreesTracking();
+    collisionDetector = std::make_unique<CollisionDetector>(robots);
+    pathPlanningAlgorithm = std::make_unique<NumTreesPlanning>(*collisionDetector);
+    pathTrackingAlgorithm = std::make_unique<NumTreesTracking>();
 }
 
 //TODO: add projection to outside defence area (project target position)(is this really needed?)
@@ -39,9 +39,7 @@ PositionControl::computeAndTrackPath(world::Field *field, int robotId, const Vec
 bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId) {
     return computedPaths[robotId].empty() ||
             // distance between the new target and the former target
-            (targetPos - computedPaths[robotId].back()).length() > MAX_DEVIATION ||
-            collisionDetector->isRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
-
+            (targetPos - computedPaths[robotId].back()).length() > MAX_TARGET_DEVIATION ||
+           collisionDetector->isRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
 }
-
 }

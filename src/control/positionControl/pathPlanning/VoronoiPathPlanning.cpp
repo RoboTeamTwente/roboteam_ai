@@ -59,44 +59,25 @@ void VoronoiPathPlanning::generateGraphFromDiagram(){
     }
 }
 
-void VoronoiPathPlanning::completeGraphWithOriginDestination(const Vector2 &robotPosition, const Vector2 &targetPosition) {
-    //1 or fewer obstacles in the area - numsites == 1 or 2
-    if (voronoiDiagram.numsites <= 2){
-        double distance = (robotPosition - targetPosition).length();
-        // no obstacle or the distance to the obstacle safe
-        if (voronoiDiagram.numsites < 2 || ControlUtils::distanceToLine(
-                convertFromJcvPoint(voronoiDiagram.internal->sites->p),robotPosition,targetPosition) > 2 * Constants::ROBOT_RADIUS()) {
-            graphAdjacencyList[robotPosition] = std::list<GraphNode>(1, (GraphNode) {targetPosition, distance});
-            graphAdjacencyList[targetPosition] = std::list<GraphNode>(1, (GraphNode) {robotPosition, distance});
-            return;
-        }
-        //TODO: avoid one obstacle in voronoi
-        graphAdjacencyList[robotPosition] = std::list<GraphNode>(1, (GraphNode) {targetPosition, distance});
-        graphAdjacencyList[targetPosition] = std::list<GraphNode>(1, (GraphNode) {robotPosition, distance});
+void VoronoiPathPlanning::addPointToGraph(const Vector2 &pointToAdd) {
+    //1 or fewer obstacles in the area - no points in the graph
+    if (graphAdjacencyList.empty()){
+        graphAdjacencyList[pointToAdd] = {};
         return;
     }
 
-    double minOriginDist = -1;
-    Vector2 closestOriginPoint;
-    double minTargetDist = -1;
-    Vector2 closestTargetPoint;
-    //add origin and target to the graph
+    double minDist = -1;
+    Vector2 closestPoint;
+    //add point to the graph, connecting it to the closest node
     for(auto const& positionIterator : graphAdjacencyList){
-        if(minOriginDist < 0 || (positionIterator.first-robotPosition).length() < minOriginDist){
-            closestOriginPoint = positionIterator.first;
-            minOriginDist = (positionIterator.first-robotPosition).length();
-        }
-        if(minTargetDist < 0 || (positionIterator.first-targetPosition).length() < minTargetDist){
-            closestTargetPoint = positionIterator.first;
-            minTargetDist = (positionIterator.first-targetPosition).length();
+        if(minDist < 0 || (positionIterator.first - pointToAdd).length() < minDist){
+            closestPoint = positionIterator.first;
+            minDist = (positionIterator.first - pointToAdd).length();
         }
     }
-    if (graphAdjacencyList.find(robotPosition) == graphAdjacencyList.end()) {
-        graphAdjacencyList.insert(
-                {robotPosition, std::list<GraphNode>(1, (GraphNode) {closestOriginPoint, minOriginDist})});
-    }
-    if (graphAdjacencyList.find(targetPosition) == graphAdjacencyList.end()) {
-        graphAdjacencyList[closestTargetPoint].push_back({targetPosition, minTargetDist});
+    if (graphAdjacencyList.find(pointToAdd) == graphAdjacencyList.end()) {
+        graphAdjacencyList[pointToAdd] = std::list<GraphNode>(1, (GraphNode) {closestPoint, minDist});
+        graphAdjacencyList[closestPoint].push_back({pointToAdd, minDist});
     }
 }
 
@@ -115,15 +96,18 @@ std::vector<Vector2> VoronoiPathPlanning::generatePathDijkstra(const Vector2& in
         if (currentNode == targetPosition){
             break;
         }
+        //for each node in the queue, check its neighbors
         for (const GraphNode& adjacentNode : graphAdjacencyList[currentNode]){
             if (distanceVector.find(adjacentNode.nextNodePosition) == distanceVector.end()) {
+                // check if it's already visited or queued
                 if (std::find(nodeQueue.begin(), nodeQueue.end(), adjacentNode.nextNodePosition) == nodeQueue.end()) {
                     nodeQueue.push_back(adjacentNode.nextNodePosition);
                 }
-                distanceVector.insert({adjacentNode.nextNodePosition, distanceVector[currentNode] + adjacentNode.distance});
-                parentVector.insert({adjacentNode.nextNodePosition, currentNode});
+                distanceVector[adjacentNode.nextNodePosition] = distanceVector[currentNode] + adjacentNode.distance;
+                parentVector[adjacentNode.nextNodePosition] = currentNode;
                 continue;
             }
+            // if the current node's traversal causes a shorter path to get to adjacentNode, update its parent and cost
             if(distanceVector[adjacentNode.nextNodePosition] > distanceVector[currentNode] + adjacentNode.distance){
                 distanceVector[adjacentNode.nextNodePosition] = distanceVector[currentNode] + adjacentNode.distance;
                 parentVector[adjacentNode.nextNodePosition] = currentNode;
@@ -144,11 +128,14 @@ std::vector<Vector2> VoronoiPathPlanning::generatePathDijkstra(const Vector2& in
 std::vector<Vector2> VoronoiPathPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
     computeDiagram(robotPosition, targetPosition);
     generateGraphFromDiagram();
-    completeGraphWithOriginDestination(robotPosition, targetPosition);
+    //TODO: avoid one obstacle in voronoi
+    addPointToGraph(robotPosition);
+    addPointToGraph(targetPosition);
     return generatePathDijkstra(robotPosition, targetPosition);
 }
 
 Vector2 VoronoiPathPlanning::convertFromJcvPoint(jcv_point point) {
+    //rounded to 3 decimals for testing purposes - 1mm precision is enough
     return Vector2(std::round(1000.0*point.x)/1000, std::round(1000.0*point.y)/1000);
 }
 

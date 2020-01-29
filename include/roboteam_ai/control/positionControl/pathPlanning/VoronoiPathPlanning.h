@@ -47,7 +47,7 @@ private:
 
     void computeDiagram(const Vector2 &robotPosition, const Vector2 &targetPosition);
 
-    void completeGraphWithOriginDestination(const Vector2 &robotPosition, const Vector2 &targetPosition);
+    void addPointToGraph(const Vector2 &pointToAdd);
 
 public:
     /**
@@ -74,7 +74,6 @@ public:
      * @return the graph adjancency list build on top of the Voronoi
      */
     const std::unordered_map<Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
-
 };
 }
 
