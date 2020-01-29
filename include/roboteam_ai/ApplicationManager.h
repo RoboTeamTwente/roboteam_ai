@@ -8,8 +8,8 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
-#include "include/roboteam_ai/analysis/play-utilities/PlayChecker.h"
-#include "include/roboteam_ai/utilities/IOManager.h"
+#include "analysis/play-utilities/PlayChecker.h"
+#include "utilities/IOManager.h"
 #include "treeinterp/BTFactory.h"
 #include "analysis/play-utilities/PlayDecider.h"
 namespace rtt {
