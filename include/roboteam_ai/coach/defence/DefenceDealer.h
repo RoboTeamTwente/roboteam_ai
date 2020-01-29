@@ -9,13 +9,12 @@
 #include "DefencePositionCoach.h"
 #include "roboteam_utils/Vector2.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
-///This class keeps track of what all the defenders are doing and assigns them and communicates with them
+namespace rtt::ai::coach {
+
+/// This class keeps track of what all the defenders are doing and assigns them and communicates with them
 class DefenceDealer {
     private:
-        const int LOCKTIME=18;
+        const int LOCKTIME = 18;
         std::vector<DefenderBot> assignedDefenders;
         std::vector<int> availableIDs;
     public:
@@ -26,8 +25,6 @@ class DefenceDealer {
 };
 extern DefenceDealer g_DefenceDealer;
 
-}//coach
-}//ai
-}//rtt
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_DEFENDASSIGNCOACH_H
+#endif  // ROBOTEAM_AI_DEFENDASSIGNCOACH_H

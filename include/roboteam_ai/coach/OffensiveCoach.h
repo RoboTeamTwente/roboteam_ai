@@ -11,9 +11,7 @@
 #include "world/WorldData.h"
 #include "coach/heuristics/OffensiveScore.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 class OffensiveCoach {
     public:
@@ -22,7 +20,7 @@ class OffensiveCoach {
 
         const double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
         const double CLOSE_TO_GOAL_DISTANCE = 0.37;
-        const double FURTHER_FROM_GOAL_DISTANCE = 6.0*CLOSE_TO_GOAL_DISTANCE;
+        const double FURTHER_FROM_GOAL_DISTANCE = 6.0 * CLOSE_TO_GOAL_DISTANCE;
         const double ZONE_RADIUS = 1.06;
 
         struct OffensivePosition {
@@ -61,8 +59,6 @@ class OffensiveCoach {
 
 extern OffensiveCoach g_offensiveCoach;
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_OFFENSIVECOACH_H
+#endif  // ROBOTEAM_AI_OFFENSIVECOACH_H

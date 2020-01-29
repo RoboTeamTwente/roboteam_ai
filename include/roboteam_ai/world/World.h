@@ -16,9 +16,7 @@
 #include "WhichRobots.h"
 #include "Field.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
+namespace rtt::ai::world {
 
 class Robot;
 class Ball;
@@ -34,8 +32,8 @@ public:
 private:
     WorldDataPtr worldDataPtr;
     std::mutex worldMutex;
-    History * history;
-    FutureWorld * futureWorld;
+    History *history;
+    FutureWorld *futureWorld;
     unsigned long worldNumber = 0;
     const RobotPtr getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots);
     void updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg,
@@ -82,11 +80,8 @@ public:
 };
 
 extern World worldObj;
-extern World* world;
+extern World *world;
 
-} //world
-} //ai
-} //rtt
+}  // namespace rtt::ai::world
 
-
-#endif //ROBOTEAM_AI_WORLD_H
+#endif  // ROBOTEAM_AI_WORLD_H

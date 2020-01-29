@@ -4,12 +4,9 @@
 
 #include "skills/SideAttacker.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard)
-        : Skill(std::move(name), std::move(blackboard)) {
-}
+SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void SideAttacker::onInitialize() {
     coach::g_offensiveCoach.addSideAttacker(*field, robot);
@@ -42,5 +39,4 @@ void SideAttacker::onTerminate(Status s) {
     publishRobotCommand();
 }
 
-    } // ai
-} // rtt
+}  // namespace rtt::ai

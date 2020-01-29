@@ -16,12 +16,11 @@ TEST(InterfaceTest, the_interface_values_work) {
     iv::setBasicPid(pidbasic);
     EXPECT_EQ(iv::getBasicPid(), pidbasic);
 
-    auto pidKeeper= rtt::ai::pidVals(8888, -7, 8.2);
+    auto pidKeeper = rtt::ai::pidVals(8888, -7, 8.2);
     iv::setKeeperPid(pidKeeper);
     EXPECT_EQ(iv::getKeeperPid(), pidKeeper);
 
-    auto pidKeeperIntercept= rtt::ai::pidVals(1, -7.0, -2.112);
+    auto pidKeeperIntercept = rtt::ai::pidVals(1, -7.0, -2.112);
     iv::setKeeperInterceptPid(pidKeeperIntercept);
     EXPECT_EQ(iv::getKeeperInterceptPid(), pidKeeperIntercept);
 }
-

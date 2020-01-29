@@ -6,12 +6,9 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "world/FieldComputations.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-}
+ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ReflectKick::onInitialize() {
     kicked = false;
@@ -25,8 +22,8 @@ ReflectKick::Status ReflectKick::onUpdate() {
     robotAngle = getAngle();
     ballStartPos = ball->getPos();
 
-    if(coach::g_pass.isPassed()) {
-        if(ball->getVel().length() < Constants::BALL_STILL_VEL()) {
+    if (coach::g_pass.isPassed()) {
+        if (ball->getVel().length() < Constants::BALL_STILL_VEL()) {
             return Status::Failure;
         }
 
@@ -70,7 +67,7 @@ void ReflectKick::intercept() {
 
     Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
     command.mutable_vel()->set_x(velocities.x);
-  command.mutable_vel()->set_y(velocities.y);
+    command.mutable_vel()->set_y(velocities.y);
     command.set_w(robotAngle);
 }
 
@@ -108,5 +105,4 @@ bool ReflectKick::ballDeflected() {
     return (ball->getVel() - ballReceiveVel).toAngle() > 0.01 || ball->getVel().length() < 0.1;
 }
 
-}
-}
+}  // namespace rtt::ai

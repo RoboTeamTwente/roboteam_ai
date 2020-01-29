@@ -4,9 +4,7 @@
 
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 // declare static variables
 std::vector<Drawing> Input::drawings;
@@ -15,13 +13,10 @@ std::mutex Input::fpsMutex;
 
 int Input::FPS;
 
-
-
 /*
  * Draw data to the screen
  */
-void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId,
-        Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
+void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
     if (method == Drawing::DrawingMethod::ARROWS) {
         if (points.size() % 2 == 1) {
             points.erase(points.end());
@@ -33,8 +28,7 @@ void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, i
 /*
  * Useful for debugging:  quickly draw a vector of points.
  */
-void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width,
-                          double height, double strokeWidth) {
+void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
     Input::makeDrawing(Drawing(Visual::DEBUG, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
 }
 
@@ -53,9 +47,7 @@ void Input::clearDrawings() {
     drawings = {};
 }
 
-Input::~Input() {
-    clearDrawings();
-}
+Input::~Input() { clearDrawings(); }
 
 int Input::getFps() {
     std::lock_guard<std::mutex> lock(fpsMutex);
@@ -67,7 +59,4 @@ void Input::setFps(int fps) {
     FPS = fps;
 }
 
-
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface

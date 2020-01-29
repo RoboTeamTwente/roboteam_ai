@@ -7,7 +7,7 @@
 #include <roboteam_utils/Vector2.h>
 #include "gtest/gtest_prod.h"
 
-namespace rtt {
+namespace rtt::ai::world {
 
 struct FieldLineSegment {
     Vector2 begin;
@@ -294,5 +294,5 @@ private:
     void initFieldVectors();
 };
 
-}
+} // namespace rtt::ai::world
 #endif //RTT_FIELD_H

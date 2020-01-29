@@ -6,13 +6,12 @@
 #define ROBOTEAM_AI_POSSIBLEPASS_H
 
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/world/Field.h>
 #include "utilities/Constants.h"
+#include "world/Field.h"
 #include "world/Robot.h"
+#include "world/WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 class PossiblePass {
     public:
@@ -35,8 +34,6 @@ class PossiblePass {
         double scoreForGoalAngle(const Field &field, const world::WorldData &world);
 };
 
-}//coach
-}//ai
-}//rtt
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_POSSIBLEPASS_H
+#endif // ROBOTEAM_AI_POSSIBLEPASS_H

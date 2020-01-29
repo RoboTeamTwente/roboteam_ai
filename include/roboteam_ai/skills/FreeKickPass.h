@@ -5,24 +5,22 @@
 #ifndef ROBOTEAM_AI_FREEKICKPASS_H
 #define ROBOTEAM_AI_FREEKICKPASS_H
 
-#include "Skill.h"
 #include "Pass.h"
+#include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class FreeKickPass : public Pass {
-private:
+   private:
     int maxTries = 3;
     bool forcePass = false;
-public:
+
+   public:
     explicit FreeKickPass(string name, bt::Blackboard::Ptr blackboard);
     void makeCommand() override;
     void onInitialize() override;
 };
 
-}
-}
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_FREEKICKPASS_H
+#endif  // ROBOTEAM_AI_FREEKICKPASS_H

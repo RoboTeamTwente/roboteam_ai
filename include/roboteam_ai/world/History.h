@@ -7,24 +7,20 @@
 
 #include "WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace world {
-
+namespace rtt::ai::world {
 
 class History {
-    private:
-        using WorldDataPtr = std::shared_ptr<WorldData>;
+   private:
+    using WorldDataPtr = std::shared_ptr<WorldData>;
 
-        WorldBuffer worldBuffer;
-    public:
-        void addWorld(const WorldData &worldData);
-        void addWorld(WorldDataPtr &worldDataPtr);
-        const WorldData getPreviousWorld(int worldsBack = 1);
+    WorldBuffer worldBuffer;
+
+   public:
+    void addWorld(const WorldData &worldData);
+    void addWorld(WorldDataPtr &worldDataPtr);
+    const WorldData getPreviousWorld(int worldsBack = 1);
 };
 
-}
-}
-}
+}  // namespace rtt::ai::world
 
-#endif //ROBOTEAM_AI_HISTORY_H
+#endif  // ROBOTEAM_AI_HISTORY_H

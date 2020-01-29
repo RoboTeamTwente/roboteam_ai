@@ -12,14 +12,13 @@
 #include <control/ControlUtils.h>
 #include <world/WorldData.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Receive::onInitialize() {
     readyToPassSet = false;
-    canMoveInDefenseArea=properties->getBool("canMoveInDefenseArea");
+    canMoveInDefenseArea = properties->getBool("canMoveInDefenseArea");
 }
 
 Receive::Status Receive::onUpdate() {
@@ -56,7 +55,6 @@ Receive::Status Receive::onUpdate() {
 
     publishRobotCommand();
     return Status::Running;
-
 }
 
 void Receive::onTerminate(Status s) {
@@ -67,7 +65,6 @@ void Receive::onTerminate(Status s) {
     }
 }
 
-
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
 Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
     double defenseAreaMargin = 0.3;
@@ -77,7 +74,7 @@ Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& 
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2& behindTargetPos) {
-    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3*M_PI);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3 * M_PI);
     return isAimedAtBall;
 }
 
@@ -94,7 +91,7 @@ void Receive::intercept() {
 
     if ((interceptPoint - robot->pos).length() > 1.0) {
         velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
-        if(control::ControlUtils::clearLine(robot->pos, interceptPoint, world->getWorld(), 1)) {
+        if (control::ControlUtils::clearLine(robot->pos, interceptPoint, world->getWorld(), 1)) {
             velocities = velocities * 1.2;
         }
     } else {
@@ -118,8 +115,6 @@ bool Receive::ballDeflected() {
     Angle ballVelocityAngle = (ball->getVel()).toAngle();
 
     return abs(robotToBallAngle - ballVelocityAngle) > BALL_DEFLECTION_ANGLE;
-
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

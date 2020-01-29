@@ -5,8 +5,7 @@
 #include <world/FieldComputations.h>
 #include "skills/DribbleForward.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard)
         : Skill(std::move(name), std::move(blackboard)) {}
@@ -23,9 +22,7 @@ void DribbleForward::onInitialize() {
     targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 
-
 bt::Node::Status DribbleForward::onUpdate() {
-
     auto c = ballHandlePosControl.getRobotCommand(world, field, robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
 
     if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
@@ -38,5 +35,4 @@ bt::Node::Status DribbleForward::onUpdate() {
     return Status::Running;
 }
 
-} //ai
-} //rtt
+}  // namespace rtt::ai

@@ -11,9 +11,7 @@
 #include <world/BallPossession.h>
 #include "coach/heuristics/CoachHeuristics.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 class MidFieldCoach {
     private:
@@ -57,6 +55,7 @@ class MidFieldCoach {
         Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
         Vector2 calculateNewRobotPosition(const Field &field, const RobotPtr &thisRobot, Angle targetAngle);
         double calculateStandingFreeScore(const Field &field, const Vector2& position, const RobotPtr &thisRobot);
+
     public:
         void addMidFielder(RobotPtr &thisRobot);
         void removeMidFielder(RobotPtr &thisRobot);
@@ -65,25 +64,20 @@ class MidFieldCoach {
         RobotPtr findRobotToHarass(const Field &field, const RobotPtr& thisRobot);
         HarassType getHarassType(const RobotPtr& thisRobot, const RobotPtr& opponent);
 
+        Target getTargetPosition(const Field &field, RobotPtr &thisRobot);
 
-    Target getTargetPosition(const Field &field, RobotPtr &thisRobot);
+        HarassType getHarassTypeIfOpponentIsOnTheLeft(const RobotPtr &thisRobot, const BallPtr &ball,
+                BallPossession &ballPossession, const BallPossession::Possession &possession) const;
 
-    HarassType
-    getHarassTypeIfOpponentIsOnTheLeft(const RobotPtr &thisRobot, const BallPtr &ball, BallPossession &ballPossession,
-                                       const BallPossession::Possession &possession) const;
+        Target &harassSlowRobot(const RobotPtr &opponent, const HarassType &harassType, Target &target) const;
 
-    Target &harassSlowRobot(const RobotPtr &opponent, const HarassType &harassType, Target &target) const;
+        Target &harassFastRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, Target &target) const;
 
-    Target &harassFastRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, Target &target) const;
-
-    bool isRobotAlreadyBeingHarassed(const RobotPtr &opponent) const;
+        bool isRobotAlreadyBeingHarassed(const RobotPtr &opponent) const;
 };
 
 extern MidFieldCoach g_midFieldCoach;
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-
-#endif //ROBOTEAM_AI_MIDFIELDCOACH_H
+#endif  // ROBOTEAM_AI_MIDFIELDCOACH_H

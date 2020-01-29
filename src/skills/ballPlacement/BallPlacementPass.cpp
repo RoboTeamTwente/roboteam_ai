@@ -2,16 +2,12 @@
 // Created by mrlukasbos on 3-5-19.
 //
 
-#include <coach/BallplacementCoach.h>
 #include "skills/ballPlacement/BallPlacementPass.h"
+#include <coach/BallplacementCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-
-BallPlacementPass::BallPlacementPass(string name, bt::Blackboard::Ptr blackboard)
-    : Pass(name, blackboard) { }
-
+BallPlacementPass::BallPlacementPass(string name, bt::Blackboard::Ptr blackboard) : Pass(name, blackboard) {}
 
 void BallPlacementPass::onInitialize() {
     robotToPassToID = -1;
@@ -19,9 +15,7 @@ void BallPlacementPass::onInitialize() {
 }
 
 bt::Node::Status BallPlacementPass::onUpdate() {
-
     targetPos = coach::g_ballPlacement.getBallPlacementPos();
-
 
     robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
     if (robotToPassToID == -1) {
@@ -50,7 +44,7 @@ bt::Node::Status BallPlacementPass::onUpdate() {
             auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, getKicker(), false,
                     control::BallSpeed::BALL_PLACEMENT, false, control::ShotPrecision::MEDIUM, 3);
             command = shotData.makeROSCommand();
-            if(command.kicker() && !hasShot) {
+            if (command.kicker() && !hasShot) {
                 hasShot = true;
             }
         } else if (robot->pos.dist(ball->getPos()) > 0.5) {
@@ -63,11 +57,8 @@ bt::Node::Status BallPlacementPass::onUpdate() {
         }
     }
 
-
     publishRobotCommand();
     return Status::Running;
 }
 
-
-}
-}
+}  // namespace rtt::ai

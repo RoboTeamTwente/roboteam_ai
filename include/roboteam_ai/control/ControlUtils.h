@@ -15,8 +15,7 @@
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // fwd declarations
 namespace world {
@@ -79,8 +78,7 @@ class ControlUtils {
                 bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin, double outOfFieldMargin);
 };
 
-} // control
-} // ai
-} // rtt
+}  // namespace control
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_CONTROLUTILS_H
+#endif  // ROBOTEAM_AI_CONTROLUTILS_H

@@ -11,12 +11,9 @@
 #include "world/Robot.h"
 #include "analysis/RobotDanger.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
-GameAnalyzer::GameAnalyzer()
-        :running(false), stopping(false) { }
+GameAnalyzer::GameAnalyzer() : running(false), stopping(false) {}
 
 GameAnalyzer &GameAnalyzer::getInstance() {
     static GameAnalyzer instance;
@@ -25,7 +22,6 @@ GameAnalyzer &GameAnalyzer::getInstance() {
 
 /// Generate a report with the game analysis
 std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow(const Field &field) {
-
     if (world::world->weHaveRobots()) {
         std::shared_ptr<AnalysisReport> report = std::make_shared<AnalysisReport>();
 
@@ -46,19 +42,21 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow(const Field &fie
 
 BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possession possession) {
     switch (possession) {
-    default:
-    case (rtt::ai::BallPossession::LOOSEBALL): {
-        auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
-        if (ballPosX > 0) {
-            return BallPossession::OFFENSIVE_NEUTRAL;
+        default:
+        case (rtt::ai::BallPossession::LOOSEBALL): {
+            auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
+            if (ballPosX > 0) {
+                return BallPossession::OFFENSIVE_NEUTRAL;
+            } else {
+                return BallPossession::DEFENSIVE_NEUTRAL;
+            }
         }
-        else{
-            return BallPossession::DEFENSIVE_NEUTRAL;
-        }
-    }
-    case (rtt::ai::BallPossession::CONTENDEDBALL): return BallPossession::NEUTRAL;
-    case (rtt::ai::BallPossession::THEIRBALL): return BallPossession::THEY_HAVE_BALL;
-    case (rtt::ai::BallPossession::OURBALL): return BallPossession::WE_HAVE_BALL;
+        case (rtt::ai::BallPossession::CONTENDEDBALL):
+            return BallPossession::NEUTRAL;
+        case (rtt::ai::BallPossession::THEIRBALL):
+            return BallPossession::THEY_HAVE_BALL;
+        case (rtt::ai::BallPossession::OURBALL):
+            return BallPossession::WE_HAVE_BALL;
     }
 }
 
@@ -69,7 +67,7 @@ double GameAnalyzer::getTeamDistanceToGoalAvg(const Field &field, bool ourTeam, 
     for (auto robot : robots) {
         total += FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
     }
-    return (total/robots.size());
+    return (total / robots.size());
 }
 
 /// returns a danger score
@@ -81,8 +79,8 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(const Field &field, RobotPtr 
     danger.id = robot->id;
     danger.distanceToGoal = FieldComputations::getDistanceToGoal(field, ourTeam, robot->pos);
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam);
-    danger.goalVisionPercentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam,
-            robot->pos, world::world->getWorld());
+    danger.goalVisionPercentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->pos,
+            world::world->getWorld());
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam);
     danger.closingInToGoal = isClosingInToGoal(field, robot, ourTeam);
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
@@ -175,7 +173,7 @@ void GameAnalyzer::stop() {
 
 void GameAnalyzer::loop(unsigned delayMillis) {
     std::chrono::milliseconds delay(delayMillis);
-    while (! stopping) {
+    while (!stopping) {
         const Field &field = io::io.getField();
         generateReportNow(field);
         std::this_thread::sleep_for(delay);
@@ -199,6 +197,4 @@ std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRob
     return robotDangers;
 }
 
-} // analysis
-} // ai
-} // rtt
+}  // namespace rtt::ai::analysis

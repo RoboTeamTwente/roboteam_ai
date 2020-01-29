@@ -5,19 +5,17 @@
 #ifndef ROBOTEAM_AI_REFSTATEISNORMALPLAY_H
 #define ROBOTEAM_AI_REFSTATEISNORMALPLAY_H
 
-
 #include "Condition.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai {
 
 class RefStateIsNormalPlay : public Condition {
-public:
+   public:
     explicit RefStateIsNormalPlay(std::string name = "RefStateIsNormalPlay", bt::Blackboard::Ptr blackboard = nullptr);
+
     Status onUpdate() override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_REFSTATEISNORMALPLAY_H
+#endif  // ROBOTEAM_AI_REFSTATEISNORMALPLAY_H

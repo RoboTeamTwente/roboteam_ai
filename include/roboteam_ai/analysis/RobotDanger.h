@@ -6,10 +6,9 @@
 #define ROBOTEAM_AI_ROBOTDANGER_H
 
 #include "world/Field.h"
+#include <vector>
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 struct RobotDanger {
     bool ourTeam;
@@ -25,9 +24,6 @@ struct RobotDanger {
     double getTotalDanger(const Field &field);
 };
 
-} // analysis
-} // ai
-} // rtt
+}  // namespace rtt::ai::analysis
 
-
-#endif //ROBOTEAM_AI_ROBOTDANGER_H
+#endif  // ROBOTEAM_AI_ROBOTDANGER_H

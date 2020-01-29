@@ -10,8 +10,7 @@
 #include <control/shotControllers/ShotController.h>
 #include "Skill.h"
 #include "world/FieldComputations.h"
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class ShootPenalty : public Skill {
 private:
@@ -36,7 +35,6 @@ public:
 
 };
 
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_SHOOTPENALTY_H
+#endif  // ROBOTEAM_AI_SHOOTPENALTY_H

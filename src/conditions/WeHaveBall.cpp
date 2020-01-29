@@ -3,14 +3,12 @@
  */
 
 #include "conditions/WeHaveBall.h"
-#include "world/World.h"
 #include "world/Robot.h"
+#include "world/World.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard)
-    : Condition(std::move(name), std::move(blackboard)) { }
+WeHaveBall::WeHaveBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status WeHaveBall::onUpdate() {
     RobotPtr robotThatHasBall = world->whichRobotHasBall();
@@ -20,5 +18,4 @@ bt::Node::Status WeHaveBall::onUpdate() {
     return bt::Node::Status::Failure;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

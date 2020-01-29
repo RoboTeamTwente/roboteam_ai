@@ -3,7 +3,7 @@
 //
 
 #include <include/roboteam_ai/world/Field.h>
-namespace rtt {
+namespace rtt::ai::world {
 
 Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
@@ -264,4 +264,23 @@ const std::vector<FieldLineSegment> &Field::getFieldLines() const {
     return allFieldLines;
 }
 
+Polygon Field::getFieldEdge(double margin) {
+    auto field = get_field();
+
+    double left = field.get(LEFTMOST_X) + margin;
+    double right = field.get(RIGHTMOST_X) - margin;
+    double bottom = field.get(BOTTOMMOST_Y) + margin;
+    double top = field.get(TOPMOST_Y) - margin;
+
+    std::vector<Vector2> fieldEdge = {
+      {left, bottom},
+      {left, top},
+      {right, top},
+      {right, bottom}};
+
+    interface::Input::drawDebugData(fieldEdge, Qt::red, interface::Drawing::LINES_CONNECTED);
+
+    return Polygon(fieldEdge);
 }
+
+}  // namespace rtt::ai::world

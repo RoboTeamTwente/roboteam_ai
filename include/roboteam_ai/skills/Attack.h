@@ -9,15 +9,13 @@
 #include <control/shotControllers/ShotController.h>
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Attack : public Skill {
-public:
+   public:
     explicit Attack(string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
 };
 
-} // ai
-} // rtt
-#endif //ROBOTEAM_AI_ATTACK_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_ATTACK_H

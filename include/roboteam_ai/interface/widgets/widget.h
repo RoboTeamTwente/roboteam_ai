@@ -17,9 +17,7 @@
 #include <interface/api/Toggles.h>
 #include <include/roboteam_ai/io/IOManager.h>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class Visualizer : public QWidget {
     Q_OBJECT
@@ -60,13 +58,13 @@ class Visualizer : public QWidget {
         void drawBall(QPainter &painter);
         void drawBallPlacementTarget(QPainter &painter);
         void drawTacticColorForRobot(QPainter &painter, Robot robot);
-        void drawPlusses(QPainter& painter, std::vector<Vector2> points, double width, double height);
-        void drawCrosses(QPainter& painter, std::vector<Vector2> points, double width, double height);
-        void drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);
-        void drawRealLifeSizedPoints(QPainter& painter, std::vector<Vector2> points, double width, double height); // width and height are now in meters
+        void drawPlusses(QPainter &painter, std::vector<Vector2> points, double width, double height);
+        void drawCrosses(QPainter &painter, std::vector<Vector2> points, double width, double height);
+        void drawPoints(QPainter &painter, std::vector<Vector2> points, double width, double height);
+        void drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2> points, double width, double height);  // width and height are now in meters
 
-        void drawLines(QPainter& painter, std::vector<Vector2> points);
-        void drawArrows(QPainter& painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow);
+        void drawLines(QPainter &painter, std::vector<Vector2> points);
+        void drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow);
         bool shouldVisualize(Toggle toggle, int robotId);
 
         // utitlity functions
@@ -97,8 +95,6 @@ class Visualizer : public QWidget {
         bool fieldInversed = false;
 };
 
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
-#endif //ROBOTEAM_AI_WIDGET_H
+#endif  // ROBOTEAM_AI_WIDGET_H

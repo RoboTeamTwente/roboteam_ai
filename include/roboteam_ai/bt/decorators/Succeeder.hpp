@@ -5,9 +5,9 @@
 namespace bt {
 
 class Succeeder : public Decorator {
-public:
+   public:
     Status update() override;
     std::string node_name() override { return "Succeeder"; };
 };
 
-}
+}  // namespace bt

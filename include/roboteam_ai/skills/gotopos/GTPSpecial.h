@@ -12,8 +12,7 @@
 #include "GoToPos.h"
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GTPSpecial : public GoToPos {
     private:
@@ -41,7 +40,6 @@ class GTPSpecial : public GoToPos {
         Vector2 getBallFromSideLocation();
 
 };
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_BASICGOTOPOS_H
+#endif  // ROBOTEAM_AI_BASICGOTOPOS_H

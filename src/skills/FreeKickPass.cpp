@@ -5,20 +5,18 @@
 #include "skills/FreeKickPass.h"
 #include <control/ballHandling/BallHandlePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-FreeKickPass::FreeKickPass(string name, bt::Blackboard::Ptr blackboard)
-        :Pass(std::move(name), std::move(blackboard)) { }
+FreeKickPass::FreeKickPass(string name, bt::Blackboard::Ptr blackboard) : Pass(std::move(name), std::move(blackboard)) {}
 
 void FreeKickPass::onInitialize() {
-    if(properties->hasInt("maxTries")) {
+    if (properties->hasInt("maxTries")) {
         maxTries = properties->getInt("maxTries");
     } else {
         maxTries = 3;
     }
 
-    robotToPassToID = - 1;
+    robotToPassToID = -1;
     passInitialized = false;
     hasShot = false;
     fails = 0;
@@ -31,5 +29,4 @@ void FreeKickPass::makeCommand() {
     command = shotdata.makeROSCommand();
 }
 
-}
-}
+}  // namespace rtt::ai

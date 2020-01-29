@@ -11,11 +11,10 @@
 #include "world/Robot.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+        :Skill(std::move(name), std::move(blackboard)) {}
 
 void Keeper::onInitialize() {
     goalPos = (*field).getOurGoalCenter();
@@ -47,8 +46,7 @@ Keeper::Status Keeper::onUpdate() {
         blockPoint = goalPos;
         blockPoint.x += Constants::KEEPER_CENTREGOAL_MARGIN();
         command.set_w(0);
-    }
-    else {
+    } else {
         command.set_w(Angle((ballPos - blockPoint).angle() + M_PI_2).getAngle());
     }
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->id,
@@ -62,24 +60,20 @@ Keeper::Status Keeper::onUpdate() {
     return Status::Running;
 }
 
-void Keeper::onTerminate(Status s) {
-}
+void Keeper::onTerminate(Status s) {}
 
 Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
     Vector2 blockPos, posA, posB;
     if (defendPos.x < (*field).getOurGoalCenter().x) {
         if (abs(defendPos.y) >= goalwidth) {
-            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
-                    *signum(defendPos.y));
-        }
-        else {
+            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth / 2 * signum(defendPos.y));
+        } else {
             blockPos = goalPos;
             blockPos.x += Constants::KEEPER_CENTREGOAL_MARGIN();
         }
-    }
-    else {
-        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth*0.5) - defendPos).normalize();
-        Vector2 u2 = (goalPos + Vector2(0.0, - goalwidth*0.5) - defendPos).normalize();
+    } else {
+        Vector2 u1 = (goalPos + Vector2(0.0, goalwidth * 0.5) - defendPos).normalize();
+        Vector2 u2 = (goalPos + Vector2(0.0, -goalwidth * 0.5) - defendPos).normalize();
         double dist = (defendPos - goalPos).length();
         Vector2 blockLineStart = defendPos + (u1 + u2).stretchToLength(dist);
         std::pair<std::optional<Vector2>, std::optional<Vector2>> intersections = blockCircle.intersectionWithLine(
@@ -96,18 +90,17 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
 
             if (posA.length() < posB.length()) {
                 blockPos = posA;
+            } else {
+                blockPos = posB;
             }
-            else blockPos = posB;
         }
         else if (intersections.first) {
             blockPos = *intersections.first;
-        }
-        else if (intersections.second) {
+        } else if (intersections.second) {
             blockPos = *intersections.second;
-        }
-        else {
-            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth/2
-                    *signum(defendPos.y)); // Go stand at one of the poles depending on the side the defendPos is on.
+        } else {
+            blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(),
+                               goalwidth / 2 * signum(defendPos.y));  // Go stand at one of the poles depending on the side the defendPos is on.
         }
     }
 
@@ -145,12 +138,11 @@ rtt::Arc Keeper::createKeeperArc() {
     Vector2 goalPos = (*field).getOurGoalCenter();
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
-    double radius = diff*0.5 + goalwidth*goalwidth/(8*diff); //Pythagoras' theorem.
-    double angle = asin(goalwidth/2/radius); // maximum angle (at which we hit the posts)
+    double radius = diff * 0.5 + goalwidth * goalwidth / (8 * diff);  // Pythagoras' theorem.
+    double angle = asin(goalwidth / 2 / radius);                      // maximum angle (at which we hit the posts)
     Vector2 center = Vector2(goalPos.x + rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN() + radius, 0);
     return diff > 0 ? rtt::Arc(center, radius, M_PI - angle, angle - M_PI) :
            rtt::Arc(center, radius, angle, - angle);
 }
 
-}
-}
+}  // namespace rtt::ai

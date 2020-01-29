@@ -21,9 +21,7 @@
 
 #include "roboteam_utils/normalize.h"
 
-namespace rtt {
-namespace ai {
-namespace io {
+namespace rtt::ai::io {
 
 std::mutex IOManager::worldStateMutex;
 std::mutex IOManager::geometryMutex;
@@ -33,18 +31,19 @@ std::mutex IOManager::demoMutex;
 
 IOManager io;
 
-void IOManager::handleWorldState(proto::World & world) {
-  std::lock_guard<std::mutex> lock(worldStateMutex);
+void IOManager::handleWorldState(proto::World &world) {
+    std::lock_guard<std::mutex> lock(worldStateMutex);
 
-  if (!SETTINGS.isLeft()) {
-    std::cout << "rotating message" << std::endl;
-    roboteam_utils::rotate(&world); }
+    if (!SETTINGS.isLeft()) {
+        std::cout << "rotating message" << std::endl;
+        roboteam_utils::rotate(&world);
+    }
 
   this->worldMsg = world;
   world::world->updateWorld(field, this->worldMsg);
 }
 
-void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {
+void IOManager::handleGeometry(proto::SSL_GeometryData &sslData) {
     std::lock_guard<std::mutex> lock(geometryMutex);
     
     // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
@@ -54,7 +53,7 @@ void IOManager::handleGeometry(proto::SSL_GeometryData & sslData) {
     hasReceivedGeom = true;
 }
 
-void IOManager::handleReferee(proto::SSL_Referee & refData) {
+void IOManager::handleReferee(proto::SSL_Referee &refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
 
   if (interface::Output::usesRefereeCommands()) {
@@ -65,10 +64,10 @@ void IOManager::handleReferee(proto::SSL_Referee & refData) {
 
     // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
     std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-    if (refData.yellow().name()==ROBOTEAM_TWENTE) {
-      SETTINGS.setYellow(true);
-    } else if (refData.blue().name()==ROBOTEAM_TWENTE) {
-      SETTINGS.setYellow(false);
+    if (refData.yellow().name() == ROBOTEAM_TWENTE) {
+        SETTINGS.setYellow(true);
+    } else if (refData.blue().name() == ROBOTEAM_TWENTE) {
+        SETTINGS.setYellow(false);
     }
 
     if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
@@ -107,9 +106,8 @@ const proto::SSL_Referee &IOManager::getRefereeData() {
 }
 
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
-    if (! pause->getPause()) {
+    if (!pause->getPause()) {
         if (demo::JoystickDemo::checkIfDemoSafe(cmd.id())) {
-
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world::world->getRobotForId(cmd.id(), true);
             if (robot) {
@@ -117,18 +115,18 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
                     robot->setGenevaState(cmd.geneva_state());
                 }
 
-                    /*
-                     *
-                     * if there is (recent) feedback we should not need to update internal state here
-                     * Otherwise we should. We need only do it when the new state is valid and different.
-                     */
+                /*
+                 *
+                 * if there is (recent) feedback we should not need to update internal state here
+                 * Otherwise we should. We need only do it when the new state is valid and different.
+                 */
                 if (!robot->genevaStateIsDifferent(cmd.geneva_state()) || !robot->genevaStateIsValid(cmd.geneva_state())) {
                     cmd.set_geneva_state(robot->getGenevaState());
                 }
 
-              //  if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
-                    robot->setGenevaState(cmd.geneva_state());
-             //   }
+                //  if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
+                robot->setGenevaState(cmd.geneva_state());
+                //   }
 
                 // only kick and chip when geneva is ready
                 cmd.set_kicker(cmd.kicker() && robot->isGenevaReady());
@@ -143,11 +141,9 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
                     interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::DOTS, 36, 36, 8);
                 }
 
-
                 if (cmd.chipper()) {
                     interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::yellow, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
                 }
-
 
                 robot->setDribblerState(cmd.dribbler());
             }
@@ -156,13 +152,11 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
             if (cmd.id() >= 0 && cmd.id() < 16) {
                 robotCommandPublisher->send(cmd);
             }
+        } else {
+            //   ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
         }
-        else {
-         //   ROS_ERROR("Joystick demo has the robot taken over ID:   %s", std::to_string(cmd.id).c_str());
-        }
-    }
-    else {
-   //     ROS_ERROR("HALT!");
+    } else {
+        //     ROS_ERROR("HALT!");
     }
 }
 
@@ -171,28 +165,21 @@ const proto::DemoRobot &IOManager::getDemoInfo() {
     return this->demoInfoMsg;
 }
 
-
 void IOManager::init() {
-  worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
-  geometrySubscriber= new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
-  refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
+    worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
+    geometrySubscriber = new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
+    refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
 
-  // set up advertisement to publish robotcommands and settings
-  if (SETTINGS.getId() == 1) {
-
-      feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>
-          (proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
-
-    robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
-    settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
-  } else {
-    feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>
-        (proto::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
-
-    robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
-    settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
-
-  }
+    // set up advertisement to publish robotcommands and settings
+    if (SETTINGS.getId() == 1) {
+        feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
+        robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
+        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
+    } else {
+        feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
+        robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
+        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
+    }
 }
 
 void IOManager::publishSettings(proto::Setting setting) {
@@ -207,7 +194,6 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
         auto robot = world::world->getRobotForId(feedback.id());
 
         if (robot) {
-
             // indicate that now is last time the robot has received feedback
             robot->UpdateFeedbackReceivedTime();
 
@@ -220,10 +206,4 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
     }
 }
 
-
-} // io
-} // ai
-} // rtt
-
-
-
+}  // namespace rtt::ai::io

@@ -6,14 +6,12 @@
 #include "skills/ActiveStop.h"
 #include "control/ControlUtils.h"
 
-namespace rtt{
-namespace ai {
+namespace rtt::ai {
 
 int ActiveStop::attack = -1;
 
-ActiveStop::ActiveStop(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-}
+ActiveStop::ActiveStop(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+
 void ActiveStop::onInitialize() {
     robot->getNumtreePosControl()->setAvoidBallDistance(0.8);
 
@@ -60,7 +58,7 @@ Vector2 ActiveStop::getDefensiveActivePoint(const Field &field) {
 Vector2 ActiveStop::getPoint(const Field &field, const Vector2 &penaltyPos) {
     Vector2 ballPos = world::world->getBall()->getPos();
 
-    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2); // ssl rule + significant buffer
+    Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2);  // ssl rule + significant buffer
 
     if (FieldComputations::pointIsInDefenceArea(field, ballPos + offset, true, 0.3, true)) {
         return offset;
@@ -71,5 +69,4 @@ Vector2 ActiveStop::getPoint(const Field &field, const Vector2 &penaltyPos) {
     return ballPos + offset;
 }
 
-}
-}
+}  // namespace rtt::ai

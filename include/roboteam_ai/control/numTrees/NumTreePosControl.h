@@ -10,9 +10,7 @@
 #include "PathPoint.h"
 #include "Collision.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class PathPoint;
 class Collision;
@@ -51,14 +49,16 @@ class NumTreePosControl : public BasicPosControl {
 
         Collision currentCollisionWithRobot;
         Collision currentCollisionWithFinalTarget;
+
     public:
         const Collision &getCurrentCollisionWithRobot() const;
         const Collision &getCurrentCollisionWithFinalTarget() const;
-protected:
-    world::World * world = nullptr;
-    const Field *field = nullptr;
-    private:
 
+    protected:
+        world::World *world = nullptr;
+        Field *field = nullptr;
+
+    private:
         bool allowIllegalPositions = false;
         Vector2 currentlyAvoidingDefenseAreaPosition;
         bool currentlyAvoidingDefenseArea = false;
@@ -85,20 +85,16 @@ protected:
 
         void clear();
 
-        RobotCommand getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
-                const Vector2 &targetPos) override;
-        RobotCommand getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
-                const Vector2 &targetPos, bool illegalPositions);
-        RobotCommand getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
-                const Vector2 &targetPos, const Angle &targetAngle) override;
-        RobotCommand getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
-                const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
+        RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) override;
+        RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
+        RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos,
+                const Angle &targetAngle) override;
+        RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
+                bool illegalPositions);
 
         bool checkChangeInMaxRobotVel();
 };
 
-}
-}
-}
+}  // namespace rtt::ai::control
 
-#endif //ROBOTEAM_AI_NUMTREEPOSCONTROL_H
+#endif  // ROBOTEAM_AI_NUMTREEPOSCONTROL_H

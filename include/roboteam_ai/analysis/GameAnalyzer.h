@@ -5,22 +5,23 @@
 #ifndef ROBOTEAM_AI_GAMEANALYZER_H
 #define ROBOTEAM_AI_GAMEANALYZER_H
 
-#include "gtest/gtest_prod.h"
 #include "AnalysisReport.h"
-#include "world/WorldData.h"
-#include "world/World.h"
+#include "gtest/gtest_prod.h"
 #include "world/BallPossession.h"
+#include "world/World.h"
+#include "world/WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 class GameAnalyzer {
     FRIEND_TEST(GameAnalyzerTest, it_works);
-public:
+
+   public:
     // It's a singleton; don't copy it.
     GameAnalyzer(const GameAnalyzer &) = delete;
+
     void operator=(const GameAnalyzer &) = delete;
+
     static GameAnalyzer &getInstance();
 
     void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
@@ -29,13 +30,12 @@ public:
     std::shared_ptr<AnalysisReport> getMostRecentReport();
     std::shared_ptr<AnalysisReport> generateReportNow(const Field &field);
 
-private:
-        using WorldData = world::WorldData;
-        using RobotPtr = world::World::RobotPtr;
-        using BallPtr = world::World::BallPtr;
+   private:
+    using WorldData = world::WorldData;
+    using RobotPtr = world::World::RobotPtr;
+    using BallPtr = world::World::BallPtr;
 
     GameAnalyzer();
-
 
     // Threading
     std::thread thread;
@@ -56,8 +56,5 @@ private:
     bool isClosingInToGoal(const Field &field, RobotPtr robot, bool ourTeam);
 };
 
-
-}
-}
-}
-#endif //ROBOTEAM_AI_GAMEANALYZER_H
+}  // namespace rtt::ai::analysis
+#endif  // ROBOTEAM_AI_GAMEANALYZER_H

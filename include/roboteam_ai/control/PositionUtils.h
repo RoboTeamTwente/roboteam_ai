@@ -2,7 +2,6 @@
 // Created by mrlukasbos on 19-3-19.
 //
 
-
 #ifndef ROBOTEAM_AI_GENERALPOSITIONCOACH_H
 #define ROBOTEAM_AI_GENERALPOSITIONCOACH_H
 
@@ -10,9 +9,7 @@
 #include "world/Field.h"
 #include <utilities/Constants.h>
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class PositionUtils {
 public:
@@ -31,8 +28,6 @@ public:
 
 };
 
-} // coach
-} // ai
-} // rtt
+}  // namespace rtt::ai::control
 
-#endif //ROBOTEAM_AI_GENERALPOSITIONCOACH_H
+#endif  // ROBOTEAM_AI_GENERALPOSITIONCOACH_H

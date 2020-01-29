@@ -12,12 +12,11 @@ Node::Status Inverter::update() {
 
     if (s == Status::Success) {
         return Status::Failure;
-    }
-    else if (s == Status::Failure) {
+    } else if (s == Status::Failure) {
         return Status::Success;
     }
 
     return s;
 }
 
-} // bt
+}  // namespace bt

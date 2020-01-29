@@ -7,9 +7,7 @@
 #include "Skill.h"
 #include <control/numTrees/NumTreePosControl.h>
 
-namespace rtt{
-namespace ai {
-
+namespace rtt::ai {
 
 class ActiveStop : public Skill {
     public:
@@ -26,6 +24,5 @@ class ActiveStop : public Skill {
 
         static Vector2 getPoint(const Field &field, const Vector2 &penaltyPos);
 };
-}
-}
-#endif //ROBOTEAM_AI_ACTIVESTOP_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_ACTIVESTOP_H

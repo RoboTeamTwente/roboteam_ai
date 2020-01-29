@@ -29,8 +29,7 @@
 #include "control/Hungarian.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
 
@@ -40,13 +39,12 @@ BallPlacementFormation::BallPlacementFormation(std::string name, bt::Blackboard:
 }
 
 Vector2 BallPlacementFormation::getFormationPosition() {
-
-    //failsafe to prevent segfaults
+    // failsafe to prevent segfaults
     int amountOfRobots = robotsInFormation->size();
     if (amountOfRobots <= 0) {
         return {};
     }
-    auto formationPositions = getStopPositions().at(amountOfRobots-1);
+    auto formationPositions = getStopPositions().at(amountOfRobots - 1);
     std::vector<Vector2> properPositions;
     for (auto pos : formationPositions) {
         if (!positionShouldBeAvoided(pos)) {
@@ -61,11 +59,9 @@ Vector2 BallPlacementFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-
-
     std::vector<int> robotIds;
     for (auto &i : *robotsInFormation) {
-        if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
+        if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
             robotIds.push_back(i->id);
         }
     }
@@ -90,8 +86,8 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
     Vector2 ballPlacementMarker = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
 
     if (!interface::Output::usesRefereeCommands()) {
-            ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
-            std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+        ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
+        std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
     };
     auto ball = world->getBall();
     Vector2 diff = (ball->getPos() - ballPlacementMarker).rotate(M_PI_2);
@@ -106,5 +102,4 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
     return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos, 0.0));
 }
 
-}
-}
+}  // namespace rtt::ai

@@ -2,8 +2,8 @@
 // Created by baris on 14-2-19.
 //
 
-#include <algorithm>
 #include "demo/JoystickDemo.h"
+#include <algorithm>
 #include "utilities/Pause.h"
 
 namespace demo {
@@ -14,8 +14,7 @@ std::mutex JoystickDemo::demoLock;
 /// Some indication of if there is a demo going
 bool JoystickDemo::isDemo() {
     std::lock_guard<std::mutex> lock(demoLock);
-    return (! demoRobots.empty());
-
+    return (!demoRobots.empty());
 }
 
 /// Tool to check if demo stuff should happen every loop
@@ -27,18 +26,16 @@ void JoystickDemo::demoLoop(proto::DemoRobot msg) {
         demoRobots.insert(msg.id());
     }
 
-    else if (! msg.reserve()) {
+    else if (!msg.reserve()) {
         demoRobots.erase(msg.id());
     }
 
     if (msg.halt() == 1) {
         pause->setPause(true);
         pause->haltRobots();
-    }
-    else if (msg.halt() == 2) {
+    } else if (msg.halt() == 2) {
         pause->setPause(false);
     }
-
 }
 
 /// Returns the robots that are used in the demo
@@ -54,4 +51,4 @@ bool JoystickDemo::checkIfDemoSafe(int ID) {
     // True if not in the vector
     return (demoRobots.find(ID) == demoRobots.end());
 }
-}
+}  // namespace demo

@@ -13,15 +13,13 @@
 #include "world/World.h"
 #include "pid.h"
 
-
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 namespace world {
 class Robot;
 class WorldData;
 class Ball;
-}
+}  // namespace world
 
 namespace control {
 
@@ -66,8 +64,7 @@ class PosController {
         void updatePid(pidVals pid);
 };
 
-} // control
-} // ai
-} // rtt
+}  // namespace control
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_POSCONTROLLER_H
+#endif  // ROBOTEAM_AI_POSCONTROLLER_H

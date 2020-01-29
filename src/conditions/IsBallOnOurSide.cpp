@@ -1,18 +1,17 @@
 /*
-* return SUCCESS if the ball is on our side
-* properties:
-* - inField: if true, the ball also has to be in the field to return SUCCESS
-*/
+ * return SUCCESS if the ball is on our side
+ * properties:
+ * - inField: if true, the ball also has to be in the field to return SUCCESS
+ */
 
 #include <world/FieldComputations.h>
 #include <world/Ball.h>
 #include "conditions/IsBallOnOurSide.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
-    :Condition(std::move(name), std::move(blackboard)) { };
+    : Condition(std::move(name), std::move(blackboard)) { };
 
 void IsBallOnOurSide::onInitialize() {
     inField = properties->getBool("inField");    
@@ -28,12 +27,10 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
                 return Status::Success;
             }
             return Status::Failure;
-        } 
+        }
         return Status::Success;
     }
     return Status::Failure;
 }
 
-} // ai
-} // rtt
-
+}  // namespace rtt::ai

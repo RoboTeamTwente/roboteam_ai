@@ -6,13 +6,11 @@
 #include "skills/formations/TimeoutFormation.h"
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
-
+namespace rtt::ai {
     std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
 
     TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard)
-: Formation(name, blackboard) {
+        : Formation(name, blackboard) {
         robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
     }
 
@@ -43,5 +41,4 @@ std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInF
     return robotsInFormation;
 }
 
-}
-}
+}  // namespace rtt::ai

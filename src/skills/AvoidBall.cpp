@@ -11,21 +11,20 @@
 #include "control/numTrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 using cu = control::ControlUtils;
 
-AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard)
-: Skill(std::move(name), std::move(blackboard)) {
-}
+AvoidBall::AvoidBall(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
-void AvoidBall::onInitialize() {
+void AvoidBall::onInitialize(std::string type) {
     minRobotDistanceForForce = 0.9;
     stop = properties->getBool("Stop");
-    if(stop) minRobotDistanceForForce = 0.7*1.5;
-    type = stringToType(properties->getString("type"));
-    if (type == PASSING) {
+    if (stop) minRobotDistanceForForce = 0.7 * 1.5;
+    // type = stringToType(properties->getString("type"));
+    this->type = stringToType(type);
+
+    if (this->type == PASSING) {
         receiver = world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
     }
 }
@@ -40,7 +39,6 @@ bt::Node::Status AvoidBall::onUpdate() {
         robot->getNumtreePosControl()->getRobotCommand(world, field, robot, Vector2(0, robotPos.y));
         publishRobotCommand();
         return Status::Running;
-
     }
 
     Vector2 force = {0, 0};
@@ -64,8 +62,6 @@ bt::Node::Status AvoidBall::onUpdate() {
     wallsVectors.emplace_back(Vector2(robotPos.x + halfFieldLength + boundWidth, 0));
     wallsVectors.emplace_back(Vector2(0, robotPos.y - halfFieldWidth - boundWidth));
     wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
-
-
 
     for (auto const &wallVector : wallsVectors) {
         force = force + cu::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
@@ -102,13 +98,11 @@ bt::Node::Status AvoidBall::onUpdate() {
 AvoidBall::Type AvoidBall::stringToType(std::string string) {
     if (string == "ballPlacement") {
         return BALLPLACEMENT;
-    }
-    else if (string == "passing") {
+    } else if (string == "passing") {
         return PASSING;
     } else {
         return BALLPLACEMENT;
     }
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

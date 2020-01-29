@@ -9,18 +9,14 @@
 #include "Skill.h"
 #include "control/PositionUtils.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Receive : public Skill {
-private:
+   private:
     const double RECEIVER_MISSED_BALL_MARGIN = 1.0;
     const double BALL_DEFLECTION_ANGLE = M_PI_4;
 
-    enum Progression {
-        POSITIONING,
-        RECEIVING
-    };
+    enum Progression { POSITIONING, RECEIVING };
 
     bool readyToPassSet = false;
     bool canMoveInDefenseArea = false;
@@ -37,10 +33,10 @@ private:
 
     virtual bool isInPosition(const Vector2& behindTargetPos = {0, 0});
 
-protected:
+   protected:
     bool passFailed();
 
-public:
+   public:
     explicit Receive(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
@@ -50,7 +46,6 @@ public:
     bool ballDeflected();
 };
 
-} //ai
-} //rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_RECEIVE_H
+#endif  // ROBOTEAM_AI_RECEIVE_H

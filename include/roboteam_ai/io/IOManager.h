@@ -19,15 +19,14 @@
 #include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 class Pause;
 
 namespace io {
 
 class IOManager {
 private:
-        Field field;
+        Field *field;
 
         proto::World worldMsg;
         proto::SSL_GeometryData geometryMsg;
@@ -35,24 +34,24 @@ private:
         proto::SSL_Referee refDataMsg;
         proto::DemoRobot demoInfoMsg;
 
-        proto::Subscriber<proto::World> * worldSubscriber;
-        void handleWorldState(proto::World & world);
+        proto::Subscriber<proto::World> *worldSubscriber;
+        void handleWorldState(proto::World &world);
 
-        proto::Subscriber<proto::SSL_GeometryData> * geometrySubscriber;
-        void handleGeometry(proto::SSL_GeometryData & geometryData);
+        proto::Subscriber<proto::SSL_GeometryData> *geometrySubscriber;
+        void handleGeometry(proto::SSL_GeometryData &geometryData);
 
-        proto::Subscriber<proto::SSL_Referee> * refSubscriber;
-        void handleReferee(proto::SSL_Referee & refData);
+        proto::Subscriber<proto::SSL_Referee> *refSubscriber;
+        void handleReferee(proto::SSL_Referee &refData);
 
-        proto::Subscriber<proto::RobotFeedback> * feedbackSubscriber;
-        void handleFeedback(proto::RobotFeedback & feedback);
+        proto::Subscriber<proto::RobotFeedback> *feedbackSubscriber;
+        void handleFeedback(proto::RobotFeedback &feedback);
 
-        proto::Publisher<proto::RobotCommand> * robotCommandPublisher;
-        proto::Publisher<proto::Setting> * settingsPublisher;
+        proto::Publisher<proto::RobotCommand> *robotCommandPublisher;
+        proto::Publisher<proto::Setting> *settingsPublisher;
 
-      rtt::ai::Pause* pause;
+        rtt::ai::Pause *pause;
 
-public:
+    public:
         explicit IOManager() = default;
         void publishRobotCommand(proto::RobotCommand cmd);
         void publishSettings(proto::Setting setting);
@@ -75,8 +74,7 @@ public:
 
 extern IOManager io;
 
-} // io
-} // ai
-} // rtt
+}  // namespace io
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_IO_MANAGER_H
+#endif  // ROBOTEAM_AI_IO_MANAGER_H

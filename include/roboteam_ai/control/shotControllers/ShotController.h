@@ -10,9 +10,7 @@
 #include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 enum ShotPrecision {
     LOW, // not accurate but fast
@@ -72,7 +70,5 @@ public:
             BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
 };
 
-} // control
-} // ai
-} // rtt
-#endif //ROBOTEAM_AI_SHOTCONTROLLER_H
+}  // namespace rtt::ai::control
+#endif  // ROBOTEAM_AI_SHOTCONTROLLER_H

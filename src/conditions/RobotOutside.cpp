@@ -6,21 +6,18 @@
 #include <world/Robot.h>
 #include "conditions/RobotOutside.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai {
 
 RobotOutside::RobotOutside(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(name, blackboard) {
+    : Condition(name, blackboard) {}
 
-}
 Condition::Status RobotOutside::onUpdate() {
-
     if (checkPoint()) {
         return Status::Success;
     }
     return Status::Failure;
-
 }
+
 bool RobotOutside::checkPoint() {
     // return success if the robot is out of the field
     // return success if the ball is out of the field
@@ -29,5 +26,4 @@ bool RobotOutside::checkPoint() {
         abs(robot->pos.y) < (*field).getFieldWidth() / 2 + margin &&
         !FieldComputations::pointIsInDefenceArea(*field, robot->pos));
 }
-}
-}
+}  // namespace rtt::ai

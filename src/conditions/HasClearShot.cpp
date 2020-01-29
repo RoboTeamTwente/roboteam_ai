@@ -1,6 +1,6 @@
 /*
  * Returns SUCCESS if the robot has a clear shot to their goal
- * the orientation of the robot is not taken into account. 
+ * the orientation of the robot is not taken into account.
  * it just draws a line from the robot position towards the goal center and looks for obstacles.
  * otherwise FAILURE
  */
@@ -14,11 +14,10 @@
 #include <world/World.h>
 #include <world/WorldData.h>
 
-namespace rtt{
-namespace ai {
+namespace rtt::ai {
 
 HasClearShot::HasClearShot(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {}
+        : Condition(std::move(name), std::move(blackboard)) {}
 
 HasClearShot::Status HasClearShot::onUpdate() {
     if ((Vector2(ball->getPos()) - (*field).getTheirGoalCenter()).length() < FORCED_SHOOTING_DISTANCE) {
@@ -44,5 +43,4 @@ HasClearShot::Status HasClearShot::onUpdate() {
     return hasClearShot ? Status::Success : Status::Failure;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

@@ -63,10 +63,9 @@ public:
     static void refresh();
     static bool keeperExistsInWorld();
     static bool hasFree();
-
 };
 
-} //robotDealer
-} //ai
-} //rtt
-#endif //ROBOTEAM_AI_ROBOTDEALER_H
+}  // namespace robotDealer
+}  // namespace ai
+}  // namespace rtt
+#endif  // ROBOTEAM_AI_ROBOTDEALER_H

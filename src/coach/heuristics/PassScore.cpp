@@ -7,9 +7,7 @@
 #include "world/WorldData.h"
 #include "world/FieldComputations.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 double PassScore::calculatePassScore(const Field &field, const Vector2 &position) {
     WorldData world = world::world->getWorld();
@@ -30,6 +28,4 @@ double PassScore::calculatePassScore(const Field &field, const Vector2 &position
     return score;
 }
 
-}
-}
-}
+}  // namespace rtt::ai::coach

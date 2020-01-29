@@ -8,30 +8,29 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/world/Field.h>
+#include "world/Field.h"
 #include "world/WorldData.h"
 #include "world/World.h"
 #include "PossiblePass.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 enum botType { BLOCKBALL, BLOCKTOGOAL, BLOCKPASS, BLOCKONLINE };
-struct DefenderBot {
-  int id;
-  Vector2 targetPos;
-  double orientation;
-  int blockFromID;
-  botType type;
 
-  int coveredCount = 0;
-  const world::Robot::RobotPtr toRobot();
-  bool validPosition(const world::WorldData &world);
+struct DefenderBot {
+    int id;
+    Vector2 targetPos;
+    double orientation;
+    int blockFromID;
+    botType type;
+
+    int coveredCount = 0;
+    const world::Robot::RobotPtr toRobot();
+    bool validPosition(const world::WorldData &world);
 };
 class DefencePositionCoach {
-        FRIEND_TEST(defensive_coach,blockPoints);
+        FRIEND_TEST(defensive_coach, blockPoints);
     public:
-        double maxX(const Field &field);//furthest point forwards the availableIDs can go
+        double maxX(const Field &field); // furthest point forwards the availableIDs can go
 
         Vector2 getMostDangerousPos(const world::WorldData &world);
 
@@ -63,10 +62,10 @@ class DefencePositionCoach {
         std::tuple<bool, int, std::vector<int>> decideLockedPositions(const Field &field,
                 const std::vector<DefenderBot> &lockedDefenders, std::vector<int> freeRobots);
     private:
-        const double defenceLineMargin = 0.15; //min distance the points are from defence area. Should atleast be robotradius large.
+        const double defenceLineMargin = 0.15; // min distance the points are from defence area. Should atleast be robotradius large.
         const double calculationCollisionRad = 0.15; // distance at which our own robots are considered to be colliding in our calculation (prevents robots from stacking up too much)
 
-        const double searchPoints = 31.0;// amount of points we search for when we check if we can find points on a line
+        const double searchPoints = 31.0; // amount of points we search for when we check if we can find points on a line
         world::WorldData simulatedWorld;
         std::vector<DefenderBot> defenders;
 
@@ -89,8 +88,6 @@ class DefencePositionCoach {
 };
 extern DefencePositionCoach g_defensivePositionCoach;
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_DEFENSIVECOACH_H
+#endif  // ROBOTEAM_AI_DEFENSIVECOACH_H

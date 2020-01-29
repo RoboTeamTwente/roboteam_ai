@@ -13,12 +13,10 @@
 #include "control/numTrees/Collision.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 NumTreePosControl::NumTreePosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
-        :BasicPosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) { }
+    : BasicPosControl(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {}
 
 /// Clears data and resets variables
 void NumTreePosControl::clear() {
@@ -30,7 +28,7 @@ void NumTreePosControl::clear() {
 RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     RobotCommand target;
     double goToTimeInFuture = 0.4;
-    auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture/DT);
+    auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture / DT);
     if (path.size() < targetPathPoint) {
         target.pos = exactTargetPos;
         target.vel = exactTargetPos - robot->pos;
@@ -38,19 +36,18 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
         return target;
     }
 
-    target.pos = robot->pos + (path[targetPathPoint].pos - robot->pos)*1.0;
-    target.vel = path[targetPathPoint].vel; // Velocity is not used currently!!
+    target.pos = robot->pos + (path[targetPathPoint].pos - robot->pos) * 1.0;
+    target.vel = path[targetPathPoint].vel;  // Velocity is not used currently!!
     target.angle = (target.pos - robot->pos).angle();
 
     interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos}, Qt::green, robot->id,
             interface::Drawing::DOTS, 12, 12);
-    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos, target.pos + target.vel*0.4}, Qt::red,
-            robot->id,
-            interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos, target.pos + target.vel * 0.4},
+            Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -72,24 +69,24 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Fiel
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos, const Angle &targetAngle) {
         this->world = world;
         this->field = field;
 
-    DT = 0.3/rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
+    DT = 0.3 / rtt::ai::GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
     if (DT > 0.12) DT = 0.12;
     if (DT < 0.06) DT = 0.06;
 
     // check if the robot exists
-    if (! robotPtr) {
+    if (!robotPtr) {
         std::cerr << "NO ROBOT IN NUMTREES!!" << std::endl;
         return {};
     }
 
     // make a copy of the robot
     robot = std::make_shared<world::Robot>(world::Robot(*robotPtr));
-    //ros::Time begin = ros::Time::now();
+    // ros::Time begin = ros::Time::now();
 
     // Check if the current path is still valid, if not, recalculate
     bool nicePath = true;
@@ -99,10 +96,8 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Fiel
 
         if (Vector2(robot->vel).length() > Constants::MAX_VEL_CMD()) {
             nicePath = false;
-            if (InterfaceValues::showDebugNumTreeInfo())
-                std::cout << "ROBOT " << robot->id << ": is moving too fast, check world_state?" << std::endl;
-        }
-        else {
+            if (InterfaceValues::showDebugNumTreeInfo()) std::cout << "ROBOT " << robot->id << ": is moving too fast, check world_state?" << std::endl;
+        } else {
             // Calculate new path
             tracePath();
             if (path.empty()) {
@@ -110,15 +105,15 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Fiel
             }
         }
     }
-//    ros::Time end = ros::Time::now();
-//    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo()) {
-//        std::cout << "ROBOT " << robot->id << ": GoToPosClean tick took: " <<
-//                  (end - begin).toNSec()*0.000001 << " ms" << std::endl;
-//    }
+    //    ros::Time end = ros::Time::now();
+    //    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo()) {
+    //        std::cout << "ROBOT " << robot->id << ": GoToPosClean tick took: " <<
+    //                  (end - begin).toNSec()*0.000001 << " ms" << std::endl;
+    //    }
 
     // draw
     std::vector<Vector2> drawpoints = {};
-    for (int i = path.size()-1; i >= 0; i--) {
+    for (int i = path.size() - 1; i >= 0; i--) {
         drawpoints.push_back(path[i].pos);
     }
     interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot->id,
@@ -131,7 +126,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Fiel
             interface::Drawing::CIRCLES, 8, 8, 6);
 
     // check if we have a nice path.
-    if (! nicePath) {
+    if (!nicePath) {
         path.clear();
     }
     RobotCommand command = computeCommand(targetPos);
@@ -139,10 +134,9 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Fiel
 }
 
 void NumTreePosControl::tracePath() {
-
-// compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
-// length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
-// target, while taking into account the length of path already calculated.
+    // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
+    // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
+    // target, while taking into account the length of path already calculated.
     auto compAStar = [this](PathPointer lhs, PathPointer rhs) {
       if (lhs->collisions - rhs->collisions > 2)
           return true;
@@ -171,17 +165,17 @@ void NumTreePosControl::tracePath() {
     auto start = std::chrono::duration_cast< std::chrono::milliseconds >(
             std::chrono::system_clock::now().time_since_epoch()
     );
-    while (! pathQueue.empty()) {
+    while (!pathQueue.empty()) {
         auto now = std::chrono::duration_cast< std::chrono::milliseconds >(
                 std::chrono::system_clock::now().time_since_epoch()
         );
-        if ((now - start).count()*1000 > MAX_CALCULATION_TIME) {
+        if ((now - start).count() * 1000 > MAX_CALCULATION_TIME) {
             if (InterfaceValues::showDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
             }
             PathPointer bestPath = pathQueue.top();
             pathQueue.pop();
-            while (! pathQueue.empty()) {
+            while (!pathQueue.empty()) {
                 PathPointer pathPointer = pathQueue.top();
                 if ((finalTargetPos - pathPointer->pos).length2() < (finalTargetPos - bestPath->pos).length2()) {
                     bestPath = pathPointer;
@@ -199,7 +193,7 @@ void NumTreePosControl::tracePath() {
                 path = backTrackPath(point, root);
                 return;
             }
-            //point->addChild(newPoint);
+            // point->addChild(newPoint);
             point.swap(newPoint);
 
             // if we reach endpoint, return the path we found
@@ -207,17 +201,17 @@ void NumTreePosControl::tracePath() {
                 path = backTrackPath(point, root);
                 return;
             }
-                // if we reach a halfway point, update the target to the final target again and push this new point to queue
+            // if we reach a halfway point, update the target to the final target again and push this new point to queue
             else if (point->isCollision(point->currentTarget, 0.1)) {
                 point->currentTarget = finalTargetPos;
                 pathQueue.pop();
                 pathQueue.push(point);
-                break; // break from current while loop, we start looking at different branches again
+                break;  // break from current while loop, we start looking at different branches again
             }
             // if we have collided with an obstacle; backtrack and branch to both sides using new intermediary points
             Collision collision = getCollision(point, DEFAULT_ROBOT_COLLISION_RADIUS);
             if (collision.isCollision) {
-                int collisions = ++ point->collisions;
+                int collisions = ++point->collisions;
                 std::pair<std::vector<Vector2>, PathPointer> newTargetsAndBranch = getNewTargets(point, collision);
                 std::vector<Vector2> newTargets = newTargetsAndBranch.first;
                 PathPointer newBranchStart = newTargetsAndBranch.second;
@@ -225,8 +219,7 @@ void NumTreePosControl::tracePath() {
                 pathQueue.pop();
                 // both left and right targets for now
                 for (const auto &newTarget : newTargets) {
-                    if (newBranchStart->branchHasTarget(newTarget))
-                        continue;
+                    if (newBranchStart->branchHasTarget(newTarget)) continue;
                     // compute new point and add it to branch
                     PathPointer branch = computeNewPoint(newBranchStart, newTarget);
                     branch->collisions = collisions;
@@ -245,15 +238,13 @@ void NumTreePosControl::tracePath() {
 
 /// calculate the remaining pathlength using straigth lines from current position to a posititon halfway and from
 /// halfway to the final position
-double NumTreePosControl::remainingStraightLinePathLength(
-        const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos) {
+double NumTreePosControl::remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos,
+        const Vector2 &finalPos) {
     return (abs((halfwayPos - finalPos).length() + (currentPos - halfwayPos).length()));
 }
 
 /// create a new pathPoint using a linear acceleration ODE
-NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
-        const PathPointer &oldPoint, const Vector2 &subTarget) {
-
+NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(const PathPointer &oldPoint, const Vector2 &subTarget) {
     // Copy parent
     PathPointer newPoint = std::make_shared<PathPoint>();
     newPoint->parent = oldPoint;
@@ -270,17 +261,17 @@ NumTreePosControl::PathPointer NumTreePosControl::computeNewPoint(
     Vector2 targetDirection = (subTarget - newPoint->pos);
     Angle deltaAngle = newPoint->vel.toAngle() - targetDirection.toAngle();
 
-    newPoint->acc = ((targetDirection.normalize()*newPoint->maxVel() - newPoint->vel).normalize() -
-            newPoint->vel.normalize()*fabs(deltaAngle)*M_2_PI);
+    newPoint->acc = ((targetDirection.normalize() * newPoint->maxVel() - newPoint->vel).normalize() -
+            newPoint->vel.normalize() * fabs(deltaAngle) * M_2_PI);
 
-    Vector2 targetVel = newPoint->vel + newPoint->acc.stretchToLength(DT*
+    Vector2 targetVel = newPoint->vel + newPoint->acc.stretchToLength(DT *
             std::max(newPoint->maxAcceleration(), newPoint->maxDeceleration()));
     Angle targetAngle = (targetVel - oldPoint->vel).toAngle();
 
     //ODE model to get new position/velocity:
     newPoint->vel = ControlUtils::accelerationLimiter(targetVel, oldPoint->vel, targetAngle,
-            newPoint->maxAcceleration()*DT, newPoint->maxAcceleration()*DT,
-            newPoint->maxDeceleration()*DT, newPoint->maxDeceleration()*DT);
+            newPoint->maxAcceleration() * DT, newPoint->maxAcceleration() * DT,
+            newPoint->maxDeceleration() * DT, newPoint->maxDeceleration() * DT);
     newPoint->pos += newPoint->vel*DT;
 
     newPoint->collisions = oldPoint->collisions;
@@ -315,8 +306,8 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     auto goalCollision = getGoalCollision(point);
     if (goalCollision.isCollision) return goalCollision;
 
-    if (GameStateManager::getCurrentGameState().strategyName == "ball_placement_us_strategy"
-    || GameStateManager::getCurrentGameState().strategyName == "ball_placement_them_strategy") {
+    if (GameStateManager::getCurrentGameState().strategyName == "ball_placement_us_strategy" ||
+        GameStateManager::getCurrentGameState().strategyName == "ball_placement_them_strategy") {
         auto ballPlacementCollision = getBallPlacementCollision(point);
         if (ballPlacementCollision.isCollision) return ballPlacementCollision;
     }
@@ -379,7 +370,7 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
-    if (! getCanMoveInDefenseArea(robot->id)) {
+    if (!getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
         bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, true, margin, false);
         bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, false, margin, false);
@@ -423,8 +414,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
         std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
     };
 
-
-    double avoidDist = fmin (ballPlacementMarker.dist(ball->getPos()), 2.0);
+    double avoidDist = fmin(ballPlacementMarker.dist(ball->getPos()), 2.0);
     auto shortenedDistance = (ballPlacementMarker - ball->getPos()).stretchToLength(avoidDist);
 
     bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->getPos()),
@@ -461,20 +451,18 @@ std::pair<std::vector<Vector2>, NumTreePosControl::PathPointer> NumTreePosContro
 
     // get positions left and right, perpendicular to the vector towards collision, next to the collisionPoint
     Vector2 leftTargetPosition = collisionPoint->pos +
-            Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius*sqrt(factor)*1.2);
+            Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(collisionRadius * sqrt(factor) * 1.2);
 
     Vector2 rightTargetPosition = collisionPoint->pos +
-            Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(- collisionRadius*sqrt(factor)*1.2);
+            Vector2(deltaPosition.y, - deltaPosition.x).stretchToLength(-collisionRadius * sqrt(factor) * 1.2);
 
     // return the new targets
     auto newTargets = {leftTargetPosition, rightTargetPosition};
     return {newTargets, startPoint};
 }
 
-///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point,
-        const PathPointer &root) {
-
+/// backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
+std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point, const PathPointer &root) {
     // backtrack the whole path till it hits the root node and return the vector of PathPoints
     std::vector<PathPoint> backTrackedPath = {};
     while (point) {
@@ -485,7 +473,7 @@ std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point,
         point.swap(point->parent);
     }
 
-    std::reverse(backTrackedPath.begin(), backTrackedPath.end()); // everything is from back to forth
+    std::reverse(backTrackedPath.begin(), backTrackedPath.end());  // everything is from back to forth
     return backTrackedPath;
 }
 
@@ -494,7 +482,7 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World * world, const Field *field, const RobotPtr &robotPtr,
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr,
         const Vector2 &targetPos) {
     this->world = world;
     this->field = field;
@@ -537,15 +525,14 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     finalTargetPoint->t = 0;
     currentCollisionWithFinalTarget = getCollision(finalTargetPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
 
-    if (! allowIllegalPositions) {
+    if (!allowIllegalPositions) {
         if (currentCollisionWithFinalTarget.getCollisionType() == Collision::DEFENSE_AREA ||
                 currentCollisionWithRobot.getCollisionType() == Collision::DEFENSE_AREA) {
-
             finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(*field, finalTargetPos,
                     Constants::ROBOT_RADIUS() * 1.1);
 
             currentlyAvoidingDefenseArea = finalTargetPos == currentlyAvoidingDefenseAreaPosition;
-            if (! currentlyAvoidingDefenseArea) {
+            if (!currentlyAvoidingDefenseArea) {
                 currentlyAvoidingDefenseAreaPosition = finalTargetPos;
                 currentlyAvoidingDefenseArea = true;
 
@@ -556,8 +543,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
                 path.clear();
                 return true;
             }
-        }
-        else {
+        } else {
             currentlyAvoidingDefenseArea = false;
             currentlyAvoidingDefenseAreaPosition = Vector2();
         }
@@ -596,7 +582,7 @@ bool NumTreePosControl::checkEmptyPath() {
 
 bool NumTreePosControl::checkIfTargetMoved(double maxTargetDeviation, const Vector2 &targetPos) {
     // if the target moved too much
-    if ((finalTargetPos - targetPos).length2() > maxTargetDeviation*maxTargetDeviation) {
+    if ((finalTargetPos - targetPos).length2() > maxTargetDeviation * maxTargetDeviation) {
         if (InterfaceValues::showFullDebugNumTreeInfo()) {
             std::cout << "ROBOT " << robot->id << ": target moved too much, recalculating" << std::endl;
         }
@@ -607,7 +593,7 @@ bool NumTreePosControl::checkIfTargetMoved(double maxTargetDeviation, const Vect
 
 bool NumTreePosControl::checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos) {
     // if the end of the path is met
-    if (path.size() < static_cast<unsigned int>(1.01 + 1.0/DT)) {
+    if (path.size() < static_cast<unsigned int>(1.01 + 1.0 / DT)) {
         if ((path[path.size() - 1].pos - targetPos).length() > maxTargetDeviation) {
             if (InterfaceValues::showFullDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id << ": reached end of path segment, recalculating" << std::endl;
@@ -624,7 +610,7 @@ bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, 
     unsigned long currentIndex = 0;
     double distanceSquared = 9e99;
 
-    for (unsigned long i = 0; i < path.size(); i ++) {
+    for (unsigned long i = 0; i < path.size(); i++) {
         double pathDistanceToRobot = path[i].pos.dist2(robotPos);
         if (pathDistanceToRobot < distanceSquared) {
             distanceSquared = pathDistanceToRobot;
@@ -637,7 +623,7 @@ bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, 
         }
         return true;
     }
-    for (int i = 0; i < static_cast<int>(currentIndex); i ++) {
+    for (int i = 0; i < static_cast<int>(currentIndex); i++) {
         auto p = path[i];
         triedPaths.push_back(p.pos);
     }
@@ -648,7 +634,7 @@ bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, 
 bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
     // check if there is a collision for any of the upcoming points in the path
     for (auto pathPoint : path) {
-        if (getCollision(std::make_shared<PathPoint>(pathPoint), 0.8*DEFAULT_ROBOT_COLLISION_RADIUS).isCollision) {
+        if (getCollision(std::make_shared<PathPoint>(pathPoint), 0.8 * DEFAULT_ROBOT_COLLISION_RADIUS).isCollision) {
             if (InterfaceValues::showDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id << ": another robot will collide with ours when "
                                                       "following this path, recalculating" << std::endl;
@@ -675,7 +661,4 @@ const Collision &NumTreePosControl::getCurrentCollisionWithFinalTarget() const {
     return currentCollisionWithFinalTarget;
 }
 
-
-} // control
-} // ai
-} // rtt
+}  // namespace rtt::ai::control

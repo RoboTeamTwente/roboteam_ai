@@ -13,9 +13,7 @@
 #include <control/pid.h>
 #include <world/Ball.h>
 #include <world/Robot.h>
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 class DribbleBackwards;
 class DribbleForwards;
@@ -26,21 +24,21 @@ class BallHandlePosControl : public NumTreePosControl {
         using BallPtr = std::shared_ptr<world::Ball>;
         using RobotPtr = std::shared_ptr<world::Robot>;
 
-        DribbleForwards* dribbleForwards;
-        DribbleBackwards* dribbleBackwards;
-        RotateWithBall* rotateWithBall;
-        RotateAroundBall* rotateAroundBall;
+        DribbleForwards *dribbleForwards;
+        DribbleBackwards *dribbleBackwards;
+        RotateWithBall *rotateWithBall;
+        RotateAroundBall *rotateAroundBall;
 
         double maxForwardsVelocity = Constants::GRSIM() ? 0.6 : 1.2;
         double maxBackwardsVelocity = Constants::GRSIM() ? 0.4 : 0.5;
         double ballPlacementAccuracy = 0.12;
 
         constexpr static double ERROR_MARGIN = 0.02;
-        constexpr static double ANGLE_ERROR_MARGIN = 0.010*M_PI;
-        constexpr static double MAX_BALL_DISTANCE = Constants::ROBOT_RADIUS()*2.0;
+        constexpr static double ANGLE_ERROR_MARGIN = 0.010 * M_PI;
+        constexpr static double MAX_BALL_DISTANCE = Constants::ROBOT_RADIUS() * 2.0;
         constexpr static double MIN_VEL_FOR_MOVING_BALL = 0.3162277660168;
         constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-        constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE*1.05;
+        constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE * 1.05;
 
         RobotPtr robot;
         BallPtr ball;
@@ -52,7 +50,7 @@ class BallHandlePosControl : public NumTreePosControl {
         pidfVals pidfGoToBall = std::make_tuple(0.0, 0.0, 0.0, 1.5);
         PID xGoToBallPID = PID(pidfGoToBall);
         PID yGoToBallPID = PID(pidfGoToBall);
-        
+
         pidfVals pidfBallHandle = std::make_tuple(0.1, 0.0, 0.0, 0.8);
         PID xBallHandlePID = PID(pidfBallHandle);
         PID yBallHandlePID = PID(pidfBallHandle);
@@ -116,8 +114,6 @@ class BallHandlePosControl : public NumTreePosControl {
         Vector2 movingBallTowardsBallTarget;
         };
 
-} //control
-} //ai
-} //rtt
+}  // namespace rtt::ai::control
 
-#endif //ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
+#endif  // ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H

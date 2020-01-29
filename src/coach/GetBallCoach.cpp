@@ -9,9 +9,7 @@
 #include "coach/GetBallCoach.h"
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 GetBallCoach getBallCoachObj;
 GetBallCoach* getBallCoach = &getBallCoachObj;
@@ -36,7 +34,7 @@ int GetBallCoach::getBallGetterID() {
 int GetBallCoach::bestBallGetterID() {
     auto ball = world::world->getBall();
     double a = 0.5;
-    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1-a) + ball->getPos() * a;
+    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1 - a) + ball->getPos() * a;
 
     double closestDistSquared = 9e9;
     int closestId = idGettingBall;
@@ -69,13 +67,10 @@ void GetBallCoach::update(const Field &field) {
     if (shouldWeGetBall(field)) {
         gettingBall = true;
         idGettingBall = bestBallGetterID();
-    }
-    else {
-        idGettingBall = - 1;
+    } else {
+        idGettingBall = -1;
         gettingBall = false;
     }
 }
 
-} //coach
-} //ai
-} //rtt
+}  // namespace rtt::ai::coach

@@ -6,17 +6,14 @@
 #define ROBOTEAM_AI_COACHHEURISTICS_H
 
 #include <roboteam_utils/Vector2.h>
+#include <world/Field.h>
 #include <world/WorldData.h>
 #include <world/World.h>
-#include <include/roboteam_ai/world/Field.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 class CoachHeuristics {
     private:
-
         using WorldData = world::WorldData;
         using Ball = world::Ball;
         using Robot = world::Robot;
@@ -46,8 +43,6 @@ class CoachHeuristics {
                 double smallestAngle = 999999);
 };
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_COACHHEURISTICS_H
+#endif  // ROBOTEAM_AI_COACHHEURISTICS_H

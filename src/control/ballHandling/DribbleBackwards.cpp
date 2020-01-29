@@ -14,9 +14,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 RobotCommand DribbleBackwards::getRobotCommand(const Field &field, RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
 
@@ -43,10 +41,7 @@ void DribbleBackwards::updateBackwardsProgress() {
     if (backwardsProgress != DRIBBLING && backwardsProgress != OVERSHOOTING) waitingTicks = 100;
 
     // check if we still have ball
-    if (backwardsProgress != OVERSHOOTING &&
-            backwardsProgress != DRIBBLING &&
-            backwardsProgress != DRIBBLE_BACKWARDS) {
-
+    if (backwardsProgress != OVERSHOOTING && backwardsProgress != DRIBBLING && backwardsProgress != DRIBBLE_BACKWARDS) {
         approachPosition = ball->getPos() + (robot->pos - ball->getPos()).stretchToLength(-0.05);
     }
     if ((ball->getPos() - robot->pos).length2() > 0.5) {
@@ -58,94 +53,102 @@ void DribbleBackwards::updateBackwardsProgress() {
 
     // update backwards progress
     switch (backwardsProgress) {
-    case TURNING: {
-        targetAngle = (ball->getPos() - finalTargetPos).toAngle();
-        if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
-            lockedAngle = targetAngle;
-            backwardsProgress = APPROACHING;
-        }
-        return;
-    }
-    case APPROACHING: {
-        if (fabs(angleDifference) > angleErrorMargin) {
-            backwardsProgress = TURNING;
+        case TURNING: {
+            targetAngle = (ball->getPos() - finalTargetPos).toAngle();
+            if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
+                lockedAngle = targetAngle;
+                backwardsProgress = APPROACHING;
+            }
             return;
         }
-        if (robot->hasBall()) {
-            backwardsProgress = OVERSHOOTING;
+        case APPROACHING: {
+            if (fabs(angleDifference) > angleErrorMargin) {
+                backwardsProgress = TURNING;
+                return;
+            }
+            if (robot->hasBall()) {
+                backwardsProgress = OVERSHOOTING;
+                return;
+            }
             return;
         }
-        return;
-    }
-    case OVERSHOOTING: {
-        if (! robot->hasBall()) {
+        case OVERSHOOTING: {
+            if (!robot->hasBall()) {
+                backwardsProgress = START;
+                return;
+            }
+            double overshoot = 0.06;
+            if (((approachPosition - robot->pos)).length() < overshoot) {
+                backwardsProgress = DRIBBLING;
+                return;
+            }
+            if (--waitingTicks < 0) {
+                failedOnce = true;
+                backwardsProgress = DRIBBLING;
+                return;
+            }
+            return;
+        }
+        case DRIBBLING: {
+            if (!robot->hasBall()) {
+                backwardsProgress = APPROACHING;
+                return;
+            }
+            if (--waitingTicks < 75) {
+                backwardsDribbleLine = {robot->pos, finalTargetPos};
+                backwardsProgress = DRIBBLE_BACKWARDS;
+                return;
+            }
+            return;
+        }
+        case DRIBBLE_BACKWARDS: {
+            if (!robot->hasBall()) {
+                backwardsProgress = APPROACHING;
+                return;
+            }
+            if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy * ballPlacementAccuracy) {
+                backwardsProgress = SUCCESS;
+                return;
+            }
+            return;
+        }
+        case FAIL:
+        case START: {
+            failedOnce = false;
+        }
+        default:
+            return;
+        case SUCCESS: {
+            if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy * ballPlacementAccuracy) {
+                return;
+            }
             backwardsProgress = START;
-            return;
         }
-        double overshoot = 0.06;
-        if (((approachPosition - robot->pos)).length() < overshoot) {
-            backwardsProgress = DRIBBLING;
-            return;
-        }
-        if (-- waitingTicks < 0) {
-            failedOnce = true;
-            backwardsProgress = DRIBBLING;
-            return;
-        }
-        return;
-    }
-    case DRIBBLING: {
-        if (! robot->hasBall()) {
-            backwardsProgress = APPROACHING;
-            return;
-        }
-        if (-- waitingTicks < 75) {
-            backwardsDribbleLine = {robot->pos, finalTargetPos};
-            backwardsProgress = DRIBBLE_BACKWARDS;
-            return;
-        }
-        return;
-    }
-    case DRIBBLE_BACKWARDS: {
-        if (! robot->hasBall()) {
-
-            backwardsProgress = APPROACHING;
-            return;
-        }
-        if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
-            backwardsProgress = SUCCESS;
-            return;
-        }
-        return;
-    }
-    case FAIL:
-    case START: {
-        failedOnce = false;
-    }
-    default:return;
-    case SUCCESS: {
-        if ((ball->getPos() - finalTargetPos).length2() < ballPlacementAccuracy*ballPlacementAccuracy) {
-            return;
-        }
-        backwardsProgress = START;
-    }
     }
 }
 
 RobotCommand DribbleBackwards::sendBackwardsCommand(const Field &field) {
     switch (backwardsProgress) {
-    case START: return startTravelBackwards();
-    case TURNING:return sendTurnCommand();
-    case APPROACHING:return sendApproachCommand();
-    case OVERSHOOTING:return sendOvershootCommand(field);
-    case DRIBBLING:return sendDribblingCommand();
-    case DRIBBLE_BACKWARDS:return sendDribbleBackwardsCommand();
-    case SUCCESS:return sendSuccessCommand();
-    case FAIL: {
-        backwardsProgress = START;
-        return {};
-    }
-    default: return {};
+        case START:
+            return startTravelBackwards();
+        case TURNING:
+            return sendTurnCommand();
+        case APPROACHING:
+            return sendApproachCommand();
+        case OVERSHOOTING:
+            return sendOvershootCommand(field);
+        case DRIBBLING:
+            return sendDribblingCommand();
+        case DRIBBLE_BACKWARDS:
+            return sendDribbleBackwardsCommand();
+        case SUCCESS:
+            return sendSuccessCommand();
+        case FAIL: {
+            backwardsProgress = START;
+            return {};
+        }
+        default:
+            return {};
     }
 }
 
@@ -198,19 +201,16 @@ RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
     RobotCommand command;
     command.dribbler = 31;
     command.angle = lockedAngle;
-    command.vel = lockedAngle.toVector2(- maxVel);
-
+    command.vel = lockedAngle.toVector2(-maxVel);
 
     // check if the robot is still on the virtual line from ball->pos to the target
-    if (control::ControlUtils::distanceToLine(robot->pos,
-            backwardsDribbleLine.first, backwardsDribbleLine.second) > errorMargin*5) {
+    if (control::ControlUtils::distanceToLine(robot->pos, backwardsDribbleLine.first, backwardsDribbleLine.second) > errorMargin * 5) {
         backwardsProgress = TURNING;
     }
 
-    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() -
-            (backwardsDribbleLine.second - backwardsDribbleLine.first).toAngle();
+    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() - (backwardsDribbleLine.second - backwardsDribbleLine.first).toAngle();
 
-    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine*2.72, 0.05));
+    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine * 2.72, 0.05));
     command.vel += compensation;
 
     interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation+robot->pos, robot->pos},
@@ -232,22 +232,30 @@ void DribbleBackwards::printBackwardsProgress() {
     std::stringstream ss;
     ss << "backwards progress:                  ";
     switch (backwardsProgress) {
-    case OVERSHOOTING:ss << "overshooting";
-        break;
-    case DRIBBLING:ss << "dribbling";
-        break;
-    case DRIBBLE_BACKWARDS:ss << "dribbleBackwards";
-        break;
-    case SUCCESS:ss << "success";
-        break;
-    case FAIL:ss << "fail";
-        break;
-    case START:ss << "start";
-        break;
-    case TURNING:ss << "turning";
-        break;
-    case APPROACHING:ss << "approaching";
-        break;
+        case OVERSHOOTING:
+            ss << "overshooting";
+            break;
+        case DRIBBLING:
+            ss << "dribbling";
+            break;
+        case DRIBBLE_BACKWARDS:
+            ss << "dribbleBackwards";
+            break;
+        case SUCCESS:
+            ss << "success";
+            break;
+        case FAIL:
+            ss << "fail";
+            break;
+        case START:
+            ss << "start";
+            break;
+        case TURNING:
+            ss << "turning";
+            break;
+        case APPROACHING:
+            ss << "approaching";
+            break;
     }
     std::cout << ss.str() << std::endl;
 }
@@ -257,9 +265,8 @@ DribbleBackwards::BackwardsProgress DribbleBackwards::getBackwardsProgression() 
 }
 
 DribbleBackwards::DribbleBackwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
-        :waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
-         ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
-
+    : waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin),
+      ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }
@@ -268,10 +275,9 @@ DribbleBackwards::~DribbleBackwards() {
     delete rotateAroundBall;
     delete rotateAroundRobot;
 }
+
 void DribbleBackwards::setMaxVel(double maxV) {
     maxVel = maxV;
 }
 
-}
-}
-}
+}  // namespace rtt::ai::control

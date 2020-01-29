@@ -9,21 +9,18 @@
 #include <chrono>
 #include <world/World.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 PassCoach g_pass;
 
-PassCoach::PassCoach() {
-}
+PassCoach::PassCoach() {}
 
 void PassCoach::resetPass(int robotID) {
     if (robotID == robotBeingPassedTo || robotID == robotPassing || robotID == -1) {
         passed = false;
         readyToReceivePass = false;
-        robotPassing = - 1;
-        robotBeingPassedTo = - 1;
+        robotPassing = -1;
+        robotBeingPassedTo = -1;
 
         passTimerStarted = false;
         receiveTimerStarted = false;
@@ -33,7 +30,7 @@ void PassCoach::resetPass(int robotID) {
 int PassCoach::initiatePass(const Field &field, int passerID) {
     // Check whether a pass is already in progress that is not taking too long yet
     if (robotBeingPassedTo != -1) {
-        if(!passTakesTooLong()) {
+        if (!passTakesTooLong()) {
             return -1;
         }
     }
@@ -91,7 +88,7 @@ int PassCoach::determineReceiver(const Field &field, int passerID) {
 
 void PassCoach::setPassed(bool passed) {
     this->passed = passed;
-    if(passed) {
+    if (passed) {
         receiveStartTime = std::chrono::steady_clock::now();
         receiveTimerStarted = true;
         passTimerStarted = false;
@@ -121,14 +118,15 @@ bool PassCoach::passTakesTooLong() {
 int PassCoach::getRobotPassing() const {
     return robotPassing;
 }
+
 void PassCoach::updatePassProgression() {
     if (robotBeingPassedTo != -1) {
         if (passTakesTooLong()) {
             resetPass(-1);
         }
     }
-
 }
+
 bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const RobotPtr& receiver,  bool freeKick) {
     auto ball = world::world->getBall();
 
@@ -152,6 +150,4 @@ bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const 
     return true;
 }
 
-} // coach
-} // ai
-} // rtt
+}  // namespace rtt::ai::coach

@@ -7,11 +7,10 @@
 #include "world/FieldComputations.h"
 #include <coach/PassCoach.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 BallPossession ballPossession;
-BallPossession* ballPossessionPtr = &ballPossession;
+BallPossession *ballPossessionPtr = &ballPossession;
 
 void BallPossession::update(const Field &field) {
     updateCloseAndFarTimes();
@@ -32,14 +31,11 @@ void BallPossession::recomputeState(const Field &field) {
     double theirPossessionX = field.getLeftmostX() + THEIR_POSSESSION_RELATIVE_LENGTH_THRESHOLD * field.getFieldLength();
     if ((weAreClose && !theyAreClose) || (world::world->getBall()->getPos().x > ourPossessionX)) {
         state = OURBALL;
-    }
-    else if ((theyAreClose && ! weAreClose) || (world::world->getBall()->getPos().x < theirPossessionX)) {
+    } else if ((theyAreClose && !weAreClose) || (world::world->getBall()->getPos().x < theirPossessionX)) {
         state = THEIRBALL;
-    }
-    else if (weAreClose && theyAreClose) {
+    } else if (weAreClose && theyAreClose) {
         state = CONTENDEDBALL;
-    }
-    else if (weAreFar && theyAreFar) {
+    } else if (weAreFar && theyAreFar) {
         state = LOOSEBALL;
     }
     // In the other cases we stay in the same state (so we do nothing).
@@ -93,5 +89,4 @@ BallPossession::Possession BallPossession::getPossession() {
     return state;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

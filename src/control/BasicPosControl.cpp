@@ -9,9 +9,7 @@
 #include "world/FieldComputations.h"
 #include "control/ControlUtils.h"
 
-namespace rtt {
-namespace ai {
-namespace control {
+namespace rtt::ai::control {
 
 BasicPosControl::BasicPosControl(double avoidBall, bool canMoveOutsideField, bool canMoveInDefenseArea)
         : PosController(avoidBall, canMoveOutsideField, canMoveInDefenseArea) {
@@ -50,12 +48,10 @@ void BasicPosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand BasicPosControl::getRobotCommand(world::World * world, const Field *field, const PosController::RobotPtr &robot,
-        const Vector2 &targetPos) {
+RobotCommand BasicPosControl::getRobotCommand(world::World *world, const Field *field,
+        const PosController::RobotPtr &robot, const Vector2 &targetPos) {
     Angle defaultAngle = 0;
     return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }
 
-} // control
-} // ai
-} // rtt
+}  // namespace rtt::ai::control

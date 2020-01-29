@@ -5,26 +5,25 @@
 #ifndef RTT_SETTINGSWIDGET_H
 #define RTT_SETTINGSWIDGET_H
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QSpinBox>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class SettingsWidget : public QWidget {
-Q_OBJECT
+    Q_OBJECT
 
-private:
+   private:
     QVBoxLayout *vLayout;
-    QLineEdit * grsimIpText;
-    QSpinBox * grsimPort;
-public:
-    explicit SettingsWidget(QWidget*parent = nullptr);
+    QLineEdit *grsimIpText;
+    QSpinBox *grsimPort;
 
-public slots:
+   public:
+    explicit SettingsWidget(QWidget *parent = nullptr);
+
+   public slots:
     void changeTeamColor(bool isYellow);
     void changeTeamSide(bool isLeft);
     void changeMode(bool serial);
@@ -32,9 +31,6 @@ public slots:
     void changeGrSimPort(int port);
 };
 
-}
-}
-}
+}  // namespace rtt::ai::interface
 
-
-#endif //RTT_SETTINGSWIDGET_H
+#endif  // RTT_SETTINGSWIDGET_H

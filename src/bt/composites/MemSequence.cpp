@@ -5,14 +5,14 @@
  *   If all children succeeds, only then does the sequence succeed.
  */
 
-
 #include "bt/composites/MemSequence.hpp"
 
 namespace bt {
+MemSequence::MemSequence() : Composite() {}
 
-void MemSequence::initialize() {
-    index = 0;
-}
+MemSequence::MemSequence(nvector children) : Composite(children) {}
+
+void MemSequence::initialize() { index = 0; }
 
 bt::Node::Status MemSequence::update() {
     if (HasNoChildren()) {
@@ -30,14 +30,12 @@ bt::Node::Status MemSequence::update() {
             return status;
         }
 
-        index ++;
+        index++;
     }
 
     return Status::Success;
+}
 
-}
-void MemSequence::terminate(Node::Status s) {
-    index = 0;
-}
-}
+void MemSequence::terminate(Node::Status s) { index = 0; }
+}  // namespace bt
 // bt

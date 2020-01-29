@@ -9,14 +9,13 @@
 #include "world/FieldComputations.h"
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 bool Formation::update = false;
 int Formation::updateCount = 0;
 
 Formation::Formation(std::string name, bt::Blackboard::Ptr blackboard)
-: Skill(std::move(name), std::move(blackboard)) {}
+    : Skill(std::move(name), std::move(blackboard)) {}
 
 void Formation::onInitialize() {
     robotsInFormationMemory = 0;
@@ -26,7 +25,6 @@ void Formation::onInitialize() {
 bt::Node::Status Formation::onUpdate() {
     if (!robotIsInFormation()) return Status::Failure;
     updateFormation(); // if the amount of robots in the formation changes, we want to update the locations
-
 
     // if the robot is in position we just need to give it the right angle
     // otherwise it needs to move to the target.
@@ -77,7 +75,7 @@ void Formation::removeRobotFromFormation() {
 // in that case, use robotIsInPosition()
 bool Formation::robotIsInFormation() {
     bool isIn = false;
-    for (auto const &bot : * robotsInFormationPtr()) {
+    for (auto const &bot : *robotsInFormationPtr()) {
         if (bot->id == robot->id) {
             isIn = true;
         }
@@ -108,14 +106,13 @@ bool Formation::robotIsInPosition() {
 void Formation::moveToTarget() {
     auto velocities = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetLocation);
     command.mutable_vel()->set_x(velocities.vel.x);
-  command.mutable_vel()->set_y(velocities.vel.y);
+    command.mutable_vel()->set_y(velocities.vel.y);
     command.set_w(static_cast<float>((targetLocation - robot->pos).angle()));
 }
 
 bool Formation::updateCounter() {
     if (!update) return false;
-    return (++updateCount%200) == 0;
+    return (++updateCount % 200) == 0;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

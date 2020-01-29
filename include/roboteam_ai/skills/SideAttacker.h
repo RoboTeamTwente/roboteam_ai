@@ -5,29 +5,27 @@
 #ifndef ROBOTEAM_AI_SIDEATTACKER_H
 #define ROBOTEAM_AI_SIDEATTACKER_H
 
-#include "Skill.h"
 #include <coach/OffensiveCoach.h>
 #include <control/numTrees/NumTreePosControl.h>
 #include <roboteam_utils/Vector2.h>
+#include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class SideAttacker : public Skill {
-    private:
+   private:
     Vector2 deltaPos;
     Vector2 targetPos;
 
     Vector2 getOffensivePosition(const Field &field);
 
-    public:
-        explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
+   public:
+    explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_SIDEATTACKER_H
+#endif  // ROBOTEAM_AI_SIDEATTACKER_H

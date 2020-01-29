@@ -5,13 +5,9 @@
 #include <world/World.h>
 #include "skills/ShootFreeKick.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
-
-}
+ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = world->getBall()->getPos();
@@ -26,20 +22,17 @@ void ShootFreeKick::onInitialize() {
 Skill::Status ShootFreeKick::onUpdate() {
     Vector2 target;
     switch (progress) {
-
         case GOING: {
             Vector2 deltaPos = (targetPos - robot->pos);
 
             if (deltaPos.length() < errorMarginPos) {
                 progress = TARGETING;
-            }
-            else {
+            } else {
                 command.set_w(static_cast<float>((targetPos - robot->pos).angle()));
                 Vector2 velocity = goToPos.getRobotCommand(world, field, robot, targetPos).vel;
                 command.mutable_vel()->set_x(static_cast<float>(velocity.x));
                 command.mutable_vel()->set_y(static_cast<float>(velocity.y));
                 publishRobotCommand();
-
             }
             return Status::Running;
         }
@@ -49,8 +42,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 
             if (deltaPos.length() < errorMarginPos) {
                 progress = READY;
-            }
-            else {
+            } else {
                 // Find a target and draw a vector to it
                 // TODO make targeting functions based on our robots positions maybe coach
                 // TODO for now it shoots at the goal
@@ -61,7 +53,6 @@ Skill::Status ShootFreeKick::onUpdate() {
 
             }
             return Status::Running;
-
         }
 
         case READY: {
@@ -75,7 +66,7 @@ Skill::Status ShootFreeKick::onUpdate() {
         }
 
         case SHOOTING: {
-            if (! isShot()) {
+            if (!isShot()) {
                 Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
 
                 auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, target, false,
@@ -83,8 +74,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 command = shotData.makeROSCommand();
                 publishRobotCommand();
                 return Status::Running;
-            }
-            else {
+            } else {
                 // Defaults to zero
                 publishRobotCommand();
                 return Status::Success;
@@ -97,13 +87,11 @@ Skill::Status ShootFreeKick::onUpdate() {
 
 void ShootFreeKick::onTerminate(Skill::Status s) {
     counter = 0;
-    progress=GOING;
+    progress = GOING;
 }
 
 bool ShootFreeKick::isShot() {
     Vector2 ballPos = world->getBall()->getPos();
     return ((ballPos - freeKickPos).length() > 0.05);
-
 }
-}
-}
+}  // namespace rtt::ai

@@ -7,9 +7,7 @@
 #include "world/FieldComputations.h"
 #include "world/WorldData.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 const double PossiblePass::distance() {
     return (endPos - startPos).length();
 }
@@ -20,12 +18,12 @@ int PossiblePass::amountOfBlockers(const world::WorldData &world) {
     int total = 0;
     for (const auto &bot : world.them) {
         if (obstacleObstructsPath(bot->pos)) {
-            total ++;
+            total++;
         }
     }
     for (const auto &bot : world.us) {
         if (obstacleObstructsPath(bot->pos)) {
-            total ++;
+            total++;
         }
     }
     return total;
@@ -36,8 +34,7 @@ PossiblePass::PossiblePass(world::Robot _toBot, const Vector2 &ballPos)
     endPos = botReceivePos(ballPos, _toBot.pos);
 }
 Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &botPos) {
-    Vector2 receivePos =
-            botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
+    Vector2 receivePos = botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
 }
 double PossiblePass::score(const Field &field, const world::WorldData &world) {
@@ -68,26 +65,24 @@ double PossiblePass::scoreForGoalAngle(const Field &field, const world::WorldDat
 
     return largestOpenGoalAngle;
 }
-//Half the score for every robot that blocks the ball
+// Half the score for every robot that blocks the ball
 double PossiblePass::penaltyForBlocks(const world::WorldData &world) {
     double obstacleFactor = 0.5;
     return pow(obstacleFactor, amountOfBlockers(world));
 }
 double PossiblePass::penaltyForDistance() {
-    //we use a ramp function has it's zero at goodUntilPassDist and is 1 and impossible Passdist as a penalty
+    // we use a ramp function has it's zero at goodUntilPassDist and is 1 and impossible Passdist as a penalty
     double goodUntilPassDist = 6.0;
     double impossiblePassDist = 15.0;
     if (distance() > goodUntilPassDist) {
-        return (1 - (distance() - goodUntilPassDist)/(impossiblePassDist - goodUntilPassDist));
+        return (1 - (distance() - goodUntilPassDist) / (impossiblePassDist - goodUntilPassDist));
     }
     return 1.0;
 }
 Vector2 PossiblePass::posOnLine(double scale) {
-    return startPos + (endPos - startPos)*scale;
+    return startPos + (endPos - startPos) * scale;
 }
 double PossiblePass::faceLine() {
     return (startPos - endPos).angle();
 }
-}
-}
-}
+}  // namespace rtt::ai::coach

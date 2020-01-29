@@ -2,24 +2,21 @@
 // Created by baris on 23-4-19.
 //
 
-#include <control/PositionUtils.h>
 #include "skills/formations/FreeKickFormation.h"
+#include <control/PositionUtils.h>
 #include "control/Hungarian.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::vector<Vector2> FreeKickFormation::posses;
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
 
-
 Vector2 FreeKickFormation::getFormationPosition() {
-
     update = true;
     posses = rtt::ai::control::PositionUtils::getFreeKickPositions(*field, robotsInFormation->size());
     std::vector<int> robotIds;
 
-    for (auto & i : *robotsInFormation) {
+    for (auto& i : *robotsInFormation) {
         robotIds.push_back(i->id);
     }
 
@@ -27,19 +24,13 @@ Vector2 FreeKickFormation::getFormationPosition() {
     auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
     return shortestDistances[robot->id];
 }
-std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> FreeKickFormation::robotsInFormationPtr() {
-    return robotsInFormation;
-}
+std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> FreeKickFormation::robotsInFormationPtr() { return robotsInFormation; }
 
-FreeKickFormation::FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        :Formation(name, blackboard) {
+FreeKickFormation::FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<bt::Leaf::RobotPtr>>();
-
 };
 void FreeKickFormation::onTerminate(Skill::Status s) {
     Formation::onTerminate(s);
     update = false;
 }
-}
-
-}
+}  // namespace rtt::ai

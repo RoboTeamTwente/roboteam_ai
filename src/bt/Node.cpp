@@ -6,8 +6,7 @@
 
 namespace bt {
 
-void Node::initialize() {
-}
+void Node::initialize() {}
 
 void Node::terminate(Status s) {
     init = false;
@@ -20,14 +19,13 @@ void Node::terminate(Status s) {
 }
 
 Node::Status Node::tick(rtt::ai::world::World * world, const rtt::Field *field) {
-
     this->world = world;
     this->field = field;
 
-    amountOfTicks ++;
-//    lastTickTime = ros::Time::now();
+    amountOfTicks++;
+    //    lastTickTime = ros::Time::now();
 
-    if (! init) {
+    if (!init) {
         NodeInitialize();
     }
 
@@ -60,7 +58,7 @@ void Node::addChild(bt::Node::Ptr) { }
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
-//    std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
+    // std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
     return std::vector<Node::Ptr>{};
 }
 
@@ -104,13 +102,31 @@ void Node::giveProperty(std::string a, std::string b) {
 
 std::string Node::status_print(Node::Status s) {
     switch (s) {
-    case Status::Waiting:return "Waiting";
-    case Status::Success:return "Success";
-    case Status::Failure:return "Failure";
-    case Status::Running:return "Running";
-    default:std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
-        return "ERROR!!";
+        case Status::Waiting:
+            return "Waiting";
+        case Status::Success:
+            return "Success";
+        case Status::Failure:
+            return "Failure";
+        case Status::Running:
+            return "Running";
+        default:
+            std::cout << "Enum failure in Node::Status status_print for node: " << node_name() << std::endl;
+            return "ERROR!!";
     }
 }
 
+void Node::setRoleString(std::string roleName) {
+    auto children = this->getChildren();
+    if (properties) {
+        this->properties->setString("ROLE", roleName);
+    }
+
+    for (auto child : this->getChildren()) {
+        if (child) {
+            child->setRoleString(roleName);
+        }
+    }
 }
+
+}  // namespace bt

@@ -7,9 +7,7 @@
 
 #include "CoachHeuristics.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 class PassScore {
 private:
@@ -25,9 +23,6 @@ public:
     double  calculatePassScore(const Field &field, const Vector2& position);
 };
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-
-#endif //ROBOTEAM_AI_PASSSCORE_H
+#endif  // ROBOTEAM_AI_PASSSCORE_H
