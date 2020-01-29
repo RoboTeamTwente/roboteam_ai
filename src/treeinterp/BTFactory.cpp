@@ -61,15 +61,15 @@ void BTFactory::makeTrees() {
  * @return The behaviourtree corresponding to that treename
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
-    // Comment the lines below until the return statement to restore json functionaility
-    std::cout << BTFactory::play->getName() << " is currently being played" << std::endl;
-    return BTFactory::play->getTree();
-//    std::lock_guard<std::mutex> lock(keeperTreeMutex);
-//    if (strategyRepo.find(treeName) != strategyRepo.end()) {
-//        return strategyRepo.find(treeName)->second;
-//    }
-//    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
-//    return nullptr;
+//    // Comment the lines below until the return statement to restore json functionaility
+//    std::cout << BTFactory::play->getName() << " is currently being played" << std::endl;
+//    return BTFactory::play->getTree();
+    std::lock_guard<std::mutex> lock(keeperTreeMutex);
+    if (strategyRepo.find(treeName) != strategyRepo.end()) {
+        return strategyRepo.find(treeName)->second;
+    }
+    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
+    return nullptr;
 }
 
 std::string BTFactory::getCurrentTree() {
