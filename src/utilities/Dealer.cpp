@@ -85,7 +85,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             if (!ball) return 0.0;
             return robot->getPos().dist(ball.value()->getPos());
         }
-        case DealerFlagTitle::HAS_WORKING_BALL_SENSOR: {
+        case DealerFlagTitle::WITH_WORKING_BALL_SENSOR: {
             return robot->isWorkingBallSensor() ? 1.0 : 0.0;
         }
         case DealerFlagTitle::ROBOT_TYPE_50W: {

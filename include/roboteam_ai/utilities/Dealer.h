@@ -19,17 +19,17 @@ namespace rtt::ai {
 
 namespace v = rtt::world_new::view;
 
-/*
- * Set up a struct for dealerflags.
- *
- */
+// Set up a struct for dealerflags. Set up a struct for dealerflags.
 enum class DealerFlagTitle {
   CLOSE_TO_THEIR_GOAL,
   CLOSE_TO_OUR_GOAL,
   CLOSE_TO_BALL,
-  HAS_WORKING_BALL_SENSOR,
+  WITH_WORKING_BALL_SENSOR,
+  WITH_WORKING_DRIBBLER,
+  WITH_WORKING_GENEVA,
   ROBOT_TYPE_50W,
   ROBOT_TYPE_30W,
+  READY_TO_INTERCEPT_GOAL_SHOT
 };
 
 enum class DealerFlagPriority {
@@ -40,10 +40,7 @@ enum class DealerFlagPriority {
 
 class Dealer {
   FRIEND_TEST(DealerTest, it_properly_distributes_robots);
-
- private:
-  v::WorldDataView world;
-  world::Field * field;
+  FRIEND_TEST(DealerTest, the_score_factor_increases_with_priority);
 
  public:
   struct DealerFlag {
@@ -53,15 +50,20 @@ class Dealer {
   };
   using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
   Dealer(v::WorldDataView world, world::Field * field);
+  virtual ~Dealer() = default; // needed for test
+
+ protected:
+  // This function is virtual such that it can be mocked in the tests.
+  // the performance hit is minimal (in the scope of nanoseconds)
+  virtual double getDefaultFlagScores(const v::RobotView &robot, const DealerFlag &flag) ;
+
+ private:
+  v::WorldDataView world;
+  world::Field * field;
   std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
   std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
   static double getFactorForPriority(const DealerFlag &flag);
-
-  // These functions is virtual such that it can be mocked in the tests.
-  // the performance hit is minimal (in the scope of nanoseconds)
-  virtual double getDefaultFlagScores(const v::RobotView &robot, const DealerFlag &flag) ;
-  virtual ~Dealer() = default; // needed for test
-};
+  };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

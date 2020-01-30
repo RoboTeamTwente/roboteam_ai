@@ -4,10 +4,11 @@
 #include "../helpers/WorldHelper.h"
 #include "../helpers/FieldHelper.h"
 
-using namespace rtt::ai;
 using namespace rtt::world_new;
 using namespace rtt::world_new::view;
 using namespace rtt::world_new::robot;
+
+namespace rtt::ai {
 
 /*
  * @brief Fixture for the dealing test
@@ -17,13 +18,14 @@ using namespace rtt::world_new::robot;
 class DealerTest : public ::testing::Test {
  protected:
   // DO NOT OVERRIDE STYLING ACCORDING TO CLANG TIDY
-  virtual void SetUp(){
+  virtual void SetUp() {
       int yellow = 1, blue = 3;
       if (World::instance()->getSettings().isYellow()) {
           yellow = 3;
           blue = 1;
       }
-      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(yellow,blue,false,testhelpers::FieldHelper::generateField());
+      auto protoWorld =
+          testhelpers::WorldHelper::getWorldMsg(yellow, blue, false, testhelpers::FieldHelper::generateField());
       World::instance()->updateWorld(protoWorld);
   }
 };
@@ -34,7 +36,7 @@ class DealerTest : public ::testing::Test {
  * The getDefaultFlagScores() function can be overridden,
  * Since it brings in a lot of uncertainty from world and field.
  */
-class MockDealer : public rtt::ai::Dealer {
+class MockDealer : public Dealer {
  public:
   explicit MockDealer(v::WorldDataView world) : Dealer(world, nullptr) {}
   double getDefaultFlagScores(const RobotView &robot, const Dealer::DealerFlag &flag) override {
@@ -73,7 +75,7 @@ TEST_F(DealerTest, it_properly_distributes_robots) {
     EXPECT_DOUBLE_EQ(matrix[2][1], 10);
     EXPECT_DOUBLE_EQ(matrix[2][2], 15);
 
-    // these values should correspons with the scores above.
+    // these values should corresponds with the scores above.
     auto distribution = dealer.distribute(World::instance()->getWorld()->getUs(), flagMap);
     EXPECT_EQ(distribution.at("test_role_0")->getId(), 1);
     EXPECT_EQ(distribution.at("test_role_1")->getId(), 2);
@@ -95,4 +97,5 @@ TEST_F(DealerTest, the_score_factor_increases_with_priority) {
     auto priority3 = MockDealer::getFactorForPriority(highPriorityFlag);
     EXPECT_LT(priority1, priority2);
     EXPECT_LT(priority2, priority3);
+}
 }
