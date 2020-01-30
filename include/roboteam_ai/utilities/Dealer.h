@@ -53,7 +53,7 @@ class Dealer {
   };
   using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
   Dealer(v::WorldDataView world, world::Field * field);
-  std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
+  std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
   std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
   static double getFactorForPriority(const DealerFlag &flag);

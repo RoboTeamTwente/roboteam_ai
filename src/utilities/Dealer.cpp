@@ -3,11 +3,9 @@
 
 namespace rtt::ai {
 
-// Dealer constructor
 Dealer::Dealer(v::WorldDataView world, world::Field * field)
     : world(world), field(field) { }
 
-// DealerFlag constructor
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority)
     : title(std::move(title)), priority(priority) {}
 
@@ -19,10 +17,9 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     // solve the matrix and put the results in 'assignment'
     rtt::Hungarian::Solve(scores, assignment);
 
-    // get a list of rolenames in order
-    std::vector<std::string> roleNames;
+    std::vector<std::string> orderedRoleNames;
     for (auto const& [roleName, dealerFlags] : flagMap) {
-        roleNames.push_back(roleName);
+        orderedRoleNames.push_back(roleName);
     }
 
     /* assignments now has the robot ids at the role index, and is ordered according to the roleNames
@@ -31,10 +28,10 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
      * --> we can therefore make a map of <rolename, robot_id>
      */
     std::unordered_map<std::string, v::RobotView> result;
-    for (int i = 0; i < roleNames.size(); i++) {
+    for (int i = 0; i < orderedRoleNames.size(); i++) {
         for (auto robot : allRobots) {
             if (robot->getId() == assignment[i]) {
-                result.insert({roleNames[i], robot});
+                result.insert({orderedRoleNames[i], robot});
             }
         }
     }
@@ -42,14 +39,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     return result;
 }
 
-/* Populate a matrix with scores, such that:
- * ---------------------------------
- *         robot_1 robot_2 robot_3
- * role_1     12       11     0
- * role_2     3        3      1
- * role_3     22       1      2
- * ---------------------------------
- */
+// Populate a matrix with scores
 std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
     vector<vector<double>> scores;
 
