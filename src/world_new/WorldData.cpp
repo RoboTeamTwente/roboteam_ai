@@ -13,10 +13,18 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
+    /*
+     * Reserve the us and them vectors, making sure they are not being resized (which will invalidate the references)
+     */
+    auto amountUs = ours.size();
+    auto amountThem = others.size();
+    robots.reserve(amountUs + amountThem);
+    us.reserve(amountUs);
+    them.reserve(amountThem);
+    
     for (auto &each : ours) {
         us.emplace_back(&robots.emplace_back(feedback, each, Team::us));
     }
-
     for (auto &each : others) {
         them.emplace_back(&robots.emplace_back(feedback, each, Team::them));
     }
