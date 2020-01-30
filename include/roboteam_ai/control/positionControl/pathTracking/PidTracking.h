@@ -10,6 +10,7 @@
 #include "roboteam_utils/Vector2.h"
 #include "interface/api/Output.h"
 #include "roboteam_utils/pid.h"
+#include "control/positionControl/PositionControlUtils.h"
 
 namespace rtt::ai::control{
 
@@ -19,8 +20,6 @@ namespace rtt::ai::control{
 class PidTracking {
 private:
     static constexpr double MAX_VELOCITY = Constants::MAX_VEL();
-    // minimum distance needed to consider the current target reached
-    static constexpr double MIN_DISTANCE = 2 * Constants::ROBOT_RADIUS();
 
     // the PID controllers on the two axes
     PID xPid = PID(0,0,0,0);

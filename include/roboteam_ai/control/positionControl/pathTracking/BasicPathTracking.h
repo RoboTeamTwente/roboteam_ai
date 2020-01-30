@@ -9,6 +9,7 @@
 #include "utilities/Constants.h"
 #include "roboteam_utils/Vector2.h"
 #include "roboteam_utils/Position.h"
+#include "control/positionControl/PositionControlUtils.h"
 
 namespace rtt::ai::control{
 
@@ -18,8 +19,6 @@ namespace rtt::ai::control{
 class BasicPathTracking {
 private:
     static constexpr double MAX_VELOCITY = Constants::MAX_VEL();
-    // minimum distance needed to consider the current target reached
-    static constexpr double MIN_DISTANCE = 2 * Constants::ROBOT_RADIUS();
 
 public:
     /**

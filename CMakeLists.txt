@@ -211,6 +211,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
         )
 
 set(TEST_SOURCES

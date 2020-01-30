@@ -8,9 +8,7 @@ namespace rtt::ai::control{
 
 Position BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
         std::vector<Vector2> &pathPoints) {
-    if (pathPoints.size() > 1 && (pathPoints.front() - currentPosition).length() < MIN_DISTANCE){
-        pathPoints.erase(pathPoints.begin());
-    }
+    PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
 
     Vector2 velocity = pathPoints.front() - currentPosition;
 

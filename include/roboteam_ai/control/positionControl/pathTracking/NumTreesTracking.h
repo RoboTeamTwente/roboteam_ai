@@ -9,6 +9,7 @@
 #include "roboteam_utils/Vector2.h"
 #include "PidTracking.h"
 #include "roboteam_utils/Position.h"
+#include "control/positionControl/PositionControlUtils.h"
 
 namespace rtt::ai::control{
 
@@ -17,9 +18,7 @@ namespace rtt::ai::control{
  */
 class NumTreesTracking {
 private:
-    double minimumDistance = 2*Constants::ROBOT_RADIUS();
-    unsigned long stepsAhead = 4;
-
+    static constexpr unsigned long STEPS_AHEAD = 4;
 
     PidTracking pidTracking;
 public:

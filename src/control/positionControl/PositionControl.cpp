@@ -2,6 +2,7 @@
 // Created by ratoone on 18-11-19.
 //
 
+#include <include/roboteam_ai/control/positionControl/PositionControlUtils.h>
 #include "control/positionControl/PositionControl.h"
 #include "interface/api/Input.h"
 #include "control/positionControl/pathTracking/NumTreesTracking.h"
@@ -38,8 +39,7 @@ PositionControl::computeAndTrackPath(world::Field &field, int robotId, const Vec
 
 bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId) {
     return computedPaths[robotId].empty() ||
-            // distance between the new target and the former target
-            (targetPos - computedPaths[robotId].back()).length() > MAX_TARGET_DEVIATION ||
+           PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back())  ||
            collisionDetector->isRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
 }
 }

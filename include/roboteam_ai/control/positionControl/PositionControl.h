@@ -20,8 +20,6 @@ namespace rtt::ai::control {
  */
 class PositionControl {
 private:
-    static constexpr double MAX_TARGET_DEVIATION = 0.3;
-
     std::unique_ptr<NumTreesPlanning> pathPlanningAlgorithm;
     std::unique_ptr<NumTreesTracking> pathTrackingAlgorithm;
     std::unique_ptr<CollisionDetector> collisionDetector;
