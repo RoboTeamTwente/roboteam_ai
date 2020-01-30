@@ -55,7 +55,7 @@ class Dealer {
  protected:
   // This function is virtual such that it can be mocked in the tests.
   // the performance hit is minimal (in the scope of nanoseconds)
-  virtual double getDefaultFlagScores(const v::RobotView &robot, const DealerFlag &flag) ;
+  virtual double getDefaultFlagScores(const v::RobotView &robot, const DealerFlag &flag);
 
  private:
   v::WorldDataView world;
@@ -64,6 +64,8 @@ class Dealer {
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
   std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
   static double getFactorForPriority(const DealerFlag &flag);
+  static double costForDistance(double distance, double fieldWidth, double fieldHeight);
+  static double costForProperty(bool property);
   };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

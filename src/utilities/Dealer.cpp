@@ -1,5 +1,7 @@
 #include <roboteam_utils/Hungarian.h>
-#include "include/roboteam_ai/utilities/Dealer.h"
+#include "utilities/Dealer.h"
+#include "control/ControlUtils.h"
+#include <roboteam_utils/LineSegment.h>
 
 namespace rtt::ai {
 
@@ -73,32 +75,42 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
 
 // TODO 'invert' the matrix scores
 double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::DealerFlag &flag) {
+    auto fieldWidth = field->get_field().get(FIELD_WIDTH);
+    auto fieldLength = field->get_field().get(FIELD_LENGTH);
+
     switch (flag.title) {
-        case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: {
-            return field->getDistanceToGoal(false, robot->getPos());
-        }
-        case DealerFlagTitle::CLOSE_TO_OUR_GOAL: {
-            return field->getDistanceToGoal(true, robot->getPos());
-        }
+        case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: return costForDistance(field->getDistanceToGoal(false, robot->getPos()), fieldWidth, fieldLength);
+        case DealerFlagTitle::CLOSE_TO_OUR_GOAL: return costForDistance(field->getDistanceToGoal(true, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_BALL: {
             auto ball = world.getBall();
             if (!ball) return 0.0;
             return robot->getPos().dist(ball.value()->getPos());
         }
-        case DealerFlagTitle::WITH_WORKING_BALL_SENSOR: {
-            return robot->isWorkingBallSensor() ? 1.0 : 0.0;
-        }
-        case DealerFlagTitle::ROBOT_TYPE_50W: {
-            return robot->getRobotType() == world_new::robot::RobotType::FIFTY_WATT ? 1.0 : 0.0;
-        }
-        case DealerFlagTitle::ROBOT_TYPE_30W: {
-            return robot->getRobotType() == world_new::robot::RobotType::THIRTY_WATT ? 1.0 : 0.0;
+        case DealerFlagTitle::WITH_WORKING_BALL_SENSOR: return costForProperty(robot->isWorkingBallSensor());
+        case DealerFlagTitle::ROBOT_TYPE_50W: return costForProperty(robot->isFiftyWatt());
+        case DealerFlagTitle::ROBOT_TYPE_30W: return costForProperty(robot->isThirtyWatt());
+        case DealerFlagTitle::WITH_WORKING_DRIBBLER: return costForProperty(robot->isWorkingDribbler());
+
+        case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
+            // get distance to line between ball and goal
+            // TODO this method can be improved by choosing a better line for the interception.
+            LineSegment lineSegment = {world.getBall()->get()->getPos(), field->get_field().get(OUR_GOAL_CENTER)};
+            return control::ControlUtils::distanceToLine(robot->getPos(), lineSegment.start, lineSegment.end);
         }
         default: {
             std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
             return 0;
         }
     }
+}
+
+double Dealer::costForDistance(double distance, double fieldWidth, double fieldHeight) {
+    auto fieldDiagonalLength = sqrt(pow(fieldWidth, 2.0) + pow(fieldHeight, 2.0));
+    return distance/fieldDiagonalLength;
+}
+
+double Dealer::costForProperty(bool property) {
+    return property ? 0.0 : 1.0;
 }
 
 } // rtt::ai

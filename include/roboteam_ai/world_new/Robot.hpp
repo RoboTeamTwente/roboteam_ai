@@ -132,6 +132,9 @@ namespace rtt::world_new::robot {
 
         [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
+        [[nodiscard]] bool isFiftyWatt() const noexcept;
+
+        [[nodiscard]] bool isThirtyWatt() const noexcept;
 
         [[nodiscard]] ai::control::ShotController *getShotController() const noexcept;
 

@@ -136,4 +136,12 @@ void Robot::setRobotType(RobotType _type) noexcept {
 }
 
 RobotType Robot::getRobotType() const noexcept { return type; }
+
+bool Robot::isFiftyWatt() const noexcept {
+    return getRobotType() == RobotType::FIFTY_WATT;
+}
+
+bool Robot::isThirtyWatt() const noexcept {
+    return getRobotType() == RobotType::THIRTY_WATT;
+}
 }  // namespace rtt::world_new::robot
