@@ -49,7 +49,7 @@ public:
      * @param targetPosition the desired position that the robot has to reach
      * @return a RobotCommand, which can be fed directly in the output
      */
-    RobotCommand computeAndTrackPath(world::Field *field, int robotId, const Vector2 &currentPosition,
+    RobotCommand computeAndTrackPath(world::Field &field, int robotId, const Vector2 &currentPosition,
                                      const Vector2 &currentVelocity, const Vector2 &targetPosition);
 
     /**

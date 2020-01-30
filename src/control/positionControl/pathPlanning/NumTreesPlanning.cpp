@@ -27,6 +27,7 @@ std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition,
 // compAStar compares the amount of collisions first (max 3 diff), then sorts the paths based on an approximation on the
 // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
 // target, while taking into account the length of path already calculated.
+    //TODO: make this a comparison operator in the PathPoint when refactoring that one (#777)
     auto compAStar = [targetPosition, this](const PathPointer& lhs, const PathPointer& rhs) {
         if (lhs->collisions - rhs->collisions > 2)
             return true;
@@ -49,6 +50,7 @@ std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition,
     root->acc = Vector2();
     root->t = 0;
     root->collisions = 0;
+    root->parent = nullptr;
     pathQueue.push(root);
 
     auto start = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -71,24 +73,24 @@ std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition,
                 }
                 pathQueue.pop();
             }
-            return backTrackPath(bestPath, root);
+            return backTrackPath(bestPath);
         }
 
         PathPointer point = pathQueue.top();
         while (true) {
             PathPointer newPoint = computeNewPoint(targetPosition, point, point->currentTarget);
             if (newPoint->t > 3.0) {
-                return backTrackPath(point, root);
+                return backTrackPath(point);
             }
             //point->addChild(newPoint);
             point.swap(newPoint);
 
             // if we reach endpoint, return the path we found
             if (point->isCollision(targetPosition, 0.1)) {
-                return backTrackPath(point, root);
+                return backTrackPath(point);
             }
-                // if we reach a halfway point, update the target to the final target again and push this new point to queue
-            else if (point->isCollision(point->currentTarget, 0.1)) {
+            // if we reach a halfway point, update the target to the final target again and push this new point to queue
+            if (point->isCollision(point->currentTarget, 0.1)) {
                 point->currentTarget = targetPosition;
                 pathQueue.pop();
                 pathQueue.push(point);
@@ -97,11 +99,12 @@ std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition,
             // if we have collided with an obstacle; backtrack and branch to both sides using new intermediary points
             if (collisionDetector.isCollisionBetweenPoints(point->parent->pos, point->pos)) {
                 int collisions = ++ point->collisions;
+                pathQueue.pop();
+
                 std::pair<std::vector<Vector2>, PathPointer> newTargetsAndBranch = getNewTargets(point);
                 std::vector<Vector2> newTargets = newTargetsAndBranch.first;
                 PathPointer newBranchStart = newTargetsAndBranch.second;
 
-                pathQueue.pop();
                 // both left and right targets for now
                 for (const auto &newTarget : newTargets) {
                     if (newBranchStart->branchHasTarget(newTarget))
@@ -124,18 +127,17 @@ std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition,
 
 /// calculate the remaining pathlength using straigth lines from current position to a posititon halfway and from
 /// halfway to the final position
-double NumTreesPlanning::remainingStraightLinePathLength(
-        const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos) {
+inline double NumTreesPlanning::remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos) {
     return (abs((halfwayPos - finalPos).length() + (currentPos - halfwayPos).length()));
 }
 
 ///backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point, const PathPointer &root) {
+std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point) {
     // backtrack the whole path till it hits the root node and return the vector of PathPoints
     std::vector<Vector2> backTrackedPath = {};
     while (point) {
         backTrackedPath.push_back(point->pos);
-        if (point == root) {
+        if (point -> parent == nullptr) {
             break;
         }
         point.swap(point->parent);

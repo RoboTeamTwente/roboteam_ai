@@ -33,7 +33,7 @@ private:
 
     double remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
 
-    std::vector<Vector2> backTrackPath(std::shared_ptr<PathPoint> point, const std::shared_ptr<PathPoint> &root);
+    std::vector<Vector2> backTrackPath(PathPointer point);
 
     std::pair<std::vector<Vector2>, PathPointer> getNewTargets(const PathPointer &collisionPoint);
 

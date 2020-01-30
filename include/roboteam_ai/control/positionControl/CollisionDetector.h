@@ -43,6 +43,7 @@ public:
      * Checks whether the line drawn by the two points comes close to any robot (excepting the current one).
      * @param initialPoint
      * @param nextPoint
+     * @param currentRobotPosition the current robot position (should be ignored when checking)
      * @return
      */
     bool isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
@@ -51,9 +52,9 @@ public:
 
     bool isPointInDefenseArea(const Vector2 &point);
 
-    std::vector<const Vector2 *> getRobotPositions();
+    std::vector<Vector2> getRobotPositions();
 
-    void setField(world::Field *field);
+    void setField(world::Field &field);
 };
 
 }

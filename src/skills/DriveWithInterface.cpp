@@ -13,12 +13,9 @@ Skill::Status DriveWithInterface::onUpdate() {
     if (interface::Output::usesRefereeCommands()) {
         return Status::Failure;
     }
-    //TODO: workaround until world ownership changes
-    if (numTreeGtp == nullptr){
-        numTreeGtp = world_new::World::instance()->getRobotPositionController();
-    }
+
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
-    auto robotCommand = numTreeGtp->computeAndTrackPath(field, robot->id, robot->pos,
+    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(*field, robot->id, robot->pos,
                                                         robot->vel, targetPos);
 
     command.mutable_vel()->set_x(robotCommand.vel.x);

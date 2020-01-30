@@ -12,7 +12,7 @@ void VoronoiPathPlanning::computeDiagram(const Vector2 &robotPosition, const Vec
     auto robots = collisionDetector.getRobotPositions();
     std::vector<jcv_point> robotPositions(robots.size());
     std::transform(robots.begin(), robots.end(), robotPositions.begin(),
-            [](auto robot)-> jcv_point {return {(float)robot->x, (float)robot->y};});
+            [](auto robot)-> jcv_point {return {(float)robot.x, (float)robot.y};});
     jcv_rect playArea = {
             (jcv_point){(float)std::min(robotPosition.x,targetPosition.x),(float)std::min(robotPosition.y,targetPosition.y)},
             (jcv_point){(float)std::max(robotPosition.x,targetPosition.x),(float)std::max(robotPosition.y,targetPosition.y)}

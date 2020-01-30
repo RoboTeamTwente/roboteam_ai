@@ -34,15 +34,15 @@ bool CollisionDetector::isRobotCollisionBetweenPoints(const Vector2& initialPoin
     return false;
 }
 
-std::vector<const Vector2 *> CollisionDetector::getRobotPositions(){
-    std::vector<const Vector2 *> robotPositions(robots.size());
+std::vector<Vector2> CollisionDetector::getRobotPositions(){
+    std::vector<Vector2> robotPositions(robots.size());
     std::transform(robots.begin(), robots.end(), robotPositions.begin(),
-                   [](const auto& robot) -> const Vector2 * { return &(robot.getPos()); });
+                   [](const auto& robot) -> Vector2 { return (robot.getPos()); });
     return robotPositions;
 }
 
-void CollisionDetector::setField(world::Field *field) {
-    this->field = field;
+void CollisionDetector::setField(world::Field &field) {
+    this->field = &field;
 }
 
 }

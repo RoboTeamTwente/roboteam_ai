@@ -14,9 +14,6 @@ class DriveWithInterface : public Skill {
    public:
     explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
-
-    private:
-        control::PositionControl *numTreeGtp = nullptr;
 };
 }  // namespace rtt::ai
 

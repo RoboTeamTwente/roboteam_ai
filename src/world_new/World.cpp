@@ -93,9 +93,9 @@ void World::updateTickTime() noexcept {
 
     ai::control::PositionControl* World::getRobotPositionController() noexcept {
         if (positionControl == nullptr){
-            positionControl = new ai::control::PositionControl(this->currentWorld->getRobots());
+            positionControl = std::make_unique<ai::control::PositionControl>(this->getWorld()->getRobots());
         }
-        return positionControl;
+        return positionControl.get();
     }
 
 }  // namespace rtt::world_new

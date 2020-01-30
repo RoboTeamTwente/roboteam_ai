@@ -198,7 +198,7 @@ namespace rtt::world_new {
         /**
          * The position controller, initially null
          */
-        ai::control::PositionControl *positionControl = nullptr;
+        std::unique_ptr<ai::control::PositionControl> positionControl;
     };
 } // namespace rtt::world
 
