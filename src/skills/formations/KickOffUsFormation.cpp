@@ -1,11 +1,7 @@
 #include "skills/formations/KickOffUsFormation.h"
-
-#include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 #include <world/Field.h>
-
 #include "control/ControlUtils.h"
-#include "control/Hungarian.h"
 
 namespace rtt::ai {
 
@@ -16,7 +12,6 @@ KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr bla
 }
 
 Vector2 KickOffUsFormation::getFormationPosition() {
-    std::vector<int> robotIds;
     auto fieldMsg = field->get_field();
     double fh = fieldMsg.get(FIELD_WIDTH);
     double fw = fieldMsg.get(FIELD_LENGTH);
@@ -31,15 +26,7 @@ Vector2 KickOffUsFormation::getFormationPosition() {
         {{-0.2, 0}, {-0.2, -fh / 3}, {-0.2, fh / 3}, {-fw / 6, -fh / 4}, {-fw / 6, fh / 4}, {-fw / 7, 0}, {-fw / 3, 0}},
         {{-0.2, 0}, {-0.2, -fh / 3}, {-0.2, fh / 3}, {-fw / 6, -fh / 4}, {-fw / 6, fh / 4}, {-fw / 7, 0}, {-fw / 3, -fh / 6}, {-fw / 3, fh / 6}}};
 
-    for (auto const &robot : *robotsInFormation) {
-        if (robot) {
-            robotIds.push_back(robot->id);
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, locations[robotsInFormation->size() - 1]);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, locations[robotsInFormation->size() - 1]);
 }
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormationPtr() { return robotsInFormation; }

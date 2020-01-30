@@ -112,6 +112,12 @@ namespace rtt::world_new {
         [[nodiscard]] robot::RobotControllers& getControllersForRobot(uint8_t id) noexcept;
 
         /**
+         * Gets the history size
+         * @return size_t The amount of elements in the history
+         */
+         [[nodiscard]] size_t getHistorySize() const noexcept;
+
+        /**
          * Get a pointer to the general position control, which can be used by all robots.
          * If the object does not exist, it is created
          * @return position control object. See its documentation for more info

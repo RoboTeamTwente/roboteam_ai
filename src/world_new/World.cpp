@@ -79,19 +79,23 @@ void World::updateTickTime() noexcept {
     lastTick = (*getWorld())->getTime();
 }
 
-uint64_t World::getTimeDifference() const noexcept {
-    return tickDuration;
-}
-
-robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept {
-    return robotControllers[id];
-}
-
-ai::control::PositionControl* World::getRobotPositionController() noexcept {
-    if (positionControl == nullptr){
-        positionControl = new ai::control::PositionControl(this->currentWorld->getRobots());
+    uint64_t World::getTimeDifference() const noexcept {
+        return tickDuration;
     }
-    return positionControl;
-}
+
+    robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept {
+        return robotControllers[id];
+    }
+
+    size_t World::getHistorySize() const noexcept {
+        return history.size();
+    }
+
+    ai::control::PositionControl* World::getRobotPositionController() noexcept {
+        if (positionControl == nullptr){
+            positionControl = new ai::control::PositionControl(this->currentWorld->getRobots());
+        }
+        return positionControl;
+    }
 
 }  // namespace rtt::world_new
