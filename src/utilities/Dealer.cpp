@@ -9,10 +9,10 @@ Dealer::Dealer(v::WorldDataView world, world::Field * field)
     : world(world), field(field) { }
 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority)
-    : title(std::move(title)), priority(priority) {}
+    : title(title), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> allRobots, const FlagMap &flagMap) {
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView>& allRobots, const FlagMap &flagMap) {
     std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap);
     std::vector<int> assignment;
 
@@ -44,20 +44,24 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
 // Populate a matrix with scores
 std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
     vector<vector<double>> scores;
-
+    scores.reserve(flagMap.size());
     for (auto const& [roleName, dealerFlags] : flagMap) {
         std::vector<double> row;
-        for (int column = 0; column < allRobots.size(); column++) {
-            auto robot = allRobots.at(column);
-            double robotScore = 0;
-            for (auto flag : dealerFlags) {
-                robotScore += getScoreForFlag(robot, flag);
-            }
-            row.push_back(robotScore);
+        row.reserve(allRobots.size());
+        for (auto robot : allRobots) {
+            row.push_back(scoreForFlags(dealerFlags, robot));
         }
         scores.push_back(row);
     }
     return scores;
+}
+
+double Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
+    double robotScore = 0;
+    for (auto flag : dealerFlags) {
+        robotScore += getScoreForFlag(robot, flag);
+    }
+    return robotScore;
 }
 
 double Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {

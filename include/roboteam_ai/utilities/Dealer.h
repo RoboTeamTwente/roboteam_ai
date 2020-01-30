@@ -60,12 +60,13 @@ class Dealer {
  private:
   v::WorldDataView world;
   world::Field * field;
-  std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, const FlagMap& flagMap);
+  std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView>& allRobots, const FlagMap& flagMap);
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
   std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
   static double getFactorForPriority(const DealerFlag &flag);
   static double costForDistance(double distance, double fieldWidth, double fieldHeight);
   static double costForProperty(bool property);
-  };
+  double scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+};
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
