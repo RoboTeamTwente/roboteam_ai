@@ -11,7 +11,6 @@
 #include <map>
 #include <iostream>
 #include "gtest/gtest_prod.h"
-#include <functional>
 #include "include/roboteam_ai/world_new/views/RobotView.hpp"
 #include "include/roboteam_ai/world_new/views/WorldDataView.hpp"
 
@@ -26,7 +25,6 @@ enum class DealerFlagTitle {
   CLOSE_TO_BALL,
   WITH_WORKING_BALL_SENSOR,
   WITH_WORKING_DRIBBLER,
-  WITH_WORKING_GENEVA,
   ROBOT_TYPE_50W,
   ROBOT_TYPE_30W,
   READY_TO_INTERCEPT_GOAL_SHOT
@@ -67,6 +65,9 @@ class Dealer {
   static double costForDistance(double distance, double fieldWidth, double fieldHeight);
   static double costForProperty(bool property);
   double scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+  std::unordered_map<std::string, v::RobotView> createMapFromAssignments(const std::vector<v::RobotView> &allRobots,
+                                                            const FlagMap &flagMap,
+                                                            const std::vector<int> &assignment) const;
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

@@ -19,17 +19,22 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     // solve the matrix and put the results in 'assignment'
     rtt::Hungarian::Solve(scores, assignment);
 
-    std::vector<std::string> orderedRoleNames;
+    return createMapFromAssignments(allRobots, flagMap, assignment);
+}
+
+/* assignments now has the robot ids at the role index, and is ordered according to the roleNames
+* for example: assignments[0] = 2 // robot_id
+* and roleNames[0] = role_1
+* --> we can therefore make a map of <rolename, robot_id>
+*/
+std::unordered_map<std::string, v::RobotView> Dealer::createMapFromAssignments(const std::vector<v::RobotView> &allRobots,
+                                                                  const Dealer::FlagMap &flagMap,
+                                                                  const std::vector<int> &assignment) const {
+    vector<string> orderedRoleNames;
     for (auto const& [roleName, dealerFlags] : flagMap) {
         orderedRoleNames.push_back(roleName);
     }
-
-    /* assignments now has the robot ids at the role index, and is ordered according to the roleNames
-     * for example: assignments[0] = 2 // robot_id
-     * and roleNames[0] = role_1
-     * --> we can therefore make a map of <rolename, robot_id>
-     */
-    std::unordered_map<std::string, v::RobotView> result;
+    unordered_map<string, v::RobotView> result;
     for (int i = 0; i < orderedRoleNames.size(); i++) {
         for (auto robot : allRobots) {
             if (robot->getId() == assignment[i]) {
@@ -37,7 +42,6 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
             }
         }
     }
-
     return result;
 }
 
