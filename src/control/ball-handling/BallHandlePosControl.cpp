@@ -5,12 +5,12 @@
 #include <interface/api/Input.h>
 #include <control/ControlUtils.h>
 #include <world/FieldComputations.h>
-#include "control/ballHandling/BallHandlePosControl.h"
-#include "control/ballHandling/DribbleBackwards.h"
-#include "control/ballHandling/DribbleForwards.h"
-#include "control/ballHandling/RotateAroundBall.h"
-#include "control/ballHandling/RotateWithBall.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
+#include "control/ball-handling/DribbleBackwards.h"
+#include "control/ball-handling/DribbleForwards.h"
+#include "control/ball-handling/RotateAroundBall.h"
+#include "control/ball-handling/RotateWithBall.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "control/BasicPosControl.h"
 
 namespace rtt::ai::control {

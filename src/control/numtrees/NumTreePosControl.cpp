@@ -2,7 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include <interface/api/Input.h>
 #include <queue>
 #include "control/ControlUtils.h"

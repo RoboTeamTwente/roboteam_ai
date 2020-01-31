@@ -4,7 +4,7 @@
 
 #include "skills/ChipForward.h"
 #include <world/FieldComputations.h>
-#include <control/shotControllers/ShotController.h>
+#include <control/shot-controllers/ShotController.h>
 
 namespace rtt::ai {
 

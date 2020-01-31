@@ -8,7 +8,7 @@
 #include <coach/BallplacementCoach.h>
 #include <interface/api/Input.h>
 #include "world/FieldComputations.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"
 
 namespace rtt::ai {

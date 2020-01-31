@@ -1,12 +1,12 @@
 #include <control/PositionUtils.h>
 #include "skills/Attack.h"
 #include <world/FieldComputations.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
 #include "coach/OffensiveCoach.h"
 #include <control/PositionUtils.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
 #include "coach/OffensiveCoach.h"

@@ -19,7 +19,7 @@ Play::Play(std::string name, std::vector<std::function<bool(world::World * , wor
     this->invariants = invariants;
 }
 
-bool Play::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+bool Play::isValidPlay(rtt::ai::world::World *world, const Field *field) {
     return BallOnOurSideInvariant::isValid(world, field) && BallBelongsToUsInvariant::isValid(world, field) && AlwaysFalseInvariant::isValid(world, field) &&
         AlwaysTrueInvariant::isValid(world, field);
 }

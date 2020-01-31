@@ -10,6 +10,7 @@
 #include <utilities/Constants.h>
 
 namespace rtt::ai::control {
+using namespace rtt::ai::world;
 
 class PositionUtils {
  public:

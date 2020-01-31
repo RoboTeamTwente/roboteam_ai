@@ -9,7 +9,7 @@
 #include "world/FieldComputations.h"
 #include "world/Robot.h"
 #include "world/World.h"
-#include "io/IOManager.h"
+#include "utilities/IOManager.h"
 
 namespace rtt::ai::analysis {
 

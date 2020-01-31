@@ -10,6 +10,8 @@
 #include "functional"
 
 namespace rtt::ai::analysis {
+using namespace rtt::ai::world;
+
 /**
  * The play has a vector of invariants, when the invariants are false the play is abandoned.
  *
@@ -27,7 +29,7 @@ class Play {
    *
    * @return true if all the invariants of this strategy are true
    */
-  bool isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+  bool isValidPlay(rtt::ai::world::World *world, const Field *field);
 
   std::string getName();
 

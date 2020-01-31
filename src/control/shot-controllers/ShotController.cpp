@@ -2,12 +2,12 @@
 // Created by mrlukasbos on 24-4-19.
 //
 
-#include "control/shotControllers/ShotController.h"
+#include "control/shot-controllers/ShotController.h"
 #include <control/ControlUtils.h>
 #include <control/PositionUtils.h>
 #include <interface/api/Input.h>
 #include <world/World.h>
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
 
 namespace rtt::ai::control {
 

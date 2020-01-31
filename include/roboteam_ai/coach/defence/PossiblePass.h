@@ -12,6 +12,7 @@
 #include "world/WorldData.h"
 
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class PossiblePass {
  public:

@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ACTIVESTOP_H
 #define ROBOTEAM_AI_ACTIVESTOP_H
 #include "Skill.h"
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 
 namespace rtt::ai {
 
@@ -20,8 +20,8 @@ class ActiveStop : public Skill {
     Vector2 targetPos;
     static int attack;
     bool attacker = false;
-    static Vector2 getOffensiveActivePoint();
-    static Vector2 getDefensiveActivePoint();
+    static Vector2 getOffensiveActivePoint(const Field &field);
+    static Vector2 getDefensiveActivePoint(const Field &field);
     static Vector2 getPoint(const Field &field, const Vector2 &penaltyPos);
 };
 }  // namespace rtt::ai

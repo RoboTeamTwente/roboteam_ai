@@ -16,10 +16,10 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     std::vector<Vector2> positions;
 
     if (properties->getBool("Offensive")) {
-        positions = rtt::ai::control::PositionUtils::getPenaltyPositions(robotsInFormation->size());
+        positions = rtt::ai::control::PositionUtils::getPenaltyPositions(*field, robotsInFormation->size());
     } else {
         robot->getNumtreePosControl()->setAvoidBallDistance(0.4);
-        positions = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(robotsInFormation->size());
+        positions = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(*field, robotsInFormation->size());
     }
 
     return getOptimalPosition(robot->id, *robotsInFormation, positions);

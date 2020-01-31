@@ -8,6 +8,8 @@
 #include "world/Field.h"
 #include "world/World.h"
 namespace rtt::ai::analysis {
+using namespace rtt::ai::world;
+
 /**
  * Invariant that is true when the ball belongs to us
  */
@@ -19,7 +21,7 @@ class BallOnOurSideInvariant {
    * @param field the current field state
    * @return true if the ball belongs to us, false otherwise
    */
-  static bool isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+  static bool isValid(rtt::ai::world::World *world, const Field *field);
 };
 }  // namespace rtt::ai::analysis
 

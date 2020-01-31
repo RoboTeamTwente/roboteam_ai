@@ -26,7 +26,6 @@
 #include "skills/formations/BallPlacementFormation.h"
 #include <world/FieldComputations.h>
 #include <interface/api/Input.h>
-#include "control/Hungarian.h"
 #include "control/ControlUtils.h"
 
 namespace rtt::ai {

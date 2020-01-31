@@ -56,7 +56,7 @@ class NumTreePosControl : public BasicPosControl {
 
  protected:
   world::World *world = nullptr;
-  Field *field = nullptr;
+  const Field *field = nullptr;
 
  private:
   bool allowIllegalPositions = false;

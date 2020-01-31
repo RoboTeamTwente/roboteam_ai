@@ -14,8 +14,7 @@
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include <include/roboteam_ai/world/Field.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 namespace world {
 class WorldData;
 } // world
@@ -45,7 +44,6 @@ class FieldComputations {
   static Polygon getFieldEdge(const Field &field, double margin = 0.0);
 };
 
-} // ai
-} // rtt
+} // rtt::ai
 
 #endif //ROBOTEAM_AI_FIELDCOMPUTATIONS_H

@@ -4,7 +4,6 @@
 
 #include "coach/OffensiveCoach.h"
 #include <control/ControlUtils.h>
-#include <control/Hungarian.h>
 #include <interface/api/Input.h>
 #include <interface/widgets/widget.h>
 #include <world/FieldComputations.h>
@@ -195,6 +194,33 @@ const Line &OffensiveCoach::getLongestSegment(const std::vector<Line> &openSegme
         }
     }
     return openSegments[bestIndex];
+}
+
+OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const Field &field, const std::vector<Vector2> &positions,
+    const OffensiveCoach::OffensivePosition &currentBestPosition, const Vector2 &zoneLocation) {
+    // get world & field
+    auto world = world::world->getWorld();
+
+    OffensivePosition bestPosition = currentBestPosition;
+    bestPosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, bestPosition.position, world, field);
+
+    for (auto &potentialPosition : positions) {
+        // check the score and if it is better update the best position
+        double potentialScore = offensiveScore.calculateOffensivePositionScore(zoneLocation, potentialPosition, world, field);
+        if (potentialScore > 0.0) {
+            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, -1, interface::Drawing::DOTS, 3, 3);
+        }
+        if (potentialScore > bestPosition.score) {
+            bestPosition = OffensivePosition(potentialPosition, potentialScore);
+        }
+    }
+
+    // draw zonelocation
+    interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, -1, interface::Drawing::CIRCLES, ZONE_RADIUS * 10, ZONE_RADIUS * 10, 4);
+    // draw the best point as green
+    interface::Input::drawData(interface::Visual::OFFENSE, {bestPosition.position}, Qt::green, -1, interface::Drawing::DOTS, 8, 8);
+
+    return bestPosition;
 }
 
 }  // namespace rtt::ai::coach

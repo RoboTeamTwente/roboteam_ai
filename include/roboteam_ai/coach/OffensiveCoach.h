@@ -5,6 +5,7 @@
 #ifndef ROBOTEAM_AI_OFFENSIVECOACH_H
 #define ROBOTEAM_AI_OFFENSIVECOACH_H
 
+#include <roboteam_utils/Hungarian.h>
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include <algorithm>

@@ -10,6 +10,7 @@
 #include <world/Robot.h>
 
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class PassCoach {
  public:

@@ -6,6 +6,7 @@
 #include "world/World.h"
 
 namespace bt {
+using namespace rtt::ai::world;
 
 void Node::initialize() {}
 
@@ -19,7 +20,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World *world, const rtt::Field *field) {
+Node::Status Node::tick(rtt::ai::world::World *world, const Field *field) {
     this->world = world;
     this->field = field;
 

@@ -7,6 +7,7 @@
 #include <utilities/RobotDealer.h>
 #include <utilities/GameStateManager.hpp>
 #include <roboteam_utils/Line.h>
+#include <include/roboteam_ai/utilities/IOManager.h>
 #include "interface/widgets/widget.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"

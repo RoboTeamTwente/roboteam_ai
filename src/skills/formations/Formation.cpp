@@ -12,7 +12,6 @@
 #include "roboteam_utils/Hungarian.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
-#include "control/Hungarian.h"
 
 namespace rtt::ai {
 

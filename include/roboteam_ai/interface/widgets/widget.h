@@ -11,12 +11,14 @@
 #include <QMouseEvent>
 #include <gtest/gtest_prod.h>
 
+#include <world/Field.h>
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include <world/Robot.h>
 #include <interface/api/Toggles.h>
 
 namespace rtt::ai::interface {
+using namespace rtt::ai::world;
 
 class Visualizer : public QWidget {
  Q_OBJECT

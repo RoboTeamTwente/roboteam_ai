@@ -8,6 +8,7 @@
 #include "analysis/play-utilities/Play.h"
 
 namespace rtt::ai::analysis {
+    using namespace rtt::ai::world;
 
 class PlayChecker {
  public:
@@ -16,7 +17,7 @@ class PlayChecker {
    * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
    * and if it is not new plays are calculated that are valid for the gamestate.
    */
-  void update(world::World *world, world::Field *field);
+  void update(world::World *world, const Field *field);
 
  private:
   /**
@@ -25,7 +26,7 @@ class PlayChecker {
    * @param field the current field
    * @return true if invariants of the play being executed are true, false otherwise
    */
-  bool checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+  bool checkCurrentGameInvariants(rtt::ai::world::World *world, const Field *field);
 
   /**
    * Vector of all plays (before pruning)
@@ -45,7 +46,7 @@ class PlayChecker {
    * @param world
    * @param field
    */
-  void determineNewPlays(world::World *world, world::Field *field);
+  void determineNewPlays(world::World *world, const Field *field);
 };
 }  // namespace rtt::ai::analysis
 

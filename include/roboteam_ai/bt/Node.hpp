@@ -95,8 +95,8 @@ class Node {
 
   unsigned long long amountOfTicks = 0; // ticks can increase fast
 
-  rtt::ai::world::World *world = nullptr;
-  rtt::ai::world::Field *field = nullptr;
+  World *world = nullptr;
+  const Field *field = nullptr;
 };
 
 }  // namespace bt

@@ -4,9 +4,11 @@
 //
 
 #include "coach/defence/DefencePositionCoach.h"
+#include "world/Field.h"
 #include "world/FieldComputations.h"
 #include "control/ControlUtils.h"
 #include "utilities/RobotDealer.h"
+
 /// This is a class that computes useful lines and positions for computing defender positions
 namespace rtt::ai::coach {
 

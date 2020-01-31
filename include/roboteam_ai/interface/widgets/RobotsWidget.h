@@ -7,8 +7,10 @@
 
 #include "QLayout"
 #include "widget.h"
+#include "world/Field.h"
 
 namespace rtt::ai::interface {
+using namespace rtt::ai::world;
 
 class RobotsWidget : public QWidget {
  Q_OBJECT
