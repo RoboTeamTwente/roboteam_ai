@@ -81,14 +81,9 @@ void VoronoiPathPlanning::addPointToGraph(const Vector2 &pointToAdd) {
     }
 }
 
-const std::unordered_map<Vector2, std::list<GraphNode>, hashPoint> &
-VoronoiPathPlanning::getGraphAdjacencyList() const {
-    return graphAdjacencyList;
-}
-
 std::vector<Vector2> VoronoiPathPlanning::generatePathDijkstra(const Vector2& initialPosition, const Vector2& targetPosition) {
-    std::unordered_map<Vector2, float, hashPoint> distanceVector;
-    std::unordered_map<Vector2, Vector2, hashPoint> parentVector;
+    std::unordered_map<Vector2, float> distanceVector;
+    std::unordered_map<Vector2, Vector2> parentVector;
     distanceVector.insert({initialPosition,0});
     std::list<Vector2> nodeQueue;
     nodeQueue.push_front(initialPosition);

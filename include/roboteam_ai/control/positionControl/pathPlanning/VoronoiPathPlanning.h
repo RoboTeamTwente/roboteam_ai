@@ -19,14 +19,6 @@ struct GraphNode{
     double distance;
 };
 
-//black magic vector hashing - taken from the boost hash combine
-struct hashPoint{
-    size_t operator()(const Vector2& point) const {
-        size_t xHash = std::hash<double>()(point.x) + 0x9e3779b9;
-        return xHash ^ (std::hash<double>()(point.y) + 0x9e3779b9 + (xHash<<6) + (xHash>>2));
-    }
-};
-
 /**
  * Path planning algorithm. See method computePath for details.
  */
@@ -37,7 +29,7 @@ private:
     CollisionDetector &collisionDetector;
 
     // the adjacency list is a map from the position of the node to the adjacent nodes
-    std::unordered_map<Vector2, std::list<GraphNode>, hashPoint> graphAdjacencyList;
+    std::unordered_map<Vector2, std::list<GraphNode>> graphAdjacencyList;
 
     Vector2 convertFromJcvPoint(jcv_point point);
 
@@ -68,12 +60,6 @@ public:
      * @return a list of points representing the path
      */
     std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
-
-    /**
-     * Used for testing and debugging purposes
-     * @return the graph adjancency list build on top of the Voronoi
-     */
-    const std::unordered_map<Vector2, std::list<GraphNode>, hashPoint> &getGraphAdjacencyList() const;
 };
 }
 
