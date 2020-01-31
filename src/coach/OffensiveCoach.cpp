@@ -2,13 +2,13 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <interface/widgets/widget.h>
-#include <interface/api/Input.h>
 #include "coach/OffensiveCoach.h"
-#include <world/World.h>
-#include <world/FieldComputations.h>
-#include <control/Hungarian.h>
 #include <control/ControlUtils.h>
+#include <control/Hungarian.h>
+#include <interface/api/Input.h>
+#include <interface/widgets/widget.h>
+#include <world/FieldComputations.h>
+#include <world/World.h>
 
 namespace rtt::ai::coach {
 
@@ -112,18 +112,15 @@ Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
 }
 
 void OffensiveCoach::redistributePositions(const Field &field) {
-    std::vector<int> robotIDs;
-    for (auto &robot : sideAttackers) {
-        robotIDs.emplace_back(robot.first);
+    std::unordered_map<int, Vector2> currentAttackerLocations;
+    for (auto &robotIdPair : sideAttackers) {
+      auto robot = world::world->getRobotForId(robotIdPair.first);
+      currentAttackerLocations.insert({robot->id, robot->pos});
     }
-
     updateOffensivePositions(field);
-    std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
-
-    rtt::HungarianAlgorithm hungarian;
-    map<int, Vector2> shortestDistances;
-    shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
-
+    std::vector<Vector2> positions = getOffensivePositions(currentAttackerLocations.size());
+    std::unordered_map<int, Vector2> shortestDistances;
+    shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(currentAttackerLocations, positions);
     for (auto &robot : sideAttackers) {
         int zone = std::find(positions.begin(), positions.end(), shortestDistances[robot.first]) - positions.begin();
         sideAttackers[robot.first] = zone;
@@ -138,7 +135,7 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 
     int numberOfPositions = numberOfRobots + numberOfRobots % 2;
 
-    std::vector<Vector2> positionVectors;
+    std::vector<Vector2> positionVectors(numberOfPositions);
 
     for (int i = 0; i < numberOfPositions; i++) {
         positionVectors.emplace_back(offensivePositions[i].position);

@@ -1,5 +1,5 @@
 /*
- * returns SUCCESS if the ball is in the given defence area (standard ours) 
+ * returns SUCCESS if the ball is in the given defence area (standard ours)
  * AND if the ball lays still
  */
 #include <world/FieldComputations.h>

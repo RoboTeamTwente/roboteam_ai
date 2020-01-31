@@ -2,8 +2,8 @@
 // Created by rolf on 30-1-19.
 //
 
-#include <control/ControlUtils.h>
 #include "skills/gotopos/GoAroundPos.h"
+#include <control/ControlUtils.h>
 #include "interface/api/Input.h"
 
 namespace rtt::ai {

@@ -3,9 +3,9 @@
 //
 
 #include "skills/InterceptBall.h"
+#include "control/ControlUtils.h"
 #include "interface/api/Input.h"
 #include "world/FieldComputations.h"
-#include "control/ControlUtils.h"
 
 namespace rtt::ai {
 

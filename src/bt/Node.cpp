@@ -1,5 +1,6 @@
-#include <memory>
+#include "bt/Node.hpp"
 #include <iostream>
+#include <memory>
 #include "bt/Blackboard.hpp"
 #include "bt/Node.hpp"
 #include "world/World.h"

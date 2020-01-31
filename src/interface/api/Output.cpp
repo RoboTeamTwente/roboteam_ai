@@ -3,8 +3,10 @@
 //
 
 #include "interface/api/Output.h"
+
 #include <treeinterp/BTFactory.h>
 #include <utilities/Constants.h>
+
 #include "world/Ball.h"
 
 namespace rtt::ai::interface {

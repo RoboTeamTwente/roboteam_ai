@@ -9,7 +9,7 @@
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
 #include "analysis/PlayChecker.h"
-#include "io/IOManager.h"
+#include "include/roboteam_ai/utilities/IOManager.h"
 #include "treeinterp/BTFactory.h"
 
 namespace rtt {

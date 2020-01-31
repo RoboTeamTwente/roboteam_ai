@@ -2,13 +2,13 @@
 // Created by mrlukasbos on 1-2-19.
 //
 
-#include <QtWidgets/QGroupBox>
-#include <QtWidgets/QLabel>
-#include "roboteam_proto/WorldRobot.pb.h"
 #include "interface/widgets/RobotsWidget.h"
 #include <QScrollArea>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QLabel>
 #include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
+#include "roboteam_proto/WorldRobot.pb.h"
 
 namespace rtt::ai::interface {
 

@@ -3,10 +3,12 @@
 //
 
 #include "skills/ballPlacement/BallPlacementReceive.h"
+
 #include <coach/BallplacementCoach.h>
 #include <coach/PassCoach.h>
+
 #include "control/ControlUtils.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 
 namespace rtt::ai {
 

@@ -5,7 +5,7 @@
  * otherwise FAILURE
  */
 
-
+#include "conditions/HasClearShot.h"
 #include <control/ControlUtils.h>
 #include <coach/PassCoach.h>
 #include "conditions/HasClearShot.h"

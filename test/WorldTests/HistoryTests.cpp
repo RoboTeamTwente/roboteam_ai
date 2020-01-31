@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "world/History.h"
 
 namespace rtt {

@@ -3,9 +3,12 @@
 //
 
 #include "conditions/RefStateIsNormalPlay.h"
+
 #include <interface/api/Input.h>
 #include <interface/api/Output.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "utilities/Constants.h"
 
 namespace rtt::ai {

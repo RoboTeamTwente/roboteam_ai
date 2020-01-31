@@ -4,6 +4,7 @@
 //
 
 #include "skills/gotopos/GTPWithBall.h"
+
 #include <coach/BallplacementCoach.h>
 
 namespace rtt::ai {

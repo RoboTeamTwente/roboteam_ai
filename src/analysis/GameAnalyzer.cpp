@@ -2,14 +2,14 @@
 // Created by mrlukasbos on 19-2-19.
 //
 
+#include "analysis/GameAnalyzer.h"
 #include <control/ControlUtils.h>
 #include <world/BallPossession.h>
-#include <include/roboteam_ai/io/IOManager.h>
-#include "analysis/GameAnalyzer.h"
-#include "world/World.h"
+#include "analysis/RobotDanger.h"
 #include "world/FieldComputations.h"
 #include "world/Robot.h"
-#include "analysis/RobotDanger.h"
+#include "world/World.h"
+#include "io/IOManager.h"
 
 namespace rtt::ai::analysis {
 

@@ -3,7 +3,9 @@
 //
 
 #include "world/FutureWorld.h"
+
 #include <utilities/Constants.h>
+
 #include "world/History.h"
 
 namespace rtt::ai::world {

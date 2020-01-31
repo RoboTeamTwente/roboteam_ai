@@ -3,6 +3,7 @@
 //
 
 #include "interface/widgets/VisualizationSettingsWidget.h"
+
 #include "interface/api/Toggles.h"
 #include "interface/widgets/mainWindow.h"
 

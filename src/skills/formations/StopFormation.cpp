@@ -1,8 +1,6 @@
-
 #include "skills/formations/StopFormation.h"
 #include <world/FieldComputations.h>
 #include <interface/api/Input.h>
-#include "control/Hungarian.h"
 
 namespace rtt::ai {
 
@@ -41,16 +39,7 @@ Vector2 StopFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-    std::vector<int> robotIds;
-    for (auto &i : *robotsInFormation) {
-        if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
-            robotIds.push_back(i->id);
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, properPositions);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, properPositions);
 }
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() {

@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
 #include <control/BasicPosControl.h>
-#include <control/numTrees/NumTreePosControl.h>
+#include <control/numtrees/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {

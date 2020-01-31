@@ -5,7 +5,8 @@
 #include <gtest/gtest.h>
 #include <roboteam_ai/test/helpers/FieldHelper.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
-#include "control/shotControllers/ShotController.h"
+
+#include "control/shot-controllers/ShotController.h"
 
 namespace rtt {
 namespace ai {

@@ -3,6 +3,7 @@
 //
 
 #include "skills/ballPlacement/BallPlacementPass.h"
+
 #include <coach/BallplacementCoach.h>
 
 namespace rtt::ai {

@@ -2,15 +2,15 @@
 // Created by robzelluf on 1/22/19.
 //
 
-#include <control/ballHandling/BallHandlePosControl.h>
-#include <coach/PassCoach.h>
-#include <coach/BallplacementCoach.h>
-#include <interface/api/Input.h>
 #include "skills/Receive.h"
+#include <coach/BallplacementCoach.h>
+#include <coach/PassCoach.h>
+#include <control/ControlUtils.h>
+#include <control/ball-handling/BallHandlePosControl.h>
+#include <interface/api/Input.h>
+#include <world/WorldData.h>
 #include "roboteam_utils/Polygon.h"
 #include "roboteam_utils/Line.h"
-#include <control/ControlUtils.h>
-#include <world/WorldData.h>
 
 namespace rtt::ai {
 

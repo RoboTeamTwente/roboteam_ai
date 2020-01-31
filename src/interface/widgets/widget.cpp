@@ -4,6 +4,7 @@
 
 #include <utilities/RobotDealer.h>
 #include <coach/PassCoach.h>
+#include <utilities/RobotDealer.h>
 #include <utilities/GameStateManager.hpp>
 #include <roboteam_utils/Line.h>
 #include "interface/widgets/widget.h"
@@ -13,6 +14,7 @@
 #include "world/FieldComputations.h"
 
 #include "roboteam_proto/GeometryFieldSize.pb.h"
+#include "world/Field.h"
 
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
@@ -211,7 +213,6 @@ void Visualizer::drawFieldLines(const Field &field, QPainter &painter) {
     pen.setColor(color);
     painter.setPen(pen);
     painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
-
 }
 
 void Visualizer::drawFieldHints(const Field &field, QPainter &painter) {

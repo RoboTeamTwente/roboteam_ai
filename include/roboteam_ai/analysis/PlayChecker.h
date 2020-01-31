@@ -5,7 +5,7 @@
 #ifndef RTT_PLAYCHECKER_H
 #define RTT_PLAYCHECKER_H
 
-#include "analysis/PlaysObjects/Play.h"
+#include "analysis/play-utilities/Play.h"
 
 namespace rtt::ai::analysis {
 

@@ -1,6 +1,7 @@
 //
 // Created by rolf on 15-6-19.
 //
+
 #include <utilities/GameStateManager.hpp>
 #include <world/FieldComputations.h>
 #include "conditions/ResumePlayAfterPenalty.h"

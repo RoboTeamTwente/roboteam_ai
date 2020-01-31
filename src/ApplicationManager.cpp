@@ -135,7 +135,7 @@ void ApplicationManager::updateCoaches() const {
       ai::coach::g_offensiveCoach.updateOffensivePositions(field);
       ai::coach::g_pass.updatePassProgression();
     });
-    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
+//    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
 }
 
 /// Terminate trees
@@ -161,14 +161,18 @@ void ApplicationManager::checkForFreeRobots() {
 /// handle the status of a tree, and traverse to normal play when a tree either succeeds or fails.
 void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     switch (status) {
-        case Status::Running:break;
-        case Status::Success:std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        case Status::Running:
+            break;
+        case Status::Success:
+            std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
             ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
             break;
-        case Status::Failure:std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+        case Status::Failure:
+            std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
             ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
             break;
-        case Status::Waiting:std::cout << " === Status returned: Waiting === " << std::endl;
+        case Status::Waiting:
+            std::cout << " === Status returned: Waiting === " << std::endl;
             break;
     }
 }

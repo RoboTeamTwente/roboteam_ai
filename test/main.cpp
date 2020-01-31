@@ -2,10 +2,11 @@
 // Created by mrlukasbos on 19-9-18.
 //
 
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <gtest/gtest.h>
 #include <utilities/Constants.h>
 #include <utilities/RobotDealer.h>
+
 #include <QtWidgets/QApplication>
 
 int main(int argc, char **argv) {

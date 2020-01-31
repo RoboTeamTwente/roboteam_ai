@@ -3,7 +3,7 @@
 //
 
 #include "skills/ReflectKick.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai {

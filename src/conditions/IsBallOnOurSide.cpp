@@ -4,9 +4,9 @@
  * - inField: if true, the ball also has to be in the field to return SUCCESS
  */
 
-#include <world/FieldComputations.h>
-#include <world/Ball.h>
 #include "conditions/IsBallOnOurSide.h"
+#include <world/Ball.h>
+#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 

@@ -7,7 +7,7 @@
 
 #include <control/BasicPosControl.h>
 #include "coach/OffensiveCoach.h"
-#include <control/shotControllers/ShotController.h>
+#include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
 #include "world/FieldComputations.h"
 namespace rtt::ai {

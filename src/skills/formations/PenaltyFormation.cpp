@@ -4,7 +4,6 @@
 
 #include "skills/formations/PenaltyFormation.h"
 #include <control/ControlUtils.h>
-#include <control/Hungarian.h>
 #include <control/PositionUtils.h>
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormation = nullptr;
@@ -14,29 +13,16 @@ rtt::ai::PenaltyFormation::PenaltyFormation(std::string name, bt::Blackboard::Pt
 }
 
 Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
-    if (properties->getBool("Offensive")) {
-        // first we calculate all the positions for the defense
-        std::vector<int> robotIds;
-        for (auto &i : *robotsInFormation) {
-            robotIds.push_back(i->id);
-        }
-        auto poses = rtt::ai::control::PositionUtils::getPenaltyPositions(*field, robotsInFormation->size());
+    std::vector<Vector2> positions;
 
-        rtt::HungarianAlgorithm hungarian;
-        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
-        return shortestDistances.at(robot->id);
+    if (properties->getBool("Offensive")) {
+        positions = rtt::ai::control::PositionUtils::getPenaltyPositions(robotsInFormation->size());
     } else {
         robot->getNumtreePosControl()->setAvoidBallDistance(0.4);
-        std::vector<int> robotIds;
-        for (auto &i : *robotsInFormation) {
-            robotIds.push_back(i->id);
-        }
-        auto poses = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(*field, robotsInFormation->size());
-
-        rtt::HungarianAlgorithm hungarian;
-        auto shortestDistances = hungarian.getRobotPositions(robotIds, true, poses);
-        return shortestDistances.at(robot->id);
+        positions = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(robotsInFormation->size());
     }
+
+    return getOptimalPosition(robot->id, *robotsInFormation, positions);
 }
 
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::PenaltyFormation::robotsInFormationPtr() { return robotsInFormation; }

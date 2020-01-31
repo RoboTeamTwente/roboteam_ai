@@ -6,6 +6,7 @@
  */
 
 #include "conditions/IsBallCloseToBorder.h"
+
 #include <world/Ball.h>
 
 namespace rtt::ai {

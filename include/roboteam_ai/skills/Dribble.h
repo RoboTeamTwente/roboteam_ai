@@ -7,7 +7,7 @@
 
 #include "Skill.h"
 #include "control/ControlUtils.h"
-#include "control/ballHandling/BallHandlePosControl.h"
+#include "control/ball-handling/BallHandlePosControl.h"
 #include "utilities/Constants.h"
 
 namespace rtt::ai {

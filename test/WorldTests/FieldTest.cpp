@@ -7,8 +7,8 @@
 #include <world/Field.h>
 
 #include <test/helpers/FieldHelper.h>
-#include "world/Field.h"
 #include "test/helpers/WorldHelper.h"
+#include "world/Field.h"
 #include "world/WorldData.h"
 namespace rtt {
 

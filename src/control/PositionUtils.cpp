@@ -8,12 +8,12 @@
  *
  */
 
-#include <control/ControlUtils.h>
-#include <world/FieldComputations.h>
-#include <world/World.h>
-#include <world/Robot.h>
-#include <world/Ball.h>
 #include "control/PositionUtils.h"
+#include <control/ControlUtils.h>
+#include <world/Ball.h>
+#include <world/FieldComputations.h>
+#include <world/Robot.h>
+#include <world/World.h>
 
 namespace rtt::ai::control {
 

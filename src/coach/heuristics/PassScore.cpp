@@ -2,10 +2,10 @@
 // Created by robzelluf on 4/17/19.
 //
 
-#include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "coach/heuristics/PassScore.h"
-#include "world/WorldData.h"
+#include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "world/FieldComputations.h"
+#include "world/WorldData.h"
 
 namespace rtt::ai::coach {
 

@@ -4,7 +4,7 @@
 
 #include <world/FieldComputations.h>
 #include "skills/formations/TimeoutFormation.h"
-#include "control/Hungarian.h"
+#include <world/Field.h>
 
 namespace rtt::ai {
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
@@ -24,17 +24,12 @@ Vector2 TimeoutFormation::getFormationPosition() {
 
     // first we calculate all the positions for the defense
     std::vector<Vector2> targetLocations;
-    std::vector<int> robotIds;
-
     for (unsigned int i = 0; i < robotsInFormation->size(); i++) {
         double targetLocationX = -_field.getFieldLength() / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
-        robotIds.push_back(robotsInFormation->at(i)->id);
     }
 
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, targetLocations);
 }
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() {

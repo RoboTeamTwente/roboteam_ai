@@ -1,8 +1,9 @@
-#include <utility>
+#include "bt/Blackboard.hpp"
 
 #include <memory>
 #include <string>
-#include "bt/Blackboard.hpp"
+#include <utility>
+
 #include "roboteam_proto/StringEntry.pb.h"
 
 namespace bt {

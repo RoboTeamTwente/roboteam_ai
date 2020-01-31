@@ -3,7 +3,8 @@
 //
 
 #include "utilities/Pause.h"
-#include "io/IOManager.h"
+
+#include "include/roboteam_ai/utilities/IOManager.h"
 #include "world/Robot.h"
 
 namespace rtt::ai {

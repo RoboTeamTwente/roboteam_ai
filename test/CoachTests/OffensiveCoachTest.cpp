@@ -5,6 +5,7 @@
 #include <coach/OffensiveCoach.h>
 #include <control/ControlUtils.h>
 #include <gtest/gtest.h>
+
 #include "../helpers/FieldHelper.h"
 #include "../helpers/WorldHelper.h"
 

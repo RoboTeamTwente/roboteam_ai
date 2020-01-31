@@ -2,11 +2,11 @@
 // Created by rolf on 17-4-19.
 //
 
-#include <world/World.h>
+#include "coach/GetBallCoach.h"
 #include <utilities/RobotDealer.h>
 #include <world/FieldComputations.h>
+#include <world/World.h>
 #include "coach/defence/DefencePositionCoach.h"
-#include "coach/GetBallCoach.h"
 #include "interface/api/Input.h"
 
 namespace rtt::ai::coach {

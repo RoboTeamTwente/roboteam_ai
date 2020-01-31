@@ -1,5 +1,6 @@
-#include <Settings/Settings.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <utilities/Constants.h>
+
 #include <QApplication>
 #include <QStyleFactory>
 

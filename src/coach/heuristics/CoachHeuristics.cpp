@@ -7,8 +7,6 @@
 #include "world/FieldComputations.h"
 #include "control/ControlUtils.h"
 
-#include <cmath>
-
 namespace rtt::ai::coach {
 
 const double CoachHeuristics::CLOSE_TO_GOAL_WEIGHT = -0.1;
