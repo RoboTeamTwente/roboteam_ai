@@ -85,7 +85,6 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
 double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::DealerFlag &flag) {
     auto fieldWidth = field->get_field().get(FIELD_WIDTH);
     auto fieldLength = field->get_field().get(FIELD_LENGTH);
-
     switch (flag.title) {
         case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: return costForDistance(field->getDistanceToGoal(false, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_OUR_GOAL: return costForDistance(field->getDistanceToGoal(true, robot->getPos()), fieldWidth, fieldLength);
@@ -98,18 +97,15 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::ROBOT_TYPE_50W: return costForProperty(robot->isFiftyWatt());
         case DealerFlagTitle::ROBOT_TYPE_30W: return costForProperty(robot->isThirtyWatt());
         case DealerFlagTitle::WITH_WORKING_DRIBBLER: return costForProperty(robot->isWorkingDribbler());
-
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
             // get distance to line between ball and goal
             // TODO this method can be improved by choosing a better line for the interception.
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->get_field().get(OUR_GOAL_CENTER)};
             return control::ControlUtils::distanceToLine(robot->getPos(), lineSegment.start, lineSegment.end);
         }
-        default: {
-            std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
-            return 0;
-        }
     }
+    std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
+    return 0;
 }
 
 double Dealer::costForDistance(double distance, double fieldWidth, double fieldHeight) {
