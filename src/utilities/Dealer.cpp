@@ -27,7 +27,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
 * and roleNames[0] = role_1
 * --> we can therefore make a map of <rolename, robot_id>
 */
-std::unordered_map<std::string, v::RobotView> Dealer::createMapFromAssignments(const std::vector<v::RobotView> &allRobots,
+std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const std::vector<v::RobotView> &allRobots,
                                                                   const Dealer::FlagMap &flagMap,
                                                                   const std::vector<int> &assignment) const {
     vector<string> orderedRoleNames;
@@ -86,8 +86,10 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
     auto fieldWidth = field->get_field().get(FIELD_WIDTH);
     auto fieldLength = field->get_field().get(FIELD_LENGTH);
     switch (flag.title) {
-        case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: return costForDistance(field->getDistanceToGoal(false, robot->getPos()), fieldWidth, fieldLength);
-        case DealerFlagTitle::CLOSE_TO_OUR_GOAL: return costForDistance(field->getDistanceToGoal(true, robot->getPos()), fieldWidth, fieldLength);
+        case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: 
+            return costForDistance(field->getDistanceToGoal(false, robot->getPos()), fieldWidth, fieldLength);
+        case DealerFlagTitle::CLOSE_TO_OUR_GOAL: 
+            return costForDistance(field->getDistanceToGoal(true, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_BALL: {
             auto ball = world.getBall();
             if (!ball) return 0.0;

@@ -58,6 +58,7 @@ class Dealer {
  private:
   v::WorldDataView world;
   world::Field * field;
+  // Create a distribution of robots
   std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView>& allRobots, const FlagMap& flagMap);
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
   std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
