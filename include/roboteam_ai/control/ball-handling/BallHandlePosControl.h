@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
 #include <roboteam_utils/Vector2.h>
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "control/RobotCommand.h"
 #include <utilities/Constants.h>
 #include <roboteam_utils/LineSegment.h>

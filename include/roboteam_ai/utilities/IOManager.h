@@ -23,6 +23,7 @@ namespace rtt::ai {
 class Pause;
 
 namespace io {
+using namespace rtt::ai::world;
 
 class IOManager {
  private:

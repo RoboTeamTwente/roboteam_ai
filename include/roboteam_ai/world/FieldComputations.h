@@ -19,7 +19,7 @@ namespace ai {
 namespace world {
 class WorldData;
 } // world
-
+using namespace rtt::ai::world;
 
 class FieldComputations {
  public:

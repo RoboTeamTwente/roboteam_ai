@@ -7,7 +7,6 @@
 #include <bt/Node.hpp>
 #include <ApplicationManager.h>
 #include <utilities/GameStateManager.hpp>
-#include <Settings/Settings.h>
 #include <interface/api/Input.h>
 #include <world/World.h>
 #include <coach/GetBallCoach.h>
@@ -17,13 +16,13 @@
 #include <analysis/GameAnalyzer.h>
 #include <coach/OffensiveCoach.h>
 #include <include/roboteam_ai/world/FieldComputations.h>
-#include "include/roboteam_ai/analysis/PlaysObjects/Invariants/BallBelongsToUsInvariant.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 namespace rtt {
+using namespace rtt::ai::world;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {

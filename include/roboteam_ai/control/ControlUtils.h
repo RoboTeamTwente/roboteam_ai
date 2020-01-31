@@ -24,6 +24,7 @@ class Robot;
 }
 
 namespace control {
+using namespace rtt::ai::world;
 
 class ControlUtils {
  public:

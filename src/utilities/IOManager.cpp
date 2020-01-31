@@ -5,9 +5,10 @@
  * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
  */
 
-#include <Settings/Settings.h>
+#include <utilities/Settings.h>
 #include <include/roboteam_ai/interface/api/Output.h>
-#include <io/IOManager.h>
+#include <utilities/IOManager.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
@@ -39,7 +40,7 @@ void IOManager::handleWorldState(proto::World &world) {
     }
 
     this->worldMsg = world;
-    world::world->updateWorld(field, this->worldMsg);
+    world::world->updateWorld(*field, this->worldMsg);
 
     world_new::World::instance()->updateWorld(world);
 }
@@ -50,7 +51,7 @@ void IOManager::handleGeometry(proto::SSL_GeometryData &sslData) {
     // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
     Field msg = Field(sslData.field());
     this->geometryMsg = sslData;
-    field = msg;
+    field = &msg;
     hasReceivedGeom = true;
 }
 
@@ -83,7 +84,7 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
 
 const Field &IOManager::getField() {
     std::lock_guard<std::mutex> lock(geometryMutex);
-    return field;
+    return *field;
 }
 
 const proto::World &IOManager::getWorldState() {

@@ -16,6 +16,7 @@ class FieldComputations;
 }
 
 namespace bt {
+using namespace rtt::ai::world;
 
 class Node {
  public:
@@ -55,7 +56,7 @@ class Node {
 
   virtual std::vector<Node::Ptr> getChildren();
 
-  virtual Status tick(rtt::ai::world::World *world, const rtt::Field *field);
+  virtual Status tick(rtt::ai::world::World *world, const Field *field);
 
   bool IsSuccess() const;
 

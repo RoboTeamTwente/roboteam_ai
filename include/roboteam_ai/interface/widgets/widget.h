@@ -15,7 +15,6 @@
 #include <roboteam_utils/Vector2.h>
 #include <world/Robot.h>
 #include <interface/api/Toggles.h>
-#include <include/roboteam_ai/io/IOManager.h>
 
 namespace rtt::ai::interface {
 

@@ -12,6 +12,7 @@
 #include "coach/heuristics/OffensiveScore.h"
 
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class OffensiveCoach {
  public:

@@ -16,6 +16,7 @@
 namespace rtt {
 namespace ai {
 namespace robotDealer {
+using namespace rtt::ai::world;
 
 enum RobotType : short {
   CLOSE_TO_BALL,
@@ -32,7 +33,6 @@ enum RobotType : short {
 };
 
 class RobotDealer {
-
  private:
   static bool hasClaimedKeeper;
   static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;

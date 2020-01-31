@@ -11,6 +11,7 @@
 #include <world/World.h>
 
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class CoachHeuristics {
  private:

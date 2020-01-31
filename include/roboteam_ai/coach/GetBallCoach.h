@@ -5,7 +5,9 @@
 #ifndef ROBOTEAM_AI_GETBALLCOACH_H
 #define ROBOTEAM_AI_GETBALLCOACH_H
 
+#include <include/roboteam_ai/world/Field.h>
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class GetBallCoach {
  private:
