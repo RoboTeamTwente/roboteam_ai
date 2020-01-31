@@ -66,9 +66,10 @@ class Dealer {
   static double costForDistance(double distance, double fieldWidth, double fieldHeight);
   static double costForProperty(bool property);
   double scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
-  std::unordered_map<std::string, v::RobotView> createMapFromAssignments(const std::vector<v::RobotView> &allRobots,
+  std::unordered_map<std::string, v::RobotView> mapFromAssignments(const std::vector<v::RobotView> &allRobots,
                                                             const FlagMap &flagMap,
                                                             const std::vector<int> &assignment) const;
+
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

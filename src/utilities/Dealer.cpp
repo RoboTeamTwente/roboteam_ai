@@ -19,7 +19,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     // solve the matrix and put the results in 'assignment'
     rtt::Hungarian::Solve(scores, assignment);
 
-    return createMapFromAssignments(allRobots, flagMap, assignment);
+    return mapFromAssignments(allRobots, flagMap, assignment);
 }
 
 /* assignments now has the robot ids at the role index, and is ordered according to the roleNames
