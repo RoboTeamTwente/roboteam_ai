@@ -73,7 +73,7 @@ void RobotDealer::updateFromWorld() {
     }
 }
 
-int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleName, const std::string &tacticName) {
+int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, const std::string &roleName, const std::string &tacticName) {
     std::set<int> ids = getAvailableRobots();
 
     // convert the set to a vector here

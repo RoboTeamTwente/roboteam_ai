@@ -9,6 +9,7 @@
 #include <vector>
 
 namespace rtt::ai::analysis {
+using namespace rtt::ai::world;
 
 struct RobotDanger {
   bool ourTeam;

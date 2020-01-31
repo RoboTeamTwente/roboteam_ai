@@ -6,6 +6,7 @@
 #include "Field.h"
 
 namespace rtt::ai {
+using namespace rtt::ai::world;
 
 /**
  * Computes and stores the ball possession state which indicates which team controls the ball (can also be both/no team).
