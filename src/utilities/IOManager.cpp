@@ -40,7 +40,7 @@ void IOManager::handleWorldState(proto::World &world) {
     }
 
     this->worldMsg = world;
-    world::world->updateWorld(*field, this->worldMsg);
+    world::world->updateWorld(field, this->worldMsg);
 
     world_new::World::instance()->updateWorld(world);
 }
@@ -49,9 +49,8 @@ void IOManager::handleGeometry(proto::SSL_GeometryData &sslData) {
     std::lock_guard<std::mutex> lock(geometryMutex);
 
     // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
-    Field msg = Field(sslData.field());
+    field = Field(sslData.field());
     this->geometryMsg = sslData;
-    field = &msg;
     hasReceivedGeom = true;
 }
 
@@ -84,7 +83,7 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
 
 const Field &IOManager::getField() {
     std::lock_guard<std::mutex> lock(geometryMutex);
-    return *field;
+    return field;
 }
 
 const proto::World &IOManager::getWorldState() {

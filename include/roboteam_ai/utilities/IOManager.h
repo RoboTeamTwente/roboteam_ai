@@ -27,7 +27,7 @@ using namespace rtt::ai::world;
 
 class IOManager {
  private:
-  Field *field;
+  Field field;
 
   proto::World worldMsg;
   proto::SSL_GeometryData geometryMsg;
