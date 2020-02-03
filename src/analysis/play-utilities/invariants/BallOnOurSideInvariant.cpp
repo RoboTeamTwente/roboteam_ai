@@ -11,14 +11,16 @@
 #include "world/World.h"
 
 namespace rtt::ai::analysis {
-bool BallOnOurSideInvariant::isValid(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+using namespace rtt::ai::world;
+
+bool BallOnOurSideInvariant::isValid(rtt::ai::world::World *world, const Field *field) {
     Vector2 ballPos = world->getBall()->getPos();
 
     // force the ball to be in the field
     bool inField = true;
 
     if (ballPos.x < 0) {
-        return abs(ballPos.x) < field->get_field().get(FIELD_LENGTH) / 2 && abs(ballPos.y) < field->get_field().get(FIELD_WIDTH) / 2;
+        return abs(ballPos.x) < field->getFieldLength() / 2 && abs(ballPos.y) < field->getFieldWidth() / 2;
 
         return true;
     }

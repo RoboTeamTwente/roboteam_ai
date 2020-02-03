@@ -18,16 +18,16 @@ namespace rtt::input {
 
 class JoystickManager {
    public:
-    JoystickManager(ai::io::IOManager* ioManager);
+    JoystickManager(ai::io::IOManager *ioManager);
     bool run();
     void activate();
     void deactivate();
     void stop();
 
    private:
-    ai::io::IOManager* ioManager = nullptr;
+    ai::io::IOManager *ioManager = nullptr;
     const int TICK_INTERVAL = 20;
-    std::map<int, JoystickHandler*> joystickHandlers;
+    std::map<int, JoystickHandler *> joystickHandlers;
 
     std::mutex runningLock;
     std::mutex activeLock;
@@ -40,10 +40,10 @@ class JoystickManager {
     void loop();
     bool isRunning();
     bool isActive();
-    void handleJoystickAdded(const SDL_Event& event);
-    void handleJoystickRemoved(const SDL_Event& event);
+    void handleJoystickAdded(const SDL_Event &event);
+    void handleJoystickRemoved(const SDL_Event &event);
     void tickJoystickHandlers();
-    void handleEvent(SDL_Event& event);
+    void handleEvent(SDL_Event &event);
 };
 
 }  // namespace rtt::input

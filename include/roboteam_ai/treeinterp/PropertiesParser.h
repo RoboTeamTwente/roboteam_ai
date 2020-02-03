@@ -6,11 +6,11 @@
 #define ROBOTEAM_AI_PROPERTIESPARSER_H
 
 #include <math.h>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 #include "JsonReader.h"
 #include "bt/Blackboard.hpp"
-#include <nlohmann/json.hpp>
 #include "roboteam_utils/Vector2.h"
 
 class PropertiesParser {

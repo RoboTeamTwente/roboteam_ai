@@ -26,10 +26,10 @@ class DefaultTactic : public Node {
     bool updateRobots();
     std::pair<std::string, RobotType> getNextClaim();
     std::pair<std::string, RobotType> getLastClaim();
-    void parseType(const std::string& typee);
+    void parseType(const std::string &typee);
     void updateStyle();
     rtt::ai::analysis::DecisionMaker maker;
-    void convert(const std::vector<std::pair<std::string, RobotType>>& unit);
+    void convert(const std::vector<std::pair<std::string, RobotType>> &unit);
     std::set<int> robotIDs = {};
     int claimedRobots = 0;
     std::string name;
@@ -39,7 +39,7 @@ class DefaultTactic : public Node {
 
    public:
     std::vector<std::tuple<int, std::string, RobotType>> robots;
-    DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::vector<std::pair<std::string, RobotType>>& robots);
+    DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::vector<std::pair<std::string, RobotType>> &robots);
 
     void initialize() override;
     Node::Status update() override;

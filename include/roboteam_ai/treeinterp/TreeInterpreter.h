@@ -10,13 +10,13 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <string>
 #include "BTImport.h"
 #include "JsonReader.h"
 #include "PropertiesParser.h"
 #include "Switches.h"
 #include "bt/Role.h"
-#include <nlohmann/json.hpp>
 #include "skills/Skill.h"
 #include "vector"
 

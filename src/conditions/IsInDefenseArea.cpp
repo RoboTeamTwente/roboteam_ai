@@ -7,9 +7,8 @@
  */
 
 #include "conditions/IsInDefenseArea.hpp"
-
 #include "world/Ball.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/Robot.h"
 
 namespace rtt::ai {
@@ -32,7 +31,7 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
 
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;
 
-    if (field->pointIsInDefenceArea(point, ourDefenseArea, margin, outsideField)) {
+    if (FieldComputations::pointIsInDefenceArea(*field, point, ourDefenseArea, margin, outsideField)) {
         return Status::Success;
     }
     return Status::Failure;

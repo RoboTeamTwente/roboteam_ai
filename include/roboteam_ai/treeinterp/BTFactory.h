@@ -11,10 +11,10 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <string>
 #include "BTImport.h"
 #include "TreeInterpreter.h"
-#include <nlohmann/json.hpp>
 
 class BTFactory {
     // TODO: have the names of all the project before here

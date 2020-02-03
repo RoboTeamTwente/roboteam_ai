@@ -12,10 +12,13 @@
 #include <memory>
 
 #include <interface/api/Toggles.h>
+#include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
+#include <world/Field.h>
 #include <world/Robot.h>
 
 namespace rtt::ai::interface {
+using namespace rtt::ai::world;
 
 class Visualizer : public QWidget {
     Q_OBJECT
@@ -24,8 +27,8 @@ class Visualizer : public QWidget {
    public:
     using Robot = rtt::ai::world::Robot;
     using RobotPtr = std::shared_ptr<Robot>;
-    explicit Visualizer(QWidget* parent = nullptr);
-    const std::vector<Robot>& getSelectedRobots() const;
+    explicit Visualizer(QWidget *parent = nullptr);
+    const std::vector<Robot> &getSelectedRobots() const;
     bool robotIsSelected(Robot robotToCheck);
     bool robotIsSelected(int id);
 
@@ -42,28 +45,28 @@ class Visualizer : public QWidget {
     void setToggleFieldDirection(bool inversed);
 
    protected:
-    void paintEvent(QPaintEvent* event) override;
-    void mousePressEvent(QMouseEvent* event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
    private:
     float factor;
     int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
-    void drawBackground(QPainter& painter);
-    void drawFieldLines(QPainter& painter);
-    void drawFieldHints(QPainter& painter);
+    void drawBackground(QPainter &painter);
+    void drawFieldLines(const Field &field, QPainter &painter);
+    void drawFieldHints(const Field &field, QPainter &painter);
 
-    void drawRobots(QPainter& painter);
-    void drawRobot(QPainter& painter, Robot, bool ourTeam);
-    void drawBall(QPainter& painter);
-    void drawBallPlacementTarget(QPainter& painter);
-    void drawTacticColorForRobot(QPainter& painter, Robot robot);
-    void drawPlusses(QPainter& painter, std::vector<Vector2> points, double width, double height);
-    void drawCrosses(QPainter& painter, std::vector<Vector2> points, double width, double height);
-    void drawPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);
-    void drawRealLifeSizedPoints(QPainter& painter, std::vector<Vector2> points, double width, double height);  // width and height are now in meters
+    void drawRobots(QPainter &painter);
+    void drawRobot(QPainter &painter, Robot, bool ourTeam);
+    void drawBall(QPainter &painter);
+    void drawBallPlacementTarget(QPainter &painter);
+    void drawTacticColorForRobot(QPainter &painter, Robot robot);
+    void drawPlusses(QPainter &painter, std::vector<Vector2> points, double width, double height);
+    void drawCrosses(QPainter &painter, std::vector<Vector2> points, double width, double height);
+    void drawPoints(QPainter &painter, std::vector<Vector2> points, double width, double height);
+    void drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2> points, double width, double height);  // width and height are now in meters
 
-    void drawLines(QPainter& painter, std::vector<Vector2> points);
-    void drawArrows(QPainter& painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow);
+    void drawLines(QPainter &painter, std::vector<Vector2> points);
+    void drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow);
     bool shouldVisualize(Toggle toggle, int robotId);
 
     // utitlity functions
@@ -72,7 +75,7 @@ class Visualizer : public QWidget {
     rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
     rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
 
-    void calculateFieldSizeFactor();
+    void calculateFieldSizeFactor(const Field &field);
 
     // interface variables
     std::vector<std::pair<std::string,

@@ -1,13 +1,12 @@
 #include "bt/Node.hpp"
-
 #include <iostream>
 #include <memory>
-
 #include "bt/Blackboard.hpp"
-#include "world/Field.h"
+#include "bt/Node.hpp"
 #include "world/World.h"
 
 namespace bt {
+using namespace rtt::ai::world;
 
 void Node::initialize() {}
 
@@ -21,7 +20,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+Node::Status Node::tick(rtt::ai::world::World *world, const Field *field) {
     this->world = world;
     this->field = field;
 
@@ -59,7 +58,7 @@ void Node::addChild(bt::Node::Ptr) {}
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
-    //    std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
+    // std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
     return std::vector<Node::Ptr>{};
 }
 

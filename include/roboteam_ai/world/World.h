@@ -11,6 +11,7 @@
 #include "roboteam_proto/World.pb.h"
 #include "roboteam_proto/WorldRobot.pb.h"
 
+#include "Field.h"
 #include "Team.h"
 #include "WhichRobots.h"
 #include "utilities/Constants.h"
@@ -40,7 +41,7 @@ class World {
    public:
     explicit World();
     ~World();
-    void updateWorld(const proto::World &world);
+    void updateWorld(const Field &field, const proto::World &world);
     bool weHaveRobots();
     double getTimeDifference();
     double getTime();

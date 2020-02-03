@@ -3,16 +3,14 @@
 //
 
 #include "skills/CoachDefend.h"
-
-#include <world/Field.h>
-
+#include <world/FieldComputations.h>
 #include "coach/defence/DefenceDealer.h"
 #include "control/ControlUtils.h"
 namespace rtt::ai {
 CoachDefend::CoachDefend(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void CoachDefend::onInitialize() {
-    //  numTreeGtp.setCanMoveInDefenseArea(false);
+    // numTreeGtp.setCanMoveInDefenseArea(false);
 }
 
 bt::Node::Status CoachDefend::onUpdate() {
@@ -56,11 +54,11 @@ bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
         return false;
     }
     // if line intersects our defence area or other robots we do not do it.
-    if (world::field->getDefenseArea(true, 0.15, false).doesIntersect(driveLine)) {
+    if (FieldComputations::getDefenseArea(*field, true, 0.15, false).doesIntersect(driveLine)) {
         return false;
     }
     auto robots = world::world->getThem();
-    for (const auto& worldRobot : robots) {
+    for (const auto &worldRobot : robots) {
         if (worldRobot->id != robot->id) {
             if (driveLine.distanceToLine(worldRobot->pos) < Constants::ROBOT_RADIUS()) {
                 return false;

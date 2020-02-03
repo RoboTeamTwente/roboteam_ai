@@ -1,5 +1,4 @@
 #include "world/World.h"
-
 #include "world/BallPossession.h"
 #include "world/FutureWorld.h"
 #include "world/History.h"
@@ -9,7 +8,7 @@ namespace rtt::ai::world {
 World worldObj;
 World *world = &worldObj;
 
-void World::updateWorld(const proto::World &message) {
+void World::updateWorld(const Field &field, const proto::World &message) {
     worldNumber++;
 
     BallPtr oldBall = nullptr;
@@ -60,7 +59,7 @@ void World::updateWorld(const proto::World &message) {
         history->addWorld(worldDataCopyForHistory);
     }
 
-    ballPossessionPtr->update();
+    ballPossessionPtr->update(field);
 }
 
 void World::updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg, std::vector<RobotPtr> &robots, const BallPtr &ball,

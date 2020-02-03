@@ -10,6 +10,7 @@
 #include "world/World.h"
 
 namespace rtt::ai::coach {
+
 /// This class keeps track of what all the defenders are doing and assigns them and communicates with them
 class DefenceDealer {
    private:
@@ -18,10 +19,8 @@ class DefenceDealer {
     std::vector<int> availableIDs;
 
    public:
-    void updateDefenderLocations();
-
+    void updateDefenderLocations(const Field &field);
     void addDefender(int id);
-
     std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
     void visualizePoints();
 };

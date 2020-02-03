@@ -3,24 +3,23 @@
 //
 
 #include "coach/GetBallCoach.h"
-
 #include <utilities/RobotDealer.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include <world/World.h>
-
 #include "coach/defence/DefencePositionCoach.h"
 #include "interface/api/Input.h"
 
 namespace rtt::ai::coach {
 
 GetBallCoach getBallCoachObj;
-GetBallCoach* getBallCoach = &getBallCoachObj;
+GetBallCoach *getBallCoach = &getBallCoachObj;
 
-bool GetBallCoach::shouldWeGetBall() {
+bool GetBallCoach::shouldWeGetBall(const Field &field) {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
     Vector2 ballPos = world::world->getBall()->getPos();
-    return !world::field->pointIsInDefenceArea(ballPos, true, 0.04) && !world::field->pointIsInDefenceArea(ballPos, false) && world::field->pointIsInField(ballPos, -0.05);
+    return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) && !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
+           FieldComputations::pointIsInField(field, ballPos, -0.05);
 }
 
 bool GetBallCoach::weAreGettingBall() { return gettingBall; }
@@ -42,7 +41,7 @@ int GetBallCoach::bestBallGetterID() {
         closestDistSquared = (closestPos - ballPos).length2() * 0.65;
     }
 
-    for (const auto& robot : world::world->getUs()) {
+    for (const auto &robot : world::world->getUs()) {
         if (robot->id != robotDealer::RobotDealer::getKeeperID() && robot->id != idGettingBall) {
             double distToBallSquared = (robot->pos - ballPos).length2();
             if (distToBallSquared < closestDistSquared) {
@@ -58,8 +57,8 @@ int GetBallCoach::bestBallGetterID() {
     return closestId;
 }
 
-void GetBallCoach::update() {
-    if (shouldWeGetBall()) {
+void GetBallCoach::update(const Field &field) {
+    if (shouldWeGetBall(field)) {
         gettingBall = true;
         idGettingBall = bestBallGetterID();
     } else {

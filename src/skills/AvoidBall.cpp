@@ -3,16 +3,13 @@
 //
 
 #include "skills/AvoidBall.h"
-
 #include <coach/BallplacementCoach.h>
 #include <interface/api/Input.h>
-
 #include <cmath>
-
 #include "control/ControlUtils.h"
 #include "control/numtrees/NumTreePosControl.h"
 #include "utilities/RobotDealer.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -36,7 +33,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->pos);
 
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->id == robotDealer::RobotDealer::getKeeperID());
-    if (!robotIsKeeper && (world::field->pointIsInDefenceArea(robotPos, true, 0.10) || world::field->pointIsInDefenceArea(robotPos, false, 0.10))) {
+    if (!robotIsKeeper && (FieldComputations::pointIsInDefenceArea(*field, robotPos, true, 0.10) || FieldComputations::pointIsInDefenceArea(*field, robotPos, false, 0.10))) {
         robot->getNumtreePosControl()->getRobotCommand(world, field, robot, Vector2(0, robotPos.y));
         publishRobotCommand();
         return Status::Running;
@@ -54,10 +51,9 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + cu::calculateForce(robotPos - ball->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    auto field = world::field->get_field();
-    double boundWidth = field.get(BOUNDARY_WIDTH);
-    double halfFieldLength = field.get(FIELD_LENGTH) / 2;
-    double halfFieldWidth = field.get(FIELD_WIDTH) / 2;
+    double boundWidth = (*field).getBoundaryWidth();
+    double halfFieldLength = (*field).getFieldLength() / 2;
+    double halfFieldWidth = (*field).getFieldWidth() / 2;
 
     std::vector<Vector2> wallsVectors;
     wallsVectors.emplace_back(Vector2(robotPos.x - halfFieldLength - boundWidth, 0));

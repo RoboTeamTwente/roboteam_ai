@@ -5,8 +5,8 @@
 #include "interface/widgets/MainControlsWidget.h"
 
 #include <Switches.h>
-#include <include/roboteam_ai/utilities/Settings.h>
 #include <include/roboteam_ai/interface/api/Input.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <interface/api/Output.h>
 #include <treeinterp/BTFactory.h>
 #include <utilities/RobotDealer.h>

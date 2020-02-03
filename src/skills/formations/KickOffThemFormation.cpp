@@ -1,10 +1,9 @@
 #include "skills/formations/KickOffThemFormation.h"
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 
 namespace rtt::ai {
-
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormation = nullptr;
 
 KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
@@ -13,9 +12,8 @@ KickOffThemFormation::KickOffThemFormation(std::string name, bt::Blackboard::Ptr
 
 Vector2 KickOffThemFormation::getFormationPosition() {
     std::vector<int> robotIds;
-    auto fieldMsg = field->get_field();
-    double fh = fieldMsg.get(FIELD_WIDTH);
-    double fw = fieldMsg.get(FIELD_LENGTH);
+    double fh = (*field).getFieldWidth();
+    double fw = (*field).getFieldLength();
 
     std::vector<std::vector<Vector2>> locations = {
         {{-0.8, 0}},

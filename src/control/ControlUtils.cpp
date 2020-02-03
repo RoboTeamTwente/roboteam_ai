@@ -3,12 +3,9 @@
 //
 
 #include "control/ControlUtils.h"
-
 #include <roboteam_utils/Line.h>
-#include <world/Field.h>
-
+#include <world/FieldComputations.h>
 #include <utilities/GameStateManager.hpp>
-
 #include "world/World.h"
 #include "world/WorldData.h"
 
@@ -31,8 +28,9 @@ double ControlUtils::TriangleArea(const Vector2 &a, const Vector2 &b, const Vect
 bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const Vector2 &sp1, const Vector2 &sp2, const Vector2 &sp3, const Vector2 &sp4) {
     if (pointInTriangle(pointToCheck, sp1, sp2, sp3)) {
         return true;
-    } else
+    } else {
         return pointInTriangle(pointToCheck, sp4, sp1, sp3);
+    }
 }
 
 bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const std::vector<Vector2> &rectangle) {
@@ -109,6 +107,7 @@ double ControlUtils::distanceToLineWithEnds(const Vector2 &pointToCheck, const V
 bool ControlUtils::onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r) {
     return q.x <= fmax(p.x, r.x) && q.x >= fmin(p.x, r.x) && q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
 }
+
 // To find orientation of ordered triplet (p, q, r).
 // The function returns following values
 // 0 --> p, q and r are colinear
@@ -167,8 +166,9 @@ int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
     double checkBackward = constrainAngle(currentAngle - angDif);
     if (abs(checkForward - targetAngle) < abs(checkBackward - targetAngle)) {
         return 1;  // forwards
-    } else
+    } else {
         return -1;  // backwards
+    }
 }
 
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
@@ -223,8 +223,9 @@ Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, 
         double numerator = ((a1.x - b1.x) * (b1.y - b2.y) - (a1.y - b1.y) * (b1.x - b2.x));
         double t = numerator / denominator;
         return (a1 + (Vector2){t, t} * (a2 - a1));
-    } else
+    } else {
         return Vector2();
+    }
 }
 /// returns true if the line intersects in the positive extension from point a1 to a2 with the extended line through b1 and b2
 double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1, const Vector2 &b2) {
@@ -233,32 +234,31 @@ double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2
         double numerator = ((a1.x - b1.x) * (b1.y - b2.y) - (a1.y - b1.y) * (b1.x - b2.x));
         double t = numerator / denominator;
         return t;
-    } else
+    } else {
         return -1.0;
+    }
 }
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
-Vector2 ControlUtils::projectPositionToWithinField(Vector2 position, double margin) {
-    auto field = world::field->get_field();
-
-    double hFieldLength = field.get(FIELD_LENGTH) / 2;
+Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 position, double margin) {
+    double hFieldLength = field.getFieldLength() / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, -hFieldLength + margin);
 
-    double hFieldWidth = field.get(FIELD_WIDTH) / 2;
+    double hFieldWidth = field.getFieldWidth() / 2;
     position.y = std::min(position.y, hFieldWidth - margin);
     position.y = std::max(position.y, -hFieldWidth + margin);
 
     return position;
 }
 
-Vector2 ControlUtils::projectPositionToOutsideDefenseArea(Vector2 position, double margin) {
-    if (world::field->pointIsInDefenceArea(position, true, margin)) {
-        position.x = std::max(position.x, world::field->get_field().get(LEFT_PENALTY_LINE).begin.x + margin);
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const Field &field, Vector2 position, double margin) {
+    if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
+        position.x = std::max(position.x, field.getLeftPenaltyLine().begin.x + margin);
         return position;
     }
-    if (world::field->pointIsInDefenceArea(position, false, margin)) {
-        position.x = std::min(position.x, world::field->get_field().get(RIGHT_PENALTY_LINE).begin.x - margin);
+    if (FieldComputations::pointIsInDefenceArea(field, position, false, margin)) {
+        position.x = std::min(position.x, field.getRightPenaltyLine().begin.x - margin);
         return position;
     }
     return position;
@@ -310,18 +310,18 @@ const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<wor
     return closestRobot;
 }
 
-Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
+Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
                                                        double outOfFieldMargin) {
     LineSegment shotLine(line.start, line.end + (line.end - line.start));
     Vector2 projectPos = shotLine.project(position);
     Vector2 closestPoint = projectPos;
 
-    bool pointInOurDefenseArea = world::field->pointIsInDefenceArea(projectPos, true, defenseAreamargin);
-    bool pointInTheirDefenseArea = world::field->pointIsInDefenceArea(projectPos, false, defenseAreamargin);
+    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
+    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
 
     if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
-        Polygon defenceAreaUs(world::field->getDefenseArea(true, defenseAreamargin, true));
-        Polygon defenceAreaThem(world::field->getDefenseArea(false, defenseAreamargin, true));
+        Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));
+        Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, true));
 
         std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
         std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
@@ -332,7 +332,7 @@ Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line li
         }
         double closestDist = 9e9;
         for (const auto &point : intersects) {
-            if (world::field->pointIsInField(point, defenseAreamargin)) {
+            if (FieldComputations::pointIsInField(field, point, defenseAreamargin)) {
                 double dist = point.dist(position);
                 if (dist < closestDist) {
                     closestDist = dist;
@@ -342,8 +342,8 @@ Vector2 ControlUtils::getInterceptPointOnLegalPosition(Vector2 position, Line li
         }
     }
 
-    if (!canMoveOutOfField && !world::field->pointIsInField(closestPoint, defenseAreamargin)) {
-        closestPoint = projectPositionToWithinField(projectPos, defenseAreamargin);
+    if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, defenseAreamargin)) {
+        closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
     }
 
     return closestPoint;

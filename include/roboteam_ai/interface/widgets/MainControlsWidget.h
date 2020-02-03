@@ -17,24 +17,24 @@ namespace rtt::ai::interface {
 class MainControlsWidget : public QWidget {
     Q_OBJECT
    public:
-    explicit MainControlsWidget(QWidget* parent = nullptr);
+    explicit MainControlsWidget(QWidget *parent = nullptr);
 
    signals:
     void treeHasChanged();
 
    private:
     //  QLineSeries* lineSeries;
-    QVBoxLayout* vLayout;
-    QPushButton* pauseBtn;
-    QPushButton* toggleColorBtn;
-    QPushButton* toggleSideBtn;
-    QPushButton* toggleSerialBtn;
-    QShortcut* spaceClick;
+    QVBoxLayout *vLayout;
+    QPushButton *pauseBtn;
+    QPushButton *toggleColorBtn;
+    QPushButton *toggleSideBtn;
+    QPushButton *toggleSerialBtn;
+    QShortcut *spaceClick;
 
-    QComboBox* select_strategy;
-    QComboBox* select_keeper_strategy;
-    QComboBox* select_goalie;
-    QComboBox* select_ruleset;
+    QComboBox *select_strategy;
+    QComboBox *select_keeper_strategy;
+    QComboBox *select_goalie;
+    QComboBox *select_ruleset;
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;

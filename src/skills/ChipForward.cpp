@@ -3,21 +3,20 @@
 //
 
 #include "skills/ChipForward.h"
-
 #include <control/shot-controllers/ShotController.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 
 ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ChipForward::onInitialize() {
-    aimPoint = field->getPenaltyPoint(false);
+    aimPoint = FieldComputations::getPenaltyPoint(*field, false);
     hasChipped = false;
 }
 
 ChipForward::Status ChipForward::onUpdate() {
-    auto shotData = robot->getShotController()->getRobotCommand(*robot, aimPoint, true, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
+    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, true, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
     command = shotData.makeROSCommand();
     if (!hasChipped && command.chipper()) {
         if (command.chip_kick_forced() || robot->hasBall()) hasChipped = true;
