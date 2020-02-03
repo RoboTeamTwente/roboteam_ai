@@ -13,26 +13,26 @@
 
 namespace rtt::ai {
 
-    IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {};
+IsCloseToPoint::IsCloseToPoint(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
-    void IsCloseToPoint::onInitialize() {
-        if (properties->hasDouble("margin")) {
-            margin = properties->getDouble("margin");
-        }
-
-        if (properties->getBool("ball")) {
-            position = ball->getPos();
-        } else {
-            position = properties->getVector2("position");
-        }
+void IsCloseToPoint::onInitialize() {
+    if (properties->hasDouble("margin")) {
+        margin = properties->getDouble("margin");
     }
 
-    IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
-        double deltaPos = (position - robot->pos).length();
-        if (deltaPos >= margin) {
-            return Status::Failure;
-        }
-        return Status::Success;
+    if (properties->getBool("ball")) {
+        position = ball->getPos();
+    } else {
+        position = properties->getVector2("position");
     }
+}
+
+IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
+    double deltaPos = (position - robot->pos).length();
+    if (deltaPos >= margin) {
+        return Status::Failure;
+    }
+    return Status::Success;
+}
 
 }  // namespace rtt::ai

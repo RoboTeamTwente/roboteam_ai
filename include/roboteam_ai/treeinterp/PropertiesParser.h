@@ -6,17 +6,17 @@
 #define ROBOTEAM_AI_PROPERTIESPARSER_H
 
 #include <math.h>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
 #include "JsonReader.h"
 #include "bt/Blackboard.hpp"
-#include <nlohmann/json.hpp>
 #include "roboteam_utils/Vector2.h"
 
 class PropertiesParser {
     using json = nlohmann::json;
 
-    private:
+   private:
     JsonReader jsonReader;
 
     enum type { Int, String, Double, Vector, Bool_True, Bool_False };
@@ -27,7 +27,7 @@ class PropertiesParser {
 
     type getNumberFromString(std::string strKey, std::vector<char> charKey, int &it, double &number);
 
-    public:
+   public:
     bt::Blackboard::Ptr parse(json someJson);
 };
 

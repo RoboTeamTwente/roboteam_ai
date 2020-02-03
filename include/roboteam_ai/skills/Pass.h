@@ -15,36 +15,36 @@
 
 namespace rtt::ai {
 
-    class Pass : public Skill {
-        protected:
-        enum PassType { DEFAULT, DEFENSIVE, FREEKICK };
+class Pass : public Skill {
+   protected:
+    enum PassType { DEFAULT, DEFENSIVE, FREEKICK };
 
-        PassType passType = DEFAULT;
+    PassType passType = DEFAULT;
 
-        PassType stringToType(const std::string &type);
+    PassType stringToType(const std::string &type);
 
-        const double CLOSE_ENOUGH_TO_BALL = 0.7;
-        const double SUCCESSFUL_PASS_ANGLE = 0.6;
+    const double CLOSE_ENOUGH_TO_BALL = 0.7;
+    const double SUCCESSFUL_PASS_ANGLE = 0.6;
 
-        bool forcePass = false;
-        int fails = 0;
-        int maxTries = -1;
-        bool passInitialized = false;
-        bool hasShot = false;
-        RobotPtr robotToPassTo;
-        Vector2 targetPos;
-        virtual void initiatePass();
-        bool didShootProperly();
-        int robotToPassToID = -1;
-        Vector2 getKicker();
-        virtual void makeCommand();
+    bool forcePass = false;
+    int fails = 0;
+    int maxTries = -1;
+    bool passInitialized = false;
+    bool hasShot = false;
+    RobotPtr robotToPassTo;
+    Vector2 targetPos;
+    virtual void initiatePass();
+    bool didShootProperly();
+    int robotToPassToID = -1;
+    Vector2 getKicker();
+    virtual void makeCommand();
 
-        public:
-        explicit Pass(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
-    };
+   public:
+    explicit Pass(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
+};
 
 }  // namespace rtt::ai
 

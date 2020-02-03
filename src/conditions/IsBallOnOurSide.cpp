@@ -10,27 +10,23 @@
 
 namespace rtt::ai {
 
-    IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard)
-        : Condition(std::move(name), std::move(blackboard)) {};
+IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
-    void IsBallOnOurSide::onInitialize() {
-        inField = properties->getBool("inField");
-    }
+void IsBallOnOurSide::onInitialize() { inField = properties->getBool("inField"); }
 
-    bt::Node::Status IsBallOnOurSide::onUpdate() {
-        Vector2 ballPos = ball->getPos();
+bt::Node::Status IsBallOnOurSide::onUpdate() {
+    Vector2 ballPos = ball->getPos();
 
-        if (ballPos.x < 0) {
-            if (inField) {
-                if (abs(ballPos.x) < (*field).getFieldLength() / 2 &&
-                    abs(ballPos.y) < (*field).getFieldWidth() / 2) {
-                    return Status::Success;
-                }
-                return Status::Failure;
+    if (ballPos.x < 0) {
+        if (inField) {
+            if (abs(ballPos.x) < (*field).getFieldLength() / 2 && abs(ballPos.y) < (*field).getFieldWidth() / 2) {
+                return Status::Success;
             }
-            return Status::Success;
+            return Status::Failure;
         }
-        return Status::Failure;
+        return Status::Success;
     }
+    return Status::Failure;
+}
 
 }  // namespace rtt::ai

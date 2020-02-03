@@ -10,11 +10,11 @@
 
 namespace rtt::ai::interface {
 
-    class VisualizationSettingsWidget : public QWidget {
-        Q_OBJECT
-        public:
-        explicit VisualizationSettingsWidget(Visualizer *visualizer, QWidget *parent = nullptr);
-    };
+class VisualizationSettingsWidget : public QWidget {
+    Q_OBJECT
+   public:
+    explicit VisualizationSettingsWidget(Visualizer *visualizer, QWidget *parent = nullptr);
+};
 
 }  // namespace rtt::ai::interface
 

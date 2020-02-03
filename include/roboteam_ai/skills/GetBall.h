@@ -10,17 +10,17 @@
 
 namespace rtt::ai {
 
-    class GetBall : public Skill {
-        private:
-        control::BallHandlePosControl ballHandlePosControl;
-        Vector2 lockedTargetPos = Vector2();
+class GetBall : public Skill {
+   private:
+    control::BallHandlePosControl ballHandlePosControl;
+    Vector2 lockedTargetPos = Vector2();
 
-        public:
-        explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
-    };
+   public:
+    explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
+};
 }  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_GETBALL_H

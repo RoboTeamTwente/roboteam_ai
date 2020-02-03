@@ -11,21 +11,21 @@
 
 namespace rtt::ai {
 
-    namespace io {
-        class IOManager;
-    }
+namespace io {
+class IOManager;
+}
 
-    class Pause {
-        private:
-        static bool pause;
-        static std::mutex pauseLock;
+class Pause {
+   private:
+    static bool pause;
+    static std::mutex pauseLock;
 
-        public:
-        Pause();
-        bool getPause();
-        void haltRobots();
-        void setPause(bool set);
-    };
+   public:
+    Pause();
+    bool getPause();
+    void haltRobots();
+    void setPause(bool set);
+};
 }  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_PAUSE_H

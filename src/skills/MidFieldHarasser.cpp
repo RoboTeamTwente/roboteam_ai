@@ -6,55 +6,55 @@
 
 namespace rtt::ai {
 
-    MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
-    void MidFieldHarasser::onInitialize() {
-        robotBeingHarassed = -1;
-        coach::g_midFieldCoach.addMidFielder(robot);
-    }
+void MidFieldHarasser::onInitialize() {
+    robotBeingHarassed = -1;
+    coach::g_midFieldCoach.addMidFielder(robot);
+}
 
-    Skill::Status MidFieldHarasser::onUpdate() {
-        targetPos = getHarassTarget();
+Skill::Status MidFieldHarasser::onUpdate() {
+    targetPos = getHarassTarget();
 
-        auto newPosition = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
-        Vector2 velocity = newPosition.vel;
+    auto newPosition = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
+    Vector2 velocity = newPosition.vel;
 
-        // If there is a robot being harassed, drive slower than it if too close
-        if (robotBeingHarassed != -1) {
-            RobotPtr opponent = world->getRobotForId(robotBeingHarassed, false);
-            if (opponent && ((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS)) {
-                double opponentVelocityLength = opponent->vel.length();
+    // If there is a robot being harassed, drive slower than it if too close
+    if (robotBeingHarassed != -1) {
+        RobotPtr opponent = world->getRobotForId(robotBeingHarassed, false);
+        if (opponent && ((opponent->pos - robot->pos).length() < HARASSING_SAFETY_MARGINS)) {
+            double opponentVelocityLength = opponent->vel.length();
 
-                // TODO: Base this on the actual rules
-                if (opponentVelocityLength > 2.0) {
-                    velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength * 0.8, Constants::MIN_VEL());
-                }
-                command.set_w((opponent->pos - robot->pos).angle());
+            // TODO: Base this on the actual rules
+            if (opponentVelocityLength > 2.0) {
+                velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength * 0.8, Constants::MIN_VEL());
             }
-        } else {
-            command.set_w(newPosition.angle);
+            command.set_w((opponent->pos - robot->pos).angle());
         }
-
-        command.mutable_vel()->set_x(static_cast<float>(velocity.x));
-        command.mutable_vel()->set_y(static_cast<float>(velocity.y));
-        command.set_use_angle(true);
-        publishRobotCommand();
-
-        return Status::Running;
+    } else {
+        command.set_w(newPosition.angle);
     }
 
-    void MidFieldHarasser::onTerminate(Skill::Status s) { coach::g_midFieldCoach.removeMidFielder(robot); }
+    command.mutable_vel()->set_x(static_cast<float>(velocity.x));
+    command.mutable_vel()->set_y(static_cast<float>(velocity.y));
+    command.set_use_angle(true);
+    publishRobotCommand();
 
-    Vector2 MidFieldHarasser::getHarassTarget() {
-        auto harassTarget = coach::g_midFieldCoach.getTargetPosition(*field, robot);
-        if (!FieldComputations::pointIsInField(*field, harassTarget.targetPosition, 0.20)) {
-            harassTarget.targetPosition = robot->pos;
-        }
+    return Status::Running;
+}
 
-        interface::Input::drawData(interface::Visual::PATHFINDING, {harassTarget.targetPosition}, Qt::darkYellow, robot->id, interface::Drawing::CROSSES, 3, 3);
+void MidFieldHarasser::onTerminate(Skill::Status s) { coach::g_midFieldCoach.removeMidFielder(robot); }
 
-        robotBeingHarassed = harassTarget.targetRobot;
-        return harassTarget.targetPosition;
+Vector2 MidFieldHarasser::getHarassTarget() {
+    auto harassTarget = coach::g_midFieldCoach.getTargetPosition(*field, robot);
+    if (!FieldComputations::pointIsInField(*field, harassTarget.targetPosition, 0.20)) {
+        harassTarget.targetPosition = robot->pos;
     }
+
+    interface::Input::drawData(interface::Visual::PATHFINDING, {harassTarget.targetPosition}, Qt::darkYellow, robot->id, interface::Drawing::CROSSES, 3, 3);
+
+    robotBeingHarassed = harassTarget.targetRobot;
+    return harassTarget.targetPosition;
+}
 
 }  // namespace rtt::ai

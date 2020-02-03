@@ -9,12 +9,12 @@
 
 namespace rtt::ai {
 
-    class RefBallIsMoving : public Condition {
-        public:
-        explicit RefBallIsMoving(std::string name = "RefBallIsMoving", bt::Blackboard::Ptr blackboard = nullptr);
+class RefBallIsMoving : public Condition {
+   public:
+    explicit RefBallIsMoving(std::string name = "RefBallIsMoving", bt::Blackboard::Ptr blackboard = nullptr);
 
-        Status onUpdate() override;
-    };
+    Status onUpdate() override;
+};
 
 }  // namespace rtt::ai
 

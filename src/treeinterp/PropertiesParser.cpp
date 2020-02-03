@@ -15,13 +15,17 @@ bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
         std::vector<double> vec;
         PropertiesParser::type varType = checkVarTypeOfString(property.key(), jsonLeaf, vec);
         switch (varType) {
-            case Bool_False:BB->setBool(property.key(), false);
+            case Bool_False:
+                BB->setBool(property.key(), false);
                 break;
-            case Bool_True:BB->setBool(property.key(), true);
+            case Bool_True:
+                BB->setBool(property.key(), true);
                 break;
-            case Int:BB->setInt(property.key(), (int) round(vec[0]));
+            case Int:
+                BB->setInt(property.key(), (int)round(vec[0]));
                 break;
-            case Double:BB->setDouble(property.key(), vec[0]);
+            case Double:
+                BB->setDouble(property.key(), vec[0]);
                 break;
             case Vector: {
                 if (vec.size() == 2) {
@@ -35,7 +39,8 @@ bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
                 }
                 break;
             }
-            default:BB->setString(property.key(), property.value());
+            default:
+                BB->setString(property.key(), property.value());
         }
     }
     return BB;
@@ -80,7 +85,7 @@ PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyNam
         }
         // last check to see if we are at the end of the string
         while (charKey[it] == space) it++;
-        if (charKey[it] != vectorEndChar || it != (signed) charKey.size() - 1)
+        if (charKey[it] != vectorEndChar || it != (signed)charKey.size() - 1)
             return String;
         else
             return Vector;
@@ -98,11 +103,12 @@ PropertiesParser::type PropertiesParser::getNumberFromString(std::string strKey,
     bool negNum = false;
     if (std::isdigit(strKey[it]) || charKey[it] == minus) {
         if (charKey[it] == minus) {
-            while (charKey[++it] == space);
+            while (charKey[++it] == space)
+                ;
             negNum = true;
         }
-        while (std::isdigit(strKey[it]) && it < (signed) strKey.size()) {
-            sum = 10 * sum + (int) (charKey[it] - '0');
+        while (std::isdigit(strKey[it]) && it < (signed)strKey.size()) {
+            sum = 10 * sum + (int)(charKey[it] - '0');
             it++;
         }
         if (charKey[it] == dot) {
@@ -110,7 +116,7 @@ PropertiesParser::type PropertiesParser::getNumberFromString(std::string strKey,
             if (std::isdigit(strKey[++it])) {
                 while (std::isdigit(strKey[it])) {
                     multiplier *= 0.1;
-                    sum += (double) (charKey[it] - '0') * multiplier;
+                    sum += (double)(charKey[it] - '0') * multiplier;
                     it++;
                 }
                 if (negNum)

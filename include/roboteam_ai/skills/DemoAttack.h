@@ -10,23 +10,23 @@
 
 namespace rtt::ai {
 
-    class DemoAttack : public Skill {
-        private:
-        const double BEHIND_BALL_CHECK = 0.6;
-        const double BEHIND_BALL_TARGET = 0.4;
-        const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
+class DemoAttack : public Skill {
+   private:
+    const double BEHIND_BALL_CHECK = 0.6;
+    const double BEHIND_BALL_TARGET = 0.4;
+    const double SWITCH_TO_BASICGTP_DISTANCE = 0.10;
 
-        Vector2 deltaPos;
-        Vector2 targetPos;
-        bool ownGoal = false;
-        bool shot = false;
+    Vector2 deltaPos;
+    Vector2 targetPos;
+    bool ownGoal = false;
+    bool shot = false;
 
-        public:
-        explicit DemoAttack(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
-    };
+   public:
+    explicit DemoAttack(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
+};
 
 }  // namespace rtt::ai
 #endif  // ROBOTEAM_AI_DEMOATTACK_H

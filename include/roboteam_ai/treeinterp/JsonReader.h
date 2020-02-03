@@ -6,14 +6,14 @@
 #define ROBOTEAM_AI_JSONREADER_H
 
 #include <gtest/gtest_prod.h>
-#include <cstdio> /* defines FILENAME_MAX */
 #include <unistd.h>
+#include <cstdio> /* defines FILENAME_MAX */
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <string>
 #include "BTImport.h"
-#include <nlohmann/json.hpp>
 #include "vector"
 
 #ifdef WINDOWS
@@ -29,7 +29,7 @@
 using json = nlohmann::json;
 
 class JsonReader {
-    private:
+   private:
     FRIEND_TEST(JsonBasics, JsonTest);
 
     FRIEND_TEST(BT, FactoryTest);
@@ -38,8 +38,8 @@ class JsonReader {
 
     std::vector<std::string> split(std::string s, char c);
 
-    protected:
-    public:
+   protected:
+   public:
     json readJSON(std::string fileName);
 
     JsonReader() = default;

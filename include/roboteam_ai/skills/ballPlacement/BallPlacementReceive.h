@@ -9,15 +9,15 @@
 
 namespace rtt::ai {
 
-    class BallPlacementReceive : public Receive {
-        public:
-        explicit BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard);
-        bt::Node::Status onUpdate() override;
+class BallPlacementReceive : public Receive {
+   public:
+    explicit BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard);
+    bt::Node::Status onUpdate() override;
 
-        private:
-        bool isInPosition(const Vector2 &behindTargetPos) override;
-        void moveToCatchPosition(const Vector2 &position);
-    };
+   private:
+    bool isInPosition(const Vector2 &behindTargetPos) override;
+    void moveToCatchPosition(const Vector2 &position);
+};
 }  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_BALLPLACEMENTRECEIVE_H

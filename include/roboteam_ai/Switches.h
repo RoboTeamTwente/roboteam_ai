@@ -10,10 +10,10 @@
 #include <iostream>
 
 class Switches {
-    private:
+   private:
     static void runErrorHandler(std::map<std::string, std::map<std::string, rtt::ai::robotDealer::RobotType>> tactics);
 
-    public:
+   public:
     static std::vector<std::string> tacticJsonFileNames;
 
     static std::vector<std::string> strategyJsonFileNames;

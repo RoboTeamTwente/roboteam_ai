@@ -10,13 +10,13 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <string>
 #include "BTImport.h"
 #include "JsonReader.h"
 #include "PropertiesParser.h"
 #include "Switches.h"
 #include "bt/Role.h"
-#include <nlohmann/json.hpp>
 #include "skills/Skill.h"
 #include "vector"
 
@@ -25,7 +25,7 @@
 using json = nlohmann::json;
 
 class TreeInterpreter {
-    private:
+   private:
     JsonReader jsonReader;
 
     PropertiesParser propertyParser;
@@ -48,8 +48,8 @@ class TreeInterpreter {
 
     bt::Node::Ptr tacticSwitch(std::string, bt::Blackboard::Ptr properties);
 
-    protected:
-    public:
+   protected:
+   public:
     std::map<std::string, bt::BehaviorTree::Ptr> getTrees(std::string name);
 
     std::map<std::string, bt::Node::Ptr> makeTactics(std::string fileName, bt::Blackboard::Ptr globalBB);

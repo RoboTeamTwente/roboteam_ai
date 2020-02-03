@@ -9,10 +9,10 @@
 #include "analysis/play-utilities/Play.h"
 
 namespace rtt::ai::analysis {
-    class PlayDecider {
-        PlayDecider() = default;
-        Play decideBestPlay(world::World *world, world::Field *field, std::vector<Play> validPlays);
-    };
+class PlayDecider {
+    PlayDecider() = default;
+    Play decideBestPlay(world::World *world, world::Field *field, std::vector<Play> validPlays);
+};
 }  // namespace rtt::ai::analysis
 
 #endif  // RTT_PLAYDECIDER_H

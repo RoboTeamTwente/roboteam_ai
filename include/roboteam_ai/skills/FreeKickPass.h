@@ -10,16 +10,16 @@
 
 namespace rtt::ai {
 
-    class FreeKickPass : public Pass {
-        private:
-        int maxTries = 3;
-        bool forcePass = false;
+class FreeKickPass : public Pass {
+   private:
+    int maxTries = 3;
+    bool forcePass = false;
 
-        public:
-        explicit FreeKickPass(string name, bt::Blackboard::Ptr blackboard);
-        void makeCommand() override;
-        void onInitialize() override;
-    };
+   public:
+    explicit FreeKickPass(string name, bt::Blackboard::Ptr blackboard);
+    void makeCommand() override;
+    void onInitialize() override;
+};
 
 }  // namespace rtt::ai
 

@@ -4,10 +4,10 @@
 
 namespace bt {
 
-    class UntilFail : public Decorator {
-        public:
-        Status update() override;
-        std::string node_name() override { return "UntilFail"; };
-    };
+class UntilFail : public Decorator {
+   public:
+    Status update() override;
+    std::string node_name() override { return "UntilFail"; };
+};
 
 }  // namespace bt

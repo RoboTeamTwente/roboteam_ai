@@ -7,11 +7,11 @@
 #include <include/roboteam_ai/bt/Node.hpp>
 
 namespace bt {
-    class RobotOutOfFieldHelper {
-        public:
-        RobotOutOfFieldHelper();
-        std::shared_ptr<Node> createRobotOutOfFieldHelper();
-    };
+class RobotOutOfFieldHelper {
+   public:
+    RobotOutOfFieldHelper();
+    std::shared_ptr<Node> createRobotOutOfFieldHelper();
+};
 
 }  // namespace bt
 #endif  // RTT_ROBOTOUTOFFIELDHELPER_H

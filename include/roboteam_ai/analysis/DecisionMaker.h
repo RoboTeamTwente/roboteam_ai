@@ -11,21 +11,21 @@ enum playStyleScore : short { DEFENSIVE, NEUTRAL, OFFENSIVE };
 
 namespace rtt::ai::analysis {
 
-    struct PlayStyle {
-        int amountOfDefenders;
-        int amountOfMidfielders;
-        int amountOfAttackers;
+struct PlayStyle {
+    int amountOfDefenders;
+    int amountOfMidfielders;
+    int amountOfAttackers;
 
-        PlayStyle() = default;
+    PlayStyle() = default;
 
-        PlayStyle(int def, int mid, int att) : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
-    };
+    PlayStyle(int def, int mid, int att) : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att){};
+};
 
-    class DecisionMaker {
-        public:
-        explicit DecisionMaker() = default;
-        PlayStyle getRecommendedPlayStyle(BallPossession possession);
-    };
+class DecisionMaker {
+   public:
+    explicit DecisionMaker() = default;
+    PlayStyle getRecommendedPlayStyle(BallPossession possession);
+};
 
 }  // namespace rtt::ai::analysis
 

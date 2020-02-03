@@ -10,19 +10,19 @@
 #include "bt/Role.h"
 
 namespace bt {
-    class SideAttackerRole {
-        public:
-        /**
-         * Creates a pass role behaviour tree. This tree is created in BTFactory.
-         * @return the behaviour tree that contains a pass role
-         */
-        std::shared_ptr<Role> createSideAttackerRole(std::string rolename);
+class SideAttackerRole {
+   public:
+    /**
+     * Creates a pass role behaviour tree. This tree is created in BTFactory.
+     * @return the behaviour tree that contains a pass role
+     */
+    std::shared_ptr<Role> createSideAttackerRole(std::string rolename);
 
-        private:
-        /**
-         * Vector that is used by RobotDealer to determine how to match robots to robot IDs.
-         */
-        std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
-    };
+   private:
+    /**
+     * Vector that is used by RobotDealer to determine how to match robots to robot IDs.
+     */
+    std::vector<std::pair<std::string, rtt::ai::robotDealer::RobotType>> robots;
+};
 }  // namespace bt
 #endif  // RTT_SIDEATTACKERROLE_H

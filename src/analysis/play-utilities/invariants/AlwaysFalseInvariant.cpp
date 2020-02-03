@@ -9,5 +9,5 @@
 #include "world/World.h"
 
 namespace rtt::ai::analysis {
-    bool AlwaysFalseInvariant::isValid(rtt::ai::world::World *world, const Field *field) { return false; }
+bool AlwaysFalseInvariant::isValid(rtt::ai::world::World *world, const Field *field) { return false; }
 }  // namespace rtt::ai::analysis

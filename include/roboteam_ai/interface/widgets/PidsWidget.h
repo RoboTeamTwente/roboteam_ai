@@ -10,11 +10,11 @@
 
 namespace rtt::ai::interface {
 
-    class PidsWidget : public QWidget {
-        Q_OBJECT
-        public:
-        explicit PidsWidget(QWidget *parent = nullptr);
-    };
+class PidsWidget : public QWidget {
+    Q_OBJECT
+   public:
+    explicit PidsWidget(QWidget *parent = nullptr);
+};
 
 }  // namespace rtt::ai::interface
 

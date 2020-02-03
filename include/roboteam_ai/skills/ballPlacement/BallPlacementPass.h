@@ -9,12 +9,12 @@
 
 namespace rtt::ai {
 
-    class BallPlacementPass : public Pass {
-        public:
-        explicit BallPlacementPass(string name, bt::Blackboard::Ptr blackboard);
-        bt::Node::Status onUpdate() override;
-        void onInitialize() override;
-    };
+class BallPlacementPass : public Pass {
+   public:
+    explicit BallPlacementPass(string name, bt::Blackboard::Ptr blackboard);
+    bt::Node::Status onUpdate() override;
+    void onInitialize() override;
+};
 
 }  // namespace rtt::ai
 

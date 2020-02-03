@@ -2,13 +2,13 @@
 // Created by rolf on 05/12/18.
 //
 
-#include "control/ControlUtils.h"
-#include "utilities/Constants.h"
 #include <gtest/gtest.h>
-#include <world/FieldComputations.h>
+#include <roboteam_utils/Angle.h>
 #include <test/helpers/FieldHelper.h>
 #include <test/helpers/WorldHelper.h>
-#include <roboteam_utils/Angle.h>
+#include <world/FieldComputations.h>
+#include "control/ControlUtils.h"
+#include "utilities/Constants.h"
 
 namespace cr = rtt::ai::control;
 using Vector2 = rtt::Vector2;

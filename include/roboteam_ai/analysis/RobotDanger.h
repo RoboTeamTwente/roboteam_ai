@@ -5,25 +5,25 @@
 #ifndef ROBOTEAM_AI_ROBOTDANGER_H
 #define ROBOTEAM_AI_ROBOTDANGER_H
 
-#include "world/Field.h"
 #include <vector>
+#include "world/Field.h"
 
 namespace rtt::ai::analysis {
-    using namespace rtt::ai::world;
+using namespace rtt::ai::world;
 
-    struct RobotDanger {
-        bool ourTeam;
-        int id;
+struct RobotDanger {
+    bool ourTeam;
+    int id;
 
-        double shortestDistToEnemy;
-        double distanceToGoal;
-        bool aimedAtGoal;
-        bool closingInToGoal;
-        bool hasBall;
-        double goalVisionPercentage;
-        std::vector<std::pair<int, double>> robotsToPassTo;
-        double getTotalDanger(const Field &field);
-    };
+    double shortestDistToEnemy;
+    double distanceToGoal;
+    bool aimedAtGoal;
+    bool closingInToGoal;
+    bool hasBall;
+    double goalVisionPercentage;
+    std::vector<std::pair<int, double>> robotsToPassTo;
+    double getTotalDanger(const Field &field);
+};
 
 }  // namespace rtt::ai::analysis
 

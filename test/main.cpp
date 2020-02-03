@@ -2,8 +2,8 @@
 // Created by mrlukasbos on 19-9-18.
 //
 
-#include <include/roboteam_ai/utilities/Settings.h>
 #include <gtest/gtest.h>
+#include <include/roboteam_ai/utilities/Settings.h>
 #include <utilities/Constants.h>
 #include <utilities/RobotDealer.h>
 

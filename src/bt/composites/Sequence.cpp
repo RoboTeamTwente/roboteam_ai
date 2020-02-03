@@ -14,28 +14,28 @@ namespace bt {
  * @param children vector of nodes that will be the children of this sequence node
  */
 
-    Sequence::Sequence(const std::vector<std::shared_ptr<bt::Node>> &children) {
-        for (auto &child : children) {
-            this->addChild(child);
-        }
+Sequence::Sequence(const std::vector<std::shared_ptr<bt::Node>> &children) {
+    for (auto &child : children) {
+        this->addChild(child);
     }
+}
 
-    Node::Status Sequence::update() {
-        if (HasNoChildren()) {
-            return Status::Success;
-        }
-
-        // Keep going until a child behavior says it's running.
-        for (auto &child : children) {
-            auto status = child->tick(world, field);
-
-            // If the child fails, or keeps running, do the same.
-            if (status != Status::Success) {
-                return status;
-            }
-        }
-
+Node::Status Sequence::update() {
+    if (HasNoChildren()) {
         return Status::Success;
     }
+
+    // Keep going until a child behavior says it's running.
+    for (auto &child : children) {
+        auto status = child->tick(world, field);
+
+        // If the child fails, or keeps running, do the same.
+        if (status != Status::Success) {
+            return status;
+        }
+    }
+
+    return Status::Success;
+}
 
 }  // namespace bt

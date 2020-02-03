@@ -11,17 +11,17 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <string>
 #include "BTImport.h"
 #include "TreeInterpreter.h"
-#include <nlohmann/json.hpp>
 
 class BTFactory {
     // TODO: have the names of all the project before here
 
     static std::mutex keeperTreeMutex;
 
-    public:
+   public:
     static void makeTrees();
 
     static bt::BehaviorTree::Ptr getTree(std::string treeName);
@@ -48,7 +48,7 @@ class BTFactory {
 
     static bool hasMadeTrees();
 
-    private:
+   private:
     static std::string currentTree;
     static std::string keeperTree;
     static bool weMadeTrees;

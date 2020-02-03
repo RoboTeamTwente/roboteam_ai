@@ -13,53 +13,53 @@ namespace rtt::ai::interface {
  * However, for some reason it gave segfaults the last time I tried this (jan 16 2020)
  */
 
-    GraphWidget::GraphWidget(QWidget *parent) {
-        auto verticalLayout = new QVBoxLayout(this);
+GraphWidget::GraphWidget(QWidget *parent) {
+    auto verticalLayout = new QVBoxLayout(this);
 
-        fpsView = new QChartView();
+    fpsView = new QChartView();
 
-        fpsSeries = new QSplineSeries();
-        fpsSeries->setUseOpenGL();
-        fpsSeries->setColor(Qt::blue);
-        fpsSeries->setName("FPS");
+    fpsSeries = new QSplineSeries();
+    fpsSeries->setUseOpenGL();
+    fpsSeries->setColor(Qt::blue);
+    fpsSeries->setName("FPS");
 
-        fpsView->chart()->addSeries(fpsSeries);
-        fpsView->chart()->createDefaultAxes();
-        fpsView->chart()->setMinimumHeight(300);
-        fpsView->chart()->setTheme(QChart::ChartThemeDark);
-        fpsView->chart()->setBackgroundBrush(QColor(53, 53, 53));
-        fpsView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
-        fpsView->chart()->axisY()->setGridLineVisible(true);
+    fpsView->chart()->addSeries(fpsSeries);
+    fpsView->chart()->createDefaultAxes();
+    fpsView->chart()->setMinimumHeight(300);
+    fpsView->chart()->setTheme(QChart::ChartThemeDark);
+    fpsView->chart()->setBackgroundBrush(QColor(53, 53, 53));
+    fpsView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
+    fpsView->chart()->axisY()->setGridLineVisible(true);
 
-        connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
-            qreal y = fpsSeries->at(index).y();
-            qreal x = fpsSeries->at(index).x();
+    connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
+        qreal y = fpsSeries->at(index).y();
+        qreal x = fpsSeries->at(index).x();
 
-            if (y > fpsGraphYMax) {
-                if (y > fpsGraphYMax) fpsGraphYMax = y;
-                fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
+        if (y > fpsGraphYMax) {
+            if (y > fpsGraphYMax) fpsGraphYMax = y;
+            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
+        }
+
+        if (x < fpsGraphXMin || x > fpsGraphXMax) {
+            if (x < fpsGraphXMin) fpsGraphXMin = x;
+            if (x > fpsGraphXMax) fpsGraphXMax = x;
+
+            if (fpsGraphXMax - fpsGraphXMin > 30) {
+                fpsGraphXMin = fpsGraphXMax - 30;
             }
+            fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
+        }
+    });
 
-            if (x < fpsGraphXMin || x > fpsGraphXMax) {
-                if (x < fpsGraphXMin) fpsGraphXMin = x;
-                if (x > fpsGraphXMax) fpsGraphXMax = x;
+    verticalLayout->addWidget(fpsView);
+    this->setLayout(verticalLayout);
+}
 
-                if (fpsGraphXMax - fpsGraphXMin > 30) {
-                    fpsGraphXMin = fpsGraphXMax - 30;
-                }
-                fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
-            }
-        });
-
-        verticalLayout->addWidget(fpsView);
-        this->setLayout(verticalLayout);
-    }
-
-    void GraphWidget::updateContents() {
-        fpsSeries->append(seriesIndex, Input::getFps());
-        seriesIndex += 0.2;
-        fpsView->chart()->createDefaultAxes();
-    }
+void GraphWidget::updateContents() {
+    fpsSeries->append(seriesIndex, Input::getFps());
+    seriesIndex += 0.2;
+    fpsView->chart()->createDefaultAxes();
+}
 
 }  // namespace rtt::ai::interface
 

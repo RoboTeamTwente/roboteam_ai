@@ -7,16 +7,16 @@
 
 namespace bt {
 
-    Node::Status Inverter::update() {
-        auto s = child->tick(world, field);
+Node::Status Inverter::update() {
+    auto s = child->tick(world, field);
 
-        if (s == Status::Success) {
-            return Status::Failure;
-        } else if (s == Status::Failure) {
-            return Status::Success;
-        }
-
-        return s;
+    if (s == Status::Success) {
+        return Status::Failure;
+    } else if (s == Status::Failure) {
+        return Status::Success;
     }
+
+    return s;
+}
 
 }  // namespace bt

@@ -5,15 +5,15 @@
 
 namespace rtt::ai {
 
-    class KickOffUsFormation : public Formation {
-        public:
-        explicit KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+class KickOffUsFormation : public Formation {
+   public:
+    explicit KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
-        private:
-        Vector2 getFormationPosition() override;
-        std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
-        static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
-    };
+   private:
+    Vector2 getFormationPosition() override;
+    std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
+    static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
+};
 
 }  // namespace rtt::ai
 
