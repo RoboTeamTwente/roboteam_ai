@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-BallPlacementPass::BallPlacementPass(string name, bt::Blackboard::Ptr blackboard) : Pass(name, blackboard) {}
+BallPlacementPass::BallPlacementPass(std::string name, bt::Blackboard::Ptr blackboard) : Pass(name, blackboard) {}
 
 void BallPlacementPass::onInitialize() {
     robotToPassToID = -1;

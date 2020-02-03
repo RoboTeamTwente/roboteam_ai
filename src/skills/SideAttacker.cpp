@@ -6,7 +6,7 @@
 
 namespace rtt::ai {
 
-SideAttacker::SideAttacker(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+SideAttacker::SideAttacker(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void SideAttacker::onInitialize() { coach::g_offensiveCoach.addSideAttacker(robot); }
 

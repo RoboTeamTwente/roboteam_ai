@@ -11,7 +11,7 @@ namespace rtt::ai {
  * @param name the name for the node (shows up in the tree visualiser widget (probably))
  * @param blackboard the blackboard passed into the GTPSpecial, for example, to set the "type" of the GTPSpecial
  */
-GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
+GTPSpecial::GTPSpecial(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
 
 void GTPSpecial::gtpInitialize() {
     type = stringToType(properties->getString("type"));

@@ -40,7 +40,7 @@ class Pass : public Skill {
     virtual void makeCommand();
 
    public:
-    explicit Pass(string name, bt::Blackboard::Ptr blackboard);
+    explicit Pass(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

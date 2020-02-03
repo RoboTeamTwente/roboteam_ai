@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-KickTo::KickTo(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+KickTo::KickTo(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 void KickTo::onInitialize() {
     std::string type = properties->getString("type");
     if (type == "shootout") {

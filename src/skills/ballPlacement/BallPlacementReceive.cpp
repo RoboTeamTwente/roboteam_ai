@@ -12,7 +12,7 @@
 
 namespace rtt::ai {
 
-BallPlacementReceive::BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard) : Receive(std::move(name), std::move(blackboard)) {}
+BallPlacementReceive::BallPlacementReceive(std::string name, bt::Blackboard::Ptr blackboard) : Receive(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status BallPlacementReceive::onUpdate() {
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {

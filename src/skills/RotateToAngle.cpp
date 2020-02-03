@@ -9,7 +9,7 @@
 #include "world/Robot.h"
 
 namespace rtt::ai {
-RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+RotateToAngle::RotateToAngle(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void RotateToAngle::onInitialize() {
     if (properties->hasDouble("Angle")) {

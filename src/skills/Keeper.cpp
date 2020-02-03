@@ -12,7 +12,7 @@
 
 namespace rtt::ai {
 
-Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard)
+Keeper::Keeper(std::string name, bt::Blackboard::Ptr blackboard)
     : Skill(std::move(name), std::move(blackboard)) {}
 
 void Keeper::onInitialize() {

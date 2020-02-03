@@ -11,7 +11,7 @@
 namespace rtt::ai {
 
 /// GoToPosLuTh: obstacle avoidance following Lukas & Thijs principles
-SkillGoToPos::SkillGoToPos(string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
+SkillGoToPos::SkillGoToPos(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
 
 /// Called when the Skill is Initialized
 void SkillGoToPos::gtpInitialize() {

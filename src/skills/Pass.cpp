@@ -16,7 +16,7 @@
 
 namespace rtt::ai {
 
-Pass::Pass(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+Pass::Pass(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Pass::onInitialize() {
     coach::g_pass.resetPass(-1);

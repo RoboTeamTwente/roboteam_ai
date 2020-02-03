@@ -12,7 +12,7 @@ namespace rtt::ai {
 
 int ActiveStop::attack = -1;
 
-ActiveStop::ActiveStop(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+ActiveStop::ActiveStop(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 void ActiveStop::onInitialize() {
     robot->getNumtreePosControl()->setAvoidBallDistance(0.8);
 

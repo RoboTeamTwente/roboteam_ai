@@ -26,7 +26,7 @@ class Keeper : public Skill {
     rtt::Arc createKeeperArc();
 
    public:
-    explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
+    explicit Keeper(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
     void onTerminate(Status s) override;

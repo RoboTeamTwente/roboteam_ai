@@ -19,8 +19,6 @@ class Ball;
 class WorldData;
 }  // namespace world
 
-using namespace std;
-
 /**
  * \class Skill
  * \brief Base class for all skills. Provides no additional functionality.
@@ -45,7 +43,7 @@ class Skill : public bt::Leaf {
     void limitRobotCommand();
 
    public:
-    explicit Skill(string name, bt::Blackboard::Ptr blackboard = nullptr);
+    explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     std::string node_name() override;
     void initialize() override;
     Status update() override;

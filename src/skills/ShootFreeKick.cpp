@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+ShootFreeKick::ShootFreeKick(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = world->getBall()->getPos();

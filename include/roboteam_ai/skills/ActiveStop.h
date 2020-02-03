@@ -11,7 +11,7 @@ namespace rtt::ai {
 
 class ActiveStop : public Skill {
    public:
-    explicit ActiveStop(string name, bt::Blackboard::Ptr blackboard);
+    explicit ActiveStop(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

@@ -108,7 +108,7 @@ bool Formation::updateCounter() {
     return (++updateCount % 200) == 0;
 }
 
-Vector2 Formation::getOptimalPosition(int robotId, const vector<RobotPtr>& robots, std::vector<Vector2> targetLocations) {
+Vector2 Formation::getOptimalPosition(int robotId, const std::vector<RobotPtr>& robots, std::vector<Vector2> targetLocations) {
   std::unordered_map<int, Vector2> robotLocations;
 
   for (auto formationRobot : robots) {

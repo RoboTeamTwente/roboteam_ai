@@ -9,7 +9,7 @@
 
 namespace rtt::ai {
 
-ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+ReflectKick::ReflectKick(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ReflectKick::onInitialize() {
     kicked = false;

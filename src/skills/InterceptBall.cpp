@@ -10,7 +10,7 @@
 
 namespace rtt::ai {
 
-InterceptBall::InterceptBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)){};
+InterceptBall::InterceptBall(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)){};
 
 // TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
 void InterceptBall::onInitialize() {

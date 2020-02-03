@@ -13,7 +13,7 @@
 #include "skills/DriveWithInterface.h"
 
 namespace rtt::ai {
-BallPlacementWithInterface::BallPlacementWithInterface(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+BallPlacementWithInterface::BallPlacementWithInterface(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 Skill::Status BallPlacementWithInterface::onUpdate() {
     if (interface::Output::usesRefereeCommands()) {
