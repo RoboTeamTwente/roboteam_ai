@@ -7,6 +7,7 @@
 
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
+#include "world/Field.h"
 #include "control/RobotCommand.h"
 #include "world/Robot.h"
 
@@ -18,7 +19,7 @@ class Robot;
 }  // namespace world
 
 namespace control {
-
+using namespace rtt::ai::world;
 class RotateAroundBall;
 class RotateWithBall;
 class DribbleBackwards {
