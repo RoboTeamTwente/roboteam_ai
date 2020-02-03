@@ -49,6 +49,11 @@ namespace rtt::world_new {
         std::vector<rtt::world_new::robot::Robot> robots;
 
         /**
+         * Non owning container of all robots
+         */
+         std::vector<view::RobotView> robotsNonOwning;
+
+        /**
          * Non-owning container of Robot const* const's (aka RobotView) for our team
          */
         std::vector<view::RobotView> us;
@@ -129,6 +134,12 @@ namespace rtt::world_new {
          * @return
          */
         [[nodiscard]] uint64_t getTime() const noexcept;
+
+        /**
+         * Gets a non-owning view over the robots
+         * @return a const qualified lvalue reference to the internal robotview vector
+         */
+        [[nodiscard]] std::vector<view::RobotView> const& getRobotsNonOwning() const noexcept;
     };
 } // namespace rtt::world
 

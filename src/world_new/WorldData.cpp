@@ -21,13 +21,15 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     robots.reserve(amountUs + amountThem);
     us.reserve(amountUs);
     them.reserve(amountThem);
-    
+
     for (auto &each : ours) {
         us.emplace_back(&robots.emplace_back(feedback, each, Team::us));
     }
     for (auto &each : others) {
         them.emplace_back(&robots.emplace_back(feedback, each, Team::them));
     }
+
+    std::copy(getRobots().begin(), getRobots().end(), std::back_inserter(robotsNonOwning));
 
     if (protoMsg.has_ball()) {
         ball = ball::Ball{protoMsg.ball()};
@@ -53,4 +55,8 @@ std::optional<view::BallView> WorldData::getBall() const noexcept {
 bool WorldData::weHaveRobots() const noexcept { return !getUs().empty(); }
 
 uint64_t WorldData::getTime() const noexcept { return time; }
+
+    std::vector<view::RobotView> const& WorldData::getRobotsNonOwning() const noexcept {
+        return robotsNonOwning;
+    }
 }  // namespace rtt::world_new
