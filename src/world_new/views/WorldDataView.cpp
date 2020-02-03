@@ -132,7 +132,10 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, const std:
 }
 
     std::vector<RobotView> WorldDataView::getRobotsNonOwning() const noexcept {
-        return data->getRobotsNonOwning();
+        std::vector<RobotView> robots;
+        robots.insert(robots.begin(), getUs().begin(), getUs().end());
+        robots.insert(robots.begin(), getThem().begin(), getThem().end());
+        return robots;
     }
 
     WorldDataView::WorldDataView(WorldData const *_ptr) noexcept
