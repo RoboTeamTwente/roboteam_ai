@@ -2,24 +2,22 @@
 // Created by ratoone on 18-11-19.
 //
 
-#include <include/roboteam_ai/control/positionControl/PositionControlUtils.h>
 #include "control/positionControl/PositionControl.h"
-#include "interface/api/Input.h"
+#include "control/positionControl/PositionControlUtils.h"
 #include "control/positionControl/pathTracking/NumTreesTracking.h"
+#include "interface/api/Input.h"
 
 namespace rtt::ai::control {
 
-PositionControl::PositionControl(const std::vector<world_new::robot::Robot> &robots): robots(robots) {
+PositionControl::PositionControl(const std::vector<world_new::robot::Robot> &robots) : robots(robots) {
     collisionDetector = std::make_unique<CollisionDetector>(robots);
     pathPlanningAlgorithm = std::make_unique<NumTreesPlanning>(*collisionDetector);
     pathTrackingAlgorithm = std::make_unique<NumTreesTracking>();
 }
 
-//TODO: add projection to outside defence area (project target position)(is this really needed?)
-RobotCommand
-PositionControl::computeAndTrackPath(world::Field &field, int robotId, const Vector2 &currentPosition,
-                                     const Vector2 &currentVelocity, const Vector2 &targetPosition) {
-    //TODO: this is a workaround caused by the fact that the field is not global
+// TODO: add projection to outside defence area (project target position)(is this really needed?)
+RobotCommand PositionControl::computeAndTrackPath(world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, const Vector2 &targetPosition) {
+    // TODO: this is a workaround caused by the fact that the field is not global
     collisionDetector->setField(field);
     if (shouldRecalculatePath(currentPosition, targetPosition, robotId)) {
         computedPaths[robotId] = pathPlanningAlgorithm->computePath(currentPosition, targetPosition);
@@ -30,7 +28,7 @@ PositionControl::computeAndTrackPath(world::Field &field, int robotId, const Vec
 
     RobotCommand command = RobotCommand();
     command.pos = computedPaths[robotId].front();
-    Position trackingVelocity = pathTrackingAlgorithm->trackPath(currentPosition, currentVelocity,computedPaths[robotId]);
+    Position trackingVelocity = pathTrackingAlgorithm->trackPath(currentPosition, currentVelocity, computedPaths[robotId]);
     command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
     command.angle = trackingVelocity.rot;
 
@@ -38,8 +36,7 @@ PositionControl::computeAndTrackPath(world::Field &field, int robotId, const Vec
 }
 
 bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId) {
-    return computedPaths[robotId].empty() ||
-           PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back())  ||
+    return computedPaths[robotId].empty() || PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
            collisionDetector->isRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
 }
-}
+}  // namespace rtt::ai::control

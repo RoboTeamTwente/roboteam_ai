@@ -4,15 +4,14 @@
 
 #include "control/positionControl/pathTracking/PidTracking.h"
 
-namespace rtt::ai::control{
+namespace rtt::ai::control {
 
-PidTracking::PidTracking(){
+PidTracking::PidTracking() {
     xPid.setMaxIOutput(MAX_VELOCITY);
     yPid.setMaxIOutput(MAX_VELOCITY);
 }
 
-Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                              std::vector<Vector2> &pathPoints) {
+Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints) {
     PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
     updatePidValues();
 
@@ -22,10 +21,10 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     return Position(velocity, (pathPoints.front() - currentPosition).angle());
 }
 
-void PidTracking::updatePidValues(){
+void PidTracking::updatePidValues() {
     auto newPid = interface::Output::getNumTreePid();
     xPid.setPID(newPid);
     yPid.setPID(newPid);
 }
 
-}
+}  // namespace rtt::ai::control
