@@ -10,45 +10,45 @@
 
 namespace rtt::world_new::ball {
 
-    /**
-     * If the closest distance between the ball and our robots is smaller than this value
-     * than the ball is considered to be close to that robot
-     */
+/**
+ * If the closest distance between the ball and our robots is smaller than this value
+ * than the ball is considered to be close to that robot
+ */
     constexpr static float THRESHOLD_ROBOT_CLOSE_TO_BALL = 0.5;
 
-    /**
-     * The movement friction during simulation and real life are different, because the simulation does not model
-     * everything. So the movement friction has to be adjusted to compensate for this difference.
-     *
-     * The expected movement friction of the ball during simulation
-     */
+/**
+ * The movement friction during simulation and real life are different, because the simulation does not model
+ * everything. So the movement friction has to be adjusted to compensate for this difference.
+ *
+ * The expected movement friction of the ball during simulation
+ */
     constexpr static float SIMULATION_FRICTION = 1.22;
 
-    /**
-     * The expected movement friction of the ball during simulation
-     */
+/**
+ * The expected movement friction of the ball during simulation
+ */
     constexpr static float REAL_FRICTION = 0.61;
 
-    /**
-     * The maximum possible factor used for the Kalman filter which is used when filtering the velocity.
-     */
+/**
+ * The maximum possible factor used for the Kalman filter which is used when filtering the velocity.
+ */
     constexpr static float FILTER_MAX_FACTOR_FOR_VELOCITY = 0.8;
 
-    /**
-     * The smallest velocity used for the Kalman filter for which we have that the factor is equal
-     * THRESHOLD_ROBOT_CLOSE_TO_BALL. Larger velocities will also have THRESHOLD_ROBOT_CLOSE_TO_BALL as factor.
-     */
+/**
+ * The smallest velocity used for the Kalman filter for which we have that the factor is equal
+ * THRESHOLD_ROBOT_CLOSE_TO_BALL. Larger velocities will also have THRESHOLD_ROBOT_CLOSE_TO_BALL as factor.
+ */
     constexpr static float FILTER_VELOCITY_WITH_MAX_FACTOR = 8.0;
 
-    /**
-     * The threshold used for the filtered velocity, if it exceeds this value then we use the velocity
-     * instead as estimation for the filtered velocity. More information can be found in the comment in the
-     * filterBallVelocity method of the Ball.cpp file.
-     */
+/**
+ * The threshold used for the filtered velocity, if it exceeds this value then we use the velocity
+ * instead as estimation for the filtered velocity. More information can be found in the comment in the
+ * filterBallVelocity method of the Ball.cpp file.
+ */
     constexpr static float MAXIMUM_FILTER_VELOCITY = 100.0;
 
     class Ball {
-    private:
+        private:
         /**
          * The position where this ball currently is
          */
@@ -105,8 +105,7 @@ namespace rtt::world_new::ball {
          */
         void updateBallAtRobotPosition() noexcept;
 
-
-    public:
+        public:
         [[nodiscard]] const Vector2 &getPos() const noexcept;
 
         [[nodiscard]] const Vector2 &getVelocity() const noexcept;

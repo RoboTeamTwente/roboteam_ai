@@ -13,25 +13,25 @@
 
 namespace rtt::ai {
 
-IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
+    IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
-bt::Node::Status IsRobotClosestToBall::onUpdate() {
-    Vector2 ballPos;
-    if (properties->getBool("atBallStillPosition")) {
-        ballPos = ball->getExpectedBallEndPosition();
-    } else if (properties->hasDouble("secondsAhead")) {
-        double t = properties->getDouble("secondsAhead");
-        ballPos = ball->getPos() + ball->getVel() * t;
-    } else {
-        ballPos = ball->getPos();
+    bt::Node::Status IsRobotClosestToBall::onUpdate() {
+        Vector2 ballPos;
+        if (properties->getBool("atBallStillPosition")) {
+            ballPos = ball->getExpectedBallEndPosition();
+        } else if (properties->hasDouble("secondsAhead")) {
+            double t = properties->getDouble("secondsAhead");
+            ballPos = ball->getPos() + ball->getVel() * t;
+        } else {
+            ballPos = ball->getPos();
+        }
+
+        auto robotClosestToBall = world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
+        if (robotClosestToBall && robotClosestToBall->id == robot->id) {
+            return Status::Success;
+        }
+
+        return Status::Failure;
     }
-
-    auto robotClosestToBall = world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
-    if (robotClosestToBall && robotClosestToBall->id == robot->id) {
-        return Status::Success;
-    }
-
-    return Status::Failure;
-}
 
 }  // namespace rtt::ai

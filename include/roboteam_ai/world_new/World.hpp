@@ -12,45 +12,45 @@
 
 namespace rtt::world_new {
 
-    /**
-     * Structure that represents the world and history of the world.
-     *
-     * This structure operates under the assumption of an immutable state
-     * Adjusting any value inside this world after construction may
-     * result in undefined behavior. Any sort of mutation of already constructed
-     * WorldData will break the entire system and introduce dataraces due to
-     * a shared immutable state.
-     *
-     * WorldData is a snapshot of the current world as seen by the camera
-     * Feedback is already applied to the robots when they are constructed
-     * As soon as a new world is constructed, which should only be done
-     * through updateWorld, the current world is pushed to history, given that
-     * this is a Some variant. Using any other unconventional way to push
-     * a world to history will result in undefined behavior.
-     *
-     * The entire system with World relies on immutability,
-     * this is something that Rust and haskell enforce and is seen as
-     * one of the only ways to keep a project datarace-free
-     */
+/**
+ * Structure that represents the world and history of the world.
+ *
+ * This structure operates under the assumption of an immutable state
+ * Adjusting any value inside this world after construction may
+ * result in undefined behavior. Any sort of mutation of already constructed
+ * WorldData will break the entire system and introduce dataraces due to
+ * a shared immutable state.
+ *
+ * WorldData is a snapshot of the current world as seen by the camera
+ * Feedback is already applied to the robots when they are constructed
+ * As soon as a new world is constructed, which should only be done
+ * through updateWorld, the current world is pushed to history, given that
+ * this is a Some variant. Using any other unconventional way to push
+ * a world to history will result in undefined behavior.
+ *
+ * The entire system with World relies on immutability,
+ * this is something that Rust and haskell enforce and is seen as
+ * one of the only ways to keep a project datarace-free
+ */
     class World {
-    public:
+        public:
         /**
          * Global singleton for World, scott-meyers style
          * @return A pointer to a static World
          */
-        inline static World* instance() {
-            static World worldInstance{ &rtt::SETTINGS };
-            return &worldInstance;
+        inline static World *instance() {
+          static World worldInstance{&rtt::SETTINGS};
+          return &worldInstance;
         }
 
         /**
          * Not copyable, movable or assignable, global state
          */
-         World(World const&) = delete;
-         World& operator=(World&) = delete;
+        World(World const &) = delete;
+        World &operator=(World &) = delete;
 
-         World(World&&) = delete;
-         World& operator=(World&&) = delete;
+        World(World &&) = delete;
+        World &operator=(World &&) = delete;
 
         /**
          * Amount of ticks to store in history
@@ -66,7 +66,7 @@ namespace rtt::world_new {
          * Usage of settings before construction of the applicationmanager will result in undefined
          * behavior due to uninitialized memory
          */
-        explicit World(Settings* settings);
+        explicit World(Settings *settings);
 
         /**
          * Updates feedback for a specific robot
@@ -75,13 +75,13 @@ namespace rtt::world_new {
          *
          * Undefined behavior may occur if feedback is used after being passed to this function
          */
-        void updateFeedback(uint8_t robotId, proto::RobotFeedback& feedback);
+        void updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback);
 
         /**
          * Updates the currentWorld
          * @param world World to construct currentWorld from
          */
-        void updateWorld(proto::World& protoWorld);
+        void updateWorld(proto::World &protoWorld);
 
         /**
          * Gets the current world
@@ -108,15 +108,15 @@ namespace rtt::world_new {
          * @param id Id of the robot to get the controllers from
          * @return A constant reference to the robot controller struct
          */
-        [[nodiscard]] robot::RobotControllers& getControllersForRobot(uint8_t id) noexcept;
+        [[nodiscard]] robot::RobotControllers &getControllersForRobot(uint8_t id) noexcept;
 
         /**
          * Gets the history size
          * @return size_t The amount of elements in the history
          */
-         [[nodiscard]] size_t getHistorySize() const noexcept;
+        [[nodiscard]] size_t getHistorySize() const noexcept;
 
-    private:
+        private:
         /**
          * Upates the tickCount, sets lastTick to now(), sets duration to
          * oldNow - now();
@@ -129,18 +129,18 @@ namespace rtt::world_new {
          * @param currentWorld New currentWorld
          * @return Returns a reference to the new currentWorld
          */
-        WorldData const& setWorld(WorldData& currentWorld) noexcept;
+        WorldData const &setWorld(WorldData &currentWorld) noexcept;
 
         /**
          * Pushes a world to history, takes ownership of world
          * @param world WorldData to be taken ownership of
          */
-        void toHistory(WorldData& world) noexcept;
+        void toHistory(WorldData &world) noexcept;
 
         /**
          * Pointer to GUI settings
          */
-        Settings* settings;
+        Settings *settings;
 
         /**
          * Mutex used when constructing robots to prevent updating of updateMap without wanting it
@@ -161,13 +161,13 @@ namespace rtt::world_new {
         /**
          * Map that maps robot ID's to their robot controllers
          */
-        std::unordered_map<uint8_t, robot::RobotControllers> robotControllers {};
+        std::unordered_map<uint8_t, robot::RobotControllers> robotControllers{};
 
         /**
          * Current index into the ringbuffer that's the world history
          * https://en.wikipedia.org/wiki/Circular_buffer
          */
-        size_t currentIndex{ 0 };
+        size_t currentIndex{0};
 
         /**
          * Current world

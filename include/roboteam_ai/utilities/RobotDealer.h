@@ -14,58 +14,58 @@
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt {
-namespace ai {
-namespace robotDealer {
-using namespace rtt::ai::world;
+    namespace ai {
+        namespace robotDealer {
+            using namespace rtt::ai::world;
 
-enum RobotType : short {
-  CLOSE_TO_BALL,
-  FAR_FROM_BALL,
-  CLOSE_TO_OUR_GOAL,
-  BETWEEN_BALL_AND_OUR_GOAL,
-  CLOSE_TO_THEIR_GOAL,
-  BALL_PLACEMENT_RECEIVER,
-  RANDOM,
-  WORKING_GENEVA,
-  WORKING_BALL_SENSOR,
-  WORKING_DRIBBLER,
-  WORKING_GENEVA_BALLSENSOR
-};
+            enum RobotType : short {
+                CLOSE_TO_BALL,
+                FAR_FROM_BALL,
+                CLOSE_TO_OUR_GOAL,
+                BETWEEN_BALL_AND_OUR_GOAL,
+                CLOSE_TO_THEIR_GOAL,
+                BALL_PLACEMENT_RECEIVER,
+                RANDOM,
+                WORKING_GENEVA,
+                WORKING_BALL_SENSOR,
+                WORKING_DRIBBLER,
+                WORKING_GENEVA_BALLSENSOR
+            };
 
-class RobotDealer {
- private:
-  static bool hasClaimedKeeper;
-  static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
-  static int keeperID;
-  static std::mutex robotOwnersLock;
-  static void removeRobotFromOwnerList(int ID);
-  static void addRobotToOwnerList(int ID, const std::string &tacticName, const std::string &roleName);
-  static void updateFromWorld();
-  static std::set<int> getRobots();
-  static void unFreeRobot(int ID);
+            class RobotDealer {
+                private:
+                static bool hasClaimedKeeper;
+                static std::map<std::string, std::set<std::pair<int, std::string>>> robotOwners;
+                static int keeperID;
+                static std::mutex robotOwnersLock;
+                static void removeRobotFromOwnerList(int ID);
+                static void addRobotToOwnerList(int ID, const std::string &tacticName, const std::string &roleName);
+                static void updateFromWorld();
+                static std::set<int> getRobots();
+                static void unFreeRobot(int ID);
 
-  static void claimKeeper();
+                static void claimKeeper();
 
- public:
-  static int claimRobotForTactic(const Field &field, RobotType feature, const std::string &tacticName, const std::string &roleName);
-  static std::set<int> getAvailableRobots();
-  static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
-  static void releaseRobotForRole(const std::string &roleName);
-  static void removeTactic(const std::string &tacticName);
-  static std::set<int> findRobotsForTactic(const std::string &tacticName);
-  static int findRobotForRole(const std::string &roleName);
-  static std::string getTacticNameForId(int ID);
-  static std::string getRoleNameForId(int ID);
-  static std::string getTacticNameForRole(const std::string &role);
-  static void halt();
-  static void setKeeperID(int ID);
-  static int getKeeperID();
-  static void refresh();
-  static bool keeperExistsInWorld();
-  static bool hasFree();
-};
+                public:
+                static int claimRobotForTactic(const Field &field, RobotType feature, const std::string &tacticName, const std::string &roleName);
+                static std::set<int> getAvailableRobots();
+                static std::map<std::string, std::set<std::pair<int, std::string>>> getClaimedRobots();
+                static void releaseRobotForRole(const std::string &roleName);
+                static void removeTactic(const std::string &tacticName);
+                static std::set<int> findRobotsForTactic(const std::string &tacticName);
+                static int findRobotForRole(const std::string &roleName);
+                static std::string getTacticNameForId(int ID);
+                static std::string getRoleNameForId(int ID);
+                static std::string getTacticNameForRole(const std::string &role);
+                static void halt();
+                static void setKeeperID(int ID);
+                static int getKeeperID();
+                static void refresh();
+                static bool keeperExistsInWorld();
+                static bool hasFree();
+            };
 
-}  // namespace robotDealer
-}  // namespace ai
+        }  // namespace robotDealer
+    }  // namespace ai
 }  // namespace rtt
 #endif  // ROBOTEAM_AI_ROBOTDEALER_H

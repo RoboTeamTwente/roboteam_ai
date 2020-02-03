@@ -9,22 +9,22 @@
 
 namespace rtt::ai {
 
-class StopFormation : public Formation {
- public:
-  explicit StopFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    class StopFormation : public Formation {
+        public:
+        explicit StopFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
- protected:
-  Vector2 getFormationPosition() override;
-  void updateFormation() override;
-  void setFinalAngle() override;
-  std::vector<std::vector<Vector2>> getStopPositions();
-  virtual bool positionShouldBeAvoided(Vector2 pos);
-  std::vector<Vector2> getProperPositions(int amount);
+        protected:
+        Vector2 getFormationPosition() override;
+        void updateFormation() override;
+        void setFinalAngle() override;
+        std::vector<std::vector<Vector2>> getStopPositions();
+        virtual bool positionShouldBeAvoided(Vector2 pos);
+        std::vector<Vector2> getProperPositions(int amount);
 
- private:
-  std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-  static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
-};
+        private:
+        std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
+        static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+    };
 
 }  // namespace rtt::ai
 #endif  // ROBOTEAM_AI_STOPFORMATION_H

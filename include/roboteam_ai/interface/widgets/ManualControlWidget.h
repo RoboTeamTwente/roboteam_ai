@@ -10,21 +10,21 @@
 #include <thread>
 
 namespace rtt {
-namespace input {
-class JoystickManager;
-}
-namespace ai {
-namespace interface {
-class ManualControlWidget : public QWidget {
- public:
-  ManualControlWidget(QWidget *parent);
+    namespace input {
+        class JoystickManager;
+    }
+    namespace ai {
+        namespace interface {
+            class ManualControlWidget : public QWidget {
+                public:
+                ManualControlWidget(QWidget *parent);
 
- private:
-  std::thread joyThread;
-  rtt::input::JoystickManager *manager;
-  Toggle RobotSelector;
-};
-}  // namespace interface
-}  // namespace ai
+                private:
+                std::thread joyThread;
+                rtt::input::JoystickManager *manager;
+                Toggle RobotSelector;
+            };
+        }  // namespace interface
+    }  // namespace ai
 }  // namespace rtt
 #endif  // RTT_MANUALCONTROLWIDGET_H

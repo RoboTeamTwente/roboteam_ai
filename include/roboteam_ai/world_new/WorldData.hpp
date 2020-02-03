@@ -21,18 +21,18 @@ namespace rtt::world_new {
         class Robot;
     } // namespace robot
 
-    /**
-     * WorldData structs
-     * Hold data about a specific time point in the world.
-     * Holds:
-     *  Robots
-     *  Ball
-     *  Timepoint
-     */
+/**
+ * WorldData structs
+ * Hold data about a specific time point in the world.
+ * Holds:
+ *  Robots
+ *  Ball
+ *  Timepoint
+ */
     class WorldData {
         friend class World;
 
-    private:
+        private:
         /**
          * Constructs new world data
          * @param protoMsg Proto message to construct he world from
@@ -41,7 +41,7 @@ namespace rtt::world_new {
          *
          * Ownership is taken of protoMsg
          */
-        WorldData(proto::World &protoMsg, rtt::Settings const& settings, std::unordered_map<uint8_t, proto::RobotFeedback>& feedback) noexcept;
+        WorldData(proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
 
         /**
          * Owning container of robots
@@ -68,7 +68,7 @@ namespace rtt::world_new {
          */
         uint64_t time{};
 
-    public:
+        public:
         /**
          * Default ctor for default STL container initialization
          */
@@ -77,32 +77,32 @@ namespace rtt::world_new {
         /**
          * Copy assignment operator and constructor, explicitly deleted
          */
-        WorldData& operator=(WorldData const&) = delete;
-        WorldData(WorldData const&) = delete;
+        WorldData &operator=(WorldData const &) = delete;
+        WorldData(WorldData const &) = delete;
 
         /**
          * Move constructor, simply moves all members
          * @param old Data to move
          */
-        WorldData(WorldData&& old) = default;
+        WorldData(WorldData &&old) = default;
 
         /**
          * Move assignment operator
          * @return *this
          */
-        WorldData& operator=(WorldData&&) = default;
+        WorldData &operator=(WorldData &&) = default;
 
         /**
          * Gets a non-owning container of robots that are in our team
          * @return this->us
          */
-        [[nodiscard]] std::vector<view::RobotView> const& getUs() const noexcept;
+        [[nodiscard]] std::vector<view::RobotView> const &getUs() const noexcept;
 
         /**
          * Gets a non-owning container of robots that are in the enemy team
          * @return this->them
          */
-        [[nodiscard]] std::vector<view::RobotView> const& getThem() const noexcept;
+        [[nodiscard]] std::vector<view::RobotView> const &getThem() const noexcept;
 
         /**
          * Gets a constant reference to the owning container of robots

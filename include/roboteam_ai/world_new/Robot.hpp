@@ -15,19 +15,18 @@
 #include "world_new/Team.hpp"
 #include "RobotType.hpp"
 
-
 namespace rtt::world_new::robot {
 
-    /**
-     * Geneva driver gone
-     * 30 / 50 watt motor flag
-     *
-     * robot still changes:
-     *  battery
-     *  spinner speed
-     */
+/**
+ * Geneva driver gone
+ * 30 / 50 watt motor flag
+ *
+ * robot still changes:
+ *  battery
+ *  spinner speed
+ */
     class Robot {
-    private:
+        private:
         uint32_t id;
         Team team;
         RobotType type = RobotType::THIRTY_WATT;
@@ -52,7 +51,7 @@ namespace rtt::world_new::robot {
         bool workingDribbler;
         bool workingBallSensor;
 
-    private:
+        private:
         void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 
         void setRobotType(RobotType type) noexcept;
@@ -97,7 +96,7 @@ namespace rtt::world_new::robot {
 
         void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
 
-    public:
+        public:
         [[nodiscard]] uint32_t getId() const noexcept;
 
         [[nodiscard]] RobotType getRobotType() const noexcept;
@@ -106,32 +105,23 @@ namespace rtt::world_new::robot {
 
         [[nodiscard]] const Vector2 &getPos() const noexcept;
 
-
         [[nodiscard]] const Vector2 &getVel() const noexcept;
 
-
         [[nodiscard]] const Angle &getAngle() const noexcept;
-
 
         [[nodiscard]] double getAngularVelocity() const noexcept;
 
         [[nodiscard]] bool isBatteryLow() const noexcept;
 
-
         [[nodiscard]] unsigned char getDribblerState() const noexcept;
-
 
         [[nodiscard]] unsigned char getPreviousDribblerState() const noexcept;
 
-
         [[nodiscard]] double getTimeDribblerChanged() const noexcept;
-
 
         [[nodiscard]] bool isWorkingDribbler() const noexcept;
 
-
         [[nodiscard]] bool isWorkingBallSensor() const noexcept;
-
 
         [[nodiscard]] ai::control::ShotController *getShotController() const noexcept;
 
@@ -143,16 +133,13 @@ namespace rtt::world_new::robot {
 
         [[nodiscard]] const Vector2 &getPidPreviousVel() const noexcept;
 
-
         [[nodiscard]] double getDistanceToBall() const noexcept;
-
 
         [[nodiscard]] bool isIHaveBall() const noexcept;
 
-
         [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 
-    public:
+        public:
         explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy,
                        Team team = both, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 

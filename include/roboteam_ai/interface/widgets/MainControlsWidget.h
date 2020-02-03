@@ -14,42 +14,42 @@
 
 namespace rtt::ai::interface {
 
-class MainControlsWidget : public QWidget {
- Q_OBJECT
- public:
-  explicit MainControlsWidget(QWidget *parent = nullptr);
+    class MainControlsWidget : public QWidget {
+        Q_OBJECT
+        public:
+        explicit MainControlsWidget(QWidget *parent = nullptr);
 
- signals:
-  void treeHasChanged();
+        signals:
+        void treeHasChanged();
 
- private:
-  //  QLineSeries* lineSeries;
-  QVBoxLayout *vLayout;
-  QPushButton *pauseBtn;
-  QPushButton *toggleColorBtn;
-  QPushButton *toggleSideBtn;
-  QPushButton *toggleSerialBtn;
-  QShortcut *spaceClick;
+        private:
+        //  QLineSeries* lineSeries;
+        QVBoxLayout *vLayout;
+        QPushButton *pauseBtn;
+        QPushButton *toggleColorBtn;
+        QPushButton *toggleSideBtn;
+        QPushButton *toggleSerialBtn;
+        QShortcut *spaceClick;
 
-  QComboBox *select_strategy;
-  QComboBox *select_keeper_strategy;
-  QComboBox *select_goalie;
-  QComboBox *select_ruleset;
+        QComboBox *select_strategy;
+        QComboBox *select_keeper_strategy;
+        QComboBox *select_goalie;
+        QComboBox *select_ruleset;
 
-  void setToggleColorBtnLayout() const;
-  void setToggleSideBtnLayout() const;
-  void setToggleSerialBtnLayout() const;
+        void setToggleColorBtnLayout() const;
+        void setToggleSideBtnLayout() const;
+        void setToggleSerialBtnLayout() const;
 
- public slots:
-  void setTimeOutTop(bool top);
-  void toggleOurColorParam();
-  void toggleOurSideParam();
-  void toggleSerialParam();
-  void sendPauseSignal();
-  void updatePause();
-  void setUseReferee(bool useRef);
-  void updateContents();
-};
+        public slots:
+        void setTimeOutTop(bool top);
+        void toggleOurColorParam();
+        void toggleOurSideParam();
+        void toggleSerialParam();
+        void sendPauseSignal();
+        void updatePause();
+        void setUseReferee(bool useRef);
+        void updateContents();
+    };
 }  // namespace rtt::ai::interface
 
 #endif  // ROBOTEAM_AI_MAINCONTROLSWIDGET_H

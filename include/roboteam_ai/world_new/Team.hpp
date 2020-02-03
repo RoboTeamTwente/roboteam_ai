@@ -6,18 +6,18 @@
 #define RTT_TEAM_HPP
 
 namespace rtt::world_new {
-    /**
-     * Enum used for indicating team
-     */
+/**
+ * Enum used for indicating team
+ */
     enum Team : short {
         // our team
-        us,
+            us,
         // their team
-        them,
+            them,
         /**
          * If a robot has both as team -> invalid.
          */
-        both
+            both
     };
 } // namespace rtt::world::team
 

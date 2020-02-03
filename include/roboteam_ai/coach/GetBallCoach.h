@@ -7,23 +7,23 @@
 
 #include <include/roboteam_ai/world/Field.h>
 namespace rtt::ai::coach {
-using namespace rtt::ai::world;
+    using namespace rtt::ai::world;
 
-class GetBallCoach {
- private:
-  bool gettingBall = false;
-  int idGettingBall = -1;
-  bool shouldWeGetBall(const Field &field);
-  int bestBallGetterID();
+    class GetBallCoach {
+        private:
+        bool gettingBall = false;
+        int idGettingBall = -1;
+        bool shouldWeGetBall(const Field &field);
+        int bestBallGetterID();
 
- public:
-  void update(const Field &field);
-  bool weAreGettingBall();
-  int getBallGetterID();
-};
+        public:
+        void update(const Field &field);
+        bool weAreGettingBall();
+        int getBallGetterID();
+    };
 
-extern GetBallCoach getBallCoachObj;
-extern GetBallCoach *getBallCoach;
+    extern GetBallCoach getBallCoachObj;
+    extern GetBallCoach *getBallCoach;
 
 }  // namespace rtt::ai::coach
 

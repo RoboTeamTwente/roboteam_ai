@@ -12,22 +12,22 @@
 
 namespace rtt::ai {
 
-TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
+    TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
-bt::Node::Status TwoRobotBallPlacement::onUpdate() {
-    Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
-    auto us = world->getUs();
+    bt::Node::Status TwoRobotBallPlacement::onUpdate() {
+        Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
+        auto us = world->getUs();
 
-    int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
-    bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
-    // TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
-    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->getPos()) < 15.1;
+        int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
+        bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
+        // TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
+        bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->getPos()) < 15.1;
 
-    if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
-        return Status::Failure;
+        if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
+            return Status::Failure;
+        }
+
+        return Status::Success;
     }
-
-    return Status::Success;
-}
 
 }  // namespace rtt::ai

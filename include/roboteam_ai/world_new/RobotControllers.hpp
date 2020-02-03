@@ -11,9 +11,9 @@
 
 namespace rtt::world_new::robot {
 
-    /**
-     * Structure that allows a global state for robot controllers, allowing to persist past a single tick
-     */
+/**
+ * Structure that allows a global state for robot controllers, allowing to persist past a single tick
+ */
     class RobotControllers {
         /**
          * These are self-explanatory, for more information about them check their actual classes
@@ -24,7 +24,7 @@ namespace rtt::world_new::robot {
         std::unique_ptr<ai::control::BasicPosControl> basicPosControl = std::make_unique<ai::control::BasicPosControl>();
         std::unique_ptr<ai::control::BallHandlePosControl> ballHandlePosControl = std::make_unique<ai::control::BallHandlePosControl>();
 
-    public:
+        public:
         [[nodiscard]] std::unique_ptr<ai::control::ShotController> &getShotController() noexcept;
 
         [[nodiscard]] std::unique_ptr<ai::control::NumTreePosControl> &getNumTreePosController() noexcept;

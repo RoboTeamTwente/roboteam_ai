@@ -6,9 +6,9 @@
 
 namespace bt {
 
-Node::Status Failer::update() {
-    child->tick(world, field);
-    return Status::Failure;
-}
+    Node::Status Failer::update() {
+        child->tick(world, field);
+        return Status::Failure;
+    }
 
 }  // namespace bt

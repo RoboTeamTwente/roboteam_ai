@@ -12,25 +12,25 @@
 #include "roboteam_utils/Mathematics.h"
 
 namespace rtt::ai {
-class Keeper : public Skill {
-  const double KEEPER_POSDIF = 0.01;
-  const double MIN_ATTACKER_DIST = 0.3;
+    class Keeper : public Skill {
+        const double KEEPER_POSDIF = 0.01;
+        const double MIN_ATTACKER_DIST = 0.3;
 
- private:
-  Arc blockCircle;
-  Vector2 computeBlockPoint(const Vector2 &defendPos);
-  Vector2 goalPos;
-  double goalwidth;
-  void setGoalPosWithAttacker(RobotPtr attacker);
-  control::BasicPosControl posController;
-  rtt::Arc createKeeperArc();
+        private:
+        Arc blockCircle;
+        Vector2 computeBlockPoint(const Vector2 &defendPos);
+        Vector2 goalPos;
+        double goalwidth;
+        void setGoalPosWithAttacker(RobotPtr attacker);
+        control::BasicPosControl posController;
+        rtt::Arc createKeeperArc();
 
- public:
-  explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
-  Status onUpdate() override;
-  void onInitialize() override;
-  void onTerminate(Status s) override;
-};
+        public:
+        explicit Keeper(string name, bt::Blackboard::Ptr blackboard);
+        Status onUpdate() override;
+        void onInitialize() override;
+        void onTerminate(Status s) override;
+    };
 }  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_KEEPER_H

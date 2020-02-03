@@ -9,12 +9,12 @@
 
 namespace rtt::ai {
 
-class CanPlay : public Condition {
- public:
-  explicit CanPlay(std::string name = "CanPlay", bt::Blackboard::Ptr blackboard = nullptr);
+    class CanPlay : public Condition {
+        public:
+        explicit CanPlay(std::string name = "CanPlay", bt::Blackboard::Ptr blackboard = nullptr);
 
-  Status onUpdate() override;
-};
+        Status onUpdate() override;
+    };
 
 }  // namespace rtt::ai
 

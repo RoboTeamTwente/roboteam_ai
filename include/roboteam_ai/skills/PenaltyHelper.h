@@ -8,11 +8,11 @@
 
 namespace rtt::ai {
 
-class PenaltyHelper : public Skill {
-  explicit PenaltyHelper(string name, bt::Blackboard::Ptr blackboard);
-  Status onUpdate() override;
-  void onInitialize() override;
-  void onTerminate(Status s) override;
-};
+    class PenaltyHelper : public Skill {
+        explicit PenaltyHelper(string name, bt::Blackboard::Ptr blackboard);
+        Status onUpdate() override;
+        void onInitialize() override;
+        void onTerminate(Status s) override;
+    };
 }  // namespace rtt::ai
 #endif  // ROBOTEAM_AI_PENALTYHELPER_H

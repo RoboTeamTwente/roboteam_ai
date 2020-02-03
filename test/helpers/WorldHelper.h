@@ -11,20 +11,20 @@
 
 namespace testhelpers {
 
-class WorldHelper {
- public:
-  static double getRandomValue(double min, double max);
-  static rtt::Vector2 getRandomFieldPosition(proto::GeometryFieldSize field);
-  static rtt::Vector2 getRandomVelocity();
-  static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
-  static proto::WorldRobot generateRandomRobot(int id, proto::GeometryFieldSize field);
-  static proto::WorldBall generateRandomBall(proto::GeometryFieldSize field);
-  static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
-  static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
-  static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount, const proto::GeometryFieldSize &field);
-  static proto::World getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::GeometryFieldSize &field);
-  static std::pair<proto::World, int> getWorldMsgWhereRobotHasBall(int amountUs, int amountThem, bool weHaveBall, proto::GeometryFieldSize field);
-};
+    class WorldHelper {
+        public:
+        static double getRandomValue(double min, double max);
+        static rtt::Vector2 getRandomFieldPosition(proto::GeometryFieldSize field);
+        static rtt::Vector2 getRandomVelocity();
+        static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
+        static proto::WorldRobot generateRandomRobot(int id, proto::GeometryFieldSize field);
+        static proto::WorldBall generateRandomBall(proto::GeometryFieldSize field);
+        static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
+        static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
+        static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount, const proto::GeometryFieldSize &field);
+        static proto::World getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::GeometryFieldSize &field);
+        static std::pair<proto::World, int> getWorldMsgWhereRobotHasBall(int amountUs, int amountThem, bool weHaveBall, proto::GeometryFieldSize field);
+    };
 
 }  // namespace testhelpers
 #endif  // ROBOTEAM_AI_WORLDHELPER_H

@@ -9,31 +9,31 @@
 
 namespace bt {
 
-MemSelector::MemSelector(nvector children) : Composite(children) {}
+    MemSelector::MemSelector(nvector children) : Composite(children) {}
 
-MemSelector::MemSelector() {}
+    MemSelector::MemSelector() {}
 
-void MemSelector::initialize() { index = 0; }
+    void MemSelector::initialize() { index = 0; }
 
-Node::Status MemSelector::update() {
-    if (HasNoChildren()) {
-        return Status::Success;
-    }
-
-    // Keep going until a child behavior says it's running.
-    while (index < children.size()) {
-        auto &child = children.at(index);
-        auto status = child->tick(world, field);
-
-        // If the child succeeds, or keeps running, do the same.
-        if (status != Status::Failure) {
-            return status;
+    Node::Status MemSelector::update() {
+        if (HasNoChildren()) {
+            return Status::Success;
         }
 
-        index++;
-    }
+        // Keep going until a child behavior says it's running.
+        while (index < children.size()) {
+            auto &child = children.at(index);
+            auto status = child->tick(world, field);
 
-    return Status::Failure;
-}
+            // If the child succeeds, or keeps running, do the same.
+            if (status != Status::Failure) {
+                return status;
+            }
+
+            index++;
+        }
+
+        return Status::Failure;
+    }
 
 }  // namespace bt

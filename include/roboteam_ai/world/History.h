@@ -9,17 +9,17 @@
 
 namespace rtt::ai::world {
 
-class History {
- private:
-  using WorldDataPtr = std::shared_ptr<WorldData>;
+    class History {
+        private:
+        using WorldDataPtr = std::shared_ptr<WorldData>;
 
-  WorldBuffer worldBuffer;
+        WorldBuffer worldBuffer;
 
- public:
-  void addWorld(const WorldData &worldData);
-  void addWorld(WorldDataPtr &worldDataPtr);
-  const WorldData getPreviousWorld(int worldsBack = 1);
-};
+        public:
+        void addWorld(const WorldData &worldData);
+        void addWorld(WorldDataPtr &worldDataPtr);
+        const WorldData getPreviousWorld(int worldsBack = 1);
+    };
 
 }  // namespace rtt::ai::world
 

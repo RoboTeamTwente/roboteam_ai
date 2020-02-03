@@ -10,20 +10,20 @@
 
 namespace rtt::ai::interface {
 
-class RuleSetWidget : public QWidget {
- Q_OBJECT
+    class RuleSetWidget : public QWidget {
+        Q_OBJECT
 
- private:
-  QVBoxLayout *vLayout;
-  void updateLabels();
-  QWidget *contentsWidget;
+        private:
+        QVBoxLayout *vLayout;
+        void updateLabels();
+        QWidget *contentsWidget;
 
- public:
-  explicit RuleSetWidget(QWidget *parent = nullptr);
+        public:
+        explicit RuleSetWidget(QWidget *parent = nullptr);
 
- public slots:
-  void updateContents();
-};
+        public slots:
+        void updateContents();
+    };
 
 }  // namespace rtt::ai::interface
 

@@ -5,11 +5,11 @@
 
 namespace rtt::ai {
 
-class WeHaveBall : public Condition {
- public:
-  explicit WeHaveBall(std::string name = "WeHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
-  Status onUpdate() override;
-};
+    class WeHaveBall : public Condition {
+        public:
+        explicit WeHaveBall(std::string name = "WeHaveBall", bt::Blackboard::Ptr blackboard = nullptr);
+        Status onUpdate() override;
+    };
 
 }  // namespace rtt::ai
 

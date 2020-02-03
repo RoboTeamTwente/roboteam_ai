@@ -8,36 +8,36 @@
 #include "Skill.h"
 #include "control/BasicPosControl.h"
 namespace rtt::ai {
-class SlingShot : public Skill {
- private:
-  // constants
-  const int maxDribbleTicks = 30;
-  const int maxWaitingTicks = 10;
+    class SlingShot : public Skill {
+        private:
+        // constants
+        const int maxDribbleTicks = 30;
+        const int maxWaitingTicks = 10;
 
-  enum Progression { FAIL, DRIBBLING, ROTATINGAWAY, WAITINGFORRESULT, SUCCESS };
-  Progression progression;
-  int dribbledTicks = 0;
-  int waitingTicks = 0;
-  int ballShotTicks = 0;
+        enum Progression { FAIL, DRIBBLING, ROTATINGAWAY, WAITINGFORRESULT, SUCCESS };
+        Progression progression;
+        int dribbledTicks = 0;
+        int waitingTicks = 0;
+        int ballShotTicks = 0;
 
-  Vector2 kickPos;
-  double kickOrient;
-  double rotateAngle;
-  control::BasicPosControl gtp;
-  Progression updateProgress(Progression currentProgress);
-  bool robotAtAngle();
-  bool ballShot();
-  void setRotate();
-  void sendDribbleCommand();
-  void sendRotateCommand();
-  void sendWaitCommand();
+        Vector2 kickPos;
+        double kickOrient;
+        double rotateAngle;
+        control::BasicPosControl gtp;
+        Progression updateProgress(Progression currentProgress);
+        bool robotAtAngle();
+        bool ballShot();
+        void setRotate();
+        void sendDribbleCommand();
+        void sendRotateCommand();
+        void sendWaitCommand();
 
- public:
-  explicit SlingShot(string name, bt::Blackboard::Ptr blackboard);
-  void onInitialize() override;
-  Status onUpdate() override;
-  void onTerminate(Status s) override;
-};
+        public:
+        explicit SlingShot(string name, bt::Blackboard::Ptr blackboard);
+        void onInitialize() override;
+        Status onUpdate() override;
+        void onTerminate(Status s) override;
+    };
 }  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_SLINGSHOT_H

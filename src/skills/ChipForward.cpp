@@ -8,29 +8,29 @@
 
 namespace rtt::ai {
 
-ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
-    : Skill(std::move(name), std::move(blackboard)) {}
+    ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard)
+        : Skill(std::move(name), std::move(blackboard)) {}
 
-void ChipForward::onInitialize() {
-    aimPoint = FieldComputations::getPenaltyPoint(*field, false);
-    hasChipped = false;
-}
-
-ChipForward::Status ChipForward::onUpdate() {
-    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, true,
-                                                                control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
-    command = shotData.makeROSCommand();
-    if (!hasChipped && command.chipper()) {
-        if (command.chip_kick_forced() || robot->hasBall()) hasChipped = true;
+    void ChipForward::onInitialize() {
+        aimPoint = FieldComputations::getPenaltyPoint(*field, false);
+        hasChipped = false;
     }
 
-    publishRobotCommand();
+    ChipForward::Status ChipForward::onUpdate() {
+        auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, true,
+                                                                    control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
+        command = shotData.makeROSCommand();
+        if (!hasChipped && command.chipper()) {
+            if (command.chip_kick_forced() || robot->hasBall()) hasChipped = true;
+        }
 
-    if (hasChipped && (ball->getPos() - robot->pos).length() > 0.5) {
-        return Status::Success;
+        publishRobotCommand();
+
+        if (hasChipped && (ball->getPos() - robot->pos).length() > 0.5) {
+            return Status::Success;
+        }
+
+        return Status::Running;
     }
-
-    return Status::Running;
-}
 
 }  // namespace rtt::ai

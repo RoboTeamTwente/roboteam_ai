@@ -12,31 +12,31 @@
 
 namespace rtt::ai {
 
-class GoToPos : public Skill {
- protected:
-  enum GoToType { basic, numTree };
-  GoToType goToType;
-  GoToType stringToGoToType(const std::string &gtt);
-  void setPositionController(const GoToType &goToType);
+    class GoToPos : public Skill {
+        protected:
+        enum GoToType { basic, numTree };
+        GoToType goToType;
+        GoToType stringToGoToType(const std::string &gtt);
+        void setPositionController(const GoToType &goToType);
 
-  Vector2 targetPos = {};
-  Angle targetAngle = 0.0;
-  double maxVel;
-  double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
-  double angleErrorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
+        Vector2 targetPos = {};
+        Angle targetAngle = 0.0;
+        double maxVel;
+        double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+        double angleErrorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
 
-  std::shared_ptr<control::PosController> posController;
+        std::shared_ptr<control::PosController> posController;
 
-  virtual void gtpInitialize() = 0;
-  virtual Status gtpUpdate() = 0;
-  virtual void gtpTerminate(Status s) = 0;
+        virtual void gtpInitialize() = 0;
+        virtual Status gtpUpdate() = 0;
+        virtual void gtpTerminate(Status s) = 0;
 
- public:
-  explicit GoToPos(std::string name, bt::Blackboard::Ptr blackboard);
-  Status onUpdate() override;
-  void onInitialize() override;
-  void onTerminate(Status s) override;
-};
+        public:
+        explicit GoToPos(std::string name, bt::Blackboard::Ptr blackboard);
+        Status onUpdate() override;
+        void onInitialize() override;
+        void onTerminate(Status s) override;
+    };
 
 }  // namespace rtt::ai
 

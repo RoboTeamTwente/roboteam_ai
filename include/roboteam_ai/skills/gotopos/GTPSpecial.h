@@ -14,32 +14,32 @@
 
 namespace rtt::ai {
 
-class GTPSpecial : public GoToPos {
- private:
-  enum Type {
-    goToBall,
-    ballPlacementBefore,
-    ballPlacementAfter,
-    getBallFromSide,
-    defaultType,
-    freeKick,
-    getBackIn,
-    ourGoalCenter,
-    ourDefenseAreaCenter
-  };
-  Type type;
-  Type stringToType(const std::string &string);
+    class GTPSpecial : public GoToPos {
+        private:
+        enum Type {
+            goToBall,
+            ballPlacementBefore,
+            ballPlacementAfter,
+            getBallFromSide,
+            defaultType,
+            freeKick,
+            getBackIn,
+            ourGoalCenter,
+            ourDefenseAreaCenter
+        };
+        Type type;
+        Type stringToType(const std::string &string);
 
- public:
-  explicit GTPSpecial(string name, bt::Blackboard::Ptr blackboard);
-  void gtpInitialize() override;
-  Status gtpUpdate() override;
-  void gtpTerminate(Status s) override;
+        public:
+        explicit GTPSpecial(string name, bt::Blackboard::Ptr blackboard);
+        void gtpInitialize() override;
+        Status gtpUpdate() override;
+        void gtpTerminate(Status s) override;
 
-  double getballFromSideMargin = 0.3;
-  Vector2 getBallFromSideLocation();
+        double getballFromSideMargin = 0.3;
+        Vector2 getBallFromSideLocation();
 
-};
+    };
 }  // namespace rtt::ai
 
 #endif  // ROBOTEAM_AI_BASICGOTOPOS_H

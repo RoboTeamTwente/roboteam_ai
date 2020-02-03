@@ -19,13 +19,13 @@ namespace rtt::world_new {
 }
 
 namespace rtt::world_new::view {
-    /**
-     * A non-owning view of WorldData, with the utility functions that roboteam uses
-     * Taking ownership of anything that this provides will result in
-     * undefined behavior.
-     */
+/**
+ * A non-owning view of WorldData, with the utility functions that roboteam uses
+ * Taking ownership of anything that this provides will result in
+ * undefined behavior.
+ */
     class WorldDataView {
-    public:
+        public:
         /**
          * @return get() != nullptr
          */
@@ -113,7 +113,7 @@ namespace rtt::world_new::view {
          * Copy constructor
          * @param o Object to copy
          */
-        WorldDataView(WorldDataView const& o) = default;
+        WorldDataView(WorldDataView const &o) = default;
 
         /**
          * Move constructor, same as copy ctor
@@ -135,7 +135,7 @@ namespace rtt::world_new::view {
          * @param ourTeam true if it should be fetched from our team, false if theirs
          * @return A non-owning view over the robot
          */
-        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2& point, std::set<uint8_t> const& robotIds, bool ourTeam) const noexcept;
+        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2 &point, std::set<uint8_t> const &robotIds, bool ourTeam) const noexcept;
 
         /**
           * Gets a view of the closest robot to a point
@@ -143,7 +143,7 @@ namespace rtt::world_new::view {
           * @param team `us` if it should be fetched from our team, `them` if theirs, `both` if both teams
           * @return A non-owning view over the robot
           */
-        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2& point, Team team = both) const noexcept;
+        [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2 &point, Team team = both) const noexcept;
 
         /**
          * Gets a view of the robot closes to a point
@@ -192,13 +192,12 @@ namespace rtt::world_new::view {
          */
         [[nodiscard]] RobotView whichRobotHasBall(Team team = both);
 
-    private:
+        private:
         /**
          * Constant world data that's used in the view
          */
         WorldData const *data;
     };
 }
-
 
 #endif //RTT_WORLD_DATA_VIEW_HPP

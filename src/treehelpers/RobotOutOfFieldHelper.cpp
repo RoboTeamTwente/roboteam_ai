@@ -14,19 +14,19 @@
 // Reference wrapper
 
 namespace bt {
-RobotOutOfFieldHelper::RobotOutOfFieldHelper() {}
-std::shared_ptr<bt::Node> RobotOutOfFieldHelper::createRobotOutOfFieldHelper() {
-    auto localbb = std::make_shared<bt::Blackboard>();
-    auto robotOutsideBB = std::make_shared<bt::Blackboard>();
+    RobotOutOfFieldHelper::RobotOutOfFieldHelper() {}
+    std::shared_ptr<bt::Node> RobotOutOfFieldHelper::createRobotOutOfFieldHelper() {
+        auto localbb = std::make_shared<bt::Blackboard>();
+        auto robotOutsideBB = std::make_shared<bt::Blackboard>();
 
-    robotOutsideBB->setString("type", "defaultType");
+        robotOutsideBB->setString("type", "defaultType");
 
-    std::shared_ptr<bt::Sequence> sequence = std::make_shared<bt::Sequence>();
-    std::shared_ptr<rtt::ai::RobotOutside> robotOutside = std::make_shared<rtt::ai::RobotOutside>("RobotOutside", localbb);
-    std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", robotOutsideBB);
+        std::shared_ptr<bt::Sequence> sequence = std::make_shared<bt::Sequence>();
+        std::shared_ptr<rtt::ai::RobotOutside> robotOutside = std::make_shared<rtt::ai::RobotOutside>("RobotOutside", localbb);
+        std::shared_ptr<rtt::ai::GTPSpecial> gtp = std::make_shared<rtt::ai::GTPSpecial>("GoToPosMidfield", robotOutsideBB);
 
-    sequence->addChild(robotOutside);
-    sequence->addChild(gtp);
-    return sequence;
-}
+        sequence->addChild(robotOutside);
+        sequence->addChild(gtp);
+        return sequence;
+    }
 }  // namespace bt

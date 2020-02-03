@@ -11,33 +11,33 @@
 
 namespace rtt::ai {
 
-IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
-    : Condition(std::move(name), std::move(blackboard)) {};
+    IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
+        : Condition(std::move(name), std::move(blackboard)) {};
 
-void IsBallCloseToBorder::onInitialize() {
-    if (properties->hasDouble("margin")) {
-        margin = properties->getDouble("margin");
+    void IsBallCloseToBorder::onInitialize() {
+        if (properties->hasDouble("margin")) {
+            margin = properties->getDouble("margin");
+        }
+        ballShouldLayStill = properties->getBool("layingStill");
     }
-    ballShouldLayStill = properties->getBool("layingStill");
-}
 
-bt::Node::Status IsBallCloseToBorder::onUpdate() {
-    if (properties->getBool("corner")) {
-        double xDiff = (*field).getFieldLength() / 2 - abs(ball->getPos().x);
-        double yDiff = (*field).getFieldWidth() / 2 - abs(ball->getPos().y);
+    bt::Node::Status IsBallCloseToBorder::onUpdate() {
+        if (properties->getBool("corner")) {
+            double xDiff = (*field).getFieldLength() / 2 - abs(ball->getPos().x);
+            double yDiff = (*field).getFieldWidth() / 2 - abs(ball->getPos().y);
 
-        if (xDiff >= margin || yDiff >= margin) {
+            if (xDiff >= margin || yDiff >= margin) {
+                return Status::Failure;
+            }
+        } else if (FieldComputations::pointIsInField(*field, ball->getPos(), static_cast<float>(margin))) {
             return Status::Failure;
         }
-    } else if (FieldComputations::pointIsInField(*field, ball->getPos(), static_cast<float>(margin))) {
-        return Status::Failure;
-    }
 
-    if (ballShouldLayStill) {
-        bool ballIsLayingStill = Vector2(ball->getVel()).length() <= Constants::BALL_STILL_VEL();
-        return ballIsLayingStill ? Status::Success : Status::Failure;
+        if (ballShouldLayStill) {
+            bool ballIsLayingStill = Vector2(ball->getVel()).length() <= Constants::BALL_STILL_VEL();
+            return ballIsLayingStill ? Status::Success : Status::Failure;
+        }
+        return Status::Success;
     }
-    return Status::Success;
-}
 
 }  // namespace rtt::ai

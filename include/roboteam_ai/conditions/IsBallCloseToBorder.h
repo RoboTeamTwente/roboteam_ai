@@ -11,16 +11,16 @@
 
 namespace rtt::ai {
 
-class IsBallCloseToBorder : public Condition {
- private:
-  double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
-  bool ballShouldLayStill = false;
+    class IsBallCloseToBorder : public Condition {
+        private:
+        double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
+        bool ballShouldLayStill = false;
 
- public:
-  explicit IsBallCloseToBorder(std::string name = "IsBallCloseToBorder", bt::Blackboard::Ptr blackboard = nullptr);
-  void onInitialize() override;
-  Status onUpdate() override;
-};
+        public:
+        explicit IsBallCloseToBorder(std::string name = "IsBallCloseToBorder", bt::Blackboard::Ptr blackboard = nullptr);
+        void onInitialize() override;
+        Status onUpdate() override;
+    };
 
 } // namespace rtt::ai
 

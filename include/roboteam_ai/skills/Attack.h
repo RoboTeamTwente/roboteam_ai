@@ -11,11 +11,11 @@
 
 namespace rtt::ai {
 
-class Attack : public Skill {
- public:
-  explicit Attack(string name, bt::Blackboard::Ptr blackboard);
-  Status onUpdate() override;
-};
+    class Attack : public Skill {
+        public:
+        explicit Attack(string name, bt::Blackboard::Ptr blackboard);
+        Status onUpdate() override;
+    };
 
 }  // namespace rtt::ai
 #endif  // ROBOTEAM_AI_ATTACK_H

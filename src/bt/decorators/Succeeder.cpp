@@ -6,9 +6,9 @@
 
 namespace bt {
 
-Node::Status Succeeder::update() {
-    child->tick(world, field);
-    return Status::Success;
-}
+    Node::Status Succeeder::update() {
+        child->tick(world, field);
+        return Status::Success;
+    }
 
 }  // namespace bt

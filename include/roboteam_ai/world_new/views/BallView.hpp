@@ -5,19 +5,18 @@
 #ifndef RTT_BALL_VIEW_HPP
 #define RTT_BALL_VIEW_HPP
 
-
 #include "roboteam_utils/Vector2.h"
 #include "world_new/Ball.hpp"
 
 namespace rtt::world_new::view {
 
-    /**
-     * Ball view class, provides the Ball interface with uility functions that don't belong on a POD type
-     */
+/**
+ * Ball view class, provides the Ball interface with uility functions that don't belong on a POD type
+ */
     class BallView {
-        ball::Ball const*_ptr;
+        ball::Ball const *_ptr;
 
-    public:
+        public:
         /**
          * Move constructor and copy assignment operator
          */
@@ -34,14 +33,14 @@ namespace rtt::world_new::view {
          * Copy constructor, internal pointer is copied over
          * @param old Old BallView to copy from
          */
-        BallView(BallView const& old) = default;
+        BallView(BallView const &old) = default;
 
         /**
          * Copy assignment operatorm, does nothing important.
          * @param old Old ballview to copy
          * @return Returns a reference to `this`
          */
-        BallView& operator=(BallView const& old) noexcept;
+        BallView &operator=(BallView const &old) noexcept;
 
         /**
          * Explicitly defaulted destructor, no special destruction nessecary as
@@ -54,20 +53,20 @@ namespace rtt::world_new::view {
          * _ptr is asserted
          * @param _ptr Pointer that this BallView should provide a view of
          */
-        explicit BallView(ball::Ball const* _ptr) noexcept;
+        explicit BallView(ball::Ball const *_ptr) noexcept;
 
         /**
          * Dereference operator that allows std::optional style dereferencing
          * Undefined behavior will occur if the contained pointer is nullptr
          * @return Returns a reference to the ball you're viewing
          */
-        const ball::Ball& operator*() const noexcept;
+        const ball::Ball &operator*() const noexcept;
 
         /**
          * Gets the internally viewed pointer
          * @return Returns _ptr
          */
-        [[nodiscard]] const ball::Ball* get() const noexcept;
+        [[nodiscard]] const ball::Ball *get() const noexcept;
 
         /**
          * Member dereference operator that allows std::optional style member access
@@ -77,6 +76,5 @@ namespace rtt::world_new::view {
         const ball::Ball *operator->() const noexcept;
     };
 }
-
 
 #endif //RTT_BALL_VIEW_HPP
