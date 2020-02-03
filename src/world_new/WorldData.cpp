@@ -23,13 +23,15 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     them.reserve(amountThem);
 
     for (auto &each : ours) {
-        us.emplace_back(&robots.emplace_back(feedback, each, Team::us));
+        auto _ptr = &robots.emplace_back(feedback, each, Team::us);
+        us.emplace_back(_ptr);
+        robotsNonOwning.emplace_back(_ptr);
     }
     for (auto &each : others) {
-        them.emplace_back(&robots.emplace_back(feedback, each, Team::them));
+        auto _ptr = &robots.emplace_back(feedback, each, Team::them);
+        them.emplace_back(_ptr);
+        robotsNonOwning.emplace_back(_ptr);
     }
-
-    std::copy(getRobots().begin(), getRobots().end(), std::back_inserter(robotsNonOwning));
 
     if (protoMsg.has_ball()) {
         ball = ball::Ball{protoMsg.ball()};
