@@ -21,7 +21,7 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     robots.reserve(amountUs + amountThem);
     us.reserve(amountUs);
     them.reserve(amountThem);
-    
+
     for (auto &each : ours) {
         us.emplace_back(&robots.emplace_back(feedback, each, Team::us));
     }

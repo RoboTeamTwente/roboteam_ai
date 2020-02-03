@@ -6,8 +6,7 @@
 #include <roboteam_utils/Angle.h>
 #include <test/helpers/FieldHelper.h>
 #include <test/helpers/WorldHelper.h>
-#include <world/Field.h>
-
+#include <world/FieldComputations.h>
 #include "control/ControlUtils.h"
 #include "utilities/Constants.h"
 

@@ -11,7 +11,7 @@
 
 namespace rtt::world_new {
 WorldData const &World::setWorld(WorldData &newWorld) noexcept {
-    std::lock_guard mtx{ updateMutex };
+    std::lock_guard mtx{updateMutex};
     if (currentWorld) {
         toHistory(currentWorld.value());
     }
@@ -55,10 +55,7 @@ void World::updateWorld(proto::World &protoWorld) {
     setWorld(data);
 }
 
-World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0}
-{
-    history.reserve(HISTORY_SIZE);
-}
+World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} { history.reserve(HISTORY_SIZE); }
 
 void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
     std::scoped_lock<std::mutex> lock{updateMutex};
@@ -79,23 +76,16 @@ void World::updateTickTime() noexcept {
     lastTick = (*getWorld())->getTime();
 }
 
-    uint64_t World::getTimeDifference() const noexcept {
-        return tickDuration;
-    }
+uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 
-    robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept {
-        return robotControllers[id];
-    }
+robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
 
-    size_t World::getHistorySize() const noexcept {
-        return history.size();
+ai::control::PositionControl* World::getRobotPositionController() noexcept {
+    if (positionControl == nullptr){
+        positionControl = std::make_unique<ai::control::PositionControl>(this->getWorld()->getRobots());
     }
+    return positionControl.get();
+}
 
-    ai::control::PositionControl* World::getRobotPositionController() noexcept {
-        if (positionControl == nullptr){
-            positionControl = std::make_unique<ai::control::PositionControl>(this->getWorld()->getRobots());
-        }
-        return positionControl.get();
-    }
-
+size_t World::getHistorySize() const noexcept { return history.size(); }
 }  // namespace rtt::world_new

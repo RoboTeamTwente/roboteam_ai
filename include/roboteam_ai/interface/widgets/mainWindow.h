@@ -38,13 +38,13 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    public:
-    explicit MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
 
     // this function is useful everywhere
-    static void configureCheckBox(QString title, QLayout* layout, const QObject* receiver, const char* method, bool defaultState = false);
+    static void configureCheckBox(QString title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
 
-    static void configureCheckableMenuItem(QString title, QString hint, QMenu* menu, const QObject* receiver, const char* method, bool defaultState);
-    static void clearLayout(QLayout* layout);
+    static void configureCheckableMenuItem(QString title, QString hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
+    static void clearLayout(QLayout *layout);
 
    public slots:
     void updateRobotsWidget();
@@ -55,16 +55,16 @@ class MainWindow : public QMainWindow {
     void refreshJSONSignal();
 
    private:
-    QHBoxLayout* horizontalLayout;
-    QVBoxLayout* mainLayout;
-    QVBoxLayout* vLayout;
-    RobotsWidget* robotsWidget;
-    RuleSetWidget* refWidget;
-    ManualControlWidget* manualControlWidget;
-    TreeVisualizerWidget* treeWidget;
-    TreeVisualizerWidget* keeperTreeWidget;
-    Visualizer* visualizer;
-    GraphWidget* graphWidget;
+    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *mainLayout;
+    QVBoxLayout *vLayout;
+    RobotsWidget *robotsWidget;
+    RuleSetWidget *refWidget;
+    ManualControlWidget *manualControlWidget;
+    TreeVisualizerWidget *treeWidget;
+    TreeVisualizerWidget *keeperTreeWidget;
+    Visualizer *visualizer;
+    GraphWidget *graphWidget;
 };
 
 }  // namespace rtt::ai::interface

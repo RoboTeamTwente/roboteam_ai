@@ -3,10 +3,8 @@
 //
 
 #include "coach/defence/PossiblePass.h"
-
 #include <control/ControlUtils.h>
-
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/WorldData.h"
 
 namespace rtt::ai::coach {
@@ -34,24 +32,24 @@ Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &bot
     Vector2 receivePos = botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
 }
-double PossiblePass::score(const world::WorldData &world) {
+double PossiblePass::score(const Field &field, const world::WorldData &world) {
     double score = 1.0;
-    score *= scoreForGoalAngle(world);
+    score *= scoreForGoalAngle(field, world);
     score *= penaltyForBlocks(world);
     score *= penaltyForDistance();
     return score;
 }
-double PossiblePass::scoreForGoalAngle(const world::WorldData &world) {
+double PossiblePass::scoreForGoalAngle(const Field &field, const world::WorldData &world) {
     // find the largest open angle in the world
-    std::vector<Line> visibleParts = world::field->getVisiblePartsOfGoal(true, endPos, world);
-    std::sort(visibleParts.begin(), visibleParts.end(), [](const Line &a, const Line &b) { return abs(a.second.y - a.first.y) > abs(b.second.y - b.first.y); });
+    std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, endPos, world);
+    std::sort(visibleParts.begin(), visibleParts.end(), [](const Line &a, const Line &b) { return abs(a.end.y - a.start.y) > abs(b.end.y - b.start.y); });
     // set the largest open angle, we use a minimum of 0.05 of the goal angle
     double largestOpenGoalAngle;
     if (visibleParts.empty()) {
-        largestOpenGoalAngle = world::field->getTotalGoalAngle(true, endPos) * 0.05;
+        largestOpenGoalAngle = FieldComputations::getTotalGoalAngle(field, true, endPos) * 0.05;
     } else {
-        double angleOne = (visibleParts[0].first - endPos).angle();
-        double angleTwo = (visibleParts[0].second - endPos).angle();
+        double angleOne = (visibleParts[0].start - endPos).angle();
+        double angleTwo = (visibleParts[0].end - endPos).angle();
         largestOpenGoalAngle = control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleOne), control::ControlUtils::constrainAngle(angleTwo));
     }
 

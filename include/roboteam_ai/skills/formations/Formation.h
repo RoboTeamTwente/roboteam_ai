@@ -22,7 +22,7 @@ class Formation : public Skill {
     virtual Vector2 getFormationPosition() = 0;
     virtual std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() = 0;
 
-    Vector2 getOptimalPosition(int robotId, const std::vector<RobotPtr>& robotsInFormation,  std::vector<Vector2> targetLocations);
+    Vector2 getOptimalPosition(int robotId, const std::vector<RobotPtr> &robotsInFormation, std::vector<Vector2> targetLocations);
 
     double errorMargin = 0.1;
     static std::vector<RobotPtr> robotsInFormation;

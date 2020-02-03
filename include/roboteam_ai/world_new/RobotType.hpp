@@ -6,10 +6,7 @@
 #define RTT_ROBOTTYPE_HPP
 
 namespace rtt::world_new::robot {
-    enum class RobotType : short {
-        THIRTY_WATT,
-        FIFTY_WATT
-    };
-} // rtt::world_new::robot
+enum class RobotType : short { THIRTY_WATT, FIFTY_WATT };
+}  // namespace rtt::world_new::robot
 
-#endif //RTT_ROBOTTYPE_HPP
+#endif  // RTT_ROBOTTYPE_HPP

@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 #define ROBOTEAM_AI_BALLHANDLEPOSCONTROL_H
 
-#include <roboteam_utils/pid.h>
+#include <control/pid.h>
 #include <roboteam_utils/LineSegment.h>
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
@@ -84,9 +84,9 @@ class BallHandlePosControl : public NumTreePosControl {
     void setMaxVelocity(double maxV);
     void setMaxForwardsVelocity(double maxV);
     void setMaxBackwardsVelocity(double maxV);
-    RobotCommand getRobotCommand(world::World *world, world::Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
-    RobotCommand getRobotCommand(world::World *world, world::Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
-    RobotCommand getRobotCommand(world::World *world, world::Field *field, const RobotPtr &r, const Vector2 &targetP) override;
+    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
+    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
+    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) override;
 
    private:
     bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
