@@ -1,7 +1,7 @@
 
 #include <gtest/gtest.h>
 
-#include <bt/Blackboard.hpp>
+#include <bt/Blackboard.h>
 #include <utility>
 
 TEST(BTBlackBoardTest, Blackboard) {
