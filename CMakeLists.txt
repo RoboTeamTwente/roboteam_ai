@@ -294,7 +294,7 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
-        PRIVATE bt
+        PRIVATE rtt::bt
         PRIVATE ${SDL2_LIBRARY}
         )
 

@@ -6,8 +6,8 @@
 #include <include/roboteam_ai/conditions/IsBeingPassedTo.h>
 #include <include/roboteam_ai/skills/Receive.h>
 
-#include <src/bt/include/bt/composites/Selector.h>
-#include <src/bt/include/bt/composites/Sequence.h>
+#include <bt/composites/Selector.h>
+#include <bt/composites/Sequence.h>
 #include <include/roboteam_ai/conditions/IsInDefenseArea.hpp>
 
 #include "bt/Role.h"

@@ -12,12 +12,12 @@
 #include "Leaf.h"
 #include "bt/Node.h"
 
-#include "src/bt/include/bt/composites/MemParallelSequence.h"
-#include "src/bt/include/bt/composites/MemSelector.h"
-#include "src/bt/include/bt/composites/MemSequence.h"
-#include "src/bt/include/bt/composites/ParallelSequence.h"
-#include "src/bt/include/bt/composites/Selector.h"
-#include "src/bt/include/bt/composites/Sequence.h"
+#include "bt/composites/MemParallelSequence.h"
+#include "bt/composites/MemSelector.h"
+#include "bt/composites/MemSequence.h"
+#include "bt/composites/ParallelSequence.h"
+#include "bt/composites/Selector.h"
+#include "bt/composites/Sequence.h"
 
 #include "bt/decorators/Failer.h"
 #include "bt/decorators/Inverter.h"

@@ -65,7 +65,7 @@
 //
 
 #include <bt/RoleDivider.h>
-#include <src/bt/include/bt/composites/MemParallelSequence.h>
+#include <bt/composites/MemParallelSequence.h>
 #include <conditions/BallIsClose.h>
 #include <conditions/BallKickedToOurGoal.h>
 #include <conditions/CanPlay.h>
@@ -85,17 +85,17 @@
 #include <skills/formations/StopFormation.h>
 #include <skills/formations/TimeoutFormation.h>
 
-#include <src/bt/include/bt/composites/MemSelector.h>
-#include <src/bt/include/bt/composites/MemSequence.h>
-#include <src/bt/include/bt/composites/ParallelSequence.h>
-#include <src/bt/include/bt/composites/Selector.h>
-#include <src/bt/include/bt/composites/Sequence.h>
-#include <src/bt/include/bt/decorators/Failer.h>
-#include <src/bt/include/bt/decorators/Inverter.h>
-#include <src/bt/include/bt/decorators/Repeater.h>
-#include <src/bt/include/bt/decorators/Succeeder.h>
-#include <src/bt/include/bt/decorators/UntilFail.h>
-#include <src/bt/include/bt/decorators/UntilSuccess.h>
+#include <bt/composites/MemSelector.h>
+#include <bt/composites/MemSequence.h>
+#include <bt/composites/ParallelSequence.h>
+#include <bt/composites/Selector.h>
+#include <bt/composites/Sequence.h>
+#include <bt/decorators/Failer.h>
+#include <bt/decorators/Inverter.h>
+#include <bt/decorators/Repeater.h>
+#include <bt/decorators/Succeeder.h>
+#include <bt/decorators/UntilFail.h>
+#include <bt/decorators/UntilSuccess.h>
 
 #include "conditions/BallInDefenseAreaAndStill.h"
 #include "conditions/BallNearOurGoalLineAndStill.h"

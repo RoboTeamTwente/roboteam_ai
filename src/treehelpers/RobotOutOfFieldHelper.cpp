@@ -5,7 +5,7 @@
 #include <include/roboteam_ai/skills/gotopos/GTPSpecial.h>
 #include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
 
-#include <src/bt/include/bt/composites/Sequence.h>
+#include <bt/composites/Sequence.h>
 
 #include "bt/Role.h"
 #include "bt/RoleDivider.h"
