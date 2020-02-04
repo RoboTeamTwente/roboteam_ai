@@ -3,7 +3,6 @@
 //
 
 #include "skills/Pass.h"
-
 #include <coach/BallplacementCoach.h>
 #include <control/BasicPosControl.h>
 #include <control/ControlUtils.h>
@@ -74,7 +73,7 @@ Pass::Status Pass::onUpdate() {
 
         robotToPassTo = world::world->getRobotForId(robotToPassToID, true);
 
-        if (!coach::g_pass.validReceiver(robot, robotToPassTo)) {
+        if (!coach::g_pass.validReceiver(*field, robot, robotToPassTo)) {
             return Status::Failure;
         }
 
@@ -92,9 +91,7 @@ Pass::Status Pass::onUpdate() {
             // If the passType is defensive, force to immediately chip as soon as the pass is blocked
             if (passType == DEFENSIVE || passType == FREEKICK) {
                 forcePass = true;
-            } else
-
-                if (maxTries == -1) {
+            } else if (maxTries == -1) {
                 return Status::Failure;
             } else {
                 fails++;
@@ -121,7 +118,7 @@ Pass::Status Pass::onUpdate() {
 void Pass::makeCommand() {
     RobotCommand shotdata;
 
-    shotdata = robot->getShotController()->getRobotCommand(*robot, getKicker(), forcePass, control::PASS, false, control::HIGH);
+    shotdata = robot->getShotController()->getRobotCommand(*field, *robot, getKicker(), forcePass, control::PASS, false, control::HIGH);
     command = shotdata.makeROSCommand();
 }
 
@@ -139,17 +136,17 @@ Vector2 Pass::getKicker() {
     return robotToPassTo->pos + distanceToKicker.rotate(robotToPassTo->angle);
 }
 
-void Pass::initiatePass() { coach::g_pass.initiatePass(robot->id); }
+void Pass::initiatePass() { coach::g_pass.initiatePass(*field, robot->id); }
 
 bool Pass::didShootProperly() {
     bool ballIsMovingFast = Vector2(world::world->getBall()->getVel()).length() > 0.6;
     bool ballIsMovingToReceiver = true;  // control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
-                                         // robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
+    // robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 
     return (hasShot && ballIsMovingFast && ballIsMovingToReceiver);
 }
 
-Pass::PassType Pass::stringToType(const std::string& type) {
+Pass::PassType Pass::stringToType(const std::string &type) {
     if (type == "defensive") {
         return DEFENSIVE;
     } else if (type == "freeKick") {

@@ -31,7 +31,7 @@ class Receive : public Skill {
 
     Vector2 targetPos;
 
-    virtual bool isInPosition(const Vector2& behindTargetPos = {0, 0});
+    virtual bool isInPosition(const Vector2 &behindTargetPos = {0, 0});
 
    protected:
     bool passFailed();
@@ -41,7 +41,7 @@ class Receive : public Skill {
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
-    Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
+    Vector2 computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall);
     void intercept();
     bool ballDeflected();
 };

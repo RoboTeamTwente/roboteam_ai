@@ -3,9 +3,8 @@
 //
 
 #include "skills/ReflectKick.h"
-
 #include "control/numtrees/NumTreePosControl.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -13,7 +12,7 @@ ReflectKick::ReflectKick(std::string name, bt::Blackboard::Ptr blackboard) : Ski
 
 void ReflectKick::onInitialize() {
     kicked = false;
-    goalTarget = field->get_field().get(THEIR_GOAL_CENTER);
+    goalTarget = (*field).getTheirGoalCenter();
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
@@ -54,7 +53,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
 }
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
-Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
+Vector2 ReflectKick::computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall) {
     Vector2 interceptPoint = reflectionPos.project(startBall, endBall);
     Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
     return interceptPoint - distanceToKicker.rotate(robot->angle);
@@ -79,11 +78,11 @@ void ReflectKick::onTerminate(Status s) {
 
 Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
-    float cornering = field->get_field().get(GOAL_WIDTH) / 2.0;
+    float cornering = (*field).getGoalWidth() / 2.0;
     if (robotPos.y >= 0) {
-        return {field->get_field().get(THEIR_GOAL_CENTER).x, field->get_field().get(THEIR_GOAL_CENTER).y + cornering};
+        return {(*field).getTheirGoalCenter().x, (*field).getTheirGoalCenter().y + cornering};
     } else {
-        return {field->get_field().get(THEIR_GOAL_CENTER).x, field->get_field().get(THEIR_GOAL_CENTER).y - cornering};
+        return {(*field).getTheirGoalCenter().x, (*field).getTheirGoalCenter().y - cornering};
     }
 }
 

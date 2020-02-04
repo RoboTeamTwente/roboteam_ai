@@ -9,7 +9,7 @@
 
 namespace rtt::ai::interface {
 
-VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer* visualizer, QWidget* parent) {
+VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer, QWidget *parent) {
     auto cbVLayout = new QVBoxLayout();
 
     for (int i = 0; i < Toggles::toggles.size(); i++) {

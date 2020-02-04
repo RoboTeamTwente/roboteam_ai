@@ -32,6 +32,6 @@ cache:
   directories:
     - ~/.ccache
 
-# after_success:
+  # after_success:
   # Lets not do coverage yet
   # - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"

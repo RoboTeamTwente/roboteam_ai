@@ -3,19 +3,17 @@
 //
 
 #include <ApplicationManager.h>
-#include <include/roboteam_ai/utilities/Settings.h>
 #include <analysis/GameAnalyzer.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
 #include <coach/defence/DefenceDealer.h>
-#include <include/roboteam_ai/world/Field.h>
+#include <include/roboteam_ai/world/FieldComputations.h>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
 #include <bt/Node.hpp>
 #include <utilities/GameStateManager.hpp>
-#include "analysis/PlayChecker.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -23,6 +21,7 @@ namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 namespace rtt {
+using namespace rtt::ai::world;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
@@ -60,9 +59,7 @@ void ApplicationManager::start() {
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
-
-        playcheck.update(rtt::ai::world::world, rtt::ai::world::field);
-
+        playcheck.update(rtt::ai::world::world, &io::io.getField());
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -108,32 +105,35 @@ void ApplicationManager::updateTrees() {
 
 /// Tick the keeper tree if both the tree and keeper exist
 void ApplicationManager::runKeeperTree() {
+    const Field &field = io::io.getField();
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick(ai::world::world, ai::world::field);
+        keeperTree->tick(ai::world::world, &field);
     }
 }
 
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree() {
+    const Field &field = io::io.getField();
     if (BTFactory::getCurrentTree() == "NaN") {
         std::cout << "NaN tree probably Halting" << std::endl;
         return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(ai::world::world, ai::world::field);
+    Status status = strategy->tick(ai::world::world, &field);
     return status;
 }
 
 /// Update the coaches information
 void ApplicationManager::updateCoaches() const {
     auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
-        ai::coach::getBallCoach->update();
-        ai::coach::g_DefenceDealer.updateDefenderLocations();
-        ai::coach::g_offensiveCoach.updateOffensivePositions();
+        const Field &field = io::io.getField();
+        ai::coach::getBallCoach->update(field);
+        ai::coach::g_DefenceDealer.updateDefenderLocations(field);
+        ai::coach::g_offensiveCoach.updateOffensivePositions(field);
         ai::coach::g_pass.updatePassProgression();
     });
-//    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
+    //    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
 }
 
 /// Terminate trees
@@ -174,5 +174,4 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             break;
     }
 }
-
 }  // namespace rtt

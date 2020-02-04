@@ -7,7 +7,7 @@
 
 #include "GoToPos.h"
 #include "skills/Skill.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 

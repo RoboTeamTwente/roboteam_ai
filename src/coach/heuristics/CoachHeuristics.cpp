@@ -3,13 +3,9 @@
 //
 
 #include "coach/heuristics/CoachHeuristics.h"
-
 #include <analysis/GameAnalyzer.h>
-
-#include <cmath>
-
 #include "control/ControlUtils.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai::coach {
 
@@ -23,17 +19,17 @@ const double CoachHeuristics::ANGLE_TO_GOAL_WEIGHT = -1.0;
 const double CoachHeuristics::MAX_INTERCEPT_ANGLE = M_PI / 4.0;
 
 /// Gives a higher score to positions closer to the oppontents goal
-double CoachHeuristics::calculateCloseToGoalScore(const Vector2 &position) {
-    double distanceFromGoal = (world::field->get_field().get(THEIR_GOAL_CENTER) - position).length();
+double CoachHeuristics::calculateCloseToGoalScore(const Field &field, const Vector2 &position) {
+    double distanceFromGoal = (field.getTheirGoalCenter() - position).length();
 
     double score = exp(CLOSE_TO_GOAL_WEIGHT * distanceFromGoal);
     return score;
 }
 
 /// Gives a higher score if the line between the position and the goal is free.
-double CoachHeuristics::calculateShotAtGoalScore(const Vector2 &position, const WorldData &world) {
+double CoachHeuristics::calculateShotAtGoalScore(const Field &field, const Vector2 &position, const WorldData &world) {
     WorldData copy = WorldData({}, world.them, world.ball, world.time);
-    double viewAtGoal = world::field->getPercentageOfGoalVisibleFromPoint(false, position, copy) / 100;
+    double viewAtGoal = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, position, copy) / 100;
     return 1 - exp(SHOT_AT_GOAL_WEIGHT * viewAtGoal);
 }
 
@@ -79,9 +75,9 @@ double CoachHeuristics::calculateBehindBallScore(const Vector2 &position, const 
     }
 }
 
-double CoachHeuristics::calculatePassDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
+double CoachHeuristics::calculatePassDistanceToBallScore(const Field &field, const Vector2 &position, const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_field().get(THEIR_GOAL_CENTER) - ball->getPos()).length() * 0.5;
+    double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length() * 0.5;
     double distanceFromBall = (position - ball->getPos()).length();
 
     if (distanceFromBall < Constants::MAX_PASS_DISTANCE()) {
@@ -91,9 +87,9 @@ double CoachHeuristics::calculatePassDistanceToBallScore(const Vector2 &position
     return fmax(0.0, -pow(distanceFromBall / (0.5 * idealDistance), 2.0) + 2.0 * (distanceFromBall / (0.5 * idealDistance)));
 }
 
-double CoachHeuristics::calculatePositionDistanceToBallScore(const Vector2 &position, const CoachHeuristics::WorldData &world) {
+double CoachHeuristics::calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position, const CoachHeuristics::WorldData &world) {
     auto ball = world.ball;
-    double idealDistance = (world::field->get_field().get(THEIR_GOAL_CENTER) - ball->getPos()).length() * 0.75;
+    double idealDistance = (field.getTheirGoalCenter() - ball->getPos()).length() * 0.75;
     double distanceFromBall = (position - ball->getPos()).length();
     return fmax(0.0, -pow(distanceFromBall / (0.5 * idealDistance), 2.0) + 2.0 * (distanceFromBall / (0.5 * idealDistance)));
 }
@@ -115,10 +111,10 @@ double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &p
     }
 }
 
-double CoachHeuristics::calculateAngleToGoalScore(const Vector2 &position) {
-    auto goalSides = world::field->getGoalSides(false);
-    Angle angle1 = (goalSides.first - position).toAngle();
-    Angle angle2 = (goalSides.second - position).toAngle();
+double CoachHeuristics::calculateAngleToGoalScore(const Field &field, const Vector2 &position) {
+    auto goalSides = FieldComputations::getGoalSides(field, false);
+    Angle angle1 = (goalSides.start - position).toAngle();
+    Angle angle2 = (goalSides.end - position).toAngle();
 
     Angle angleToGoal = abs(angle2 - angle1);
 

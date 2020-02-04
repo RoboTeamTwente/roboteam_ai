@@ -3,14 +3,11 @@
 // Created by baris on 16/11/18.
 //
 #include "utilities/RobotDealer.h"
-
 #include "coach/BallplacementCoach.h"
 #include "coach/PassCoach.h"
 #include "control/ControlUtils.h"
 #include "treeinterp/BTFactory.h"
 #include "world/Ball.h"
-#include "world/Field.h"
-#include "world/Robot.h"
 #include "world/World.h"
 
 namespace rtt::ai::robotDealer {
@@ -76,7 +73,7 @@ void RobotDealer::updateFromWorld() {
     }
 }
 
-int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleName, const std::string &tacticName) {
+int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, const std::string &roleName, const std::string &tacticName) {
     std::set<int> ids = getAvailableRobots();
 
     // convert the set to a vector here
@@ -103,7 +100,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
 
             case BETWEEN_BALL_AND_OUR_GOAL: {
                 auto ball = world::world->getBall();
-                rtt::Vector2 ourGoal = world::field->get_field().get(OUR_GOAL_CENTER);
+                rtt::Vector2 ourGoal = field.getOurGoalCenter();
                 auto robots = world::world->getRobotsForIds(idVector, true);
                 if (!robots.empty()) {
                     id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
@@ -113,7 +110,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
                 break;
             }
             case CLOSE_TO_OUR_GOAL: {
-                rtt::Vector2 ourGoal = world::field->get_field().get(OUR_GOAL_CENTER);
+                rtt::Vector2 ourGoal = field.getOurGoalCenter();
                 auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
                 if (robot) {
                     id = robot->id;
@@ -124,7 +121,7 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
             }
 
             case CLOSE_TO_THEIR_GOAL: {
-                rtt::Vector2 theirGoal = world::field->get_field().get(THEIR_GOAL_CENTER);
+                rtt::Vector2 theirGoal = field.getTheirGoalCenter();
                 auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
                 if (robot) {
                     id = robot->id;
@@ -241,6 +238,7 @@ std::set<int> RobotDealer::getRobots() {
     }
     return ids;
 }
+
 std::set<int> RobotDealer::getAvailableRobots() {
     updateFromWorld();
 
@@ -253,6 +251,7 @@ std::set<int> RobotDealer::getAvailableRobots() {
     }
     return ids;
 }
+
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getClaimedRobots() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     return robotOwners;
@@ -276,6 +275,7 @@ void RobotDealer::releaseRobotForRole(const std::string &roleName) {
     }
     std::cerr << "Cannot release the robot it does not exist in the robotOwners" << std::endl;
 }
+
 void RobotDealer::removeTactic(const std::string &tacticName) {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     /// Do NOT alt-enter->(const auto &) this function !!
@@ -289,6 +289,7 @@ void RobotDealer::removeTactic(const std::string &tacticName) {
         }
     }
 }
+
 std::set<int> RobotDealer::findRobotsForTactic(const std::string &tacticName) {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
@@ -398,7 +399,7 @@ int RobotDealer::getKeeperID() {
 
 void RobotDealer::claimKeeper() {
     if (!hasClaimedKeeper) {
-        //        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
+        // std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
         hasClaimedKeeper = true;

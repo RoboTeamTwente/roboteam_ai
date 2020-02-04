@@ -8,7 +8,7 @@
 #include <control/BasicPosControl.h>
 #include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 

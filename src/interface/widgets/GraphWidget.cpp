@@ -13,7 +13,7 @@ namespace rtt::ai::interface {
  * However, for some reason it gave segfaults the last time I tried this (jan 16 2020)
  */
 
-GraphWidget::GraphWidget(QWidget* parent) {
+GraphWidget::GraphWidget(QWidget *parent) {
     auto verticalLayout = new QVBoxLayout(this);
 
     fpsView = new QChartView();

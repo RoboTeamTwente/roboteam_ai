@@ -3,14 +3,12 @@
 //
 
 #include "skills/Receive.h"
-
 #include <coach/BallplacementCoach.h>
 #include <coach/PassCoach.h>
 #include <control/ControlUtils.h>
 #include <control/ball-handling/BallHandlePosControl.h>
 #include <interface/api/Input.h>
 #include <world/WorldData.h>
-
 #include "roboteam_utils/Line.h"
 #include "roboteam_utils/Polygon.h"
 
@@ -68,13 +66,13 @@ void Receive::onTerminate(Status s) {
 }
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
-Vector2 Receive::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
+Vector2 Receive::computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall) {
     double defenseAreaMargin = 0.3;
     double outOfFieldMargin = -Constants::ROBOT_RADIUS();
-    return control::ControlUtils::getInterceptPointOnLegalPosition(robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
+    return control::ControlUtils::getInterceptPointOnLegalPosition(*field, robot->pos, {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
 }
 // check if the robot is in the desired position to catch the ball
-bool Receive::isInPosition(const Vector2& behindTargetPos) {
+bool Receive::isInPosition(const Vector2 &behindTargetPos) {
     bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3 * M_PI);
     return isAimedAtBall;
 }

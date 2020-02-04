@@ -28,7 +28,7 @@ class ReflectKick : public Skill {
     bool ballReceiveVelSet = false;
 
     void intercept();
-    Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
+    Vector2 computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall);
     Vector2 getKicker();
     double getAngle();
     bool ballDeflected();

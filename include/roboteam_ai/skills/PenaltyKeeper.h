@@ -5,7 +5,9 @@
 #ifndef ROBOTEAM_AI_PENALTYKEEPER_H
 #define ROBOTEAM_AI_PENALTYKEEPER_H
 #include <control/BasicPosControl.h>
+#include <roboteam_utils/Line.h>
 #include "Skill.h"
+
 namespace rtt::ai {
 class PenaltyKeeper : public Skill {
    private:
@@ -14,10 +16,10 @@ class PenaltyKeeper : public Skill {
     PenaltyState state;
     Vector2 firstBallPos;
     int ballNotShotTicks;
-    std::pair<Vector2, Vector2> goalLine;
+    Line goalLine;
     Vector2 computeDefendPos();
     Vector2 interceptBallPos();
-    std::pair<Vector2, Vector2> getGoalLine();
+    Line getGoalLine();
     void sendWaitCommand();
     void sendInterceptCommand();
     control::BasicPosControl gtp;

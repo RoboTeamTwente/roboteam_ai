@@ -8,7 +8,7 @@
 #include <control/ControlUtils.h>
 #include <roboteam_utils/Vector2.h>
 #include <world/BallPossession.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "coach/heuristics/CoachHeuristics.h"
 
 namespace rtt::ai::coach {
@@ -44,21 +44,21 @@ class MidFieldCoach {
     std::map<int, RobotPtr> targetRobotsToHarass;
 
     Target getBall(RobotPtr &thisRobot, const RobotPtr &opponent);
-    Target standFree(const RobotPtr &thisRobot);
+    Target standFree(const Field &field, const RobotPtr &thisRobot);
     MidFieldCoach::Target harassRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, HarassType harassType) const;
     Target blockPass(const RobotPtr &thisRobot, const RobotPtr &opponent, const BallPtr &ball) const;
-    Vector2 calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle);
-    double calculateStandingFreeScore(const Vector2 &position, const RobotPtr &thisRobot);
+    Vector2 calculateNewRobotPosition(const Field &field, const RobotPtr &thisRobot, Angle targetAngle);
+    double calculateStandingFreeScore(const Field &field, const Vector2 &position, const RobotPtr &thisRobot);
 
    public:
     void addMidFielder(RobotPtr &thisRobot);
     void removeMidFielder(RobotPtr &thisRobot);
-    bool validOpponent(const RobotPtr &opponent);
+    bool validOpponent(const Field &field, const RobotPtr &opponent);
 
-    RobotPtr findRobotToHarass(const RobotPtr &thisRobot);
+    RobotPtr findRobotToHarass(const Field &field, const RobotPtr &thisRobot);
     HarassType getHarassType(const RobotPtr &thisRobot, const RobotPtr &opponent);
 
-    Target getTargetPosition(RobotPtr &thisRobot);
+    Target getTargetPosition(const Field &field, RobotPtr &thisRobot);
 
     HarassType getHarassTypeIfOpponentIsOnTheLeft(const RobotPtr &thisRobot, const BallPtr &ball, BallPossession &ballPossession,
                                                   const BallPossession::Possession &possession) const;

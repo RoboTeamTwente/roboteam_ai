@@ -21,7 +21,7 @@ class Pass : public Skill {
 
     PassType passType = DEFAULT;
 
-    PassType stringToType(const std::string& type);
+    PassType stringToType(const std::string &type);
 
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
     const double SUCCESSFUL_PASS_ANGLE = 0.6;

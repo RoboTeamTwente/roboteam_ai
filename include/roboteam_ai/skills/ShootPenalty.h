@@ -9,7 +9,7 @@
 #include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
 #include "coach/OffensiveCoach.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 namespace rtt::ai {
 
 class ShootPenalty : public Skill {

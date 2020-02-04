@@ -1,3 +1,7 @@
+//
+// Created by baris on 15-4-19.
+//
+
 #include "skills/formations/PenaltyFormation.h"
 #include <control/ControlUtils.h>
 #include <control/PositionUtils.h>
@@ -12,10 +16,10 @@ Vector2 rtt::ai::PenaltyFormation::getFormationPosition() {
     std::vector<Vector2> positions;
 
     if (properties->getBool("Offensive")) {
-        positions = rtt::ai::control::PositionUtils::getPenaltyPositions(robotsInFormation->size());
+        positions = rtt::ai::control::PositionUtils::getPenaltyPositions(*field, robotsInFormation->size());
     } else {
         robot->getNumtreePosControl()->setAvoidBallDistance(0.4);
-        positions = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(robotsInFormation->size());
+        positions = rtt::ai::control::PositionUtils::getDefendPenaltyPositions(*field, robotsInFormation->size());
     }
 
     return getOptimalPosition(robot->id, *robotsInFormation, positions);

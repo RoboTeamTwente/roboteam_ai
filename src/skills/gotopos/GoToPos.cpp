@@ -3,9 +3,8 @@
 //
 
 #include "skills/gotopos/GoToPos.h"
-
 #include "control/ControlUtils.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
