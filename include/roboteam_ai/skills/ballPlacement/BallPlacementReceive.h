@@ -15,8 +15,8 @@ class BallPlacementReceive : public Receive {
     bt::Node::Status onUpdate() override;
 
    private:
-    bool isInPosition(const Vector2& behindTargetPos) override;
-    void moveToCatchPosition(const Vector2& position);
+    bool isInPosition(const Vector2 &behindTargetPos) override;
+    void moveToCatchPosition(const Vector2 &position);
 };
 }  // namespace rtt::ai
 

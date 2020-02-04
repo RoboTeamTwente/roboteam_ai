@@ -3,17 +3,14 @@
 //
 
 #include "control/numtrees/NumTreePosControl.h"
-
 #include <interface/api/Input.h>
-
 #include <queue>
-
 #include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
 #include "control/numtrees/Collision.h"
 #include "control/numtrees/PathPoint.h"
 #include "world/Ball.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 #include "world/Robot.h"
 
 namespace rtt::ai::control {
@@ -46,7 +43,7 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
                                                 bool illegalPositions) {
     this->world = world;
     this->field = field;
@@ -58,7 +55,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, world::Fiel
     return robotCommand;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions) {
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions) {
     this->world = world;
     this->field = field;
 
@@ -67,7 +64,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, world::Fiel
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) {
     this->world = world;
     this->field = field;
 
@@ -340,7 +337,7 @@ Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
         currentCollisionWithRobot.getCollisionFieldPos() != Vector2() || currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2() || getCanMoveOutOfField(robot->id);
 
     double margin = canMoveOutOfField ? -0.30 + Constants::ROBOT_RADIUS() : Constants::ROBOT_RADIUS();
-    if (!world::field->pointIsInField(point->pos, margin)) {
+    if (!FieldComputations::pointIsInField(*field, point->pos, margin)) {
         collision.setFieldCollision(point->pos, 0.2);
     }
     return collision;
@@ -353,10 +350,10 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
 
     if (!getCanMoveInDefenseArea(robot->id)) {
         auto margin = Constants::ROBOT_RADIUS();
-        bool isInOurDefenseArea = field->pointIsInDefenceArea(point->pos, true, margin, false);
-        bool isInTheirDefenseArea = field->pointIsInDefenceArea(point->pos, false, margin, false);
+        bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, true, margin, false);
+        bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            double defenseAreaX = point->pos.x < 0 ? field->get_field().get(LEFT_PENALTY_LINE).begin.x : field->get_field().get(RIGHT_PENALTY_LINE).begin.x;
+            double defenseAreaX = point->pos.x < 0 ? (*field).getLeftPenaltyLine().begin.x : (*field).getRightPenaltyLine().begin.x;
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin) * 1.1);
             return collision;
         }
@@ -369,11 +366,11 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     if (currentCollisionWithRobot.getCollisionGoalPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionGoalPos() != Vector2()) return collision;
 
-    bool collidesWithOurGoal = field->getGoalArea(true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
-    bool collidesWithTheirGoal = field->getGoalArea(false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithOurGoal = FieldComputations::getGoalArea(*field, true, Constants::ROBOT_RADIUS(), true).contains(point->pos);
+    bool collidesWithTheirGoal = FieldComputations::getGoalArea(*field, false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
-        collision.setGoalCollision(point->pos, field->get_field().get(GOAL_WIDTH) / 2 - fabs(point->pos.y) * 1.1);
+        collision.setGoalCollision(point->pos, (*field).getGoalWidth() / 2 - fabs(point->pos.y) * 1.1);
     }
 
     return collision;
@@ -456,7 +453,7 @@ void NumTreePosControl::checkInterfacePID() {
     updatePid(newPid);
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
+RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
     this->world = world;
     this->field = field;
     Angle defaultAngle;
@@ -500,7 +497,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
 
     if (!allowIllegalPositions) {
         if (currentCollisionWithFinalTarget.getCollisionType() == Collision::DEFENSE_AREA || currentCollisionWithRobot.getCollisionType() == Collision::DEFENSE_AREA) {
-            finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(finalTargetPos, Constants::ROBOT_RADIUS() * 1.1);
+            finalTargetPos = ControlUtils::projectPositionToOutsideDefenseArea(*field, finalTargetPos, Constants::ROBOT_RADIUS() * 1.1);
 
             currentlyAvoidingDefenseArea = finalTargetPos == currentlyAvoidingDefenseAreaPosition;
             if (!currentlyAvoidingDefenseArea) {

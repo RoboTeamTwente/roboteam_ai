@@ -6,10 +6,12 @@
 #define ROBOTEAM_AI_COACHHEURISTICS_H
 
 #include <roboteam_utils/Vector2.h>
+#include <world/Field.h>
 #include <world/World.h>
 #include <world/WorldData.h>
 
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class CoachHeuristics {
    private:
@@ -28,13 +30,13 @@ class CoachHeuristics {
     static const double ANGLE_TO_GOAL_WEIGHT;
 
    public:
-    static double calculateCloseToGoalScore(const Vector2 &position);
-    static double calculateShotAtGoalScore(const Vector2 &position, const WorldData &world);
+    static double calculateCloseToGoalScore(const Field &field, const Vector2 &position);
+    static double calculateShotAtGoalScore(const Field &field, const Vector2 &position, const WorldData &world);
     static double calculatePassLineScore(const Vector2 &position, const WorldData &world);
     static double calculateBehindBallScore(const Vector2 &position, const WorldData &world);
-    static double calculatePassDistanceToBallScore(const Vector2 &position, const WorldData &world);
-    static double calculatePositionDistanceToBallScore(const Vector2 &position, const WorldData &world);
-    static double calculateAngleToGoalScore(const Vector2 &position);
+    static double calculatePassDistanceToBallScore(const Field &field, const Vector2 &position, const WorldData &world);
+    static double calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position, const WorldData &world);
+    static double calculateAngleToGoalScore(const Field &field, const Vector2 &position);
 
     /// Currently not implemented, but might be again later
     static double calculateDistanceToOpponentsScore(const Vector2 &position);

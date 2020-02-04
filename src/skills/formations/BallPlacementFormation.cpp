@@ -1,5 +1,31 @@
+/*
+                    ▄              ▄
+                  ▌▒█           ▄▀▒▌
+                  ▌▒▒█        ▄▀▒▒▒▐
+                 ▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐
+               ▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐
+             ▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌
+            ▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒▌
+            ▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐
+           ▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄▌
+           ▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒▌
+          ▌▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒▐
+          ▐▒▒▐▀▐▀▒░▄▄▒▄▒▒▒▒▒▒░▒░▒░▒▒▒▒▌
+          ▐▒▒▒▀▀▄▄▒▒▒▄▒▒▒▒▒▒▒▒░▒░▒░▒▒▐
+           ▌▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒░▒░▒░▒░▒▒▒▌
+           ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▒▄▒▒▐
+            ▀▄▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▄▒▒▒▒▌
+              ▀▄▒▒▒▒▒▒▒▒▒▒▄▄▄▀▒▒▒▒▄▀
+                ▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀
+                   ▒▒▒▒▒▒▒▒▒▒▀▀
+
+    "It's not a robocup if you didn't pull an all-nighter"
+                                    - random ER-Force guy
+ */
+
 #include "skills/formations/BallPlacementFormation.h"
 #include <interface/api/Input.h>
+#include <world/FieldComputations.h>
 #include "control/ControlUtils.h"
 
 namespace rtt::ai {
@@ -59,7 +85,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
-    return (tooCloseToLine || !field->pointIsInField(pos, 0.0));
+    return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos, 0.0));
 }
 
 }  // namespace rtt::ai

@@ -5,10 +5,12 @@
 #ifndef ROBOTEAM_AI_PASSCOACH_H
 #define ROBOTEAM_AI_PASSCOACH_H
 
+#include <world/Field.h>
 #include <world/Robot.h>
 #include <chrono>
 
 namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class PassCoach {
    public:
@@ -16,11 +18,8 @@ class PassCoach {
     using RobotPtr = std::shared_ptr<Robot>;
 
     PassCoach();
-
     void resetPass(int robotID);
-
-    int initiatePass(int passerID);
-
+    int initiatePass(const Field &field, int passerID);
     bool isReadyToReceivePass();
     void setReadyToReceivePass(bool readyToReceivePass);
     int getRobotBeingPassedTo();
@@ -28,14 +27,13 @@ class PassCoach {
     bool isPassed();
     void setPassed(bool passed);
 
-    virtual int determineReceiver(int passerID);
+    virtual int determineReceiver(const Field &field, int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
-    bool validReceiver(const RobotPtr& passer, const RobotPtr& receiver, bool freeKick = false);
+    bool validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick = false);
 
    private:
     const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;
-
     const double SMALLEST_MIN_PASS_DISTANCE = 10 * Constants::ROBOT_RADIUS();
 
     std::chrono::time_point<std::chrono::steady_clock> passStartTime;

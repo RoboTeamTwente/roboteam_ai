@@ -7,7 +7,7 @@
 
 #include <roboteam_proto/GeometryFieldSize.pb.h>
 #include <roboteam_utils/Vector2.h>
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace testhelpers {
 

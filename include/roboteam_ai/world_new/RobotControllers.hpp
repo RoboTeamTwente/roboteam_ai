@@ -5,34 +5,34 @@
 #ifndef RTT_ROBOTCONTROLLERS_HPP
 #define RTT_ROBOTCONTROLLERS_HPP
 
-#include <memory>
-#include <control/shot-controllers/ShotController.h>
 #include <control/ball-handling/BallHandlePosControl.h>
+#include <control/shot-controllers/ShotController.h>
+#include <memory>
 
 namespace rtt::world_new::robot {
 
+/**
+ * Structure that allows a global state for robot controllers, allowing to persist past a single tick
+ */
+class RobotControllers {
     /**
-     * Structure that allows a global state for robot controllers, allowing to persist past a single tick
+     * These are self-explanatory, for more information about them check their actual classes
+     * Taking ownership of any of these unique_ptr's will result in undefined behavior
      */
-    class RobotControllers {
-        /**
-         * These are self-explanatory, for more information about them check their actual classes
-         * Taking ownership of any of these unique_ptr's will result in undefined behavior
-         */
-        std::unique_ptr<ai::control::ShotController> shotController = std::make_unique<ai::control::ShotController>();
-        std::unique_ptr<ai::control::NumTreePosControl> numTreePosControl = std::make_unique<ai::control::NumTreePosControl>();
-        std::unique_ptr<ai::control::BasicPosControl> basicPosControl = std::make_unique<ai::control::BasicPosControl>();
-        std::unique_ptr<ai::control::BallHandlePosControl> ballHandlePosControl = std::make_unique<ai::control::BallHandlePosControl>();
+    std::unique_ptr<ai::control::ShotController> shotController = std::make_unique<ai::control::ShotController>();
+    std::unique_ptr<ai::control::NumTreePosControl> numTreePosControl = std::make_unique<ai::control::NumTreePosControl>();
+    std::unique_ptr<ai::control::BasicPosControl> basicPosControl = std::make_unique<ai::control::BasicPosControl>();
+    std::unique_ptr<ai::control::BallHandlePosControl> ballHandlePosControl = std::make_unique<ai::control::BallHandlePosControl>();
 
-    public:
-        [[nodiscard]] std::unique_ptr<ai::control::ShotController> &getShotController() noexcept;
+   public:
+    [[nodiscard]] std::unique_ptr<ai::control::ShotController> &getShotController() noexcept;
 
-        [[nodiscard]] std::unique_ptr<ai::control::NumTreePosControl> &getNumTreePosController() noexcept;
+    [[nodiscard]] std::unique_ptr<ai::control::NumTreePosControl> &getNumTreePosController() noexcept;
 
-        [[nodiscard]] std::unique_ptr<ai::control::BasicPosControl> &getBasicPosController() noexcept;
+    [[nodiscard]] std::unique_ptr<ai::control::BasicPosControl> &getBasicPosController() noexcept;
 
-        [[nodiscard]] std::unique_ptr<ai::control::BallHandlePosControl> &getBallHandlePosController() noexcept;
-    };
-}
+    [[nodiscard]] std::unique_ptr<ai::control::BallHandlePosControl> &getBallHandlePosController() noexcept;
+};
+}  // namespace rtt::world_new::robot
 
-#endif //RTT_ROBOTCONTROLLERS_HPP
+#endif  // RTT_ROBOTCONTROLLERS_HPP

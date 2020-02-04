@@ -1,21 +1,22 @@
 #pragma once
 
+#include <include/roboteam_ai/world/Field.h>
 #include <cstdarg>
 #include <cstdio>
 #include <memory>
 #include <vector>
-
 #include "Blackboard.hpp"
 
 // fwd declare
-namespace rtt::ai::world {
+namespace rtt::ai {
+namespace world {
 class World;
-
-class Field;
-
-}  // namespace rtt::ai::world
+}
+class FieldComputations;
+}  // namespace rtt::ai
 
 namespace bt {
+using namespace rtt::ai::world;
 
 class Node {
    public:
@@ -50,7 +51,7 @@ class Node {
 
     virtual std::vector<Node::Ptr> getChildren();
 
-    virtual Status tick(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+    virtual Status tick(rtt::ai::world::World *world, const Field *field);
 
     bool IsSuccess() const;
 
@@ -76,8 +77,6 @@ class Node {
 
     unsigned long long getAmountOfTicks() const;
 
-    //        ros::Time getLastTickTime();
-
     /**
      * recursively goes through all the children of the node and sets their blackboard property ROLE to roleName,
      * @param roleName the name you want the role to have
@@ -91,8 +90,8 @@ class Node {
 
     unsigned long long amountOfTicks = 0;  // ticks can increase fast
 
-    rtt::ai::world::World* world = nullptr;
-    rtt::ai::world::Field* field = nullptr;
+    World *world = nullptr;
+    const Field *field = nullptr;
 };
 
 }  // namespace bt

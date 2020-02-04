@@ -7,8 +7,10 @@
 
 #include "QLayout"
 #include "widget.h"
+#include "world/Field.h"
 
 namespace rtt::ai::interface {
+using namespace rtt::ai::world;
 
 class RobotsWidget : public QWidget {
     Q_OBJECT
@@ -16,14 +18,14 @@ class RobotsWidget : public QWidget {
     using Robot = world::Robot;
 
    private:
-    QVBoxLayout* createRobotGroupItem(Robot robot);
+    QVBoxLayout *createRobotGroupItem(const Field &field, Robot robot);
     int amountOfSelectedRobots = 0;
-    QVBoxLayout* VLayout;
+    QVBoxLayout *VLayout;
 
    public:
-    explicit RobotsWidget(QWidget* parent);
+    explicit RobotsWidget(QWidget *parent);
    public slots:
-    void updateContents(Visualizer* visualizer);
+    void updateContents(Visualizer *visualizer);
 };
 
 }  // namespace rtt::ai::interface

@@ -5,144 +5,142 @@
 #ifndef RTT_BALL_HPP
 #define RTT_BALL_HPP
 
-#include "roboteam_utils/Vector2.h"
 #include "roboteam_proto/WorldBall.pb.h"
+#include "roboteam_utils/Vector2.h"
 
 namespace rtt::world_new::ball {
 
+/**
+ * If the closest distance between the ball and our robots is smaller than this value
+ * than the ball is considered to be close to that robot
+ */
+constexpr static float THRESHOLD_ROBOT_CLOSE_TO_BALL = 0.5;
+
+/**
+ * The movement friction during simulation and real life are different, because the simulation does not model
+ * everything. So the movement friction has to be adjusted to compensate for this difference.
+ *
+ * The expected movement friction of the ball during simulation
+ */
+constexpr static float SIMULATION_FRICTION = 1.22;
+
+/**
+ * The expected movement friction of the ball during simulation
+ */
+constexpr static float REAL_FRICTION = 0.61;
+
+/**
+ * The maximum possible factor used for the Kalman filter which is used when filtering the velocity.
+ */
+constexpr static float FILTER_MAX_FACTOR_FOR_VELOCITY = 0.8;
+
+/**
+ * The smallest velocity used for the Kalman filter for which we have that the factor is equal
+ * THRESHOLD_ROBOT_CLOSE_TO_BALL. Larger velocities will also have THRESHOLD_ROBOT_CLOSE_TO_BALL as factor.
+ */
+constexpr static float FILTER_VELOCITY_WITH_MAX_FACTOR = 8.0;
+
+/**
+ * The threshold used for the filtered velocity, if it exceeds this value then we use the velocity
+ * instead as estimation for the filtered velocity. More information can be found in the comment in the
+ * filterBallVelocity method of the Ball.cpp file.
+ */
+constexpr static float MAXIMUM_FILTER_VELOCITY = 100.0;
+
+class Ball {
+   private:
     /**
-     * If the closest distance between the ball and our robots is smaller than this value
-     * than the ball is considered to be close to that robot
+     * The position where this ball currently is
      */
-    constexpr static float THRESHOLD_ROBOT_CLOSE_TO_BALL = 0.5;
+    Vector2 position;
 
     /**
-     * The movement friction during simulation and real life are different, because the simulation does not model
-     * everything. So the movement friction has to be adjusted to compensate for this difference.
-     *
-     * The expected movement friction of the ball during simulation
+     * The current velocity of the ball
      */
-    constexpr static float SIMULATION_FRICTION = 1.22;
+    Vector2 velocity;
 
     /**
-     * The expected movement friction of the ball during simulation
+     * Boolean flag that indicates whether the ball is currently visible by any camera
      */
-    constexpr static float REAL_FRICTION = 0.61;
+    bool visible = false;
 
     /**
-     * The maximum possible factor used for the Kalman filter which is used when filtering the velocity.
+     * Expected ball end position (where it lays still) after following its path
      */
-    constexpr static float FILTER_MAX_FACTOR_FOR_VELOCITY = 0.8;
+    Vector2 expectedEndPosition;
 
     /**
-     * The smallest velocity used for the Kalman filter for which we have that the factor is equal
-     * THRESHOLD_ROBOT_CLOSE_TO_BALL. Larger velocities will also have THRESHOLD_ROBOT_CLOSE_TO_BALL as factor.
+     * The velocity but thn adjusted to determine a more realistic end position
      */
-    constexpr static float FILTER_VELOCITY_WITH_MAX_FACTOR = 8.0;
+    Vector2 filteredVelocity;
 
     /**
-     * The threshold used for the filtered velocity, if it exceeds this value then we use the velocity
-     * instead as estimation for the filtered velocity. More information can be found in the comment in the
-     * filterBallVelocity method of the Ball.cpp file.
+     * Initializes:
+     *  Filtered velocity
+     *  Expected end pos
+     *  Sets position if it's currently unknown
+     *  Updates position
      */
-    constexpr static float MAXIMUM_FILTER_VELOCITY = 100.0;
+    void initializeCalculations() noexcept;
 
-    class Ball {
-    private:
-        /**
-         * The position where this ball currently is
-         */
-        Vector2 position;
+    /**
+     * Initializes ball at the robot's position if `this` does not have a position
+     */
+    void initBallAtRobotPosition() noexcept;
 
-        /**
-         * The current velocity of the ball
-         */
-        Vector2 velocity;
+    /**
+     * Sets filteredVelocity
+     */
+    void filterBallVelocity() noexcept;
 
-        /**
-         * Boolean flag that indicates whether the ball is currently visible by any camera
-         */
-        bool visible = false;
+    /**
+     * Updates the expected ball end position
+     */
+    void updateExpectedBallEndPosition() noexcept;
 
-        /**
-         * Expected ball end position (where it lays still) after following its path
-         */
-        Vector2 expectedEndPosition;
+    /**
+     * Updates expectedEndPosition and draws to interface
+     * If ball not visible -> get last position if robot can confirm
+     * Also updates which robot has the ball and the location
+     */
+    void updateBallAtRobotPosition() noexcept;
 
-        /**
-         * The velocity but thn adjusted to determine a more realistic end position
-         */
-        Vector2 filteredVelocity;
+   public:
+    [[nodiscard]] const Vector2 &getPos() const noexcept;
 
-        /**
-         * Initializes:
-         *  Filtered velocity
-         *  Expected end pos
-         *  Sets position if it's currently unknown
-         *  Updates position
-         */
-        void initializeCalculations() noexcept;
+    [[nodiscard]] const Vector2 &getVelocity() const noexcept;
 
-        /**
-         * Initializes ball at the robot's position if `this` does not have a position
-         */
-        void initBallAtRobotPosition() noexcept;
+    [[nodiscard]] bool isVisible() const noexcept;
 
-        /**
-         * Sets filteredVelocity
-         */
-        void filterBallVelocity() noexcept;
+    [[nodiscard]] const Vector2 &getExpectedEndPosition() const noexcept;
 
-        /**
-         * Updates the expected ball end position
-         */
-        void updateExpectedBallEndPosition() noexcept;
+    [[nodiscard]] const Vector2 &getFilteredVelocity() const noexcept;
 
-        /**
-         * Updates expectedEndPosition and draws to interface
-         * If ball not visible -> get last position if robot can confirm
-         * Also updates which robot has the ball and the location
-         */
-        void updateBallAtRobotPosition() noexcept;
+    /**
+     * Default ctor for containers
+     */
+    Ball() = default;
 
+    /**
+     * Create a Ball object with the current data about the ball.
+     * @param copy The current data about the ball
+     */
+    explicit Ball(const proto::WorldBall &copy);
 
-    public:
-        [[nodiscard]] const Vector2 &getPos() const noexcept;
+    /**
+     * Defaulted constructors
+     */
+    Ball &operator=(Ball const &) = default;
 
-        [[nodiscard]] const Vector2 &getVelocity() const noexcept;
+    Ball(Ball const &) = default;
 
-        [[nodiscard]] bool isVisible() const noexcept;
+    Ball &operator=(Ball &&) = default;
 
-        [[nodiscard]] const Vector2 &getExpectedEndPosition() const noexcept;
+    Ball(Ball &&) = default;
 
-        [[nodiscard]] const Vector2 &getFilteredVelocity() const noexcept;
+    ~Ball() = default;
+};
 
-        /**
-         * Default ctor for containers
-         */
-        Ball() = default;
+}  // namespace rtt::world_new::ball
 
-        /**
-         * Create a Ball object with the current data about the ball.
-         * @param copy The current data about the ball
-         */
-        explicit Ball(const proto::WorldBall &copy);
-
-        /**
-         * Defaulted constructors
-         */
-        Ball &operator=(Ball const &) = default;
-
-        Ball(Ball const &) = default;
-
-        Ball &operator=(Ball &&) = default;
-
-        Ball(Ball &&) = default;
-
-        ~Ball() = default;
-    };
-
-} // namespace rtt::world::ball
-
-
-#endif //RTT_BALL_HPP
+#endif  // RTT_BALL_HPP
