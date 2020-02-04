@@ -3,14 +3,12 @@
 //
 
 #include "skills/gotopos/GoAroundPos.h"
-
 #include <control/ControlUtils.h>
-
 #include "interface/api/Input.h"
 
 namespace rtt::ai {
 
-GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard) : GoToPos(name, blackboard) {}
+GoAroundPos::GoAroundPos(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(name, blackboard) {}
 
 void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {
@@ -28,7 +26,7 @@ void GoAroundPos::gtpInitialize() {
     if (properties->hasDouble("targetDir")) {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
     } else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = Control::constrainAngle((field->get_field().get(THEIR_GOAL_CENTER) - targetPos).angle());
+        endAngle = Control::constrainAngle(((*field).getTheirGoalCenter() - targetPos).angle());
     } else {
         endAngle = 0;
         std::cerr << "GoAroundPos update --> No target direction set! Defaulting to 0" << std::endl;
@@ -80,7 +78,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
     displayColorData.emplace_back(commandPos, Qt::red);
     displayColorData.emplace_back(targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI), Qt::red);
 
-    //  interface::Input::setNumTreePoints(robot->id, displayColorData);
+    // interface::Input::setNumTreePoints(robot->id, displayColorData);
 
     switch (currentProgress) {
         case ROTATING: {
@@ -114,8 +112,9 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
     if (currentProgress == ROTATING) {
         if (currentTick > maxTick) {
             return STOPPING;
-        } else
+        } else {
             return ROTATING;
+        }
     }
 
     if (currentProgress == STOPPING) {
@@ -128,8 +127,9 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
         // If RobotPtr takes too long to stop, fail
         if (currentTick > maxTick + MAX_STOP_TIME * Constants::TICK_RATE()) {
             return FAIL;
-        } else
+        } else {
             return STOPPING;
+        }
     }
     return FAIL;
 }

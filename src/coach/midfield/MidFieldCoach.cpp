@@ -3,7 +3,9 @@
 //
 
 #include "coach/midfield/MidFieldCoach.h"
+#include <world/WorldData.h>
 #include "world/Ball.h"
+#include "world/Robot.h"
 
 namespace rtt::ai::coach {
 
@@ -17,11 +19,11 @@ void MidFieldCoach::addMidFielder(RobotPtr &thisRobot) {
     targetPositions[thisRobot->id] = target;
 }
 
-MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &thisRobot) {
+MidFieldCoach::Target MidFieldCoach::getTargetPosition(const Field &field, MidFieldCoach::RobotPtr &thisRobot) {
     // Check if already having an opponent as target
     if (targetRobotsToHarass.find(thisRobot->id) != targetRobotsToHarass.end()) {
         RobotPtr opponent = targetRobotsToHarass[thisRobot->id];
-        if (validOpponent(opponent)) {
+        if (validOpponent(field, opponent)) {
             return harassRobot(thisRobot, opponent, HARASS_DEFENSIVE);
         } else {
             targetRobotsToHarass.erase(thisRobot->id);
@@ -29,7 +31,7 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &
     }
 
     // If no opponent, or opponent not valid anymore, pick new target
-    RobotPtr opponent = findRobotToHarass(thisRobot);
+    RobotPtr opponent = findRobotToHarass(field, thisRobot);
 
     // If there is a opponent to harass
     if (opponent) {
@@ -49,20 +51,19 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(MidFieldCoach::RobotPtr &
                 return getBall(thisRobot, opponent);
             }
             case STAND_FREE: {
-                return standFree(thisRobot);
+                return standFree(field, thisRobot);
             }
         }
+    } else {
+        return standFree(field, thisRobot);
     }
-
-    return standFree(thisRobot);
 }
 
-bool MidFieldCoach::validOpponent(const RobotPtr &opponent) {
+bool MidFieldCoach::validOpponent(const Field &field, const RobotPtr &opponent) {
     if (abs(opponent->pos.x) > DISTANCE_FROM_MIDDLE_LINE) {
         return false;
     }
-
-    return world::field->pointIsInField(opponent->pos);
+    return FieldComputations::pointIsInField(field, opponent->pos);
 }
 
 void MidFieldCoach::removeMidFielder(MidFieldCoach::RobotPtr &thisRobot) {
@@ -126,14 +127,14 @@ MidFieldCoach::Target &MidFieldCoach::harassSlowRobot(const MidFieldCoach::Robot
     return target;
 }
 
-MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const RobotPtr &thisRobot) {
+MidFieldCoach::RobotPtr MidFieldCoach::findRobotToHarass(const Field &field, const RobotPtr &thisRobot) {
     RobotPtr closestRobot = nullptr;
     auto shortestDistance = 9e9;
 
     // Loop over all opponents to find a opponent to harass
     for (const auto &opponent : world::world->getThem()) {
         // If opponent is not valid, ignore it
-        if (!validOpponent(opponent)) continue;
+        if (!validOpponent(field, opponent)) continue;
 
         bool alreadyBeingHarassed = isRobotAlreadyBeingHarassed(opponent);
 
@@ -160,10 +161,10 @@ bool MidFieldCoach::isRobotAlreadyBeingHarassed(const world::World::RobotPtr &op
     return alreadyBeingHarassed;
 }
 
-MidFieldCoach::Target MidFieldCoach::standFree(const RobotPtr &thisRobot) {
+MidFieldCoach::Target MidFieldCoach::standFree(const Field &field, const RobotPtr &thisRobot) {
     Target target;
     target.targetRobot = -1;
-    target.targetPosition = calculateNewRobotPosition(thisRobot, thisRobot->vel.toAngle());
+    target.targetPosition = calculateNewRobotPosition(field, thisRobot, thisRobot->vel.toAngle());
     return target;
 }
 
@@ -211,19 +212,19 @@ MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr
     return target;
 }
 
-double MidFieldCoach::calculateStandingFreeScore(const Vector2 &position, const RobotPtr &thisRobot) {
+double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vector2 &position, const RobotPtr &thisRobot) {
     WorldData world = world::world->getWorld();
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position, thisRobot->id);
-    double distanceToBallScore = CoachHeuristics::calculatePassDistanceToBallScore(position, world);
+    double distanceToBallScore = CoachHeuristics::calculatePassDistanceToBallScore(field, position, world);
 
     return passLineScore + distanceToUsScore + distanceToBallScore;
 }
 
-Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angle targetAngle) {
+Vector2 MidFieldCoach::calculateNewRobotPosition(const Field &field, const RobotPtr &thisRobot, Angle targetAngle) {
     Vector2 bestPosition = targetPositions[thisRobot->id];
-    double highestScore = calculateStandingFreeScore(bestPosition, thisRobot);
+    double highestScore = calculateStandingFreeScore(field, bestPosition, thisRobot);
 
     Angle goldenAngle = 0.01;
     tick++;
@@ -234,8 +235,8 @@ Vector2 MidFieldCoach::calculateNewRobotPosition(const RobotPtr &thisRobot, Angl
                                       bestPosition + thetaMinus.toVector2(2.0 * GRID_SIZE), bestPosition + thetaMinus.toVector2(4.0 * GRID_SIZE)};
 
     for (const auto &position : positions) {
-        if (!world::field->pointIsInField(position, 0.20) || abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
-        double score = calculateStandingFreeScore(position, thisRobot);
+        if (!FieldComputations::pointIsInField(field, position, 0.20) || abs(position.x) > DISTANCE_FROM_MIDDLE_LINE) continue;
+        double score = calculateStandingFreeScore(field, position, thisRobot);
         if (score > highestScore) {
             highestScore = score;
             bestPosition = position;

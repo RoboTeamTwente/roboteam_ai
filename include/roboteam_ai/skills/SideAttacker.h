@@ -17,10 +17,10 @@ class SideAttacker : public Skill {
     Vector2 deltaPos;
     Vector2 targetPos;
 
-    Vector2 getOffensivePosition();
+    Vector2 getOffensivePosition(const Field &field);
 
    public:
-    explicit SideAttacker(string name, bt::Blackboard::Ptr blackboard);
+    explicit SideAttacker(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

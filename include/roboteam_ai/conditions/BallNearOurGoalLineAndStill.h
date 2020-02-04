@@ -3,7 +3,7 @@
 
 #include "Condition.h"
 #include "utilities/Constants.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 

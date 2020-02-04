@@ -3,12 +3,11 @@
 //
 
 #include "skills/DribbleForward.h"
-
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 
-DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+DribbleForward::DribbleForward(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleForward::onInitialize() {
     initialBallPos = ball->getPos();
@@ -18,7 +17,7 @@ void DribbleForward::onInitialize() {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (field->get_field().get(THEIR_GOAL_CENTER) - ball->getPos()).toAngle();
+    Angle angleToGoal = ((*field).getTheirGoalCenter() - ball->getPos()).toAngle();
     targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 

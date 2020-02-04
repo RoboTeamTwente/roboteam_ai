@@ -131,9 +131,7 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     }
 }
 
-void Robot::setRobotType(RobotType _type) noexcept {
-    this->type = _type;
-}
+void Robot::setRobotType(RobotType _type) noexcept { this->type = _type; }
 
 RobotType Robot::getRobotType() const noexcept { return type; }
 

@@ -4,13 +4,12 @@
 // TODO: Test real robot rotation speeds.
 // TODO: Make the robot automatically slow down/speed up if the ball is going to one end of the dribbler. Control?
 #include "skills/DribbleRotate.h"
-
 #include "coach/BallplacementCoach.h"
 #include "control/ControlUtils.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
-DribbleRotate::DribbleRotate(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+DribbleRotate::DribbleRotate(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleRotate::checkProgression() {
     if (!robot->hasBall()) {
@@ -34,7 +33,7 @@ void DribbleRotate::onInitialize() {
     if (properties->hasDouble("Angle")) {
         targetAngle = Angle(properties->getDouble("Angle"));
     } else if (properties->getBool("RotateToTheirGoal")) {
-        Vector2 theirCentre = world::field->get_field().get(THEIR_GOAL_CENTER);
+        Vector2 theirCentre = (*field).getTheirGoalCenter();
         targetAngle = (theirCentre - robot->pos).toAngle();
     } else if (properties->getBool("BallPlacement")) {
         if (properties->getBool("BallPlacementForwards")) {

@@ -7,7 +7,7 @@
 
 #include "GoToPos.h"
 #include "skills/Skill.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -39,7 +39,7 @@ class GoAroundPos : public GoToPos {
     Progression checkProgression();
 
    public:
-    explicit GoAroundPos(string name, bt::Blackboard::Ptr blackboard);
+    explicit GoAroundPos(std::string name, bt::Blackboard::Ptr blackboard);
     void gtpInitialize() override;
     Status gtpUpdate() override;
     void gtpTerminate(Status s) override;

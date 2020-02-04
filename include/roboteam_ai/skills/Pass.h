@@ -21,7 +21,7 @@ class Pass : public Skill {
 
     PassType passType = DEFAULT;
 
-    PassType stringToType(const std::string& type);
+    PassType stringToType(const std::string &type);
 
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
     const double SUCCESSFUL_PASS_ANGLE = 0.6;
@@ -40,7 +40,7 @@ class Pass : public Skill {
     virtual void makeCommand();
 
    public:
-    explicit Pass(string name, bt::Blackboard::Ptr blackboard);
+    explicit Pass(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

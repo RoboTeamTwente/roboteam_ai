@@ -1,10 +1,10 @@
 #include "skills/formations/KickOffUsFormation.h"
+#include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "control/ControlUtils.h"
 
 namespace rtt::ai {
-
 std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> KickOffUsFormation::robotsInFormation = nullptr;
 
 KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
@@ -12,9 +12,9 @@ KickOffUsFormation::KickOffUsFormation(std::string name, bt::Blackboard::Ptr bla
 }
 
 Vector2 KickOffUsFormation::getFormationPosition() {
-    auto fieldMsg = field->get_field();
-    double fh = fieldMsg.get(FIELD_WIDTH);
-    double fw = fieldMsg.get(FIELD_LENGTH);
+    std::vector<int> robotIds;
+    double fh = (*field).getFieldWidth();
+    double fw = (*field).getFieldLength();
 
     std::vector<std::vector<Vector2>> locations = {
         {{-0.2, 0}},

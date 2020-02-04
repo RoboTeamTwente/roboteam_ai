@@ -9,7 +9,7 @@
 #include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
 #include "coach/OffensiveCoach.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 namespace rtt::ai {
 
 class ShootPenalty : public Skill {
@@ -29,7 +29,7 @@ class ShootPenalty : public Skill {
     Vector2 ballPos;
 
    public:
-    explicit ShootPenalty(string name, bt::Blackboard::Ptr blackboard);
+    explicit ShootPenalty(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 };

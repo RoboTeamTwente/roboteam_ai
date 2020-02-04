@@ -5,7 +5,6 @@
  */
 
 #include "conditions/BallNearOurGoalLineAndStill.h"
-
 #include <world/Ball.h>
 #include <world/World.h>
 
@@ -22,7 +21,7 @@ void BallNearOurGoalLineAndStill::onInitialize() {
 bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
     Vector2 ballPos = world->getBall()->getPos();
 
-    bool ballNearGoalLine = ballPos.x < (field->get_field().get(LEFT_LINE).begin.x + margin);
+    bool ballNearGoalLine = ballPos.x < ((*field).getLeftLine().begin.x + margin);
     bool ballIsLayingStill = Vector2(ball->getVel()).length() < Constants::BALL_STILL_VEL();
 
     if (ballNearGoalLine && ballIsLayingStill) {

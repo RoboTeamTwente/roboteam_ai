@@ -45,7 +45,7 @@ class InterceptBall : public Skill {
     bool ballInGoal();
 
    public:
-    explicit InterceptBall(string name, bt::Blackboard::Ptr blackboard);
+    explicit InterceptBall(std::string name, bt::Blackboard::Ptr blackboard);
     void sendMoveCommand(Vector2 targetPos);
     Status onUpdate() override;
     void onInitialize() override;

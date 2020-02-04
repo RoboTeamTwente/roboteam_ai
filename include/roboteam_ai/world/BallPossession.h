@@ -1,10 +1,12 @@
 #ifndef ROBOTEAM_AI_BALLPOSSESSION_H
 #define ROBOTEAM_AI_BALLPOSSESSION_H
 
+#include "Field.h"
 #include "World.h"
 #include "gtest/gtest_prod.h"
 
 namespace rtt::ai {
+using namespace rtt::ai::world;
 
 /**
  * Computes and stores the ball possession state which indicates which team controls the ball (can also be both/no team).
@@ -51,7 +53,7 @@ class BallPossession {
     /**
      * Runs every tick to update which team possess the ball (can also be both/no team).
      */
-    void update();
+    void update(const Field &field);
 
     /**
      * Check which team possess the ball (can also be both/no team).
@@ -77,22 +79,22 @@ class BallPossession {
      * Checks if a team is currently (at this moment) relatively close to the ball. Returns true if that team is close
      * to the ball, returns false if that team is not close to the ball.
      */
-    bool teamCloseToBall(const world::WorldData& world, bool ourTeam);
+    bool teamCloseToBall(const world::WorldData &world, bool ourTeam);
 
     /**
      * Checks if a team is currently (at this moment) relatively far from the ball. Returns true if that team is far
      * away from the ball, returns false if that team is not far away from the ball.
      */
-    bool teamFarFromBall(const world::WorldData& world, bool ourTeam);
+    bool teamFarFromBall(const world::WorldData &world, bool ourTeam);
 
     /**
      * Recompute which team possess the ball (can also be both/no team).
      */
-    void recomputeState();
+    void recomputeState(const Field &field);
 };
 
 extern BallPossession ballPossession;
-extern BallPossession* ballPossessionPtr;
+extern BallPossession *ballPossessionPtr;
 
 }  // namespace rtt::ai
 

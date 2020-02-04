@@ -3,18 +3,17 @@
 //
 
 #include "interface/widgets/RobotsWidget.h"
-
+#include <include/roboteam_ai/utilities/IOManager.h>
 #include <QScrollArea>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-
 #include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
 #include "roboteam_proto/WorldRobot.pb.h"
 
 namespace rtt::ai::interface {
 
-RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent) {
+RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
     // make sure it is scrollable
     auto container = new QVBoxLayout();
     VLayout = new QVBoxLayout();
@@ -27,7 +26,8 @@ RobotsWidget::RobotsWidget(QWidget* parent) : QWidget(parent) {
     this->setLayout(container);
 }
 
-void RobotsWidget::updateContents(Visualizer* visualizer) {
+void RobotsWidget::updateContents(Visualizer *visualizer) {
+    auto const &field = io::io.getField();
     auto us = rtt::ai::world::world->getUs();
 
     // reload the widgets completely if a robot is added or removed
@@ -36,12 +36,12 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
         amountOfSelectedRobots = visualizer->getSelectedRobots().size();
         MainWindow::clearLayout(VLayout);
 
-        for (auto& robot : us) {
-            QGroupBox* groupBox = new QGroupBox("Robot " + QString::number(robot->id));
+        for (auto &robot : us) {
+            QGroupBox *groupBox = new QGroupBox("Robot " + QString::number(robot->id));
             groupBox->setCheckable(true);
             groupBox->setChecked(visualizer->robotIsSelected((*robot)));
             QObject::connect(groupBox, &QGroupBox::clicked, [=]() { visualizer->toggleSelectedRobot(robot->id); });
-            groupBox->setLayout(createRobotGroupItem(*robot));
+            groupBox->setLayout(createRobotGroupItem(field, *robot));
             VLayout->addWidget(groupBox);
         }
     } else {
@@ -51,7 +51,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
                 MainWindow::clearLayout(robotwidget->layout());
                 delete robotwidget->layout();
                 if (!robotwidget->layout()) {
-                    robotwidget->setLayout(createRobotGroupItem(*us.at(i)));
+                    robotwidget->setLayout(createRobotGroupItem(field, *us.at(i)));
                 }
             }
         }
@@ -61,7 +61,7 @@ void RobotsWidget::updateContents(Visualizer* visualizer) {
 }
 
 /// create a single layout with robot information for a specific robot
-QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
+QVBoxLayout *RobotsWidget::createRobotGroupItem(const Field &field, Robot robot) {
     auto vbox = new QVBoxLayout();
 
     auto absVel = robot.vel.length();
@@ -89,7 +89,7 @@ QVBoxLayout* RobotsWidget::createRobotGroupItem(Robot robot) {
     if (report) {
         analysis::RobotDanger danger = report->getRobotDangerForId(robot.id, true);
 
-        auto dangerTotalLabel = new QLabel("danger total: " + QString::number(danger.getTotalDanger(), 'g', 3));
+        auto dangerTotalLabel = new QLabel("danger total: " + QString::number(danger.getTotalDanger(field), 'g', 3));
         dangerTotalLabel->setFixedWidth(250);
         vbox->addWidget(dangerTotalLabel);
 

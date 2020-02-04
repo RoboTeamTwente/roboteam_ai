@@ -8,7 +8,7 @@ std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::FreeKickFormation::rob
 
 Vector2 FreeKickFormation::getFormationPosition() {
     update = true;
-    posses = rtt::ai::control::PositionUtils::getFreeKickPositions(robotsInFormation->size());
+    posses = rtt::ai::control::PositionUtils::getFreeKickPositions(*field, robotsInFormation->size());
     return getOptimalPosition(robot->id, *robotsInFormation, posses);
 }
 

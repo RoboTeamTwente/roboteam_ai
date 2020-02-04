@@ -28,13 +28,13 @@ class ReflectKick : public Skill {
     bool ballReceiveVelSet = false;
 
     void intercept();
-    Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
+    Vector2 computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall);
     Vector2 getKicker();
     double getAngle();
     bool ballDeflected();
 
    public:
-    explicit ReflectKick(string name, bt::Blackboard::Ptr blackboard);
+    explicit ReflectKick(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

@@ -7,7 +7,7 @@
 
 #include <coach/BallplacementCoach.h>
 #include <control/PositionUtils.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 #include "GoToPos.h"
 #include "interface/api/Input.h"
 #include "skills/Skill.h"
@@ -21,7 +21,7 @@ class GTPSpecial : public GoToPos {
     Type stringToType(const std::string &string);
 
    public:
-    explicit GTPSpecial(string name, bt::Blackboard::Ptr blackboard);
+    explicit GTPSpecial(std::string name, bt::Blackboard::Ptr blackboard);
     void gtpInitialize() override;
     Status gtpUpdate() override;
     void gtpTerminate(Status s) override;

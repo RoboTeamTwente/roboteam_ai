@@ -31,17 +31,17 @@ class Receive : public Skill {
 
     Vector2 targetPos;
 
-    virtual bool isInPosition(const Vector2& behindTargetPos = {0, 0});
+    virtual bool isInPosition(const Vector2 &behindTargetPos = {0, 0});
 
    protected:
     bool passFailed();
 
    public:
-    explicit Receive(string name, bt::Blackboard::Ptr blackboard);
+    explicit Receive(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
-    Vector2 computeInterceptPoint(const Vector2& startBall, const Vector2& endBall);
+    Vector2 computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall);
     void intercept();
     bool ballDeflected();
 };

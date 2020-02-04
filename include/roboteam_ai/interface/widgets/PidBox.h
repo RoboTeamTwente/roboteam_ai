@@ -15,19 +15,19 @@ namespace rtt::ai::interface {
 class PidBox : public QGroupBox {
     Q_OBJECT
    private:
-    QHBoxLayout* spinBoxLayout;
-    QDoubleSpinBox* select_p;
-    QDoubleSpinBox* select_i;
-    QDoubleSpinBox* select_d;
+    QHBoxLayout *spinBoxLayout;
+    QDoubleSpinBox *select_p;
+    QDoubleSpinBox *select_i;
+    QDoubleSpinBox *select_d;
     pidVals pid;
 
    public slots:
     void updatePID();
 
    public:
-    const pidVals& getPid() const;
-    void setPid(const pidVals& pid);
-    explicit PidBox(const QString& title, QWidget* parent = nullptr);
+    const pidVals &getPid() const;
+    void setPid(const pidVals &pid);
+    explicit PidBox(const QString &title, QWidget *parent = nullptr);
 
    signals:
     void pidChanged(pidVals newPid);
