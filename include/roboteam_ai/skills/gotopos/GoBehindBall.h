@@ -27,7 +27,7 @@ class GoBehindBall : public GoToPos {
 
    public:
     int chooseRandomGeneva(std::vector<std::pair<int, double>> genevaWithWeights);
-    explicit GoBehindBall(string name, bt::Blackboard::Ptr blackboard);
+    explicit GoBehindBall(std::string name, bt::Blackboard::Ptr blackboard);
     Status gtpUpdate() override;
     void gtpInitialize() override;
     void gtpTerminate(Status s) override;

@@ -9,7 +9,7 @@
 namespace rtt::ai {
 
 class PenaltyHelper : public Skill {
-    explicit PenaltyHelper(string name, bt::Blackboard::Ptr blackboard);
+    explicit PenaltyHelper(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
     void onTerminate(Status s) override;

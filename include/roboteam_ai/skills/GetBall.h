@@ -16,7 +16,7 @@ class GetBall : public Skill {
     Vector2 lockedTargetPos = Vector2();
 
    public:
-    explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
+    explicit GetBall(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

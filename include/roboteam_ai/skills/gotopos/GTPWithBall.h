@@ -28,7 +28,7 @@ class GTPWithBall : public Skill {
     void updateTarget();
 
    public:
-    explicit GTPWithBall(string name, bt::Blackboard::Ptr blackboard);
+    explicit GTPWithBall(std::string name, bt::Blackboard::Ptr blackboard);
 
     void onInitialize() override;
     Status onUpdate() override;

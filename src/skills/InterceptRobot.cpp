@@ -6,7 +6,7 @@
 
 namespace rtt::ai {
 
-InterceptRobot::InterceptRobot(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+InterceptRobot::InterceptRobot(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 void InterceptRobot::onInitialize() {
     //    gtp.setAvoidBallDistance(false);

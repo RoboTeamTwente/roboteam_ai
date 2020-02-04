@@ -13,7 +13,7 @@ namespace rtt::ai {
 
 class Attack : public Skill {
    public:
-    explicit Attack(string name, bt::Blackboard::Ptr blackboard);
+    explicit Attack(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
 };
 

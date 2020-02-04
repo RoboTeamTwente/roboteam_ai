@@ -16,7 +16,7 @@ class Wait : public Skill {
     int ticks = 0;
 
    public:
-    explicit Wait(string name, bt::Blackboard::Ptr blackboard);
+    explicit Wait(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 };

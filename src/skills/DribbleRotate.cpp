@@ -9,7 +9,7 @@
 #include "world/FieldComputations.h"
 
 namespace rtt::ai {
-DribbleRotate::DribbleRotate(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+DribbleRotate::DribbleRotate(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleRotate::checkProgression() {
     if (!robot->hasBall()) {

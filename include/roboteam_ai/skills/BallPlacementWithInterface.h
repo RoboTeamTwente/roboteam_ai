@@ -12,7 +12,7 @@ namespace rtt::ai {
 
 class BallPlacementWithInterface : public Skill {
    public:
-    explicit BallPlacementWithInterface(string name, bt::Blackboard::Ptr blackboard);
+    explicit BallPlacementWithInterface(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
 
    private:
