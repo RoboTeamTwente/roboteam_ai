@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.hpp"
+#include "Node.h"
 #include "roboteam_utils/Angle.h"
 #include "roboteam_utils/Vector2.h"
 

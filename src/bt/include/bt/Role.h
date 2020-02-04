@@ -2,7 +2,7 @@
 // Created by baris on 07/11/18.
 //
 
-#include "Node.hpp"
+#include "Node.h"
 
 #ifndef ROBOTEAM_AI_ROLE_H
 #define ROBOTEAM_AI_ROLE_H

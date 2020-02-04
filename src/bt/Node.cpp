@@ -1,12 +1,9 @@
-#include "bt/Node.hpp"
+#include "Node.h"
 #include <iostream>
 #include <memory>
-#include "bt/Blackboard.hpp"
-#include "bt/Node.hpp"
-#include "world/World.h"
+#include "Blackboard.h"
 
 namespace bt {
-using namespace rtt::ai::world;
 
 void Node::initialize() {}
 
@@ -20,7 +17,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World *world, const Field *field) {
+Node::Status Node::tick(rtt::ai::world::World *world, const rtt::ai::world::Field *field) {
     this->world = world;
     this->field = field;
 
@@ -81,10 +78,6 @@ void Node::NodeTerminate(Status s) {
 }
 
 unsigned long long Node::getAmountOfTicks() const { return amountOfTicks; }
-
-// ros::Time Node::getLastTickTime() {
-//    return lastTickTime;
-//}
 
 void Node::giveProperty(std::string a, std::string b) { std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl; }
 

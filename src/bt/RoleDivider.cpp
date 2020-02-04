@@ -2,7 +2,7 @@
 // Created by baris on 10-4-19.
 //
 
-#include "bt/RoleDivider.h"
+#include "RoleDivider.h"
 
 namespace bt {
 

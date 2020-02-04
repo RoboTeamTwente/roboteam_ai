@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.hpp"
+#include "Node.h"
 
 namespace bt {
 
