@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include "Composite.h"
+#include "bt/Composite.h"
 
 namespace bt {
 

@@ -1,4 +1,4 @@
-add_library(bt
+add_library(bt STATIC
         composites/MemSelector.cpp
         composites/MemSequence.cpp
         composites/ParallelSequence.cpp
@@ -16,7 +16,6 @@ add_library(bt
         Blackboard.cpp
         Composite.cpp
         Decorator.cpp
-        Leaf.cpp
         Node.cpp
         RoleDivider.cpp
         Role.cpp
@@ -25,7 +24,6 @@ target_link_libraries(bt
         PUBLIC roboteam_utils
         )
 target_include_directories(bt
-        INTERFACE include
-        PRIVATE include/bt
+        PUBLIC include
         )
 add_library(rtt::bt ALIAS bt)

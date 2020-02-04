@@ -6,13 +6,13 @@
 #include <include/roboteam_ai/conditions/IsBeingPassedTo.h>
 #include <include/roboteam_ai/skills/Receive.h>
 
-#include <include/roboteam_ai/bt/composites/Selector.hpp>
-#include <include/roboteam_ai/bt/composites/Sequence.hpp>
+#include <src/bt/include/bt/composites/Selector.h>
+#include <src/bt/include/bt/composites/Sequence.h>
 #include <include/roboteam_ai/conditions/IsInDefenseArea.hpp>
 
 #include "bt/Role.h"
 #include "bt/RoleDivider.h"
-#include "bt/tactics/DefaultTactic.h"
+#include "treeinterp/tactics/DefaultTactic.h"
 #include "skills/Attack.h"
 #include "skills/gotopos/GoToPos.h"
 

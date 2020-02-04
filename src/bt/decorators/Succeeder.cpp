@@ -2,7 +2,7 @@
  *   The Succeeder decorator returns success, regardless of what happens to the child.
  */
 
-#include "decorators/Succeeder.h"
+#include "bt/decorators/Succeeder.h"
 
 namespace bt {
 

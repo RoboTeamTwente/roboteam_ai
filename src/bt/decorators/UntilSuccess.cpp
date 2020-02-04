@@ -2,7 +2,7 @@
  * The UntilSuccess decorator repeats until the child returns success and then returns success.
  */
 
-#include "decorators/UntilSuccess.h"
+#include "bt/decorators/UntilSuccess.h"
 
 namespace bt {
 

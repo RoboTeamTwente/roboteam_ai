@@ -48,33 +48,13 @@ set(JSON_SOURCES
         )
 
 set(BT_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/ParallelSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemParallelSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/Selector.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/Sequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Failer.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Inverter.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Repeater.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Succeeder.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilFail.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilSuccess.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/BehaviorTree.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Composite.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Decorator.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Leaf.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -260,7 +240,6 @@ set(INTERFACE_SOURCES
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
-
         ${PROJECT_SOURCE_DIR}/src/world/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
@@ -315,13 +294,13 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
+        PRIVATE bt
         PRIVATE ${SDL2_LIBRARY}
         )
 
 set(AI_INCLUDES
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src
         PRIVATE ${SDL2_INCLUDE_DIRS}
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )

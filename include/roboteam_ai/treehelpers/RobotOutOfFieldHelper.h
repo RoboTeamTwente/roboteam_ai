@@ -4,7 +4,7 @@
 
 #ifndef RTT_ROBOTOUTOFFIELDHELPER_H
 #define RTT_ROBOTOUTOFFIELDHELPER_H
-#include <include/roboteam_ai/bt/Node.hpp>
+#include <bt/Node.h>
 
 namespace bt {
 class RobotOutOfFieldHelper {

@@ -7,12 +7,12 @@
 #include <include/roboteam_ai/skills/Halt.h>
 #include <include/roboteam_ai/skills/Pass.h>
 
-#include <include/roboteam_ai/bt/composites/MemSequence.hpp>
+#include <src/bt/include/bt/composites/MemSequence.h>
 
-#include "bt/BehaviorTree.hpp"
+#include "bt/BehaviorTree.h"
 #include "bt/Role.h"
-#include "bt/decorators/Repeater.hpp"
-#include "bt/tactics/DefaultTactic.h"
+#include "src/bt/include/bt/decorators/Repeater.h"
+#include "treeinterp/tactics/DefaultTactic.h"
 #include "skills/Attack.h"
 #include "skills/gotopos/GoToPos.h"
 #include "treeinterp/OffensiveStrategy.h"

@@ -5,7 +5,7 @@
  *    If all children fails, only then does the selector fail.
  */
 
-#include "composites/MemSelector.h"
+#include "bt/composites/MemSelector.h"
 
 namespace bt {
 

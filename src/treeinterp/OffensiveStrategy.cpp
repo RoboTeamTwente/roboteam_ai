@@ -7,10 +7,10 @@
 #include <include/roboteam_ai/treeinterp/PassRole.h>
 #include <include/roboteam_ai/treeinterp/SideAttackerRole.h>
 
-#include "bt/BehaviorTree.hpp"
+#include "bt/BehaviorTree.h"
 #include "bt/Role.h"
-#include "bt/decorators/Repeater.hpp"
-#include "bt/tactics/DefaultTactic.h"
+#include "src/bt/include/bt/decorators/Repeater.h"
+#include "treeinterp/tactics/DefaultTactic.h"
 #include "skills/Attack.h"
 #include "skills/gotopos/GoToPos.h"
 

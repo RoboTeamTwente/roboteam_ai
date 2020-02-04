@@ -3,7 +3,7 @@
  *   If the child runs, the Inverter returns the status that it is running too.
  */
 
-#include "decorators/Inverter.h"
+#include "bt/decorators/Inverter.h"
 
 namespace bt {
 

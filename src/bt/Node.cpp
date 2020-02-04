@@ -1,7 +1,7 @@
-#include "Node.h"
+#include "bt/Node.h"
 #include <iostream>
 #include <memory>
-#include "Blackboard.h"
+#include "bt/Blackboard.h"
 
 namespace bt {
 

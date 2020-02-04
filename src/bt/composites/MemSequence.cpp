@@ -5,7 +5,7 @@
  *   If all children succeeds, only then does the sequence succeed.
  */
 
-#include "composites/MemSequence.h"
+#include "bt/composites/MemSequence.h"
 
 namespace bt {
 MemSequence::MemSequence() : Composite() {}

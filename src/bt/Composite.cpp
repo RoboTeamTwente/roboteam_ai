@@ -1,4 +1,4 @@
-#include "Composite.h"
+#include "bt/Composite.h"
 
 namespace bt {
 

@@ -7,7 +7,7 @@
 
 #include <analysis/DecisionMaker.h>
 #include <utilities/RobotDealer.h>
-#include <src/bt/include/bt/Node.hpp>
+#include <bt/Node.h>
 #include <mutex>
 
 namespace bt {

@@ -13,10 +13,10 @@
 #include <include/roboteam_ai/skills/Pass.h>
 #include <include/roboteam_ai/treehelpers/BeingPassedToHelper.h>
 #include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
-#include <include/roboteam_ai/bt/composites/MemSelector.hpp>
-#include <include/roboteam_ai/bt/composites/Selector.hpp>
-#include <include/roboteam_ai/bt/composites/Sequence.hpp>
-#include <include/roboteam_ai/bt/decorators/Inverter.hpp>
+#include <src/bt/include/bt/composites/MemSelector.h>
+#include <src/bt/include/bt/composites/Selector.h>
+#include <src/bt/include/bt/composites/Sequence.h>
+#include <src/bt/include/bt/decorators/Inverter.h>
 #include <include/roboteam_ai/conditions/IsInDefenseArea.hpp>
 
 #include "bt/Role.h"

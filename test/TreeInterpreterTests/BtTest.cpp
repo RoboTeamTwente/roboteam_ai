@@ -1,4 +1,4 @@
-#include <bt/composites/MemParallelSequence.h>
+#include <src/bt/include/bt/composites/MemParallelSequence.h>
 #include <gtest/gtest.h>
 #include <skills/Halt.h>
 

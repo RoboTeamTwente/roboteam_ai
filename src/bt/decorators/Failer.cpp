@@ -2,7 +2,7 @@
  * The Failer decorator returns failure, regardless of what happens to the child.
  */
 
-#include "decorators/Failer.h"
+#include "bt/decorators/Failer.h"
 
 namespace bt {
 

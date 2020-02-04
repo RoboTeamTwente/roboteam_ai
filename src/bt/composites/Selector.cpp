@@ -5,7 +5,7 @@
  *    If all children fails, only then does the selector fail.
  */
 
-#include "composites/Selector.h"
+#include "bt/composites/Selector.h"
 
 namespace bt {
 /**

@@ -12,7 +12,7 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
-#include <bt/Node.hpp>
+#include <bt/Node.h>
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
 
