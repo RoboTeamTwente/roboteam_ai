@@ -1,6 +1,5 @@
 #include <roboteam_utils/Hungarian.h>
 #include "utilities/Dealer.h"
-#include "control/ControlUtils.h"
 #include <roboteam_utils/LineSegment.h>
 
 namespace rtt::ai {
@@ -103,7 +102,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             // get distance to line between ball and goal
             // TODO this method can be improved by choosing a better line for the interception.
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
-            return control::ControlUtils::distanceToLine(robot->getPos(), lineSegment.start, lineSegment.end);
+            return lineSegment.distanceToLine(robot->getPos());
         }
     }
     std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
