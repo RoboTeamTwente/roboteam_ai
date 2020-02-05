@@ -84,8 +84,4 @@ size_t World::getHistorySize() const noexcept {
     return history.size();
 }
 
-Settings World::getSettings() const noexcept {
-    return Settings(*settings);
-}
-
 }  // namespace rtt::world_new
