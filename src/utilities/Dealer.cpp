@@ -72,6 +72,7 @@ double Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
     return factor * getDefaultFlagScores(robot, flag);
 }
 
+// TODO these values need to be tuned.
 double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
     switch (flag.priority) {
         case DealerFlagPriority::LOW_PRIORITY: return 1.0;
@@ -80,7 +81,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
     }
 }
 
-// TODO 'invert' the matrix scores
+// TODO these values need to be tuned. 
 double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::DealerFlag &flag) {
     auto fieldWidth = field->getFieldWidth(); 
     auto fieldLength = field->getFieldLength(); 
