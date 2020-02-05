@@ -83,13 +83,13 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
 
 // TODO 'invert' the matrix scores
 double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::DealerFlag &flag) {
-    auto fieldWidth = field->get_field().get(FIELD_WIDTH);
-    auto fieldLength = field->get_field().get(FIELD_LENGTH);
+    auto fieldWidth = field->getFieldWidth(); 
+    auto fieldLength = field->getFieldLength(); 
     switch (flag.title) {
         case DealerFlagTitle::CLOSE_TO_THEIR_GOAL: 
-            return costForDistance(field->getDistanceToGoal(false, robot->getPos()), fieldWidth, fieldLength);
+            return costForDistance(FieldComputations::getDistanceToGoal(*field, false, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_OUR_GOAL: 
-            return costForDistance(field->getDistanceToGoal(true, robot->getPos()), fieldWidth, fieldLength);
+            return costForDistance(FieldComputations::getDistanceToGoal(*field, true, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_BALL: {
             auto ball = world.getBall();
             if (!ball) return 0.0;
@@ -102,7 +102,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
             // get distance to line between ball and goal
             // TODO this method can be improved by choosing a better line for the interception.
-            LineSegment lineSegment = {world.getBall()->get()->getPos(), field->get_field().get(OUR_GOAL_CENTER)};
+            LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
             return control::ControlUtils::distanceToLine(robot->getPos(), lineSegment.start, lineSegment.end);
         }
     }
