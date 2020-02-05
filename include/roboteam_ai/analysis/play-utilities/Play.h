@@ -6,7 +6,7 @@
 #define RTT_PLAY_H
 
 #include <vector>
-#include "bt/BehaviorTree.hpp"
+#include "bt/BehaviorTree.h"
 #include "functional"
 
 namespace rtt::ai::analysis {

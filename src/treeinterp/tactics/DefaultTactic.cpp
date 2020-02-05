@@ -1,4 +1,4 @@
-#include "bt/tactics/DefaultTactic.h"
+#include "treeinterp/tactics/DefaultTactic.h"
 
 #include <analysis/GameAnalyzer.h>
 #include <world/World.h>

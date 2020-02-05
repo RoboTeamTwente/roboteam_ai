@@ -2,7 +2,7 @@
  * The Repeater decorator repeats infinitely or to a limit until the child returns success.
  */
 
-#include "bt/decorators/Repeater.hpp"
+#include "bt/decorators/Repeater.h"
 
 namespace bt {
 

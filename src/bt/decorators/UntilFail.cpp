@@ -2,7 +2,7 @@
  *  The UntilFail decorator repeats until the child returns fail and then returns success.
  */
 
-#include "bt/decorators/UntilFail.hpp"
+#include "bt/decorators/UntilFail.h"
 
 namespace bt {
 
