@@ -14,6 +14,23 @@ set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 include(cotire)
 include(FindSDL2)
 
+find_program(CCACHE ccache)
+find_program(GCC g++)
+find_program(CLANG clang++)
+
+if (CLANG)
+    set(CXX_COMPILER clang++)
+elseif (GCC)
+    set(CXX_COMPILER g++)
+endif() 
+
+if (CCACHE) 
+    set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
+else()
+    set(CMAKE_CXX_COMPILER "/bin/${CXX_COMPILER}")
+endif()
+
+
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if(APPLE)
     set(Qt5Widgets_DIR "/usr/local/opt/qt5/lib/cmake/Qt5Widgets")
