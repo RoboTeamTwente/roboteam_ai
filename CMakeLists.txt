@@ -14,10 +14,12 @@ set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 include(cotire)
 include(FindSDL2)
 
+# Find programs and assign the boolean to the variables, find_program(variable binary)
 find_program(CCACHE ccache)
 find_program(GCC g++)
 find_program(CLANG clang++)
 
+# Some ccache logic
 if (CLANG)
     set(CXX_COMPILER clang++)
 elseif (GCC)
@@ -29,7 +31,7 @@ if (CCACHE)
 else()
     set(CMAKE_CXX_COMPILER "/bin/${CXX_COMPILER}")
 endif()
-
+# end of ccache logic
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if(APPLE)
