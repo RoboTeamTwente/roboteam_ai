@@ -1,4 +1,4 @@
-#include "bt/Composite.hpp"
+#include "bt/Composite.h"
 
 namespace bt {
 

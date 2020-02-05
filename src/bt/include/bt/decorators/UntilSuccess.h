@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Decorator.hpp"
+#include "bt/Decorator.h"
 
 namespace bt {
 

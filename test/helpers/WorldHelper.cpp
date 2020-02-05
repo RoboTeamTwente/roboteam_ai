@@ -180,42 +180,4 @@ proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool wit
     return msg;
 }
 
-/*
- * Generate a world message for both teams where one of the robots has the ball.
- * Returns the id of the robot with the ball and and the world message
- */
-std::pair<proto::World, int> WorldHelper::getWorldMsgWhereRobotHasBall(int amountYellow, int amountBlue, bool weHaveBall, proto::GeometryFieldSize field) {
-    // first create a message with both teams and a ball
-    proto::World msg;
-    rtt::Vector2 ballLocation;
-    int robotWithBallId = -42;
-    int wrongMsg = 0;
-    bool validWorld = false;
-    while (!validWorld) {
-        msg = getWorldMsg(amountYellow, amountBlue, false, field);
-        // determine a list with robots of which one should have the ball
-        google::protobuf::RepeatedPtrField<proto::WorldRobot> robots = weHaveBall ? msg.yellow() : msg.blue();
-        std::shuffle(robots.begin(), robots.end(), std::mt19937(std::random_device()()));
-        if (!robots.empty()) {
-            ballLocation = getLocationRightBeforeRobot(robots[0]);
-            robotWithBallId = robots[0].id();
-        }
-        auto randomBall = generateBallAtLocation(ballLocation);
-        msg.set_allocated_ball(&randomBall);
-
-        validWorld = allPositionsAreValid(msg, false);
-        rtt::ai::world::world->updateWorld(msg);
-        if (rtt::ai::world::world->whichRobotHasBall() && rtt::ai::world::world->whichRobotHasBall()->id != robotWithBallId) {
-            wrongMsg++;
-            validWorld = false;
-        }
-    }
-
-    if (wrongMsg > 10) {
-        return std::make_pair(proto::World(), -42);
-    }
-
-    return std::make_pair(msg, robotWithBallId);
-}
-
 }  // namespace testhelpers

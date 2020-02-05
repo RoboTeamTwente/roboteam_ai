@@ -4,7 +4,7 @@
 
 #ifndef RTT_BEINGPASSEDTOHELPER_H
 #define RTT_BEINGPASSEDTOHELPER_H
-#include "bt/BehaviorTree.hpp"
+#include "bt/BehaviorTree.h"
 
 namespace bt {
 class BeingPassedToHelper {
