@@ -11,7 +11,7 @@ namespace rtt::ai {
  * @param name the name for the node (shows up in the tree visualiser widget (probably))
  * @param blackboard the blackboard passed into the GTPSpecial, for example, to set the "type" of the GTPSpecial
  */
-GTPSpecial::GTPSpecial(string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
+GTPSpecial::GTPSpecial(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
 
 void GTPSpecial::gtpInitialize() {
     type = stringToType(properties->getString("type"));
@@ -45,8 +45,7 @@ void GTPSpecial::gtpInitialize() {
         case freeKick: {
             maxVel = 9e9;
             Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
-
-            Vector2 penaltyThem = rtt::ai::world::field->getPenaltyPoint(false);
+            Vector2 penaltyThem = FieldComputations::getPenaltyPoint(*field, false);
             targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length() / 2.0));
             errorMargin = 0.05;
             break;
@@ -58,22 +57,21 @@ void GTPSpecial::gtpInitialize() {
             break;
         }
         case ourGoalCenter: {
-            targetPos = world::field->get_field().get(OUR_GOAL_CENTER);
+            targetPos = (*field).getOurGoalCenter();
             break;
         }
         case ourDefenseAreaCenter: {
-            targetPos = world::field->getDefenseArea().centroid();
+            targetPos = FieldComputations::getDefenseArea(*field).centroid();
             break;
         }
     }
 }
 
 Vector2 GTPSpecial::getBallFromSideLocation() {
-    FieldMessage field = world::field->get_field();
-    double distanceFromTop = abs(field.get(FIELD_WIDTH) * 0.5 - ball->getPos().y);
-    double distanceFromBottom = abs(-field.get(FIELD_WIDTH) * 0.5 - ball->getPos().y);
-    double distanceFromLeft = abs(-field.get(FIELD_LENGTH) * 0.5 - ball->getPos().x);
-    double distanceFromRight = abs(field.get(FIELD_LENGTH) * 0.5 - ball->getPos().x);
+    double distanceFromTop = abs((*field).getFieldWidth() * 0.5 - ball->getPos().y);
+    double distanceFromBottom = abs(-(*field).getFieldWidth() * 0.5 - ball->getPos().y);
+    double distanceFromLeft = abs(-(*field).getFieldLength() * 0.5 - ball->getPos().x);
+    double distanceFromRight = abs((*field).getFieldLength() * 0.5 - ball->getPos().x);
 
     double distance = 9e9;
     Vector2 pos;
@@ -139,13 +137,13 @@ Skill::Status GTPSpecial::gtpUpdate() {
             maxVel = 1.0;
             break;
         case ourGoalCenter: {
-            targetPos = world::field->get_field().get(OUR_GOAL_CENTER);
+            targetPos = (*field).getOurGoalCenter();
             robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
             command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
             break;
         }
         case ourDefenseAreaCenter: {
-            targetPos = rtt::ai::world::field->getDefenseArea().centroid();
+            targetPos = FieldComputations::getDefenseArea(*field).centroid();
             robot->getNumtreePosControl()->setCanMoveInDefenseArea(true);
             command = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos, true).makeROSCommand();
             break;

@@ -17,11 +17,11 @@ namespace ai {
 namespace interface {
 class ManualControlWidget : public QWidget {
    public:
-    ManualControlWidget(QWidget* parent);
+    ManualControlWidget(QWidget *parent);
 
    private:
     std::thread joyThread;
-    rtt::input::JoystickManager* manager;
+    rtt::input::JoystickManager *manager;
     Toggle RobotSelector;
 };
 }  // namespace interface

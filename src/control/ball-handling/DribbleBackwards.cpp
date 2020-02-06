@@ -4,13 +4,10 @@
 //
 
 #include "control/ball-handling/DribbleBackwards.h"
-
 #include <interface/api/Input.h>
-#include <world/Field.h>
-
+#include <world/FieldComputations.h>
 #include <iostream>
 #include <sstream>
-
 #include "control/ControlUtils.h"
 #include "control/ball-handling/RotateAroundBall.h"
 #include "control/ball-handling/RotateWithBall.h"
@@ -19,7 +16,7 @@
 
 namespace rtt::ai::control {
 
-RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand DribbleBackwards::getRobotCommand(const Field &field, RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
     robot = std::move(r);
     ball = world::world->getBall();
     finalTargetAngle = targetA;
@@ -28,7 +25,7 @@ RobotCommand DribbleBackwards::getRobotCommand(RobotPtr r, const Vector2 &target
     targetPos = targetP;
 
     updateBackwardsProgress();
-    return sendBackwardsCommand();
+    return sendBackwardsCommand(field);
 }
 
 void DribbleBackwards::reset() { backwardsProgress = START; }
@@ -127,7 +124,7 @@ void DribbleBackwards::updateBackwardsProgress() {
     }
 }
 
-RobotCommand DribbleBackwards::sendBackwardsCommand() {
+RobotCommand DribbleBackwards::sendBackwardsCommand(const Field &field) {
     switch (backwardsProgress) {
         case START:
             return startTravelBackwards();
@@ -136,7 +133,7 @@ RobotCommand DribbleBackwards::sendBackwardsCommand() {
         case APPROACHING:
             return sendApproachCommand();
         case OVERSHOOTING:
-            return sendOvershootCommand();
+            return sendOvershootCommand(field);
         case DRIBBLING:
             return sendDribblingCommand();
         case DRIBBLE_BACKWARDS:
@@ -176,13 +173,13 @@ RobotCommand DribbleBackwards::sendApproachCommand() {
     return command;
 }
 
-RobotCommand DribbleBackwards::sendOvershootCommand() {
+RobotCommand DribbleBackwards::sendOvershootCommand(const Field &field) {
     RobotCommand command;
     command.dribbler = 31;
     command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
 
-    if (failedOnce && !world::field->pointIsInField(ball->getPos(), Constants::ROBOT_RADIUS())) {
+    if (failedOnce && !FieldComputations::pointIsInField(field, ball->getPos(), Constants::ROBOT_RADIUS())) {
         command.kickerForced = true;
         command.kickerVel = 2;
         command.kicker = true;
@@ -271,6 +268,7 @@ DribbleBackwards::~DribbleBackwards() {
     delete rotateAroundBall;
     delete rotateAroundRobot;
 }
+
 void DribbleBackwards::setMaxVel(double maxV) { maxVel = maxV; }
 
 }  // namespace rtt::ai::control

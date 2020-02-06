@@ -1,11 +1,11 @@
 //
 // Created by jessevw on 19.11.19.
 //
-#include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
 #include <include/roboteam_ai/conditions/RobotOutside.h>
 #include <include/roboteam_ai/skills/gotopos/GTPSpecial.h>
+#include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
 
-#include <include/roboteam_ai/bt/composites/Sequence.hpp>
+#include <bt/composites/Sequence.h>
 
 #include "bt/Role.h"
 #include "bt/RoleDivider.h"

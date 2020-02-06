@@ -4,7 +4,6 @@
 
 #include "include/roboteam_ai/treeinterp/SideAttackerRole.h"
 
-#include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
 #include <include/roboteam_ai/conditions/BallOutOfField.h>
 #include <include/roboteam_ai/conditions/CanReflectKick.h>
 #include <include/roboteam_ai/conditions/HasClearShot.h>
@@ -18,11 +17,12 @@
 #include <include/roboteam_ai/skills/Receive.h>
 #include <include/roboteam_ai/skills/ReflectKick.h>
 #include <include/roboteam_ai/skills/SideAttacker.h>
+#include <include/roboteam_ai/treehelpers/RobotOutOfFieldHelper.h>
 
-#include <include/roboteam_ai/bt/composites/MemSequence.hpp>
-#include <include/roboteam_ai/bt/composites/Selector.hpp>
-#include <include/roboteam_ai/bt/composites/Sequence.hpp>
-#include <include/roboteam_ai/bt/decorators/Inverter.hpp>
+#include <bt/composites/MemSequence.h>
+#include <bt/composites/Selector.h>
+#include <bt/composites/Sequence.h>
+#include <bt/decorators/Inverter.h>
 #include <include/roboteam_ai/conditions/IsInDefenseArea.hpp>
 
 #include "bt/Role.h"

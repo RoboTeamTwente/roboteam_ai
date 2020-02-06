@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include <bt/decorators/Succeeder.hpp>
+#include <bt/decorators/Succeeder.h>
 
 #include "bt/RoleDivider.h"
 

@@ -14,12 +14,12 @@ class RuleSetWidget : public QWidget {
     Q_OBJECT
 
    private:
-    QVBoxLayout* vLayout;
+    QVBoxLayout *vLayout;
     void updateLabels();
-    QWidget* contentsWidget;
+    QWidget *contentsWidget;
 
    public:
-    explicit RuleSetWidget(QWidget* parent = nullptr);
+    explicit RuleSetWidget(QWidget *parent = nullptr);
 
    public slots:
     void updateContents();

@@ -8,13 +8,13 @@
 #include <control/BasicPosControl.h>
 #include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
 class ShootFreeKick : public Skill {
    public:
-    explicit ShootFreeKick(string name, bt::Blackboard::Ptr blackboard);
+    explicit ShootFreeKick(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
     void onTerminate(Status s) override;

@@ -15,11 +15,11 @@ class GraphWidget : public QWidget {
     float fpsGraphYMax = 0;
     float fpsGraphXMin = 0;
     float fpsGraphXMax = 0;
-    QChartView* fpsView;
-    QLineSeries* fpsSeries;
+    QChartView *fpsView;
+    QLineSeries *fpsSeries;
 
    public:
-    explicit GraphWidget(QWidget* parent = nullptr);
+    explicit GraphWidget(QWidget *parent = nullptr);
    public slots:
     void updateContents();
 };

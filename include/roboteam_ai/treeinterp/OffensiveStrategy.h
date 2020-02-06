@@ -4,8 +4,8 @@
 #ifndef RTT_TREE_PROTO_TYPE_H
 #define RTT_TREE_PROTO_TYPE_H
 
-#include <include/roboteam_ai/bt/tactics/DefaultTactic.h>
-#include "bt/BehaviorTree.hpp"
+#include "treeinterp/tactics/DefaultTactic.h"
+#include "bt/BehaviorTree.h"
 #include "bt/Role.h"
 
 namespace bt {

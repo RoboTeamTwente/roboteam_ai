@@ -5,8 +5,8 @@
 #ifndef RTT_PASSROLE_H
 #define RTT_PASSROLE_H
 
-#include <include/roboteam_ai/bt/tactics/DefaultTactic.h>
-#include "bt/BehaviorTree.hpp"
+#include <treeinterp/tactics/DefaultTactic.h>
+#include "bt/BehaviorTree.h"
 #include "bt/Role.h"
 
 namespace bt {

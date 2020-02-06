@@ -24,12 +24,9 @@
  */
 
 #include "skills/formations/BallPlacementFormation.h"
-
 #include <interface/api/Input.h>
-#include <world/Field.h>
-
+#include <world/FieldComputations.h>
 #include "control/ControlUtils.h"
-#include "control/Hungarian.h"
 
 namespace rtt::ai {
 
@@ -60,16 +57,7 @@ Vector2 BallPlacementFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-    std::vector<int> robotIds;
-    for (auto &i : *robotsInFormation) {
-        if (robotIds.size() < 8) {  // check for amount of robots, we dont want more than 8
-            robotIds.push_back(i->id);
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, properPositions);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, properPositions);
 }
 
 std::shared_ptr<std::vector<world::World::RobotPtr>> BallPlacementFormation::robotsInFormationPtr() { return robotsInFormation; }
@@ -97,7 +85,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->getPos()), ballPlacementMarker) < 0.9;
-    return (tooCloseToLine || !field->pointIsInField(pos, 0.0));
+    return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos, 0.0));
 }
 
 }  // namespace rtt::ai

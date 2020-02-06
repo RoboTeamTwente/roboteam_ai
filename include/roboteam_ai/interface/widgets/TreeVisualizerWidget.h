@@ -7,8 +7,8 @@
 
 #include <utilities/GameState.h>
 #include <QtWidgets/QTreeWidget>
-#include <bt/BehaviorTree.hpp>
-#include <bt/Node.hpp>
+#include <bt/BehaviorTree.h>
+#include <bt/Node.h>
 
 namespace rtt::ai::interface {
 
@@ -20,20 +20,20 @@ class TreeVisualizerWidget : public QTreeWidget {
 
    private:
     QColor getColorForStatus(bt::Node::Status status);
-    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent);
-    std::map<QTreeWidgetItem*, bt::Node::Ptr> treeItemMapping;
+    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem *QParent);
+    std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     bool hasCorrectTree = false;
-    MainWindow* parent = nullptr;
+    MainWindow *parent = nullptr;
     unsigned long long mostTicks = 0;
     GameState recentGameState;
 
    public:
-    explicit TreeVisualizerWidget(MainWindow* parent);
+    explicit TreeVisualizerWidget(MainWindow *parent);
     void setHasCorrectTree(bool hasCorrectTree);
    public slots:
     void invalidateTree();
     void updateContents(bt::BehaviorTree::Ptr tree);
-    void populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate = false);
+    void populateRow(bt::Node::Ptr node, QTreeWidgetItem *row, bool isUpdate = false);
 };
 
 }  // namespace rtt::ai::interface

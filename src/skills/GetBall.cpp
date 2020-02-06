@@ -11,7 +11,7 @@ namespace rtt::ai {
 
 // TODO: do obstacle checking and return fail if there is an obstacle in the way.
 // GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
-GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+GetBall::GetBall(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void GetBall::onInitialize() { ballHandlePosControl.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea")); }
 

@@ -19,12 +19,12 @@
 
 namespace rtt::ai::interface {
 
-TreeVisualizerWidget::TreeVisualizerWidget(MainWindow* parent) : QTreeWidget((QWidget*)parent) {
+TreeVisualizerWidget::TreeVisualizerWidget(MainWindow *parent) : QTreeWidget((QWidget *)parent) {
     this->parent = parent;
     this->setColumnCount(4);
     this->setColumnWidth(0, 250);
 
-    QTreeWidgetItem* header = this->headerItem();
+    QTreeWidgetItem *header = this->headerItem();
     header->setText(0, "Node");
     header->setText(1, "Status");
     header->setText(2, "Last tick");
@@ -36,7 +36,7 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree) {
     // Iterate through all treeWidget items to update the status if needed
     QTreeWidgetItemIterator iter(this, QTreeWidgetItemIterator::All);
     while (*iter) {
-        QTreeWidgetItem* widgetItem = *iter;
+        QTreeWidgetItem *widgetItem = *iter;
         if (treeItemMapping.find(widgetItem) != treeItemMapping.end()) {
             populateRow(treeItemMapping.at(widgetItem), widgetItem, true);
         }
@@ -70,8 +70,8 @@ void TreeVisualizerWidget::updateContents(bt::BehaviorTree::Ptr tree) {
 }
 
 /// Use recursion to iterate through the children of each node
-void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent) {
-    for (auto const& child : parent->getChildren()) {
+void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem *QParent) {
+    for (auto const &child : parent->getChildren()) {
         auto treeItemchild = new QTreeWidgetItem(QParent);
         populateRow(child, treeItemchild);
         QParent->addChild(treeItemchild);
@@ -80,7 +80,7 @@ void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QP
 }
 
 // update the contents in a row of the treewidget
-void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate) {
+void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem *row, bool isUpdate) {
     //    ros::Time currentTime = ros::Time::now();
 
     // if the row is updated we don't need to change node names
@@ -88,7 +88,7 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem* row,
     if (!isUpdate) {
         row->setText(0, QString::fromStdString(node->node_name()));
 
-        std::pair<QTreeWidgetItem*, bt::Node::Ptr> pair{row, node};
+        std::pair<QTreeWidgetItem *, bt::Node::Ptr> pair{row, node};
         treeItemMapping.insert(pair);
     }
 

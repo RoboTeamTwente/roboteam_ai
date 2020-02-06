@@ -11,7 +11,7 @@ namespace rtt::ai {
 
 class ActiveStop : public Skill {
    public:
-    explicit ActiveStop(string name, bt::Blackboard::Ptr blackboard);
+    explicit ActiveStop(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
@@ -20,10 +20,9 @@ class ActiveStop : public Skill {
     Vector2 targetPos;
     static int attack;
     bool attacker = false;
-    static Vector2 getOffensiveActivePoint();
-    static Vector2 getDefensiveActivePoint();
-
-    static Vector2 getPoint(const Vector2 &penaltyPos);
+    static Vector2 getOffensiveActivePoint(const Field &field);
+    static Vector2 getDefensiveActivePoint(const Field &field);
+    static Vector2 getPoint(const Field &field, const Vector2 &penaltyPos);
 };
 }  // namespace rtt::ai
 #endif  // ROBOTEAM_AI_ACTIVESTOP_H

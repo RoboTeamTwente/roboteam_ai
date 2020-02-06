@@ -4,9 +4,8 @@
  */
 
 #include "conditions/BallOutOfField.h"
-
 #include <world/Ball.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 
@@ -21,7 +20,7 @@ bt::Node::Status BallOutOfField::onUpdate() {
     }
 
     // return success if the ball is out of the field
-    if (!field->pointIsInField(ballPos)) {
+    if (!FieldComputations::pointIsInField(*field, ballPos)) {
         return Status::Success;
     } else {
         return Status::Failure;

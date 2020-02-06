@@ -3,14 +3,13 @@
 //
 
 #include "skills/InterceptBall.h"
-
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
-InterceptBall::InterceptBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)){};
+InterceptBall::InterceptBall(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)){};
 
 // TODO: make prediction for the RobotPtr if it can even intercept the ball at all from the initialization state.
 void InterceptBall::onInitialize() {
@@ -154,7 +153,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         Line shotLine(startBall, endBall);
         interceptionPoint = shotLine.project(robot->pos);
         // create an area in which the intersection point should be
-        auto DefenceArea = world::field->getDefenseArea(true);
+        auto DefenceArea = FieldComputations::getDefenseArea(*field, true);
         if (!DefenceArea.contains(interceptionPoint)) {
             auto intersectPoints = DefenceArea.intersections(LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
             if (intersectPoints.empty()) {
@@ -162,7 +161,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
             }
             interceptionPoint = intersectPoints[0];
             double bestDist = (robot->pos - interceptionPoint).length();
-            for (int j = 1; j < intersectPoints.size(); ++j) {
+            for (int j = 1; j < intersectPoints.size(); j++) {
                 double dist = (intersectPoints[j] - robot->pos).length();
                 if (dist < bestDist) {
                     interceptionPoint = intersectPoints[j];
@@ -223,8 +222,8 @@ void InterceptBall::sendStopCommand() {
 
 // Checks if the ball is kicked to Goal. Kind of duplicate to the condition, but this uses an extra saftey margin
 bool InterceptBall::ballToGoal() {
-    Vector2 goalCentre = world::field->get_field().get(OUR_GOAL_CENTER);
-    double goalWidth = world::field->get_field().get(GOAL_WIDTH);
+    Vector2 goalCentre = (*field).getOurGoalCenter();
+    double goalWidth = (*field).getGoalWidth();
     Vector2 lowerPost = goalCentre + Vector2(0.0, -(goalWidth + GOAL_MARGIN));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth + GOAL_MARGIN);
     LineSegment goal(lowerPost, upperPost);
@@ -235,11 +234,11 @@ bool InterceptBall::ballToGoal() {
 }
 // Checks if the ball is in our Goal (e.g. the opponent scored)
 bool InterceptBall::ballInGoal() {
-    Vector2 goalCentre = world::field->get_field().get(OUR_GOAL_CENTER);
-    double goalWidth = world::field->get_field().get(GOAL_WIDTH);
+    Vector2 goalCentre = (*field).getOurGoalCenter();
+    double goalWidth = (*field).getGoalWidth();
     Vector2 lowerPost = goalCentre + Vector2(0.0, -goalWidth);
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
-    Vector2 depth = Vector2(-world::field->get_field().get(GOAL_DEPTH), 0.0);
+    Vector2 depth = Vector2(-(*field).getGoalDepth(), 0.0);
     return control::ControlUtils::pointInRectangle(ball->getPos(), lowerPost, lowerPost + depth, upperPost + depth, upperPost);
 }
 

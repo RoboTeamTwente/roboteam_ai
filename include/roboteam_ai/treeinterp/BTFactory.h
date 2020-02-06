@@ -1,5 +1,3 @@
-
-
 //
 // Created by baris on 04/10/18.
 //
@@ -11,11 +9,12 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <nlohmann/json.hpp>
 #include <string>
 #include "BTImport.h"
 #include "TreeInterpreter.h"
-#include <nlohmann/json.hpp>
 #include "analysis/play-utilities/Play.h"
+
 class BTFactory {
     // TODO: have the names of all the project before here
 

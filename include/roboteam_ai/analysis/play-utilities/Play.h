@@ -6,14 +6,15 @@
 #define RTT_PLAY_H
 
 #include <vector>
-#include "bt/BehaviorTree.hpp"
+#include "bt/BehaviorTree.h"
 #include "functional"
 
 namespace rtt::ai::analysis {
+using namespace rtt::ai::world;
+
 /**
  * The play has a vector of invariants, when the invariants are false the play is abandoned.
  *
- * TODO: Should this object have a behaviourtree associated to it? I think yes
  */
     class Play {
     public:
@@ -43,6 +44,7 @@ namespace rtt::ai::analysis {
         std::shared_ptr<bt::BehaviorTree> tree;
         std::string_view name;
     };
+
 }  // namespace rtt::ai::analysis
 
 #endif  // RTT_PLAY_H

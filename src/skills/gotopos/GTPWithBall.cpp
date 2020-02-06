@@ -9,7 +9,7 @@
 
 namespace rtt::ai {
 
-GTPWithBall::GTPWithBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+GTPWithBall::GTPWithBall(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void GTPWithBall::onInitialize() {
     targetType = stringToTargetType(properties->getString("type"));

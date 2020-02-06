@@ -18,7 +18,7 @@ class PreparePenalty : public Skill {
      * 4. Then wait
      */
    public:
-    explicit PreparePenalty(string name, bt::Blackboard::Ptr blackboard);
+    explicit PreparePenalty(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 };

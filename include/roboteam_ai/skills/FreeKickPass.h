@@ -16,7 +16,7 @@ class FreeKickPass : public Pass {
     bool forcePass = false;
 
    public:
-    explicit FreeKickPass(string name, bt::Blackboard::Ptr blackboard);
+    explicit FreeKickPass(std::string name, bt::Blackboard::Ptr blackboard);
     void makeCommand() override;
     void onInitialize() override;
 };

@@ -16,16 +16,19 @@
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
 
-#include "include/roboteam_ai/world/FieldMessage.h"
+#include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
 
 namespace rtt::ai {
 class Pause;
 
 namespace io {
+using namespace rtt::ai::world;
 
 class IOManager {
    private:
+    Field field;
+
     proto::World worldMsg;
     proto::SSL_GeometryData geometryMsg;
     proto::RobotFeedback robotFeedbackMsg;
@@ -54,6 +57,7 @@ class IOManager {
     void publishRobotCommand(proto::RobotCommand cmd);
     void publishSettings(proto::Setting setting);
     void init();
+    const Field &getField();
     const proto::World &getWorldState();
     const proto::SSL_GeometryData &getGeometryData();
     const proto::RobotFeedback &getRobotFeedback();

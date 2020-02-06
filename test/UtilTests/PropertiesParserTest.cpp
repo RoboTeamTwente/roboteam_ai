@@ -6,8 +6,8 @@
 
 #include <utility>
 
-#include "treeinterp/TreeInterpreter.h"
 #include <nlohmann/json.hpp>
+#include "treeinterp/TreeInterpreter.h"
 
 TEST(PropertiesParserTest, ParseCorrectVars) {
     using json = nlohmann::json;

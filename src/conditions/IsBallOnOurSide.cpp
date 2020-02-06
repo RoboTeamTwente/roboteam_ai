@@ -5,9 +5,8 @@
  */
 
 #include "conditions/IsBallOnOurSide.h"
-
 #include <world/Ball.h>
-#include <world/Field.h>
+#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 
@@ -20,7 +19,7 @@ bt::Node::Status IsBallOnOurSide::onUpdate() {
 
     if (ballPos.x < 0) {
         if (inField) {
-            if (abs(ballPos.x) < field->get_field().get(FIELD_LENGTH) / 2 && abs(ballPos.y) < field->get_field().get(FIELD_WIDTH) / 2) {
+            if (abs(ballPos.x) < (*field).getFieldLength() / 2 && abs(ballPos.y) < (*field).getFieldWidth() / 2) {
                 return Status::Success;
             }
             return Status::Failure;

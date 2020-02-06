@@ -26,8 +26,8 @@ class DribbleForwards {
     ForwardsProgress getForwardsProgression();
 
    private:
-    RotateAroundBall* rotateAroundBall;
-    RotateWithBall* rotateAroundRobot;
+    RotateAroundBall *rotateAroundBall;
+    RotateWithBall *rotateAroundRobot;
 
     using RobotPtr = std::shared_ptr<world::Robot>;
     using BallPtr = std::shared_ptr<world::Ball>;
@@ -62,7 +62,7 @@ class DribbleForwards {
     RobotCommand sendSuccessCommand();
 
    public:
-    RobotCommand getRobotCommand(std::shared_ptr<world::Robot> r, const Vector2& targetP, const Angle& targetA);
+    RobotCommand getRobotCommand(std::shared_ptr<world::Robot> r, const Vector2 &targetP, const Angle &targetA);
     void reset();
     void setMaxVel(double maxVel);
 

@@ -22,7 +22,7 @@ class DemoAttack : public Skill {
     bool shot = false;
 
    public:
-    explicit DemoAttack(string name, bt::Blackboard::Ptr blackboard);
+    explicit DemoAttack(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

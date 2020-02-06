@@ -6,7 +6,7 @@
 
 namespace rtt::ai {
 
-MidFieldHarasser::MidFieldHarasser(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+MidFieldHarasser::MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void MidFieldHarasser::onInitialize() {
     robotBeingHarassed = -1;
@@ -46,9 +46,8 @@ Skill::Status MidFieldHarasser::onUpdate() {
 void MidFieldHarasser::onTerminate(Skill::Status s) { coach::g_midFieldCoach.removeMidFielder(robot); }
 
 Vector2 MidFieldHarasser::getHarassTarget() {
-    auto harassTarget = coach::g_midFieldCoach.getTargetPosition(robot);
-
-    if (!field->pointIsInField(harassTarget.targetPosition, 0.20)) {
+    auto harassTarget = coach::g_midFieldCoach.getTargetPosition(*field, robot);
+    if (!FieldComputations::pointIsInField(*field, harassTarget.targetPosition, 0.20)) {
         harassTarget.targetPosition = robot->pos;
     }
 

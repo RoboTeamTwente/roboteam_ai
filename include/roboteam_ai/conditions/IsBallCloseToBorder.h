@@ -7,7 +7,7 @@
 
 #include <utilities/Constants.h>
 #include "Condition.h"
-#include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -18,9 +18,7 @@ class IsBallCloseToBorder : public Condition {
 
    public:
     explicit IsBallCloseToBorder(std::string name = "IsBallCloseToBorder", bt::Blackboard::Ptr blackboard = nullptr);
-
     void onInitialize() override;
-
     Status onUpdate() override;
 };
 

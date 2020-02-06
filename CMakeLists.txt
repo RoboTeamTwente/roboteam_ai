@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
+add_subdirectory(src)
 # QT settings
 set(CMAKE_INCLUDE_CURRENT_DIR ON) #Find includes in corresponding build directories
 set(CMAKE_AUTOMOC ON) #Instruct CMake to run moc automatically when needed
@@ -15,19 +16,19 @@ include(cotire)
 include(FindSDL2)
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
-if(APPLE)
+if (APPLE)
     set(Qt5Widgets_DIR "/usr/local/opt/qt5/lib/cmake/Qt5Widgets")
     set(Qt5Core_DIR "/usr/local/opt/qt/lib/cmake/Qt5Core")
     set(Qt5Gui_DIR "/usr/local/opt/qt/lib/cmake/Qt5Gui")
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-    set(GTEST_LIB  /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
-else(NOT APPLE)
+    set(GTEST_LIB /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
+else (NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
     set(GTEST_LIB PRIVATE gtest)
-endif()
+endif ()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -35,7 +36,7 @@ find_package(SDL2 REQUIRED sdl2)
 
 if (NOT SDL2_FOUND)
     message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
-endif()
+endif ()
 
 set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/TreeInterpreter.cpp
@@ -47,33 +48,13 @@ set(JSON_SOURCES
         )
 
 set(BT_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/ParallelSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemParallelSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/Selector.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/Sequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Failer.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Inverter.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Repeater.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Succeeder.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilFail.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilSuccess.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/BehaviorTree.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Composite.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Decorator.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Leaf.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -94,7 +75,6 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RobotDealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/Hungarian.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
@@ -243,7 +223,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
 
-#QT wants to know about these headers
+        #QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
@@ -260,13 +240,12 @@ set(INTERFACE_SOURCES
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
-
         ${PROJECT_SOURCE_DIR}/src/world/World.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/FieldMessage.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
@@ -315,13 +294,13 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
+        PRIVATE rtt::bt
         PRIVATE ${SDL2_LIBRARY}
         )
 
 set(AI_INCLUDES
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src
         PRIVATE ${SDL2_INCLUDE_DIRS}
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )

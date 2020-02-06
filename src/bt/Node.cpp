@@ -1,11 +1,7 @@
-#include "bt/Node.hpp"
-
+#include "bt/Node.h"
 #include <iostream>
 #include <memory>
-
-#include "bt/Blackboard.hpp"
-#include "world/Field.h"
-#include "world/World.h"
+#include "bt/Blackboard.h"
 
 namespace bt {
 
@@ -21,7 +17,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::ai::world::World* world, rtt::ai::world::Field* field) {
+Node::Status Node::tick(rtt::ai::world::World *world, const rtt::ai::world::Field *field) {
     this->world = world;
     this->field = field;
 
@@ -59,7 +55,7 @@ void Node::addChild(bt::Node::Ptr) {}
 
 // testing purpose
 std::vector<Node::Ptr> Node::getChildren() {
-    //    std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
+    // std::cerr << "Get children in Node.cpp, should never be called" << std::endl;
     return std::vector<Node::Ptr>{};
 }
 
@@ -82,10 +78,6 @@ void Node::NodeTerminate(Status s) {
 }
 
 unsigned long long Node::getAmountOfTicks() const { return amountOfTicks; }
-
-// ros::Time Node::getLastTickTime() {
-//    return lastTickTime;
-//}
 
 void Node::giveProperty(std::string a, std::string b) { std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl; }
 

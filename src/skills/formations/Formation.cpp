@@ -3,13 +3,15 @@
 //
 
 #include "skills/formations/Formation.h"
-
 #include <analysis/DecisionMaker.h>
 #include <analysis/GameAnalyzer.h>
 
+#include <analysis/DecisionMaker.h>
 #include "control/ControlUtils.h"
-#include "control/Hungarian.h"
+#include "roboteam_utils/Hungarian.h"
+#include "skills/formations/Formation.h"
 #include "world/Field.h"
+#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -42,7 +44,7 @@ bt::Node::Status Formation::onUpdate() {
 
 // determine the angle where the robot should point to (in position)
 void Formation::setFinalAngle() {
-    Vector2 targetToLookAtLocation = field->get_field().get(THEIR_GOAL_CENTER);
+    Vector2 targetToLookAtLocation = (*field).getTheirGoalCenter();
     command.set_w(static_cast<float>((targetToLookAtLocation - robot->pos).angle()));
 }
 
@@ -110,6 +112,17 @@ void Formation::moveToTarget() {
 bool Formation::updateCounter() {
     if (!update) return false;
     return (++updateCount % 200) == 0;
+}
+
+Vector2 Formation::getOptimalPosition(int robotId, const std::vector<RobotPtr>& robots, std::vector<Vector2> targetLocations) {
+  std::unordered_map<int, Vector2> robotLocations;
+
+    for (auto formationRobot : robots) {
+        robotLocations.insert({formationRobot->id, formationRobot->pos});
+    }
+
+    auto shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(robotLocations, std::move(targetLocations));
+    return shortestDistances.at(robotId);
 }
 
 }  // namespace rtt::ai
