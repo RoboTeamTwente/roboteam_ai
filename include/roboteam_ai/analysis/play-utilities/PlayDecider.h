@@ -21,7 +21,7 @@ namespace rtt::ai::analysis {
             * @param validPlays a vector of plays which have been vetted by the PlayDecider and are deemed appropriate for this situaton
             * @return the play that best fits the world, and field.
             */
-        std::shared_ptr<Play> decideBestPlay(world::World *world, world::Field *field, std::vector<std::shared_ptr<Play>> validPlays);
+        std::shared_ptr<Play> decideBestPlay(world::World *world, const world::Field& field, std::vector<std::shared_ptr<Play>> validPlays);
 
     private:
         /**

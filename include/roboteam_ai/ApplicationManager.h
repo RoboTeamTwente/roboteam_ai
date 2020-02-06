@@ -39,7 +39,7 @@ class ApplicationManager {
      * @param world the current world state
      * @param field the current field state
      */
-    void decidePlay(rtt::ai::world::World* world, rtt::ai::world::Field* field);
+    void decidePlay(rtt::ai::world::World* world, const rtt::ai::world::Field &field);
 
    public:
     void start();

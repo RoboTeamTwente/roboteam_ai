@@ -23,7 +23,7 @@ using namespace rtt::ai::world;
         /**
          * @return true if all the invariants of this strategy are true
          */
-        bool isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field);
+        bool isValidPlay(rtt::ai::world::World *world, const Field &field);
         // TODO: Move this to the derived class
         /**
          * Returns a score based on how fitting this play is given a world and field state (currently hardcoded, should be moved to derived classes)
@@ -31,7 +31,7 @@ using namespace rtt::ai::world;
          * @param field the current field
          * @return a score between 0 and 10, 10 being the best
          */
-        uint8_t scorePlay(world::World *world, world::Field *field) { return 1; };
+        uint8_t scorePlay(world::World *world, const world::Field& field) const { return 1; };
 
         std::string_view getName();
 

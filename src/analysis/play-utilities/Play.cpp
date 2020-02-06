@@ -12,10 +12,9 @@
 namespace rtt::ai::analysis {
     std::string_view Play::getName() { return name; }
 
-    bool Play::isValidPlay(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+    bool Play::isValidPlay(rtt::ai::world::World *world, const Field &field) {
         return BallOnOurSideInvariant::isValid(world, field) && BallBelongsToUsInvariant::isValid(world, field) &&
-               AlwaysFalseInvariant::isValid(world, field) &&
-               AlwaysTrueInvariant::isValid(world, field);
+               AlwaysFalseInvariant::isValid(world, field);
     }
 
     const std::shared_ptr<bt::BehaviorTree> &Play::getTree() const {

@@ -15,13 +15,15 @@
 namespace rtt::ai::analysis {
 
     bool
-    PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World *world, rtt::ai::world::Field *field) { return true; }
+    PlayChecker::checkCurrentGameInvariants(rtt::ai::world::World *world, const rtt::ai::world::Field& field) {
+        return true;
+    }
 
 /**
  * Determines what plays are viable given the current world, ref states and invariants/preconditions, and stores them in the validPlays vector
  * TODO: add lambda here, to make it faster and cleaner
  */
-    void PlayChecker::determineNewPlays(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+    void PlayChecker::determineNewPlays(rtt::ai::world::World *world, const rtt::ai::world::Field& field) {
         validPlays.clear();
         for (auto play : allPlays) {
             if (play->isValidPlay(world, field)) {
@@ -31,7 +33,7 @@ namespace rtt::ai::analysis {
     }
 
 
-    bool PlayChecker::update(rtt::ai::world::World *world, rtt::ai::world::Field *field) {
+    bool PlayChecker::update(rtt::ai::world::World *world, const rtt::ai::world::Field &field) {
         if (checkCurrentGameInvariants(world, field)) {
             std::cout << "current play is still valid" << std::endl;
             return true;
@@ -47,5 +49,7 @@ namespace rtt::ai::analysis {
     const std::vector<std::shared_ptr<Play>> &PlayChecker::getValidPlays() const {
         return validPlays;
     }
+
+
 }
 // namespace rtt::ai::analysis

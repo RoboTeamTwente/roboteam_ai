@@ -57,7 +57,7 @@ void ApplicationManager::start() {
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
-
+        decidePlay(world, io::io.getField());
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -173,14 +173,13 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     }
 }
 
-    void ApplicationManager::decidePlay(ai::world::World *world, ai::world::Field *field) {
+    void ApplicationManager::decidePlay(ai::world::World *world, const ai::world::Field &field) {
         bool stillValidPlay = playChecker.update(world, field);
         if (!stillValidPlay) {
             auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
             BTFactory::setCurrentTree(bestplay);
         }
-        else {
-        }
+
     }
 
 }  // namespace rtt
