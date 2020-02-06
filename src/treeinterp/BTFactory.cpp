@@ -14,7 +14,7 @@ std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::codeTrees;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
-std::shared_ptr<rtt::ai::analysis::Play> BTFactory::play;
+rtt::ai::analysis::Play* BTFactory::play;
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
@@ -103,9 +103,9 @@ bool BTFactory::hasMadeTrees() {
     return BTFactory::weMadeTrees;
 }
 
-void BTFactory::setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> otherPlay) {
-    std::cout << "setting the play to " << otherPlay->getName() << std::endl;
-    BTFactory::play = otherPlay;
+void BTFactory::setCurrentTree(rtt::ai::analysis::Play *play) {
+    std::cout << "setting the play to " << play->getName() << std::endl;
+    BTFactory::play = play;
 }
 
 void BTFactory::setCurrentTree(const std::string &newTree) {

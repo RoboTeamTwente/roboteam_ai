@@ -7,7 +7,7 @@
 namespace rtt::ai::analysis {
 // Maybe plays should have some sort of score based on the world how good they are
     Play*
-    PlayDecider::decideBestPlay(world::World *world, const world::Field& field, std::vector<std::unique_ptr<Play>> validPlays) {
+    PlayDecider::decideBestPlay(world::World *world, const world::Field& field, std::vector<Play*> const& validPlays) {
         int max = -1;
         if (validPlays.empty()) {
             std::cerr << "valid plays are empty" << std::endl;
@@ -17,7 +17,7 @@ namespace rtt::ai::analysis {
             if (temp > max) {
                 max = temp;
             }
-            bestPlay = play.get();
+            bestPlay = play;
         }
         return bestPlay;
     }

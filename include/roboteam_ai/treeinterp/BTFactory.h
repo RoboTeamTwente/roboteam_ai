@@ -37,7 +37,7 @@ class BTFactory {
 
     static bt::BehaviorTree::Ptr getKeeperTree();
 
-    static void setCurrentTree(std::shared_ptr<rtt::ai::analysis::Play> play);
+    static void setCurrentTree(rtt::ai::analysis::Play *play);
 
     static void setCurrentTree(const std::string &newTree);
 
@@ -53,7 +53,7 @@ class BTFactory {
     static std::string currentTree;
     static std::string keeperTree;
     static bool weMadeTrees;
-    static std::shared_ptr<rtt::ai::analysis::Play> play;
+    static rtt::ai::analysis::Play* play;
 };
 
 #endif  // ROBOTEAM_AI_BTFACTORY_H

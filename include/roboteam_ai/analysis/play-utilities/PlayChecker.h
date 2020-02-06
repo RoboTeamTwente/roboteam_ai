@@ -36,10 +36,10 @@ namespace rtt::ai::analysis {
         /**
          * Vector of all plays that are valid for the current world and field state
          */
-        std::vector<std::unique_ptr<Play>> validPlays;
+        std::vector<Play*> validPlays;
 
     public:
-        const std::vector<std::unique_ptr<Play>> &getValidPlays() const;
+        const std::vector<Play*> getValidPlays() const;
 
     private:
         /// TODO: implement this function. Not a priority right now

@@ -27,7 +27,7 @@ namespace rtt::ai::analysis {
         validPlays.clear();
         for (auto const& play : allPlays) {
             if (play->isValidPlay(world, field)) {
-                validPlays.push_back(play);
+                validPlays.push_back(play.get());
             }
         }
     }
@@ -46,7 +46,7 @@ namespace rtt::ai::analysis {
         }
     }
 
-    const std::vector<std::unique_ptr<Play>> &PlayChecker::getValidPlays() const {
+    const std::vector<Play*> PlayChecker::getValidPlays() const {
         return validPlays;
     }
 
