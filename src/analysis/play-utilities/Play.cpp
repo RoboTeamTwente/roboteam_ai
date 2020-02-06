@@ -5,7 +5,6 @@
 #include "analysis/play-utilities/Play.h"
 
 #include "analysis/play-utilities/invariants/AlwaysFalseInvariant.h"
-#include "analysis/play-utilities/invariants/AlwaysTrueInvariant.h"
 #include "analysis/play-utilities/invariants/BallBelongsToUsInvariant.h"
 #include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
 

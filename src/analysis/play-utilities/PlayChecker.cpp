@@ -25,7 +25,7 @@ namespace rtt::ai::analysis {
  */
     void PlayChecker::determineNewPlays(rtt::ai::world::World *world, const rtt::ai::world::Field& field) {
         validPlays.clear();
-        for (auto play : allPlays) {
+        for (auto const& play : allPlays) {
             if (play->isValidPlay(world, field)) {
                 validPlays.push_back(play);
             }
@@ -46,7 +46,7 @@ namespace rtt::ai::analysis {
         }
     }
 
-    const std::vector<std::shared_ptr<Play>> &PlayChecker::getValidPlays() const {
+    const std::vector<std::unique_ptr<Play>> &PlayChecker::getValidPlays() const {
         return validPlays;
     }
 

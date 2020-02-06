@@ -31,15 +31,15 @@ namespace rtt::ai::analysis {
         /**
          * Vector of all plays (before pruning)
          */
-        std::vector<std::shared_ptr<Play>> allPlays;
+        std::vector<std::unique_ptr<Play>> allPlays;
 
         /**
          * Vector of all plays that are valid for the current world and field state
          */
-        std::vector<std::shared_ptr<Play>> validPlays;
+        std::vector<std::unique_ptr<Play>> validPlays;
 
     public:
-        const std::vector<std::shared_ptr<Play>> &getValidPlays() const;
+        const std::vector<std::unique_ptr<Play>> &getValidPlays() const;
 
     private:
         /// TODO: implement this function. Not a priority right now
