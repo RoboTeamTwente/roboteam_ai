@@ -14,7 +14,7 @@ namespace rtt::ai {
 
 class ShootFreeKick : public Skill {
    public:
-    explicit ShootFreeKick(string name, bt::Blackboard::Ptr blackboard);
+    explicit ShootFreeKick(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
     void onTerminate(Status s) override;

@@ -10,7 +10,7 @@
 
 namespace rtt::ai {
 
-DemoAttack::DemoAttack(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+DemoAttack::DemoAttack(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DemoAttack::onInitialize() {
     robot->getNumtreePosControl()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());

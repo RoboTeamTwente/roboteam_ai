@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-Attack::Attack(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+Attack::Attack(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {

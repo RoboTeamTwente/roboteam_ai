@@ -14,7 +14,7 @@
 
 namespace rtt::ai {
 
-Receive::Receive(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+Receive::Receive(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Receive::onInitialize() {
     readyToPassSet = false;

@@ -7,8 +7,8 @@
 
 #include <utilities/GameState.h>
 #include <QtWidgets/QTreeWidget>
-#include <bt/BehaviorTree.hpp>
-#include <bt/Node.hpp>
+#include <bt/BehaviorTree.h>
+#include <bt/Node.h>
 
 namespace rtt::ai::interface {
 

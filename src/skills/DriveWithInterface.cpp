@@ -5,10 +5,10 @@
 #include "skills/DriveWithInterface.h"
 
 #include <interface/api/Output.h>
-#include <include/roboteam_ai/world_new/World.hpp>
+#include "world_new/World.hpp"
 
 namespace rtt::ai {
-DriveWithInterface::DriveWithInterface(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+DriveWithInterface::DriveWithInterface(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 Skill::Status DriveWithInterface::onUpdate() {
     if (interface::Output::usesRefereeCommands()) {
         return Status::Failure;

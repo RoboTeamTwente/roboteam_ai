@@ -33,7 +33,7 @@ class PenaltyKeeper : public Skill {
     Vector2 initialPos,initialVel;
      */
    public:
-    explicit PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard);
+    explicit PenaltyKeeper(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
     void onTerminate(Status s) override;

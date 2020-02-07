@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
+add_subdirectory(src)
 # QT settings
 set(CMAKE_INCLUDE_CURRENT_DIR ON) #Find includes in corresponding build directories
 set(CMAKE_AUTOMOC ON) #Instruct CMake to run moc automatically when needed
@@ -13,6 +14,33 @@ set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 
 include(cotire)
 include(FindSDL2)
+
+# Find programs and assign the boolean to the variables, find_program(variable binary)
+find_program(CCACHE ccache)
+find_program(GCC g++)
+find_program(CLANG clang++)
+
+# Some ccache logic
+if (CLANG)
+    set(CXX_COMPILER clang++)
+elseif (GCC)
+    set(CXX_COMPILER g++)
+endif()
+
+if(APPLE)
+	if (CCACHE)
+		set(CMAKE_CXX_COMPILER "/usr/local/Cellar/ccache/3.7.7/libexec/${CXX_COMPILER}")
+	else()
+		set(CMAKE_CXX_COMPILER "/usr/bin/${CXX_COMPILER}")
+	endif()
+else (NOT APPLE)
+	if (CCACHE)
+		set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
+	else()
+		set(CMAKE_CXX_COMPILER "/bin/${CXX_COMPILER}")
+	endif()
+endif()
+# end of ccache logic
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
@@ -47,33 +75,13 @@ set(JSON_SOURCES
         )
 
 set(BT_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/ParallelSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemParallelSequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/Selector.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/composites/Sequence.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Failer.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Inverter.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Repeater.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Succeeder.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilFail.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilSuccess.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/BehaviorTree.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Composite.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Decorator.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Leaf.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/Leaf.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
-        ${PROJECT_SOURCE_DIR}/src/bt/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -233,6 +241,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
+
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         )
 
 set(INTERFACE_SOURCES
@@ -269,7 +279,6 @@ set(INTERFACE_SOURCES
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
-
         ${PROJECT_SOURCE_DIR}/src/world/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/History.cpp
@@ -324,13 +333,13 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
+        PRIVATE rtt::bt
         PRIVATE ${SDL2_LIBRARY}
         )
 
 set(AI_INCLUDES
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE src
         PRIVATE ${SDL2_INCLUDE_DIRS}
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )

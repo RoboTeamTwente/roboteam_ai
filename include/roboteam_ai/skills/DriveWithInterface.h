@@ -12,7 +12,7 @@ namespace rtt::ai {
 
 class DriveWithInterface : public Skill {
    public:
-    explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
+    explicit DriveWithInterface(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
 };
 }  // namespace rtt::ai

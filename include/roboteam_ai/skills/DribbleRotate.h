@@ -27,7 +27,7 @@ class DribbleRotate : public Skill {
     double computeCommandAngle();
 
    public:
-    explicit DribbleRotate(string name, bt::Blackboard::Ptr blackboard);
+    explicit DribbleRotate(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
     void onTerminate(Status s) override;

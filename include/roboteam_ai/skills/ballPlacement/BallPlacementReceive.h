@@ -11,7 +11,7 @@ namespace rtt::ai {
 
 class BallPlacementReceive : public Receive {
    public:
-    explicit BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard);
+    explicit BallPlacementReceive(std::string name, bt::Blackboard::Ptr blackboard);
     bt::Node::Status onUpdate() override;
 
    private:

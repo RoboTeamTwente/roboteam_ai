@@ -1,4 +1,4 @@
-#include "bt/composites/ParallelSequence.hpp"
+#include "bt/composites/ParallelSequence.h"
 
 namespace bt {
 

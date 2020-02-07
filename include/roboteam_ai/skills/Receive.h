@@ -37,7 +37,7 @@ class Receive : public Skill {
     bool passFailed();
 
    public:
-    explicit Receive(string name, bt::Blackboard::Ptr blackboard);
+    explicit Receive(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-GoAroundPos::GoAroundPos(string name, bt::Blackboard::Ptr blackboard) : GoToPos(name, blackboard) {}
+GoAroundPos::GoAroundPos(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(name, blackboard) {}
 
 void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {

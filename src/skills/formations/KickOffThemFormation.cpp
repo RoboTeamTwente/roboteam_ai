@@ -28,6 +28,6 @@ Vector2 KickOffThemFormation::getFormationPosition() {
     return getOptimalPosition(robot->id, *robotsInFormation, locations[robotsInFormation->size() - 1]);
 }
 
-std::shared_ptr<std::vector<shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() { return robotsInFormation; }
+std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> KickOffThemFormation::robotsInFormationPtr() { return robotsInFormation; }
 
 }  // namespace rtt::ai

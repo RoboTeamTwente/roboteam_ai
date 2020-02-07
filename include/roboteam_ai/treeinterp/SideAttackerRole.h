@@ -5,8 +5,8 @@
 #ifndef RTT_SIDEATTACKERROLE_H
 #define RTT_SIDEATTACKERROLE_H
 
-#include <include/roboteam_ai/bt/tactics/DefaultTactic.h>
-#include "bt/BehaviorTree.hpp"
+#include <treeinterp/tactics/DefaultTactic.h>
+#include "bt/BehaviorTree.h"
 #include "bt/Role.h"
 
 namespace bt {

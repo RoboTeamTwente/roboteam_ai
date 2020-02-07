@@ -8,9 +8,9 @@
 
 namespace rtt::ai {
 
-GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+GoToPos::GoToPos(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
-GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
+GoToPos::GoToType GoToPos::stringToGoToType(const std::string &gtt) {
     if (gtt == "basic") return basic;
     if (gtt == "numTrees") return numTree;
 
