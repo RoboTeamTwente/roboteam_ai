@@ -10,7 +10,7 @@
 namespace rtt::ai::world {
 class World;
 class Field;
-}  // namespace rtt::ai
+}  // namespace rtt::ai::world
 
 namespace bt {
 using namespace rtt::ai::world;

@@ -14,7 +14,7 @@ std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::codeTrees;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
-rtt::ai::analysis::Play* BTFactory::play;
+rtt::ai::analysis::Play *BTFactory::play;
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
@@ -61,9 +61,9 @@ void BTFactory::makeTrees() {
  * @return The behaviourtree corresponding to that treename
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
-//    // Comment the lines below until the return statement to restore json functionaility
-//    std::cout << play->getName() << " is currently being played" << std::endl;
-//    return BTFactory::play->getTree();
+    //    // Comment the lines below until the return statement to restore json functionaility
+    //    std::cout << play->getName() << " is currently being played" << std::endl;
+    //    return BTFactory::play->getTree();
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
@@ -76,7 +76,6 @@ std::string BTFactory::getCurrentTree() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return currentTree;
 }
-
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);

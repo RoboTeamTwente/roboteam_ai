@@ -4,6 +4,7 @@
 
 #include <ApplicationManager.h>
 #include <analysis/GameAnalyzer.h>
+#include <bt/Node.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
@@ -12,7 +13,6 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
-#include <bt/Node.h>
 #include <utilities/GameStateManager.hpp>
 #include "analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
@@ -173,13 +173,12 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     }
 }
 
-    void ApplicationManager::decidePlay(ai::world::World *world, const ai::world::Field &field) {
-        bool stillValidPlay = playChecker.update(world, field);
-        if (!stillValidPlay) {
-            auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
-            BTFactory::setCurrentTree(bestplay);
-        }
+void ApplicationManager::decidePlay(ai::world::World *world, const ai::world::Field &field) {
+    bool stillValidPlay = playChecker.update(world, field);
+    if (!stillValidPlay) {
+        auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
+        BTFactory::setCurrentTree(bestplay);
     }
+}
 
 }  // namespace rtt
-

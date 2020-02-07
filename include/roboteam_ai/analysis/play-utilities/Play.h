@@ -16,34 +16,34 @@ using namespace rtt::ai::world;
  * The play has a vector of invariants, when the invariants are false the play is abandoned.
  *
  */
-    class Play {
-    public:
-        Play() = default;
+class Play {
+   public:
+    Play() = default;
 
-        /**
-         * @return true if all the invariants of this strategy are true
-         */
-        bool isValidPlay(rtt::ai::world::World *world, const Field &field);
-        // TODO: Move this to the derived class
-        /**
-         * Returns a score based on how fitting this play is given a world and field state (currently hardcoded, should be moved to derived classes)
-         * @param world the current world
-         * @param field the current field
-         * @return a score between 0 and 10, 10 being the best
-         */
-        uint8_t scorePlay(world::World *world, const world::Field& field) const { return 1; };
+    /**
+     * @return true if all the invariants of this strategy are true
+     */
+    bool isValidPlay(rtt::ai::world::World *world, const Field &field);
+    // TODO: Move this to the derived class
+    /**
+     * Returns a score based on how fitting this play is given a world and field state (currently hardcoded, should be moved to derived classes)
+     * @param world the current world
+     * @param field the current field
+     * @return a score between 0 and 10, 10 being the best
+     */
+    uint8_t scorePlay(world::World *world, const world::Field &field) const { return 1; };
 
-        std::string_view getName();
+    std::string_view getName();
 
-        const std::shared_ptr<bt::BehaviorTree> &getTree() const;
+    const std::shared_ptr<bt::BehaviorTree> &getTree() const;
 
-    protected:
-        /**
-         * Internal tree of the play, where the execution of the play is done
-         */
-        std::shared_ptr<bt::BehaviorTree> tree;
-        std::string_view name;
-    };
+   protected:
+    /**
+     * Internal tree of the play, where the execution of the play is done
+     */
+    std::shared_ptr<bt::BehaviorTree> tree;
+    std::string_view name;
+};
 
 }  // namespace rtt::ai::analysis
 

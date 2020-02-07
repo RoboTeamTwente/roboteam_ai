@@ -53,7 +53,7 @@ class BTFactory {
     static std::string currentTree;
     static std::string keeperTree;
     static bool weMadeTrees;
-    static rtt::ai::analysis::Play* play;
+    static rtt::ai::analysis::Play *play;
 };
 
 #endif  // ROBOTEAM_AI_BTFACTORY_H

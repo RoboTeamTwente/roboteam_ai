@@ -9,9 +9,9 @@
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
 #include "analysis/play-utilities/PlayChecker.h"
-#include "utilities/IOManager.h"
-#include "treeinterp/BTFactory.h"
 #include "analysis/play-utilities/PlayDecider.h"
+#include "treeinterp/BTFactory.h"
+#include "utilities/IOManager.h"
 namespace rtt {
 
 class ApplicationManager {
@@ -39,7 +39,7 @@ class ApplicationManager {
      * @param world the current world state
      * @param field the current field state
      */
-    void decidePlay(rtt::ai::world::World* world, const rtt::ai::world::Field &field);
+    void decidePlay(rtt::ai::world::World* world, const rtt::ai::world::Field& field);
 
    public:
     void start();
