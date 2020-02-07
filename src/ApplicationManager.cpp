@@ -179,7 +179,6 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
             BTFactory::setCurrentTree(bestplay);
         }
-
     }
 
 }  // namespace rtt
