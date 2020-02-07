@@ -27,7 +27,7 @@ namespace rtt::ai::analysis {
         /**
           * local variable to keep track of which play is the best for the tick
           */
-        Play* bestPlay;
+        Play* bestPlay = nullptr;
     };
 }  // namespace rtt::ai::analysis
 

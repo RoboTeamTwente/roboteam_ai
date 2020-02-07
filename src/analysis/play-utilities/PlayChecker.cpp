@@ -19,13 +19,13 @@ namespace rtt::ai::analysis {
         return true;
     }
 
-/**
- * Determines what plays are viable given the current world, ref states and invariants/preconditions, and stores them in the validPlays vector
- * TODO: add lambda here, to make it faster and cleaner
- */
-    void PlayChecker::determineNewPlays(rtt::ai::world::World *world, const rtt::ai::world::Field& field) {
+    /**
+    * Determines what plays are viable given the current world, ref states and invariants/preconditions, and stores them in the validPlays vector
+    * TODO: add lambda here, to make it faster and cleaner
+    */
+    void PlayChecker::determineNewPlays(rtt::ai::world::World *world, const rtt::ai::world::Field &field) {
         validPlays.clear();
-        for (auto const& play : allPlays) {
+        for (auto const &play : allPlays) {
             if (play->isValidPlay(world, field)) {
                 validPlays.push_back(play.get());
             }
