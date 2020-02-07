@@ -18,8 +18,8 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
     }
 
     // determine the goalsides
-    Vector2 goalCentre = (*field).getOurGoalCenter();
-    double goalWidth = (*field).getGoalWidth();
+    Vector2 goalCentre = field->getOurGoalCenter();
+    double goalWidth = field->getGoalWidth();
     double margin = BALL_TO_GOAL_MARGIN;
     Vector2 lowerPost = goalCentre + Vector2(0.0, -(goalWidth / 2 + margin));
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth / 2 + margin);

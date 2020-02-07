@@ -26,7 +26,7 @@ void GoAroundPos::gtpInitialize() {
     if (properties->hasDouble("targetDir")) {
         endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
     } else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = Control::constrainAngle(((*field).getTheirGoalCenter() - targetPos).angle());
+        endAngle = Control::constrainAngle((field->getTheirGoalCenter() - targetPos).angle());
     } else {
         endAngle = 0;
         std::cerr << "GoAroundPos update --> No target direction set! Defaulting to 0" << std::endl;

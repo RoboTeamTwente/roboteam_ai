@@ -15,8 +15,8 @@ namespace rtt::ai {
 Keeper::Keeper(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Keeper::onInitialize() {
-    goalPos = (*field).getOurGoalCenter();
-    goalwidth = (*field).getGoalWidth();
+    goalPos = field->getOurGoalCenter();
+    goalwidth = field->getGoalWidth();
     // Create arc for keeper to drive on
     blockCircle = createKeeperArc();
 

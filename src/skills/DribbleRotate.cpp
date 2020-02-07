@@ -33,7 +33,7 @@ void DribbleRotate::onInitialize() {
     if (properties->hasDouble("Angle")) {
         targetAngle = Angle(properties->getDouble("Angle"));
     } else if (properties->getBool("RotateToTheirGoal")) {
-        Vector2 theirCentre = (*field).getTheirGoalCenter();
+        Vector2 theirCentre = field->getTheirGoalCenter();
         targetAngle = (theirCentre - robot->pos).toAngle();
     } else if (properties->getBool("BallPlacement")) {
         if (properties->getBool("BallPlacementForwards")) {

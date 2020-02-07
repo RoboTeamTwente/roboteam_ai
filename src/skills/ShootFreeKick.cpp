@@ -12,7 +12,7 @@ ShootFreeKick::ShootFreeKick(string name, bt::Blackboard::Ptr blackboard) : Skil
 void ShootFreeKick::onInitialize() {
     Vector2 ballPos = world->getBall()->getPos();
     freeKickPos = ballPos;
-    Vector2 goal = (*field).getTheirGoalCenter();
+    Vector2 goal = field->getTheirGoalCenter();
 
     // behind the ball looking at the goal
     targetPos = ballPos + (ballPos - goal).stretchToLength(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);

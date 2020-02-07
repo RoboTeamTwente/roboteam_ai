@@ -12,7 +12,7 @@ ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard) : Skill(st
 
 void ReflectKick::onInitialize() {
     kicked = false;
-    goalTarget = (*field).getTheirGoalCenter();
+    goalTarget = field->getTheirGoalCenter();
     reflectionPos = robot->pos;
     robot->getNumtreePosControl()->setAvoidBallDistance(0);
 }
@@ -78,11 +78,11 @@ void ReflectKick::onTerminate(Status s) {
 
 Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
-    float cornering = (*field).getGoalWidth() / 2.0;
+    float cornering = field->getGoalWidth() / 2.0;
     if (robotPos.y >= 0) {
-        return {(*field).getTheirGoalCenter().x, (*field).getTheirGoalCenter().y + cornering};
+        return {field->getTheirGoalCenter().x, field->getTheirGoalCenter().y + cornering};
     } else {
-        return {(*field).getTheirGoalCenter().x, (*field).getTheirGoalCenter().y - cornering};
+        return {field->getTheirGoalCenter().x, field->getTheirGoalCenter().y - cornering};
     }
 }
 

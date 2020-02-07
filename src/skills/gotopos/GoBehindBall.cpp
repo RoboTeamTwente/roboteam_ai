@@ -21,7 +21,7 @@ Skill::Status GoBehindBall::gtpUpdate() {
         }
         case freeKick: {
             auto ball = world->getBall();
-            auto goal = (*field).getTheirGoalCenter();
+            auto goal = field->getTheirGoalCenter();
 
             Vector2 v = goal - ball->getPos();
             targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.14)) + ball->getPos();
@@ -64,7 +64,7 @@ GoBehindBall::RefType GoBehindBall::stringToRefType(const std::string &string) {
 }
 Skill::Status GoBehindBall::penaltyUpdate(int genevaState) {
     auto ball = world->getBall();
-    auto goal = (*field).getTheirGoalCenter();
+    auto goal = field->getTheirGoalCenter();
 
     Vector2 v = goal - ball->getPos();
     targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.2)) + ball->getPos();

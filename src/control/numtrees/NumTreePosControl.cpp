@@ -353,7 +353,7 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
         bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, true, margin, false);
         bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            double defenseAreaX = point->pos.x < 0 ? (*field).getLeftPenaltyLine().begin.x : (*field).getRightPenaltyLine().begin.x;
+            double defenseAreaX = point->pos.x < 0 ? field->getLeftPenaltyLine().begin.x : field->getRightPenaltyLine().begin.x;
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin) * 1.1);
             return collision;
         }
@@ -370,7 +370,7 @@ Collision NumTreePosControl::getGoalCollision(const NumTreePosControl::PathPoint
     bool collidesWithTheirGoal = FieldComputations::getGoalArea(*field, false, Constants::ROBOT_RADIUS(), true).contains(point->pos);
 
     if (collidesWithOurGoal || collidesWithTheirGoal) {
-        collision.setGoalCollision(point->pos, (*field).getGoalWidth() / 2 - fabs(point->pos.y) * 1.1);
+        collision.setGoalCollision(point->pos, field->getGoalWidth() / 2 - fabs(point->pos.y) * 1.1);
     }
 
     return collision;

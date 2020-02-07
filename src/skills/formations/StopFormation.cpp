@@ -51,8 +51,8 @@ void StopFormation::setFinalAngle() {
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto pp = FieldComputations::getPenaltyPoint(*field, true);  // penalty point
-    auto defenseAreaLineA = (*field).getLeftPenaltyLine().begin;
-    auto defenseAreaLineB = (*field).getLeftPenaltyLine().end;
+    auto defenseAreaLineA = field->getLeftPenaltyLine().begin;
+    auto defenseAreaLineB = field->getLeftPenaltyLine().end;
 
     // divide the upper and bottom lines of the defense area and store those values.
     auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
@@ -98,7 +98,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 inFrontOfDefenseAreaPositionA;
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
-    double goal_width = (*field).getGoalWidth();
+    double goal_width = field->getGoalWidth();
     if (ball->getPos().y > goal_width) {
         inFrontOfDefenseAreaPositionA = {pp.x + offset, 0};
         inFrontOfDefenseAreaPositionB = {pp.x + offset, dBtmY};
@@ -149,16 +149,16 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     std::vector<Vector2> proposals;
 
     // near the corners
-    proposals.push_back({(*field).getLeftmostX() + 1.0, (*field).getBottommostY() + 1.5});
-    proposals.push_back({(*field).getLeftmostX() + 1.0, (*field).getTopmostY() - 1.5});
+    proposals.push_back({field->getLeftmostX() + 1.0, field->getBottommostY() + 1.5});
+    proposals.push_back({field->getLeftmostX() + 1.0, field->getTopmostY() - 1.5});
 
     // somewhere in the middle of our half
-    proposals.push_back({-(*field).getFieldLength() * 0.3, (*field).getBottommostY() + 1.5});
-    proposals.push_back({-(*field).getFieldLength() * 0.3, (*field).getTopmostY() - 1.5});
+    proposals.push_back({-field->getFieldLength() * 0.3, field->getBottommostY() + 1.5});
+    proposals.push_back({-field->getFieldLength() * 0.3, field->getTopmostY() - 1.5});
 
     // offensive
-    proposals.push_back({-1, (*field).getBottommostY() + 1.5});
-    proposals.push_back({-1, (*field).getTopmostY() - 1.5});
+    proposals.push_back({-1, field->getBottommostY() + 1.5});
+    proposals.push_back({-1, field->getTopmostY() - 1.5});
     proposals.push_back({-1, 0});
 
     for (auto proposal : proposals) {
