@@ -25,7 +25,8 @@ private:
     PID xPid = PID(0,0,0,0);
     PID yPid = PID(0,0,0,0);
 
-    void updatePidValues();
+    // updates the PID parameters from the UI
+    void updatePidValuesFromInterface();
 
 public:
     /**

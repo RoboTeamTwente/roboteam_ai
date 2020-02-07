@@ -13,7 +13,7 @@ PidTracking::PidTracking() {
 
 Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints) {
     PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
-    updatePidValues();
+    updatePidValuesFromInterface();
 
     Vector2 velocity;
     velocity.x = xPid.getOutput(currentPosition.x, pathPoints.front().x);
@@ -21,7 +21,7 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     return Position(velocity, (pathPoints.front() - currentPosition).angle());
 }
 
-void PidTracking::updatePidValues() {
+void PidTracking::updatePidValuesFromInterface() {
     auto newPid = interface::Output::getNumTreePid();
     xPid.setPID(newPid);
     yPid.setPID(newPid);

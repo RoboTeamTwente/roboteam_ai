@@ -6,7 +6,6 @@
 #define RTT_POSITIONCONTROLUTILS_H
 
 #include "roboteam_utils/Vector2.h"
-#include <list>
 #include "utilities/Constants.h"
 
 namespace rtt::ai::control{

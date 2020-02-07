@@ -10,13 +10,10 @@ NumTreesPlanning::NumTreesPlanning(CollisionDetector &collisionDetector) : colli
 
 std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
     DT = 0.3 / GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel;
-    if (DT > 0.12) DT = 0.12;
-    if (DT < 0.06) DT = 0.06;
+    DT = std::clamp(DT, 0.06, 0.12);
 
     auto path = tracePath(robotPosition, targetPosition);
-    double goToTimeInFuture = 0.4;
-    auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture / DT);
-    if (path.size() < targetPathPoint) {
+    if (path.empty()) {
         return {targetPosition};
     }
     return path;
@@ -120,13 +117,10 @@ std::vector<Vector2> NumTreesPlanning::tracePath(const Vector2 &currentPosition,
     return {};
 }
 
-/// calculate the remaining pathlength using straigth lines from current position to a posititon halfway and from
-/// halfway to the final position
 inline double NumTreesPlanning::remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos) {
     return (abs((halfwayPos - finalPos).length() + (currentPos - halfwayPos).length()));
 }
 
-/// backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
 std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point) {
     // backtrack the whole path till it hits the root node and return the vector of PathPoints
     std::vector<Vector2> backTrackedPath = {};
@@ -144,7 +138,6 @@ std::vector<Vector2> NumTreesPlanning::backTrackPath(PathPointer point) {
     return backTrackedPath;
 }
 
-/// create a new pathPoint using a linear acceleration ODE
 NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget) {
     // Copy parent
     PathPointer newPoint = std::make_shared<PathPoint>();
@@ -175,7 +168,6 @@ NumTreesPlanning::PathPointer NumTreesPlanning::computeNewPoint(const Vector2 &t
     return newPoint;
 }
 
-/// after a collision, get new half-way targets to try to go towards
 std::pair<std::vector<Vector2>, NumTreesPlanning::PathPointer> NumTreesPlanning::getNewTargets(const NumTreesPlanning::PathPointer &collisionPoint) {
     // backtrack to 0.75 seconds before the collision
     double timeBeforeCollision = 0.75;

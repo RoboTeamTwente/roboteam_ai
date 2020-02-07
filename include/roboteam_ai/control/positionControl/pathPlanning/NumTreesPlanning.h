@@ -31,14 +31,20 @@ private:
 
     CollisionDetector &collisionDetector;
 
+    /// calculate the remaining path length using straight lines from current position to a position halfway and from
+    /// halfway to the final position
     double remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
 
+    /// backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
     std::vector<Vector2> backTrackPath(PathPointer point);
 
+    /// after a collision, get new half-way targets to try to go towards
     std::pair<std::vector<Vector2>, PathPointer> getNewTargets(const PathPointer &collisionPoint);
 
+    /// generates the path between the two points
     std::vector<Vector2> tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition);
 
+    /// create a new pathPoint using a linear acceleration ODE
     PathPointer computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget);
 
 public:

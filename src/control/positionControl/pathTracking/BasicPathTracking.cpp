@@ -15,6 +15,6 @@ Position BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vect
         velocity = velocity.stretchToLength(MAX_VELOCITY);
     }
 
-    return Position(velocity, velocity.angle());
+    return Position{velocity, velocity.angle()};
 }
 }  // namespace rtt::ai::control
