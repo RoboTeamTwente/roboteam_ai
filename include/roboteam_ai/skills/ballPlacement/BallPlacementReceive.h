@@ -7,20 +7,17 @@
 
 #include "skills/Receive.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class BallPlacementReceive : public Receive {
-
-public:
+   public:
     explicit BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard);
     bt::Node::Status onUpdate() override;
-private:
+
+   private:
     bool isInPosition(const Vector2 &behindTargetPos) override;
-    void moveToCatchPosition(const Vector2& position);
-
+    void moveToCatchPosition(const Vector2 &position);
 };
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_BALLPLACEMENTRECEIVE_H
+#endif  // ROBOTEAM_AI_BALLPLACEMENTRECEIVE_H

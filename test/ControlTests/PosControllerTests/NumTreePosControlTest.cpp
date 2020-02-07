@@ -2,12 +2,12 @@
 // Created by mrlukasbos on 21-5-19.
 //
 
-
+#include <control/numtrees/NumTreePosControl.h>
 #include <gtest/gtest.h>
-#include <control/numTrees/NumTreePosControl.h>
-#include <utilities/GameStateManager.hpp>
-#include <utilities/RobotDealer.h>
 #include <roboteam_ai/test/helpers/WorldHelper.h>
+#include <utilities/RobotDealer.h>
+
+#include <utilities/GameStateManager.hpp>
 
 namespace rtt {
 namespace ai {
@@ -18,7 +18,7 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
     roboteam_msgs::GeometryFieldSize field;
     field.field_width = 8;
     field.field_length = 12;
-    roboteam_msgs::World worldmsg=testhelpers::WorldHelper::getWorldMsg(3,0,false,field);
+    roboteam_msgs::World worldmsg = testhelpers::WorldHelper::getWorldMsg(3, 0, false, field);
     world::world->updateWorld(worldmsg);
     /*
      * Set the gamestate to normal play such that we are not allowed to move in the defense area
@@ -30,11 +30,11 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
     GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
     gtp.setCanMoveInDefenseArea(false);
     EXPECT_FALSE(gtp.getCanMoveInDefenseArea(1));
-    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(0)); // the keeper can always move in the defense area
+    EXPECT_FALSE(gtp.getCanMoveInDefenseArea(0));  // the keeper can always move in the defense area
 
     gtp.setCanMoveInDefenseArea(true);
     EXPECT_FALSE(gtp.getCanMoveInDefenseArea(1));
-    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(0)); // the keeper can always move in the defense area
+    EXPECT_TRUE(gtp.getCanMoveInDefenseArea(0));  // the keeper can always move in the defense area
     GameStateManager::forceNewGameState(RefCommand::BALL_PLACEMENT_US);
     gtp.setCanMoveInDefenseArea(true);
     EXPECT_TRUE(gtp.getCanMoveInDefenseArea(1));
@@ -60,6 +60,6 @@ TEST(NumTreePosControlTest, it_obeys_the_referee) {
     EXPECT_EQ(gtp.getAvoidBallDistance(), 0.5);
 }
 
-} // control
-} // ai
-} // rtt
+}  // namespace control
+}  // namespace ai
+}  // namespace rtt

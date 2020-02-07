@@ -2,19 +2,17 @@
 // Created by rolf on 17-4-19.
 //
 
-#include <world/World.h>
+#include "coach/GetBallCoach.h"
 #include <utilities/RobotDealer.h>
 #include <world/FieldComputations.h>
+#include <world/World.h>
 #include "coach/defence/DefencePositionCoach.h"
-#include "coach/GetBallCoach.h"
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 GetBallCoach getBallCoachObj;
-GetBallCoach* getBallCoach = &getBallCoachObj;
+GetBallCoach *getBallCoach = &getBallCoachObj;
 
 bool GetBallCoach::shouldWeGetBall(const Field &field) {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
@@ -25,18 +23,14 @@ bool GetBallCoach::shouldWeGetBall(const Field &field) {
             FieldComputations::pointIsInField(field, ballPos, 0.05);
 }
 
-bool GetBallCoach::weAreGettingBall() {
-    return gettingBall;
-}
+bool GetBallCoach::weAreGettingBall() { return gettingBall; }
 
-int GetBallCoach::getBallGetterID() {
-    return idGettingBall;
-}
+int GetBallCoach::getBallGetterID() { return idGettingBall; }
 
 int GetBallCoach::bestBallGetterID() {
     auto ball = world::world->getBall();
     double a = 0.5;
-    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1-a) + ball->getPos() * a;
+    Vector2 ballPos = ball->getExpectedBallEndPosition() * (1 - a) + ball->getPos() * a;
 
     double closestDistSquared = 9e9;
     int closestId = idGettingBall;
@@ -59,8 +53,7 @@ int GetBallCoach::bestBallGetterID() {
         }
     }
 
-    interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::lightGray, closestId,
-            interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALL_DATA, {closestPos, ballPos}, Qt::lightGray, closestId, interface::Drawing::LINES_CONNECTED);
 
     return closestId;
 }
@@ -69,13 +62,10 @@ void GetBallCoach::update(const Field &field) {
     if (shouldWeGetBall(field)) {
         gettingBall = true;
         idGettingBall = bestBallGetterID();
-    }
-    else {
-        idGettingBall = - 1;
+    } else {
+        idGettingBall = -1;
         gettingBall = false;
     }
 }
 
-} //coach
-} //ai
-} //rtt
+}  // namespace rtt::ai::coach

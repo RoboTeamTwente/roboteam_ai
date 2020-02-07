@@ -2,19 +2,16 @@
 // Created by mrlukasbos on 12-4-19.
 //
 
-#include <world/FieldComputations.h>
 #include "skills/formations/TimeoutFormation.h"
-#include "control/Hungarian.h"
+#include <world/Field.h>
+#include <world/FieldComputations.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
+std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
 
-    std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
-
-    TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard)
-: Formation(name, blackboard) {
-        robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
-    }
+TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
+    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
+}
 
 Vector2 TimeoutFormation::getFormationPosition() {
 
@@ -29,17 +26,11 @@ Vector2 TimeoutFormation::getFormationPosition() {
     for (unsigned int i = 0; i<robotsInFormation->size(); i++) {
         double targetLocationX = -field->getFieldLength() / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
-        robotIds.push_back(robotsInFormation->at(i)->id);
     }
 
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, targetLocations);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, targetLocations);
 }
 
-std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() {
-    return robotsInFormation;
-}
+std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() { return robotsInFormation; }
 
-}
-}
+}  // namespace rtt::ai

@@ -5,38 +5,36 @@
 #ifndef ROBOTEAM_AI_TREEVISUALIZER_H
 #define ROBOTEAM_AI_TREEVISUALIZER_H
 
-#include <QtWidgets/QTreeWidget>
 #include <utilities/GameState.h>
-#include <bt/Node.hpp>
+#include <QtWidgets/QTreeWidget>
 #include <bt/BehaviorTree.hpp>
+#include <bt/Node.hpp>
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class MainWindow;
 class TreeVisualizerWidget : public QTreeWidget {
     Q_OBJECT
     FRIEND_TEST(TreeVisualizerTest, it_properly_displays_trees);
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
-private:
+
+   private:
     QColor getColorForStatus(bt::Node::Status status);
-    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem* QParent);
+    void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem *QParent);
     std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     bool hasCorrectTree = false;
-    MainWindow * parent = nullptr;
+    MainWindow *parent = nullptr;
     unsigned long long mostTicks = 0;
     GameState recentGameState;
-public:
-    explicit TreeVisualizerWidget(MainWindow * parent);
+
+   public:
+    explicit TreeVisualizerWidget(MainWindow *parent);
     void setHasCorrectTree(bool hasCorrectTree);
-public slots:
+   public slots:
     void invalidateTree();
     void updateContents(bt::BehaviorTree::Ptr tree);
-    void populateRow(bt::Node::Ptr node, QTreeWidgetItem* row, bool isUpdate = false);
+    void populateRow(bt::Node::Ptr node, QTreeWidgetItem *row, bool isUpdate = false);
 };
 
-}
-}
-}
-#endif //ROBOTEAM_AI_TREEVISUALIZER_H
+}  // namespace rtt::ai::interface
+#endif  // ROBOTEAM_AI_TREEVISUALIZER_H

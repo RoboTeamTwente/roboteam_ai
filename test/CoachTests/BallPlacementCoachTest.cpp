@@ -2,10 +2,10 @@
 // Created by mrlukasbos on 20-3-19.
 //
 
-#include <gtest/gtest.h>
 #include <coach/BallplacementCoach.h>
-#include <interface/api/Output.h>
 #include <control/ControlUtils.h>
+#include <gtest/gtest.h>
+#include <interface/api/Output.h>
 #include <world/World.h>
 
 TEST(CoachTest, it_handles_ballplacement_positions) {
@@ -21,5 +21,6 @@ TEST(CoachTest, it_handles_ballplacement_positions) {
     worldMsg.ball.existence = 9999;
     rtt::ai::world::world->updateWorld(worldMsg);
 
-    EXPECT_FLOAT_EQ(Vector2(rtt::ai::world::world->getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::world::world->getBall()->pos)), rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
+    EXPECT_FLOAT_EQ(Vector2(rtt::ai::world::world->getBall()->pos).dist(rtt::ai::coach::g_ballPlacement.getBallPlacementBeforePos(rtt::ai::world::world->getBall()->pos)),
+                    rtt::ai::Constants::BP_MOVE_TOWARDS_DIST());
 }

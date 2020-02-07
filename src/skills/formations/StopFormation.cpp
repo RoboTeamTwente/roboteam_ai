@@ -1,16 +1,12 @@
-
 #include "skills/formations/StopFormation.h"
-#include <world/FieldComputations.h>
 #include <interface/api/Input.h>
-#include "control/Hungarian.h"
+#include <world/FieldComputations.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> StopFormation::robotsInFormation = nullptr;
 
-StopFormation::StopFormation(std::string name, bt::Blackboard::Ptr blackboard)
-        : Formation(name, blackboard) {
+StopFormation::StopFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
     robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
 }
 
@@ -21,14 +17,13 @@ void StopFormation::updateFormation() {
 }
 
 Vector2 StopFormation::getFormationPosition() {
-
-    //failsafe to prevent segfaults
+    // failsafe to prevent segfaults
     int amountOfRobots = robotsInFormation->size();
     if (amountOfRobots <= 0) {
         return {};
     }
 
-    auto formationPositions = getStopPositions().at(amountOfRobots-1);
+    auto formationPositions = getStopPositions().at(amountOfRobots - 1);
     std::vector<Vector2> properPositions;
     for (auto pos : formationPositions) {
         if (!positionShouldBeAvoided(pos)) {
@@ -43,21 +38,10 @@ Vector2 StopFormation::getFormationPosition() {
         properPositions.push_back(proposal);
     }
 
-    std::vector<int> robotIds;
-    for (auto & i : *robotsInFormation) {
-        if (robotIds.size() < 8) { // check for amount of robots, we dont want more than 8
-            robotIds.push_back(i->id);
-        }
-    }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, properPositions);
-    return shortestDistances.at(robot->id);
+    return getOptimalPosition(robot->id, *robotsInFormation, properPositions);
 }
 
-std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() {
-    return robotsInFormation;
-}
+std::shared_ptr<std::vector<world::World::RobotPtr>> StopFormation::robotsInFormationPtr() { return robotsInFormation; }
 
 // determine the angle where the robot should point to (in position)
 void StopFormation::setFinalAngle() {
@@ -66,7 +50,7 @@ void StopFormation::setFinalAngle() {
 }
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
-    auto pp = FieldComputations::getPenaltyPoint(*field, true); // penalty point
+    auto pp = FieldComputations::getPenaltyPoint(*field, true);  // penalty point
     auto defenseAreaLineA = (*field).getLeftPenaltyLine().begin;
     auto defenseAreaLineB = (*field).getLeftPenaltyLine().end;
 
@@ -82,123 +66,77 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     double distanceFromGoal;
     double distanceToBall = 1.0;
 
-    if (ball->getPos().x > 0.0) { // if the ball is on their side
+    if (ball->getPos().x > 0.0) {  // if the ball is on their side
         distanceFromGoal = 4.0;
-    } else { // if the ball is on our side
+    } else {  // if the ball is on our side
         distanceFromGoal = (fabs(ball->getPos().y) < 1.2) ? 1.6 : 2.2;
     }
 
     Vector2 closeToBallMiddle = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall);
 
-    Vector2 closeToBallA = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(
-            -sin(Constants::ROBOT_RADIUS() / distanceToBall));
-    Vector2 closeToBallB = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(
-            sin(Constants::ROBOT_RADIUS()/distanceToBall));
+    Vector2 closeToBallA = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(-sin(Constants::ROBOT_RADIUS() / distanceToBall));
+    Vector2 closeToBallB = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(sin(Constants::ROBOT_RADIUS() / distanceToBall));
 
     // for one robot between ball and our goal
     Vector2 betweenGoalAndBallPosition = (*field).getOurGoalCenter() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
-    Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .stretchToLength(distanceFromGoal + 3 * Constants::ROBOT_RADIUS());
+    Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal).stretchToLength(distanceFromGoal + 3 * Constants::ROBOT_RADIUS());
 
     // for multiple robots between ball and our goal
     Vector2 diff = betweenGoalAndBallPosition + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionA =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(- sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionB =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionC =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
-    Vector2 betweenGoalAndBallPositionD =  ourGoalCenterToBall.stretchToLength(distanceFromGoal)
-            .rotate(-2*sin(Constants::ROBOT_RADIUS()/distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionA =
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionB =
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionC =
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+    Vector2 betweenGoalAndBallPositionD =
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
 
     Vector2 basicOffensivePositionA = {-1, 0.0};
-
 
     double offset = 0.3;
     Vector2 inFrontOfDefenseAreaPositionA;
     Vector2 inFrontOfDefenseAreaPositionB;
     Vector2 inFrontOfDefenseAreaPositionC;
     double goal_width = (*field).getGoalWidth();
-    if (ball->getPos().y > goal_width){
-        inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
-        inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
+    if (ball->getPos().y > goal_width) {
+        inFrontOfDefenseAreaPositionA = {pp.x + offset, 0};
+        inFrontOfDefenseAreaPositionB = {pp.x + offset, dBtmY};
         inFrontOfDefenseAreaPositionC = {pp.x + offset, dTopY};
-    }
-    else if (ball->getPos().y < -goal_width){
-        inFrontOfDefenseAreaPositionA= {pp.x + offset, 0};
-        inFrontOfDefenseAreaPositionB= {pp.x + offset, dTopY};
+    } else if (ball->getPos().y < -goal_width) {
+        inFrontOfDefenseAreaPositionA = {pp.x + offset, 0};
+        inFrontOfDefenseAreaPositionB = {pp.x + offset, dTopY};
         inFrontOfDefenseAreaPositionC = {pp.x + offset, dBtmY};
-    }
-    else {
-        if (ball->getPos().y > 0){
-            inFrontOfDefenseAreaPositionA= {pp.x + offset, dBtmY};
-            inFrontOfDefenseAreaPositionB= {pp.x + offset, dTopY};
+    } else {
+        if (ball->getPos().y > 0) {
+            inFrontOfDefenseAreaPositionA = {pp.x + offset, dBtmY};
+            inFrontOfDefenseAreaPositionB = {pp.x + offset, dTopY};
             inFrontOfDefenseAreaPositionC = {pp.x + offset, 0};
-        }
-        else{
-            inFrontOfDefenseAreaPositionA= {pp.x + offset, dTopY};
-            inFrontOfDefenseAreaPositionB= {pp.x + offset, dBtmY};
+        } else {
+            inFrontOfDefenseAreaPositionA = {pp.x + offset, dTopY};
+            inFrontOfDefenseAreaPositionB = {pp.x + offset, dBtmY};
             inFrontOfDefenseAreaPositionC = {pp.x + offset, 0};
         }
     }
 
     std::vector<std::vector<Vector2>> targetLocations = {
-            {closeToBallMiddle
-            },
+        {closeToBallMiddle},
 
-            {closeToBallA,
-             closeToBallB
-            },
+        {closeToBallA, closeToBallB},
 
-            {betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             closeToBallMiddle
-            },
+        {betweenGoalAndBallPositionA, betweenGoalAndBallPositionB, closeToBallMiddle},
 
-            {
-            closeToBallA,
-            closeToBallB,
-            betweenGoalAndBallPositionA,
-            betweenGoalAndBallPositionB
-            },
+        {closeToBallA, closeToBallB, betweenGoalAndBallPositionA, betweenGoalAndBallPositionB},
 
-            {
-            closeToBallA,
-            closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             inFrontOfDefenseAreaPositionA
-            },
+        {closeToBallA, closeToBallB, betweenGoalAndBallPositionA, betweenGoalAndBallPositionB, inFrontOfDefenseAreaPositionA},
 
-            {closeToBallA,
-             closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             inFrontOfDefenseAreaPositionA,
-             basicOffensivePositionA
-            },
+        {closeToBallA, closeToBallB, betweenGoalAndBallPositionA, betweenGoalAndBallPositionB, inFrontOfDefenseAreaPositionA, basicOffensivePositionA},
 
-            {
-             closeToBallA,
-             closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             inFrontOfDefenseAreaPositionB,
-             inFrontOfDefenseAreaPositionC,
-             basicOffensivePositionA
-            },
+        {closeToBallA, closeToBallB, betweenGoalAndBallPositionA, betweenGoalAndBallPositionB, inFrontOfDefenseAreaPositionB, inFrontOfDefenseAreaPositionC,
+         basicOffensivePositionA},
 
-            {
-             closeToBallA,
-             closeToBallB,
-             betweenGoalAndBallPositionA,
-             betweenGoalAndBallPositionB,
-             betweenGoalAndBallPositionC,
-             inFrontOfDefenseAreaPositionB,
-             inFrontOfDefenseAreaPositionC,
-             inFrontOfDefenseAreaPositionA
-            }
-    };
+        {closeToBallA, closeToBallB, betweenGoalAndBallPositionA, betweenGoalAndBallPositionB, betweenGoalAndBallPositionC, inFrontOfDefenseAreaPositionB,
+         inFrontOfDefenseAreaPositionC, inFrontOfDefenseAreaPositionA}};
     return targetLocations;
 }
 
@@ -238,5 +176,4 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     return properPositions;
 }
 
-}
-}
+}  // namespace rtt::ai

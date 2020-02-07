@@ -3,20 +3,21 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class IsCloseToPoint : public Condition {
-private:
+   private:
     double margin = 0.0;
     Vector2 position;
-public:
+
+   public:
     explicit IsCloseToPoint(std::string name = "IsCloseToPoint", bt::Blackboard::Ptr blackboard = nullptr);
+
     void onInitialize() override;
+
     Status onUpdate() override;
 };
 
-} // ai 
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_ISCLOSETOPOINT_H
+#endif  // ROBOTEAM_AI_ISCLOSETOPOINT_H

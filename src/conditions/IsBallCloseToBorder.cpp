@@ -1,18 +1,17 @@
 /*
  * Return SUCCESS if the ball is close to the border
- * properties: 
+ * properties:
  * - margin: the distance from the sides of the field which are 'close' to the border
  * - layingStill: if true, the ball has to lay still as well to return SUCCESS
  */
 
 #include "conditions/IsBallCloseToBorder.h"
+
 #include <world/Ball.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
+IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 void IsBallCloseToBorder::onInitialize() {
     if (properties->hasDouble("margin")) {
@@ -37,9 +36,8 @@ bt::Node::Status IsBallCloseToBorder::onUpdate() {
     if (ballShouldLayStill) {
         bool ballIsLayingStill = Vector2(ball->getVel()).length() <= Constants::BALL_STILL_VEL();
         return ballIsLayingStill ? Status::Success : Status::Failure;
-    } 
+    }
     return Status::Success;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

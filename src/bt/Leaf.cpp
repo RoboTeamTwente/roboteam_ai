@@ -1,16 +1,17 @@
-#include <memory>
+#include "bt/Leaf.hpp"
+
 #include <world/World.h>
 
-#include "bt/Leaf.hpp"
+#include <memory>
+
 #include "utilities/RobotDealer.h"
-#include "world/WorldData.h"
-#include "world/Robot.h"
 #include "world/Ball.h"
+#include "world/Robot.h"
+#include "world/WorldData.h"
 
 namespace bt {
 
-Leaf::Leaf(std::string name, Blackboard::Ptr blackboard)
-        :name(std::move(name)) {
+Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name)) {
     setProperties(blackboard);
     robot = std::make_shared<rtt::ai::world::Robot>(rtt::ai::world::Robot());
     ball = std::make_shared<rtt::ai::world::Ball>(rtt::ai::world::Ball());
@@ -21,14 +22,12 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboa
         std::string roleName = properties->getString("ROLE");
         robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
         if (rtt::ai::world::world->getRobotForId(robotId, true)) {
-            if (robotId == - 1) std::cout << "getting robot for id with id = -1!!!" << std::endl;
+            if (robotId == -1) std::cout << "getting robot for id with id = -1!!!" << std::endl;
             return rtt::ai::world::world->getRobotForId(robotId, true);
-        }
-        else {
+        } else {
             std::cerr << node_name().c_str() << " Initialize -> robot " << robotId << " does not exist in world" << std::endl;
         }
-    }
-    else {
+    } else {
         std::cerr << node_name().c_str() << "Initialize -> robot " << robotId << " -> ROLE WAITING!!" << std::endl;
     }
     return nullptr;
@@ -37,15 +36,12 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(bt::Blackboa
 void Leaf::updateRobot() {
     if (rtt::ai::world::world->getRobotForId(robotId, true)) {
         robot = rtt::ai::world::world->getRobotForId(robotId, true);
-    }
-    else {
+    } else {
         std::cerr << node_name().c_str() << "Update -> robot " << robotId << " does not exist in world" << std::endl;
         robot = nullptr;
     }
 }
 
-void Leaf::terminate(Node::Status status) {
-    robotId = - 1;
-}
+void Leaf::terminate(Node::Status status) { robotId = -1; }
 
-}
+}  // namespace bt

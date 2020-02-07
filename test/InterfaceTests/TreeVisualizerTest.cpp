@@ -5,8 +5,8 @@
 #include <gtest/gtest.h>
 #include <interface/widgets/TreeVisualizerWidget.h>
 #include <interface/widgets/mainWindow.h>
-#include <treeinterp/BTFactory.h>
 #include <skills/Halt.h>
+#include <treeinterp/BTFactory.h>
 
 namespace rtt {
 namespace ai {
@@ -17,7 +17,7 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
     factory.makeTrees();
     BTFactory::setCurrentTree("halt_strategy");
     auto window = std::make_shared<MainWindow>();
-    TreeVisualizerWidget * treeVis = window->treeWidget;
+    TreeVisualizerWidget *treeVis = window->treeWidget;
 
     // it initializes to false
     EXPECT_FALSE(treeVis->hasCorrectTree);
@@ -83,15 +83,13 @@ TEST(TreeVisualizerTest, it_properly_displays_trees) {
 
 TEST(TreeVisualizerTest, it_sets_proper_color_for_status) {
     auto window = std::make_shared<MainWindow>();
-    TreeVisualizerWidget * treeVis = window->treeWidget;
+    TreeVisualizerWidget *treeVis = window->treeWidget;
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Failure), Qt::red);
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Success), QColor("#66ff66"));
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Running), QColor("#006600"));
     EXPECT_EQ(treeVis->getColorForStatus(bt::Node::Status::Waiting), Qt::darkGray);
 }
 
-
-
-} // interface
-} // ai
-} // rtt
+}  // namespace interface
+}  // namespace ai
+}  // namespace rtt

@@ -3,27 +3,23 @@
 //
 
 #include "skills/GetBall.h"
-#include "utilities/Constants.h"
+
 #include "control/ControlUtils.h"
+#include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-//TODO: do obstacle checking and return fail if there is an obstacle in the way.
-//GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
-GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+// TODO: do obstacle checking and return fail if there is an obstacle in the way.
+// GetBall turns the robot to the ball and softly approaches with dribbler on in an attempt to get the ball.
+GetBall::GetBall(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
-void GetBall::onInitialize() {
-    ballHandlePosControl.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
-}
+void GetBall::onInitialize() { ballHandlePosControl.setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea")); }
 
 GetBall::Status GetBall::onUpdate() {
     if ((lockedTargetPos - ball->getPos()).length() > 0.2) {
         lockedTargetPos = ball->getPos() + (ball->getPos() - robot->pos).stretchToLength(0.1);
     }
-    auto c = ballHandlePosControl.getRobotCommand(world, field,
-                                                  robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS);
+    auto c = ballHandlePosControl.getRobotCommand(world, field, robot, lockedTargetPos, control::BallHandlePosControl::TravelStrategy::BACKWARDS);
 
     if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
@@ -45,5 +41,4 @@ void GetBall::onTerminate(Status s) {
     }
 }
 
-}//rtt
-}//ai
+}  // namespace rtt::ai

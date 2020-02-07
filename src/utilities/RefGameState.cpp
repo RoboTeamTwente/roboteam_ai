@@ -3,22 +3,18 @@
 //
 
 #include "utilities/RefGameState.h"
+
 #include "utilities/GameStateManager.hpp"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSetName, bool isFollowUpCommand, RefCommand followUpCommandId)
-: GameState(std::move(strategyName), std::move(keeperStrategyName), std::move(ruleSetName)),
-    commandId(commandId),
-    isfollowUpCommand(isFollowUpCommand),
-    followUpCommandId(followUpCommandId)
-    {}
+RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSetName, bool isFollowUpCommand,
+                           RefCommand followUpCommandId)
+    : GameState(std::move(strategyName), std::move(keeperStrategyName), std::move(ruleSetName)),
+      commandId(commandId),
+      isfollowUpCommand(isFollowUpCommand),
+      followUpCommandId(followUpCommandId) {}
 
-bool RefGameState::hasFollowUpCommand() const {
-    return followUpCommandId != RefCommand::UNDEFINED;
-}
+bool RefGameState::hasFollowUpCommand() const { return followUpCommandId != RefCommand::UNDEFINED; }
 
-
-} // ai
-} // rtt
+}  // namespace rtt::ai

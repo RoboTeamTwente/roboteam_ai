@@ -3,15 +3,12 @@
 //
 
 #include "skills/ReflectKick.h"
-#include "control/numTrees/NumTreePosControl.h"
+#include "control/numtrees/NumTreePosControl.h"
 #include "world/FieldComputations.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-}
+ReflectKick::ReflectKick(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ReflectKick::onInitialize() {
     kicked = false;
@@ -25,8 +22,8 @@ ReflectKick::Status ReflectKick::onUpdate() {
     robotAngle = getAngle();
     ballStartPos = ball->getPos();
 
-    if(coach::g_pass.isPassed()) {
-        if(ball->getVel().length() < Constants::BALL_STILL_VEL()) {
+    if (coach::g_pass.isPassed()) {
+        if (ball->getVel().length() < Constants::BALL_STILL_VEL()) {
             return Status::Failure;
         }
 
@@ -56,7 +53,7 @@ ReflectKick::Status ReflectKick::onUpdate() {
 }
 
 // Pick the closest point to the (predicted) line of the ball for any 'regular' interception
-Vector2 ReflectKick::computeInterceptPoint(const Vector2& startBall, const Vector2& endBall) {
+Vector2 ReflectKick::computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall) {
     Vector2 interceptPoint = reflectionPos.project(startBall, endBall);
     Vector2 distanceToKicker = {Constants::CENTRE_TO_FRONT(), 0};
     return interceptPoint - distanceToKicker.rotate(robot->angle);
@@ -70,7 +67,7 @@ void ReflectKick::intercept() {
 
     Vector2 velocities = robot->getBasicPosControl()->getRobotCommand(world, field, robot, interceptPoint).vel;
     command.mutable_vel()->set_x(velocities.x);
-  command.mutable_vel()->set_y(velocities.y);
+    command.mutable_vel()->set_y(velocities.y);
     command.set_w(robotAngle);
 }
 
@@ -83,12 +80,9 @@ Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
     float cornering = (*field).getGoalWidth() / 2.0;
     if (robotPos.y >= 0) {
-        return {(*field).getTheirGoalCenter().x,
-                (*field).getTheirGoalCenter().y + cornering};
-    }
-    else {
-        return {(*field).getTheirGoalCenter().x,
-                (*field).getTheirGoalCenter().y - cornering};
+        return {(*field).getTheirGoalCenter().x, (*field).getTheirGoalCenter().y + cornering};
+    } else {
+        return {(*field).getTheirGoalCenter().x, (*field).getTheirGoalCenter().y - cornering};
     }
 }
 
@@ -104,9 +98,6 @@ double ReflectKick::getAngle() {
     return angle;
 }
 
-bool ReflectKick::ballDeflected() {
-    return (ball->getVel() - ballReceiveVel).toAngle() > 0.01 || ball->getVel().length() < 0.1;
-}
+bool ReflectKick::ballDeflected() { return (ball->getVel() - ballReceiveVel).toAngle() > 0.01 || ball->getVel().length() < 0.1; }
 
-}
-}
+}  // namespace rtt::ai

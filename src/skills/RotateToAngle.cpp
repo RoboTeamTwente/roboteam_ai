@@ -3,14 +3,13 @@
 //
 
 #include "skills/RotateToAngle.h"
+
 #include "control/ControlUtils.h"
 #include "world/Ball.h"
 #include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
-RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+namespace rtt::ai {
+RotateToAngle::RotateToAngle(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void RotateToAngle::onInitialize() {
     if (properties->hasDouble("Angle")) {
@@ -43,15 +42,16 @@ RotateToAngle::Status RotateToAngle::onUpdate() {
 
 void RotateToAngle::onTerminate(Status s) {
     command.set_w(targetAngle);
-    currentProgress=ROTATING;
+    currentProgress = ROTATING;
     publishRobotCommand();
 }
 
 RotateToAngle::Progression RotateToAngle::checkProgression() {
-    double errorMargin = M_PI*0.03;
-    if (deltaAngle > errorMargin) return ROTATING;
-    else return DONE;
+    double errorMargin = M_PI * 0.03;
+    if (deltaAngle > errorMargin)
+        return ROTATING;
+    else
+        return DONE;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

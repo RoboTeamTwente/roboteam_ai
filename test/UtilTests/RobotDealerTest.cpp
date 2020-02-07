@@ -6,7 +6,7 @@
 //#include "/utilities/RobotDealer.h"
 //#include "/world/World.h"
 //
-//TEST(RobotDealerTest, RobotDealerTest) {
+// TEST(RobotDealerTest, RobotDealerTest) {
 //    using robot = rtt::ai::robotDealer::RobotType;
 //    // Make sure that there is a world and that it is empty
 //    roboteam_msgs::World worldMsg;

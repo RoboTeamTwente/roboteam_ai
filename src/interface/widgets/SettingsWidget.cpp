@@ -1,22 +1,22 @@
 
 #include "interface/widgets/SettingsWidget.h"
 
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QSpacerItem>
+#include <include/roboteam_ai/utilities/Settings.h>
+
 #include <QtWidgets/QLineEdit>
-#include <Settings/Settings.h>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QVBoxLayout>
+
 #include "interface/widgets/mainWindow.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
-SettingsWidget::SettingsWidget(QWidget * parent) {
+SettingsWidget::SettingsWidget(QWidget *parent) {
     vLayout = new QVBoxLayout();
     this->setLayout(vLayout);
 
     // grsim ip + port settings
-    QGroupBox * grsimSettingsGroup = new QGroupBox("grsim transmission ip + port");
+    QGroupBox *grsimSettingsGroup = new QGroupBox("grsim transmission ip + port");
     auto grsimSettingsWidgetLayout = new QHBoxLayout();
     grsimIpText = new QLineEdit();
     grsimIpText->setText(QString::fromStdString(SETTINGS.getRobothubSendIp()));
@@ -34,17 +34,11 @@ SettingsWidget::SettingsWidget(QWidget * parent) {
     vLayout->addSpacerItem(spacer);
 }
 
-void SettingsWidget::changeTeamColor(bool isYellow) {
-    SETTINGS.setYellow(isYellow);
-}
+void SettingsWidget::changeTeamColor(bool isYellow) { SETTINGS.setYellow(isYellow); }
 
-void SettingsWidget::changeTeamSide(bool isLeft) {
-    SETTINGS.setLeft(isLeft);
-}
+void SettingsWidget::changeTeamSide(bool isLeft) { SETTINGS.setLeft(isLeft); }
 
-void SettingsWidget::changeMode(bool serial) {
-    SETTINGS.setSerialMode(serial);
-}
+void SettingsWidget::changeMode(bool serial) { SETTINGS.setSerialMode(serial); }
 
 void SettingsWidget::changeGrSimIp(QString ip) {
     std::cout << "setting grsimip" << std::endl;
@@ -56,10 +50,7 @@ void SettingsWidget::changeGrSimPort(int port) {
     SETTINGS.setRobothubSendPort(port);
 }
 
-} // interface
-} // ai
-} // rtt
-
+}  // namespace rtt::ai::interface
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_SettingsWidget.cpp"

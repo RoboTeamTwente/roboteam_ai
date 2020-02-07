@@ -2,23 +2,19 @@
 // Created by rolf on 28/11/18.
 //
 
-#include <coach/BallplacementCoach.h>
 #include "skills/Dribble.h"
-namespace rtt {
-namespace ai {
 
-Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) { }
+#include <coach/BallplacementCoach.h>
+namespace rtt::ai {
+
+Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 void Dribble::onInitialize() {
-
-    //if false, robot will dribble to the position backwards with the ball.
+    // if false, robot will dribble to the position backwards with the ball.
     if (properties->hasBool("forwardDirection")) {
-        forwardDirection = properties->getBool("forwardDirection") ?
-                           control::BallHandlePosControl::TravelStrategy::FORWARDS :
-                           control::BallHandlePosControl::TravelStrategy::BACKWARDS;
-    }
-    else {
+        forwardDirection =
+            properties->getBool("forwardDirection") ? control::BallHandlePosControl::TravelStrategy::FORWARDS : control::BallHandlePosControl::TravelStrategy::BACKWARDS;
+    } else {
         forwardDirection = control::BallHandlePosControl::TravelStrategy::FORWARDS;
     }
 
@@ -27,11 +23,10 @@ void Dribble::onInitialize() {
         Angle targetAngle;
         if (forwardDirection == control::BallHandlePosControl::TravelStrategy::FORWARDS) {
             targetAngle = robot->angle;
-        }
-        else {
+        } else {
             targetAngle = robot->angle - M_PI;
         }
-        targetPos = (Vector2) robot->pos + Vector2({distance, 0}).rotate(targetAngle);
+        targetPos = (Vector2)robot->pos + Vector2({distance, 0}).rotate(targetAngle);
     }
 
     if (properties->hasVector2("Position")) {
@@ -55,7 +50,7 @@ Dribble::Status Dribble::onUpdate() {
         return Status::Success;
     }
 
-    count ++;
+    count++;
     if (count >= maxTicks && properties->hasInt("maxTicks")) {
         return Status::Failure;
     }
@@ -65,5 +60,4 @@ Dribble::Status Dribble::onUpdate() {
     return Status::Running;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

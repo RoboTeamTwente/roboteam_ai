@@ -5,28 +5,23 @@
 #ifndef ROBOTEAM_AI_PASS_H
 #define ROBOTEAM_AI_PASS_H
 
-#include <control/numTrees/NumTreePosControl.h>
-#include <control/BasicPosControl.h>
-#include "Skill.h"
 #include <coach/PassCoach.h>
+#include <control/BasicPosControl.h>
 #include <control/PositionUtils.h>
+#include <control/numtrees/NumTreePosControl.h>
+#include <control/shot-controllers/ShotController.h>
 #include <utilities/Constants.h>
-#include <control/shotControllers/ShotController.h>
+#include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class Pass : public Skill {
-protected:
-    enum PassType {
-        DEFAULT,
-        DEFENSIVE,
-        FREEKICK
-    };
+   protected:
+    enum PassType { DEFAULT, DEFENSIVE, FREEKICK };
 
     PassType passType = DEFAULT;
 
-    PassType stringToType(const std::string& type);
+    PassType stringToType(const std::string &type);
 
     const double CLOSE_ENOUGH_TO_BALL = 0.7;
     const double SUCCESSFUL_PASS_ANGLE = 0.6;
@@ -44,15 +39,13 @@ protected:
     Vector2 getKicker();
     virtual void makeCommand();
 
-public:
+   public:
     explicit Pass(string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
 };
 
-} //ai
-} //rtt
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_PASS_H
+#endif  // ROBOTEAM_AI_PASS_H

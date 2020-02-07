@@ -3,27 +3,24 @@
 //
 
 #include "coach/PassCoach.h"
+#include <world/World.h>
+#include <chrono>
 #include "coach/heuristics/PassScore.h"
 #include "utilities/RobotDealer.h"
 #include "world/FieldComputations.h"
-#include <chrono>
-#include <world/World.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 PassCoach g_pass;
 
-PassCoach::PassCoach() {
-}
+PassCoach::PassCoach() {}
 
 void PassCoach::resetPass(int robotID) {
     if (robotID == robotBeingPassedTo || robotID == robotPassing || robotID == -1) {
         passed = false;
         readyToReceivePass = false;
-        robotPassing = - 1;
-        robotBeingPassedTo = - 1;
+        robotPassing = -1;
+        robotBeingPassedTo = -1;
 
         passTimerStarted = false;
         receiveTimerStarted = false;
@@ -33,7 +30,7 @@ void PassCoach::resetPass(int robotID) {
 int PassCoach::initiatePass(const Field &field, int passerID) {
     // Check whether a pass is already in progress that is not taking too long yet
     if (robotBeingPassedTo != -1) {
-        if(!passTakesTooLong()) {
+        if (!passTakesTooLong()) {
             return -1;
         }
     }
@@ -52,32 +49,22 @@ int PassCoach::initiatePass(const Field &field, int passerID) {
     return robotBeingPassedTo;
 }
 
-bool PassCoach::isReadyToReceivePass() {
-    return readyToReceivePass;
-}
+bool PassCoach::isReadyToReceivePass() { return readyToReceivePass; }
 
-void PassCoach::setReadyToReceivePass(bool readyToReceivePass) {
-    this->readyToReceivePass = readyToReceivePass;
-}
+void PassCoach::setReadyToReceivePass(bool readyToReceivePass) { this->readyToReceivePass = readyToReceivePass; }
 
-int PassCoach::getRobotBeingPassedTo() {
-    return robotBeingPassedTo;
-}
+int PassCoach::getRobotBeingPassedTo() { return robotBeingPassedTo; }
 
-void PassCoach::setRobotBeingPassedTo(int robotBeingPassedTo) {
-    this->robotBeingPassedTo = robotBeingPassedTo;
-}
+void PassCoach::setRobotBeingPassedTo(int robotBeingPassedTo) { this->robotBeingPassedTo = robotBeingPassedTo; }
 
-bool PassCoach::isPassed() {
-    return passed;
-}
+bool PassCoach::isPassed() { return passed; }
 
 int PassCoach::determineReceiver(const Field &field, int passerID) {
     coach::PassScore passScore;
     double bestScore = 0;
     int bestRobotID = -1;
     auto passer = world::world->getRobotForId(passerID, true);
-    for(auto &robot : world::world->getUs()) {
+    for (auto &robot : world::world->getUs()) {
         if (!validReceiver(field, passer, robot)) continue;
         double score = passScore.calculatePassScore(field, robot->pos);
         if (score > bestScore) {
@@ -91,7 +78,7 @@ int PassCoach::determineReceiver(const Field &field, int passerID) {
 
 void PassCoach::setPassed(bool passed) {
     this->passed = passed;
-    if(passed) {
+    if (passed) {
         receiveStartTime = std::chrono::steady_clock::now();
         receiveTimerStarted = true;
         passTimerStarted = false;
@@ -118,18 +105,17 @@ bool PassCoach::passTakesTooLong() {
     return false;
 }
 
-int PassCoach::getRobotPassing() const {
-    return robotPassing;
-}
+int PassCoach::getRobotPassing() const { return robotPassing; }
+
 void PassCoach::updatePassProgression() {
     if (robotBeingPassedTo != -1) {
         if (passTakesTooLong()) {
             resetPass(-1);
         }
     }
-
 }
-bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const RobotPtr& receiver,  bool freeKick) {
+
+bool PassCoach::validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick) {
     auto ball = world::world->getBall();
 
     if (!ball || !passer || !receiver) {
@@ -143,7 +129,7 @@ bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const 
         if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
             return false;
         }
-        auto MIN_PASS_DISTANCE = std::max((double) field.getGoalWidth() / 2, SMALLEST_MIN_PASS_DISTANCE);
+        auto MIN_PASS_DISTANCE = std::max((double)field.getGoalWidth() / 2, SMALLEST_MIN_PASS_DISTANCE);
         if ((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
             return false;
         }
@@ -152,6 +138,4 @@ bool PassCoach::validReceiver(const Field &field, const RobotPtr& passer, const 
     return true;
 }
 
-} // coach
-} // ai
-} // rtt
+}  // namespace rtt::ai::coach

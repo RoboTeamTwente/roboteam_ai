@@ -7,24 +7,21 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class PreparePenalty : public Skill {
-
-        /**
-         * Things to prepare for a penalty
-         * 1. Keeper calculation
-         * 2. Geneva
-         * 3. Orientation
-         * 4. Then wait
-         */
-    public:
-        explicit PreparePenalty(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
+    /**
+     * Things to prepare for a penalty
+     * 1. Keeper calculation
+     * 2. Geneva
+     * 3. Orientation
+     * 4. Then wait
+     */
+   public:
+    explicit PreparePenalty(string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
 };
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_PREPAREPENALTY_H
+#endif  // ROBOTEAM_AI_PREPAREPENALTY_H

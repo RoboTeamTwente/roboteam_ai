@@ -3,10 +3,11 @@
 //
 #include <gtest/gtest.h>
 #include <interface/api/Output.h>
-#include <interface/widgets/widget.h>
-#include <QtWidgets/QApplication>
-#include <interface/widgets/mainWindow.h>
 #include <interface/widgets/MainControlsWidget.h>
+#include <interface/widgets/mainWindow.h>
+#include <interface/widgets/widget.h>
+
+#include <QtWidgets/QApplication>
 
 namespace w = rtt::ai::world;
 
@@ -25,7 +26,7 @@ TEST(MainControlsWidgetTest, it_toggles_our_color_param) {
     nh.getParam("our_color", ourColorParam);
     EXPECT_EQ(ourColorParam, "blue");
 
-// reverse it again
+    // reverse it again
     widget->toggleOurColorParam();
     nh.getParam("our_color", ourColorParam);
     EXPECT_EQ(ourColorParam, "yellow");
@@ -42,12 +43,12 @@ TEST(MainControlsWidgetTest, it_toggles_our_side_param) {
     nh.getParam("our_color", ourColorParam);
     EXPECT_EQ(ourColorParam, "blue");
 
-// reverse it again
+    // reverse it again
     widget->toggleOurColorParam();
     nh.getParam("our_color", ourColorParam);
     EXPECT_EQ(ourColorParam, "yellow");
 }
 
-}
-}
-}
+}  // namespace interface
+}  // namespace ai
+}  // namespace rtt

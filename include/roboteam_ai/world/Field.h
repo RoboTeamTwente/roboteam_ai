@@ -1,13 +1,13 @@
 #ifndef RTT_FIELD_H
 #define RTT_FIELD_H
 
-#include "roboteam_proto/FieldLineSegment.pb.h"
-#include "roboteam_proto/FieldCircularArc.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include <roboteam_utils/Vector2.h>
 #include "gtest/gtest_prod.h"
+#include "roboteam_proto/FieldCircularArc.pb.h"
+#include "roboteam_proto/FieldLineSegment.pb.h"
+#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
-namespace rtt {
+namespace rtt::ai::world {
 
 struct FieldLineSegment {
     Vector2 begin;
@@ -19,8 +19,8 @@ struct FieldLineSegment {
 struct FieldArc {
     Vector2 center;
     float radius;
-    float a1; // The start angle, which is also called angle 1.
-    float a2; // The end angle, which is also called angle 2.
+    float a1;  // The start angle, which is also called angle 1.
+    float a2;  // The end angle, which is also called angle 2.
     std::string name;
     float thickness;
 };
@@ -46,7 +46,7 @@ class Field {
     FRIEND_TEST(FieldTest, penalty_points);
     FRIEND_TEST(FieldTest, goal_angle);
 
-private:
+   private:
     // Used to convert protobuf names to field names.
     std::unordered_map<std::string, std::string> NAME_MAP = {
         {"TopTouchLine", "top_line"},
@@ -65,27 +65,25 @@ private:
     };
 
     // Used to convert field line name, in string format, to the corresponding FieldLineName enum value
-    std::unordered_map<std::string, std::optional<FieldLineSegment>*> RELATED_FIELD_LINE = {
-        {"top_line", &topLine},
-        {"bottom_line", &bottomLine},
-        {"left_line", &leftLine},
-        {"right_line", &rightLine},
-        {"half_line", &halfLine},
-        {"center_line", &centerLine},
-        {"left_penalty_line", &leftPenaltyLine},
-        {"right_penalty_line", &rightPenaltyLine},
-        {"top_left_penalty_stretch", &topLeftPenaltyStretch},
-        {"bottom_left_penalty_stretch", &bottomLeftPenaltyStretch},
-        {"top_right_penalty_stretch", &topRightPenaltyStretch},
-        {"bottom_right_penalty_stretch", &bottomRightPenaltyStretch}
-    };
+    std::unordered_map<std::string, std::optional<FieldLineSegment> *> RELATED_FIELD_LINE = {{"top_line", &topLine},
+                                                                                             {"bottom_line", &bottomLine},
+                                                                                             {"left_line", &leftLine},
+                                                                                             {"right_line", &rightLine},
+                                                                                             {"half_line", &halfLine},
+                                                                                             {"center_line", &centerLine},
+                                                                                             {"left_penalty_line", &leftPenaltyLine},
+                                                                                             {"right_penalty_line", &rightPenaltyLine},
+                                                                                             {"top_left_penalty_stretch", &topLeftPenaltyStretch},
+                                                                                             {"bottom_left_penalty_stretch", &bottomLeftPenaltyStretch},
+                                                                                             {"top_right_penalty_stretch", &topRightPenaltyStretch},
+                                                                                             {"bottom_right_penalty_stretch", &bottomRightPenaltyStretch}};
 
     // Used to convert field arc name, in string format, to the corresponding FieldArcName enum value
-    std::unordered_map<std::string, std::optional<FieldArc>*> RELATED_FIELD_ARC = {
+    std::unordered_map<std::string, std::optional<FieldArc> *> RELATED_FIELD_ARC = {
         {"center_circle", &centerCircle},
     };
 
-private:
+   private:
     std::vector<FieldLineSegment> allFieldLines;
 
     /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of
@@ -112,13 +110,13 @@ private:
     // The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
     std::optional<double> leftmostX;
 
-    //The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
+    // The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
     std::optional<double> rightmostX;
 
-    //The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
+    // The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
     std::optional<double> bottommostY;
 
-    //The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
+    // The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
     std::optional<double> topmostY;
 
     // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
@@ -167,7 +165,7 @@ private:
     std::optional<Vector2> ourGoalCenter;
 
     // The middle point of the opponents goal (this point is on the right line).
-    std::optional<Vector2>  theirGoalCenter;
+    std::optional<Vector2> theirGoalCenter;
 
     // The penalty point from which penalties are made towards our goal.
     std::optional<Vector2> leftPenaltyPoint;
@@ -190,7 +188,7 @@ private:
     // The circle in the middle from which the ball will be kicked off
     std::optional<FieldArc> centerCircle;
 
-public:
+   public:
     /**
      * Constructor that creates an unitialized Field
      */
@@ -239,9 +237,9 @@ public:
      * Get all the lines of the field
      * @return A map which contains all field lines
      */
-    const std::vector<FieldLineSegment> &getField_lines() const;
+    const std::vector<FieldLineSegment> &getFieldLines() const;
 
-private:
+   private:
     /**
      * This method deals with getting field values and what should happen when a field value is missing.
      */
@@ -294,5 +292,5 @@ private:
     void initFieldVectors();
 };
 
-}
-#endif //RTT_FIELD_H
+}  // namespace rtt::ai::world
+#endif  // RTT_FIELD_H

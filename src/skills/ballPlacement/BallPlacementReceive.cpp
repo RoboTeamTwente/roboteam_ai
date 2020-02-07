@@ -2,20 +2,19 @@
 // Created by mrlukasbos on 1-5-19.
 //
 
-#include <coach/PassCoach.h>
-#include <coach/BallplacementCoach.h>
 #include "skills/ballPlacement/BallPlacementReceive.h"
-#include "control/numTrees/NumTreePosControl.h"
+
+#include <coach/BallplacementCoach.h>
+#include <coach/PassCoach.h>
+
 #include "control/ControlUtils.h"
+#include "control/numtrees/NumTreePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-BallPlacementReceive::BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard)
-: Receive(std::move(name), std::move(blackboard)) {}
+BallPlacementReceive::BallPlacementReceive(string name, bt::Blackboard::Ptr blackboard) : Receive(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status BallPlacementReceive::onUpdate() {
-
     if (coach::g_pass.getRobotBeingPassedTo() != robot->id) {
         return Status::Failure;
     }
@@ -29,17 +28,14 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
     }
 
     if (coach::g_pass.isPassed()) {
-//        if(ballDeflected()) {
-//            return Status::Failure;
-//        }
+        //        if(ballDeflected()) {
+        //            return Status::Failure;
+        //        }
         command.set_dribbler(31);
         intercept();
     } else {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(
-                Constants::ROBOT_RADIUS(),
-                ballPlacementTarget,
-                ball->getPos());
+        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(Constants::ROBOT_RADIUS(), ballPlacementTarget, ball->getPos());
 
         moveToCatchPosition(behindTargetPos);
         if (isInPosition(behindTargetPos)) {
@@ -50,8 +46,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
     return Status::Running;
 }
 
-
-void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
+void BallPlacementReceive::moveToCatchPosition(const Vector2 &position) {
     auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, position);
     command.mutable_vel()->set_x(robotCommand.vel.x);
     command.mutable_vel()->set_y(robotCommand.vel.y);
@@ -63,11 +58,10 @@ void BallPlacementReceive::moveToCatchPosition(const Vector2& position) {
 }
 
 // check if the robot is in the desired position to catch the ball
-bool BallPlacementReceive::isInPosition(const Vector2& behindTargetPos) {
-    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3*M_PI);
+bool BallPlacementReceive::isInPosition(const Vector2 &behindTargetPos) {
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->id, true, ball->getPos(), 0.3 * M_PI);
     bool isBehindTargetPos = behindTargetPos.dist(robot->pos) < 0.10;
-    return isBehindTargetPos  && isAimedAtBall;
+    return isBehindTargetPos && isAimedAtBall;
 }
 
-}
-}
+}  // namespace rtt::ai

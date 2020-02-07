@@ -3,14 +3,12 @@
 //
 
 #include "conditions/ShouldHandleBall.h"
+
 #include "coach/GetBallCoach.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {
-}
+ShouldHandleBall::ShouldHandleBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 std::string ShouldHandleBall::node_name() { return "ShouldHandleBall"; }
 
@@ -31,11 +29,6 @@ ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
     return Status::Failure;
 }
 
-void ShouldHandleBall::onTerminate(Condition::Status s) {
-    Condition::onTerminate(s);
+void ShouldHandleBall::onTerminate(Condition::Status s) { Condition::onTerminate(s); }
 
-}
-
-}//ai
-}//rtt
-
+}  // namespace rtt::ai

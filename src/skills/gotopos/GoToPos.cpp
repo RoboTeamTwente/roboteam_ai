@@ -3,14 +3,12 @@
 //
 
 #include "skills/gotopos/GoToPos.h"
-#include "world/FieldComputations.h"
 #include "control/ControlUtils.h"
+#include "world/FieldComputations.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+GoToPos::GoToPos(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 GoToPos::GoToType GoToPos::stringToGoToType(const string &gtt) {
     if (gtt == "basic") return basic;
@@ -27,8 +25,7 @@ void GoToPos::onInitialize() {
     }
     if (properties->hasDouble("maxVel")) {
         maxVel = properties->getDouble("maxVel");
-    }
-    else {
+    } else {
         maxVel = Constants::MAX_VEL();
     }
 
@@ -38,8 +35,7 @@ void GoToPos::onInitialize() {
     double avoidBallDistance = 0.0;
     if (properties->hasDouble("avoidBall")) {
         avoidBallDistance = properties->getDouble("avoidBall");
-    }
-    else if (properties->hasBool("avoidBall")) {
+    } else if (properties->hasBool("avoidBall")) {
         avoidBallDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS();
     }
     posController->setAvoidBallDistance(avoidBallDistance);
@@ -51,17 +47,19 @@ void GoToPos::onInitialize() {
 
 void GoToPos::setPositionController(const GoToType &gTT) {
     switch (gTT) {
-    default:
-    case numTree:posController = robot->getNumtreePosControl();
-        return;
-    case basic:posController = robot->getBasicPosControl();
-        return;
+        default:
+        case numTree:
+            posController = robot->getNumtreePosControl();
+            return;
+        case basic:
+            posController = robot->getBasicPosControl();
+            return;
     }
 }
 
 /// Get an update on the skill
 bt::Node::Status GoToPos::onUpdate() {
-    //reset velocity and angle commands
+    // reset velocity and angle commands
     command.mutable_vel()->set_x(0);
     command.mutable_vel()->set_y(0);
     command.set_w(0);
@@ -70,14 +68,14 @@ bt::Node::Status GoToPos::onUpdate() {
     if (gtpStatus != Status::Running) return gtpStatus;
 
     // check targetPos
-    if ((targetPos - robot->pos).length2() < errorMargin*errorMargin) {
+    if ((targetPos - robot->pos).length2() < errorMargin * errorMargin) {
         // check targetAngle
         if (targetAngle == 0.0 || abs(targetAngle - robot->angle) < angleErrorMargin) {
             return Status::Success;
         }
     }
     if (command.vel().x() == 0 || command.vel().y() == 0 || command.w() == 0) {
-    auto robotCommand = posController->getRobotCommand(world, field, robot, targetPos, targetAngle);
+        auto robotCommand = posController->getRobotCommand(world, field, robot, targetPos, targetAngle);
 
         // set robotcommands if they have not been set yet in gtpUpdate()
 
@@ -90,10 +88,6 @@ bt::Node::Status GoToPos::onUpdate() {
     return Status::Running;
 }
 
-void GoToPos::onTerminate(Status s) {
-    gtpTerminate(s);
-}
+void GoToPos::onTerminate(Status s) { gtpTerminate(s); }
 
-
-} // ai
-} // rtt
+}  // namespace rtt::ai

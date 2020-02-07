@@ -1,7 +1,9 @@
-#include <world/WorldData.h>
-#include <world/World.h>
-#include <analysis/GameAnalyzer.h>
 #include "bt/tactics/DefaultTactic.h"
+
+#include <analysis/GameAnalyzer.h>
+#include <world/World.h>
+#include <world/WorldData.h>
+
 #include "utilities/RobotDealer.h"
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
@@ -30,7 +32,7 @@ Node::Status DefaultTactic::update() {
         amountToTick = children.size();
     }
 
-    for (int i = 0; i < amountToTick; i ++) {
+    for (int i = 0; i < amountToTick; i++) {
         if (children.size() > i && children.at(i)) {
             children.at(i)->tick(world, field);
         } else {
@@ -39,12 +41,9 @@ Node::Status DefaultTactic::update() {
     }
 
     return status == Status::Success ? status : Status::Running;
-
 }
 
-DefaultTactic::DefaultTactic(std::string name, Blackboard::Ptr blackboard,
-                                 const std::vector<std::pair<std::string, RobotType>> &robots_) {
-
+DefaultTactic::DefaultTactic(std::string name, Blackboard::Ptr blackboard, const std::vector<std::pair<std::string, RobotType>> &robots_) {
     convert(robots_);
     globalBB = std::move(blackboard);
     properties = globalBB;
@@ -53,7 +52,6 @@ DefaultTactic::DefaultTactic(std::string name, Blackboard::Ptr blackboard,
 }
 
 void DefaultTactic::claimRobots(int amount) {
-
     // for the amount of robots we still need
     for (int i = 0; i < amount; i++) {
         auto toClaim = getNextClaim();
@@ -79,7 +77,6 @@ bool DefaultTactic::updateRobots() {
 }
 
 void DefaultTactic::disClaimRobots(int amount) {
-
     for (auto robot : robotIDs) {
         if (!rtt::ai::world::world->getRobotForId(robot)) {
             dealer::refresh();
@@ -88,10 +85,9 @@ void DefaultTactic::disClaimRobots(int amount) {
     }
 
     for (int i = 0; i < amount; i++) {
-
         int robotToReleaseId = dealer::findRobotForRole(getLastClaim().first);
-        dealer::releaseRobotForRole(getLastClaim().first); // free it in robotdealer
-        robotIDs.erase(robotToReleaseId); // erase it in our array as well
+        dealer::releaseRobotForRole(getLastClaim().first);  // free it in robotdealer
+        robotIDs.erase(robotToReleaseId);                   // erase it in our array as well
     }
 }
 
@@ -123,7 +119,6 @@ void DefaultTactic::parseType(const std::string &typee) {
     } else {
         thisType = General;
     }
-
 }
 
 void DefaultTactic::updateStyle() {
@@ -142,8 +137,7 @@ void DefaultTactic::updateStyle() {
         amountToTick = style.amountOfMidfielders;
     } else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
-    }
-    else if (rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+    } else if (rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountToTick = rtt::ai::world::world->getUs().size() - 1;
     } else {
         amountToTick = rtt::ai::world::world->getUs().size();
@@ -153,8 +147,7 @@ void DefaultTactic::updateStyle() {
 void DefaultTactic::convert(const std::vector<std::pair<std::string, RobotType>> &unit) {
     int counter = 1;
     for (const auto &robot : unit) {
-        std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first,
-                                                                                               robot.second);
+        std::tuple<int, std::string, RobotType> temp = std::tuple<int, std::string, RobotType>(counter, robot.first, robot.second);
         robots.push_back(temp);
         counter++;
     }
@@ -173,21 +166,12 @@ void DefaultTactic::terminate(Node::Status s) {
     claimedRobots = 0;
 }
 
-std::vector<Node::Ptr> DefaultTactic::getChildren() {
-    return children;
-}
+std::vector<Node::Ptr> DefaultTactic::getChildren() { return children; }
 
-void DefaultTactic::giveProperty(std::string a, std::string b) {
-    properties->setString(a, b);
-}
+void DefaultTactic::giveProperty(std::string a, std::string b) { properties->setString(a, b); }
 
-std::string DefaultTactic::node_name() {
-    return this->name;
-}
+std::string DefaultTactic::node_name() { return this->name; }
 
+void DefaultTactic::addChild(Node::Ptr newChild) { children.push_back(newChild); }
 
-void DefaultTactic::addChild(Node::Ptr newChild) {
-    children.push_back(newChild);
-}
-
-} // bt
+}  // namespace bt

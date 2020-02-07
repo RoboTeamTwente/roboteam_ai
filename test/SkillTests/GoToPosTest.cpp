@@ -10,17 +10,17 @@
 //#include "../../src/utilities/RobotDealer.h"
 //
 //// Empty namespace for ROS errors
-//namespace {
-//std::vector<roboteam_msgs::RobotCommand> commands;
+// namespace {
+// std::vector<roboteam_msgs::RobotCommand> commands;
 //
-//void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
+// void robotCommandCallback(const roboteam_msgs::RobotCommandConstPtr &cmd) {
 //    commands.push_back(*cmd);
 //}
 //
-//namespace w = rtt::ai::world;
-//namespace rd = rtt::ai::robotDealer;
+// namespace w = rtt::ai::world;
+// namespace rd = rtt::ai::robotDealer;
 //
-//TEST(SkillGoToPos, GoToPosTest) {
+// TEST(SkillGoToPos, GoToPosTest) {
 //    //this test might fail about 50% of the time... no idea why
 //    rd::RobotDealer::halt();
 //    rd::RobotDealer::setUseSeparateKeeper(false);
@@ -53,8 +53,8 @@
 //    rd::RobotDealer::claimRobotForTactic(rd::RobotType::RANDOM, "GTPtest", "GoToPosTest");
 //    rtt::ai::SkillGoToPos goToPos("GTPtest", bb);
 //    goToPos.initialize();
-//ros::spinOnce();
-//rate.sleep();
+// ros::spinOnce();
+// rate.sleep();
 //    if (goToPos.update() != bt::Leaf::Status::Running) {
 //
 //}

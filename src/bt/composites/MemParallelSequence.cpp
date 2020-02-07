@@ -2,7 +2,7 @@
 
 namespace bt {
 
-MemParallelSequence::MemParallelSequence() { }
+MemParallelSequence::MemParallelSequence() {}
 
 void MemParallelSequence::initialize() {
     for (auto &child : children) {
@@ -10,7 +10,7 @@ void MemParallelSequence::initialize() {
     }
     totalSuccess = 0;
     totalFailure = 0;
-    }
+}
 
 bt::Node::Status MemParallelSequence::update() {
     for (auto &child : children) {
@@ -38,4 +38,4 @@ bt::Node::Status MemParallelSequence::update() {
     return Status::Running;
 }
 
-}
+}  // namespace bt

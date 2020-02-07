@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "world/History.h"
 
 namespace rtt {
@@ -29,5 +30,5 @@ TEST(HistoryTest, it_saves_world_states) {
     EXPECT_EQ(history.getPreviousWorld(2).time, 1.0);
     EXPECT_EQ(history.getPreviousWorld(3).time, 0.0);
 }
-}
-}
+}  // namespace ai
+}  // namespace rtt

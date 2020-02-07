@@ -7,17 +7,15 @@
 
 #include "Condition.h"
 
-namespace rtt{
-namespace ai{
+namespace rtt::ai {
 
 class CanPlay : public Condition {
-public:
+   public:
     explicit CanPlay(std::string name = "CanPlay", bt::Blackboard::Ptr blackboard = nullptr);
+
     Status onUpdate() override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-
-#endif //ROBOTEAM_AI_CANPLAY_H
+#endif  // ROBOTEAM_AI_CANPLAY_H

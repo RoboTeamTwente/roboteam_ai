@@ -5,15 +5,14 @@
  */
 
 #include "conditions/TwoRobotBallPlacement.h"
-#include <world/World.h>
+
 #include <utilities/RobotDealer.h>
 #include <world/Ball.h>
+#include <world/World.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) {}
+TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
@@ -21,9 +20,8 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
 
     int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
     bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
-    //TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
+    // TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
     bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->getPos()) < 15.1;
-
 
     if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
         return Status::Failure;
@@ -32,5 +30,4 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     return Status::Success;
 }
 
-}
-}
+}  // namespace rtt::ai

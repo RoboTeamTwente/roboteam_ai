@@ -3,15 +3,20 @@
 //
 
 #include "conditions/IsOnPassLine.h"
-#include <world/World.h>
-#include <world/Ball.h>
+
 #include <control/ControlUtils.h>
+#include <world/Ball.h>
+#include <world/World.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-IsOnPassLine::IsOnPassLine(std::string name, bt::Blackboard::Ptr blackboard)
-    :Condition(std::move(name), std::move(blackboard)) { };
+/**
+ * Checks if the robot is on the pass line. Initialize this skill with a name corresponding to the role,
+ * and a blackboard (that can be empty as of writing this documentation)
+ * @param name
+ * @param blackboard the blackboard passed into the function from which the skill can be given data
+ */
+IsOnPassLine::IsOnPassLine(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 IsOnPassLine::Status IsOnPassLine::onUpdate() {
     int receiverID = coach::g_pass.getRobotBeingPassedTo();
@@ -30,5 +35,4 @@ IsOnPassLine::Status IsOnPassLine::onUpdate() {
     return Status::Failure;
 }
 
-}
-}
+}  // namespace rtt::ai
