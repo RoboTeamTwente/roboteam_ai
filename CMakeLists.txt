@@ -23,10 +23,10 @@ find_program(CLANG clang++)
 # Some ccache logic
 if (CLANG)
     set(CXX_COMPILER clang++)           # Set the compiler
-    set(CXX_COMPILER_PATH ${CLANG})     # Set the path of the compiler, for if ccache is used
+    set(CXX_COMPILER_PATH ${CLANG})     # Set the path of the compiler, for if ccache not is used
 elseif (GCC)
     set(CXX_COMPILER g++)               # Set the compiler
-    set(CXX_COMPILER_PATH ${GCC})       # Set the path of the compiler, for if ccache is used
+    set(CXX_COMPILER_PATH ${GCC})       # Set the path of the compiler, for if ccache not is used
 endif()
 
 if(CCACHE)
