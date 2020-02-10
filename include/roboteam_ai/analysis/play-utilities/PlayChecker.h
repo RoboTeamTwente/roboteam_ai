@@ -47,8 +47,8 @@ class PlayChecker {
 
     /**
      * Determines which plays are valid by cycling through the allplays vector and seeing which plays' isValid() methods return true
-     * @param world
-     * @param field
+     * @param world the current world
+     * @param field the current field
      */
     void determineNewPlays(world::World *world, const world::Field &field);
 };

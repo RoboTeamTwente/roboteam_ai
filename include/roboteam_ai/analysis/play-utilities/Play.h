@@ -42,7 +42,7 @@ class Play {
      * Internal tree of the play, where the execution of the play is done
      */
     std::shared_ptr<bt::BehaviorTree> tree;
-    std::string_view name;
+    std::string name;
 };
 
 }  // namespace rtt::ai::analysis

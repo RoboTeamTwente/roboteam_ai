@@ -15,8 +15,8 @@ Play* PlayDecider::decideBestPlay(world::World* world, const world::Field& field
         int temp = play->scorePlay(world, field);
         if (temp > max) {
             max = temp;
+            bestPlay = play;
         }
-        bestPlay = play;
     }
     return bestPlay;
 }
