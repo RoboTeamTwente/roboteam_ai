@@ -241,7 +241,7 @@ QColor Constants::SELECTED_ROBOT_COLOR() { return Qt::magenta; }
 
 std::vector<QColor> Constants::TACTIC_COLORS() { return {{255, 0, 255, 50}, {0, 255, 255, 50}, {255, 255, 0, 50}, {0, 255, 0, 50}, {0, 0, 255, 100}}; }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(4.0, 0.0, 0.4); }
 

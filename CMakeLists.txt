@@ -15,6 +15,31 @@ set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 include(cotire)
 include(FindSDL2)
 
+# Find programs and assign the boolean to the variables, find_program(variable binary)
+find_program(CCACHE ccache)
+find_program(GCC g++)
+find_program(CLANG clang++)
+
+# Some ccache logic
+if (CLANG)
+    set(CXX_COMPILER clang++)           # Set the compiler
+    set(CXX_COMPILER_PATH ${CLANG})     # Set the path of the compiler, for if ccache not is used
+elseif (GCC)
+    set(CXX_COMPILER g++)               # Set the compiler
+    set(CXX_COMPILER_PATH ${GCC})       # Set the path of the compiler, for if ccache not is used
+endif()
+
+if(CCACHE)
+    if(APPLE)
+        set(CMAKE_CXX_COMPILER "/usr/local/Cellar/ccache/3.7.7/libexec/${CXX_COMPILER}")
+    else()
+        set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
+    endif()
+else()
+    set(CMAKE_CXX_COMPILER "${CXX_COMPILER_PATH}")
+endif()
+# end of ccache logic
+
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
     set(Qt5Widgets_DIR "/usr/local/opt/qt5/lib/cmake/Qt5Widgets")
@@ -69,7 +94,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
@@ -182,6 +207,15 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
+
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BasicPathTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/NumTreesTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
+
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/Collision.cpp
@@ -191,6 +225,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
         )
 
 set(TEST_SOURCES
@@ -213,6 +248,9 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/DealerTest.cpp)
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
+        )
+
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp

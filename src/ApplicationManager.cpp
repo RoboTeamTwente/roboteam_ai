@@ -4,6 +4,7 @@
 
 #include <ApplicationManager.h>
 #include <analysis/GameAnalyzer.h>
+#include <bt/Node.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
@@ -12,8 +13,8 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
-#include <bt/Node.h>
 #include <utilities/GameStateManager.hpp>
+#include "analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -25,9 +26,6 @@ using namespace rtt::ai::world;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
-    // create playcheck object here
-    playcheck = rtt::ai::analysis::PlayChecker();
-
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
@@ -59,7 +57,7 @@ void ApplicationManager::start() {
 void ApplicationManager::runOneLoopCycle() {
     if (weHaveRobots && io::io.hasReceivedGeom) {
         ai::analysis::GameAnalyzer::getInstance().start();
-        playcheck.update(rtt::ai::world::world, &io::io.getField());
+        decidePlay(world, io::io.getField());
         updateTrees();
         updateCoaches();
         runKeeperTree();
@@ -174,4 +172,13 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             break;
     }
 }
+
+void ApplicationManager::decidePlay(ai::world::World *world, const ai::world::Field &field) {
+    bool stillValidPlay = playChecker.update(world, field);
+    if (!stillValidPlay) {
+        auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
+        BTFactory::setCurrentTree(bestplay);
+    }
+}
+
 }  // namespace rtt

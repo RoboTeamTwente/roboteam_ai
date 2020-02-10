@@ -161,12 +161,6 @@ proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool wit
     auto randomYellow = generateRandomRobots(amountYellow, field);
     auto randomBlue = generateRandomRobots(amountBlue, field);
 
-    //            auto copy = [&](const gen_ProposedSegment *) {
-    //                auto temp_seg = this->add_proposedsegments();
-    //                temp_seg->CopyFrom(*gen_ProposedSegment);
-    //            };
-    //            std::for_each(proposedSegment.cbegin(), proposedSegment.cend(), copy);
-
     do {
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);

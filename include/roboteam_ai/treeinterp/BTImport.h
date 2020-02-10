@@ -5,11 +5,11 @@
 #ifndef ROBOTEAM_AI_BTIMPORT_H
 #define ROBOTEAM_AI_BTIMPORT_H
 
+#include "Leaf.h"
 #include "bt/BehaviorTree.h"
 #include "bt/Blackboard.h"
 #include "bt/Composite.h"
 #include "bt/Decorator.h"
-#include "Leaf.h"
 #include "bt/Node.h"
 
 #include "bt/composites/MemParallelSequence.h"
