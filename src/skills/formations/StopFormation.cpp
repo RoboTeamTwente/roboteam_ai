@@ -51,13 +51,8 @@ void StopFormation::setFinalAngle() {
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto pp = FieldComputations::getPenaltyPoint(*field, true);  // penalty point
-    auto defenseAreaLineA = field->getLeftPenaltyLine().begin;
-    auto defenseAreaLineB = field->getLeftPenaltyLine().end;
-
-    // divide the upper and bottom lines of the defense area and store those values.
-    auto dTopY = fmax(defenseAreaLineA.y, defenseAreaLineB.y);
-    auto dBtmY = fmin(defenseAreaLineA.y, defenseAreaLineB.y);
-    auto defAreaHeight = fabs(dTopY - dBtmY);
+    auto dTopY = field->getPenaltyTopY();
+    auto dBtmY = field->getPenaltyBottomY();
 
     // the following statements specify useful stop positions between the ball and the goal
     auto ourGoalCenterToBall = ball->getPos() - field->getOurGoalCenter();

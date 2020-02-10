@@ -125,6 +125,14 @@ class Field {
     // The x-coordinate of the right penalty line (the penalty line closest to the opponents goal).
     std::optional<double> rightPenaltyX;
 
+    /* The highest y-coordinate of the penalty lines (since both penalty lines have the same y-coordinates
+     * at top and bottom, we do not need a seperate variable for the left and right penalty line) */
+    std::optional<double> penaltyTopY;
+
+    /* The lowest y-coordinate of the penalty lines (since both penalty lines have the same y-coordinates
+     * at top and bottom, we do not need a seperate variable for the left and right penalty line) */
+    std::optional<double> penaltyBottomY;
+
     // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
     std::optional<FieldLineSegment> topLine;
 
@@ -231,6 +239,8 @@ class Field {
     double getTopmostY() const;
     double getLeftPenaltyX() const;
     double getRightPenaltyX() const;
+    double getPenaltyTopY() const;
+    double getPenaltyBottomY() const;
     const FieldLineSegment &getTopLine() const;
     const FieldLineSegment &getBottomLine() const;
     const FieldLineSegment &getLeftLine() const;

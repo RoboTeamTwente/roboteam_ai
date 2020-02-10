@@ -104,6 +104,10 @@ double Field::getLeftPenaltyX() const { return getFieldValue(leftPenaltyX); }
 
 double Field::getRightPenaltyX() const { return getFieldValue(rightPenaltyX); }
 
+double Field::getPenaltyTopY() const { return getFieldValue(penaltyTopY); }
+
+double Field::getPenaltyBottomY() const { return getFieldValue(penaltyBottomY); }
+
 const FieldLineSegment &Field::getTopLine() const { return getFieldLine(topLine); }
 
 const FieldLineSegment &Field::getBottomLine() const { return getFieldLine(bottomLine); }
