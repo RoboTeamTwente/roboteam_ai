@@ -13,7 +13,9 @@ std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition,
     DT = std::clamp(DT, 0.06, 0.12);
 
     auto path = tracePath(robotPosition, targetPosition);
-    if (path.empty()) {
+    double goToTimeInFuture = 0.4;
+    auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture / DT);
+    if (path.size() < targetPathPoint) {
         return {targetPosition};
     }
     return path;
