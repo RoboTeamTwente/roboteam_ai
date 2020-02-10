@@ -60,8 +60,8 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     auto defAreaHeight = fabs(dTopY - dBtmY);
 
     // the following statements specify useful stop positions between the ball and the goal
-    auto ourGoalCenterToBall = ball->getPos() - (*field).getOurGoalCenter();
-    auto ballToOurGoalCenter = (*field).getOurGoalCenter() - ball->getPos();
+    auto ourGoalCenterToBall = ball->getPos() - field->getOurGoalCenter();
+    auto ballToOurGoalCenter = field->getOurGoalCenter() - ball->getPos();
 
     double distanceFromGoal;
     double distanceToBall = 1.0;
@@ -78,19 +78,19 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     Vector2 closeToBallB = ball->getPos() + ballToOurGoalCenter.stretchToLength(distanceToBall).rotate(sin(Constants::ROBOT_RADIUS() / distanceToBall));
 
     // for one robot between ball and our goal
-    Vector2 betweenGoalAndBallPosition = (*field).getOurGoalCenter() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
+    Vector2 betweenGoalAndBallPosition = field->getOurGoalCenter() + ourGoalCenterToBall.stretchToLength(distanceFromGoal);
     Vector2 betweenGoalAndBallPositionForwards = ourGoalCenterToBall.stretchToLength(distanceFromGoal).stretchToLength(distanceFromGoal + 3 * Constants::ROBOT_RADIUS());
 
     // for multiple robots between ball and our goal
-    Vector2 diff = betweenGoalAndBallPosition + (*field).getOurGoalCenter();
+    Vector2 diff = betweenGoalAndBallPosition + field->getOurGoalCenter();
     Vector2 betweenGoalAndBallPositionA =
-        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + field->getOurGoalCenter();
     Vector2 betweenGoalAndBallPositionB =
-        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + field->getOurGoalCenter();
     Vector2 betweenGoalAndBallPositionC =
-        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + field->getOurGoalCenter();
     Vector2 betweenGoalAndBallPositionD =
-        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + (*field).getOurGoalCenter();
+        ourGoalCenterToBall.stretchToLength(distanceFromGoal).rotate(-2 * sin(Constants::ROBOT_RADIUS() / distanceFromGoal)) + field->getOurGoalCenter();
 
     Vector2 basicOffensivePositionA = {-1, 0.0};
 
@@ -169,7 +169,7 @@ std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     }
 
     while (amount > 0) {
-        properPositions.push_back((*field).getOurGoalCenter());
+        properPositions.push_back(field->getOurGoalCenter());
         amount--;
     }
 
