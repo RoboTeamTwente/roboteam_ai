@@ -58,7 +58,5 @@ bool WorldData::weHaveRobots() const noexcept { return !getUs().empty(); }
 
 uint64_t WorldData::getTime() const noexcept { return time; }
 
-    std::vector<view::RobotView> const& WorldData::getRobotsNonOwning() const noexcept {
-        return robotsNonOwning;
-    }
+std::vector<view::RobotView> const &WorldData::getRobotsNonOwning() const noexcept { return robotsNonOwning; }
 }  // namespace rtt::world_new

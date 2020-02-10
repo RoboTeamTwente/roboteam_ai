@@ -76,7 +76,7 @@ void Formation::removeRobotFromFormation() {
 // in that case, use robotIsInPosition()
 bool Formation::robotIsInFormation() {
     bool isIn = false;
-    for (auto const &bot : *robotsInFormationPtr()) {
+    for (auto const& bot : *robotsInFormationPtr()) {
         if (bot->id == robot->id) {
             isIn = true;
         }
@@ -115,7 +115,7 @@ bool Formation::updateCounter() {
 }
 
 Vector2 Formation::getOptimalPosition(int robotId, const std::vector<RobotPtr>& robots, std::vector<Vector2> targetLocations) {
-  std::unordered_map<int, Vector2> robotLocations;
+    std::unordered_map<int, Vector2> robotLocations;
 
     for (auto formationRobot : robots) {
         robotLocations.insert({formationRobot->id, formationRobot->pos});

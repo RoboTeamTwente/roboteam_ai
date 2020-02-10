@@ -12,9 +12,9 @@
 
 #include "bt/Role.h"
 #include "bt/RoleDivider.h"
-#include "treeinterp/tactics/DefaultTactic.h"
 #include "skills/Attack.h"
 #include "skills/gotopos/GoToPos.h"
+#include "treeinterp/tactics/DefaultTactic.h"
 
 namespace bt {
 BeingPassedToHelper::BeingPassedToHelper() {}

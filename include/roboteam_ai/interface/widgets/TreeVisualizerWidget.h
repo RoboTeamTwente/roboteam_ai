@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_TREEVISUALIZER_H
 #define ROBOTEAM_AI_TREEVISUALIZER_H
 
-#include <utilities/GameState.h>
-#include <QtWidgets/QTreeWidget>
 #include <bt/BehaviorTree.h>
 #include <bt/Node.h>
+#include <utilities/GameState.h>
+#include <QtWidgets/QTreeWidget>
 
 namespace rtt::ai::interface {
 

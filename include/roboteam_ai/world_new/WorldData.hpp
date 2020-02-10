@@ -14,7 +14,6 @@
 #include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/BallView.hpp"
 #include "world_new/views/RobotView.hpp"
-#include "world_new/views/BallView.hpp"
 
 namespace rtt::world_new {
 
@@ -142,6 +141,6 @@ class WorldData {
      */
     [[nodiscard]] uint64_t getTime() const noexcept;
 };
-}  // namespace rtt::world
+}  // namespace rtt::world_new
 
 #endif  // RTT_WORLD_DATA_HPP
