@@ -62,7 +62,7 @@ void Keeper::onTerminate(Status s) {}
 
 Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
     Vector2 blockPos, posA, posB;
-    if (defendPos.x < field->getOurGoalCenter().x) {
+    if (defendPos.x < field->getLeftmostX()) {
         if (abs(defendPos.y) >= goalwidth) {
             blockPos = Vector2(goalPos.x + Constants::KEEPER_POST_MARGIN(), goalwidth / 2 * signum(defendPos.y));
         } else {

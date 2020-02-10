@@ -80,9 +80,9 @@ Vector2 ReflectKick::getFarSideOfGoal() {
     Vector2 robotPos = robot->pos;
     float cornering = field->getGoalWidth() / 2.0;
     if (robotPos.y >= 0) {
-        return {field->getTheirGoalCenter().x, field->getTheirGoalCenter().y + cornering};
+        return field->getTheirGoalCenter() + Vector2(0, cornering);
     } else {
-        return {field->getTheirGoalCenter().x, field->getTheirGoalCenter().y - cornering};
+        return field->getTheirGoalCenter() + Vector2(0, -cornering);
     }
 }
 
