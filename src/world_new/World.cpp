@@ -82,7 +82,7 @@ robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { re
 
 ai::control::PositionControl* World::getRobotPositionController() noexcept {
     if (!positionControl){
-        positionControl = std::make_unique<ai::control::PositionControl>(this->getWorld()->getRobots());
+        positionControl = std::make_unique<ai::control::PositionControl>(this->getWorld()->getRobotsNonOwning());
     }
     return positionControl.get();
 }

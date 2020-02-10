@@ -9,7 +9,7 @@
 
 namespace rtt::ai::control {
 
-PositionControl::PositionControl(const std::vector<world_new::robot::Robot> &robots) : robots(robots) {
+PositionControl::PositionControl(const std::vector<world_new::view::RobotView> &robots) : robots(robots) {
     collisionDetector = std::make_unique<CollisionDetector>(robots);
     pathPlanningAlgorithm = std::make_unique<NumTreesPlanning>(*collisionDetector);
     pathTrackingAlgorithm = std::make_unique<NumTreesTracking>();

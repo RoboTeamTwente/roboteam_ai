@@ -9,7 +9,7 @@
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
 #include "CollisionDetector.h"
-#include "world_new/Robot.hpp"
+#include "world_new/views/RobotView.hpp"
 #include "control/positionControl/pathTracking/NumTreesTracking.h"
 
 namespace rtt::ai::control {
@@ -24,7 +24,7 @@ private:
     std::unique_ptr<NumTreesTracking> pathTrackingAlgorithm;
     std::unique_ptr<CollisionDetector> collisionDetector;
 
-    const std::vector<world_new::robot::Robot> &robots;
+    const std::vector<world_new::view::RobotView> &robots;
 
     std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
@@ -34,7 +34,7 @@ public:
      * case another one is needed.
      * @param robots
      */
-    explicit PositionControl(const std::vector<world_new::robot::Robot> &robots);
+    explicit PositionControl(const std::vector<world_new::view::RobotView> &robots);
 
     /**
      * Generates a path according to the selected planning algorithm,
