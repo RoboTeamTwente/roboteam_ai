@@ -1,9 +1,3 @@
-/*
- * FieldComputations
- * This class maintains the FieldGeometry object, which is a message that contains the field geometry
- *  This class also provides helper functions to interface with it.
- */
-
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
@@ -20,8 +14,23 @@ class WorldData;
 }  // namespace world
 using namespace rtt::ai::world;
 
+/**
+ * The Field Computation class does all kind of computations on the Field based on the Field class variables.
+ * @author Created by: Lukas Bos <br>
+ *         Documented and refactored by: Haico Dorenbos
+ * @since 2019-08-30
+ */
 class FieldComputations {
     public:
+        /**
+         * Determines whether a given point is in our/their defence area
+         * @param field
+         * @param point
+         * @param isOurDefenceArea
+         * @param margin
+         * @param includeOutsideField
+         * @return
+         */
         static bool pointIsInDefenceArea(const Field &field, const Vector2& point, bool isOurDefenceArea = true, double margin = 0.0, bool includeOutsideField = false);
         static bool pointIsInField(const Field &field, const Vector2& point, double margin = 0.0);
         static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2& point, const world::WorldData &world, int id = -1, bool ourTeam = false);

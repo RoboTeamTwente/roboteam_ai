@@ -353,7 +353,7 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
         bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, true, margin, false);
         bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, false, margin, false);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
-            double defenseAreaX = point->pos.x < 0 ? field->getLeftPenaltyLine().begin.x : field->getRightPenaltyLine().begin.x;
+            double defenseAreaX = point->pos.x < 0 ? field->getLeftPenaltyX() : field->getRightPenaltyX();
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin) * 1.1);
             return collision;
         }

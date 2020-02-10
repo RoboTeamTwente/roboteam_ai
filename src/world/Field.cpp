@@ -23,6 +23,8 @@ void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     bottommostY = -0.5 * fieldWidth.value();
     topmostY = 0.5 * fieldWidth.value();
     centerY = 0.0;
+    leftPenaltyX = leftPenaltyLine.value().begin.x;
+    rightPenaltyX = rightPenaltyLine.value().begin.x;
 }
 
 void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -98,6 +100,10 @@ double Field::getBottommostY() const { return getFieldValue(bottommostY); }
 
 double Field::getTopmostY() const { return getFieldValue(topmostY); }
 
+double Field::getLeftPenaltyX() const { return getFieldValue(leftPenaltyX); }
+
+double Field::getRightPenaltyX() const { return getFieldValue(rightPenaltyX); }
+
 const FieldLineSegment &Field::getTopLine() const { return getFieldLine(topLine); }
 
 const FieldLineSegment &Field::getBottomLine() const { return getFieldLine(bottomLine); }
@@ -137,6 +143,14 @@ const Vector2 &Field::getOurTopGoalSide() const { return getFieldVector(ourTopGo
 const Vector2 &Field::getTheirBottomGoalSide() const { return getFieldVector(theirBottomGoalSide); }
 
 const Vector2 &Field::getTheirTopGoalSide() const { return getFieldVector(theirTopGoalSide); }
+
+const Vector2 &Field::getLeftPenaltyLineTop() const { return getFieldVector(leftPenaltyLineTop); }
+
+const Vector2 &Field::getLeftPenaltyLineBottom() const { return getFieldVector(leftPenaltyLineBottom); }
+
+const Vector2 &Field::getRightPenaltyLineTop() const { return getFieldVector(rightPenaltyLineTop); }
+
+const Vector2 &Field::getRightPenaltyLineBottom() const { return getFieldVector(rightPenaltyLineBottom); }
 
 const FieldArc &Field::getCenterCircle() const { return getFieldArc(centerCircle); }
 

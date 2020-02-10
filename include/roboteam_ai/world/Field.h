@@ -119,6 +119,12 @@ class Field {
     // The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
     std::optional<double> topmostY;
 
+    // The x-coordinate of the left penalty line (the penalty line closest to our goal).
+    std::optional<double> leftPenaltyX;
+
+    // The x-coordinate of the right penalty line (the penalty line closest to the opponents goal).
+    std::optional<double> rightPenaltyX;
+
     // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
     std::optional<FieldLineSegment> topLine;
 
@@ -185,6 +191,18 @@ class Field {
     // The top most point of the opponents goal (this point is on the right line).
     std::optional<Vector2> theirTopGoalSide;
 
+    // The top position, point with the highest y-coordinate, of the left penalty line (our penalty line).
+    std::optional<Vector2> leftPenaltyLineTop;
+
+    // The bottom position, point with the lowest y-coordinate, of the left penalty line (our penalty line).
+    std::optional<Vector2> leftPenaltyLineBottom;
+
+    // The top position, point with the highest y-coordinate, of the right penalty line (their penalty line).
+    std::optional<Vector2> rightPenaltyLineTop;
+
+    // The bottom position, point with the lowest y-coordinate, of the right penalty line (their penalty line).
+    std::optional<Vector2> rightPenaltyLineBottom;
+
     // The circle in the middle from which the ball will be kicked off
     std::optional<FieldArc> centerCircle;
 
@@ -211,6 +229,8 @@ class Field {
     double getRightmostX() const;
     double getBottommostY() const;
     double getTopmostY() const;
+    double getLeftPenaltyX() const;
+    double getRightPenaltyX() const;
     const FieldLineSegment &getTopLine() const;
     const FieldLineSegment &getBottomLine() const;
     const FieldLineSegment &getLeftLine() const;
@@ -231,6 +251,10 @@ class Field {
     const Vector2 &getOurTopGoalSide() const;
     const Vector2 &getTheirBottomGoalSide() const;
     const Vector2 &getTheirTopGoalSide() const;
+    const Vector2 &getLeftPenaltyLineTop() const;
+    const Vector2 &getLeftPenaltyLineBottom() const;
+    const Vector2 &getRightPenaltyLineTop() const;
+    const Vector2 &getRightPenaltyLineBottom() const;
     const FieldArc &getCenterCircle() const;
 
     /**
