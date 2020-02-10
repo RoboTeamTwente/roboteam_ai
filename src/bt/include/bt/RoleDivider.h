@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ROLEDIVIDER_H
 #define ROBOTEAM_AI_ROLEDIVIDER_H
 
-#include "Node.hpp"
+#include "Node.h"
 
 namespace bt {
 

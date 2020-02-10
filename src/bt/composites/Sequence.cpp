@@ -5,7 +5,7 @@
  *   If all children succeeds, only then does the sequence succeed.
  */
 
-#include "bt/composites/Sequence.hpp"
+#include "bt/composites/Sequence.h"
 
 namespace bt {
 /**

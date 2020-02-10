@@ -7,7 +7,7 @@
 #include <coach/BallplacementCoach.h>
 namespace rtt::ai {
 
-Dribble::Dribble(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+Dribble::Dribble(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 void Dribble::onInitialize() {
     // if false, robot will dribble to the position backwards with the ball.

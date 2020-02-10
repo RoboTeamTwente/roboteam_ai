@@ -12,7 +12,7 @@ namespace rtt::ai {
 
 class Harass : public Skill {
    public:
-    explicit Harass(string name, bt::Blackboard::Ptr blackboard);
+    explicit Harass(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 

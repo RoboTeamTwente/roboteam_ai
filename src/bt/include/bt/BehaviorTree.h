@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Blackboard.hpp"
-#include "Node.hpp"
+#include "Blackboard.h"
+#include "Node.h"
 #include "mutex"
 
 namespace bt {

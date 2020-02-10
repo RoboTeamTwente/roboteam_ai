@@ -1,18 +1,15 @@
 #pragma once
 
-#include <include/roboteam_ai/world/Field.h>
 #include <cstdarg>
 #include <cstdio>
 #include <memory>
 #include <vector>
-#include "Blackboard.hpp"
+#include "Blackboard.h"
 
 // fwd declare
-namespace rtt::ai {
-namespace world {
+namespace rtt::ai::world {
 class World;
-}
-class FieldComputations;
+class Field;
 }  // namespace rtt::ai
 
 namespace bt {

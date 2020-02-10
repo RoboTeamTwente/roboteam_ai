@@ -7,7 +7,7 @@
 
 namespace rtt::ai {
 
-DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+DribbleForward::DribbleForward(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleForward::onInitialize() {
     initialBallPos = ball->getPos();

@@ -11,7 +11,7 @@
 
 namespace rtt::ai {
 
-SlingShot::SlingShot(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+SlingShot::SlingShot(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 void SlingShot::onInitialize() {
     waitingTicks = 0;
     dribbledTicks = 0;

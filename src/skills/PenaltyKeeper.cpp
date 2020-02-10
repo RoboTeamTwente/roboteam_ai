@@ -11,7 +11,7 @@
 #include <world/World.h>
 
 namespace rtt::ai {
-PenaltyKeeper::PenaltyKeeper(string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+PenaltyKeeper::PenaltyKeeper(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
 void PenaltyKeeper::onInitialize() {
     goalLine = getGoalLine();

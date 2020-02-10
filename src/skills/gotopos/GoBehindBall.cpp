@@ -5,7 +5,7 @@
 #include "skills/gotopos/GoBehindBall.h"
 namespace rtt::ai {
 
-GoBehindBall::GoBehindBall(string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {
+GoBehindBall::GoBehindBall(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {
     std::random_device rd;
     mt = std::mt19937(rd());
     randDistribution = std::uniform_real_distribution<double>(0.0, 1.0);

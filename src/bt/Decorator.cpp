@@ -1,4 +1,4 @@
-#include "bt/Decorator.hpp"
+#include "bt/Decorator.h"
 
 namespace bt {
 

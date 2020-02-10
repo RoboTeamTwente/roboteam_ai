@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-ChipForward::ChipForward(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+ChipForward::ChipForward(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ChipForward::onInitialize() {
     aimPoint = FieldComputations::getPenaltyPoint(*field, false);

@@ -15,7 +15,7 @@ class KickTo : public Skill {
     Vector2 shootPos = {0.0, 0.0};
 
    public:
-    explicit KickTo(string name, bt::Blackboard::Ptr blackboard);
+    explicit KickTo(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
 };

@@ -26,8 +26,8 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
 
     const Field &field = io::io.getField();
-    calculateFieldSizeFactor(field);
     if (rtt::ai::world::world->weHaveRobots()) {
+        calculateFieldSizeFactor(field);
         drawBackground(painter);
         drawFieldHints(field, painter);
         drawFieldLines(field, painter);

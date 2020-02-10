@@ -9,7 +9,7 @@
 
 namespace rtt::ai {
 
-ShootPenalty::ShootPenalty(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+ShootPenalty::ShootPenalty(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ShootPenalty::onInitialize() {
     tick = 0;

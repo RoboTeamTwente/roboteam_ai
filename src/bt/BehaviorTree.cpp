@@ -1,6 +1,6 @@
-#include "bt/BehaviorTree.hpp"
+#include "bt/BehaviorTree.h"
 
-#include "bt/Node.hpp"
+#include "bt/Node.h"
 
 namespace bt {
 

@@ -29,7 +29,7 @@ class ShootPenalty : public Skill {
     Vector2 ballPos;
 
    public:
-    explicit ShootPenalty(string name, bt::Blackboard::Ptr blackboard);
+    explicit ShootPenalty(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
 };

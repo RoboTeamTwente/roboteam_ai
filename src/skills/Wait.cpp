@@ -10,7 +10,7 @@
 
 namespace rtt::ai {
 
-Wait::Wait(string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+Wait::Wait(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Wait::onInitialize() {
     if (properties->getBool("penalty")) {

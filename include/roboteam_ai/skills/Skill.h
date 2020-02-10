@@ -2,7 +2,7 @@
 #define ROBOTEAM_AI_SKILL_H
 
 #include <roboteam_utils/Angle.h>
-#include "bt/Leaf.hpp"
+#include "treeinterp/Leaf.h"
 #include "include/roboteam_ai/utilities/IOManager.h"
 #include "roboteam_proto/RobotCommand.pb.h"
 
@@ -18,8 +18,6 @@ class Robot;
 class Ball;
 class WorldData;
 }  // namespace world
-
-using namespace std;
 
 /**
  * \class Skill
@@ -45,7 +43,7 @@ class Skill : public bt::Leaf {
     void limitRobotCommand();
 
    public:
-    explicit Skill(string name, bt::Blackboard::Ptr blackboard = nullptr);
+    explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
     std::string node_name() override;
     void initialize() override;
     Status update() override;

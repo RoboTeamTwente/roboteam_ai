@@ -8,7 +8,7 @@
 
 namespace rtt::ai {
 
-FreeKickPass::FreeKickPass(string name, bt::Blackboard::Ptr blackboard) : Pass(std::move(name), std::move(blackboard)) {}
+FreeKickPass::FreeKickPass(std::string name, bt::Blackboard::Ptr blackboard) : Pass(std::move(name), std::move(blackboard)) {}
 
 void FreeKickPass::onInitialize() {
     if (properties->hasInt("maxTries")) {

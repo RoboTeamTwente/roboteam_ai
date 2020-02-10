@@ -34,7 +34,7 @@ class ReflectKick : public Skill {
     bool ballDeflected();
 
    public:
-    explicit ReflectKick(string name, bt::Blackboard::Ptr blackboard);
+    explicit ReflectKick(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;

@@ -16,7 +16,7 @@ class InterceptRobot : public Skill {
     Vector2 getInterceptPos(Robot robotToIntercept);
 
    public:
-    explicit InterceptRobot(string name, bt::Blackboard::Ptr blackboard);
+    explicit InterceptRobot(std::string name, bt::Blackboard::Ptr blackboard);
     Status onUpdate() override;
     void onInitialize() override;
 };
