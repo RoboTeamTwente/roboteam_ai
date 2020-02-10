@@ -6,6 +6,7 @@
 #define RTT_WORLD_HPP
 #include <vector>
 #include "RobotControllers.hpp"
+#include "control/positionControl/PositionControl.h"
 #include "WorldData.hpp"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "views/WorldDataView.hpp"
@@ -115,6 +116,13 @@ class World {
      * @return size_t The amount of elements in the history
      */
     [[nodiscard]] size_t getHistorySize() const noexcept;
+  
+    /**
+     * Get a pointer to the general position control, which can be used by all robots.
+     * If the object does not exist, it is created
+     * @return position control object. See its documentation for more info
+     */
+    [[nodiscard]] ai::control::PositionControl* getRobotPositionController() noexcept;
 
    private:
     /**
@@ -171,7 +179,6 @@ class World {
 
     /**
      * Current world
-     *
      * None if no world has been constructed yet
      * Some if a world is valid
      */
@@ -186,6 +193,11 @@ class World {
      * Duration between ticks
      */
     uint64_t tickDuration{};
+  
+    /**
+     * The position controller, initially null
+     */
+    std::unique_ptr<ai::control::PositionControl> positionControl;
 };
 }  // namespace rtt::world_new
 
