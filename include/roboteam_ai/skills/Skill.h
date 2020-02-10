@@ -2,9 +2,9 @@
 #define ROBOTEAM_AI_SKILL_H
 
 #include <roboteam_utils/Angle.h>
-#include "treeinterp/Leaf.h"
 #include "include/roboteam_ai/utilities/IOManager.h"
 #include "roboteam_proto/RobotCommand.pb.h"
+#include "treeinterp/Leaf.h"
 
 namespace rtt::ai {
 

@@ -22,23 +22,21 @@ find_program(CLANG clang++)
 
 # Some ccache logic
 if (CLANG)
-    set(CXX_COMPILER clang++)
+    set(CXX_COMPILER clang++)           # Set the compiler
+    set(CXX_COMPILER_PATH ${CLANG})     # Set the path of the compiler, for if ccache not is used
 elseif (GCC)
-    set(CXX_COMPILER g++)
+    set(CXX_COMPILER g++)               # Set the compiler
+    set(CXX_COMPILER_PATH ${GCC})       # Set the path of the compiler, for if ccache not is used
 endif()
 
-if(APPLE)
-	if (CCACHE)
-		set(CMAKE_CXX_COMPILER "/usr/local/Cellar/ccache/3.7.7/libexec/${CXX_COMPILER}")
-	else()
-		set(CMAKE_CXX_COMPILER "/usr/bin/${CXX_COMPILER}")
-	endif()
-else (NOT APPLE)
-	if (CCACHE)
-		set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
-	else()
-		set(CMAKE_CXX_COMPILER "/bin/${CXX_COMPILER}")
-	endif()
+if(CCACHE)
+    if(APPLE)
+        set(CMAKE_CXX_COMPILER "/usr/local/Cellar/ccache/3.7.7/libexec/${CXX_COMPILER}")
+    else()
+        set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
+    endif()
+else()
+    set(CMAKE_CXX_COMPILER "${CXX_COMPILER_PATH}")
 endif()
 # end of ccache logic
 
@@ -89,7 +87,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
