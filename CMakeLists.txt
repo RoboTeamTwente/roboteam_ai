@@ -195,21 +195,6 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
         )
 
-set(CONTROL_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numtrees/Collision.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/shot-controllers/ShotController.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/BallHandlePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleBackwards.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
-        )
-
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
@@ -322,12 +307,13 @@ set(AI_LIBS
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
         PRIVATE rtt::bt
+        PRIVATE rtt::control
         PRIVATE ${SDL2_LIBRARY}
         )
 
 set(AI_INCLUDES
         INTERFACE include
-        PRIVATE include/roboteam_ai
+        PUBLIC include/roboteam_ai
         PRIVATE ${SDL2_INCLUDE_DIRS}
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
@@ -335,7 +321,7 @@ set(AI_INCLUDES
 # Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
 target_link_libraries(roboteam_ai ${AI_LIBS})
-target_include_directories(roboteam_ai ${AI_INCLUDES})
+include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
 add_executable(ai_tests ${AI_SOURCES} ${TEST_SOURCES})
