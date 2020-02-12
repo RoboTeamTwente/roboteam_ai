@@ -12,11 +12,14 @@ namespace rtt::ai {
 /**
  * This skill sets the dribbler at a speed specified in the blackboard
  */
-
 class SetDribbler : public Skill {
    public:
     explicit SetDribbler(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
+    /**
+     * Sets the dribbler speed using blackboard parameter: "dribblerSpeed"
+     * @return status of the skill
+     */
     Status onUpdate() override;
     void onTerminate(Status s) override;
 };

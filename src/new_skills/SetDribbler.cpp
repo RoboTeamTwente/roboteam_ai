@@ -6,7 +6,8 @@
 
 namespace rtt::ai {
 
-SetDribbler::SetDribbler(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
+SetDribbler::SetDribbler(std::string name, bt::Blackboard::Ptr blackboard)
+    : Skill(std::move(name), std::move(blackboard)) {}
 
 void SetDribbler::onInitialize() { Skill::onInitialize(); }
 

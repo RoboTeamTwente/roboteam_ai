@@ -163,10 +163,12 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/Wait.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/StopFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp)
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
+        )
 
 set(NEW_SKILLS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp)
+        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
