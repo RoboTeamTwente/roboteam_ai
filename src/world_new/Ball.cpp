@@ -48,7 +48,7 @@ void Ball::initBallAtRobotPosition() noexcept {
     }
 
     // Current ball does not have a position, set it to the old pos
-    auto rbtView = previousWorld.getRobotClosestToBall(us);
+    auto rbtView = previousWorld->getRobotClosestToBall(us);
     if (rbtView) {
         this->position = previousBall->getPos();
     }

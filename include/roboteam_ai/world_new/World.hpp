@@ -6,8 +6,8 @@
 #define RTT_WORLD_HPP
 #include <vector>
 #include "RobotControllers.hpp"
-#include "control/positionControl/PositionControl.h"
 #include "WorldData.hpp"
+#include "control/positionControl/PositionControl.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "views/WorldDataView.hpp"
 
@@ -92,10 +92,13 @@ class World {
 
     /**
      * Gets a certain world from history
-     * @param ticksAgo Ticks ago to fetch from
+     * @param ticksAgo Ticks ago to fetch from.
+     *     0 gives the current world
+     *     1 gives the freshest world in history
+     *     HISTORY_SIZE gives the oldest world in history
      * @return Returns the world at index currentIndex - ticksAgo
      */
-    [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) const noexcept;
+    [[nodiscard]] std::optional<view::WorldDataView> getHistoryWorld(size_t ticksAgo) const noexcept;
 
     /**
      * Gets the difference in time between the last tick and the current tick
@@ -116,13 +119,13 @@ class World {
      * @return size_t The amount of elements in the history
      */
     [[nodiscard]] size_t getHistorySize() const noexcept;
-  
+
     /**
      * Get a pointer to the general position control, which can be used by all robots.
      * If the object does not exist, it is created
      * @return position control object. See its documentation for more info
      */
-    [[nodiscard]] ai::control::PositionControl* getRobotPositionController() noexcept;
+    [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
    private:
     /**
@@ -193,7 +196,7 @@ class World {
      * Duration between ticks
      */
     uint64_t tickDuration{};
-  
+
     /**
      * The position controller, initially null
      */
