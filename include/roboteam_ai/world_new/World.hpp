@@ -200,7 +200,7 @@ class World {
     /**
      * The position controller, initially null
      */
-    std::unique_ptr<ai::control::PositionControl> positionControl;
+    ai::control::PositionControl positionControl;
 };
 }  // namespace rtt::world_new
 

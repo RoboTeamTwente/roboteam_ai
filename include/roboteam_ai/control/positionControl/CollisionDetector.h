@@ -6,7 +6,7 @@
 #define RTT_COLLISIONDETECTOR_H
 
 #include "world/FieldComputations.h"
-#include "world_new/Robot.hpp"
+#include "world_new/views/RobotView.hpp"
 #include "control/ControlUtils.h"
 
 
@@ -20,16 +20,10 @@ class CollisionDetector {
 private:
     const double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0*Constants::ROBOT_RADIUS();
 
-    const std::vector<world_new::robot::Robot> &robots;
+    const std::vector<world_new::view::RobotView>* robots = nullptr;
     const world::Field* field = nullptr;
 
 public:
-    /**
-     * Initialize the collision detector with the robot objects
-     * @param robots
-     */
-    explicit CollisionDetector(const std::vector<world_new::robot::Robot> &robots);
-
     /**
      * Checks if a new point can be followed by a robot from a starting position. This implies having
      * no collisions with other robots, the outside of the field, or the defence area
@@ -65,6 +59,8 @@ public:
     std::vector<Vector2> getRobotPositions();
 
     void setField(const world::Field &field);
+
+    void setRobotVector(const std::vector<world_new::view::RobotView> &robots);
 };
 
 }
