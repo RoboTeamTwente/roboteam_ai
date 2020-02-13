@@ -3,13 +3,9 @@
 //
 
 #include "include/roboteam_ai/analysis/play-utilities/AggressivePlay.h"
-namespace rtt::ai::analysis{
-    void rtt::ai::analysis::AggressivePlay::calculateInformation() {
+namespace rtt::ai::analysis {
+void rtt::ai::analysis::AggressivePlay::calculateInformation() {}
 
-    }
+AggressivePlay::AggressivePlay() {}
 
-    AggressivePlay::AggressivePlay() {
-
-    }
-
-}
+}  // namespace rtt::ai::analysis
