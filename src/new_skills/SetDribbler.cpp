@@ -12,11 +12,17 @@ SetDribbler::SetDribbler(std::string name, bt::Blackboard::Ptr blackboard)
 void SetDribbler::onInitialize() { Skill::onInitialize(); }
 
 SetDribbler::Status SetDribbler::onUpdate() {
-    command.set_dribbler(properties->getInt("dribblerSpeed"));
+  int dribblerSpeed = properties->getInt("dribblerSpeed");
 
-    publishRobotCommand();
+  if (dribblerSpeed < 0 || dribblerSpeed > 255) {
+      return Status::Failure;
+  }
 
-    return Status::Running;
+  command.set_dribbler(dribblerSpeed);
+
+  publishRobotCommand();
+
+  return Status::Running;
 }
 
 void SetDribbler::onTerminate(Skill::Status) {}
