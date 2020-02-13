@@ -9,7 +9,7 @@
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
 #include "CollisionDetector.h"
-#include "world_new/Robot.hpp"
+#include "world_new/views/RobotView.hpp"
 #include "control/positionControl/pathTracking/NumTreesTracking.h"
 
 namespace rtt::ai::control {
@@ -20,22 +20,13 @@ namespace rtt::ai::control {
  */
 class PositionControl {
 private:
-    std::unique_ptr<NumTreesPlanning> pathPlanningAlgorithm;
-    std::unique_ptr<NumTreesTracking> pathTrackingAlgorithm;
-    std::unique_ptr<CollisionDetector> collisionDetector;
-
-    const std::vector<world_new::robot::Robot> &robots;
+    CollisionDetector collisionDetector;
+    NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
+    NumTreesTracking pathTrackingAlgorithm;
 
     std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
 public:
-    /**
-     * Specify in the constructor the algorithms (path tracking and planning) in
-     * case another one is needed.
-     * @param robots
-     */
-    explicit PositionControl(const std::vector<world_new::robot::Robot> &robots);
-
     /**
      * Generates a path according to the selected planning algorithm,
      * and tracks it using the selected tracking algorithm. In the case a collision
@@ -49,6 +40,12 @@ public:
      */
     RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition,
                                      const Vector2 &currentVelocity, const Vector2 &targetPosition);
+
+    /**
+     * Updates the robot view vector
+     * @param robots the RobotView vector of robots
+     */
+    void setRobotVector(const std::vector<world_new::view::RobotView>& robots);
 
     /**
      * The computed path should be recalculated if: <br>
