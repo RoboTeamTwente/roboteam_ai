@@ -124,7 +124,7 @@ class WorldDataView {
      * Complexity: O(n) -> do not use too often.
      * @return A vector of robots
      */
-    [[nodiscard]] const std::vector<RobotView> & getRobotsNonOwning() const noexcept;
+    [[nodiscard]] const std::vector<RobotView> &getRobotsNonOwning() const noexcept;
 
     /**
      * Gets a view of the closest robot to a point

@@ -5,24 +5,23 @@
 #ifndef RTT_NUMTREESPLANNING_H
 #define RTT_NUMTREESPLANNING_H
 
-#include <vector>
-#include "roboteam_utils/Vector2.h"
-#include "control/numtrees/PathPoint.h"
-#include "utilities/GameStateManager.hpp"
-#include "utilities/Constants.h"
 #include <queue>
+#include <vector>
 #include "control/ControlUtils.h"
-#include "interface/api/Output.h"
-#include "control/ControlUtils.h"
+#include "control/numtrees/PathPoint.h"
 #include "control/positionControl/CollisionDetector.h"
+#include "interface/api/Output.h"
+#include "roboteam_utils/Vector2.h"
+#include "utilities/Constants.h"
+#include "utilities/GameStateManager.hpp"
 
-namespace rtt::ai::control{
+namespace rtt::ai::control {
 
 /**
  * Path planning algorithm. See method computePath for details.
  */
 class NumTreesPlanning {
-private:
+   private:
     using PathPointer = std::shared_ptr<PathPoint>;
 
     double DT = 0.1;
@@ -47,13 +46,13 @@ private:
     /// create a new pathPoint using a linear acceleration ODE
     PathPointer computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget);
 
-public:
+   public:
     /**
      * The collision detector is provided by the position control. This class was intended
      * to be used only with the PositionControl
      * @param collisionDetector
      */
-    explicit NumTreesPlanning(CollisionDetector& collisionDetector);
+    explicit NumTreesPlanning(CollisionDetector &collisionDetector);
 
     /**
      * Computes a path using the implemented algorithm. It takes into account the
@@ -68,5 +67,5 @@ public:
     std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
 };
 
-}
-#endif //RTT_NUMTREESPLANNING_H
+}  // namespace rtt::ai::control
+#endif  // RTT_NUMTREESPLANNING_H

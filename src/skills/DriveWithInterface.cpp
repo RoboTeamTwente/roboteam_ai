@@ -15,8 +15,7 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
 
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
-    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(*field, robot->id, robot->pos,
-                                                        robot->vel, targetPos);
+    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(*field, robot->id, robot->pos, robot->vel, targetPos);
 
     command.mutable_vel()->set_x(robotCommand.vel.x);
     command.mutable_vel()->set_y(robotCommand.vel.y);
@@ -24,4 +23,4 @@ Skill::Status DriveWithInterface::onUpdate() {
     publishRobotCommand();
     return Status::Running;
 }
-}  // namespace rtt
+}  // namespace rtt::ai

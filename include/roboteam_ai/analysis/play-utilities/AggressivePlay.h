@@ -7,10 +7,10 @@
 
 #include "analysis/play-utilities/Play.h"
 namespace rtt::ai::analysis {
-    class AggressivePlay : public Play {
-        AggressivePlay();
-        void calculateInformation();
-    };
-}
+class AggressivePlay : public Play {
+    AggressivePlay();
+    void calculateInformation();
+};
+}  // namespace rtt::ai::analysis
 
-#endif //RTT_AGRESSIVEPLAY_H
+#endif  // RTT_AGRESSIVEPLAY_H
