@@ -16,6 +16,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <world/Field.h>
 #include <world/Robot.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 
 namespace rtt::ai::interface {
 using namespace rtt::ai::world;
@@ -27,7 +28,7 @@ class Visualizer : public QWidget {
    public:
     using Robot = rtt::ai::world::Robot;
     using RobotPtr = std::shared_ptr<Robot>;
-    explicit Visualizer(QWidget *parent = nullptr);
+    explicit Visualizer(const rtt::world_new::World& worldManager, QWidget *parent = nullptr);
     const std::vector<Robot> &getSelectedRobots() const;
     bool robotIsSelected(Robot robotToCheck);
     bool robotIsSelected(int id);
@@ -49,17 +50,18 @@ class Visualizer : public QWidget {
     void mousePressEvent(QMouseEvent *event) override;
 
    private:
-    float factor;
+    const rtt::world_new::World& worldManager;
+    float factor{};
     int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
     void drawBackground(QPainter &painter);
     void drawFieldLines(const Field &field, QPainter &painter);
     void drawFieldHints(const Field &field, QPainter &painter);
 
-    void drawRobots(QPainter &painter);
-    void drawRobot(QPainter &painter, Robot, bool ourTeam);
+    void drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world);
+    void drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam);
     void drawBall(QPainter &painter);
     void drawBallPlacementTarget(QPainter &painter);
-    void drawTacticColorForRobot(QPainter &painter, Robot robot);
+    void drawTacticColorForRobot(QPainter &painter, rtt::world_new::view::RobotView robot);
     void drawPlusses(QPainter &painter, std::vector<Vector2> points, double width, double height);
     void drawCrosses(QPainter &painter, std::vector<Vector2> points, double width, double height);
     void drawPoints(QPainter &painter, std::vector<Vector2> points, double width, double height);
@@ -70,8 +72,8 @@ class Visualizer : public QWidget {
     bool shouldVisualize(Toggle toggle, int robotId);
 
     // utitlity functions
-    std::string getTacticNameForRobot(Robot robot);
-    std::string getRoleNameForRobot(Robot robot);
+    std::string getTacticNameForRobot(rtt::world_new::view::RobotView robot);
+    std::string getRoleNameForRobot(rtt::world_new::view::RobotView robot);
     rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
     rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
 

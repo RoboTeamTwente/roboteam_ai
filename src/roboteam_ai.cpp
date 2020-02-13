@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QStyleFactory>
+#include <include/roboteam_ai/world_new/World.hpp>
 
 #include "ApplicationManager.h"
 #include "interface/widgets/mainWindow.h"
@@ -77,7 +78,10 @@ int main(int argc, char *argv[]) {
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
-    window = std::make_shared<ui::MainWindow>();
+
+    // Todo make this a not-global-static thingy
+    rtt::world_new::World* worldManager = rtt::world_new::World::instance();
+    window = std::make_shared<ui::MainWindow>(*worldManager);
     window->setWindowState(Qt::WindowMaximized);
 
     window->show();

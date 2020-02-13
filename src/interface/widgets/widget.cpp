@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include <utilities/RobotDealer.h>
 #include <utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "analysis/GameAnalyzer.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
@@ -19,19 +20,36 @@
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
 
-Visualizer::Visualizer(QWidget *parent) : QWidget(parent) {}
+Visualizer::Visualizer(const rtt::world_new::World& worldManager, QWidget *parent) : worldManager(worldManager), QWidget(parent) {}
 
 /// The update loop of the field widget. Invoked by widget->update();
 void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
 
+    std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
+
+    if(!world.has_value()){
+        painter.drawText(24, 24, "Waiting for incoming world state");
+        return;
+    }
+
+        painter.drawText(24, 24, "World state received");
+
     const Field &field = io::io.getField();
-    if (rtt::ai::world::world->weHaveRobots()) {
+    if (!world->getUs().empty()) {
         calculateFieldSizeFactor(field);
         drawBackground(painter);
         drawFieldHints(field, painter);
         drawFieldLines(field, painter);
-        drawRobots(painter);
+
+        QString s;
+        s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
+        painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
+
+        drawRobots(painter, *world);
+
+        return;
+
         drawBall(painter);
 
         // draw the drawings from the input
@@ -258,15 +276,15 @@ void Visualizer::drawBall(QPainter &painter) {
 }
 
 // draw the robots
-void Visualizer::drawRobots(QPainter &painter) {
+void Visualizer::drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world) {
     // draw us
-    for (auto &robot : rtt::ai::world::world->getUs()) {
-        drawRobot(painter, *robot, true);
+    for (rtt::world_new::view::RobotView robot : world->getUs()) {
+        drawRobot(painter, robot, true);
     }
 
     // draw them
-    for (auto &robot : rtt::ai::world::world->getThem()) {
-        drawRobot(painter, *robot, false);
+    for (rtt::world_new::view::RobotView robot : world->getThem()) {
+        drawRobot(painter, robot, false);
     }
 }
 
@@ -287,8 +305,8 @@ rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
 }
 
 // draw a single robot
-void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
-    Vector2 robotpos = toScreenPosition(robot.pos);
+void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam) {
+    Vector2 robotpos = toScreenPosition(robot->getPos());
     QPointF qrobotPosition(robotpos.x, robotpos.y);
 
     // update the we are yellow
@@ -303,12 +321,12 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         robotColor = weAreYellow ? Constants::ROBOT_COLOR_BLUE() : Constants::ROBOT_COLOR_YELLOW();
     }
 
-    if (ourTeam && robot.id == robotDealer::RobotDealer::getKeeperID()) {
+    if (ourTeam && robot->getId() == robotDealer::RobotDealer::getKeeperID()) {
         robotColor = QColor(255, 255, 255);
     }
 
     if (showAngles) {
-        Vector2 angle = toScreenPosition({robot.pos.x + cos(robot.angle) / 3, robot.pos.y + sin(robot.angle) / 3});
+        Vector2 angle = toScreenPosition({robot->getPos().x + cos(robot->getAngle()) / 3, robot->getPos().y + sin(robot->getAngle()) / 3});
         QPen pen;
         pen.setWidth(2);
         pen.setBrush(robotColor);
@@ -317,7 +335,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     }
 
     if (showVelocities) {
-        Vector2 vel = toScreenPosition({robot.pos.x + robot.vel.x, robot.pos.y + robot.vel.y});
+        Vector2 vel = toScreenPosition({robot->getPos().x + robot->getVel().x, robot->getPos().y + robot->getVel().y});
         painter.setPen(Qt::white);
         painter.drawLine(robotpos.x, robotpos.y, vel.x, vel.y);
     }
@@ -325,7 +343,6 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     if (showTacticColors && ourTeam) {
         drawTacticColorForRobot(painter, robot);
     }
-
     int ypos = robotpos.y;
     if (showTactics && ourTeam) {
         painter.setPen(Constants::TEXT_COLOR());
@@ -337,68 +354,42 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getRoleNameForRobot(robot)));
     }
 
-    if (showRobotInvalids && ourTeam) {
-        painter.setPen(Qt::red);
-        std::string text;
-        if (!robot.hasWorkingGeneva()) {
-            text += "GV ";
-        }
-        if (!robot.hasWorkingDribbler()) {
-            text += "DR ";
-        }
-        if (!robot.hasWorkingBallSensor()) {
-            text += "BS ";
-        }
-        if (robot.isBatteryLow()) {
-            text += "BATTERY LOW";
-        }
-        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
-    }
+    // Todo : Get working stuff in RobotView
+//    if (showRobotInvalids && ourTeam) {
+//        painter.setPen(Qt::red);
+//        std::string text;
+//        if (!robot.hasWorkingDribbler()) {
+//            text += "DR ";
+//        }
+//        if (!robot.hasWorkingBallSensor()) {
+//            text += "BS ";
+//        }
+//        if (robot.isBatteryLow()) {
+//            text += "BATTERY LOW";
+//        }
+//        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+//    }
 
-    if (ourTeam) {
-        if (Constants::FEEDBACK_ENABLED()) {
-            if (robot.hasRecentFeedback()) {
-                // green to indicate feedback is okay
-                painter.setPen(Qt::green);
-                painter.setBrush(Qt::green);
-            } else {
-                // yellow to indicate feedback is not okay
-                painter.setPen(Qt::red);
-                painter.setBrush(Qt::red);
-            }
-            painter.drawEllipse({(int)robotpos.x + 10, (int)robotpos.y - 10}, 2, 2);
-        }
-    }
+    // Todo : Get working feedback in RobotView
+//    if (ourTeam) {
+//        if (Constants::FEEDBACK_ENABLED()) {
+//            if (robot.hasRecentFeedback()) {
+//                // green to indicate feedback is okay
+//                painter.setPen(Qt::green);
+//                painter.setBrush(Qt::green);
+//            } else {
+//                // yellow to indicate feedback is not okay
+//                painter.setPen(Qt::red);
+//                painter.setBrush(Qt::red);
+//            }
+//            painter.drawEllipse({(int)robotpos.x + 10, (int)robotpos.y - 10}, 2, 2);
+//        }
+//    }
 
     // draw the robots
-    QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
+    QColor color = (robotIsSelected(robot->getId()) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
-
-    if (ourTeam) {
-        std::map<int, double> genevaToAngle;
-        genevaToAngle[1] = -20.0;
-        genevaToAngle[2] = -10.0;
-        genevaToAngle[3] = 0.0;
-        genevaToAngle[4] = 10.0;
-        genevaToAngle[5] = 20.0;
-
-        auto genevaAngle = robot.angle + toRadians(genevaToAngle[robot.getGenevaState()]);
-
-        // draw the angle of the geneva
-        Vector2 angle = toScreenPosition({robot.pos.x + cos(genevaAngle) / 4, robot.pos.y + sin(genevaAngle) / 4});
-        QPen pen;
-        pen.setWidth(2);
-        pen.setColor(Qt::red);
-        painter.setPen(pen);
-
-        painter.setBrush(Qt::red);
-        painter.drawLine(robotpos.x, robotpos.y, angle.x, angle.y);
-    }
-
-    painter.setBrush(color);
-    painter.setPen(Qt::transparent);
-
     painter.setOpacity(1);
 
     int robotDrawSize = std::max(Constants::ROBOT_RADIUS() * factor * 2, (double)Constants::ROBOT_DRAWING_SIZE());
@@ -412,9 +403,9 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     painter.translate(robotpos.x, robotpos.y);  // move center of coordinates to the center of robot
 
     if (fieldInversed) {
-        painter.rotate(-toDegrees(robot.angle) + 45 + 180);  // rotate around the center of robot
+        painter.rotate(-toDegrees(robot->getAngle()) + 45 + 180);  // rotate around the center of robot
     } else {
-        painter.rotate(-toDegrees(robot.angle) + 45);  // rotate around the center of robot
+        painter.rotate(-toDegrees(robot->getAngle()) + 45);  // rotate around the center of robot
     }
     painter.drawPath(rectPath);
     painter.resetTransform();  // reset the translation and rotation
@@ -422,7 +413,7 @@ void Visualizer::drawRobot(QPainter &painter, Robot robot, bool ourTeam) {
     // draw the id in it
     painter.setPen(Qt::black);
     painter.setFont(QFont("ubuntu", 9));  // 22 is a number which you have to change
-    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot.id)));
+    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot->getId())));
     painter.setFont(QFont("ubuntu", 11));  // 22 is a number which you have to change
 }
 
@@ -443,8 +434,8 @@ void Visualizer::mousePressEvent(QMouseEvent *event) {
     }
 }
 
-void Visualizer::drawTacticColorForRobot(QPainter &painter, Robot robot) {
-    Vector2 robotpos = toScreenPosition(robot.pos);
+void Visualizer::drawTacticColorForRobot(QPainter &painter, rtt::world_new::view::RobotView robot) {
+    Vector2 robotpos = toScreenPosition(robot->getPos());
     QPointF qrobotPosition(robotpos.x, robotpos.y);
     std::string tacticName = getTacticNameForRobot(robot);
     bool tacticExists = false;
@@ -469,9 +460,13 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, Robot robot) {
     painter.drawEllipse(qrobotPosition, Constants::TACTIC_COLOR_DRAWING_SIZE(), Constants::TACTIC_COLOR_DRAWING_SIZE());
 }
 
-std::string Visualizer::getTacticNameForRobot(Robot robot) { return robotDealer::RobotDealer::getTacticNameForId(robot.id); }
+std::string Visualizer::getTacticNameForRobot(rtt::world_new::view::RobotView robot) {
+    return robotDealer::RobotDealer::getTacticNameForId(robot->getId());
+}
 
-std::string Visualizer::getRoleNameForRobot(Robot robot) { return robotDealer::RobotDealer::getRoleNameForId(robot.id); }
+std::string Visualizer::getRoleNameForRobot(rtt::world_new::view::RobotView robot) {
+    return robotDealer::RobotDealer::getRoleNameForId(robot->getId());
+}
 
 void Visualizer::setShowRoles(bool showRoles) { this->showRoles = showRoles; }
 

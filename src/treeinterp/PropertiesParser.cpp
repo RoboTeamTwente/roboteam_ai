@@ -49,7 +49,7 @@ bt::Blackboard::Ptr PropertiesParser::parse(PropertiesParser::json jsonLeaf) {
 PropertiesParser::type PropertiesParser::checkVarTypeOfString(std::string keyName, json jsonLeaf, std::vector<double> &vec) {
     std::string strKey = jsonLeaf["properties"][keyName];
     if (strKey.empty()) {
-        std::cout << "PARSING EMPTY STRING!! this could give errors" << std::endl;
+//        std::cout << "PARSING EMPTY STRING!! this could give errors" << std::endl;
         return String;
     }
     int it = 0;

@@ -68,7 +68,7 @@ bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
-    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
+//    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
     return nullptr;
 }
 

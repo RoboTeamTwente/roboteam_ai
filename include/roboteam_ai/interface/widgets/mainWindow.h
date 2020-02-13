@@ -16,6 +16,7 @@
 #include <QtWidgets/QDoubleSpinBox>
 #include <iostream>
 #include <memory>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "GraphWidget.h"
 #include "ManualControlWidget.h"
 #include "PidBox.h"
@@ -38,7 +39,7 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(const rtt::world_new::World& worldManager, QWidget *parent = nullptr);
 
     // this function is useful everywhere
     static void configureCheckBox(QString title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
@@ -55,6 +56,7 @@ class MainWindow : public QMainWindow {
     void refreshJSONSignal();
 
    private:
+    const rtt::world_new::World& worldManager;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *mainLayout;
     QVBoxLayout *vLayout;
