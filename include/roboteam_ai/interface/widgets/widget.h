@@ -29,8 +29,8 @@ class Visualizer : public QWidget {
     using Robot = rtt::ai::world::Robot;
     using RobotPtr = std::shared_ptr<Robot>;
     explicit Visualizer(const rtt::world_new::World& worldManager, QWidget *parent = nullptr);
-    const std::vector<Robot> &getSelectedRobots() const;
-    bool robotIsSelected(Robot robotToCheck);
+    const std::unordered_map<int, rtt::world_new::view::RobotView> &getSelectedRobots() const;
+    bool robotIsSelected(rtt::world_new::view::RobotView robot);
     bool robotIsSelected(int id);
 
    public slots:
@@ -42,7 +42,7 @@ class Visualizer : public QWidget {
     void setShowRobotInvalids(bool showPath);
     void setShowBallPlacementMarker(bool showMarker);
     void setShowDebugValueInTerminal(bool showDebug);
-    void toggleSelectedRobot(int robotId);
+    void toggleSelectedRobot(rtt::world_new::view::RobotView robot);
     void setToggleFieldDirection(bool inversed);
 
    protected:
@@ -84,7 +84,8 @@ class Visualizer : public QWidget {
                           QColor>> tacticColors;  // map colors to tactic to visualize which robots work together
     int tacticCount = 0;                          // increases when a new tactic is used
 
-    std::vector<Robot> selectedRobots;
+//    std::vector<Robot> selectedRobots;
+    std::unordered_map<int, rtt::world_new::view::RobotView> selectedRobots;
 
     // toggles
     bool showRoles = Constants::STD_SHOW_ROLES();

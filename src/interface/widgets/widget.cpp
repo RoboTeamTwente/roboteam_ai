@@ -387,7 +387,7 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
 //    }
 
     // draw the robots
-    QColor color = (robotIsSelected(robot->getId()) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
+    QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
     painter.setBrush(color);
     painter.setPen(Qt::transparent);
     painter.setOpacity(1);
@@ -423,10 +423,12 @@ void Visualizer::mousePressEvent(QMouseEvent *event) {
     pos.x = event->pos().x();
     pos.y = event->pos().y();
 
-    if (event->button() == Qt::LeftButton && rtt::ai::world::world->weHaveRobots()) {
-        for (auto &robot : rtt::ai::world::world->getWorld().us) {
-            if (pos.dist(toScreenPosition(robot->pos)) < 10) {
-                this->toggleSelectedRobot(robot->id);
+    std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
+
+    if (event->button() == Qt::LeftButton && world.has_value()) {
+        for (auto &robot : world->getUs()) {
+            if (pos.dist(toScreenPosition(robot->getPos())) < 10) {
+                this->toggleSelectedRobot(robot);
             }
         }
     } else if (event->button() == Qt::RightButton) {
@@ -474,7 +476,7 @@ void Visualizer::setShowTactics(bool showTactics) { Visualizer::showTactics = sh
 
 void Visualizer::setShowTacticColors(bool showTacticColors) { Visualizer::showTacticColors = showTacticColors; }
 
-const std::vector<rtt::ai::world::Robot> &Visualizer::getSelectedRobots() const { return selectedRobots; }
+const std::unordered_map<int, rtt::world_new::view::RobotView> &Visualizer::getSelectedRobots() const { return selectedRobots; }
 
 void Visualizer::setShowAngles(bool showAngles) { Visualizer::showAngles = showAngles; }
 
@@ -482,38 +484,22 @@ void Visualizer::setShowVelocities(bool showVelocities) { Visualizer::showVeloci
 
 void Visualizer::setShowRobotInvalids(bool show) { Visualizer::showRobotInvalids = show; }
 
-void Visualizer::toggleSelectedRobot(int robotId) {
-    bool robotWasAlreadySelected = false;
+void Visualizer::toggleSelectedRobot(rtt::world_new::view::RobotView robot) {
+    bool robotSelected = (selectedRobots.find(robot->getId()) != selectedRobots.end());
 
-    for (int i = 0; i < static_cast<int>(selectedRobots.size()); i++) {
-        if (static_cast<unsigned long>(selectedRobots.at((i)).id) == static_cast<unsigned long>(robotId)) {
-            robotWasAlreadySelected = true;
-            this->selectedRobots.erase(selectedRobots.begin() + i);
-        }
-    }
-
-    if (!robotWasAlreadySelected) {
-        for (auto &robot : rtt::ai::world::world->getUs()) {
-            if (robot->id == robotId) {
-                robotWasAlreadySelected = false;
-                this->selectedRobots.push_back(*robot);
-            }
-        }
+    if(robotSelected){
+        selectedRobots.erase(robot->getId());
+    }else{
+        selectedRobots.insert({robot->getId(), robot});
     }
 }
 
-bool Visualizer::robotIsSelected(Robot robotToCheck) {
-    for (auto robot : selectedRobots) {
-        if (robot.id == robotToCheck.id) return true;
-    }
-    return false;
+bool Visualizer::robotIsSelected(rtt::world_new::view::RobotView robot) {
+    return (selectedRobots.find(robot->getId()) != selectedRobots.end());
 }
 
-bool Visualizer::robotIsSelected(int id) {
-    for (auto robot : selectedRobots) {
-        if (robot.id == id) return true;
-    }
-    return false;
+bool Visualizer::robotIsSelected(int robotId) {
+    return (selectedRobots.find(robotId) != selectedRobots.end());
 }
 
 void Visualizer::drawBallPlacementTarget(QPainter &painter) {
