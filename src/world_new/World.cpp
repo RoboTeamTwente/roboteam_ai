@@ -42,12 +42,18 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
     }
 }
 
-view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-    if (ticksAgo > history.size()) {
-        return view::WorldDataView(nullptr);
+std::optional<view::WorldDataView> World::getHistoryWorld(size_t ticksAgo) const noexcept {
+    std::optional<view::WorldDataView> world = std::nullopt;
+
+    if (ticksAgo == 0) {
+        world = getWorld();
+    } else if (1 <= ticksAgo and ticksAgo <= history.size()) {
+        auto index = currentIndex - ticksAgo;
+        if (history.size() < index) index += HISTORY_SIZE;  // Wrap-around. 0 wraps around to 18446744073709551598
+        world = view::WorldDataView(&history[index]);
     }
-    // say ticksAgo is 3, then you'd want the currentIndex - 3 index, so
-    return view::WorldDataView(&history[currentIndex - ticksAgo]);
+
+    return world;
 }
 
 void World::updateWorld(proto::World &protoWorld) {
