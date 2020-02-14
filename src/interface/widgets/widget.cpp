@@ -248,13 +248,7 @@ void Visualizer::drawBall(QPainter &painter, rtt::world_new::view::BallView ball
     rtt::Vector2 ballPosition = toScreenPosition(ball->getPos());
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
-    // Todo : implement getVisible for BallView
-    //    if (!ball->getVisible()) {
-    //        painter.setBrush(Qt::red);  // fill
-    //    } else {
-    //        painter.setBrush(Constants::BALL_COLOR());  // fill
-    //    }
-    painter.setBrush(Constants::BALL_COLOR());  // fill
+    painter.setBrush(ball->isVisible() ? Constants::BALL_COLOR() : Qt::red);
 
     // draw a see-through gradient around the ball to make it more visible
     painter.setPen(Qt::NoPen);  // stroke
