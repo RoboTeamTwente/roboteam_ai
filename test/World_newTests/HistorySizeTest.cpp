@@ -10,8 +10,7 @@
 TEST(World_newTest, HistorySizeTest) {
     /* Note, this test only works if the history of worlds is still empty. Since its a static, make
      * sure that this test is always the first to run for anything that uses or modifies this history! */
-    proto::GeometryFieldSize field = testhelpers::FieldHelper::generateField();
-    proto::World world = testhelpers::WorldHelper::getWorldMsg(8, 8, false, field);
+    proto::World world;
 
     // Get the worldInstance
     rtt::world_new::World* worldInstance = rtt::world_new::World::instance();
