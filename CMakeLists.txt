@@ -95,6 +95,11 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
+
+        # plays trees
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/play-trees/AggressivePlayTree.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/play-trees/HarassTactic.cpp
+
         )
 
 set(UTILS_SOURCES
