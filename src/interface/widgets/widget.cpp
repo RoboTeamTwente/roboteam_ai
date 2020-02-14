@@ -7,8 +7,8 @@
 #include <include/roboteam_ai/utilities/IOManager.h>
 #include <roboteam_utils/Line.h>
 #include <utilities/RobotDealer.h>
-#include <utilities/GameStateManager.hpp>
 #include <include/roboteam_ai/world_new/World.hpp>
+#include <utilities/GameStateManager.hpp>
 #include "analysis/GameAnalyzer.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
@@ -20,7 +20,7 @@
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
 
-Visualizer::Visualizer(const rtt::world_new::World& worldManager, QWidget *parent) : worldManager(worldManager), QWidget(parent) {}
+Visualizer::Visualizer(const rtt::world_new::World &worldManager, QWidget *parent) : worldManager(worldManager), QWidget(parent) {}
 
 /// The update loop of the field widget. Invoked by widget->update();
 void Visualizer::paintEvent(QPaintEvent *event) {
@@ -28,7 +28,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
 
     std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
 
-    if(!world.has_value()){
+    if (!world.has_value()) {
         painter.drawText(24, 24, "Waiting for incoming world state");
         return;
     }
@@ -45,9 +45,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
     drawRobots(painter, *world);
-    if(world->getBall().has_value())
-        drawBall(painter, *world->getBall());
-
+    if (world->getBall().has_value()) drawBall(painter, *world->getBall());
 
     // draw the drawings from the input
     auto drawings = Input::getDrawings();
@@ -251,11 +249,11 @@ void Visualizer::drawBall(QPainter &painter, rtt::world_new::view::BallView ball
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
     // Todo : implement getVisible for BallView
-//    if (!ball->getVisible()) {
-//        painter.setBrush(Qt::red);  // fill
-//    } else {
-//        painter.setBrush(Constants::BALL_COLOR());  // fill
-//    }
+    //    if (!ball->getVisible()) {
+    //        painter.setBrush(Qt::red);  // fill
+    //    } else {
+    //        painter.setBrush(Constants::BALL_COLOR());  // fill
+    //    }
     painter.setBrush(Constants::BALL_COLOR());  // fill
 
     // draw a see-through gradient around the ball to make it more visible
@@ -346,36 +344,36 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     }
 
     // Todo : Get working stuff in RobotView
-//    if (showRobotInvalids && ourTeam) {
-//        painter.setPen(Qt::red);
-//        std::string text;
-//        if (!robot.hasWorkingDribbler()) {
-//            text += "DR ";
-//        }
-//        if (!robot.hasWorkingBallSensor()) {
-//            text += "BS ";
-//        }
-//        if (robot.isBatteryLow()) {
-//            text += "BATTERY LOW";
-//        }
-//        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
-//    }
+    //    if (showRobotInvalids && ourTeam) {
+    //        painter.setPen(Qt::red);
+    //        std::string text;
+    //        if (!robot.hasWorkingDribbler()) {
+    //            text += "DR ";
+    //        }
+    //        if (!robot.hasWorkingBallSensor()) {
+    //            text += "BS ";
+    //        }
+    //        if (robot.isBatteryLow()) {
+    //            text += "BATTERY LOW";
+    //        }
+    //        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+    //    }
 
     // Todo : Get working feedback in RobotView
-//    if (ourTeam) {
-//        if (Constants::FEEDBACK_ENABLED()) {
-//            if (robot.hasRecentFeedback()) {
-//                // green to indicate feedback is okay
-//                painter.setPen(Qt::green);
-//                painter.setBrush(Qt::green);
-//            } else {
-//                // yellow to indicate feedback is not okay
-//                painter.setPen(Qt::red);
-//                painter.setBrush(Qt::red);
-//            }
-//            painter.drawEllipse({(int)robotpos.x + 10, (int)robotpos.y - 10}, 2, 2);
-//        }
-//    }
+    //    if (ourTeam) {
+    //        if (Constants::FEEDBACK_ENABLED()) {
+    //            if (robot.hasRecentFeedback()) {
+    //                // green to indicate feedback is okay
+    //                painter.setPen(Qt::green);
+    //                painter.setBrush(Qt::green);
+    //            } else {
+    //                // yellow to indicate feedback is not okay
+    //                painter.setPen(Qt::red);
+    //                painter.setBrush(Qt::red);
+    //            }
+    //            painter.drawEllipse({(int)robotpos.x + 10, (int)robotpos.y - 10}, 2, 2);
+    //        }
+    //    }
 
     // draw the robots
     QColor color = (robotIsSelected(robot) && ourTeam) ? Constants::SELECTED_ROBOT_COLOR() : robotColor;
@@ -453,13 +451,9 @@ void Visualizer::drawTacticColorForRobot(QPainter &painter, rtt::world_new::view
     painter.drawEllipse(qrobotPosition, Constants::TACTIC_COLOR_DRAWING_SIZE(), Constants::TACTIC_COLOR_DRAWING_SIZE());
 }
 
-std::string Visualizer::getTacticNameForRobot(rtt::world_new::view::RobotView robot) {
-    return robotDealer::RobotDealer::getTacticNameForId(robot->getId());
-}
+std::string Visualizer::getTacticNameForRobot(rtt::world_new::view::RobotView robot) { return robotDealer::RobotDealer::getTacticNameForId(robot->getId()); }
 
-std::string Visualizer::getRoleNameForRobot(rtt::world_new::view::RobotView robot) {
-    return robotDealer::RobotDealer::getRoleNameForId(robot->getId());
-}
+std::string Visualizer::getRoleNameForRobot(rtt::world_new::view::RobotView robot) { return robotDealer::RobotDealer::getRoleNameForId(robot->getId()); }
 
 void Visualizer::setShowRoles(bool showRoles) { this->showRoles = showRoles; }
 
@@ -478,20 +472,16 @@ void Visualizer::setShowRobotInvalids(bool show) { Visualizer::showRobotInvalids
 void Visualizer::toggleSelectedRobot(rtt::world_new::view::RobotView robot) {
     bool robotSelected = (selectedRobots.find(robot->getId()) != selectedRobots.end());
 
-    if(robotSelected){
+    if (robotSelected) {
         selectedRobots.erase(robot->getId());
-    }else{
+    } else {
         selectedRobots.insert({robot->getId(), robot});
     }
 }
 
-bool Visualizer::robotIsSelected(rtt::world_new::view::RobotView robot) {
-    return (selectedRobots.find(robot->getId()) != selectedRobots.end());
-}
+bool Visualizer::robotIsSelected(rtt::world_new::view::RobotView robot) { return (selectedRobots.find(robot->getId()) != selectedRobots.end()); }
 
-bool Visualizer::robotIsSelected(int robotId) {
-    return (selectedRobots.find(robotId) != selectedRobots.end());
-}
+bool Visualizer::robotIsSelected(int robotId) { return (selectedRobots.find(robotId) != selectedRobots.end()); }
 
 void Visualizer::drawBallPlacementTarget(QPainter &painter) {
     Vector2 marker = toScreenPosition(Output::getInterfaceMarkerPosition());

@@ -19,7 +19,6 @@
 #include <include/roboteam_ai/world_new/World.hpp>
 
 namespace rtt::ai::interface {
-using namespace rtt::ai::world;
 
 class Visualizer : public QWidget {
     Q_OBJECT
@@ -59,7 +58,7 @@ class Visualizer : public QWidget {
 
     void drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world);
     void drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam);
-    void drawBall(QPainter &painter);
+    void drawBall(QPainter &painter, rtt::world_new::view::BallView);
     void drawBallPlacementTarget(QPainter &painter);
     void drawTacticColorForRobot(QPainter &painter, rtt::world_new::view::RobotView robot);
     void drawPlusses(QPainter &painter, std::vector<Vector2> points, double width, double height);
