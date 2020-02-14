@@ -33,88 +33,82 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         return;
     }
 
-        painter.drawText(24, 24, "World state received");
-
     const Field &field = io::io.getField();
-    if (!world->getUs().empty()) {
-        calculateFieldSizeFactor(field);
-        drawBackground(painter);
-        drawFieldHints(field, painter);
-        drawFieldLines(field, painter);
 
-        QString s;
-        s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
-        painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
+    calculateFieldSizeFactor(field);
+    drawBackground(painter);
+    drawFieldHints(field, painter);
+    drawFieldLines(field, painter);
 
-        drawRobots(painter, *world);
+    QString s;
+    s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
+    painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
-        return;
+    drawRobots(painter, *world);
+    if(world->getBall().has_value())
+        drawBall(painter, *world->getBall());
 
-        drawBall(painter);
 
-        // draw the drawings from the input
-        auto drawings = Input::getDrawings();
-        for (auto const &drawing : drawings) {
-            if (!drawing.points.empty()) {
-                bool shouldShow = false;
-                for (auto const &toggle : Toggles::toggles) {
-                    if (drawing.visual == toggle.visual) {
-                        shouldShow = shouldVisualize(toggle, drawing.robotId);
-                    }
+    // draw the drawings from the input
+    auto drawings = Input::getDrawings();
+    for (auto const &drawing : drawings) {
+        if (!drawing.points.empty()) {
+            bool shouldShow = false;
+            for (auto const &toggle : Toggles::toggles) {
+                if (drawing.visual == toggle.visual) {
+                    shouldShow = shouldVisualize(toggle, drawing.robotId);
                 }
-                if (shouldShow) {
-                    switch (drawing.method) {
-                        case Drawing::DOTS: {
-                            painter.setPen(Qt::NoPen);
-                            painter.setBrush(drawing.color);
-                            drawPoints(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
-                        case Drawing::CIRCLES: {
-                            painter.setPen(drawing.color);
-                            painter.setBrush(Qt::transparent);
-                            drawPoints(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
-                        case Drawing::LINES_CONNECTED: {
-                            painter.setPen(drawing.color);
-                            painter.setBrush(Qt::transparent);
-                            drawLines(painter, drawing.points);
-                        } break;
-                        case Drawing::CROSSES: {
-                            painter.setPen(drawing.color);
-                            painter.setBrush(Qt::transparent);
-                            drawCrosses(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
-                        case Drawing::PLUSSES: {
-                            painter.setPen(drawing.color);
-                            painter.setBrush(Qt::transparent);
-                            drawPlusses(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
-                        case Drawing::ARROWS: {
-                            painter.setPen(drawing.color);
-                            painter.setBrush(Qt::transparent);
-                            drawArrows(painter, drawing.points, drawing.width, drawing.height, drawing.strokeWidth == 1);
-                        } break;
-                        case Drawing::REAL_LIFE_CIRCLES: {
-                            painter.setPen(drawing.color);
-                            painter.setBrush(Qt::transparent);
-                            drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
-                        } break;
-                        case Drawing::REAL_LIFE_DOTS: {
-                            painter.setPen(Qt::NoPen);
-                            painter.setBrush(drawing.color);
-                            drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
-                        }
+            }
+            if (shouldShow) {
+                switch (drawing.method) {
+                    case Drawing::DOTS: {
+                        painter.setPen(Qt::NoPen);
+                        painter.setBrush(drawing.color);
+                        drawPoints(painter, drawing.points, drawing.width, drawing.height);
+                    } break;
+                    case Drawing::CIRCLES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawPoints(painter, drawing.points, drawing.width, drawing.height);
+                    } break;
+                    case Drawing::LINES_CONNECTED: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawLines(painter, drawing.points);
+                    } break;
+                    case Drawing::CROSSES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawCrosses(painter, drawing.points, drawing.width, drawing.height);
+                    } break;
+                    case Drawing::PLUSSES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawPlusses(painter, drawing.points, drawing.width, drawing.height);
+                    } break;
+                    case Drawing::ARROWS: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawArrows(painter, drawing.points, drawing.width, drawing.height, drawing.strokeWidth == 1);
+                    } break;
+                    case Drawing::REAL_LIFE_CIRCLES: {
+                        painter.setPen(drawing.color);
+                        painter.setBrush(Qt::transparent);
+                        drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
+                    } break;
+                    case Drawing::REAL_LIFE_DOTS: {
+                        painter.setPen(Qt::NoPen);
+                        painter.setBrush(drawing.color);
+                        drawRealLifeSizedPoints(painter, drawing.points, drawing.width, drawing.height);
                     }
                 }
             }
         }
-
-        Input::clearDrawings();
-
-        if (showBallPlacementMarker) drawBallPlacementTarget(painter);
-    } else {
-        painter.drawText(24, 24, "Waiting for incoming World State");
     }
+
+    Input::clearDrawings();
+
+    if (showBallPlacementMarker) drawBallPlacementTarget(painter);
 }
 
 bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
@@ -252,18 +246,16 @@ void Visualizer::drawFieldHints(const Field &field, QPainter &painter) {
 }
 
 // draw the ball on the screen
-void Visualizer::drawBall(QPainter &painter) {
-    auto ball = world::world->getBall();
-    if (!(ball && world::Ball::exists && ball->getPos().isNotNaN())) return;
-
+void Visualizer::drawBall(QPainter &painter, rtt::world_new::view::BallView ball) {
     rtt::Vector2 ballPosition = toScreenPosition(ball->getPos());
     QPointF qballPosition(ballPosition.x, ballPosition.y);
 
-    if (!ball->getVisible()) {
-        painter.setBrush(Qt::red);  // fill
-    } else {
-        painter.setBrush(Constants::BALL_COLOR());  // fill
-    }
+    // Todo : implement getVisible for BallView
+//    if (!ball->getVisible()) {
+//        painter.setBrush(Qt::red);  // fill
+//    } else {
+//        painter.setBrush(Constants::BALL_COLOR());  // fill
+//    }
     painter.setBrush(Constants::BALL_COLOR());  // fill
 
     // draw a see-through gradient around the ball to make it more visible
@@ -307,7 +299,6 @@ rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
 // draw a single robot
 void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam) {
     Vector2 robotpos = toScreenPosition(robot->getPos());
-    QPointF qrobotPosition(robotpos.x, robotpos.y);
 
     // update the we are yellow
     bool weAreYellow = SETTINGS.isYellow();

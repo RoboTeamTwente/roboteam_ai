@@ -130,31 +130,31 @@ MainWindow::MainWindow(const rtt::world_new::World& worldManager, QWidget *paren
 
     // start the UI update cycles
     // these are slower than the tick rate
-//    auto *robotsTimer = new QTimer(this);
-//    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
-//    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
-//    connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
-//    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
-//    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
-//    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
-//    robotsTimer->start(200);  // 5fps
+    auto *robotsTimer = new QTimer(this);
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
+    connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
+    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
+    robotsTimer->start(200);  // 5fps
 
-//    auto *graphTimer = new QTimer(this);
-//    connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
-//    graphTimer->start(200);  // 5fps
+    auto *graphTimer = new QTimer(this);
+    connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
+    graphTimer->start(200);  // 5fps
 
-//    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
 }
 
 /// Set up a checkbox and add it to the layout
-void MainWindow::configureCheckBox(QString title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState) {
+void MainWindow::configureCheckBox(const QString& title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState) {
     auto checkbox = new QCheckBox(title);
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
 }
 
-void MainWindow::configureCheckableMenuItem(QString title, QString hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState) {
+void MainWindow::configureCheckableMenuItem(QString title, const QString& hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState) {
     QAction *action = new QAction(title, menu);
     action->setStatusTip(hint);
     action->setCheckable(true);
@@ -180,7 +180,8 @@ void MainWindow::clearLayout(QLayout *layout) {
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-    if (world::world->weHaveRobots()) robotsWidget->updateContents(visualizer);
+    if (worldManager.getWorld().has_value())
+        robotsWidget->updateContents(visualizer, *worldManager.getWorld());
 }
 
 // update the tree widget with the newest strategy tree
