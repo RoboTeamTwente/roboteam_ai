@@ -9,12 +9,11 @@
 #include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
 #include <coach/defence/DefenceDealer.h>
-#include <include/roboteam_ai/world/FieldComputations.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
 #include <utilities/GameStateManager.hpp>
-#include "analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -31,8 +30,8 @@ void ApplicationManager::start() {
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
-    t.loop(
-        [&]() {
+    t.loop([&]() {
+
             // This function runs the behaviour trees
             runOneLoopCycle();
 
@@ -55,13 +54,24 @@ void ApplicationManager::start() {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
+
+
     if (weHaveRobots && io::io.hasReceivedGeom) {
-        ai::analysis::GameAnalyzer::getInstance().start();
-        decidePlay(world, io::io.getField());
+
+        auto fieldMessage = io::io.getGeometryData().field();
+        auto worldMessage = io::io.getWorldState();
+
+        world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
+        world_new::World::instance()->updateWorld(worldMessage);
+        world_new::World::instance()->updateField(fieldMessage);
+        auto field = world_new::World::instance()->getField().value();
+
+        ai::analysis::GameAnalyzer::getInstance().start(field);
+        decidePlay(world, field);
         updateTrees();
-        updateCoaches();
-        runKeeperTree();
-        Status status = runStrategyTree();
+        updateCoaches(field);
+        runKeeperTree(field);
+        Status status = runStrategyTree(field);
         this->notifyTreeStatus(status);
     } else {
         std::this_thread::sleep_for(std::chrono::microseconds(100000));
@@ -102,8 +112,7 @@ void ApplicationManager::updateTrees() {
 }
 
 /// Tick the keeper tree if both the tree and keeper exist
-void ApplicationManager::runKeeperTree() {
-    const Field &field = io::io.getField();
+void ApplicationManager::runKeeperTree(const Field & field) {
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         keeperTree->tick(ai::world::world, &field);
@@ -111,8 +120,7 @@ void ApplicationManager::runKeeperTree() {
 }
 
 /// Tick the strategy tree if the tree exists
-Status ApplicationManager::runStrategyTree() {
-    const Field &field = io::io.getField();
+Status ApplicationManager::runStrategyTree(const Field & field) {
     if (BTFactory::getCurrentTree() == "NaN") {
         std::cout << "NaN tree probably Halting" << std::endl;
         return Status::Waiting;
@@ -123,9 +131,8 @@ Status ApplicationManager::runStrategyTree() {
 }
 
 /// Update the coaches information
-void ApplicationManager::updateCoaches() const {
+void ApplicationManager::updateCoaches(const Field & field) const {
     auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
-        const Field &field = io::io.getField();
         ai::coach::getBallCoach->update(field);
         ai::coach::g_DefenceDealer.updateDefenderLocations(field);
         ai::coach::g_offensiveCoach.updateOffensivePositions(field);

@@ -36,7 +36,7 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow(const Field &fie
         return report;
     }
     std::cout << "NOT A WORLD YET" << std::endl;
-    start(30);
+    start(field, 30);
     return {};
 }
 
@@ -145,12 +145,12 @@ bool GameAnalyzer::isClosingInToGoal(const Field &field, RobotPtr robot, bool ou
     return false;
 }
 
-void GameAnalyzer::start(int iterationsPerSecond) {
+void GameAnalyzer::start(world::Field const & field, int iterationsPerSecond) {
     if (!running && world::world->weHaveRobots()) {
         std::cout << "GameAnalyzer: "
                   << "Starting at " << iterationsPerSecond << " iterations per second" << std::endl;
         auto delay = (unsigned)(1000.0 / iterationsPerSecond);
-        thread = std::thread(&GameAnalyzer::loop, this, delay);
+        thread = std::thread(&GameAnalyzer::loop, this, field, delay);
         running = true;
     }
 }
@@ -170,10 +170,9 @@ void GameAnalyzer::stop() {
     }
 }
 
-void GameAnalyzer::loop(unsigned delayMillis) {
+void GameAnalyzer::loop(world::Field const & field, unsigned delayMillis) {
     std::chrono::milliseconds delay(delayMillis);
     while (!stopping) {
-        const Field &field = io::io.getField();
         generateReportNow(field);
         std::this_thread::sleep_for(delay);
     }

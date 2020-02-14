@@ -1,10 +1,3 @@
-/*
- * Created by mrlukasbos on 19-9-18.
- *
- * This class gives handles for all ROS communication for roboteam_ai.
- * Using this class you don't have to think about callbacks or scoping, or weird ROS parameters.
- */
-
 #include <include/roboteam_ai/interface/api/Output.h>
 #include <utilities/IOManager.h>
 #include <utilities/Settings.h>
@@ -31,61 +24,43 @@ std::mutex IOManager::demoMutex;
 
 IOManager io;
 
-void IOManager::handleWorldState(proto::World &world) {
-    std::lock_guard<std::mutex> lock(worldStateMutex);
+void IOManager::init(int teamId) {
+    worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
+    geometrySubscriber = new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
+    refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
 
-    if (!SETTINGS.isLeft()) {
-        std::cout << "rotating message" << std::endl;
-        roboteam_utils::rotate(&world);
+    // set up advertisement to publish robotcommands and settings
+    if (teamId == 1) {
+        feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
+        robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
+        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
+    } else {
+        feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
+        robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
+        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
     }
-
-    this->worldMsg = world;
-    world::world->updateWorld(field, this->worldMsg);
-
-    world_new::World::instance()->updateWorld(world);
 }
 
-void IOManager::handleGeometry(proto::SSL_GeometryData &sslData) {
-    std::lock_guard<std::mutex> lock(geometryMutex);
+//////////////////////
+/// PROTO HANDLERS ///
+//////////////////////
+void IOManager::handleWorldState(proto::World &world) {
+    std::lock_guard<std::mutex> lock(worldStateMutex);
+    this->worldMsg = world;
+}
 
-    // protobuf objects are not very long-lasting so convert it into an object which we can store way longer in field
-    field = Field(sslData.field());
-    this->geometryMsg = sslData;
-    hasReceivedGeom = true;
+void IOManager::handleGeometry(proto::SSL_GeometryData &geometryData) {
+    std::lock_guard<std::mutex> lock(geometryMutex);
+    this->geometryMsg = geometryData;
 }
 
 void IOManager::handleReferee(proto::SSL_Referee &refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
-
-    if (interface::Output::usesRefereeCommands()) {
-        // Rotate the data from the referee (designated position, e.g. for ballplacement)
-        if (!SETTINGS.isLeft()) {
-            roboteam_utils::rotate(&refData);
-        }
-
-        this->refDataMsg = refData;
-
-        // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
-        std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-        if (refData.yellow().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(true);
-        } else if (refData.blue().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(false);
-        }
-
-        if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
-            SETTINGS.setLeft(false);
-        } else {
-            SETTINGS.setLeft(true);
-        }
-
-        GameStateManager::setRefereeData(refData);
-    }
+    this->refDataMsg = refData;
 }
 
-const Field &IOManager::getField() {
-    std::lock_guard<std::mutex> lock(geometryMutex);
-    return field;
+void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
+    feedbackMap.insert({feedback.id(), feedback});
 }
 
 const proto::World &IOManager::getWorldState() {
@@ -164,45 +139,9 @@ const proto::DemoRobot &IOManager::getDemoInfo() {
     return this->demoInfoMsg;
 }
 
-void IOManager::init() {
-    worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
-    geometrySubscriber = new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
-    refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
-
-    // set up advertisement to publish robotcommands and settings
-    if (SETTINGS.getId() == 1) {
-        feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
-        robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
-        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
-    } else {
-        feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
-        robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
-        settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
-    }
-}
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
-    if (Constants::FEEDBACK_ENABLED()) {
-        std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-        this->robotFeedbackMsg = feedback;
 
-        auto robot = world::world->getRobotForId(feedback.id());
-
-        if (robot) {
-            // indicate that now is last time the robot has received feedback
-            robot->UpdateFeedbackReceivedTime();
-
-            // override properties:
-            robot->setWorkingGeneva(feedback.genevaisworking());
-            robot->setHasWorkingBallSensor(feedback.ballsensorisworking());
-            robot->setBatteryLow(feedback.batterylow());
-            // robot->setGenevaStateFromFeedback(feedback.genevastate());
-        }
-
-        world_new::World::instance()->updateFeedback(feedback.id(), feedback);
-    }
-}
 
 }  // namespace rtt::ai::io

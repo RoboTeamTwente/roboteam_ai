@@ -8,6 +8,7 @@
 #include <roboteam_utils/Line.h>
 #include <utilities/RobotDealer.h>
 #include <utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "analysis/GameAnalyzer.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
@@ -25,8 +26,8 @@ Visualizer::Visualizer(QWidget *parent) : QWidget(parent) {}
 void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
 
-    const Field &field = io::io.getField();
-    if (rtt::ai::world::world->weHaveRobots()) {
+    if (rtt::ai::world::world->weHaveRobots() && io::io.hasReceivedGeom) {
+        const Field &field = world_new::World::instance()->getField().value();
         calculateFieldSizeFactor(field);
         drawBackground(painter);
         drawFieldHints(field, painter);

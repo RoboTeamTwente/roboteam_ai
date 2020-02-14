@@ -85,16 +85,24 @@ class World {
     void updateWorld(proto::World &protoWorld);
 
     /**
+    * Updates the currentField
+    * @param field Field to construct currentField from
+    */
+    void updateField(proto::SSL_GeometryFieldSize &protoField);
+
+    /**
      * Gets the current world
      * @return std::nullopt if there is no currentWorld, otherwise Some with the value
      */
     [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
 
-    /**
-     * Gets a certain world from history
-     * @param ticksAgo Ticks ago to fetch from
-     * @return Returns the world at index currentIndex - ticksAgo
-     */
+    [[nodiscard]] std::optional<ai::world::Field> getField() const noexcept;
+
+      /**
+       * Gets a certain world from history
+       * @param ticksAgo Ticks ago to fetch from
+       * @return Returns the world at index currentIndex - ticksAgo
+       */
     [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) const noexcept;
 
     /**
@@ -183,6 +191,9 @@ class World {
      * Some if a world is valid
      */
     std::optional<WorldData> currentWorld;
+
+
+    std::optional<ai::world::Field> currentField;
 
     /**
      * Timestamp of the last tick

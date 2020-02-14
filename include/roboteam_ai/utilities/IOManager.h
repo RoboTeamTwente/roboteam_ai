@@ -27,13 +27,13 @@ using namespace rtt::ai::world;
 
 class IOManager {
    private:
-    Field field;
-
     proto::World worldMsg;
     proto::SSL_GeometryData geometryMsg;
     proto::RobotFeedback robotFeedbackMsg;
     proto::SSL_Referee refDataMsg;
     proto::DemoRobot demoInfoMsg;
+
+    std::unordered_map<int, proto::RobotFeedback> feedbackMap;
 
     proto::Subscriber<proto::World> *worldSubscriber;
     void handleWorldState(proto::World &world);
@@ -56,8 +56,7 @@ class IOManager {
     explicit IOManager() = default;
     void publishRobotCommand(proto::RobotCommand cmd);
     void publishSettings(proto::Setting setting);
-    void init();
-    const Field &getField();
+    void init(int teamId);
     const proto::World &getWorldState();
     const proto::SSL_GeometryData &getGeometryData();
     const proto::RobotFeedback &getRobotFeedback();

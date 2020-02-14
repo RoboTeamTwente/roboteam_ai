@@ -24,7 +24,7 @@ class GameAnalyzer {
 
     static GameAnalyzer &getInstance();
 
-    void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
+    void start(world::Field const & field, int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
     void stop();
 
     std::shared_ptr<AnalysisReport> getMostRecentReport();
@@ -42,7 +42,7 @@ class GameAnalyzer {
     std::mutex mutex;
     volatile bool running;
     volatile bool stopping;
-    void loop(unsigned delayMillis);
+    void loop(world::Field const & field, unsigned delayMillis);
 
     std::shared_ptr<AnalysisReport> mostRecentReport;
 

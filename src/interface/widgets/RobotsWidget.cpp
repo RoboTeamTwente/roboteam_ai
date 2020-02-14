@@ -7,6 +7,7 @@
 #include <QScrollArea>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
 #include "roboteam_proto/WorldRobot.pb.h"
@@ -27,7 +28,7 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void RobotsWidget::updateContents(Visualizer *visualizer) {
-    auto const &field = io::io.getField();
+    auto const &field = world_new::World::instance()->getField().value();
     auto us = rtt::ai::world::world->getUs();
 
     // reload the widgets completely if a robot is added or removed
