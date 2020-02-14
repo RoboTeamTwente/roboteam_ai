@@ -37,7 +37,7 @@ void setDarkTheme() {
     qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     rtt::ai::Constants::init();
 
     // get the id of the ai from the init

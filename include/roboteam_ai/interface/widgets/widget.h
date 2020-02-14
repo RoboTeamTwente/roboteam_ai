@@ -15,7 +15,6 @@
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include <world/Field.h>
-#include <world/Robot.h>
 #include <include/roboteam_ai/world_new/World.hpp>
 
 namespace rtt::ai::interface {
@@ -25,9 +24,7 @@ class Visualizer : public QWidget {
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
 
    public:
-    using Robot = rtt::ai::world::Robot;
-    using RobotPtr = std::shared_ptr<Robot>;
-    explicit Visualizer(const rtt::world_new::World& worldManager, QWidget *parent = nullptr);
+    explicit Visualizer(const rtt::world_new::World &worldManager, QWidget *parent = nullptr);
     const std::unordered_map<int, rtt::world_new::view::RobotView> &getSelectedRobots() const;
     bool robotIsSelected(rtt::world_new::view::RobotView robot);
     bool robotIsSelected(int id);
@@ -49,7 +46,7 @@ class Visualizer : public QWidget {
     void mousePressEvent(QMouseEvent *event) override;
 
    private:
-    const rtt::world_new::World& worldManager;
+    const rtt::world_new::World &worldManager;
     float factor{};
     int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
     void drawBackground(QPainter &painter);
@@ -83,7 +80,6 @@ class Visualizer : public QWidget {
                           QColor>> tacticColors;  // map colors to tactic to visualize which robots work together
     int tacticCount = 0;                          // increases when a new tactic is used
 
-//    std::vector<Robot> selectedRobots;
     std::unordered_map<int, rtt::world_new::view::RobotView> selectedRobots;
 
     // toggles
