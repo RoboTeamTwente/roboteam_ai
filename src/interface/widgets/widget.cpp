@@ -344,20 +344,20 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     }
 
     // Todo : Get working stuff in RobotView
-    //    if (showRobotInvalids && ourTeam) {
-    //        painter.setPen(Qt::red);
-    //        std::string text;
-    //        if (!robot.hasWorkingDribbler()) {
-    //            text += "DR ";
-    //        }
-    //        if (!robot.hasWorkingBallSensor()) {
-    //            text += "BS ";
-    //        }
-    //        if (robot.isBatteryLow()) {
-    //            text += "BATTERY LOW";
-    //        }
-    //        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
-    //    }
+    if (showRobotInvalids && ourTeam) {
+        painter.setPen(Qt::red);
+        std::string text;
+        if (!robot->isWorkingDribbler()) {
+            text += "DR ";
+        }
+        if (!robot->isWorkingBallSensor()) {
+            text += "BS ";
+        }
+        if (robot->isBatteryLow()) {
+            text += "BATTERY LOW";
+        }
+        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+    }
 
     // Todo : Get working feedback in RobotView
     //    if (ourTeam) {
