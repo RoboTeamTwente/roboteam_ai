@@ -8,16 +8,16 @@
 #include "roboteam_utils/Vector2.h"
 #include "utilities/Constants.h"
 
-namespace rtt::ai::control{
+namespace rtt::ai::control {
 
 class PositionControlUtils {
-private:
+   private:
     static constexpr double MAX_TARGET_DEVIATION = 0.3;
 
     // minimum distance needed to consider the current target reached
     static constexpr double MIN_DISTANCE_TARGET_REACHED = 2 * Constants::ROBOT_RADIUS();
 
-public:
+   public:
     /**
      * If the distance between the old target and the new target > MAX_TARGET_DEVIATION
      * @param targetPos
@@ -39,9 +39,8 @@ public:
      * @param path the vector of path points
      * @param currentPosition the current position of the robot
      */
-    static void removeFirstIfReached(std::vector<Vector2>& path, const Vector2& currentPosition);
+    static void removeFirstIfReached(std::vector<Vector2> &path, const Vector2 &currentPosition);
 };
-}
+}  // namespace rtt::ai::control
 
-
-#endif //RTT_POSITIONCONTROLUTILS_H
+#endif  // RTT_POSITIONCONTROLUTILS_H

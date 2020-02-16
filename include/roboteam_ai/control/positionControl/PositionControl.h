@@ -5,12 +5,12 @@
 #ifndef RTT_POSITIONCONTROL_H
 #define RTT_POSITIONCONTROL_H
 
+#include "CollisionDetector.h"
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
-#include "CollisionDetector.h"
-#include "world_new/views/RobotView.hpp"
 #include "control/positionControl/pathTracking/NumTreesTracking.h"
+#include "world_new/views/RobotView.hpp"
 
 namespace rtt::ai::control {
 
@@ -19,14 +19,14 @@ namespace rtt::ai::control {
  * requirements.
  */
 class PositionControl {
-private:
+   private:
     CollisionDetector collisionDetector;
     NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
     NumTreesTracking pathTrackingAlgorithm;
 
     std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
-public:
+   public:
     /**
      * Generates a path according to the selected planning algorithm,
      * and tracks it using the selected tracking algorithm. In the case a collision
@@ -38,14 +38,13 @@ public:
      * @param targetPosition the desired position that the robot has to reach
      * @return a RobotCommand, which can be fed directly in the output
      */
-    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition,
-                                     const Vector2 &currentVelocity, const Vector2 &targetPosition);
+    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, const Vector2 &targetPosition);
 
     /**
      * Updates the robot view vector
      * @param robots the RobotView vector of robots
      */
-    void setRobotVector(const std::vector<world_new::view::RobotView>& robots);
+    void setRobotVector(const std::vector<world_new::view::RobotView> &robots);
 
     /**
      * The computed path should be recalculated if: <br>
@@ -59,5 +58,5 @@ public:
     bool shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId);
 };
 
-}
-#endif //RTT_POSITIONCONTROL_H
+}  // namespace rtt::ai::control
+#endif  // RTT_POSITIONCONTROL_H

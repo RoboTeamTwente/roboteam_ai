@@ -86,7 +86,7 @@ uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 
 robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
 
-ai::control::PositionControl* World::getRobotPositionController() noexcept {
+ai::control::PositionControl *World::getRobotPositionController() noexcept {
     positionControl.setRobotVector(getWorld()->getRobotsNonOwning());
     return &positionControl;
 }

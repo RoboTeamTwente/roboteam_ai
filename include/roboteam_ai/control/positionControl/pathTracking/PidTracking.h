@@ -5,30 +5,30 @@
 #ifndef RTT_PIDTRACKING_H
 #define RTT_PIDTRACKING_H
 
-#include "roboteam_utils/Position.h"
-#include "utilities/Constants.h"
-#include "roboteam_utils/Vector2.h"
-#include "interface/api/Output.h"
-#include "roboteam_utils/pid.h"
 #include "control/positionControl/PositionControlUtils.h"
+#include "interface/api/Output.h"
+#include "roboteam_utils/Position.h"
+#include "roboteam_utils/Vector2.h"
+#include "roboteam_utils/pid.h"
+#include "utilities/Constants.h"
 
-namespace rtt::ai::control{
+namespace rtt::ai::control {
 
 /**
  * Path tracking algorithm. See method computePath for details.
  */
 class PidTracking {
-private:
+   private:
     static constexpr double MAX_VELOCITY = Constants::MAX_VEL();
 
     // the PID controllers on the two axes
-    PID xPid = PID(0,0,0,0);
-    PID yPid = PID(0,0,0,0);
+    PID xPid = PID(0, 0, 0, 0);
+    PID yPid = PID(0, 0, 0, 0);
 
     // updates the PID parameters from the UI
     void updatePidValuesFromInterface();
 
-public:
+   public:
     /**
      * The constructor only initializes the maximum velocity to the PID clamping.
      */
@@ -47,6 +47,6 @@ public:
      */
     Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints);
 };
-} //namespace
+}  // namespace rtt::ai::control
 
-#endif //RTT_PIDTRACKING_H
+#endif  // RTT_PIDTRACKING_H
