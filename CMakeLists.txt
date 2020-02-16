@@ -94,6 +94,7 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
         )
 
 set(UTILS_SOURCES
@@ -164,6 +165,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/StopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
+        )
+
+set(NEW_SKILLS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -241,6 +246,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
 
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         )
 
 set(INTERFACE_SOURCES
@@ -316,6 +322,7 @@ set(AI_SOURCES
         ${BT_SOURCES}
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
+        ${NEW_SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
