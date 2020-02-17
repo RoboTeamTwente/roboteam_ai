@@ -9,8 +9,7 @@
 #include "JoystickState.h"
 #include "roboteam_proto/RobotCommand.pb.h"
 
-namespace rtt {
-namespace input {
+namespace rtt::input {
 
 class JoystickHandler {
    private:
@@ -18,6 +17,7 @@ class JoystickHandler {
     JoystickState joystickState;
     float robotAngle = 0.0;
     int robotId = -1;
+    int dribbler_vel = 0;
 
    public:
     JoystickHandler();
@@ -31,12 +31,12 @@ class JoystickHandler {
     void updateOrientation();
     void doKick();
     void doChip();
+    void tuneDribbler();
     void toggleDribbler();
     void changeRobotID();
     JoystickState getJoystickState();
 };
 
-}  // namespace input
-}  // namespace rtt
+}  // namespace rtt::input
 
 #endif  // RTT_JOYSTICKHANDLER_H
