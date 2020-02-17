@@ -95,7 +95,7 @@ void JoystickHandler::toggleDribbler() {
         if (0 < command.dribbler()) {
             command.set_dribbler(0);
         } else {
-            command.set_dribbler(22);
+            command.set_dribbler(10);
         }
     }
 }
@@ -196,7 +196,20 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
             break;
     }
 }
-
+void JoystickHandler::tuneDribbler() {
+    notPressedL = true;
+    notPressedR = true;
+    if (joystickState.triggerLeft > 32766 && notPressedL){
+        dribbler_vel -= 1;
+        command.set_dribbler(dribbler_vel);
+        notPressedL = false;
+    }
+    if(joystickState.triggerRight > 32766 && notPressedR){
+        dribbler_vel += 1;
+        command.set_dribbler(dribbler_vel);
+        notPressedR = false;
+    }
+}
 proto::RobotCommand JoystickHandler::getCommand() { return command; }
 JoystickState JoystickHandler::getJoystickState() { return joystickState; }
 

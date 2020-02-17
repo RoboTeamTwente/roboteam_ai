@@ -16,8 +16,11 @@ class JoystickHandler {
    private:
     proto::RobotCommand command;
     JoystickState joystickState;
+    bool notPressedL = true;
+    bool notPressedR = true;
     float robotAngle = 0.0;
     int robotId = -1;
+    int dribbler_vel = 10;
 
    public:
     JoystickHandler();
@@ -31,6 +34,7 @@ class JoystickHandler {
     void updateOrientation();
     void doKick();
     void doChip();
+    void tuneDribbler();
     void toggleDribbler();
     void changeRobotID();
     JoystickState getJoystickState();
