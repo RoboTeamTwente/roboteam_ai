@@ -35,7 +35,7 @@ void IOManager::handleWorldState(proto::World &world) {
     std::lock_guard<std::mutex> lock(worldStateMutex);
 
     if (!SETTINGS.isLeft()) {
-        std::cout << "rotating message" << std::endl;
+        //        std::cout << "rotating message" << std::endl;
         roboteam_utils::rotate(&world);
     }
 

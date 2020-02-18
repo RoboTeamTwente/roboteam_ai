@@ -31,7 +31,7 @@ void PlayChecker::determineNewPlays(rtt::ai::world::World *world, const rtt::ai:
 
 bool PlayChecker::update(rtt::ai::world::World *world, const rtt::ai::world::Field &field) {
     if (checkCurrentGameInvariants(world, field)) {
-        std::cout << "current play is still valid" << std::endl;
+        //        std::cout << "current play is still valid" << std::endl;
         return true;
     }
     // Otherwise we select new plays for the playdecider by updating the validPlays vector of this object. This can then be accessed by the playdecider.
