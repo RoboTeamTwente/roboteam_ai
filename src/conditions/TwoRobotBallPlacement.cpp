@@ -9,6 +9,7 @@
 #include <utilities/RobotDealer.h>
 #include <world/Ball.h>
 #include <world/World.h>
+#include <world_new/views/WorldDataView.hpp>
 
 namespace rtt::ai {
 
@@ -16,7 +17,7 @@ TwoRobotBallPlacement::TwoRobotBallPlacement(std::string name, bt::Blackboard::P
 
 bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     Vector2 ballPlacementPos = coach::g_ballPlacement.getBallPlacementPos();
-    auto us = world->getUs();
+    std::vector<rtt::world_new::view::RobotView> us = world->getUs();
 
     int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
     bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
