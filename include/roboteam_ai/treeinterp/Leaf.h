@@ -19,15 +19,14 @@ class Leaf : public Node {
      * @param properties : Blackboard properties
      * @return an (empty) optional pointer to a RobotView
      */
-    std::optional<rtt::world_new::view::RobotView> getRobotFromProperties(bt::Blackboard::Ptr properties);
+    std::optional<rtt::world_new::view::RobotView> getRobotFromProperties(const bt::Blackboard::Ptr& properties);
 
     /** Resets the robotId back to -1
      * @param status : Status with which it terminates
      */
     void terminate(Status status) override;
 
-    /** Sets the robot using robotId
-     */
+    /** Sets the robot using robotId */
     void updateRobot();
 
     std::optional<rtt::world_new::view::RobotView> robot;

@@ -11,24 +11,24 @@ Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name))
     setProperties(blackboard);
 }
 
-std::optional<rtt::world_new::view::RobotView> Leaf::getRobotFromProperties(bt::Blackboard::Ptr properties) {
-    if (properties->hasString("ROLE")) {
-        std::string roleName = properties->getString("ROLE");
-        robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
-        std::optional<rtt::world_new::view::RobotView> robot = world->getRobotForId(robotId, true);
-
-        if(robotId == -1)
-            std::cout << "[Leaf::getRobotFromProperties] Warning! Getting robot for id = -1 !" << std::endl;
-        if(!robot.has_value())
-            std::cerr << "[Leaf::getRobotFromProperties]" << node_name().c_str()
-                      << " Initialize -> robot " << robotId << " does not exist in world" << std::endl;
-        return robot;
-
-    } else {
+std::optional<rtt::world_new::view::RobotView> Leaf::getRobotFromProperties(const bt::Blackboard::Ptr& properties) {
+    // If the robot does not have an assigned role, don't return a robot
+    if (!properties->hasString("ROLE")) {
         std::cerr << "[Leaf::getRobotFromProperties]" << node_name().c_str()
                   << "Initialize -> robot " << robotId << " -> ROLE WAITING!!" << std::endl;
+        return std::nullopt;
     }
-    return std::nullopt;
+
+    // Get the robot based on its role
+    std::string roleName = properties->getString("ROLE");
+    robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
+    std::optional<rtt::world_new::view::RobotView> bot = world->getRobotForId(robotId, true);
+
+    // If no robot with the role has been found in the world, something is going wrong
+    if(!bot.has_value())
+        std::cerr << "[Leaf::getRobotFromProperties]" << node_name().c_str()
+                  << " Initialize -> robot " << robotId << " does not exist in world" << std::endl;
+    return bot;
 }
 
 void Leaf::updateRobot() {
