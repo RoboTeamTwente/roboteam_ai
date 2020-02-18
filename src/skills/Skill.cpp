@@ -59,7 +59,7 @@ Skill::Status Skill::update() {
     if (!robot.has_value())
         return Status::Failure;
 
-    // Wait if the ball isn't present
+    // Wait if the ball isn't present (Emiel : Why? What if it is a driving skill)
     if (!ball.has_value())
         return Status::Waiting;
 
