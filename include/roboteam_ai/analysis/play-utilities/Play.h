@@ -8,6 +8,7 @@
 #include <vector>
 #include "bt/BehaviorTree.h"
 #include "functional"
+#include "world/World.h"
 
 namespace rtt::ai::analysis {
 using namespace rtt::ai::world;
