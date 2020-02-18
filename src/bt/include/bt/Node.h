@@ -8,9 +8,13 @@
 
 // fwd declare
 namespace rtt::ai::world {
-class World;
+//class World;
 class Field;
 }  // namespace rtt::ai::world
+
+namespace rtt::world_new::view {
+class WoldDataView;
+}
 
 namespace bt {
 using namespace rtt::ai::world;
@@ -48,7 +52,7 @@ class Node {
 
     virtual std::vector<Node::Ptr> getChildren();
 
-    virtual Status tick(rtt::ai::world::World *world, const Field *field);
+    virtual Status tick(rtt::world_new::view::WoldDataView* world, const Field *field);
 
     bool IsSuccess() const;
 
@@ -72,7 +76,7 @@ class Node {
 
     void setProperties(bt::Blackboard::Ptr blackboard);
 
-    unsigned long long getAmountOfTicks() const;
+    [[nodiscard]] unsigned long long getAmountOfTicks() const;
 
     /**
      * recursively goes through all the children of the node and sets their blackboard property ROLE to roleName,
@@ -87,7 +91,7 @@ class Node {
 
     unsigned long long amountOfTicks = 0;  // ticks can increase fast
 
-    World *world = nullptr;
+    rtt::world_new::view::WoldDataView* world = nullptr;
     const Field *field = nullptr;
 };
 
