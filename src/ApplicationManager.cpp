@@ -13,6 +13,7 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
+#include <world_new/World.hpp>
 #include <utilities/GameStateManager.hpp>
 #include "analysis/play-utilities/PlayChecker.h"
 #include "utilities/Constants.h"
@@ -103,22 +104,31 @@ void ApplicationManager::updateTrees() {
 
 /// Tick the keeper tree if both the tree and keeper exist
 void ApplicationManager::runKeeperTree() {
+    std::optional<rtt::world_new::view::WorldDataView> world = *rtt::world_new::World::instance()->getWorld();
     const Field &field = io::io.getField();
     keeperTree = BTFactory::getKeeperTree();
-    if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick(ai::world::world, &field);
+    if (world.has_value() && keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
+        keeperTree->tick(&(*world), &field);
     }
 }
 
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree() {
+
     const Field &field = io::io.getField();
     if (BTFactory::getCurrentTree() == "NaN") {
         std::cout << "NaN tree probably Halting" << std::endl;
         return Status::Waiting;
     }
+
+    std::optional<rtt::world_new::view::WorldDataView> world = *rtt::world_new::World::instance()->getWorld();
+    if(!world.has_value()){
+        std::cout << "[ApplicationManager::runStrategyTree] Tree ticked without having a world";
+        return Status::Waiting;
+    }
+
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(ai::world::world, &field);
+    Status status = strategy->tick(&(*world), &field);
     return status;
 }
 
