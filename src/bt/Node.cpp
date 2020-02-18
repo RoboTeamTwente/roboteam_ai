@@ -17,7 +17,7 @@ void Node::terminate(Status s) {
     }
 }
 
-Node::Status Node::tick(rtt::world_new::view::WoldDataView *world, const rtt::ai::world::Field *field) {
+Node::Status Node::tick(rtt::world_new::view::WorldDataView *world, const rtt::ai::world::Field *field) {
     this->world = world;
     this->field = field;
 
