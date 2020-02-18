@@ -14,6 +14,7 @@ class Condition : public bt::Leaf {
     explicit Condition(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
     std::string node_name() override;
+    /** Sets the ball. Sets the correct robot based on the blackboard. Calls onInitialize() */
     void initialize() override;
     Status update() override;
     void terminate(Status s) override;
