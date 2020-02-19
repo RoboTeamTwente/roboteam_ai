@@ -3,8 +3,6 @@
 #include <world/BallPossession.h>
 #include "analysis/RobotDanger.h"
 #include "world/FieldComputations.h"
-#include "world/Robot.h"
-#include "world/World.h"
 
 namespace rtt::ai::analysis {
 
