@@ -140,8 +140,9 @@ const proto::DemoRobot &IOManager::getDemoInfo() {
 }
 
 
-void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
-
+void IOManager::publishSettings(proto::Setting setting) {
+    settingsPublisher->send(setting); 
+}
 
 
 }  // namespace rtt::ai::io
