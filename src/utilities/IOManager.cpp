@@ -1,15 +1,11 @@
-#include <include/roboteam_ai/interface/api/Output.h>
 #include <utilities/IOManager.h>
 #include <utilities/Settings.h>
-#include "world_new/views/WorldDataView.hpp"
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
 #include "interface/api/Input.h"
-#include "utilities/GameStateManager.hpp"
 #include "utilities/Pause.h"
-#include "world/FieldComputations.h"
 #include "world/Robot.h"
 
 #include "roboteam_utils/normalize.h"

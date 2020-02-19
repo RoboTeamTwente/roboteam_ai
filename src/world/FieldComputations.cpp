@@ -7,6 +7,7 @@
 #include <interface/api/Input.h>
 #include "world/World.h"
 #include "world/WorldData.h"
+#include "world_new/views/RobotView.hpp"
 
 namespace rtt {
 namespace ai {
@@ -167,8 +168,8 @@ std::vector<Line> FieldComputations::mergeBlockades(std::vector<Line> blockades)
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data) {
-    auto blockades = getBlockadesMappedToGoal(field, ourGoal, point, data);
+std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point,  world_new::view::WorldDataView &world) {
+    auto blockades = getBlockadesMappedToGoal(field, ourGoal, point, world);
 
     auto sides = getGoalSides(field, ourGoal);
     auto lower = sides.start;

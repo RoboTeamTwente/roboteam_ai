@@ -3,6 +3,8 @@
 #include <world/BallPossession.h>
 #include "analysis/RobotDanger.h"
 #include "world/FieldComputations.h"
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/WorldDataView.hpp"
 
 namespace rtt::ai::analysis {
 
@@ -62,15 +64,15 @@ std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(v::RobotView
     for (auto ourRobot : ourRobots) {
         bool canPassToThisRobot = true;
         for (auto theirRobot : enemyRobots) {
-            auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->pos, Vector2(robot->getPos()), Vector2(ourRobot->getPos()));
+            auto distToLine = control::ControlUtils::distanceToLineWithEnds(theirRobot->getPos(), Vector2(robot->getPos()), Vector2(ourRobot->getPos()));
             if (distToLine < (Constants::ROBOT_RADIUS_MAX() + Constants::BALL_RADIUS())) {
                 canPassToThisRobot = false;
                 break;
             }
         }
         if (canPassToThisRobot) {
-            double distToRobot = (Vector2(ourRobot->pos) - Vector2(robot->pos)).length();
-            robotsToPassTo.emplace_back(std::make_pair(ourRobot->id, distToRobot));
+            double distToRobot = (Vector2(ourRobot->getPos()) - Vector2(robot->getPos())).length();
+            robotsToPassTo.emplace_back(std::make_pair(ourRobot->getId(), distToRobot));
         }
     }
     return robotsToPassTo;
@@ -89,11 +91,11 @@ double GameAnalyzer::shortestDistToEnemyRobot(v::RobotView robot, bool ourTeam, 
 }
 
 std::vector<std::pair<v::RobotView, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(const Field &field, bool ourTeam, v::WorldDataView world) {
-    auto robots = ourTeam ? world::world->getUs() : world::world->getThem();
+    auto robots = ourTeam ? world.getUs() : world.getThem();
     std::vector<std::pair<v::RobotView, RobotDanger>> robotDangers;
 
     for (auto robot : robots) {
-        robotDangers.emplace_back(robot, evaluateRobotDangerScore(field, robot, ourTeam));
+        robotDangers.emplace_back(robot, evaluateRobotDangerScore(field, robot, ourTeam, world));
     }
 
     std::sort(robotDangers.begin(), robotDangers.end(),

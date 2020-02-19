@@ -3,7 +3,6 @@
 //
 
 #include <ApplicationManager.h>
-#include <analysis/GameAnalyzer.h>
 #include <bt/Node.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>

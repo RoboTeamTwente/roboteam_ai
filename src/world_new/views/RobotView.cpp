@@ -7,6 +7,7 @@
 #include <include/roboteam_ai/utilities/Constants.h>
 
 #include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world_new/Robot.hpp>
 
 namespace rtt::world_new::view {
 RobotView::RobotView(const rtt::world_new::robot::Robot *const _ptr) noexcept : robotPtr{_ptr} {}

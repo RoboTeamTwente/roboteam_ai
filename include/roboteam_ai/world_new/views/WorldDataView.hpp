@@ -10,8 +10,8 @@
 #include "RobotView.hpp"
 #include "utilities/Constants.h"
 #include "world_new/Ball.hpp"
-#include "world_new/Robot.hpp"
 #include "world_new/Team.hpp"
+#include "world_new/Robot.hpp"
 
 namespace rtt::world_new {
 class WorldData;

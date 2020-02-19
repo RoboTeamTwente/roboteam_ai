@@ -7,19 +7,22 @@
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
-#include <include/roboteam_ai/world/Field.h>
+#include "world/Field.h"
 #include <roboteam_utils/Polygon.h>
 #include <cmath>
-#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 #include "mutex"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
+namespace rtt::world_new::view {
+class WorldDataView;
+}
+
 namespace rtt::ai {
-namespace world {
-class WorldData;
-}  // namespace world
+
 using namespace rtt::ai::world;
+
+
 
 class FieldComputations {
    public:
@@ -28,7 +31,7 @@ class FieldComputations {
     static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id = -1, bool ourTeam = false);
     static std::vector<Line> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id = -1, bool ourTeam = false);
     static std::vector<Line> mergeBlockades(std::vector<Line> blockades);
-    static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &world);
+    static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world);
     static Line getGoalSides(const Field &field, bool ourGoal);
     static double getDistanceToGoal(const Field &field, bool ourGoal, const Vector2 &point);
     static Vector2 getPenaltyPoint(const Field &field, bool ourGoal);
