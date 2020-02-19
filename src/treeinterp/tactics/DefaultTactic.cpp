@@ -123,10 +123,6 @@ void DefaultTactic::parseType(const std::string &typee) {
 }
 
 void DefaultTactic::updateStyle() {
-
-    // of course the whole idea of an analysis report is a waste of resources...
-    // here we only use ballpossesion
-
     analysis::BallPossession possession = analysis::GameAnalyzer::convertPossession(ballPossessionPtr->getPossession());
     analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
 

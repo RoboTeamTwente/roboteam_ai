@@ -1,7 +1,7 @@
 #include <include/roboteam_ai/interface/api/Output.h>
 #include <utilities/IOManager.h>
 #include <utilities/Settings.h>
-#include <include/roboteam_ai/world_new/World.hpp>
+#include "world_new/views/WorldDataView.hpp"
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"

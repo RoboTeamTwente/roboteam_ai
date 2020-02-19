@@ -15,7 +15,7 @@ class GameAnalyzer {
     static std::vector<std::pair<v::RobotView, RobotDanger>> getRobotsSortedOnDanger(const Field &field, bool ourTeam, v::WorldDataView world);
     static BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
     static double getTeamDistanceToGoalAvg(const Field &field, bool ourGoal, std::vector<v::RobotView> robots);
-    static RobotDanger evaluateRobotDangerScore(const Field &field, v::RobotView robot, bool ourTeam, , v::WorldDataView world);
+    static RobotDanger evaluateRobotDangerScore(const Field &field, v::RobotView robot, bool ourTeam, v::WorldDataView world);
     static std::vector<std::pair<int, double>> getRobotsToPassTo(v::RobotView robot, bool ourTeam, v::WorldDataView world);
     static double shortestDistToEnemyRobot(v::RobotView robot, bool ourTeam, v::WorldDataView world);
 };

@@ -6,7 +6,6 @@
 #define RTT_WORLD_DATA_VIEW_HPP
 
 #include <vector>
-
 #include "BallView.hpp"
 #include "RobotView.hpp"
 #include "utilities/Constants.h"
