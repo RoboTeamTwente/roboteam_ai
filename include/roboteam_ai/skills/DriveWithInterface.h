@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 #define ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 
-#include "control/positionControl/PositionControl.h"
 #include "Skill.h"
+#include "control/positionControl/PositionControl.h"
 
 namespace rtt::ai {
 
