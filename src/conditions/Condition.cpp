@@ -1,5 +1,4 @@
 #include "conditions/Condition.h"
-
 #include <world_new/World.hpp>
 
 namespace rtt::ai {

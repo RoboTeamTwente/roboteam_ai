@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_CONDITION_H
 #define ROBOTEAM_AI_CONDITION_H
 
-#include <world/FieldComputations.h>
+#include <world_new/FieldComputations.hpp>
 #include "treeinterp/Leaf.h"
 
 namespace rtt::ai {
