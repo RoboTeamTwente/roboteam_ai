@@ -1,24 +1,14 @@
-//
-// Created by mrlukasbos on 19-2-19.
-//
-
 #include "analysis/GameAnalyzer.h"
 #include <control/ControlUtils.h>
 #include <world/BallPossession.h>
 #include "analysis/RobotDanger.h"
-#include "utilities/IOManager.h"
 #include "world/FieldComputations.h"
 #include "world/Robot.h"
 #include "world/World.h"
 
 namespace rtt::ai::analysis {
 
-GameAnalyzer::GameAnalyzer() : running(false), stopping(false) {}
-
-GameAnalyzer &GameAnalyzer::getInstance() {
-    static GameAnalyzer instance;
-    return instance;
-}
+GameAnalyzer::GameAnalyzer() {}
 
 /// Generate a report with the game analysis
 std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow(const Field &field) {
@@ -31,12 +21,9 @@ std::shared_ptr<AnalysisReport> GameAnalyzer::generateReportNow(const Field &fie
         report->theirRobotSortedOnDanger = getRobotsSortedOnDanger(field, false);
         report->ourRobotsSortedOnDanger = getRobotsSortedOnDanger(field, true);
 
-        std::lock_guard<std::mutex> lock(mutex);
-        mostRecentReport = report;
         return report;
     }
     std::cout << "NOT A WORLD YET" << std::endl;
-    start(field, 30);
     return {};
 }
 
@@ -85,11 +72,6 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(const Field &field, RobotPtr 
     danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->id, ourTeam, goalCenter);
 
     return danger;
-}
-
-std::shared_ptr<AnalysisReport> GameAnalyzer::getMostRecentReport() {
-    std::lock_guard<std::mutex> lock(mutex);
-    return mostRecentReport;
 }
 
 /// Check with distanceToLineWithEnds if there are obstructions
@@ -143,39 +125,6 @@ bool GameAnalyzer::isClosingInToGoal(const Field &field, RobotPtr robot, bool ou
         }
     }
     return false;
-}
-
-void GameAnalyzer::start(world::Field const & field, int iterationsPerSecond) {
-    if (!running && world::world->weHaveRobots()) {
-        std::cout << "GameAnalyzer: "
-                  << "Starting at " << iterationsPerSecond << " iterations per second" << std::endl;
-        auto delay = (unsigned)(1000.0 / iterationsPerSecond);
-        thread = std::thread(&GameAnalyzer::loop, this, field, delay);
-        running = true;
-    }
-}
-
-// Stops the background worker thread.
-void GameAnalyzer::stop() {
-    stopping = true;
-    if (running || stopping) {
-        std::cout << "GameAnalyzer: "
-                  << "Stopping GameAnalyzer" << std::endl;
-        thread.join();
-        running = false;
-        stopping = false;
-    } else {
-        std::cout << "GameAnalyzer: "
-                  << "Could not stop since it was not running in the first place." << std::endl;
-    }
-}
-
-void GameAnalyzer::loop(world::Field const & field, unsigned delayMillis) {
-    std::chrono::milliseconds delay(delayMillis);
-    while (!stopping) {
-        generateReportNow(field);
-        std::this_thread::sleep_for(delay);
-    }
 }
 
 std::vector<std::pair<GameAnalyzer::RobotPtr, RobotDanger>> GameAnalyzer::getRobotsSortedOnDanger(const Field &field, bool ourTeam) {

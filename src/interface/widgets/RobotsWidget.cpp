@@ -86,18 +86,6 @@ QVBoxLayout *RobotsWidget::createRobotGroupItem(const Field &field, Robot robot)
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
 
-    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    if (report) {
-        analysis::RobotDanger danger = report->getRobotDangerForId(robot.id, true);
-
-        auto dangerTotalLabel = new QLabel("danger total: " + QString::number(danger.getTotalDanger(field), 'g', 3));
-        dangerTotalLabel->setFixedWidth(250);
-        vbox->addWidget(dangerTotalLabel);
-
-        auto goalVisionLabel = new QLabel("goalvision: " + QString::number(danger.goalVisionPercentage, 'g', 3));
-        goalVisionLabel->setFixedWidth(250);
-        vbox->addWidget(goalVisionLabel);
-    }
 
     return vbox;
 }

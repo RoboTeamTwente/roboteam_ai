@@ -122,7 +122,9 @@ void DefaultTactic::parseType(const std::string &typee) {
 }
 
 void DefaultTactic::updateStyle() {
-    auto reportPtr = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
+    rtt::ai::analysis::GameAnalyzer analyzer;
+    auto reportPtr = analyzer.generateReportNow(*field);
+
     rtt::ai::analysis::PlayStyle style;
     if (reportPtr) {
         rtt::ai::analysis::AnalysisReport report = *reportPtr;

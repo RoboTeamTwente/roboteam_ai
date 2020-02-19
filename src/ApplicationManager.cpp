@@ -66,7 +66,6 @@ void ApplicationManager::runOneLoopCycle() {
         world_new::World::instance()->updateField(fieldMessage);
         auto field = world_new::World::instance()->getField().value();
 
-        ai::analysis::GameAnalyzer::getInstance().start(field);
         decidePlay(world, field);
         updateTrees();
         updateCoaches(field);
@@ -147,7 +146,6 @@ void ApplicationManager::checkForShutdown() {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
-    ai::analysis::GameAnalyzer::getInstance().stop();
 }
 
 // Robotdealer hack to prevent robots from staying 'free' during play
