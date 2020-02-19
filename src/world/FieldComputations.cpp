@@ -33,16 +33,16 @@ double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, co
 }
 
 /// id and ourteam are for a robot not to be taken into account.
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data, int id, bool ourTeam) {
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, data, id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world, id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data, int id, bool ourTeam) {
+std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -53,21 +53,21 @@ std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field
     std::vector<Line> blockades = {};
 
     // get all the robots
-    auto robots = data.us;
-    robots.insert(robots.begin(), data.them.begin(), data.them.end());
+    auto robots = world.getRobotsNonOwning();
     // all the obstacles should be robots
     for (auto const &robot : robots) {
-        if (robot->id == id && robot->team == (ourTeam ? Team::us : Team::them)) continue;
-        double lenToBot = (point - robot->pos).length();
+        if (robot->getId() == id && robot->getTeam() == (ourTeam ? world_new::Team::us : world_new::Team::them)) continue;
+        auto pos = robot.getPos();
+        double lenToBot = (point - pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot <= robotRadius;
-        bool isInPotentialBlockingZone = ourGoal ? robot->pos.x < point.x + robotRadius : robot->pos.x > point.x - robotRadius;
+        bool isInPotentialBlockingZone = ourGoal ? pos.x < point.x + robotRadius : pos.x > point.x - robotRadius;
         if (!isRobotItself && isInPotentialBlockingZone) {
             // get the left and right sides of the robot
             double theta = asin(robotRadius / lenToBot);
             double length = sqrt(lenToBot * lenToBot - robotRadius * robotRadius);
-            Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->pos) - point).angle() - theta);
-            Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->pos) - point).angle() + theta);
+            Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(pos) - point).angle() - theta);
+            Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(pos) - point).angle() + theta);
             // map points onto goal line
 
             // the forwardIntersection returns a double which is the scale of the vector projection

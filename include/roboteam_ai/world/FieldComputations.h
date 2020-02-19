@@ -10,6 +10,7 @@
 #include <include/roboteam_ai/world/Field.h>
 #include <roboteam_utils/Polygon.h>
 #include <cmath>
+#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 #include "mutex"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
@@ -24,8 +25,8 @@ class FieldComputations {
    public:
     static bool pointIsInDefenceArea(const Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0, bool includeOutsideField = false);
     static bool pointIsInField(const Field &field, const Vector2 &point, double margin = 0.0);  // TODO: Remove margin hack
-    static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &world, int id = -1, bool ourTeam = false);
-    static std::vector<Line> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &world, int id = -1, bool ourTeam = false);
+    static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id = -1, bool ourTeam = false);
+    static std::vector<Line> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id = -1, bool ourTeam = false);
     static std::vector<Line> mergeBlockades(std::vector<Line> blockades);
     static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &world);
     static Line getGoalSides(const Field &field, bool ourGoal);
