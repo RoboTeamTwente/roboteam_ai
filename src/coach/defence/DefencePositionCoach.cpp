@@ -3,6 +3,7 @@
 // Created by rolf on 18-2-19.
 //
 
+#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 #include "coach/defence/DefencePositionCoach.h"
 #include "control/ControlUtils.h"
 #include "utilities/RobotDealer.h"
@@ -16,8 +17,8 @@ using util = control::ControlUtils;
 
 DefencePositionCoach g_defensivePositionCoach;
 
-bool DefenderBot::validPosition(const world::WorldData &world) {
-    for (const auto &bot : world.us) {
+bool DefenderBot::validPosition(world_new::view::WorldDataView world) {
+    for (const auto &bot : world.getUs()) {
         if ((bot->pos - targetPos).length() < 2 * Constants::ROBOT_RADIUS()) {
             return false;
         }
@@ -107,17 +108,18 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Field &field, const V
     }
     return line;
 }
-world::WorldData DefencePositionCoach::removeBotFromWorld(world::WorldData world, int id, bool ourTeam) {
-    auto robots = ourTeam ? world.us : world.them;
+world_new::view::WorldDataView DefencePositionCoach::removeBotFromWorld(world_new::view::WorldDataView world, int id, bool ourTeam) {
+    auto robots = ourTeam ? world.getUs() : world.getThem();
     robots.erase(std::remove_if(robots.begin(), robots.end(), [id](world::Robot::RobotPtr robot) { return robot->id == id; }));
-    ourTeam ? world.us = robots : world.them = robots;
+    ourTeam ? world.us = robots : world.getThem() = robots;
     return world;
 }
-Vector2 DefencePositionCoach::getMostDangerousPos(const world::WorldData &world) {
-    if (world.ball->getVel().length() > 0.5) {
-        return world.ball->getPos() + world.ball->getVel() * 0.3;
+Vector2 DefencePositionCoach::getMostDangerousPos(world_new::view::WorldDataView world) {
+    auto ball = world.getBall().value();
+    if (ball->getVelocity().length() > 0.5) {
+        return ball->getPos() + ball->getVelocity() * 0.3;
     }
-    return world.ball->getPos();
+    return ball->getPos();
 }
 std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(const Field &field, const world::WorldData &world) {
     std::vector<std::pair<PossiblePass, double>> passWithScore;
@@ -178,7 +180,7 @@ DefenderBot DefencePositionCoach::createBlockPass(const Field &field, PossiblePa
     bot.orientation = pass.faceLine();
     return bot;
 }
-std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const Field &field, const PossiblePass &pass, const world::WorldData &world) {
+std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const Field &field, const PossiblePass &pass, world_new::view::WorldDataView world) {
     auto visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, pass.endPos, world);
     // get the largest segment
     std::sort(visibleParts.begin(), visibleParts.end(), [](const Line &a, const Line &b) { return abs(a.end.y - a.start.y) > abs(b.end.y - b.start.y); });
@@ -188,7 +190,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const Fiel
     return nullptr;
 }
 /// checks for a given pass in a simulatedWorld if we can block it's receiver shot to goal and returns a line on which to stand if this is the case
-std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const Field &field, const PossiblePass &pass, const world::WorldData &world) {
+std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const Field &field, const PossiblePass &pass, world_new::view::WorldDataView world) {
     // get the blockLine segment from the ending position of the pass
     auto visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, pass.endPos, world);
     // get the largest segment (sort by size)
@@ -201,8 +203,8 @@ std::shared_ptr<Line> DefencePositionCoach::blockToGoalLine(const Field &field, 
 }
 
 /// searches the most dangerous position and then gets the segment which blocks that (if it exists/is possible)
-std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const Field &field, const world::WorldData &world) {
-    if (world.ball) {
+std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const Field &field, world_new::view::WorldDataView world) {
+    if (world.getBall().has_value()) {
         Vector2 mostDangerousPos = getMostDangerousPos(world);
         if (FieldComputations::pointIsInField(field, mostDangerousPos, -0.1)) {
             return getBlockLineSegment(field, FieldComputations::getGoalSides(field, true), mostDangerousPos);
@@ -235,7 +237,7 @@ Vector2 DefencePositionCoach::findPositionForBlockBall(const Field &field, const
 }
 double DefencePositionCoach::maxX(const Field &field) { return field.getFieldLength() / 10.0 * -1.0; }
 
-world::WorldData DefencePositionCoach::getTheirAttackers(const Field &field, const world::WorldData &world) {
+world::WorldData DefencePositionCoach::getTheirAttackers(const Field &field, world_new::view::WorldDataView world) {
     std::vector<world::Robot::RobotPtr> theirAttackers;
     for (auto &robot : world.them) {
         // we remove any attackers that are outside of the field or in our defence area
@@ -247,19 +249,19 @@ world::WorldData DefencePositionCoach::getTheirAttackers(const Field &field, con
     newWorld.them = theirAttackers;
     return newWorld;
 }
-bool DefencePositionCoach::validNewPosition(const Field &field, const Vector2 &position, const world::WorldData &world) {
+bool DefencePositionCoach::validNewPosition(const Field &field, const Vector2 &position, world_new::view::WorldDataView world) {
     if (position.x > maxX(field)) {
         return false;
     }
     double collisionRadius = calculationCollisionRad;  // a little smaller than 2 robot radii so that we can make solid walls still
-    for (const auto &robot : world.us) {
+    for (const auto &robot : world.getUs()) {
         if ((robot->pos - position).length() < collisionRadius) {
             return false;
         }
     }
     return true;
 }
-std::shared_ptr<double> DefencePositionCoach::pickNewPosition(const Field &field, const Line &line, const world::WorldData &world) {
+std::shared_ptr<double> DefencePositionCoach::pickNewPosition(const Field &field, const Line &line, world_new::view::WorldDataView world) {
     // search a position on the line on which we can position.
     for (int aggresionFactor = 0; aggresionFactor <= searchPoints; ++aggresionFactor) {
         if (validNewPosition(field, getPosOnLine(line, aggresionFactor / searchPoints), world)) {
@@ -271,7 +273,7 @@ std::shared_ptr<double> DefencePositionCoach::pickNewPosition(const Field &field
     return nullptr;
 }
 
-std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(const Field &field, PossiblePass pass, const world::WorldData &world) {
+std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(const Field &field, PossiblePass pass, world_new::view::WorldDataView world) {
     std::shared_ptr<Vector2> point = nullptr;
     double segments = 30.0;
     // we pick new points on which we can defend preferably as close as possible to the middle of the pass.
@@ -288,8 +290,8 @@ std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(const Field &fiel
     return nullptr;
 }
 
-world::WorldData DefencePositionCoach::setupSimulatedWorld(const Field &field) {
-    world::WorldData sWorld = world::world->getWorld();
+world_new::view::WorldDataView DefencePositionCoach::setupSimulatedWorld(const Field &field) {
+    auto sWorld = world::
     sWorld.us.clear();
     sWorld = getTheirAttackers(field, sWorld);  // we select only the relevant robots
     return sWorld;

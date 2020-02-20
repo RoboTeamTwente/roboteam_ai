@@ -33,7 +33,7 @@ class DefencePositionCoach {
    public:
     double maxX(const Field &field);  // furthest point forwards the availableIDs can go
 
-    Vector2 getMostDangerousPos(const world::WorldData &world);
+    Vector2 getMostDangerousPos(world_new::view::WorldDataView world);
 
     DefenderBot createBlockBall(const Field &field, const Line &blockLine);
     DefenderBot createBlockToGoal(const Field &field, const PossiblePass &pass, double aggressionFactor, const Line &blockLine);
@@ -41,9 +41,9 @@ class DefencePositionCoach {
     DefenderBot createBlockPass(const Field &field, PossiblePass &pass, const Vector2 &blockPoint);
     DefenderBot createBlockOnLine(const Field &field, const PossiblePass &pass, const Vector2 &blockPos);
 
-    std::shared_ptr<Line> blockToGoalLine(const Field &field, const PossiblePass &pass, const world::WorldData &simulatedWorld);
-    std::shared_ptr<Line> blockBallLine(const Field &field, const world::WorldData &simulatedWorld);
-    std::shared_ptr<Vector2> blockOnDefenseAreaLine(const Field &field, const PossiblePass &pass, const world::WorldData &simulatedWorld);
+    std::shared_ptr<Line> blockToGoalLine(const Field &field, const PossiblePass &pass, world_new::view::WorldDataView world);
+    std::shared_ptr<Line> blockBallLine(const Field &field, world_new::view::WorldDataView world);
+    std::shared_ptr<Vector2> blockOnDefenseAreaLine(const Field &field, const PossiblePass &pass,world_new::view::WorldDataView world);
     std::shared_ptr<Line> getBlockLineSegment(const Field &field, const Line &openGoalSegment, const Vector2 &point,
                                               double collisionRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS(), double margin = -1.0);
     std::shared_ptr<Vector2> blockOnDefenseLine(const Field &field, const Line &openGoalSegment, const Vector2 &point);
@@ -59,22 +59,21 @@ class DefencePositionCoach {
    private:
     const double defenceLineMargin = 0.15;        // min distance the points are from defence area. Should atleast be robotradius large.
     const double calculationCollisionRad = 0.15;  // distance at which our own robots are considered to be colliding in our calculation (prevents robots from stacking up too much)
-
+    world_new::view::WorldDataView simulatedWorld;
     const double searchPoints = 31.0;  // amount of points we search for when we check if we can find points on a line
-    world::WorldData simulatedWorld;
     std::vector<DefenderBot> defenders;
 
-    std::vector<PossiblePass> createPassesSortedByDanger(const Field &field, const world::WorldData &world);
+    std::vector<PossiblePass> createPassesSortedByDanger(const Field &field, world_new::view::WorldDataView world);
     std::vector<PossiblePass> sortPassesByDanger(std::vector<std::pair<PossiblePass, double>> &passesWithDanger);
-    std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const Field &field, const world::WorldData &world);
-    world::WorldData removeBotFromWorld(world::WorldData world, int id, bool ourTeam);
-    world::WorldData getTheirAttackers(const Field &field, const world::WorldData &world);
+    std::vector<std::pair<PossiblePass, double>> createPassesAndDanger(const Field &field, world_new::view::WorldDataView world);
+    world_new::view::WorldDataView removeBotFromWorld(world_new::view::WorldDataView world, int id, bool ourTeam);
+    world_new::view::WorldDataView getTheirAttackers(const Field &field, world_new::view::WorldDataView world);
 
-    bool validNewPosition(const Field &field, const Vector2 &position, const world::WorldData &world);
-    std::shared_ptr<double> pickNewPosition(const Field &field, const Line &line, const world::WorldData &world);
-    std::shared_ptr<Vector2> pickNewPosition(const Field &field, PossiblePass pass, const world::WorldData &world);
+    bool validNewPosition(const Field &field, const Vector2 &position, world_new::view::WorldDataView world);
+    std::shared_ptr<double> pickNewPosition(const Field &field, const Line &line, world_new::view::WorldDataView world);
+    std::shared_ptr<Vector2> pickNewPosition(const Field &field, PossiblePass pass, world_new::view::WorldDataView world);
 
-    world::WorldData setupSimulatedWorld(const Field &field);
+   world_new::view::WorldDataView setupSimulatedWorld(const Field &field);
     std::shared_ptr<DefenderBot> blockMostDangerousPos(const Field &field);
     std::shared_ptr<DefenderBot> blockPass(const Field &field, PossiblePass pass);
     void addDefender(DefenderBot defender);
