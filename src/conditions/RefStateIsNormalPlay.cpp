@@ -1,14 +1,10 @@
-//
-// Created by mrlukasbos on 2-5-19.
-//
+/*
+ * returns SUCCESS if the ref state is NormalPlay. Otherwise FAILURE.
+ */
 
 #include "conditions/RefStateIsNormalPlay.h"
-
-#include <interface/api/Input.h>
 #include <interface/api/Output.h>
-
 #include <utilities/GameStateManager.hpp>
-
 #include "utilities/Constants.h"
 
 namespace rtt::ai {
