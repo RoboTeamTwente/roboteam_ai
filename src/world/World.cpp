@@ -17,14 +17,12 @@ void World::updateWorld(const Field &field, const proto::World &message) {
 
         // create a worldData if there is none
         if (!worldDataPtr) {
-            std::cout << "[World::updateWorld] Creating first world" << std::endl;
             auto worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
 
         // copy the ball
         if (worldDataPtr->ball) {
-            std::cout << "[World::updateWorld] Adding ball" << std::endl;
             oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
         }
     }
