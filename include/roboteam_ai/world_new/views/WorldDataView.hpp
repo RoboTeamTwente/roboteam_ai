@@ -188,7 +188,7 @@ class WorldDataView {
      * @param team Team enum of team to fetch from
      * @return A non-owning view of the robot that has the ball
      */
-    [[nodiscard]] RobotView whichRobotHasBall(Team team = both);
+    [[nodiscard]] std::optional<RobotView> whichRobotHasBall(Team team = both, double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE());
 
    private:
     /**
