@@ -20,8 +20,8 @@
 namespace rtt::ai {
 
     NewSkill::NewSkill(std::string name, bt::Blackboard::Ptr blackboard) : bt::Leaf(std::move(name), std::move(blackboard)) {
-        robot = std::make_shared<Robot>(Robot());
-        ball = std::make_shared<Ball>(Ball());
+        robot = std::make_shared<Robot>();
+        ball = std::make_shared<Ball>();
     }
 
     void NewSkill::publishRobotCommand() {
@@ -47,18 +47,27 @@ namespace rtt::ai {
     std::string NewSkill::node_name() { return name; }
 
     NewSkill::Status NewSkill::update() {
-        std::string roleName = properties->getString("ROLE");
-        robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
+        robotId = -15;// TODO: after the tactic is implemented, needs to be some way the skill figures out which id to send to. Should be known by the tactic
         updateRobot();
-        ball = world::world->getBall();  // update ball position
-        if (!robot || robot->id == -1) return Status::Failure;
-        if (!ball) return Status::Waiting;
+        ball = world->getBall();  // update ball position
+        if (!robot){
+            std::cerr << "The robot is not initialized" << std::endl;
+            return Status::Failure;
+        }
+        if (robot->id == -1) {
+            std::cerr << "The robot id is" << robot->id << std::endl;
+            return Status::Failure;
+        }
+        if (!ball) {
+            return Status::Waiting;
+        }
         return onUpdate();
     }
 
     void NewSkill::initialize() {
-        robot = getRobotFromProperties(properties);
-        ball = world::world->getBall();
+        // TODO: be able to get robot from dealer
+        // robot = dealer.distributions.at(role).robot;
+        ball = world->getBall();
         if (!robot || robot->id == -1) return;
         if (!ball) return;
         refreshRobotCommand();

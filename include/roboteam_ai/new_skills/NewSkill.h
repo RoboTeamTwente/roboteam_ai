@@ -43,7 +43,8 @@ class NewSkill : public bt::Leaf {
 
    protected:
     /**
-     * Gives the robotcommand to the global instance of IO, which then publishes the command
+     * Gives the robotcommand to the global instance of IO, which then publishes the command. After this function is
+     * called, the internal RobotCommand "command" is also reset by refreshRobotCommand()
      */
     void publishRobotCommand();
     /**
