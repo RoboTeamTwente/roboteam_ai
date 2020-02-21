@@ -130,7 +130,6 @@ namespace rtt::ai {
     }
 
     void NewSkill::onInitialize() {
-
     }
 
 }  // namespace rtt::ai
