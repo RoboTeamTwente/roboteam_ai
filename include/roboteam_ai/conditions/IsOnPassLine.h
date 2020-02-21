@@ -2,7 +2,6 @@
 // Created by robzelluf on 4/25/19.
 //
 
-#include <coach/PassCoach.h>
 #include "Condition.h"
 
 #ifndef ROBOTEAM_AI_ISPASSHAPPENING_H
