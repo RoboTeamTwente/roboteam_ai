@@ -13,6 +13,13 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
+    // If there is a ball in the protobuf message, add it to the world
+    if (protoMsg.has_ball()) {
+        ball = ball::Ball{protoMsg.ball()};
+    } else {
+        ball = std::nullopt;
+    }
+
     /*
      * Reserve the us and them vectors, making sure they are not being resized (which will invalidate the references)
      */
@@ -23,21 +30,16 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     them.reserve(amountThem);
 
     for (auto &each : ours) {
-        auto _ptr = &robots.emplace_back(feedback, each, Team::us);
+        auto _ptr = &robots.emplace_back(feedback, each, Team::us, getBall());
         us.emplace_back(_ptr);
         robotsNonOwning.emplace_back(_ptr);
     }
     for (auto &each : others) {
-        auto _ptr = &robots.emplace_back(feedback, each, Team::them);
+        auto _ptr = &robots.emplace_back(feedback, each, Team::them, getBall());
         them.emplace_back(_ptr);
         robotsNonOwning.emplace_back(_ptr);
     }
 
-    if (protoMsg.has_ball()) {
-        ball = ball::Ball{protoMsg.ball()};
-    } else {
-        ball = std::nullopt;
-    }
 }
 
 std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return us; }
