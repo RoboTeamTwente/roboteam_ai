@@ -5,10 +5,7 @@
  */
 
 #include "conditions/TwoRobotBallPlacement.h"
-
 #include <utilities/RobotDealer.h>
-#include <world/Ball.h>
-#include <world/World.h>
 #include <world_new/views/WorldDataView.hpp>
 
 namespace rtt::ai {
@@ -22,7 +19,7 @@ bt::Node::Status TwoRobotBallPlacement::onUpdate() {
     int minimumRequiredRobotsInField = robotDealer::RobotDealer::keeperExistsInWorld() ? 3 : 2;
     bool weHaveEnoughRobots = us.size() >= minimumRequiredRobotsInField;
     // TODO: THIS REMOVES TWOROBOTBALLPLACEMENT (15.1)
-    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->getPos()) < 15.1;
+    bool ballIsCloseToBallPlacementPos = ballPlacementPos.dist(ball->get()->getPos()) < 15.1;
 
     if (!weHaveEnoughRobots || ballIsCloseToBallPlacementPos) {
         return Status::Failure;
