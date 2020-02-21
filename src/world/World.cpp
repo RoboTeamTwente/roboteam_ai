@@ -17,13 +17,14 @@ void World::updateWorld(const Field &field, const proto::World &message) {
 
         // create a worldData if there is none
         if (!worldDataPtr) {
-            std::cout << "Creating first world" << std::endl;
+            std::cout << "[World::updateWorld] Creating first world" << std::endl;
             auto worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
 
         // copy the ball
         if (worldDataPtr->ball) {
+            std::cout << "[World::updateWorld] Adding ball" << std::endl;
             oldBall = std::make_shared<Ball>(*worldDataPtr->ball);
         }
     }
@@ -59,7 +60,7 @@ void World::updateWorld(const Field &field, const proto::World &message) {
         history->addWorld(worldDataCopyForHistory);
     }
 
-    ballPossessionPtr->update(field);
+//    ballPossessionPtr->update(field);
 }
 
 void World::updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg, std::vector<RobotPtr> &robots, const BallPtr &ball,
@@ -258,6 +259,7 @@ const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
         if (robot->hasBall()) {
             if (robot->getDistanceToBall() < bestDistance) {
                 bestRobot = robot;
+                bestDistance = robot->getDistanceToBall();
             }
         }
     }
