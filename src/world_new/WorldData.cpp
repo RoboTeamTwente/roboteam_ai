@@ -39,7 +39,6 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
         them.emplace_back(_ptr);
         robotsNonOwning.emplace_back(_ptr);
     }
-
 }
 
 std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return us; }

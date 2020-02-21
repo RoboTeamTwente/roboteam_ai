@@ -11,9 +11,7 @@
 
 namespace rtt::world_new::ball {
 
-Ball::Ball(const proto::WorldBall &copy) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} {
-    initializeCalculations();
-}
+Ball::Ball(const proto::WorldBall &copy) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} { initializeCalculations(); }
 
 const Vector2 &Ball::getPos() const noexcept { return position; }
 

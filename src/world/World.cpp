@@ -60,7 +60,7 @@ void World::updateWorld(const Field &field, const proto::World &message) {
         history->addWorld(worldDataCopyForHistory);
     }
 
-//    ballPossessionPtr->update(field);
+    ballPossessionPtr->update(field);
 }
 
 void World::updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg, std::vector<RobotPtr> &robots, const BallPtr &ball,

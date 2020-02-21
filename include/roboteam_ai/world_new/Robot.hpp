@@ -13,8 +13,8 @@
 #include "control/shot-controllers/ShotController.h"
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Angle.h"
-#include "world_new/views/BallView.hpp"
 #include "world_new/Team.hpp"
+#include "world_new/views/BallView.hpp"
 
 namespace rtt::world_new::robot {
 
@@ -141,8 +141,7 @@ class Robot {
 
    public:
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
-                   std::optional<rtt::world_new::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0,
-                   unsigned long worldNumber = 0);
+                   std::optional<rtt::world_new::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
     Robot &operator=(Robot &) = delete;
 

@@ -8,13 +8,10 @@
 #include <include/roboteam_ai/world_new/World.hpp>
 
 TEST(World_newTest, WhichRobotHasBallTest) {
-
     // set us to yellow
     rtt::SETTINGS.setYellow(true);
 
     auto worldInstance = rtt::world_new::World::instance();
-
-
 
     google::protobuf::RepeatedPtrField<proto::WorldRobot> robotsYellow;
     google::protobuf::RepeatedPtrField<proto::WorldRobot> robotsBlue;
@@ -58,7 +55,6 @@ TEST(World_newTest, WhichRobotHasBallTest) {
     std::optional<rtt::world_new::view::RobotView> robot = world->whichRobotHasBall(rtt::world_new::Team::us);
     EXPECT_TRUE(!robot.has_value());
 
-
     /** Test 2 : Two yellow robots (1 & 2), two blue robots (3 & 4), one ball **/
     proto::World msgBall;
     msgBall.mutable_yellow()->CopyFrom(robotsYellow);
@@ -82,6 +78,4 @@ TEST(World_newTest, WhichRobotHasBallTest) {
     /** Test 2.4 : both, all out of range */
     robot = world->whichRobotHasBall(rtt::world_new::Team::both, 0.001);
     EXPECT_FALSE(robot.has_value());
-
-
 }
