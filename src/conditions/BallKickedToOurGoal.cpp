@@ -2,7 +2,8 @@
  * returns SUCCESS if the ball is kicked to the goal. Otherwise FAILURE.
  */
 #include "conditions/BallKickedToOurGoal.h"
-#include "control/ControlUtils.h"
+
+#include "control/NewControlUtils.h"
 
 namespace rtt::ai {
 
@@ -28,7 +29,7 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
 
     // Check if the extension of the velocity vector goes through the goal.
     // The line drawn for the ball is the predicted position in 1.5 seconds
-    if (control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos)) {
+    if (control::NewControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos)) {
         return Status::Success;
     }
 
