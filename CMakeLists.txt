@@ -359,26 +359,3 @@ target_include_directories(roboteam_ai ${AI_INCLUDES})
 add_executable(ai_tests ${AI_SOURCES} ${TEST_SOURCES})
 target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB})
 target_include_directories(ai_tests ${AI_INCLUDES})
-
-# Refactor NumTrees Executable
-set(REFACTOR_AI_SOURCES
-        ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${ANALYSIS_SOURCES}
-        ${SKILLS_SOURCES}
-        ${NEW_SKILLS_SOURCES}
-        ${CONDITIONS_SOURCES}
-        ${CONTROL_SOURCES}
-        ${TACTIC_SOURCES}
-        ${COACH_SOURCES}
-        ${INTERFACE_SOURCES}
-        ${WORLD_SOURCES}
-        ${MANUAL_SOURCES}
-        ${PROJECT_SOURCE_DIR}/refactor/FieldHelper.h
-        ${PROJECT_SOURCE_DIR}/refactor/FieldHelper.cpp
-        )
-
-add_executable(numTreesRefactor refactor/main.cpp ${REFACTOR_AI_SOURCES})
-target_link_libraries(numTreesRefactor ${AI_LIBS})
-target_include_directories(numTreesRefactor ${AI_INCLUDES})
