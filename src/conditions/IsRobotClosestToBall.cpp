@@ -7,10 +7,6 @@
 
 #include "conditions/IsRobotClosestToBall.h"
 
-#include "world/Ball.h"
-#include "world/Robot.h"
-#include "world/World.h"
-
 namespace rtt::ai {
 
 IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
@@ -18,16 +14,16 @@ IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
     Vector2 ballPos;
     if (properties->getBool("atBallStillPosition")) {
-        ballPos = ball->getExpectedBallEndPosition();
+        ballPos = ball->get()->getExpectedEndPosition();
     } else if (properties->hasDouble("secondsAhead")) {
         double t = properties->getDouble("secondsAhead");
-        ballPos = ball->getPos() + ball->getVel() * t;
+        ballPos = ball->get()->getPos() + ball->get()->getVelocity() * t;
     } else {
-        ballPos = ball->getPos();
+        ballPos = ball->get()->getPos();
     }
 
-    auto robotClosestToBall = world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
-    if (robotClosestToBall && robotClosestToBall->id == robot->id) {
+    auto robotClosestToBall = world->getRobotClosestToPoint(ballPos, rtt::world_new::us);
+    if (robotClosestToBall && robotClosestToBall->getId() == robot->get()->getId()) {
         return Status::Success;
     }
 
