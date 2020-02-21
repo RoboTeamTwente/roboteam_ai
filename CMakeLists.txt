@@ -169,6 +169,8 @@ set(SKILLS_SOURCES
 
 set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/new_skills/NewSkill.cpp
+
         )
 
 set(CONDITIONS_SOURCES
