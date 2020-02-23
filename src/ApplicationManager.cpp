@@ -10,6 +10,7 @@
 #include <world/World.h>
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
+#include "roboteam_utils/normalize.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -53,7 +54,14 @@ void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
+
+        if (!SETTINGS.isLeft()) {
+            roboteam_utils::rotate(&fieldMessage);
+            roboteam_utils::rotate(&worldMessage);
+        }
+
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
+
 
         if (!world->getUs().empty()) {
             std::cout << "cycle" << std::endl;
