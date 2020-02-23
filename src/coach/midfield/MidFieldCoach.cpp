@@ -3,10 +3,8 @@
 //
 
 #include "coach/midfield/MidFieldCoach.h"
-#include <world/WorldData.h>
 #include <include/roboteam_ai/world_new/World.hpp>
 #include "world/Ball.h"
-#include "world/Robot.h"
 
 namespace rtt::ai::coach {
 

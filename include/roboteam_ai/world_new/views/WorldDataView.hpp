@@ -68,7 +68,7 @@ class WorldDataView {
      */
     [[nodiscard]] std::vector<view::RobotView> const &getThem() const noexcept;
 
-    /**
+  /**
      * Gets all the robots in the owning container
      * @return data->getRobots();
      */
