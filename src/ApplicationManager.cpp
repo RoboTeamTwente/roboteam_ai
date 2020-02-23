@@ -50,27 +50,31 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
 
-
-    if (weHaveRobots && io::io.hasReceivedGeom) {
-
+    if (io::io.hasReceivedGeom) {
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
-
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
-        world_new::World::instance()->updateWorld(worldMessage);
-        world_new::World::instance()->updateField(fieldMessage);
-        auto field = world_new::World::instance()->getField().value();
 
-        decidePlay(world, field);
-        updateTrees();
-        updateCoaches(field);
-        runKeeperTree(field);
-        Status status = runStrategyTree(field);
-        this->notifyTreeStatus(status);
+        if (!world->getUs().empty()) {
+            std::cout << "cycle" << std::endl;
+
+            world_new::World::instance()->updateWorld(worldMessage);
+            world_new::World::instance()->updateField(fieldMessage);
+            auto field = world_new::World::instance()->getField().value();
+
+            decidePlay(world, field);
+            updateTrees();
+            updateCoaches(field);
+            runKeeperTree(field);
+            Status status = runStrategyTree(field);
+            this->notifyTreeStatus(status);
+        } else {
+            std::cout << "[ApplicationManager::runOneLoopCycle] No robots from our team in world yet" << std::endl;
+            std::this_thread::sleep_for(std::chrono::microseconds(100000));
+        }
     } else {
-        std::this_thread::sleep_for(std::chrono::microseconds(100000));
+        std::cout << "[ApplicationManager::runOneLoopCycle] No field yet" << std::endl;
     }
-    weHaveRobots = ai::world::world->weHaveRobots();
     /*
      * This is a hack performed at the robocup.
      * It does a soft refresh when robots are not properly claimed by robotdealer.

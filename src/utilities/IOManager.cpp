@@ -48,6 +48,7 @@ void IOManager::handleWorldState(proto::World &world) {
 void IOManager::handleGeometry(proto::SSL_GeometryData &geometryData) {
     std::lock_guard<std::mutex> lock(geometryMutex);
     this->geometryMsg = geometryData;
+    hasReceivedGeom = true;
 }
 
 void IOManager::handleReferee(proto::SSL_Referee &refData) {
