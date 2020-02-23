@@ -62,9 +62,7 @@ void ApplicationManager::runOneLoopCycle() {
 
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
-
         if (!world->getUs().empty()) {
-            std::cout << "cycle" << std::endl;
 
             world_new::World::instance()->updateWorld(worldMessage);
             world_new::World::instance()->updateField(fieldMessage);

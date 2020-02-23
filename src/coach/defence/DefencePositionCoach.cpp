@@ -2,7 +2,6 @@
 #include "world_new/World.hpp"
 #include "coach/defence/DefencePositionCoach.h"
 #include "control/ControlUtils.h"
-#include "utilities/RobotDealer.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
 
@@ -122,6 +121,7 @@ void DefencePositionCoach::removeBotFromWorld(int id, bool ourTeam) {
 }
 
 Vector2 DefencePositionCoach::getMostDangerousPos() {
+    if (!simulatedBall.has_value()) return {};
     if (simulatedBall.value()->getVelocity().length() > 0.5) {
         return simulatedBall.value()->getPos() + simulatedBall.value()->getVelocity() * 0.3;
     }
@@ -129,6 +129,8 @@ Vector2 DefencePositionCoach::getMostDangerousPos() {
 }
 
 std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(const Field &field) {
+    if (!simulatedBall.has_value()) return {};
+
     std::vector<std::pair<PossiblePass, double>> passWithScore;
     // check the passes from the robot towards every other bot and calculate their danger
     for (const auto &theirBot : simulatedRobotsThem) {
