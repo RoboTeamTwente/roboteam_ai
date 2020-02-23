@@ -1,5 +1,6 @@
 #include <utilities/IOManager.h>
 #include <utilities/Settings.h>
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
@@ -54,6 +55,24 @@ void IOManager::handleGeometry(proto::SSL_GeometryData &geometryData) {
 void IOManager::handleReferee(proto::SSL_Referee &refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
     this->refDataMsg = refData;
+
+    roboteam_utils::rotate(&refData);
+
+    // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
+    std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
+    if (refData.yellow().name() == ROBOTEAM_TWENTE) {
+        SETTINGS.setYellow(true);
+    } else if (refData.blue().name() == ROBOTEAM_TWENTE) {
+        SETTINGS.setYellow(false);
+    }
+
+    if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
+        SETTINGS.setLeft(false);
+    } else {
+        SETTINGS.setLeft(true);
+    }
+    ai::GameStateManager::setRefereeData(refData);
+
 }
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {

@@ -54,28 +54,13 @@ void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
-        auto refMessage = io::io.getRefereeData();
-h
+
         if (!SETTINGS.isLeft()) {
          //   roboteam_utils::rotate(&fieldMessage);
             roboteam_utils::rotate(&worldMessage);
-            roboteam_utils::rotate(&refMessage);
         }
 
-        // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
-        std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-        if (refMessage.yellow().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(true);
-        } else if (refMessage.blue().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(false);
-        }
 
-        if (refMessage.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
-            SETTINGS.setLeft(false);
-        } else {
-            SETTINGS.setLeft(true);
-        }
-        ai::GameStateManager::setRefereeData(refMessage);
 
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
