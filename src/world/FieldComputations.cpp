@@ -8,6 +8,7 @@
 #include "world/World.h"
 #include "world/WorldData.h"
 #include "world_new/views/RobotView.hpp"
+#include "world_new/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {
@@ -37,7 +38,7 @@ double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, co
 double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world, id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
@@ -56,7 +57,7 @@ std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field
     // all the obstacles should be robots
     for (auto const &robot : robots) {
         if (robot->getId() == id && robot->getTeam() == (ourTeam ? world_new::Team::us : world_new::Team::them)) continue;
-        auto pos = robot.getPos();
+        auto pos = robot->getPos();
         double lenToBot = (point - pos).length();
         // discard already all robots that are not at all between the goal and point, or if a robot is standing on this point
         bool isRobotItself = lenToBot <= robotRadius;
@@ -306,7 +307,7 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoalByObstacles(const Fiel
  * This is the inverse of getting the blockades of a goal
  */
 std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
-    return this->getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getRobotsNonOwning());
+    return getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getRobotsNonOwning());
 }
 
 
