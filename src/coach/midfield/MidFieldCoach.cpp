@@ -4,6 +4,7 @@
 
 #include "coach/midfield/MidFieldCoach.h"
 #include <world/WorldData.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "world/Ball.h"
 #include "world/Robot.h"
 
@@ -213,7 +214,7 @@ MidFieldCoach::Target MidFieldCoach::getBall(RobotPtr &thisRobot, const RobotPtr
 }
 
 double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vector2 &position, const RobotPtr &thisRobot) {
-    WorldData world = world::world->getWorld();
+    auto world = world_new::World::instance()->getWorld().value();
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
     double distanceToUsScore = CoachHeuristics::calculateDistanceToClosestTeamMateScore(position, thisRobot->id);

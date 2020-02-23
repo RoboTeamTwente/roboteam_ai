@@ -10,20 +10,18 @@
 #include "world/Field.h"
 #include <roboteam_utils/Polygon.h>
 #include <cmath>
-#include <include/roboteam_ai/world_new/views/RobotView.hpp>
 #include "mutex"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
 namespace rtt::world_new::view {
 class WorldDataView;
+class RobotView;
 }
 
 namespace rtt::ai {
 
 using namespace rtt::ai::world;
-
-
 
 class FieldComputations {
    public:

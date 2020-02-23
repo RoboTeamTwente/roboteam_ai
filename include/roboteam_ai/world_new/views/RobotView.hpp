@@ -10,7 +10,7 @@
 #include <include/roboteam_ai/world_new/Robot.hpp>
 
 namespace rtt::world_new::robot {
-class RobotControllers;
+    class RobotControllers;
 }
 namespace rtt::world_new::view {
 

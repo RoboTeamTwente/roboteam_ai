@@ -35,7 +35,7 @@ void Visualizer::paintEvent(QPaintEvent *event) {
         return;
     }
 
-    const Field &field = io::io.getField();
+    auto field = worldManager.getField();
 
     calculateFieldSizeFactor(field);
     drawBackground(painter);
