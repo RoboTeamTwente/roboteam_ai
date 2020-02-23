@@ -43,7 +43,7 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
+std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, std::vector<world_new::view::RobotView> robots, int id, bool ourTeam) {
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
 
     Vector2 lowerGoalSide, upperGoalSide;
@@ -53,8 +53,6 @@ std::vector<Line> FieldComputations::getBlockadesMappedToGoal(const Field &field
 
     std::vector<Line> blockades = {};
 
-    // get all the robots
-    auto robots = world.getRobotsNonOwning();
     // all the obstacles should be robots
     for (auto const &robot : robots) {
         if (robot->getId() == id && robot->getTeam() == (ourTeam ? world_new::Team::us : world_new::Team::them)) continue;
@@ -164,43 +162,6 @@ std::vector<Line> FieldComputations::mergeBlockades(std::vector<Line> blockades)
     return blockades;
 }
 
-/*
- * Get the visible parts of a goal
- * This is the inverse of getting the blockades of a goal
- */
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point,  world_new::view::WorldDataView &world) {
-    auto blockades = getBlockadesMappedToGoal(field, ourGoal, point, world);
-
-    auto sides = getGoalSides(field, ourGoal);
-    auto lower = sides.start;
-    auto upper = sides.end;
-
-    auto lowerHook = lower;
-    std::vector<Line> visibleParts = {};
-
-    // we start from the lowerhook, which is the lowest goal side at the start.
-    // The obstacles are sorted on their smallest value.
-    // everytime we add a vector from the lowest goalside to the lowest part of the obstacle we remember the upper part of the obstacle
-    // That upper part is stored as the lowerhook again: and we can repeat the process
-    for (auto const &blockade : blockades) {
-        auto lowerbound = fmin(blockade.start.y, blockade.end.y);
-
-        // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
-        // originally used to be != but floating point errors are tears.
-        if (fabs(lowerbound - lowerHook.y) > 0.000001) {
-            visibleParts.emplace_back(Line(lowerHook, Vector2(blockade.start.x, lowerbound)));
-        }
-        auto upperbound = fmax(blockade.start.y, blockade.end.y);
-        lowerHook = Vector2(blockade.start.x, upperbound);
-    }
-
-    // if the last lowerhook is the same as the upper goal side then the visible part has a length of 0 and we don't care about it
-    if (lowerHook != upper) {
-        visibleParts.emplace_back(Line(lowerHook, upper));
-    }
-    return visibleParts;
-}
-
 // Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 Line FieldComputations::getGoalSides(const Field &field, bool ourGoal) {
     if (ourGoal) {
@@ -302,6 +263,52 @@ Polygon FieldComputations::getFieldEdge(const Field &field, double margin) {
 
     return Polygon(fieldEdge);
 }
+
+std::vector<Line> FieldComputations::getVisiblePartsOfGoalByObstacles(const Field &field,
+                                                           bool ourGoal,
+                                                           const Vector2 &point,
+                                                           const std::vector<world_new::view::RobotView>& robots) {
+    auto blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
+
+    auto sides = getGoalSides(field, ourGoal);
+    auto lower = sides.start;
+    auto upper = sides.end;
+
+    auto lowerHook = lower;
+    std::vector<Line> visibleParts = {};
+
+    // we start from the lowerhook, which is the lowest goal side at the start.
+    // The obstacles are sorted on their smallest value.
+    // everytime we add a vector from the lowest goalside to the lowest part of the obstacle we remember the upper part of the obstacle
+    // That upper part is stored as the lowerhook again: and we can repeat the process
+    for (auto const &blockade : blockades) {
+        auto lowerbound = fmin(blockade.start.y, blockade.end.y);
+
+        // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
+        // originally used to be != but floating point errors are tears.
+        if (fabs(lowerbound - lowerHook.y) > 0.000001) {
+            visibleParts.emplace_back(Line(lowerHook, Vector2(blockade.start.x, lowerbound)));
+        }
+        auto upperbound = fmax(blockade.start.y, blockade.end.y);
+        lowerHook = Vector2(blockade.start.x, upperbound);
+    }
+
+    // if the last lowerhook is the same as the upper goal side then the visible part has a length of 0 and we don't care about it
+    if (lowerHook != upper) {
+        visibleParts.emplace_back(Line(lowerHook, upper));
+    }
+    return visibleParts;
+}
+
+
+/*
+ * Get the visible parts of a goal
+ * This is the inverse of getting the blockades of a goal
+ */
+std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
+    return this->getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getRobotsNonOwning());
+}
+
 
 }  // namespace ai
 }  // namespace rtt

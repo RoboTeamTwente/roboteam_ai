@@ -56,6 +56,7 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
 }
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
+    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
     feedbackMap.insert({feedback.id(), feedback});
 }
 
@@ -67,11 +68,6 @@ const proto::World &IOManager::getWorldState() {
 const proto::SSL_GeometryData &IOManager::getGeometryData() {
     std::lock_guard<std::mutex> lock(geometryMutex);
     return this->geometryMsg;
-}
-
-const proto::RobotFeedback &IOManager::getRobotFeedback() {
-    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-    return this->robotFeedbackMsg;
 }
 
 const proto::SSL_Referee &IOManager::getRefereeData() {

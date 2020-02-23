@@ -1,7 +1,3 @@
-//
-// Created by mrlukasbos on 14-1-19.
-//
-
 #include <ApplicationManager.h>
 #include <bt/Node.h>
 #include <coach/GetBallCoach.h>
