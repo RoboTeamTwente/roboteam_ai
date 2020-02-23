@@ -122,10 +122,10 @@ void DefencePositionCoach::removeBotFromWorld(int id, bool ourTeam) {
 }
 
 Vector2 DefencePositionCoach::getMostDangerousPos() {
-    if (simulatedBall->getVelocity().length() > 0.5) {
-        return simulatedBall->getPos() + simulatedBall->getVelocity() * 0.3;
+    if (simulatedBall.value()->getVelocity().length() > 0.5) {
+        return simulatedBall.value()->getPos() + simulatedBall.value()->getVelocity() * 0.3;
     }
-    return simulatedBall->getPos();
+    return simulatedBall.value()->getPos();
 }
 
 std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesAndDanger(const Field &field) {
@@ -133,7 +133,7 @@ std::vector<std::pair<PossiblePass, double>> DefencePositionCoach::createPassesA
     // check the passes from the robot towards every other bot and calculate their danger
     for (const auto &theirBot : simulatedRobotsThem) {
         // TODO: perhaps ignore robots we have already covered here. The score should be gutted regardless.
-        PossiblePass pass(theirBot, simulatedBall->getPos());
+        PossiblePass pass(theirBot, simulatedBall.value()->getPos());
         double danger = pass.score(field, simulatedRobotsUs, simulatedRobotsThem);  // check how dangerous the pass is in our simulated world
         std::pair<PossiblePass, double> passPair = std::make_pair(pass, danger);
         passWithScore.push_back(passPair);
@@ -316,7 +316,7 @@ void DefencePositionCoach::setupSimulatedWorld(const Field &field) {
     auto us = world_new::World::instance()->getWorld()->getUs();
     auto them = world_new::World::instance()->getWorld()->getThem();
 
-    simulatedBall = world_new::World::instance()->getWorld()->getBall().value();
+    simulatedBall = world_new::World::instance()->getWorld()->getBall();
     simulatedRobotsUs = {};
     simulatedRobotsThem = getTheirAttackers(field, them);
 }

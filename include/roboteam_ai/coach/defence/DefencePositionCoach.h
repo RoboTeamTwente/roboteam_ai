@@ -27,10 +27,10 @@ struct DefenderBot {
     bool validPosition(std::vector<world_new::view::RobotView> us);
 };
 class DefencePositionCoach {
-    FRIEND_TEST(defensive_coach, blockPoints)
-  DefencePositionCoach();
+    FRIEND_TEST(defensive_coach, blockPoints);
 
-   public:
+ public:
+    DefencePositionCoach() = default;
     double maxX(const Field &field);  // furthest point forwards the availableIDs can go
 
     Vector2 getMostDangerousPos();
@@ -63,10 +63,8 @@ class DefencePositionCoach {
     // we keep simulated versions of the data in this coach
     std::vector<world_new::view::RobotView> simulatedRobotsUs;
     std::vector<world_new::view::RobotView> simulatedRobotsThem;
-    world_new::view::BallView simulatedBall;
+    std::optional<world_new::view::BallView> simulatedBall;
 
- public:
-  DefencePositionCoach();
  private:
   const double searchPoints = 31.0;  // amount of points we search for when we check if we can find points on a line
     std::vector<DefenderBot> defenders;
@@ -82,7 +80,8 @@ class DefencePositionCoach {
     std::shared_ptr<Vector2> pickNewPosition(const Field &field, PossiblePass pass);
 
    void setupSimulatedWorld(const Field &field);
-    std::shared_ptr<DefenderBot> blockMostDangerousPos(const Field &field);
+ private:
+  std::shared_ptr<DefenderBot> blockMostDangerousPos(const Field &field);
     std::shared_ptr<DefenderBot> blockPass(const Field &field, PossiblePass pass);
     void addDefender(DefenderBot defender);
     void assignIDs(int lockedCount, std::vector<int> freeRobotIDs, const std::vector<DefenderBot> &oldDefenders);
