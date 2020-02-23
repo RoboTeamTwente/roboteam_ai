@@ -65,13 +65,13 @@ void Field::initFieldVectors() {
     theirBottomGoalSide = theirGoalCenter.value() - goalWidthAdjust;
     theirTopGoalSide = theirGoalCenter.value() + goalWidthAdjust;
 
-    Vector2 lpl_begin = leftPenaltyLine.value().begin;
-    Vector2 lpl_end = leftPenaltyLine.value().end;
-    leftPenaltyPoint = lpl_begin + ((lpl_end - lpl_begin) * 0.5);
-
-    Vector2 rpl_begin = rightPenaltyLine.value().begin;
-    Vector2 rpl_end = rightPenaltyLine.value().end;
-    rightPenaltyPoint = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
+//    Vector2 lpl_begin = leftPenaltyLine.value().begin;
+//    Vector2 lpl_end = leftPenaltyLine.value().end;
+//    leftPenaltyPoint = lpl_begin + ((lpl_end - lpl_begin) * 0.5);
+//
+//    Vector2 rpl_begin = rightPenaltyLine.value().begin;
+//    Vector2 rpl_end = rightPenaltyLine.value().end;
+//    rightPenaltyPoint = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }

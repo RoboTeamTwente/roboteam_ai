@@ -113,6 +113,7 @@ void Ball::updateBallAtRobotPosition() noexcept {
     }
 
     auto world = World::instance()->getWorld();
+    if (!world.has_value()) return;
 
     auto robotWithBall = world->whichRobotHasBall();
     if (!robotWithBall) {

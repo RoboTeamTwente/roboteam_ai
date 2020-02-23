@@ -42,7 +42,7 @@ void IOManager::init(int teamId) {
 //////////////////////
 void IOManager::handleWorldState(proto::World &world) {
     std::lock_guard<std::mutex> lock(worldStateMutex);
-    this->worldMsg = world;
+    this->worldMsg.CopyFrom(world);
 }
 
 void IOManager::handleGeometry(proto::SSL_GeometryData &geometryData) {
@@ -63,17 +63,23 @@ void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
 
 const proto::World &IOManager::getWorldState() {
     std::lock_guard<std::mutex> lock(worldStateMutex);
-    return this->worldMsg;
+    auto msg = new proto::World();
+    msg->CopyFrom(this->worldMsg);
+    return *msg;
 }
 
 const proto::SSL_GeometryData &IOManager::getGeometryData() {
     std::lock_guard<std::mutex> lock(geometryMutex);
-    return this->geometryMsg;
+    auto msg = new proto::SSL_GeometryData();
+    msg->CopyFrom(this->geometryMsg);
+    return *msg;
 }
 
 const proto::SSL_Referee &IOManager::getRefereeData() {
     std::lock_guard<std::mutex> lock(refereeMutex);
-    return this->refDataMsg;
+    auto msg = new proto::SSL_Referee();
+    msg->CopyFrom(this->refDataMsg);
+    return *msg;
 }
 
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
