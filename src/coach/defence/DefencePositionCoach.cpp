@@ -42,7 +42,9 @@ Vector2 DefencePositionCoach::getPosOnLine(const Line &line, double aggressionFa
     return line.end + (line.start - line.end) * aggressionFactor;
 }
 // get the direction facing towards the end of the Line
-double DefencePositionCoach::getOrientation(const Line &line) { return (line.start - line.end).angle(); }
+double DefencePositionCoach::getOrientation(const Line &line) {
+    return (line.start - line.end).angle();
+}
 
 // computes a line segment on which the entirety of openGoalSegment is blocked as seen from point with robots with radius collissionRadius
 std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(const Field &field, const Line &openGoalSegment, const Vector2 &point, double collisionRadius, double margin) {
@@ -109,7 +111,6 @@ Line DefencePositionCoach::shortenLineForDefenseArea(const Field &field, const V
 }
 
 void DefencePositionCoach::removeBotFromWorld(int id, bool ourTeam) {
-
     if (ourTeam) {
         simulatedRobotsUs.erase(std::remove_if(simulatedRobotsUs.begin(),
                                                simulatedRobotsUs.end(),
@@ -235,6 +236,7 @@ std::shared_ptr<Line> DefencePositionCoach::blockBallLine(const Field &field) {
     if (FieldComputations::pointIsInField(field, mostDangerousPos, -0.1)) {
         return getBlockLineSegment(field, FieldComputations::getGoalSides(field, true), mostDangerousPos);
     }
+    return nullptr;
 }
 
 DefenderBot DefencePositionCoach::createBlockBall(const Field &field, const Line &blockLine) {
