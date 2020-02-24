@@ -32,7 +32,7 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
 
 bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId) {
     return computedPaths[robotId].empty() || PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
-           collisionDetector.isRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
+            collisionDetector.getRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
 }
 
 void PositionControl::setRobotVector(const std::vector<world_new::view::RobotView> &robots) { collisionDetector.setRobotVector(robots); }

@@ -1,52 +1,21 @@
 //
-// Created by ratoone on 09-12-19.
+// Created by ratoone on 20-02-20.
 //
 
 #ifndef RTT_NUMTREESPLANNING_H
 #define RTT_NUMTREESPLANNING_H
 
-#include <queue>
-#include <vector>
-#include "control/ControlUtils.h"
-#include "control/numtrees/PathPoint.h"
-#include "control/positionControl/CollisionDetector.h"
-#include "interface/api/Output.h"
-#include "roboteam_utils/Vector2.h"
-#include "utilities/Constants.h"
-#include "utilities/GameStateManager.hpp"
+#include <include/roboteam_ai/utilities/Constants.h>
+#include <include/roboteam_ai/control/positionControl/CollisionDetector.h>
 
-namespace rtt::ai::control {
-
-/**
- * Path planning algorithm. See method computePath for details.
- */
+namespace rtt::ai::control{
 class NumTreesPlanning {
-   private:
-    using PathPointer = std::shared_ptr<PathPoint>;
-
-    double DT = 0.1;
-    static constexpr double MAX_CALCULATION_TIME = 10.0;
-    static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 4 * Constants::ROBOT_RADIUS();
+private:
+    static constexpr double AVOIDANCE_DISTANCE = 4 * Constants::ROBOT_RADIUS();
+    static constexpr double TARGET_THRESHOLD = 0.1;
 
     CollisionDetector &collisionDetector;
-
-    /// calculate the remaining path length using straight lines from current position to a position halfway and from
-    /// halfway to the final position
-    double remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
-
-    /// backTracks the path from endPoint until it hits root and outputs in order from root->endPoint
-    std::vector<Vector2> backTrackPath(PathPointer point);
-
-    /// after a collision, get new half-way targets to try to go towards
-    std::pair<std::vector<Vector2>, PathPointer> getNewTargets(const PathPointer &collisionPoint);
-
-    /// generates the path between the two points
-    std::vector<Vector2> tracePath(const Vector2 &currentPosition, const Vector2 &targetPosition);
-
-    /// create a new pathPoint using a linear acceleration ODE
-    PathPointer computeNewPoint(const Vector2 &targetPosition, const PathPointer &oldPoint, const Vector2 &subTarget);
-
-   public:
+public:
     /**
      * The collision detector is provided by the position control. This class was intended
      * to be used only with the PositionControl
@@ -66,6 +35,6 @@ class NumTreesPlanning {
      */
     std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
 };
+}
 
-}  // namespace rtt::ai::control
-#endif  // RTT_NUMTREESPLANNING_H
+#endif //RTT_NUMTREESPLANNING_H

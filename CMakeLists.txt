@@ -212,6 +212,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BasicPathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/NumTreesTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
 
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
@@ -247,7 +248,7 @@ set(TEST_SOURCES
 
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
-        )
+        src/control/positionControl/PathPointNode.cpp include/roboteam_ai/control/positionControl/PathPointNode.h src/control/positionControl/pathPlanning/NumTreesPlanning.cpp include/roboteam_ai/control/positionControl/pathPlanning/NumTreesPlanning.h)
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp

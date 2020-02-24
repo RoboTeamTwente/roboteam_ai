@@ -39,7 +39,7 @@ class CollisionDetector {
      * @param currentRobotPosition the current robot position (should be ignored when checking)
      * @return
      */
-    bool isRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
+    std::optional<Vector2> getRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
 
     /**
      * Check if the point is inside the field

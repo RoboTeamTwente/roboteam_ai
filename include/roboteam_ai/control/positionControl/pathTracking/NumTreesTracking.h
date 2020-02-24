@@ -18,7 +18,7 @@ namespace rtt::ai::control {
  */
 class NumTreesTracking {
    private:
-    static constexpr unsigned long STEPS_AHEAD = 4;
+    static constexpr unsigned long STEPS_AHEAD = 1;
 
     PidTracking pidTracking;
 
