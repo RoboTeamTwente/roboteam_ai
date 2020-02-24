@@ -74,6 +74,16 @@ void Field::initFieldVectors() {
     Vector2 rpl_begin = rightPenaltyLine.value().begin;
     Vector2 rpl_end = rightPenaltyLine.value().end;
     rightPenaltyPoint = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
+
+    leftPenaltyLineBottom = leftPenaltyLine->begin;
+    leftPenaltyLineTop = leftPenaltyLine->end;
+    rightPenaltyLineBottom = rightPenaltyLine->begin;
+    rightPenaltyLineTop = rightPenaltyLine->end;
+
+    bottomLeftCorner = Vector2(leftmostX.value(), bottommostY.value());
+    topLeftCorner = Vector2(leftmostX.value(), topmostY.value());
+    bottomRightCorner = Vector2(rightmostX.value(), bottommostY.value());
+    topRightCorner = Vector2(rightmostX.value(), topmostY.value());
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
@@ -158,6 +168,14 @@ const Vector2 &Field::getRightPenaltyLineBottom() const { return getFieldVector(
 
 const FieldArc &Field::getCenterCircle() const { return getFieldArc(centerCircle); }
 
+const Vector2 &Field::getBottomLeftCorner() const { return getFieldVector(bottomLeftCorner); }
+
+const Vector2 &Field::getTopLeftCorner() const { return getFieldVector(topLeftCorner); }
+
+const Vector2 &Field::getBottomRightCorner() const { return getFieldVector(bottomRightCorner); }
+
+const Vector2 &Field::getTopRightCorner() const { return getFieldVector(topRightCorner); }
+
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
         return fieldValue.value();
@@ -209,5 +227,6 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
 }
 
 const std::vector<FieldLineSegment> &Field::getFieldLines() const { return allFieldLines; }
+
 
 }  // namespace rtt::ai::world

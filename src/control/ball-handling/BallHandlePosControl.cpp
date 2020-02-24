@@ -288,7 +288,7 @@ RobotCommand BallHandlePosControl::goBehindBall(const Vector2 &ballStillPosition
     Vector2 numTreesTarget = ballStillPosition;
     if (!FieldComputations::pointIsInField(*field, ballStillPosition, -Constants::ROBOT_RADIUS())) {
         LineSegment ballLine = LineSegment(ball->getPos(), ballStillPosition);
-        Polygon fieldEdge = FieldComputations::getFieldEdge(*field, Constants::ROBOT_RADIUS());
+        Polygon fieldEdge = FieldComputations::getFieldEdge(*field, -Constants::ROBOT_RADIUS());
 
         auto intersections = fieldEdge.intersections(ballLine);
         if (intersections.size() == 1) {
@@ -331,7 +331,7 @@ RobotCommand BallHandlePosControl::interceptMovingBallTowardsBall() {
 
     if (!FieldComputations::pointIsInField(*field, movingBallTowardsBallTarget, -Constants::ROBOT_RADIUS())) {
         LineSegment ballLine = LineSegment(ball->getPos(), movingBallTowardsBallTarget);
-        Polygon fieldEdge = FieldComputations::getFieldEdge(*field, Constants::ROBOT_RADIUS());
+        Polygon fieldEdge = FieldComputations::getFieldEdge(*field, -Constants::ROBOT_RADIUS());
 
         auto intersections = fieldEdge.intersections(ballLine);
         if (intersections.size() == 1) {

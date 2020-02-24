@@ -33,6 +33,20 @@ struct FieldArc {
  * - The location and sizes of all arcs on the field. <br>
  * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
  *
+ * Some invariants regarding to the field are:
+ * - The left side of the field always corresponds with our side of the field (where our goal is located) and the right side of the field always corresponds with the opponents side
+ * of the field (where the opponents goal is located). So our goal will always have the lowest x-coordinate and the opponents goal will always have the highest x-coordinate.
+ * - The center position of the field has (0, 0) as coordinate, which means that every location is indicated by the relative difference towards the center of the field. And that
+ * every position is mirrored with regard to the center position, e.g. the center of our goal has a coordinate of the form (-x, 0) and the center of the opponents goal has a
+ * coordinate of the form (x, 0). Another example is that the bottommost y-coordinate of the field is of the form -y where the topmost y-coordinate of the field is of the form y.
+ * - The left side of the field corresponds with the lowest x-coordinate (is a negative value), whereas the right side of the field corresponds with the highest y-coordinate (is a
+ * positive value). The bottom side of the field corresponds with the lowest y-coordinate (is a negative value), whereas the top side of the field corresponds to the highest
+ * y-coordinate (is a positive value).
+ * - Every horizontal line of the field stored as FieldLineSegment has their begin position equal to the leftmost position of that line (position with the lowest x-coordinate) and
+ * their end position equal to the rightmost position of that line (position with highest x-coordinate). Every vertical line of the field stored as FieldLineSegment has their begin
+ * position equal to the bottommost position of that line (position with the lowest y-coordinate) and ther end position equal to the topmost position of that line (position with
+ * the highest y-coordinate).
+ *
  * @author Created by: Lukas Bos <br>
  *         Documented and refactored by: Haico Dorenbos
  * @since 2019-08-30
@@ -84,7 +98,7 @@ class Field {
     };
 
    private:
-    std::vector<FieldLineSegment> allFieldLines;
+    std::vector<FieldLineSegment> allFieldLines; // Stores all field lines
 
     /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of
      * the field and the lower part of the field. */
@@ -107,16 +121,16 @@ class Field {
     // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
     std::optional<double> centerY;
 
-    // The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
+    // The leftmost x-coordinate of the field which is the lowest x-coordinate value (is a negative value) and is the x-coordinate closest to our goal.
     std::optional<double> leftmostX;
 
-    // The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
+    // The rightmost x-coordinate of the field which is the highest x-coordinate value (is a positive value) and is the x-coordinate closest to the opponents goal.
     std::optional<double> rightmostX;
 
-    // The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
+    // The bottommost y-coordinate of the field which is the lowest y-coordinate value (is a negative value) and is the y-coordinate corresponding to the bottom side of the field.
     std::optional<double> bottommostY;
 
-    // The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
+    // The uppermost y-coordinate of the field which is the highest y-coordinate value (is a positive value) and is the y-coordinate corresponding to the upper side of the field.
     std::optional<double> topmostY;
 
     // The x-coordinate of the left penalty line (the penalty line closest to our goal).
@@ -211,6 +225,22 @@ class Field {
     // The bottom position, point with the lowest y-coordinate, of the right penalty line (their penalty line).
     std::optional<Vector2> rightPenaltyLineBottom;
 
+    /* The bottom left corner of the field, which is the point on the field with the lowest x-coordinate (is a negative value) and lowest y-coordinate (is a negative value) and is
+     * located at our side of the field. */
+    std::optional<Vector2> bottomLeftCorner;
+
+    /* The top left corner of the field, which is the point on the field with the lowest x-coordinate (is a negative value) and highest y-coordinate (is a positive value) and is
+    located at our side of the field. */
+    std::optional<Vector2> topLeftCorner;
+
+    /* The bottom right corner of the field, which is the point on the field with the highest x-coordinate (is a positive value) and lowest y-coordinate (is a negative value) and
+     * is located at the opponents side of the field. */
+    std::optional<Vector2> bottomRightCorner;
+
+    /* The top right corner of the field, which is the point on the field with the highest x-coordinate (is a positive value) and highest y-coordinate (is a positive value) and is
+     * located at the opponents side of the field. */
+    std::optional<Vector2> topRightCorner;
+
     // The circle in the middle from which the ball will be kicked off
     std::optional<FieldArc> centerCircle;
 
@@ -265,6 +295,10 @@ class Field {
     const Vector2 &getLeftPenaltyLineBottom() const;
     const Vector2 &getRightPenaltyLineTop() const;
     const Vector2 &getRightPenaltyLineBottom() const;
+    const Vector2 &getBottomLeftCorner() const;
+    const Vector2 &getTopLeftCorner() const;
+    const Vector2 &getBottomRightCorner() const;
+    const Vector2 &getTopRightCorner() const;
     const FieldArc &getCenterCircle() const;
 
     /**
