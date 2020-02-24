@@ -17,7 +17,6 @@ void World::updateWorld(const Field &field, const proto::World &message) {
 
         // create a worldData if there is none
         if (!worldDataPtr) {
-            std::cout << "Creating first world" << std::endl;
             auto worldData = WorldData(message);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
@@ -258,6 +257,7 @@ const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
         if (robot->hasBall()) {
             if (robot->getDistanceToBall() < bestDistance) {
                 bestRobot = robot;
+                bestDistance = robot->getDistanceToBall();
             }
         }
     }
