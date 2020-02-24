@@ -8,6 +8,7 @@
 #include <include/roboteam_ai/utilities/Settings.h>
 
 #include <cmath>
+#include <include/roboteam_ai/world_new/views/RobotView.hpp>
 
 #include "control/ControlUtils.h"
 #include "utilities/Constants.h"
@@ -32,7 +33,7 @@ namespace rtt::ai {
         limitRobotCommand();
 
         if (command.id() == -1) {
-            std::cerr << "the command is trying to send a RobotCommand to id " << command.id() << std::endl;
+            std::cerr << "[NewSkill::publishRobotCommand] Trying to send a RobotCommand to id " << command.id() << std::endl;
             if (robot && robot->id != -1) {
                 command.set_id(robot->id);
                 io::io.publishRobotCommand(command);  // We default to our robots being on the left if parameter is not set
@@ -51,11 +52,11 @@ namespace rtt::ai {
         updateRobot();
         ball = world->getBall();  // update ball position
         if (!robot){
-            std::cerr << "The robot is not initialized" << std::endl;
+            std::cerr << "[NewSkill::update] The robot is not initialized" << std::endl;
             return Status::Failure;
         }
         if (robot->id == -1) {
-            std::cerr << "The robot id is" << robot->id << std::endl;
+            std::cerr << "[NewSkill::update] The robot id is" << robot->id << std::endl;
             return Status::Failure;
         }
         if (!ball) {
@@ -114,7 +115,7 @@ namespace rtt::ai {
         }
         robot->setPidPreviousVel(limitedVel);
         if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-            std::cout << "ERROR in NewSkill::limitRobotCommand() : The robot has a velocity of NaN: " << node_name().c_str() << "!"
+            std::cerr << "[NewSkill::publishRobotCommand] The robot has a velocity of NaN: " << node_name().c_str() << "!"
                       << "  robot  " << robot->id << std::endl;
             robot->setPidPreviousVel(robot->vel);
         }

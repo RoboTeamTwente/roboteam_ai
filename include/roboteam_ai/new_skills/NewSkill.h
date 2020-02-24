@@ -6,27 +6,12 @@
 #define RTT_NEWSKILL_H
 
 #include <include/roboteam_ai/treeinterp/Leaf.h>
-
-#ifndef ROBOTEAM_AI_SKILL_H
-#define ROBOTEAM_AI_SKILL_H
-
 #include <roboteam_utils/Angle.h>
 #include "include/roboteam_ai/utilities/IOManager.h"
 #include "roboteam_proto/RobotCommand.pb.h"
 #include "treeinterp/Leaf.h"
 
 namespace rtt::ai {
-
-// forward declare control Utils
-namespace control {
-class ControlUtils;
-}
-
-namespace world {
-class Robot;
-class Ball;
-class WorldData;
-}  // namespace world
 
 /**
  * \class Skill
@@ -71,7 +56,5 @@ class NewSkill : public bt::Leaf {
 };
 
 }  // namespace rtt::ai
-
-#endif  // ROBOTEAM_AI_SKILL_H
 
 #endif  // RTT_NEWSKILL_H
