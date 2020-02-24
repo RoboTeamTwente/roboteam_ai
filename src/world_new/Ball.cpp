@@ -115,12 +115,12 @@ void Ball::updateBallAtRobotPosition() noexcept {
     auto world = World::instance()->getWorld();
     if (!world.has_value()) return;
 
-    auto robotWithBall = world->whichRobotHasBall();
-    if (!robotWithBall) {
+    std::optional<rtt::world_new::view::RobotView> robotWithBall = world->whichRobotHasBall();
+    if (!robotWithBall.has_value()) {
         return;
     }
 
-    std::pair<uint8_t, Team> newRobotIdTeam = {robotWithBall->getId(), robotWithBall->getTeam()};
+    std::pair<uint8_t, Team> newRobotIdTeam = {(*robotWithBall)->getId(), (*robotWithBall)->getTeam()};
     view::RobotView newRobotWithBall{nullptr};
     for (auto robot : world->getUs()) {
         if (robot->getId() != newRobotIdTeam.first || robot->getTeam() != newRobotIdTeam.second) {
