@@ -1,9 +1,5 @@
-#include "skills/Attack.h"
-#include <control/BasicPosControl.h>
-#include <control/ControlUtils.h>
-#include <control/PositionUtils.h>
-#include <control/numtrees/NumTreePosControl.h>
-#include <world/FieldComputations.h>
+#include <skills/Attack.h>
+#include <world_new/FieldComputations.hpp>
 #include "coach/OffensiveCoach.h"
 
 namespace rtt::ai {
@@ -14,14 +10,15 @@ Attack::Attack(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::mo
 bt::Node::Status Attack::onUpdate() {
     if (!robot) return Status::Running;
 
-    if (FieldComputations::pointIsInDefenceArea(*field, ball->getPos(), false)) {
-        command.set_w(robot->angle);
+    if (world_new::FieldComputations::pointIsInDefenceArea(*field, ball->get()->getPos(), false)) {
+        command.set_w(robot->get()->getAngle());
         publishRobotCommand();
         return Status::Running;
     }
 
-    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(*field, ball->getPos());
-    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM, 3);
+    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(*field, ball->get()->getPos());
+    auto shotData =
+        robot->getControllers().getShotController()->getRobotCommand(*field, *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM, 3);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
