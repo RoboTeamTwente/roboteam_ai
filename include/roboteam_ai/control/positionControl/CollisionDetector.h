@@ -17,9 +17,9 @@ namespace rtt::ai::control {
  */
 class CollisionDetector {
    private:
-    const double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0 * Constants::ROBOT_RADIUS();
+    const double DEFAULT_ROBOT_COLLISION_RADIUS = 2.0 * Constants::ROBOT_RADIUS();
 
-    const std::vector<world_new::view::RobotView>* robots = nullptr;
+    std::vector<Vector2> robotPositions;
     const world::Field* field = nullptr;
 
    public:
@@ -59,7 +59,7 @@ class CollisionDetector {
 
     void setField(const world::Field& field);
 
-    void setRobotVector(const std::vector<world_new::view::RobotView>& robots);
+    void setRobotPositions(std::vector<Vector2> &robotPositions);
 };
 
 }  // namespace rtt::ai::control

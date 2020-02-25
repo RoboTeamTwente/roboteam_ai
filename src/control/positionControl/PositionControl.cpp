@@ -8,11 +8,8 @@
 #include "interface/api/Input.h"
 
 namespace rtt::ai::control {
-
-// TODO: add projection to outside defence area (project target position)(is this really needed?)
 RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
                                                   const Vector2 &targetPosition) {
-    // TODO: this is a workaround caused by the fact that the field is not global
     collisionDetector.setField(field);
     if (shouldRecalculatePath(currentPosition, targetPosition, robotId)) {
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
@@ -35,5 +32,6 @@ bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, cons
             collisionDetector.getRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
 }
 
-void PositionControl::setRobotVector(const std::vector<world_new::view::RobotView> &robots) { collisionDetector.setRobotVector(robots); }
+void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) {
+    collisionDetector.setRobotPositions(robotPositions); }
 }  // namespace rtt::ai::control

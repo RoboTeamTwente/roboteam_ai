@@ -42,9 +42,9 @@ class PositionControl {
 
     /**
      * Updates the robot view vector
-     * @param robots the RobotView vector of robots
+     * @param robotPositions the RobotView vector of robots
      */
-    void setRobotVector(const std::vector<world_new::view::RobotView> &robots);
+    void setRobotPositions(std::vector<Vector2> &robotPositions);
 
     /**
      * The computed path should be recalculated if: <br>

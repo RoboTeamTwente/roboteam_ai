@@ -5,8 +5,10 @@
 #ifndef RTT_NUMTREESPLANNING_H
 #define RTT_NUMTREESPLANNING_H
 
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/control/positionControl/CollisionDetector.h>
+#include "utilities/Constants.h"
+#include "control/positionControl/CollisionDetector.h"
+#include "control/positionControl/PathPointNode.h"
+#include <queue>
 
 namespace rtt::ai::control{
 class NumTreesPlanning {
@@ -34,6 +36,8 @@ public:
      * @return a list of points representing the path
      */
     std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
+
+    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const;
 };
 }
 

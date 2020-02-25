@@ -2,8 +2,6 @@
 // Created by ratoone on 20-02-20.
 //
 
-#include <include/roboteam_ai/control/positionControl/PathPointNode.h>
-#include <queue>
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 
 namespace rtt::ai::control{
@@ -14,36 +12,37 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
     auto root = PathPointNode(robotPosition);
     std::queue<PathPointNode> pointQueue;
     pointQueue.push(root);
-    auto finalPath = PathPointNode(targetPosition);
+    auto finalPath = PathPointNode(targetPosition, root);
 
     while (!pointQueue.empty()){
         PathPointNode& point = pointQueue.front();
         pointQueue.pop();
-        if ((point.getPosition() - targetPosition).length() < TARGET_THRESHOLD){
+        if ((point.getPosition() - targetPosition).length() < TARGET_THRESHOLD || pointQueue.size() > 10){
             finalPath = point;
             break;
         }
 
-        //TODO: add parent collision check
-//        auto parentRobotCollision = collisionDetector.getRobotCollisionBetweenPoints(point.getParent()->getPosition(), point.getPosition());
+        if (point.getParent()){
+            auto parentRobotCollision = collisionDetector.getRobotCollisionBetweenPoints(point.getParent()->getPosition(), point.getPosition());
+            if (parentRobotCollision){
+                auto branches = branchPath(*point.getParent(), parentRobotCollision.value());
+                std::for_each(branches.begin(), branches.end(), [&pointQueue](PathPointNode& newPoint){
+                    pointQueue.push(newPoint);
+                    });
+                continue;
+            }
+        }
+
         auto robotCollision = collisionDetector.getRobotCollisionBetweenPoints(point.getPosition(), targetPosition);
 
         // no initial collision
         if (!robotCollision){
             finalPath = PathPointNode(targetPosition, point);
-            break;
+            continue;
         }
 
-        Vector2 deltaPosition = robotCollision.value() - point.getPosition();
-
-        Vector2 leftTargetPosition = robotCollision.value() + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(AVOIDANCE_DISTANCE);
-        auto leftNode = PathPointNode(leftTargetPosition, point);
-
-        Vector2 rightTargetPosition = robotCollision.value() + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(-AVOIDANCE_DISTANCE);
-        auto rightNode = PathPointNode(rightTargetPosition, point);
-
-        pointQueue.push(leftNode);
-        pointQueue.push(rightNode);
+        auto branches = branchPath(point, robotCollision.value());
+        std::for_each(branches.begin(), branches.end(), [&pointQueue](const PathPointNode& newPoint){pointQueue.push(newPoint);});
     }
 
     std::vector<Vector2> path {finalPath.getPosition()};
@@ -52,5 +51,13 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
     }
     std::reverse(path.begin(), path.end());
     return path;
+}
+
+std::vector<PathPointNode> NumTreesPlanning::branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const {
+    Vector2 deltaPosition = collisionPosition - parentPoint.getPosition();
+
+    Vector2 leftTargetPosition = collisionPosition + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(AVOIDANCE_DISTANCE);
+    Vector2 rightTargetPosition = collisionPosition + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(-AVOIDANCE_DISTANCE);
+    return {PathPointNode(leftTargetPosition, parentPoint), PathPointNode(rightTargetPosition, parentPoint)};
 }
 }
