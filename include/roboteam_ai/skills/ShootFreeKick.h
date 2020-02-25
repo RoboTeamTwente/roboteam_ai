@@ -5,10 +5,7 @@
 #ifndef ROBOTEAM_AI_SHOOTFREEKICK_H
 #define ROBOTEAM_AI_SHOOTFREEKICK_H
 
-#include <control/BasicPosControl.h>
-#include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -25,7 +22,6 @@ class ShootFreeKick : public Skill {
 
     Progress progress;
     Vector2 targetPos;
-    control::BasicPosControl goToPos;
     double errorMarginPos = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03;  // Same logic
     bool isShot();
     Vector2 freeKickPos;
