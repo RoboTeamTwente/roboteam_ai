@@ -2,12 +2,8 @@
 // Created by rolf on 11-4-19.
 //
 
-#include "skills/SlingShot.h"
-
-#include "control/ControlUtils.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
-#include "world/World.h"
+#include <skills/SlingShot.h>
+#include <control/NewControlUtils.h>
 
 namespace rtt::ai {
 
@@ -16,25 +12,25 @@ void SlingShot::onInitialize() {
     waitingTicks = 0;
     dribbledTicks = 0;
     ballShotTicks = 0;
-    if (!world->robotHasBall(robot->id, true)) {
+    if (!world->robotHasBall(robot->get()->getId(), true)) {
         progression = FAIL;
         return;
     }
     progression = DRIBBLING;
-    rotateAngle = robot->angle;
-    kickOrient = robot->angle;
+    rotateAngle = robot->get()->getAngle();
+    kickOrient = robot->get()->getAngle();
 }
 void SlingShot::onTerminate(rtt::ai::Skill::Status s) {
     waitingTicks = 0;
     dribbledTicks = 0;
     ballShotTicks = 0;
-    if (!world->robotHasBall(robot->id, true)) {
+    if (!world->robotHasBall(robot->get()->getId(), true)) {
         progression = FAIL;
         return;
     }
     progression = DRIBBLING;
-    rotateAngle = robot->angle;
-    kickOrient = robot->angle;
+    rotateAngle = robot->get()->getAngle();
+    kickOrient = robot->get()->getAngle();
 }
 Skill::Status SlingShot::onUpdate() {
     progression = updateProgress(progression);
@@ -67,7 +63,7 @@ SlingShot::Progression SlingShot::updateProgress(Progression currentProgress) {
     if (currentProgress == DRIBBLING) {
         if (dribbledTicks < maxDribbleTicks) {
             dribbledTicks++;
-            return world->robotHasBall(robot->id, true) ? DRIBBLING : FAIL;
+            return world->robotHasBall(robot->get()->getId(), true) ? DRIBBLING : FAIL;
         } else {
             setRotate();
             return ROTATINGAWAY;
@@ -88,27 +84,28 @@ SlingShot::Progression SlingShot::updateProgress(Progression currentProgress) {
     return FAIL;
 }
 bool SlingShot::ballShot() {
-    Vector2 vectorFromStart = ball->getPos() - kickPos;
+    Vector2 vectorFromStart = ball->get()->getPos() - kickPos;
     double vectorFromStartAngle = vectorFromStart.angle();
-    double angleDif = control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(kickOrient), control::ControlUtils::constrainAngle(vectorFromStartAngle));
+    double angleDif =
+        control::NewControlUtils::angleDifference(control::NewControlUtils::constrainAngle(kickOrient), control::NewControlUtils::constrainAngle(vectorFromStartAngle));
     // check if the ball has gone to direction we expect for more than 2 centimeters
     return angleDif > M_PI_2 && vectorFromStart.length() > 0.02;
 }
 bool SlingShot::robotAtAngle() {
     double margin = 0.03 * M_PI;
-    return control::ControlUtils::angleDifference(robot->angle.getAngle(), control::ControlUtils::constrainAngle(rotateAngle)) < margin;
+    return control::NewControlUtils::angleDifference(robot->get()->getAngle(), control::NewControlUtils::constrainAngle(rotateAngle)) < margin;
 }
 void SlingShot::sendDribbleCommand() {
     command.set_dribbler(31);  // TODO:check if we can control velocities
     command.mutable_vel()->set_x(0);
     command.mutable_vel()->set_y(0);
-    command.set_w(robot->angle);
+    command.set_w(robot->get()->getAngle());
     publishRobotCommand();
 }
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
-    auto velocities = gtp.getRobotCommand(world, field, robot, position).vel;
-    velocities = control::ControlUtils::velocityLimiter(velocities, 1.5);
+    auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, position).vel;
+    velocities = control::NewControlUtils::velocityLimiter(velocities, 1.5);
     command.set_dribbler(0);
     command.mutable_vel()->set_x(velocities.x);
     command.mutable_vel()->set_y(velocities.y);
@@ -123,8 +120,8 @@ void SlingShot::sendWaitCommand() {
     publishRobotCommand();
 }
 void SlingShot::setRotate() {
-    kickOrient = robot->angle;
-    kickPos = robot->pos;
-    rotateAngle = control::ControlUtils::constrainAngle(robot->angle + M_PI_2);
+    kickOrient = robot->get()->getAngle();
+    kickPos = robot->get()->getPos();
+    rotateAngle = control::NewControlUtils::constrainAngle(robot->get()->getAngle() + M_PI_2);
 }
 }  // namespace rtt::ai
