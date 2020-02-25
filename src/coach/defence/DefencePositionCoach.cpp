@@ -12,15 +12,6 @@ using util = control::ControlUtils;
 
 DefencePositionCoach g_defensivePositionCoach;
 
-bool DefenderBot::validPosition(std::vector<world_new::view::RobotView> us) {
-    for (const auto &bot : us) {
-        if ((bot->getPos() - targetPos).length() < 2 * Constants::ROBOT_RADIUS()) {
-            return false;
-        }
-    }
-    return true;
-}
-
 const world_new::view::RobotView DefenderBot::toRobot() {
     proto::WorldRobot fakeRobot;
     fakeRobot.set_id(-1);
@@ -117,8 +108,7 @@ void DefencePositionCoach::removeBotFromWorld(int id, bool ourTeam) {
                                                [id](auto robot) { return robot->getId() ==id; }));
     } else {
         simulatedRobotsThem.erase(std::remove_if(simulatedRobotsThem.begin(), simulatedRobotsThem.end(), [id](auto robot) { return robot->getId() == id; }));
-    };
-
+    }
 }
 
 Vector2 DefencePositionCoach::getMostDangerousPos() {

@@ -24,7 +24,6 @@ struct DefenderBot {
 
     int coveredCount = 0;
     const world_new::view::RobotView toRobot();
-    bool validPosition(std::vector<world_new::view::RobotView> us);
 };
 class DefencePositionCoach {
     FRIEND_TEST(defensive_coach, blockPoints);
@@ -65,7 +64,6 @@ class DefencePositionCoach {
     std::vector<world_new::view::RobotView> simulatedRobotsThem;
     std::optional<world_new::view::BallView> simulatedBall;
 
- private:
   const double searchPoints = 31.0;  // amount of points we search for when we check if we can find points on a line
     std::vector<DefenderBot> defenders;
 
@@ -79,13 +77,13 @@ class DefencePositionCoach {
     std::shared_ptr<double> pickNewPosition(const Field &field, const Line &line);
     std::shared_ptr<Vector2> pickNewPosition(const Field &field, PossiblePass pass);
 
-   void setupSimulatedWorld(const Field &field);
- private:
-  std::shared_ptr<DefenderBot> blockMostDangerousPos(const Field &field);
+    void setupSimulatedWorld(const Field &field);
+
+    std::shared_ptr<DefenderBot> blockMostDangerousPos(const Field &field);
     std::shared_ptr<DefenderBot> blockPass(const Field &field, PossiblePass pass);
     void addDefender(DefenderBot defender);
     void assignIDs(int lockedCount, std::vector<int> freeRobotIDs, const std::vector<DefenderBot> &oldDefenders);
-  std::vector<Line> simulatedVisibleGoalParts(const Field &field, const PossiblePass &pass) const;
+    std::vector<Line> simulatedVisibleGoalParts(const Field &field, const PossiblePass &pass) const;
 };
 extern DefencePositionCoach g_defensivePositionCoach;
 

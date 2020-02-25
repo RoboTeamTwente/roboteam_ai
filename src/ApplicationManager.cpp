@@ -27,16 +27,12 @@ void ApplicationManager::start() {
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
     t.loop([&]() {
-
-            // This function runs the behaviour trees
             runOneLoopCycle();
-
-            amountOfCycles++;
+             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
             int fpsUpdateRate = 5;
-            t.limit(
-                [&]() {
+            t.limit([&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
                 },
@@ -50,7 +46,6 @@ void ApplicationManager::start() {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
-
     if (io::io.hasReceivedGeom) {
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
@@ -59,8 +54,6 @@ void ApplicationManager::runOneLoopCycle() {
          //   roboteam_utils::rotate(&fieldMessage);
             roboteam_utils::rotate(&worldMessage);
         }
-
-
 
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
