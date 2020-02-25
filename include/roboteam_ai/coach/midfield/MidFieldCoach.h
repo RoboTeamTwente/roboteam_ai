@@ -9,7 +9,9 @@
 #include <roboteam_utils/Vector2.h>
 #include <world/BallPossession.h>
 #include <world/FieldComputations.h>
+
 #include "coach/heuristics/CoachHeuristics.h"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::coach {
 
@@ -68,6 +70,11 @@ class MidFieldCoach {
     Target &harassFastRobot(const RobotPtr &thisRobot, const RobotPtr &opponent, Target &target) const;
 
     bool isRobotAlreadyBeingHarassed(const RobotPtr &opponent) const;
+
+    // TODO: Implement these three functions
+    void addMidFielder(world_new::view::RobotView &thisRobot);
+    void removeMidFielder(world_new::view::RobotView &thisRobot);
+    Target getTargetPosition(const Field &field, world_new::view::RobotView &thisRobot);
 };
 
 extern MidFieldCoach g_midFieldCoach;

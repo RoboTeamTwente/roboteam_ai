@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <interface/api/Output.h>
+
 #include "Collision.h"
 #include "PathPoint.h"
 #include "control/BasicPosControl.h"
@@ -87,6 +88,9 @@ class NumTreePosControl : public BasicPosControl {
     RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
     RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) override;
     RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
+
+    // TODO: Implement this function/refactor controllers
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos);
 
     bool checkChangeInMaxRobotVel();
 };

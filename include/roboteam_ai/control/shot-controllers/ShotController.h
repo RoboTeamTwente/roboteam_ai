@@ -7,6 +7,7 @@
 
 #include <control/BasicPosControl.h>
 #include <control/numtrees/NumTreePosControl.h>
+
 #include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 
@@ -66,6 +67,10 @@ class ShotController {
     explicit ShotController() = default;
     RobotCommand getRobotCommand(const Field &field, world::Robot robot, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true,
                                  ShotPrecision precision = MEDIUM, int genevaState = 0);
+
+    // TODO: Implement this function/refactor controllers
+    RobotCommand getRobotCommand(const Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,
+                                 bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
 };
 
 }  // namespace rtt::ai::control

@@ -3,6 +3,7 @@
 //
 
 #include "coach/OffensiveCoach.h"
+
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
 #include <interface/widgets/widget.h>
@@ -89,7 +90,13 @@ void OffensiveCoach::addSideAttacker(const Field &field, const OffensiveCoach::R
     redistributePositions(field);
 }
 
+// TODO: Implement this function
+void OffensiveCoach::addSideAttacker(const Field &field, const world_new::view::RobotView &robot) {}
+
 void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr &robot) { sideAttackers.erase(robot->id); }
+
+// TODO: Implement this function
+void OffensiveCoach::removeSideAttacker(const world_new::view::RobotView &robot) {}
 
 Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
     if (sideAttackers.find(robotID) != sideAttackers.end()) {

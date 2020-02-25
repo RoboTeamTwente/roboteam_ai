@@ -3,8 +3,11 @@
 //
 
 #include "coach/PassCoach.h"
+
 #include <world/World.h>
+
 #include <chrono>
+
 #include "coach/heuristics/PassScore.h"
 #include "utilities/RobotDealer.h"
 #include "world/FieldComputations.h"
@@ -137,5 +140,8 @@ bool PassCoach::validReceiver(const Field &field, const RobotPtr &passer, const 
 
     return true;
 }
+
+// TODO: Implement this function
+bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick) {}
 
 }  // namespace rtt::ai::coach

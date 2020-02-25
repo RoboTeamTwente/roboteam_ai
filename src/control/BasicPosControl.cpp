@@ -3,6 +3,7 @@
 //
 
 #include "control/BasicPosControl.h"
+
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
@@ -47,5 +48,8 @@ RobotCommand BasicPosControl::getRobotCommand(world::World *world, const Field *
     Angle defaultAngle = 0;
     return BasicPosControl::getRobotCommand(world, field, robot, targetPos, defaultAngle);
 }
+
+// TODO: Implement this function
+RobotCommand BasicPosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos) {}
 
 }  // namespace rtt::ai::control

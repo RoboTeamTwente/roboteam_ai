@@ -3,8 +3,11 @@
 //
 
 #include "control/numtrees/NumTreePosControl.h"
+
 #include <interface/api/Input.h>
+
 #include <queue>
+
 #include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
 #include "control/numtrees/Collision.h"
@@ -458,6 +461,11 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
     this->field = field;
     Angle defaultAngle;
     return NumTreePosControl::getRobotCommand(world, field, robotPtr, targetPos, defaultAngle);
+}
+
+// TODO: Implement this function
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos) {
+    return RobotCommand{};
 }
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,

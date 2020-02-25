@@ -3,10 +3,12 @@
 //
 
 #include "control/shot-controllers/ShotController.h"
+
 #include <control/ControlUtils.h>
 #include <control/PositionUtils.h>
 #include <interface/api/Input.h>
 #include <world/World.h>
+
 #include "control/ball-handling/BallHandlePosControl.h"
 
 namespace rtt::ai::control {
@@ -86,6 +88,10 @@ RobotCommand ShotController::getRobotCommand(const Field &field, world::Robot ro
 
     return shotData;
 }
+
+// TODO: Implement this function
+RobotCommand ShotController::getRobotCommand(const Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget, bool chip, BallSpeed ballspeed, bool useAutoGeneva,
+                                             ShotPrecision precision, int genevaState) {}
 
 /// check if a robot is on a line to a ball
 bool ShotController::onLineToBall(const world::Robot &robot, const std::pair<Vector2, Vector2> &line, ShotPrecision precision) {

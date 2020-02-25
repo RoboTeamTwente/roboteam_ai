@@ -3,9 +3,11 @@
 //
 
 #include "control/ball-handling/BallHandlePosControl.h"
+
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
 #include <world/FieldComputations.h>
+
 #include "control/BasicPosControl.h"
 #include "control/ball-handling/DribbleBackwards.h"
 #include "control/ball-handling/DribbleForwards.h"
@@ -24,6 +26,14 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
     setCanMoveInDefenseArea(canMoveInDefenseArea);
     setAvoidBallDistance(MAX_BALL_DISTANCE * 0.92);
 }
+
+// TODO: Implement this function
+RobotCommand BallHandlePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP,
+                                                   const Angle &targetA, TravelStrategy travelStrategy) {}
+
+// TODO: Implement this function
+RobotCommand BallHandlePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP,
+                                                   const Angle &targetA) {}
 
 RobotCommand BallHandlePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) {
     this->world = world;

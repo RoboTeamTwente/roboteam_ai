@@ -8,7 +8,10 @@
 #include <roboteam_utils/Hungarian.h>
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
+
 #include <algorithm>
+#include <include/roboteam_ai/world_new/views/RobotView.hpp>
+
 #include "coach/heuristics/OffensiveScore.h"
 #include "world/WorldData.h"
 
@@ -39,7 +42,15 @@ class OffensiveCoach {
     std::vector<Vector2> getOffensivePositions(int numberOfRobots);
 
     void addSideAttacker(const Field &field, const RobotPtr &robot);
+
+    // TODO: Implement this function
+    void addSideAttacker(const Field &field, const world_new::view::RobotView &robot);
+
     void removeSideAttacker(const RobotPtr &robot);
+
+    // TODO: Implement this function
+    void removeSideAttacker(const world_new::view::RobotView &robot);
+
     Vector2 getPositionForRobotID(const Field &field, int robotID);
     void redistributePositions(const Field &field);
 

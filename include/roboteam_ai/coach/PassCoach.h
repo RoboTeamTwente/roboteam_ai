@@ -7,7 +7,9 @@
 
 #include <world/Field.h>
 #include <world/Robot.h>
+
 #include <chrono>
+#include <world_new/World.hpp>
 
 namespace rtt::ai::coach {
 using namespace rtt::ai::world;
@@ -31,6 +33,9 @@ class PassCoach {
     bool passTakesTooLong();
     void updatePassProgression();
     bool validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick = false);
+
+    // TODO: Implement this function
+    bool validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick = false);
 
    private:
     const double RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE = 0.2;

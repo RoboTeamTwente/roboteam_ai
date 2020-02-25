@@ -3,7 +3,11 @@
 //
 
 #include "coach/midfield/MidFieldCoach.h"
+
 #include <world/WorldData.h>
+
+#include <include/roboteam_ai/world_new/views/RobotView.hpp>
+
 #include "world/Ball.h"
 #include "world/Robot.h"
 
@@ -18,6 +22,11 @@ void MidFieldCoach::addMidFielder(RobotPtr &thisRobot) {
     currentMidfielders.push_back(thisRobot);
     targetPositions[thisRobot->id] = target;
 }
+
+// TODO: Implement these three functions
+void MidFieldCoach::addMidFielder(world_new::view::RobotView &thisRobot) {}
+void MidFieldCoach::removeMidFielder(world_new::view::RobotView &thisRobot) {}
+MidFieldCoach::Target MidFieldCoach::getTargetPosition(const Field &field, world_new::view::RobotView &thisRobot) {}
 
 MidFieldCoach::Target MidFieldCoach::getTargetPosition(const Field &field, MidFieldCoach::RobotPtr &thisRobot) {
     // Check if already having an opponent as target

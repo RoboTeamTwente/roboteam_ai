@@ -6,12 +6,19 @@
 #define ROBOTEAM_AI_POSCONTROLLER_H
 
 #include <utilities/Constants.h>
+
 #include "RobotCommand.h"
 //#include <control/controllers/PidController.h>
 //#include <control/controllers/PidTwoAxesController.h>
 #include "roboteam_utils/pid.h"
 #include "world/FieldComputations.h"
 #include "world/World.h"
+
+// TODO: Refactor controllers, maybe no forward declarations necessary
+namespace rtt::world_new::view {
+class WorldDataView;
+class RobotView;
+}  // namespace rtt::world_new::view
 
 namespace rtt::ai {
 

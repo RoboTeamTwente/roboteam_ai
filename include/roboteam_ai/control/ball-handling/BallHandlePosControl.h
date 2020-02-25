@@ -11,6 +11,7 @@
 #include <utilities/Constants.h>
 #include <world/Ball.h>
 #include <world/Robot.h>
+
 #include "control/RobotCommand.h"
 #include "control/numtrees/NumTreePosControl.h"
 namespace rtt::ai::control {
@@ -87,6 +88,11 @@ class BallHandlePosControl : public NumTreePosControl {
     RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
     RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
     RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) override;
+
+    // TODO: Implement these:
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA,
+                                 TravelStrategy travelStrategy);
 
    private:
     bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
