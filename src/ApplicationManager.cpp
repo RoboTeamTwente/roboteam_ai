@@ -35,8 +35,7 @@ void ApplicationManager::start() {
             t.limit([&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
-                },
-                fpsUpdateRate);
+                }, fpsUpdateRate);
 
             // publish settings, but limit this function call to only run 1 times/s at most
             t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);

@@ -72,7 +72,6 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
         SETTINGS.setLeft(true);
     }
     ai::GameStateManager::setRefereeData(refData);
-
 }
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
