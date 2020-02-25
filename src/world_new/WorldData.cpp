@@ -41,7 +41,9 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     }
 }
 
-std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return us; }
+std::vector<view::RobotView> const &WorldData::getUs() const noexcept {
+    return us;
+}
 
 std::vector<view::RobotView> const &WorldData::getThem() const noexcept { return them; }
 
