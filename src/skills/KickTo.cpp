@@ -1,9 +1,5 @@
-#include "skills/KickTo.h"
-#include <control/BasicPosControl.h>
-#include <control/ControlUtils.h>
-#include <control/PositionUtils.h>
-#include <control/numtrees/NumTreePosControl.h>
-#include <world/FieldComputations.h>
+#include <skills/KickTo.h>
+#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -18,7 +14,7 @@ void KickTo::onInitialize() {
 }
 /// Get an update on the skill
 bt::Node::Status KickTo::onUpdate() {
-    if (FieldComputations::pointIsInDefenceArea(*field, ball->getPos(), false)) {
+    if (world_new::FieldComputations::pointIsInDefenceArea(*field, ball->get()->getPos(), false)) {
         command.set_w(0);
         publishRobotCommand();
         return Status::Running;
@@ -26,7 +22,8 @@ bt::Node::Status KickTo::onUpdate() {
 
     Vector2 aimPoint = shootPos;
     // TODO: tune kick velocity
-    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, false, control::BallSpeed::BALL_PLACEMENT, true, control::ShotPrecision::HIGH);
+    auto shotData =
+        robot->getControllers().getShotController()->getRobotCommand(*field, *robot, aimPoint, false, control::BallSpeed::BALL_PLACEMENT, true, control::ShotPrecision::HIGH);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
