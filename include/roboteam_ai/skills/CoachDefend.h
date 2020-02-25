@@ -5,10 +5,7 @@
 #ifndef ROBOTEAM_AI_COACHDEFEND_H
 #define ROBOTEAM_AI_COACHDEFEND_H
 
-#include <control/BasicPosControl.h>
-#include <control/numtrees/NumTreePosControl.h>
 #include "Skill.h"
-#include "control/numtrees/NumTreePosControl.h"
 
 namespace rtt::ai {
 class CoachDefend : public Skill {
