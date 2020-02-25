@@ -2,10 +2,8 @@
 // Created by baris on 11-3-19.
 //
 
-#include "skills/ShootPenalty.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
-#include "world/World.h"
+#include <skills/ShootPenalty.h>
+#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -16,10 +14,10 @@ void ShootPenalty::onInitialize() {
 
     genevaSet = false;
     genevaState = 5;
-    gtp.setCanMoveInDefenseArea(true);
-    gtp.setAutoListenToInterface(false);  // HACK HACK
-    gtp.setCanMoveOutOfField(false);
-    gtp.updatePid({1.0, 0.0, 0.2});
+    robot->getControllers().getBasicPosController()->setCanMoveInDefenseArea(true);
+    robot->getControllers().getBasicPosController()->setAutoListenToInterface(false);  // HACK HACK
+    robot->getControllers().getBasicPosController()->setCanMoveOutOfField(false);
+    robot->getControllers().getBasicPosController()->updatePid({1.0, 0.0, 0.2});
     lineP = 8.0;
     additionalBallDist = Vector2(0.05, 0.0);
     forcedKickOn = true;
@@ -31,7 +29,7 @@ bt::Node::Status ShootPenalty::onUpdate() {
         genevaState = determineGenevaState();
         genevaSet = true;
     }
-    double ydiff = ball->getPos().y - robot->pos.y;
+    double ydiff = ball->get()->getPos().y - robot->get()->getPos().y;
     double gain = ydiff * lineP;
     if (tick < genevaChangeTicks && ydiff < 0.03) {
         tick++;
@@ -39,28 +37,28 @@ bt::Node::Status ShootPenalty::onUpdate() {
         command.mutable_vel()->set_y(gain);
         command.set_w(0);
         command.set_geneva_state(genevaState);
-        auto ball = world::world->getBall();
+        auto ball = world->getBall();
         if (ball) {
-            ballPos = ball->getPos();
+            ballPos = ball->get()->getPos();
         }
     } else {
-        if (ball && !FieldComputations::pointIsInDefenceArea(*field, ballPos, false, -0.1)) {
-            Vector2 targetPos = world::world->getBall()->getPos() + additionalBallDist;
-            if (FieldComputations::pointIsInDefenceArea(*field, ballPos, false, 0.2)) {
-                auto cmd = gtp.getRobotCommand(world, field, robot, targetPos);
+        if (ball && !world_new::FieldComputations::pointIsInDefenceArea(*field, ballPos, false, -0.1)) {
+            Vector2 targetPos = world->getBall()->get()->getPos() + additionalBallDist;
+            if (world_new::FieldComputations::pointIsInDefenceArea(*field, ballPos, false, 0.2)) {
+                auto cmd = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y + gain);
             } else {
-                auto cmd = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, targetPos);
+                auto cmd = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y);
             }
             command.set_w(0);
             command.set_kicker(true);
             command.set_chip_kick_vel(Constants::MAX_KICK_POWER());
-            std::cout << robot->calculateDistanceToBall(ballPos) << std::endl;
-            if (forcedKickOn || !robot->hasWorkingBallSensor()) {
-                double dist = robot->calculateDistanceToBall(ballPos);
+            std::cout << robot->get()->getDistanceToBall() << std::endl;
+            if (forcedKickOn || !robot->get()->isWorkingBallSensor()) {
+                double dist = robot->get()->getDistanceToBall();
                 if (dist != -1.0) {
                     command.set_chip_kick_forced(dist < forcedKickRange);
                 } else {
@@ -71,14 +69,14 @@ bt::Node::Status ShootPenalty::onUpdate() {
         }
     }
     command.set_geneva_state(genevaState);
-    std::cout << "robotID " << robot->id << " " << genevaState << std::endl;
+    std::cout << "robotID " << robot->get()->getId() << " " << genevaState << std::endl;
     publishRobotCommand();
     return Status::Running;
 }
 
 int ShootPenalty::determineGenevaState() {
     // determine the shortest position from where to kick the ball
-    if (robot->pos.y < ball->getPos().y) {
+    if (robot->get()->getPos().y < ball->get()->getPos().y) {
         return genevaState = 1;
     }
     return genevaState = 5;
