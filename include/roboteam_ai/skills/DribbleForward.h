@@ -5,19 +5,14 @@
 #ifndef ROBOTEAM_AI_DRIBBLEFORWARD_H
 #define ROBOTEAM_AI_DRIBBLEFORWARD_H
 
-#include <control/BasicPosControl.h>
-#include <control/ball-handling/BallHandlePosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {
 
 class DribbleForward : public Skill {
    private:
-    Vector2 initialBallPos;
     double dribbleDistance = 0.8;
     Vector2 targetPos;
-    control::BasicPosControl basicGtp;
-    control::BallHandlePosControl ballHandlePosControl;
 
    public:
     explicit DribbleForward(std::string name, bt::Blackboard::Ptr blackboard);
