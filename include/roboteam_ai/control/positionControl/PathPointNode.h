@@ -11,10 +11,12 @@ namespace rtt::ai::control{
 class PathPointNode {
 private:
     Vector2 position;
-    double time;
+    double time = 0;
     PathPointNode *parent = nullptr;
 public:
-    explicit PathPointNode(const Vector2& position);
+    explicit PathPointNode(const Vector2 &position);
+
+    PathPointNode(const Vector2 &position, PathPointNode &parent);
 
     [[nodiscard]] const Vector2 &getPosition() const;
 

@@ -30,20 +30,17 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
 
         // no initial collision
         if (!robotCollision){
-            finalPath = PathPointNode(targetPosition);
-            finalPath.setParent(point);
+            finalPath = PathPointNode(targetPosition, point);
             break;
         }
 
         Vector2 deltaPosition = robotCollision.value() - point.getPosition();
 
         Vector2 leftTargetPosition = robotCollision.value() + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(AVOIDANCE_DISTANCE);
-        auto leftNode = PathPointNode(leftTargetPosition);
-        leftNode.setParent(point);
+        auto leftNode = PathPointNode(leftTargetPosition, point);
 
         Vector2 rightTargetPosition = robotCollision.value() + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(-AVOIDANCE_DISTANCE);
-        auto rightNode = PathPointNode(rightTargetPosition);
-        rightNode.setParent(point);
+        auto rightNode = PathPointNode(rightTargetPosition, point);
 
         pointQueue.push(leftNode);
         pointQueue.push(rightNode);

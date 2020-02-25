@@ -5,7 +5,9 @@
 #include "control/positionControl/PathPointNode.h"
 
 namespace rtt::ai::control{
-PathPointNode::PathPointNode(const Vector2& position) : position{position}{
+PathPointNode::PathPointNode(const Vector2 &position) : position(position) {}
+
+PathPointNode::PathPointNode(const Vector2 &position, PathPointNode &parent) : position{position}, parent{&parent}{
 
 }
 
