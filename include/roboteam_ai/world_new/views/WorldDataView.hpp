@@ -161,7 +161,7 @@ class WorldDataView {
      * Checks whether a robot has the ball
      * @param id Id of robot to check
      * @param ourTeam whether or not it should be fetched from our team
-     * @param maxDist maximum distance for "having ball"
+     * @param maxDist Maximum distance the robot is allowed to be from the ball for "having ball"
      * @return true if the robot with id has the ball, false if not
      */
     [[nodiscard]] bool robotHasBall(uint8_t id, bool ourTeam, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
@@ -169,7 +169,7 @@ class WorldDataView {
     /**
      * Check whether our robot with @refitem id has the ball
      * @param id Id of robot to check
-     * @param maxDist Maximum distance for "having ball"
+     * @param maxDist Maximum distance the robot is allowed to be from the ball for "having ball"
      * @return Returns true if that robot has the ball, false if not
      */
     [[nodiscard]] bool ourRobotHasBall(uint8_t id, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
@@ -177,7 +177,7 @@ class WorldDataView {
     /**
      * Check whether their robot with @refitem id has the ball
      * @param id The ID of the robot to check
-     * @param maxDist Maximum distance for "having ball"
+     * @param maxDist Maximum distance the robot is allowed to be from the ball for "having ball"
      * @return true if that robot has the ball, false if not
      */
     [[nodiscard]] bool theirRobotHasBall(int id, double maxDist = ai::Constants::MAX_BALL_RANGE()) const noexcept;
@@ -185,9 +185,10 @@ class WorldDataView {
     /**
      * Gets a view over the robot that currently has the ball
      * @param team Team enum of team to fetch from
+     * @param maxDist Maximum distance the robot is allowed to be from the ball for "having ball"
      * @return A non-owning view of the robot that has the ball
      */
-    [[nodiscard]] RobotView whichRobotHasBall(Team team = both);
+    [[nodiscard]] std::optional<RobotView> whichRobotHasBall(Team team = both, double maxDist = ai::Constants::MAX_BALL_RANGE());
 
    private:
     /**
