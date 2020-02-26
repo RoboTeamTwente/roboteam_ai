@@ -19,7 +19,6 @@ bool FieldComputations::pointIsInField(const Field &field, const Vector2 &point,
             && point.y <= field.getTopmostY() + margin && point.y >= field.getBottommostY() - margin);
 }
 
-/// returns the angle the goal points make from a point
 double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, const Vector2 &point) {
     Line goal = getGoalSides(field, ourGoal);
     double angleLeft = (goal.start - point).angle();
@@ -27,7 +26,6 @@ double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, co
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft), control::ControlUtils::constrainAngle(angleRight));
 }
 
-/// id and ourteam are for a robot not to be taken into account.
 double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data, int id, bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
@@ -37,10 +35,6 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-/*
- * Get the visible parts of a goal
- * This is the inverse of getting the blockades of a goal
- */
 std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data) {
     std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, data);
     Line goalSide = getGoalSides(field, ourGoal);
@@ -49,28 +43,26 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, b
     double lowerY = goalSide.start.y;
     std::vector<Line> visibleParts = {};
 
-    // The obstacles are sorted on their smallest value. We start from the lowest goal side at the start.
-    // everytime we add a vector from the lowest goalside to the lowest part of the obstacle we remember the upper part of the obstacle
-    // That upper part is stored as the lowerhook again: and we can repeat the process
+    // The obstacles are sorted on their smallest y value. We start from the lowest goal side at the start as lowerY value and everytime we add a vector from the lowest goalside to
+    // the lowest part of the obstacle and we remember the upper part of the obstacle. That upper part is stored as the lowerY value again and we can repeat the same process.
     for (auto const &blockade : blockades) {
         auto lowerbound = blockade.start.y;
 
-        // if the lowerbound is the same as the lower hook then the visible part has a length of 0 and we don't care about it
-        // originally used to be != but floating point errors are tears.
+        // If the lowerbound is the same as the lowerY value then the visible part has a length of 0 and we don't care about it. Originally used to be != but floating point errors
+        // are tears, i.e. rounding of floating points might turn two same float values to different values.
         if (fabs(lowerbound - lowerY) > NEGLIGIBLE_LENGTH) {
             visibleParts.emplace_back(Line(Vector2(goalX, lowerY), Vector2(goalX, lowerbound)));
         }
         lowerY = blockade.end.y;
     }
 
-    // if the last lowerhook is the same as the upper goal side then the visible part has a length of 0 and we don't care about it
+    // If the last lowerY value is the same as the upper goal side then the last visible part has a length of 0 and we don't care about it.
     if (fabs(lowerY - upperGoalY) > NEGLIGIBLE_LENGTH) {
         visibleParts.emplace_back(Line(Vector2(goalX, lowerY), Vector2(goalX, upperGoalY)));
     }
     return visibleParts;
 }
 
-// Returns the sides of the goal. The first vector is the the lower side and the second is the upper side.
 Line FieldComputations::getGoalSides(const Field &field, bool ourGoal) {
     if (ourGoal) {
         return Line(field.getOurBottomGoalSide(), field.getOurTopGoalSide());
@@ -98,18 +90,13 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
 
     if (intersections.size() == 1) {
         return std::make_shared<Vector2>(intersections.at(0));
-    } else if (intersections.size() > 1) {
-        double closestIntersectionToLineStart = INT_MAX;
-        Vector2 closestIntersection = intersections.at(0);
-        for (auto const &intersection : intersections) {
-            if (lineStart.dist(intersection) < closestIntersectionToLineStart) {
-                closestIntersection = intersection;
-                closestIntersectionToLineStart = lineStart.dist(intersection);
-            }
-        }
-        return std::make_shared<Vector2>(closestIntersection);
+    } else if (intersections.size() == 2) {
+        double distanceFirstIntersection = lineStart.dist(intersections.at(0));
+        double distanceSecondIntersection = lineStart.dist(intersections.at(1));
+        return std::make_shared<Vector2>(distanceFirstIntersection < distanceSecondIntersection ? intersections.at(0) : intersections.at(1));
+    } else {
+        return nullptr;
     }
-    return nullptr;
 }
 
 Polygon FieldComputations::getDefenseArea(const Field &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
@@ -125,29 +112,15 @@ Polygon FieldComputations::getDefenseArea(const Field &field, bool ourDefenseAre
 }
 
 Polygon FieldComputations::getGoalArea(const Field &field, bool ourGoal, double margin, bool hasBackMargin) {
-    double marginBackside = hasBackMargin ? margin : 0.0;
-    auto goalDepth = field.getGoalDepth() + marginBackside;
+    double goalDepth = hasBackMargin ? field.getGoalDepth() + margin : field.getGoalDepth();
+    Vector2 outerBottomGoal = ourGoal ? field.getOurBottomGoalSide() + Vector2(margin, -margin) : field.getTheirBottomGoalSide() + Vector2(-margin, -margin);
+    Vector2 innerBottomGoal = ourGoal ? field.getOurBottomGoalSide() + Vector2(-goalDepth, -margin) : field.getTheirBottomGoalSide() + Vector2(goalDepth, -margin);
+    Vector2 innerTopGoal = ourGoal ? field.getOurTopGoalSide() + Vector2(-goalDepth, margin) : field.getTheirTopGoalSide() + Vector2(goalDepth, margin);
+    Vector2 outerTopGoal = ourGoal ? field.getOurTopGoalSide() + Vector2(margin, margin) : field.getTheirTopGoalSide() + Vector2(-margin, margin);
 
-    if (ourGoal) {
-        auto ourGoalSides = getGoalSides(field, true);
-        std::vector<Vector2> areaUsPoints = {{ourGoalSides.start.x + margin, ourGoalSides.start.y - margin},
-                                             {ourGoalSides.start.x - goalDepth, ourGoalSides.start.y - margin},
-                                             {ourGoalSides.end.x - goalDepth, ourGoalSides.end.y + margin},
-                                             {ourGoalSides.end.x + margin, ourGoalSides.end.y + margin}};
-
-        interface::Input::drawDebugData(areaUsPoints, Qt::green, interface::Drawing::LINES_CONNECTED);
-        return Polygon(areaUsPoints);
-    }
-
-    auto theirGoalSides = getGoalSides(field, false);
-    std::vector<Vector2> areaThemPoints = {{theirGoalSides.start.x - margin, theirGoalSides.start.y - margin},
-                                           {theirGoalSides.start.x + goalDepth, theirGoalSides.start.y - margin},
-                                           {theirGoalSides.end.x + goalDepth, theirGoalSides.end.y + margin},
-                                           {theirGoalSides.end.x - margin, theirGoalSides.end.y + margin}};
-
-    interface::Input::drawDebugData(areaThemPoints, Qt::red, interface::Drawing::LINES_CONNECTED);
-
-    return Polygon(areaThemPoints);
+    std::vector<Vector2> goalArea = {outerBottomGoal, innerBottomGoal, innerTopGoal, outerTopGoal};
+    interface::Input::drawDebugData(goalArea, ourGoal ? Qt::green : Qt::red, interface::Drawing::LINES_CONNECTED);
+    return Polygon(goalArea);
 }
 
 Polygon FieldComputations::getFieldEdge(const Field &field, double margin) {
@@ -204,7 +177,6 @@ std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const 
         return {}; // Ignore blockades 'shadows' that are entirely below/above the goal side.
     }
 }
-
 
 std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegment> blockades) {
     /* If two blockades intersect (in this case, overlap), we take the beginning of the first obstacle and the end of the second obstacle, and put them back in the front of the
