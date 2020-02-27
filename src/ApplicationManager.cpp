@@ -70,11 +70,11 @@ void ApplicationManager::runOneLoopCycle() {
             this->notifyTreeStatus(status);
         } else {
             std::cout << "[ApplicationManager::runOneLoopCycle] No robots from our team in world yet" << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds (1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds (100));
         }
     } else {
         std::cout << "[ApplicationManager::runOneLoopCycle] No field yet" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds (1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds (100));
     }
     /*
      * This is a hack performed at the robocup.
