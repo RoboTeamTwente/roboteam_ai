@@ -3,8 +3,6 @@
 //
 
 #include "skills/gotopos/GoToPos.h"
-#include "control/ControlUtils.h"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -30,7 +28,6 @@ void GoToPos::onInitialize() {
     }
 
     goToType = stringToGoToType(properties->getString("goToType"));
-    setPositionController(goToType);
 
     double avoidBallDistance = 0.0;
     if (properties->hasDouble("avoidBall")) {
@@ -38,23 +35,20 @@ void GoToPos::onInitialize() {
     } else if (properties->hasBool("avoidBall")) {
         avoidBallDistance = Constants::DEFAULT_BALLCOLLISION_RADIUS();
     }
-    posController->setAvoidBallDistance(avoidBallDistance);
-    posController->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
-    posController->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+
+    if (goToType == basic) {
+        robot->getControllers().getBasicPosController()->setAvoidBallDistance(avoidBallDistance);
+        robot->getControllers().getBasicPosController()->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
+        robot->getControllers().getBasicPosController()->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+    }
+
+    else if (goToType == numTree) {
+        robot->getControllers().getNumTreePosController()->setAvoidBallDistance(avoidBallDistance);
+        robot->getControllers().getNumTreePosController()->setCanMoveOutOfField(properties->getBool("canGoOutsideField"));
+        robot->getControllers().getNumTreePosController()->setCanMoveInDefenseArea(properties->getBool("canMoveInDefenseArea"));
+    }
 
     gtpInitialize();
-}
-
-void GoToPos::setPositionController(const GoToType &gTT) {
-    switch (gTT) {
-        default:
-        case numTree:
-            posController = robot->getNumtreePosControl();
-            return;
-        case basic:
-            posController = robot->getBasicPosControl();
-            return;
-    }
 }
 
 /// Get an update on the skill
@@ -68,15 +62,24 @@ bt::Node::Status GoToPos::onUpdate() {
     if (gtpStatus != Status::Running) return gtpStatus;
 
     // check targetPos
-    if ((targetPos - robot->pos).length2() < errorMargin * errorMargin) {
+    if ((targetPos - robot->get()->getPos()).length2() < errorMargin * errorMargin) {
         // check targetAngle
-        if (targetAngle == 0.0 || abs(targetAngle - robot->angle) < angleErrorMargin) {
+        if (targetAngle == 0.0 || abs(targetAngle - robot->get()->getAngle()) < angleErrorMargin) {
             return Status::Success;
         }
     }
     if (command.vel().x() == 0 || command.vel().y() == 0 || command.w() == 0) {
-        auto robotCommand = posController->getRobotCommand(world, field, robot, targetPos, targetAngle);
+        goToType = stringToGoToType(properties->getString("goToType"));
 
+        RobotCommand robotCommand{};
+
+        if (goToType == basic) {
+            robotCommand = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, targetPos, targetAngle);
+        }
+
+        else if (goToType == numTree) {
+            robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos, targetAngle);
+        }
         // set robotcommands if they have not been set yet in gtpUpdate()
 
         command.mutable_vel()->set_x(command.vel().x() == 0 ? static_cast<float>(robotCommand.vel.x) : command.vel().x());
