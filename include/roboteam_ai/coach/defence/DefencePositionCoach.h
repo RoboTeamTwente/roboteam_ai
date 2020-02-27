@@ -23,7 +23,7 @@ struct DefenderBot {
     botType type;
 
     int coveredCount = 0;
-    const world_new::view::RobotView toRobot();
+    world_new::view::RobotView toRobot();
 };
 class DefencePositionCoach {
     FRIEND_TEST(defensive_coach, blockPoints);

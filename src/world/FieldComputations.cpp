@@ -1,12 +1,6 @@
-//
-// Created by mrlukasbos on 19-10-18.
-//
-
 #include "world/FieldComputations.h"
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
-#include "world/World.h"
-#include "world/WorldData.h"
 #include "world_new/views/RobotView.hpp"
 #include "world_new/views/WorldDataView.hpp"
 
@@ -307,7 +301,7 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoalByObstacles(const Fiel
  * This is the inverse of getting the blockades of a goal
  */
 std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
-    return getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getRobotsNonOwning());
+    return getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getUs());
 }
 
 

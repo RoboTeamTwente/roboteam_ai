@@ -137,7 +137,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
-    robotsTimer->start(200);  // 5fps
+    robotsTimer->start(40);  // 25fps
 
     auto *graphTimer = new QTimer(this);
     connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));

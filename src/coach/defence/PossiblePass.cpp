@@ -1,11 +1,11 @@
 #include "coach/defence/PossiblePass.h"
 #include <control/ControlUtils.h>
+#include <utility>
 #include "world/FieldComputations.h"
-#include "world/WorldData.h"
 
 namespace rtt::ai::coach {
 
-const double PossiblePass::distance() {
+double PossiblePass::distance() {
     return (endPos - startPos).length();
 }
 
@@ -38,16 +38,14 @@ Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &bot
 }
 double PossiblePass::score(const Field &field, std::vector<world_new::view::RobotView> us, std::vector<world_new::view::RobotView> them) {
     double score = 1.0;
-    score *= scoreForGoalAngle(field, us, them);
-    score *= penaltyForBlocks(us, them);
+    score *= scoreForGoalAngle(field, us);
+    score *= penaltyForBlocks(us, std::move(them));
     score *= penaltyForDistance();
     return score;
 }
 
-double PossiblePass::scoreForGoalAngle(const Field &field, std::vector<world_new::view::RobotView> us, std::vector<world_new::view::RobotView> them) {
-    std::vector<world_new::view::RobotView> allSimulatedRobots = us;
-    allSimulatedRobots.insert(allSimulatedRobots.end(), them.begin(), them.end());
-    std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoalByObstacles(field, true, endPos, allSimulatedRobots);
+double PossiblePass::scoreForGoalAngle(const Field &field, std::vector<world_new::view::RobotView> us) {
+    std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoalByObstacles(field, true, endPos, us);
 
     // find the largest open angle in the world
     std::sort(visibleParts.begin(), visibleParts.end(), [](const Line &a, const Line &b) { return abs(a.end.y - a.start.y) > abs(b.end.y - b.start.y); });

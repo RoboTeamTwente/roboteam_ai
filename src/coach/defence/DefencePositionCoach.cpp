@@ -12,7 +12,7 @@ using util = control::ControlUtils;
 
 DefencePositionCoach g_defensivePositionCoach;
 
-const world_new::view::RobotView DefenderBot::toRobot() {
+world_new::view::RobotView DefenderBot::toRobot() {
     proto::WorldRobot fakeRobot;
     fakeRobot.set_id(-1);
     fakeRobot.mutable_pos()->set_x(targetPos.x);
@@ -202,9 +202,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const Fiel
     return nullptr;
 }
 std::vector<Line> DefencePositionCoach::simulatedVisibleGoalParts(const Field &field, const PossiblePass &pass) const {// create a vector with all robots
-    std::vector<world_new::view::RobotView> allSimulatedRobots = simulatedRobotsUs;
-    allSimulatedRobots.insert(allSimulatedRobots.end(), simulatedRobotsThem.begin(), simulatedRobotsThem.end());
-    auto visibleParts = FieldComputations::getVisiblePartsOfGoalByObstacles(field, true, pass.endPos, allSimulatedRobots);
+    auto visibleParts = FieldComputations::getVisiblePartsOfGoalByObstacles(field, true, pass.endPos, simulatedRobotsUs);
     return visibleParts;
 }
 /// checks for a given pass in a simulatedWorld if we can block it's receiver shot to goal and returns a line on which to stand if this is the case
@@ -307,9 +305,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(const Field &fiel
 }
 
 void DefencePositionCoach::setupSimulatedWorld(const Field &field) {
-    auto us = world_new::World::instance()->getWorld()->getUs();
     auto them = world_new::World::instance()->getWorld()->getThem();
-
     simulatedBall = world_new::World::instance()->getWorld()->getBall();
     simulatedRobotsUs = {};
     simulatedRobotsThem = getTheirAttackers(field, them);
