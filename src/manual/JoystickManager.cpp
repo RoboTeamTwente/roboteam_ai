@@ -63,19 +63,16 @@ bool JoystickManager::isActive() {
 
 /** Inits SDL */
 bool JoystickManager::init() {
-    rtt_info("Initializing joystickmanager...");
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
         rtt_error("SDL_INIT_JOYSTICK failed with error: " + std::string(SDL_GetError()));
         return false;
     }
     SDL_JoystickEventState(SDL_ENABLE);
-    rtt_success("Joystickmanager succesfully initialized!");
     return true;
 }
 
 /** Main loop */
 void JoystickManager::loop() {
-    rtt_info("Starting loop");
     int iTicks = 0;
     int iEvents = 0;
     SDL_Event event;
