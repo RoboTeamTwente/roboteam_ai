@@ -73,6 +73,8 @@ class Robot {
 
     void setDribblerState(unsigned char dribblerState) noexcept;
 
+    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
+
     void setPreviousDribblerState(unsigned char previousDribblerState) noexcept;
 
     void setTimeDribblerChanged(double timeDribblerChanged) noexcept;
@@ -137,8 +139,6 @@ class Robot {
     void resetBasicPosControl() const noexcept;
 
     void resetBallHandlePosControl() const noexcept;
-
-    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
    public:
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
