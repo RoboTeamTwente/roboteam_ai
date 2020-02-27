@@ -9,8 +9,7 @@
 #include <memory>
 #include <utilities/GameStateManager.hpp>
 #include <include/roboteam_ai/world_new/views/RobotView.hpp>
-#include "world/Ball.h"
-#include "world/Robot.h"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::control {
 
@@ -23,8 +22,8 @@ class Collision {
     CollisionType type;
 
 
-    world_new::view::RobotView collisionRobot;
-    world_new::view::BallView collisionBall;
+    world_new::view::RobotView collisionRobot{nullptr};
+    world_new::view::BallView collisionBall{nullptr};
     Vector2 fieldCollision;
     Vector2 defenseAreaCollision;
     Vector2 goalCollision;
@@ -32,8 +31,6 @@ class Collision {
 
    public:
     Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) {
-        collisionRobot = world_new::view::RobotView();
-        collisionBall = world_new::view::BallView();
         fieldCollision = Vector2();
         defenseAreaCollision = Vector2();
         goalCollision = Vector2();

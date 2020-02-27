@@ -8,7 +8,7 @@ std::vector<world_new::view::RobotView> rtt::ai::FreeKickFormation::robotsInForm
 
 Vector2 FreeKickFormation::getFormationPosition() {
     update = true;
-    posses = rtt::ai::control::PositionUtils::getFreeKickPositions(*field, robotsInFormation.size());
+    posses = rtt::ai::control::PositionUtils::getFreeKickPositions(ball.value(), *field, robotsInFormation.size());
     return getOptimalPosition(robot->get()->getId(), robotsInFormation, posses);
 }
 

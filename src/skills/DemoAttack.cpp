@@ -24,20 +24,20 @@ bt::Node::Status DemoAttack::onUpdate() {
         return Status::Success;
     }
 
-    Vector2 ball = world->getBall()->get()->getPos();
-    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(*field, BEHIND_BALL_TARGET, ownGoal);
-    Vector2 deltaBall = behindBall - ball;
+    Vector2 ballPos = world->getBall()->get()->getPos();
+    Vector2 behindBall = control::PositionUtils::getPositionBehindBallToGoal(ball.value(), *field, BEHIND_BALL_TARGET, ownGoal);
+    Vector2 deltaBall = behindBall - ballPos;
 
-    if (!control::PositionUtils::isRobotBehindBallToGoal(*field, BEHIND_BALL_CHECK, ownGoal, robot->get()->getPos())) {
+    if (!control::PositionUtils::isRobotBehindBallToGoal(ball.value(), *field, BEHIND_BALL_CHECK, ownGoal, robot->get()->getPos())) {
         targetPos = behindBall;
-        command.set_w(static_cast<float>((ball - (Vector2)(robot->get()->getPos())).angle()));
+        command.set_w(static_cast<float>((ballPos - (Vector2)(robot->get()->getPos())).angle()));
         robot->getControllers().getNumTreePosController()->setAvoidBallDistance(Constants::DEFAULT_BALLCOLLISION_RADIUS());
 
         if (abs(((Vector2)robot->get()->getPos() - targetPos).length()) < SWITCH_TO_BASICGTP_DISTANCE) {
             robot->getControllers().getNumTreePosController()->setAvoidBallDistance(0);
         }
     } else {
-        targetPos = ball;
+        targetPos = ballPos;
         robot->getControllers().getNumTreePosController()->setAvoidBallDistance(0);
 
         command.set_w(static_cast<float>(((Vector2){-1.0, -1.0} * deltaBall).angle()));
@@ -53,7 +53,7 @@ bt::Node::Status DemoAttack::onUpdate() {
         velocity = ((Vector2)robot->get()->getPos() - (*field).getOurGoalCenter()).stretchToLength(2.0);
     } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos(), ownGoal, 0.0)) {
         velocity = ((Vector2)robot->get()->getPos() - (*field).getTheirGoalCenter()).stretchToLength(2.0);
-    } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, ball, ownGoal) || world_new::FieldComputations::pointIsInDefenceArea(*field, ball, !ownGoal)) {
+    } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, ballPos, ownGoal) || world_new::FieldComputations::pointIsInDefenceArea(*field, ballPos, !ownGoal)) {
         velocity = {0, 0};
     } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, targetPos, ownGoal)) {
         velocity = {0, 0};

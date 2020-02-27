@@ -63,7 +63,7 @@ class DribbleBackwards {
     RobotCommand sendSuccessCommand();
 
    public:
-    RobotCommand getRobotCommand(const Field &field, world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(const Field &field, world_new::view::RobotView r, world_new::view::BallView ball, const Vector2 &targetP, const Angle &targetA);
     void reset();
 
     explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.4);

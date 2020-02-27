@@ -9,6 +9,16 @@
 #include "RobotCommand.h"
 #include "roboteam_utils/pid.h"
 #include <world_new/World.hpp>
+#include <world/Field.h>
+
+namespace rtt::world_new::view {
+    class RobotView;
+    class WorldDataView;
+}
+
+namespace rtt::world {
+    class Field;
+}
 
 namespace rtt::ai::control {
 
@@ -31,9 +41,9 @@ class PosController {
    public:
     PosController() = default;
     explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-    virtual RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos, const Angle &targetAngle) = 0;
+    virtual RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const world::Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos, const Angle &targetAngle) = 0;
 
-    virtual RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos) = 0;
+    virtual RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const world::Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos) = 0;
 
     bool getCanMoveOutOfField(int robotID) const;
     void setCanMoveOutOfField(bool canMoveOutOfField);

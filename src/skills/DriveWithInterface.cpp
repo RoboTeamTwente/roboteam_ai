@@ -13,6 +13,8 @@ Skill::Status DriveWithInterface::onUpdate() {
     }
 
     Vector2 targetPos = interface::Output::getInterfaceMarkerPosition();
+
+    //TODO paul can fix (should not use world::instance())
     auto robotCommand =
         world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(*field, robot->get()->getId(), robot->get()->getPos(), robot->get()->getVel(), targetPos);
 

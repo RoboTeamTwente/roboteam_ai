@@ -72,9 +72,9 @@ Skill::Status ShootFreeKick::onUpdate() {
                 auto shotData = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, target,
                                                                                              false,
                                                                                              control::BallSpeed::PASS,
-                                                                                             HIGH,
-                                                                                             <#initializer#>,
-                                                                                             <#initializer#>);
+                                                                                             control::HIGH,
+                                                                                             ball.value(),
+                                                                                             *world);
                 command = shotData.makeROSCommand();
                 publishRobotCommand();
                 return Status::Running;

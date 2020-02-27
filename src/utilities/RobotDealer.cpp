@@ -73,6 +73,11 @@ void RobotDealer::updateFromWorld() {
     }
 }
 
+std::set<uint8_t> VectorToSet(std::vector<int> vect) {
+    std::set<uint8_t> idSet(vect.begin(), vect.end());
+    return idSet;
+}
+
 int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, const std::string &roleName, const std::string &tacticName) {
     std::set<int> ids = getAvailableRobots();
 
@@ -101,9 +106,12 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             case BETWEEN_BALL_AND_OUR_GOAL: {
                 auto ball = world::world->getBall();
                 rtt::Vector2 ourGoal = field.getOurGoalCenter();
-                auto robots = world::world->getRobotsForIds(idVector, true);
+
+                auto idSet = VectorToSet(idVector);
+
+                auto robots = world_new::World::instance()->getWorld()->getRobotsForIds(idSet, true);
                 if (!robots.empty()) {
-                    id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
+                    id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->getId();
                 } else {
                     id = -1;
                 }

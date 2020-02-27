@@ -7,7 +7,10 @@
 
 #include <include/roboteam_ai/utilities/Constants.h>
 #include "world_new/Robot.hpp"
-#include "world_new/RobotControllers.hpp"
+
+namespace rtt::world_new::robot {
+    class RobotControllers;
+}
 
 namespace rtt::world_new::view {
 

@@ -9,8 +9,6 @@
 #include <roboteam_utils/LineSegment.h>
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
-#include <world/Ball.h>
-#include <world/Robot.h>
 
 #include "control/RobotCommand.h"
 #include "control/numtrees/NumTreePosControl.h"
@@ -38,10 +36,8 @@ class BallHandlePosControl : public NumTreePosControl {
     constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE * 1.05;
 
-//    RobotPtr robot;
-//    BallPtr ball;
-    world_new::view::RobotView robot;
-    world_new::view::BallView ball;
+    world_new::view::RobotView robot{nullptr};
+    world_new::view::BallView ball{nullptr};
     Vector2 targetPos;
     Angle targetAngle;
     Angle lockedAngle = 0;
@@ -89,8 +85,8 @@ class BallHandlePosControl : public NumTreePosControl {
 //    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) override;
 
     // TODO: Implement these:
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA);
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA,
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const world::Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const world::Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA,
                                  TravelStrategy travelStrategy);
 
    private:

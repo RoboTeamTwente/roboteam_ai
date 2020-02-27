@@ -301,27 +301,27 @@ RobotCommand BallHandlePosControl::handleBall(const Vector2 &targetBallPos, Trav
     status = HANDLING_BALL;
     // check if we are doing something already
     if (dribbleBackwards->getBackwardsProgression() != DribbleBackwards::START) {
-        return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleBackwards->getRobotCommand(*field, robot, targetBallPos, targetAngle));
+        return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleBackwards->getRobotCommand(*field, robot, ball, targetBallPos, targetAngle));
     }
 
     if (dribbleForwards->getForwardsProgression() != DribbleForwards::START) {
-        return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
+        return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleForwards->getRobotCommand(robot, ball, targetBallPos, targetAngle));
     }
 
     switch (travelStrategy) {
         case FORWARDS:
-            return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
+            return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleForwards->getRobotCommand(robot, ball, targetBallPos, targetAngle));
 
         case BACKWARDS:
-            return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleBackwards->getRobotCommand(*field, robot, targetBallPos, targetAngle));
+            return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleBackwards->getRobotCommand(*field, robot, ball, targetBallPos, targetAngle));
 
         default:
         case NO_PREFERENCE: {
             // choose based on distance from the ball to the target
             if (ballIsFarFromTarget) {
-                return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleForwards->getRobotCommand(robot, targetBallPos, targetAngle));
+                return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleForwards->getRobotCommand(robot, ball, targetBallPos, targetAngle));
             }
-            return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleBackwards->getRobotCommand(*field, robot, targetBallPos, targetAngle));
+            return controlWithPID(xBallHandlePID, yBallHandlePID, dribbleBackwards->getRobotCommand(*field, robot, ball, targetBallPos, targetAngle));
         }
     }
 }

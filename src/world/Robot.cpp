@@ -41,10 +41,10 @@ Robot::Robot(const proto::WorldRobot &copy, Team team, unsigned char genevaState
     }
 
     // set up control controllers
-    shotController = std::make_shared<control::ShotController>();
+/*    shotController = std::make_shared<control::ShotController>();
     numTreePosControl = std::make_shared<control::NumTreePosControl>();
     basicPosControl = std::make_shared<control::BasicPosControl>();
-    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();
+    ballHandlePosControl = std::make_shared<control::BallHandlePosControl>();*/
 }
 
 Robot::Robot()
@@ -60,10 +60,10 @@ Robot::Robot()
       angle(-1.0),
       angularVelocity(-1.0),
       team(invalid) {
-    shotController = nullptr;
+/*    shotController = nullptr;
     numTreePosControl = nullptr;
     basicPosControl = nullptr;
-    ballHandlePosControl = nullptr;
+    ballHandlePosControl = nullptr;*/
 }
 
 bool Robot::hasBall(double maxDist) const { return iHaveBall && distanceToBall < maxDist && distanceToBall >= 0.0; }
@@ -198,13 +198,13 @@ bool Robot::isDribblerReady() const { return (world::world->getTime() - timeDrib
 
 bool Robot::hasWorkingDribbler() const { return workingDribbler; }
 
-const std::shared_ptr<control::ShotController> &Robot::getShotController() const { return shotController; }
+/*const std::shared_ptr<control::ShotController> &Robot::getShotController() const { return shotController; }
 
 const std::shared_ptr<control::NumTreePosControl> &Robot::getNumtreePosControl() const { return numTreePosControl; }
 
 const std::shared_ptr<control::BasicPosControl> &Robot::getBasicPosControl() const { return basicPosControl; }
 
-const std::shared_ptr<control::BallHandlePosControl> &Robot::getBallHandlePosControl() const { return ballHandlePosControl; }
+const std::shared_ptr<control::BallHandlePosControl> &Robot::getBallHandlePosControl() const { return ballHandlePosControl; }*/
 
 void Robot::setWorkingGeneva(bool genevaIsWorking) { workingGeneva = genevaIsWorking; }
 
@@ -212,13 +212,13 @@ const Vector2 &Robot::getPidPreviousVel() const { return pidPreviousVel; }
 
 void Robot::setPidPreviousVel(const Vector2 &pidVel) { pidPreviousVel = pidVel; }
 
-void Robot::resetShotController() { shotController = std::make_shared<control::ShotController>(); }
+/*void Robot::resetShotController() { shotController = std::make_shared<control::ShotController>(); }
 
 void Robot::resetNumTreePosControl() { numTreePosControl = std::make_shared<control::NumTreePosControl>(); }
 
 void Robot::resetBasicPosControl() { basicPosControl = std::make_shared<control::BasicPosControl>(); }
 
-void Robot::resetBallHandlePosControl() { ballHandlePosControl = std::make_shared<control::BallHandlePosControl>(); }
+void Robot::resetBallHandlePosControl() { ballHandlePosControl = std::make_shared<control::BallHandlePosControl>(); }*/
 
 bool Robot::hasWorkingBallSensor() const { return workingBallSensor; }
 

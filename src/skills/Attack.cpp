@@ -21,7 +21,7 @@ bt::Node::Status Attack::onUpdate() {
             robot->getControllers().getShotController()->getRobotCommand(*field, *robot, aimPoint, false,
                                                                          control::BallSpeed::MAX_SPEED,
                                                                          control::ShotPrecision::MEDIUM,
-                                                                         <#initializer#>, <#initializer#>);
+                                                                         ball.value(), *world);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;

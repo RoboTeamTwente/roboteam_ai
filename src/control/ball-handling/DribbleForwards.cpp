@@ -10,9 +10,9 @@
 
 namespace rtt::ai::control {
 
-RobotCommand DribbleForwards::getRobotCommand(world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA) {
-    robot = r;
-    ball = world_new::World::instance()->getWorld()->getBall().value();
+RobotCommand DribbleForwards::getRobotCommand(world_new::view::RobotView r, world_new::view::BallView ball, const Vector2 &targetP, const Angle &targetA) {
+    this->robot = r;
+    this->ball = ball;
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;

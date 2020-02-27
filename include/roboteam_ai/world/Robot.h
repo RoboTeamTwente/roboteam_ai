@@ -15,13 +15,13 @@
 
 namespace rtt::ai {
 
-// control forward declarations
+/*// control forward declarations
 namespace control {
 class ShotController;
 class NumTreePosControl;
 class BallHandlePosControl;
 class BasicPosControl;
-}  // namespace control
+}  // namespace control*/
 
 namespace world {
 
@@ -104,16 +104,16 @@ class Robot {
 
     // control managers
    private:
-    std::shared_ptr<control::ShotController> shotController;
+/*    std::shared_ptr<control::ShotController> shotController;
     std::shared_ptr<control::NumTreePosControl> numTreePosControl;
     std::shared_ptr<control::BasicPosControl> basicPosControl;
-    std::shared_ptr<control::BallHandlePosControl> ballHandlePosControl;
+    std::shared_ptr<control::BallHandlePosControl> ballHandlePosControl;*/
 
    public:
-    const std::shared_ptr<control::ShotController> &getShotController() const;
+/*    const std::shared_ptr<control::ShotController> &getShotController() const;
     const std::shared_ptr<control::NumTreePosControl> &getNumtreePosControl() const;
     const std::shared_ptr<control::BasicPosControl> &getBasicPosControl() const;
-    const std::shared_ptr<control::BallHandlePosControl> &getBallHandlePosControl() const;
+    const std::shared_ptr<control::BallHandlePosControl> &getBallHandlePosControl() const;*/
 
     void resetShotController();
     void resetNumTreePosControl();

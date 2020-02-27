@@ -14,7 +14,7 @@ Vector2 DefendFreeKick::getFormationPosition() {
     robot->getControllers().getNumTreePosController()->setAvoidBallDistance(0.55);
 
     update = true;
-    posses = rtt::ai::control::PositionUtils::getDefendFreeKick(*field, robotsInFormation.size());
+    posses = rtt::ai::control::PositionUtils::getDefendFreeKick(ball.value(), *field, robotsInFormation.size());
 
     return getOptimalPosition(robot->get()->getId(), robotsInFormation, posses);
 }

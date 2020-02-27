@@ -38,7 +38,7 @@ void InterceptBall::onInitialize() {
 }
 
 InterceptBall::Status InterceptBall::onUpdate() {
-    ball = world_new::World::instance()->getWorld()->getBall();
+    ball = world->getBall();
     // The keeper dynamically updates the intercept position as he needs to be responsive and cover the whole goal and this would help against curveballs etc.
 
     interceptPos = computeInterceptPoint(ball->get()->getPos(), Vector2(ball->get()->getPos()) + Vector2(ball->get()->getVelocity()) * Constants::MAX_INTERCEPT_TIME());

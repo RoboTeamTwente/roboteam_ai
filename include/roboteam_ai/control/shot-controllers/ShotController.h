@@ -7,9 +7,15 @@
 
 #include <control/BasicPosControl.h>
 #include <control/numtrees/NumTreePosControl.h>
-
 #include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
+#include "world_new/World.hpp"
+
+namespace rtt::world_new::view {
+    class RobotView;
+    class BallView;
+    class WorldDataView;
+}
 
 namespace rtt::ai::control {
 
@@ -54,7 +60,7 @@ class ShotController {
 
     // RobotCommand calculation
     RobotCommand
-    goToPlaceBehindBall(const Field &field, const world_new::view::RobotView &robot,
+    goToPlaceBehindBall(const world::Field &field, const world_new::view::RobotView &robot,
                         const Vector2 &robotTargetPosition,
                         const std::pair<Vector2, Vector2> &driveLine,
                         world_new::view::WorldDataView &world);
@@ -66,7 +72,7 @@ class ShotController {
    public:
     explicit ShotController() = default;
     RobotCommand
-    getRobotCommand(const Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget,
+    getRobotCommand(const world::Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget,
                     bool chip, BallSpeed ballspeed, ShotPrecision precision,
                     world_new::view::BallView &ball, world_new::view::WorldDataView &world);
 

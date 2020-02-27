@@ -148,8 +148,8 @@ void NumTreePosControl::tracePath() {
     std::priority_queue<PathPointer, std::vector<PathPointer>, decltype(compAStar)> pathQueue(compAStar);
     PathPointer root = std::make_shared<PathPoint>();
     root->currentTarget = finalTargetPos;
-    root->pos = robot->pos;
-    root->vel = robot->vel;
+    root->pos = robot->getPos();
+    root->vel = robot->getVel();
     root->acc = Vector2();
     root->t = 0;
     root->collisions = 0;
@@ -160,7 +160,7 @@ void NumTreePosControl::tracePath() {
         auto now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
         if ((now - start).count() * 1000 > MAX_CALCULATION_TIME) {
             if (InterfaceValues::showDebugNumTreeInfo()) {
-                std::cout << "ROBOT " << robot->id << ": Tick took too long!" << std::endl;
+                std::cout << "ROBOT " << robot->getId() << ": Tick took too long!" << std::endl;
             }
             PathPointer bestPath = pathQueue.top();
             pathQueue.pop();
@@ -220,7 +220,7 @@ void NumTreePosControl::tracePath() {
         }
     }
     if (InterfaceValues::showDebugNumTreeInfo()) {
-        std::cout << "ROBOT " << robot->id << ": reached end of while loop, no path found" << std::endl;
+        std::cout << "ROBOT " << robot->getId() << ": reached end of while loop, no path found" << std::endl;
     }
     path = {};
 }
@@ -338,7 +338,7 @@ Collision NumTreePosControl::getBallCollision(const PathPointer &point, const wo
 Collision NumTreePosControl::getFieldCollision(const PathPointer &point) {
     Collision collision = {};
     bool canMoveOutOfField =
-        currentCollisionWithRobot.getCollisionFieldPos() != Vector2() || currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2() || getCanMoveOutOfField(robot->id);
+        currentCollisionWithRobot.getCollisionFieldPos() != Vector2() || currentCollisionWithFinalTarget.getCollisionFieldPos() != Vector2() || getCanMoveOutOfField(robot->getId());
 
     double margin = canMoveOutOfField ? -0.30 + Constants::ROBOT_RADIUS() : Constants::ROBOT_RADIUS();
     if (!FieldComputations::pointIsInField(*field, point->pos, margin)) {
@@ -352,7 +352,7 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
     if (currentCollisionWithRobot.getCollisionDefenseAreaPos() != Vector2()) return collision;
     if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
-    if (!getCanMoveInDefenseArea(robot->id)) {
+    if (!getCanMoveInDefenseArea(robot->getId())) {
         auto margin = Constants::ROBOT_RADIUS();
         bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, true, margin, false);
         bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(*field, point->pos, false, margin, false);
@@ -483,8 +483,8 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     currentCollisionWithFinalTarget = Collision();
 
     PathPointer realRobotPoint = std::make_shared<PathPoint>();
-    realRobotPoint->pos = robot->pos;
-    realRobotPoint->vel = robot->vel;
+    realRobotPoint->pos = robot->getPos();
+    realRobotPoint->vel = robot->getVel();
     realRobotPoint->t = 0;
     currentCollisionWithRobot = getCollision(realRobotPoint, DEFAULT_ROBOT_COLLISION_RADIUS);
 
@@ -523,7 +523,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
     if (collision) {
         if (InterfaceValues::showDebugNumTreeInfo()) {
             std::string s = currentCollisionWithRobot.collisionTypeToString();
-            std::cout << "ROBOT " << robot->id << ": is too close to " << s << "-> trying to make a path anyways <-" << std::endl;
+            std::cout << "ROBOT " << robot->getId() << ": is too close to " << s << "-> trying to make a path anyways <-" << std::endl;
         }
         path.clear();
         pathHasRobotCollision = false;
@@ -537,7 +537,7 @@ bool NumTreePosControl::checkCurrentRobotCollision() {
 bool NumTreePosControl::checkEmptyPath() {
     if (path.empty()) {
         if (InterfaceValues::showFullDebugNumTreeInfo()) {
-            std::cout << "ROBOT " << robot->id << ": no path, recalculating" << std::endl;
+            std::cout << "ROBOT " << robot->getId() << ": no path, recalculating" << std::endl;
         }
         return true;
     }
@@ -548,7 +548,7 @@ bool NumTreePosControl::checkIfTargetMoved(double maxTargetDeviation, const Vect
     // if the target moved too much
     if ((finalTargetPos - targetPos).length2() > maxTargetDeviation * maxTargetDeviation) {
         if (InterfaceValues::showFullDebugNumTreeInfo()) {
-            std::cout << "ROBOT " << robot->id << ": target moved too much, recalculating" << std::endl;
+            std::cout << "ROBOT " << robot->getId() << ": target moved too much, recalculating" << std::endl;
         }
         return true;
     }
@@ -560,7 +560,7 @@ bool NumTreePosControl::checkIfAtEndOfPath(double maxTargetDeviation, const Vect
     if (path.size() < static_cast<unsigned int>(1.01 + 1.0 / DT)) {
         if ((path[path.size() - 1].pos - targetPos).length() > maxTargetDeviation) {
             if (InterfaceValues::showFullDebugNumTreeInfo()) {
-                std::cout << "ROBOT " << robot->id << ": reached end of path segment, recalculating" << std::endl;
+                std::cout << "ROBOT " << robot->getId() << ": reached end of path segment, recalculating" << std::endl;
             }
             return true;
         }
@@ -570,7 +570,7 @@ bool NumTreePosControl::checkIfAtEndOfPath(double maxTargetDeviation, const Vect
 
 bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2) {
     // check if the robot is too far from its current path
-    Vector2 robotPos = robot->pos;
+    Vector2 robotPos = robot->getPos();
     unsigned long currentIndex = 0;
     double distanceSquared = 9e99;
 
@@ -583,7 +583,7 @@ bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, 
     }
     if (sqrt(distanceSquared) > maxTargetDeviation) {
         if (InterfaceValues::showDebugNumTreeInfo()) {
-            std::cout << "ROBOT " << robot->id << ": is too far from current path, recalculating" << std::endl;
+            std::cout << "ROBOT " << robot->getId() << ": is too far from current path, recalculating" << std::endl;
         }
         return true;
     }
@@ -600,7 +600,7 @@ bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
     for (const auto &pathPoint : path) {
         if (getCollision(std::make_shared<PathPoint>(pathPoint), 0.8 * DEFAULT_ROBOT_COLLISION_RADIUS).isCollision) {
             if (InterfaceValues::showDebugNumTreeInfo()) {
-                std::cout << "ROBOT " << robot->id
+                std::cout << "ROBOT " << robot->getId()
                           << ": another robot will collide with ours when "
                              "following this path, recalculating"
                           << std::endl;

@@ -45,8 +45,8 @@ bt::Node::Status BallPlacementPass::onUpdate() {
                                                                                          false,
                                                                                          control::BallSpeed::BALL_PLACEMENT,
                                                                                          control::ShotPrecision::MEDIUM,
-                                                                                         <#initializer#>,
-                                                                                         <#initializer#>);
+                                                                                         ball.value(),
+                                                                                         *world);
             command = shotData.makeROSCommand();
             if (command.kicker() && !hasShot) {
                 hasShot = true;

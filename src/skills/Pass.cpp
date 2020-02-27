@@ -39,7 +39,7 @@ Pass::Status Pass::onUpdate() {
         RobotCommand robotCommand;
 
         robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
-        robotToPassTo = world_new::World::instance()->getWorld()->getRobotForId(robotToPassToID, true);
+        robotToPassTo = world->getRobotForId(robotToPassToID, true);
 
         if (!robotToPassTo || robotToPassToID == -1) {
             robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, ball->get()->getPos());
@@ -65,7 +65,7 @@ Pass::Status Pass::onUpdate() {
             return Status::Failure;
         }
 
-        robotToPassTo = world_new::World::instance()->getWorld()->getRobotForId(robotToPassToID, true);
+        robotToPassTo = world->getRobotForId(robotToPassToID, true);
 
         if (!coach::g_pass.validReceiver(*field, *robot, *robotToPassTo)) {
             return Status::Failure;
@@ -81,7 +81,7 @@ Pass::Status Pass::onUpdate() {
         // Not having already tried a shot
         // If this is both not the case, check if there's a clear line to the target
         // If not, either ++ fails or fail immediately
-        if (!forcePass && !hasShot && !control::NewControlUtils::clearLine(ball->get()->getPos(), robotToPassTo->get()->getPos(), *world_new::World::instance()->getWorld(), 1)) {
+        if (!forcePass && !hasShot && !control::NewControlUtils::clearLine(ball->get()->getPos(), robotToPassTo->get()->getPos(), *world, 1)) {
             // If the passType is defensive, force to immediately chip as soon as the pass is blocked
             if (passType == DEFENSIVE || passType == FREEKICK) {
                 forcePass = true;
@@ -112,9 +112,7 @@ Pass::Status Pass::onUpdate() {
 void Pass::makeCommand() {
     RobotCommand shotdata;
 
-    shotdata = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, getKicker(), forcePass,
-                                                                            control::PASS, control::HIGH,
-                                                                            <#initializer#>, <#initializer#>);
+    shotdata = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, getKicker(), forcePass, control::PASS, control::HIGH, ball.value(), *world);
     command = shotdata.makeROSCommand();
 }
 
