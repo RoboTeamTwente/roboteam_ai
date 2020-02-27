@@ -6,6 +6,7 @@
 #define RTT_ROBOT_HPP
 
 #include <roboteam_proto/RobotFeedback.pb.h>
+
 #include "RobotType.hpp"
 #include "control/BasicPosControl.h"
 #include "control/ball-handling/BallHandlePosControl.h"
@@ -80,16 +81,6 @@ class Robot {
 
     void setWorkingBallSensor(bool workingBallSensor) noexcept;
 
-    void resetShotController() noexcept;
-
-    void resetNumTreePosControl() noexcept;
-
-    void resetBasicPosControl() noexcept;
-
-    void resetBallHandlePosControl() noexcept;
-
-    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
-
     void setDistanceToBall(double distanceToBall) noexcept;
 
     void setIHaveBall(bool iHaveBall) noexcept;
@@ -138,6 +129,16 @@ class Robot {
     [[nodiscard]] bool isIHaveBall() const noexcept;
 
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
+
+    void resetShotController() const noexcept;
+
+    void resetNumTreePosControl() const noexcept;
+
+    void resetBasicPosControl() const noexcept;
+
+    void resetBallHandlePosControl() const noexcept;
+
+    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
    public:
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
