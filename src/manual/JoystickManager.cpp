@@ -11,9 +11,7 @@ using namespace std::chrono;
 
 namespace rtt::input {
 
-JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioManager) {
-    rtt_debug("Constructing JoystickManager");
-}
+JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioManager) { }
 
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {

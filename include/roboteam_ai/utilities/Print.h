@@ -27,9 +27,9 @@ class Printer {
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define rtt_debug(...) { Printer::print("\033[37m", "DEBUG", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
-#define rtt_error(...) { Printer::print("\033[31m","ERROR", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
+#define rtt_error(...) { Printer::print("\033[91m","ERROR", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
 #define rtt_warning(...) { Printer::print("\033[93m", "WARNING", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
-#define rtt_info(...) { Printer::print("\033[36m", "INFO", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
+#define rtt_info(...) { Printer::print("\033[94m", "INFO", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
 #define rtt_success(...) { Printer::print("\033[92m", "SUCCESS", __FILENAME__, __FUNCTION__, __LINE__, __VA_ARGS__); }
 
 #else

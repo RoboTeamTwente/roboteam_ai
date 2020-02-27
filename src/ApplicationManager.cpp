@@ -25,6 +25,8 @@ void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
+    rtt_info("Waiting for field_data and robots");
+
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
     t.loop([&]() {
@@ -47,17 +49,23 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
+
+        if (!fieldInitialized) rtt_success("Received a field message!");
+        fieldInitialized = true;
+
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
 
         if (!SETTINGS.isLeft()) {
-         //   roboteam_utils::rotate(&fieldMessage);
             roboteam_utils::rotate(&worldMessage);
         }
 
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
         if (!world->getUs().empty()) {
+
+            if (!robotsInitialized) rtt_success("Received robots!");
+            robotsInitialized = true;
 
             world_new::World::instance()->updateWorld(worldMessage);
             world_new::World::instance()->updateField(fieldMessage);
@@ -70,11 +78,17 @@ void ApplicationManager::runOneLoopCycle() {
             Status status = runStrategyTree(field);
             this->notifyTreeStatus(status);
         } else {
-            rtt_warning("No robots from our team in world yet");
+            if (robotsInitialized) {
+                rtt_warning("No robots found in world!");
+                robotsInitialized = false;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds (100));
         }
     } else {
-        rtt_warning("No field yet");
+        if (fieldInitialized) {
+            rtt_warning("No field data present!");
+            fieldInitialized = false;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds (100));
     }
     /*

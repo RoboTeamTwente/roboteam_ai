@@ -79,7 +79,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
                 cmd = RefCommand::BALL_PLACEMENT_THEM;
                 break;
             default: {
-                std::cerr << "[Gamestatemanager] Unknown refstate, halting all robots for safety!" << std::endl;
+                rtt_error("Unknown refstate, halting all robots for safety!");
                 cmd = RefCommand::HALT;
                 break;
             }
@@ -141,7 +141,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
                 cmd = RefCommand::BALL_PLACEMENT_US;
                 break;
             default: {
-                std::cerr << "[Gamestatemanager] Unknown refstate, halting all robots for safety!" << std::endl;
+                rtt_error("Unknown refstate, halting all robots for safety!");
                 cmd = RefCommand::HALT;
                 break;
             }
