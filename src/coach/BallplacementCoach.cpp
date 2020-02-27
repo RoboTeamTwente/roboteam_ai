@@ -9,9 +9,12 @@
  */
 
 #include "coach/BallplacementCoach.h"
+
 #include <interface/api/Output.h>
 #include <roboteam_utils/Vector2.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "interface/api/Input.h"
 #include "world/Ball.h"
 #include "world/World.h"
@@ -51,6 +54,9 @@ Vector2 BallplacementCoach::getBallPlacementAfterPos(const std::shared_ptr<world
 
     return target;
 }
+
+// TODO: reimplement this function
+Vector2 BallplacementCoach::getBallPlacementAfterPos(const world_new::view::RobotView &robot) {}
 
 }  // namespace coach
 }  // namespace ai
