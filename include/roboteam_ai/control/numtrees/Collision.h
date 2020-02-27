@@ -8,6 +8,7 @@
 #include <roboteam_utils/Vector2.h>
 #include <memory>
 #include <utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/world_new/views/RobotView.hpp>
 #include "world/Ball.h"
 #include "world/Robot.h"
 
@@ -21,8 +22,9 @@ class Collision {
    private:
     CollisionType type;
 
-    world::Robot::RobotPtr collisionRobot;
-    world::Ball::BallPtr collisionBall;
+
+    world_new::view::RobotView collisionRobot;
+    world_new::view::BallView collisionBall;
     Vector2 fieldCollision;
     Vector2 defenseAreaCollision;
     Vector2 goalCollision;
@@ -30,8 +32,8 @@ class Collision {
 
    public:
     Collision() : type(NO_COLLISION), isCollision(false), collisionRadius(0.0) {
-        collisionRobot = std::make_shared<world::Robot>(world::Robot());
-        collisionBall = std::make_shared<world::Ball>(world::Ball());
+        collisionRobot = world_new::view::RobotView();
+        collisionBall = world_new::view::BallView();
         fieldCollision = Vector2();
         defenseAreaCollision = Vector2();
         goalCollision = Vector2();
@@ -39,10 +41,10 @@ class Collision {
     }
 
     const world::Robot::RobotPtr &getCollisionRobot() const;
-    void setCollisionRobot(const world::Robot::RobotPtr &robot, double distance);
+    void setCollisionRobot(const world_new::view::RobotView &robot, double distance);
 
     const world::Ball::BallPtr &getCollisionBall() const;
-    void setCollisionBall(const world::Ball::BallPtr &ball, double distance);
+    void setCollisionBall(const world_new::view::BallView &ball, double distance);
 
     const Vector2 &getCollisionFieldPos() const;
     void setFieldCollision(const Vector2 &collisionPos, double distance);

@@ -84,9 +84,9 @@ class BallHandlePosControl : public NumTreePosControl {
     void setMaxVelocity(double maxV);
     void setMaxForwardsVelocity(double maxV);
     void setMaxBackwardsVelocity(double maxV);
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) override;
+//    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
+//    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
+//    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) override;
 
     // TODO: Implement these:
     RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP, const Angle &targetA);

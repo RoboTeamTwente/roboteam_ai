@@ -38,7 +38,7 @@ std::string Collision::collisionTypeToString() {
 
 const world::Robot::RobotPtr &Collision::getCollisionRobot() const { return collisionRobot; }
 
-void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
+void Collision::setCollisionRobot(const world_new::view::RobotView &robot, double distance) {
     type = ROBOT;
     collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
     setCollision(distance);
@@ -49,10 +49,11 @@ void Collision::setCollision(double distance) {
     collisionRadius = distance;
 }
 
-void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
+void Collision::setCollisionBall(const world_new::view::BallView &ball, double distance) {
     type = BALL;
-    collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
-    collisionBall->setVisible(true);
+    collisionBall = ball;
+    /// TODO: why is this necessary?
+    // collisionBall->isVisible(true);
     setCollision(distance);
 }
 
@@ -75,9 +76,9 @@ void Collision::setGoalCollision(const Vector2 &collisionPos, double distance) {
 }
 
 const Vector2 Collision::collisionPosition() const {
-    if (collisionRobot->id != -1)
-        return collisionRobot->pos;
-    else if (collisionBall->getVisible())
+    if (collisionRobot->getId() != -1)
+        return collisionRobot->getPos();
+    else if (collisionBall->isVisible())
         return collisionBall->getPos();
     else if (fieldCollision != Vector2())
         return fieldCollision;
