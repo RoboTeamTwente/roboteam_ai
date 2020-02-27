@@ -22,6 +22,7 @@ std::mutex IOManager::demoMutex;
 IOManager io;
 
 void IOManager::init(int teamId) {
+    rtt_info("Setting up IO publishers/subscribers")
     worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
     geometrySubscriber = new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
     refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);

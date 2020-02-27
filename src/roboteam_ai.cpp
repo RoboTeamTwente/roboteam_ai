@@ -36,8 +36,17 @@ void setDarkTheme() {
 }
 
 int main(int argc, char* argv[]) {
-    rtt_debug("Debug printing is turned on ");
 
+    std::cout << "                                           \n"
+                 "  ██████╗ ████████╗████████╗     █████╗ ██╗\n"
+                 "  ██╔══██╗╚══██╔══╝╚══██╔══╝    ██╔══██╗██║\n"
+                 "  ██████╔╝   ██║      ██║       ███████║██║\n"
+                 "  ██╔══██╗   ██║      ██║       ██╔══██║██║\n"
+                 "  ██║  ██║   ██║      ██║       ██║  ██║██║\n"
+                 "  ╚═╝  ╚═╝   ╚═╝      ╚═╝       ╚═╝  ╚═╝╚═╝\n"
+                 "                                         " << std::endl;
+
+    rtt_debug("Debug prints enabled")
     rtt::ai::Constants::init();
 
     // get the id of the ai from the init
@@ -45,23 +54,22 @@ int main(int argc, char* argv[]) {
     if (argc == 2) {
         id = *argv[1] - '0';
     }
-    rtt_info("This AI is initialized with id " + std::to_string(id));
-
+    rtt_info("This AI is initialized with id " + std::to_string(id))
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
         // standard blue team on right
         rtt::SETTINGS.init(id);
         rtt::SETTINGS.setYellow(false);
         rtt::SETTINGS.setLeft(false);
-        rtt_info("Initially playing as the blue team");
-        rtt_info("We are playing on the right side of the field");
+        rtt_info("Initially playing as the BLUE team")
+        rtt_info("We are playing on the RIGHT side of the field")
     } else {
         // standard yellow team on left
         rtt::SETTINGS.init(id);
         rtt::SETTINGS.setYellow(true);
         rtt::SETTINGS.setLeft(true);
-        rtt_info("Initially playing as the yellow team");
-        rtt_info("We are playing on the left side of the field");
+        rtt_info("Initially playing as the YELLOW team")
+        rtt_info("We are playing on the LEFT side of the field")
     }
 
     rtt::SETTINGS.setSerialMode(false);

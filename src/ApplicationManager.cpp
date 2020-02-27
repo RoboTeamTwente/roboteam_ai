@@ -24,7 +24,7 @@ using namespace rtt::ai::world;
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
-
+    rtt_info("Start looping");
     rtt_info("Waiting for field_data and robots...");
 
     int amountOfCycles = 0;
@@ -49,7 +49,7 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
-        if (!fieldInitialized) rtt_success("Received a field message!");
+        if (!fieldInitialized) rtt_success("Received a field message!")
         fieldInitialized = true;
 
         auto fieldMessage = io::io.getGeometryData().field();

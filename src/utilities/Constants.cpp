@@ -16,7 +16,7 @@ bool Constants::robotOutputTargetGrSim = true;
 
 void Constants::init() {
     std::string target = robotOutputTargetGrSim ? "GRSIM" : "SERIAL";
-    rtt_info("robot_output_target is set to" + target)
+    rtt_info("robot_output_target is set to " + target)
     isInitialized = true;
 }
 
