@@ -40,10 +40,10 @@ class Collision {
         ballPlacementCollision = Vector2();
     }
 
-    const world::Robot::RobotPtr &getCollisionRobot() const;
+    const world_new::view::RobotView & getCollisionRobot() const;
     void setCollisionRobot(const world_new::view::RobotView &robot, double distance);
 
-    const world::Ball::BallPtr &getCollisionBall() const;
+    const world_new::view::BallView & getCollisionBall() const;
     void setCollisionBall(const world_new::view::BallView &ball, double distance);
 
     const Vector2 &getCollisionFieldPos() const;

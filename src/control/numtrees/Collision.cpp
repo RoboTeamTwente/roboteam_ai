@@ -36,11 +36,11 @@ std::string Collision::collisionTypeToString() {
     return s;
 }
 
-const world::Robot::RobotPtr &Collision::getCollisionRobot() const { return collisionRobot; }
+const world_new::view::RobotView & Collision::getCollisionRobot() const { return collisionRobot; }
 
 void Collision::setCollisionRobot(const world_new::view::RobotView &robot, double distance) {
     type = ROBOT;
-    collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
+    collisionRobot = robot;
     setCollision(distance);
 }
 
@@ -94,7 +94,7 @@ const Vector2 &Collision::getCollisionDefenseAreaPos() const { return defenseAre
 
 const Vector2 &Collision::getCollisionFieldPos() const { return fieldCollision; }
 
-const world::Ball::BallPtr &Collision::getCollisionBall() const { return collisionBall; }
+const world_new::view::BallView & Collision::getCollisionBall() const { return collisionBall; }
 
 const Vector2 &Collision::getCollisionGoalPos() const { return goalCollision; }
 
