@@ -1,18 +1,9 @@
-//
-// Created by mrlukasbos on 27-11-18.
-//
-
 #include "interface/widgets/mainWindow.h"
-
-#include <interface/api/Input.h>
 #include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
 #include <treeinterp/BTFactory.h>
-
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
-
-#include "interface/api/Output.h"
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
