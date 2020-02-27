@@ -7,16 +7,10 @@
 
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
+#include <world_new/World.hpp>
 #include "control/RobotCommand.h"
 
-namespace rtt::ai {
-
-namespace world {
-class Robot;
-class Ball;
-}  // namespace world
-
-namespace control {
+namespace rtt::ai::control {
 
 class RotateAroundBall;
 class RotateWithBall;
@@ -29,10 +23,8 @@ class DribbleForwards {
     RotateAroundBall *rotateAroundBall;
     RotateWithBall *rotateAroundRobot;
 
-    using RobotPtr = std::shared_ptr<world::Robot>;
-    using BallPtr = std::shared_ptr<world::Ball>;
-    RobotPtr robot;
-    BallPtr ball;
+    world_new::view::RobotView robot{nullptr};
+    world_new::view::BallView ball{nullptr};
 
     ForwardsProgress forwardsProgress = START;
     void printForwardsProgress();
@@ -62,7 +54,7 @@ class DribbleForwards {
     RobotCommand sendSuccessCommand();
 
    public:
-    RobotCommand getRobotCommand(std::shared_ptr<world::Robot> r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA);
     void reset();
     void setMaxVel(double maxVel);
 
@@ -71,7 +63,6 @@ class DribbleForwards {
     ~DribbleForwards();
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_DRIBBLEFORWARDS_H
