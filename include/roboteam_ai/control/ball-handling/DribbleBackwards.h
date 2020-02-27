@@ -8,18 +8,10 @@
 #include <roboteam_utils/Angle.h>
 #include <roboteam_utils/Vector2.h>
 #include "control/RobotCommand.h"
-#include "world/Field.h"
-#include "world/Robot.h"
+#include <world/Field.h>
+#include <world_new/World.hpp>
 
-namespace rtt::ai {
-
-namespace world {
-class Ball;
-class Robot;
-}  // namespace world
-
-namespace control {
-using namespace rtt::ai::world;
+namespace rtt::ai::control {
 class RotateAroundBall;
 class RotateWithBall;
 class DribbleBackwards {
@@ -31,10 +23,8 @@ class DribbleBackwards {
     RotateAroundBall *rotateAroundBall;
     RotateWithBall *rotateAroundRobot;
 
-    using RobotPtr = std::shared_ptr<world::Robot>;
-    using BallPtr = std::shared_ptr<world::Ball>;
-    RobotPtr robot;
-    BallPtr ball;
+    world_new::view::RobotView robot{nullptr};
+    world_new::view::BallView ball{nullptr};
 
     BackwardsProgress backwardsProgress = START;
     void printBackwardsProgress();
@@ -73,14 +63,13 @@ class DribbleBackwards {
     RobotCommand sendSuccessCommand();
 
    public:
-    RobotCommand getRobotCommand(const Field &field, RobotPtr r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(const Field &field, world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA);
     void reset();
 
     explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.4);
     ~DribbleBackwards();
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_DRIBBLEBACKWARDS_H

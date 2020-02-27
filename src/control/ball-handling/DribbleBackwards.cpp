@@ -11,14 +11,12 @@
 #include "control/ControlUtils.h"
 #include "control/ball-handling/RotateAroundBall.h"
 #include "control/ball-handling/RotateWithBall.h"
-#include "world/Ball.h"
-#include "world/World.h"
 
 namespace rtt::ai::control {
 
-RobotCommand DribbleBackwards::getRobotCommand(const Field &field, RobotPtr r, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand DribbleBackwards::getRobotCommand(const Field &field, world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA) {
     robot = std::move(r);
-    ball = world::world->getBall();
+    ball = world_new::World::instance()->getWorld()->getBall().value();
     finalTargetAngle = targetA;
     targetAngle = targetA;
     finalTargetPos = targetP;
@@ -39,20 +37,20 @@ void DribbleBackwards::updateBackwardsProgress() {
 
     // check if we still have ball
     if (backwardsProgress != OVERSHOOTING && backwardsProgress != DRIBBLING && backwardsProgress != DRIBBLE_BACKWARDS) {
-        approachPosition = ball->getPos() + (robot->pos - ball->getPos()).stretchToLength(-0.05);
+        approachPosition = ball->getPos() + (robot->getPos() - ball->getPos()).stretchToLength(-0.05);
     }
-    if ((ball->getPos() - robot->pos).length2() > 0.5) {
+    if ((ball->getPos() - robot->getPos()).length2() > 0.5) {
         backwardsProgress = START;
         return;
     }
     targetAngle = (ball->getPos() - finalTargetPos).toAngle();
-    Angle angleDifference = robot->angle - targetAngle;
+    Angle angleDifference = robot->getAngle() - targetAngle;
 
     // update backwards progress
     switch (backwardsProgress) {
         case TURNING: {
             targetAngle = (ball->getPos() - finalTargetPos).toAngle();
-            if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
+            if (fabs(targetAngle - robot->getAngle()) < angleErrorMargin) {
                 lockedAngle = targetAngle;
                 backwardsProgress = APPROACHING;
             }
@@ -63,19 +61,19 @@ void DribbleBackwards::updateBackwardsProgress() {
                 backwardsProgress = TURNING;
                 return;
             }
-            if (robot->hasBall()) {
+            if (robot.hasBall()) {
                 backwardsProgress = OVERSHOOTING;
                 return;
             }
             return;
         }
         case OVERSHOOTING: {
-            if (!robot->hasBall()) {
+            if (!robot.hasBall()) {
                 backwardsProgress = START;
                 return;
             }
             double overshoot = 0.06;
-            if (((approachPosition - robot->pos)).length() < overshoot) {
+            if (((approachPosition - robot->getPos())).length() < overshoot) {
                 backwardsProgress = DRIBBLING;
                 return;
             }
@@ -87,19 +85,19 @@ void DribbleBackwards::updateBackwardsProgress() {
             return;
         }
         case DRIBBLING: {
-            if (!robot->hasBall()) {
+            if (!robot.hasBall()) {
                 backwardsProgress = APPROACHING;
                 return;
             }
             if (--waitingTicks < 75) {
-                backwardsDribbleLine = {robot->pos, finalTargetPos};
+                backwardsDribbleLine = {robot->getPos(), finalTargetPos};
                 backwardsProgress = DRIBBLE_BACKWARDS;
                 return;
             }
             return;
         }
         case DRIBBLE_BACKWARDS: {
-            if (!robot->hasBall()) {
+            if (!robot.hasBall()) {
                 backwardsProgress = APPROACHING;
                 return;
             }
@@ -158,7 +156,7 @@ RobotCommand DribbleBackwards::startTravelBackwards() {
 }
 
 RobotCommand DribbleBackwards::sendTurnCommand() {
-    if (fabs(targetAngle - robot->angle) < angleErrorMargin) {
+    if (fabs(targetAngle - robot->getAngle()) < angleErrorMargin) {
         lockedAngle = targetAngle;
     }
     targetPos = finalTargetPos;
@@ -168,7 +166,7 @@ RobotCommand DribbleBackwards::sendTurnCommand() {
 RobotCommand DribbleBackwards::sendApproachCommand() {
     RobotCommand command;
     command.dribbler = 31;
-    command.vel = (ball->getPos() - robot->pos).stretchToLength(std::min(0.2, maxVel));
+    command.vel = (ball->getPos() - robot->getPos()).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
     return command;
 }
@@ -176,7 +174,7 @@ RobotCommand DribbleBackwards::sendApproachCommand() {
 RobotCommand DribbleBackwards::sendOvershootCommand(const Field &field) {
     RobotCommand command;
     command.dribbler = 31;
-    command.vel = (approachPosition - robot->pos).stretchToLength(std::min(0.2, maxVel));
+    command.vel = (approachPosition - robot->getPos()).stretchToLength(std::min(0.2, maxVel));
     command.angle = lockedAngle;
 
     if (failedOnce && !FieldComputations::pointIsInField(field, ball->getPos(), Constants::ROBOT_RADIUS())) {
@@ -201,17 +199,17 @@ RobotCommand DribbleBackwards::sendDribbleBackwardsCommand() {
     command.vel = lockedAngle.toVector2(-maxVel);
 
     // check if the robot is still on the virtual line from ball->pos to the target
-    if (control::ControlUtils::distanceToLine(robot->pos, backwardsDribbleLine.first, backwardsDribbleLine.second) > errorMargin * 5) {
+    if (control::ControlUtils::distanceToLine(robot->getPos(), backwardsDribbleLine.first, backwardsDribbleLine.second) > errorMargin * 5) {
         backwardsProgress = TURNING;
     }
 
-    Angle robotAngleTowardsLine = (finalTargetPos - robot->pos).toAngle() - (backwardsDribbleLine.second - backwardsDribbleLine.first).toAngle();
+    Angle robotAngleTowardsLine = (finalTargetPos - robot->getPos()).toAngle() - (backwardsDribbleLine.second - backwardsDribbleLine.first).toAngle();
 
-    Vector2 compensation = (robot->angle + M_PI_2).toVector2(std::min(robotAngleTowardsLine * 2.72, 0.05));
+    Vector2 compensation = (robot->getAngle() + M_PI_2).toVector2(std::min(robotAngleTowardsLine * 2.72, 0.05));
     command.vel += compensation;
 
-    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation + robot->pos, robot->pos}, Qt::white, robot->id, interface::Drawing::ARROWS);
-    interface::Input::drawData(interface::Visual::BALL_HANDLING, {backwardsDribbleLine.first, backwardsDribbleLine.second}, Qt::white, robot->id,
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {compensation + robot->getPos(), robot->getPos()}, Qt::white, robot->getId(), interface::Drawing::ARROWS);
+    interface::Input::drawData(interface::Visual::BALL_HANDLING, {backwardsDribbleLine.first, backwardsDribbleLine.second}, Qt::white, robot->getId(),
                                interface::Drawing::LINES_CONNECTED);
 
     return command;
