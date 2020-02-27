@@ -41,7 +41,14 @@ Skill::Status GoBehindBall::gtpUpdate() {
 }
 
 void GoBehindBall::gtpInitialize() {
-    posController->setAvoidBallDistance(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    goToType = stringToGoToType(properties->getString("goToType"));
+    if (goToType == basic) {
+        robot->getControllers().getBasicPosController()->setAvoidBallDistance(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    }
+
+    else if (goToType == numTree) {
+        robot->getControllers().getNumTreePosController()->setAvoidBallDistance(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    }
     if (properties->hasString("type")) {
         refType = stringToRefType(properties->getString("type"));
     }
