@@ -22,9 +22,6 @@ class RotateAroundBall;
 class RotateWithBall;
 class BallHandlePosControl : public NumTreePosControl {
    private:
-    using BallPtr = std::shared_ptr<world::Ball>;
-    using RobotPtr = std::shared_ptr<world::Robot>;
-
     DribbleForwards *dribbleForwards;
     DribbleBackwards *dribbleBackwards;
     RotateWithBall *rotateWithBall;
@@ -41,8 +38,10 @@ class BallHandlePosControl : public NumTreePosControl {
     constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE * 1.05;
 
-    RobotPtr robot;
-    BallPtr ball;
+//    RobotPtr robot;
+//    BallPtr ball;
+    world_new::view::RobotView robot;
+    world_new::view::BallView ball;
     Vector2 targetPos;
     Angle targetAngle;
     Angle lockedAngle = 0;

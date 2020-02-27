@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <interface/api/Output.h>
-
+#include "world_new/views/WorldDataView.hpp"
 #include "Collision.h"
 #include "PathPoint.h"
 #include "control/BasicPosControl.h"
@@ -56,7 +56,8 @@ class NumTreePosControl : public BasicPosControl {
     const Collision &getCurrentCollisionWithFinalTarget() const;
 
    protected:
-    world::World *world = nullptr;
+//    world::World *world = nullptr;
+    world_new::view::WorldDataView* world;
     const Field *field = nullptr;
 
    private:
