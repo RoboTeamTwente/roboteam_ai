@@ -2,10 +2,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_joystick.h>
 #include <chrono>
-#include <iostream>
 #include <memory>
 #include <thread>
-#include <utilities/Print.h>
+#include <roboteam_utils/Print.h>
 
 using namespace std::chrono;
 
@@ -64,7 +63,7 @@ bool JoystickManager::isActive() {
 
 /** Inits SDL */
 bool JoystickManager::init() {
-    rtt_info("Initializing joystickmanager");
+    rtt_info("Initializing joystickmanager...");
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
         rtt_error("SDL_INIT_JOYSTICK failed with error: " + std::string(SDL_GetError()));
         return false;

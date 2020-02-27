@@ -2,9 +2,8 @@
 // Created by baris on 04/10/18.
 //
 
-#include <include/roboteam_ai/utilities/Print.h>
+#include <roboteam_utils/Print.h>
 #include "treeinterp/BTFactory.h"
-
 #include "treeinterp/OffensiveStrategy.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
@@ -23,7 +22,7 @@ void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
 
-    rtt_info("Re-Make Trees From Json");
+    rtt_info("Creating trees From Json...");
 
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.

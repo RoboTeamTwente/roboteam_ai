@@ -3,10 +3,9 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <include/roboteam_ai/world_new/World.hpp>
-#include <include/roboteam_ai/utilities/Print.h>
 #include "ApplicationManager.h"
 #include "interface/widgets/mainWindow.h"
-
+#include <roboteam_utils/Print.h>
 namespace ui = rtt::ai::interface;
 std::shared_ptr<ui::MainWindow> window;
 

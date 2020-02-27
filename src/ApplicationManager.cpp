@@ -11,7 +11,7 @@
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
 #include "roboteam_utils/normalize.h"
-#include "utilities/Print.h"
+#include <roboteam_utils/Print.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -25,7 +25,7 @@ void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
-    rtt_info("Waiting for field_data and robots");
+    rtt_info("Waiting for field_data and robots...");
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
