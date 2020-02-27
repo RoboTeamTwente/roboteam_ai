@@ -199,7 +199,6 @@ DribbleForwards::ForwardsProgress DribbleForwards::getForwardsProgression() { re
 
 DribbleForwards::DribbleForwards(double errorMargin, double angularErrorMargin, double ballPlacementAccuracy, double maxVel)
     : waitingTicks(0), errorMargin(errorMargin), angleErrorMargin(angularErrorMargin), ballPlacementAccuracy(ballPlacementAccuracy), maxVel(maxVel) {
-
     rotateAroundBall = new RotateAroundBall();
     rotateAroundRobot = new RotateWithBall();
 }

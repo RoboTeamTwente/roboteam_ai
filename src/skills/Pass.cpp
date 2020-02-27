@@ -112,7 +112,9 @@ Pass::Status Pass::onUpdate() {
 void Pass::makeCommand() {
     RobotCommand shotdata;
 
-    shotdata = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, getKicker(), forcePass, control::PASS, false, control::HIGH);
+    shotdata = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, getKicker(), forcePass,
+                                                                            control::PASS, control::HIGH,
+                                                                            <#initializer#>, <#initializer#>);
     command = shotdata.makeROSCommand();
 }
 
