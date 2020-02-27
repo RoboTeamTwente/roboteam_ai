@@ -17,8 +17,8 @@ class WorldHelper {
     static rtt::Vector2 getRandomFieldPosition(proto::GeometryFieldSize field);
     static rtt::Vector2 getRandomVelocity();
     static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
-    static proto::WorldRobot generateRandomRobot(int id, proto::GeometryFieldSize field);
-    static proto::WorldBall generateRandomBall(proto::GeometryFieldSize field);
+    static proto::WorldRobot * generateRandomRobot(int id, proto::GeometryFieldSize field);
+    static proto::WorldBall * generateRandomBall(proto::GeometryFieldSize field);
     static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
     static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
     static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount, const proto::GeometryFieldSize &field);
