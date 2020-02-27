@@ -49,7 +49,6 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
-
         if (!fieldInitialized) rtt_success("Received a field message!");
         fieldInitialized = true;
 
@@ -63,7 +62,6 @@ void ApplicationManager::runOneLoopCycle() {
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
         if (!world->getUs().empty()) {
-
             if (!robotsInitialized) rtt_success("Received robots!");
             robotsInitialized = true;
 
