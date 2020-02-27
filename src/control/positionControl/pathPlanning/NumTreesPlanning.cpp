@@ -17,7 +17,13 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
     while (!pointQueue.empty()){
         PathPointNode& point = pointQueue.front();
         pointQueue.pop();
-        if ((point.getPosition() - targetPosition).length() < TARGET_THRESHOLD || pointQueue.size() > 10){
+
+        // the algorithm will branch too much if it can't find a proper path; move anyway and try again later
+        if (pointQueue.size() >= MAX_BRANCHING){
+            break;
+        }
+
+        if ((point.getPosition() - targetPosition).length() < TARGET_THRESHOLD){
             finalPath = point;
             break;
         }
@@ -38,7 +44,7 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
         // no initial collision
         if (!robotCollision){
             finalPath = PathPointNode(targetPosition, point);
-            continue;
+            break;
         }
 
         auto branches = branchPath(point, robotCollision.value());

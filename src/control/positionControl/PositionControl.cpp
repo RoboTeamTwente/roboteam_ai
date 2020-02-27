@@ -11,7 +11,7 @@ namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
                                                   const Vector2 &targetPosition) {
     collisionDetector.setField(field);
-    if (shouldRecalculatePath(currentPosition, targetPosition, robotId)) {
+    if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
 
@@ -27,9 +27,10 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
     return command;
 }
 
-bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, int robotId) {
+bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
+                                            const Vector2 &currentVelocity, int robotId) {
     return computedPaths[robotId].empty() || PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
-            collisionDetector.getRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front());
+            (currentVelocity != Vector2() && collisionDetector.getRobotCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
 }
 
 void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) {

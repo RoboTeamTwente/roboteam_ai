@@ -15,8 +15,18 @@ class NumTreesPlanning {
 private:
     static constexpr double AVOIDANCE_DISTANCE = 4 * Constants::ROBOT_RADIUS();
     static constexpr double TARGET_THRESHOLD = 0.1;
+    static constexpr int MAX_BRANCHING = 10;
 
     CollisionDetector &collisionDetector;
+
+    /**
+     * Generate 2 new points to the side of the collisionPosition, such that the points and the parent point form
+     * an isosceles triangle, with the collisionPosition being the middle of the base.
+     * @param parentPoint starting point
+     * @param collisionPosition the point to branch from
+     * @return
+     */
+    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const;
 public:
     /**
      * The collision detector is provided by the position control. This class was intended
@@ -36,8 +46,6 @@ public:
      * @return a list of points representing the path
      */
     std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
-
-    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const;
 };
 }
 
