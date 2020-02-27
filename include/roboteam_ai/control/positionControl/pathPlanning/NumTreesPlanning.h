@@ -27,6 +27,7 @@ private:
      * @return
      */
     std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const;
+
 public:
     /**
      * The collision detector is provided by the position control. This class was intended
