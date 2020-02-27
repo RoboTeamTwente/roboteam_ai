@@ -19,6 +19,9 @@ class BallplacementCoach {
     rtt::Vector2 getBallPlacementBeforePos(Vector2 ballPos);
 
     Vector2 getBallPlacementAfterPos(const std::shared_ptr<world::Robot> &robot);
+
+    // TODO: reimplement this function
+    Vector2 getBallPlacementAfterPos(const world_new::view::RobotView &robot);
 };
 
 extern BallplacementCoach g_ballPlacement;

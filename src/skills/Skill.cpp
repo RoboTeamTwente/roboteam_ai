@@ -1,27 +1,23 @@
-#include "skills/Skill.h"
-
+#include <control/ControlUtils.h>
+#include <control/NewControlUtils.h>
 #include <include/roboteam_ai/utilities/Settings.h>
-
+#include <skills/Skill.h>
+#include <utilities/Constants.h>
+#include <utilities/RobotDealer.h>
 #include <cmath>
-
-#include "control/ControlUtils.h"
-#include "utilities/Constants.h"
-#include "utilities/GameStateManager.hpp"
-#include "utilities/RobotDealer.h"
+#include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai {
 
 Skill::Skill(std::string name, bt::Blackboard::Ptr blackboard) : bt::Leaf(std::move(name), std::move(blackboard)) {}
 
 void Skill::publishRobotCommand() {
-
-    if(!robot.has_value()){
+    if (!robot.has_value()) {
         std::cout << "[Skill::publishRobotCommand] Prevented sending command to non-existing robot" << std::endl;
         return;
     }
 
-    if (!SETTINGS.isLeft())
-        command = rotateRobotCommand(command);
+    if (!SETTINGS.isLeft()) command = rotateRobotCommand(command);
 
     limitRobotCommand();
 
@@ -37,11 +33,11 @@ std::string Skill::node_name() { return name; }
 void Skill::initialize() {
     robot = getRobotFromProperties(properties);
     ball = world->getBall();
-    if (!robot.has_value()){
+    if (!robot.has_value()) {
         std::cout << "[Skill::initialize] Warning. Trying to initialize Skill without the robot present" << std::endl;
         return;
     }
-    if (!ball){
+    if (!ball) {
         std::cout << "[Skill::initialize] Warning. Trying to initialize Skill without a ball present" << std::endl;
         return;
     }
@@ -56,19 +52,16 @@ Skill::Status Skill::update() {
     ball = world->getBall();
 
     // Fail if the robot isn't present
-    if (!robot.has_value())
-        return Status::Failure;
+    if (!robot.has_value()) return Status::Failure;
 
     // Wait if the ball isn't present (Emiel : Why? What if it is a driving skill)
-    if (!ball.has_value())
-        return Status::Waiting;
+    if (!ball.has_value()) return Status::Waiting;
 
     return onUpdate();
 }
 
 void Skill::terminate(Status s) {
-    if (!init)
-        return;
+    if (!init) return;
     init = false;
     if (!robot.has_value()) return;
     if (!ball) return;
@@ -95,33 +88,33 @@ void Skill::resetRobotCommand() {
 
 /// Velocity and acceleration limiters used on command
 void Skill::limitRobotCommand() {
-    throw "[Skill::limitRobotCommand] not implemented!";
-//    bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName == "keeper_penalty_defend_tactic";
-//    bool isKeeper = command.id() == robotDealer::RobotDealer::getKeeperID();
-//
-//    auto limitedVel = Vector2(command.vel().x(), command.vel().y());
-//    limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
-//
-//    if (!(isDefendPenaltyState && isKeeper)) {
-//        limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w());
-//    }
-//
-//    robot->setPidPreviousVel(limitedVel);
-//    if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-//        std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!"
-//                  << "  robot  " << robot->id << std::endl;
-//        robot->setPidPreviousVel(robot->vel);
-//    }
-//    command.mutable_vel()->set_x(limitedVel.x);
-//    command.mutable_vel()->set_y(limitedVel.y);
+    bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName == "keeper_penalty_defend_tactic";
+    bool isKeeper = command.id() == robotDealer::RobotDealer::getKeeperID();
+
+    auto limitedVel = Vector2(command.vel().x(), command.vel().y());
+    limitedVel = control::NewControlUtils::velocityLimiter(limitedVel);
+
+    if (!(isDefendPenaltyState && isKeeper)) {
+        limitedVel = control::NewControlUtils::accelerationLimiter(limitedVel, robot->get()->getPidPreviousVel(), command.w());
+    }
+
+    // TODO: Why set pid prev vel here?
+    // robot->get()->setPidPreviousVel(robot->get()->getVel());
+    if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
+        std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!"
+                  << "  robot  " << robot->get()->getId() << std::endl;
+        // TODO: Why set pid prev vel here?
+        // robot->get()->setPidPreviousVel(robot->get()->getVel());
+    }
+    command.mutable_vel()->set_x(limitedVel.x);
+    command.mutable_vel()->set_y(limitedVel.y);
 }
 
 void Skill::refreshRobotPositionControllers() {
-    throw "[Skill::refreshRobotPositionControllers] not implemented!";
-//    robot->resetNumTreePosControl();
-//    robot->resetShotController();
-//    robot->resetBallHandlePosControl();
-//    robot->resetBasicPosControl();
+    robot->get()->resetNumTreePosControl();
+    robot->get()->resetShotController();
+    robot->get()->resetBallHandlePosControl();
+    robot->get()->resetBasicPosControl();
 }
 
 }  // namespace rtt::ai

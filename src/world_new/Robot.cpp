@@ -91,13 +91,15 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-void Robot::resetShotController() noexcept { World::instance()->getControllersForRobot(getId()).getShotController() = std::make_unique<ai::control::ShotController>(); }
+void Robot::resetShotController() const noexcept { World::instance()->getControllersForRobot(getId()).getShotController() = std::make_unique<ai::control::ShotController>(); }
 
-void Robot::resetNumTreePosControl() noexcept { World::instance()->getControllersForRobot(getId()).getNumTreePosController() = std::make_unique<ai::control::NumTreePosControl>(); }
+void Robot::resetNumTreePosControl() const noexcept {
+    World::instance()->getControllersForRobot(getId()).getNumTreePosController() = std::make_unique<ai::control::NumTreePosControl>();
+}
 
-void Robot::resetBasicPosControl() noexcept { World::instance()->getControllersForRobot(getId()).getBasicPosController() = std::make_unique<ai::control::BasicPosControl>(); }
+void Robot::resetBasicPosControl() const noexcept { World::instance()->getControllersForRobot(getId()).getBasicPosController() = std::make_unique<ai::control::BasicPosControl>(); }
 
-void Robot::resetBallHandlePosControl() noexcept {
+void Robot::resetBallHandlePosControl() const noexcept {
     World::instance()->getControllersForRobot(getId()).getBallHandlePosController() = std::make_unique<ai::control::BallHandlePosControl>();
 }
 

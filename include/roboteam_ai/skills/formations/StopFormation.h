@@ -22,8 +22,8 @@ class StopFormation : public Formation {
     std::vector<Vector2> getProperPositions(int amount);
 
    private:
-    std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
 };
 
 }  // namespace rtt::ai

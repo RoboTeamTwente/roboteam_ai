@@ -28,8 +28,8 @@ void BTFactory::makeTrees() {
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
      * In order to do this in a cleaner way, maybe build trees automatically by going through directory
      */
-//    auto Off = new bt::OffensiveStrategy();
-//    codeTrees["attackertree"] = Off->createOffensiveStrategy();
+    auto Off = new bt::OffensiveStrategy();
+    codeTrees["attackertree"] = Off->createOffensiveStrategy();
 
     // TODO Remove this legacy code
     // If you think calling this over and over again is bad or slow you are partially correct. But if you optimize with
