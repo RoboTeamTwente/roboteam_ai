@@ -36,6 +36,8 @@ void setDarkTheme() {
 }
 
 int main(int argc, char* argv[]) {
+    rtt_debug("Debug printing is turned on ");
+
     rtt::ai::Constants::init();
 
     // get the id of the ai from the init

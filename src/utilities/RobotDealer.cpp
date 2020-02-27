@@ -313,7 +313,7 @@ int RobotDealer::findRobotForRole(const std::string &roleName) {
             }
         }
     }
-    rtt_warning("Cannot find a robot with that Role Name: " + roleName );
+//    rtt_warning("Cannot find a robot with that Role Name: " + roleName );
     return -1;
 }
 

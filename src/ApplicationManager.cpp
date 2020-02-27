@@ -62,7 +62,9 @@ void ApplicationManager::runOneLoopCycle() {
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
         if (!world->getUs().empty()) {
-            if (!robotsInitialized) rtt_success("Received robots!");
+            if (!robotsInitialized) {
+                rtt_success("Received robots, starting behaviour trees!")
+            }
             robotsInitialized = true;
 
             world_new::World::instance()->updateWorld(worldMessage);
@@ -77,14 +79,14 @@ void ApplicationManager::runOneLoopCycle() {
             this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
-                rtt_warning("No robots found in world!");
+                rtt_warning("No robots found in world. Behaviour trees are not running")
                 robotsInitialized = false;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds (100));
         }
     } else {
         if (fieldInitialized) {
-            rtt_warning("No field data present!");
+            rtt_warning("No field data present!")
             fieldInitialized = false;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds (100));
@@ -114,7 +116,7 @@ void ApplicationManager::updateTrees() {
     }
 
     if (keeperStrategyChanged) {
-        rtt_info("Switching keeper strategy to " + keeperTreeName);
+        rtt_info("Switching keeper strategy to " + keeperTreeName)
         BTFactory::setKeeperTree(keeperTreeName);
         oldKeeperTreeName = keeperTreeName;
     }
