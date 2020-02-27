@@ -132,5 +132,11 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, const std:
 
 const std::vector<RobotView> &WorldDataView::getRobotsNonOwning() const noexcept { return data->getRobotsNonOwning(); }
 
-WorldDataView::WorldDataView(WorldData const *_ptr) noexcept : data{_ptr} {}
+    WorldDataView::WorldDataView(WorldData const *_ptr) noexcept : data{_ptr} {}
+
+    // TODO implement this function
+    std::optional<RobotView> WorldDataView::getFutureRobot(const RobotView robotView, double d) {
+        return robotView;
+    }
+
 }  // namespace rtt::world_new::view
