@@ -15,9 +15,6 @@ const Vector2 &PathPointNode::getPosition() const {
     return position;
 }
 
-double PathPointNode::getTime() const {
-    return time;
-}
 
 PathPointNode *PathPointNode::getParent() const {
     return parent;
