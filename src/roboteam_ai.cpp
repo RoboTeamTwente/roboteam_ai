@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QStyleFactory>
 #include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/utilities/Print.h>
 #include "ApplicationManager.h"
 #include "interface/widgets/mainWindow.h"
 
@@ -66,10 +67,9 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRobothubSendPort(20011);
 
     rtt::ai::io::io.init(rtt::SETTINGS.getId());
-
     BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees())
-        ;
+    while (!BTFactory::hasMadeTrees());
+
 
     std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 

@@ -2,6 +2,7 @@
 // Created by baris on 04/10/18.
 //
 
+#include <include/roboteam_ai/utilities/Print.h>
 #include "treeinterp/BTFactory.h"
 
 #include "treeinterp/OffensiveStrategy.h"
@@ -22,7 +23,7 @@ void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
 
-    std::cout << "Re-Make Trees From Json" << std::endl;
+    rtt_info("Re-Make Trees From Json");
 
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
@@ -52,7 +53,7 @@ void BTFactory::makeTrees() {
     }
 
     BTFactory::weMadeTrees = true;
-    std::cout << "Done making trees" << std::endl;
+    rtt_success("Done making trees!");
 }
 
 /**

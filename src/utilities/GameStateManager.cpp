@@ -2,6 +2,7 @@
 
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <skills/Halt.h>
+#include <include/roboteam_ai/utilities/Print.h>
 
 #include "interface/api/Output.h"
 
@@ -173,7 +174,7 @@ GameState GameStateManager::getCurrentGameState() {
 }
 
 void GameStateManager::forceNewGameState(RefCommand cmd) {
-    std::cout << "Forcing new refstate!" << std::endl;
+    rtt_info("Forcing new refstate!");
 
     // overwrite both the interface and the strategy manager.
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));

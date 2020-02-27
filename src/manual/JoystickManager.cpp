@@ -5,17 +5,20 @@
 #include <iostream>
 #include <memory>
 #include <thread>
+#include <utilities/Print.h>
 
 using namespace std::chrono;
 
 namespace rtt::input {
 
-JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioManager) { std::cout << "[JoystickManager] New JoystickManager" << std::endl; }
+JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioManager) {
+    rtt_debug("Constructing JoystickManager");
+}
 
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {
     if (!init()) {
-        std::cout << "[JoystickManager][start] Could not initialize JoystickManager. Exiting.." << std::endl;
+        rtt_error("Could not initialize JoystickManager. Exiting..");
         return false;
     }
 
@@ -31,14 +34,14 @@ bool JoystickManager::run() {
 void JoystickManager::activate() {
     std::lock_guard<std::mutex> lock(activeLock);
     active = true;
-    std::cout << "[JoystickManager][activate]" << std::endl;
+    rtt_info("JoystickManager is now active");
 }
 
 /** Deactivate the handling of events and ticking of JoystickHandlers */
 void JoystickManager::deactivate() {
     std::lock_guard<std::mutex> lock(activeLock);
     active = false;
-    std::cout << "[JoystickManager][deactivate]" << std::endl;
+    rtt_info("JoystickManager is now inactive");
 }
 
 /** Stops the loop of JoystickManager */
@@ -46,7 +49,7 @@ void JoystickManager::stop() {
     std::lock_guard<std::mutex> lock(runningLock);
     running = false;
     deactivate();
-    std::cout << "[JoystickManager][stop]" << std::endl;
+    rtt_info("JoystickManager is now stopped");
 }
 
 /** Checks if the JoystickManager is still running */
@@ -63,18 +66,19 @@ bool JoystickManager::isActive() {
 
 /** Inits SDL */
 bool JoystickManager::init() {
-    std::cout << "[JoystickManager][init] Initializing.." << std::endl;
+    rtt_info("Initializing joystickmanager");
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
-        std::cout << "[JoystickManager][init] SDL_INIT_JOYSTICK failed : " << SDL_GetError() << std::endl;
+        rtt_error("SDL_INIT_JOYSTICK failed with error: " + std::string(SDL_GetError()));
         return false;
     }
     SDL_JoystickEventState(SDL_ENABLE);
+    rtt_success("Joystickmanager succesfully initialized!");
     return true;
 }
 
 /** Main loop */
 void JoystickManager::loop() {
-    std::cout << "[JoystickManager][loop] Starting loop" << std::endl;
+    rtt_info("Starting loop");
     int iTicks = 0;
     int iEvents = 0;
     SDL_Event event;
@@ -114,7 +118,7 @@ void JoystickManager::loop() {
             if (msToNextTick <= 0) break;
         }
     }
-    std::cout << "[JoystickManager][loop] Exiting loop" << std::endl;
+    rtt_info("Exiting loop");
 }
 
 /** Sends commands from JoystickHandlers */
@@ -143,26 +147,26 @@ void JoystickManager::handleEvent(SDL_Event &event) {
 
 /** Takes an SDL_Event and adds a new JoystickHandler to the map of JoystickHandlers */
 void JoystickManager::handleJoystickAdded(const SDL_Event &event) {
-    std::cout << "[JoystickManager][handleJoystickAdded] Adding joystick " << event.jdevice.which << std::endl;
+    rtt_info("Adding joystick" + std::to_string(event.jdevice.which));
 
     SDL_Joystick *joystick = SDL_JoystickOpen(event.jdevice.which);
     if (!joystick) {
-        std::cout << "[JoystickManager][handleJoystickAdded] Error! Could not open joystick!" << std::endl;
+        rtt_error("Could not open joystick" + std::to_string(event.jdevice.which));
         return;
     }
 
     int instanceId = SDL_JoystickInstanceID(joystick);
     auto handler = new JoystickHandler();
     joystickHandlers.insert({instanceId, handler});
-    std::cout << "[JoystickManager][handleJoystickAdded] Added joystick with InstanceID " << instanceId << std::endl;
+    rtt_success("Added joystick with InstanceID" + std::to_string(instanceId));
 }
 
 /** Takes an SDL_Event and deletes and removes the correct JoystickHandler from the map of JoystickHandlers */
 void JoystickManager::handleJoystickRemoved(const SDL_Event &event) {
-    std::cout << "[JoystickManager][handleJoystickRemoved] Removing joystick " << event.jdevice.which << std::endl;
+    rtt_info("Removing joystick with InstanceID" + std::to_string(event.jdevice.which));
     delete joystickHandlers.at(event.jdevice.which);
     joystickHandlers.erase(event.jdevice.which);
-    std::cout << "[JoystickManager][handleJoystickAdded] Removed joystick with InstanceID " << event.jdevice.which << std::endl;
+    rtt_success("Removed joystick with InstanceID" + std::to_string(event.jdevice.which));
 }
 
 }  // namespace rtt::input
