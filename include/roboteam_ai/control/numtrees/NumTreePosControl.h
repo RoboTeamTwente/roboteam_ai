@@ -6,10 +6,11 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <interface/api/Output.h>
-#include "world_new/views/WorldDataView.hpp"
+
 #include "Collision.h"
 #include "PathPoint.h"
 #include "control/BasicPosControl.h"
+#include "world_new/views/WorldDataView.hpp"
 
 namespace rtt::ai::control {
 
@@ -21,7 +22,8 @@ class NumTreePosControl : public BasicPosControl {
     using PathPointer = std::shared_ptr<PathPoint>;
 
     std::vector<rtt::Vector2> triedPaths;
-    RobotPtr robot;
+
+    world_new::view::RobotView robot{};
     Vector2 finalTargetPos;
 
     bool doRecalculatePath(const Vector2 &targetPos);
@@ -41,8 +43,8 @@ class NumTreePosControl : public BasicPosControl {
 
     // collisions
     Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
-    Collision getRobotCollision(const PathPointer &point, const std::vector<RobotPtr> &robots, double distance);
-    Collision getBallCollision(const PathPointer &point, const BallPtr &ball);
+    Collision getRobotCollision(const PathPointer &point, const std::vector<world_new::view::RobotView> &robots, double distance);
+    Collision getBallCollision(const PathPointer &point, const world_new::view::BallView &ball);
     Collision getFieldCollision(const PathPointer &point);
     Collision getDefenseAreaCollision(const PathPointer &point);
     Collision getGoalCollision(const PathPointer &point);
@@ -56,8 +58,7 @@ class NumTreePosControl : public BasicPosControl {
     const Collision &getCurrentCollisionWithFinalTarget() const;
 
    protected:
-//    world::World *world = nullptr;
-    world_new::view::WorldDataView* world;
+    world_new::view::WorldDataView *world;
     const Field *field = nullptr;
 
    private:
@@ -85,13 +86,13 @@ class NumTreePosControl : public BasicPosControl {
 
     void clear();
 
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) override;
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) override;
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
-
-    // TODO: Implement this function/refactor controllers
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos);
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos) override;
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos,
+                                 bool illegalPositions);
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos,
+                                 const Angle &targetAngle) override;
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos,
+                                 const Angle &targetAngle, bool illegalPositions);
 
     bool checkChangeInMaxRobotVel();
 };

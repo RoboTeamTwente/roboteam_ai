@@ -190,7 +190,11 @@ class WorldDataView {
      * @return A non-owning view of the robot that has the ball
      */
     [[nodiscard]] std::optional<RobotView> whichRobotHasBall(Team team = both, double maxDist = ai::Constants::MAX_BALL_RANGE());
-    [[nodiscard]] std::optional<RobotView> getFutureRobot(const RobotView robotView, double d)
+
+    [[nodiscard]] std::optional<RobotView> getFutureRobot(const RobotView robotView, double d);
+
+    [[nodiscard]] std::optional<BallView> getFutureBall(double d);
+
    private:
     /**
      * Constant world data that's used in the view

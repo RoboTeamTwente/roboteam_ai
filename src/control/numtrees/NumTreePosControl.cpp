@@ -12,9 +12,7 @@
 #include "control/RobotCommand.h"
 #include "control/numtrees/Collision.h"
 #include "control/numtrees/PathPoint.h"
-#include "world/Ball.h"
 #include "world/FieldComputations.h"
-#include "world/Robot.h"
 
 namespace rtt::ai::control {
 
@@ -32,22 +30,29 @@ RobotCommand NumTreePosControl::computeCommand(const Vector2 &exactTargetPos) {
     auto targetPathPoint = static_cast<unsigned long>(goToTimeInFuture / DT);
     if (path.size() < targetPathPoint) {
         target.pos = exactTargetPos;
-        target.vel = exactTargetPos - robot->pos;
+        target.vel = exactTargetPos - robot->getPos();
         target.angle = target.vel.toAngle();
         return target;
     }
 
-    target.pos = robot->pos + (path[targetPathPoint].pos - robot->pos) * 1.0;
+    target.pos = robot->getPos() + (path[targetPathPoint].pos - robot->getPos()) * 1.0;
     target.vel = path[targetPathPoint].vel;  // Velocity is not used currently!!
-    target.angle = (target.pos - robot->pos).angle();
+    target.angle = (target.pos - robot->getPos()).angle();
 
-    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos}, Qt::green, robot->id, interface::Drawing::DOTS, 12, 12);
-    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos, target.pos + target.vel * 0.4}, Qt::red, robot->id, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos}, Qt::green, robot->getId(), interface::Drawing::DOTS, 12, 12);
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, {target.pos, target.pos + target.vel * 0.4}, Qt::red, robot->getId(), interface::Drawing::LINES_CONNECTED);
     return target;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle,
-                                                bool illegalPositions) {
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos) {
+    this->world = world;
+    this->field = field;
+    Angle defaultAngle;
+    return NumTreePosControl::getRobotCommand(world, field, robotPtr, targetPos, defaultAngle);
+}
+
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos,
+                                                const Angle &targetAngle, bool illegalPositions) {
     this->world = world;
     this->field = field;
 
@@ -58,7 +63,8 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
     return robotCommand;
 }
 
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions) {
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos,
+                                                bool illegalPositions) {
     this->world = world;
     this->field = field;
 
@@ -67,7 +73,8 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
 }
 
 /// finds a path using a numeric model
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) {
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos,
+                                                const Angle &targetAngle) {
     this->world = world;
     this->field = field;
 
@@ -82,8 +89,7 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
     }
 
     // make a copy of the robot
-    robot = std::make_shared<world::Robot>(world::Robot(*robotPtr));
-    // ros::Time begin = ros::Time::now();
+    this->robot = robotPtr;
 
     // Check if the current path is still valid, if not, recalculate
     bool nicePath = true;
@@ -91,9 +97,9 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
     if (recalculate) {
         finalTargetPos = targetPos;
 
-        if (Vector2(robot->vel).length() > Constants::MAX_VEL_CMD()) {
+        if (Vector2(robot->getVel()).length() > Constants::MAX_VEL_CMD()) {
             nicePath = false;
-            if (InterfaceValues::showDebugNumTreeInfo()) std::cout << "ROBOT " << robot->id << ": is moving too fast, check world_state?" << std::endl;
+            if (InterfaceValues::showDebugNumTreeInfo()) std::cout << "ROBOT " << robot->getId() << ": is moving too fast, check world_state?" << std::endl;
         } else {
             // Calculate new path
             tracePath();
@@ -102,21 +108,16 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
             }
         }
     }
-    //    ros::Time end = ros::Time::now();
-    //    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo()) {
-    //        std::cout << "ROBOT " << robot->id << ": GoToPosClean tick took: " <<
-    //                  (end - begin).toNSec()*0.000001 << " ms" << std::endl;
-    //    }
 
     // draw
     std::vector<Vector2> drawpoints = {};
     for (int i = path.size() - 1; i >= 0; i--) {
         drawpoints.push_back(path[i].pos);
     }
-    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot->id, interface::Drawing::DOTS, 3, 3);
-    interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->id, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->id, interface::Drawing::CIRCLES, 8, 8, 6);
-    interface::Input::drawData(interface::Visual::PATHFINDING, {finalTargetPos}, Qt::darkYellow, robot->id, interface::Drawing::CIRCLES, 8, 8, 6);
+    interface::Input::drawData(interface::Visual::PATHFINDING_DEBUG, triedPaths, Qt::red, robot->getId(), interface::Drawing::DOTS, 3, 3);
+    interface::Input::drawData(interface::Visual::PATHFINDING, drawpoints, Qt::green, robot->getId(), interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::PATHFINDING, {targetPos}, Qt::yellow, robot->getId(), interface::Drawing::CIRCLES, 8, 8, 6);
+    interface::Input::drawData(interface::Visual::PATHFINDING, {finalTargetPos}, Qt::darkYellow, robot->getId(), interface::Drawing::CIRCLES, 8, 8, 6);
 
     // check if we have a nice path.
     if (!nicePath) {
@@ -267,16 +268,16 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     double futureTime = point->t;
 
     // Collision with Robots
-    auto allRobots = world->getAllRobots();
+    auto allRobots = world->getRobotsNonOwning();
     for (auto &r : allRobots) {
-        r = world->getFutureRobot(r, futureTime);
+        r = world->getFutureRobot(r, futureTime).value();
     }
     auto robotCollision = getRobotCollision(point, allRobots, collisionRadius);
     if (robotCollision.isCollision) return robotCollision;
 
     // Collision with Ball
     auto ball = world->getFutureBall(futureTime);
-    auto ballCollision = getBallCollision(point, ball);
+    auto ballCollision = getBallCollision(point, ball.value());
     if (ballCollision.isCollision) return ballCollision;
 
     // Collision with Edge of Field
@@ -299,7 +300,7 @@ Collision NumTreePosControl::getCollision(const PathPointer &point, double colli
     return {};
 }
 
-Collision NumTreePosControl::getRobotCollision(const PathPointer &point, const std::vector<RobotPtr> &robots, double distance) {
+Collision NumTreePosControl::getRobotCollision(const PathPointer &point, const std::vector<world_new::view::RobotView> &robots, double distance) {
     // for all robots check if the distance to collisionPos is smaller than the set distance
     Collision collision = {};
     auto currentRobotCollision = currentCollisionWithRobot.getCollisionRobot();
@@ -307,13 +308,13 @@ Collision NumTreePosControl::getRobotCollision(const PathPointer &point, const s
 
     for (auto &r : robots) {
         // cant collide with itself
-        if (r->id == this->robot->id && r->team == this->robot->team) continue;
+        if (r->getId() == this->robot->getId() && r->getTeam() == this->robot->getTeam()) continue;
         // don't look at the robot it is colliding with already
-        if (r->id == currentRobotCollision->id && r->team == currentRobotCollision->team) continue;
+        if (r->getId() == currentRobotCollision->getId() && r->getTeam() == currentRobotCollision->getTeam()) continue;
         // don't look at the final target if the robot is colliding
-        if (r->id == currentFinalTargetCollision->id && r->team == currentFinalTargetCollision->team) continue;
+        if (r->getId() == currentFinalTargetCollision->getId() && r->getTeam() == currentFinalTargetCollision->getTeam()) continue;
 
-        if (point->isCollision(r->pos, distance)) {
+        if (point->isCollision(r->getPos(), distance)) {
             collision.setCollisionRobot(r, distance);
             return collision;
         }
@@ -321,10 +322,10 @@ Collision NumTreePosControl::getRobotCollision(const PathPointer &point, const s
     return collision;
 }
 
-Collision NumTreePosControl::getBallCollision(const PathPointer &point, const PosController::BallPtr &ball) {
+Collision NumTreePosControl::getBallCollision(const PathPointer &point, const world_new::view::BallView &ball) {
     Collision collision = {};
-    if (currentCollisionWithRobot.getCollisionBall()->getVisible()) return collision;
-    if (currentCollisionWithFinalTarget.getCollisionBall()->getVisible()) return collision;
+    if (currentCollisionWithRobot.getCollisionBall()->isVisible()) return collision;
+    if (currentCollisionWithFinalTarget.getCollisionBall()->isVisible()) return collision;
 
     double avoidBallDistance = getAvoidBallDistance();
     if (point->isCollision(ball->getPos(), avoidBallDistance)) {
@@ -393,21 +394,23 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
         std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
     };
 
-    double avoidDist = fmin(ballPlacementMarker.dist(ball->getPos()), 2.0);
-    auto shortenedDistance = (ballPlacementMarker - ball->getPos()).stretchToLength(avoidDist);
+    double avoidDist = fmin(ballPlacementMarker.dist(ball->get()->getPos()), 2.0);
+    auto shortenedDistance = (ballPlacementMarker - ball->get()->getPos()).stretchToLength(avoidDist);
 
-    bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->getPos()), ball->getPos() + shortenedDistance) < 0.5;
+    bool collidesWithBallPlacement = control::ControlUtils::distanceToLineWithEnds(point->pos, Vector2(ball->get()->getPos()), ball->get()->getPos() + shortenedDistance) < 0.5;
     Vector2 diff = (shortenedDistance).rotate(M_PI_2);
 
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() + diff.stretchToLength(0.5), ball->getPos() + shortenedDistance + diff.stretchToLength(0.5)},
-                               Qt::darkCyan, -1, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos() - diff.stretchToLength(0.5), ball->getPos() + shortenedDistance - diff.stretchToLength(0.5)},
-                               Qt::darkCyan, -1, interface::Drawing::LINES_CONNECTED);
-    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->getPos(), ball->getPos() + shortenedDistance}, Qt::darkCyan, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5,
-                               0.5);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT,
+                               {ball->get()->getPos() + diff.stretchToLength(0.5), ball->get()->getPos() + shortenedDistance + diff.stretchToLength(0.5)}, Qt::darkCyan, -1,
+                               interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT,
+                               {ball->get()->getPos() - diff.stretchToLength(0.5), ball->get()->getPos() + shortenedDistance - diff.stretchToLength(0.5)}, Qt::darkCyan, -1,
+                               interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->get()->getPos(), ball->get()->getPos() + shortenedDistance}, Qt::darkCyan, -1,
+                               interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
     if (collidesWithBallPlacement) {
-        double newLocation = (fmax(ball->getPos().dist(point->pos), (ball->getPos() + shortenedDistance).dist(point->pos))) * 1.2;
+        double newLocation = (fmax(ball->get()->getPos().dist(point->pos), (ball->get()->getPos() + shortenedDistance).dist(point->pos))) * 1.2;
         collision.setBallPlacementCollision(point->pos, newLocation);
     }
 
@@ -454,18 +457,6 @@ std::vector<PathPoint> NumTreePosControl::backTrackPath(PathPointer point, const
 void NumTreePosControl::checkInterfacePID() {
     auto newPid = interface::Output::getNumTreePid();
     updatePid(newPid);
-}
-
-RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) {
-    this->world = world;
-    this->field = field;
-    Angle defaultAngle;
-    return NumTreePosControl::getRobotCommand(world, field, robotPtr, targetPos, defaultAngle);
-}
-
-// TODO: Implement this function
-RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos) {
-    return RobotCommand{};
 }
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
@@ -606,7 +597,7 @@ bool NumTreePosControl::checkIfTooFarFromCurrentPath(double maxTargetDeviation, 
 
 bool NumTreePosControl::checkIfRobotWillCollideFollowingThisPath() {
     // check if there is a collision for any of the upcoming points in the path
-    for (auto pathPoint : path) {
+    for (const auto &pathPoint : path) {
         if (getCollision(std::make_shared<PathPoint>(pathPoint), 0.8 * DEFAULT_ROBOT_COLLISION_RADIUS).isCollision) {
             if (InterfaceValues::showDebugNumTreeInfo()) {
                 std::cout << "ROBOT " << robot->id
