@@ -2,6 +2,7 @@
 // Created by robzelluf on 4/17/19.
 //
 
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "coach/heuristics/PassScore.h"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "world/FieldComputations.h"
@@ -10,7 +11,13 @@
 namespace rtt::ai::coach {
 
 double PassScore::calculatePassScore(const Field &field, const Vector2 &position) {
-    WorldData world = world::world->getWorld();
+    auto worldOpt = world_new::World::instance()->getWorld();
+    if (!worldOpt.has_value()) {
+        std::cout << "[PassScore.cpp: calculatePassScore] No world available!" << std::endl;
+        return 0;
+    }
+    auto world = worldOpt.value();
+
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(field, position);
     double shotAtGoalScore = CoachHeuristics::calculateShotAtGoalScore(field, position, world);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);

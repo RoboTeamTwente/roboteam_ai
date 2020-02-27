@@ -56,7 +56,7 @@ class World {
     /**
      * Amount of ticks to store in history
      */
-    constexpr static size_t HISTORY_SIZE = 20;
+    constexpr static size_t HISTORY_SIZE = 200;
 
     /**
      * Constructs a World from settings
@@ -85,10 +85,18 @@ class World {
     void updateWorld(proto::World &protoWorld);
 
     /**
+    * Updates the currentField
+    * @param field Field to construct currentField from
+    */
+    void updateField(proto::SSL_GeometryFieldSize &protoField);
+
+    /**
      * Gets the current world
      * @return std::nullopt if there is no currentWorld, otherwise Some with the value
      */
     [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
+
+    [[nodiscard]] std::optional<ai::world::Field> getField() const noexcept;
 
     /**
      * Gets a certain world from history
@@ -186,6 +194,9 @@ class World {
      * Some if a world is valid
      */
     std::optional<WorldData> currentWorld;
+
+
+    std::optional<ai::world::Field> currentField;
 
     /**
      * Timestamp of the last tick

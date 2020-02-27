@@ -51,17 +51,17 @@ class WorldData {
     /**
      * Non owning vector of views
      */
-    std::vector<view::RobotView> robotsNonOwning;
+    std::vector<view::RobotView> robotsNonOwning = {};
 
     /**
      * Non-owning container of Robot const* const's (aka RobotView) for our team
      */
-    std::vector<view::RobotView> us;
+    std::vector<view::RobotView> us = {};
 
     /**
      * Non-owning container of RobotViews of the enemy team
      */
-    std::vector<view::RobotView> them;
+    std::vector<view::RobotView> them = {};
 
     /**
      * Optional ball, None variant if not visible

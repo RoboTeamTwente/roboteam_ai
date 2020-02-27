@@ -1,18 +1,9 @@
-//
-// Created by mrlukasbos on 27-11-18.
-//
-
 #include "interface/widgets/mainWindow.h"
-
-#include <interface/api/Input.h>
 #include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
 #include <treeinterp/BTFactory.h>
-
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
-
-#include "interface/api/Output.h"
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
@@ -123,7 +114,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     // update mainwindow and field visualization
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(40);  // 25fps
+    timer->start(200);  // 5fps
 
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
@@ -137,7 +128,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
-    robotsTimer->start(200);  // 5fps
+    robotsTimer->start(40);  // 25fps
 
     auto *graphTimer = new QTimer(this);
     connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
