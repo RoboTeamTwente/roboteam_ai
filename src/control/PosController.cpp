@@ -3,13 +3,7 @@
 //
 
 #include "control/PosController.h"
-
-#include <control/ControlUtils.h>
-#include <interface/api/Output.h>
-
 #include <utilities/GameStateManager.hpp>
-
-#include "world/Robot.h"
 
 namespace rtt::ai::control {
 
@@ -23,7 +17,7 @@ PosController::PosController(double avoidBall, bool canMoveOutOfField, bool canM
 }
 
 /// apply a posPID and a velPID over a posVelAngle for better control
-RobotCommand PosController::controlWithPID(const RobotPtr &robot, RobotCommand target) {
+RobotCommand PosController::controlWithPID(const world_new::view::RobotView &robot, RobotCommand target) {
     if (getPIDFromInterface) checkInterfacePID();
     RobotCommand pidCommand;
     pidCommand.pos = target.pos;
@@ -35,9 +29,9 @@ RobotCommand PosController::controlWithPID(const RobotPtr &robot, RobotCommand t
 }
 
 // actually calculate the pids
-Vector2 PosController::calculatePIDs(const PosController::RobotPtr &robot, RobotCommand &target) {
-    auto x = xpid.getOutput(robot->pos.x, target.pos.x);
-    auto y = ypid.getOutput(robot->pos.y, target.pos.y);
+Vector2 PosController::calculatePIDs(const world_new::view::RobotView &robot, RobotCommand &target) {
+    auto x = xpid.getOutput(robot->getPos().x, target.pos.x);
+    auto y = ypid.getOutput(robot->getPos().y, target.pos.y);
     Vector2 pidP(x, y);
     return pidP;
 }
