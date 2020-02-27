@@ -5,9 +5,10 @@
 #ifndef ROBOTEAM_AI_ROTATEAROUNDBALL_H
 #define ROBOTEAM_AI_ROTATEAROUNDBALL_H
 
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <world_new/World.hpp>
 #include <control/RobotCommand.h>
+#include <include/roboteam_ai/utilities/Constants.h>
+
+#include <world_new/World.hpp>
 
 namespace rtt::ai::control {
 
@@ -21,7 +22,7 @@ class RotateAroundBall {
 
    public:
     RotateAroundBall() = default;
-    RobotCommand getRobotCommand(world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(const world_new::view::RobotView r, const Vector2 &targetP, const Angle &targetA);
 };
 
 }  // namespace rtt::ai::control

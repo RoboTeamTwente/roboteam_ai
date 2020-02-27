@@ -7,7 +7,7 @@
 
 namespace rtt::ai::control {
 
-RobotCommand RotateAroundBall::getRobotCommand(world_new::view::RobotView robot, const Vector2 &targetP, const Angle &targetA) {
+RobotCommand RotateAroundBall::getRobotCommand(const world_new::view::RobotView robot, const Vector2 &targetP, const Angle &targetA) {
     auto ball = world::world->getBall();
     targetAngle = targetA;
     targetPos = targetP;
