@@ -11,20 +11,12 @@
 #include <optional>
 #include "utilities/Constants.h"
 #include "world/FieldComputations.h"
+#include <world_new/World.hpp>
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
 
-namespace rtt::ai {
-
-// fwd declarations
-namespace world {
-class WorldData;
-class Robot;
-}  // namespace world
-
-namespace control {
-using namespace rtt::ai::world;
+namespace rtt::ai::control {
 
 class ControlUtils {
    public:
@@ -38,7 +30,7 @@ class ControlUtils {
     static double constrainAngle(double angle);
     static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
     static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin, const Vector2 &lineEnd);
-    static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world, double safeDistanceFactor, bool includeKeeper = true);
+    static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView &world, double safeDistanceFactor, bool includeKeeper = true);
     static double distanceToLineWithEnds(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
     static double angleDifference(double A1, double A2);
     static int rotateDirection(double currentAngle, double targetAngle);
@@ -63,13 +55,12 @@ class ControlUtils {
 
     static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference = 0.3);
     static bool objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference = 0.3);
-    static const std::shared_ptr<world::Robot> getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots, Vector2 const &lineStart, Vector2 const &lineEnd,
+    static const world_new::view::RobotView getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd,
                                                                      bool lineWithEnds);
     static Vector2 getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
                                                     double outOfFieldMargin);
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_CONTROLUTILS_H

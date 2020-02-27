@@ -4,16 +4,14 @@
 
 /*
  *
- * This class contains functionality for retreiving some tactical positions in the game
+ * This class contains functionality for retrieving some tactical positions in the game
  *
  */
 
 #include "control/PositionUtils.h"
 #include <control/ControlUtils.h>
-#include <world/Ball.h>
 #include <world/FieldComputations.h>
-#include <world/Robot.h>
-#include <world/World.h>
+#include <world_new/World.hpp>
 
 namespace rtt::ai::control {
 
@@ -24,17 +22,17 @@ rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(const Field &field, doub
 
 Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
     Vector2 robot;
-    if (world::world->getRobotForId(robotID, ourRobot)) {
-        robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
+    if (world_new::World::instance()->getWorld()->getRobotForId(robotID, ourRobot)) {
+        robot = world_new::World::instance()->getWorld()->getRobotForId(robotID, ourRobot)->get()->getPos();
         return getPositionBehindBallToPosition(distanceBehindBall, robot);
     }
     return Vector2();
 }
 
 Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
-    auto ball = world::world->getBall();
+    auto ball = world_new::World::instance()->getWorld()->getBall();
     if (!ball) return {};
-    Vector2 ballPos = ball->getPos();
+    Vector2 ballPos = ball->get()->getPos();
     return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
 
@@ -49,15 +47,15 @@ bool PositionUtils::isRobotBehindBallToGoal(const Field &field, double distanceB
 
 bool PositionUtils::isRobotBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID, const Vector2 &robotPosition, double angleMargin) {
     Vector2 robot;
-    if (world::world->getRobotForId(robotID, ourRobot)) {
-        robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
+    if (world_new::World::instance()->getWorld()->getRobotForId(robotID, ourRobot)) {
+        robot = world_new::World::instance()->getWorld()->getRobotForId(robotID, ourRobot)->get()->getPos();
         return isRobotBehindBallToPosition(distanceBehindBall, robot, robotPosition, angleMargin);
     }
     return false;
 }
 
 bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin) {
-    const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->getPos());
+    const Vector2 &ball = static_cast<Vector2>(world_new::World::instance()->getWorld()->getBall()->get()->getPos());
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
@@ -95,7 +93,7 @@ std::vector<Vector2> PositionUtils::getFreeKickPositions(const Field &field, int
     auto lengthOffset = field.getFieldLength() / 4.0;
     auto widthOffset = field.getFieldWidth() / 4.0;
     Vector2 penaltyUs = FieldComputations::getPenaltyPoint(field, true);
-    Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
+    Vector2 ballPos = world_new::World::instance()->getWorld()->getBall()->get()->getPos();
     Vector2 penaltyThem = FieldComputations::getPenaltyPoint(field, false);
     int ballPosMultiplier = (ballPos.y >= 0 ? (-1) : 1);
     Vector2 lineProgress = {-0.4, 0};
@@ -127,7 +125,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(const Field &field, int nu
     auto lengthOffset = field.getFieldLength() / 100.0;
     auto widthOffset = field.getFieldWidth() / 4.0;
     Vector2 goalUS = field.getOurGoalCenter();
-    Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
+    Vector2 ballPos = world_new::World::instance()->getWorld()->getBall()->get()->getPos();
     Vector2 penaltyUs = FieldComputations::getPenaltyPoint(field, true);
 
     Vector2 lineProgress = ((goalUS - ballPos).stretchToLength(0.28)).rotate(M_PI_2);

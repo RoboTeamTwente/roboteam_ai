@@ -6,8 +6,6 @@
 #include <roboteam_utils/Line.h>
 #include <world/FieldComputations.h>
 #include <utilities/GameStateManager.hpp>
-#include "world/World.h"
-#include "world/WorldData.h"
 
 namespace rtt::ai::control {
 
@@ -67,13 +65,13 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
     return d.length();
 }
 
-bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
+bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView &world, double safeDistanceFactor, bool includeKeeper) {
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
     int keeperID = GameStateManager::getRefereeData().blue().goalie();
 
-    for (auto &enemy : world.them) {
-        if (!includeKeeper && enemy->id == keeperID) continue;
-        if (distanceToLineWithEnds(enemy->pos, fromPos, toPos) < minDistance) {
+    for (auto &enemy : world.getThem()) {
+        if (!includeKeeper && enemy->getId() == keeperID) continue;
+        if (distanceToLineWithEnds(enemy->getPos(), fromPos, toPos) < minDistance) {
             return false;
         }
     }
@@ -291,15 +289,15 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
+const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
     int maxDist = INT_MAX;
     auto closestRobot = robots.at(0);
     for (auto const &robot : robots) {
         double dist;
         if (lineWithEnds) {
-            dist = distanceToLine(robot->pos, lineStart, lineEnd);
+            dist = distanceToLine(robot->getPos(), lineStart, lineEnd);
         } else {
-            dist = distanceToLineWithEnds(robot->pos, lineStart, lineEnd);
+            dist = distanceToLineWithEnds(robot->getPos(), lineStart, lineEnd);
         }
         if (dist > maxDist) {
             dist = maxDist;
