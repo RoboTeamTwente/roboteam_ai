@@ -48,12 +48,19 @@ if (APPLE)
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-    set(GTEST_LIB /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
-else (NOT APPLE)
+    set(GTEST_LIB
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a
+            /usr/local/lib/libgmock.a
+            /usr/local/lib/libgmock_main.a
+            )
+else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
-    set(GTEST_LIB PRIVATE gtest)
-endif ()
+    set(GTEST_LIB
+            PRIVATE gtest
+            PRIVATE gmock)
+endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -103,6 +110,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         )
@@ -244,11 +252,12 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
-
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/DealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
         )
+
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp

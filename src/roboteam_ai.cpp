@@ -67,6 +67,7 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRobothubSendPort(20011);
 
     rtt::ai::io::io.init(rtt::SETTINGS.getId());
+
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());
 
