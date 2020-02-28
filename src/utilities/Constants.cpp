@@ -23,7 +23,7 @@ void Constants::init() {
 bool Constants::GRSIM() {
     if (!isInitialized) {
         rtt_error("You use a value dependent on an unkown environment! This may result in unexepected behaviour")
-        assert(false);
+//        assert(false);
     }
     return robotOutputTargetGrSim;
 }
