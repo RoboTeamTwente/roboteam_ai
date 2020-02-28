@@ -7,6 +7,7 @@
 #include "control/ball-handling/RotateAroundBall.h"
 #include "control/ball-handling/RotateWithBall.h"
 #include "interface/api/Input.h"
+#include "control/ControlUtils.h"
 
 namespace rtt::ai::control {
 

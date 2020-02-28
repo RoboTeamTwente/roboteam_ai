@@ -3,6 +3,7 @@
 //
 
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
+#include "control/ControlUtils.h"
 
 namespace rtt::ai::control {
 

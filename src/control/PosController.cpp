@@ -4,6 +4,7 @@
 
 #include "control/PosController.h"
 #include <utilities/GameStateManager.hpp>
+#include <world_new/World.hpp>
 
 namespace rtt::ai::control {
 

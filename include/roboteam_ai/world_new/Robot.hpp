@@ -7,17 +7,12 @@
 
 #include <roboteam_proto/RobotFeedback.pb.h>
 #include "RobotType.hpp"
-/*#include "control/BasicPosControl.h"
-#include "control/ball-handling/BallHandlePosControl.h"
-#include "control/numtrees/NumTreePosControl.h"
-#include "control/shot-controllers/ShotController.h"*/
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Angle.h"
 #include "world_new/Team.hpp"
 #include "world_new/views/BallView.hpp"
 
 namespace rtt::ai::control {
-    class PosController;
     class BasicPosControl;
     class NumTreePosControl;
     class BallHandlePosControl;

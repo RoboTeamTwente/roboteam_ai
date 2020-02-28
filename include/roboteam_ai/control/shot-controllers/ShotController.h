@@ -5,11 +5,11 @@
 #ifndef ROBOTEAM_AI_SHOTCONTROLLER_H
 #define ROBOTEAM_AI_SHOTCONTROLLER_H
 
-#include <control/BasicPosControl.h>
-#include <control/numtrees/NumTreePosControl.h>
 #include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
-#include "world_new/World.hpp"
+#include "utilities/Constants.h"
+#include "roboteam_utils/pid.h"
+#include "world/Field.h"
 
 namespace rtt::world_new::view {
     class RobotView;

@@ -9,7 +9,6 @@
 #include <memory>
 #include <utilities/GameStateManager.hpp>
 #include <include/roboteam_ai/world_new/views/RobotView.hpp>
-#include "world_new/World.hpp"
 
 namespace rtt::ai::control {
 

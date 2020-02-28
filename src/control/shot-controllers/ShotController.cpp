@@ -7,9 +7,6 @@
 #include <control/ControlUtils.h>
 #include <control/PositionUtils.h>
 #include <interface/api/Input.h>
-#include <world/World.h>
-
-#include "control/ball-handling/BallHandlePosControl.h"
 
 namespace rtt::ai::control {
 
@@ -35,7 +32,7 @@ namespace rtt::ai::control {
     std::pair<Vector2, Vector2> lineToDriveOver = std::make_pair(behindBallPosition, ball->getPos());
     // check the properties
     bool isOnLineToBall = onLineToBall(robot, lineToDriveOver, precision);
-    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot->getPos(), 0.3);
+    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(ball, 0.80, shotTarget, robot->getPos(), 0.3);
     bool validAngle = robotAngleIsGood(robot, lineToDriveOver, precision);
 
     RobotCommand shotData;

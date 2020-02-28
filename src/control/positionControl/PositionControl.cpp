@@ -3,8 +3,6 @@
 //
 
 #include "control/positionControl/PositionControl.h"
-#include "control/positionControl/PositionControlUtils.h"
-#include "control/positionControl/pathTracking/NumTreesTracking.h"
 #include "interface/api/Input.h"
 
 namespace rtt::ai::control {

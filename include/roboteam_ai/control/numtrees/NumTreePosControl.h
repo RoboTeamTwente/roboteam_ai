@@ -6,15 +6,12 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <interface/api/Output.h>
-
 #include "Collision.h"
 #include "PathPoint.h"
 #include "control/BasicPosControl.h"
 
 namespace rtt::ai::control {
 
-class PathPoint;
-class Collision;
 class NumTreePosControl : public BasicPosControl {
    private:
     using InterfaceValues = interface::Output;
@@ -23,15 +20,16 @@ class NumTreePosControl : public BasicPosControl {
     std::vector<rtt::Vector2> triedPaths;
 
     world_new::view::RobotView robot{nullptr};
+    const world_new::view::RobotView *magicalRobot{nullptr};
     Vector2 finalTargetPos;
 
-    bool doRecalculatePath(const Vector2 &targetPos);
-    bool checkCurrentRobotCollision();
+    bool doRecalculatePath(world_new::view::WorldDataView *world, const Vector2 &targetPos);
+    bool checkCurrentRobotCollision(world_new::view::WorldDataView *world);
     bool checkEmptyPath();
     bool checkIfTargetMoved(double maxTargetDeviation, const Vector2 &targetPos);
     bool checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos);
     bool checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2);
-    bool checkIfRobotWillCollideFollowingThisPath();
+    bool checkIfRobotWillCollideFollowingThisPath(world_new::view::WorldDataView *world);
 
     RobotCommand computeCommand(const Vector2 &exactTargetPos);
 
@@ -41,7 +39,7 @@ class NumTreePosControl : public BasicPosControl {
     static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25;  // 3x robot radius
 
     // collisions
-    Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
+    Collision getCollision(world_new::view::WorldDataView *world, const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
     Collision getRobotCollision(const PathPointer &point, const std::vector<world_new::view::RobotView> &robots, double distance);
     Collision getBallCollision(const PathPointer &point, const world_new::view::BallView &ball);
     Collision getFieldCollision(const PathPointer &point);
@@ -71,7 +69,7 @@ class NumTreePosControl : public BasicPosControl {
     std::pair<std::vector<Vector2>, PathPointer> getNewTargets(const PathPointer &collisionPoint, const Collision &collision);
 
     // paths
-    void tracePath();
+    void tracePath(world_new::view::WorldDataView *world);
     std::vector<PathPoint> backTrackPath(PathPointer point, const PathPointer &root);
     double remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
     std::vector<PathPoint> path;

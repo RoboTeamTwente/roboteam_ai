@@ -5,7 +5,6 @@
 #ifndef RTT_COLLISIONDETECTOR_H
 #define RTT_COLLISIONDETECTOR_H
 
-#include "control/ControlUtils.h"
 #include "world/FieldComputations.h"
 #include "world_new/views/RobotView.hpp"
 

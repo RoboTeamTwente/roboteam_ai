@@ -69,17 +69,17 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/src/Switches.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
         )
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/Leaf.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -152,8 +152,6 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffUsFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffThemFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/PenaltyKeeper.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/skills/formations/FreeKickFormation.cpp
@@ -202,6 +200,7 @@ set(CONDITIONS_SOURCES
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/NewControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
 
@@ -294,6 +293,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp

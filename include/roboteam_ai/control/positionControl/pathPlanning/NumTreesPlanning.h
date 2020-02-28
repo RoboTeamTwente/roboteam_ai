@@ -7,13 +7,14 @@
 
 #include <queue>
 #include <vector>
-#include "control/ControlUtils.h"
 #include "control/numtrees/PathPoint.h"
 #include "control/positionControl/CollisionDetector.h"
 #include "interface/api/Output.h"
 #include "roboteam_utils/Vector2.h"
 #include "utilities/Constants.h"
 #include "utilities/GameStateManager.hpp"
+#include "roboteam_utils/Line.h"
+#include "roboteam_utils/Arc.h"
 
 namespace rtt::ai::control {
 

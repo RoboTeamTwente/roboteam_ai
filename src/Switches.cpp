@@ -540,11 +540,11 @@ bt::Node::Ptr Switches::tacticSwitch(std::string name, bt::Blackboard::Ptr prope
     //    runErrorHandler(tactics);
 
     bt::Node::Ptr node;
-//    if (tactics.find(name) != tactics.end()) {
-//        node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
-//    } else {
-//        std::cerr << "\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES: " << name.c_str() << std::endl;
-//    }
+    if (tactics.find(name) != tactics.end()) {
+        node = std::make_shared<bt::DefaultTactic>(name, properties, tactics[name]);
+    } else {
+        std::cerr << "\n\n\nTHE TACTIC DOES NOT HAVE ROBOTS SPECIFIED IN THE SWITCHES: " << name.c_str() << std::endl;
+    }
     return node;
 }
 

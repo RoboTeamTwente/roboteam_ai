@@ -2,9 +2,10 @@
 // Created by mrlukasbos on 1-5-19.
 //
 
-#include <coach/BallplacementCoach.h>
-#include <control/PositionUtils.h>
-#include <skills/ballPlacement/BallPlacementReceive.h>
+#include "coach/BallplacementCoach.h"
+#include "control/PositionUtils.h"
+#include "control/ControlUtils.h"
+#include "skills/ballPlacement/BallPlacementReceive.h"
 
 namespace rtt::ai {
 
@@ -24,9 +25,6 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
     }
 
     if (coach::g_pass.isPassed()) {
-        //        if(ballDeflected()) {
-        //            return Status::Failure;
-        //        }
         command.set_dribbler(31);
         intercept();
     } else {

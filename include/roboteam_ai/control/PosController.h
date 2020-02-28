@@ -8,15 +8,13 @@
 #include <utilities/Constants.h>
 #include "RobotCommand.h"
 #include "roboteam_utils/pid.h"
-#include <world_new/World.hpp>
-#include <world/Field.h>
 
 namespace rtt::world_new::view {
     class RobotView;
     class WorldDataView;
 }
 
-namespace rtt::world {
+namespace rtt::ai::world {
     class Field;
 }
 
