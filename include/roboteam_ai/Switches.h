@@ -4,9 +4,9 @@
 #ifndef ROBOTEAM_AI_SWITCHES_H
 #define ROBOTEAM_AI_SWITCHES_H
 
-#include <utilities/RobotDealer.h>
 #include <bt/Blackboard.h>
 #include <bt/Node.h>
+#include <utilities/RobotDealer.h>
 #include <iostream>
 
 class Switches {

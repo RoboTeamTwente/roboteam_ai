@@ -1,9 +1,8 @@
-#include <include/roboteam_ai/utilities/Settings.h>
+#include "utilities/Settings.h"
 #include <utilities/Constants.h>
-
 #include <QApplication>
 #include <QStyleFactory>
-
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "ApplicationManager.h"
 #include "interface/widgets/mainWindow.h"
 
@@ -36,7 +35,7 @@ void setDarkTheme() {
     qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     rtt::ai::Constants::init();
 
     // get the id of the ai from the init
@@ -66,7 +65,7 @@ int main(int argc, char *argv[]) {
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
 
-    rtt::ai::io::io.init();
+    rtt::ai::io::io.init(rtt::SETTINGS.getId());
 
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees())
@@ -77,7 +76,10 @@ int main(int argc, char *argv[]) {
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
-    window = std::make_shared<ui::MainWindow>();
+
+    // Todo make this a not-global-static thingy
+    rtt::world_new::World* worldManager = rtt::world_new::World::instance();
+    window = std::make_shared<ui::MainWindow>(*worldManager);
     window->setWindowState(Qt::WindowMaximized);
 
     window->show();

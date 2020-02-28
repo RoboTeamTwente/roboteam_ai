@@ -8,7 +8,10 @@ namespace rtt::ai::world {
 World worldObj;
 World *world = &worldObj;
 
-void World::updateWorld(const Field &field, const proto::World &message) {
+void World::updateWorld(const proto::SSL_GeometryFieldSize &fieldMessage, const proto::World &worldMessage) {
+    ai::Field field(fieldMessage);
+    this->field = field;
+
     worldNumber++;
 
     BallPtr oldBall = nullptr;
@@ -17,8 +20,7 @@ void World::updateWorld(const Field &field, const proto::World &message) {
 
         // create a worldData if there is none
         if (!worldDataPtr) {
-            std::cout << "Creating first world" << std::endl;
-            auto worldData = WorldData(message);
+            auto worldData = WorldData(worldMessage);
             worldDataPtr = std::make_shared<WorldData>(worldData);
         }
 
@@ -29,7 +31,7 @@ void World::updateWorld(const Field &field, const proto::World &message) {
     }
 
     // update ballmodel, dribbling, position if not visible etc.
-    auto tempWorldData = WorldData(message);
+    auto tempWorldData = WorldData(worldMessage);
     if (oldBall) {
         tempWorldData.ball->updateBall(oldBall, tempWorldData);
     } else {
@@ -39,17 +41,17 @@ void World::updateWorld(const Field &field, const proto::World &message) {
     {
         std::lock_guard<std::mutex> lock(worldMutex);
         worldDataPtr->ball = tempWorldData.ball;
-        worldDataPtr->time = message.time();
+        worldDataPtr->time = worldMessage.time();
 
         std::vector<proto::WorldRobot> usMsg;
         std::vector<proto::WorldRobot> themMsg;
 
         if (SETTINGS.isYellow()) {
-            usMsg = std::vector<proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
-            themMsg = std::vector<proto::WorldRobot>(message.blue().begin(), message.blue().end());
+            usMsg = std::vector<proto::WorldRobot>(worldMessage.yellow().begin(), worldMessage.yellow().end());
+            themMsg = std::vector<proto::WorldRobot>(worldMessage.blue().begin(), worldMessage.blue().end());
         } else {
-            usMsg = std::vector<proto::WorldRobot>(message.blue().begin(), message.blue().end());
-            themMsg = std::vector<proto::WorldRobot>(message.yellow().begin(), message.yellow().end());
+            usMsg = std::vector<proto::WorldRobot>(worldMessage.blue().begin(), worldMessage.blue().end());
+            themMsg = std::vector<proto::WorldRobot>(worldMessage.yellow().begin(), worldMessage.yellow().end());
         }
         updateRobotsFromData(us, usMsg, worldDataPtr->us, worldDataPtr->ball, worldNumber);
         updateRobotsFromData(them, themMsg, worldDataPtr->them, worldDataPtr->ball, worldNumber);
@@ -258,6 +260,7 @@ const World::RobotPtr World::whichRobotHasBall(WhichRobots whichRobots) {
         if (robot->hasBall()) {
             if (robot->getDistanceToBall() < bestDistance) {
                 bestRobot = robot;
+                bestDistance = robot->getDistanceToBall();
             }
         }
     }

@@ -1,18 +1,9 @@
-//
-// Created by mrlukasbos on 27-11-18.
-//
-
 #include "interface/widgets/mainWindow.h"
-
-#include <interface/api/Input.h>
 #include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
 #include <treeinterp/BTFactory.h>
-
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
-
-#include "interface/api/Output.h"
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
@@ -22,12 +13,12 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent) : worldManager(worldManager), QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
     // layouts
-    visualizer = new Visualizer(this);
+    visualizer = new Visualizer(worldManager, this);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
@@ -123,7 +114,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     // update mainwindow and field visualization
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(40);  // 25fps
+    timer->start(200);  // 5fps
 
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
     connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
@@ -137,7 +128,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
-    robotsTimer->start(200);  // 5fps
+    robotsTimer->start(40);  // 25fps
 
     auto *graphTimer = new QTimer(this);
     connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
@@ -147,14 +138,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 /// Set up a checkbox and add it to the layout
-void MainWindow::configureCheckBox(QString title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState) {
+void MainWindow::configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState) {
     auto checkbox = new QCheckBox(title);
     checkbox->setChecked(defaultState);
     layout->addWidget(checkbox);
     QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
 }
 
-void MainWindow::configureCheckableMenuItem(QString title, QString hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState) {
+void MainWindow::configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState) {
     QAction *action = new QAction(title, menu);
     action->setStatusTip(hint);
     action->setCheckable(true);
@@ -180,7 +171,7 @@ void MainWindow::clearLayout(QLayout *layout) {
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-    if (world::world->weHaveRobots()) robotsWidget->updateContents(visualizer);
+    if (worldManager.getWorld().has_value()) robotsWidget->updateContents(visualizer, *worldManager.getWorld());
 }
 
 // update the tree widget with the newest strategy tree

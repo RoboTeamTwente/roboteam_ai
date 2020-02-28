@@ -10,9 +10,9 @@
 #include "bt/BehaviorTree.h"
 #include "bt/Role.h"
 #include "bt/decorators/Repeater.h"
-#include "treeinterp/tactics/DefaultTactic.h"
 #include "skills/Attack.h"
 #include "skills/gotopos/GoToPos.h"
+#include "treeinterp/tactics/DefaultTactic.h"
 
 namespace bt {
 

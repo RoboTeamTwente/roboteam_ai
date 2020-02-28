@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
-#include <include/roboteam_ai/world/Field.h>
+#include "world/Field.h"
 #include <roboteam_utils/Polygon.h>
 #include <cmath>
 #include "mutex"
@@ -12,10 +12,13 @@
 #include "world/World.h"
 #include "world/WorldData.h"
 
+namespace rtt::world_new::view {
+class WorldDataView;
+class RobotView;
+}
+
 namespace rtt::ai {
-namespace world {
-class WorldData;
-}  // namespace world
+
 using namespace rtt::ai::world;
 
 /**
@@ -69,7 +72,7 @@ class FieldComputations {
          * parameter is not set then all robots from the opponents team get excluded as blockades).
          * @return The percentage of the goal visible (directly shootable over the ground) at that point, which is a double value between 0.0 and 100.0 including both.
          */
-        static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2& point, const world::WorldData &world, int id = -1, bool ourTeam = false);
+        static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2& point, world_new::view::WorldDataView &world, int id = -1, bool ourTeam = false);
 
         /**
          * Compute all visible places on the goal, i.e. which places of the goal can be reached by directly shooting a ball over the ground from a given point without hitting any
@@ -81,7 +84,7 @@ class FieldComputations {
          * @param world Data about the world which is used to determine the locations of all robots.
          * @return All LineSegments on the goal which represents all the visible (directly shootable over the ground) places on the goal from that point.
          */
-        static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2& point, const world::WorldData &world);
+        static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2& point, world_new::view::WorldDataView &world);
 
         /**
          * Get the goal side (the line segment regarding the goal line) of either our goal or the opponents goal.
@@ -187,7 +190,7 @@ class FieldComputations {
          * parameter is not set then all robots from the opponents team get excluded as blockades).
          * @return All the parts of the goal that are blocked (not directly reachable by a direct shoot over the ground).
          */
-        static std::vector<LineSegment> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2& point, const world::WorldData &world, int id = -1,
+        static std::vector<LineSegment> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2& point, world_new::view::WorldDataView &world, int id = -1,
             bool ourTeam = false);
 
         /**
@@ -205,8 +208,8 @@ class FieldComputations {
          * @return No LineSegment in case the robot does not block a part of the goal or the robot is considered to be a non-blocking robot (because belongs to the given team or
          * has the given id). Otherwise it returns the blocked part of the goal by this robot.
          */
-        static std::optional<LineSegment> robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, std::shared_ptr<Robot> robot, const double robotRadius,
-            LineSegment goalSide);
+        static std::optional<LineSegment> robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, const world_new::view::RobotView robot,
+                                                        const double robotRadius, LineSegment goalSide);
 
         /**
          * Merge overlapping blockade line segments on the goal side into non-overlapping blockade line segments.

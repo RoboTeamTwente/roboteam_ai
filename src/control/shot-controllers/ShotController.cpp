@@ -217,7 +217,9 @@ double ShotController::determineKickForce(double distance, BallSpeed desiredBall
             velocity = rtt::ai::Constants::MAX_KICK_POWER();
             break;
         }
-        default: { velocity = rtt::ai::Constants::MAX_KICK_POWER(); }
+        default: {
+            velocity = rtt::ai::Constants::MAX_KICK_POWER();
+        }
     }
 
     // limit the output to the max kick speed

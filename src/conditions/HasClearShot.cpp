@@ -12,6 +12,7 @@
 #include <world/FieldComputations.h>
 #include <world/World.h>
 #include <world/WorldData.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "conditions/HasClearShot.h"
 
 namespace rtt::ai {
@@ -36,7 +37,8 @@ HasClearShot::Status HasClearShot::onUpdate() {
     }
 
     // return success if there is a clear line to their goal
-    bool hasClearShot = FieldComputations::getPercentageOfGoalVisibleFromPoint((*field), false, ball->getPos(), world->getWorld(), robot->id, true) > minViewAtGoal * 100;
+    auto world = world_new::World::instance()->getWorld().value();
+    bool hasClearShot = FieldComputations::getPercentageOfGoalVisibleFromPoint((*field), false, ball->getPos(), world, robot->id, true) > minViewAtGoal * 100;
 
     return hasClearShot ? Status::Success : Status::Failure;
 }

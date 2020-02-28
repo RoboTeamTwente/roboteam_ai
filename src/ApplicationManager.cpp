@@ -1,20 +1,16 @@
-//
-// Created by mrlukasbos on 14-1-19.
-//
-
 #include <ApplicationManager.h>
-#include <analysis/GameAnalyzer.h>
+#include <bt/Node.h>
 #include <coach/GetBallCoach.h>
 #include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
 #include <coach/defence/DefenceDealer.h>
-#include <include/roboteam_ai/world/FieldComputations.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <world/World.h>
-#include <bt/Node.h>
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
+#include "roboteam_utils/normalize.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -25,29 +21,21 @@ using namespace rtt::ai::world;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
-    // create playcheck object here
-    playcheck = rtt::ai::analysis::PlayChecker();
-
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
-    t.loop(
-        [&]() {
-            // This function runs the behaviour trees
+    t.loop([&]() {
             runOneLoopCycle();
-
-            amountOfCycles++;
+             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
             int fpsUpdateRate = 5;
-            t.limit(
-                [&]() {
+            t.limit([&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
-                },
-                fpsUpdateRate);
+                }, fpsUpdateRate);
 
             // publish settings, but limit this function call to only run 1 times/s at most
             t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
@@ -57,18 +45,37 @@ void ApplicationManager::start() {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
-    if (weHaveRobots && io::io.hasReceivedGeom) {
-        ai::analysis::GameAnalyzer::getInstance().start();
-        playcheck.update(rtt::ai::world::world, &io::io.getField());
-        updateTrees();
-        updateCoaches();
-        runKeeperTree();
-        Status status = runStrategyTree();
-        this->notifyTreeStatus(status);
+    if (io::io.hasReceivedGeom) {
+        auto fieldMessage = io::io.getGeometryData().field();
+        auto worldMessage = io::io.getWorldState();
+
+        if (!SETTINGS.isLeft()) {
+         //   roboteam_utils::rotate(&fieldMessage);
+            roboteam_utils::rotate(&worldMessage);
+        }
+
+        world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
+
+        if (!world->getUs().empty()) {
+
+            world_new::World::instance()->updateWorld(worldMessage);
+            world_new::World::instance()->updateField(fieldMessage);
+            auto field = world_new::World::instance()->getField().value();
+
+            decidePlay(world, field);
+            updateTrees();
+            updateCoaches(field);
+            runKeeperTree(field);
+            Status status = runStrategyTree(field);
+            this->notifyTreeStatus(status);
+        } else {
+            std::cout << "[ApplicationManager::runOneLoopCycle] No robots from our team in world yet" << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds (100));
+        }
     } else {
-        std::this_thread::sleep_for(std::chrono::microseconds(100000));
+        std::cout << "[ApplicationManager::runOneLoopCycle] No field yet" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds (100));
     }
-    weHaveRobots = ai::world::world->weHaveRobots();
     /*
      * This is a hack performed at the robocup.
      * It does a soft refresh when robots are not properly claimed by robotdealer.
@@ -104,8 +111,7 @@ void ApplicationManager::updateTrees() {
 }
 
 /// Tick the keeper tree if both the tree and keeper exist
-void ApplicationManager::runKeeperTree() {
-    const Field &field = io::io.getField();
+void ApplicationManager::runKeeperTree(const Field & field) {
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
         keeperTree->tick(ai::world::world, &field);
@@ -113,8 +119,7 @@ void ApplicationManager::runKeeperTree() {
 }
 
 /// Tick the strategy tree if the tree exists
-Status ApplicationManager::runStrategyTree() {
-    const Field &field = io::io.getField();
+Status ApplicationManager::runStrategyTree(const Field & field) {
     if (BTFactory::getCurrentTree() == "NaN") {
         std::cout << "NaN tree probably Halting" << std::endl;
         return Status::Waiting;
@@ -125,9 +130,8 @@ Status ApplicationManager::runStrategyTree() {
 }
 
 /// Update the coaches information
-void ApplicationManager::updateCoaches() const {
+void ApplicationManager::updateCoaches(const Field & field) const {
     auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
-        const Field &field = io::io.getField();
         ai::coach::getBallCoach->update(field);
         ai::coach::g_DefenceDealer.updateDefenderLocations(field);
         ai::coach::g_offensiveCoach.updateOffensivePositions(field);
@@ -142,7 +146,6 @@ void ApplicationManager::checkForShutdown() {
     if (strategy->getStatus() == Status::Running) {
         strategy->terminate(Status::Running);
     }
-    ai::analysis::GameAnalyzer::getInstance().stop();
 }
 
 // Robotdealer hack to prevent robots from staying 'free' during play
@@ -174,4 +177,13 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             break;
     }
 }
+
+void ApplicationManager::decidePlay(ai::world::World *world, const ai::world::Field &field) {
+    bool stillValidPlay = playChecker.update(world, field);
+    if (!stillValidPlay) {
+        auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
+        BTFactory::setCurrentTree(bestplay);
+    }
+}
+
 }  // namespace rtt

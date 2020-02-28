@@ -7,6 +7,7 @@
 #include <vector>
 #include "RobotControllers.hpp"
 #include "WorldData.hpp"
+#include "control/positionControl/PositionControl.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "views/WorldDataView.hpp"
 
@@ -55,7 +56,7 @@ class World {
     /**
      * Amount of ticks to store in history
      */
-    constexpr static size_t HISTORY_SIZE = 20;
+    constexpr static size_t HISTORY_SIZE = 200;
 
     /**
      * Constructs a World from settings
@@ -84,17 +85,28 @@ class World {
     void updateWorld(proto::World &protoWorld);
 
     /**
+    * Updates the currentField
+    * @param field Field to construct currentField from
+    */
+    void updateField(proto::SSL_GeometryFieldSize &protoField);
+
+    /**
      * Gets the current world
      * @return std::nullopt if there is no currentWorld, otherwise Some with the value
      */
     [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
 
+    [[nodiscard]] std::optional<ai::world::Field> getField() const noexcept;
+
     /**
      * Gets a certain world from history
-     * @param ticksAgo Ticks ago to fetch from
+     * @param ticksAgo Ticks ago to fetch from.
+     *     0 gives the current world
+     *     1 gives the freshest world in history
+     *     HISTORY_SIZE gives the oldest world in history
      * @return Returns the world at index currentIndex - ticksAgo
      */
-    [[nodiscard]] view::WorldDataView getHistoryWorld(size_t ticksAgo) const noexcept;
+    [[nodiscard]] std::optional<view::WorldDataView> getHistoryWorld(size_t ticksAgo) const noexcept;
 
     /**
      * Gets the difference in time between the last tick and the current tick
@@ -115,6 +127,13 @@ class World {
      * @return size_t The amount of elements in the history
      */
     [[nodiscard]] size_t getHistorySize() const noexcept;
+
+    /**
+     * Get a pointer to the general position control, which can be used by all robots.
+     * If the object does not exist, it is created
+     * @return position control object. See its documentation for more info
+     */
+    [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
    private:
     /**
@@ -171,11 +190,13 @@ class World {
 
     /**
      * Current world
-     *
      * None if no world has been constructed yet
      * Some if a world is valid
      */
     std::optional<WorldData> currentWorld;
+
+
+    std::optional<ai::world::Field> currentField;
 
     /**
      * Timestamp of the last tick
@@ -186,6 +207,11 @@ class World {
      * Duration between ticks
      */
     uint64_t tickDuration{};
+
+    /**
+     * The position controller, initially null
+     */
+    ai::control::PositionControl positionControl;
 };
 }  // namespace rtt::world_new
 

@@ -1,5 +1,5 @@
 #include "treeinterp/tactics/DefaultTactic.h"
-
+#include "world/BallPossession.h"
 #include <analysis/GameAnalyzer.h>
 #include <world/World.h>
 #include <world/WorldData.h>
@@ -7,6 +7,7 @@
 #include "utilities/RobotDealer.h"
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
+using namespace rtt::ai;
 
 namespace bt {
 
@@ -122,15 +123,9 @@ void DefaultTactic::parseType(const std::string &typee) {
 }
 
 void DefaultTactic::updateStyle() {
-    auto reportPtr = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    rtt::ai::analysis::PlayStyle style;
-    if (reportPtr) {
-        rtt::ai::analysis::AnalysisReport report = *reportPtr;
-        rtt::ai::analysis::BallPossession possession = report.ballPossession;
-        style = maker.getRecommendedPlayStyle(possession);
-    } else {
-        style = maker.getRecommendedPlayStyle(rtt::ai::analysis::BallPossession::NEUTRAL);
-    }
+    analysis::BallPossession possession = analysis::GameAnalyzer::convertPossession(ballPossessionPtr->getPossession());
+    analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
+
     if (thisType == Defensive) {
         amountToTick = style.amountOfDefenders;
     } else if (thisType == Middle) {

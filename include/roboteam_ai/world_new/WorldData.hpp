@@ -14,7 +14,6 @@
 #include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/BallView.hpp"
 #include "world_new/views/RobotView.hpp"
-#include "world_new/views/BallView.hpp"
 
 namespace rtt::world_new {
 
@@ -52,17 +51,17 @@ class WorldData {
     /**
      * Non owning vector of views
      */
-    std::vector<view::RobotView> robotsNonOwning;
+    std::vector<view::RobotView> robotsNonOwning = {};
 
     /**
      * Non-owning container of Robot const* const's (aka RobotView) for our team
      */
-    std::vector<view::RobotView> us;
+    std::vector<view::RobotView> us = {};
 
     /**
      * Non-owning container of RobotViews of the enemy team
      */
-    std::vector<view::RobotView> them;
+    std::vector<view::RobotView> them = {};
 
     /**
      * Optional ball, None variant if not visible
@@ -142,6 +141,6 @@ class WorldData {
      */
     [[nodiscard]] uint64_t getTime() const noexcept;
 };
-}  // namespace rtt::world
+}  // namespace rtt::world_new
 
 #endif  // RTT_WORLD_DATA_HPP

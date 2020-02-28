@@ -14,6 +14,7 @@
 #include <QtGui>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include <iostream>
 #include <memory>
 #include "GraphWidget.h"
@@ -38,12 +39,12 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(const rtt::world_new::World &worldManager, QWidget *parent = nullptr);
 
     // this function is useful everywhere
-    static void configureCheckBox(QString title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
+    static void configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
 
-    static void configureCheckableMenuItem(QString title, QString hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
+    static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
 
    public slots:
@@ -55,6 +56,7 @@ class MainWindow : public QMainWindow {
     void refreshJSONSignal();
 
    private:
+    const rtt::world_new::World &worldManager;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *mainLayout;
     QVBoxLayout *vLayout;

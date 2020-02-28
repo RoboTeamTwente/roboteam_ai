@@ -48,12 +48,19 @@ if (APPLE)
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-    set(GTEST_LIB /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
-else (NOT APPLE)
+    set(GTEST_LIB
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a
+            /usr/local/lib/libgmock.a
+            /usr/local/lib/libgmock_main.a
+            )
+else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
-    set(GTEST_LIB PRIVATE gtest)
-endif ()
+    set(GTEST_LIB
+            PRIVATE gtest
+            PRIVATE gmock)
+endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -87,13 +94,14 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
         )
 
 set(UTILS_SOURCES
@@ -102,6 +110,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         )
@@ -166,6 +175,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
         )
 
+set(NEW_SKILLS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
+        )
+
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
@@ -199,6 +212,15 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
+
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BasicPathTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/NumTreesTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
+
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/Collision.cpp
@@ -208,6 +230,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
         )
 
 set(TEST_SOURCES
@@ -229,9 +252,12 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
-
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/DealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
         )
+
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -306,6 +332,7 @@ set(AI_SOURCES
         ${BT_SOURCES}
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
+        ${NEW_SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}

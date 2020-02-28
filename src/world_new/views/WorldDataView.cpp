@@ -3,7 +3,6 @@
 //
 
 #include "world_new/views/WorldDataView.hpp"
-
 #include "world_new/Ball.hpp"
 #include "world_new/WorldData.hpp"
 
@@ -92,7 +91,7 @@ bool WorldDataView::theirRobotHasBall(int id, double maxDist) const noexcept {
     return (*robot).hasBall(maxDist);
 }
 
-RobotView WorldDataView::whichRobotHasBall(Team team) {
+std::optional<RobotView> WorldDataView::whichRobotHasBall(Team team, double maxDist) {
     std::vector<RobotView> robots;
     if (team == us) {
         robots = getUs();
@@ -102,17 +101,16 @@ RobotView WorldDataView::whichRobotHasBall(Team team) {
         robots = getRobotsNonOwning();
     }
 
-    double bestDistance = 9e9;
+    double bestDistance = maxDist;
     RobotView bestRobot = RobotView{nullptr};
     for (auto &robot : robots) {
-        if (robot.hasBall()) {
-            if (robot->getDistanceToBall() < bestDistance) {
-                bestRobot = robot;
-            }
+        if (0 <= robot->getDistanceToBall() && robot->getDistanceToBall() < bestDistance) {
+            bestRobot = robot;
+            bestDistance = robot->getDistanceToBall();
         }
     }
 
-    return bestRobot;
+    return bestRobot.get() == nullptr ? std::nullopt : std::optional<RobotView>(bestRobot);
 }
 
 RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotView> &robots) const noexcept {
@@ -131,9 +129,8 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, const std:
     return robots[bestIndex];
 }
 
-std::vector<RobotView> WorldDataView::getRobotsNonOwning() const noexcept {
-    return data->getRobotsNonOwning();
-}
+const std::vector<RobotView> &WorldDataView::getRobotsNonOwning() const noexcept { return data->getRobotsNonOwning(); }
 
 WorldDataView::WorldDataView(WorldData const *_ptr) noexcept : data{_ptr} {}
+
 }  // namespace rtt::world_new::view

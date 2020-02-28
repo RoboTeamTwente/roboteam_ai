@@ -1,8 +1,8 @@
-//
-// Created by mrlukasbos on 19-10-18.
-//
-
 #include "world/FieldComputations.h"
+#include <control/ControlUtils.h>
+#include <interface/api/Input.h>
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {
@@ -26,17 +26,17 @@ double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, co
     return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft), control::ControlUtils::constrainAngle(angleRight));
 }
 
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data, int id, bool ourTeam) {
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, data, id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world, id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data) {
-    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, data);
+std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
+    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, world);
     Line goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x; // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
@@ -130,12 +130,12 @@ Polygon FieldComputations::getFieldEdge(const Field &field, double margin) {
     return Polygon(fieldEdge);
 }
 
-std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, const world::WorldData &data, int id, bool ourTeam) {
+std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
     std::vector<LineSegment> blockades = {};
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     auto goalSide = getGoalSides(field, ourGoal);
-    auto robots = data.us;
-    robots.insert(robots.begin(), data.them.begin(), data.them.end());
+    auto robots = world.getUs();
+    robots.insert(robots.begin(), world.getThem().begin(), world.getThem().end());
     for (auto const &robot : robots) {
         std::optional<LineSegment> blockade = robotBlockade(ourGoal, point, id, ourTeam, robot, robotRadius, LineSegment(goalSide));
         if (blockade.has_value()) {
@@ -145,15 +145,15 @@ std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const Field
     return mergeBlockades(blockades);
 }
 
-std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, std::shared_ptr<Robot> robot,
+std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, const world_new::view::RobotView robot,
                                                             const double robotRadius, LineSegment goalSide) {
     // Discard the robot if it belong to the same team or if it has the given id.
-    if (robot->id == id && robot->team == (ourTeam ? Team::us : Team::them)) return {};
+    if (robot->getId() == id && robot->getTeam() == (ourTeam ? Team::us : Team::them)) return {};
 
     // Discard already the robot if it is not between the goal and point, or if the robot is standing on this point.
-    double lenToBot = (point - robot->pos).length();
+    double lenToBot = (point - robot->getPos()).length();
     bool isRobotItself = lenToBot <= robotRadius;
-    bool isInPotentialBlockingZone = ourGoal ? robot->pos.x < point.x + robotRadius : robot->pos.x > point.x - robotRadius;
+    bool isInPotentialBlockingZone = ourGoal ? robot->getPos().x < point.x + robotRadius : robot->getPos().x > point.x - robotRadius;
     if (isRobotItself || !isInPotentialBlockingZone) return {};
 
     /* Check which part of the goal is blocked by this robot, by creating vectors from the point to the places that intersect with the robot and expanding these vectors to an
@@ -165,8 +165,8 @@ std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const 
      * that goal and the point then the lines can also intersect with the infinite line expansion of the goal side but never causes a blockade 'shadow' on the goal side. */
     double theta = asin(robotRadius / lenToBot);
     double length = sqrt(lenToBot * lenToBot - robotRadius * robotRadius);
-    Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->pos) - point).angle() - theta);
-    Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->pos) - point).angle() + theta);
+    Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() - theta);
+    Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() + theta);
     Vector2 lowerMapToGoal = goalSide.project(util::twoLineIntersection(point, lowerSideOfRobot, goalSide.start, goalSide.end));
     Vector2 upperMapToGoal = goalSide.project(util::twoLineIntersection(point, upperSideOfRobot, goalSide.start, goalSide.end));
 
