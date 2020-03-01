@@ -10,7 +10,7 @@
 #include "world/Robot.h"
 
 #include "roboteam_utils/normalize.h"
-
+#include <roboteam_utils/Print.h>
 namespace rtt::ai::io {
 
 std::mutex IOManager::worldStateMutex;

@@ -27,7 +27,7 @@
 #include <interface/api/Input.h>
 #include <world/FieldComputations.h>
 #include "control/ControlUtils.h"
-
+#include <roboteam_utils/Print.h>
 namespace rtt::ai {
 
 std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> BallPlacementFormation::robotsInFormation = nullptr;
