@@ -133,8 +133,6 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     auto *graphTimer = new QTimer(this);
     connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
     graphTimer->start(500);  // 2fps
-
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
 }
 
 /// Set up a checkbox and add it to the layout
