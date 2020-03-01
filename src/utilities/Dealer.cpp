@@ -1,6 +1,7 @@
 #include <roboteam_utils/Hungarian.h>
 #include "utilities/Dealer.h"
 #include <roboteam_utils/LineSegment.h>
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
 
@@ -106,7 +107,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return lineSegment.distanceToLine(robot->getPos());
         }
     }
-    std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
+    rtt_warning("Unhandled dealerflag!");
     return 0;
 }
 

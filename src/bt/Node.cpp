@@ -1,6 +1,7 @@
 #include "bt/Node.h"
 #include <iostream>
 #include <memory>
+#include <roboteam_utils/Print.h>
 #include "bt/Blackboard.h"
 
 namespace bt {
@@ -79,7 +80,10 @@ void Node::NodeTerminate(Status s) {
 
 unsigned long long Node::getAmountOfTicks() const { return amountOfTicks; }
 
-void Node::giveProperty(std::string a, std::string b) { std::cerr << "giveProperty in Node.cpp, should never be called" << std::endl; }
+void Node::giveProperty(std::string a, std::string b) {
+    rtt_error("giveProperty in Node.cpp, should never be called");
+    assert(false);
+}
 
 std::string Node::status_print(Node::Status s) {
     switch (s) {
@@ -103,7 +107,7 @@ void Node::setRoleString(std::string roleName) {
         this->properties->setString("ROLE", roleName);
     }
 
-    for (auto child : this->getChildren()) {
+    for (const auto& child : this->getChildren()) {
         if (child) {
             child->setRoleString(roleName);
         }

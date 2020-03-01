@@ -47,11 +47,6 @@ int main(int argc, char* argv[]) {
                  "                                         " << std::endl;
 
     rtt_debug("Debug prints enabled")
-    rtt_warning("Warning prints enabled")
-    rtt_error("Error prints enabled")
-    rtt_info("Info prints enabled")
-    rtt_success("Success prints enabled")
-    std::cout << "--------------------------" << std::endl;
 
     rtt::ai::Constants::init();
 
