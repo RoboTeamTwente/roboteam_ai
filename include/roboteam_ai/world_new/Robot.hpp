@@ -150,7 +150,7 @@ class Robot {
 
     Robot &operator=(Robot const&);
 
-    Robot(Robot const &)gi;
+    Robot(Robot const &);
 
     Robot &operator=(Robot &&) = default;
 
