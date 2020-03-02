@@ -21,6 +21,7 @@ class BasicPosControl : public PosController {
 
     // TODO: Implement this function/refactor controllers
     RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos);
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos, const Angle &targetAngle);
 };
 
 }  // namespace rtt::ai::control

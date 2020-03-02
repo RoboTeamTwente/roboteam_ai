@@ -464,9 +464,9 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
 }
 
 // TODO: Implement this function
-RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos) {
-    return RobotCommand{};
-}
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos) {}
+
+RobotCommand NumTreePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) {}
 
 /// finds a reason to calculate a new path (possible reasons are: no path calculated yet, final target moved,
 /// robot is too far from path or another robot is colliding with current path

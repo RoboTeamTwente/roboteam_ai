@@ -91,6 +91,7 @@ class NumTreePosControl : public BasicPosControl {
 
     // TODO: Implement this function/refactor controllers
     RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos);
+    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos, const Angle &targetAngle);
 
     bool checkChangeInMaxRobotVel();
 };

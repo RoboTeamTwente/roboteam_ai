@@ -69,17 +69,17 @@ set(JSON_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/JsonReader.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PropertiesParser.cpp
         ${PROJECT_SOURCE_DIR}/src/Switches.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
         )
 
 set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/Leaf.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
-#        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/MidFieldHarassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treehelpers/BeingPassedToHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treehelpers/RobotOutOfFieldHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -115,93 +115,94 @@ set(MANUAL_SOURCES
 
 set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/Skill.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoToPos.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/SkillGoToPos.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Dribble.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/RotateToAngle.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/GetBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Pass.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Receive.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Halt.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Harass.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Keeper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/InterceptBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Attack.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/DribbleRotate.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/DribbleForward.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GTPSpecial.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GTPWithBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoAroundPos.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/AvoidBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoBehindBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/PreparePenalty.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ShootPenalty.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ShootFreeKick.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/DemoAttack.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/FreeKickPass.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/MidFieldHarasser.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/SideAttacker.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/CoachDefend.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/SlingShot.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/InterceptRobot.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/PenaltyHelper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ActiveStop.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ReflectKick.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ChipForward.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/Formation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffUsFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffThemFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/PenaltyKeeper.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/FreeKickFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/DefendFreeKick.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ballPlacement/BallPlacementReceive.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/ballPlacement/BallPlacementPass.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/DriveWithInterface.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/BallPlacementWithInterface.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/Wait.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/StopFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/SkillGoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Dribble.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/RotateToAngle.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/GetBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Receive.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Harass.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Keeper.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/InterceptBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Attack.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/DribbleRotate.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/DribbleForward.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GTPSpecial.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GTPWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoAroundPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoBehindBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/PreparePenalty.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ShootPenalty.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ShootFreeKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/DemoAttack.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/FreeKickPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/MidFieldHarasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/SideAttacker.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/CoachDefend.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/SlingShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/InterceptRobot.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/PenaltyHelper.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ActiveStop.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ChipForward.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffUsFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffThemFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/PenaltyKeeper.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/FreeKickFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/DefendFreeKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ballPlacement/BallPlacementReceive.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/ballPlacement/BallPlacementPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/DriveWithInterface.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/BallPlacementWithInterface.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/Wait.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/StopFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
         )
 
 set(NEW_SKILLS_SOURCES
-#        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
         )
 
 set(CONDITIONS_SOURCES
-#        ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsRobotClosestToBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/CanReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsRobotClosestToBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/CanReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/Condition.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/TheyHaveBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/WeHaveBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/BallKickedToOurGoal.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/BallInDefenseAreaAndStill.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallOnOurSide.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsBeingPassedTo.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsCloseToPoint.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/BallOutOfField.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallCloseToBorder.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/BallNearOurGoalLineAndStill.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/HasClearShot.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/TwoRobotBallPlacement.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/ShouldHandleBall.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/IsOnPassLine.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/BallIsClose.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/CanPlay.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
-#        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/TheyHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/WeHaveBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/BallKickedToOurGoal.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/BallInDefenseAreaAndStill.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallOnOurSide.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsBeingPassedTo.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsCloseToPoint.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/BallOutOfField.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallCloseToBorder.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/BallNearOurGoalLineAndStill.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/HasClearShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/TwoRobotBallPlacement.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/ShouldHandleBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/IsOnPassLine.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/BallIsClose.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/CanPlay.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
+        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
         )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/NewControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
 
@@ -293,6 +294,7 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
+        ${PROJECT_SOURCE_DIR}/src/world_new/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp

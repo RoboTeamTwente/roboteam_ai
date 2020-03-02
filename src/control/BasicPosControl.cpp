@@ -51,5 +51,5 @@ RobotCommand BasicPosControl::getRobotCommand(world::World *world, const Field *
 
 // TODO: Implement this function
 RobotCommand BasicPosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos) {}
-
+    RobotCommand BasicPosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos, const Angle &targetAngle) {}
 }  // namespace rtt::ai::control
