@@ -10,6 +10,7 @@
 #include "control/positionControl/PositionControl.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "views/WorldDataView.hpp"
+#include <roboteam_utils/Print.h>
 
 namespace rtt::world_new {
 
@@ -45,6 +46,9 @@ class World {
     inline static World *instance(bool resetWorld = false) {
         static World worldInstance{&rtt::SETTINGS};
         if (resetWorld) {
+#ifndef RUNNING_TEST
+            rtt_error("Called worldInstance.reset(), please only use in tests");
+#endif
             worldInstance.reset();
         }
         return &worldInstance;
