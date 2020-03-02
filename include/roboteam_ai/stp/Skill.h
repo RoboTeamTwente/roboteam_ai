@@ -15,7 +15,6 @@ namespace rtt::ai::stp {
      * Base skill class, inherit from it for making your own skill
      */
     class Skill {
-        using robot_view = world_new::view::RobotView;
     private:
         /**
          * Robot command that will be used for operations, such as publishing
@@ -52,7 +51,6 @@ namespace rtt::ai::stp {
          * Function that takes a status and calls onTerminate or anything else accordingly
          */
         virtual void onTerminate() noexcept;
-
 
         /**
          * Function that's called when the skill gets updated (every tick)
