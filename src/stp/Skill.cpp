@@ -9,7 +9,7 @@
 #include "control/ControlUtils.h"
 #include "world_new/World.hpp"
 
-#include "Skill.h"
+#include "include/roboteam_ai/stp/Skill.h"
 
 namespace rtt::ai::stp {
 

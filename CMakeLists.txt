@@ -176,7 +176,7 @@ set(SKILLS_SOURCES
         )
 
 set(NEW_SKILLS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -256,7 +256,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
-        include/roboteam_ai/stp/Skill.cpp include/roboteam_ai/stp/Skill.h)
+        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
+        )
 
 
 set(INTERFACE_SOURCES
@@ -325,8 +326,7 @@ set(COACH_SOURCES
 
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
-        src/ApplicationManager.cpp
-        include/roboteam_ai/ApplicationManager.h
+        ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
