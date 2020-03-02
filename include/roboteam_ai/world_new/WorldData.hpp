@@ -80,10 +80,11 @@ class WorldData {
     WorldData() = default;
 
     /**
-     * Copy assignment operator and constructor, explicitly deleted
+     * Copy assignment operator and constructor
+     * Copy over members and set the view vectors
      */
-    WorldData &operator=(WorldData const &) = delete;
-    WorldData(WorldData const &) = delete;
+    WorldData &operator=(WorldData const &) noexcept;
+    WorldData(WorldData const &) noexcept;
 
     /**
      * Move constructor, simply moves all members
@@ -96,6 +97,11 @@ class WorldData {
      * @return *this
      */
     WorldData &operator=(WorldData &&) = default;
+
+    /**
+     * Does exactly what it says, it sets the internal vectors for the views
+     */
+    void setViewVectors() noexcept;
 
     /**
      * Gets a non-owning container of robots that are in our team
