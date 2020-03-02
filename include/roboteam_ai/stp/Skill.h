@@ -90,5 +90,4 @@ namespace rtt::ai::stp {
     };
 }
 
-
 #endif //RTT_SKILL_H
