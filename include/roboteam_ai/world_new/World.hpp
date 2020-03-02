@@ -145,7 +145,7 @@ class World {
     /**
      * Resets the world
      * Resets every member, sets tick duration to 0, etc etc...
-     * Everything EXCEPT positioncontrol is reset.
+     * Everything EXCEPT positioncontrol and settings is reset.
      */
      void reset() noexcept;
 
