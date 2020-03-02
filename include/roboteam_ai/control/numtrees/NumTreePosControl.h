@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <interface/api/Output.h>
-
 #include "Collision.h"
 #include "PathPoint.h"
 #include "control/BasicPosControl.h"
@@ -90,8 +89,14 @@ class NumTreePosControl : public BasicPosControl {
     RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
 
     // TODO: Implement this function/refactor controllers
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos);
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos, const Angle &targetAngle);
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos) override;
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos, const Angle &targetAngle) override;
+    void tracePath(world_new::view::RobotView _robot);
+    Collision getRobotCollision(world_new::view::RobotView _robot, const PathPointer &point, const std::vector<world_new::view::RobotView> &robots, double distance);
+    Collision getCollision(world_new::view::RobotView _robot, const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
+    Collision getBallCollision(const PathPointer &point, const world_new::view::BallView &ball);
+    Collision getDefenseAreaCollision(world_new::view::RobotView _robot, const PathPointer &point);
+    RobotCommand computeCommand(world_new::view::RobotView _robot, const Vector2 &exactTargetPos);
 
     bool checkChangeInMaxRobotVel();
 };

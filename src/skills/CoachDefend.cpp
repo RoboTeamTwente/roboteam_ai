@@ -26,9 +26,9 @@ bt::Node::Status CoachDefend::onUpdate() {
     RobotCommand velocities;
     // choosing numtrees or other
     if (useBasicGtp(targetLocation->first)) {
-        velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, targetLocation->first);
+        velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), targetLocation->first);
     } else {
-        velocities = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetLocation->first);
+        velocities = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetLocation->first);
     }
     if ((targetLocation->first - robot->get()->getId()).length() < Constants::ROBOT_RADIUS()) {
         command.mutable_vel()->set_x(0);

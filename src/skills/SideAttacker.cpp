@@ -14,7 +14,7 @@ void SideAttacker::onInitialize() { coach::g_offensiveCoach.addSideAttacker(*fie
 /// Get an update on the skill
 bt::Node::Status SideAttacker::onUpdate() {
     targetPos = getOffensivePosition(*field);
-    auto newPosition = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos);
+    auto newPosition = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos);
     Vector2 velocity = newPosition.vel;
     command.mutable_vel()->set_x(velocity.x);
     command.mutable_vel()->set_y(velocity.y);

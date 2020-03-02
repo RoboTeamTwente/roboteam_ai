@@ -17,7 +17,7 @@ void GTPWithBall::onInitialize() {
 
 Skill::Status GTPWithBall::onUpdate() {
     updateTarget();
-    command = robot->getControllers().getBallHandlePosController()->getRobotCommand(world, field, *robot, targetPos, targetAngle).makeROSCommand();
+    command = robot->getControllers().getBallHandlePosController()->getRobotCommand(robot->get()->getId(), targetPos, targetAngle).makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }

@@ -46,7 +46,7 @@ Dribble::Status Dribble::onUpdate() {
         targetPos = coach::g_ballPlacement.getBallPlacementPos();
     }
 
-    auto c = robot->getControllers().getBallHandlePosController()->getRobotCommand(world, field, *robot, targetPos, robot->get()->getAngle(), forwardDirection);
+    auto c = robot->getControllers().getBallHandlePosController()->getRobotCommand(robot->get()->getId(), targetPos, robot->get()->getAngle(), forwardDirection);
 
     if (robot->getControllers().getBallHandlePosController()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;

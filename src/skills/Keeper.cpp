@@ -47,7 +47,7 @@ Keeper::Status Keeper::onUpdate() {
     interface::Input::drawData(interface::Visual::KEEPER, {blockPoint}, Qt::darkYellow, robot->get()->getId(), interface::Drawing::DOTS, 5, 5);
     /// Manual PID value update. Ugly and should be refactored in the future.
     robot->getControllers().getBasicPosController()->updatePid(interface::Output::getKeeperPid());
-    Vector2 velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, blockPoint).vel;
+    Vector2 velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), blockPoint).vel;
     command.mutable_vel()->set_x(velocities.x);
     command.mutable_vel()->set_y(velocities.y);
     publishRobotCommand();

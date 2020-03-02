@@ -22,7 +22,7 @@ void DribbleForward::onInitialize() {
 
 bt::Node::Status DribbleForward::onUpdate() {
     auto c =
-        robot->getControllers().getBallHandlePosController()->getRobotCommand(world, field, *robot, targetPos, robot->get()->getAngle(), control::BallHandlePosControl::FORWARDS);
+        robot->getControllers().getBallHandlePosController()->getRobotCommand(robot->get()->getId(), targetPos, robot->get()->getAngle(), control::BallHandlePosControl::FORWARDS);
 
     if (robot->getControllers().getBallHandlePosController()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;

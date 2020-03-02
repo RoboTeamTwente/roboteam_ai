@@ -62,6 +62,8 @@ class Collision {
     const CollisionType getCollisionType() const;
 
     void setCollision(double distance);
+
+    void setCollisionRobot(int robotId, double distance);
 };
 
 }  // namespace rtt::ai::control

@@ -20,8 +20,8 @@ class BasicPosControl : public PosController {
     RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos) override;
 
     // TODO: Implement this function/refactor controllers
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos);
-    RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robot, const Vector2 &targetPos, const Angle &targetAngle);
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos) override;
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos, const Angle &targetAngle) override;
 };
 
 }  // namespace rtt::ai::control

@@ -74,11 +74,11 @@ bt::Node::Status GoToPos::onUpdate() {
         RobotCommand robotCommand{};
 
         if (goToType == basic) {
-            robotCommand = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, targetPos, targetAngle);
+            robotCommand = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), targetPos, targetAngle);
         }
 
         else if (goToType == numTree) {
-            robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos, targetAngle);
+            robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos, targetAngle);
         }
         // set robotcommands if they have not been set yet in gtpUpdate()
 

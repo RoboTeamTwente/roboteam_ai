@@ -28,11 +28,11 @@ BallHandlePosControl::BallHandlePosControl(bool canMoveInDefenseArea) {
 }
 
 // TODO: Implement this function
-RobotCommand BallHandlePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP,
+RobotCommand BallHandlePosControl::getRobotCommand(int robotId, const Vector2 &targetP,
                                                    const Angle &targetA, TravelStrategy travelStrategy) {}
 
 // TODO: Implement this function
-RobotCommand BallHandlePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP,
+RobotCommand BallHandlePosControl::getRobotCommand(int robotId, const Vector2 &targetP,
                                                    const Angle &targetA) {}
 
 RobotCommand BallHandlePosControl::getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP) {

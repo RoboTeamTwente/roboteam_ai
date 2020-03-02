@@ -64,7 +64,7 @@ void ReflectKick::intercept() {
 
     Vector2 interceptPoint = computeInterceptPoint(ballStartPos, ballEndPos);
 
-    Vector2 velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, interceptPoint).vel;
+    Vector2 velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), interceptPoint).vel;
     command.mutable_vel()->set_x(velocities.x);
     command.mutable_vel()->set_y(velocities.y);
     command.set_w(robotAngle);

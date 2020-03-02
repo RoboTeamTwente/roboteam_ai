@@ -32,7 +32,7 @@ Skill::Status ActiveStop::onUpdate() {
         command.set_w(static_cast<float>((ball->get()->getPos() - robot->get()->getPos()).angle()));
     }
 
-    Vector2 velocity = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos).vel;
+    Vector2 velocity = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos).vel;
     command.mutable_vel()->set_x(static_cast<float>(velocity.x));
     command.mutable_vel()->set_y(static_cast<float>(velocity.y));
     publishRobotCommand();

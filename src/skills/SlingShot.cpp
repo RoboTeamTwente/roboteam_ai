@@ -104,7 +104,7 @@ void SlingShot::sendDribbleCommand() {
 }
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
-    auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, position).vel;
+    auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), position).vel;
     velocities = control::NewControlUtils::velocityLimiter(velocities, 1.5);
     command.set_dribbler(0);
     command.mutable_vel()->set_x(velocities.x);

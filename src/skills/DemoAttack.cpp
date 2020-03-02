@@ -58,7 +58,7 @@ bt::Node::Status DemoAttack::onUpdate() {
     } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, targetPos, ownGoal)) {
         velocity = {0, 0};
     } else {
-        velocity = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos).vel;
+        velocity = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos).vel;
     }
 
     command.mutable_vel()->set_x(static_cast<float>(velocity.x));

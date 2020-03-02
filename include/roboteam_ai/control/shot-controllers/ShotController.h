@@ -69,7 +69,7 @@ class ShotController {
                                  ShotPrecision precision = MEDIUM, int genevaState = 0);
 
     // TODO: Implement this function/refactor controllers
-    RobotCommand getRobotCommand(const Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,
+    RobotCommand getRobotCommand(const world::Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,
                                  bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
 };
 

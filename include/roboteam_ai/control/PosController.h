@@ -10,13 +10,13 @@
 #include "RobotCommand.h"
 #include "world/Field.h"
 #include "roboteam_utils/pid.h"
-#include "world/FieldComputations.h"
+//#include "world/FieldComputations.h"
 #include "world/World.h"
 
-// TODO: Refactor controllers, maybe no forward declarations necessary
 namespace rtt::world_new::view {
 class WorldDataView;
 class RobotView;
+class BallView;
 }  // namespace rtt::world_new::view
 
 namespace rtt::ai {
@@ -49,12 +49,17 @@ class PosController {
 
     virtual Vector2 calculatePIDs(const RobotPtr &robot, RobotCommand &target);
 
+    RobotCommand controlWithPID(const world_new::view::RobotView &robot, RobotCommand target);
+    virtual Vector2 calculatePIDs(const world_new::view::RobotView &robot, RobotCommand &target);
+
    public:
     PosController() = default;
     explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
     virtual RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) = 0;
-
     virtual RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos) = 0;
+
+    virtual RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos, const Angle &targetAngle) = 0;
+    virtual RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos) = 0;
 
     bool getCanMoveOutOfField(int robotID) const;
     void setCanMoveOutOfField(bool canMoveOutOfField);

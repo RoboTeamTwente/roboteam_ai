@@ -17,7 +17,7 @@ Skill::Status InterceptRobot::onUpdate() {
         return Status::Failure;
     }
     Vector2 interceptPos = getInterceptPos(*robotToIntercept);
-    auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, interceptPos);
+    auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(),  interceptPos);
     command.mutable_vel()->set_x(velocities.vel.x);
     command.mutable_vel()->set_y(velocities.vel.y);
     command.set_w(velocities.angle.getAngle());

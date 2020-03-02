@@ -19,7 +19,7 @@ void MidFieldHarasser::onInitialize() {
 Skill::Status MidFieldHarasser::onUpdate() {
     targetPos = getHarassTarget();
 
-    auto newPosition = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, targetPos);
+    auto newPosition = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos);
     Vector2 velocity = newPosition.vel;
 
     // If there is a robot being harassed, drive slower than it if too close

@@ -2,6 +2,7 @@
 // Created by thijs on 25-5-19.
 //
 
+#include <include/roboteam_ai/world_new/views/RobotView.hpp>
 #include "control/numtrees/Collision.h"
 
 namespace rtt::ai::control {
@@ -43,6 +44,12 @@ void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double di
     collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
     setCollision(distance);
 }
+
+    void Collision::setCollisionRobot(int robotId, double distance) {
+        type = ROBOT;
+        //collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
+        setCollision(distance);
+    }
 
 void Collision::setCollision(double distance) {
     isCollision = true;

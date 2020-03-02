@@ -82,12 +82,12 @@ void Receive::intercept() {
     Vector2 velocities;
 
     if ((interceptPoint - robot->get()->getPos()).length() > 1.0) {
-        velocities = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, interceptPoint).vel;
+        velocities = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), interceptPoint).vel;
         if (control::NewControlUtils::clearLine(robot->get()->getPos(), interceptPoint, *world, 1)) {
             velocities = velocities * 1.2;
         }
     } else {
-        velocities = robot->getControllers().getBasicPosController()->getRobotCommand(world, field, *robot, interceptPoint).vel;
+        velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), interceptPoint).vel;
     }
     command.mutable_vel()->set_x(static_cast<float>(velocities.x));
     command.mutable_vel()->set_y(static_cast<float>(velocities.y));

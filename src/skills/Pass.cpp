@@ -42,9 +42,9 @@ Pass::Status Pass::onUpdate() {
         robotToPassTo = world_new::World::instance()->getWorld()->getRobotForId(robotToPassToID, true);
 
         if (!robotToPassTo || robotToPassToID == -1) {
-            robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(world, field, *robot, ball->get()->getPos());
+            robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), ball->get()->getPos());
         } else {
-            robotCommand = robot->getControllers().getBallHandlePosController()->getRobotCommand(world, field, *robot, robotToPassTo->get()->getPos(),
+            robotCommand = robot->getControllers().getBallHandlePosController()->getRobotCommand(robot->get()->getId(), robotToPassTo->get()->getPos(),
                                                                                                  control::BallHandlePosControl::TravelStrategy::FORWARDS);
         }
 
