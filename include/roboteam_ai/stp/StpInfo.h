@@ -9,6 +9,29 @@
 #include <roboteam_utils/Circle.h>
 
 namespace rtt::ai::stp {
+
+    /**
+     * Enum class used for status updates
+     */
+    enum class Status {
+        /**
+         * Waiting for something
+         */
+        Waiting,
+        /**
+         * Skill / tactic has finalized running
+         */
+        Success,
+        /**
+         * Skill has failed
+         */
+        Failure,
+        /**
+         * Skill is executing
+         */
+        Running
+    };
+
     /**
      * Class used for the Areas to avoid in TacticInfo
      * @tparam T Type of the shape for the areas to avoid
@@ -23,7 +46,7 @@ namespace rtt::ai::stp {
          * @return any(robot in shape for shape in areas)
          */
         [[nodiscard]] bool isInAny(Vector2 const &pos) const noexcept {
-            Circle circle{ pos, Constants::ROBOT_RADIUS() };
+            Circle circle{pos, Constants::ROBOT_RADIUS()};
             return std::any_of(areasToAvoid.begin(), areasToAvoid.end(), [&](auto const &area) {
                 return area.intersects(circle);
             });
@@ -74,6 +97,11 @@ namespace rtt::ai::stp {
          * TacticInfo of the tactic that called the skill
          */
         TacticInfo tactic;
+
+        /**
+         * Robot this skill applies to
+         */
+         world_new::view::RobotView robot;
     };
 };
 

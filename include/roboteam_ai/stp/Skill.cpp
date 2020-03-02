@@ -13,17 +13,15 @@
 
 namespace rtt::ai::stp {
 
-    proto::RobotCommand Skill::rotateRobotCommand(proto::RobotCommand const& cmd) const noexcept {
-        proto::RobotCommand output = cmd;
-        output.mutable_vel()->set_x(-cmd.vel().x());
-        output.mutable_vel()->set_y(-cmd.vel().y());
-        output.set_w(static_cast<float>(control::ControlUtils::constrainAngle(cmd.w() + M_PI)));
-        return output;
+    void Skill::rotateRobotCommand() noexcept {
+        command.mutable_vel()->set_x(-command.vel().x());
+        command.mutable_vel()->set_y(-command.vel().y());
+        command.set_w(static_cast<float>(control::ControlUtils::constrainAngle(command.w() + M_PI)));
     }
 
     void Skill::publishRobotCommand() noexcept {
         if (!SETTINGS.isLeft()) {
-            command = rotateRobotCommand(command);
+            rotateRobotCommand();
         }
 
         limitRobotCommand();
@@ -45,7 +43,13 @@ namespace rtt::ai::stp {
         refreshRobotCommand();
     }
 
-    void Skill::refreshRobotCommand() noexcept {}
+    void Skill::refreshRobotCommand() noexcept {
+        proto::RobotCommand emptyCmd;
+        emptyCmd.set_use_angle(true);
+        emptyCmd.set_id(robot ? robot->getId() : -1);
+        emptyCmd.set_geneva_state(0);
+        command = emptyCmd;
+    }
 
     void Skill::limitRobotCommand() noexcept {
         bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName == "keeper_penalty_defend_tactic";
@@ -57,18 +61,18 @@ namespace rtt::ai::stp {
             limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w());
         }
         if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-            rtt_error("Robot will have NAN: " + node_name() + "!\nrobot: " + std::to_string(robot->getId()));
+            rtt_error("Robot will have NAN: " + name() + "!\nrobot: " + std::to_string(robot->getId()));
         }
         command.mutable_vel()->set_x(limitedVel.x);
         command.mutable_vel()->set_y(limitedVel.y);
     }
 
-    void Skill::onTerminate(Status s) noexcept {
+    void Skill::onTerminate() noexcept {
         terminate();
     }
 
-    void Skill::onUpdate() noexcept {
-        update();
+    void Skill::onUpdate(SkillInfo const& info) noexcept {
+        update(info);
     }
 
     void Skill::refreshRobotPositionControllers() const noexcept {
@@ -78,6 +82,10 @@ namespace rtt::ai::stp {
 
     void Skill::onInitialize() noexcept {
         initialize();
+    }
+
+    constexpr const char* Skill::name() const noexcept {
+        return "[abc] Skill";
     }
 }
 }
