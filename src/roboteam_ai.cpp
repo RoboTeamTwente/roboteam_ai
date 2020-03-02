@@ -1,10 +1,8 @@
-#include <include/roboteam_ai/utilities/Settings.h>
+#include "utilities/Settings.h"
 #include <utilities/Constants.h>
-
 #include <QApplication>
 #include <QStyleFactory>
 #include <include/roboteam_ai/world_new/World.hpp>
-
 #include "ApplicationManager.h"
 #include "interface/widgets/mainWindow.h"
 
@@ -67,7 +65,7 @@ int main(int argc, char* argv[]) {
     rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
     rtt::SETTINGS.setRobothubSendPort(20011);
 
-    rtt::ai::io::io.init();
+    rtt::ai::io::io.init(rtt::SETTINGS.getId());
 
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees())

@@ -4,7 +4,6 @@
 
 #include "coach/defence/DefenceDealer.h"
 #include <include/roboteam_ai/world/Field.h>
-
 #include "interface/api/Input.h"
 
 namespace rtt::ai::coach {

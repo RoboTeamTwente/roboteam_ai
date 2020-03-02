@@ -113,6 +113,7 @@ void Ball::updateBallAtRobotPosition() noexcept {
     }
 
     auto world = World::instance()->getWorld();
+    if (!world.has_value()) return;
 
     std::optional<rtt::world_new::view::RobotView> robotWithBall = world->whichRobotHasBall();
     if (!robotWithBall.has_value()) {

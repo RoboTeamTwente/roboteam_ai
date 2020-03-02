@@ -104,7 +104,12 @@ class Robot {
 
     [[nodiscard]] bool isBatteryLow() const noexcept;
 
+    [[nodiscard]] bool isFiftyWatt() const noexcept;
+
+    [[nodiscard]] bool isThirtyWatt() const noexcept;
+
     [[nodiscard]] unsigned char getDribblerState() const noexcept;
+
 
     [[nodiscard]] unsigned char getPreviousDribblerState() const noexcept;
 

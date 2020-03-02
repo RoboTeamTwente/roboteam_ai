@@ -57,7 +57,7 @@ class NumTreePosControl : public BasicPosControl {
 
    protected:
     world::World *world = nullptr;
-    const Field *field = nullptr;
+    const world::Field *field = nullptr;
 
    private:
     bool allowIllegalPositions = false;
@@ -84,10 +84,10 @@ class NumTreePosControl : public BasicPosControl {
 
     void clear();
 
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) override;
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) override;
-    RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
+    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) override;
+    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
+    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) override;
+    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
 
     // TODO: Implement this function/refactor controllers
     RobotCommand getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &robotPtr, const Vector2 &targetPos);

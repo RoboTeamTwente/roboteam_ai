@@ -5,6 +5,7 @@
 #include "world_new/World.hpp"
 
 #include <utility>
+#include <include/roboteam_ai/world/Field.h>
 
 #include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/WorldDataView.hpp"
@@ -42,6 +43,14 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
     }
 }
 
+std::optional<ai::world::Field> World::getField() const noexcept {
+    if (currentField) {
+        return currentField;
+    } else {
+        return std::nullopt;
+    }
+}
+
 std::optional<view::WorldDataView> World::getHistoryWorld(size_t ticksAgo) const noexcept {
     std::optional<view::WorldDataView> world = std::nullopt;
 
@@ -59,6 +68,11 @@ std::optional<view::WorldDataView> World::getHistoryWorld(size_t ticksAgo) const
 void World::updateWorld(proto::World &protoWorld) {
     WorldData data{protoWorld, *settings, updateMap};
     setWorld(data);
+}
+
+void World::updateField(proto::SSL_GeometryFieldSize &protoField) {
+    ai::world::Field field(protoField);
+    this->currentField = field;
 }
 
 World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} { history.reserve(HISTORY_SIZE); }

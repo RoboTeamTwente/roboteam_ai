@@ -35,14 +35,14 @@ RobotCommand BallHandlePosControl::getRobotCommand(world_new::view::WorldDataVie
 RobotCommand BallHandlePosControl::getRobotCommand(world_new::view::WorldDataView *world, const Field *field, const world_new::view::RobotView &r, const Vector2 &targetP,
                                                    const Angle &targetA) {}
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP) {
+RobotCommand BallHandlePosControl::getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP) {
     this->world = world;
     this->field = field;
     Angle defaultAngle = lockedAngle;
     return BallHandlePosControl::getRobotCommand(world, field, r, targetP, defaultAngle);
 }
 
-RobotCommand BallHandlePosControl::getRobotCommand(world::World *world, const Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
+RobotCommand BallHandlePosControl::getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA,
                                                    TravelStrategy travelStrategy) {
     this->world = world;
     this->field = field;

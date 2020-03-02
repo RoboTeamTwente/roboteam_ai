@@ -28,6 +28,7 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     robots.reserve(amountUs + amountThem);
     us.reserve(amountUs);
     them.reserve(amountThem);
+    robotsNonOwning.reserve(amountUs + amountThem);
 
     for (auto &each : ours) {
         auto _ptr = &robots.emplace_back(feedback, each, Team::us, getBall());
@@ -41,7 +42,9 @@ WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std:
     }
 }
 
-std::vector<view::RobotView> const &WorldData::getUs() const noexcept { return us; }
+std::vector<view::RobotView> const &WorldData::getUs() const noexcept {
+    return us;
+}
 
 std::vector<view::RobotView> const &WorldData::getThem() const noexcept { return them; }
 

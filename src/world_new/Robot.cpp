@@ -24,9 +24,6 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     if (id < 16) {
         workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
-    } else {
-        std::cerr << "Warning: Creating robot with id = " << id << std::endl;
-        assert(false);
     }
 
     if (feedback.find(id) != feedback.end()) {
@@ -133,4 +130,12 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
 void Robot::setRobotType(RobotType _type) noexcept { this->type = _type; }
 
 RobotType Robot::getRobotType() const noexcept { return type; }
+
+bool Robot::isFiftyWatt() const noexcept {
+    return getRobotType() == RobotType::FIFTY_WATT;
+}
+
+bool Robot::isThirtyWatt() const noexcept {
+    return getRobotType() == RobotType::THIRTY_WATT;
+}
 }  // namespace rtt::world_new::robot

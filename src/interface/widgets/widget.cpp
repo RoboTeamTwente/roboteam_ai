@@ -4,7 +4,6 @@
 
 #include "interface/widgets/widget.h"
 #include <coach/PassCoach.h>
-#include <include/roboteam_ai/utilities/IOManager.h>
 #include <roboteam_utils/Line.h>
 #include <utilities/RobotDealer.h>
 #include <include/roboteam_ai/world_new/World.hpp>
@@ -13,8 +12,6 @@
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
 #include "world/FieldComputations.h"
-
-#include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "world/Field.h"
 
 namespace io = rtt::ai::io;
@@ -25,15 +22,14 @@ Visualizer::Visualizer(const rtt::world_new::World &worldManager, QWidget *paren
 /// The update loop of the field widget. Invoked by widget->update();
 void Visualizer::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
-
     std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
 
-    if (!world.has_value()) {
+    if (!world.has_value() || !world.value()->weHaveRobots()) {
         painter.drawText(24, 24, "Waiting for incoming world state");
         return;
     }
 
-    const Field &field = io::io.getField();
+    auto field = worldManager.getField().value();
 
     calculateFieldSizeFactor(field);
     drawBackground(painter);
@@ -44,8 +40,8 @@ void Visualizer::paintEvent(QPaintEvent *event) {
     s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
     painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
-    drawRobots(painter, *world);
-    if (world->getBall().has_value()) drawBall(painter, *world->getBall());
+    drawRobots(painter, world.value());
+    if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
 
     // draw the drawings from the input
     auto drawings = Input::getDrawings();
@@ -262,12 +258,12 @@ void Visualizer::drawBall(QPainter &painter, rtt::world_new::view::BallView ball
 // draw the robots
 void Visualizer::drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world) {
     // draw us
-    for (rtt::world_new::view::RobotView robot : world->getUs()) {
+    for (auto const & robot : world->getUs()) {
         drawRobot(painter, robot, true);
     }
 
     // draw them
-    for (rtt::world_new::view::RobotView robot : world->getThem()) {
+    for (auto  const & robot : world->getThem()) {
         drawRobot(painter, robot, false);
     }
 }

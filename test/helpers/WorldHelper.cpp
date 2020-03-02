@@ -1,15 +1,7 @@
 #include <random>
-
-//
-// Created by mrlukasbos on 14-1-19.
-//
-
 #include <roboteam_proto/World.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 #include <roboteam_utils/Vector2.h>
-
-#include <random>
-
 #include "WorldHelper.h"
 #include "world/Robot.h"
 #include "world/World.h"
@@ -86,39 +78,37 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 /*
  * Generate a robot on a random position
  */
-proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
+proto::WorldRobot * WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
-    proto::WorldRobot robot;
-    robot.set_id((unsigned)id);
-    robot.mutable_pos()->set_x(randomFieldPos.x);
-    robot.mutable_pos()->set_y(randomFieldPos.y);
-    robot.set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
-
-    robot.mutable_vel()->set_x(randomVel.x);
-    robot.mutable_vel()->set_y(randomVel.x);
-
-    robot.set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
+    auto robot = new proto::WorldRobot();
+    robot->set_id((unsigned)id);
+    robot->mutable_pos()->set_x(randomFieldPos.x);
+    robot->mutable_pos()->set_y(randomFieldPos.y);
+    robot->set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
+    robot->mutable_vel()->set_x(randomVel.x);
+    robot->mutable_vel()->set_y(randomVel.x);
+    robot->set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
     return robot;
 }
 
 /*
  * Generate a ball at a random position
  */
-proto::WorldBall WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
+proto::WorldBall * WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
-    proto::WorldBall ball;
-    ball.mutable_pos()->set_x(randomFieldPos.x);
-    ball.mutable_pos()->set_y(randomFieldPos.y);
+    auto ball = new proto::WorldBall;
+    ball->mutable_pos()->set_x(randomFieldPos.x);
+    ball->mutable_pos()->set_y(randomFieldPos.y);
 
-    ball.mutable_vel()->set_x(randomVel.x);
-    ball.mutable_vel()->set_y(randomVel.x);
+    ball->mutable_vel()->set_x(randomVel.x);
+    ball->mutable_vel()->set_y(randomVel.x);
 
-    ball.set_visible(true);
-    ball.set_area(99999);
+    ball->set_visible(true);
+    ball->set_area(99999);
     return ball;
 }
 
@@ -155,7 +145,7 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
     for (int i = 0; i < amount; i++) {
         auto randombot = generateRandomRobot(i, field);
         auto botmsg = robots.Add();
-        botmsg->CopyFrom(randombot);
+        botmsg->CopyFrom(*randombot);
     }
     return robots;
 }
@@ -163,19 +153,24 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
 /*
  * Generate a world message for both teams
  */
-proto::World WorldHelper::getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::GeometryFieldSize &field) {
+proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool withBall, const proto::GeometryFieldSize &field) {
     proto::World msg;
 
+
     auto randomBall = generateRandomBall(field);
-    auto randomYellow = generateRandomRobots(amountUs, field);
-    auto randomBlue = generateRandomRobots(amountThem, field);
+    auto randomYellow = generateRandomRobots(amountYellow, field);
+    auto randomBlue = generateRandomRobots(amountBlue, field);
 
     do {
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
 
-        if (withBall) msg.set_allocated_ball(&randomBall);
-    } while (!allPositionsAreValid(msg, true));
+        if (withBall) {
+            std::cerr << "[WorldHelper] Caution: generating a world with a ball is not stable!" << std::endl;
+            msg.set_allocated_ball(randomBall);
+        }
+    } while (!allPositionsAreValid(msg, withBall));
+
     return msg;
 }
 

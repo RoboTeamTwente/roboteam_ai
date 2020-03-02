@@ -45,10 +45,10 @@ class ApplicationManager {
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches() const;
+    void updateCoaches(const ai::world::Field & field) const;
     void updateTrees();
-    bt::Node::Status runStrategyTree();
-    void runKeeperTree();
+    bt::Node::Status runStrategyTree(const ai::world::Field & field);
+    void runKeeperTree(const ai::world::Field & field);
 };
 
 }  // namespace rtt
