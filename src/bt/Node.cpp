@@ -80,11 +80,6 @@ void Node::NodeTerminate(Status s) {
 
 unsigned long long Node::getAmountOfTicks() const { return amountOfTicks; }
 
-void Node::giveProperty(std::string a, std::string b) {
-    rtt_error("giveProperty in Node.cpp, should never be called");
-    assert(false);
-}
-
 std::string Node::status_print(Node::Status s) {
     switch (s) {
         case Status::Waiting:
