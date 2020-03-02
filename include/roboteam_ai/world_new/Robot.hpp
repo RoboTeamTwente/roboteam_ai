@@ -148,9 +148,9 @@ class Robot {
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
                    std::optional<rtt::world_new::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
-    Robot &operator=(Robot const&);
+    Robot &operator=(Robot const&) = default;
 
-    Robot(Robot const &);
+    Robot(Robot const &) = default;
 
     Robot &operator=(Robot &&) = default;
 
