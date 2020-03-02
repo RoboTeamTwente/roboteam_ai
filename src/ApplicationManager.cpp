@@ -49,7 +49,7 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
-        if (!fieldInitialized) rtt_success("Received a field message!")
+        if (!fieldInitialized) rtt_success("Received first field message!")
         fieldInitialized = true;
 
         auto fieldMessage = io::io.getGeometryData().field();
