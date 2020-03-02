@@ -83,6 +83,5 @@ namespace rtt::world_new {
             auto& matchingVector = each.getTeam() == Team::us ? us : them;
             matchingVector.emplace_back(&each);
         }
-
     }
 }  // namespace rtt::world_new
