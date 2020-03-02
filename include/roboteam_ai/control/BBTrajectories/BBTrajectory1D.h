@@ -44,7 +44,7 @@ struct PosVelAcc {
 template<class num>
 class BBTrajectory1D {
     public:
-        typedef BBTrajectoryPart<num> part;
+        using part = BBTrajectoryPart<num>;
         PosVelAcc<num> getValues(num t) const noexcept ;
         num getPosition(num t) const noexcept;
         num getVelocity(num t) const noexcept;
