@@ -144,7 +144,8 @@ class World {
    private:
     /**
      * Resets the world
-     * clear()'s all vectors and reset()'s the ball
+     * Resets every member, sets tick duration to 0, etc etc...
+     * Everything EXCEPT positioncontrol is reset.
      */
      void reset() noexcept;
 

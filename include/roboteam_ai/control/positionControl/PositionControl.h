@@ -27,8 +27,6 @@ class PositionControl {
     std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
    public:
-    PositionControl() = default;
-
     /**
      * Generates a path according to the selected planning algorithm,
      * and tracks it using the selected tracking algorithm. In the case a collision
