@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     if (argc == 2) {
         id = *argv[1] - '0';
     }
-    rtt_info("This AI is initialized with id " + std::to_string(id))
+    rtt_info("This AI is initialized with id ", id);
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
         // standard blue team on right
