@@ -48,8 +48,6 @@ namespace rtt::ai::stp {
          */
         virtual void limitRobotCommand() noexcept;
 
-
-
         /**
          * Function that takes a status and calls onTerminate or anything else accordingly
          */
