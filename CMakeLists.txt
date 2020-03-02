@@ -256,7 +256,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
-        )
+        include/roboteam_ai/stp/Skill.cpp include/roboteam_ai/stp/Skill.h)
 
 
 set(INTERFACE_SOURCES
