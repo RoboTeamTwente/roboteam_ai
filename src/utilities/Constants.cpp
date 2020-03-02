@@ -16,20 +16,20 @@ bool Constants::robotOutputTargetGrSim = true;
 
 void Constants::init() {
     std::string target = robotOutputTargetGrSim ? "GRSIM" : "SERIAL";
-    rtt_info("robot_output_target is set to " + target)
+    RTT_INFO("robot_output_target is set to " + target)
     isInitialized = true;
 }
 
 bool Constants::GRSIM() {
     if (!isInitialized) {
-        rtt_error("You use a value dependent on an unkown environment! This may result in unexepected behaviour")
+        RTT_ERROR("You use a value dependent on an unkown environment! This may result in unexepected behaviour")
         assert(false);
     }
     return robotOutputTargetGrSim;
 }
 
 void Constants::OVERWRITE_GRSIM(bool grsim) {
-    rtt_warning("Do not overwrite GRSIM() if you do not know what you are doing!")
+    RTT_WARNING("Do not overwrite GRSIM() if you do not know what you are doing!")
     robotOutputTargetGrSim = grsim;
 }
 

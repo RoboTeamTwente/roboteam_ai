@@ -74,7 +74,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
 
     if (!interface::Output::usesRefereeCommands()) {
         ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
-        rtt_warning("Getting ballplacement location from interface");
+        RTT_WARNING("Getting ballplacement location from interface");
     };
     auto ball = world->getBall();
     Vector2 diff = (ball->getPos() - ballPlacementMarker).rotate(M_PI_2);

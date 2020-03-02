@@ -22,7 +22,7 @@ void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
 
-    rtt_info("Creating trees From Json...");
+    RTT_INFO("Creating trees From Json...");
 
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
@@ -52,7 +52,7 @@ void BTFactory::makeTrees() {
     }
 
     BTFactory::weMadeTrees = true;
-    rtt_success("Done making trees!");
+    RTT_SUCCESS("Done making trees!");
 }
 
 /**

@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
                  "  ╚═╝  ╚═╝   ╚═╝      ╚═╝       ╚═╝  ╚═╝╚═╝\n"
                  "                                         " << std::endl;
 
-    rtt_debug("Debug prints enabled")
+    RTT_DEBUG("Debug prints enabled")
 
     rtt::ai::Constants::init();
 
@@ -55,22 +55,22 @@ int main(int argc, char* argv[]) {
     if (argc == 2) {
         id = *argv[1] - '0';
     }
-    rtt_info("This AI is initialized with id ", id);
+    RTT_INFO("This AI is initialized with id ", id);
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
         // standard blue team on right
         rtt::SETTINGS.init(id);
         rtt::SETTINGS.setYellow(false);
         rtt::SETTINGS.setLeft(false);
-        rtt_info("Initially playing as the BLUE team")
-        rtt_info("We are playing on the RIGHT side of the field")
+        RTT_INFO("Initially playing as the BLUE team")
+        RTT_INFO("We are playing on the RIGHT side of the field")
     } else {
         // standard yellow team on left
         rtt::SETTINGS.init(id);
         rtt::SETTINGS.setYellow(true);
         rtt::SETTINGS.setLeft(true);
-        rtt_info("Initially playing as the YELLOW team")
-        rtt_info("We are playing on the LEFT side of the field")
+        RTT_INFO("Initially playing as the YELLOW team")
+        RTT_INFO("We are playing on the LEFT side of the field")
     }
 
     rtt::SETTINGS.setSerialMode(false);

@@ -61,7 +61,7 @@ void RobotDealer::updateFromWorld() {
     for (const auto &robotID : robotIDs) {
         if (currentRobots.find(robotID) == currentRobots.end()) {
             if (robotID == keeperID) {
-                rtt_error("The keeper just got registered as a free robot this should never happen");
+                RTT_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -81,7 +81,7 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
     if (!ids.empty()) {
         switch (feature) {
             default:
-                rtt_warning("[Robotdealer] could not find a match for this feature ");
+                RTT_WARNING("[Robotdealer] could not find a match for this feature ");
                 return -1;
 
             case CLOSE_TO_BALL: {
@@ -270,7 +270,7 @@ void RobotDealer::releaseRobotForRole(const std::string &roleName) {
             }
         }
     }
-    rtt_warning("Cannot release the robot. It does not exist in the robotOwners");
+    RTT_WARNING("Cannot release the robot. It does not exist in the robotOwners");
 }
 
 void RobotDealer::removeTactic(const std::string &tacticName) {
@@ -313,7 +313,7 @@ int RobotDealer::findRobotForRole(const std::string &roleName) {
             }
         }
     }
-//    rtt_warning("Cannot find a robot with that Role Name: " + roleName );
+//    RTT_WARNING("Cannot find a robot with that Role Name: " + roleName );
     return -1;
 }
 
@@ -322,7 +322,7 @@ void RobotDealer::unFreeRobot(int ID) {
     if (robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
         robotOwners["free"].erase({ID, "free"});
     } else {
-        rtt_warning("Cannot un free an anti free robot");
+        RTT_WARNING("Cannot un free an anti free robot");
     }
 }
 
@@ -339,7 +339,7 @@ std::string RobotDealer::getTacticNameForRole(const std::string &role) {
             }
         }
     }
-    rtt_warning("Cannot un free an anti free robot");
+    RTT_WARNING("Cannot un free an anti free robot");
     return "";
 }
 
@@ -353,7 +353,7 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
-    rtt_warning("No robot with that ID: " + std::to_string(ID));
+    RTT_WARNING("No robot with that ID: " + std::to_string(ID));
     return "";
 }
 
@@ -426,7 +426,7 @@ bool RobotDealer::hasFree() {
         auto set = tactic.second;
         for (const auto &pair : set) {
             if (pair.second == "free") {
-                rtt_warning("There is a free robot with the ID: " + std::to_string(pair.first));
+                RTT_WARNING("There is a free robot with the ID: " + std::to_string(pair.first));
                 return true;
             }
         }

@@ -109,7 +109,7 @@ void Node::setRoleString(std::string roleName) {
     }
 }
 void Node::giveProperty(std::string a, std::string b) {
-    rtt_error("calling giveProperty() function to base class Node")
+    RTT_ERROR("calling giveProperty() function to base class Node")
 }
 
 }  // namespace bt

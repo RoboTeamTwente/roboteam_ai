@@ -24,8 +24,8 @@ using namespace rtt::ai::world;
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
-    rtt_info("Start looping");
-    rtt_info("Waiting for field_data and robots...");
+    RTT_INFO("Start looping");
+    RTT_INFO("Waiting for field_data and robots...");
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -49,7 +49,7 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
-        if (!fieldInitialized) rtt_success("Received first field message!")
+        if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
         fieldInitialized = true;
 
         auto fieldMessage = io::io.getGeometryData().field();
@@ -63,7 +63,7 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (!world->getUs().empty()) {
             if (!robotsInitialized) {
-                rtt_success("Received robots, starting behaviour trees!")
+                RTT_SUCCESS("Received robots, starting behaviour trees!")
             }
             robotsInitialized = true;
 
@@ -79,14 +79,14 @@ void ApplicationManager::runOneLoopCycle() {
             this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
-                rtt_warning("No robots found in world. Behaviour trees are not running")
+                RTT_WARNING("No robots found in world. Behaviour trees are not running")
                 robotsInitialized = false;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds (100));
         }
     } else {
         if (fieldInitialized) {
-            rtt_warning("No field data present!")
+            RTT_WARNING("No field data present!")
             fieldInitialized = false;
         }
         std::this_thread::sleep_for(std::chrono::milliseconds (100));
@@ -110,13 +110,13 @@ void ApplicationManager::updateTrees() {
     bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
 
     if (strategyChanged) {
-        rtt_info("Switching main strategy to " + strategyName);
+        RTT_INFO("Switching main strategy to " + strategyName);
         BTFactory::setCurrentTree(strategyName);
         oldStrategyName = strategyName;
     }
 
     if (keeperStrategyChanged) {
-        rtt_info("Switching keeper strategy to " + keeperTreeName)
+        RTT_INFO("Switching keeper strategy to " + keeperTreeName)
         BTFactory::setKeeperTree(keeperTreeName);
         oldKeeperTreeName = keeperTreeName;
     }
@@ -138,7 +138,7 @@ void ApplicationManager::runKeeperTree(const Field & field) {
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree(const Field & field) {
     if (BTFactory::getCurrentTree() == "NaN") {
-        rtt_error("Current tree is NaN! The tree might be halting");
+        RTT_ERROR("Current tree is NaN! The tree might be halting");
         return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
@@ -182,15 +182,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         case Status::Running:
             break;
         case Status::Success:
-            rtt_success("Tree returned status: success! -> Changing strategy to normal_play");
+            RTT_SUCCESS("Tree returned status: success! -> Changing strategy to normal_play");
             ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
             break;
         case Status::Failure:
-            rtt_warning("Tree returned status: failure! -> Changing strategy to normal_play");
+            RTT_WARNING("Tree returned status: failure! -> Changing strategy to normal_play");
             ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
             break;
         case Status::Waiting:
-            rtt_info("Tree returned status: waiting");
+            RTT_INFO("Tree returned status: waiting");
             break;
     }
 }

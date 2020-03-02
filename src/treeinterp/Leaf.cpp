@@ -23,14 +23,14 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(const bt::Bl
         robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
         if (rtt::ai::world::world->getRobotForId(robotId, true)) {
             if (robotId == -1) {
-                rtt_warning("getting robot for id with id = -1!!!")
+                RTT_WARNING("getting robot for id with id = -1!!!")
             }
             return rtt::ai::world::world->getRobotForId(robotId, true);
         } else {
-            rtt_warning(node_name() + " Initialize -> robot " + std::to_string(robotId) + " does not exist in world")
+            RTT_WARNING(node_name() + " Initialize -> robot " + std::to_string(robotId) + " does not exist in world")
         }
     } else {
-        rtt_warning(node_name() + " Initialize -> robot " + std::to_string(robotId) + " role status: waiting!")
+        RTT_WARNING(node_name() + " Initialize -> robot " + std::to_string(robotId) + " role status: waiting!")
     }
     return nullptr;
 }
@@ -39,7 +39,7 @@ void Leaf::updateRobot() {
     if (rtt::ai::world::world->getRobotForId(robotId, true)) {
         robot = rtt::ai::world::world->getRobotForId(robotId, true);
     } else {
-        rtt_warning(node_name() + " Update -> robot " + std::to_string(robotId) + " does not exist in world!")
+        RTT_WARNING(node_name() + " Update -> robot " + std::to_string(robotId) + " does not exist in world!")
         robot = nullptr;
     }
 }

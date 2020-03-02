@@ -107,7 +107,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return lineSegment.distanceToLine(robot->getPos());
         }
     }
-    rtt_warning("Unhandled dealerflag!");
+    RTT_WARNING("Unhandled dealerflag!");
     return 0;
 }
 

@@ -388,7 +388,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
 
     if (!interface::Output::usesRefereeCommands()) {
         ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
-        rtt_warning("Getting ballplacement location from interface");
+        RTT_WARNING("Getting ballplacement location from interface");
     };
 
     double avoidDist = fmin(ballPlacementMarker.dist(ball->getPos()), 2.0);
