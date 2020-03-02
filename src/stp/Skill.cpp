@@ -27,8 +27,7 @@ namespace rtt::ai::stp {
         limitRobotCommand();
 
         if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
-            std::cout << "ERROR: x or y vel in command is NAN in Skill " << node_name().c_str() << "!"
-                      << "  robot  " << robot->id << std::endl;
+            RTT_ERROR("x or y vel in command is NaN in skill" + std::string{ name() } + "!\nRobot: " + std::to_string(robot->getId()));
         }
 
         if (command.id() == -1) {
@@ -61,7 +60,7 @@ namespace rtt::ai::stp {
             limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w());
         }
         if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-            rtt_error("Robot will have NAN: " + name() + "!\nrobot: " + std::to_string(robot->getId()));
+            RTT_ERROR("Robot will have NAN: " + std::string{ name() } + "!\nrobot: " + std::to_string(robot->getId()));
         }
         command.mutable_vel()->set_x(limitedVel.x);
         command.mutable_vel()->set_y(limitedVel.y);
@@ -87,5 +86,4 @@ namespace rtt::ai::stp {
     constexpr const char* Skill::name() const noexcept {
         return "[abc] Skill";
     }
-}
 }

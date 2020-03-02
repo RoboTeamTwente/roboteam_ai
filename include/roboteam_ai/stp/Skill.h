@@ -22,6 +22,11 @@ namespace rtt::ai::stp {
         proto::RobotCommand command;
 
         /**
+         * Robot view, which should be set from the SkillInfo
+         */
+         world_new::view::RobotView robot;
+
+        /**
          * Gets the name of the skill, must be a literal
          * @return [{additional_info}] {class_name}
          */
