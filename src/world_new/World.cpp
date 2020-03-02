@@ -106,4 +106,17 @@ ai::control::PositionControl *World::getRobotPositionController() noexcept {
 }
 
 size_t World::getHistorySize() const noexcept { return history.size(); }
+
+void World::reset() noexcept {
+    updateMutex.lock();
+    updateMap.clear();
+    history.clear();
+    robotControllers.clear();
+    currentIndex = 0;
+    currentWorld.reset();
+    currentField.reset();
+    lastTick = 0;
+    tickDuration = 0;
+    positionControl = ai::control::PositionControl();
+}
 }  // namespace rtt::world_new

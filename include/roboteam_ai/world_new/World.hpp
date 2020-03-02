@@ -37,10 +37,16 @@ class World {
    public:
     /**
      * Global singleton for World, scott-meyers style
+     * @param[in] resetWorld Boolean that marks whether to reset the world before returning
+     * if set to true, world.clear() is called
+     * if set to false, worldInstance is simply reset
      * @return A pointer to a static World
      */
-    inline static World *instance() {
+    inline static World *instance(bool resetWorld = false) {
         static World worldInstance{&rtt::SETTINGS};
+        if (resetWorld) {
+            worldInstance.reset();
+        }
         return &worldInstance;
     }
 
@@ -136,6 +142,12 @@ class World {
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
    private:
+    /**
+     * Resets the world
+     * clear()'s all vectors and reset()'s the ball
+     */
+     void reset() noexcept;
+
     /**
      * Upates the tickCount, sets lastTick to now(), sets duration to
      * oldNow - now();
