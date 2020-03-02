@@ -8,7 +8,6 @@ namespace rtt {
 Settings SETTINGS;
 
 void Settings::init(int id) {
-    std::cout << "initializing AI with id " << id << std::endl;
     setId(id);
 }
 
