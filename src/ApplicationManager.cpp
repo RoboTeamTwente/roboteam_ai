@@ -110,13 +110,13 @@ void ApplicationManager::updateTrees() {
     bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
 
     if (strategyChanged) {
-        RTT_INFO("Switching main strategy to " + strategyName);
+        RTT_INFO("Switching main strategy to ", strategyName);
         BTFactory::setCurrentTree(strategyName);
         oldStrategyName = strategyName;
     }
 
     if (keeperStrategyChanged) {
-        RTT_INFO("Switching keeper strategy to " + keeperTreeName)
+        RTT_INFO("Switching keeper strategy to ", keeperTreeName)
         BTFactory::setKeeperTree(keeperTreeName);
         oldKeeperTreeName = keeperTreeName;
     }

@@ -27,10 +27,10 @@ std::shared_ptr<rtt::ai::world::Robot> Leaf::getRobotFromProperties(const bt::Bl
             }
             return rtt::ai::world::world->getRobotForId(robotId, true);
         } else {
-            RTT_WARNING(node_name() + " Initialize -> robot " + std::to_string(robotId) + " does not exist in world")
+            RTT_WARNING(node_name(), " Initialize -> robot ", robotId, " does not exist in world")
         }
     } else {
-        RTT_WARNING(node_name() + " Initialize -> robot " + std::to_string(robotId) + " role status: waiting!")
+        RTT_WARNING(node_name(), " Initialize -> robot ", robotId, " role status: waiting!")
     }
     return nullptr;
 }
@@ -39,7 +39,7 @@ void Leaf::updateRobot() {
     if (rtt::ai::world::world->getRobotForId(robotId, true)) {
         robot = rtt::ai::world::world->getRobotForId(robotId, true);
     } else {
-        RTT_WARNING(node_name() + " Update -> robot " + std::to_string(robotId) + " does not exist in world!")
+        RTT_WARNING(node_name(), " Update -> robot ", robotId, " does not exist in world!")
         robot = nullptr;
     }
 }

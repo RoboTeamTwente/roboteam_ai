@@ -313,7 +313,7 @@ int RobotDealer::findRobotForRole(const std::string &roleName) {
             }
         }
     }
-//    RTT_WARNING("Cannot find a robot with that Role Name: " + roleName );
+//    RTT_WARNING("Cannot find a robot with that Role Name: ", roleName);
     return -1;
 }
 
@@ -322,7 +322,7 @@ void RobotDealer::unFreeRobot(int ID) {
     if (robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
         robotOwners["free"].erase({ID, "free"});
     } else {
-        RTT_WARNING("Cannot un free an anti free robot");
+        RTT_WARNING("Cannot un free an anti free robot. id: ", ID);
     }
 }
 
@@ -339,7 +339,7 @@ std::string RobotDealer::getTacticNameForRole(const std::string &role) {
             }
         }
     }
-    RTT_WARNING("Cannot un free an anti free robot");
+    RTT_WARNING("No robot with that role: ", role);
     return "";
 }
 
@@ -353,7 +353,7 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
-    RTT_WARNING("No robot with that ID: " + std::to_string(ID));
+    RTT_WARNING("No robot with that ID: ", ID);
     return "";
 }
 
@@ -367,7 +367,7 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
-    // ROS_ERROR("No robot with that ID  getRoleNameForId");
+    RTT_WARNING("No robot with that ID: ", ID);
     return "";
 }
 
@@ -396,10 +396,10 @@ int RobotDealer::getKeeperID() {
 
 void RobotDealer::claimKeeper() {
     if (!hasClaimedKeeper) {
-        // std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
         hasClaimedKeeper = true;
+        RTT_INFO("The keeper is now robot ", keeperID)
     }
 }
 
@@ -426,7 +426,7 @@ bool RobotDealer::hasFree() {
         auto set = tactic.second;
         for (const auto &pair : set) {
             if (pair.second == "free") {
-                RTT_WARNING("There is a free robot with the ID: " + std::to_string(pair.first));
+                RTT_WARNING("There is a free robot with the ID: ", pair.first);
                 return true;
             }
         }

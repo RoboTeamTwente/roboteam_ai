@@ -141,26 +141,26 @@ void JoystickManager::handleEvent(SDL_Event &event) {
 
 /** Takes an SDL_Event and adds a new JoystickHandler to the map of JoystickHandlers */
 void JoystickManager::handleJoystickAdded(const SDL_Event &event) {
-    RTT_INFO("Adding joystick" + std::to_string(event.jdevice.which));
+    RTT_INFO("Adding joystick ", event.jdevice.which);
 
     SDL_Joystick *joystick = SDL_JoystickOpen(event.jdevice.which);
     if (!joystick) {
-        RTT_ERROR("Could not open joystick" + std::to_string(event.jdevice.which));
+        RTT_ERROR("Could not open joystick ", event.jdevice.which);
         return;
     }
 
     int instanceId = SDL_JoystickInstanceID(joystick);
     auto handler = new JoystickHandler();
     joystickHandlers.insert({instanceId, handler});
-    RTT_SUCCESS("Added joystick with InstanceID" + std::to_string(instanceId));
+    RTT_SUCCESS("Added joystick with InstanceID ", instanceId);
 }
 
 /** Takes an SDL_Event and deletes and removes the correct JoystickHandler from the map of JoystickHandlers */
 void JoystickManager::handleJoystickRemoved(const SDL_Event &event) {
-    RTT_INFO("Removing joystick with InstanceID" + std::to_string(event.jdevice.which));
+    RTT_INFO("Removing joystick with InstanceID ", event.jdevice.which);
     delete joystickHandlers.at(event.jdevice.which);
     joystickHandlers.erase(event.jdevice.which);
-    RTT_SUCCESS("Removed joystick with InstanceID" + std::to_string(event.jdevice.which));
+    RTT_SUCCESS("Removed joystick with InstanceID ", event.jdevice.which);
 }
 
 }  // namespace rtt::input
