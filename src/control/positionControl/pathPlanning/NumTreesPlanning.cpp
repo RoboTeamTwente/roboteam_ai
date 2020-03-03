@@ -29,9 +29,9 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
         }
 
         if (point.getParent()){
-            auto parentRobotCollision = collisionDetector.getRobotCollisionBetweenPoints(point.getParent()->getPosition(), point.getPosition());
-            if (parentRobotCollision){
-                auto branches = branchPath(*point.getParent(), parentRobotCollision.value());
+            auto parentCollision = collisionDetector.getCollisionBetweenPoints(point.getParent()->getPosition(), point.getPosition());
+            if (parentCollision){
+                auto branches = branchPath(*point.getParent(), parentCollision.value());
                 std::for_each(branches.begin(), branches.end(), [&pointQueue](PathPointNode& newPoint){
                     pointQueue.push(newPoint);
                     });
@@ -39,15 +39,15 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
             }
         }
 
-        auto robotCollision = collisionDetector.getRobotCollisionBetweenPoints(point.getPosition(), targetPosition);
+        auto collision = collisionDetector.getCollisionBetweenPoints(point.getPosition(), targetPosition);
 
         // no initial collision
-        if (!robotCollision){
+        if (!collision){
             finalPath = PathPointNode(targetPosition, point);
             break;
         }
 
-        auto branches = branchPath(point, robotCollision.value());
+        auto branches = branchPath(point, collision.value());
         std::for_each(branches.begin(), branches.end(), [&pointQueue](const PathPointNode& newPoint){pointQueue.push(newPoint);});
     }
 

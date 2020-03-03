@@ -33,11 +33,12 @@ class CollisionDetector {
     bool isCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
 
     /**
-     * Checks whether the line drawn by the two points comes close to any robot (excepting the current one).
+     * Checks whether the line drawn by the two points comes close to any robot (excepting the current one)
+     * and returns that robot's position
      * @param initialPoint
      * @param nextPoint
      * @param currentRobotPosition the current robot position (should be ignored when checking)
-     * @return
+     * @return the colliding robot position, or a std::nullopt if there is no collision
      */
     std::optional<Vector2> getRobotCollisionBetweenPoints(const Vector2& initialPoint, const Vector2& nextPoint);
 
@@ -49,11 +50,21 @@ class CollisionDetector {
     bool isPointInsideField(const Vector2& point);
 
     /**
-     * Check if the point is inside the defence area
-     * @param point the point to check
-     * @return true if the point is in the defence area
+     * Check if the line intersects the defense area (adding a margin equal to the robot collision radius)
+     * and return the closest point of intersection
+     * @param point first point of the line
+     * @param nextPoint second point of the line
+     * @return the closest intersection with the defense area, or std::nullopt if there is no intersection
      */
-    bool isPointInDefenseArea(const Vector2& point);
+    std::optional<Vector2> getDefenseAreaCollision(const Vector2 &point, const Vector2 &nextPoint);
+
+    /**
+     * Calls the defense area collision and robot collision and returns the closest one to the first point
+     * @param point first point of the line
+     * @param nextPoint second point of the line
+     * @return the closest collision point with a robot / the defense area; std::nullopt if no collisions
+     */
+    std::optional<Vector2> getCollisionBetweenPoints(const Vector2& point, const Vector2& nextPoint);
 
     std::vector<Vector2> getRobotPositions();
 
