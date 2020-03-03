@@ -66,12 +66,12 @@ namespace rtt::ai::stp {
         command.mutable_vel()->set_y(limitedVel.y);
     }
 
-    void Skill::onTerminate() noexcept {
-        terminate();
+    void Skill::terminate() noexcept {
+        onTerminate();
     }
 
-    void Skill::onUpdate(SkillInfo const& info) noexcept {
-        update(info);
+    Status Skill::update(SkillInfo const& info) noexcept {
+        return onUpdate(info);
     }
 
     void Skill::refreshRobotPositionControllers() const noexcept {
@@ -79,8 +79,8 @@ namespace rtt::ai::stp {
                                                 = world_new::robot::RobotControllers();
     }
 
-    void Skill::onInitialize() noexcept {
-        initialize();
+    void Skill::initialize() noexcept {
+        onInitialize();
     }
 
     constexpr const char* Skill::name() const noexcept {

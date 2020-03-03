@@ -53,7 +53,7 @@ namespace rtt::ai::stp {
         virtual void limitRobotCommand() noexcept;
 
         /**
-         * Function that takes a status and calls terminate (the overridden function in the derived class) 
+         * Terminates the skill
          */
         virtual void onTerminate() noexcept;
 
@@ -62,10 +62,10 @@ namespace rtt::ai::stp {
          * @param info SkillInfo structure that provides data to the skill
          * @return Status according to its current execution
          */
-        virtual void onUpdate(SkillInfo const& info) noexcept;
+        virtual Status onUpdate(SkillInfo const& info) noexcept;
 
         /**
-         * Function that calls initialize (the overridden function in the derived class)
+         * Initializes the skill
          */
         virtual void onInitialize() noexcept;
 
@@ -76,7 +76,7 @@ namespace rtt::ai::stp {
 
     public:
         /**
-         * Function that's called immediately when the skill is initialized
+         * Calls onInitialize
          */
         virtual void initialize() noexcept = 0;
 
@@ -88,8 +88,7 @@ namespace rtt::ai::stp {
         virtual Status update(SkillInfo const& info) noexcept = 0;
 
         /**
-         * Function that's called in onTerminate,
-         * called after update() returns Success or Failure
+         * Calls onTerminate
          */
         virtual void terminate() noexcept = 0;
     };
