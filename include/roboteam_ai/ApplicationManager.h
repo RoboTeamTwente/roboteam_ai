@@ -25,6 +25,8 @@ class ApplicationManager {
     bool weHaveRobots = false;
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
+    bool fieldInitialized = false;
+    bool robotsInitialized = false;
 
     /**
      * Checks which plays are valid out of all the plays
@@ -45,10 +47,10 @@ class ApplicationManager {
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches() const;
+    void updateCoaches(const ai::world::Field & field) const;
     void updateTrees();
-    bt::Node::Status runStrategyTree();
-    void runKeeperTree();
+    bt::Node::Status runStrategyTree(const ai::world::Field & field);
+    void runKeeperTree(const ai::world::Field & field);
 };
 
 }  // namespace rtt

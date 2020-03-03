@@ -26,7 +26,7 @@ class OffensiveScore {
 
    public:
     using WorldData = world::WorldData;
-    double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position, const WorldData &world, const Field &field);
+    double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position, world_new::view::WorldDataView world, const Field &field);
 };
 
 }  // namespace rtt::ai::coach

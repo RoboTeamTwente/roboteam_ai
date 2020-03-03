@@ -7,8 +7,7 @@
 
 #include <utilities/Constants.h>
 #include "RobotCommand.h"
-//#include <control/controllers/PidController.h>
-//#include <control/controllers/PidTwoAxesController.h>
+#include "world/Field.h"
 #include "roboteam_utils/pid.h"
 #include "world/FieldComputations.h"
 #include "world/World.h"
@@ -46,9 +45,9 @@ class PosController {
    public:
     PosController() = default;
     explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-    virtual RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) = 0;
+    virtual RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) = 0;
 
-    virtual RobotCommand getRobotCommand(world::World *world, const Field *field, const RobotPtr &robot, const Vector2 &targetPos) = 0;
+    virtual RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos) = 0;
 
     bool getCanMoveOutOfField(int robotID) const;
     void setCanMoveOutOfField(bool canMoveOutOfField);

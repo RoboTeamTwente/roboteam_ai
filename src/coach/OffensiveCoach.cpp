@@ -7,7 +7,8 @@
 #include <interface/api/Input.h>
 #include <interface/widgets/widget.h>
 #include <world/FieldComputations.h>
-#include <world/World.h>
+#include "world_new/views/WorldDataView.hpp"
+#include <include/roboteam_ai/world_new/World.hpp>
 
 namespace rtt::ai::coach {
 
@@ -60,7 +61,7 @@ std::vector<Vector2> OffensiveCoach::getZoneLocations(const Field &field) {
 }
 
 void OffensiveCoach::updateOffensivePositions(const Field &field) {
-    auto world = world::world->getWorld();
+    auto world = world_new::World::instance()->getWorld().value();
     std::vector<Vector2> zoneLocations = getZoneLocations(field);
 
     if (offensivePositions.size() != zoneLocations.size()) {
@@ -136,8 +137,10 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 
 /// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
 Vector2 OffensiveCoach::getShootAtGoalPoint(const Field &field, const Vector2 &fromPoint) {
+    auto worldOpt = world_new::World::instance()->getWorld();
+
     // get the longest line section op the visible part of the goal
-    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint, world::world->getWorld());
+    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint, worldOpt.value());
     if (openSegments.empty()) return field.getTheirGoalCenter();
     auto bestSegment = getLongestSegment(openSegments);
 
@@ -189,7 +192,7 @@ const Line &OffensiveCoach::getLongestSegment(const std::vector<Line> &openSegme
 OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const Field &field, const std::vector<Vector2> &positions,
                                                                             const OffensiveCoach::OffensivePosition &currentBestPosition, const Vector2 &zoneLocation) {
     // get world & field
-    auto world = world::world->getWorld();
+    auto world = world_new::World::instance()->getWorld().value();
 
     OffensivePosition bestPosition = currentBestPosition;
     bestPosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, bestPosition.position, world, field);

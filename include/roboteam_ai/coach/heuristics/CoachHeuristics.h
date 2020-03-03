@@ -9,6 +9,7 @@
 #include <world/Field.h>
 #include <world/World.h>
 #include <world/WorldData.h>
+#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 
 namespace rtt::ai::coach {
 using namespace rtt::ai::world;
@@ -31,17 +32,17 @@ class CoachHeuristics {
 
    public:
     static double calculateCloseToGoalScore(const Field &field, const Vector2 &position);
-    static double calculateShotAtGoalScore(const Field &field, const Vector2 &position, const WorldData &world);
-    static double calculatePassLineScore(const Vector2 &position, const WorldData &world);
-    static double calculateBehindBallScore(const Vector2 &position, const WorldData &world);
-    static double calculatePassDistanceToBallScore(const Field &field, const Vector2 &position, const WorldData &world);
-    static double calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position, const WorldData &world);
+    static double calculateShotAtGoalScore(const Field &field, const Vector2 &position, world_new::view::WorldDataView world);
+    static double calculatePassLineScore(const Vector2 &position, world_new::view::WorldDataView world);
+    static double calculateBehindBallScore(const Vector2 &position, world_new::view::WorldDataView world);
+    static double calculatePassDistanceToBallScore(const Field &field, const Vector2 &position, world_new::view::WorldDataView world);
+    static double calculatePositionDistanceToBallScore(const Field &field, const Vector2 &position, world_new::view::WorldDataView world);
     static double calculateAngleToGoalScore(const Field &field, const Vector2 &position);
 
     /// Currently not implemented, but might be again later
     static double calculateDistanceToOpponentsScore(const Vector2 &position);
     static double calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID = -1);
-    static double getClosestOpponentAngleToPassLine(const Vector2 &position, const WorldData &world, double smallestAngle = 999999);
+    static double getClosestOpponentAngleToPassLine(const Vector2 &position, world_new::view::WorldDataView world, double smallestAngle = 999999);
 };
 
 }  // namespace rtt::ai::coach

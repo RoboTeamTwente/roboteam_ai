@@ -7,6 +7,7 @@
 #include <QScrollArea>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
 #include "roboteam_proto/WorldRobot.pb.h"
@@ -27,7 +28,8 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world) {
-    auto const &field = io::io.getField();
+    auto const &field = world_new::World::instance()->getField().value();
+    auto us =world->getUs();
 
     // reload the widgets completely if a robot is added or removed
     // or if the amount of selected robots is not accurate
@@ -83,19 +85,6 @@ QVBoxLayout *RobotsWidget::createRobotGroupItem(const Field &field, rtt::world_n
     auto wLabel = new QLabel("w: " + QString::number(robot->getAngularVelocity(), 'g', 3) + "rad/s");
     wLabel->setFixedWidth(250);
     vbox->addWidget(wLabel);
-
-    auto report = rtt::ai::analysis::GameAnalyzer::getInstance().getMostRecentReport();
-    if (report) {
-        analysis::RobotDanger danger = report->getRobotDangerForId(robot->getId(), true);
-
-        auto dangerTotalLabel = new QLabel("danger total: " + QString::number(danger.getTotalDanger(field), 'g', 3));
-        dangerTotalLabel->setFixedWidth(250);
-        vbox->addWidget(dangerTotalLabel);
-
-        auto goalVisionLabel = new QLabel("goalvision: " + QString::number(danger.goalVisionPercentage, 'g', 3));
-        goalVisionLabel->setFixedWidth(250);
-        vbox->addWidget(goalVisionLabel);
-    }
 
     return vbox;
 }

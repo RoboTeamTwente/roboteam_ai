@@ -3,7 +3,6 @@
 //
 
 #include "utilities/RefGameState.h"
-
 #include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai {

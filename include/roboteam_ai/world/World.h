@@ -34,6 +34,7 @@ class World {
     std::mutex worldMutex;
     History *history;
     FutureWorld *futureWorld;
+    Field field;
     unsigned long worldNumber = 0;
     const RobotPtr getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotPtr> &robots);
     void updateRobotsFromData(Team team, const std::vector<proto::WorldRobot> &robotsFromMsg, std::vector<RobotPtr> &robots, const BallPtr &ball, unsigned long worldNumber) const;
@@ -41,7 +42,7 @@ class World {
    public:
     explicit World();
     ~World();
-    void updateWorld(const Field &field, const proto::World &world);
+    void updateWorld(const proto::SSL_GeometryFieldSize &fieldMessage, const proto::World &worldMessage);
     bool weHaveRobots();
     double getTimeDifference();
     double getTime();
