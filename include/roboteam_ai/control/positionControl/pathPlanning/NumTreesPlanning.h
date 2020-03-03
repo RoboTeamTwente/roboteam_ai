@@ -13,7 +13,7 @@
 namespace rtt::ai::control{
 class NumTreesPlanning {
 private:
-    static constexpr double AVOIDANCE_DISTANCE = 4 * Constants::ROBOT_RADIUS();
+    static constexpr double AVOIDANCE_DISTANCE = 5 * Constants::ROBOT_RADIUS();
     static constexpr double TARGET_THRESHOLD = 0.1;
     static constexpr int MAX_BRANCHING = 10;
 
