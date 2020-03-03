@@ -1,7 +1,6 @@
 #include "include/roboteam_ai/treeinterp/Leaf.h"
 
 #include <memory>
-
 #include <world/World.h>
 #include <roboteam_utils/Print.h>
 #include "utilities/RobotDealer.h"
