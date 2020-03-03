@@ -33,7 +33,7 @@ namespace rtt::ai::stp {
         constexpr const char* name() const noexcept;
 
         /**
-         * Publishes the current robot command
+         * Publishes the current robot command, limits it and refreshes it
          */
         virtual void publishRobotCommand() noexcept;
 
@@ -48,12 +48,12 @@ namespace rtt::ai::stp {
         virtual void refreshRobotCommand() noexcept;
 
         /**
-         * Applies constrains to the internal robot command
+         * Applies constraints to the internal robot command
          */
         virtual void limitRobotCommand() noexcept;
 
         /**
-         * Function that takes a status and calls onTerminate or anything else accordingly
+         * Function that takes a status and calls terminate (the overridden function in the derived class) 
          */
         virtual void onTerminate() noexcept;
 
@@ -65,7 +65,7 @@ namespace rtt::ai::stp {
         virtual void onUpdate(SkillInfo const& info) noexcept;
 
         /**
-         * Function that calls onInitialize
+         * Function that calls initialize (the overridden function in the derived class)
          */
         virtual void onInitialize() noexcept;
 

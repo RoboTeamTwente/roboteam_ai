@@ -96,7 +96,7 @@ namespace rtt::ai::stp {
         /**
          * TacticInfo of the tactic that called the skill
          */
-        TacticInfo tactic;
+        TacticInfo tacticInfo;
 
         /**
          * Robot this skill applies to
