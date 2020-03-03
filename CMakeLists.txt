@@ -218,7 +218,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BasicPathTracking.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/NumTreesTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
 
@@ -247,7 +247,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
-        ${PRtOJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
+        ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp

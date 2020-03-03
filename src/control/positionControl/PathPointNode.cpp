@@ -13,7 +13,6 @@ const Vector2 &PathPointNode::getPosition() const {
     return position;
 }
 
-
 PathPointNode *PathPointNode::getParent() const {
     return parent;
 }

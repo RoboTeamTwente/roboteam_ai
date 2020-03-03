@@ -8,8 +8,7 @@
 #include "CollisionDetector.h"
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
-#include "control/positionControl/pathTracking/BasicPathTracking.h"
-#include "control/positionControl/pathTracking/NumTreesTracking.h"
+#include "control/positionControl/pathTracking/PidTracking.h"
 #include "world_new/views/RobotView.hpp"
 
 namespace rtt::ai::control {
@@ -22,7 +21,7 @@ class PositionControl {
    private:
     CollisionDetector collisionDetector;
     NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
-    NumTreesTracking pathTrackingAlgorithm;
+    PidTracking pathTrackingAlgorithm;
 
     std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
@@ -42,7 +41,7 @@ class PositionControl {
 
     /**
      * Updates the robot view vector
-     * @param robotPositions the RobotView vector of robots
+     * @param robotPositions the position vector of the robots
      */
     void setRobotPositions(std::vector<Vector2> &robotPositions);
 

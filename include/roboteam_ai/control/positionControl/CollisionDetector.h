@@ -17,7 +17,7 @@ namespace rtt::ai::control {
  */
 class CollisionDetector {
    private:
-    const double DEFAULT_ROBOT_COLLISION_RADIUS = 2.0 * Constants::ROBOT_RADIUS();
+    static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 3.0 * Constants::ROBOT_RADIUS();
 
     std::vector<Vector2> robotPositions;
     const world::Field* field = nullptr;

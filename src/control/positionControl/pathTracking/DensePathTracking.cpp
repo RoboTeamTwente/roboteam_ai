@@ -2,11 +2,11 @@
 // Created by ratoone on 24-01-20.
 //
 
-#include "control/positionControl/pathTracking/NumTreesTracking.h"
+#include "control/positionControl/pathTracking/DensePathTracking.h"
 
 namespace rtt::ai::control {
 
-Position NumTreesTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints) {
+Position DensePathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints) {
     int lookAhead = std::min(pathPoints.size(), STEPS_AHEAD);
     Vector2 currentTarget = *std::next(pathPoints.begin(), lookAhead - 1);
     if (pathPoints.size() > 1 && PositionControlUtils::isTargetReached(currentTarget, currentPosition)) {
