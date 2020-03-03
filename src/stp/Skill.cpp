@@ -86,4 +86,8 @@ namespace rtt::ai::stp {
     constexpr const char* Skill::name() const noexcept {
         return "[abc] Skill";
     }
+
+    Status Skill::getStatus() const {
+        return status;
+    }
 }

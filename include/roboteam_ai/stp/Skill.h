@@ -16,6 +16,11 @@ namespace rtt::ai::stp {
      */
     class Skill {
     private:
+        Status status;
+    public:
+        Status getStatus() const;
+
+    private:
         /**
          * Robot command that will be used for operations, such as publishing
          */
