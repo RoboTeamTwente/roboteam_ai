@@ -66,8 +66,8 @@ namespace rtt::ai::stp {
         command.mutable_vel()->set_y(limitedVel.y);
     }
 
-    void Skill::terminate() noexcept {
-        onTerminate();
+    Status Skill::terminate() noexcept {
+        return onTerminate();
     }
 
     Status Skill::update(SkillInfo const& info) noexcept {
@@ -79,8 +79,8 @@ namespace rtt::ai::stp {
                                                 = world_new::robot::RobotControllers();
     }
 
-    void Skill::initialize() noexcept {
-        onInitialize();
+    Status Skill::initialize() noexcept {
+        return onInitialize();
     }
 
     constexpr const char* Skill::name() const noexcept {
