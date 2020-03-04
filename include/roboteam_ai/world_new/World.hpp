@@ -43,14 +43,8 @@ class World {
      * if set to false, worldInstance is simply reset
      * @return A pointer to a static World
      */
-    inline static World *instance(bool resetWorld = false) {
+    inline static World *instance() {
         static World worldInstance{&rtt::SETTINGS};
-        if (resetWorld) {
-#ifndef RUNNING_TEST
-            rtt_error("Called worldInstance.reset(), please only use in tests");
-#endif
-            worldInstance.reset();
-        }
         return &worldInstance;
     }
 
@@ -145,16 +139,28 @@ class World {
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
-   private:
+#ifdef RUNNING_TEST
     /**
      * Resets the world
      * Resets every member, sets tick duration to 0, etc etc...
      * Everything EXCEPT positioncontrol and settings is reset.
      */
-     void reset() noexcept;
+    void reset() noexcept {
+        std::lock_guard mtx{ updateMutex };
+        updateMap.clear();
+        history.clear();
+        robotControllers.clear();
+        currentIndex = 0;
+        currentWorld.reset();
+        currentField.reset();
+        lastTick = 0;
+        tickDuration = 0;
+    }
+#endif
 
+   private:
     /**
-     * Upates the tickCount, sets lastTick to now(), sets duration to
+     * Updates the tickCount, sets lastTick to now(), sets duration to
      * oldNow - now();
      */
     void updateTickTime() noexcept;

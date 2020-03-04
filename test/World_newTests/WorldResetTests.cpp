@@ -1,10 +1,12 @@
 //
 // Created by john on 3/2/20.
 //
+#define RUNNING_TEST
 
 #include <gtest/gtest.h>
 #include <include/roboteam_ai/world_new/World.hpp>
 #include <test/helpers/WorldHelper.h>
+
 
 TEST(World_newTest, ResetWorldTest) {
     namespace w_n = rtt::world_new;
@@ -20,7 +22,9 @@ TEST(World_newTest, ResetWorldTest) {
     ASSERT_EQ(w_n::World::instance()->getWorld()->getThem().size(), 7);
     ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
 
-    auto world = w_n::World::instance(true);
+
+    auto world = w_n::World::instance();
+    world->reset();
     ASSERT_FALSE(world->getWorld().has_value());
     ASSERT_EQ(world->getHistorySize(), 0);
 }
