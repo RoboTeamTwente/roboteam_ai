@@ -2,7 +2,7 @@
 
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <skills/Halt.h>
-
+#include <roboteam_utils/Print.h>
 #include "interface/api/Output.h"
 
 namespace rtt::ai {
@@ -78,7 +78,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
                 cmd = RefCommand::BALL_PLACEMENT_THEM;
                 break;
             default: {
-                std::cerr << "[Gamestatemanager] Unknown refstate, halting all robots for safety!" << std::endl;
+                RTT_ERROR("Unknown refstate, halting all robots for safety!");
                 cmd = RefCommand::HALT;
                 break;
             }
@@ -140,7 +140,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
                 cmd = RefCommand::BALL_PLACEMENT_US;
                 break;
             default: {
-                std::cerr << "[Gamestatemanager] Unknown refstate, halting all robots for safety!" << std::endl;
+                RTT_ERROR("Unknown refstate, halting all robots for safety!");
                 cmd = RefCommand::HALT;
                 break;
             }
@@ -173,7 +173,7 @@ GameState GameStateManager::getCurrentGameState() {
 }
 
 void GameStateManager::forceNewGameState(RefCommand cmd) {
-    std::cout << "Forcing new refstate!" << std::endl;
+    RTT_INFO("Forcing new refstate!");
 
     // overwrite both the interface and the strategy manager.
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));

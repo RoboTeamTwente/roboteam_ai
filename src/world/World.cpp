@@ -1,3 +1,4 @@
+#include <roboteam_utils/Print.h>
 #include "world/World.h"
 #include "world/BallPossession.h"
 #include "world/FutureWorld.h"
@@ -110,7 +111,7 @@ World::BallPtr World::getBall() {
         return worldDataPtr->ball;
     }
 
-    std::cerr << "BALL DOES NOT EXIST!!! (exists == 0 ??? )" << std::endl;
+    RTT_WARNING("No ball existing in world!");
     return nullptr;
 }
 

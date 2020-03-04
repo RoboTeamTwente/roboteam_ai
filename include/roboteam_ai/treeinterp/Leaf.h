@@ -22,7 +22,7 @@ class Leaf : public Node {
     using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
     using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
 
-    std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(bt::Blackboard::Ptr properties);
+    std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(const bt::Blackboard::Ptr& properties);
     void terminate(Status status) override;
     void updateRobot();
     RobotPtr robot;
