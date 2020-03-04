@@ -14,12 +14,13 @@ TEST(World_newTest, ResetWorldTest) {
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
+    w_n::World::instance()->reset();
     w_n::World::instance()->updateWorld(msg);
-    w_n::World::instance()->updateWorld(msg);
+    w_n::World::instance()->updateWorld(second);
     ASSERT_TRUE(w_n::World::instance()->getWorld().has_value());
     ASSERT_EQ(w_n::World::instance()->getHistorySize(), 1);
-    ASSERT_EQ(w_n::World::instance()->getWorld()->getUs().size(), 7);
-    ASSERT_EQ(w_n::World::instance()->getWorld()->getThem().size(), 5);
+    ASSERT_EQ(w_n::World::instance()->getWorld()->getUs().size(), 5);
+    ASSERT_EQ(w_n::World::instance()->getWorld()->getThem().size(), 7);
     ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
 
 
