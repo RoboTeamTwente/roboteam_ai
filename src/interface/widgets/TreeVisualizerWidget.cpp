@@ -8,13 +8,9 @@
  */
 
 #include "interface/widgets/TreeVisualizerWidget.h"
-
 #include <treeinterp/BTFactory.h>
-
 #include <QtWidgets/QLayoutItem>
 #include <utilities/GameStateManager.hpp>
-
-#include "QLayout"
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
@@ -81,13 +77,10 @@ void TreeVisualizerWidget::addRootItem(bt::Node::Ptr parent, QTreeWidgetItem *QP
 
 // update the contents in a row of the treewidget
 void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem *row, bool isUpdate) {
-    //    ros::Time currentTime = ros::Time::now();
-
     // if the row is updated we don't need to change node names
     // also insert the pair into treeItemMapping
     if (!isUpdate) {
         row->setText(0, QString::fromStdString(node->node_name()));
-
         std::pair<QTreeWidgetItem *, bt::Node::Ptr> pair{row, node};
         treeItemMapping.insert(pair);
     }
@@ -99,38 +92,6 @@ void TreeVisualizerWidget::populateRow(bt::Node::Ptr node, QTreeWidgetItem *row,
         row->setForeground(1, getColorForStatus(node->getStatus()));
     }
 
-    // Update the elapsed time (if ticked)
-    //    ros::Duration duration = currentTime - node->getLastTickTime();
-
-    if (node->getAmountOfTicks() > 0) {
-        //        if (duration.toSec() < 1) {
-        //            row->setForeground(2, Qt::white);
-        //            row->setText(2, "Just now");
-        //        } else if (duration.toSec() < 60){
-        //            row->setForeground(2, Qt::gray);
-        //            row->setText(2, QString::number(duration.toSec(), 'f', 1)+"s ago");
-        //        } else {
-        //            row->setForeground(2, Qt::darkGray);
-        //            row->setText(2, "> 1m ago");
-        //        }
-    } else {
-        row->setForeground(2, Qt::darkGray);
-        row->setText(2, "N/A");
-    }
-
-    // update the total amount of ticks
-    row->setForeground(3, Qt::darkGray);
-
-    // go from yellow to red
-    // yellow = red + green
-    // so we just need to decrease green.
-    mostTicks = std::max(node->getAmountOfTicks(), mostTicks);
-    if (mostTicks != 0) {
-        double div = (node->getAmountOfTicks() * 1.0) / (mostTicks * 1.0);
-        div = log((127) * div + 1) / log(128);
-        auto factor = static_cast<int>(255 * div);
-        row->setForeground(3, QColor{255, 255 - factor, factor});
-    }
     row->setText(3, QString::number(node->getAmountOfTicks(), 'f', 0));
 }
 

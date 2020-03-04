@@ -5,10 +5,10 @@
 #ifndef ROBOTEAM_AI_TREEVISUALIZER_H
 #define ROBOTEAM_AI_TREEVISUALIZER_H
 
-#include <utilities/GameState.h>
-#include <QtWidgets/QTreeWidget>
 #include <bt/BehaviorTree.h>
 #include <bt/Node.h>
+#include <utilities/GameState.h>
+#include <QtWidgets/QTreeWidget>
 
 namespace rtt::ai::interface {
 
@@ -19,9 +19,9 @@ class TreeVisualizerWidget : public QTreeWidget {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    private:
-    QColor getColorForStatus(bt::Node::Status status);
+    static QColor getColorForStatus(bt::Node::Status status);
     void addRootItem(bt::Node::Ptr parent, QTreeWidgetItem *QParent);
-    std::map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
+    std::unordered_map<QTreeWidgetItem *, bt::Node::Ptr> treeItemMapping;
     bool hasCorrectTree = false;
     MainWindow *parent = nullptr;
     unsigned long long mostTicks = 0;

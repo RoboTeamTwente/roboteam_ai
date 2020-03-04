@@ -12,7 +12,7 @@ namespace rtt::ai::coach {
 OffensiveScore g_offensiveScore;
 
 /// Calculates a total score based on all the sub-scores
-double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position, const WorldData &world, const Field &field) {
+double OffensiveScore::calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position, world_new::view::WorldDataView world, const Field &field) {
     if (!positionIsValid(field, zoneLocation, position)) return 0.0;
     double closeToGoalScore = CoachHeuristics::calculateCloseToGoalScore(field, position);
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);

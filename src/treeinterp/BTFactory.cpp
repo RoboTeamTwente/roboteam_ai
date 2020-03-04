@@ -2,8 +2,8 @@
 // Created by baris on 04/10/18.
 //
 
+#include <roboteam_utils/Print.h>
 #include "treeinterp/BTFactory.h"
-
 #include "treeinterp/OffensiveStrategy.h"
 
 std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::strategyRepo;
@@ -14,7 +14,7 @@ std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::codeTrees;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
-
+rtt::ai::analysis::Play *BTFactory::play;
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
@@ -22,7 +22,7 @@ void BTFactory::makeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     BTFactory::weMadeTrees = false;
 
-    std::cout << "Re-Make Trees From Json" << std::endl;
+    RTT_INFO("Creating trees From Json...");
 
     /*
      * Here we store the C++ trees in a map, key = treename, val = cpp tree.
@@ -52,7 +52,7 @@ void BTFactory::makeTrees() {
     }
 
     BTFactory::weMadeTrees = true;
-    std::cout << "Done making trees" << std::endl;
+    RTT_SUCCESS("Done making trees!");
 }
 
 /**
@@ -61,41 +61,20 @@ void BTFactory::makeTrees() {
  * @return The behaviourtree corresponding to that treename
  */
 bt::BehaviorTree::Ptr BTFactory::getTree(std::string treeName) {
+    //    // Comment the lines below until the return statement to restore json functionaility
+    //    std::cout << play->getName() << " is currently being played" << std::endl;
+    //    return BTFactory::play->getTree();
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
-    // HERE
-    //    // Un-kill the code below by commenting the return statement to restore json functionality
-    //    auto treefound = codeTrees.find("attackertree");
-    //    return treefound->second;
-
     if (strategyRepo.find(treeName) != strategyRepo.end()) {
         return strategyRepo.find(treeName)->second;
     }
-    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
+    //    std::cerr << "NO STRATEGY BY THAT NAME:" << treeName.c_str() << std::endl;
     return nullptr;
 }
 
 std::string BTFactory::getCurrentTree() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return currentTree;
-}
-
-void BTFactory::setCurrentTree(const std::string &newTree) {
-    {
-        std::lock_guard<std::mutex> lock(keeperTreeMutex);
-
-        if (newTree != BTFactory::currentTree) {
-            if (BTFactory::currentTree == "NaN") {
-                BTFactory::currentTree = newTree;
-                return;
-            }
-        }
-    }
-    if (BTFactory::currentTree == "NaN" && BTFactory::getTree(currentTree)) {
-        BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
-    }
-
-    rtt::ai::robotDealer::RobotDealer::halt();
-    BTFactory::currentTree = newTree;
 }
 
 void BTFactory::setKeeperTree(const std::string &keeperTree_) {
@@ -115,10 +94,34 @@ std::string BTFactory::getKeeperTreeName() {
 
 void BTFactory::halt() {
     BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
-    BTFactory::setCurrentTree("NaN");
     rtt::ai::robotDealer::RobotDealer::halt();
 }
+
 bool BTFactory::hasMadeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return BTFactory::weMadeTrees;
+}
+
+void BTFactory::setCurrentTree(rtt::ai::analysis::Play *play) {
+    std::cout << "setting the play to " << play->getName() << std::endl;
+    BTFactory::play = play;
+}
+
+void BTFactory::setCurrentTree(const std::string &newTree) {
+    {
+        std::lock_guard<std::mutex> lock(keeperTreeMutex);
+
+        if (newTree != BTFactory::currentTree) {
+            if (BTFactory::currentTree == "NaN") {
+                BTFactory::currentTree = newTree;
+                return;
+            }
+        }
+    }
+    if (BTFactory::currentTree == "NaN" && BTFactory::getTree(currentTree)) {
+        BTFactory::getTree(currentTree)->terminate(bt::Node::Status::Success);
+    }
+
+    rtt::ai::robotDealer::RobotDealer::halt();
+    BTFactory::currentTree = newTree;
 }

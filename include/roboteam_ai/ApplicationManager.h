@@ -8,16 +8,14 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
-#include "analysis/PlayChecker.h"
-#include "include/roboteam_ai/utilities/IOManager.h"
+#include "analysis/play-utilities/PlayChecker.h"
+#include "analysis/play-utilities/PlayDecider.h"
 #include "treeinterp/BTFactory.h"
-
+#include "utilities/IOManager.h"
 namespace rtt {
 
 class ApplicationManager {
    private:
-    rtt::ai::analysis::PlayChecker playcheck;
-
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
     int ticksFree = 0;
     bt::BehaviorTree::Ptr strategy;
@@ -27,15 +25,32 @@ class ApplicationManager {
     bool weHaveRobots = false;
     std::string oldKeeperTreeName = "";
     std::string oldStrategyName = "";
+    bool fieldInitialized = false;
+    bool robotsInitialized = false;
+
+    /**
+     * Checks which plays are valid out of all the plays
+     */
+    rtt::ai::analysis::PlayChecker playChecker;
+    /**
+     * Checks, out of the valid plays, which play is the best to choose
+     */
+    rtt::ai::analysis::PlayDecider playDecider;
+    /**
+     * Function that decides whether to change plays given a world and field.
+     * @param world the current world state
+     * @param field the current field state
+     */
+    void decidePlay(rtt::ai::world::World* world, const rtt::ai::world::Field& field);
 
    public:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches() const;
+    void updateCoaches(const ai::world::Field & field) const;
     void updateTrees();
-    bt::Node::Status runStrategyTree();
-    void runKeeperTree();
+    bt::Node::Status runStrategyTree(const ai::world::Field & field);
+    void runKeeperTree(const ai::world::Field & field);
 };
 
 }  // namespace rtt

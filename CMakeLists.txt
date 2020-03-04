@@ -14,31 +14,7 @@ set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 
 include(cotire)
 include(FindSDL2)
-
-# Find programs and assign the boolean to the variables, find_program(variable binary)
-find_program(CCACHE ccache)
-find_program(GCC g++)
-find_program(CLANG clang++)
-
-# Some ccache logic
-if (CLANG)
-    set(CXX_COMPILER clang++)           # Set the compiler
-    set(CXX_COMPILER_PATH ${CLANG})     # Set the path of the compiler, for if ccache not is used
-elseif (GCC)
-    set(CXX_COMPILER g++)               # Set the compiler
-    set(CXX_COMPILER_PATH ${GCC})       # Set the path of the compiler, for if ccache not is used
-endif()
-
-if(CCACHE)
-    if(APPLE)
-        set(CMAKE_CXX_COMPILER "/usr/local/Cellar/ccache/3.7.7/libexec/${CXX_COMPILER}")
-    else()
-        set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
-    endif()
-else()
-    set(CMAKE_CXX_COMPILER "${CXX_COMPILER_PATH}")
-endif()
-# end of ccache logic
+include(ccache)
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
@@ -48,12 +24,19 @@ if (APPLE)
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-    set(GTEST_LIB /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)
-else (NOT APPLE)
+    set(GTEST_LIB
+            /usr/local/lib/libgtest.a
+            /usr/local/lib/libgtest_main.a
+            /usr/local/lib/libgmock.a
+            /usr/local/lib/libgmock_main.a
+            )
+else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
-    set(GTEST_LIB PRIVATE gtest)
-endif ()
+    set(GTEST_LIB
+            PRIVATE gtest
+            PRIVATE gmock)
+endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -87,13 +70,14 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
+        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
         )
 
 set(UTILS_SOURCES
@@ -102,6 +86,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         )
@@ -166,6 +151,10 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
         )
 
+set(NEW_SKILLS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
+        )
+
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
@@ -199,6 +188,15 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
+
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BasicPathTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/NumTreesTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
+
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/Collision.cpp
@@ -208,6 +206,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
         )
 
 set(TEST_SOURCES
@@ -229,9 +228,13 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
-
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/DealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         )
+
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
@@ -299,13 +302,13 @@ set(COACH_SOURCES
 
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
-        src/ApplicationManager.cpp
-        include/roboteam_ai/ApplicationManager.h
+        ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
         ${BT_SOURCES}
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
+        ${NEW_SKILLS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}

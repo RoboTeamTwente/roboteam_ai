@@ -5,6 +5,7 @@
 #include "world_new/World.hpp"
 
 #include <utility>
+#include <include/roboteam_ai/world/Field.h>
 
 #include "include/roboteam_ai/utilities/Settings.h"
 #include "world_new/views/WorldDataView.hpp"
@@ -42,17 +43,36 @@ std::optional<view::WorldDataView> World::getWorld() const noexcept {
     }
 }
 
-view::WorldDataView World::getHistoryWorld(size_t ticksAgo) const noexcept {
-    if (ticksAgo > history.size()) {
-        return view::WorldDataView(nullptr);
+std::optional<ai::world::Field> World::getField() const noexcept {
+    if (currentField) {
+        return currentField;
+    } else {
+        return std::nullopt;
     }
-    // say ticksAgo is 3, then you'd want the currentIndex - 3 index, so
-    return view::WorldDataView(&history[currentIndex - ticksAgo]);
+}
+
+std::optional<view::WorldDataView> World::getHistoryWorld(size_t ticksAgo) const noexcept {
+    std::optional<view::WorldDataView> world = std::nullopt;
+
+    if (ticksAgo == 0) {
+        world = getWorld();
+    } else if (1 <= ticksAgo and ticksAgo <= history.size()) {
+        auto index = currentIndex - ticksAgo;
+        if (history.size() < index) index += HISTORY_SIZE;  // Wrap-around. 0 wraps around to 18446744073709551598
+        world = view::WorldDataView(&history[index]);
+    }
+
+    return world;
 }
 
 void World::updateWorld(proto::World &protoWorld) {
     WorldData data{protoWorld, *settings, updateMap};
     setWorld(data);
+}
+
+void World::updateField(proto::SSL_GeometryFieldSize &protoField) {
+    ai::world::Field field(protoField);
+    this->currentField = field;
 }
 
 World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} { history.reserve(HISTORY_SIZE); }
@@ -79,6 +99,11 @@ void World::updateTickTime() noexcept {
 uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 
 robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
+
+ai::control::PositionControl *World::getRobotPositionController() noexcept {
+    positionControl.setRobotVector(getWorld()->getRobotsNonOwning());
+    return &positionControl;
+}
 
 size_t World::getHistorySize() const noexcept { return history.size(); }
 }  // namespace rtt::world_new

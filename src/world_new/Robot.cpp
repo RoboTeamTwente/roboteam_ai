@@ -10,8 +10,8 @@
 #include "world_new/World.hpp"
 
 namespace rtt::world_new::robot {
-Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world_new::Team team, unsigned char dribblerState,
-             unsigned long worldNumber)
+Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world_new::Team team, std::optional<view::BallView> ball,
+             unsigned char dribblerState, unsigned long worldNumber)
     : team{team},
       distanceToBall{-1.0},
       lastUpdatedWorldNumber{worldNumber},
@@ -24,13 +24,14 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     if (id < 16) {
         workingDribbler = ai::Constants::ROBOT_HAS_WORKING_DRIBBLER(id);
         workingBallSensor = ai::Constants::ROBOT_HAS_WORKING_BALL_SENSOR(id);
-    } else {
-        std::cerr << "Warning: Creating robot with id = " << id << std::endl;
-        assert(false);
     }
 
     if (feedback.find(id) != feedback.end()) {
         updateFromFeedback(feedback[id]);
+    }
+
+    if (ball.has_value()) {
+        setDistanceToBall(pos.dist((*ball)->getPos()));
     }
 
     resetShotController();
@@ -99,10 +100,7 @@ void Robot::resetBallHandlePosControl() noexcept {
 
 ai::control::ShotController *Robot::getShotController() const noexcept { return World::instance()->getControllersForRobot(getId()).getShotController().get(); }
 
-ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept {
-    return World::instance()->getControllersForRobot(getId()).getNumTreePosController().get();
-    ;
-}
+ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getNumTreePosController().get(); }
 
 ai::control::BasicPosControl *Robot::getBasicPosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getBasicPosController().get(); }
 
@@ -115,10 +113,6 @@ void Robot::setPidPreviousVel(const Vector2 &_pidPreviousVel) noexcept { Robot::
 double Robot::getDistanceToBall() const noexcept { return distanceToBall; }
 
 void Robot::setDistanceToBall(double _distanceToBall) noexcept { Robot::distanceToBall = _distanceToBall; }
-
-bool Robot::isIHaveBall() const noexcept { return iHaveBall; }
-
-void Robot::setIHaveBall(bool _iHaveBall) noexcept { Robot::iHaveBall = _iHaveBall; }
 
 unsigned long Robot::getLastUpdatedWorldNumber() const noexcept { return lastUpdatedWorldNumber; }
 
@@ -134,4 +128,12 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
 void Robot::setRobotType(RobotType _type) noexcept { this->type = _type; }
 
 RobotType Robot::getRobotType() const noexcept { return type; }
+
+bool Robot::isFiftyWatt() const noexcept {
+    return getRobotType() == RobotType::FIFTY_WATT;
+}
+
+bool Robot::isThirtyWatt() const noexcept {
+    return getRobotType() == RobotType::THIRTY_WATT;
+}
 }  // namespace rtt::world_new::robot

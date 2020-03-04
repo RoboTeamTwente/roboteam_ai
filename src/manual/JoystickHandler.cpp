@@ -18,6 +18,7 @@ void JoystickHandler::tick() {
     updateOrientation();
     doKick();
     doChip();
+    tuneDribbler();
     changeRobotID();
     toggleDribbler();
 }
@@ -45,6 +46,7 @@ void JoystickHandler::changeRobotID() {
             if (0 < robotId) {
                 joystickState.dpadLeft = false;
                 robotId--;
+                dribbler_vel = 0;
                 std::cout << "[JoystickHandler][changeRobotId] Switched to robot " << robotId << std::endl;
             } else
                 std::cout << "[JoystickHandler][changeRobotId] No robots with lower ID available" << std::endl;
@@ -53,6 +55,7 @@ void JoystickHandler::changeRobotID() {
             if (robotId < 16) {
                 joystickState.dpadRight = false;
                 robotId++;
+                dribbler_vel = 0;
                 std::cout << "[JoystickHandler][changeRobotId] Switched to robot " << robotId << std::endl;
             } else
                 std::cout << "[JoystickHandler][changeRobotId] No robots with higher ID available" << std::endl;
@@ -95,7 +98,7 @@ void JoystickHandler::toggleDribbler() {
         if (0 < command.dribbler()) {
             command.set_dribbler(0);
         } else {
-            command.set_dribbler(22);
+            command.set_dribbler(10);
         }
     }
 }
@@ -197,6 +200,17 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
     }
 }
 
+/* Sets dribber speed */
+void JoystickHandler::tuneDribbler() {
+    if (joystickState.triggerLeft > 32766) dribbler_vel -= 1;
+
+    if (joystickState.triggerRight > 32766) dribbler_vel += 1;
+
+    if (dribbler_vel < 0) dribbler_vel = 0;
+    if (31 < dribbler_vel) dribbler_vel = 31;
+
+    command.set_dribbler(dribbler_vel);
+}
 proto::RobotCommand JoystickHandler::getCommand() { return command; }
 JoystickState JoystickHandler::getJoystickState() { return joystickState; }
 

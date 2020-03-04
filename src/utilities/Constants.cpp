@@ -3,9 +3,10 @@
 //
 
 #include "utilities/Constants.h"
-
+#include <assert.h>
 #include <iostream>
 #include <vector>
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
 
@@ -14,24 +15,21 @@ bool Constants::isInitialized = false;
 bool Constants::robotOutputTargetGrSim = true;
 
 void Constants::init() {
-    //    ros::NodeHandle nh;
-    //   std::string robotOutputTarget;
-    //   nh.getParam("robot_output_target", robotOutputTarget);
-    //   robotOutputTargetGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
-    std::cout << "robot_output_target = " << (robotOutputTargetGrSim ? "GRSIM" : "SERIAL") << std::endl;
+    std::string target = robotOutputTargetGrSim ? "GRSIM" : "SERIAL";
+    RTT_INFO("robot_output_target is set to ", target)
     isInitialized = true;
 }
 
 bool Constants::GRSIM() {
     if (!isInitialized) {
-        std::cerr << "Ros::init() was not called yet, but you use a value that depends on a ROS parameter. "
-                  << "\n this may result in unexepected behaviour" << std::endl;
+        RTT_ERROR("You use a value dependent on an unkown environment! This may result in unexepected behaviour")
+        assert(false);
     }
     return robotOutputTargetGrSim;
 }
 
 void Constants::OVERWRITE_GRSIM(bool grsim) {
-    std::cerr << "Do not overwrite GRSIM() if you do not know what you are doing!! you should change the ROSPARAM" << std::endl;
+    RTT_WARNING("Do not overwrite GRSIM() if you do not know what you are doing!")
     robotOutputTargetGrSim = grsim;
 }
 
@@ -241,7 +239,7 @@ QColor Constants::SELECTED_ROBOT_COLOR() { return Qt::magenta; }
 
 std::vector<QColor> Constants::TACTIC_COLORS() { return {{255, 0, 255, 50}, {0, 255, 255, 50}, {255, 255, 0, 50}, {0, 255, 0, 50}, {0, 0, 255, 100}}; }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(4.0, 0.0, 0.4); }
 

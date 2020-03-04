@@ -5,10 +5,13 @@
 #ifndef RTT_ROBOT_VIEW_HPP
 #define RTT_ROBOT_VIEW_HPP
 
+#include <roboteam_utils/Vector2.h>
 #include <include/roboteam_ai/utilities/Constants.h>
-#include "world_new/Robot.hpp"
-#include "world_new/RobotControllers.hpp"
+#include <include/roboteam_ai/world_new/Robot.hpp>
 
+namespace rtt::world_new::robot {
+    class RobotControllers;
+}
 namespace rtt::world_new::view {
 
 /**
