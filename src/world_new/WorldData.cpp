@@ -64,13 +64,17 @@ namespace rtt::world_new {
         this->robots = other.robots;
         this->ball = other.ball;
 
-        setViewVectors();
+        this->us.reserve(other.getUs().size());
+        this->them.reserve(other.getThem().size());
 
+        setViewVectors();
         return *this;
     }
 
     WorldData::WorldData(WorldData const & other) noexcept :
             robots{ other.robots }, ball{ other.ball }{
+        us.reserve(other.getUs().size());
+        them.reserve(other.getThem().size());
         setViewVectors();
     }
 
