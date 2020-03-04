@@ -98,7 +98,7 @@ class Field {
     };
 
    private:
-    std::vector<FieldLineSegment> allFieldLines; // Stores all field lines
+    std::vector<FieldLineSegment> allFieldLines;
 
     /* The width of the field (measured in meters), which is the difference in y-coordinate between the upper part of
      * the field and the lower part of the field. */
