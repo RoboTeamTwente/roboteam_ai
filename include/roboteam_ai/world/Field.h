@@ -33,19 +33,23 @@ struct FieldArc {
  * - The location and sizes of all arcs on the field. <br>
  * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
  *
- * Some invariants regarding to the field are:
- * - The left side of the field always corresponds with our side of the field (where our goal is located) and the right side of the field always corresponds with the opponents side
- * of the field (where the opponents goal is located). So our goal will always have the lowest x-coordinate and the opponents goal will always have the highest x-coordinate.
- * - The center position of the field has (0, 0) as coordinate, which means that every location is indicated by the relative difference towards the center of the field. And that
- * every position is mirrored with regard to the center position, e.g. the center of our goal has a coordinate of the form (-x, 0) and the center of the opponents goal has a
- * coordinate of the form (x, 0). Another example is that the bottommost y-coordinate of the field is of the form -y where the topmost y-coordinate of the field is of the form y.
- * - The left side of the field corresponds with the lowest x-coordinate (is a negative value), whereas the right side of the field corresponds with the highest y-coordinate (is a
- * positive value). The bottom side of the field corresponds with the lowest y-coordinate (is a negative value), whereas the top side of the field corresponds to the highest
- * y-coordinate (is a positive value).
- * - Every horizontal line of the field stored as FieldLineSegment has their begin position equal to the leftmost position of that line (position with the lowest x-coordinate) and
- * their end position equal to the rightmost position of that line (position with highest x-coordinate). Every vertical line of the field stored as FieldLineSegment has their begin
- * position equal to the bottommost position of that line (position with the lowest y-coordinate) and ther end position equal to the topmost position of that line (position with
- * the highest y-coordinate).
+ * The encoding of the field looks like:
+ *
+ *                          (upperFieldLine)
+ *              (-x,y)_________________________ (x,y)
+ *                 |                              |
+ *                 |                              |
+ * (your side)     |             (0,0)            | (their side)
+ * (leftFieldLine) |                              | (rightFieldLine)
+ *                 |                              |
+ *              (-x, -y)_______________________(x, -y)
+ *                          (bottomFieldLine)
+ *
+ * Thus the left side of the field always corresponds to our side of the field and the right side of the field always corresponds to the opponents side of the field. Moreover
+ * every horizontal line of the field stored as FieldLineSegment has their begin position equal to the leftmost position of that line (position with the lowest x-coordinate) and
+ * their end position equal to the rightmost position of that line (position with highest x-coordinate). And every vertical line of the field stored as FieldLineSegment has their
+ * begin position equal to the bottommost position of that line (position with the lowest y-coordinate) and their end position equal to the topmost position of that line (position
+ * with the highest y-coordinate).
  *
  * @author Created by: Lukas Bos <br>
  *         Documented and refactored by: Haico Dorenbos
