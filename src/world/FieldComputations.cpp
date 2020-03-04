@@ -29,14 +29,18 @@ double FieldComputations::getTotalGoalAngle(const Field &field, bool ourGoal, co
 double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world, id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
 std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
-    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, world);
+    return getVisiblePartsOfGoal(field, ourGoal, point, world.getUs());
+}
+
+std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const std::vector<world_new::view::RobotView>& robots) {
+    std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
     Line goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x; // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
@@ -130,12 +134,11 @@ Polygon FieldComputations::getFieldEdge(const Field &field, double margin) {
     return Polygon(fieldEdge);
 }
 
-std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id, bool ourTeam) {
+std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, std::vector<world_new::view::RobotView> robots, int id,
+    bool ourTeam) {
     std::vector<LineSegment> blockades = {};
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     auto goalSide = getGoalSides(field, ourGoal);
-    auto robots = world.getUs();
-    robots.insert(robots.begin(), world.getThem().begin(), world.getThem().end());
     for (auto const &robot : robots) {
         std::optional<LineSegment> blockade = robotBlockade(ourGoal, point, id, ourTeam, robot, robotRadius, LineSegment(goalSide));
         if (blockade.has_value()) {

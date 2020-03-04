@@ -86,6 +86,18 @@ class FieldComputations {
          */
         static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2& point, world_new::view::WorldDataView &world);
 
+       /**
+        * Compute all visible places on the goal, i.e. which places of the goal can be reached by directly shooting a ball over the ground from a given point without hitting any
+        * robot from the OPPONENTS team.
+        * @param field The field used to determine where the goals are.
+        * @param ourGoal True if we want to check which places on our goal are visible from the given point. False if we want to check how much places on the opponents goal are
+        * visible from the given point.
+        * @param point The point from which it is computed which places on the goal are visible, i.e. places of the goal that can be reached by a direct shoot over the ground.
+        * @param robots A vector with all robots that could possibly block the goal.
+        * @return All LineSegments on the goal which represents all the visible (directly shootable over the ground) places on the goal from that point.
+        */
+        static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const std::vector<world_new::view::RobotView>& robots);
+
         /**
          * Get the goal side (the line segment regarding the goal line) of either our goal or the opponents goal.
          * @param field The field used to determine where the goals are.
@@ -183,15 +195,15 @@ class FieldComputations {
          * @param field The field used to determine where the goals are.
          * @param ourGoal True if the blockades on our goal are mapped. False if the blockades on the opponents goals are mapped.
          * @param point The point from which it is checked what places of the goal are blocked (which places cannot be reached by a direct shoot over the ground).
-         * @param world Data about the world which is used to determine the locations of all robots.
+         * @param robots A vector with all robots that could possibly block the goal.
          * @param id The id of the robot which is not considered as blockade. Set this value to -1 if you do not want to exclude a particular robot as blockade (when this parameter
          * is not set we do not exclude a particular robot as blockade).
          * @param ourTeam True if all the robots from our team get excluded as blockades. False if all the robots from the opponents team get excluded as blockades (when this
          * parameter is not set then all robots from the opponents team get excluded as blockades).
          * @return All the parts of the goal that are blocked (not directly reachable by a direct shoot over the ground).
          */
-        static std::vector<LineSegment> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2& point, world_new::view::WorldDataView &world, int id = -1,
-            bool ourTeam = false);
+        static std::vector<LineSegment> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2& point, std::vector<world_new::view::RobotView> robots,
+            int id = -1, bool ourTeam = false);
 
         /**
          * Check whether a given robot really blocks a part of the goal (which is not the case if the robot belongs to a given team or if the robot has a given id) and if so return

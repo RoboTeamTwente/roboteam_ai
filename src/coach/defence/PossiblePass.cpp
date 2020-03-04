@@ -45,7 +45,7 @@ double PossiblePass::score(const Field &field, std::vector<world_new::view::Robo
 }
 
 double PossiblePass::scoreForGoalAngle(const Field &field, std::vector<world_new::view::RobotView> us) {
-    std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoalByObstacles(field, true, endPos, us);
+    std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, endPos, us);
 
     // find the largest open angle in the world
     std::sort(visibleParts.begin(), visibleParts.end(), [](const Line &a, const Line &b) { return abs(a.end.y - a.start.y) > abs(b.end.y - b.start.y); });

@@ -200,7 +200,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseAreaLine(const Fiel
     return nullptr;
 }
 std::vector<Line> DefencePositionCoach::simulatedVisibleGoalParts(const Field &field, const PossiblePass &pass) const {// create a vector with all robots
-    auto visibleParts = FieldComputations::getVisiblePartsOfGoalByObstacles(field, true, pass.endPos, simulatedRobotsUs);
+    auto visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, pass.endPos, simulatedRobotsUs);
     return visibleParts;
 }
 /// checks for a given pass in a simulatedWorld if we can block it's receiver shot to goal and returns a line on which to stand if this is the case
