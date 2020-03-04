@@ -55,8 +55,14 @@ Vector2 BallplacementCoach::getBallPlacementAfterPos(const std::shared_ptr<world
     return target;
 }
 
-// TODO: reimplement this function
-Vector2 BallplacementCoach::getBallPlacementAfterPos(const world_new::view::RobotView &robot) {}
+Vector2 BallplacementCoach::getBallPlacementAfterPos(const world_new::view::RobotView &robot) {
+        auto ballPos = world_new::World::instance()->getWorld()->getBall()->get()->getPos();
+        Vector2 target = ballPos + (robot->getPos() - ballPos).stretchToLength(0.9);
+
+        interface::Input::drawData(interface::Visual::BALL_HANDLING, {ballPos, target}, Qt::yellow, robot->getId(), interface::Drawing::LINES_CONNECTED);
+
+        return target;
+}
 
 }  // namespace coach
 }  // namespace ai

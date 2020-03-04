@@ -10,6 +10,7 @@
 #include <utilities/GameStateManager.hpp>
 #include "world/Ball.h"
 #include "world/Robot.h"
+#include "world_new/views/BallView.hpp"
 
 namespace rtt::ai::control {
 
@@ -43,6 +44,7 @@ class Collision {
 
     const world::Ball::BallPtr &getCollisionBall() const;
     void setCollisionBall(const world::Ball::BallPtr &ball, double distance);
+    void setCollisionBall(const world_new::view::BallView ball, double distance);
 
     const Vector2 &getCollisionFieldPos() const;
     void setFieldCollision(const Vector2 &collisionPos, double distance);

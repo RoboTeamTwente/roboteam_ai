@@ -124,11 +124,6 @@ RobotCommand NumTreePosControl::getRobotCommand(world::World *world, const Field
             }
         }
     }
-    //    ros::Time end = ros::Time::now();
-    //    if (InterfaceValues::showDebugNumTreeTimeTaken() && InterfaceValues::showFullDebugNumTreeInfo()) {
-    //        std::cout << "ROBOT " << robot->id << ": GoToPosClean tick took: " <<
-    //                  (end - begin).toNSec()*0.000001 << " ms" << std::endl;
-    //    }
 
     // draw
     std::vector<Vector2> drawpoints = {};
@@ -420,14 +415,14 @@ Collision NumTreePosControl::getBallCollision(const PathPointer &point, const Po
     return collision;
 }
 
-    Collision NumTreePosControl::getBallCollision(const PathPointer &point, const world_new::view::BallView &ball) {
+    Collision NumTreePosControl::getBallCollision(const PathPointer &point, const world_new::view::BallView ball) {
         Collision collision = {};
         if (currentCollisionWithRobot.getCollisionBall()->getVisible()) return collision;
         if (currentCollisionWithFinalTarget.getCollisionBall()->getVisible()) return collision;
 
         double avoidBallDistance = getAvoidBallDistance();
         if (point->isCollision(ball->getPos(), avoidBallDistance)) {
-            //collision.setCollisionBall(ball, avoidBallDistance);
+            collision.setCollisionBall(ball, avoidBallDistance);
             return collision;
         }
         return collision;
@@ -468,11 +463,12 @@ Collision NumTreePosControl::getDefenseAreaCollision(const PathPointer &point) {
         if (currentCollisionWithFinalTarget.getCollisionDefenseAreaPos() != Vector2()) return collision;
 
         if (!getCanMoveInDefenseArea(_robot->getId())) {
+            auto _field = *world_new::World::instance()->getField();
             auto margin = Constants::ROBOT_RADIUS();
-            bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(*world_new::World::instance()->getField(), point->pos, true, margin, false);
-            bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(*world_new::World::instance()->getField(), point->pos, false, margin, false);
+            bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(_field, point->pos, true, margin, false);
+            bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(_field, point->pos, false, margin, false);
             if (isInOurDefenseArea || isInTheirDefenseArea) {
-                double defenseAreaX = point->pos.x < 0 ? (*field).getLeftPenaltyLine().begin.x : (*field).getRightPenaltyLine().begin.x;
+                double defenseAreaX = point->pos.x < 0 ? (_field).getLeftPenaltyLine().begin.x : (_field).getRightPenaltyLine().begin.x;
                 collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin) * 1.1);
                 return collision;
             }
@@ -802,10 +798,10 @@ void NumTreePosControl::tracePath(world_new::view::RobotView _robot) {
         // length of path that still has to be calculated, using straight lines towards the half-way targets, and the final
         // target, while taking into account the length of path already calculated.
         auto compAStar = [this](PathPointer lhs, PathPointer rhs) {
-            if (lhs->collisions - rhs->collisions > 2)
-                return true;
-            else if (lhs->collisions - rhs->collisions < -2)
-                return false;
+            if (lhs->collisions - rhs->collisions > 2) {
+                return true; }
+            else if (lhs->collisions - rhs->collisions < -2) {
+                return false; }
             else
                 return (lhs->maxVel() * lhs->t + remainingStraightLinePathLength(lhs->pos, lhs->currentTarget, finalTargetPos)) >
                        (rhs->maxVel() * rhs->t + remainingStraightLinePathLength(rhs->pos, rhs->currentTarget, finalTargetPos));
@@ -894,7 +890,5 @@ void NumTreePosControl::tracePath(world_new::view::RobotView _robot) {
         }
         path = {};
     }
-
-
 
 }  // namespace rtt::ai::control

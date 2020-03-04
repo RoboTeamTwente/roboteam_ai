@@ -9,6 +9,10 @@
 #include <roboteam_utils/Vector2.h>
 #include "control/RobotCommand.h"
 
+namespace rtt::world_new::view{
+    class RobotView;
+}
+
 namespace rtt::ai {
 
 namespace world {
@@ -69,6 +73,15 @@ class DribbleForwards {
     explicit DribbleForwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.7);
 
     ~DribbleForwards();
+
+    RobotCommand getRobotCommand(world_new::view::RobotView _robot, const Vector2 &targetP, const Angle &targetA);
+    void updateForwardsProgress(world_new::view::RobotView _robot);
+    RobotCommand sendForwardsCommand(world_new::view::RobotView _robot);
+    RobotCommand startTravelForwards(world_new::view::RobotView _robot);
+    RobotCommand sendTurnCommand(world_new::view::RobotView _robot);
+    RobotCommand sendApproachCommand(world_new::view::RobotView _robot);
+    RobotCommand sendDribbleForwardsCommand(world_new::view::RobotView _robot);
+
 };
 
 }  // namespace control

@@ -141,7 +141,27 @@ bool PassCoach::validReceiver(const Field &field, const RobotPtr &passer, const 
     return true;
 }
 
-// TODO: Implement this function
-bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick) {}
+bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick) {
+        auto ball = world::world->getBall();
+
+        if (!ball || !passer || !receiver) {
+            return false;
+        }
+        if (receiver->getId() == robotDealer::RobotDealer::getKeeperID() || receiver->getId() == passer->getId()) {
+            return false;
+        }
+
+        if (!freeKick) {
+            if (receiver->getPos().x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
+                return false;
+            }
+            auto MIN_PASS_DISTANCE = std::max((double)field.getGoalWidth() / 2, SMALLEST_MIN_PASS_DISTANCE);
+            if ((passer->getPos() - receiver->getPos()).length() < MIN_PASS_DISTANCE) {
+                return false;
+            }
+        }
+
+        return true;
+}
 
 }  // namespace rtt::ai::coach

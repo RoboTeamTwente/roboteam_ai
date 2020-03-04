@@ -23,7 +23,7 @@ void FreeKickPass::onInitialize() {
 }
 
 void FreeKickPass::makeCommand() {
-    auto shotData = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, getKicker(), false, control::PASS, false, control::LOW, 3);
+    auto shotData = robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), getKicker(), false, control::PASS, false, control::LOW, 3);
     command = shotData.makeROSCommand();
 }
 

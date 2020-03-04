@@ -69,8 +69,15 @@ class ShotController {
                                  ShotPrecision precision = MEDIUM, int genevaState = 0);
 
     // TODO: Implement this function/refactor controllers
-    RobotCommand getRobotCommand(const world::Field &field, world_new::view::RobotView &robot, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,
+    RobotCommand getRobotCommand(int robotId, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,
                                  bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
+    Vector2 getPlaceBehindBall(const Vector2 &shotTarget);
+    bool onLineToBall(const world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &line, ShotPrecision precision);
+    bool robotAngleIsGood(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &lineToDriveOver, ShotPrecision precision);
+    RobotCommand moveStraightToBall(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &lineToDriveOver);
+    RobotCommand shoot(RobotCommand shotData, const world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget, bool chip,
+                                       BallSpeed desiredBallSpeed);
+    RobotCommand goToPlaceBehindBall(const world_new::view::RobotView robot, const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &line);
 };
 
 }  // namespace rtt::ai::control

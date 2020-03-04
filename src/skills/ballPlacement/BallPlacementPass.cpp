@@ -41,7 +41,7 @@ bt::Node::Status BallPlacementPass::onUpdate() {
      */
     if (!coach::g_pass.isPassed()) {
         if (coach::g_pass.isReadyToReceivePass()) {
-            auto shotData = robot->getControllers().getShotController()->getRobotCommand(*field, *robot, getKicker(), false, control::BallSpeed::BALL_PLACEMENT, false,
+            auto shotData = robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), getKicker(), false, control::BallSpeed::BALL_PLACEMENT, false,
                                                                                          control::ShotPrecision::MEDIUM, 3);
             command = shotData.makeROSCommand();
             if (command.kicker() && !hasShot) {

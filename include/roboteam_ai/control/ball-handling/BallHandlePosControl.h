@@ -90,11 +90,21 @@ class BallHandlePosControl : public NumTreePosControl {
     RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP) override;
 
     // TODO: Implement these:
-    RobotCommand getRobotCommand(int robotId, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetP, const Angle &targetA) override;
     RobotCommand getRobotCommand(int robotId, const Vector2 &targetP, const Angle &targetA,
                                  TravelStrategy travelStrategy);
+    RobotCommand finalizeBallHandle(world_new::view::RobotView _robot);
+    RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand, world_new::view::RobotView _robot);
+    RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool shouldGoToBall, world_new::view::RobotView _robot, bool ballIsFarFromTarget = true);
+    RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget, world_new::view::RobotView _robot);
+    RobotCommand goToMovingBall(world_new::view::RobotView _robot);
+    RobotCommand interceptMovingBall(const Vector2 &projectionPosition, double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel, world_new::view::RobotView _robot);
+    RobotCommand goBehindBall(const Vector2 &ballStillPosition, world_new::view::RobotView);
+    RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget, world_new::view::RobotView _robot);
+    bool isCrashingIntoOpponentRobot(const LineSegment &driveLine, world_new::view::RobotView _robot);
+    bool isCrashingOutsideField(const LineSegment &driveLine, world_new::view::RobotView _robot);
 
-   private:
+private:
     bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
     bool isCrashingOutsideField(const LineSegment &driveLine);
 

@@ -94,7 +94,7 @@ class NumTreePosControl : public BasicPosControl {
     void tracePath(world_new::view::RobotView _robot);
     Collision getRobotCollision(world_new::view::RobotView _robot, const PathPointer &point, const std::vector<world_new::view::RobotView> &robots, double distance);
     Collision getCollision(world_new::view::RobotView _robot, const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
-    Collision getBallCollision(const PathPointer &point, const world_new::view::BallView &ball);
+    Collision getBallCollision(const PathPointer &point, const world_new::view::BallView ball);
     Collision getDefenseAreaCollision(world_new::view::RobotView _robot, const PathPointer &point);
     RobotCommand computeCommand(world_new::view::RobotView _robot, const Vector2 &exactTargetPos);
 

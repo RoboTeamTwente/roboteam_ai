@@ -95,7 +95,7 @@ void Skill::limitRobotCommand() {
     limitedVel = control::NewControlUtils::velocityLimiter(limitedVel);
 
     if (!(isDefendPenaltyState && isKeeper)) {
-        limitedVel = control::NewControlUtils::accelerationLimiter(limitedVel, robot->get()->getPidPreviousVel(), command.w());
+        //limitedVel = control::NewControlUtils::accelerationLimiter(limitedVel, robot->get()->getPidPreviousVel(), command.w());
     }
 
     // TODO: Why set pid prev vel here?

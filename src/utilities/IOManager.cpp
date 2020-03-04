@@ -11,6 +11,8 @@
 
 #include "roboteam_utils/normalize.h"
 
+#include "world_new/World.hpp"
+
 namespace rtt::ai::io {
 
 std::mutex IOManager::worldStateMutex;
@@ -103,43 +105,22 @@ const proto::SSL_Referee &IOManager::getRefereeData() {
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
     if (!pause->getPause()) {
         // the geneva cannot be received from world, so we set it when it gets sent.
-        auto robot = world::world->getRobotForId(cmd.id(), true);
+        auto robot = world_new::World::instance()->getWorld()->getRobotForId(cmd.id(), true);
         if (robot) {
-            if (cmd.geneva_state() == 3) {
-                robot->setGenevaState(cmd.geneva_state());
-            }
-
-            /*
-             *
-             * if there is (recent) feedback we should not need to update internal state here
-             * Otherwise we should. We need only do it when the new state is valid and different.
-             */
-            if (!robot->genevaStateIsDifferent(cmd.geneva_state()) || !robot->genevaStateIsValid(cmd.geneva_state())) {
-                cmd.set_geneva_state(robot->getGenevaState());
-            }
-
-            //  if (!Constants::FEEDBACK_ENABLED() || !robot->hasRecentFeedback()) {
-            robot->setGenevaState(cmd.geneva_state());
-            //   }
-
-            // only kick and chip when geneva is ready
-            cmd.set_kicker(cmd.kicker() && robot->isGenevaReady());
-            cmd.set_chipper(cmd.chipper() && robot->isGenevaReady());
-            cmd.set_chip_kick_forced(cmd.chip_kick_forced() && robot->isGenevaReady());
 
             if (cmd.kicker()) {
-                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
+                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
             }
 
             if (cmd.chip_kick_forced()) {
-                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::green, robot->id, interface::Drawing::DOTS, 36, 36, 8);
+                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::DOTS, 36, 36, 8);
             }
 
             if (cmd.chipper()) {
-                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->pos}, Qt::yellow, robot->id, interface::Drawing::CIRCLES, 36, 36, 8);
+                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::yellow, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
             }
 
-            robot->setDribblerState(cmd.dribbler());
+            //robot->setDribblerState(cmd.dribbler());
         }
         // sometimes trees are terminated without having a role assigned.
         // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.

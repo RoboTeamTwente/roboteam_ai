@@ -63,6 +63,13 @@ void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distan
     setCollision(distance);
 }
 
+    void Collision::setCollisionBall(const world_new::view::BallView ball, double distance) {
+        type = BALL;
+        //collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
+        collisionBall->setVisible(true);
+        setCollision(distance);
+    }
+
 void Collision::setFieldCollision(const Vector2 &collisionPos, double distance) {
     type = FIELD;
     fieldCollision = collisionPos;

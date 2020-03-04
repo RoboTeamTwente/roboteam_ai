@@ -43,12 +43,10 @@ class OffensiveCoach {
 
     void addSideAttacker(const Field &field, const RobotPtr &robot);
 
-    // TODO: Implement this function
     void addSideAttacker(const Field &field, const world_new::view::RobotView &robot);
 
     void removeSideAttacker(const RobotPtr &robot);
 
-    // TODO: Implement this function
     void removeSideAttacker(const world_new::view::RobotView &robot);
 
     Vector2 getPositionForRobotID(const Field &field, int robotID);

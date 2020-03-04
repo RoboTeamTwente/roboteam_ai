@@ -11,6 +11,10 @@
 #include "world/Field.h"
 #include "world/Robot.h"
 
+namespace rtt::world_new::view{
+    class RobotView;
+}
+
 namespace rtt::ai {
 
 namespace world {
@@ -78,6 +82,15 @@ class DribbleBackwards {
 
     explicit DribbleBackwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.4);
     ~DribbleBackwards();
+
+    RobotCommand getRobotCommand(world_new::view::RobotView _robot, const Vector2 &targetP, const Angle &targetA);
+    void updateBackwardsProgress(world_new::view::RobotView _robot);
+    RobotCommand sendBackwardsCommand(const Field &field, world_new::view::RobotView _robot);
+    RobotCommand startTravelBackwards(world_new::view::RobotView _robot);
+    RobotCommand sendTurnCommand(world_new::view::RobotView _robot);
+    RobotCommand sendApproachCommand(world_new::view::RobotView _robot);
+    RobotCommand sendOvershootCommand(const Field &field, world_new::view::RobotView _robot);
+    RobotCommand sendDribbleBackwardsCommand(world_new::view::RobotView _robot);
 };
 
 }  // namespace control

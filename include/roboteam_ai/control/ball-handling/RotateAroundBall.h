@@ -8,6 +8,10 @@
 #include <include/roboteam_ai/utilities/Constants.h>
 #include "control/RobotCommand.h"
 
+namespace rtt::world_new::view{
+    class RobotView;
+}
+
 namespace rtt::ai {
 
 namespace world {
@@ -32,6 +36,7 @@ class RotateAroundBall {
    public:
     RotateAroundBall() = default;
     RobotCommand getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(world_new::view::RobotView robot, const Vector2 &targetP, const Angle &targetA);
 };
 
 }  // namespace control

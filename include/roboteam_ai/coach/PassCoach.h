@@ -34,7 +34,6 @@ class PassCoach {
     void updatePassProgression();
     bool validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick = false);
 
-    // TODO: Implement this function
     bool validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick = false);
 
    private:
