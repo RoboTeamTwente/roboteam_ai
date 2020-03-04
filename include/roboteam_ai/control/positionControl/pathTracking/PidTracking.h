@@ -21,19 +21,13 @@ class PidTracking {
    private:
     static constexpr double MAX_VELOCITY = Constants::MAX_VEL();
 
-    // the PID controllers on the two axes
-    PID xPid = PID(0, 0, 0, 0);
-    PID yPid = PID(0, 0, 0, 0);
+    // PID controllers for each robot
+    std::unordered_map<int, std::pair<PID, PID>> pidMapping = {};
 
     // updates the PID parameters from the UI
     void updatePidValuesFromInterface();
 
    public:
-    /**
-     * The constructor only initializes the maximum velocity to the PID clamping.
-     */
-    PidTracking();
-
     /**
      * Generates an output velocity and angle according to the implemented algorithm.
      * After reaching a certain distance to the closest path point, it will go to the next one. <br><br>
@@ -44,8 +38,9 @@ class PidTracking {
      * @param pathPoints the path as a list of points
      * @param outputVelocity control velocity that will be outputted to the robot at the current tick
      * @param outputAngle the resulting orientation of the robot at the current tick
+     * @param robotId the robotId of the controlled robot - used only for state based tracking (like PID)
      */
-    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints);
+    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId = 0);
 };
 }  // namespace rtt::ai::control
 

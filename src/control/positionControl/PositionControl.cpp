@@ -15,11 +15,12 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
     }
 
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
+    interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
 
     RobotCommand command = RobotCommand();
     command.pos = computedPaths[robotId].front();
-    Position trackingVelocity = pathTrackingAlgorithm.trackPath(currentPosition, currentVelocity, computedPaths[robotId]);
+    Position trackingVelocity = pathTrackingAlgorithm.trackPath(currentPosition, currentVelocity, computedPaths[robotId], robotId);
     command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
     command.angle = trackingVelocity.rot;
 
