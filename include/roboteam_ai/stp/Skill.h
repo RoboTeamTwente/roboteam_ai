@@ -56,7 +56,7 @@ namespace rtt::ai::stp {
          * Terminates the skill
          * @return Status of termination
          */
-        virtual Status onTerminate() noexcept {};
+        virtual Status onTerminate() noexcept = 0;
 
         /**
          * Function that's called when the skill gets updated (every tick)
