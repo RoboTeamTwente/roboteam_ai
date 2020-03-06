@@ -102,6 +102,12 @@ namespace rtt::ai::stp {
          * Robot this skill applies to
          */
          world_new::view::RobotView robot;
+
+         double getKickChipVelocity() const { return kickChipVelocity; };
+         void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; };
+
+    private:
+        double kickChipVelocity = 0.0;
     };
 };
 
