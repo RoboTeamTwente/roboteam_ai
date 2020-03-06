@@ -1,5 +1,4 @@
 #include <skills/formations/StopFormation.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -49,7 +48,7 @@ void StopFormation::setFinalAngle() {
 }
 
 std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
-    auto pp = world_new::FieldComputations::getPenaltyPoint(*field, true);  // penalty point
+    auto pp = FieldComputations::getPenaltyPoint(*field, true);  // penalty point
     auto defenseAreaLineA = (*field).getLeftPenaltyLine().begin;
     auto defenseAreaLineB = (*field).getLeftPenaltyLine().end;
 
@@ -139,7 +138,7 @@ std::vector<std::vector<Vector2>> StopFormation::getStopPositions() {
     return targetLocations;
 }
 
-bool StopFormation::positionShouldBeAvoided(Vector2 pos) { return (pos.dist(ball->get()->getPos()) < 0.9 || !world_new::FieldComputations::pointIsInField(*field, pos, 0.0)); }
+bool StopFormation::positionShouldBeAvoided(Vector2 pos) { return (pos.dist(ball->get()->getPos()) < 0.9 || !FieldComputations::pointIsInField(*field, pos, 0.0)); }
 
 std::vector<Vector2> StopFormation::getProperPositions(int amount) {
     std::vector<Vector2> properPositions;

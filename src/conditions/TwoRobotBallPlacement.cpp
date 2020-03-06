@@ -6,7 +6,7 @@
 
 #include "conditions/TwoRobotBallPlacement.h"
 #include <utilities/RobotDealer.h>
-#include <world_new/views/WorldDataView.hpp>
+#include <coach/BallplacementCoach.h>
 
 namespace rtt::ai {
 

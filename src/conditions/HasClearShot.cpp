@@ -28,7 +28,7 @@ HasClearShot::Status HasClearShot::onUpdate() {
     }
 
     // return success if there is a clear line to their goal
-    bool hasClearShot = rtt::world_new::FieldComputations::getPercentageOfGoalVisibleFromPoint((*field), false, ball->get()->getPos(), *world, robot->get()->getId(), true) > minViewAtGoal * 100;
+    bool hasClearShot = FieldComputations::getPercentageOfGoalVisibleFromPoint((*field), false, ball->get()->getPos(), *world, robot->get()->getId(), true) > minViewAtGoal * 100;
 
     return hasClearShot ? Status::Success : Status::Failure;
 }

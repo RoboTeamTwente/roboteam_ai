@@ -10,12 +10,6 @@ namespace rtt::ai::coach {
 
 MidFieldCoach g_midFieldCoach;
 
-void MidFieldCoach::addMidFielder(RobotPtr &thisRobot) {
-    Vector2 target = thisRobot->pos;
-    currentMidfielders.push_back(thisRobot);
-    targetPositions[thisRobot->id] = target;
-}
-
 void MidFieldCoach::addMidFielder(world_new::view::RobotView &thisRobot) {
         Vector2 target = thisRobot->getPos();
         currentMidfielders_new.push_back(thisRobot);

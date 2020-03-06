@@ -4,7 +4,6 @@
 
 #include <skills/DemoAttack.h>
 #include <control/PositionUtils.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -49,13 +48,13 @@ bt::Node::Status DemoAttack::onUpdate() {
         }
     }
     Vector2 velocity;
-    if (world_new::FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos(), ownGoal, 0.0)) {
+    if (FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos(), ownGoal, 0.0)) {
         velocity = ((Vector2)robot->get()->getPos() - (*field).getOurGoalCenter()).stretchToLength(2.0);
-    } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos(), ownGoal, 0.0)) {
+    } else if (FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos(), ownGoal, 0.0)) {
         velocity = ((Vector2)robot->get()->getPos() - (*field).getTheirGoalCenter()).stretchToLength(2.0);
-    } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, ball, ownGoal) || world_new::FieldComputations::pointIsInDefenceArea(*field, ball, !ownGoal)) {
+    } else if (FieldComputations::pointIsInDefenceArea(*field, ball, ownGoal) || FieldComputations::pointIsInDefenceArea(*field, ball, !ownGoal)) {
         velocity = {0, 0};
-    } else if (world_new::FieldComputations::pointIsInDefenceArea(*field, targetPos, ownGoal)) {
+    } else if (FieldComputations::pointIsInDefenceArea(*field, targetPos, ownGoal)) {
         velocity = {0, 0};
     } else {
         velocity = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos).vel;

@@ -2,7 +2,6 @@
 #define ROBOTEAM_AI_TWOROBOTBALLPLACEMENT_H
 
 #include "Condition.h"
-#include "coach/BallplacementCoach.h"
 
 namespace rtt::ai {
 

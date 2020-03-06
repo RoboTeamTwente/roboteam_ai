@@ -3,7 +3,6 @@
 //
 
 #include <skills/ActiveStop.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -42,12 +41,12 @@ Skill::Status ActiveStop::onUpdate() {
 void ActiveStop::onTerminate(Skill::Status s) { attack = -1; }
 
 Vector2 ActiveStop::getOffensiveActivePoint(const Field &field, const rtt::world_new::view::BallView &ball) {
-    Vector2 penaltyPos = world_new::FieldComputations::getPenaltyPoint(field, false);
+    Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, false);
     return getPoint(field, ball, penaltyPos);
 }
 
 Vector2 ActiveStop::getDefensiveActivePoint(const Field &field, const rtt::world_new::view::BallView &ball) {
-    Vector2 penaltyPos = world_new::FieldComputations::getPenaltyPoint(field, true);
+    Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, true);
     return getPoint(field, ball, penaltyPos);
 }
 
@@ -56,10 +55,10 @@ Vector2 ActiveStop::getPoint(const Field &field, const rtt::world_new::view::Bal
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2);  // ssl rule + significant buffer
 
-    if (world_new::FieldComputations::pointIsInDefenceArea(field, ballPos + offset, true, 0.3, true)) {
+    if (FieldComputations::pointIsInDefenceArea(field, ballPos + offset, true, 0.3, true)) {
         return offset;
     }
-    if (world_new::FieldComputations::pointIsInDefenceArea(field, ballPos + offset, false, 0.3, true)) {
+    if (FieldComputations::pointIsInDefenceArea(field, ballPos + offset, false, 0.3, true)) {
         return offset;
     }
     return ballPos + offset;

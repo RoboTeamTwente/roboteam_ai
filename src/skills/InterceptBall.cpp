@@ -3,9 +3,7 @@
 //
 
 #include <skills/InterceptBall.h>
-#include <control/NewControlUtils.h>
 #include <interface/api/Input.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -29,7 +27,7 @@ void InterceptBall::onInitialize() {
         interceptPos = computeInterceptPoint(ballStartPos, ballEndPos);
         deltaPos = interceptPos - robot->get()->getPos();
         // Checks if it is faster to go to the interceptPos backwards or forwards (just which is closer to the current orientation)
-        backwards = control::NewControlUtils::angleDifference(robot->get()->getAngle(), deltaPos.angle()) > M_PI_2;
+        backwards = control::ControlUtils::angleDifference(robot->get()->getAngle(), deltaPos.angle()) > M_PI_2;
     } else {
         currentProgression = BALLMISSED;
         backwards = false;
@@ -153,7 +151,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         Line shotLine(startBall, endBall);
         interceptionPoint = shotLine.project(robot->get()->getPos());
         // create an area in which the intersection point should be
-        auto DefenceArea = world_new::FieldComputations::getDefenseArea(*field, true);
+        auto DefenceArea = FieldComputations::getDefenseArea(*field, true);
         if (!DefenceArea.contains(interceptionPoint)) {
             auto intersectPoints = DefenceArea.intersections(LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
             if (intersectPoints.empty()) {
@@ -185,14 +183,14 @@ bool InterceptBall::missedBall(Vector2 startBall, Vector2 endBall, Vector2 ballV
     Vector2 rectSide = ballVel.rotate(M_PI_2).stretchToLength(rectHalfLength);
     Vector2 startCentre = startBall + ballVel.stretchToLength(interceptDist + Constants::ROBOT_RADIUS());
     Vector2 endCentre = startBall + (endBall - startBall) * 2;  // twice the predicted length to be sure
-    return control::NewControlUtils::pointInRectangle(ball->get()->getPos(), startCentre - rectSide, startCentre + rectSide, endCentre + rectSide, endCentre - rectSide);
+    return control::ControlUtils::pointInRectangle(ball->get()->getPos(), startCentre - rectSide, startCentre + rectSide, endCentre + rectSide, endCentre - rectSide);
 }
 
 // Checks if the ball was deflected by the RobotPtr
 bool InterceptBall::ballDeflected() {
     // A ball is deflected if:
     // If ball velocity changes by more than x degrees from the original orientation then it is deflected
-    if (abs(control::NewControlUtils::constrainAngle(Vector2(ball->get()->getVelocity()).angle() - ballStartVel.angle())) > BALL_DEFLECTION_ANGLE) {
+    if (abs(control::ControlUtils::constrainAngle(Vector2(ball->get()->getVelocity()).angle() - ballStartVel.angle())) > BALL_DEFLECTION_ANGLE) {
         return true;
     }
     // BallPtr Position is behind the line orthogonal to the ball velocity going through the ballStartPos
@@ -239,7 +237,7 @@ bool InterceptBall::ballInGoal() {
     Vector2 lowerPost = goalCentre + Vector2(0.0, -goalWidth);
     Vector2 upperPost = goalCentre + Vector2(0.0, goalWidth);
     Vector2 depth = Vector2(-(*field).getGoalDepth(), 0.0);
-    return control::NewControlUtils::pointInRectangle(ball->get()->getPos(), lowerPost, lowerPost + depth, upperPost + depth, upperPost);
+    return control::ControlUtils::pointInRectangle(ball->get()->getPos(), lowerPost, lowerPost + depth, upperPost + depth, upperPost);
 }
 
 }  // namespace rtt::ai

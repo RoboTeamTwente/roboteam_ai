@@ -3,7 +3,6 @@
  */
 
 #include "conditions/RefBallIsMoving.h"
-#include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai {
 

@@ -9,9 +9,6 @@
 #include <roboteam_utils/LineSegment.h>
 #include <roboteam_utils/Vector2.h>
 #include <utilities/Constants.h>
-#include <world/Ball.h>
-#include <world/Robot.h>
-
 #include "control/RobotCommand.h"
 #include "control/numtrees/NumTreePosControl.h"
 namespace rtt::ai::control {
@@ -22,9 +19,6 @@ class RotateAroundBall;
 class RotateWithBall;
 class BallHandlePosControl : public NumTreePosControl {
    private:
-    using BallPtr = std::shared_ptr<world::Ball>;
-    using RobotPtr = std::shared_ptr<world::Robot>;
-
     DribbleForwards *dribbleForwards;
     DribbleBackwards *dribbleBackwards;
     RotateWithBall *rotateWithBall;
@@ -41,8 +35,6 @@ class BallHandlePosControl : public NumTreePosControl {
     constexpr static double TARGET_BALL_DISTANCE = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     constexpr static double ROBOT_IS_TOUCHING_BALL = TARGET_BALL_DISTANCE * 1.05;
 
-    RobotPtr robot;
-    BallPtr ball;
     Vector2 targetPos;
     Angle targetAngle;
     Angle lockedAngle = 0;
@@ -59,7 +51,7 @@ class BallHandlePosControl : public NumTreePosControl {
     void updatePID(pidVals newPID);
 
    public:
-    RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand);
+    RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand, world_new::view::RobotView _robot);
 
     enum TravelStrategy : short { FORWARDS, BACKWARDS, NO_PREFERENCE };
 
@@ -67,8 +59,8 @@ class BallHandlePosControl : public NumTreePosControl {
     TravelStrategy preferredTravelStrategy = NO_PREFERENCE;
 
     // general functions
-    RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool shouldGoToBall, bool ballIsFarFromTarget = true);
-    RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
+    RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool shouldGoToBall, world_new::view::RobotView _robot, bool ballIsFarFromTarget = true);
+    RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget, world_new::view::RobotView _robot);
 
     // get status of ball handling
    public:
@@ -85,35 +77,23 @@ class BallHandlePosControl : public NumTreePosControl {
     void setMaxVelocity(double maxV);
     void setMaxForwardsVelocity(double maxV);
     void setMaxBackwardsVelocity(double maxV);
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA) override;
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP, const Angle &targetA, TravelStrategy travelStrategy);
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &r, const Vector2 &targetP) override;
 
-    // TODO: Implement these:
     RobotCommand getRobotCommand(int robotId, const Vector2 &targetP, const Angle &targetA) override;
     RobotCommand getRobotCommand(int robotId, const Vector2 &targetP, const Angle &targetA,
                                  TravelStrategy travelStrategy);
-    RobotCommand finalizeBallHandle(world_new::view::RobotView _robot);
-    RobotCommand controlWithPID(PID &xpid, PID &ypid, const RobotCommand &robotCommand, world_new::view::RobotView _robot);
-    RobotCommand handleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool shouldGoToBall, world_new::view::RobotView _robot, bool ballIsFarFromTarget = true);
-    RobotCommand goToBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget, world_new::view::RobotView _robot);
+
+    private:
     RobotCommand goToMovingBall(world_new::view::RobotView _robot);
     RobotCommand interceptMovingBall(const Vector2 &projectionPosition, double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel, world_new::view::RobotView _robot);
     RobotCommand goBehindBall(const Vector2 &ballStillPosition, world_new::view::RobotView);
     RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget, world_new::view::RobotView _robot);
+    RobotCommand interceptMovingBallTowardsBall(world_new::view::RobotView _robot);
+    RobotCommand finalizeBallHandle(world_new::view::RobotView _robot);
+
     bool isCrashingIntoOpponentRobot(const LineSegment &driveLine, world_new::view::RobotView _robot);
     bool isCrashingOutsideField(const LineSegment &driveLine, world_new::view::RobotView _robot);
 
-private:
-    bool isCrashingIntoOpponentRobot(const LineSegment &driveLine);
-    bool isCrashingOutsideField(const LineSegment &driveLine);
 
-    RobotCommand goToMovingBall();
-    RobotCommand goToIdleBall(const Vector2 &targetBallPos, TravelStrategy travelStrategy, bool ballIsFarFromTarget);
-    RobotCommand finalizeBallHandle();
-    RobotCommand interceptMovingBall(const Vector2 &projectionPosition, double ballToProjectionDistance, const Angle &robotAngleTowardsBallVel);
-    RobotCommand goBehindBall(const Vector2 &ballStillPosition);
-    RobotCommand interceptMovingBallTowardsBall();
     Vector2 movingBallTowardsBallTarget;
 };
 

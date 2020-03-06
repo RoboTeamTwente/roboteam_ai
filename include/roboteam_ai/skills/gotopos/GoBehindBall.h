@@ -6,7 +6,6 @@
 #define ROBOTEAM_AI_GOBEHINDBALL_H
 
 #include <random>
-
 #include "GoToPos.h"
 
 namespace rtt::ai {

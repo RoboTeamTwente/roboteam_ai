@@ -210,7 +210,6 @@ set(CONDITIONS_SOURCES
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/NewControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
 
@@ -303,7 +302,6 @@ set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp

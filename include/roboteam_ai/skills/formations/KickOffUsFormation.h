@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_KICKOFFFORMATION_H
 #define ROBOTEAM_AI_KICKOFFFORMATION_H
 
-#include "skills/formations/Formation.h"
+#include "Formation.h"
 
 namespace rtt::ai {
 

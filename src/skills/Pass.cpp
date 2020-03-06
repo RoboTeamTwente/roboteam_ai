@@ -4,7 +4,6 @@
 
 #include <skills/Pass.h>
 #include <coach/BallplacementCoach.h>
-#include <control/NewControlUtils.h>
 
 namespace rtt::ai {
 
@@ -81,7 +80,7 @@ Pass::Status Pass::onUpdate() {
         // Not having already tried a shot
         // If this is both not the case, check if there's a clear line to the target
         // If not, either ++ fails or fail immediately
-        if (!forcePass && !hasShot && !control::NewControlUtils::clearLine(ball->get()->getPos(), robotToPassTo->get()->getPos(), *world_new::World::instance()->getWorld(), 1)) {
+        if (!forcePass && !hasShot && !control::ControlUtils::clearLine(ball->get()->getPos(), robotToPassTo->get()->getPos(), *world_new::World::instance()->getWorld(), 1)) {
             // If the passType is defensive, force to immediately chip as soon as the pass is blocked
             if (passType == DEFENSIVE || passType == FREEKICK) {
                 forcePass = true;

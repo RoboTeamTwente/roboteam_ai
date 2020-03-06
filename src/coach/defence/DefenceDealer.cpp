@@ -3,7 +3,6 @@
 //
 
 #include "coach/defence/DefenceDealer.h"
-#include <include/roboteam_ai/world/Field.h>
 #include "interface/api/Input.h"
 
 namespace rtt::ai::coach {
@@ -36,7 +35,7 @@ void DefenceDealer::visualizePoints() {
     ai::interface::Input::drawData(interface::Visual::DEFENSE, visualizationData, Qt::red, -1, ai::interface::Drawing::CIRCLES);
 }
 /// calculates the defender locations for all available defenders
-void DefenceDealer::updateDefenderLocations(const Field &field) {
+void DefenceDealer::updateDefenderLocations(const world::Field &field) {
     std::vector<DefenderBot> lockedDefenders;
     std::vector<int> freeDefenders;
     // LockedDefenders are defenders that are locked to a target for atleast LOCKTIME ticks

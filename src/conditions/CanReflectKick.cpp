@@ -5,14 +5,12 @@
 
 #include "conditions/CanReflectKick.h"
 
-#include "control/NewControlUtils.h"
-
 namespace rtt::ai {
 
 CanReflectKick::CanReflectKick(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status CanReflectKick::onUpdate() {
-    if (!control::NewControlUtils::objectVelocityAimedToPoint(ball->get()->getPos(), ball->get()->getVelocity(), robot->get()->getPos(), 0.6)) {
+    if (!control::ControlUtils::objectVelocityAimedToPoint(ball->get()->getPos(), ball->get()->getVelocity(), robot->get()->getPos(), 0.6)) {
         return Status::Failure;
     }
 

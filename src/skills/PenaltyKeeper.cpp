@@ -3,7 +3,6 @@
 //
 
 #include <skills/PenaltyKeeper.h>
-#include <control/NewControlUtils.h>
 
 namespace rtt::ai {
 PenaltyKeeper::PenaltyKeeper(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
@@ -67,7 +66,7 @@ Vector2 PenaltyKeeper::computeDefendPos() {
 
     if (attacker) {
         Vector2 beginPos = attacker->getPos();
-        Vector2 endPos = attacker->getPos() + (world::world->getBall()->getPos() - attacker->getPos()).stretchToLength((*field).getFieldLength());
+        Vector2 endPos = attacker->getPos() + (world_new::World::instance()->getWorld()->getBall().value()->getPos() - attacker->getPos()).stretchToLength((*field).getFieldLength());
 
         // we estimate we can move the robot about 20 cm during the shot and the opponent cannot shoot perfectly within 5 cm.
         double maxMoveDist = ((*field).getGoalWidth() - Constants::ROBOT_RADIUS()) / 2 - 0.2;
@@ -89,7 +88,7 @@ Vector2 PenaltyKeeper::computeDefendPos() {
 Vector2 PenaltyKeeper::interceptBallPos() {
     Vector2 startBall = world->get()->getBall()->get()->getPos();
     Vector2 endBall = world->get()->getBall()->get()->getPos() + world->get()->getBall()->get()->getVelocity().stretchToLength(100);
-    Vector2 predictedShotLocation = control::NewControlUtils::twoLineIntersection(startBall, endBall, goalLine.start, goalLine.end);
+    Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.start, goalLine.end);
     double margin = 0.05;  // m next to the goal
     if (predictedShotLocation.y <= (*field).getGoalWidth() * 0.5 + margin && predictedShotLocation.y >= -(*field).getGoalWidth() * 0.5 - margin) {
         return predictedShotLocation;
@@ -124,7 +123,7 @@ void PenaltyKeeper::sendInterceptCommand() {
 }
 
 Line PenaltyKeeper::getGoalLine() {
-    Line originalLine = world_new::FieldComputations::getGoalSides(*field, true);
+    Line originalLine = FieldComputations::getGoalSides(*field, true);
     double forwardX = originalLine.start.x + Constants::KEEPER_PENALTY_LINE_MARGIN();
     originalLine.start.x = forwardX;
     originalLine.end.x = forwardX;

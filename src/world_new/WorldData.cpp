@@ -9,6 +9,7 @@
 #include "world_new/Team.hpp"
 
 namespace rtt::world_new {
+
 WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
     auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
     auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();

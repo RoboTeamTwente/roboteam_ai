@@ -3,7 +3,7 @@
 //
 
 #include <skills/gotopos/GoAroundPos.h>
-#include <control/NewControlUtils.h>
+#include <control/ControlUtils.h>
 
 namespace rtt::ai {
 
@@ -23,9 +23,9 @@ void GoAroundPos::gtpInitialize() {
     }
 
     if (properties->hasDouble("targetDir")) {
-        endAngle = control::NewControlUtils::constrainAngle(properties->getDouble("targetDir"));
+        endAngle = control::ControlUtils::constrainAngle(properties->getDouble("targetDir"));
     } else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = control::NewControlUtils::constrainAngle(((*field).getTheirGoalCenter() - targetPos).angle());
+        endAngle = control::ControlUtils::constrainAngle(((*field).getTheirGoalCenter() - targetPos).angle());
     } else {
         endAngle = 0;
         std::cerr << "GoAroundPos update --> No target direction set! Defaulting to 0" << std::endl;
@@ -33,7 +33,7 @@ void GoAroundPos::gtpInitialize() {
 
     deltaPos = targetPos - robot->get()->getPos();
     startAngle = deltaPos.angle();
-    rotateDir = control::NewControlUtils::rotateDirection(startAngle, endAngle);
+    rotateDir = control::ControlUtils::rotateDirection(startAngle, endAngle);
     if (ballIsTarget) {
         distanceFromPoint = BALL_DIST;
     } else {
@@ -45,7 +45,7 @@ void GoAroundPos::gtpInitialize() {
         }
     }
     currentTick = 0;
-    angleDif = control::NewControlUtils::angleDifference(startAngle, endAngle);
+    angleDif = control::ControlUtils::angleDifference(startAngle, endAngle);
     maxTick = floor(angleDif / SPEED * Constants::TICK_RATE());
     currentProgress = ROTATING;
 }
@@ -118,7 +118,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
 
     if (currentProgress == STOPPING) {
         // Done when robot sufficiently close to desired end position and rotation.
-        double angDif = control::NewControlUtils::angleDifference(deltaPos.angle(), endAngle);
+        double angDif = control::ControlUtils::angleDifference(deltaPos.angle(), endAngle);
         double posDif = (commandPos - robot->get()->getPos()).length();
         if (posDif < POS_MARGIN && angDif < ANGLE_MARGIN) {
             return DONE;
@@ -135,7 +135,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
 
 bool GoAroundPos::checkPosition() {
     double currentAngle = deltaPos.angle();
-    double totalSum = control::NewControlUtils::angleDifference(startAngle, currentAngle) + control::NewControlUtils::angleDifference(currentAngle, endAngle);
+    double totalSum = control::ControlUtils::angleDifference(startAngle, currentAngle) + control::ControlUtils::angleDifference(currentAngle, endAngle);
     if (totalSum > angleDif + 0.1 * M_PI * 2) {
         return false;
     }

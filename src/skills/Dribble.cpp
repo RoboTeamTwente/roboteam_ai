@@ -4,7 +4,6 @@
 
 #include <skills/Dribble.h>
 #include <coach/BallplacementCoach.h>
-
 #include <utility>
 
 namespace rtt::ai {

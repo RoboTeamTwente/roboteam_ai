@@ -4,7 +4,6 @@
 
 #include <skills/MidFieldHarasser.h>
 #include <coach/midfield/MidFieldCoach.h>
-#include <control/NewControlUtils.h>
 #include <interface/api/Input.h>
 
 namespace rtt::ai {
@@ -30,7 +29,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
 
             // TODO: Base this on the actual rules
             if (opponentVelocityLength > 2.0) {
-                velocity = control::NewControlUtils::velocityLimiter(velocity, opponentVelocityLength * 0.8, Constants::MIN_VEL());
+                velocity = control::ControlUtils::velocityLimiter(velocity, opponentVelocityLength * 0.8, Constants::MIN_VEL());
             }
             command.set_w((opponent->get()->getPos() - robot->get()->getPos()).angle());
         }
@@ -50,7 +49,7 @@ void MidFieldHarasser::onTerminate(Skill::Status s) { coach::g_midFieldCoach.rem
 
 Vector2 MidFieldHarasser::getHarassTarget() {
     auto harassTarget = coach::g_midFieldCoach.getTargetPosition(*field, *robot);
-    if (!world_new::FieldComputations::pointIsInField(*field, harassTarget.targetPosition, 0.20)) {
+    if (!FieldComputations::pointIsInField(*field, harassTarget.targetPosition, 0.20)) {
         harassTarget.targetPosition = robot->get()->getPos();
     }
 

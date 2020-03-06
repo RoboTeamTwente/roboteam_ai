@@ -4,6 +4,7 @@
 
 #include "conditions/ShouldHandleBall.h"
 #include "coach/GetBallCoach.h"
+#include <coach/PassCoach.h>
 
 namespace rtt::ai {
 

@@ -3,7 +3,6 @@
  */
 
 #include "conditions/ResumePlayAfterPenalty.h"
-#include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai {
 ResumePlayAfterPenalty::ResumePlayAfterPenalty(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}

@@ -7,7 +7,6 @@
 
 #include <control/BasicPosControl.h>
 #include <control/numtrees/NumTreePosControl.h>
-
 #include "control/RobotCommand.h"
 #include "gtest/gtest_prod.h"
 
@@ -22,7 +21,6 @@ enum ShotPrecision {
 // ball speeds
 enum BallSpeed {
     DRIBBLE_KICK,
-
     BALL_PLACEMENT,
     PASS,
     MAX_SPEED
@@ -38,6 +36,7 @@ class ShotController {
     bool init = false;
     bool isShooting = false;
     Vector2 aimTarget;
+    int kickerOnTicks = 0;
 
     // PID variables
     PID pid = PID(0.0, 0.0, 0.0);
@@ -46,38 +45,21 @@ class ShotController {
     void updatePid(pidVals pidValues);
 
     // Helpers
-    Vector2 getPlaceBehindBallForGenevaState(const world::Robot &robot, const Vector2 &shotTarget, int genevaState);
-    Vector2 getPlaceBehindBall(const world::Robot &robot,
-                               const Vector2 &shotTarget);  // the params are the position for the robot and the geneva angle
-    int determineOptimalGenevaState(const world::Robot &robot, const Vector2 &shotTarget);
-    bool onLineToBall(const world::Robot &robot, const std::pair<Vector2, Vector2> &line, ShotPrecision precision);
-    bool robotAngleIsGood(world::Robot &robot, const std::pair<Vector2, Vector2> &lineToDriveOver, ShotPrecision precision);
-    double determineKickForce(double distance, BallSpeed desiredBallSpeed);
-    std::pair<Vector2, Vector2> shiftLineForGeneva(const std::pair<Vector2, Vector2> &line, int genevaState);
-
-    // RobotCommand calculation
-    RobotCommand goToPlaceBehindBall(const world::Field &field, const world::Robot &robot, const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &driveLine, int geneva);
-    RobotCommand moveStraightToBall(world::Robot robot, const std::pair<Vector2, Vector2> &lineToDriveOver);
-    RobotCommand shoot(RobotCommand shotData, const world::Robot &robot, const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget, bool chip,
+    Vector2 getPlaceBehindBall(const Vector2 &shotTarget, const Vector2 &ballPos);
+    bool onLineToBall(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &line, ShotPrecision precision);
+    bool robotAngleIsGood(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &lineToDriveOver,
+                          ShotPrecision precision, world_new::view::BallView ball);
+    RobotCommand moveStraightToBall(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &lineToDriveOver);
+    RobotCommand shoot(RobotCommand shotData, world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget, bool chip,
                        BallSpeed desiredBallSpeed);
-    int kickerOnTicks = 0;
-    Vector2 updateGenevaAimTarget(int geneva);
+    RobotCommand goToPlaceBehindBall(world_new::view::RobotView robot, const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &line);
+    double determineKickForce(double distance, BallSpeed desiredBallSpeed);
 
    public:
     explicit ShotController() = default;
-    RobotCommand getRobotCommand(const world::Field &field, world::Robot robot, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED, bool useAutoGeneva = true,
-                                 ShotPrecision precision = MEDIUM, int genevaState = 0);
 
-    // TODO: Implement this function/refactor controllers
-    RobotCommand getRobotCommand(int robotId, const Vector2 &shotTarget, bool chip = false, BallSpeed ballspeed = MAX_SPEED,
+    RobotCommand getRobotCommand(int robotId, const Vector2 &shotTarget, bool chip = false, BallSpeed ballSpeed = MAX_SPEED,
                                  bool useAutoGeneva = true, ShotPrecision precision = MEDIUM, int genevaState = 0);
-    Vector2 getPlaceBehindBall(const Vector2 &shotTarget);
-    bool onLineToBall(const world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &line, ShotPrecision precision);
-    bool robotAngleIsGood(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &lineToDriveOver, ShotPrecision precision);
-    RobotCommand moveStraightToBall(world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &lineToDriveOver);
-    RobotCommand shoot(RobotCommand shotData, const world_new::view::RobotView robot, const std::pair<Vector2, Vector2> &driveLine, const Vector2 &shotTarget, bool chip,
-                                       BallSpeed desiredBallSpeed);
-    RobotCommand goToPlaceBehindBall(const world_new::view::RobotView robot, const Vector2 &robotTargetPosition, const std::pair<Vector2, Vector2> &line);
 };
 
 }  // namespace rtt::ai::control

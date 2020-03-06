@@ -3,7 +3,6 @@
 //
 
 #include <coach/PassCoach.h>
-#include <control/NewControlUtils.h>
 #include <interface/api/Input.h>
 #include <skills/Receive.h>
 
@@ -63,11 +62,11 @@ void Receive::onTerminate(Status s) {
 Vector2 Receive::computeInterceptPoint(const Vector2 &startBall, const Vector2 &endBall) {
     double defenseAreaMargin = 0.3;
     double outOfFieldMargin = -Constants::ROBOT_RADIUS();
-    return control::NewControlUtils::getInterceptPointOnLegalPosition(*field, robot->get()->getPos(), {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
+    return control::ControlUtils::getInterceptPointOnLegalPosition(*field, robot->get()->getPos(), {startBall, endBall}, false, false, defenseAreaMargin, outOfFieldMargin);
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2 &behindTargetPos) {
-    bool isAimedAtBall = control::NewControlUtils::robotIsAimedAtPoint(robot->get()->getId(), true, ball->get()->getPos(), *world, 0.3 * M_PI);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->get()->getId(), true, ball->get()->getPos(), *world, 0.3 * M_PI);
     return isAimedAtBall;
 }
 
@@ -83,7 +82,7 @@ void Receive::intercept() {
 
     if ((interceptPoint - robot->get()->getPos()).length() > 1.0) {
         velocities = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), interceptPoint).vel;
-        if (control::NewControlUtils::clearLine(robot->get()->getPos(), interceptPoint, *world, 1)) {
+        if (control::ControlUtils::clearLine(robot->get()->getPos(), interceptPoint, *world, 1)) {
             velocities = velocities * 1.2;
         }
     } else {

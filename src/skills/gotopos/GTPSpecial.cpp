@@ -4,7 +4,6 @@
 
 #include <coach/BallplacementCoach.h>
 #include <skills/gotopos/GTPSpecial.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 /**
@@ -54,8 +53,8 @@ void GTPSpecial::gtpInitialize() {
         }
         case freeKick: {
             maxVel = 9e9;
-            Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
-            Vector2 penaltyThem = world_new::FieldComputations::getPenaltyPoint(*field, false);
+            Vector2 ballPos = world_new::World::instance()->getWorld()->getBall().value()->getPos();
+            Vector2 penaltyThem = FieldComputations::getPenaltyPoint(*field, false);
             targetPos = (ballPos + (penaltyThem - ballPos).stretchToLength((penaltyThem - ballPos).length() / 2.0));
             errorMargin = 0.05;
             break;
@@ -77,7 +76,7 @@ void GTPSpecial::gtpInitialize() {
             break;
         }
         case ourDefenseAreaCenter: {
-            targetPos = world_new::FieldComputations::getDefenseArea(*field).centroid();
+            targetPos = FieldComputations::getDefenseArea(*field).centroid();
             break;
         }
     }
@@ -159,7 +158,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
             break;
         }
         case ourDefenseAreaCenter: {
-            targetPos = world_new::FieldComputations::getDefenseArea(*field).centroid();
+            targetPos = FieldComputations::getDefenseArea(*field).centroid();
             robot->getControllers().getNumTreePosController()->setCanMoveInDefenseArea(true);
             command = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos, true).makeROSCommand();
             break;

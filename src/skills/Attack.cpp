@@ -1,5 +1,4 @@
 #include <skills/Attack.h>
-#include <world_new/FieldComputations.hpp>
 #include "coach/OffensiveCoach.h"
 
 namespace rtt::ai {
@@ -10,7 +9,7 @@ Attack::Attack(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::mo
 bt::Node::Status Attack::onUpdate() {
     if (!robot) return Status::Running;
 
-    if (world_new::FieldComputations::pointIsInDefenceArea(*field, ball->get()->getPos(), false)) {
+    if (FieldComputations::pointIsInDefenceArea(*field, ball->get()->getPos(), false)) {
         command.set_w(robot->get()->getAngle());
         publishRobotCommand();
         return Status::Running;

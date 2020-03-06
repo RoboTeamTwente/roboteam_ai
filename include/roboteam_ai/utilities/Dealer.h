@@ -13,6 +13,7 @@
 #include "gtest/gtest_prod.h"
 #include "include/roboteam_ai/world_new/views/RobotView.hpp"
 #include "include/roboteam_ai/world_new/views/WorldDataView.hpp"
+#include "world/World.h"
 
 namespace rtt::ai {
 

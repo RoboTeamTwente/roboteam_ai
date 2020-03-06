@@ -3,7 +3,6 @@
 //
 
 #include <skills/SlingShot.h>
-#include <control/NewControlUtils.h>
 
 namespace rtt::ai {
 
@@ -87,13 +86,13 @@ bool SlingShot::ballShot() {
     Vector2 vectorFromStart = ball->get()->getPos() - kickPos;
     double vectorFromStartAngle = vectorFromStart.angle();
     double angleDif =
-        control::NewControlUtils::angleDifference(control::NewControlUtils::constrainAngle(kickOrient), control::NewControlUtils::constrainAngle(vectorFromStartAngle));
+        control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(kickOrient), control::ControlUtils::constrainAngle(vectorFromStartAngle));
     // check if the ball has gone to direction we expect for more than 2 centimeters
     return angleDif > M_PI_2 && vectorFromStart.length() > 0.02;
 }
 bool SlingShot::robotAtAngle() {
     double margin = 0.03 * M_PI;
-    return control::NewControlUtils::angleDifference(robot->get()->getAngle(), control::NewControlUtils::constrainAngle(rotateAngle)) < margin;
+    return control::ControlUtils::angleDifference(robot->get()->getAngle(), control::ControlUtils::constrainAngle(rotateAngle)) < margin;
 }
 void SlingShot::sendDribbleCommand() {
     command.set_dribbler(31);  // TODO:check if we can control velocities
@@ -105,7 +104,7 @@ void SlingShot::sendDribbleCommand() {
 void SlingShot::sendRotateCommand() {
     Vector2 position = kickPos + Vector2(0.2, 0).rotate(rotateAngle + M_PI);
     auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), position).vel;
-    velocities = control::NewControlUtils::velocityLimiter(velocities, 1.5);
+    velocities = control::ControlUtils::velocityLimiter(velocities, 1.5);
     command.set_dribbler(0);
     command.mutable_vel()->set_x(velocities.x);
     command.mutable_vel()->set_y(velocities.y);
@@ -122,6 +121,6 @@ void SlingShot::sendWaitCommand() {
 void SlingShot::setRotate() {
     kickOrient = robot->get()->getAngle();
     kickPos = robot->get()->getPos();
-    rotateAngle = control::NewControlUtils::constrainAngle(robot->get()->getAngle() + M_PI_2);
+    rotateAngle = control::ControlUtils::constrainAngle(robot->get()->getAngle() + M_PI_2);
 }
 }  // namespace rtt::ai

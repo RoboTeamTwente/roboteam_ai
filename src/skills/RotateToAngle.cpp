@@ -3,7 +3,6 @@
 //
 
 #include <skills/RotateToAngle.h>
-#include <control/NewControlUtils.h>
 
 namespace rtt::ai {
 RotateToAngle::RotateToAngle(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
@@ -20,7 +19,7 @@ void RotateToAngle::onInitialize() {
 
 RotateToAngle::Status RotateToAngle::onUpdate() {
     command.set_w(static_cast<float>(targetAngle));
-    deltaAngle = fabs(control::NewControlUtils::constrainAngle(targetAngle - robot->get()->getAngle()));
+    deltaAngle = fabs(control::ControlUtils::constrainAngle(targetAngle - robot->get()->getAngle()));
     currentProgress = checkProgression();
 
     switch (currentProgress) {

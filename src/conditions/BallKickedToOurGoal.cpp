@@ -3,8 +3,6 @@
  */
 #include "conditions/BallKickedToOurGoal.h"
 
-#include "control/NewControlUtils.h"
-
 namespace rtt::ai {
 
 BallKickedToOurGoal::BallKickedToOurGoal(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
@@ -29,7 +27,7 @@ bt::Node::Status BallKickedToOurGoal::onUpdate() {
 
     // Check if the extension of the velocity vector goes through the goal.
     // The line drawn for the ball is the predicted position in 1.5 seconds
-    if (control::NewControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos)) {
+    if (control::ControlUtils::lineSegmentsIntersect(lowerPost, upperPost, ballPos, ballPredPos)) {
         return Status::Success;
     }
 

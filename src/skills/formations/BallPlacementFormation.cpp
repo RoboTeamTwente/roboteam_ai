@@ -24,9 +24,8 @@
  */
 
 #include <skills/formations/BallPlacementFormation.h>
-#include <control/NewControlUtils.h>
+#include <control/ControlUtils.h>
 #include <interface/api/Input.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -84,8 +83,8 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
                                -1, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::BALLPLACEMENT, {ball->get()->getPos(), ballPlacementMarker}, Qt::magenta, -1, interface::Drawing::REAL_LIFE_CIRCLES, 0.5, 0.5);
 
-    bool tooCloseToLine = control::NewControlUtils::distanceToLineWithEnds(pos, Vector2(ball->get()->getPos()), ballPlacementMarker) < 0.9;
-    return (tooCloseToLine || !world_new::FieldComputations::pointIsInField(*field, pos, 0.0));
+    bool tooCloseToLine = control::ControlUtils::distanceToLineWithEnds(pos, Vector2(ball->get()->getPos()), ballPlacementMarker) < 0.9;
+    return (tooCloseToLine || !FieldComputations::pointIsInField(*field, pos, 0.0));
 }
 
 }  // namespace rtt::ai

@@ -1,5 +1,4 @@
 #include <control/ControlUtils.h>
-#include <control/NewControlUtils.h>
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <skills/Skill.h>
 #include <utilities/Constants.h>
@@ -92,19 +91,18 @@ void Skill::limitRobotCommand() {
     bool isKeeper = command.id() == robotDealer::RobotDealer::getKeeperID();
 
     auto limitedVel = Vector2(command.vel().x(), command.vel().y());
-    limitedVel = control::NewControlUtils::velocityLimiter(limitedVel);
+    limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
 
     if (!(isDefendPenaltyState && isKeeper)) {
-        //limitedVel = control::NewControlUtils::accelerationLimiter(limitedVel, robot->get()->getPidPreviousVel(), command.w());
+        //limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, previousRobotVelocity[robot->get()->getId()], command.w());
+        //std::cerr << previousRobotVelocity[robot->get()->getId()] << '\n';
     }
 
-    // TODO: Why set pid prev vel here?
-    // robot->get()->setPidPreviousVel(robot->get()->getVel());
+    previousRobotVelocity[robot->get()->getId()] = robot->get()->getVel();
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         std::cout << "ERROR: ROBOT WILL HAVE NAN~!?!?!KLJ#Q@?LK@ " << node_name().c_str() << "!"
                   << "  robot  " << robot->get()->getId() << std::endl;
-        // TODO: Why set pid prev vel here?
-        // robot->get()->setPidPreviousVel(robot->get()->getVel());
+        previousRobotVelocity[robot->get()->getId()] = robot->get()->getVel();
     }
     command.mutable_vel()->set_x(limitedVel.x);
     command.mutable_vel()->set_y(limitedVel.y);

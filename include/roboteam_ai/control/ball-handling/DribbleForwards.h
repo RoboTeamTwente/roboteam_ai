@@ -13,14 +13,7 @@ namespace rtt::world_new::view{
     class RobotView;
 }
 
-namespace rtt::ai {
-
-namespace world {
-class Robot;
-class Ball;
-}  // namespace world
-
-namespace control {
+namespace rtt::ai::control {
 
 class RotateAroundBall;
 class RotateWithBall;
@@ -32,11 +25,6 @@ class DribbleForwards {
    private:
     RotateAroundBall *rotateAroundBall;
     RotateWithBall *rotateAroundRobot;
-
-    using RobotPtr = std::shared_ptr<world::Robot>;
-    using BallPtr = std::shared_ptr<world::Ball>;
-    RobotPtr robot;
-    BallPtr ball;
 
     ForwardsProgress forwardsProgress = START;
     void printForwardsProgress();
@@ -57,34 +45,24 @@ class DribbleForwards {
 
    private:
     // functions for forwards progress
-    void updateForwardsProgress();
-    RobotCommand sendForwardsCommand();
-    RobotCommand startTravelForwards();
-    RobotCommand sendTurnCommand();
-    RobotCommand sendApproachCommand();
-    RobotCommand sendDribbleForwardsCommand();
-    RobotCommand sendSuccessCommand();
-
-   public:
-    RobotCommand getRobotCommand(std::shared_ptr<world::Robot> r, const Vector2 &targetP, const Angle &targetA);
-    void reset();
-    void setMaxVel(double maxVel);
-
-    explicit DribbleForwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.7);
-
-    ~DribbleForwards();
-
-    RobotCommand getRobotCommand(world_new::view::RobotView _robot, const Vector2 &targetP, const Angle &targetA);
     void updateForwardsProgress(world_new::view::RobotView _robot);
     RobotCommand sendForwardsCommand(world_new::view::RobotView _robot);
     RobotCommand startTravelForwards(world_new::view::RobotView _robot);
     RobotCommand sendTurnCommand(world_new::view::RobotView _robot);
     RobotCommand sendApproachCommand(world_new::view::RobotView _robot);
     RobotCommand sendDribbleForwardsCommand(world_new::view::RobotView _robot);
+    RobotCommand sendSuccessCommand();
 
+   public:
+    RobotCommand getRobotCommand(world_new::view::RobotView _robot, const Vector2 &targetP, const Angle &targetA);
+    void reset();
+    void setMaxVel(double maxVel);
+
+    explicit DribbleForwards(double errorMargin = 0.02, double angularErrorMargin = 0.02, double ballPlacementAccuracy = 0.04, double maxVel = 0.7);
+
+    ~DribbleForwards();
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_DRIBBLEFORWARDS_H

@@ -1,10 +1,11 @@
 //
 // Created by thijs on 6-7-19.
 //
-#include <skills/formations/StopFormation.h>
 
 #ifndef ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
 #define ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
+
+#include <skills/formations/StopFormation.h>
 
 namespace rtt::ai {
 class BallPlacementFormation : public StopFormation {

@@ -3,9 +3,7 @@
 //
 
 #include "conditions/IsOnPassLine.h"
-
 #include <coach/PassCoach.h>
-#include <control/NewControlUtils.h>
 
 namespace rtt::ai {
 
@@ -23,7 +21,7 @@ IsOnPassLine::Status IsOnPassLine::onUpdate() {
 
     if (receiverID != -1 && passerID != robot->get()->getId()) {
         rtt::world_new::view::RobotView receiver = world->getRobotForId(receiverID, true).value();
-        if (receiver && control::NewControlUtils::isPointProjectedOnLineSegment(robot->get()->getPos(), ball->get()->getPos(), receiver->getPos())) {
+        if (receiver && control::ControlUtils::isPointProjectedOnLineSegment(robot->get()->getPos(), ball->get()->getPos(), receiver->getPos())) {
             Vector2 projection = robot->get()->getPos().project(ball->get()->getPos(), receiver->getPos());
             if ((projection - robot->get()->getPos()).length() < DISTANCE_FROM_PASS_LINE) {
                 return Status::Success;

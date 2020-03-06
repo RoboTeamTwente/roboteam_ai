@@ -4,14 +4,12 @@
 
 #include <skills/ChipForward.h>
 
-#include <world_new/FieldComputations.hpp>
-
 namespace rtt::ai {
 
 ChipForward::ChipForward(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void ChipForward::onInitialize() {
-    aimPoint = world_new::FieldComputations::getPenaltyPoint(*field, false);
+    aimPoint = FieldComputations::getPenaltyPoint(*field, false);
     hasChipped = false;
 }
 

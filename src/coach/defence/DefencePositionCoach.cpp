@@ -232,7 +232,7 @@ DefenderBot DefencePositionCoach::createBlockBall(const Field &field, const Line
     DefenderBot bot;
     bot.type = botType::BLOCKBALL;
     bot.targetPos = findPositionForBlockBall(field, blockLine);
-    bot.blockFromID = world::world->whichRobotHasBall(THEIR_ROBOTS) ? (world::world->whichRobotHasBall(THEIR_ROBOTS)->id) : (-1);
+    bot.blockFromID = world_new::World::instance()->getWorld()->whichRobotHasBall(world_new::them) ? (world_new::World::instance()->getWorld()->whichRobotHasBall(world_new::them)->get()->getId()) : (-1);
     bot.orientation = getOrientation(blockLine);
     return bot;
 }
@@ -457,11 +457,11 @@ void DefencePositionCoach::assignIDs(int lockedCount, std::vector<int> freeRobot
         int closestId = -1;
         auto closestDist = 9e9;
         for (int botId : freeIDs) {
-            auto bot = world::world->getRobotForId(botId, true);
+            auto bot = world_new::World::instance()->getWorld()->getRobotForId(botId, true);
             if (bot) {
-                if ((defenders[j].targetPos - bot->pos).length() < closestDist) {
+                if ((defenders[j].targetPos - bot->get()->getPos()).length() < closestDist) {
                     closestId = botId;
-                    closestDist = (defenders[j].targetPos - bot->pos).length();
+                    closestDist = (defenders[j].targetPos - bot->get()->getPos()).length();
                 }
             }
         }

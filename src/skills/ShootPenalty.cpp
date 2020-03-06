@@ -3,7 +3,6 @@
 //
 
 #include <skills/ShootPenalty.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -42,9 +41,9 @@ bt::Node::Status ShootPenalty::onUpdate() {
             ballPos = ball->get()->getPos();
         }
     } else {
-        if (ball && !world_new::FieldComputations::pointIsInDefenceArea(*field, ballPos, false, -0.1)) {
+        if (ball && !FieldComputations::pointIsInDefenceArea(*field, ballPos, false, -0.1)) {
             Vector2 targetPos = world->getBall()->get()->getPos() + additionalBallDist;
-            if (world_new::FieldComputations::pointIsInDefenceArea(*field, ballPos, false, 0.2)) {
+            if (FieldComputations::pointIsInDefenceArea(*field, ballPos, false, 0.2)) {
                 auto cmd = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y + gain);

@@ -3,7 +3,6 @@
 //
 
 #include <skills/DribbleForward.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 

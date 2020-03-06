@@ -6,11 +6,9 @@
 #define ROBOTEAM_AI_POSCONTROLLER_H
 
 #include <utilities/Constants.h>
-
 #include "RobotCommand.h"
 #include "world/Field.h"
 #include "roboteam_utils/pid.h"
-#include "world/World.h"
 
 namespace rtt::world_new::view {
 class WorldDataView;
@@ -18,22 +16,10 @@ class RobotView;
 class BallView;
 }  // namespace rtt::world_new::view
 
-namespace rtt::ai {
-
-namespace world {
-class Robot;
-class WorldData;
-class Ball;
-}  // namespace world
-
-namespace control {
+namespace rtt::ai::control {
 
 class PosController {
    protected:
-    using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
-    using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
-    using WorldDataPtr = std::shared_ptr<rtt::ai::world::WorldData>;
-
     // settings
     double customAvoidBallDistance = 0.0;
     bool customCanMoveOutOfField = true;
@@ -43,10 +29,7 @@ class PosController {
     PID xpid = PID(0.0, 0.0, 0.0);
     PID ypid = PID(0.0, 0.0, 0.0);
     bool getPIDFromInterface = true;
-    RobotCommand controlWithPID(const RobotPtr &robot, RobotCommand target);
     virtual void checkInterfacePID() = 0;
-
-    virtual Vector2 calculatePIDs(const RobotPtr &robot, RobotCommand &target);
 
     RobotCommand controlWithPID(const world_new::view::RobotView &robot, RobotCommand target);
     virtual Vector2 calculatePIDs(const world_new::view::RobotView &robot, RobotCommand &target);
@@ -54,8 +37,6 @@ class PosController {
    public:
     PosController() = default;
     explicit PosController(double avoidBall, bool canMoveOutOfField, bool canMoveInDefenseArea);
-    virtual RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos, const Angle &targetAngle) = 0;
-    virtual RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robot, const Vector2 &targetPos) = 0;
 
     virtual RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos, const Angle &targetAngle) = 0;
     virtual RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos) = 0;
@@ -72,7 +53,6 @@ class PosController {
     void updatePid(pidVals pid);
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_POSCONTROLLER_H

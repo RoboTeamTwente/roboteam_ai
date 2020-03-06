@@ -4,9 +4,7 @@
 
 #include <skills/AvoidBall.h>
 #include <coach/BallplacementCoach.h>
-#include <control/NewControlUtils.h>
 #include <utilities/RobotDealer.h>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -28,7 +26,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     auto robotPos = rtt::Vector2(robot->get()->getPos());
 
     bool robotIsKeeper = (robotDealer::RobotDealer::keeperExistsInWorld() && robot->get()->getId() == robotDealer::RobotDealer::getKeeperID());
-    if (!robotIsKeeper && (world_new::FieldComputations::pointIsInDefenceArea(*field, robotPos, true, 0.10) || world_new::FieldComputations::pointIsInDefenceArea(*field, robotPos, false, 0.10))) {
+    if (!robotIsKeeper && (FieldComputations::pointIsInDefenceArea(*field, robotPos, true, 0.10) || FieldComputations::pointIsInDefenceArea(*field, robotPos, false, 0.10))) {
         robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), Vector2(0, robotPos.y));
         publishRobotCommand();
         return Status::Running;
@@ -39,11 +37,11 @@ bt::Node::Status AvoidBall::onUpdate() {
     // forces from robots
     for (auto &otherRobot : world::world->getAllRobots()) {
         if (otherRobot->id != robot->get()->getId()) {
-            force = force + control::NewControlUtils::calculateForce(robotPos - otherRobot->pos, robotWeight, minRobotDistanceForForce);
+            force = force + control::ControlUtils::calculateForce(robotPos - otherRobot->pos, robotWeight, minRobotDistanceForForce);
         }
     }
     // check forces from ball
-    force = force + control::NewControlUtils::calculateForce(robotPos - ball->get()->getPos(), ballWeight, minBallDistanceForForce);
+    force = force + control::ControlUtils::calculateForce(robotPos - ball->get()->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
     double boundWidth = (*field).getBoundaryWidth();
@@ -57,24 +55,24 @@ bt::Node::Status AvoidBall::onUpdate() {
     wallsVectors.emplace_back(Vector2(0, robotPos.y + halfFieldWidth + boundWidth));
 
     for (auto const &wallVector : wallsVectors) {
-        force = force + control::NewControlUtils::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
+        force = force + control::ControlUtils::calculateForce(wallVector, wallWeight, minWallDistanceForForce);
     }
 
     if (type == BALLPLACEMENT) {
         Vector2 bpTarget = coach::g_ballPlacement.getBallPlacementPos();
         // if the robot is closer to the ballplacementTarget than the ball
-        if (control::NewControlUtils::distanceToLineWithEnds(robot->get()->getPos(), ball->get()->getPos(), bpTarget) < minBallDistanceForForce) {
+        if (control::ControlUtils::distanceToLineWithEnds(robot->get()->getPos(), ball->get()->getPos(), bpTarget) < minBallDistanceForForce) {
             Vector2 LineToBallPlacementBallLine = robot->get()->getPos() - robot->get()->getPos().project(bpTarget, ball->get()->getPos());
-            force = force + control::NewControlUtils::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
+            force = force + control::ControlUtils::calculateForce(LineToBallPlacementBallLine, ballWeight, minBallDistanceForForce);
         }
     }
 
     if (type == PASSING) {
         // if robot's projection is on the pass line
-        if (control::NewControlUtils::isPointProjectedOnLineSegment(robot->get()->getPos(), ball->get()->getPos(), receiver->get()->getPos())) {
+        if (control::ControlUtils::isPointProjectedOnLineSegment(robot->get()->getPos(), ball->get()->getPos(), receiver->get()->getPos())) {
             Vector2 projectionOnPassLine = robot->get()->getPos().project(ball->get()->getPos(), receiver->get()->getPos());
             Vector2 distanceToProjection = robot->get()->getPos() - projectionOnPassLine;
-            force = force + control::NewControlUtils::calculateForce(distanceToProjection, ballWeight, minBallDistanceForForce);
+            force = force + control::ControlUtils::calculateForce(distanceToProjection, ballWeight, minBallDistanceForForce);
         }
     }
 

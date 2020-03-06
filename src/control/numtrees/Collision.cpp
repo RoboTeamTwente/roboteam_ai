@@ -2,8 +2,8 @@
 // Created by thijs on 25-5-19.
 //
 
-#include <include/roboteam_ai/world_new/views/RobotView.hpp>
 #include "control/numtrees/Collision.h"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::control {
 
@@ -37,38 +37,24 @@ std::string Collision::collisionTypeToString() {
     return s;
 }
 
-const world::Robot::RobotPtr &Collision::getCollisionRobot() const { return collisionRobot; }
+const std::optional<world_new::view::RobotView> Collision::getCollisionRobot() const { return collisionRobot; }
 
-void Collision::setCollisionRobot(const world::Robot::RobotPtr &robot, double distance) {
+void Collision::setCollisionRobot(const world_new::view::RobotView robot, double distance) {
     type = ROBOT;
-    collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
+    collisionRobot = robot;
     setCollision(distance);
 }
-
-    void Collision::setCollisionRobot(int robotId, double distance) {
-        type = ROBOT;
-        //collisionRobot = std::make_shared<world::Robot>(world::Robot(*robot));
-        setCollision(distance);
-    }
 
 void Collision::setCollision(double distance) {
     isCollision = true;
     collisionRadius = distance;
 }
 
-void Collision::setCollisionBall(const world::Ball::BallPtr &ball, double distance) {
+void Collision::setCollisionBall(const world_new::view::BallView ball, double distance) {
     type = BALL;
-    collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
-    collisionBall->setVisible(true);
+    collisionBall = ball;
     setCollision(distance);
 }
-
-    void Collision::setCollisionBall(const world_new::view::BallView ball, double distance) {
-        type = BALL;
-        //collisionBall = std::make_shared<world::Ball>(world::Ball(*ball));
-        collisionBall->setVisible(true);
-        setCollision(distance);
-    }
 
 void Collision::setFieldCollision(const Vector2 &collisionPos, double distance) {
     type = FIELD;
@@ -89,10 +75,10 @@ void Collision::setGoalCollision(const Vector2 &collisionPos, double distance) {
 }
 
 const Vector2 Collision::collisionPosition() const {
-    if (collisionRobot->id != -1)
-        return collisionRobot->pos;
-    else if (collisionBall->getVisible())
-        return collisionBall->getPos();
+    if (collisionRobot.has_value())
+        return collisionRobot->get()->getPos();
+    else if (collisionBall.has_value())
+        return collisionBall->get()->getPos();
     else if (fieldCollision != Vector2())
         return fieldCollision;
     else if (defenseAreaCollision != Vector2())
@@ -107,7 +93,7 @@ const Vector2 &Collision::getCollisionDefenseAreaPos() const { return defenseAre
 
 const Vector2 &Collision::getCollisionFieldPos() const { return fieldCollision; }
 
-const world::Ball::BallPtr &Collision::getCollisionBall() const { return collisionBall; }
+const std::optional<world_new::view::BallView> Collision::getCollisionBall() const { return collisionBall; }
 
 const Vector2 &Collision::getCollisionGoalPos() const { return goalCollision; }
 

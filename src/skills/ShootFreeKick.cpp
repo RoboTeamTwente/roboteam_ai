@@ -3,9 +3,7 @@
 //
 
 #include <skills/ShootFreeKick.h>
-
 #include <utility>
-#include <world_new/FieldComputations.hpp>
 
 namespace rtt::ai {
 
@@ -48,7 +46,7 @@ Skill::Status ShootFreeKick::onUpdate() {
                 // Find a target and draw a vector to it
                 // TODO make targeting functions based on our robots positions maybe coach
                 // TODO for now it shoots at the goal
-                Vector2 target = world_new::FieldComputations::getPenaltyPoint(*field, false);
+                Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
                 Vector2 ballPos = world->getBall()->get()->getPos();
                 targetPos = ballPos + (ballPos - target).stretchToLength(Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS() + 0.03);
             }
@@ -67,7 +65,7 @@ Skill::Status ShootFreeKick::onUpdate() {
 
         case SHOOTING: {
             if (!isShot()) {
-                Vector2 target = world_new::FieldComputations::getPenaltyPoint(*field, false);
+                Vector2 target = FieldComputations::getPenaltyPoint(*field, false);
 
                 auto shotData = robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), target, false, control::BallSpeed::PASS);
                 command = shotData.makeROSCommand();
