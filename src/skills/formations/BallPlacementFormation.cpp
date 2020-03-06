@@ -26,6 +26,9 @@
 #include <skills/formations/BallPlacementFormation.h>
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
+#include <world/FieldComputations.h>
+#include "control/ControlUtils.h"
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
 
@@ -73,7 +76,7 @@ bool BallPlacementFormation::positionShouldBeAvoided(Vector2 pos) {
 
     if (!interface::Output::usesRefereeCommands()) {
         ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
-        std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+        RTT_WARNING("Getting ballplacement location from interface");
     };
     auto ball = world->getBall();
     Vector2 diff = (ball->get()->getPos() - ballPlacementMarker).rotate(M_PI_2);

@@ -6,6 +6,7 @@
 #include <interface/api/Input.h>
 #include <queue>
 #include <world_new/World.hpp>
+#include <roboteam_utils/Print.h>
 #include "control/ControlUtils.h"
 #include "control/RobotCommand.h"
 #include "control/numtrees/Collision.h"
@@ -212,7 +213,7 @@ Collision NumTreePosControl::getBallPlacementCollision(const NumTreePosControl::
 
     if (!interface::Output::usesRefereeCommands()) {
         ballPlacementMarker = rtt::ai::interface::Output::getInterfaceMarkerPosition();
-        std::cerr << "GETTING BALLPLACEMENT LOCATION FROM INTERFACE" << std::endl;
+        RTT_WARNING("Getting ballplacement location from interface");
     };
 
     double avoidDist = fmin(ballPlacementMarker.dist(ball->getPos()), 2.0);

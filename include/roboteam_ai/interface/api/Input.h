@@ -40,7 +40,7 @@ struct Drawing {
 
 class Input {
    public:
-    explicit Input() = default;
+    explicit Input();
     virtual ~Input();
 
     static void clearDrawings();
@@ -56,7 +56,6 @@ class Input {
     static std::vector<Drawing> drawings;
     static std::mutex drawingMutex;
     static std::mutex fpsMutex;
-    static void makeDrawing(Drawing const &drawing);
     static int FPS;
 };
 

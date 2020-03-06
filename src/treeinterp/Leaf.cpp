@@ -1,7 +1,8 @@
 #include "include/roboteam_ai/treeinterp/Leaf.h"
 
 #include <memory>
-
+#include <world/World.h>
+#include <roboteam_utils/Print.h>
 #include "utilities/RobotDealer.h"
 #include <world_new/World.hpp>
 
@@ -12,30 +13,30 @@ Leaf::Leaf(std::string name, Blackboard::Ptr blackboard) : name(std::move(name))
 }
 
 std::optional<rtt::world_new::view::RobotView> Leaf::getRobotFromProperties(const bt::Blackboard::Ptr& properties) {
-    // If the robot does not have an assigned role, don't return a robot
-    if (!properties->hasString("ROLE")) {
-        std::cerr << "[Leaf::getRobotFromProperties]" << node_name().c_str()
-                  << "Initialize -> robot " << robotId << " -> ROLE WAITING!!" << std::endl;
-        return std::nullopt;
+    if (properties->hasString("ROLE")) {
+        std::string roleName = properties->getString("ROLE");
+        robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
+        if (rtt::ai::world::world->getRobotForId(robotId, true)) {
+            if (robotId == -1) {
+                RTT_WARNING("getting robot for id with id = -1!!!")
+            }
+            return rtt::world_new::World::instance()->getWorld()->getRobotForId(robotId, true);
+        } else {
+            RTT_WARNING(node_name(), " Initialize -> robot ", robotId, " does not exist in world")
+        }
+    } else {
+        RTT_WARNING(node_name(), " Initialize -> robot ", robotId, " role status: waiting!")
     }
-
-    // Get the robot based on its role
-    std::string roleName = properties->getString("ROLE");
-    robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
-    std::optional<rtt::world_new::view::RobotView> bot = world->getRobotForId(robotId, true);
-
-    // If no robot with the role has been found in the world, something is going wrong
-    if(!bot.has_value())
-        std::cerr << "[Leaf::getRobotFromProperties]" << node_name().c_str()
-                  << " Initialize -> robot " << robotId << " does not exist in world" << std::endl;
-    return bot;
+    return std::optional<rtt::world_new::view::RobotView>(nullptr);
 }
 
 void Leaf::updateRobot() {
-    robot = world->getRobotForId(robotId, true);
-    if(!robot.has_value())
-        std::cerr << "[Leaf::updateRobot]" << node_name().c_str()
-                  << "Update -> robot " << robotId << " does not exist in world" << std::endl;
+    if (rtt::world_new::World::instance()->getWorld()->getRobotForId(robotId, true)) {
+        robot = rtt::world_new::World::instance()->getWorld()->getRobotForId(robotId, true);
+    } else {
+        RTT_WARNING(node_name(), " Update -> robot ", robotId, " does not exist in world!")
+        robot = std::optional<rtt::world_new::view::RobotView>(nullptr);
+    }
 }
 
 void Leaf::terminate(Node::Status status) { robotId = -1; }

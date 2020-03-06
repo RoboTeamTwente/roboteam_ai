@@ -27,7 +27,6 @@ SettingsWidget::SettingsWidget(QWidget *parent) {
     grsimPort->setValue(SETTINGS.getRobothubSendPort());
     grsimSettingsWidgetLayout->addWidget(grsimPort);
     grsimSettingsGroup->setLayout(grsimSettingsWidgetLayout);
-    QObject::connect(grsimPort, SIGNAL(textChanged(QString)), this, SLOT(changeGrSimPort(int)));
     vLayout->addWidget(grsimSettingsGroup);
 
     auto spacer = new QSpacerItem(100, 100, QSizePolicy::Expanding, QSizePolicy::Expanding);

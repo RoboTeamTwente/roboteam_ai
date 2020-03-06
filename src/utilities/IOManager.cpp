@@ -10,8 +10,8 @@
 #include "world/Robot.h"
 
 #include "roboteam_utils/normalize.h"
-
 #include "world_new/World.hpp"
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai::io {
 
@@ -24,6 +24,7 @@ std::mutex IOManager::demoMutex;
 IOManager io;
 
 void IOManager::init(int teamId) {
+    RTT_INFO("Setting up IO publishers/subscribers")
     worldSubscriber = new proto::Subscriber<proto::World>(proto::WORLD_CHANNEL, &IOManager::handleWorldState, this);
     geometrySubscriber = new proto::Subscriber<proto::SSL_GeometryData>(proto::GEOMETRY_CHANNEL, &IOManager::handleGeometry, this);
     refSubscriber = new proto::Subscriber<proto::SSL_Referee>(proto::REFEREE_CHANNEL, &IOManager::handleReferee, this);
@@ -57,7 +58,6 @@ void IOManager::handleGeometry(proto::SSL_GeometryData &geometryData) {
 void IOManager::handleReferee(proto::SSL_Referee &refData) {
     std::lock_guard<std::mutex> lock(refereeMutex);
     this->refDataMsg = refData;
-
     roboteam_utils::rotate(&refData);
 
     // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
