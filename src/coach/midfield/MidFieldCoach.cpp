@@ -4,6 +4,7 @@
 
 #include "coach/midField/MidFieldCoach.h"
 #include <include/roboteam_ai/world_new/World.hpp>
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai::coach {
 
@@ -63,7 +64,9 @@ bool MidFieldCoach::validOpponent(const Field &field, const world_new::view::Rob
 }
 
 void MidFieldCoach::removeMidFielder(world_new::view::RobotView &thisRobot) {
-    currentMidfielders_new.erase(std::remove(currentMidfielders_new.begin(), currentMidfielders_new.end(), thisRobot), currentMidfielders_new.end());
+//TODO fix this
+//    currentMidfielders_new.erase(std::remove(currentMidfielders_new.begin(), currentMidfielders_new.end(), thisRobot), currentMidfielders_new.end());
+RTT_ERROR("removing midfielders does not work yet!")
 
     if (targetPositions.find(thisRobot->getId()) != targetPositions.end()) {
         targetPositions.erase(thisRobot->getId());

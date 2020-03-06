@@ -30,8 +30,6 @@ class PassCoach {
     virtual int determineReceiver(const Field &field, int passerID);
     bool passTakesTooLong();
     void updatePassProgression();
-    bool validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick = false);
-
     bool validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick = false);
 
    private:

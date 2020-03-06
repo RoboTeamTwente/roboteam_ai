@@ -65,7 +65,7 @@ int PassCoach::determineReceiver(const Field &field, int passerID) {
     auto passer = world_new::World::instance()->getWorld()->getRobotForId(passerID, true);
 
     for (auto &robot : world_new::World::instance()->getWorld()->getUs()) {
-        if (!validReceiver(field, passer, robot)) continue;
+        if (!validReceiver(field, passer.value(), robot)) continue;
         double score = passScore.calculatePassScore(field, robot->getPos());
         if (score > bestScore) {
             bestScore = score;

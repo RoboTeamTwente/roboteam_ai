@@ -16,9 +16,9 @@
 
 namespace rtt::ai::control {
 
-rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal) {
+rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(world_new::view::BallView ball, const Field &field, double distanceBehindBall, bool ourGoal) {
     const Vector2 &goal = (ourGoal ? field.getOurGoalCenter() : field.getTheirGoalCenter());
-    return getPositionBehindBallToPosition(distanceBehindBall, goal);
+    return getPositionBehindBallToPosition(distanceBehindBall, ball, goal);
 }
 
 Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall, world_new::view::BallView ball, const Vector2 &position) {
@@ -27,18 +27,18 @@ Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall
     return ballPos + (ballPos - position).stretchToLength(distanceBehindBall);
 }
 
-Vector2 PositionUtils::getPositionBehindPositionToPosition(double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition) {
+Vector2 PositionUtils::getPositionBehindPositionToPosition(world_new::view::BallView ball, double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition) {
     return behindPosition + (behindPosition - toPosition).stretchToLength(distanceBehindBall);
 }
 
-bool PositionUtils::isRobotBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
+bool PositionUtils::isRobotBehindBallToGoal(world_new::view::BallView ball, const Field &field, double distanceBehindBall, bool ourGoal, const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &goal = (ourGoal ? field.getOurGoalCenter() : field.getTheirGoalCenter());
-    return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
+    return isRobotBehindBallToPosition(ball, distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
 bool PositionUtils::isRobotBehindBallToPosition(world_new::view::BallView ballView, double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin) {
     const Vector2 &ball = static_cast<Vector2>(ballView->getPos());
-    Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
+    Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, ballView, position);
     Vector2 deltaBall = behindBallPosition - ball;
 
     Vector2 trianglePoint1 = ball;
@@ -107,7 +107,7 @@ std::vector<Vector2> PositionUtils::getDefendFreeKick(const Field &field, world_
     auto lengthOffset = field.getFieldLength() / 100.0;
     auto widthOffset = field.getFieldWidth() / 4.0;
     Vector2 goalUS = field.getOurGoalCenter();
-    Vector2 ballPos = rtt::ai::world::world->getBall()->getPos();
+    Vector2 ballPos = ball->getPos();
     Vector2 penaltyUs = FieldComputations::getPenaltyPoint(field, true);
 
     Vector2 lineProgress = ((goalUS - ballPos).stretchToLength(0.28)).rotate(M_PI_2);

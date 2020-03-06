@@ -31,7 +31,7 @@ bt::Node::Status BallPlacementReceive::onUpdate() {
         intercept();
     } else {
         Vector2 ballPlacementTarget = coach::g_ballPlacement.getBallPlacementPos();
-        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(Constants::ROBOT_RADIUS(), ballPlacementTarget, ball->get()->getPos());
+        auto behindTargetPos = control::PositionUtils::getPositionBehindPositionToPosition(ball.value(), Constants::ROBOT_RADIUS(), ballPlacementTarget, ball->get()->getPos());
 
         moveToCatchPosition(behindTargetPos);
         if (isInPosition(behindTargetPos)) {
