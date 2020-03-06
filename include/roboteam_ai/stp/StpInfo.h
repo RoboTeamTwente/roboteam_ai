@@ -98,15 +98,21 @@ namespace rtt::ai::stp {
          */
         TacticInfo tacticInfo;
 
+        world_new::view::RobotView getRobot() const { return robot; };
+        void setRobot(world_new::view::RobotView robot) { this->robot = robot; };
+
+        double getKickChipVelocity() const { return kickChipVelocity; };
+        void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; };
+
+    private:
         /**
          * Robot this skill applies to
          */
-         world_new::view::RobotView robot;
+        world_new::view::RobotView robot;
 
-         double getKickChipVelocity() const { return kickChipVelocity; };
-         void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; };
-
-    private:
+        /**
+         * Velocity of the kick/chip
+         */
         double kickChipVelocity = 0.0;
     };
 };
