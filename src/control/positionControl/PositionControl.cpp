@@ -10,6 +10,11 @@ namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
                                                   const Vector2 &targetPosition) {
     collisionDetector.setField(field);
+    // if the target position is outside of the field (i.e. bug in AI), do nothing
+    if(!collisionDetector.isPointInsideField(targetPosition)){
+        return {};
+    }
+
     if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
