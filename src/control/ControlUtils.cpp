@@ -7,7 +7,7 @@
 #include <world/FieldComputations.h>
 #include <utilities/GameStateManager.hpp>
 #include "world_new/World.hpp"
-#include "world/Robot.h"
+
 
 namespace rtt::ai::control {
 

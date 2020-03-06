@@ -4,7 +4,7 @@
 
 #include "coach/midfield/MidFieldCoach.h"
 #include <include/roboteam_ai/world_new/World.hpp>
-#include "world/Ball.h"
+
 
 namespace rtt::ai::coach {
 

@@ -4,11 +4,8 @@
 #include "roboteam_proto/DemoRobot.pb.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
-
 #include "interface/api/Input.h"
 #include "utilities/Pause.h"
-#include "world/Robot.h"
-
 #include "roboteam_utils/normalize.h"
 #include "world_new/World.hpp"
 #include <roboteam_utils/Print.h>

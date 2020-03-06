@@ -86,17 +86,10 @@ void OffensiveCoach::updateOffensivePositions(const Field &field) {
     }
 }
 
-void OffensiveCoach::addSideAttacker(const Field &field, const OffensiveCoach::RobotPtr &robot) {
-    sideAttackers[robot->id] = -1;
-    redistributePositions(field);
-}
-
 void OffensiveCoach::addSideAttacker(const Field &field, const world_new::view::RobotView &robot) {
     sideAttackers[robot->getId()] = -1;
     redistributePositions(field);
 }
-
-void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr &robot) { sideAttackers.erase(robot->id); }
 
 void OffensiveCoach::removeSideAttacker(const world_new::view::RobotView &robot) { sideAttackers.erase(robot->getId()); }
 

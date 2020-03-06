@@ -7,9 +7,9 @@
 #include <roboteam_utils/Vector2.h>
 #include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 
-#include "world/Ball.h"
+
 #include "world/Field.h"
-#include "world/World.h"
+
 
 namespace rtt::ai::analysis {
 

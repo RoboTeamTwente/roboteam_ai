@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <map>
+#include <include/roboteam_ai/world_new/views/WorldDataView.hpp.hpp>
 #include "Constants.h"
 #include "RefGameState.h"
 #include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
@@ -19,9 +20,8 @@ class StrategyManager {
    public:
     explicit StrategyManager() = default;
     RefGameState getCurrentRefGameState();
-    void setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage);
-    void forceCurrentRefGameState(RefCommand command);
-
+    void setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage, world_new::view::WorldDataView world);
+    void forceCurrentRefGameState(RefCommand command, world_new::view::WorldDataView world);
     const RefGameState getRefGameStateForRefCommand(RefCommand command);
 
    private:

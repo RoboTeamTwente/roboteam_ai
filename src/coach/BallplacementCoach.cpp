@@ -16,8 +16,8 @@
 #include <utilities/GameStateManager.hpp>
 
 #include "interface/api/Input.h"
-#include "world/Ball.h"
-#include "world/World.h"
+
+
 
 namespace rtt {
 namespace ai {

@@ -6,8 +6,8 @@
 
 #include "conditions/IsRobotClosestToBall.h"
 #include "utilities/RobotDealer.h"
-#include "world/Ball.h"
-#include "world/World.h"
+
+
 
 TEST(IsRobotClosestToBallTest, NoSecondsAhead) {
     //    rtt::ai::world::Ball::exists = false;

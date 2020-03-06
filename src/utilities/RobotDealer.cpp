@@ -159,42 +159,18 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
                 break;
             }
             case WORKING_GENEVA: {
-                int test = -1;
-                for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingGeneva()) {
-                        test = r;
-                        break;
-                    }
-                }
-                if (test == -1) {
-                    id = *ids.begin();
-                    break;
-                }
-                id = test;
-                break;
-            }
-            case WORKING_BALL_SENSOR: {
-                int test = -1;
-                for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingBallSensor()) {
-                        test = r;
-                        break;
-                    }
-                }
-                if (test == -1) {
-                    id = *ids.begin();
-                    break;
-                }
-                id = test;
+                RTT_ERROR("Asking for a robot with working geneva should not be done. Picking random robot instead...");
+                id = -1;
                 break;
             }
             case WORKING_GENEVA_BALLSENSOR: {
+                RTT_ERROR("Asking for a robot with working geneva should not be done. Only picking on ballsensor property");
+            } // fallthrough
+            case WORKING_BALL_SENSOR: {
                 int test = -1;
                 for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingGeneva() && robot->hasWorkingBallSensor()) {
+                    auto robot = world_new::World::instance()->getWorld()->getRobotForId(r, true);
+                    if (robot && robot.value()->isWorkingBallSensor()) {
                         test = r;
                         break;
                     }
@@ -209,8 +185,8 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             case WORKING_DRIBBLER: {
                 int test = -1;
                 for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingDribbler()) {
+                    auto robot = world_new::World::instance()->getWorld()->getRobotForId(r, true);
+                    if (robot && robot.value()->isWorkingDribbler()) {
                         test = r;
                         break;
                     }
@@ -424,8 +400,9 @@ void RobotDealer::refresh() {
 }
 
 bool RobotDealer::keeperExistsInWorld() {
-    for (auto const &robot : world::world->getUs()) {
-        if (robot && robot->id == getKeeperID()) {
+
+    for (auto const &robot : world_new::World::instance()->getWorld()->getUs()) {
+        if (robot && robot->getId() == getKeeperID()) {
             return true;
         }
     }

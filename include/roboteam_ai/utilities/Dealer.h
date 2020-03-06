@@ -11,9 +11,9 @@
 #include <map>
 #include <iostream>
 #include "gtest/gtest_prod.h"
-#include "include/roboteam_ai/world_new/views/RobotView.hpp"
-#include "include/roboteam_ai/world_new/views/WorldDataView.hpp"
-#include "world/World.h"
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/WorldDataView.hpp"
+#include "world/Field.h"
 
 namespace rtt::ai {
 
