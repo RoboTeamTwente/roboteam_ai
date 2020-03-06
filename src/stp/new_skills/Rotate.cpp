@@ -18,7 +18,6 @@ Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     // Check if angle is in range
     if (angle < -M_PI || angle > M_PI) {
         RTT_ERROR("Rotation angle not within acceptable range")
-
         return Status::Failure;
     }
 
