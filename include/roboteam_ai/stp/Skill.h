@@ -69,7 +69,7 @@ namespace rtt::ai::stp {
          * Initializes the skill
          * @return Status of initialization
          */
-        virtual Status onInitialize() noexcept {};
+        virtual Status onInitialize() noexcept = 0;
 
         /**
          * Resets all the robot controllers in the RobotController struct
