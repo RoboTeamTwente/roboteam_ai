@@ -15,7 +15,7 @@ namespace rtt::ai::stp {
      * Base skill class, inherit from it for making your own skill
      */
     class Skill {
-    private:
+    protected:
         /**
          * Robot command that will be used for operations, such as publishing
          */
