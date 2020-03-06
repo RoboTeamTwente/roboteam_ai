@@ -6,8 +6,6 @@
 #define ROBOTEAM_AI_PASSCOACH_H
 
 #include <world/Field.h>
-#include <world/Robot.h>
-
 #include <chrono>
 #include <world_new/World.hpp>
 
