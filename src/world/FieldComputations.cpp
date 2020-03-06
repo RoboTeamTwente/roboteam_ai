@@ -163,13 +163,14 @@ std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const 
      * infinite line that intersects with the infinite line expansion of the goal side. After which intersection point of these lines is found and a projection is applied between
      * the intersection point and the goal side. Note that this projection is used, because the intersection point might not be on the goal side. In which case the point has to be
      * mapped to the bottommost or topmost position of the goal side. You can compare this code with computing the 'shadow' on the goal caused by the robot if the point is
-     * considered a 'light source'. Note also that we do not have to check whether the lines go parallel, because the isRobitItself and isInPotentialBlockingZone check guarantees
-     * that the lines will eventually intersect with each other and by this same check we know that the lines intersect in the right direction, i.e. if the robot was not in between
-     * that goal and the point then the lines can also intersect with the infinite line expansion of the goal side but never causes a blockade 'shadow' on the goal side. */
+     * considered a 'light source'. Due to the epsilon translation trick we guarantee that the program deals correctly with lines that go parrallel or do not intersection in the
+     * right direction. */
     double theta = asin(robotRadius / lenToBot);
     double length = sqrt(lenToBot * lenToBot - robotRadius * robotRadius);
     Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() - theta);
     Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() + theta);
+    lowerSideOfRobot.x = ourGoal ? fmin(point.x - EPSILON, lowerSideOfRobot.x) : fmax(point.x + EPSILON, lowerSideOfRobot.x);
+    upperSideOfRobot.x = ourGoal ? fmin(point.x - EPSILON, upperSideOfRobot.x) : fmax(point.x + EPSILON, upperSideOfRobot.x);
     Vector2 lowerMapToGoal = goalSide.project(util::twoLineIntersection(point, lowerSideOfRobot, goalSide.start, goalSide.end));
     Vector2 upperMapToGoal = goalSide.project(util::twoLineIntersection(point, upperSideOfRobot, goalSide.start, goalSide.end));
 
