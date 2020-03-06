@@ -290,23 +290,6 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
-    int maxDist = INT_MAX;
-    auto closestRobot = robots.at(0);
-    for (auto const &robot : robots) {
-        double dist;
-        if (lineWithEnds) {
-            dist = distanceToLine(robot->pos, lineStart, lineEnd);
-        } else {
-            dist = distanceToLineWithEnds(robot->pos, lineStart, lineEnd);
-        }
-        if (dist > maxDist) {
-            dist = maxDist;
-            closestRobot = robot;
-        }
-    }
-    return closestRobot;
-}
 
 const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
     int maxDist = INT_MAX;

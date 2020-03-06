@@ -10,8 +10,7 @@
 
 namespace rtt::ai::analysis {
 
-PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
-    int amountOfRobots = world::world->getUs().size();
+PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession, int amountOfRobots) {
 
     // subtract one robot if we have a keeper
     if (robotDealer::RobotDealer::keeperExistsInWorld()) {

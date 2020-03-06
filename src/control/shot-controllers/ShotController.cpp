@@ -27,7 +27,7 @@ RobotCommand ShotController::getRobotCommand(int robotId, const Vector2 &shotTar
 
     // check the properties
     bool isOnLineToBall = onLineToBall(robot.value(), lineToDriveOver, precision);
-    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(0.80, shotTarget, robot->get()->getPos(), 0.3);
+    bool isBehindBall = control::PositionUtils::isRobotBehindBallToPosition(ball.value(), 0.80, shotTarget, robot->get()->getPos(), 0.3);
     bool validAngle = robotAngleIsGood(robot.value(), lineToDriveOver, precision, ball.value());
 
     RobotCommand shotData;

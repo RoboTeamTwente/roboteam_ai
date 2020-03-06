@@ -36,8 +36,8 @@ bool PositionUtils::isRobotBehindBallToGoal(const Field &field, double distanceB
     return isRobotBehindBallToPosition(distanceBehindBall, goal, robotPosition, angleMargin);
 }
 
-bool PositionUtils::isRobotBehindBallToPosition(double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin) {
-    const Vector2 &ball = static_cast<Vector2>(world::world->getBall()->getPos());
+bool PositionUtils::isRobotBehindBallToPosition(world_new::view::BallView ballView, double distanceBehindBall, const Vector2 &position, const Vector2 &robotPosition, double angleMargin) {
+    const Vector2 &ball = static_cast<Vector2>(ballView->getPos());
     Vector2 behindBallPosition = getPositionBehindBallToPosition(distanceBehindBall, position);
     Vector2 deltaBall = behindBallPosition - ball;
 

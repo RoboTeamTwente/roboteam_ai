@@ -3,11 +3,7 @@
 //
 
 #include "coach/PassCoach.h"
-
-#include <world/World.h>
-
 #include <chrono>
-
 #include "coach/heuristics/PassScore.h"
 #include "utilities/RobotDealer.h"
 #include "world/FieldComputations.h"
@@ -66,13 +62,14 @@ int PassCoach::determineReceiver(const Field &field, int passerID) {
     coach::PassScore passScore;
     double bestScore = 0;
     int bestRobotID = -1;
-    auto passer = world::world->getRobotForId(passerID, true);
-    for (auto &robot : world::world->getUs()) {
+    auto passer = world_new::World::instance()->getWorld()->getRobotForId(passerID, true);
+
+    for (auto &robot : world_new::World::instance()->getWorld()->getUs()) {
         if (!validReceiver(field, passer, robot)) continue;
-        double score = passScore.calculatePassScore(field, robot->pos);
+        double score = passScore.calculatePassScore(field, robot->getPos());
         if (score > bestScore) {
             bestScore = score;
-            bestRobotID = robot->id;
+            bestRobotID = robot->getId();
         }
     }
 
@@ -118,31 +115,8 @@ void PassCoach::updatePassProgression() {
     }
 }
 
-bool PassCoach::validReceiver(const Field &field, const RobotPtr &passer, const RobotPtr &receiver, bool freeKick) {
-    auto ball = world::world->getBall();
-
-    if (!ball || !passer || !receiver) {
-        return false;
-    }
-    if (receiver->id == robotDealer::RobotDealer::getKeeperID() || receiver->id == passer->id) {
-        return false;
-    }
-
-    if (!freeKick) {
-        if (receiver->pos.x < -RECEIVER_MAX_DISTANCE_INTO_OUR_SIDE) {
-            return false;
-        }
-        auto MIN_PASS_DISTANCE = std::max((double)field.getGoalWidth() / 2, SMALLEST_MIN_PASS_DISTANCE);
-        if ((passer->pos - receiver->pos).length() < MIN_PASS_DISTANCE) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick) {
-        auto ball = world::world->getBall();
+        auto ball = world_new::World::instance()->getWorld()->getBall();
 
         if (!ball || !passer || !receiver) {
             return false;

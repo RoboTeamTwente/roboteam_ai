@@ -4,6 +4,7 @@
 
 #include "coach/heuristics/CoachHeuristics.h"
 #include <analysis/GameAnalyzer.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "control/ControlUtils.h"
 #include "world/FieldComputations.h"
 
@@ -54,9 +55,9 @@ double CoachHeuristics::getClosestOpponentAngleToPassLine(const Vector2 &positio
 
 /// Gives a higher score if the position is far away from enemy robots
 double CoachHeuristics::calculateDistanceToOpponentsScore(const Vector2 &position) {
-    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, THEIR_ROBOTS);
-    if (closestRobot && closestRobot->id != -1) {
-        double distance = (position - closestRobot->pos).length();
+    world_new::view::RobotView closestRobot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(position, world_new::Team::them);
+    if (closestRobot && closestRobot->getId() != -1) {
+        double distance = (position - closestRobot->getPos()).length();
         return 1 - exp(DISTANCE_TO_OPPONENTS_WEIGHT * distance);
     } else {
         return 1;
@@ -94,16 +95,16 @@ double CoachHeuristics::calculatePositionDistanceToBallScore(const world::Field 
 }
 
 double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID) {
-    std::vector<int> idVector;
-    for (auto &robot : world::world->getUs()) {
-        if (robot->id != thisRobotID) {
-            idVector.emplace_back(robot->id);
+    std::set<u_int8_t> idVector;
+    for (auto &robot : world_new::World::instance()->getWorld()->getUs()) {
+        if (robot->getId() != thisRobotID) {
+            idVector.insert(robot->getId());
         }
     }
 
-    RobotPtr closestRobot = world::world->getRobotClosestToPoint(position, idVector, true);
-    if (closestRobot && closestRobot->id != -1) {
-        double distance = (position - closestRobot->pos).length();
+    world_new::view::RobotView closestRobot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(position, idVector, true);
+    if (closestRobot && closestRobot->getId() != -1) {
+        double distance = (position - closestRobot->getPos()).length();
         return 1.0 - exp(DISTANCE_TO_US_WEIGHT * distance);
     } else {
         return 1.0;

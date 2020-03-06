@@ -6,7 +6,6 @@
 #define RTT_ALWAYSFALSEINVARIANT_H
 
 #include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/World.h>
 
 namespace rtt::ai::analysis {
 
