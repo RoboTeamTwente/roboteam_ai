@@ -12,7 +12,7 @@ Status Rotate::onInitialize() noexcept {
 }
 
 Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
-    double angle = info.getAngle();
+    float angle = info.getAngle();
     int dribblerSpeed = info.getDribblerSpeed();
 
     // Check if angle is in range

@@ -101,7 +101,7 @@ namespace rtt::ai::stp {
          */
          world_new::view::RobotView robot;
 
-        double getAngle() const { return angle; };
+        float getAngle() const { return angle; };
         void setAngle(double angle) { this->angle = angle; };
 
         int getDribblerSpeed() const { return dribblerSpeed; };
@@ -111,7 +111,7 @@ namespace rtt::ai::stp {
         /**
          * Reference angle of the robot
          */
-        double angle = 0.0;
+        float angle = 0.0;
 
         /**
          * Speed of the dribbler
