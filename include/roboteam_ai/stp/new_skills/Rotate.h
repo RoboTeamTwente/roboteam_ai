@@ -6,7 +6,6 @@
 #define RTT_ROTATE_H
 
 #include "include/roboteam_ai/stp/Skill.h"
-
 namespace rtt::ai::stp {
 
     class Rotate : public Skill {

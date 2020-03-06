@@ -104,7 +104,7 @@ namespace rtt::ai::stp {
         double getAngle() const { return angle; };
         void setAngle(double angle) { this->angle = angle; };
 
-        double getDribblerSpeed() const { return dribblerSpeed; };
+        int getDribblerSpeed() const { return dribblerSpeed; };
         void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; };
 
     private:
