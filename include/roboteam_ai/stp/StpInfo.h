@@ -7,6 +7,8 @@
 
 #include <roboteam_utils/Rectangle.h>
 #include <roboteam_utils/Circle.h>
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/BallView.hpp"
 
 namespace rtt::ai::stp {
 
@@ -67,10 +69,6 @@ namespace rtt::ai::stp {
          */
         world_new::view::RobotView passRobot;
 
-        /**
-         * Current world data that's used for calculations
-         */
-        world_new::view::WorldDataView world;
 
         /**
          * Position, could be position of robot, or whatever position the skill needs, maybe target position
