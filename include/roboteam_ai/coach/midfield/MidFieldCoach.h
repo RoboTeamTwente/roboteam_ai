@@ -11,7 +11,6 @@
 #include <world/FieldComputations.h>
 
 #include "coach/heuristics/CoachHeuristics.h"
-#include "world_new/World.hpp"
 
 namespace rtt::ai::coach {
 
