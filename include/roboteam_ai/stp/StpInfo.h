@@ -102,6 +102,23 @@ namespace rtt::ai::stp {
          * Robot this skill applies to
          */
          world_new::view::RobotView robot;
+
+        double getAngle() const { return angle; };
+        void setAngle(double angle) { this->angle = angle; };
+
+        double getDribblerSpeed() const { return dribblerSpeed; };
+        void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; };
+
+    private:
+        /**
+         * Reference angle of the robot
+         */
+        double angle = 0.0;
+
+        /**
+         * Speed of the dribbler
+         */
+        int dribblerSpeed = 0;
     };
 };
 
