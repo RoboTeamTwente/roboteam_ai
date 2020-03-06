@@ -35,9 +35,9 @@ bt::Node::Status AvoidBall::onUpdate() {
     Vector2 force = {0, 0};
 
     // forces from robots
-    for (auto &otherRobot : world::world->getAllRobots()) {
-        if (otherRobot->id != robot->get()->getId()) {
-            force = force + control::ControlUtils::calculateForce(robotPos - otherRobot->pos, robotWeight, minRobotDistanceForForce);
+    for (auto &otherRobot : world->getRobots()) {
+        if (otherRobot.getId() != robot->get()->getId()) {
+            force = force + control::ControlUtils::calculateForce(robotPos - otherRobot.getPos(), robotWeight, minRobotDistanceForForce);
         }
     }
     // check forces from ball

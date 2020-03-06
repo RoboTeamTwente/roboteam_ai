@@ -3,7 +3,6 @@
 //
 
 #include "analysis/play-utilities/Play.h"
-
 #include "analysis/play-utilities/invariants/AlwaysFalseInvariant.h"
 #include "analysis/play-utilities/invariants/BallBelongsToUsInvariant.h"
 #include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
@@ -11,7 +10,7 @@
 namespace rtt::ai::analysis {
 std::string_view Play::getName() { return name; }
 
-bool Play::isValidPlay(rtt::ai::world::World *world, const Field &field) {
+bool Play::isValidPlay(world_new::view::WorldDataView world, const world::Field &field) {
     return BallOnOurSideInvariant::isValid(world, field) && BallBelongsToUsInvariant::isValid(world, field) && AlwaysFalseInvariant::isValid(world, field);
 }
 

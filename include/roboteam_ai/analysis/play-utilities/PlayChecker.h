@@ -17,7 +17,7 @@ class PlayChecker {
      * Updates the PlayChecker. When this function is called, we check if the play is still valid for the current gamestate,
      * and if it is not new plays are calculated that are valid for the gamestate.
      */
-    bool update(world::World *world, const rtt::ai::world::Field &field);
+    bool update(world_new::view::WorldDataView world, const rtt::ai::world::Field &field);
 
    private:
     /**
@@ -26,7 +26,7 @@ class PlayChecker {
      * @param field the current field
      * @return true if invariants of the play being executed are true, false otherwise
      */
-    bool checkCurrentGameInvariants(rtt::ai::world::World *world, const rtt::ai::world::Field &field);
+    bool checkCurrentGameInvariants(world_new::view::WorldDataView world, const rtt::ai::world::Field &field);
 
     /**
      * Vector of all plays (before pruning)
@@ -50,7 +50,7 @@ class PlayChecker {
      * @param world the current world
      * @param field the current field
      */
-    void determineNewPlays(world::World *world, const world::Field &field);
+    void determineNewPlays(world_new::view::WorldDataView world, const world::Field &field);
 };
 }  // namespace rtt::ai::analysis
 
