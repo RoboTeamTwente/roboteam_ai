@@ -22,15 +22,6 @@ rtt::Vector2 PositionUtils::getPositionBehindBallToGoal(const Field &field, doub
     return getPositionBehindBallToPosition(distanceBehindBall, goal);
 }
 
-Vector2 PositionUtils::getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID) {
-    Vector2 robot;
-    if (world::world->getRobotForId(robotID, ourRobot)) {
-        robot = world::world->getRobotForId(robotID, ourRobot).get()->pos;
-        return getPositionBehindBallToPosition(distanceBehindBall, robot);
-    }
-    return Vector2();
-}
-
 Vector2 PositionUtils::getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position) {
     auto ball = world::world->getBall();
     if (!ball) return {};

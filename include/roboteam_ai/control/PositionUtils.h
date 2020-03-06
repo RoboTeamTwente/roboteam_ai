@@ -15,7 +15,6 @@ using namespace rtt::ai::world;
 class PositionUtils {
    public:
     static Vector2 getPositionBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal);
-    static Vector2 getPositionBehindBallToRobot(double distanceBehindBall, bool ourRobot, const unsigned int &robotID);
     static Vector2 getPositionBehindBallToPosition(double distanceBehindBall, const Vector2 &position);
     static Vector2 getPositionBehindPositionToPosition(double distanceBehindBall, const Vector2 &behindPosition, const Vector2 &toPosition);
     static bool isRobotBehindBallToGoal(const Field &field, double distanceBehindBall, bool ourGoal, const Vector2 &robotPos, double angleMargin = 0.15);

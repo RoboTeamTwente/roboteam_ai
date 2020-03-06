@@ -1,9 +1,7 @@
 #include "treeinterp/tactics/DefaultTactic.h"
 #include "world/BallPossession.h"
 #include <analysis/GameAnalyzer.h>
-#include <world/World.h>
 #include <world/WorldData.h>
-
 #include "utilities/RobotDealer.h"
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
@@ -79,7 +77,7 @@ bool DefaultTactic::updateRobots() {
 
 void DefaultTactic::disClaimRobots(int amount) {
     for (auto robot : robotIDs) {
-        if (!rtt::ai::world::world->getRobotForId(robot)) {
+        if (!world->getRobotForId(robot)) {
             dealer::refresh();
             return;
         }
