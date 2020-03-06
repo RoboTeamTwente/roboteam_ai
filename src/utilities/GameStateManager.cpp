@@ -148,7 +148,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
     }
 
     auto stage = refMsg.stage();
-    strategymanager.setCurrentRefGameState(cmd, stage);
+    strategymanager.setCurrentRefGameState(cmd, stage, world_new::World::instance()->getWorld()->getBall());
 }
 
 // Initialize static variables
@@ -177,7 +177,7 @@ void GameStateManager::forceNewGameState(RefCommand cmd) {
 
     // overwrite both the interface and the strategy manager.
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));
-    strategymanager.forceCurrentRefGameState(cmd);
+    strategymanager.forceCurrentRefGameState(cmd, world_new::World::instance()->getWorld()->getBall());
 }
 
 bool GameStateManager::canEnterDefenseArea(int robotId) {

@@ -1,12 +1,11 @@
 #ifndef ROBOTEAM_AI_BALLPOSSESSION_H
 #define ROBOTEAM_AI_BALLPOSSESSION_H
 
+#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 #include "Field.h"
-#include "World.h"
 #include "gtest/gtest_prod.h"
 
 namespace rtt::ai {
-using namespace rtt::ai::world;
 
 /**
  * Computes and stores the ball possession state which indicates which team controls the ball (can also be both/no team).
@@ -15,10 +14,8 @@ using namespace rtt::ai::world;
  * @since 2019-04-15
  */
 class BallPossession {
-    FRIEND_TEST(BallPossessionTest, team_far_or_close_to_ball);
-    FRIEND_TEST(BallPossessionTest, it_properly_computes);
-
    private:
+     unsigned long previousTime = 0;
     const double MIDDLE_LINE_X = 0.0;  // The x coordinate that corresponds to the middle of the field.
     /* If a teams distance to the ball is larger or equal than STANDARD_FAR_THRESHOLD at a moment then that team is
      * considered to be far from the ball at that moment. */
@@ -53,7 +50,7 @@ class BallPossession {
     /**
      * Runs every tick to update which team possess the ball (can also be both/no team).
      */
-    void update(const Field &field);
+    void update(world_new::view::WorldDataView world, const world::Field &field);
 
     /**
      * Check which team possess the ball (can also be both/no team).
@@ -73,24 +70,24 @@ class BallPossession {
      * Updates all close and far away times (for how many seconds uninterrupted each team has remained close/far from
      * the ball).
      */
-    void updateCloseAndFarTimes();
+    void updateCloseAndFarTimes(world_new::view::WorldDataView world);
 
     /**
      * Checks if a team is currently (at this moment) relatively close to the ball. Returns true if that team is close
      * to the ball, returns false if that team is not close to the ball.
      */
-    bool teamCloseToBall(const world::WorldData &world, bool ourTeam);
+    bool teamCloseToBall(world_new::view::WorldDataView world, bool ourTeam);
 
     /**
      * Checks if a team is currently (at this moment) relatively far from the ball. Returns true if that team is far
      * away from the ball, returns false if that team is not far away from the ball.
      */
-    bool teamFarFromBall(const world::WorldData &world, bool ourTeam);
+    bool teamFarFromBall(world_new::view::WorldDataView world, bool ourTeam);
 
     /**
      * Recompute which team possess the ball (can also be both/no team).
      */
-    void recomputeState(const Field &field);
+    void recomputeState(world_new::view::WorldDataView world, const world::Field &field);
 };
 
 extern BallPossession ballPossession;

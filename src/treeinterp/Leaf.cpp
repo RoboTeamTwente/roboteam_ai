@@ -1,7 +1,5 @@
 #include "include/roboteam_ai/treeinterp/Leaf.h"
-
 #include <memory>
-#include <world/World.h>
 #include <roboteam_utils/Print.h>
 #include "utilities/RobotDealer.h"
 #include <world_new/World.hpp>
@@ -16,7 +14,8 @@ std::optional<rtt::world_new::view::RobotView> Leaf::getRobotFromProperties(cons
     if (properties->hasString("ROLE")) {
         std::string roleName = properties->getString("ROLE");
         robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
-        if (rtt::ai::world::world->getRobotForId(robotId, true)) {
+
+        if (world->getRobotForId(robotId, true)) {
             if (robotId == -1) {
                 RTT_WARNING("getting robot for id with id = -1!!!")
             }
