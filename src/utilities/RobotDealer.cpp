@@ -61,7 +61,6 @@ void RobotDealer::updateFromWorld() {
     for (const auto &robotID : robotIDs) {
         if (currentRobots.find(robotID) == currentRobots.end()) {
             if (robotID == keeperID) {
-                RTT_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -400,7 +399,6 @@ void RobotDealer::refresh() {
 }
 
 bool RobotDealer::keeperExistsInWorld() {
-
     auto worldOpt = world_new::World::instance()->getWorld();
     if (worldOpt) {
         auto us = worldOpt->getUs();

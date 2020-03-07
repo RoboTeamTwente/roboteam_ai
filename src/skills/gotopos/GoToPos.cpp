@@ -2,6 +2,7 @@
 // Created by baris on 24/10/18.
 //
 
+#include <roboteam_utils/Print.h>
 #include "skills/gotopos/GoToPos.h"
 
 namespace rtt::ai {
@@ -12,7 +13,7 @@ GoToPos::GoToType GoToPos::stringToGoToType(const std::string &gtt) {
     if (gtt == "basic") return basic;
     if (gtt == "numTrees") return numTree;
 
-    std::cerr << "SkillGoToPos::onInitialize -> no good goToType set in properties. Using numtrees" << std::endl;
+    RTT_WARNING("no good goToType set in properties. Using numtrees")
     return numTree;
 }
 

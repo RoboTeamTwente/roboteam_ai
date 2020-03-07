@@ -21,7 +21,7 @@ std::optional<rtt::world_new::view::RobotView> Leaf::getRobotFromProperties(cons
             }
             return rtt::world_new::World::instance()->getWorld()->getRobotForId(robotId, true);
         } else {
-            RTT_WARNING(node_name(), " Initialize -> robot ", robotId, " does not exist in world")
+            RTT_WARNING(node_name(), "::Initialize -> robot ", robotId, " does not exist in world")
         }
     } else {
         RTT_WARNING(node_name(), " Initialize -> robot ", robotId, " role status: waiting!")
