@@ -52,7 +52,7 @@ std::vector<view::RobotView> const &WorldData::getThem() const noexcept { return
 std::vector<rtt::world_new::robot::Robot> const &WorldData::getRobots() const noexcept { return robots; }
 
 std::optional<view::BallView> WorldData::getBall() const noexcept {
-    if (ball.has_value()) {
+    if (ball && ball.has_value()) {
         return std::optional<view::BallView>(&ball.value());
     } else {
         return std::nullopt;

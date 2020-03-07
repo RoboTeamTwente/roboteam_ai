@@ -21,7 +21,7 @@ namespace rtt {
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
-    ai::GameStateManager::forceNewGameState(RefCommand::HALT);
+    ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
@@ -182,11 +182,11 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             break;
         case Status::Success:
             RTT_SUCCESS("Tree returned status: success! -> Changing strategy to normal_play");
-            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, world_new::World::instance()->getWorld()->getBall());
             break;
         case Status::Failure:
             RTT_WARNING("Tree returned status: failure! -> Changing strategy to normal_play");
-            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, world_new::World::instance()->getWorld()->getBall());
             break;
         case Status::Waiting:
             RTT_INFO("Tree returned status: waiting");

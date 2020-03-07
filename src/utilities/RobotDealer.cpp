@@ -401,9 +401,13 @@ void RobotDealer::refresh() {
 
 bool RobotDealer::keeperExistsInWorld() {
 
-    for (auto const &robot : world_new::World::instance()->getWorld()->getUs()) {
-        if (robot && robot->getId() == getKeeperID()) {
-            return true;
+    auto worldOpt = world_new::World::instance()->getWorld();
+    if (worldOpt) {
+        auto us = worldOpt->getUs();
+        for (auto const &robot : us) {
+            if (robot && robot->getId()==getKeeperID()) {
+                return true;
+            }
         }
     }
     return false;

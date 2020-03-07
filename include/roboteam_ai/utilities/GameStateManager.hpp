@@ -20,7 +20,7 @@ class GameStateManager {
     static GameState getCurrentGameState();
     static bool canEnterDefenseArea(int robotId);
     static bool canMoveOutsideField(int robotId);
-    static void forceNewGameState(RefCommand cmd);
+    static void forceNewGameState(RefCommand cmd, std::optional<world_new::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
 
    private:

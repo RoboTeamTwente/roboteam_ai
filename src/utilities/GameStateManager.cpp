@@ -172,12 +172,13 @@ GameState GameStateManager::getCurrentGameState() {
     return newGameState;
 }
 
-void GameStateManager::forceNewGameState(RefCommand cmd) {
+void GameStateManager::forceNewGameState(RefCommand cmd, std::optional<world_new::view::BallView> ball) {
     RTT_INFO("Forcing new refstate!");
 
     // overwrite both the interface and the strategy manager.
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));
-    strategymanager.forceCurrentRefGameState(cmd, world_new::World::instance()->getWorld()->getBall());
+
+    strategymanager.forceCurrentRefGameState(cmd, ball);
 }
 
 bool GameStateManager::canEnterDefenseArea(int robotId) {
