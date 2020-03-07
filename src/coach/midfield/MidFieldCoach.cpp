@@ -2,9 +2,9 @@
 // Created by robzelluf on 5/27/19.
 //
 
-#include "coach/midField/MidFieldCoach.h"
 #include <include/roboteam_ai/world_new/World.hpp>
 #include <roboteam_utils/Print.h>
+#include <include/roboteam_ai/coach/midfield/MidFieldCoach.h>
 
 namespace rtt::ai::coach {
 
