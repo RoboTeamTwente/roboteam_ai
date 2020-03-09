@@ -6,18 +6,59 @@
 #define RTT_PLAY_HPP
 
 #include <array>
+
+#include "world_new/World.hpp"
 #include "Role.hpp"
 
 namespace rtt::ai::stp {
 
+    /**
+     * Play class that's used in the STP model
+     * on update traverses every Role, and updates it.
+     */
     class Play {
     public:
         constexpr static size_t ROBOT_COUNT = 11;
 
-        [[nodiscard]] virtual Status update(TacticInfo const& info);
+        /**
+         * Updates all the roles
+         * @param info Information to pass down to the Roles
+         * @return Status depending on return value,
+         * if all finished -> finished
+         * if any failed -> failed
+         * if any waiting -> waiting
+         * otherwise -> running
+         */
+        [[nodiscard]] virtual Status update(TacticInfo const& info) noexcept;
+
+        /**
+         * Checks whether the current play is a valid play
+         * @param world World to check for (world_new::World::instance())
+         * @return true if valid, false if not
+         */
+        [[nodiscard]] virtual bool isValidPlay(world_new::World* world) const noexcept = 0;
+
+        /**
+         * Gets the score for the current play
+         *
+         * On the contrary to isValidPlay() this checks how good the play actually is
+         * return in range of 0 - 100
+         *
+         * @param world World to get the score for (world_new::World::instance())
+         * @return The score, 0 - 100
+         */
+        [[nodiscard]] virtual uint8_t score(world_new::World* world) const noexcept = 0;
+
+        /**
+         * Virtual default ctor, ensures proper destruction of Play
+         */
+        virtual ~Play() = default;
 
     protected:
-        std::array<Role, ROBOT_COUNT> roles;
+        /**
+         * The roles, probably constructed in the parameter
+         */
+        std::array<std::unique_ptr<Role>, ROBOT_COUNT> roles;
     };
 
 } // namespace rtt::ai::stp
