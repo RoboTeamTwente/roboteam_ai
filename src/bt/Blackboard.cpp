@@ -1,7 +1,6 @@
 #include "bt/Blackboard.h"
 
 #include <memory>
-#include <string>
 #include <utility>
 
 #include "roboteam_proto/StringEntry.pb.h"

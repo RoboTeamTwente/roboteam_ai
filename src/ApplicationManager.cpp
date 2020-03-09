@@ -11,6 +11,7 @@
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
 #include "roboteam_utils/normalize.h"
+#include <roboteam_utils/Print.h>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -23,6 +24,8 @@ using namespace rtt::ai::world;
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT);
+    RTT_INFO("Start looping");
+    RTT_INFO("Waiting for field_data and robots...");
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -46,17 +49,23 @@ void ApplicationManager::start() {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     if (io::io.hasReceivedGeom) {
+        if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
+        fieldInitialized = true;
+
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
 
         if (!SETTINGS.isLeft()) {
-         //   roboteam_utils::rotate(&fieldMessage);
             roboteam_utils::rotate(&worldMessage);
         }
 
         world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
         if (!world->getUs().empty()) {
+            if (!robotsInitialized) {
+                RTT_SUCCESS("Received robots, starting behaviour trees!")
+            }
+            robotsInitialized = true;
 
             world_new::World::instance()->updateWorld(worldMessage);
             world_new::World::instance()->updateField(fieldMessage);
@@ -69,11 +78,17 @@ void ApplicationManager::runOneLoopCycle() {
             Status status = runStrategyTree(field);
             this->notifyTreeStatus(status);
         } else {
-            std::cout << "[ApplicationManager::runOneLoopCycle] No robots from our team in world yet" << std::endl;
+            if (robotsInitialized) {
+                RTT_WARNING("No robots found in world. Behaviour trees are not running")
+                robotsInitialized = false;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds (100));
         }
     } else {
-        std::cout << "[ApplicationManager::runOneLoopCycle] No field yet" << std::endl;
+        if (fieldInitialized) {
+            RTT_WARNING("No field data present!")
+            fieldInitialized = false;
+        }
         std::this_thread::sleep_for(std::chrono::milliseconds (100));
     }
     /*
@@ -95,11 +110,13 @@ void ApplicationManager::updateTrees() {
     bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
 
     if (strategyChanged) {
+        RTT_INFO("Switching main strategy to ", strategyName);
         BTFactory::setCurrentTree(strategyName);
         oldStrategyName = strategyName;
     }
 
     if (keeperStrategyChanged) {
+        RTT_INFO("Switching keeper strategy to ", keeperTreeName)
         BTFactory::setKeeperTree(keeperTreeName);
         oldKeeperTreeName = keeperTreeName;
     }
@@ -121,7 +138,7 @@ void ApplicationManager::runKeeperTree(const Field & field) {
 /// Tick the strategy tree if the tree exists
 Status ApplicationManager::runStrategyTree(const Field & field) {
     if (BTFactory::getCurrentTree() == "NaN") {
-        std::cout << "NaN tree probably Halting" << std::endl;
+        RTT_ERROR("Current tree is NaN! The tree might be halting");
         return Status::Waiting;
     }
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
@@ -165,15 +182,15 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         case Status::Running:
             break;
         case Status::Success:
-            std::cout << " === TREE SUCCESS -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+            RTT_SUCCESS("Tree returned status: success! -> Changing strategy to normal_play");
             ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
             break;
         case Status::Failure:
-            std::cout << " === TREE FAILURE -> CHANGE TO NORMAL_PLAY_STRATEGY === " << std::endl;
+            RTT_WARNING("Tree returned status: failure! -> Changing strategy to normal_play");
             ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
             break;
         case Status::Waiting:
-            std::cout << " === Status returned: Waiting === " << std::endl;
+            RTT_INFO("Tree returned status: waiting");
             break;
     }
 }
