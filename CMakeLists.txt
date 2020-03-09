@@ -159,6 +159,12 @@ set(NEW_SKILLS_SOURCES
 set(NEW_TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         )
+
+set(STP_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
+        )
+
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
@@ -321,7 +327,8 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        src/stp/Role.cpp include/roboteam_ai/stp/Role.hpp include/roboteam_ai/stp/Play.cpp include/roboteam_ai/stp/Play.hpp)
+        ${STP_SOURCES}
+        )
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
