@@ -4,15 +4,14 @@
 
 #include "stp/new_skills/SetDribbler.h"
 
-namespace rtt::ai {
+namespace rtt::ai::stp {
 
-SetDribbler::SetDribbler(std::string name, bt::Blackboard::Ptr blackboard)
-    : Skill(std::move(name), std::move(blackboard)) {}
-
-void SetDribbler::onInitialize() { Skill::onInitialize(); }
-
-SetDribbler::Status SetDribbler::onUpdate() {
-  int dribblerSpeed = properties->getInt("dribblerSpeed");
+Status SetDribbler::onInitialize() noexcept {
+    return Status::Success;
+}
+//TODO implement this skill again
+Status SetDribbler::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+/*
 
   if (dribblerSpeed < 0 || dribblerSpeed > 255) {
       return Status::Failure;
@@ -21,10 +20,11 @@ SetDribbler::Status SetDribbler::onUpdate() {
   command.set_dribbler(dribblerSpeed);
 
   publishRobotCommand();
+*/
 
   return Status::Running;
 }
 
-void SetDribbler::onTerminate(Skill::Status) {}
+Status SetDribbler::onTerminate() noexcept {}
 
 }  // namespace rtt::ai

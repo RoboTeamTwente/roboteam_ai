@@ -62,12 +62,12 @@ namespace rtt::ai::stp {
         /**
          * View to the ball in the world this tactic executes on
          */
-        world_new::view::BallView ball;
+        std::optional<world_new::view::BallView> ball;
 
         /**
          * Robot to pass to
          */
-        world_new::view::RobotView passRobot;
+        std::optional<world_new::view::RobotView> passRobot;
 
         Vector2 getPosition() const { return position; };
         void setPosition(Vector2 position) { this->position = position; };
