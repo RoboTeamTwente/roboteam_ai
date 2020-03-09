@@ -26,7 +26,7 @@ class Tactic {
         virtual SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept = 0;
 
         virtual void onInitialize() noexcept = 0;
-        virtual Status onUpdate(SkillInfo const &info) noexcept = 0;
+        virtual Status onUpdate(TacticInfo const &info) noexcept = 0;
         virtual void onTerminate() noexcept = 0;
 
     protected:
