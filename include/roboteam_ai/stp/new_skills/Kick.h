@@ -5,7 +5,7 @@
 #ifndef RTT_KICK_H
 #define RTT_KICK_H
 
-#include <include/roboteam_ai/stp/Skill.h>
+#include "include/roboteam_ai/stp/Skill.h"
 
 namespace rtt::ai::stp {
 
