@@ -70,14 +70,6 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
         )
 
 set(UTILS_SOURCES
@@ -330,7 +322,7 @@ set(AI_SOURCES
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
         ${STP_SOURCES}
-        )
+        include/roboteam_ai/stp/PlayChecker.cpp include/roboteam_ai/stp/PlayChecker.hpp)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

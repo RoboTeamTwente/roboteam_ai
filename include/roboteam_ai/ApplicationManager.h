@@ -8,8 +8,7 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
-#include "analysis/play-utilities/PlayChecker.h"
-#include "analysis/play-utilities/PlayDecider.h"
+#include <include/roboteam_ai/stp/PlayChecker.hpp>
 #include "treeinterp/BTFactory.h"
 #include "utilities/IOManager.h"
 namespace rtt {
@@ -31,11 +30,11 @@ class ApplicationManager {
     /**
      * Checks which plays are valid out of all the plays
      */
-    rtt::ai::analysis::PlayChecker playChecker;
+    rtt::ai::stp::PlayChecker playChecker;
     /**
      * Checks, out of the valid plays, which play is the best to choose
      */
-    rtt::ai::analysis::PlayDecider playDecider;
+    rtt::ai::stp::PlayDecider playDecider;
     /**
      * Function that decides whether to change plays given a world and field.
      * @param world the current world state
