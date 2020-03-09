@@ -108,6 +108,9 @@ namespace rtt::ai::stp {
         world_new::view::RobotView getRobot() const { return robot; };
         void setRobot(world_new::view::RobotView robot) { this->robot = robot; };
 
+        double getKickChipVelocity() const { return kickChipVelocity; };
+        void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; };
+
         float getAngle() const { return angle; };
         void setAngle(double angle) { this->angle = angle; };
 
@@ -124,6 +127,11 @@ namespace rtt::ai::stp {
          * Robot this skill applies to
          */
         world_new::view::RobotView robot;
+
+        /**
+         * Velocity of the kick/chip
+         */
+        double kickChipVelocity = 0.0;
 
         /**
          * Reference angle of the robot
