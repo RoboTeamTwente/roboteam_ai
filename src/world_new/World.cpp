@@ -32,7 +32,10 @@ void World::toHistory(WorldData &world) noexcept {
 }
 
 std::optional<view::WorldDataView> World::getWorld() const noexcept {
-    if (currentWorld) {
+    /**
+     * Possibly there's an issue in GCC that std::optional<T>::operator bool causes undefined behavior.
+     */
+    if (currentWorld.has_value()) {
         /**
          * *currentWorld == a ref to the world data
          * &*currentWorld == a pointer to the world data

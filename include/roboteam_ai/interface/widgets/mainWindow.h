@@ -56,7 +56,6 @@ class MainWindow : public QMainWindow {
     void refreshJSONSignal();
 
    private:
-    const rtt::world_new::World &worldManager;
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *mainLayout;
     QVBoxLayout *vLayout;
