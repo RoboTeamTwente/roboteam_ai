@@ -71,7 +71,6 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updateField(fieldMessage);
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world, field);
             updateTrees();
             updateCoaches(field);
             runKeeperTree(field);
@@ -192,14 +191,6 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
         case Status::Waiting:
             RTT_INFO("Tree returned status: waiting");
             break;
-    }
-}
-
-void ApplicationManager::decidePlay(ai::world::World *world, const ai::world::Field &field) {
-    bool stillValidPlay = playChecker.update(world, field);
-    if (!stillValidPlay) {
-        auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
-        BTFactory::setCurrentTree(bestplay);
     }
 }
 

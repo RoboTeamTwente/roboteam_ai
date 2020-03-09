@@ -102,11 +102,6 @@ bool BTFactory::hasMadeTrees() {
     return BTFactory::weMadeTrees;
 }
 
-void BTFactory::setCurrentTree(rtt::ai::analysis::Play *play) {
-    std::cout << "setting the play to " << play->getName() << std::endl;
-    BTFactory::play = play;
-}
-
 void BTFactory::setCurrentTree(const std::string &newTree) {
     {
         std::lock_guard<std::mutex> lock(keeperTreeMutex);

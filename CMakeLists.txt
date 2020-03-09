@@ -70,7 +70,6 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-
         )
 
 set(UTILS_SOURCES
@@ -148,21 +147,18 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
 set(NEW_TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
         )
-set(NEW_PLAY_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/PlayChecker.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/invariants/BallBelongsToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/invariants/BallOnOurSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/invariants/AlwaysFalseInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/invariants/AlwaysTrueInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/PlayDecider.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/play-utilities/AggressivePlay.cpp
+
+set(STP_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         )
+
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
@@ -240,8 +236,9 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
-        test/StpTests/tactic_tests/testTactic.cpp)
+        )
 
 
 set(INTERFACE_SOURCES
@@ -318,7 +315,6 @@ set(AI_SOURCES
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
         ${NEW_TACTIC_SOURCES}
-        ${NEW_PLAY_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
@@ -326,6 +322,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        ${STP_SOURCES}
         )
 
 set(AI_LIBS
