@@ -14,7 +14,7 @@ namespace rtt::ai::stp {
 class Skill;
 
 class Tactic {
-    private:
+    protected:
         /**
          * This function should calculate any extra information that the skills might need to be executed.
          * Things that should be calculated are for example how hard the kicker should shoot to get to the desired position
