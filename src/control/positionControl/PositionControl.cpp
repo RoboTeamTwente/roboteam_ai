@@ -25,7 +25,7 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
 
     RobotCommand command = RobotCommand();
     command.pos = computedPaths[robotId].front();
-    Position trackingVelocity = pathTrackingAlgorithm.trackPath(currentPosition, currentVelocity, computedPaths[robotId], robotId);
+    Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity, computedPaths[robotId], robotId);
     command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
     command.angle = trackingVelocity.rot;
 

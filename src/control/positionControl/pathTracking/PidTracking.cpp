@@ -6,7 +6,7 @@
 
 namespace rtt::ai::control {
 
-Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId) {
+Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle) {
     PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
     if (pidMapping.find(robotId) == pidMapping.end()){
         pidMapping[robotId] = std::make_pair(PID(), PID());
@@ -18,7 +18,8 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     Vector2 velocity;
     velocity.x = pidMapping[robotId].first.getOutput(currentPosition.x, pathPoints.front().x);
     velocity.y = pidMapping[robotId].second.getOutput(currentPosition.y, pathPoints.front().y);
-    return Position(velocity, (pathPoints.front() - currentPosition).angle());
+
+    return {velocity, angle};
 }
 
 void PidTracking::updatePidValuesFromInterface() {

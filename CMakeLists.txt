@@ -221,7 +221,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
 
-        )
+        include/roboteam_ai/control/positionControl/pathTracking/PathTrackingAlgorithm.h)
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
@@ -313,7 +313,7 @@ set(COACH_SOURCES
         ${PROJECT_SOURCE_DIR}/src/coach/defence/DefenceDealer.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/defence/PossiblePass.cpp
         ${PROJECT_SOURCE_DIR}/src/coach/midfield/MidFieldCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
+        ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp)
 
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
