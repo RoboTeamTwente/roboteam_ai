@@ -321,7 +321,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        )
+        src/stp/Role.cpp include/roboteam_ai/stp/Role.hpp)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

@@ -9,12 +9,13 @@
 #include "analysis/play-utilities/invariants/BallOnOurSideInvariant.h"
 
 namespace rtt::ai::analysis {
-std::string_view Play::getName() { return name; }
+    std::shared_ptr<bt::BehaviorTree> Play::getTree() const noexcept { return tree; }
 
-bool Play::isValidPlay(rtt::ai::world::World *world, const Field &field) {
-    return BallOnOurSideInvariant::isValid(world, field) && BallBelongsToUsInvariant::isValid(world, field) && AlwaysFalseInvariant::isValid(world, field);
-}
+    bool Play::isValidPlay(rtt::ai::world::World *world) const noexcept {
+        return false;
+    }
 
-const std::shared_ptr<bt::BehaviorTree> &Play::getTree() const { return tree; }
-
+    uint8_t Play::scorePlay(rtt::ai::world::World *world) const noexcept {
+        return 0;
+    }
 }  // namespace rtt::ai::analysis
