@@ -10,9 +10,25 @@ namespace rtt::ai::stp {
 void Tactic::initialize() noexcept {
     onInitialize();
 }
+
 Status Tactic::update(TacticInfo const &info) noexcept {
-    return onUpdate(calculateInfoForSkill(info));
+    // Check if the skills are all finished
+    if(skills.finished()) {
+        return Status::Success;
+    }
+
+    // Update skill info
+    auto skill_info = calculateInfoForSkill(info);
+
+    // Update the current skill with the new SkillInfo
+    auto status = skills.update(skill_info);
+
+    // Call onUpdate on a skill for specific behaviour
+    onUpdate(status);
+
+    return status;
 }
+
 void Tactic::terminate() noexcept {
     onTerminate();
 }

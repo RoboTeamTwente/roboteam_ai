@@ -26,10 +26,9 @@ class Tactic {
         virtual SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept = 0;
 
         virtual void onInitialize() noexcept = 0;
-        virtual Status onUpdate(TacticInfo const &info) noexcept = 0;
+        virtual void onUpdate(Status const &status) noexcept = 0;
         virtual void onTerminate() noexcept = 0;
 
-    protected:
         rtt::collections::state_machine<Skill, Status, SkillInfo> skills;
 
     public:

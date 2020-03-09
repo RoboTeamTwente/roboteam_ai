@@ -16,14 +16,8 @@ void TestTactic::onInitialize() noexcept {
     skills.initialize();
 }
 
-Status TestTactic::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
-    // Check if the skills are all finished
-    if(skills.finished()) {
-        return Status::Success;
-    }
+void TestTactic::onUpdate(Status const &status) noexcept {
 
-    // Update the current skill with the new SkillInfo
-    return skills.update(info);
 }
 
 void TestTactic::onTerminate() noexcept {
@@ -31,6 +25,14 @@ void TestTactic::onTerminate() noexcept {
     for(auto &x : skills) {
         x->terminate();
     }
+}
+
+SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept {
+    SkillInfo skillInfo;
+
+    /// Update the skillInfo parameters here
+
+    return skillInfo;
 }
 
 } // namespace rtt::ai::stp

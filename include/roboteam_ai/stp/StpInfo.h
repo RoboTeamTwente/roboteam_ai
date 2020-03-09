@@ -123,7 +123,7 @@ namespace rtt::ai::stp {
         /**
          * Robot this skill applies to
          */
-        world_new::view::RobotView robot;
+        std::optional<world_new::view::RobotView> robot;
 
         /**
          * Reference angle of the robot
