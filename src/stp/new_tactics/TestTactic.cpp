@@ -16,9 +16,7 @@ void TestTactic::onInitialize() noexcept {
     skills.initialize();
 }
 
-void TestTactic::onUpdate(Status const &status) noexcept {
-
-}
+void TestTactic::onUpdate(Status const &status) noexcept {}
 
 void TestTactic::onTerminate() noexcept {
     // Call terminate on all skills
@@ -27,7 +25,7 @@ void TestTactic::onTerminate() noexcept {
     }
 }
 
-SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept {
+SkillInfo TestTactic::calculateInfoForSkill(TacticInfo const &info) noexcept {
     SkillInfo skillInfo;
 
     /// Update the skillInfo parameters here

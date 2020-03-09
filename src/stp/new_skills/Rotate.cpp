@@ -35,7 +35,7 @@ Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = 0.03 * M_PI;
-    if (info.getRobot()->getAngle().shortestAngleDiff(angle) <= errorMargin) {
+    if (info.getRobot().value()->getAngle().shortestAngleDiff(angle) <= errorMargin) {
         return Status::Success;
     } else {
         return Status::Running;

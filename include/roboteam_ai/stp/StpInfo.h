@@ -105,7 +105,7 @@ namespace rtt::ai::stp {
         TacticInfo getTacticInfo() const { return tacticInfo; };
         void setTacticInfo(TacticInfo tacticInfo) { this->tacticInfo = tacticInfo; };
 
-        world_new::view::RobotView getRobot() const { return robot; };
+        std::optional<world_new::view::RobotView> getRobot() const { return robot; };
         void setRobot(world_new::view::RobotView robot) { this->robot = robot; };
 
         float getAngle() const { return angle; };
