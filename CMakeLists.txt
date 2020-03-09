@@ -14,31 +14,7 @@ set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 
 include(cotire)
 include(FindSDL2)
-
-# Find programs and assign the boolean to the variables, find_program(variable binary)
-find_program(CCACHE ccache)
-find_program(GCC g++)
-find_program(CLANG clang++)
-
-# Some ccache logic
-if (CLANG)
-    set(CXX_COMPILER clang++)           # Set the compiler
-    set(CXX_COMPILER_PATH ${CLANG})     # Set the path of the compiler, for if ccache not is used
-elseif (GCC)
-    set(CXX_COMPILER g++)               # Set the compiler
-    set(CXX_COMPILER_PATH ${GCC})       # Set the path of the compiler, for if ccache not is used
-endif()
-
-if(CCACHE)
-    if(APPLE)
-        set(CMAKE_CXX_COMPILER "/usr/local/Cellar/ccache/3.7.7/libexec/${CXX_COMPILER}")
-    else()
-        set(CMAKE_CXX_COMPILER "/lib/ccache/bin/${CXX_COMPILER}")
-    endif()
-else()
-    set(CMAKE_CXX_COMPILER "${CXX_COMPILER_PATH}")
-endif()
-# end of ccache logic
+include(ccache)
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
@@ -177,9 +153,8 @@ set(SKILLS_SOURCES
 
 set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
-
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -259,6 +234,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         )
 
 
