@@ -14,7 +14,6 @@ std::map<std::string, bt::BehaviorTree::Ptr> BTFactory::codeTrees;
 std::string BTFactory::currentTree = "NaN";
 std::string BTFactory::keeperTree;
 std::mutex BTFactory::keeperTreeMutex;
-rtt::ai::analysis::Play *BTFactory::play;
 bool BTFactory::weMadeTrees = false;
 
 /// Initiate the BTFactory
@@ -100,11 +99,6 @@ void BTFactory::halt() {
 bool BTFactory::hasMadeTrees() {
     std::lock_guard<std::mutex> lock(keeperTreeMutex);
     return BTFactory::weMadeTrees;
-}
-
-void BTFactory::setCurrentTree(rtt::ai::analysis::Play *play) {
-    std::cout << "setting the play to " << play->getName() << std::endl;
-    BTFactory::play = play;
 }
 
 void BTFactory::setCurrentTree(const std::string &newTree) {
