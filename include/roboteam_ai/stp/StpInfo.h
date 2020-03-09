@@ -69,11 +69,11 @@ namespace rtt::ai::stp {
          */
         world_new::view::RobotView passRobot;
 
+        Vector2 getPosition() const { return position; };
+        void setPosition(Vector2 position) { this->position = position; };
 
-        /**
-         * Position, could be position of robot, or whatever position the skill needs, maybe target position
-         */
-        Vector2 position;
+        std::optional<Field> getField() const { return field; };
+        void setField(std::optional<Field> field) { this->field = field; };
 
         /**
          * Maximum speed that something can have, the ball, the robot... whatever the skill needs
@@ -84,6 +84,17 @@ namespace rtt::ai::stp {
          * Areas to avoid, read Areas<T> for more info
          */
         Areas<Rectangle> areasToAvoid;
+
+    private:
+        /**
+         * Position, could be position of robot, or whatever position the skill needs, maybe target position
+         */
+        Vector2 position;
+
+        /**
+         * Field
+         */
+        std::optional<Field> field;
     };
 
 
