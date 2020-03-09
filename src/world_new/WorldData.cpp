@@ -30,7 +30,8 @@ namespace rtt::world_new {
             robots.emplace_back(feedback, each, Team::them, getBall());
         }
 
-
+us.reserve(amountUs);
+them.reserve(amountThem);
         setViewVectors();
     }
 
