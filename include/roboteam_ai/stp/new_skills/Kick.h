@@ -15,6 +15,6 @@ class Kick : public Skill {
     Status onTerminate() noexcept override;
 };
 
-} // namespace rtt::ai
+} // namespace rtt::ai::stp
 
 #endif //RTT_KICK_H
