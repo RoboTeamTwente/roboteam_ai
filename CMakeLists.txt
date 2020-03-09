@@ -156,6 +156,8 @@ set(NEW_TACTIC_SOURCES
 set(STP_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -236,8 +238,9 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
-        test/StpTests/PlayCheckerTests.cpp test/StpTests/PlayDeciderTests.cpp)
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
+        )
 
 
 set(INTERFACE_SOURCES
@@ -322,7 +325,7 @@ set(AI_SOURCES
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
         ${STP_SOURCES}
-        src/stp/PlayChecker.cpp include/roboteam_ai/stp/PlayChecker.hpp src/stp/PlayDecider.cpp include/roboteam_ai/stp/PlayDecider.hpp)
+        )
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
