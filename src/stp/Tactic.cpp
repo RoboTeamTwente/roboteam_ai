@@ -8,7 +8,6 @@
 namespace rtt::ai::stp {
 
 TacticInfo Tactic::calculateInfoForSkill() {
-
 }
 
 Status Tactic::initialize() noexcept {
