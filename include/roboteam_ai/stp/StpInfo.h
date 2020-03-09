@@ -73,7 +73,7 @@ namespace rtt::ai::stp {
         void setPosition(Vector2 position) { this->position = position; };
 
         std::optional<Field> getField() const { return field; };
-        void setField(std::optional<Field> field) { this->field = field; };
+        void setField(Field field) { this->field = field; };
 
         /**
          * Maximum speed that something can have, the ball, the robot... whatever the skill needs
