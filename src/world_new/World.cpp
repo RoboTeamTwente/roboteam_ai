@@ -102,13 +102,19 @@ namespace rtt::world_new {
         lastTick = (*getWorld())->getTime();
     }
 
+    void World::updatePositionControl() {
+        std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
+        std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(), [](const auto& robot) -> Vector2 { return (robot->getPos()); });
+        positionControl.setRobotPositions(robotPositions);
+    }
+
     uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 
     robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
 
-ai::control::PositionControl *World::getRobotPositionController() noexcept {
-    return &positionControl;
-}
+    ai::control::PositionControl *World::getRobotPositionController() noexcept {
+        return &positionControl;
+    }
 
     size_t World::getHistorySize() const noexcept { return history.size(); }
 

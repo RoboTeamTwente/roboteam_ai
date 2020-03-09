@@ -69,6 +69,7 @@ void ApplicationManager::runOneLoopCycle() {
 
             world_new::World::instance()->updateWorld(worldMessage);
             world_new::World::instance()->updateField(fieldMessage);
+            world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
             decidePlay(world, field);
