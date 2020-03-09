@@ -5,7 +5,7 @@
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 
 namespace rtt::ai::control{
-NumTreesPlanning::NumTreesPlanning(CollisionDetector &collisionDetector) : collisionDetector{collisionDetector}{}
+NumTreesPlanning::NumTreesPlanning(CollisionDetector &collisionDetector) : PathPlanningAlgorithm(collisionDetector){}
 
 std::vector<Vector2>
 NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {

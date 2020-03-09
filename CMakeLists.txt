@@ -208,6 +208,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
 
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
@@ -219,6 +220,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
+
         )
 
 set(TEST_SOURCES

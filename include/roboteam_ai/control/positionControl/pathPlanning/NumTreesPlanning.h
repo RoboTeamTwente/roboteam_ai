@@ -8,16 +8,15 @@
 #include "utilities/Constants.h"
 #include "control/positionControl/CollisionDetector.h"
 #include "control/positionControl/PathPointNode.h"
+#include "PathPlanningAlgorithm.h"
 #include <queue>
 
 namespace rtt::ai::control{
-class NumTreesPlanning {
+class NumTreesPlanning : public PathPlanningAlgorithm {
 private:
     static constexpr double AVOIDANCE_DISTANCE = 5 * Constants::ROBOT_RADIUS();
     static constexpr double TARGET_THRESHOLD = 0.1;
     static constexpr int MAX_BRANCHING = 10;
-
-    CollisionDetector &collisionDetector;
 
     /**
      * Generate 2 new points to the side of the collisionPosition, such that the points and the parent point form
@@ -46,7 +45,7 @@ public:
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition);
+    std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) override;
 };
 }
 
