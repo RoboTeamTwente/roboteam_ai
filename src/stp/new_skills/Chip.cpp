@@ -6,9 +6,7 @@
 
 namespace rtt::ai::stp {
 
-    Status Chip::onInitialize() noexcept {
-        return Status::Success;
-    };
+    void Chip::onInitialize() noexcept { }
 
     Status Chip::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
         double chipVelocity = info.getKickChipVelocity();
@@ -30,8 +28,6 @@ namespace rtt::ai::stp {
         return Status::Success;
     }
 
-    Status Chip::onTerminate() noexcept {
-        return Status::Success;
-    }
+    void Chip::onTerminate() noexcept {  }
 
 } // namespace rtt::ai::stp
