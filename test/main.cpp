@@ -4,6 +4,8 @@
 #include <utilities/RobotDealer.h>
 #include <QtWidgets/QApplication>
 
+#define RUNNING_TEST
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     QApplication app(argc, argv);  // initialize qt5
