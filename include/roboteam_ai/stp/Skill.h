@@ -24,7 +24,7 @@ namespace rtt::ai::stp {
         /**
          * Robot view, which should be set from the SkillInfo
          */
-         world_new::view::RobotView robot;
+         std::optional<world_new::view::RobotView> robot;
 
         /**
          * Gets the name of the skill, must be a literal

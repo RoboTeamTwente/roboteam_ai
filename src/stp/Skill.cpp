@@ -27,12 +27,12 @@ namespace rtt::ai::stp {
         limitRobotCommand();
 
         if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
-            RTT_ERROR("x or y vel in command is NaN in skill" + std::string{ name() } + "!\nRobot: " + std::to_string(robot->getId()));
+            RTT_ERROR("x or y vel in command is NaN in skill" + std::string{ name() } + "!\nRobot: " + std::to_string(robot.value()->getId()));
         }
 
         if (command.id() == -1) {
-            if (robot && robot->getId() != -1) {
-                command.set_id(robot->getId());
+            if (robot && robot.value()->getId() != -1) {
+                command.set_id(robot.value()->getId());
                 io::io.publishRobotCommand(command);  // We default to our robots being on the left if parameter is not set
             }
         } else {
@@ -45,7 +45,7 @@ namespace rtt::ai::stp {
     void Skill::refreshRobotCommand() noexcept {
         proto::RobotCommand emptyCmd;
         emptyCmd.set_use_angle(true);
-        emptyCmd.set_id(robot ? robot->getId() : -1);
+        emptyCmd.set_id(robot ? robot.value()->getId() : -1);
         emptyCmd.set_geneva_state(0);
         command = emptyCmd;
     }
@@ -57,10 +57,10 @@ namespace rtt::ai::stp {
         auto limitedVel = Vector2(command.vel().x(), command.vel().y());
         limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
         if (!(isDefendPenaltyState && isKeeper)) {
-            limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot->getPidPreviousVel(), command.w());
+            limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot.value()->getPidPreviousVel(), command.w());
         }
         if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-            RTT_ERROR("Robot will have NAN: " + std::string{ name() } + "!\nrobot: " + std::to_string(robot->getId()));
+            RTT_ERROR("Robot will have NAN: " + std::string{ name() } + "!\nrobot: " + std::to_string(robot.value()->getId()));
         }
         command.mutable_vel()->set_x(limitedVel.x);
         command.mutable_vel()->set_y(limitedVel.y);
@@ -75,7 +75,7 @@ namespace rtt::ai::stp {
     }
 
     void Skill::refreshRobotPositionControllers() const noexcept {
-        rtt::world_new::World::instance()->getControllersForRobot(robot->getId())
+        rtt::world_new::World::instance()->getControllersForRobot(robot.value()->getId())
                                                 = world_new::robot::RobotControllers();
     }
 

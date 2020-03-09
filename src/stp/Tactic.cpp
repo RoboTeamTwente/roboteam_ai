@@ -3,16 +3,21 @@
 //
 
 #include "include/roboteam_ai/stp/Tactic.h"
-#include "stp/Skill.h"
-#include <roboteam_utils/containers/state_machine.hpp>
+#include "stp/StpInfo.h"
+
 namespace rtt::ai::stp {
 
-    void Tactic::updateActiveSkill(TacticInfo tacticInfo) {
-//        auto activeSkill = std::find_if(skills.begin(), skills.end(), [] (const Skill& s) {return s.getStatus() == Status::Running;});
+TacticInfo Tactic::calculateInfoForSkill() {
 
-    }
-
-    void Tactic::calculateInfoForSkill() {
-
-    }
 }
+
+Status Tactic::initialize() noexcept {
+    return onInitialize();
+}
+Status Tactic::update(TacticInfo const &info) noexcept {
+    return onUpdate(calculateInfoForSkill());
+}
+Status Tactic::terminate() noexcept {
+    return onTerminate();
+}
+}  // namespace rtt::ai::stp
