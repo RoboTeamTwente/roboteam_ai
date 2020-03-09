@@ -158,6 +158,14 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
+set(NEW_TACTIC_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
+        )
+
+set(STP_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
+        )
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
@@ -314,6 +322,7 @@ set(AI_SOURCES
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
+        ${NEW_TACTIC_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
@@ -321,6 +330,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        ${STP_SOURCES}
         )
 
 set(AI_LIBS
