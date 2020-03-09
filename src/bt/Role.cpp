@@ -3,6 +3,8 @@
 //
 
 #include "bt/Role.h"
+#include "../../include/roboteam_ai/stp/Role.hpp"
+
 
 namespace bt {
 

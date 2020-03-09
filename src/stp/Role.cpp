@@ -3,3 +3,14 @@
 //
 
 #include "include/roboteam_ai/stp/Role.hpp"
+
+namespace rtt::ai::stp {
+    Status Role::update(const stp::SkillInfo &info) noexcept {
+        return robotTactics.update(info);
+    }
+
+    bool Role::finished() const noexcept {
+        return robotTactics.finished();
+    }
+
+} // namespace rtt::ai::stp
