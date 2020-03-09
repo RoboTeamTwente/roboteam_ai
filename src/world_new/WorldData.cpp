@@ -21,6 +21,8 @@ namespace rtt::world_new {
         }
         auto amountUs = ours.size();
         auto amountThem = others.size();
+        us.reserve(amountUs);
+        them.reserve(amountThem);
         robots.reserve(amountUs + amountThem);
 
         for (auto &each : ours) {
@@ -29,7 +31,6 @@ namespace rtt::world_new {
         for (auto &each : others) {
             robots.emplace_back(feedback, each, Team::them, getBall());
         }
-
 
         setViewVectors();
     }
@@ -66,6 +67,7 @@ namespace rtt::world_new {
 
         this->us.reserve(other.getUs().size());
         this->them.reserve(other.getThem().size());
+        robotsNonOwning.reserve(getUs().size() + getThem().size());
 
         setViewVectors();
         return *this;
@@ -75,6 +77,7 @@ namespace rtt::world_new {
             robots{ other.robots }, ball{ other.ball }{
         us.reserve(other.getUs().size());
         them.reserve(other.getThem().size());
+        robotsNonOwning.reserve(getUs().size() + getThem().size());
         setViewVectors();
     }
 
