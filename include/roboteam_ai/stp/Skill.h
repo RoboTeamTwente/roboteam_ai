@@ -95,6 +95,11 @@ namespace rtt::ai::stp {
          * @return Status of termination
          */
         virtual Status terminate() noexcept;
+
+        /**
+         * Virtual dtor that ensures proper destruction
+         */
+        virtual ~Skill() = default;
     };
 }
 
