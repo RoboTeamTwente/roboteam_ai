@@ -152,7 +152,10 @@ set(SKILLS_SOURCES
         )
 
 set(NEW_SKILLS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
 
 set(CONDITIONS_SOURCES
