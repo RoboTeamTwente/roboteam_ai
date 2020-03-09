@@ -5,7 +5,7 @@
 #ifndef RTT_AGRESSIVEPLAY_H
 #define RTT_AGRESSIVEPLAY_H
 
-#include "analysis/play-utilities/Play.h"
+#include "Play.h"
 namespace rtt::ai::analysis {
 class AggressivePlay : public Play {
     AggressivePlay();

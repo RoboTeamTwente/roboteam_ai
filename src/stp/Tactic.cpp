@@ -7,17 +7,13 @@
 
 namespace rtt::ai::stp {
 
-TacticInfo Tactic::calculateInfoForSkill() {
-
-}
-
-Status Tactic::initialize() noexcept {
-    return onInitialize();
+void Tactic::initialize() noexcept {
+    onInitialize();
 }
 Status Tactic::update(TacticInfo const &info) noexcept {
-    return onUpdate(calculateInfoForSkill());
+    return onUpdate(calculateInfoForSkill(info));
 }
-Status Tactic::terminate() noexcept {
-    return onTerminate();
+void Tactic::terminate() noexcept {
+    onTerminate();
 }
 }  // namespace rtt::ai::stp

@@ -7,9 +7,7 @@
 
 namespace rtt::ai::stp {
 
-Status Rotate::onInitialize() noexcept {
-    return Status::Success;
-}
+void Rotate::onInitialize() noexcept { }
 
 Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     float angle = info.getAngle();
@@ -44,8 +42,6 @@ Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     }
 }
 
-Status Rotate::onTerminate() noexcept {
-    return Status::Success;
-}
+void Rotate::onTerminate() noexcept { }
 
 } // namespace rtt::ai::stp

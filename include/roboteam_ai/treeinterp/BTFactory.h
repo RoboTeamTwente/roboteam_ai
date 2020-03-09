@@ -13,7 +13,7 @@
 #include <string>
 #include "BTImport.h"
 #include "TreeInterpreter.h"
-#include "analysis/play-utilities/Play.h"
+#include "stp/play-utilities/Play.h"
 
 class BTFactory {
     // TODO: have the names of all the project before here
