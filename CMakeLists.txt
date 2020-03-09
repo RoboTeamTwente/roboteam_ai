@@ -156,7 +156,9 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         )
-
+set(NEW_TACTIC_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
+        )
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
@@ -311,6 +313,7 @@ set(AI_SOURCES
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
+        ${NEW_TACTIC_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}

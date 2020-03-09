@@ -8,7 +8,7 @@
 namespace rtt::ai::stp {
 
     void Tactic::updateActiveSkill(TacticInfo tacticInfo) {
-        auto activeSkill = std::find_if(skills.begin(), skills.end(), [] (const Skill& s) {return s.getStatus() == Status::Running;});
+//        auto activeSkill = std::find_if(skills.begin(), skills.end(), [] (const Skill& s) {return s.getStatus() == Status::Running;});
 
     }
 
