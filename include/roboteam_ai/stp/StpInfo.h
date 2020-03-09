@@ -91,15 +91,11 @@ namespace rtt::ai::stp {
      * Skill info used in skills
      */
     struct SkillInfo {
-        /**
-         * TacticInfo of the tactic that called the skill
-         */
-        TacticInfo tacticInfo;
+        TacticInfo getTacticInfo() const { return tacticInfo; };
+        void setTacticInfo(TacticInfo tacticInfo) { this->tacticInfo = tacticInfo; };
 
-        /**
-         * Robot this skill applies to
-         */
-         world_new::view::RobotView robot;
+        world_new::view::RobotView getRobot() const { return robot; };
+        void setRobot(world_new::view::RobotView robot) { this->robot = robot; };
 
         float getAngle() const { return angle; };
         void setAngle(double angle) { this->angle = angle; };
@@ -108,6 +104,16 @@ namespace rtt::ai::stp {
         void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; };
 
     private:
+        /**
+         * TacticInfo of the tactic that called the skill
+         */
+        TacticInfo tacticInfo;
+
+        /**
+         * Robot this skill applies to
+         */
+        world_new::view::RobotView robot;
+
         /**
          * Reference angle of the robot
          */
