@@ -146,6 +146,7 @@ set(SKILLS_SOURCES
 set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
@@ -157,6 +158,8 @@ set(NEW_TACTIC_SOURCES
 set(STP_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -237,7 +240,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         )
 
 

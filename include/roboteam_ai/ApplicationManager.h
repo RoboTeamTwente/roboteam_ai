@@ -8,6 +8,8 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
+#include <include/roboteam_ai/stp/PlayChecker.hpp>
+#include <include/roboteam_ai/stp/PlayDecider.hpp>
 #include "treeinterp/BTFactory.h"
 #include "utilities/IOManager.h"
 namespace rtt {
@@ -27,11 +29,24 @@ class ApplicationManager {
     bool robotsInitialized = false;
 
     /**
+     * Current best play as picked by checker + decider
+     */
+    ai::stp::Play* bestPlay;
+
+    /**
+     * Checks which plays are valid out of all the plays
+     */
+    rtt::ai::stp::PlayChecker playChecker;
+    /**
+     * Checks, out of the valid plays, which play is the best to choose
+     */
+    rtt::ai::stp::PlayDecider playDecider;
+    /**
      * Function that decides whether to change plays given a world and field.
      * @param world the current world state
      * @param field the current field state
      */
-    void decidePlay(rtt::ai::world::World* world, const rtt::ai::world::Field& field);
+    void decidePlay(world_new::World* world);
 
    public:
     void start();

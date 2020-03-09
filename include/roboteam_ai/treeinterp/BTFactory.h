@@ -11,9 +11,9 @@
 #include <map>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <include/roboteam_ai/stp/Play.hpp>
 #include "BTImport.h"
 #include "TreeInterpreter.h"
-#include "stp/play-utilities/Play.h"
 
 class BTFactory {
     // TODO: have the names of all the project before here
@@ -37,8 +37,6 @@ class BTFactory {
 
     static bt::BehaviorTree::Ptr getKeeperTree();
 
-    static void setCurrentTree(rtt::ai::analysis::Play *play);
-
     static void setCurrentTree(const std::string &newTree);
 
     static void setKeeperTree(const std::string &keeperTree);
@@ -53,7 +51,6 @@ class BTFactory {
     static std::string currentTree;
     static std::string keeperTree;
     static bool weMadeTrees;
-    static rtt::ai::analysis::Play *play;
 };
 
 #endif  // ROBOTEAM_AI_BTFACTORY_H
