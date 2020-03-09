@@ -41,6 +41,8 @@ namespace rtt::ai::stp {
         virtual Status update(TacticInfo const &info) noexcept;
 
         virtual Status terminate() noexcept;
+
+        virtual ~Tactic() = default;
     };
 }  // namespace rtt::ai::stp
 
