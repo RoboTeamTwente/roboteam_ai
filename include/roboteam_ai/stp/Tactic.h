@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <roboteam_utils/containers/state_machine.hpp>
+
 #include "stp/StpInfo.h"
 #include "stp/new_skills/Rotate.h"
 #include "stp/new_skills/SetDribbler.h"

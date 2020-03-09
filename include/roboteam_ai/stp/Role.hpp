@@ -17,10 +17,10 @@ namespace rtt::ai::stp {
     public:
         /**
          * Function that's called every tick, default implementation is robotTactics.update();
-         * @param info SkillInfo to be passed to update()
+         * @param info TacticInfo to be passed to update()
          * @return The status that the current tactic returns
          */
-        [[nodiscard]] virtual Status update(stp::SkillInfo const& info) noexcept;
+        [[nodiscard]] virtual Status update(stp::TacticInfo const& info) noexcept;
 
         /**
          * @return True if all tactics returned Status::finish
@@ -36,7 +36,7 @@ namespace rtt::ai::stp {
         /**
          * State machine that keeps track of tactic states
          */
-        collections::state_machine<Tactic, Status, SkillInfo> robotTactics;
+        collections::state_machine<Tactic, Status, TacticInfo> robotTactics;
     };
 
 } // namespace rtt::ai::analysis

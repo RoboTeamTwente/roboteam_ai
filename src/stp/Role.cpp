@@ -5,7 +5,7 @@
 #include "include/roboteam_ai/stp/Role.hpp"
 
 namespace rtt::ai::stp {
-    Status Role::update(const stp::SkillInfo &info) noexcept {
+    Status Role::update(const stp::TacticInfo &info) noexcept {
         return robotTactics.update(info);
     }
 
