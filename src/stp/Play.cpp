@@ -2,7 +2,7 @@
 // Created by john on 3/9/20.
 //
 
-#include "Play.hpp"
+#include "include/roboteam_ai/stp/Play.hpp"
 
 namespace rtt::ai::stp {
     Status Play::update(const rtt::ai::stp::TacticInfo &info) noexcept {
