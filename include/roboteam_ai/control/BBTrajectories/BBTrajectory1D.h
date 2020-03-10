@@ -89,7 +89,7 @@ class BBTrajectory1D {
     private:
 
         /**
-         * Computes the position where we would end if we would initiate a maximal break given current state
+         * @brief Computes the position where we would end if we would initiate a maximal break given current state
          * @param pos Current position
          * @param vel Current velocity
          * @param maxAcc Maximum allowed acceleration/deceleration

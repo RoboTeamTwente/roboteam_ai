@@ -71,7 +71,7 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            //decidePlay(world_new::World::instance(), field);
+            decidePlay(world_new::World::instance(), field);
             updateTrees();
             updateCoaches(field);
             runKeeperTree(field);
@@ -91,17 +91,6 @@ void ApplicationManager::runOneLoopCycle() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds (100));
     }
-    Vector2 startPos(-5,-2);
-    Vector2 startVel(-0.5,1.0);
-    double maxVel=8.0;
-    double maxAcc=4.0;
-    LineSegment line(Vector2(-3,-3),Vector2(3,3));
-    Vector2 endPos=line.start+line.direction()*0.4;
-    BBTrajectory2D test(startPos,startVel,endPos,maxVel,maxAcc);
-    BBTrajectory2DAsync test2(startPos,startVel,endPos,maxVel,maxAcc,line);
-    ai::interface::Input::drawData(ai::interface::PATHFINDING,test.visCurve(),Qt::red,-1);
-    ai::interface::Input::drawData(ai::interface::PATHFINDING,test2.visCurve(),Qt::green,-1,ai::interface::Drawing::LINES_CONNECTED);
-    ai::interface::Input::drawData(ai::interface::PATHFINDING,{line.start,line.end},Qt::blue,-1,ai::interface::Drawing::LINES_CONNECTED);
 
     /*
      * This is a hack performed at the robocup.

@@ -2,7 +2,7 @@
 // Created by rolf on 18-01-20.
 //
 
-#include "include/roboteam_ai/control/BBTrajectories/BBTrajectory2DAsync.h"
+#include "control/BBTrajectories/BBTrajectory2DAsync.h"
 #include <cmath>
 #include <roboteam_utils/LineSegment.h>
 

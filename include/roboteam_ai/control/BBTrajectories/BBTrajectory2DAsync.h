@@ -10,6 +10,9 @@
 namespace rtt {
 class LineSegment;
 
+/**
+ * TODO: for now not used.
+ */
 class BBTrajectory2DAsync {
     private:
         BBTrajectory1D x;

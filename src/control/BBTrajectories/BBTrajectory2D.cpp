@@ -2,7 +2,7 @@
 // Created by rolf on 17-1-20.
 //
 
-#include "include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h"
+#include "control/BBTrajectories/BBTrajectory2D.h"
 #include <cmath>
 
 namespace rtt {
