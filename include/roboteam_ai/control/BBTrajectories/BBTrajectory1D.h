@@ -5,52 +5,33 @@
 #ifndef RTT_BBTRAJECTORY1D_H
 #define RTT_BBTRAJECTORY1D_H
 
-/**
- * @author rolfvdhulst
- * @date 15 January 2020
- * @tparam num : float or double
- */
-template<class num>
 struct BBTrajectoryPart {
-  num tEnd;
-  num acc;
-  num startVel;
-  num startPos;
+  double tEnd;
+  double acc;
+  double startVel;
+  double startPos;
 };
 
-/**
- * @author rolfvdhulst
- * @date 15 January 2020
- * @tparam num : float or double
- */
-template<class num>
 struct PosVelAcc {
-  explicit PosVelAcc(num pos, num vel, num acc)
+  explicit PosVelAcc(double pos, double vel, double acc)
           :
           pos{pos},
           vel{vel},
           acc{acc} { };
 
-  num pos;
-  num vel;
-  num acc;
+  double pos;
+  double vel;
+  double acc;
 };
 
-/**
- * @author rolfvdhulst
- * @date 15 January 2020
- * @tparam num : float or double
- */
-template<class num>
 class BBTrajectory1D {
     public:
-        using part = BBTrajectoryPart<num>;
-        PosVelAcc<num> getValues(num t) const noexcept ;
-        num getPosition(num t) const noexcept;
-        num getVelocity(num t) const noexcept;
-        num getAcceleration(num t) const noexcept;
-        num getTotalTime() const noexcept ;
-        bool inLastPart(num t) const noexcept;
+        PosVelAcc getValues(double t) const;
+        double getPosition(double t) const;
+        double getVelocity(double t) const;
+        double getAcceleration(double t) const;
+        double getTotalTime() const;
+        bool inLastPart(double t) const;
         /**
         * Generate a time-optimal trajectory given the parameters
         * @param initialPos Current position
@@ -59,9 +40,9 @@ class BBTrajectory1D {
         * @param maxVel Maximum allowed velocity (absolute)
         * @param maxAcc maximum allowed acceleration/deceleration
         */
-        void generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept ;
-        BBTrajectory1D(num initialPos, num initialVel,num finalPos, num maxVel, num maxAcc) noexcept;
-        BBTrajectory1D() noexcept = default;
+        void generateTrajectory(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc);
+        BBTrajectory1D(double initialPos, double initialVel,double finalPos, double maxVel, double maxAcc);
+        BBTrajectory1D() = default;
     private:
 
         /**
@@ -71,7 +52,7 @@ class BBTrajectory1D {
          * @param maxAcc Maximum allowed acceleration/deceleration
          * @return final position (with zero velocity)
          */
-        num fullBrakePos(num pos, num vel, num accMax) noexcept ;
+        double fullBrakePos(double pos, double vel, double accMax);
         /**
          * Computes the position where we would end if we first accelerate to a target velocity and then immediately decelerate to 0
          * @param pos0 Current position
@@ -80,7 +61,7 @@ class BBTrajectory1D {
          * @param accMax Maximum allowed acceleration/deceleration
          * @return final position (with zero velocity)
          */
-        num accelerateBrakePos(num pos0, num vel0, num vel1, num accMax) noexcept;
+        double accelerateBrakePos(double pos0, double vel0, double vel1, double accMax);
         /**
          * Generates a time-optimal triangular profile (accelerating and then breaking)
          * @param initialPos Current position
@@ -89,7 +70,7 @@ class BBTrajectory1D {
          * @param maxAcc Maximum allowed acceleration/deceleration
          * @param invertedSign Specifies whether or not to invert the sign of velocity / acceleration. This is more of a techniality
          */
-        void triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc, bool invertedSign) noexcept;
+        void triangularProfile(double initialPos, double initialVel, double finalPos, double maxAcc, bool invertedSign);
         /**
          * Generates a time-optimal trapezoidal profile (accelerating, coasting, then breaking)
          * @param initialPos Current position
@@ -98,7 +79,7 @@ class BBTrajectory1D {
          * @param finalPos Desired final position
          * @param maxAcc Maximum allowed acceleration/deceleration
          */
-        void trapezoidalProfile(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept;
+        void trapezoidalProfile(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc);
         /**
          * Updates a part of the trajectory
          * @param index which part to update
@@ -107,18 +88,16 @@ class BBTrajectory1D {
          * @param vel initial velocity of segment
          * @param pos initial position of segment
          */
-        void updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept;
+        void updatePart(int index, double tEnd, double acc, double vel, double pos);
 
-        part parts[3];
+        BBTrajectoryPart parts[3];
         unsigned short int numParts{};
         //TODO: if in the future one of these fields is uncalled (particularly initialVel, intialPos are redundant) they can be removed.
         //The memory overhead for now seems minimal
-        num m_initialPos; // m
-        num m_finalPos; // m
-        num m_initialVel; // m/s
-        num m_maxAcc; // m/s^2
-        num m_maxVel; // m/s
-
+        double m_initialPos; // m
+        double m_finalPos; // m
+        double m_initialVel; // m/s
+        double m_maxAcc; // m/s^2
+        double m_maxVel; // m/s
 };
-#include "src/control/BBTrajectories/BBTrajectory1D.tpp"
 #endif //RTT_BBTRAJECTORY1D_H

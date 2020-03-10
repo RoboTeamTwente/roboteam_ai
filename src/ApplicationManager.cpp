@@ -93,12 +93,12 @@ void ApplicationManager::runOneLoopCycle() {
     }
     Vector2 startPos(-5,-2);
     Vector2 startVel(-0.5,1.0);
-    float maxVel=8.0;
-    float maxAcc=4.0;
+    double maxVel=8.0;
+    double maxAcc=4.0;
     LineSegment line(Vector2(-3,-3),Vector2(3,3));
     Vector2 endPos=line.start+line.direction()*0.4;
-    BBTrajectory2D<float> test(startPos,startVel,endPos,maxVel,maxAcc);
-    BBTrajectory2DAsync<float> test2(startPos,startVel,endPos,maxVel,maxAcc,line);
+    BBTrajectory2D test(startPos,startVel,endPos,maxVel,maxAcc);
+    BBTrajectory2DAsync test2(startPos,startVel,endPos,maxVel,maxAcc,line);
     ai::interface::Input::drawData(ai::interface::PATHFINDING,test.visCurve(),Qt::red,-1);
     ai::interface::Input::drawData(ai::interface::PATHFINDING,test2.visCurve(),Qt::green,-1,ai::interface::Drawing::LINES_CONNECTED);
     ai::interface::Input::drawData(ai::interface::PATHFINDING,{line.start,line.end},Qt::blue,-1,ai::interface::Drawing::LINES_CONNECTED);

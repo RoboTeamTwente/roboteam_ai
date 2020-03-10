@@ -4,30 +4,32 @@
 
 #ifndef RTT_BBTRAJECTORY2DASYNC_H
 #define RTT_BBTRAJECTORY2DASYNC_H
+
+#include <roboteam_utils/LineSegment.h>
 #include "BBTrajectory2D.h"
+
 namespace rtt {
-template<class num>
+
 class BBTrajectory2DAsync {
     private:
-        BBTrajectory1D<num> x;
-        BBTrajectory1D<num> y;
-        num rotation;
+        BBTrajectory1D x;
+        BBTrajectory1D y;
+        double rotation;
         Vector2 startPosition;
     public:
         BBTrajectory2DAsync() = default;
         BBTrajectory2DAsync(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
-                num maxVel, num maxAcc, const LineSegment &line);
+                double maxVel, double maxAcc, const LineSegment &line);
         void generateTrajectory( const Vector2 &initialVel, const Vector2 &finalPos,
-                num maxVel, num maxAcc, num alpha) noexcept;
+                double maxVel, double maxAcc, double alpha) noexcept;
         void generateAsyncTrajectory(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
-                num maxVel, num maxAcc, const LineSegment &line) noexcept;
-        Vector2 getPosition(num t) const;
-        Vector2 getVelocity(num t) const;
-        Vector2 getAcceleration(num t) const;
+                double maxVel, double maxAcc, const LineSegment &line) noexcept;
+        Vector2 getPosition(double t) const;
+        Vector2 getVelocity(double t) const;
+        Vector2 getAcceleration(double t) const;
         std::vector<Vector2> visCurve() const;
 
 };
 
 }
-#include "src/control/BBTrajectories/BBTrajectory2DAsync.tpp"
 #endif //RTT_BBTRAJECTORY2DASYNC_H

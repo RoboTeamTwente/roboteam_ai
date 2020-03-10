@@ -239,7 +239,9 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
-        include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h src/control/BBTrajectories/BBTrajectory2DAsync.tpp include/roboteam_ai/control/BBTrajectories/BBTrajectory2DAsync.h
+        src/control/BBTrajectories/BBTrajectory1D.cpp
+        src/control/BBTrajectories/BBTrajectory2D.cpp
+        src/control/BBTrajectories/BBTrajectory2DAsync.cpp
         )
 
 set(TEST_SOURCES

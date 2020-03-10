@@ -6,16 +6,15 @@
 #include <cmath>
 #include <iostream>
 #include <chrono>
-template<class num>
-num BBTrajectory1D<num>::fullBrakePos(num pos, num vel, num accMax) noexcept {
-    num acc = vel <= 0 ? accMax : - accMax;
-    num t = - vel/acc; // (inverted) time needed to break to zero velocity
+
+double BBTrajectory1D::fullBrakePos(double pos, double vel, double accMax)  {
+    double acc = vel <= 0 ? accMax : - accMax;
+    double t = - vel/acc; // (inverted) time needed to break to zero velocity
     return pos + 0.5*vel*t; // position after breaking
 }
-template<class num>
-num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num accMax) noexcept {
-    num acc1;
-    num acc2;
+double BBTrajectory1D::accelerateBrakePos(double pos0, double vel0, double vel1, double accMax)  {
+    double acc1;
+    double acc2;
     if (vel1 >= vel0) {
         acc1 = accMax;
         acc2 = - accMax;
@@ -24,39 +23,37 @@ num BBTrajectory1D<num>::accelerateBrakePos(num pos0, num vel0, num vel1, num ac
         acc1 = - accMax;
         acc2 = accMax;
     }
-    num t1 = (vel1 - vel0)/acc1; // time to reach vel1
-    num pos1 = pos0 + (0.5*(vel0 + vel1)*t1); //position at which we reach vel1
-    num t2 = - vel1/acc2; // time to max break from vel1 to 0
+    double t1 = (vel1 - vel0)/acc1; // time to reach vel1
+    double pos1 = pos0 + (0.5*(vel0 + vel1)*t1); //position at which we reach vel1
+    double t2 = - vel1/acc2; // time to max break from vel1 to 0
     return pos1 + (0.5*vel1*t2); // position we stop at after initiating maximal break at pos1
 
 }
-template<class num>
+
 void
-BBTrajectory1D<num>::triangularProfile(num initialPos, num initialVel, num finalPos, num maxAcc,
-        bool invertedSign) noexcept {
-    num acc = invertedSign ? maxAcc : - maxAcc;
+BBTrajectory1D::triangularProfile(double initialPos, double initialVel, double finalPos, double maxAcc,
+        bool invertedSign)  {
+    double acc = invertedSign ? maxAcc : - maxAcc;
     //compute the final time difference at which we switch from accelerating to breaking
-    num sq = (acc*(finalPos - initialPos) + 0.5*initialVel*initialVel)/(acc*acc);
-    num brakeTime = sq > 0 ? sqrt(sq) : 0;
-    num topVel = acc*brakeTime;
-    num switchTime = (topVel - initialVel)/acc;
-    num switchPos = initialPos + (initialVel + topVel)*0.5*switchTime;
+    double sq = (acc*(finalPos - initialPos) + 0.5*initialVel*initialVel)/(acc*acc);
+    double brakeTime = sq > 0 ? sqrt(sq) : 0;
+    double topVel = acc*brakeTime;
+    double switchTime = (topVel - initialVel)/acc;
+    double switchPos = initialPos + (initialVel + topVel)*0.5*switchTime;
     updatePart(0, switchTime, acc, initialVel, initialPos);
     updatePart(1, switchTime + brakeTime, - acc, topVel, switchPos);
     numParts = 2;
 }
-template<class num>
-void BBTrajectory1D<num>::updatePart(int index, num tEnd, num acc, num vel, num pos) noexcept {
+void BBTrajectory1D::updatePart(int index, double tEnd, double acc, double vel, double pos)  {
     parts[index].acc = acc;
     parts[index].startPos = pos;
     parts[index].startVel = vel;
     parts[index].tEnd = tEnd;
 }
-template<class num>
-void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num maxVel, num finalPos,
-        num maxAcc) noexcept {
-    num acc1;
-    num acc3;
+void BBTrajectory1D::trapezoidalProfile(double initialPos, double initialVel, double maxVel, double finalPos,
+        double maxAcc)  {
+    double acc1;
+    double acc3;
 
     if (initialVel > maxVel) {
         acc1 = - maxAcc;
@@ -72,11 +69,11 @@ void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num
         acc3 = maxAcc;
     }
 
-    num t1 = (maxVel - initialVel)/acc1;
-    num t3 = - maxVel/acc3;
-    num startCoastPos = initialPos + 0.5*(initialVel + maxVel)*t1;
-    num endCoastPos = finalPos - 0.5*maxVel*t3;
-    num t2 = (endCoastPos - startCoastPos)/maxVel;
+    double t1 = (maxVel - initialVel)/acc1;
+    double t3 = - maxVel/acc3;
+    double startCoastPos = initialPos + 0.5*(initialVel + maxVel)*t1;
+    double endCoastPos = finalPos - 0.5*maxVel*t3;
+    double t2 = (endCoastPos - startCoastPos)/maxVel;
 
     updatePart(0, t1, acc1, initialVel, initialPos);
     updatePart(1, t1 + t2, 0, maxVel, startCoastPos);
@@ -84,13 +81,13 @@ void BBTrajectory1D<num>::trapezoidalProfile(num initialPos, num initialVel, num
     numParts = 3;
 
 }
-template<class num>
-void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num finalPos, num maxVel,
-        num maxAcc) noexcept {
-    num brakePos = fullBrakePos(initialPos, initialVel, maxAcc);
+
+void BBTrajectory1D::generateTrajectory(double initialPos, double initialVel, double finalPos, double maxVel,
+        double maxAcc)  {
+    double brakePos = fullBrakePos(initialPos, initialVel, maxAcc);
     if (brakePos <= finalPos) {
         //Check if we need triangular profile or trapezoidal:
-        num accBrakePos = accelerateBrakePos(initialPos, initialVel, maxVel, maxAcc);
+        double accBrakePos = accelerateBrakePos(initialPos, initialVel, maxVel, maxAcc);
         if (accBrakePos >= finalPos) {
             triangularProfile(initialPos, initialVel, finalPos, maxAcc, true);
         }
@@ -100,7 +97,7 @@ void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num
     }
     else {
         //similar to above but with slightly mirrored logic
-        num accBrakePos = accelerateBrakePos(initialPos, initialVel, - maxVel, maxAcc);
+        double accBrakePos = accelerateBrakePos(initialPos, initialVel, - maxVel, maxAcc);
         if (accBrakePos <= finalPos) {
             triangularProfile(initialPos, initialVel, finalPos, maxAcc, false);
         }
@@ -109,8 +106,8 @@ void BBTrajectory1D<num>::generateTrajectory(num initialPos, num initialVel, num
         }
     }
 }
-template<class num>
-BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num initialVel, num finalPos, num maxVel, num maxAcc) noexcept
+
+BBTrajectory1D::BBTrajectory1D(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc) 
         :
         m_initialPos{initialPos},
         m_initialVel{initialVel},
@@ -119,16 +116,16 @@ BBTrajectory1D<num>::BBTrajectory1D(num initialPos, num initialVel, num finalPos
         m_maxVel{maxVel} {
     generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
-template<class num>
-PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) const noexcept {
-    num trajTime = fmax(0, t);
-    part piece = parts[0];
+
+PosVelAcc BBTrajectory1D::getValues(double t) const  {
+    double trajTime = fmax(0, t);
+    BBTrajectoryPart piece = parts[0];
     if (trajTime >= getTotalTime()) {
         //The time is not on the trajectory so we just return the last known element
-        return PosVelAcc<num>(m_finalPos, 0, 0);//can also be computed from parts if necessary
+        return PosVelAcc(m_finalPos, 0, 0);//can also be computed from parts if necessary
     }
     //we step through the parts and try to find the relevant part on which the time is.
-    num tPieceStart = 0;
+    double tPieceStart = 0;
     for (int i = 0; i < numParts; ++ i) {
         piece = parts[i];
         if (trajTime <= parts[i].tEnd) {
@@ -136,25 +133,23 @@ PosVelAcc<num> BBTrajectory1D<num>::getValues(num t) const noexcept {
         }
         tPieceStart = parts[i].tEnd;
     }
-    num tPiece = trajTime - tPieceStart;
+    double tPiece = trajTime - tPieceStart;
     //extrapolate the state given the information we have.
-    return PosVelAcc<num>(piece.startPos + piece.startVel*tPiece + 0.5*piece.acc*tPiece*tPiece,
+    return PosVelAcc(piece.startPos + piece.startVel*tPiece + 0.5*piece.acc*tPiece*tPiece,
             piece.startVel + piece.acc*tPiece,
             piece.acc);
 }
-template<class num>
-num BBTrajectory1D<num>::getTotalTime() const noexcept {
+double BBTrajectory1D::getTotalTime() const  {
     return parts[numParts - 1].tEnd;
 }
-template<class num>
-num BBTrajectory1D<num>::getAcceleration(num t) const noexcept {
-    num trajTime = fmax(0, t);
+double BBTrajectory1D::getAcceleration(double t) const  {
+    double trajTime = fmax(0, t);
     if (trajTime >= getTotalTime()) {
        return 0;
     }
-    part piece = parts[0];
+    BBTrajectoryPart piece = parts[0];
     //we step through the parts and try to find the relevant part on which the time is.
-    num tPieceStart = 0;
+    double tPieceStart = 0;
     for (int i = 0; i < numParts; ++ i) {
         piece = parts[i];
         if (trajTime <= parts[i].tEnd) {
@@ -163,16 +158,16 @@ num BBTrajectory1D<num>::getAcceleration(num t) const noexcept {
     }
     return piece.acc;
 }
-template<class num>
-num BBTrajectory1D<num>::getVelocity(num t) const noexcept {
-    num trajTime = fmax(0, t);
-    part piece = parts[0];
+
+double BBTrajectory1D::getVelocity(double t) const  {
+    double trajTime = fmax(0, t);
+    BBTrajectoryPart piece = parts[0];
     if (trajTime >= getTotalTime()) {
         //The time is not on the trajectory so we just return the last known element
         return 0;
     }
     //we step through the parts and try to find the relevant part on which the time is.
-    num tPieceStart = 0;
+    double tPieceStart = 0;
     for (int i = 0; i < numParts; ++ i) {
         piece = parts[i];
         if (trajTime <= parts[i].tEnd) {
@@ -180,19 +175,18 @@ num BBTrajectory1D<num>::getVelocity(num t) const noexcept {
         }
         tPieceStart = parts[i].tEnd;
     }
-    num tPiece = trajTime - tPieceStart;
+    double tPiece = trajTime - tPieceStart;
     //extrapolate the state given the information we have.
     return piece.startVel + piece.acc*tPiece;
 }
-template<class num>
-num BBTrajectory1D<num>::getPosition(num t) const noexcept {
-    num trajTime = fmax(0, t);
-    part piece = parts[0];
+double BBTrajectory1D::getPosition(double t) const  {
+    double trajTime = fmax(0, t);
+    BBTrajectoryPart piece = parts[0];
     if (trajTime >= getTotalTime()) {
         return m_finalPos;
     }
     //we step through the parts and try to find the relevant part on which the time is.
-    num tPieceStart = 0;
+    double tPieceStart = 0;
     for (int i = 0; i < numParts; ++ i) {
         piece = parts[i];
         if (trajTime <= parts[i].tEnd) {
@@ -200,11 +194,11 @@ num BBTrajectory1D<num>::getPosition(num t) const noexcept {
         }
         tPieceStart = parts[i].tEnd;
     }
-    num tPiece = trajTime - tPieceStart;
+    double tPiece = trajTime - tPieceStart;
     //extrapolate the state given the information we have.
     return piece.startPos + piece.startVel*tPiece + 0.5*piece.acc*tPiece*tPiece;
 }
-template<class num>
-bool BBTrajectory1D<num>::inLastPart(num t) const noexcept {
+
+bool BBTrajectory1D::inLastPart(double t) const  {
     return t>parts[numParts-2].tEnd;
 }
