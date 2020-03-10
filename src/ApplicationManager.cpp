@@ -7,7 +7,6 @@
 #include <include/roboteam_ai/world_new/World.hpp>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
-#include <world/World.h>
 #include <utilities/GameStateManager.hpp>
 #include "utilities/Constants.h"
 #include "roboteam_utils/normalize.h"
@@ -18,12 +17,11 @@ namespace ai = rtt::ai;
 using Status = bt::Node::Status;
 
 namespace rtt {
-using namespace rtt::ai::world;
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
-    ai::GameStateManager::forceNewGameState(RefCommand::HALT);
+    ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
@@ -58,21 +56,20 @@ void ApplicationManager::runOneLoopCycle() {
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
+        world_new::World::instance()->updateWorld(worldMessage);
 
-        world->updateWorld(fieldMessage, worldMessage); // this one needs to be removed
 
-        if (!world->getUs().empty()) {
+        if (!world_new::World::instance()->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
                 RTT_SUCCESS("Received robots, starting behaviour trees!")
             }
             robotsInitialized = true;
 
-            world_new::World::instance()->updateWorld(worldMessage);
             world_new::World::instance()->updateField(fieldMessage);
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world_new::World::instance());
+            decidePlay(world_new::World::instance(), field);
             updateTrees();
             updateCoaches(field);
             runKeeperTree(field);
@@ -129,26 +126,28 @@ void ApplicationManager::updateTrees() {
 }
 
 /// Tick the keeper tree if both the tree and keeper exist
-void ApplicationManager::runKeeperTree(const Field & field) {
+void ApplicationManager::runKeeperTree(const ai::world::Field & field) {
+    world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick(ai::world::world, &field);
+        keeperTree->tick(_world, &field);
     }
 }
 
 /// Tick the strategy tree if the tree exists
-Status ApplicationManager::runStrategyTree(const Field & field) {
+Status ApplicationManager::runStrategyTree(const ai::world::Field & field) {
     if (BTFactory::getCurrentTree() == "NaN") {
         RTT_ERROR("Current tree is NaN! The tree might be halting");
         return Status::Waiting;
     }
+    world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(ai::world::world, &field);
+    Status status = strategy->tick(_world, &field);
     return status;
 }
 
 /// Update the coaches information
-void ApplicationManager::updateCoaches(const Field & field) const {
+void ApplicationManager::updateCoaches(const ai::world::Field & field) const {
     auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
         ai::coach::getBallCoach->update(field);
         ai::coach::g_DefenceDealer.updateDefenderLocations(field);
@@ -184,11 +183,11 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
             break;
         case Status::Success:
             RTT_SUCCESS("Tree returned status: success! -> Changing strategy to normal_play");
-            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, world_new::World::instance()->getWorld()->getBall());
             break;
         case Status::Failure:
             RTT_WARNING("Tree returned status: failure! -> Changing strategy to normal_play");
-            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START);
+            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, world_new::World::instance()->getWorld()->getBall());
             break;
         case Status::Waiting:
             RTT_INFO("Tree returned status: waiting");
@@ -196,11 +195,12 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     }
 }
 
-void ApplicationManager::decidePlay(world_new::World *_world) {
-    playChecker.update(_world);
-    if (playChecker.isValid(bestPlay)) {
-        bestPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
-//      TODO: replace with the new system BTFactory::setCurrentTree(bestPlay);
+void ApplicationManager::decidePlay(world_new::World* world, const ai::world::Field &field) {
+    playChecker.update(world);
+    if (!playChecker.isValid(bestPlay)) {
+        bestPlay = playDecider.decideBestPlay(world, playChecker.getValidPlays());
+//       TODO: line below
+//       BTFactory::setCurrentTree(bestPlay);
     }
 }
 }  // namespace rtt

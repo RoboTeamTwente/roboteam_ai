@@ -24,7 +24,7 @@ struct PlayStyle {
 class DecisionMaker {
    public:
     explicit DecisionMaker() = default;
-    PlayStyle getRecommendedPlayStyle(BallPossession possession);
+    PlayStyle getRecommendedPlayStyle(BallPossession possession, uint8_t amountOfRobots);
 };
 
 }  // namespace rtt::ai::analysis

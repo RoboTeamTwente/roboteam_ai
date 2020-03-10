@@ -21,7 +21,7 @@ class PlayDecider {
      * @param validPlays a vector of plays which have been vetted by the PlayDecider and are deemed appropriate for this situaton
      * @return the play that best fits the world, and field.
      */
-    Play* decideBestPlay(world::World* world, const world::Field& field, std::vector<Play*> const& validPlays);
+    Play* decideBestPlay(world_new::view::WorldDataView world, const world::Field& field, std::vector<Play*> const& validPlays);
 
    private:
     /**

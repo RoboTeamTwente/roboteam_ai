@@ -6,10 +6,8 @@
 #define RTT_ALWAYSTRUEINVARIANT_H
 
 #include "world/Field.h"
-#include "world/World.h"
 
 namespace rtt::ai::analysis {
-using namespace rtt::ai::world;
 
 /**
  * Invariant that is true when the ball belongs to us
@@ -22,7 +20,7 @@ class AlwaysTrueInvariant {
      * @param field the current field state
      * @return true if the ball belongs to us, false otherwise
      */
-    static bool isValid(rtt::ai::world::World *world, const Field *field);
+    static bool isValid(world_new::view::WorldDataView world, const world::Field *field);
 };
 }  // namespace rtt::ai::analysis
 

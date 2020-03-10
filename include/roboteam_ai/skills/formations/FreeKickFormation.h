@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_FREEKICKFORMATION_H
 
 #include "Formation.h"
+
 namespace rtt::ai {
 
 class FreeKickFormation : public Formation {
@@ -14,8 +15,8 @@ class FreeKickFormation : public Formation {
 
    private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
     static std::vector<Vector2> posses;
     void onTerminate(Status s) override;
 };

@@ -11,8 +11,9 @@
 #include <map>
 #include <iostream>
 #include "gtest/gtest_prod.h"
-#include "include/roboteam_ai/world_new/views/RobotView.hpp"
-#include "include/roboteam_ai/world_new/views/WorldDataView.hpp"
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/WorldDataView.hpp"
+#include "world/Field.h"
 
 namespace rtt::ai {
 
@@ -69,7 +70,6 @@ class Dealer {
   std::unordered_map<std::string, v::RobotView> mapFromAssignments(const std::vector<v::RobotView> &allRobots,
                                                             const FlagMap &flagMap,
                                                             const std::vector<int> &assignment) const;
-
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

@@ -3,6 +3,7 @@
 //
 
 #include "skills/gotopos/GoBehindBall.h"
+
 namespace rtt::ai {
 
 GoBehindBall::GoBehindBall(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {
@@ -23,12 +24,12 @@ Skill::Status GoBehindBall::gtpUpdate() {
             auto ball = world->getBall();
             auto goal = (*field).getTheirGoalCenter();
 
-            Vector2 v = goal - ball->getPos();
-            targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.14)) + ball->getPos();
-            if ((targetPos - robot->pos).length2() > errorMargin * errorMargin) {
+            Vector2 v = goal - ball->get()->getPos();
+            targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.14)) + ball->get()->getPos();
+            if ((targetPos - robot->get()->getPos()).length2() > errorMargin * errorMargin) {
                 return Status::Running;
             } else {
-                command.set_w((ball->getPos() - robot->pos).toAngle());
+                command.set_w((ball->get()->getPos() - robot->get()->getPos()).toAngle());
                 publishRobotCommand();
                 return Status::Success;
             }
@@ -40,7 +41,14 @@ Skill::Status GoBehindBall::gtpUpdate() {
 }
 
 void GoBehindBall::gtpInitialize() {
-    posController->setAvoidBallDistance(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    goToType = stringToGoToType(properties->getString("goToType"));
+    if (goToType == basic) {
+        robot->getControllers().getBasicPosController()->setAvoidBallDistance(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    }
+
+    else if (goToType == numTree) {
+        robot->getControllers().getNumTreePosController()->setAvoidBallDistance(rtt::ai::Constants::ROBOT_RADIUS() + 0.10);
+    }
     if (properties->hasString("type")) {
         refType = stringToRefType(properties->getString("type"));
     }
@@ -66,16 +74,16 @@ Skill::Status GoBehindBall::penaltyUpdate(int genevaState) {
     auto ball = world->getBall();
     auto goal = (*field).getTheirGoalCenter();
 
-    Vector2 v = goal - ball->getPos();
-    targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.2)) + ball->getPos();
+    Vector2 v = goal - ball->get()->getPos();
+    targetPos = ((v * -1.0).stretchToLength(rtt::ai::Constants::ROBOT_RADIUS() + 0.2)) + ball->get()->getPos();
     command.set_geneva_state(genevaState);
     command.set_w(0);
-    return (targetPos - robot->pos).length2() > errorMargin * errorMargin ? Status::Running : Status::Success;
+    return (targetPos - robot->get()->getPos()).length2() > errorMargin * errorMargin ? Status::Running : Status::Success;
 }
 
 int GoBehindBall::chooseRandomGeneva(std::vector<std::pair<int, double>> genevaLikelyHood) {
     double totalLikelyHood = 0;
-    std::vector<std::pair<int, double>> treshHolds;
+    std::vector<std::pair<int, double>> thresholds;
     for (auto states : genevaLikelyHood) {
         if (states.first > 0 && states.first < 6) {
             totalLikelyHood += states.second;
@@ -85,15 +93,15 @@ int GoBehindBall::chooseRandomGeneva(std::vector<std::pair<int, double>> genevaL
     for (auto states : genevaLikelyHood) {
         if (states.first > 0 && states.first < 6) {
             subsum -= states.second;
-            treshHolds.push_back(std::make_pair(states.first, subsum / totalLikelyHood));
+            thresholds.push_back(std::make_pair(states.first, subsum / totalLikelyHood));
         }
     }
     double randNum = randDistribution(mt);
-    for (auto sub : treshHolds) {
+    for (auto sub : thresholds) {
         if (randNum >= sub.second) {
             return sub.first;
         }
     }
-    return treshHolds[treshHolds.size() - 1].first;  // failsave
+    return thresholds[thresholds.size() - 1].first;  // failsave
 }
 }  // namespace rtt::ai

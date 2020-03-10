@@ -6,15 +6,19 @@
 #define RTT_ROBOT_HPP
 
 #include <roboteam_proto/RobotFeedback.pb.h>
+
 #include "RobotType.hpp"
-#include "control/BasicPosControl.h"
-#include "control/ball-handling/BallHandlePosControl.h"
-#include "control/numtrees/NumTreePosControl.h"
-#include "control/shot-controllers/ShotController.h"
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Angle.h"
 #include "world_new/Team.hpp"
 #include "world_new/views/BallView.hpp"
+
+namespace rtt::ai::control {
+    class ShotController;
+    class NumTreePosControl;
+    class BallHandlePosControl;
+    class BasicPosControl;
+}
 
 namespace rtt::world_new::robot {
 
@@ -80,21 +84,13 @@ class Robot {
 
     void setWorkingBallSensor(bool workingBallSensor) noexcept;
 
-    void resetShotController() noexcept;
-
-    void resetNumTreePosControl() noexcept;
-
-    void resetBasicPosControl() noexcept;
-
-    void resetBallHandlePosControl() noexcept;
-
-    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
-
     void setDistanceToBall(double distanceToBall) noexcept;
 
     void setIHaveBall(bool iHaveBall) noexcept;
 
     void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
+
+    void setPidPreviousVel(const Vector2 &pidPreviousVel) noexcept;
 
    public:
     [[nodiscard]] uint32_t getId() const noexcept;
@@ -119,7 +115,6 @@ class Robot {
 
     [[nodiscard]] unsigned char getDribblerState() const noexcept;
 
-
     [[nodiscard]] unsigned char getPreviousDribblerState() const noexcept;
 
     [[nodiscard]] double getTimeDribblerChanged() const noexcept;
@@ -143,6 +138,14 @@ class Robot {
     [[nodiscard]] bool isIHaveBall() const noexcept;
 
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
+
+    void resetShotController() const noexcept;
+
+    void resetNumTreePosControl() const noexcept;
+
+    void resetBasicPosControl() const noexcept;
+
+    void resetBallHandlePosControl() const noexcept;
 
    public:
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,

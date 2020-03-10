@@ -3,8 +3,7 @@
 #include <world/BallPossession.h>
 #include "analysis/RobotDanger.h"
 #include "world/FieldComputations.h"
-#include "world_new/views/RobotView.hpp"
-#include "world_new/views/WorldDataView.hpp"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::analysis {
 
@@ -12,7 +11,7 @@ BallPossession GameAnalyzer::convertPossession(rtt::ai::BallPossession::Possessi
     switch (possession) {
         default:
         case (rtt::ai::BallPossession::LOOSEBALL): {
-            auto ballPosX = rtt::ai::world::world->getBall()->getPos().x;
+            auto ballPosX = world_new::World::instance()->getWorld()->getBall().value()->getPos().x;
             if (ballPosX > 0) {
                 return BallPossession::OFFENSIVE_NEUTRAL;
             } else {
@@ -48,7 +47,7 @@ RobotDanger GameAnalyzer::evaluateRobotDangerScore(const Field &field, v::RobotV
     danger.shortestDistToEnemy = shortestDistToEnemyRobot(robot, ourTeam, world);
     danger.goalVisionPercentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, !ourTeam, robot->getPos(), world);
     danger.robotsToPassTo = getRobotsToPassTo(robot, ourTeam, world);
-    danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->getId(), ourTeam, goalCenter);
+    danger.aimedAtGoal = control::ControlUtils::robotIsAimedAtPoint(robot->getId(), ourTeam, goalCenter, world);
 
     return danger;
 }

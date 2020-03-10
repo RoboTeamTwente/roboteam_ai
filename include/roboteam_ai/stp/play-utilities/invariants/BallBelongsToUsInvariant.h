@@ -6,10 +6,9 @@
 #define RTT_BALLBELONGSTOUSINVARIANT_H
 
 #include <include/roboteam_ai/world/Field.h>
-#include <include/roboteam_ai/world/World.h>
+#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 
 namespace rtt::ai::analysis {
-using namespace rtt::ai::world;
 
 /**
  * Invariant that is true when the ball belongs to us
@@ -22,7 +21,7 @@ class BallBelongsToUsInvariant {
      * @param field the current field state
      * @return true if the ball belongs to us, false otherwise
      */
-    static bool isValid(rtt::ai::world::World *world, const Field &field);
+    static bool isValid(world_new::view::WorldDataView world, const world::Field &field);
 };
 }  // namespace rtt::ai::analysis
 
