@@ -154,6 +154,7 @@ set(NEW_SKILLS_SOURCES
 set(NEW_TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBall.cpp
         )
 
 set(STP_SOURCES

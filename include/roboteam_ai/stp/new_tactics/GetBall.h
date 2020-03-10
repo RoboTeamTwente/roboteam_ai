@@ -5,10 +5,19 @@
 #ifndef RTT_GETBALL_H
 #define RTT_GETBALL_H
 
+#include "stp/Tactic.h"
 
-class GetBall {
+namespace rtt::ai::stp {
+class GetBall : protected Tactic {
+   protected:
+    void onInitialize() noexcept override;
 
+    void onUpdate(Status const &status) noexcept override;
+
+    void onTerminate() noexcept override;
+
+    SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept override;
 };
+}  // namespace rtt::ai::stp
 
-
-#endif //RTT_GETBALL_H
+#endif  // RTT_GETBALL_H
