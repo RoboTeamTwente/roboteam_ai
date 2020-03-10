@@ -90,14 +90,6 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
         )
 
 set(UTILS_SOURCES
@@ -175,16 +167,21 @@ set(SKILLS_SOURCES
 set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Kick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
 set(NEW_TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
         )
 
 set(STP_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -225,8 +222,11 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/VoronoiPathPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/BasicPathTracking.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/NumTreesTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/DensePathTracking.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PidTracking.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
 
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
         ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
@@ -264,7 +264,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         )
 
 

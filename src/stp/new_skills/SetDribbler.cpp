@@ -3,28 +3,32 @@
 //
 
 #include "stp/new_skills/SetDribbler.h"
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai::stp {
 
-Status SetDribbler::onInitialize() noexcept {
-    return Status::Success;
-}
-//TODO implement this skill again
+void SetDribbler::onInitialize() noexcept { }
+
 Status SetDribbler::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
-/*
+    int dribblerSpeed = info.getDribblerSpeed();
 
-  if (dribblerSpeed < 0 || dribblerSpeed > 255) {
-      return Status::Failure;
-  }
+    // Check if dribbler speed is in range
+    if (dribblerSpeed < 0 || dribblerSpeed > 31) {
+        RTT_ERROR("Dribbler speed not within acceptable range")
+        return Status::Failure;
+    }
 
-  command.set_dribbler(dribblerSpeed);
+    // Set dribbler speed command
+    command.set_dribbler(dribblerSpeed);
 
-  publishRobotCommand();
-*/
+    publishRobotCommand();
 
-  return Status::Running;
+    if(robot->get()->getDribblerState() == dribblerSpeed) {
+        return Status::Success;
+    }
+    return Status::Running;
 }
 
-Status SetDribbler::onTerminate() noexcept {}
+void SetDribbler::onTerminate() noexcept { }
 
 }  // namespace rtt::ai

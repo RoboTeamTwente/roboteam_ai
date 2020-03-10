@@ -66,9 +66,10 @@ void ApplicationManager::runOneLoopCycle() {
             robotsInitialized = true;
 
             world_new::World::instance()->updateField(fieldMessage);
+            world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world_new::World::instance()->getWorld().value(), field);
+            decidePlay(world_new::World::instance());
             updateTrees();
             updateCoaches(field);
             runKeeperTree(field);
@@ -201,5 +202,4 @@ void ApplicationManager::decidePlay(world_new::view::WorldDataView world, const 
         BTFactory::setCurrentTree(bestplay);
     }
 }
-
 }  // namespace rtt

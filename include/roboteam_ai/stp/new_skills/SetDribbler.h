@@ -14,13 +14,13 @@ namespace rtt::ai::stp {
  */
 class SetDribbler : public Skill {
    public:
-        Status onInitialize() noexcept override;
+        void onInitialize() noexcept override;
         /**
         * Sets the dribbler speed using blackboard parameter: "dribblerSpeed"
         * @return status of the skill
         */
         Status onUpdate(SkillInfo const& info) noexcept override;
-        Status onTerminate() noexcept override;
+        void onTerminate() noexcept override;
 };
 
 }  // namespace rtt::ai

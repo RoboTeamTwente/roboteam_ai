@@ -57,7 +57,7 @@ namespace rtt::ai::stp {
          * Terminates the skill
          * @return Status of termination
          */
-        virtual Status onTerminate() noexcept = 0;
+        virtual void onTerminate() noexcept = 0;
 
         /**
          * Function that's called when the skill gets updated (every tick)
@@ -70,7 +70,7 @@ namespace rtt::ai::stp {
          * Initializes the skill
          * @return Status of initialization
          */
-        virtual Status onInitialize() noexcept = 0;
+        virtual void onInitialize() noexcept = 0;
 
         /**
          * Resets all the robot controllers in the RobotController struct
@@ -82,7 +82,7 @@ namespace rtt::ai::stp {
          * Calls onInitialize
          * @return Status of initialization
          */
-        virtual Status initialize() noexcept;
+        virtual void initialize() noexcept;
 
         /**
          * Function that's called when the skill gets updated (every tick)
@@ -95,7 +95,7 @@ namespace rtt::ai::stp {
          * Calls onTerminate
          * @return Status of termination
          */
-        virtual Status terminate() noexcept;
+        virtual void terminate() noexcept;
 
         /**
          * Virtual dtor that ensures proper destruction

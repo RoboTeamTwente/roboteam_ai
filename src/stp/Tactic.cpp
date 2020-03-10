@@ -7,16 +7,29 @@
 
 namespace rtt::ai::stp {
 
-TacticInfo Tactic::calculateInfoForSkill() {
+void Tactic::initialize() noexcept {
+    onInitialize();
 }
 
-Status Tactic::initialize() noexcept {
-    return onInitialize();
-}
 Status Tactic::update(TacticInfo const &info) noexcept {
-    return onUpdate(calculateInfoForSkill());
+    // Check if the skills are all finished
+    if(skills.finished()) {
+        return Status::Success;
+    }
+
+    // Update skill info
+    auto skill_info = calculateInfoForSkill(info);
+
+    // Update the current skill with the new SkillInfo
+    auto status = skills.update(skill_info);
+
+    // Call onUpdate on a skill for specific behaviour
+    onUpdate(status);
+
+    return status;
 }
-Status Tactic::terminate() noexcept {
-    return onTerminate();
+
+void Tactic::terminate() noexcept {
+    onTerminate();
 }
 }  // namespace rtt::ai::stp
