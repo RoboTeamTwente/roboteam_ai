@@ -5,8 +5,7 @@
 #include "control/positionControl/pathTracking/BasicPathTracking.h"
 
 namespace rtt::ai::control {
-
-Position BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints) {
+Position BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle) {
     PositionControlUtils::removeFirstIfReached(pathPoints, currentPosition);
 
     Vector2 velocity = pathPoints.front() - currentPosition;
@@ -15,6 +14,6 @@ Position BasicPathTracking::trackPath(const Vector2 &currentPosition, const Vect
         velocity = velocity.stretchToLength(MAX_VELOCITY);
     }
 
-    return Position{velocity, velocity.angle()};
+    return {velocity, angle};
 }
 }  // namespace rtt::ai::control
