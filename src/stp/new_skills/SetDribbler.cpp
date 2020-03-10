@@ -21,6 +21,9 @@ Status SetDribbler::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     // Set dribbler speed command
     command.set_dribbler(dribblerSpeed);
 
+    // Set angle command
+    command.set_w(info.getRobot().value()->getAngle().getAngle());
+
     publishRobotCommand();
 
     if(robot->get()->getDribblerState() == dribblerSpeed) {
