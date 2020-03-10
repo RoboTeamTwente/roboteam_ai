@@ -10,15 +10,13 @@
 
 namespace rtt::ai::analysis {
 
-PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession) {
-    int amountOfRobots = world::world->getUs().size();
-
+PlayStyle DecisionMaker::getRecommendedPlayStyle(BallPossession possession, uint8_t amountOfRobots) {
     // subtract one robot if we have a keeper
     if (robotDealer::RobotDealer::keeperExistsInWorld()) {
         amountOfRobots = std::max(0, amountOfRobots - 1);
     }
-    PlayStyle styles[9][5] = {
-
+    // static -> prevent instantiation more than once, gets placed in static memory
+    static PlayStyle styles[9][5] = {
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0}},  // 0
         {{1, 0, 0}, {1, 0, 0}, {1, 0, 0}, {0, 0, 1}, {0, 0, 1}},  // 1
         {{2, 0, 0}, {1, 0, 1}, {1, 0, 1}, {1, 0, 1}, {1, 0, 1}},  // 2

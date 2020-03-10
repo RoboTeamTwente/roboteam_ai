@@ -8,8 +8,10 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
+
 #include <include/roboteam_ai/stp/PlayChecker.hpp>
 #include <include/roboteam_ai/stp/PlayDecider.hpp>
+
 #include "treeinterp/BTFactory.h"
 #include "utilities/IOManager.h"
 namespace rtt {
@@ -52,10 +54,10 @@ class ApplicationManager {
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches(const ai::world::Field & field) const;
+    void updateCoaches(const ai::world::Field& field) const;
     void updateTrees();
-    bt::Node::Status runStrategyTree(const ai::world::Field & field);
-    void runKeeperTree(const ai::world::Field & field);
+    bt::Node::Status runStrategyTree(const ai::world::Field& field);
+    void runKeeperTree(const ai::world::Field& field);
 };
 
 }  // namespace rtt

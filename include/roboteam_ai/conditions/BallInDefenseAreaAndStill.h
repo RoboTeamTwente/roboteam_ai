@@ -10,7 +10,6 @@ class BallInDefenseAreaAndStill : public Condition {
 
    private:
     bool theirDefenceArea;
-    bool outsideField = false;
 
    public:
     explicit BallInDefenseAreaAndStill(std::string name = "BallInDefenseAreaAndStill", bt::Blackboard::Ptr blackboard = nullptr);

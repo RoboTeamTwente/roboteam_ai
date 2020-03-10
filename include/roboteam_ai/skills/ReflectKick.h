@@ -5,9 +5,6 @@
 #ifndef ROBOTEAM_AI_REFLECTKICK_H
 #define ROBOTEAM_AI_REFLECTKICK_H
 
-#include <coach/BallplacementCoach.h>
-#include <coach/PassCoach.h>
-#include <control/BasicPosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {
@@ -38,7 +35,6 @@ class ReflectKick : public Skill {
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
-    Vector2 getFarSideOfGoal();
 };
 
 }  // namespace rtt::ai

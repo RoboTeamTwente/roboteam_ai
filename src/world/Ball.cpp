@@ -1,8 +1,8 @@
-#include "world/Ball.h"
+
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
 #include <cmath>
-#include "world/World.h"
+
 #include "world/WorldData.h"
 
 namespace rtt::ai::world {

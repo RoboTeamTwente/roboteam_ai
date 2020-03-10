@@ -95,7 +95,7 @@ class RobotView {
      * Gets the controllers for a robot
      * @return World->getControllersForRobot(robotPtr->id);
      */
-    [[nodiscard]] robot::RobotControllers const &getControllers() const noexcept;
+    [[nodiscard]] robot::RobotControllers &getControllers() const noexcept;
 };
 
 }  // namespace rtt::world_new::view

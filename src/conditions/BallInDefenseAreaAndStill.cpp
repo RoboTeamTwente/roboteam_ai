@@ -3,8 +3,6 @@
  * AND if the ball lays still
  */
 #include "conditions/BallInDefenseAreaAndStill.h"
-#include <world/Ball.h>
-#include <world/FieldComputations.h>
 #include "utilities/Constants.h"
 
 namespace rtt::ai {
@@ -13,15 +11,15 @@ BallInDefenseAreaAndStill::BallInDefenseAreaAndStill(std::string name, bt::Black
 
 void BallInDefenseAreaAndStill::onInitialize() {
     theirDefenceArea = properties->getBool("theirDefenceArea");
-    outsideField = properties->getBool("outsideField");
 }
 
 bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
-    Vector2 ballPos = ball->getPos();
-    Vector2 ballVel = ball->getVel();
+    Vector2 ballPos = ball->get()->getPos();
+    Vector2 ballVel = ball->get()->getVelocity();
 
     bool pointIsInDefenceArea = FieldComputations::pointIsInDefenceArea(*field, ballPos, !theirDefenceArea, 0.02, false);
     bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
+
     if (pointIsInDefenceArea && ballIsLayingStill) {
         return Status::Success;
     }

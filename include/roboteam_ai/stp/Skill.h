@@ -6,6 +6,7 @@
 #define RTT_SKILL_H
 
 #include <bt/Node.h>
+#include <roboteam_proto/RobotCommand.pb.h>
 
 #include <world_new/views/RobotView.hpp>
 

@@ -7,6 +7,7 @@
 
 #include <roboteam_utils/Circle.h>
 #include <roboteam_utils/Rectangle.h>
+#include <world/Field.h>
 
 #include "world_new/views/BallView.hpp"
 #include "world_new/views/RobotView.hpp"
@@ -88,8 +89,8 @@ struct TacticInfo {
     Vector2 getPosition() const { return position; };
     void setPosition(Vector2 position) { this->position = position; };
 
-    std::optional<Field> getField() const { return field; };
-    void setField(Field field) { this->field = field; };
+    std::optional<world::Field> getField() const { return field; };
+    void setField(world::Field field) { this->field = field; };
 
     std::optional<world_new::view::RobotView> getRobot() const { return _robot; }
     void setRobot(std::optional<world_new::view::RobotView> robot) { this->_robot = robot; }
@@ -113,7 +114,7 @@ struct TacticInfo {
     /**
      * Field
      */
-    std::optional<Field> field;
+    std::optional<world::Field> field;
 
     /**
      * Robot this tactic applies to

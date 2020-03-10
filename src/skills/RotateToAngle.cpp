@@ -2,11 +2,7 @@
 // Created by rolf on 21/11/18.
 //
 
-#include "skills/RotateToAngle.h"
-
-#include "control/ControlUtils.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
+#include <skills/RotateToAngle.h>
 
 namespace rtt::ai {
 RotateToAngle::RotateToAngle(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
@@ -17,13 +13,13 @@ void RotateToAngle::onInitialize() {
     }
 
     if (properties->getBool("rotateToBall")) {
-        targetAngle = ((Vector2)ball->getPos() - robot->pos).angle();
+        targetAngle = ((Vector2)ball->get()->getPos() - robot->get()->getPos()).angle();
     }
 }
 
 RotateToAngle::Status RotateToAngle::onUpdate() {
     command.set_w(static_cast<float>(targetAngle));
-    deltaAngle = fabs(Control::constrainAngle(targetAngle - robot->angle));
+    deltaAngle = fabs(control::ControlUtils::constrainAngle(targetAngle - robot->get()->getAngle()));
     currentProgress = checkProgression();
 
     switch (currentProgress) {

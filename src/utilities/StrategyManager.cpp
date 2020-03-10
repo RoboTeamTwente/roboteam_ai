@@ -3,15 +3,12 @@
 //
 
 #include "utilities/StrategyManager.h"
-
 #include "utilities/GameStateManager.hpp"
-#include "world/Ball.h"
-#include "world/World.h"
 
 namespace rtt::ai {
 
 // process ref commands
-void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage) {
+void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage, std::optional<world_new::view::BallView> ballOpt) {
     // if the stage is shootout, we interpret penalty commands as shootOut penalty commands
     if (stage == proto::SSL_Referee_Stage_PENALTY_SHOOTOUT) {
         if (command == RefCommand::PREPARE_PENALTY_US) {
@@ -43,8 +40,9 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
     } else {
         newState = getRefGameStateForRefCommand(command);
     }
-    if (world::world->getBall()) {
-        newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
+
+    if (ballOpt.has_value()) {
+        newState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
     } else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
@@ -64,11 +62,11 @@ const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand comm
     return gameStates[0];
 }
 
-void StrategyManager::forceCurrentRefGameState(RefCommand command) {
+void StrategyManager::forceCurrentRefGameState(RefCommand command, std::optional<world_new::view::BallView> ballOpt) {
     // we need to change refgamestate here
     RefGameState newState = getRefGameStateForRefCommand(command);
-    if (world::world->getBall()) {
-        newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
+    if (ballOpt.has_value()) {
+        newState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
     } else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
