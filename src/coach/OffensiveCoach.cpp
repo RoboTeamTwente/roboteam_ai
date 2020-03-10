@@ -3,6 +3,7 @@
 //
 
 #include "coach/OffensiveCoach.h"
+
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
 #include <interface/widgets/widget.h>
@@ -85,12 +86,12 @@ void OffensiveCoach::updateOffensivePositions(const Field &field) {
     }
 }
 
-void OffensiveCoach::addSideAttacker(const Field &field, const OffensiveCoach::RobotPtr &robot) {
-    sideAttackers[robot->id] = -1;
+void OffensiveCoach::addSideAttacker(const Field &field, const world_new::view::RobotView robot) {
+    sideAttackers[robot->getId()] = -1;
     redistributePositions(field);
 }
 
-void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr &robot) { sideAttackers.erase(robot->id); }
+void OffensiveCoach::removeSideAttacker(const world_new::view::RobotView robot) { sideAttackers.erase(robot->getId()); }
 
 Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
     if (sideAttackers.find(robotID) != sideAttackers.end()) {
@@ -105,8 +106,8 @@ Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
 void OffensiveCoach::redistributePositions(const Field &field) {
     std::unordered_map<int, Vector2> currentAttackerLocations;
     for (auto &robotIdPair : sideAttackers) {
-        auto robot = world::world->getRobotForId(robotIdPair.first);
-        currentAttackerLocations.insert({robot->id, robot->pos});
+        auto robot = world_new::World::instance()->getWorld()->getRobotForId(robotIdPair.first);
+        currentAttackerLocations.insert({robot->get()->getId(), robot->get()->getPos()});
     }
     updateOffensivePositions(field);
     std::vector<Vector2> positions = getOffensivePositions(currentAttackerLocations.size());

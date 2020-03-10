@@ -1,10 +1,10 @@
-//
-// Created by rolf on 12-4-19.
-//
+/*
+ * returns SUCCESS if a robot should pass or if a robot should get the ball. Otherwise FAILURE.
+ */
 
 #include "conditions/ShouldHandleBall.h"
-
 #include "coach/GetBallCoach.h"
+#include <coach/PassCoach.h>
 
 namespace rtt::ai {
 
@@ -15,14 +15,14 @@ std::string ShouldHandleBall::node_name() { return "ShouldHandleBall"; }
 ShouldHandleBall::Status ShouldHandleBall::onUpdate() {
     bool passExists = coach::g_pass.getRobotBeingPassedTo() != -1;
     if (passExists) {
-        if (!coach::g_pass.isPassed() && coach::g_pass.getRobotPassing() == robot->id) {
+        if (!coach::g_pass.isPassed() && coach::g_pass.getRobotPassing() == robot->get()->getId()) {
             return Status::Success;
         } else {
             return Status::Failure;
         }
     }
 
-    if (!passExists && coach::getBallCoach->getBallGetterID() == robot->id) {
+    if (!passExists && coach::getBallCoach->getBallGetterID() == robot->get()->getId()) {
         return Status::Success;
     }
 

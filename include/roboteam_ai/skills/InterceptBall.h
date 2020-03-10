@@ -5,8 +5,6 @@
 #ifndef ROBOTEAM_AI_INTERCEPTBALL_H
 #define ROBOTEAM_AI_INTERCEPTBALL_H
 
-#include <control/BasicPosControl.h>
-#include <control/numtrees/NumTreePosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {
@@ -38,7 +36,6 @@ class InterceptBall : public Skill {
     bool backwards;
     bool stayAtOrientation = false;
     bool orientationLocked = false;
-    control::BasicPosControl poscontroller;
     // Relevant to keeper only
     bool keeper;
     bool ballToGoal();

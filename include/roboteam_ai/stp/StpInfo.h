@@ -7,6 +7,7 @@
 
 #include <roboteam_utils/Rectangle.h>
 #include <roboteam_utils/Circle.h>
+#include <world/Field.h>
 #include "world_new/views/RobotView.hpp"
 #include "world_new/views/BallView.hpp"
 
@@ -72,8 +73,8 @@ namespace rtt::ai::stp {
         Vector2 getPosition() const { return position; };
         void setPosition(Vector2 position) { this->position = position; };
 
-        std::optional<Field> getField() const { return field; };
-        void setField(Field field) { this->field = field; };
+        std::optional<world::Field> getField() const { return field; };
+        void setField(world::Field field) { this->field = field; };
 
         /**
          * Maximum speed that something can have, the ball, the robot... whatever the skill needs
@@ -94,7 +95,7 @@ namespace rtt::ai::stp {
         /**
          * Field
          */
-        std::optional<Field> field;
+        std::optional<world::Field> field;
     };
 
 

@@ -8,7 +8,7 @@
 //#include "include/roboteam_ai/coach/PassCoach.h"
 //#include "control/PositionUtils.h"
 //#include "world/Field.h"
-//#include "world/World.h"
+//
 //#include "../helpers/FieldHelper.h"
 //#include <cmath>
 //

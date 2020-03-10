@@ -7,7 +7,6 @@
 
 #include <mutex>
 #include "roboteam_proto/RobotCommand.pb.h"
-#include "world/World.h"
 
 namespace rtt::ai {
 

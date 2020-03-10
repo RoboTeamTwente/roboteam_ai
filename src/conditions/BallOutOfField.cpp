@@ -4,8 +4,6 @@
  */
 
 #include "conditions/BallOutOfField.h"
-#include <world/Ball.h>
-#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 
@@ -14,9 +12,9 @@ BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
 bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos;
     if (properties->hasDouble("secondsAhead")) {
-        ballPos = ball->getPos() + ball->getVel() * properties->getDouble("secondsAhead");
+        ballPos = ball->get()->getPos() + ball->get()->getVelocity() * properties->getDouble("secondsAhead");
     } else {
-        ballPos = ball->getPos();
+        ballPos = ball->get()->getPos();
     }
 
     // return success if the ball is out of the field

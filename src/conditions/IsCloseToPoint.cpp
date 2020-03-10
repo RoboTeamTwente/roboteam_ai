@@ -2,14 +2,11 @@
  * return SUCCESS when the ball is close to a point
  * properties:
  * - margin: the distance to the ball in which it is 'close'
- * - ball: wether to determine the robot is close to the ball
- * - position: whether to determine wheter to determine the robot is close to a position (needs ball to be false)
+ * - ball: whether to determine the robot is close to the ball
+ * - position: whether to determine whether to determine the robot is close to a position (needs ball to be false)
  */
 
 #include "conditions/IsCloseToPoint.h"
-
-#include "world/Ball.h"
-#include "world/Robot.h"
 
 namespace rtt::ai {
 
@@ -21,14 +18,14 @@ void IsCloseToPoint::onInitialize() {
     }
 
     if (properties->getBool("ball")) {
-        position = ball->getPos();
+        position = ball->get()->getPos();
     } else {
         position = properties->getVector2("position");
     }
 }
 
 IsCloseToPoint::Status IsCloseToPoint::onUpdate() {
-    double deltaPos = (position - robot->pos).length();
+    double deltaPos = (position - robot->get()->getPos()).length();
     if (deltaPos >= margin) {
         return Status::Failure;
     }

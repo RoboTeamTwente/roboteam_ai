@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_KICKOFFFORMATION_H
 #define ROBOTEAM_AI_KICKOFFFORMATION_H
 
-#include "skills/formations/Formation.h"
+#include "Formation.h"
 
 namespace rtt::ai {
 
@@ -11,8 +11,8 @@ class KickOffUsFormation : public Formation {
 
    private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
 };
 
 }  // namespace rtt::ai

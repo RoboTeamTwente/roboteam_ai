@@ -63,6 +63,26 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/ParallelSequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemParallelSequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/Selector.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/Sequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Failer.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Inverter.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Repeater.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Succeeder.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilFail.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilSuccess.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/BehaviorTree.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Composite.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Decorator.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
         )
 
 set(ANALYSIS_SOURCES
@@ -81,6 +101,7 @@ set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
+        ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         )
 
 set(MANUAL_SOURCES
@@ -169,7 +190,6 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/IsRobotClosestToBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/CanReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/Condition.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/TheyHaveBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/WeHaveBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/BallKickedToOurGoal.cpp
@@ -281,12 +301,7 @@ set(INTERFACE_SOURCES
         )
 
 set(WORLD_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/History.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/FutureWorld.cpp
         ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
@@ -339,7 +354,6 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
-        PRIVATE rtt::bt
         PRIVATE ${SDL2_LIBRARY}
         )
 

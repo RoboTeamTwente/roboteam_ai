@@ -3,7 +3,6 @@
  */
 
 #include "conditions/IsBeingPassedTo.h"
-
 #include <coach/PassCoach.h>
 
 namespace rtt::ai {
@@ -11,7 +10,7 @@ namespace rtt::ai {
 IsBeingPassedTo::IsBeingPassedTo(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 IsBeingPassedTo::Status IsBeingPassedTo::onUpdate() {
-    if (coach::g_pass.getRobotBeingPassedTo() == robot->id) {
+    if (coach::g_pass.getRobotBeingPassedTo() == robot->get()->getId()) {
         return Status::Success;
     }
 

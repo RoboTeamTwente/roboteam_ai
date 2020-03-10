@@ -1,10 +1,11 @@
 //
 // Created by thijs on 6-7-19.
 //
-#include <skills/formations/StopFormation.h>
 
 #ifndef ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
 #define ROBOTEAM_AI_BALLPLACEMENTFORMATION_H
+
+#include <skills/formations/StopFormation.h>
 
 namespace rtt::ai {
 class BallPlacementFormation : public StopFormation {
@@ -15,8 +16,8 @@ class BallPlacementFormation : public StopFormation {
     void updateFormation() override;
     Vector2 getFormationPosition() override;
 
-    std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
     bool positionShouldBeAvoided(Vector2 pos) override;
 };
 }  // namespace rtt::ai

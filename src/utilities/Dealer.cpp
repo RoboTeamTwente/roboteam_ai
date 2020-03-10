@@ -1,6 +1,7 @@
 #include <roboteam_utils/Hungarian.h>
 #include "utilities/Dealer.h"
 #include <roboteam_utils/LineSegment.h>
+#include "world/FieldComputations.h"
 #include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
@@ -79,6 +80,9 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::LOW_PRIORITY: return 1.0;
         case DealerFlagPriority::MEDIUM_PRIORITY: return 2.0;
         case DealerFlagPriority::HIGH_PRIORITY: return 3.0;
+        default:
+            std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
+            return 0;
     }
 }
 

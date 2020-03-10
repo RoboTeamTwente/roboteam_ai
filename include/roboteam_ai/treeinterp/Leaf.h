@@ -3,12 +3,7 @@
 #include "bt/Node.h"
 #include "roboteam_utils/Angle.h"
 #include "roboteam_utils/Vector2.h"
-
-// forward declare Robot and Ball
-namespace rtt::ai::world {
-class Robot;
-class Ball;
-}  // namespace rtt::ai::world
+#include <world_new/World.hpp>
 
 namespace bt {
 
@@ -18,15 +13,23 @@ class Leaf : public Node {
     Leaf(std::string name, Blackboard::Ptr blackboard);
     std::string name;
 
-   protected:
-    using RobotPtr = std::shared_ptr<rtt::ai::world::Robot>;
-    using BallPtr = std::shared_ptr<rtt::ai::world::Ball>;
+    protected:
+    /** Retrieves the robot using the ROLE set in the blackboard. Returns an empty pointer if ROLE is not set
+     * @param properties : Blackboard properties
+     * @return an (empty) optional pointer to a RobotView
+     */
+    std::optional<rtt::world_new::view::RobotView> getRobotFromProperties(const bt::Blackboard::Ptr& properties);
 
-    std::shared_ptr<rtt::ai::world::Robot> getRobotFromProperties(const bt::Blackboard::Ptr& properties);
+    /** Resets the robotId back to -1
+     * @param status : Status with which it terminates
+     */
     void terminate(Status status) override;
+
+    /** Sets the robot using robotId */
     void updateRobot();
-    RobotPtr robot;
-    BallPtr ball;
+
+    std::optional<rtt::world_new::view::RobotView> robot;
+    std::optional<rtt::world_new::view::BallView> ball;
     int robotId = -1;
 };
 

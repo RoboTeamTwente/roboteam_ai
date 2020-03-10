@@ -2,19 +2,18 @@
 // Created by rolf on 30-1-19.
 //
 
-#include "skills/gotopos/GoAroundPos.h"
+#include <skills/gotopos/GoAroundPos.h>
 #include <control/ControlUtils.h>
-#include "interface/api/Input.h"
 
 namespace rtt::ai {
 
-GoAroundPos::GoAroundPos(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(name, blackboard) {}
+GoAroundPos::GoAroundPos(std::string name, bt::Blackboard::Ptr blackboard) : GoToPos(std::move(name), std::move(blackboard)) {}
 
 void GoAroundPos::gtpInitialize() {
     if (properties->hasBool("ball")) {
         if (ball) {
             ballIsTarget = true;
-            targetPos = ball->getPos();
+            targetPos = ball->get()->getPos();
         } else {
             std::cerr << "Get some balls" << std::endl;
         }
@@ -24,17 +23,17 @@ void GoAroundPos::gtpInitialize() {
     }
 
     if (properties->hasDouble("targetDir")) {
-        endAngle = Control::constrainAngle(properties->getDouble("targetDir"));
+        endAngle = control::ControlUtils::constrainAngle(properties->getDouble("targetDir"));
     } else if (properties->getBool("towardsTheirGoal")) {
-        endAngle = Control::constrainAngle(((*field).getTheirGoalCenter() - targetPos).angle());
+        endAngle = control::ControlUtils::constrainAngle(((*field).getTheirGoalCenter() - targetPos).angle());
     } else {
         endAngle = 0;
         std::cerr << "GoAroundPos update --> No target direction set! Defaulting to 0" << std::endl;
     }
 
-    deltaPos = targetPos - robot->pos;
+    deltaPos = targetPos - robot->get()->getPos();
     startAngle = deltaPos.angle();
-    rotateDir = Control::rotateDirection(startAngle, endAngle);
+    rotateDir = control::ControlUtils::rotateDirection(startAngle, endAngle);
     if (ballIsTarget) {
         distanceFromPoint = BALL_DIST;
     } else {
@@ -46,14 +45,14 @@ void GoAroundPos::gtpInitialize() {
         }
     }
     currentTick = 0;
-    angleDif = Control::angleDifference(startAngle, endAngle);
+    angleDif = control::ControlUtils::angleDifference(startAngle, endAngle);
     maxTick = floor(angleDif / SPEED * Constants::TICK_RATE());
     currentProgress = ROTATING;
 }
 
 GoAroundPos::Status GoAroundPos::gtpUpdate() {
     if (!robot) {
-        std::cout << "RobotPtr not found ree: " << std::to_string(robot->id).c_str() << std::endl;
+        std::cout << "RobotPtr not found ree: " << std::to_string(robot->get()->getId()).c_str() << std::endl;
         return Status::Failure;
     }
     if (ballIsTarget && !ball) {
@@ -61,7 +60,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
         return Status::Failure;
     }
     if (ballIsTarget) {
-        targetPos = ball->getPos();
+        targetPos = ball->get()->getPos();
     }
     if (currentTick <= maxTick) {
         commandPos = targetPos + Vector2(distanceFromPoint, 0).rotate(startAngle + rotateDir * currentTick / maxTick * angleDif + M_PI);
@@ -69,7 +68,7 @@ GoAroundPos::Status GoAroundPos::gtpUpdate() {
         commandPos = targetPos + Vector2(distanceFromPoint, 0).rotate(endAngle + M_PI);
     }
 
-    deltaPos = targetPos - robot->pos;
+    deltaPos = targetPos - robot->get()->getPos();
     currentProgress = checkProgression();
     currentTick++;
 
@@ -119,8 +118,8 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
 
     if (currentProgress == STOPPING) {
         // Done when robot sufficiently close to desired end position and rotation.
-        double angDif = Control::angleDifference(deltaPos.angle(), endAngle);
-        double posDif = (commandPos - robot->pos).length();
+        double angDif = control::ControlUtils::angleDifference(deltaPos.angle(), endAngle);
+        double posDif = (commandPos - robot->get()->getPos()).length();
         if (posDif < POS_MARGIN && angDif < ANGLE_MARGIN) {
             return DONE;
         }
@@ -136,7 +135,7 @@ GoAroundPos::Progression GoAroundPos::checkProgression() {
 
 bool GoAroundPos::checkPosition() {
     double currentAngle = deltaPos.angle();
-    double totalSum = Control::angleDifference(startAngle, currentAngle) + Control::angleDifference(currentAngle, endAngle);
+    double totalSum = control::ControlUtils::angleDifference(startAngle, currentAngle) + control::ControlUtils::angleDifference(currentAngle, endAngle);
     if (totalSum > angleDif + 0.1 * M_PI * 2) {
         return false;
     }
@@ -144,7 +143,7 @@ bool GoAroundPos::checkPosition() {
 }
 
 void GoAroundPos::sendRotateCommand() {
-    Vector2 deltaCommandPos = (commandPos - robot->pos);
+    Vector2 deltaCommandPos = (commandPos - robot->get()->getPos());
     command.set_dribbler(0);
     command.mutable_vel()->set_x(static_cast<float>(deltaCommandPos.x));
     command.mutable_vel()->set_y(static_cast<float>(deltaCommandPos.y));

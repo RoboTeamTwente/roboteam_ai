@@ -25,13 +25,12 @@ class AvoidBall : public Skill {
 
    private:
     enum Progression { RUNNING, DONE, FAIL };
-    Progression currentProgress;
 
     enum Type { BALLPLACEMENT, PASSING, DEFAULT };
 
     Type type;
     Type stringToType(std::string string);
-    RobotPtr receiver;
+    std::optional<world_new::view::RobotView> receiver;
 };
 
 }  // namespace rtt::ai
