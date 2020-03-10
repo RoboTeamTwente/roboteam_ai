@@ -12,7 +12,6 @@ std::vector<Vector2> DefendFreeKick::posses;
 std::vector<world_new::view::RobotView> rtt::ai::DefendFreeKick::robotsInFormation{};
 
 Vector2 DefendFreeKick::getFormationPosition() {
-
     auto ballOpt = world_new::World::instance()->getWorld()->getBall();
     if (ballOpt) {
         robot->getControllers().getNumTreePosController()->setAvoidBallDistance(0.55);
