@@ -95,11 +95,20 @@ class World {
     void updateField(proto::SSL_GeometryFieldSize &protoField);
 
     /**
+     * Update the position control using the new robot position
+     */
+    void updatePositionControl();
+
+    /**
      * Gets the current world
      * @return std::nullopt if there is no currentWorld, otherwise Some with the value
      */
     [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
 
+    /**
+     * Gets the current field
+     * @return std::nullopt if there is no currentField, otherwise Some with the value
+     */
     [[nodiscard]] std::optional<ai::world::Field> getField() const noexcept;
 
     /**
