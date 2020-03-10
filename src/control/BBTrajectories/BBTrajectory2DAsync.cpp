@@ -4,6 +4,7 @@
 
 #include "include/roboteam_ai/control/BBTrajectories/BBTrajectory2DAsync.h"
 #include <cmath>
+#include <roboteam_utils/LineSegment.h>
 
 namespace rtt {
 
@@ -13,17 +14,19 @@ BBTrajectory2DAsync::BBTrajectory2DAsync(const Vector2 &initialPos, const Vector
 }
 
 void BBTrajectory2DAsync::generateTrajectory(const Vector2 &initialVel,
-        const Vector2 &finalPos, double maxVel, double maxAcc, double alpha) noexcept {
+        const Vector2 &finalPos, double maxVel, double maxAcc, double alpha) {
     x = BBTrajectory1D(0, initialVel.x, finalPos.x, maxVel*cosf(alpha), maxAcc*cosf(alpha));
     y = BBTrajectory1D(0, initialVel.y, finalPos.y, maxVel*sinf(alpha), maxAcc*sinf(alpha));
 }
 
 void BBTrajectory2DAsync::generateAsyncTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,
-        const Vector2 &finalPos, double maxVel, double maxAcc, const LineSegment &line) noexcept {
+        const Vector2 &finalPos, double maxVel, double maxAcc, const LineSegment &line) {
     assert(line.length() != 0);// We need to give an input direction
     rotation = line.direction().angle();
     startPosition = initialPos;
     //The idea is to do a binary search over alpha to find a trajectory in x and y direction (which is minimal time)
+    //We rotate the local search axis to the line direction. This makes it so we can choose a solution that maybe takes
+    // a bit longer but arrives on the line earlier because we can minimize the direction orthogonal to the line fast.
     double inc = M_PI_4*0.25;
     double alpha = M_PI_4*1.5;
     Vector2 lineStart = (line.start - initialPos).rotate(- rotation);
@@ -53,7 +56,12 @@ void BBTrajectory2DAsync::generateAsyncTrajectory(const Vector2 &initialPos, con
 Vector2 BBTrajectory2DAsync::getPosition(double t) const {
     return Vector2(x.getPosition(t), y.getPosition(t)).rotate(rotation) + startPosition;
 }
-
+Vector2 BBTrajectory2DAsync::getVelocity(double t) const {
+    return Vector2(x.getVelocity(t),y.getVelocity(t)).rotate(rotation);
+}
+Vector2 BBTrajectory2DAsync::getAcceleration(double t) const {
+    return Vector2(x.getAcceleration(t),y.getAcceleration(t)).rotate(rotation);
+}
 std::vector<Vector2> BBTrajectory2DAsync::visCurve() const {
     std::vector<Vector2> points;
     double timeStep = fmax(x.getTotalTime(), y.getTotalTime())/30.0;

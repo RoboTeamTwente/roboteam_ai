@@ -5,10 +5,10 @@
 #ifndef RTT_BBTRAJECTORY2DASYNC_H
 #define RTT_BBTRAJECTORY2DASYNC_H
 
-#include <roboteam_utils/LineSegment.h>
 #include "BBTrajectory2D.h"
 
 namespace rtt {
+class LineSegment;
 
 class BBTrajectory2DAsync {
     private:
@@ -21,9 +21,9 @@ class BBTrajectory2DAsync {
         BBTrajectory2DAsync(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
                 double maxVel, double maxAcc, const LineSegment &line);
         void generateTrajectory( const Vector2 &initialVel, const Vector2 &finalPos,
-                double maxVel, double maxAcc, double alpha) noexcept;
+                double maxVel, double maxAcc, double alpha);
         void generateAsyncTrajectory(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
-                double maxVel, double maxAcc, const LineSegment &line) noexcept;
+                double maxVel, double maxAcc, const LineSegment &line);
         Vector2 getPosition(double t) const;
         Vector2 getVelocity(double t) const;
         Vector2 getAcceleration(double t) const;
