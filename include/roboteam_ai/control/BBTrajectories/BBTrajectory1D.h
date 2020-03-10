@@ -5,6 +5,11 @@
 #ifndef RTT_BBTRAJECTORY1D_H
 #define RTT_BBTRAJECTORY1D_H
 
+/**
+ * Useful class helper.
+ * This represents one segment of a bang-bang trajectory.
+ * Each trajectory exists of 1,2 or 3 of these parts.
+ */
 struct BBTrajectoryPart {
   double tEnd;
   double acc;
@@ -12,6 +17,9 @@ struct BBTrajectoryPart {
   double startPos;
 };
 
+/**
+ * @brief small struct to keep Position, Velocity and Acceleration in at once.
+ */
 struct PosVelAcc {
   explicit PosVelAcc(double pos, double vel, double acc)
           :
@@ -24,6 +32,11 @@ struct PosVelAcc {
   double acc;
 };
 
+/**
+ * @author Rolf
+ * @brief Class that computes 1 dimensional bang bang trajectories.
+ * These are time optimal given that bang-bang control where you pick an acceleration in (max,0,-max) is feasible.
+ */
 class BBTrajectory1D {
     public:
         /**
