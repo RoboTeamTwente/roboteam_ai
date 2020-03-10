@@ -6,24 +6,19 @@
 #define ROBOTEAM_AI_GETBALL_H
 
 #include "Skill.h"
-#include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GetBall : public Skill {
-    private:
-        control::BallHandlePosControl ballHandlePosControl;
-        Vector2 lockedTargetPos = Vector2();
+   private:
+    Vector2 lockedTargetPos = Vector2();
 
-    public:
-        explicit GetBall(string name, bt::Blackboard::Ptr blackboard);
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
-
+   public:
+    explicit GetBall(std::string name, bt::Blackboard::Ptr blackboard);
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
 };
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_GETBALL_H
+#endif  // ROBOTEAM_AI_GETBALL_H

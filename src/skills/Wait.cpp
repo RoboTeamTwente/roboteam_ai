@@ -2,21 +2,18 @@
 // Created by robzelluf on 6/5/19.
 //
 
+#include <skills/Wait.h>
 #include <utilities/Constants.h>
-#include "skills/Wait.h"
-#include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-Wait::Wait(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) { }
+Wait::Wait(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void Wait::onInitialize() {
-    if(properties->getBool("penalty")) {
+    if (properties->getBool("penalty")) {
         lockedAngle = 0.0;
     } else {
-        lockedAngle = robot->angle;
+        lockedAngle = robot->get()->getAngle();
     }
 
     double seconds;
@@ -35,12 +32,11 @@ Wait::Status Wait::onUpdate() {
     command.set_geneva_state(0);
     publishRobotCommand();
     tick++;
-    if(tick>=ticks) {
+    if (tick >= ticks) {
         return Status::Success;
     } else {
         return Status::Running;
     }
 }
 
-}
-}
+}  // namespace rtt::ai

@@ -3,7 +3,7 @@
  *   If the child runs, the Inverter returns the status that it is running too.
  */
 
-#include "bt/decorators/Inverter.hpp"
+#include "bt/decorators/Inverter.h"
 
 namespace bt {
 
@@ -12,12 +12,11 @@ Node::Status Inverter::update() {
 
     if (s == Status::Success) {
         return Status::Failure;
-    }
-    else if (s == Status::Failure) {
+    } else if (s == Status::Failure) {
         return Status::Success;
     }
 
     return s;
 }
 
-} // bt
+}  // namespace bt

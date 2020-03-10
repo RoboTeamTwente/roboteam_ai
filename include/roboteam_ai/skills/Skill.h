@@ -1,62 +1,60 @@
 #ifndef ROBOTEAM_AI_SKILL_H
 #define ROBOTEAM_AI_SKILL_H
 
-#include "bt/Leaf.hpp"
-#include "io/IOManager.h"
-#include "roboteam_proto/RobotCommand.pb.h"
 #include <roboteam_utils/Angle.h>
+#include "include/roboteam_ai/utilities/IOManager.h"
+#include "roboteam_proto/RobotCommand.pb.h"
+#include "treeinterp/Leaf.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // forward declare control Utils
 namespace control {
 class ControlUtils;
 }
 
-namespace world {
-    class Robot;
-    class Ball;
-    class WorldData;
-}
-
-using namespace std;
-
 /**
  * \class Skill
  * \brief Base class for all skills. Provides no additional functionality.
  */
 class Skill : public bt::Leaf {
-    private:
-        proto::RobotCommand rotateRobotCommand(proto::RobotCommand &cmd);
-    protected:
-        using Robot = world::Robot;
-        using Ball = world::Ball;
-        using RobotPtr = std::shared_ptr<world::Robot>;
-        using BallPtr = std::shared_ptr<world::Ball>;
-        using WorldData = world::WorldData;
+   private:
+    /** Flips the command around, to work with a mirrored field */
+    proto::RobotCommand rotateRobotCommand(proto::RobotCommand &cmd);
 
-        void publishRobotCommand();
-        void refreshRobotCommand();
-        proto::RobotCommand command;
+   protected:
+    proto::RobotCommand command;
 
-        using Control = control::ControlUtils;
-        using Status = bt::Node::Status;
-        void limitRobotCommand();
+    /** Flips the command if needed. Limits speed of the robots. Publishes the command. */
+    void publishRobotCommand();
+    /** Empties the robot command, and sets its robotId */
+    void resetRobotCommand();
+    /** Limits the velocities of the robot command based on the current state of the game */
+    void limitRobotCommand();
 
-    public:
-        explicit Skill(string name, bt::Blackboard::Ptr blackboard = nullptr);
-        std::string node_name() override;
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
-        virtual void onInitialize() { };
-        virtual Status onUpdate() = 0;
-        virtual void onTerminate(Status s) { };
-        void refreshRobotPositionControllers();
+    using Control = control::ControlUtils;
+    using Status = bt::Node::Status;
+
+   public:
+    explicit Skill(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    std::string node_name() override;
+
+    /** Sets the ball. Sets the correct robot based on the blackboard. Calls onInitialize() */
+    void initialize() override;
+    /** Failure if the robot isn't present. Waiting if the ball isn't present. Calls onUpdate() */
+    Status update() override;
+    /** Resets the robot controllers and command. Calls onTerminate() */
+    void terminate(Status s) override;
+
+    /** These functions have to be implemented by the deriving class */
+    virtual void onInitialize(){};
+    virtual Status onUpdate() = 0;
+    virtual void onTerminate(Status s){};
+
+    /** Resets the controllers of the robot TODO implement with new_world */
+    void refreshRobotPositionControllers();
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_SKILL_H
+#endif  // ROBOTEAM_AI_SKILL_H

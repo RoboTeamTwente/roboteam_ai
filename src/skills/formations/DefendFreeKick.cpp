@@ -3,45 +3,34 @@
 //
 
 #include <control/PositionUtils.h>
-#include "skills/formations/DefendFreeKick.h"
-#include "control/Hungarian.h"
+#include <skills/formations/DefendFreeKick.h>
+#include <roboteam_utils/Print.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 std::vector<Vector2> DefendFreeKick::posses;
-std::shared_ptr<std::vector<std::shared_ptr<rtt::ai::world::Robot>>> rtt::ai::DefendFreeKick::robotsInFormation = nullptr;
-
+std::vector<world_new::view::RobotView> rtt::ai::DefendFreeKick::robotsInFormation{};
 
 Vector2 DefendFreeKick::getFormationPosition() {
-    robot->getNumtreePosControl()->setAvoidBallDistance(0.55);
-
-    update = true;
-    posses = rtt::ai::control::PositionUtils::getDefendFreeKick(robotsInFormation->size());
-    std::vector<int> robotIds;
-
-    for (auto & i : *robotsInFormation) {
-        robotIds.push_back(i->id);
+    auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+    if (ballOpt) {
+        robot->getControllers().getNumTreePosController()->setAvoidBallDistance(0.55);
+        update = true;
+        posses = rtt::ai::control::PositionUtils::getDefendFreeKick(*field, ballOpt.value(), robotsInFormation.size());
+        return getOptimalPosition(robot->get()->getId(), robotsInFormation, posses);
     }
-
-    rtt::HungarianAlgorithm hungarian;
-    auto shortestDistances = hungarian.getRobotPositions(robotIds, true, posses);
-    return shortestDistances[robot->id];
+    RTT_ERROR("No ball found, so freekickformation is not behaving as desired")
+    return {};
 }
 
-std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> DefendFreeKick::robotsInFormationPtr() {
-    return robotsInFormation;
+std::vector<world_new::view::RobotView> DefendFreeKick::robotsInFormationPtr() { return robotsInFormation; }
+
+DefendFreeKick::DefendFreeKick(std::string name, bt::Blackboard::Ptr blackboard) : Formation(std::move(name), std::move(blackboard)) {
+    robotsInFormation = std::vector<world_new::view::RobotView>();
 }
 
-DefendFreeKick::DefendFreeKick(std::string name, bt::Blackboard::Ptr blackboard)
-        :Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
-
-}
 void DefendFreeKick::onTerminate(Skill::Status s) {
     Formation::onTerminate(s);
     update = false;
 }
-}
-
-}
+}  // namespace rtt::ai

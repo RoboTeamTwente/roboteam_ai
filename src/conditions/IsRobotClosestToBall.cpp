@@ -3,39 +3,31 @@
  * properties:
  *  - secondsAhead: the amount of seconds to linearly extrapolate the ball position
  *  - atBallStillPosition: the position where the ball is expected to lay still due to rolling friction
- */ 
+ */
 
 #include "conditions/IsRobotClosestToBall.h"
-#include "world/World.h"
-#include "world/Ball.h"
-#include "world/Robot.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard)
-: Condition(std::move(name), std::move(blackboard)) { }
+IsRobotClosestToBall::IsRobotClosestToBall(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)) {}
 
 bt::Node::Status IsRobotClosestToBall::onUpdate() {
     Vector2 ballPos;
     if (properties->getBool("atBallStillPosition")) {
-        ballPos = ball->getExpectedBallEndPosition();
-    }
-    else if (properties->hasDouble("secondsAhead")) {
+        ballPos = ball->get()->getExpectedEndPosition();
+    } else if (properties->hasDouble("secondsAhead")) {
         double t = properties->getDouble("secondsAhead");
-        ballPos = ball->getPos() + ball->getVel() * t;
-    }
-    else {
-        ballPos = ball->getPos();
+        ballPos = ball->get()->getPos() + ball->get()->getVelocity() * t;
+    } else {
+        ballPos = ball->get()->getPos();
     }
 
-    auto robotClosestToBall = world->getRobotClosestToPoint(ballPos, OUR_ROBOTS);
-    if (robotClosestToBall && robotClosestToBall->id == robot->id) {
+    auto robotClosestToBall = world.getRobotClosestToPoint(ballPos, rtt::world_new::us);
+    if (robotClosestToBall && robotClosestToBall->getId() == robot->get()->getId()) {
         return Status::Success;
     }
 
     return Status::Failure;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

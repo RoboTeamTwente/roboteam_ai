@@ -6,19 +6,19 @@
 #define ROBOTEAM_AI_DEFENDFREEKICK_H
 
 #include "Formation.h"
-namespace rtt {
-namespace ai {
+
+namespace rtt::ai {
 
 class DefendFreeKick : public Formation {
-public:
+   public:
     explicit DefendFreeKick(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-private:
+
+   private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
     static std::vector<Vector2> posses;
     void onTerminate(Status s) override;
 };
-}
-}
-#endif //ROBOTEAM_AI_DEFENDFREEKICK_H
+}  // namespace rtt::ai
+#endif  // ROBOTEAM_AI_DEFENDFREEKICK_H

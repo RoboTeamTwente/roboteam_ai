@@ -5,43 +5,33 @@
 #ifndef ROBOTEAM_AI_GOTOPOS_H
 #define ROBOTEAM_AI_GOTOPOS_H
 
-#include <control/numTrees/NumTreePosControl.h>
-#include <control/BasicPosControl.h>
-#include <control/ballHandling/BallHandlePosControl.h>
 #include "skills/Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class GoToPos : public Skill {
-    protected:
-        enum GoToType {
-          basic,
-          numTree
-        };
-        GoToType goToType;
-        GoToType stringToGoToType(const std::string &gtt);
-        void setPositionController(const GoToType &goToType);
+   protected:
+    enum GoToType { basic, numTree };
+    GoToType goToType;
+    GoToType stringToGoToType(const std::string &gtt);
 
-        Vector2 targetPos = {};
-        Angle targetAngle = 0.0;
-        double maxVel;
-        double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
-        double angleErrorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
+    Vector2 targetPos = {};
+    Angle targetAngle = 0.0;
+    double maxVel;
+    double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+    double angleErrorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
 
-        std::shared_ptr<control::PosController> posController;
+    virtual void gtpInitialize() = 0;
+    virtual Status gtpUpdate() = 0;
+    virtual void gtpTerminate(Status s) = 0;
 
-        virtual void gtpInitialize() = 0;
-        virtual Status gtpUpdate() = 0;
-        virtual void gtpTerminate(Status s) = 0;
-    public:
-        explicit GoToPos(std::string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
-        void onInitialize() override;
-        void onTerminate(Status s) override;
+   public:
+    explicit GoToPos(std::string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
+    void onInitialize() override;
+    void onTerminate(Status s) override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_GOTOPOS_H
+#endif  // ROBOTEAM_AI_GOTOPOS_H

@@ -1,25 +1,15 @@
-
-//
-// Created by baris on 16/11/18.
-//
+#include <roboteam_utils/Print.h>
 #include "utilities/RobotDealer.h"
-#include "control/ControlUtils.h"
-#include "world/World.h"
-#include "world/Field.h"
-#include "world/Robot.h"
-#include "world/Ball.h"
-#include "treeinterp/BTFactory.h"
-#include "coach/PassCoach.h"
 #include "coach/BallplacementCoach.h"
+#include "coach/PassCoach.h"
+#include "control/ControlUtils.h"
+#include "treeinterp/BTFactory.h"
 
-
-namespace rtt {
-namespace ai {
-namespace robotDealer {
+namespace rtt::ai::robotDealer {
 
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners = {};
 
-int RobotDealer::keeperID = - 1;
+int RobotDealer::keeperID = -1;
 bool RobotDealer::hasClaimedKeeper = false;
 std::mutex RobotDealer::robotOwnersLock;
 
@@ -38,11 +28,10 @@ void RobotDealer::removeRobotFromOwnerList(int ID) {
                     robotOwners.erase(tacticToRemove);
                 }
                 addRobotToOwnerList(ID, "free", "free");
-                return; // TODO: test this function because it did not work before
+                return;  // TODO: test this function because it did not work before
             }
         }
     }
-
 }
 
 /// For internal use
@@ -57,180 +46,155 @@ void RobotDealer::addRobotToOwnerList(int ID, const std::string &roleName, const
 
     // Seems tactic does exist
     robotOwners[tacticName].insert({ID, roleName});
-
 }
 /// For internal use
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
+    auto world = world_new::World::instance();
 
-    auto worldUs = world::world->getUs();
+    auto worldUs = world->getWorld()->getUs();
     std::set<int> robotIDs;
     for (const auto &robot : worldUs) {
-        robotIDs.insert(robot->id);
+        robotIDs.insert(robot->getId());
     }
     std::set<int> currentRobots = getRobots();
     for (const auto &robotID : robotIDs) {
         if (currentRobots.find(robotID) == currentRobots.end()) {
             if (robotID == keeperID) {
-                std::cerr << "The keeper just got registered as a free robot this should never happen" << std::endl;
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
             addRobotToOwnerList(robotID, "free", "free");
         }
     }
-
 }
 
-int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleName, const std::string &tacticName) {
+int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, const std::string &roleName, const std::string &tacticName) {
+    std::set<uint8_t> ids;
 
-    std::set<int> ids = getAvailableRobots();
-
-    // convert the set to a vector here
-    std::vector<int> idVector;
-    idVector.assign(ids.begin(), ids.end());
+    for (auto id : getAvailableRobots()) {
+        ids.insert(id);
+    }
 
     int id;
-    if (! ids.empty()) {
-
+    if (!ids.empty()) {
         switch (feature) {
+            default:
+                RTT_WARNING("[Robotdealer] could not find a match for this feature ");
+                return -1;
 
-        default:
-            std::cout << "[Robotdealer] could not find a match for this feature " << std::endl;
-            return - 1;
-
-        case CLOSE_TO_BALL: {
-            auto ball = world::world->getBall();
-            auto robot = world::world->getRobotClosestToPoint(ball->getPos(), idVector, true);
-            if (robot) {
-                id = robot->id;
-            }
-            else {
-                id = - 1;
-            }
-            break;
-        }
-
-        case BETWEEN_BALL_AND_OUR_GOAL: {
-            auto ball = world::world->getBall();
-            rtt::Vector2 ourGoal = world::field->get_field().get(OUR_GOAL_CENTER);
-            auto robots = world::world->getRobotsForIds(idVector, true);
-            if (! robots.empty()) {
-                id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
-            }
-            else {
-                id = - 1;
-            }
-            break;
-        }
-        case CLOSE_TO_OUR_GOAL: {
-            rtt::Vector2 ourGoal = world::field->get_field().get(OUR_GOAL_CENTER);
-            auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
-            if (robot) {
-                id = robot->id;
-            }
-            else {
-                id = - 1;
-            }
-            break;
-        }
-
-        case CLOSE_TO_THEIR_GOAL: {
-            rtt::Vector2 theirGoal = world::field->get_field().get(THEIR_GOAL_CENTER);
-            auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
-            if (robot) {
-                id = robot->id;
-            }
-            else {
-                id = - 1;
-            }
-            break;
-        }
-
-        case RANDOM: {
-            id = *ids.begin();
-            break;
-        }
-
-        case BALL_PLACEMENT_RECEIVER: {
-            auto robot = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(),
-                    idVector, true);
-            if (robot) {
-                id = robot->id;
-            }
-            else {
-                id = - 1;
-            }
-            // force the pass coach to use this receiver
-            rtt::ai::coach::g_pass.resetPass(- 1);
-            rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
-
-            break;
-        }
-        case WORKING_GENEVA: {
-            int test = - 1;
-            for (auto r : ids) {
-                auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                if (robot && robot->hasWorkingGeneva()) {
-                    test = r;
+            case CLOSE_TO_BALL: {
+                auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+                if (!ballOpt.has_value()) {
+                    id = -1;
                     break;
                 }
+                auto ball = ballOpt.value();
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(ball->getPos(), ids, true);
+                if (robot) {
+                    id = robot->getId();
+                } else {
+                    id = -1;
+                }
+                break;
             }
-            if (test == - 1) {
+
+            case BETWEEN_BALL_AND_OUR_GOAL: {
+                auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+                if (!ballOpt.has_value()) {
+                    id = -1;
+                    break;
+                }
+                auto ball = ballOpt.value();
+                rtt::Vector2 ourGoal = field.getOurGoalCenter();
+                auto robots = world_new::World::instance()->getWorld()->getRobotsForIds(ids, true);
+                if (!robots.empty()) {
+                    id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->getId();
+                } else {
+                    id = -1;
+                }
+                break;
+            }
+            case CLOSE_TO_OUR_GOAL: {
+                rtt::Vector2 ourGoal = field.getOurGoalCenter();
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(ourGoal, ids, true);
+                if (robot) {
+                    id = robot->getId();
+                } else {
+                    id = -1;
+                }
+                break;
+            }
+
+            case CLOSE_TO_THEIR_GOAL: {
+                rtt::Vector2 theirGoal = field.getTheirGoalCenter();
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(theirGoal, ids, true);
+                if (robot) {
+                    id = robot->getId();
+                } else {
+                    id = -1;
+                }
+                break;
+            }
+
+            case RANDOM: {
                 id = *ids.begin();
                 break;
             }
-            id = test;
-            break;
-        }
-        case WORKING_BALL_SENSOR: {
-            int test = - 1;
-            for (auto r : ids) {
-                auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                if (robot && robot->hasWorkingBallSensor()) {
-                    test = r;
-                    break;
+
+            case BALL_PLACEMENT_RECEIVER: {
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), ids, true);
+                if (robot) {
+                    id = robot->getId();
+                } else {
+                    id = -1;
                 }
-            }
-            if (test == - 1) {
-                id = *ids.begin();
+                // force the pass coach to use this receiver
+                rtt::ai::coach::g_pass.resetPass(-1);
+                rtt::ai::coach::g_pass.setRobotBeingPassedTo(id);
+
                 break;
             }
-            id = test;
-            break;
-        }
-        case WORKING_GENEVA_BALLSENSOR: {
-            int test = - 1;
-            for (auto r : ids) {
-                auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                if (robot && robot->hasWorkingGeneva()&&robot->hasWorkingBallSensor()) {
-                    test = r;
-                    break;
-                }
-            }
-            if (test == - 1) {
-                id = *ids.begin();
+            case WORKING_GENEVA: {
+                RTT_ERROR("Asking for a robot with working geneva should not be done. Picking random robot instead...");
+                id = -1;
                 break;
             }
-            id = test;
-            break;
-        }
-        case WORKING_DRIBBLER: {
-            int test = -1;
-            for (auto r : ids) {
-                auto robot=rtt::ai::world::world->getRobotForId(r, true);
-                if (robot && robot->hasWorkingDribbler()) {
-                    test = r;
+            case WORKING_GENEVA_BALLSENSOR: {
+                RTT_ERROR("Asking for a robot with working geneva should not be done. Only picking on ballsensor property");
+            } // fallthrough
+            case WORKING_BALL_SENSOR: {
+                int test = -1;
+                for (auto r : ids) {
+                    auto robot = world_new::World::instance()->getWorld()->getRobotForId(r, true);
+                    if (robot && robot.value()->isWorkingBallSensor()) {
+                        test = r;
+                        break;
+                    }
+                }
+                if (test == -1) {
+                    id = *ids.begin();
                     break;
                 }
-            }
-            if (test == -1) {
-                id = *ids.begin();
+                id = test;
                 break;
             }
-            id = test;
-            break;
-        }
+            case WORKING_DRIBBLER: {
+                int test = -1;
+                for (auto r : ids) {
+                    auto robot = world_new::World::instance()->getWorld()->getRobotForId(r, true);
+                    if (robot && robot.value()->isWorkingDribbler()) {
+                        test = r;
+                        break;
+                    }
+                }
+                if (test == -1) {
+                    id = *ids.begin();
+                    break;
+                }
+                id = test;
+                break;
+            }
         }
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         unFreeRobot(id);
@@ -240,11 +204,10 @@ int RobotDealer::claimRobotForTactic(RobotType feature, const std::string &roleN
     // If a tactics gets here, it is probably because it was told it needs one more robot but the other tactic that needs
     // one less robot hasn't ben ticked yet so it did not disclaim its extra robot. It will be fine the next tick there is
     // no way around this
-    return - 1;
+    return -1;
 }
 
 std::set<int> RobotDealer::getRobots() {
-
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     std::set<int> ids;
@@ -257,8 +220,8 @@ std::set<int> RobotDealer::getRobots() {
     }
     return ids;
 }
-std::set<int> RobotDealer::getAvailableRobots() {
 
+std::set<int> RobotDealer::getAvailableRobots() {
     updateFromWorld();
 
     std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -270,13 +233,13 @@ std::set<int> RobotDealer::getAvailableRobots() {
     }
     return ids;
 }
+
 std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::getClaimedRobots() {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     return robotOwners;
 }
 
 void RobotDealer::releaseRobotForRole(const std::string &roleName) {
-
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     auto test = robotOwners;
@@ -292,11 +255,10 @@ void RobotDealer::releaseRobotForRole(const std::string &roleName) {
             }
         }
     }
-    std::cerr << "Cannot release the robot it does not exist in the robotOwners" << std::endl;
-
+    RTT_WARNING("Cannot release the robot. It does not exist in the robotOwners");
 }
-void RobotDealer::removeTactic(const std::string &tacticName) {
 
+void RobotDealer::removeTactic(const std::string &tacticName) {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
     /// Do NOT alt-enter->(const auto &) this function !!
     for (auto tactic : robotOwners) {
@@ -309,8 +271,8 @@ void RobotDealer::removeTactic(const std::string &tacticName) {
         }
     }
 }
-std::set<int> RobotDealer::findRobotsForTactic(const std::string &tacticName) {
 
+std::set<int> RobotDealer::findRobotsForTactic(const std::string &tacticName) {
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     std::set<int> ids;
@@ -326,7 +288,6 @@ std::set<int> RobotDealer::findRobotsForTactic(const std::string &tacticName) {
 
 //  TODO: might want to add a tactic name here for confusion
 int RobotDealer::findRobotForRole(const std::string &roleName) {
-
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     for (const auto &tactic : robotOwners) {
@@ -337,28 +298,23 @@ int RobotDealer::findRobotForRole(const std::string &roleName) {
             }
         }
     }
-    std::cerr << "Cannot find a robot with that Role Name: " << roleName << std::endl;
-    return - 1;
+//    RTT_WARNING("Cannot find a robot with that Role Name: ", roleName);
+    return -1;
 }
 
 /// When robot be free this bad boy anti free
 void RobotDealer::unFreeRobot(int ID) {
-
     if (robotOwners["free"].find({ID, "free"}) != robotOwners["free"].end()) {
         robotOwners["free"].erase({ID, "free"});
+    } else {
+        RTT_WARNING("Cannot un free an anti free robot. id: ", ID);
     }
-    else {
-        std::cout << "Cannot un free an anti free robot";
-    }
-
 }
-
 
 // std::map<std::string, std::set<std::pair<int, std::string>>> RobotDealer::robotOwners;
 // map (string, set(pair(int, string)))
 
 std::string RobotDealer::getTacticNameForRole(const std::string &role) {
-
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     for (const auto &tactic : robotOwners) {
@@ -368,9 +324,8 @@ std::string RobotDealer::getTacticNameForRole(const std::string &role) {
             }
         }
     }
-  std::cout << "No robot with that role";
+    RTT_WARNING("No robot with that role: ", role);
     return "";
-
 }
 
 std::string RobotDealer::getTacticNameForId(int ID) {
@@ -383,12 +338,11 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
-    //  ROS_ERROR("No robot with that ID  getTacticNameForId");
+    RTT_WARNING("No robot with that ID: ", ID);
     return "";
 }
 
 std::string RobotDealer::getRoleNameForId(int ID) {
-
     std::lock_guard<std::mutex> lock(robotOwnersLock);
 
     for (const auto &tactic : robotOwners) {
@@ -398,9 +352,8 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
-    // ROS_ERROR("No robot with that ID  getRoleNameForId");
+    RTT_WARNING("No robot with that ID: ", ID);
     return "";
-
 }
 
 void RobotDealer::halt() {
@@ -427,11 +380,11 @@ int RobotDealer::getKeeperID() {
 }
 
 void RobotDealer::claimKeeper() {
-    if (! hasClaimedKeeper) {
-//        std::cout << "[Robotdealer - claimkeeper] Claiming keeper" << std::endl;
+    if (!hasClaimedKeeper) {
         std::lock_guard<std::mutex> lock(robotOwnersLock);
         addRobotToOwnerList(keeperID, "Keeper", "Keeper");
         hasClaimedKeeper = true;
+        RTT_INFO("The keeper is now robot ", keeperID)
     }
 }
 
@@ -444,9 +397,13 @@ void RobotDealer::refresh() {
 }
 
 bool RobotDealer::keeperExistsInWorld() {
-    for (auto const &robot : world::world->getUs()) {
-        if (robot && robot->id == getKeeperID()) {
-            return true;
+    auto worldOpt = world_new::World::instance()->getWorld();
+    if (worldOpt) {
+        auto us = worldOpt->getUs();
+        for (auto const &robot : us) {
+            if (robot && robot->getId()==getKeeperID()) {
+                return true;
+            }
         }
     }
     return false;
@@ -458,7 +415,7 @@ bool RobotDealer::hasFree() {
         auto set = tactic.second;
         for (const auto &pair : set) {
             if (pair.second == "free") {
-                std::cerr << "There is a free robot with the ID: " << pair.first << std::endl;
+                RTT_WARNING("There is a free robot with the ID: ", pair.first);
                 return true;
             }
         }
@@ -466,34 +423,4 @@ bool RobotDealer::hasFree() {
     return false;
 }
 
-} // robotDealer
-} // ai
-} // rtt
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}  // namespace rtt::ai::robotDealer

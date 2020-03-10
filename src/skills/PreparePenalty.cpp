@@ -5,19 +5,10 @@
 #include "skills/PreparePenalty.h"
 #include "skills/Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-PreparePenalty::PreparePenalty(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(name, blackboard) {
+PreparePenalty::PreparePenalty(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
+void PreparePenalty::onInitialize() {}
 
-}
-void PreparePenalty::onInitialize() {
- }
-
-
-Skill::Status PreparePenalty::onUpdate() {
-    return Status::Failure;
-}
-}
-}
+Skill::Status PreparePenalty::onUpdate() { return Status::Failure; }
+}  // namespace rtt::ai

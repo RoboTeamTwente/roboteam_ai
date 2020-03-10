@@ -5,46 +5,42 @@
 #ifndef ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 #define ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
 #include "QLayout"
 #include "widget.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 class MainControlsWidget : public QWidget {
-Q_OBJECT
-public:
-    explicit MainControlsWidget(QWidget * parent = nullptr);
+    Q_OBJECT
+   public:
+    explicit MainControlsWidget(QWidget *parent = nullptr);
 
-signals:
+   signals:
     void treeHasChanged();
 
-private:
-  //  QLineSeries* lineSeries;
-    QVBoxLayout* vLayout;
-    QPushButton* pauseBtn;
-    QPushButton* toggleColorBtn;
-    QPushButton* toggleSideBtn;
-    QPushButton* toggleSerialBtn;
-    QShortcut* spaceClick;
+   private:
+    //  QLineSeries* lineSeries;
+    QVBoxLayout *vLayout;
+    QPushButton *pauseBtn;
+    QPushButton *toggleColorBtn;
+    QPushButton *toggleSideBtn;
+    QPushButton *toggleSerialBtn;
+    QShortcut *spaceClick;
 
-
-
-    QComboBox* select_strategy;
-    QComboBox* select_keeper_strategy;
-    QComboBox* select_goalie;
-    QComboBox* select_ruleset;
+    QComboBox *select_strategy;
+    QComboBox *select_keeper_strategy;
+    QComboBox *select_goalie;
+    QComboBox *select_ruleset;
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
     void setToggleSerialBtnLayout() const;
 
-public slots:
+   public slots:
     void setTimeOutTop(bool top);
     void toggleOurColorParam();
     void toggleOurSideParam();
@@ -54,8 +50,6 @@ public slots:
     void setUseReferee(bool useRef);
     void updateContents();
 };
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
-#endif //ROBOTEAM_AI_MAINCONTROLSWIDGET_H
+#endif  // ROBOTEAM_AI_MAINCONTROLSWIDGET_H

@@ -3,21 +3,21 @@
 
 #include "Condition.h"
 #include "utilities/Constants.h"
-#include "world/Field.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class BallNearOurGoalLineAndStill : public Condition {
-private:
+   private:
     double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
-public:
+
+   public:
     explicit BallNearOurGoalLineAndStill(std::string name = "BallNearOurGoalLineAndStill", bt::Blackboard::Ptr blackboard = nullptr);
+
     void onInitialize() override;
+
     Status onUpdate() override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_BALLNEAROURGOALLINEANDSTILL_H
+#endif  // ROBOTEAM_AI_BALLNEAROURGOALLINEANDSTILL_H

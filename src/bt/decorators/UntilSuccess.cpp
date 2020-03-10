@@ -2,7 +2,7 @@
  * The UntilSuccess decorator repeats until the child returns success and then returns success.
  */
 
-#include "bt/decorators/UntilSuccess.hpp"
+#include "bt/decorators/UntilSuccess.h"
 
 namespace bt {
 
@@ -11,13 +11,11 @@ Node::Status UntilSuccess::update() {
 
     if (status == Status::Success) {
         return Status::Success;
-    }
-    else if (status == Status::Waiting) {
+    } else if (status == Status::Waiting) {
         return Status::Failure;
-    }
-    else {
+    } else {
         return Status::Running;
     }
 }
 
-} // bt
+}  // namespace bt

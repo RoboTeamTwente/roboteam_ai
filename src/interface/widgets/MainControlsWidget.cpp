@@ -2,59 +2,53 @@
 // Created by mrlukasbos on 7-5-19.
 //
 
-#include <utilities/RobotDealer.h>
-#include <Switches.h>
-#include <treeinterp/BTFactory.h>
-#include <interface/api/Output.h>
 #include "interface/widgets/MainControlsWidget.h"
+
+#include <Switches.h>
+#include <include/roboteam_ai/interface/api/Input.h>
+#include <include/roboteam_ai/utilities/Settings.h>
+#include <interface/api/Output.h>
+#include <treeinterp/BTFactory.h>
+#include <utilities/RobotDealer.h>
+
+#include <utilities/GameStateManager.hpp>
+
 #include "interface/widgets/mainWindow.h"
 #include "treeinterp/BTFactory.h"
-#include <utilities/GameStateManager.hpp>
-#include <include/roboteam_ai/Settings/Settings.h>
-#include <include/roboteam_ai/interface/api/Input.h>
 #include "utilities/GameState.h"
 
 namespace rtt {
 namespace ai {
 namespace interface {
 
-
-
-MainControlsWidget::MainControlsWidget(QWidget * parent) {
-
+MainControlsWidget::MainControlsWidget(QWidget *parent) {
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
     vLayout = new QVBoxLayout();
 
+    pauseBtn = new QPushButton("Stop");
+    QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
+    vLayout->addWidget(pauseBtn);
+    pauseBtn->setStyleSheet("background-color: #cc0000;");
+    pauseBtn->setMinimumHeight(40);
 
+    spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
+    spaceClick->setAutoRepeat(false);
 
-  pauseBtn = new QPushButton("Stop");
-  QObject::connect(pauseBtn, SIGNAL(clicked()), this, SLOT(sendPauseSignal()));
-  vLayout->addWidget(pauseBtn);
-  pauseBtn->setStyleSheet("background-color: #cc0000;");
-  pauseBtn->setMinimumHeight(40);
+    auto refHorizontalLayout = new QHBoxLayout();
 
-  spaceClick = new QShortcut(QKeySequence(Qt::Key_Space), this, SLOT(sendPauseSignal()));
-  spaceClick->setAutoRepeat(false);
+    // functions to select strategies
+    MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
 
+    toggleSerialBtn = new QPushButton("Serial");
+    QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
+    refHorizontalLayout->addWidget(toggleSerialBtn);
+    setToggleSerialBtnLayout();
 
+    vLayout->addLayout(refHorizontalLayout);
 
-  auto refHorizontalLayout = new QHBoxLayout();
-
-  // functions to select strategies
-  MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
-
-  toggleSerialBtn = new QPushButton("Serial");
-  QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
-  refHorizontalLayout->addWidget(toggleSerialBtn);
-  setToggleSerialBtnLayout();
-
-  vLayout->addLayout(refHorizontalLayout);
-
-  auto gameStateBox = new QGroupBox();
+    auto gameStateBox = new QGroupBox();
     auto gameStateLayout = new QVBoxLayout();
-
-
 
     // get the strategy names from Switches
     select_strategy = new QComboBox();
@@ -62,10 +56,11 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (std::string const &strategyName : Switches::strategyJsonFileNames) {
         select_strategy->addItem(QString::fromStdString(strategyName));
     }
-    select_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+    select_strategy->setStyleSheet(
+        QString::fromUtf8("QComboBox:disabled"
+                          "{ color: gray }"));
 
     auto keeperHorizontalLayout = new QHBoxLayout();
-
 
     // get the keeper tree names from Switches
     select_keeper_strategy = new QComboBox();
@@ -73,7 +68,9 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
         select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
     }
-    select_keeper_strategy->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+    select_keeper_strategy->setStyleSheet(
+        QString::fromUtf8("QComboBox:disabled"
+                          "{ color: gray }"));
 
     select_goalie = new QComboBox();
     keeperHorizontalLayout->addWidget(select_goalie);
@@ -81,7 +78,9 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
         select_goalie->addItem(QString::fromStdString(std::to_string(i)));
     }
     select_goalie->setMaximumWidth(100);
-    select_goalie->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+    select_goalie->setStyleSheet(
+        QString::fromUtf8("QComboBox:disabled"
+                          "{ color: gray }"));
 
     gameStateLayout->addLayout(keeperHorizontalLayout);
 
@@ -90,72 +89,66 @@ MainControlsWidget::MainControlsWidget(QWidget * parent) {
     for (RuleSet const &ruleSet : Constants::ruleSets()) {
         select_ruleset->addItem(QString::fromStdString(ruleSet.title));
     }
-    select_ruleset->setStyleSheet(QString::fromUtf8("QComboBox:disabled" "{ color: gray }"));
+    select_ruleset->setStyleSheet(
+        QString::fromUtf8("QComboBox:disabled"
+                          "{ color: gray }"));
 
     auto settingsButtonsLayout = new QHBoxLayout();
     toggleColorBtn = new QPushButton("Color");
     QObject::connect(toggleColorBtn, SIGNAL(clicked()), this, SLOT(toggleOurColorParam()));
     settingsButtonsLayout->addWidget(toggleColorBtn);
-  toggleColorBtn->setStyleSheet(QString::fromUtf8("QPushButton:disabled" "{ color: gray }"));
+    toggleColorBtn->setStyleSheet(
+        QString::fromUtf8("QPushButton:disabled"
+                          "{ color: gray }"));
 
-  setToggleColorBtnLayout();
+    setToggleColorBtnLayout();
 
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
     settingsButtonsLayout->addWidget(toggleSideBtn);
-  toggleSideBtn->setStyleSheet(QString::fromUtf8("QPushButton:disabled" "{ color: gray }"));
+    toggleSideBtn->setStyleSheet(
+        QString::fromUtf8("QPushButton:disabled"
+                          "{ color: gray }"));
 
-  setToggleSideBtnLayout();
+    setToggleSideBtnLayout();
 
     gameStateLayout->addLayout(settingsButtonsLayout);
 
     gameStateBox->setLayout(gameStateLayout);
     vLayout->addWidget(gameStateBox);
 
-
-
-
-
     // MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
 
-    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
-                     [=](const QString &strategyName) {
-                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         interface::Output::setStrategyTree(strategyName.toStdString());
-                         emit treeHasChanged();
-                     });
+    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &strategyName) {
+        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+        interface::Output::setStrategyTree(strategyName.toStdString());
+        emit treeHasChanged();
+    });
 
-    QObject::connect(select_keeper_strategy,
-                     static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
-                     [=](const QString &keeperStrategyName) {
-// http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         interface::Output::setKeeperTree(keeperStrategyName.toStdString());
-                         emit treeHasChanged();
-                     });
+    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &keeperStrategyName) {
+        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+        interface::Output::setKeeperTree(keeperStrategyName.toStdString());
+        emit treeHasChanged();
+    });
 
-    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
-                     [=](const QString &goalieId) {
-                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         interface::Output::setKeeperId(goalieId.toInt());
-                         emit treeHasChanged();
-                     });
+    QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
+        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+        interface::Output::setKeeperId(goalieId.toInt());
+        emit treeHasChanged();
+    });
 
-    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
-                     [=](const QString &rulesetName) {
-                         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                         //robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
-                         interface::Output::setRuleSetName(rulesetName.toStdString());
-                         emit treeHasChanged();
-                     });
+    QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &rulesetName) {
+        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
+        // robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
+        interface::Output::setRuleSetName(rulesetName.toStdString());
+        emit treeHasChanged();
+    });
 
-  setUseReferee(Output::usesRefereeCommands());
+    setUseReferee(Output::usesRefereeCommands());
     this->setLayout(vLayout);
 }
 
-
-void MainControlsWidget::setTimeOutTop(bool top) {
-    Output::setTimeOutTop(top);
-}
+void MainControlsWidget::setTimeOutTop(bool top) { Output::setTimeOutTop(top); }
 
 void MainControlsWidget::setUseReferee(bool useRef) {
     Output::setUseRefereeCommands(useRef);
@@ -167,7 +160,6 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     toggleSideBtn->setDisabled(useRef);
     toggleColorBtn->setDisabled(useRef);
 }
-
 
 /// toggle the setting 'isYellow'
 void MainControlsWidget::toggleOurColorParam() {
@@ -188,17 +180,14 @@ void MainControlsWidget::toggleSerialParam() {
 }
 
 /// send a halt signal to stop all trees from executing
-void MainControlsWidget::sendPauseSignal() {
-    Output::sendHaltCommand();
-}
+void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
 
 void MainControlsWidget::updatePause() {
     rtt::ai::Pause pause;
     if (pause.getPause()) {
         pauseBtn->setText("Resume");
         pauseBtn->setStyleSheet("background-color: #00b200;");
-    }
-    else {
+    } else {
         pauseBtn->setText("Stop");
         pauseBtn->setStyleSheet("background-color: #cc0000;");
     }
@@ -206,7 +195,7 @@ void MainControlsWidget::updatePause() {
 
 void MainControlsWidget::setToggleColorBtnLayout() const {
     if (SETTINGS.isYellow()) {
-        toggleColorBtn->setStyleSheet("background-color: orange;"); // orange is more readable
+        toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
         toggleColorBtn->setText("Playing as Yellow");
     } else {
         toggleColorBtn->setStyleSheet("background-color: blue;");
@@ -229,8 +218,6 @@ void MainControlsWidget::setToggleSerialBtnLayout() const {
         toggleSerialBtn->setText("GrSim");
     }
 }
-
-
 
 void MainControlsWidget::updateContents() {
     auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
@@ -261,9 +248,9 @@ void MainControlsWidget::updateContents() {
     }
 }
 
-} // interface
-} // ai
-} // rtt
+}  // namespace interface
+}  // namespace ai
+}  // namespace rtt
 
 // QT performance improvement
 #include "include/roboteam_ai/interface/widgets/moc_MainControlsWidget.cpp"

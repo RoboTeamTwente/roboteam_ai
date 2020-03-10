@@ -14,10 +14,10 @@
 //#include "../helpers/WorldHelper.h"
 //
 //
-//namespace rtt {
-//namespace ai {
+// namespace rtt {
+// namespace ai {
 //
-//TEST(FormationTest, formation_test) {
+// TEST(FormationTest, formation_test) {
 //    robotDealer::RobotDealer::halt();
 //
 //    // create a field and world

@@ -6,23 +6,18 @@
 #define ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
 
 #include "Skill.h"
-#include <control/ballHandling/BallHandlePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class BallPlacementWithInterface : public Skill {
-    public:
-        explicit BallPlacementWithInterface(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
+   public:
+    explicit BallPlacementWithInterface(std::string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
 
-    private:
-        control::BallHandlePosControl ballHandlePosControl;
-        Vector2 previousTargetPos = Vector2();
-
+   private:
+    Vector2 previousTargetPos = Vector2();
 };
 
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
+#endif  // ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H

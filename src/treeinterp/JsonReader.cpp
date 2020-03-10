@@ -4,13 +4,12 @@
 
 #include "treeinterp/JsonReader.h"
 
-#define GetCurrentDir getcwd // Needed for the path finding
+#define GetCurrentDir getcwd  // Needed for the path finding
 
 /// Returns the file path from /home/ to the given json name
 std::string JsonReader::getFilePath(std::string name) {
-
     char cCurrentPath[FILENAME_MAX];
-    if (! GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
+    if (!GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
         std::cerr << "gh" << std::endl;
     }
 
@@ -25,11 +24,10 @@ std::string JsonReader::getFilePath(std::string name) {
         smallPath.append(word + "/");
     }
 
-    std::cout << "looking for jsons at smallpath: " << smallPath << std::endl;
+    //    std::cout << "looking for jsons at smallpath: " << smallPath << std::endl;
     // should be at /home/[user]/roboteamtwente/workspace/src/roboteam_ai/ ish right now
 
     smallPath.append("../../roboteam_ai/src/jsons/" + name + ".json");
-
 
     return smallPath;
 }
@@ -42,11 +40,10 @@ std::vector<std::string> JsonReader::split(std::string s, char c) {
 
     while (j != std::string::npos) {
         v.push_back(s.substr(i, j - i));
-        i = ++ j;
+        i = ++j;
         j = s.find(c, j);
 
-        if (j == std::string::npos)
-            v.push_back(s.substr(i, s.length()));
+        if (j == std::string::npos) v.push_back(s.substr(i, s.length()));
     }
     return v;
 }
@@ -60,21 +57,19 @@ json JsonReader::readJSON(std::string fileName) {
 }
 
 /// Checks if a key exists in a json object
-bool JsonReader::checkIfKeyExists(std::string key, json json) {
-    return (json.find(key) != json.end());
-}
+bool JsonReader::checkIfKeyExists(std::string key, json json) { return (json.find(key) != json.end()); }
 
 void JsonReader::editJSON(std::string fileName, std::string treeID, std::string field, std::string newValue) {
     // read json file
     json fileJson = readJSON(fileName);
     // edit json file
-    for (json &tree :fileJson["data"]["trees"]) {
+    for (json &tree : fileJson["data"]["trees"]) {
         if (tree["id"] == treeID) {
             tree[field] = newValue;
             break;
         }
     }
-    //write it back to the same place
+    // write it back to the same place
     std::ofstream ofs(JsonReader::getFilePath(fileName));
     ofs << fileJson;
     ofs.close();

@@ -3,12 +3,12 @@
 //
 
 #include <gtest/gtest.h>
+#include <world/Field.h>
 #include <world/World.h>
-#include <world/FieldMessage.h>
 
 #include <test/helpers/FieldHelper.h>
-#include "world/Field.h"
 #include "test/helpers/WorldHelper.h"
+#include "world/Field.h"
 #include "world/WorldData.h"
 namespace rtt {
 
@@ -52,7 +52,6 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         if (!inOurDefenceArea) {
             std::cout << rtt::Vector2(x, y) << std::endl;
             bool inOurDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
-
         }
         EXPECT_TRUE(inOurDefenceArea);
 
@@ -68,7 +67,6 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         bool inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), true, 0.0);
         EXPECT_FALSE(inDefenceArea);
     }
-
 
     // generate 100 random positions outside our defence area ( wrong y value )
     for (int i = 0; i < 100; i++) {
@@ -108,9 +106,7 @@ TEST(FieldTest, it_gets_points_in_defence_area) {
         // otherwise it should fail.
         inDefenceArea = rtt::ai::world::field->pointIsInDefenceArea(rtt::Vector2(x, y), false, 0.0, false);
         EXPECT_FALSE(inDefenceArea);
-
     }
-
 }
 
 TEST(FieldTest, it_returns_proper_goal_centers) {
@@ -143,105 +139,101 @@ TEST(FieldTest, it_detects_points_in_field_properly) {
     // exactly on the edge
     point = {4, 6};
     EXPECT_TRUE(rtt::ai::world::field->pointIsInField(point));
-    EXPECT_TRUE(
-        rtt::ai::world::field->pointIsInField(point, -0.1)); // expect true if it has a margin outside the field
-    EXPECT_FALSE(
-        rtt::ai::world::field->pointIsInField(point, 0.1)); // expect false if it has a margin inside the field
+    EXPECT_TRUE(rtt::ai::world::field->pointIsInField(point, -0.1));  // expect true if it has a margin outside the field
+    EXPECT_FALSE(rtt::ai::world::field->pointIsInField(point, 0.1));  // expect false if it has a margin inside the field
 
     // exactly on the edge, negative
     point = {-4, -6};
     EXPECT_TRUE(rtt::ai::world::field->pointIsInField(point));
-    EXPECT_TRUE(
-        rtt::ai::world::field->pointIsInField(point, -0.1)); // expect true if it has a margin outside the field
+    EXPECT_TRUE(rtt::ai::world::field->pointIsInField(point, -0.1));  // expect true if it has a margin outside the field
 
     // exactly on the edge, negative
     point = {-3.8, -5.8};
     EXPECT_TRUE(rtt::ai::world::field->pointIsInField(point));
-    EXPECT_FALSE(rtt::ai::world::field->pointIsInField(point, 0.3)); // expect false if it has a margin inside the field
+    EXPECT_FALSE(rtt::ai::world::field->pointIsInField(point, 0.3));  // expect false if it has a margin inside the field
 }
 
 TEST(FieldTest, it_calculates_obstacles) {
-//    auto field = testhelpers::FieldHelper::generateField(12.0, 9.0, 1.0);
-//    auto msg = FieldMessage(field);
-//    rtt::ai::world::field->set_field(msg);
-//    proto::WorldRobot robot;
-//    robot.set_id(0);
-//
-//    // watch our goal from the center of the field
-//    // there are no robots in between
-//    auto world = testhelpers::WorldHelper::getWorldMsg(0, 0, true, field);
-//    robot.mutable_pos()->set_x(0);
-//    robot.mutable_pos()->set_y(0);
-//    world.us.push_back(robot);
-//    rtt::ai::world::world->updateWorld(world);
-//    auto obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
-//    auto visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
-//    EXPECT_TRUE(obstacles.empty());
-//    EXPECT_EQ(static_cast<int>(visibleParts.size()), 1);
-//    EXPECT_FLOAT_EQ(visibleParts.at(0).first.dist(visibleParts.at(0).second), field.goal_width);
-//    EXPECT_EQ(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(true,
-//                                                                         {0, 0},
-//                                                                         rtt::ai::world::world->getWorld()), 100);
-//
-//
-//    // watch our goal from the center of the field
-//    // there is one robot in between and it is standing on the goalline
-//    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
-//    robot.pos = rtt::Vector2(-6, 0);
-//    world.us.push_back(robot);
-//    rtt::ai::world::world->updateWorld(world);
-//    obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
-//    visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
-//    EXPECT_EQ(static_cast<int>(obstacles.size()), 1);
-//    EXPECT_EQ(static_cast<int>(visibleParts.size()), 2);
-//
-//    // the width should be somewhere equal to the width of the robot
-//    EXPECT_NEAR(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(true,
-//                                                                           {0, 0},
-//                                                                           rtt::ai::world::world->getWorld()),
-//                100 - 200*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()), 1.0);
-//
-//    EXPECT_NE(obstacles.at(0).first.dist(obstacles.at(0).second), 2*(rtt::ai::Constants::ROBOT_RADIUS()
-//        + rtt::ai::Constants::BALL_RADIUS())); // the width of the obstacle is twice robot radius
-//    // watch their goal from the center of the field
-//    // there are two robots in between, separated
-//    proto::WorldRobot robot2;
-//    robot2.id = 1;
-//
-//    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
-//    robot.pos = rtt::Vector2(6, 0.0);
-//    robot2.pos = rtt::Vector2(6, 0.3);
-//    world.us.push_back(robot);
-//    world.us.push_back(robot2);
-//    rtt::ai::world::world->updateWorld(world);
-//
-//    obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
-//    visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
-//    EXPECT_EQ(static_cast<int>(obstacles.size()), 2);
-//
-//    EXPECT_EQ(static_cast<int>(visibleParts.size()), 3);
-//
-//    EXPECT_NEAR(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(false,
-//                                                                           {0, 0},
-//                                                                           rtt::ai::world::world->getWorld()),
-//                100 - 400*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()), 1.0);
-//
-//
-//    // watch their goal from the center of the field
-//    // there are two robots in between, merged
-//    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
-//    robot.pos = rtt::Vector2(4, 0);
-//    robot2.pos = rtt::Vector2(4, 0.05);
-//    world.us.push_back(robot);
-//    world.us.push_back(robot2);
-//    rtt::ai::world::world->updateWorld(world);
-//    obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
-//    visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
-//    EXPECT_EQ(static_cast<int>(obstacles.size()), 1);
-//    EXPECT_EQ(static_cast<int>(visibleParts.size()), 2);
-//    EXPECT_GT(obstacles.at(0).first.dist(obstacles.at(0).second),
-//              rtt::ai::Constants::ROBOT_RADIUS()); // the obstacle should be greater than robot radius
-
+    //    auto field = testhelpers::FieldHelper::generateField(12.0, 9.0, 1.0);
+    //    auto msg = FieldMessage(field);
+    //    rtt::ai::world::field->set_field(msg);
+    //    proto::WorldRobot robot;
+    //    robot.set_id(0);
+    //
+    //    // watch our goal from the center of the field
+    //    // there are no robots in between
+    //    auto world = testhelpers::WorldHelper::getWorldMsg(0, 0, true, field);
+    //    robot.mutable_pos()->set_x(0);
+    //    robot.mutable_pos()->set_y(0);
+    //    world.us.push_back(robot);
+    //    rtt::ai::world::world->updateWorld(world);
+    //    auto obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
+    //    auto visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
+    //    EXPECT_TRUE(obstacles.empty());
+    //    EXPECT_EQ(static_cast<int>(visibleParts.size()), 1);
+    //    EXPECT_FLOAT_EQ(visibleParts.at(0).first.dist(visibleParts.at(0).second), field.goal_width);
+    //    EXPECT_EQ(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(true,
+    //                                                                         {0, 0},
+    //                                                                         rtt::ai::world::world->getWorld()), 100);
+    //
+    //
+    //    // watch our goal from the center of the field
+    //    // there is one robot in between and it is standing on the goalline
+    //    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+    //    robot.pos = rtt::Vector2(-6, 0);
+    //    world.us.push_back(robot);
+    //    rtt::ai::world::world->updateWorld(world);
+    //    obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
+    //    visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(true, {0, 0}, rtt::ai::world::world->getWorld());
+    //    EXPECT_EQ(static_cast<int>(obstacles.size()), 1);
+    //    EXPECT_EQ(static_cast<int>(visibleParts.size()), 2);
+    //
+    //    // the width should be somewhere equal to the width of the robot
+    //    EXPECT_NEAR(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(true,
+    //                                                                           {0, 0},
+    //                                                                           rtt::ai::world::world->getWorld()),
+    //                100 - 200*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()), 1.0);
+    //
+    //    EXPECT_NE(obstacles.at(0).first.dist(obstacles.at(0).second), 2*(rtt::ai::Constants::ROBOT_RADIUS()
+    //        + rtt::ai::Constants::BALL_RADIUS())); // the width of the obstacle is twice robot radius
+    //    // watch their goal from the center of the field
+    //    // there are two robots in between, separated
+    //    proto::WorldRobot robot2;
+    //    robot2.id = 1;
+    //
+    //    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+    //    robot.pos = rtt::Vector2(6, 0.0);
+    //    robot2.pos = rtt::Vector2(6, 0.3);
+    //    world.us.push_back(robot);
+    //    world.us.push_back(robot2);
+    //    rtt::ai::world::world->updateWorld(world);
+    //
+    //    obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
+    //    visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
+    //    EXPECT_EQ(static_cast<int>(obstacles.size()), 2);
+    //
+    //    EXPECT_EQ(static_cast<int>(visibleParts.size()), 3);
+    //
+    //    EXPECT_NEAR(rtt::ai::world::field->getPercentageOfGoalVisibleFromPoint(false,
+    //                                                                           {0, 0},
+    //                                                                           rtt::ai::world::world->getWorld()),
+    //                100 - 400*(rtt::ai::Constants::ROBOT_RADIUS() + rtt::ai::Constants::BALL_RADIUS()), 1.0);
+    //
+    //
+    //    // watch their goal from the center of the field
+    //    // there are two robots in between, merged
+    //    world = testhelpers::WorldHelper::getWorldMsg(0, 0, false, field);
+    //    robot.pos = rtt::Vector2(4, 0);
+    //    robot2.pos = rtt::Vector2(4, 0.05);
+    //    world.us.push_back(robot);
+    //    world.us.push_back(robot2);
+    //    rtt::ai::world::world->updateWorld(world);
+    //    obstacles = rtt::ai::world::field->getBlockadesMappedToGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
+    //    visibleParts = rtt::ai::world::field->getVisiblePartsOfGoal(false, {0, 0}, rtt::ai::world::world->getWorld());
+    //    EXPECT_EQ(static_cast<int>(obstacles.size()), 1);
+    //    EXPECT_EQ(static_cast<int>(visibleParts.size()), 2);
+    //    EXPECT_GT(obstacles.at(0).first.dist(obstacles.at(0).second),
+    //              rtt::ai::Constants::ROBOT_RADIUS()); // the obstacle should be greater than robot radius
 }
 
 TEST(FieldTest, line_intersects_with_defence_area) {
@@ -281,7 +273,6 @@ TEST(FieldTest, line_intersects_with_defence_area) {
     EXPECT_TRUE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {8.0, 2.2}, {3.9, 2.2}, 1.0));
     EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(true, {-8, 2.2}, {-3.9, 2.2}, 0.0));
     EXPECT_FALSE(rtt::ai::world::field->lineIntersectsWithDefenceArea(false, {8, 2.2}, {3.9, 2.2}, 0.0));
-
 
     // check if the intersection points are correct
     // when there are multiple intersections, the closest point to lineStart should be returned.
@@ -336,4 +327,4 @@ TEST(FieldTest, goal_angle) {
     EXPECT_EQ(rtt::ai::world::field->getTotalGoalAngle(true, {-6, 0}), M_PI);
     EXPECT_EQ(rtt::ai::world::field->getTotalGoalAngle(true, {-6, 4}), 0);
 }
-}
+}  // namespace rtt

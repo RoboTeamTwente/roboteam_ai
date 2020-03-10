@@ -7,41 +7,32 @@
 
 #include "Skill.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class AvoidBall : public Skill {
-        const double robotWeight = 0.09;
-        double minRobotDistanceForForce;
-        const double ballWeight = 0.24;
-        const double minBallDistanceForForce = 1.1;
-        const double wallWeight = 0.05;
-        const double minWallDistanceForForce = 0.4;
-        bool stop = false; // might be useful in the future
+    const double robotWeight = 0.09;
+    double minRobotDistanceForForce;
+    const double ballWeight = 0.24;
+    const double minBallDistanceForForce = 1.1;
+    const double wallWeight = 0.05;
+    const double minWallDistanceForForce = 0.4;
+    bool stop = false;  // might be useful in the future
 
-    public:
-        explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-        void onInitialize(std::string type);
-        bt::Node::Status onUpdate() override;
-    private:
-        enum Progression {
-          RUNNING, DONE, FAIL
-        };
-        Progression currentProgress;
+   public:
+    explicit AvoidBall(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+    void onInitialize(std::string type);
+    bt::Node::Status onUpdate() override;
 
-        enum Type {
-            BALLPLACEMENT,
-            PASSING,
-            DEFAULT
-        };
+   private:
+    enum Progression { RUNNING, DONE, FAIL };
 
-        Type type;
-        Type stringToType(std::string string);
-        RobotPtr receiver;
+    enum Type { BALLPLACEMENT, PASSING, DEFAULT };
 
+    Type type;
+    Type stringToType(std::string string);
+    std::optional<world_new::view::RobotView> receiver;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_AVOIDBALLFORBALLPLACEMENT_H
+#endif  // ROBOTEAM_AI_AVOIDBALLFORBALLPLACEMENT_H

@@ -3,39 +3,37 @@
 //
 
 #include "utilities/Constants.h"
+#include <assert.h>
 #include <iostream>
 #include <vector>
+#include <roboteam_utils/Print.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // static initializers
 bool Constants::isInitialized = false;
 bool Constants::robotOutputTargetGrSim = true;
 
 void Constants::init() {
-//    ros::NodeHandle nh;
- //   std::string robotOutputTarget;
- //   nh.getParam("robot_output_target", robotOutputTarget);
- //   robotOutputTargetGrSim = robotOutputTarget != "serial"; // only use serial if it is explicitly defined
-    std::cout << "robot_output_target = " << (robotOutputTargetGrSim ? "GRSIM" : "SERIAL") << std::endl;
+    std::string target = robotOutputTargetGrSim ? "GRSIM" : "SERIAL";
+    RTT_INFO("robot_output_target is set to ", target)
     isInitialized = true;
 }
 
 bool Constants::GRSIM() {
-    if (! isInitialized) {
-        std::cerr << "Ros::init() was not called yet, but you use a value that depends on a ROS parameter. "
-                  << "\n this may result in unexepected behaviour" << std::endl;
+    if (!isInitialized) {
+        RTT_ERROR("You use a value dependent on an unkown environment! This may result in unexepected behaviour")
+        assert(false);
     }
     return robotOutputTargetGrSim;
 }
 
 void Constants::OVERWRITE_GRSIM(bool grsim) {
-    std::cerr << "Do not overwrite GRSIM() if you do not know what you are doing!! you should change the ROSPARAM" << std::endl;
+    RTT_WARNING("Do not overwrite GRSIM() if you do not know what you are doing!")
     robotOutputTargetGrSim = grsim;
 }
 
-int Constants::DEFAULT_KEEPER_ID() {return 0; }
+int Constants::DEFAULT_KEEPER_ID() { return 0; }
 
 bool Constants::FEEDBACK_ENABLED() { return true; }
 
@@ -60,9 +58,9 @@ double Constants::MAX_VEL_CMD() { return 8.191; }
 
 int Constants::MAX_ID_CMD() { return 15; }
 
-double Constants::MAX_ANGULAR_VEL_CMD() { return 16*M_PI; }
+double Constants::MAX_ANGULAR_VEL_CMD() { return 16 * M_PI; }
 
-double Constants::MIN_ANGLE() { return - M_PI; }
+double Constants::MIN_ANGLE() { return -M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
@@ -72,15 +70,15 @@ double Constants::MAX_ACC_UPPER() { return 5.0; }
 
 double Constants::MAX_ACC_LOWER() { return 3.0; }
 
-double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER()*1.2; } //magic number
+double Constants::MAX_DEC_UPPER() { return MAX_ACC_UPPER() * 1.2; }  // magic number
 
-double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER()*1.2; } //magic number
+double Constants::MAX_DEC_LOWER() { return MAX_ACC_LOWER() * 1.2; }  // magic number
 
-double Constants::DRIBBLER_ANGLE_OFFSET() { return asin(FRONT_LENGTH()/2/ROBOT_RADIUS()); }
+double Constants::DRIBBLER_ANGLE_OFFSET() { return asin(FRONT_LENGTH() / 2 / ROBOT_RADIUS()); }
 
-double Constants::CENTRE_TO_FRONT() { return sin(DRIBBLER_ANGLE_OFFSET())*ROBOT_RADIUS(); }
+double Constants::CENTRE_TO_FRONT() { return sin(DRIBBLER_ANGLE_OFFSET()) * ROBOT_RADIUS(); }
 
-double Constants::CLOSE_TO_BORDER_DISTANCE() { return 1.2*ROBOT_RADIUS(); }
+double Constants::CLOSE_TO_BORDER_DISTANCE() { return 1.2 * ROBOT_RADIUS(); }
 
 double Constants::DEFAULT_KICK_POWER() { return 5.0; }
 
@@ -199,22 +197,20 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
 
     return workingDribblerRobots;
 }
-bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) {
-    return ROBOTS_WITH_WORKING_GENEVA()[id];
-}
+bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) { return ROBOTS_WITH_WORKING_GENEVA()[id]; }
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;
-    workingBallSensorRobots[0] =  false;
-    workingBallSensorRobots[1] =  false;
-    workingBallSensorRobots[2] =  false;
-    workingBallSensorRobots[3] =  false;
-    workingBallSensorRobots[4] =  false;
-    workingBallSensorRobots[5] =  false;
-    workingBallSensorRobots[6] =  false;
-    workingBallSensorRobots[7] =  false;
-    workingBallSensorRobots[8] =  false;
-    workingBallSensorRobots[9] =  false;
+    workingBallSensorRobots[0] = false;
+    workingBallSensorRobots[1] = false;
+    workingBallSensorRobots[2] = false;
+    workingBallSensorRobots[3] = false;
+    workingBallSensorRobots[4] = false;
+    workingBallSensorRobots[5] = false;
+    workingBallSensorRobots[6] = false;
+    workingBallSensorRobots[7] = false;
+    workingBallSensorRobots[8] = false;
+    workingBallSensorRobots[9] = false;
     workingBallSensorRobots[10] = false;
     workingBallSensorRobots[11] = false;
     workingBallSensorRobots[12] = false;
@@ -224,17 +220,10 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
 
     return workingBallSensorRobots;
 }
-bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) {
-    return ROBOTS_WITH_WORKING_BALL_SENSOR()[id];
-}
+bool Constants::ROBOT_HAS_WORKING_BALL_SENSOR(int id) { return ROBOTS_WITH_WORKING_BALL_SENSOR()[id]; }
 
-bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) {
-    return ROBOTS_WITH_WORKING_DRIBBLER()[id];
-}
-QColor Constants::FIELD_COLOR() {
-    return GRSIM() ? QColor(30, 30, 30, 255) :
-           QColor(50, 0, 0, 255);
-}
+bool Constants::ROBOT_HAS_WORKING_DRIBBLER(int id) { return ROBOTS_WITH_WORKING_DRIBBLER()[id]; }
+QColor Constants::FIELD_COLOR() { return GRSIM() ? QColor(30, 30, 30, 255) : QColor(50, 0, 0, 255); }
 
 QColor Constants::FIELD_LINE_COLOR() { return Qt::white; }
 
@@ -248,15 +237,9 @@ QColor Constants::TEXT_COLOR() { return Qt::white; }
 
 QColor Constants::SELECTED_ROBOT_COLOR() { return Qt::magenta; }
 
-std::vector<QColor> Constants::TACTIC_COLORS() {
-    return {{255, 0, 255, 50},
-            {0, 255, 255, 50},
-            {255, 255, 0, 50},
-            {0, 255, 0, 50},
-            {0, 0, 255, 100}};
-}
+std::vector<QColor> Constants::TACTIC_COLORS() { return {{255, 0, 255, 50}, {0, 255, 255, 50}, {255, 255, 0, 50}, {0, 255, 0, 50}, {0, 0, 255, 100}}; }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(4.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(3.2, 0.0, 1.4) : pidVals(3.1, 0.0, 0.6); }
 
 pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(3.4, 0.0, 0.4) : pidVals(4.0, 0.0, 0.4); }
 
@@ -270,14 +253,8 @@ pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
-        {"default", 8.0, 6.5, 0.0, ROBOT_RADIUS(), true},
-        {"halt", 0.0, 0.0, 0.0, -1, true},
-        {"stop", 1.5, 0.0, 0.8, -1, false},
-        {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
-        {"ballplacement_us", 2.5, 6.5, 0.0, -1, true},
-        {"kickoff", 1.5, 6.5, 0.5, 0.0, true}
-    };
+        {"default", 8.0, 6.5, 0.0, ROBOT_RADIUS(), true}, {"halt", 0.0, 0.0, 0.0, -1, true},    {"stop", 1.5, 0.0, 0.8, -1, false}, {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
+        {"ballplacement_us", 2.5, 6.5, 0.0, -1, true},    {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 
-}
-}
+}  // namespace rtt::ai

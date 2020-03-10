@@ -6,29 +6,23 @@
 #define ROBOTEAM_AI_MIDFIELDHARASSER_H
 
 #include "Skill.h"
-#include <control/numTrees/NumTreePosControl.h>
-#include <roboteam_utils/Vector2.h>
-#include <roboteam_utils/Angle.h>
-#include "coach/midField/MidFieldCoach.h"
-#include <interface/api/Input.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class MidFieldHarasser : public Skill {
-private:
+   private:
     const double HARASSING_SAFETY_MARGINS = 1.0;
     Vector2 targetPos;
     int robotBeingHarassed;
     Vector2 getHarassTarget();
-public:
+
+   public:
     explicit MidFieldHarasser(std::string name, bt::Blackboard::Ptr blackboard);
     void onInitialize() override;
     Status onUpdate() override;
     void onTerminate(Status s) override;
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_MIDFIELDHARASSER_H
+#endif  // ROBOTEAM_AI_MIDFIELDHARASSER_H

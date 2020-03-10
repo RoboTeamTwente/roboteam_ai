@@ -5,23 +5,20 @@
 #ifndef ROBOTEAM_AI_KICKOFFTHEMFORMATION_H
 #define ROBOTEAM_AI_KICKOFFTHEMFORMATION_H
 
-#include "skills/formations/Formation.h"
+#include "Formation.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class KickOffThemFormation : public Formation {
-public:
+   public:
     explicit KickOffThemFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-private:
+
+   private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<std::shared_ptr<Robot>>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
 };
 
-}
-}
+}  // namespace rtt::ai
 
-
-
-#endif //ROBOTEAM_AI_KICKOFFFORMATION_H
+#endif  // ROBOTEAM_AI_KICKOFFFORMATION_H

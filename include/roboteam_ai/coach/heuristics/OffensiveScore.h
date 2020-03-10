@@ -7,14 +7,12 @@
 
 #include "CoachHeuristics.h"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
-#include <include/roboteam_ai/world/FieldMessage.h>
+#include "world/Field.h"
 
-namespace rtt {
-namespace ai {
-namespace coach {
+namespace rtt::ai::coach {
 
 class OffensiveScore {
-private:
+   private:
     const double CLOSE_TO_GOAL_WEIGHT = 1.0;
     const double SHOT_AT_GOAL_WEIGHT = 1.0;
     const double PASS_LINE_WEIGHT = 2.0;
@@ -24,16 +22,12 @@ private:
 
     const double ZONE_RADIUS = 1.06;
 
-    bool positionIsValid(const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck);
-public:
-    using WorldData = world::WorldData;
-    double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position,
-            const WorldData &world, const FieldMessage &field);
+    bool positionIsValid(const world::Field &field, const Vector2 &defaultZoneLocation, const Vector2 &positionToCheck);
+
+   public:
+    double calculateOffensivePositionScore(const Vector2 &zoneLocation, const Vector2 &position, world_new::view::WorldDataView world, const world::Field &field);
 };
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-
-#endif //ROBOTEAM_AI_OFFENSIVESCORE_H
+#endif  // ROBOTEAM_AI_OFFENSIVESCORE_H

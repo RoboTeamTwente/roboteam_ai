@@ -6,36 +6,33 @@
 #define ROBOTEAM_AI_GTPWITHBALL_H
 
 #include "skills/Skill.h"
-#include "control/ballHandling/BallHandlePosControl.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 /// GTPWithBall should NOT have GoToPos as parent
 class GTPWithBall : public Skill {
-    private:
-        control::BallHandlePosControl ballHandlePosControl;
-        Vector2 targetPos;
-        Angle targetAngle;
+   private:
+    Vector2 targetPos;
+    Angle targetAngle;
 
-        enum TargetType {
-          rotateToTheirGoal,
-          ballPlacement,
+    enum TargetType {
+        rotateToTheirGoal,
+        ballPlacement,
 
-        };
-        TargetType targetType;
-        TargetType stringToTargetType(const std::string &string);
+    };
+    TargetType targetType;
+    TargetType stringToTargetType(const std::string &string);
 
-        void updateTarget();
-    public:
-        explicit GTPWithBall(string name, bt::Blackboard::Ptr blackboard);
+    void updateTarget();
 
-        void onInitialize() override;
-        Status onUpdate() override;
-        void onTerminate(Status s) override;
+   public:
+    explicit GTPWithBall(std::string name, bt::Blackboard::Ptr blackboard);
+
+    void onInitialize() override;
+    Status onUpdate() override;
+    void onTerminate(Status s) override;
 };
 
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_GTPWITHBALL_H
+#endif  // ROBOTEAM_AI_GTPWITHBALL_H

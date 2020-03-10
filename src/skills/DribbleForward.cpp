@@ -2,33 +2,27 @@
 // Created by robzelluf on 5/13/19.
 //
 
-#include <world/Field.h>
-#include "skills/DribbleForward.h"
+#include <skills/DribbleForward.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-DribbleForward::DribbleForward(string name, bt::Blackboard::Ptr blackboard)
-        : Skill(std::move(name), std::move(blackboard)) {}
+DribbleForward::DribbleForward(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 void DribbleForward::onInitialize() {
-    initialBallPos = ball->getPos();
     if (properties->hasDouble("dribbleDistance")) {
         dribbleDistance = properties->getDouble("dribbleDistance");
     } else {
         dribbleDistance = 0.9;
     }
 
-    Angle angleToGoal = (field->get_field().get(THEIR_GOAL_CENTER) - ball->getPos()).toAngle();
-    targetPos = ball->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
+    Angle angleToGoal = ((*field).getTheirGoalCenter() - ball->get()->getPos()).toAngle();
+    targetPos = ball->get()->getPos() + Vector2{dribbleDistance, 0}.rotate(angleToGoal);
 }
 
-
 bt::Node::Status DribbleForward::onUpdate() {
+    auto c = robot->getControllers().getBallHandlePosController()->getRobotCommand(robot->get()->getId(), targetPos, robot->get()->getAngle(), control::BallHandlePosControl::FORWARDS);
 
-    auto c = ballHandlePosControl.getRobotCommand(world, field, robot, targetPos, robot->angle, control::BallHandlePosControl::FORWARDS);
-
-    if (ballHandlePosControl.getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
+    if (robot->getControllers().getBallHandlePosController()->getStatus() == control::BallHandlePosControl::Status::SUCCESS) {
         return Status::Success;
     }
 
@@ -38,5 +32,4 @@ bt::Node::Status DribbleForward::onUpdate() {
     return Status::Running;
 }
 
-} //ai
-} //rtt
+}  // namespace rtt::ai

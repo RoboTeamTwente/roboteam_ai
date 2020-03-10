@@ -1,14 +1,10 @@
-#include "bt/Decorator.hpp"
+#include "bt/Decorator.h"
 
 namespace bt {
 
-void Decorator::addChild(Node::Ptr child) {
-    this->child = child;
-}
+void Decorator::addChild(Node::Ptr child) { this->child = child; }
 
-bool Decorator::HasNoChild() const {
-    return child == nullptr;
-}
+bool Decorator::HasNoChild() const { return child == nullptr; }
 
 void Decorator::terminate(Status s) {
     if (child->getStatus() == Status::Running) {
@@ -20,9 +16,5 @@ void Decorator::terminate(Status s) {
     }
 }
 
-std::vector<Node::Ptr> Decorator::getChildren() {
-    return std::vector<Node::Ptr>{child};
-}
-} // bt
-
-
+std::vector<Node::Ptr> Decorator::getChildren() { return std::vector<Node::Ptr>{child}; }
+}  // namespace bt

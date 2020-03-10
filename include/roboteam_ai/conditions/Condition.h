@@ -1,36 +1,28 @@
 #ifndef ROBOTEAM_AI_CONDITION_H
 #define ROBOTEAM_AI_CONDITION_H
 
-#include "bt/Leaf.hpp"
+#include "treeinterp/Leaf.h"
 
-
-namespace rtt {
-namespace ai {
-
-//forward declare control utils
-namespace control {
-    class ControlUtils;
-}
+namespace rtt::ai {
 
 class Condition : public bt::Leaf {
-    protected:
-        using Control = control::ControlUtils;
-        using Status = bt::Node::Status;
+   protected:
+    using Status = bt::Node::Status;
 
-    public:
-        explicit Condition(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
+   public:
+    explicit Condition(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
 
-        std::string node_name() override;
-        void initialize() override;
-        Status update() override;
-        void terminate(Status s) override;
+    std::string node_name() override;
+    /** Sets the ball. Sets the correct robot based on the blackboard. Calls onInitialize() */
+    void initialize() override;
+    Status update() override;
+    void terminate(Status s) override;
 
-        virtual void onInitialize() { };
-        virtual Status onUpdate() = 0;
-        virtual void onTerminate(Status s) { };
+    virtual void onInitialize(){};
+    virtual Status onUpdate() = 0;
+    virtual void onTerminate(Status s){};
 };
 
-} // ai
-} // rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_CONDITION_H
+#endif  // ROBOTEAM_AI_CONDITION_H

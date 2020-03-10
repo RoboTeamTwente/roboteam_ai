@@ -7,36 +7,26 @@
 
 #include "AnalysisReport.h"
 // define some play styles to influence our decision making
-enum playStyleScore : short {
-    DEFENSIVE,
-    NEUTRAL,
-    OFFENSIVE
-};
+enum playStyleScore : short { DEFENSIVE, NEUTRAL, OFFENSIVE };
 
-
-
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
 
 struct PlayStyle {
     int amountOfDefenders;
     int amountOfMidfielders;
     int amountOfAttackers;
-    PlayStyle() =default;
-    PlayStyle(int def, int mid, int att)
-            : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att) {};
-};
 
+    PlayStyle() = default;
+
+    PlayStyle(int def, int mid, int att) : amountOfDefenders(def), amountOfMidfielders(mid), amountOfAttackers(att){};
+};
 
 class DecisionMaker {
-public:
+   public:
     explicit DecisionMaker() = default;
-    PlayStyle getRecommendedPlayStyle(BallPossession possession);
+    PlayStyle getRecommendedPlayStyle(BallPossession possession, uint8_t amountOfRobots);
 };
 
-} // analysis
-} // ai
-} // rtt
+}  // namespace rtt::ai::analysis
 
-#endif //ROBOTEAM_AI_DECISIONMAKER_H
+#endif  // ROBOTEAM_AI_DECISIONMAKER_H

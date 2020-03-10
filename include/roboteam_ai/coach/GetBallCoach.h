@@ -5,28 +5,26 @@
 #ifndef ROBOTEAM_AI_GETBALLCOACH_H
 #define ROBOTEAM_AI_GETBALLCOACH_H
 
-namespace rtt {
-namespace ai {
-namespace coach {
+#include <include/roboteam_ai/world/Field.h>
+namespace rtt::ai::coach {
+using namespace rtt::ai::world;
 
 class GetBallCoach {
-    private:
-        bool gettingBall = false;
-        int idGettingBall = - 1;
-        bool shouldWeGetBall();
-        int bestBallGetterID();
-    public:
-        void update();
-        bool weAreGettingBall();
-        int getBallGetterID();
+   private:
+    bool gettingBall = false;
+    int idGettingBall = -1;
+    bool shouldWeGetBall(const Field &field);
+    int bestBallGetterID();
 
+   public:
+    void update(const Field &field);
+    bool weAreGettingBall();
+    int getBallGetterID();
 };
 
 extern GetBallCoach getBallCoachObj;
-extern GetBallCoach* getBallCoach;
+extern GetBallCoach *getBallCoach;
 
-}
-}
-}
+}  // namespace rtt::ai::coach
 
-#endif //ROBOTEAM_AI_GETBALLCOACH_H
+#endif  // ROBOTEAM_AI_GETBALLCOACH_H

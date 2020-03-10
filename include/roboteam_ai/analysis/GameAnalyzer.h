@@ -1,65 +1,24 @@
-//
-// Created by mrlukasbos on 19-2-19.
-//
-
 #ifndef ROBOTEAM_AI_GAMEANALYZER_H
 #define ROBOTEAM_AI_GAMEANALYZER_H
 
-#include "gtest/gtest_prod.h"
-#include "AnalysisReport.h"
-#include "world/WorldData.h"
-#include "world/World.h"
 #include "world/BallPossession.h"
+#include "AnalysisReport.h"
+#include "gtest/gtest_prod.h"
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/WorldDataView.hpp"
 
-namespace rtt {
-namespace ai {
-namespace analysis {
+namespace rtt::ai::analysis {
+namespace v = world_new::view;
 
 class GameAnalyzer {
-    FRIEND_TEST(GameAnalyzerTest, it_works);
-public:
-    // It's a singleton; don't copy it.
-    GameAnalyzer(const GameAnalyzer &) = delete;
-    void operator=(const GameAnalyzer &) = delete;
-    static GameAnalyzer &getInstance();
-
-    void start(int iterationsPerSecond = Constants::GAME_ANALYSIS_TICK_RATE());
-    void stop();
-
-    std::shared_ptr<AnalysisReport> getMostRecentReport();
-    std::shared_ptr<AnalysisReport> generateReportNow();
-
-private:
-        using WorldData = world::WorldData;
-        using RobotPtr = world::World::RobotPtr;
-        using BallPtr = world::World::BallPtr;
-
-    GameAnalyzer();
-
-
-    // Threading
-    std::thread thread;
-    std::mutex mutex;
-    volatile bool running;
-    volatile bool stopping;
-    void loop(unsigned delayMillis);
-
-    std::shared_ptr<AnalysisReport> mostRecentReport;
-
-    std::vector<std::pair<RobotPtr, RobotDanger>> getRobotsSortedOnDanger(bool ourTeam);
-    BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
-    double getTeamDistanceToGoalAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    double getTeamGoalVisionAvg(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    RobotDanger evaluateRobotDangerScore(RobotPtr robot, bool ourTeam);
-    std::vector<std::pair<RobotPtr, double>> getAttackersSortedOnGoalVision(bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-
-    std::vector<std::pair<int, double>> getRobotsToPassTo(RobotPtr robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    double shortestDistToEnemyRobot(RobotPtr robot, bool ourTeam, WorldData simulatedWorld = world::world->getWorld());
-    bool isClosingInToGoal(RobotPtr robot, bool ourTeam);
+ public:
+    static std::vector<std::pair<v::RobotView, RobotDanger>> getRobotsSortedOnDanger(const Field &field, bool ourTeam, v::WorldDataView world);
+    static BallPossession convertPossession(rtt::ai::BallPossession::Possession possession);
+    static double getTeamDistanceToGoalAvg(const Field &field, bool ourGoal, std::vector<v::RobotView> robots);
+    static RobotDanger evaluateRobotDangerScore(const Field &field, v::RobotView robot, bool ourTeam, v::WorldDataView world);
+    static std::vector<std::pair<int, double>> getRobotsToPassTo(v::RobotView robot, bool ourTeam, v::WorldDataView world);
+    static double shortestDistToEnemyRobot(v::RobotView robot, bool ourTeam, v::WorldDataView world);
 };
 
-
-}
-}
-}
-#endif //ROBOTEAM_AI_GAMEANALYZER_H
+}  // namespace rtt::ai::analysis
+#endif  // ROBOTEAM_AI_GAMEANALYZER_H

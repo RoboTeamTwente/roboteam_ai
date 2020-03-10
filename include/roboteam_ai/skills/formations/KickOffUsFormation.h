@@ -1,29 +1,20 @@
-//
-// Created by mrlukasbos on 15-4-19.
-//
-
 #ifndef ROBOTEAM_AI_KICKOFFFORMATION_H
 #define ROBOTEAM_AI_KICKOFFFORMATION_H
 
+#include "Formation.h"
 
-
-#include "skills/formations/Formation.h"
-
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class KickOffUsFormation : public Formation {
-public:
+   public:
     explicit KickOffUsFormation(std::string name, bt::Blackboard::Ptr blackboard = nullptr);
-private:
+
+   private:
     Vector2 getFormationPosition() override;
-    std::shared_ptr<std::vector<RobotPtr>> robotsInFormationPtr() override;
-    static std::shared_ptr<std::vector<RobotPtr>> robotsInFormation;
+    std::vector<world_new::view::RobotView> robotsInFormationPtr() override;
+    static std::vector<world_new::view::RobotView> robotsInFormation;
 };
 
-}
-}
+}  // namespace rtt::ai
 
-
-
-#endif //ROBOTEAM_AI_KICKOFFFORMATION_H
+#endif  // ROBOTEAM_AI_KICKOFFFORMATION_H

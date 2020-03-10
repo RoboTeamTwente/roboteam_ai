@@ -1,27 +1,19 @@
-#include "world/Ball.h"
-#include "world/World.h"
-#include "world/WorldData.h"
-#include <interface/api/Input.h>
+
 #include <control/ControlUtils.h>
-#include <interface/api/Output.h>
+#include <interface/api/Input.h>
 #include <cmath>
 
-namespace rtt {
-namespace ai {
-namespace world {
+#include "world/WorldData.h"
+
+namespace rtt::ai::world {
 
 bool Ball::exists = false;
 
-Ball::Ball()
-        : position(Vector2()), velocity(Vector2()), filteredVelocity(Vector2()),
-          visibleByAnyCamera(false) {
-}
+Ball::Ball() : position(Vector2()), velocity(Vector2()), filteredVelocity(Vector2()), visibleByAnyCamera(false) {}
 
-Ball::Ball(const proto::WorldBall &copy)
-        : position(copy.pos()), velocity(copy.vel()), filteredVelocity(copy.vel()),
-          visibleByAnyCamera(copy.visible()) {
+Ball::Ball(const proto::WorldBall &copy) : position(copy.pos()), velocity(copy.vel()), filteredVelocity(copy.vel()), visibleByAnyCamera(copy.visible()) {
     exists = exists || copy.area() || Vector2(copy.pos()).isNotNaN();
-    if (! exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
+    if (!exists) std::cout << "BallPtr message has existence = 0!!" << std::endl;
 }
 
 void Ball::updateBall(const BallPtr &oldBall, const WorldData &worldData) {
@@ -48,8 +40,7 @@ void Ball::initBallAtRobotPosition(const Ball &oldBall, const WorldData &worldDa
 
 void Ball::filterBallVelocity(Ball &oldBall, const WorldData &worldData) {
     double velocityDifference = (velocity - oldBall.filteredVelocity).length() * Constants::TICK_RATE();
-    double factor = fmin(FILTER_MAX_FACTOR_FOR_VELOCITY,
-                         velocityDifference * FILTER_MAX_FACTOR_FOR_VELOCITY / FILTER_VELOCITY_WITH_MAX_FACTOR);
+    double factor = fmin(FILTER_MAX_FACTOR_FOR_VELOCITY, velocityDifference * FILTER_MAX_FACTOR_FOR_VELOCITY / FILTER_VELOCITY_WITH_MAX_FACTOR);
 
     filteredVelocity = (oldBall.filteredVelocity * (1 - factor) + velocity * factor);
 
@@ -70,11 +61,9 @@ void Ball::updateExpectedBallEndPosition(const Ball &oldBall, const WorldData &w
 
     expectedBallEndPosition = ball->getPos() + ball->filteredVelocity.stretchToLength(ballVelSquared / frictionCoefficient);
 
-    //Visualize the Expected Ball End Position
-    interface::Input::drawData(interface::Visual::BALL_DATA, {expectedBallEndPosition},
-                               Constants::BALL_COLOR(), - 1,interface::Drawing::CIRCLES, 8, 8, 6);
-    interface::Input::drawData(interface::Visual::BALL_DATA, {position, expectedBallEndPosition},
-                               Constants::BALL_COLOR(), - 1,interface::Drawing::LINES_CONNECTED);
+    // Visualize the Expected Ball End Position
+    interface::Input::drawData(interface::Visual::BALL_DATA, {expectedBallEndPosition}, Constants::BALL_COLOR(), -1, interface::Drawing::CIRCLES, 8, 8, 6);
+    interface::Input::drawData(interface::Visual::BALL_DATA, {position, expectedBallEndPosition}, Constants::BALL_COLOR(), -1, interface::Drawing::LINES_CONNECTED);
 }
 
 void Ball::updateBallAtRobotPosition(const Ball &oldBall, const WorldData &worldData) {
@@ -99,31 +88,19 @@ void Ball::updateBallAtRobotPosition(const Ball &oldBall, const WorldData &world
     }
 }
 
-const Vector2 &Ball::getPos() const {
-    return position;
-}
+const Vector2 &Ball::getPos() const { return position; }
 
 void Ball::setPos(const Vector2 &new_pos) {
     position.x = new_pos.x;
     position.y = new_pos.y;
 }
 
-const Vector2 &Ball::getVel() const {
-    return velocity;
-}
+const Vector2 &Ball::getVel() const { return velocity; }
 
-bool Ball::getVisible() {
-    return visibleByAnyCamera;
-}
+bool Ball::getVisible() { return visibleByAnyCamera; }
 
-void Ball::setVisible(bool visible) {
-    visibleByAnyCamera = visible;
-}
+void Ball::setVisible(bool visible) { visibleByAnyCamera = visible; }
 
-const Vector2 &Ball::getExpectedBallEndPosition() const {
-    return expectedBallEndPosition;
-}
+const Vector2 &Ball::getExpectedBallEndPosition() const { return expectedBallEndPosition; }
 
-} //world
-} //ai
-} //rtt
+}  // namespace rtt::ai::world

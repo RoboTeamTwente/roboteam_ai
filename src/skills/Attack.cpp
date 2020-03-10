@@ -1,43 +1,26 @@
-#include <control/PositionUtils.h>
-#include "skills/Attack.h"
-#include <world/Field.h>
-#include <control/numTrees/NumTreePosControl.h>
-#include <control/BasicPosControl.h>
-#include <control/ControlUtils.h>
-#include "coach/OffensiveCoach.h"
-#include <control/PositionUtils.h>
-#include "skills/Attack.h"
-#include <world/Field.h>
-#include <control/numTrees/NumTreePosControl.h>
-#include <control/BasicPosControl.h>
-#include <control/ControlUtils.h>
+#include <skills/Attack.h>
 #include "coach/OffensiveCoach.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-Attack::Attack(string name, bt::Blackboard::Ptr blackboard)
-        :Skill(std::move(name), std::move(blackboard)) {
-}
+Attack::Attack(std::string name, bt::Blackboard::Ptr blackboard) : Skill(std::move(name), std::move(blackboard)) {}
 
 /// Get an update on the skill
 bt::Node::Status Attack::onUpdate() {
-    if (! robot) return Status::Running;
+    if (!robot) return Status::Running;
 
-    if (field->pointIsInDefenceArea(ball->getPos(), false)) {
-        command.set_w(robot->angle);
+    if (FieldComputations::pointIsInDefenceArea(*field, ball->get()->getPos(), false)) {
+        command.set_w(robot->get()->getAngle());
         publishRobotCommand();
         return Status::Running;
     }
 
-
-    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(ball->getPos());
-    auto shotData = robot->getShotController()->getRobotCommand(
-            *robot, aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM,3);
+    Vector2 aimPoint = coach::g_offensiveCoach.getShootAtGoalPoint(*field, ball->get()->getPos());
+    auto shotData =
+        robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), aimPoint, false, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::MEDIUM, 3);
     command = shotData.makeROSCommand();
     publishRobotCommand();
     return Status::Running;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

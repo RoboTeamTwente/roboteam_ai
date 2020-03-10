@@ -7,27 +7,23 @@
 
 #include "QLayout"
 #include "widget.h"
+#include "world/Field.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
-class RobotsWidget: public QWidget {
-Q_OBJECT
-    public:
-        using Robot = world::Robot;
-private:
-    QVBoxLayout* createRobotGroupItem(Robot robot);
+class RobotsWidget : public QWidget {
+    Q_OBJECT
+   private:
+    QVBoxLayout *createRobotGroupItem(const Field &field, rtt::world_new::view::RobotView robot);
     int amountOfSelectedRobots = 0;
-    QVBoxLayout * VLayout;
-public:
-    explicit RobotsWidget(QWidget * parent);
-public slots:
-    void updateContents(Visualizer* visualizer);
+    QVBoxLayout *VLayout;
+
+   public:
+    explicit RobotsWidget(QWidget *parent);
+   public slots:
+    void updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world);
 };
 
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface
 
-#endif //ROBOTEAM_AI_ROBOTSWIDGET_H
+#endif  // ROBOTEAM_AI_ROBOTSWIDGET_H

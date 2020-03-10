@@ -4,9 +4,7 @@
 
 #include "interface/api/Input.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
 // declare static variables
 std::vector<Drawing> Input::drawings;
@@ -15,32 +13,25 @@ std::mutex Input::fpsMutex;
 
 int Input::FPS;
 
-
-
 /*
  * Draw data to the screen
  */
-void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId,
-        Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
+void Input::drawData(Visual visual, std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
     if (method == Drawing::DrawingMethod::ARROWS) {
         if (points.size() % 2 == 1) {
             points.erase(points.end());
         }
     }
-    Input::makeDrawing(Drawing(visual, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
+    std::lock_guard<std::mutex> lock(drawingMutex);
+    drawings.emplace_back(visual, std::move(points), std::move(color), robotId, method, width, height, strokeWidth);
 }
 
 /*
  * Useful for debugging:  quickly draw a vector of points.
  */
-void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width,
-                          double height, double strokeWidth) {
-    Input::makeDrawing(Drawing(Visual::DEBUG, std::move(points), std::move(color), robotId, method, width, height, strokeWidth));
-}
-
-void Input::makeDrawing(Drawing const &drawing) {
+void Input::drawDebugData(std::vector<Vector2> points, QColor color, int robotId, Drawing::DrawingMethod method, double width, double height, double strokeWidth) {
     std::lock_guard<std::mutex> lock(drawingMutex);
-    drawings.push_back(drawing);
+    drawings.emplace_back(Visual::DEBUG, std::move(points), std::move(color), robotId, method, width, height, strokeWidth);
 }
 
 const std::vector<Drawing> Input::getDrawings() {
@@ -50,12 +41,10 @@ const std::vector<Drawing> Input::getDrawings() {
 
 void Input::clearDrawings() {
     std::lock_guard<std::mutex> drawingLock(drawingMutex);
-    drawings = {};
+    drawings.clear();
 }
 
-Input::~Input() {
-    clearDrawings();
-}
+Input::~Input() { clearDrawings(); }
 
 int Input::getFps() {
     std::lock_guard<std::mutex> lock(fpsMutex);
@@ -67,7 +56,8 @@ void Input::setFps(int fps) {
     FPS = fps;
 }
 
+Input::Input() {
+    drawings.reserve(10000);
+}
 
-} // interface
-} // ai
-} // rtt
+}  // namespace rtt::ai::interface

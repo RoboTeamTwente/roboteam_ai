@@ -4,9 +4,10 @@
 
 #include <gtest/gtest.h>
 #include <interface/api/Output.h>
-#include <interface/widgets/widget.h>
-#include <QtWidgets/QApplication>
 #include <interface/widgets/mainWindow.h>
+#include <interface/widgets/widget.h>
+
+#include <QtWidgets/QApplication>
 
 namespace w = rtt::ai::world;
 
@@ -27,11 +28,11 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
 
     // check if the conversion factor is calculated properly
     vis->calculateFieldSizeFactor();
-    EXPECT_FLOAT_EQ(vis->factor, - 6.666667); // the standard size().width() width is 100
+    EXPECT_FLOAT_EQ(vis->factor, -6.666667);  // the standard size().width() width is 100
 
     // check if coordinate conversions are handled properly
-    Vector2 fieldPos = Vector2(0, 0);  // the middle dot on the field, in field coordinates
-    Vector2 screenPos = Vector2(55, 20); // the middle dot in screen coordinates
+    Vector2 fieldPos = Vector2(0, 0);     // the middle dot on the field, in field coordinates
+    Vector2 screenPos = Vector2(55, 20);  // the middle dot in screen coordinates
 
     Vector2 convertedFieldPos = vis->toScreenPosition(fieldPos);
     EXPECT_FLOAT_EQ(convertedFieldPos.x, screenPos.x);
@@ -45,7 +46,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowRoles(true);
     vis->setShowBallPlacementMarker(true);
     vis->setShowDebugValueInTerminal(true);
-        vis->setShowRobotInvalids(true);
+    vis->setShowRobotInvalids(true);
     vis->setShowTacticColors(true);
     vis->setShowTactics(true);
     vis->setShowVelocities(true);
@@ -62,7 +63,7 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     vis->setShowRoles(false);
     vis->setShowBallPlacementMarker(false);
     vis->setShowDebugValueInTerminal(false);
-        vis->setShowRobotInvalids(false);
+    vis->setShowRobotInvalids(false);
     vis->setShowTacticColors(false);
     vis->setShowTactics(false);
     vis->setShowVelocities(false);
@@ -95,6 +96,6 @@ TEST(MainWindowTest, it_shows_the_visualizer_properly) {
     EXPECT_FALSE(vis->robotIsSelected(*robot));
 }
 
-}
-}
-}
+}  // namespace interface
+}  // namespace ai
+}  // namespace rtt

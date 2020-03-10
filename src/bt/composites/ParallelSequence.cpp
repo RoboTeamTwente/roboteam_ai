@@ -1,12 +1,10 @@
-#include "bt/composites/ParallelSequence.hpp"
+#include "bt/composites/ParallelSequence.h"
 
 namespace bt {
 
-ParallelSequence::ParallelSequence(bool successOnAll, bool failOnAll)
-        :useSuccessFailPolicy(true), successOnAll(successOnAll), failOnAll(failOnAll) { }
+ParallelSequence::ParallelSequence(bool successOnAll, bool failOnAll) : useSuccessFailPolicy(true), successOnAll(successOnAll), failOnAll(failOnAll) {}
 
-ParallelSequence::ParallelSequence(int minSuccess, int minFail)
-        :minSuccess(minSuccess), minFail(minFail) { }
+ParallelSequence::ParallelSequence(int minSuccess, int minFail) : minSuccess(minSuccess), minFail(minFail) {}
 
 bt::Node::Status ParallelSequence::update() {
     int minimumSuccess = minSuccess;
@@ -15,15 +13,13 @@ bt::Node::Status ParallelSequence::update() {
     if (useSuccessFailPolicy) {
         if (successOnAll) {
             minimumSuccess = children.size();
-        }
-        else {
+        } else {
             minimumSuccess = 1;
         }
 
         if (failOnAll) {
             minimumFail = children.size();
-        }
-        else {
+        } else {
             minimumFail = 1;
         }
     }
@@ -33,10 +29,10 @@ bt::Node::Status ParallelSequence::update() {
     for (auto &child : children) {
         auto status = child->tick(world, field);
         if (status == Status::Success) {
-            totalSuccess ++;
+            totalSuccess++;
         }
         if (status == Status::Failure) {
-            totalFail ++;
+            totalFail++;
         }
     }
 
@@ -50,5 +46,4 @@ bt::Node::Status ParallelSequence::update() {
     return Status::Running;
 }
 
-
-}
+}  // namespace bt

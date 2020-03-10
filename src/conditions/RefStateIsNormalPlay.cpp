@@ -1,26 +1,19 @@
-//
-// Created by mrlukasbos on 2-5-19.
-//
+/*
+ * returns SUCCESS if the ref state is NormalPlay. Otherwise FAILURE.
+ */
 
-#include <interface/api/Input.h>
-#include <interface/api/Output.h>
-#include <utilities/GameStateManager.hpp>
 #include "conditions/RefStateIsNormalPlay.h"
-#include "utilities/Constants.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-RefStateIsNormalPlay::RefStateIsNormalPlay(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
+RefStateIsNormalPlay::RefStateIsNormalPlay(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 bt::Node::Status RefStateIsNormalPlay::onUpdate() {
     auto refCommand = static_cast<RefCommand>(rtt::ai::GameStateManager::getRefereeData().command());
-    if (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START){
+    if (interface::Output::usesRefereeCommands() && refCommand != RefCommand::NORMAL_START) {
         return Status::Failure;
     }
     return Status::Success;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

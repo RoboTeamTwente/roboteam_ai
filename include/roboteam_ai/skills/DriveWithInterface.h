@@ -6,22 +6,14 @@
 #define ROBOTEAM_AI_DRIVEWITHINTERFACE_H
 
 #include "Skill.h"
-#include <control/numTrees/NumTreePosControl.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class DriveWithInterface : public Skill {
-    public:
-        explicit DriveWithInterface(string name, bt::Blackboard::Ptr blackboard);
-        Status onUpdate() override;
-
-    private:
-        control::NumTreePosControl numTreeGtp;
-
-
+   public:
+    explicit DriveWithInterface(std::string name, bt::Blackboard::Ptr blackboard);
+    Status onUpdate() override;
 };
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_DRIVEWITHINTERFACE_H
+#endif  // ROBOTEAM_AI_DRIVEWITHINTERFACE_H

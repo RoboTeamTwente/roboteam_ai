@@ -5,29 +5,25 @@
 #ifndef ROBOTEAM_AI_WORLDHELPER_H
 #define ROBOTEAM_AI_WORLDHELPER_H
 
-#include <roboteam_utils/Vector2.h>
 #include <roboteam_proto/GeometryFieldSize.pb.h>
 #include <roboteam_proto/World.pb.h>
+#include <roboteam_utils/Vector2.h>
 
 namespace testhelpers {
 
 class WorldHelper {
-    public:
-        static double getRandomValue(double min, double max);
-        static rtt::Vector2 getRandomFieldPosition(proto::GeometryFieldSize field);
-        static rtt::Vector2 getRandomVelocity();
-        static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
-        static proto::WorldRobot generateRandomRobot(int id, proto::GeometryFieldSize field);
-        static proto::WorldBall generateRandomBall(proto::GeometryFieldSize field);
-        static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
-        static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
-        static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount,
-                const proto::GeometryFieldSize &field);
-        static proto::World getWorldMsg(int amountUs, int amountThem, bool withBall,
-                const proto::GeometryFieldSize &field);
-        static std::pair<proto::World, int> getWorldMsgWhereRobotHasBall(int amountUs, int amountThem,
-                bool weHaveBall, proto::GeometryFieldSize field);
+   public:
+    static double getRandomValue(double min, double max);
+    static rtt::Vector2 getRandomFieldPosition(proto::GeometryFieldSize field);
+    static rtt::Vector2 getRandomVelocity();
+    static bool allPositionsAreValid(const proto::World &worldMsg, bool withBall);
+    static proto::WorldRobot * generateRandomRobot(int id, proto::GeometryFieldSize field);
+    static proto::WorldBall * generateRandomBall(proto::GeometryFieldSize field);
+    static rtt::Vector2 getLocationRightBeforeRobot(proto::WorldRobot robot);
+    static proto::WorldBall generateBallAtLocation(const rtt::Vector2 &loc);
+    static google::protobuf::RepeatedPtrField<proto::WorldRobot> generateRandomRobots(int amount, const proto::GeometryFieldSize &field);
+    static proto::World getWorldMsg(int amountUs, int amountThem, bool withBall, const proto::GeometryFieldSize &field);
 };
 
-}
-#endif //ROBOTEAM_AI_WORLDHELPER_H
+}  // namespace testhelpers
+#endif  // ROBOTEAM_AI_WORLDHELPER_H

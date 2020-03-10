@@ -3,15 +3,11 @@
 //
 
 #include <coach/BallplacementCoach.h>
-#include "skills/ballPlacement/BallPlacementPass.h"
+#include <skills/ballPlacement/BallPlacementPass.h>
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-
-BallPlacementPass::BallPlacementPass(string name, bt::Blackboard::Ptr blackboard)
-    : Pass(name, blackboard) { }
-
+BallPlacementPass::BallPlacementPass(std::string name, bt::Blackboard::Ptr blackboard) : Pass(std::move(name), std::move(blackboard)) {}
 
 void BallPlacementPass::onInitialize() {
     robotToPassToID = -1;
@@ -19,9 +15,7 @@ void BallPlacementPass::onInitialize() {
 }
 
 bt::Node::Status BallPlacementPass::onUpdate() {
-
     targetPos = coach::g_ballPlacement.getBallPlacementPos();
-
 
     robotToPassToID = coach::g_pass.getRobotBeingPassedTo();
     if (robotToPassToID == -1) {
@@ -29,9 +23,9 @@ bt::Node::Status BallPlacementPass::onUpdate() {
         return Status::Failure;
     }
 
-    robotToPassTo = world->getRobotForId(robotToPassToID, true);
+    robotToPassTo = world.getRobotForId(robotToPassToID, true);
 
-    if ((ball->getPos() - targetPos).length() < 0.5) {
+    if ((ball->get()->getPos() - targetPos).length() < 0.5) {
         return Status::Success;
     }
 
@@ -47,26 +41,24 @@ bt::Node::Status BallPlacementPass::onUpdate() {
      */
     if (!coach::g_pass.isPassed()) {
         if (coach::g_pass.isReadyToReceivePass()) {
-            auto shotData = robot->getShotController()->getRobotCommand(*robot, getKicker(), false, control::BallSpeed::BALL_PLACEMENT, false, control::ShotPrecision::MEDIUM, 3);
+            auto shotData = robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), getKicker(), false, control::BallSpeed::BALL_PLACEMENT, false,
+                                                                                         control::ShotPrecision::MEDIUM, 3);
             command = shotData.makeROSCommand();
-            if(command.kicker() && !hasShot) {
+            if (command.kicker() && !hasShot) {
                 hasShot = true;
             }
-        } else if (robot->pos.dist(ball->getPos()) > 0.5) {
-            auto robotCommand = robot->getNumtreePosControl()->getRobotCommand(world, field, robot, ball->getPos());
+        } else if (robot->get()->getPos().dist(ball->get()->getPos()) > 0.5) {
+            auto robotCommand = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), ball->get()->getPos());
             command.mutable_vel()->set_x(robotCommand.vel.x);
             command.mutable_vel()->set_y(robotCommand.vel.y);
             command.set_w(robotCommand.angle);
         } else {
-            command.set_w((ball->getPos() - robot->pos).angle());
+            command.set_w((ball->get()->getPos() - robot->get()->getPos()).angle());
         }
     }
-
 
     publishRobotCommand();
     return Status::Running;
 }
 
-
-}
-}
+}  // namespace rtt::ai

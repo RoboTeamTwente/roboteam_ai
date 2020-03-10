@@ -3,20 +3,22 @@
 
 #include "Condition.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class IsBallOnOurSide : public Condition {
     FRIEND_TEST(IsBallOnOurSideTest, it_detects_ball_on_our_side);
-private:
-        bool inField = false;
-    public:
-        explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
-        void onInitialize() override;
-        Status onUpdate() override;
+
+   private:
+    bool inField = false;
+
+   public:
+    explicit IsBallOnOurSide(std::string name = "IsBallOnOurSide", bt::Blackboard::Ptr blackboard = nullptr);
+
+    void onInitialize() override;
+
+    Status onUpdate() override;
 };
 
-} //ai
-} //rtt
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_ISBALLONOURSIDE_H
+#endif  // ROBOTEAM_AI_ISBALLONOURSIDE_H

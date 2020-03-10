@@ -7,22 +7,20 @@
 
 #include "Condition.h"
 #include <utilities/Constants.h>
-#include "world/Field.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 class IsBallCloseToBorder : public Condition {
-private:
+   private:
     double margin = Constants::CLOSE_TO_BORDER_DISTANCE();
     bool ballShouldLayStill = false;
-public:
+
+   public:
     explicit IsBallCloseToBorder(std::string name = "IsBallCloseToBorder", bt::Blackboard::Ptr blackboard = nullptr);
     void onInitialize() override;
     Status onUpdate() override;
 };
 
-}
-}
+}  // namespace rtt::ai
 
-#endif //ROBOTEAM_AI_ISBALLCLOSETOBORDER_H
+#endif  // ROBOTEAM_AI_ISBALLCLOSETOBORDER_H

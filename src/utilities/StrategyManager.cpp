@@ -2,22 +2,18 @@
 // Created by mrlukasbos on 9-11-18.
 //
 
-#include "world/World.h"
-#include "world/Ball.h"
 #include "utilities/StrategyManager.h"
 #include "utilities/GameStateManager.hpp"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
 // process ref commands
-void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage) {
+void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Referee_Stage stage, std::optional<world_new::view::BallView> ballOpt) {
     // if the stage is shootout, we interpret penalty commands as shootOut penalty commands
     if (stage == proto::SSL_Referee_Stage_PENALTY_SHOOTOUT) {
         if (command == RefCommand::PREPARE_PENALTY_US) {
             command = RefCommand::PREPARE_SHOOTOUT_US;
-        }
-        else if (command == RefCommand::PREPARE_PENALTY_THEM) {
+        } else if (command == RefCommand::PREPARE_PENALTY_THEM) {
             command = RefCommand::PREPARE_SHOOTOUT_THEM;
         }
     }
@@ -41,23 +37,20 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
     RefGameState newState;
     if (currentRefGameState.hasFollowUpCommand() && command == RefCommand::NORMAL_START) {
         newState = getRefGameStateForRefCommand(currentRefGameState.followUpCommandId);
-    }
-    else {
+    } else {
         newState = getRefGameStateForRefCommand(command);
     }
-    if (world::world->getBall()) {
-        newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
-    }
-    else {
+
+    if (ballOpt.has_value()) {
+        newState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
+    } else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
     currentRefGameState = newState;
     currentRefCmd = command;
 }
 
-RefGameState StrategyManager::getCurrentRefGameState() {
-    return currentRefGameState;
-}
+RefGameState StrategyManager::getCurrentRefGameState() { return currentRefGameState; }
 
 const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand command) {
     for (auto gameState : this->gameStates) {
@@ -69,18 +62,16 @@ const RefGameState StrategyManager::getRefGameStateForRefCommand(RefCommand comm
     return gameStates[0];
 }
 
-void StrategyManager::forceCurrentRefGameState(RefCommand command) {
+void StrategyManager::forceCurrentRefGameState(RefCommand command, std::optional<world_new::view::BallView> ballOpt) {
     // we need to change refgamestate here
     RefGameState newState = getRefGameStateForRefCommand(command);
-    if (world::world->getBall()) {
-        newState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
-    }
-    else {
+    if (ballOpt.has_value()) {
+        newState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
+    } else {
         newState.ballPositionAtStartOfGameState = {0, 0};
     }
 
     currentRefGameState = newState;
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

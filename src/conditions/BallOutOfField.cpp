@@ -1,33 +1,28 @@
-/* 
+/*
  * Return SUCCESS if the ball is out of the field
  * otherwise FAILURE
  */
 
-#include <world/Field.h>
-#include <world/Ball.h>
 #include "conditions/BallOutOfField.h"
 
-namespace rtt {
-namespace ai {
+namespace rtt::ai {
 
-BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard)
-        :Condition(std::move(name), std::move(blackboard)) { };
+BallOutOfField::BallOutOfField(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
 
 bt::Node::Status BallOutOfField::onUpdate() {
     Vector2 ballPos;
     if (properties->hasDouble("secondsAhead")) {
-        ballPos = ball->getPos() + ball->getVel() * properties->getDouble("secondsAhead");
+        ballPos = ball->get()->getPos() + ball->get()->getVelocity() * properties->getDouble("secondsAhead");
     } else {
-        ballPos = ball->getPos();
+        ballPos = ball->get()->getPos();
     }
 
     // return success if the ball is out of the field
-    if (!field->pointIsInField(ballPos)) {
+    if (!FieldComputations::pointIsInField(*field, ballPos)) {
         return Status::Success;
     } else {
         return Status::Failure;
     }
 }
 
-} // ai
-} // rtt
+}  // namespace rtt::ai

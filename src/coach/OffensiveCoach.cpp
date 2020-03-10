@@ -2,43 +2,39 @@
 // Created by robzelluf on 3/21/19.
 //
 
-#include <interface/widgets/widget.h>
-#include <interface/api/Input.h>
 #include "coach/OffensiveCoach.h"
-#include <world/World.h>
-#include <world/Field.h>
-#include <control/Hungarian.h>
-#include <control/ControlUtils.h>
 
-namespace rtt {
-namespace ai {
-namespace coach {
+#include <control/ControlUtils.h>
+#include <interface/api/Input.h>
+#include <interface/widgets/widget.h>
+#include <world/FieldComputations.h>
+#include "world_new/views/WorldDataView.hpp"
+#include <include/roboteam_ai/world_new/World.hpp>
+
+namespace rtt::ai::coach {
 
 OffensiveCoach g_offensiveCoach;
 
 /// Calculate new positions close to the robot in the corresponding zone.
 /// In the current implementation, there are 4 zones, which are circles with radius ZONE_RADIUS in the opponent half
 /// of the field. an optimal position is found within these zones using this function.
-OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const OffensivePosition &currentPosition,
-        const Vector2 &zoneLocation, int &tick, Angle &targetAngle) {
-
+OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(const Field &field, const OffensivePosition &currentPosition, const Vector2 &zoneLocation, int &tick,
+                                                                            Angle &targetAngle) {
     OffensivePosition bestPosition = currentPosition;
     // project the current position to the zoneLocation if it is outside
-    if ((bestPosition.position - zoneLocation).length2() > ZONE_RADIUS*ZONE_RADIUS) {
+    if ((bestPosition.position - zoneLocation).length2() > ZONE_RADIUS * ZONE_RADIUS) {
         bestPosition.position = zoneLocation + (bestPosition.position - zoneLocation).stretchToLength(ZONE_RADIUS);
     }
     Angle goldenAngle = 0.01;
     tick++;
-    Angle thetaPlus = tick*tick*goldenAngle + targetAngle;
-    Angle thetaMinus = -1*tick*tick*goldenAngle + targetAngle;
-    std::vector<Vector2> positions = {bestPosition.position + thetaPlus.toVector2(1.0   * SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaPlus.toVector2(3.0   * SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaPlus.toVector2(12.0  * SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaMinus.toVector2(1.0  * SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaMinus.toVector2(3.0  * SEARCH_GRID_ROBOT_POSITIONS),
-                                      bestPosition.position + thetaMinus.toVector2(12.0 * SEARCH_GRID_ROBOT_POSITIONS)};
+    Angle thetaPlus = tick * tick * goldenAngle + targetAngle;
+    Angle thetaMinus = -1 * tick * tick * goldenAngle + targetAngle;
+    std::vector<Vector2> positions = {
+        bestPosition.position + thetaPlus.toVector2(1.0 * SEARCH_GRID_ROBOT_POSITIONS),  bestPosition.position + thetaPlus.toVector2(3.0 * SEARCH_GRID_ROBOT_POSITIONS),
+        bestPosition.position + thetaPlus.toVector2(12.0 * SEARCH_GRID_ROBOT_POSITIONS), bestPosition.position + thetaMinus.toVector2(1.0 * SEARCH_GRID_ROBOT_POSITIONS),
+        bestPosition.position + thetaMinus.toVector2(3.0 * SEARCH_GRID_ROBOT_POSITIONS), bestPosition.position + thetaMinus.toVector2(12.0 * SEARCH_GRID_ROBOT_POSITIONS)};
 
-    auto newPosition = findBestOffensivePosition(positions, bestPosition, zoneLocation);
+    auto newPosition = findBestOffensivePosition(field, positions, bestPosition, zoneLocation);
     if (newPosition.position != currentPosition.position) {
         tick = 0;
         targetAngle = newPosition.position - currentPosition.position;
@@ -47,33 +43,27 @@ OffensiveCoach::OffensivePosition OffensiveCoach::calculateNewRobotPosition(cons
 }
 
 // Gets the centers of the "default locations", the 2 positions close to the goal and the 2 further away
-std::vector<Vector2> OffensiveCoach::getZoneLocations() {
-    FieldMessage field = world::field->get_field();
-    Vector2 penaltyStretchCorner = field.get(TOP_RIGHT_PENALTY_STRETCH).end;
+std::vector<Vector2> OffensiveCoach::getZoneLocations(const Field &field) {
+    Vector2 penaltyStretchCorner = field.getTopRightPenaltyStretch().end;
     penaltyStretchCorner.x = abs(penaltyStretchCorner.x);
     penaltyStretchCorner.y = abs(penaltyStretchCorner.y);
 
     std::vector<Vector2> zoneLocations;
 
     // Calculate two positions close to goal
-    zoneLocations.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE,
-            penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
-    zoneLocations.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE,
-            - penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
+    zoneLocations.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, penaltyStretchCorner.y + CLOSE_TO_GOAL_DISTANCE);
+    zoneLocations.emplace_back(penaltyStretchCorner.x - CLOSE_TO_GOAL_DISTANCE, -penaltyStretchCorner.y - CLOSE_TO_GOAL_DISTANCE);
 
     // Calculate two positions further from goal
     zoneLocations.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, penaltyStretchCorner.y);
-    zoneLocations.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, - penaltyStretchCorner.y);
+    zoneLocations.emplace_back(penaltyStretchCorner.x - FURTHER_FROM_GOAL_DISTANCE, -penaltyStretchCorner.y);
 
     return zoneLocations;
 }
 
-void OffensiveCoach::updateOffensivePositions() {
-
-    auto world = world::world->getWorld();
-    auto field = world::field->get_field();
-
-    std::vector<Vector2> zoneLocations = getZoneLocations();
+void OffensiveCoach::updateOffensivePositions(const Field &field) {
+    auto world = world_new::World::instance()->getWorld().value();
+    std::vector<Vector2> zoneLocations = getZoneLocations(field);
 
     if (offensivePositions.size() != zoneLocations.size()) {
         offensivePositions = {};
@@ -83,55 +73,46 @@ void OffensiveCoach::updateOffensivePositions() {
             offensivePosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, zoneLocation, world, field);
             offensivePositions.emplace_back(offensivePosition);
         }
-    }
-
-    else {
+    } else {
         static std::map<int, std::pair<int, Angle>> zoneTargets;
-        for (unsigned int i = 0; i < offensivePositions.size(); i ++) {
+        for (unsigned int i = 0; i < offensivePositions.size(); i++) {
             OffensivePosition offensivePosition = offensivePositions[i];
             Vector2 zoneLocation = zoneLocations[i];
             if (zoneTargets.find(i) == zoneTargets.end()) {
                 zoneTargets[i] = std::make_pair(0, Angle());
             }
-            offensivePositions[i] = calculateNewRobotPosition(offensivePosition, zoneLocation,
-                    zoneTargets[i].first, zoneTargets[i].second);
+            offensivePositions[i] = calculateNewRobotPosition(field, offensivePosition, zoneLocation, zoneTargets[i].first, zoneTargets[i].second);
         }
     }
 }
 
-void OffensiveCoach::addSideAttacker(const OffensiveCoach::RobotPtr &robot) {
-    sideAttackers[robot->id] = - 1;
-    redistributePositions();
+void OffensiveCoach::addSideAttacker(const Field &field, const world_new::view::RobotView robot) {
+    sideAttackers[robot->getId()] = -1;
+    redistributePositions(field);
 }
 
-void OffensiveCoach::removeSideAttacker(const OffensiveCoach::RobotPtr &robot) {
-    sideAttackers.erase(robot->id);
-}
+void OffensiveCoach::removeSideAttacker(const world_new::view::RobotView robot) { sideAttackers.erase(robot->getId()); }
 
-Vector2 OffensiveCoach::getPositionForRobotID(int robotID) {
+Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
     if (sideAttackers.find(robotID) != sideAttackers.end()) {
         int zone = sideAttackers[robotID];
         return offensivePositions[zone].position;
-    }
-    else {
-        redistributePositions();
+    } else {
+        redistributePositions(field);
         return Vector2();
     }
 }
 
-void OffensiveCoach::redistributePositions() {
-    std::vector<int> robotIDs;
-    for (auto &robot : sideAttackers) {
-        robotIDs.emplace_back(robot.first);
+void OffensiveCoach::redistributePositions(const Field &field) {
+    std::unordered_map<int, Vector2> currentAttackerLocations;
+    for (auto &robotIdPair : sideAttackers) {
+        auto robot = world_new::World::instance()->getWorld()->getRobotForId(robotIdPair.first);
+        currentAttackerLocations.insert({robot->get()->getId(), robot->get()->getPos()});
     }
-
-    updateOffensivePositions();
-    std::vector<Vector2> positions = getOffensivePositions(robotIDs.size());
-
-    rtt::HungarianAlgorithm hungarian;
-    map<int, Vector2> shortestDistances;
-    shortestDistances = hungarian.getRobotPositions(robotIDs, true, positions);
-
+    updateOffensivePositions(field);
+    std::vector<Vector2> positions = getOffensivePositions(currentAttackerLocations.size());
+    std::unordered_map<int, Vector2> shortestDistances;
+    shortestDistances = rtt::Hungarian::getOptimalPairsIdentified(currentAttackerLocations, positions);
     for (auto &robot : sideAttackers) {
         int zone = std::find(positions.begin(), positions.end(), shortestDistances[robot.first]) - positions.begin();
         sideAttackers[robot.first] = zone;
@@ -144,11 +125,11 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
     // between the two close positions. If you have 3, you want them to choose from all 4. Hence, the number of positions
     // is rounded up to a multiple of 2.
 
-    int numberOfPositions = numberOfRobots + numberOfRobots%2;
+    int numberOfPositions = numberOfRobots + numberOfRobots % 2;
 
-    std::vector<Vector2> positionVectors;
+    std::vector<Vector2> positionVectors(numberOfPositions);
 
-    for (int i = 0; i < numberOfPositions; i ++) {
+    for (int i = 0; i < numberOfPositions; i++) {
         positionVectors.emplace_back(offensivePositions[i].position);
     }
 
@@ -156,103 +137,72 @@ std::vector<Vector2> OffensiveCoach::getOffensivePositions(int numberOfRobots) {
 }
 
 /// this function decides what point in the goal to aim at from a position on which the ball will be/where the robot is
-Vector2 OffensiveCoach::getShootAtGoalPoint(const Vector2 &fromPoint) {
+Vector2 OffensiveCoach::getShootAtGoalPoint(const Field &field, const Vector2 &fromPoint) {
+    auto worldOpt = world_new::World::instance()->getWorld();
 
     // get the longest line section op the visible part of the goal
-    std::vector<std::pair<Vector2, Vector2>> openSegments = world::field->getVisiblePartsOfGoal(false, fromPoint, world::world->getWorld());
-    if (openSegments.empty()) return world::field->get_field().get(THEIR_GOAL_CENTER);
+    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint, worldOpt.value());
+    if (openSegments.empty()) return field.getTheirGoalCenter();
     auto bestSegment = getLongestSegment(openSegments);
 
     // make two aim points which are in the corners.
-    std::pair<Vector2, Vector2> aimPoints = getAimPoints(fromPoint);
-    auto leftPoint = aimPoints.first;
-    auto rightPoint = aimPoints.second;
+    Line aimPoints = getAimPoints(field, fromPoint);
+    auto leftPoint = aimPoints.start;
+    auto rightPoint = aimPoints.end;
 
     // check if the left and right points are in the largest segment
-    double maxY = std::max(bestSegment.first.y, bestSegment.second.y);
-    double minY = std::min(bestSegment.first.y, bestSegment.second.y);
+    double maxY = std::max(bestSegment.start.y, bestSegment.end.y);
+    double minY = std::min(bestSegment.start.y, bestSegment.end.y);
     bool leftPointInSegment = leftPoint.y < maxY && leftPoint.y > minY;
     bool rightPointInSegment = rightPoint.y < maxY && rightPoint.y > minY;
 
     // if we can aim on only one of the points, aim there, otherwise we want to aim for the centre of the largest open segment
     if (leftPointInSegment && rightPointInSegment) {
         // open goal (mostly), so just shoot in the middle of the largest open segment
-        return (bestSegment.first + bestSegment.second)*0.5;
-    }
-    else if (leftPointInSegment) {
+        return (bestSegment.start + bestSegment.end) * 0.5;
+    } else if (leftPointInSegment) {
         return leftPoint;
-    }
-    else if (rightPointInSegment) {
+    } else if (rightPointInSegment) {
         return rightPoint;
+    } else {
+        return (bestSegment.start + bestSegment.end) * 0.5;
     }
-    else {
-        return (bestSegment.first + bestSegment.second)*0.5;
-    }
-
-}
-// we want to shoot quick without changing geneva
-std::pair<Vector2,bool> OffensiveCoach::penaltyAim(const Vector2 &fromPoint, double currentShotAngle,Vector2 keeperPos){
-    // make two aim points which are in the corners.
-    std::pair<Vector2, Vector2> aimPoints = getAimPoints(fromPoint);
-    auto leftPoint = aimPoints.first;
-    auto rightPoint = aimPoints.second;
-    double leftDif=control::ControlUtils::angleDifference((leftPoint-fromPoint).angle(),currentShotAngle);
-    double rightDif=control::ControlUtils::angleDifference((rightPoint-fromPoint).angle(),currentShotAngle);
-    if (leftDif<=rightDif){
-        if((leftPoint - keeperPos).length() >= 0.4){
-            return std::make_pair(leftPoint,true);
-        }
-        return std::make_pair(rightPoint,false);
-    }
-    if(( rightPoint - keeperPos).length() >= 0.4){
-        return std::make_pair(rightPoint,true);
-    }
-    return std::make_pair(leftPoint,false);
-
-}
-std::pair<Vector2, Vector2> OffensiveCoach::getAimPoints(const Vector2 &fromPoint) {
-    std::pair<Vector2, Vector2> goalSides = world::field->getGoalSides(false);
-    double angleMargin = sin(2.0/180.0*M_PI);
-    double constantMargin = 0.05 * world::field->get_field().get(GOAL_WIDTH);
-    Vector2 leftPoint(goalSides.first.x,
-            goalSides.first.y + constantMargin + angleMargin*goalSides.first.dist(fromPoint));
-    Vector2 rightPoint(goalSides.second.x,
-            goalSides.second.y - angleMargin*goalSides.second.dist(fromPoint) - constantMargin);
-    return std::make_pair(leftPoint, rightPoint);
 }
 
-const std::pair<Vector2, Vector2> &OffensiveCoach::getLongestSegment(
-        const std::vector<std::pair<Vector2, Vector2>> &openSegments) {
+Line OffensiveCoach::getAimPoints(const Field &field, const Vector2 &fromPoint) {
+    Line goalSides = FieldComputations::getGoalSides(field, false);
+    double angleMargin = sin(2.0 / 180.0 * M_PI);
+    double constantMargin = 0.05 * field.getGoalWidth();
+    Vector2 leftPoint(goalSides.start.x, goalSides.start.y + constantMargin + angleMargin * goalSides.start.dist(fromPoint));
+    Vector2 rightPoint(goalSides.end.x, goalSides.end.y - angleMargin * goalSides.end.dist(fromPoint) - constantMargin);
+    return Line(leftPoint, rightPoint);
+}
 
+const Line &OffensiveCoach::getLongestSegment(const std::vector<Line> &openSegments) {
     unsigned long bestIndex = 0;
-    for (unsigned long i = 1; i < openSegments.size(); i ++) {
+    for (unsigned long i = 1; i < openSegments.size(); i++) {
         auto segment = openSegments[i];
         auto bestSegment = openSegments[bestIndex];
-        if (abs(segment.first.y - segment.second.y) > abs(bestSegment.first.y - bestSegment.second.y)) {
+        if (abs(segment.start.y - segment.start.y) > abs(bestSegment.start.y - bestSegment.start.y)) {
             bestIndex = i;
         }
     }
     return openSegments[bestIndex];
 }
 
-OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const std::vector<Vector2> &positions,
-        const OffensiveCoach::OffensivePosition &currentBestPosition, const Vector2 &zoneLocation) {
-
+OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(const Field &field, const std::vector<Vector2> &positions,
+                                                                            const OffensiveCoach::OffensivePosition &currentBestPosition, const Vector2 &zoneLocation) {
     // get world & field
-    auto world = world::world->getWorld();
-    auto field = world::field->get_field();
+    auto world = world_new::World::instance()->getWorld().value();
 
     OffensivePosition bestPosition = currentBestPosition;
-    bestPosition.score =
-            offensiveScore.calculateOffensivePositionScore(zoneLocation, bestPosition.position, world, field);
+    bestPosition.score = offensiveScore.calculateOffensivePositionScore(zoneLocation, bestPosition.position, world, field);
 
     for (auto &potentialPosition : positions) {
         // check the score and if it is better update the best position
-        double potentialScore =
-                offensiveScore.calculateOffensivePositionScore(zoneLocation, potentialPosition, world, field);
+        double potentialScore = offensiveScore.calculateOffensivePositionScore(zoneLocation, potentialPosition, world, field);
         if (potentialScore > 0.0) {
-            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, - 1,
-                    interface::Drawing::DOTS, 3, 3);
+            interface::Input::drawData(interface::Visual::OFFENSE, {potentialPosition}, Qt::red, -1, interface::Drawing::DOTS, 3, 3);
         }
         if (potentialScore > bestPosition.score) {
             bestPosition = OffensivePosition(potentialPosition, potentialScore);
@@ -260,16 +210,11 @@ OffensiveCoach::OffensivePosition OffensiveCoach::findBestOffensivePosition(cons
     }
 
     // draw zonelocation
-    interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, - 1,
-            interface::Drawing::CIRCLES, ZONE_RADIUS*10, ZONE_RADIUS*10, 4);
+    interface::Input::drawData(interface::Visual::OFFENSE, {zoneLocation}, Qt::darkMagenta, -1, interface::Drawing::CIRCLES, ZONE_RADIUS * 10, ZONE_RADIUS * 10, 4);
     // draw the best point as green
-    interface::Input::drawData(interface::Visual::OFFENSE, {bestPosition.position}, Qt::green, - 1,
-            interface::Drawing::DOTS, 8, 8);
+    interface::Input::drawData(interface::Visual::OFFENSE, {bestPosition.position}, Qt::green, -1, interface::Drawing::DOTS, 8, 8);
 
     return bestPosition;
 }
 
-
-}
-}
-}
+}  // namespace rtt::ai::coach
