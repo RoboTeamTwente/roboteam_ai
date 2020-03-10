@@ -2,6 +2,7 @@
 #include <roboteam_proto/World.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 #include <roboteam_utils/Vector2.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "WorldHelper.h"
 
 

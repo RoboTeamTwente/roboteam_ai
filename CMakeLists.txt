@@ -63,6 +63,26 @@ set(BT_SOURCES
         ${PROJECT_SOURCE_DIR}/src/treeinterp/PassRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/SideAttackerRole.cpp
         ${PROJECT_SOURCE_DIR}/src/treeinterp/tactics/DefaultTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSelector.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemSequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/ParallelSequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/MemParallelSequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/Selector.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/composites/Sequence.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Failer.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Inverter.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Repeater.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/Succeeder.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilFail.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/decorators/UntilSuccess.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/BehaviorTree.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Blackboard.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Composite.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Decorator.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Node.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/RoleDivider.cpp
+        ${PROJECT_SOURCE_DIR}/src/bt/Role.cpp
         )
 
 set(ANALYSIS_SOURCES

@@ -92,7 +92,7 @@ class Node {
 
     unsigned long long amountOfTicks = 0;  // ticks can increase fast
 
-    rtt::world_new::view::WorldDataView world;
+    rtt::world_new::view::WorldDataView world{ nullptr };
     const Field *field = nullptr;
 };
 

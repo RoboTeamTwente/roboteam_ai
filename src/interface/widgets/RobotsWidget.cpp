@@ -28,7 +28,7 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world) {
-    auto const &field = world_new::World::instance()->getField().value();
+    auto field = world_new::World::instance()->getField().value();
     auto us =world->getUs();
 
     // reload the widgets completely if a robot is added or removed

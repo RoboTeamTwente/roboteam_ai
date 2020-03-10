@@ -86,12 +86,12 @@ void OffensiveCoach::updateOffensivePositions(const Field &field) {
     }
 }
 
-void OffensiveCoach::addSideAttacker(const Field &field, const world_new::view::RobotView &robot) {
+void OffensiveCoach::addSideAttacker(const Field &field, const world_new::view::RobotView robot) {
     sideAttackers[robot->getId()] = -1;
     redistributePositions(field);
 }
 
-void OffensiveCoach::removeSideAttacker(const world_new::view::RobotView &robot) { sideAttackers.erase(robot->getId()); }
+void OffensiveCoach::removeSideAttacker(const world_new::view::RobotView robot) { sideAttackers.erase(robot->getId()); }
 
 Vector2 OffensiveCoach::getPositionForRobotID(const Field &field, int robotID) {
     if (sideAttackers.find(robotID) != sideAttackers.end()) {
