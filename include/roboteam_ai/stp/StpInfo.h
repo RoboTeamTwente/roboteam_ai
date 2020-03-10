@@ -7,6 +7,8 @@
 
 #include <roboteam_utils/Rectangle.h>
 #include <roboteam_utils/Circle.h>
+#include "world_new/views/RobotView.hpp"
+#include "world_new/views/BallView.hpp"
 
 namespace rtt::ai::stp {
 
@@ -60,22 +62,18 @@ namespace rtt::ai::stp {
         /**
          * View to the ball in the world this tactic executes on
          */
-        world_new::view::BallView ball;
+        std::optional<world_new::view::BallView> ball;
 
         /**
          * Robot to pass to
          */
-        world_new::view::RobotView passRobot;
+        std::optional<world_new::view::RobotView> passRobot;
 
-        /**
-         * Current world data that's used for calculations
-         */
-        world_new::view::WorldDataView world;
+        Vector2 getPosition() const { return position; };
+        void setPosition(Vector2 position) { this->position = position; };
 
-        /**
-         * Position, could be position of robot, or whatever position the skill needs, maybe target position
-         */
-        Vector2 position;
+        std::optional<Field> getField() const { return field; };
+        void setField(Field field) { this->field = field; };
 
         /**
          * Maximum speed that something can have, the ball, the robot... whatever the skill needs
@@ -86,6 +84,17 @@ namespace rtt::ai::stp {
          * Areas to avoid, read Areas<T> for more info
          */
         Areas<Rectangle> areasToAvoid;
+
+    private:
+        /**
+         * Position, could be position of robot, or whatever position the skill needs, maybe target position
+         */
+        Vector2 position;
+
+        /**
+         * Field
+         */
+        std::optional<Field> field;
     };
 
 
@@ -93,6 +102,19 @@ namespace rtt::ai::stp {
      * Skill info used in skills
      */
     struct SkillInfo {
+        TacticInfo getTacticInfo() const { return tacticInfo; };
+        void setTacticInfo(TacticInfo tacticInfo) { this->tacticInfo = tacticInfo; };
+
+        world_new::view::RobotView getRobot() const { return robot; };
+        void setRobot(world_new::view::RobotView robot) { this->robot = robot; };
+
+        float getAngle() const { return angle; };
+        void setAngle(double angle) { this->angle = angle; };
+
+        int getDribblerSpeed() const { return dribblerSpeed; };
+        void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; };
+
+    private:
         /**
          * TacticInfo of the tactic that called the skill
          */
@@ -101,7 +123,17 @@ namespace rtt::ai::stp {
         /**
          * Robot this skill applies to
          */
-         world_new::view::RobotView robot;
+        world_new::view::RobotView robot;
+
+        /**
+         * Reference angle of the robot
+         */
+        float angle = 0.0;
+
+        /**
+         * Speed of the dribbler
+         */
+        int dribblerSpeed = 0;
     };
 };
 

@@ -13,7 +13,7 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent) : worldManager(worldManager), QMainWindow(parent) {
+MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -169,7 +169,15 @@ void MainWindow::clearLayout(QLayout *layout) {
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-    if (worldManager.getWorld().has_value()) robotsWidget->updateContents(visualizer, *worldManager.getWorld());
+    auto world = rtt::world_new::World::instance();
+    if (!world) {
+        std::cerr << "World is NULL" << std::endl;
+        return;
+    }
+    auto currentWorld = world->getWorld();
+    if (currentWorld) {
+        robotsWidget->updateContents(visualizer, *currentWorld);
+    }
 }
 
 // update the tree widget with the newest strategy tree

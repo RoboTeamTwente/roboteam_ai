@@ -173,7 +173,18 @@ set(SKILLS_SOURCES
         )
 
 set(NEW_SKILLS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/SetDribbler.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
+        )
+set(NEW_TACTIC_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
+        )
+
+set(STP_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -252,6 +263,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         )
 
@@ -324,6 +336,7 @@ set(AI_SOURCES
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
+        ${NEW_TACTIC_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
@@ -331,6 +344,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        ${STP_SOURCES}
         )
 
 set(AI_LIBS
