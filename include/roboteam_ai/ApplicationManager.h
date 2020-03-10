@@ -46,7 +46,7 @@ class ApplicationManager {
      * @param world the current world state
      * @param field the current field state
      */
-    void decidePlay(world_new::World* world);
+    void decidePlay(world_new::World* world, const ai::world::Field &field);
 
    public:
     void start();

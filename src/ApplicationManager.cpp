@@ -69,7 +69,7 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world_new::World::instance());
+            decidePlay(world_new::World::instance(), field);
             updateTrees();
             updateCoaches(field);
             runKeeperTree(field);
@@ -195,11 +195,12 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     }
 }
 
-void ApplicationManager::decidePlay(world_new::view::WorldDataView world, const ai::world::Field &field) {
-    bool stillValidPlay = playChecker.update(world, field);
-    if (!stillValidPlay) {
-        auto bestplay = playDecider.decideBestPlay(world, field, playChecker.getValidPlays());
-        BTFactory::setCurrentTree(bestplay);
+void ApplicationManager::decidePlay(world_new::World* world, const ai::world::Field &field) {
+    playChecker.update(world);
+    if (!playChecker.isValid(bestPlay)) {
+        bestPlay = playDecider.decideBestPlay(world, playChecker.getValidPlays());
+//       TODO: line below
+//       BTFactory::setCurrentTree(bestPlay);
     }
 }
 }  // namespace rtt
