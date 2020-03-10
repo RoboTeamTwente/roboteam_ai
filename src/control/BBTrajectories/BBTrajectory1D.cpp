@@ -84,6 +84,13 @@ void BBTrajectory1D::trapezoidalProfile(double startPos, double startVel, double
 
 void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double endPos, double maximumVel,
         double maximumAcc)  {
+    //Store call so we can review it later:
+    initialPos = startPos;
+    initialVel = startVel;
+    finalPos = endPos;
+    maxVel = maximumVel;
+    maxAcc = maximumAcc;
+
     double brakePos = fullBrakePos(startPos, startVel, maximumAcc);
     if (brakePos <= endPos) {
         //Check if we need triangular profile or trapezoidal:
@@ -200,5 +207,5 @@ double BBTrajectory1D::getPosition(double t) const  {
 }
 
 bool BBTrajectory1D::inLastPart(double t) const  {
-    return t>parts[numParts-2].tEnd;
+    return t>=parts[numParts-2].tEnd;
 }
