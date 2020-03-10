@@ -26,14 +26,44 @@ struct PosVelAcc {
 
 class BBTrajectory1D {
     public:
+        /**
+         * @brief Gets the position, velocity and acceleration at time t
+         * @param t time to get values at
+         * @return The PosVelAcc
+         */
         PosVelAcc getValues(double t) const;
+        /**
+         * @brief Gets the position at time t
+         * @param t time to get position at
+         * @return Position at time t
+         */
         double getPosition(double t) const;
+        /**
+         * @brief Gets the velocity at time t
+         * @param t time to get velocity at
+         * @return Velocity at time t
+         */
         double getVelocity(double t) const;
+        /**
+         * @brief Gets the acceleration at time t
+         * @param t time to get acceleration at.
+         * @return Acceleration at time t
+         */
         double getAcceleration(double t) const;
+        /**
+         * @brief Gets the total trajectory time.
+         * @return Total time of the trajectory to end point
+         */
         double getTotalTime() const;
+        /**
+         * Checks if time is in the last (decelerating to 0) part of the trajectory
+         * @param t
+         * @return true if t is in the last part of the trajectory
+         */
         bool inLastPart(double t) const;
         /**
-        * Generate a time-optimal trajectory given the parameters
+        * Generate a time-optimal trajectory given the parameters and a bang-bang control model where we
+        * either accelerate/decelerate at max deceleration or drive at the max velocity.
         * @param initialPos Current position
         * @param initialVel Current velocity
         * @param finalPos Final position

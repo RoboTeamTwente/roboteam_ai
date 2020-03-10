@@ -19,8 +19,8 @@ BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initial
  void BBTrajectory2D::generateTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,
         const Vector2 &finalPos,
         double maxVel, double maxAcc, double alpha)  {
-    x = BBTrajectory1D(initialPos.x, initialVel.x, finalPos.x, maxVel*cosf(alpha), maxAcc*cosf(alpha));
-    y = BBTrajectory1D(initialPos.y, initialVel.y, finalPos.y, maxVel*sinf(alpha), maxAcc*sinf(alpha));
+    x = BBTrajectory1D(initialPos.x, initialVel.x, finalPos.x, maxVel*cos(alpha), maxAcc*cos(alpha));
+    y = BBTrajectory1D(initialPos.y, initialVel.y, finalPos.y, maxVel*sin(alpha), maxAcc*sin(alpha));
 }
 
 void BBTrajectory2D::generateSyncedTrajectory(const Vector2 &initialPos, const Vector2 &initialVel,

@@ -31,16 +31,16 @@ double BBTrajectory1D::accelerateBrakePos(double pos0, double vel0, double vel1,
 }
 
 void
-BBTrajectory1D::triangularProfile(double initialPos, double initialVel, double finalPos, double maxAcc,
+BBTrajectory1D::triangularProfile(double startPos, double startVel, double endPos, double maximumAcc,
         bool invertedSign)  {
-    double acc = invertedSign ? maxAcc : - maxAcc;
+    double acc = invertedSign ? maximumAcc : - maximumAcc;
     //compute the final time difference at which we switch from accelerating to breaking
-    double sq = (acc*(finalPos - initialPos) + 0.5*initialVel*initialVel)/(acc*acc);
+    double sq = (acc*(endPos - startPos) + 0.5*startVel*startVel)/(acc*acc);
     double brakeTime = sq > 0 ? sqrt(sq) : 0;
     double topVel = acc*brakeTime;
-    double switchTime = (topVel - initialVel)/acc;
-    double switchPos = initialPos + (initialVel + topVel)*0.5*switchTime;
-    updatePart(0, switchTime, acc, initialVel, initialPos);
+    double switchTime = (topVel - startVel)/acc;
+    double switchPos = startPos + (startVel + topVel)*0.5*switchTime;
+    updatePart(0, switchTime, acc, startVel, startPos);
     updatePart(1, switchTime + brakeTime, - acc, topVel, switchPos);
     numParts = 2;
 }
@@ -50,71 +50,71 @@ void BBTrajectory1D::updatePart(int index, double tEnd, double acc, double vel, 
     parts[index].startVel = vel;
     parts[index].tEnd = tEnd;
 }
-void BBTrajectory1D::trapezoidalProfile(double initialPos, double initialVel, double maxVel, double finalPos,
-        double maxAcc)  {
+void BBTrajectory1D::trapezoidalProfile(double startPos, double startVel, double maximumVel, double endPos,
+        double maximumAcc)  {
     double acc1;
     double acc3;
 
-    if (initialVel > maxVel) {
-        acc1 = - maxAcc;
+    if (startVel > maximumVel) {
+        acc1 = - maximumAcc;
     }
     else {
-        acc1 = maxAcc;
+        acc1 = maximumAcc;
     }
 
-    if (maxVel > 0) {
-        acc3 = - maxAcc;
+    if (maximumVel > 0) {
+        acc3 = - maximumAcc;
     }
     else {
-        acc3 = maxAcc;
+        acc3 = maximumAcc;
     }
 
-    double t1 = (maxVel - initialVel)/acc1;
-    double t3 = - maxVel/acc3;
-    double startCoastPos = initialPos + 0.5*(initialVel + maxVel)*t1;
-    double endCoastPos = finalPos - 0.5*maxVel*t3;
-    double t2 = (endCoastPos - startCoastPos)/maxVel;
+    double t1 = (maximumVel - startVel)/acc1;
+    double t3 = - maximumVel/acc3;
+    double startCoastPos = startPos + 0.5*(startVel + maximumVel)*t1;
+    double endCoastPos = endPos - 0.5*maximumVel*t3;
+    double t2 = (endCoastPos - startCoastPos)/maximumVel;
 
-    updatePart(0, t1, acc1, initialVel, initialPos);
-    updatePart(1, t1 + t2, 0, maxVel, startCoastPos);
-    updatePart(2, t1 + t2 + t3, acc3, maxVel, endCoastPos);
+    updatePart(0, t1, acc1, startVel, startPos);
+    updatePart(1, t1 + t2, 0, maximumVel, startCoastPos);
+    updatePart(2, t1 + t2 + t3, acc3, maximumVel, endCoastPos);
     numParts = 3;
 
 }
 
-void BBTrajectory1D::generateTrajectory(double initialPos, double initialVel, double finalPos, double maxVel,
-        double maxAcc)  {
-    double brakePos = fullBrakePos(initialPos, initialVel, maxAcc);
-    if (brakePos <= finalPos) {
+void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double endPos, double maximumVel,
+        double maximumAcc)  {
+    double brakePos = fullBrakePos(startPos, startVel, maximumAcc);
+    if (brakePos <= endPos) {
         //Check if we need triangular profile or trapezoidal:
-        double accBrakePos = accelerateBrakePos(initialPos, initialVel, maxVel, maxAcc);
-        if (accBrakePos >= finalPos) {
-            triangularProfile(initialPos, initialVel, finalPos, maxAcc, true);
+        double accBrakePos = accelerateBrakePos(startPos, startVel, maximumVel, maximumAcc);
+        if (accBrakePos >= endPos) {
+            triangularProfile(startPos, startVel, endPos, maximumAcc, true);
         }
         else {
-            trapezoidalProfile(initialPos, initialVel, maxVel, finalPos, maxAcc);
+            trapezoidalProfile(startPos, startVel, maximumVel, endPos, maximumAcc);
         }
     }
     else {
         //similar to above but with slightly mirrored logic
-        double accBrakePos = accelerateBrakePos(initialPos, initialVel, - maxVel, maxAcc);
-        if (accBrakePos <= finalPos) {
-            triangularProfile(initialPos, initialVel, finalPos, maxAcc, false);
+        double accBrakePos = accelerateBrakePos(startPos, startVel, - maximumVel, maximumAcc);
+        if (accBrakePos <= endPos) {
+            triangularProfile(startPos, startVel, endPos, maximumAcc, false);
         }
         else {
-            trapezoidalProfile(initialPos, initialVel, - maxVel, finalPos, maxAcc);
+            trapezoidalProfile(startPos, startVel, - maximumVel, endPos, maximumAcc);
         }
     }
 }
 
-BBTrajectory1D::BBTrajectory1D(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc) 
+BBTrajectory1D::BBTrajectory1D(double startPos, double startVel, double endPos, double maximumVel, double maximumAcc)
         :
-        initialPos{initialPos},
-        initialVel{initialVel},
-        finalPos{finalPos},
-        maxAcc{maxAcc},
-        maxVel{maxVel} {
-    generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
+        initialPos{startPos},
+        initialVel{startVel},
+        finalPos{endPos},
+        maxAcc{maximumAcc},
+        maxVel{maximumVel} {
+    generateTrajectory(startPos, startVel, endPos, maximumVel, maximumAcc);
 }
 
 PosVelAcc BBTrajectory1D::getValues(double t) const  {
