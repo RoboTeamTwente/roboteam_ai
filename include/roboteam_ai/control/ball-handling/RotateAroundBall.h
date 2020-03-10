@@ -16,7 +16,6 @@ namespace rtt::ai::control {
 
 class RotateAroundBall {
    private:
-
     double maxVel = 1.3;
     double maxBallDistance = Constants::ROBOT_RADIUS() * 2.0;
     double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
