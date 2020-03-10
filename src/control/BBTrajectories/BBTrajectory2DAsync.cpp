@@ -50,7 +50,6 @@ void BBTrajectory2DAsync::generateAsyncTrajectory(const Vector2 &initialPos, con
         }
         inc *= 0.5;
     }
-
 }
 
 Vector2 BBTrajectory2DAsync::getPosition(double t) const {

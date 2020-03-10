@@ -91,7 +91,6 @@ class BBTrajectory2D {
         std::vector<Vector2> visCurve() const;
         BBTrajectory1D x;
         BBTrajectory1D y;
-
 };
 }
 #endif //RTT_BBTRAJECTORY2D_H

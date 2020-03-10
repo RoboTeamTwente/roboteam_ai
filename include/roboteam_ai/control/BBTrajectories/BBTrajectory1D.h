@@ -86,8 +86,8 @@ class BBTrajectory1D {
         void generateTrajectory(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc);
         BBTrajectory1D(double initialPos, double initialVel,double finalPos, double maxVel, double maxAcc);
         BBTrajectory1D() = default;
-    private:
 
+    private:
         /**
          * @brief Computes the position where we would end if we would initiate a maximal break given current state
          * @param pos Current position

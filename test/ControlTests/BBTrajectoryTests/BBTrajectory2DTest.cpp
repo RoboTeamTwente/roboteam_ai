@@ -80,5 +80,4 @@ TEST(BBTrajectories, BBTrajectory2DAsync){
 //
 //    BBTrajectory2D<float> trajectory2D(initialPos,initialVel,endPos,maxVel,maxAcc);
 //    print(trajectory2D);
-
 }

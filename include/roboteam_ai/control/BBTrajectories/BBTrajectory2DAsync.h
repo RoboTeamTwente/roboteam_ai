@@ -31,8 +31,6 @@ class BBTrajectory2DAsync {
         Vector2 getVelocity(double t) const;
         Vector2 getAcceleration(double t) const;
         std::vector<Vector2> visCurve() const;
-
 };
-
 }
 #endif //RTT_BBTRAJECTORY2DASYNC_H

@@ -27,7 +27,6 @@ double BBTrajectory1D::accelerateBrakePos(double pos0, double vel0, double vel1,
     double pos1 = pos0 + (0.5*(vel0 + vel1)*t1); //position at which we reach vel1
     double t2 = - vel1/acc2; // time to max break from vel1 to 0
     return pos1 + (0.5*vel1*t2); // position we stop at after initiating maximal break at pos1
-
 }
 
 void
@@ -79,7 +78,6 @@ void BBTrajectory1D::trapezoidalProfile(double startPos, double startVel, double
     updatePart(1, t1 + t2, 0, maximumVel, startCoastPos);
     updatePart(2, t1 + t2 + t3, acc3, maximumVel, endCoastPos);
     numParts = 3;
-
 }
 
 void BBTrajectory1D::generateTrajectory(double startPos, double startVel, double endPos, double maximumVel,
