@@ -3,17 +3,16 @@
 //
 
 #include "include/roboteam_ai/stp/Tactic.h"
+
 #include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
 
-void Tactic::initialize() noexcept {
-    onInitialize();
-}
+void Tactic::initialize() noexcept { onInitialize(); }
 
 Status Tactic::update(TacticInfo const &info) noexcept {
     // Check if the skills are all finished
-    if(skills.finished()) {
+    if (skills.finished()) {
         return Status::Success;
     }
 
@@ -29,7 +28,5 @@ Status Tactic::update(TacticInfo const &info) noexcept {
     return status;
 }
 
-void Tactic::terminate() noexcept {
-    onTerminate();
-}
+void Tactic::terminate() noexcept { onTerminate(); }
 }  // namespace rtt::ai::stp

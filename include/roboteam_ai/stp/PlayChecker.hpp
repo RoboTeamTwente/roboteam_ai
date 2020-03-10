@@ -49,7 +49,7 @@ namespace rtt::ai::stp {
         /**
          * Current world, do not use before update()
          */
-        world_new::World *world{};
+        world_new::World* world{};
     };
 
 } // namespace rt::ai::stp

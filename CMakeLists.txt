@@ -151,16 +151,21 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
-set(NEW_TACTIC_SOURCES
+set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
         )
 
-set(STP_SOURCES
+set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/TestRole.cpp
+        )
+
+set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -322,7 +327,9 @@ set(AI_SOURCES
         ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
-        ${NEW_TACTIC_SOURCES}
+        ${NEW_TACTICS_SOURCES}
+        ${NEW_ROLES_SOURCES}
+        ${NEW_PLAYS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}
@@ -330,7 +337,6 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        ${STP_SOURCES}
         )
 
 set(AI_LIBS

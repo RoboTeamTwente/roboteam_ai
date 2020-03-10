@@ -6,15 +6,33 @@
 #define RTT_TESTTACTIC_H
 
 #include "include/roboteam_ai/stp/Tactic.h"
+
 namespace rtt::ai::stp {
 
 class TestTactic : public Tactic {
-        void onInitialize() noexcept override;
-        void onUpdate(Status const &status) noexcept override;
-        void onTerminate() noexcept override;
-        SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept override;
+    /**
+     * On initialization of this tactic, initialize the state machine with skills
+     */
+    void onInitialize() noexcept override;
+
+    /**
+     * On update of this tactic
+     */
+    void onUpdate(Status const &status) noexcept override;
+
+    /**
+     * On terminate of this tactic, call terminate on all underlying skills
+     */
+    void onTerminate() noexcept override;
+
+    /**
+     * Calculate the SkillInfo from the TacticInfo
+     * @param info info is the TacticInfo passed by the role
+     * @return SkillInfo based on the TacticInfo
+     */
+    SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept override;
 };
 
-} // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp
 
-#endif //RTT_TESTTACTIC_H
+#endif  // RTT_TESTTACTIC_H

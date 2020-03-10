@@ -367,7 +367,7 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
-    RTT_WARNING("No robot with that ID: ", ID);
+    //RTT_WARNING("No robot with that ID: ", ID);
     return "";
 }
 

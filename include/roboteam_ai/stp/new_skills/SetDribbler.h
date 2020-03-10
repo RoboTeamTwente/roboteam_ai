@@ -9,20 +9,24 @@
 
 namespace rtt::ai::stp {
 
-/**
- * This skill sets the dribbler at a speed specified in the blackboard
- */
 class SetDribbler : public Skill {
    public:
-        void onInitialize() noexcept override;
-        /**
-        * Sets the dribbler speed using blackboard parameter: "dribblerSpeed"
-        * @return status of the skill
-        */
-        Status onUpdate(SkillInfo const& info) noexcept override;
-        void onTerminate() noexcept override;
+    /**
+     * On initialize of this tactic
+     */
+    void onInitialize() noexcept override;
+
+    /**
+     * On update of this tactic
+     */
+    Status onUpdate(SkillInfo const& info) noexcept override;
+
+    /**
+     * On terminate of this tactic
+     */
+    void onTerminate() noexcept override;
 };
 
-}  // namespace rtt::ai
+}  // namespace rtt::ai::stp
 
 #endif  // RTT_SETDRIBBLER_H

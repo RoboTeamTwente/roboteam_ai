@@ -6,7 +6,7 @@
 
 namespace rtt::ai::stp {
 
-void Kick::onInitialize() noexcept { }
+void Kick::onInitialize() noexcept {}
 
 Status Kick::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     double kickVelocity = info.getKickChipVelocity();
@@ -28,6 +28,6 @@ Status Kick::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     return Status::Success;
 }
 
-void Kick::onTerminate() noexcept { }
+void Kick::onTerminate() noexcept {}
 
-} // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp

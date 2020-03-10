@@ -5,62 +5,106 @@
 #ifndef RTT_PLAY_HPP
 #define RTT_PLAY_HPP
 
+#include <utilities/Dealer.h>
+
 #include <array>
 
-#include "world_new/World.hpp"
 #include "Role.hpp"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::stp {
 
+/**
+ * Play class that's used in the STP model
+ * on update traverses every Role, and updates it.
+ */
+class Play {
+   public:
+    constexpr static size_t ROBOT_COUNT = 8;
+
     /**
-     * Play class that's used in the STP model
-     * on update traverses every Role, and updates it.
+     * Initializes tacticInfos vector and calls assignRoles
      */
-    class Play {
-    public:
-        constexpr static size_t ROBOT_COUNT = 11;
+    void initialize() noexcept;
 
-        /**
-         * Updates all the roles
-         * @param info Information to pass down to the Roles
-         * @return Status depending on return value,
-         * if all finished -> finished
-         * if any failed -> failed
-         * if any waiting -> waiting
-         * otherwise -> running
-         */
-        [[nodiscard]] virtual Status update(TacticInfo const& info) noexcept;
+    /**
+     * Updated the stored world
+     * @param world
+     */
+    void updateWorld(world_new::World* world) noexcept;
 
-        /**
-         * Checks whether the current play is a valid play
-         * @param world World to check for (world_new::World::instance())
-         * @return true if valid, false if not
-         */
-        [[nodiscard]] virtual bool isValidPlay(world_new::World* world) noexcept = 0;
+    /**
+     * Updates all the roles
+     * @param info Information to pass down to the Roles
+     * @return Status depending on return value,
+     * if all finished -> finished
+     * if any failed -> failed
+     * if any waiting -> waiting
+     * otherwise -> running
+     */
+    [[nodiscard]] virtual Status update() noexcept;
 
-        /**
-         * Gets the score for the current play
-         *
-         * On the contrary to isValidPlay() this checks how good the play actually is
-         * return in range of 0 - 100
-         *
-         * @param world World to get the score for (world_new::World::instance())
-         * @return The score, 0 - 100
-         */
-        [[nodiscard]] virtual uint8_t score(world_new::World* world) noexcept = 0;
+    /**
+     * Checks whether the current play is a valid play
+     * @param world World to check for (world_new::World::instance())
+     * @return true if valid, false if not
+     */
+    [[nodiscard]] virtual bool isValidPlay(world_new::World* world) noexcept = 0;
 
-        /**
-         * Virtual default ctor, ensures proper destruction of Play
-         */
-        virtual ~Play() = default;
+    /**
+     * Gets the score for the current play
+     *
+     * On the contrary to isValidPlay() this checks how good the play actually is
+     * return in range of 0 - 100
+     *
+     * @param world World to get the score for (world_new::World::instance())
+     * @return The score, 0 - 100
+     */
+    [[nodiscard]] virtual uint8_t score(world_new::World* world) noexcept = 0;
 
-    protected:
-        /**
-         * The roles, probably constructed in the parameter
-         */
-        std::array<std::unique_ptr<Role>, ROBOT_COUNT> roles;
-    };
+    /**
+     * Virtual default dtor, ensures proper destruction of Play
+     */
+    virtual ~Play() = default;
 
-} // namespace rtt::ai::stp
+    /**
+     * Default ctor, ensures proper construction of Play
+     */
+    Play() = default;
 
-#endif //RTT_PLAY_HPP
+    /**
+     * Default move-ctor, ensures proper move-construction of Play
+     */
+    Play(Play&& other) = default;
+
+   protected:
+    /**
+     * The roles, constructed in ctor of a play
+     */
+    std::array<std::unique_ptr<Role>, ROBOT_COUNT> roles;
+
+    /**
+     * The tacticInfos, constructed in assignRoles
+     */
+    std::vector<TacticInfo> tacticInfos;
+
+    /**
+     * The world
+     */
+    rtt::world_new::World* world;
+
+    /**
+     * The Field
+     */
+    rtt::ai::Field field;
+
+   private:
+    /**
+     * Assigns robots to roles
+     */
+    virtual void assignRoles() noexcept = 0;
+};
+
+}  // namespace rtt::ai::stp
+
+#endif  // RTT_PLAY_HPP

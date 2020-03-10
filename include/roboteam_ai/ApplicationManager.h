@@ -31,7 +31,7 @@ class ApplicationManager {
     /**
      * Current best play as picked by checker + decider
      */
-    ai::stp::Play* bestPlay;
+    ai::stp::Play* currentPlay{nullptr};
 
     /**
      * Checks which plays are valid out of all the plays
@@ -46,7 +46,7 @@ class ApplicationManager {
      * @param world the current world state
      * @param field the current field state
      */
-    void decidePlay(world_new::World* world);
+    rtt::ai::stp::Status decidePlay(world_new::World* world);
 
    public:
     void start();

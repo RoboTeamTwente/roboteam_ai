@@ -5,27 +5,24 @@
 #include "include/roboteam_ai/stp/PlayChecker.hpp"
 
 namespace rtt::ai::stp {
-    std::vector<Play*> PlayChecker::getValidPlays() noexcept {
-        std::vector<Play*> validPlays;
+std::vector<Play*> PlayChecker::getValidPlays() noexcept {
+    std::vector<Play*> validPlays;
 
-        for (auto& each : allPlays) {
-            if (each->isValidPlay(world)) {
-                validPlays.push_back(each.get());
-            }
+    for (auto& each : allPlays) {
+        if (each->isValidPlay(world)) {
+            validPlays.push_back(each.get());
         }
-
-        return validPlays;
     }
 
-    void PlayChecker::update(world_new::World *_world) noexcept {
-        this->world = _world;
-    }
+    return validPlays;
+}
 
-    bool PlayChecker::isValid(Play *play) const noexcept {
-        return play->isValidPlay(world);
-    }
+void PlayChecker::update(world_new::World* _world) noexcept { this->world = _world; }
 
-    void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept {
-        this->allPlays = std::move(plays);
-    }
-} // namespace rtt::ai::stp
+bool PlayChecker::isValid(Play* play) const noexcept { return play->isValidPlay(world); }
+
+void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept {
+    this->allPlays = std::move(plays);
+    RTT_INFO("Plays: ", allPlays.size());
+}
+}  // namespace rtt::ai::stp
