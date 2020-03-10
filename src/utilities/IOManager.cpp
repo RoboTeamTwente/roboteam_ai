@@ -108,7 +108,6 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
             if (cmd.kicker()) {
                 interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
             }
-
             if (cmd.chip_kick_forced()) {
                 interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::DOTS, 36, 36, 8);
             }
