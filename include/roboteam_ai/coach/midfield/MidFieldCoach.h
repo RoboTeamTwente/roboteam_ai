@@ -37,34 +37,34 @@ class MidFieldCoach {
     std::vector<world_new::view::RobotView> currentMidfielders_new;
 
     std::map<int, Vector2> targetPositions;
-    std::map<int, world_new::view::RobotView> targetRobotsToHarass;
-    std::map<int, world_new::view::RobotView> targetRobotsToHarass_new;
+    std::map<uint8_t, world_new::view::RobotView> targetRobotsToHarass;
+    std::map<uint8_t, world_new::view::RobotView> targetRobotsToHarass_new;
 
-    Target getBall(world_new::view::RobotView &thisRobot, const world_new::view::RobotView &opponent);
-    Target standFree(const Field &field, const world_new::view::RobotView &thisRobot);
-    MidFieldCoach::Target harassRobot(const world_new::view::RobotView &thisRobot, const world_new::view::RobotView &opponent, HarassType harassType) const;
-    Target blockPass(const world_new::view::RobotView &thisRobot, const world_new::view::RobotView &opponent, const world_new::view::BallView &ball) const;
-    Vector2 calculateNewRobotPosition(const Field &field, const world_new::view::RobotView &thisRobot, Angle targetAngle);
-    double calculateStandingFreeScore(const Field &field, const Vector2 &position, const world_new::view::RobotView &thisRobot);
+    Target getBall(world_new::view::RobotView thisRobot, const world_new::view::RobotView opponent);
+    Target standFree(const Field &field, const world_new::view::RobotView thisRobot);
+    MidFieldCoach::Target harassRobot(const world_new::view::RobotView thisRobot, const world_new::view::RobotView opponent, HarassType harassType) const;
+    Target blockPass(const world_new::view::RobotView thisRobot, const world_new::view::RobotView opponent, const world_new::view::BallView ball) const;
+    Vector2 calculateNewRobotPosition(const Field &field, const world_new::view::RobotView thisRobot, Angle targetAngle);
+    double calculateStandingFreeScore(const Field &field, const Vector2 &position, const world_new::view::RobotView thisRobot);
 
    public:
-    void addMidFielder(world_new::view::RobotView &thisRobot);
-    void removeMidFielder(world_new::view::RobotView &thisRobot);
-    bool validOpponent(const Field &field, const world_new::view::RobotView &opponent);
+    void addMidFielder(world_new::view::RobotView thisRobot);
+    void removeMidFielder(world_new::view::RobotView thisRobot);
+    bool validOpponent(const Field &field, const world_new::view::RobotView opponent);
 
-    world_new::view::RobotView findRobotToHarass(const Field &field, const world_new::view::RobotView &thisRobot);
-    HarassType getHarassType(const world_new::view::RobotView &thisRobot, const world_new::view::RobotView &opponent);
+    world_new::view::RobotView findRobotToHarass(const Field &field, const world_new::view::RobotView thisRobot);
+    HarassType getHarassType(const world_new::view::RobotView thisRobot, const world_new::view::RobotView opponent);
 
-    Target getTargetPosition(const Field &field, world_new::view::RobotView &thisRobot);
+    Target getTargetPosition(const Field &field, world_new::view::RobotView thisRobot);
 
-    HarassType getHarassTypeIfOpponentIsOnTheLeft(const world_new::view::RobotView &thisRobot, const world_new::view::BallView &ball, BallPossession &ballPossession,
+    HarassType getHarassTypeIfOpponentIsOnTheLeft(const world_new::view::RobotView thisRobot, const world_new::view::BallView ball, BallPossession &ballPossession,
                                                   const BallPossession::Possession &possession) const;
 
-    Target &harassSlowRobot(const world_new::view::RobotView &opponent, const HarassType &harassType, Target &target) const;
+    Target &harassSlowRobot(const world_new::view::RobotView opponent, const HarassType &harassType, Target &target) const;
 
-    Target &harassFastRobot(const world_new::view::RobotView &thisRobot, const world_new::view::RobotView &opponent, Target &target) const;
+    Target &harassFastRobot(const world_new::view::RobotView thisRobot, const world_new::view::RobotView opponent, Target &target) const;
 
-    bool isRobotAlreadyBeingHarassed(const world_new::view::RobotView &opponent) const;
+    bool isRobotAlreadyBeingHarassed(const world_new::view::RobotView opponent) const;
 };
 
 extern MidFieldCoach g_midFieldCoach;

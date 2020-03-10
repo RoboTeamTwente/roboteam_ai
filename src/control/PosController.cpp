@@ -52,7 +52,7 @@ void PosController::updatePid(pidVals pid) {
     }
 }
 
-RobotCommand PosController::controlWithPID(const world_new::view::RobotView &robot, RobotCommand target) {
+RobotCommand PosController::controlWithPID(const world_new::view::RobotView robot, RobotCommand target) {
     if (getPIDFromInterface) checkInterfacePID();
     RobotCommand pidCommand;
     pidCommand.pos = target.pos;

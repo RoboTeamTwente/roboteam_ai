@@ -52,7 +52,7 @@ class Node {
 
     virtual std::vector<Node::Ptr> getChildren();
 
-    virtual Status tick(rtt::world_new::view::WorldDataView* world, const Field *field);
+    virtual Status tick(rtt::world_new::view::WorldDataView world, const Field *field);
 
     bool IsSuccess() const;
 
@@ -91,7 +91,7 @@ class Node {
 
     unsigned long long amountOfTicks = 0;  // ticks can increase fast
 
-    rtt::world_new::view::WorldDataView* world = nullptr;
+    rtt::world_new::view::WorldDataView world = nullptr;
     const Field *field = nullptr;
 };
 

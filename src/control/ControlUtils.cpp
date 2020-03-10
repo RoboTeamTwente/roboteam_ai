@@ -67,7 +67,7 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
     return d.length();
 }
 
-    bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView &world, double safeDistanceFactor, bool includeKeeper) {
+    bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper) {
         double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
         int keeperID = GameStateManager::getRefereeData().blue().goalie();
 
@@ -274,7 +274,7 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
     return {0, 0};
 }
 
-bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView &world, double maxDifference) {
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world, double maxDifference) {
     auto robot = world.getRobotForId(id, ourTeam);
     if (robot) {
         Angle exactAngleTowardsPoint = (point - (*robot)->getPos());

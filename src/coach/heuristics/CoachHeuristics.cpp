@@ -95,7 +95,7 @@ double CoachHeuristics::calculatePositionDistanceToBallScore(const world::Field 
 }
 
 double CoachHeuristics::calculateDistanceToClosestTeamMateScore(const Vector2 &position, int thisRobotID) {
-    std::set<u_int8_t> idVector;
+    std::set<uint8_t> idVector;
     for (auto &robot : world_new::World::instance()->getWorld()->getUs()) {
         if (robot->getId() != thisRobotID) {
             idVector.insert(robot->getId());

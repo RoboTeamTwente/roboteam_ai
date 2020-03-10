@@ -10,7 +10,7 @@
 #include <roboteam_utils/Vector2.h>
 
 #include <algorithm>
-#include <include/roboteam_ai/world_new/views/RobotView.hpp>
+#include <world_new/views/RobotView.hpp>
 #include "coach/heuristics/OffensiveScore.h"
 
 namespace rtt::ai::coach {
@@ -36,9 +36,9 @@ class OffensiveCoach {
     void updateOffensivePositions(const Field &field);
     std::vector<Vector2> getOffensivePositions(int numberOfRobots);
 
-    void addSideAttacker(const Field &field, const world_new::view::RobotView &robot);
+    void addSideAttacker(const Field &field, const world_new::view::RobotView robot);
 
-    void removeSideAttacker(const world_new::view::RobotView &robot);
+    void removeSideAttacker(const world_new::view::RobotView robot);
 
     Vector2 getPositionForRobotID(const Field &field, int robotID);
     void redistributePositions(const Field &field);

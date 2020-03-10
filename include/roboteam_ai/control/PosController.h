@@ -31,8 +31,8 @@ class PosController {
     bool getPIDFromInterface = true;
     virtual void checkInterfacePID() = 0;
 
-    RobotCommand controlWithPID(const world_new::view::RobotView &robot, RobotCommand target);
-    virtual Vector2 calculatePIDs(const world_new::view::RobotView &robot, RobotCommand &target);
+    RobotCommand controlWithPID(const world_new::view::RobotView robot, RobotCommand target);
+    virtual Vector2 calculatePIDs(const world_new::view::RobotView robot, RobotCommand &target);
 
    public:
     PosController() = default;

@@ -8,7 +8,7 @@
 #include <vector>
 #include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
 #include "bt/BehaviorTree.h"
-#include "functional"
+#include <functional>
 
 namespace rtt::ai::analysis {
 

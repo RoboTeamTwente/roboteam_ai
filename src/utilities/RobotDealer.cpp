@@ -84,7 +84,6 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
                 return -1;
 
             case CLOSE_TO_BALL: {
-
                 auto ballOpt = world_new::World::instance()->getWorld()->getBall();
                 if (!ballOpt.has_value()) {
                     id = -1;
@@ -101,7 +100,6 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             }
 
             case BETWEEN_BALL_AND_OUR_GOAL: {
-
                 auto ballOpt = world_new::World::instance()->getWorld()->getBall();
                 if (!ballOpt.has_value()) {
                     id = -1;

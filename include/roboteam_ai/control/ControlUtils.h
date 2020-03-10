@@ -91,7 +91,7 @@ class Robot;
                                 double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE());
 
             static bool
-            robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView &world,
+            robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world,
                                 double maxDifference = 0.3);
 
             static bool

@@ -11,7 +11,7 @@ using namespace rtt::ai::world;
 
 bool BallOnOurSideInvariant::isValid(world_new::view::WorldDataView world, const Field &field) {
     auto ballOpt = world.getBall();
-    if (!ballOpt.has_value()) return false;
+    if (!ballOpt) return false;
 
     auto ball = ballOpt.value();
     Vector2 ballPos = ball->getPos();
