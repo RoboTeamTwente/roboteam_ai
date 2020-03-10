@@ -24,7 +24,7 @@ namespace rtt::ai::analysis {
         /**
          * @return true if all the invariants of this strategy are true
          */
-        bool isValidPlay(rtt::ai::world_new::World *world, const Field &field);
+        bool isValidPlay(world_new::World *world, const Field &field);
         // TODO: Move this to the derived class
         /**
          * Returns a score based on how fitting this play is given a world and field state (currently hardcoded, should be moved to derived classes)

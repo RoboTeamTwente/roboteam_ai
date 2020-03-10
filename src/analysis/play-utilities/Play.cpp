@@ -10,7 +10,7 @@
 namespace rtt::ai::analysis {
     std::string_view Play::getName() { return name; }
 
-    bool Play::isValidPlay(rtt::ai::world_new::World *world, const Field &field) {
+    bool Play::isValidPlay(world_new::World *world, const Field &field) {
         return BallOnOurSideInvariant::isValid(world, field) && BallBelongsToUsInvariant::isValid(world, field) && AlwaysFalseInvariant::isValid(world, field);
     }
 
