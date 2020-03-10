@@ -13,8 +13,7 @@ class Leaf : public Node {
     Leaf(std::string name, Blackboard::Ptr blackboard);
     std::string name;
 
-   protected:
-
+    protected:
     /** Retrieves the robot using the ROLE set in the blackboard. Returns an empty pointer if ROLE is not set
      * @param properties : Blackboard properties
      * @return an (empty) optional pointer to a RobotView
