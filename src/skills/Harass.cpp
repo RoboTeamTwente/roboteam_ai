@@ -21,7 +21,7 @@ Skill::Status Harass::onUpdate() {
     if (harassmentTarget == -1) {
         pickHarassmentTarget();
     }
-    auto enemyBot = world->getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
+    auto enemyBot = world.getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
 
     Vector2 ballPos = ball->get()->getPos();
     Vector2 targetPos;
@@ -40,7 +40,7 @@ Skill::Status Harass::onUpdate() {
 
     robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), targetPos);
 
-    if (harassBallOwner && !world->theirRobotHasBall(harassmentTarget)) {
+    if (harassBallOwner && !world.theirRobotHasBall(harassmentTarget)) {
         return Status::Success;
     }
     // TODO make something that will make harassment stop if something happens else we assume that there is a tree

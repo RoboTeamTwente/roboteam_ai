@@ -15,7 +15,7 @@ std::optional<rtt::world_new::view::RobotView> Leaf::getRobotFromProperties(cons
         std::string roleName = properties->getString("ROLE");
         robotId = rtt::ai::robotDealer::RobotDealer::findRobotForRole(roleName);
 
-        if (world->getRobotForId(robotId, true)) {
+        if (world.getRobotForId(robotId, true)) {
             if (robotId == -1) {
                 RTT_WARNING("getting robot for id with id = -1!!!")
             }

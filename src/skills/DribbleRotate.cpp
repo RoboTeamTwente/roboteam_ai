@@ -41,7 +41,7 @@ void DribbleRotate::onInitialize() {
     startAngle = robot->get()->getAngle();
     currentProgression = ROTATING;
     dir = control::ControlUtils::rotateDirection(startAngle, targetAngle);
-    if (!world->ourRobotHasBall(robot->get()->getId(), Constants::MAX_BALL_RANGE())) {
+    if (!world.ourRobotHasBall(robot->get()->getId(), Constants::MAX_BALL_RANGE())) {
         std::cout << "RobotPtr does not have ball in dribbleRotateInitialize" << std::endl;
         std::cout << "Distance" << (Vector2(robot->get()->getPos()) - Vector2(ball->get()->getPos())).length() - Constants::ROBOT_RADIUS()
                   << "Max distance:" << Constants::MAX_BALL_RANGE() << std::endl;

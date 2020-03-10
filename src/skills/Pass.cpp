@@ -132,7 +132,7 @@ Vector2 Pass::getKicker() {
 void Pass::initiatePass() { coach::g_pass.initiatePass(*field, robot->get()->getId()); }
 
 bool Pass::didShootProperly() {
-    bool ballIsMovingFast = Vector2(world->get()->getBall()->get()->getVelocity()).length() > 0.6;
+    bool ballIsMovingFast = Vector2(world->getBall()->get()->getVelocity()).length() > 0.6;
     bool ballIsMovingToReceiver = true;  // control::ControlUtils::objectVelocityAimedToPoint(ball->pos, ball->vel,
     // robotToPassTo->pos, SUCCESSFUL_PASS_ANGLE);
 

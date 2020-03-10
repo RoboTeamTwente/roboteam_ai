@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include "Blackboard.h"
+#include "world_new/views/WorldDataView.hpp"
 
 // fwd declare
 namespace rtt::ai::world {
@@ -91,7 +92,7 @@ class Node {
 
     unsigned long long amountOfTicks = 0;  // ticks can increase fast
 
-    rtt::world_new::view::WorldDataView world = nullptr;
+    rtt::world_new::view::WorldDataView world;
     const Field *field = nullptr;
 };
 

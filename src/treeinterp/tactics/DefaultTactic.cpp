@@ -77,7 +77,7 @@ bool DefaultTactic::updateRobots() {
 
 void DefaultTactic::disClaimRobots(int amount) {
     for (auto robot : robotIDs) {
-        if (!world->getRobotForId(robot)) {
+        if (!world.getRobotForId(robot)) {
             dealer::refresh();
             return;
         }

@@ -18,7 +18,7 @@ void AvoidBall::onInitialize(std::string type) {
     this->type = stringToType(type);
 
     if (this->type == PASSING) {
-        receiver = world->getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
+        receiver = world.getRobotForId(coach::g_pass.getRobotBeingPassedTo(), true);
     }
 }
 

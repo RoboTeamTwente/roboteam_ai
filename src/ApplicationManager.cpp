@@ -129,7 +129,7 @@ void ApplicationManager::runKeeperTree(const ai::world::Field & field) {
     world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick(&_world, &field);
+        keeperTree->tick(_world, &field);
     }
 }
 
@@ -141,7 +141,7 @@ Status ApplicationManager::runStrategyTree(const ai::world::Field & field) {
     }
     world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
     strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(&_world, &field);
+    Status status = strategy->tick(_world, &field);
     return status;
 }
 

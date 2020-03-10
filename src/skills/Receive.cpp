@@ -16,7 +16,7 @@ void Receive::onInitialize() {
 }
 
 Receive::Status Receive::onUpdate() {
-    if (world->robotHasBall(robot->get()->getId(), true)) {
+    if (world.robotHasBall(robot->get()->getId(), true)) {
         return Status::Success;
     }
 
@@ -66,7 +66,7 @@ Vector2 Receive::computeInterceptPoint(const Vector2 &startBall, const Vector2 &
 }
 // check if the robot is in the desired position to catch the ball
 bool Receive::isInPosition(const Vector2 &behindTargetPos) {
-    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->get()->getId(), true, ball->get()->getPos(), *world, 0.3 * M_PI);
+    bool isAimedAtBall = control::ControlUtils::robotIsAimedAtPoint(robot->get()->getId(), true, ball->get()->getPos(), world, 0.3 * M_PI);
     return isAimedAtBall;
 }
 
@@ -82,7 +82,7 @@ void Receive::intercept() {
 
     if ((interceptPoint - robot->get()->getPos()).length() > 1.0) {
         velocities = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), interceptPoint).vel;
-        if (control::ControlUtils::clearLine(robot->get()->getPos(), interceptPoint, *world, 1)) {
+        if (control::ControlUtils::clearLine(robot->get()->getPos(), interceptPoint, world, 1)) {
             velocities = velocities * 1.2;
         }
     } else {
