@@ -109,11 +109,11 @@ void BBTrajectory1D::generateTrajectory(double initialPos, double initialVel, do
 
 BBTrajectory1D::BBTrajectory1D(double initialPos, double initialVel, double finalPos, double maxVel, double maxAcc) 
         :
-        m_initialPos{initialPos},
-        m_initialVel{initialVel},
-        m_finalPos{finalPos},
-        m_maxAcc{maxAcc},
-        m_maxVel{maxVel} {
+        initialPos{initialPos},
+        initialVel{initialVel},
+        finalPos{finalPos},
+        maxAcc{maxAcc},
+        maxVel{maxVel} {
     generateTrajectory(initialPos, initialVel, finalPos, maxVel, maxAcc);
 }
 
@@ -122,7 +122,7 @@ PosVelAcc BBTrajectory1D::getValues(double t) const  {
     BBTrajectoryPart piece = parts[0];
     if (trajTime >= getTotalTime()) {
         //The time is not on the trajectory so we just return the last known element
-        return PosVelAcc(m_finalPos, 0, 0);//can also be computed from parts if necessary
+        return PosVelAcc(finalPos, 0, 0);//can also be computed from parts if necessary
     }
     //we step through the parts and try to find the relevant part on which the time is.
     double tPieceStart = 0;
@@ -183,7 +183,7 @@ double BBTrajectory1D::getPosition(double t) const  {
     double trajTime = fmax(0, t);
     BBTrajectoryPart piece = parts[0];
     if (trajTime >= getTotalTime()) {
-        return m_finalPos;
+        return finalPos;
     }
     //we step through the parts and try to find the relevant part on which the time is.
     double tPieceStart = 0;
