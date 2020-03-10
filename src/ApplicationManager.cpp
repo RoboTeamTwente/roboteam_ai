@@ -71,7 +71,7 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world_new::World::instance(), field);
+            //decidePlay(world_new::World::instance(), field);
             updateTrees();
             updateCoaches(field);
             runKeeperTree(field);
@@ -91,7 +91,6 @@ void ApplicationManager::runOneLoopCycle() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds (100));
     }
-    weHaveRobots = ai::world::world->weHaveRobots();
     Vector2 startPos(-5,-2);
     Vector2 startVel(-0.5,1.0);
     float maxVel=8.0;
