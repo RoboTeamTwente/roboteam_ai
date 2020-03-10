@@ -12,7 +12,7 @@ void InterceptRobot::onInitialize() {}
 
 Skill::Status InterceptRobot::onUpdate() {
     // TODO: fix that the robotToIntercept is called from coach
-    auto robotToIntercept = world->getRobotForId(1, true);
+    auto robotToIntercept = world.getRobotForId(1, true);
     if (!robotToIntercept) {
         return Status::Failure;
     }

@@ -23,7 +23,7 @@ Skill::Status MidFieldHarasser::onUpdate() {
 
     // If there is a robot being harassed, drive slower than it if too close
     if (robotBeingHarassed != -1) {
-        auto opponent = world->getRobotForId(robotBeingHarassed, false);
+        auto opponent = world.getRobotForId(robotBeingHarassed, false);
         if (opponent && ((opponent->get()->getPos() - robot->get()->getPos()).length() < HARASSING_SAFETY_MARGINS)) {
             double opponentVelocityLength = opponent->get()->getVel().length();
 

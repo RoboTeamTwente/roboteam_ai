@@ -28,7 +28,7 @@ Keeper::Status Keeper::onUpdate() {
     goalPos = (*field).getOurGoalCenter();
 
     if (ball->get()->getPos().x < 0) {
-        auto attacker = world->getRobotClosestToPoint(ball->get()->getPos(), world_new::them);
+        auto attacker = world.getRobotClosestToPoint(ball->get()->getPos(), world_new::them);
         if (attacker && (ball->get()->getPos() - attacker->getPos()).length() < MIN_ATTACKER_DIST) {
             setGoalPosWithAttacker(attacker);
         }
@@ -124,8 +124,8 @@ void Keeper::setGoalPosWithAttacker(world_new::view::RobotView attacker) {
 }
 
 rtt::Arc Keeper::createKeeperArc() {
-    double goalWidth = (*field).getGoalWidth();
-    Vector2 goalPos = (*field).getOurGoalCenter();
+    double goalWidth = field->getGoalWidth();
+    Vector2 goalPos = field->getOurGoalCenter();
     double diff = rtt::ai::Constants::KEEPER_POST_MARGIN() - rtt::ai::Constants::KEEPER_CENTREGOAL_MARGIN();
 
     double radius = diff * 0.5 + goalWidth * goalWidth / (8 * diff);  // Pythagoras' theorem.
