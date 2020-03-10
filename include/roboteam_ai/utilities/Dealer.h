@@ -70,7 +70,6 @@ class Dealer {
   std::unordered_map<std::string, v::RobotView> mapFromAssignments(const std::vector<v::RobotView> &allRobots,
                                                             const FlagMap &flagMap,
                                                             const std::vector<int> &assignment) const;
-
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_

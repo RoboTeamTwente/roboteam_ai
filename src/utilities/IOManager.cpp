@@ -115,7 +115,6 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
             if (cmd.chipper()) {
                 interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::yellow, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
             }
-
             //robot->setDribblerState(cmd.dribbler());
         }
         // sometimes trees are terminated without having a role assigned.
