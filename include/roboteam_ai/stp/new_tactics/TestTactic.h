@@ -9,9 +9,10 @@
 namespace rtt::ai::stp {
 
 class TestTactic : public Tactic {
-        Status onInitialize() noexcept override;
-        Status onUpdate(TacticInfo const& info) noexcept override;
-        Status onTerminate() noexcept override;
+        void onInitialize() noexcept override;
+        void onUpdate(Status const &status) noexcept override;
+        void onTerminate() noexcept override;
+        SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept override;
 };
 
 } // namespace rtt::ai::stp

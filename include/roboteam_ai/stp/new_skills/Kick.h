@@ -10,9 +10,9 @@
 namespace rtt::ai::stp {
 
 class Kick : public Skill {
-    Status onInitialize() noexcept override;
+    void onInitialize() noexcept override;
     Status onUpdate(SkillInfo const& info) noexcept override;
-    Status onTerminate() noexcept override;
+    void onTerminate() noexcept override;
 };
 
 } // namespace rtt::ai::stp

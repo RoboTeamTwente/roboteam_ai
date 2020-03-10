@@ -202,5 +202,4 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 //      TODO: replace with the new system BTFactory::setCurrentTree(bestPlay);
     }
 }
-
 }  // namespace rtt

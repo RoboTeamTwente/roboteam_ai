@@ -8,17 +8,15 @@
 
 namespace rtt::ai::stp {
 
-    Status GoToPos::onInitialize() noexcept {
-        return Status::Success;
-    }
+    void GoToPos::onInitialize() noexcept { }
 
     Status GoToPos::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
         Vector2 targetPos = info.getTacticInfo().getPosition();
 
         // Calculate commands from path planning and tracking
         auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
-                info.getTacticInfo().getField().value(), info.getRobot()->getId(), info.getRobot()->getPos(),
-                info.getRobot()->getVel(), targetPos);
+                info.getTacticInfo().getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+                info.getRobot().value()->getVel(), targetPos);
 
         // Check if velocity is in range
         if (robotCommand.vel.x < 0.0 || robotCommand.vel.x > Constants::MAX_VEL_CMD() ||
@@ -52,15 +50,13 @@ namespace rtt::ai::stp {
 
         // Check if successful
         double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
-        if ((info.getRobot()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
+        if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
             return Status::Success;
         } else {
             return Status::Running;
         }
     }
 
-    Status GoToPos::onTerminate() noexcept {
-        return Status::Success;
-    }
+    void GoToPos::onTerminate() noexcept { }
 
 } // namespace rtt::ai::stp

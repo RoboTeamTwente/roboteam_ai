@@ -6,9 +6,7 @@
 
 namespace rtt::ai::stp {
 
-Status Kick::onInitialize() noexcept {
-    return Status::Success;
-};
+void Kick::onInitialize() noexcept { }
 
 Status Kick::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     double kickVelocity = info.getKickChipVelocity();
@@ -23,15 +21,13 @@ Status Kick::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     command.set_chip_kick_vel(kickVelocity);
 
     // Set angle command
-    command.set_w(info.getRobot()->getAngle());
+    command.set_w(info.getRobot().value()->getAngle());
 
     publishRobotCommand();
 
     return Status::Success;
 }
 
-Status Kick::onTerminate() noexcept {
-    return Status::Success;
-}
+void Kick::onTerminate() noexcept { }
 
 } // namespace rtt::ai::stp
