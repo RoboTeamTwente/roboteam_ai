@@ -7,6 +7,7 @@
 
 #include <bt/Node.h>
 #include <world_new/views/RobotView.hpp>
+#include <roboteam_proto/RobotCommand.pb.h>
 
 #include "stp/StpInfo.h"
 

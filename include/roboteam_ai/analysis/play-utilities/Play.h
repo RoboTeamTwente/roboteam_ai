@@ -6,7 +6,7 @@
 #define RTT_PLAY_H
 
 #include <vector>
-#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
+#include <world_new/views/WorldDataView.hpp>
 #include "bt/BehaviorTree.h"
 #include <functional>
 
@@ -24,7 +24,7 @@ namespace rtt::ai::analysis {
         /**
          * @return true if all the invariants of this strategy are true
          */
-        bool isValidPlay(world_new::World *world, const Field &field);
+        bool isValidPlay(world_new::view::WorldDataView world, const Field &field);
         // TODO: Move this to the derived class
         /**
          * Returns a score based on how fitting this play is given a world and field state (currently hardcoded, should be moved to derived classes)
@@ -32,7 +32,7 @@ namespace rtt::ai::analysis {
          * @param field the current field
          * @return a score between 0 and 10, 10 being the best
          */
-        uint8_t scorePlay(world_new::World *world, const world::Field &field) const { return 1; };
+        uint8_t scorePlay(world_new::view::WorldDataView world, const world::Field &field) const { return 1; };
 
         std::string_view getName();
 
