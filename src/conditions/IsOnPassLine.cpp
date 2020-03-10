@@ -20,7 +20,7 @@ IsOnPassLine::Status IsOnPassLine::onUpdate() {
     int passerID = coach::g_pass.getRobotPassing();
 
     if (receiverID != -1 && passerID != robot->get()->getId()) {
-        rtt::world_new::view::RobotView receiver = world->getRobotForId(receiverID, true).value();
+        rtt::world_new::view::RobotView receiver = world.getRobotForId(receiverID, true).value();
         if (receiver && control::ControlUtils::isPointProjectedOnLineSegment(robot->get()->getPos(), ball->get()->getPos(), receiver->getPos())) {
             Vector2 projection = robot->get()->getPos().project(ball->get()->getPos(), receiver->getPos());
             if ((projection - robot->get()->getPos()).length() < DISTANCE_FROM_PASS_LINE) {

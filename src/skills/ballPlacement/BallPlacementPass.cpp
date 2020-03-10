@@ -23,7 +23,7 @@ bt::Node::Status BallPlacementPass::onUpdate() {
         return Status::Failure;
     }
 
-    robotToPassTo = world->getRobotForId(robotToPassToID, true);
+    robotToPassTo = world.getRobotForId(robotToPassToID, true);
 
     if ((ball->get()->getPos() - targetPos).length() < 0.5) {
         return Status::Success;

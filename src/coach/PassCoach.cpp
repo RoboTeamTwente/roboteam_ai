@@ -115,7 +115,7 @@ void PassCoach::updatePassProgression() {
     }
 }
 
-bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotView &passer, const world_new::view::RobotView &receiver, bool freeKick) {
+bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotView passer, const world_new::view::RobotView receiver, bool freeKick) {
         auto ball = world_new::World::instance()->getWorld()->getBall();
 
         if (!ball || !passer || !receiver) {

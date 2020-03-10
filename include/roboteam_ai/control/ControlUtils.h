@@ -46,8 +46,7 @@ class Robot;
             static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
                                                       const Vector2 &lineEnd);
 
-            static bool
-            clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView &world,
+            static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world,
                       double safeDistanceFactor, bool includeKeeper = true);
 
             static double

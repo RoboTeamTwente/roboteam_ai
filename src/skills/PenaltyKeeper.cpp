@@ -60,7 +60,7 @@ PenaltyKeeper::PenaltyState PenaltyKeeper::updateState(PenaltyState currentState
     return WAITING;
 }
 Vector2 PenaltyKeeper::computeDefendPos() {
-    auto attacker = world->getRobotClosestToBall(world_new::them);
+    auto attacker = world.getRobotClosestToBall(world_new::them);
     // we check the line defined by attacker's centre and the ball position
     Vector2 middle = (goalLine.start + goalLine.end) * 0.5;
 
@@ -86,8 +86,8 @@ Vector2 PenaltyKeeper::computeDefendPos() {
 }
 
 Vector2 PenaltyKeeper::interceptBallPos() {
-    Vector2 startBall = world->get()->getBall()->get()->getPos();
-    Vector2 endBall = world->get()->getBall()->get()->getPos() + world->get()->getBall()->get()->getVelocity().stretchToLength(100);
+    Vector2 startBall = world->getBall()->get()->getPos();
+    Vector2 endBall = world->getBall()->get()->getPos() + world->getBall()->get()->getVelocity().stretchToLength(100);
     Vector2 predictedShotLocation = control::ControlUtils::twoLineIntersection(startBall, endBall, goalLine.start, goalLine.end);
     double margin = 0.05;  // m next to the goal
     if (predictedShotLocation.y <= (*field).getGoalWidth() * 0.5 + margin && predictedShotLocation.y >= -(*field).getGoalWidth() * 0.5 - margin) {
@@ -130,7 +130,7 @@ Line PenaltyKeeper::getGoalLine() {
     return originalLine;
 }
 
-bool PenaltyKeeper::isBallShot() { return world->get()->getBall()->get()->getVelocity().x < -0.2; }
+bool PenaltyKeeper::isBallShot() { return world->getBall()->get()->getVelocity().x < -0.2; }
 
 void PenaltyKeeper::onTerminate(rtt::ai::Skill::Status s) {
     state = WAITING;
