@@ -11,8 +11,7 @@
 #include "utilities/Constants.h"
 #include "roboteam_utils/normalize.h"
 #include <roboteam_utils/Print.h>
-#include <include/roboteam_ai/control/BBTrajectories/BBTrajectory2D.h>
-#include <include/roboteam_ai/control/BBTrajectories/BBTrajectory2DAsync.h>
+
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
