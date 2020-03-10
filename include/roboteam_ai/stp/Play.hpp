@@ -36,7 +36,7 @@ namespace rtt::ai::stp {
          * @param world World to check for (world_new::World::instance())
          * @return true if valid, false if not
          */
-        [[nodiscard]] virtual bool isValidPlay(world_new::World* world) const noexcept = 0;
+        [[nodiscard]] virtual bool isValidPlay(world_new::World* world) noexcept = 0;
 
         /**
          * Gets the score for the current play
@@ -47,7 +47,7 @@ namespace rtt::ai::stp {
          * @param world World to get the score for (world_new::World::instance())
          * @return The score, 0 - 100
          */
-        [[nodiscard]] virtual uint8_t score(world_new::World* world) const noexcept = 0;
+        [[nodiscard]] virtual uint8_t score(world_new::World* world) noexcept = 0;
 
         /**
          * Virtual default ctor, ensures proper destruction of Play

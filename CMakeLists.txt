@@ -70,14 +70,6 @@ set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayChecker.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallBelongsToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/Play.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/BallOnOurSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysFalseInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/invariants/AlwaysTrueInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/PlayDecider.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/play-utilities/AggressivePlay.cpp
         )
 
 set(UTILS_SOURCES
@@ -161,11 +153,14 @@ set(NEW_SKILLS_SOURCES
         )
 set(NEW_TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
         )
 
 set(STP_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -246,7 +241,8 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         )
 
 
