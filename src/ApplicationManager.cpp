@@ -79,12 +79,12 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world_new::World::instance());
-            // updateTrees();
-            // updateCoaches(field);
-            // runKeeperTree(field);
-            // Status status = runStrategyTree(field);
-            // this->notifyTreeStatus(status);
+            //decidePlay(world_new::World::instance());
+            updateTrees();
+            updateCoaches(field);
+            runKeeperTree(field);
+            Status status = runStrategyTree(field);
+            this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
                 RTT_WARNING("No robots found in world. Behaviour trees are not running")
