@@ -10,7 +10,7 @@ namespace rtt::ai::stp {
 
 void Rotate::onInitialize() noexcept {}
 
-Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+Status Rotate::onUpdate(const StpInfo &info) noexcept {
     RTT_WARNING("UPDATING ROTATE")
     float targetAngle = info.getAngle();
     int targetDribblerSpeed = info.getDribblerSpeed();

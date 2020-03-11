@@ -72,44 +72,50 @@ struct Areas {
     }
 };
 
-/**
- * Structure that represents the info passed to tactics
- */
-struct TacticInfo {
-    /**
-     * View to the ball in the world this tactic executes on
-     */
-    std::optional<world_new::view::BallView> ball;
+enum targetType {
+    MOVETARGET,
+    RECEIVETARGET,
+    SHOOTTARGET,
+    DEFENDTARGET
+};
 
-    /**
-     * Robot to pass to
-     */
-    std::optional<world_new::view::RobotView> passRobot;
+struct StpInfo {
+   public:
+    const std::optional<world_new::view::RobotView>& getRobot() const { return robot; }
+    void setRobot(const std::optional<world_new::view::RobotView>& robot) { this->robot = robot; }
 
-    Vector2 getPosition() const { return position; };
-    void setPosition(Vector2 position) { this->position = position; };
+    const std::optional<world_new::view::RobotView>& getEnemyRobot() const { return enemyRobot; }
+    void setEnemyRobot(const std::optional<world_new::view::RobotView>& enemyRobot) { this->enemyRobot = enemyRobot; }
 
-    std::optional<world::Field> getField() const { return field; };
-    void setField(world::Field field) { this->field = field; };
+    const std::optional<world::Field>& getField() const { return field; }
+    void setField(const std::optional<world::Field>& field) { this->field = field; }
 
-    std::optional<world_new::view::RobotView> getRobot() const { return _robot; }
-    void setRobot(std::optional<world_new::view::RobotView> robot) { this->_robot = robot; }
+    const std::optional<world_new::view::BallView>& getBall() const { return ball; }
+    void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    /**
-     * Maximum speed that something can have, the ball, the robot... whatever the skill needs
-     */
-    float maxSpeed;
+    const std::pair<targetType, Vector2>& getTargetPos() const { return targetPos; }
+    void setTargetPos(const std::pair<targetType, Vector2>& targetPos) { this->targetPos = targetPos; }
 
-    /**
-     * Areas to avoid, read Areas<T> for more info
-     */
-    Areas<Rectangle> areasToAvoid;
+    double getKickChipVelocity() const { return kickChipVelocity; }
+    void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
+
+    float getAngle() const { return angle; }
+    void setAngle(float angle) { this->angle = angle; }
+
+    int getDribblerSpeed() const { return dribblerSpeed; }
+    void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
 
    private:
+
     /**
-     * Position, could be position of robot, or whatever position the skill needs, maybe target position
+     * Robot this tactic applies to
      */
-    Vector2 position;
+    std::optional<world_new::view::RobotView> robot;
+
+    /**
+     * EnemyRobot this tactic applies to
+     */
+    std::optional<world_new::view::RobotView> enemyRobot;
 
     /**
      * Field
@@ -117,40 +123,14 @@ struct TacticInfo {
     std::optional<world::Field> field;
 
     /**
-     * Robot this tactic applies to
+     * View to the ball in the world this tactic executes on
      */
-    std::optional<world_new::view::RobotView> _robot;
-};
-
-/**
- * Skill info used in skills
- */
-struct SkillInfo {
-    TacticInfo getTacticInfo() const { return tacticInfo; };
-    void setTacticInfo(TacticInfo tacticInfo) { this->tacticInfo = tacticInfo; };
-
-    std::optional<world_new::view::RobotView> getRobot() const { return robot; };
-    void setRobot(world_new::view::RobotView robot) { this->robot = robot; };
-
-    double getKickChipVelocity() const { return kickChipVelocity; };
-    void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; };
-
-    float getAngle() const { return angle; };
-    void setAngle(double angle) { this->angle = angle; };
-
-    int getDribblerSpeed() const { return dribblerSpeed; };
-    void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; };
-
-   private:
-    /**
-     * TacticInfo of the tactic that called the skill
-     */
-    TacticInfo tacticInfo;
+    std::optional<world_new::view::BallView> ball;
 
     /**
-     * Robot this skill applies to
+     * Tuple of the targetType and the position of this target
      */
-    std::optional<world_new::view::RobotView> robot;
+    std::pair<targetType, Vector2> targetPos;
 
     /**
      * Velocity of the kick/chip

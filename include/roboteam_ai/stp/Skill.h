@@ -65,7 +65,7 @@ class Skill {
      * @param info SkillInfo structure that provides data to the skill
      * @return Status according to its current execution
      */
-    virtual Status onUpdate(SkillInfo const& info) noexcept = 0;
+    virtual Status onUpdate(StpInfo const& info) noexcept = 0;
 
     /**
      * Initializes the skill
@@ -90,7 +90,7 @@ class Skill {
      * @param info SkillInfo structure that provides data to the skill
      * @return Status according to its current execution
      */
-    virtual Status update(SkillInfo const& info) noexcept;
+    virtual Status update(StpInfo const& info) noexcept;
 
     /**
      * Calls onTerminate

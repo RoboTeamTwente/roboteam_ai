@@ -8,7 +8,7 @@ namespace rtt::ai::stp {
 
 void Kick::onInitialize() noexcept {}
 
-Status Kick::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+Status Kick::onUpdate(const StpInfo &info) noexcept {
     double kickVelocity = info.getKickChipVelocity();
 
     // Check if kick velocity is in range

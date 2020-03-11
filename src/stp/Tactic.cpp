@@ -12,7 +12,7 @@ namespace rtt::ai::stp {
 
 void Tactic::initialize() noexcept { onInitialize(); }
 
-Status Tactic::update(TacticInfo const &info) noexcept {
+Status Tactic::update(StpInfo const &info) noexcept {
     // Check if the skills are all finished
     if (skills.finished()) {
         RTT_INFO("TACTIC SUCCESSFUL!!!!!!!!!!!!!!!!!!!!!!!!:)")

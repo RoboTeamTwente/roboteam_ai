@@ -34,7 +34,7 @@ class TestTactic : public Tactic {
      * @param info info is the TacticInfo passed by the role
      * @return SkillInfo based on the TacticInfo
      */
-    SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept override;
+    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 };
 
 }  // namespace rtt::ai::stp

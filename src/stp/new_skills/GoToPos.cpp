@@ -14,13 +14,13 @@ void GoToPos::onInitialize() noexcept {
     RTT_WARNING("INITIALIZING GOTOPOS");
 }
 
-Status GoToPos::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     RTT_WARNING("UPDATING GOTOPOS")
-    Vector2 targetPos = info.getTacticInfo().getPosition();
+    Vector2 targetPos = info.getTargetPos().second;
 
     // Calculate commands from path planning and tracking
     auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
-        info.getTacticInfo().getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
+        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Check if velocity is in range
     //TODo clamp this

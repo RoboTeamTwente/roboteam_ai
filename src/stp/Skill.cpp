@@ -69,7 +69,7 @@ void Skill::limitRobotCommand() noexcept {
 
 void Skill::terminate() noexcept { onTerminate(); }
 
-Status Skill::update(SkillInfo const& info) noexcept {
+Status Skill::update(StpInfo const& info) noexcept {
     robot = info.getRobot();
     return onUpdate(info);
 }

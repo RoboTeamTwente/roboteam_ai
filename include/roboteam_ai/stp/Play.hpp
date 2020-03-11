@@ -86,7 +86,7 @@ class Play {
     /**
      * The tacticInfos, constructed in assignRoles
      */
-    std::unordered_map<std::string, TacticInfo> tacticInfos;
+    std::unordered_map<std::string, StpInfo> stpInfos;
 
     /**
      * The world

@@ -24,7 +24,7 @@ class Tactic {
      * Though this method is responsible for ensuring everything is calculated, it helps to use helpers so this
      * function doesn't become a massive hack
      */
-    virtual SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept = 0;
+    virtual StpInfo calculateInfoForSkill(StpInfo const &info) noexcept = 0;
 
     /**
      * called on initialization of this tactic
@@ -44,7 +44,7 @@ class Tactic {
     /**
      * The state machine of skills
      */
-    rtt::collections::state_machine<Skill, Status, SkillInfo> skills;
+    rtt::collections::state_machine<Skill, Status, StpInfo> skills;
 
    public:
     /**
@@ -57,7 +57,7 @@ class Tactic {
      * @param info info passed by the Role
      * @return Status of the skill that is currently being ticked
      */
-    virtual Status update(TacticInfo const &info) noexcept;
+    virtual Status update(StpInfo const &info) noexcept;
 
     /**
      * Calls onTerminate
