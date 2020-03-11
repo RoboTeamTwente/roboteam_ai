@@ -171,7 +171,6 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/HasBall.cpp
         )
 set(NEW_TACTIC_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
