@@ -20,7 +20,7 @@ namespace rtt::ai::stp {
  */
 class Play {
    public:
-    constexpr static size_t ROBOT_COUNT = 8;
+    constexpr static size_t ROBOT_COUNT = 11;
 
     /**
      * Initializes tacticInfos vector and calls assignRoles
@@ -86,7 +86,7 @@ class Play {
     /**
      * The tacticInfos, constructed in assignRoles
      */
-    std::vector<TacticInfo> tacticInfos;
+    std::unordered_map<std::string, TacticInfo> tacticInfos;
 
     /**
      * The world

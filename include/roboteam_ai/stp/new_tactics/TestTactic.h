@@ -10,6 +10,10 @@
 namespace rtt::ai::stp {
 
 class TestTactic : public Tactic {
+   public:
+    TestTactic();
+
+   private:
     /**
      * On initialization of this tactic, initialize the state machine with skills
      */

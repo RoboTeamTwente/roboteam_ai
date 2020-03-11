@@ -57,10 +57,9 @@ void Skill::limitRobotCommand() noexcept {
     bool isKeeper = command.id() == robotDealer::RobotDealer::getKeeperID();
 
     auto limitedVel = Vector2(command.vel().x(), command.vel().y());
+
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
-    if (!(isDefendPenaltyState && isKeeper)) {
-        limitedVel = control::ControlUtils::accelerationLimiter(limitedVel, robot.value()->getPidPreviousVel(), command.w());
-    }
+
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         RTT_ERROR("Robot will have NAN: " + std::string{name()} + "!\nrobot: " + std::to_string(robot.value()->getId()));
     }
@@ -70,7 +69,10 @@ void Skill::limitRobotCommand() noexcept {
 
 void Skill::terminate() noexcept { onTerminate(); }
 
-Status Skill::update(SkillInfo const& info) noexcept { return onUpdate(info); }
+Status Skill::update(SkillInfo const& info) noexcept {
+    robot = info.getRobot();
+    return onUpdate(info);
+}
 
 void Skill::refreshRobotPositionControllers() const noexcept {
     rtt::world_new::World::instance()->getControllersForRobot(robot.value()->getId()) = world_new::robot::RobotControllers();

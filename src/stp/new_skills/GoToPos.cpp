@@ -10,9 +10,12 @@
 
 namespace rtt::ai::stp {
 
-void GoToPos::onInitialize() noexcept {}
+void GoToPos::onInitialize() noexcept {
+    RTT_WARNING("INITIALIZING GOTOPOS");
+}
 
 Status GoToPos::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+    RTT_WARNING("UPDATING GOTOPOS")
     Vector2 targetPos = info.getTacticInfo().getPosition();
 
     // Calculate commands from path planning and tracking
@@ -20,12 +23,14 @@ Status GoToPos::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
         info.getTacticInfo().getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Check if velocity is in range
-    if (robotCommand.vel.x < 0.0 || robotCommand.vel.x > Constants::MAX_VEL_CMD() || robotCommand.vel.y < 0.0 || robotCommand.vel.y > Constants::MAX_VEL_CMD()) {
+    //TODo clamp this
+/*    if (robotCommand.vel.length() > Constants::MAX_VEL_CMD()) {
         RTT_ERROR("Velocity not within acceptable range")
         return Status::Failure;
-    }
+    }*/
 
     // Check if angle is in range
+    //TODo clamp this
     if (robotCommand.angle.getAngle() < Constants::MIN_ANGLE() || robotCommand.angle.getAngle() > Constants::MAX_ANGLE()) {
         RTT_ERROR("Rotation angle not within acceptable range")
         return Status::Failure;
@@ -51,6 +56,7 @@ Status GoToPos::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     // Check if successful
     double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
     if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
+        RTT_SUCCESS("GTP SUCCESFUL")
         return Status::Success;
     } else {
         return Status::Running;

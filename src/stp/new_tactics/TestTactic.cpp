@@ -5,17 +5,24 @@
 #include "stp/new_tactics/TestTactic.h"
 
 #include <stp/new_skills/Rotate.h>
-#include <stp/new_skills/SetDribbler.h>
+#include <stp/new_skills/GoToPos.h>
 
 namespace rtt::ai::stp {
 
-void TestTactic::onInitialize() noexcept {
+TestTactic::TestTactic(){
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, SkillInfo>{Rotate(), SetDribbler(), Rotate()};
+    skills = rtt::collections::state_machine<Skill, Status, SkillInfo>{GoToPos(), Rotate()};
     skills.initialize();
 }
 
-void TestTactic::onUpdate(Status const &status) noexcept {}
+void TestTactic::onInitialize() noexcept {
+
+
+
+}
+
+void TestTactic::onUpdate(Status const &status) noexcept {
+}
 
 void TestTactic::onTerminate() noexcept {
     // Call terminate on all skills
@@ -31,6 +38,7 @@ SkillInfo TestTactic::calculateInfoForSkill(TacticInfo const &info) noexcept {
     skillInfo.setRobot(info.getRobot().value());
     skillInfo.setAngle(2.0);
     skillInfo.setDribblerSpeed(31);
+    skillInfo.setTacticInfo(info);
 
     return skillInfo;
 }

@@ -11,8 +11,8 @@ TestPlay::TestPlay() {
     roles = std::array<std::unique_ptr<Role>, ROBOT_COUNT>{
         std::make_unique<Role>(TestRole("test_role_0")), std::make_unique<Role>(TestRole("test_role_1")), std::make_unique<Role>(TestRole("test_role_2")),
         std::make_unique<Role>(TestRole("test_role_3")), std::make_unique<Role>(TestRole("test_role_4")), std::make_unique<Role>(TestRole("test_role_5")),
-        std::make_unique<Role>(TestRole("test_role_6")), std::make_unique<Role>(TestRole("test_role_7"))/*, std::make_unique<Role>(TestRole("test_role_8")),
-        std::make_unique<Role>(TestRole("test_role_9")), std::make_unique<Role>(TestRole("test_role_10"))*/};
+        std::make_unique<Role>(TestRole("test_role_6")), std::make_unique<Role>(TestRole("test_role_7")), std::make_unique<Role>(TestRole("test_role_8")),
+        std::make_unique<Role>(TestRole("test_role_9")), std::make_unique<Role>(TestRole("test_role_10"))};
 }
 
 bool TestPlay::isValidPlay(world_new::World* world) noexcept { return true; }
@@ -34,19 +34,24 @@ void TestPlay::assignRoles() noexcept {
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_6", {closeToBallFlag}});
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    /*    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-        flagMap.insert({"test_role_9", {closeToBallFlag}});
-        flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_9", {closeToBallFlag}});
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
-    for (int i = 0; i < roles.size(); i++) {
-        if (distribution.find(roles[i]->getName()) != distribution.end()) {
-            tacticInfos[i].setRobot(distribution.find(roles[i]->getName())->second);
-            tacticInfos[i].setField(*world->getField());
+    tacticInfos = std::unordered_map<std::string, TacticInfo>{};
+    for (auto & role : roles) {
+        auto roleName{role->getName()};
+        if (distribution.find(roleName) != distribution.end()) {
+            auto robot = distribution.find(role->getName())->second;
+
+            tacticInfos.emplace(roleName, TacticInfo{});
+            tacticInfos[roleName].setRobot(robot);
+            tacticInfos[roleName].setField(*world->getField());
 
             // TODO calculate additional info
-            // setTacticInfo(info, role->getName());
+            tacticInfos[roleName].setPosition({robot->getId()*0.5,robot->getId()*0.5});
         }
     }
 }

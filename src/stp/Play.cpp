@@ -7,9 +7,6 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
-    for (int i = 0; i < 12; i++) {
-        tacticInfos.emplace_back();
-    }
     assignRoles();
 }
 
@@ -23,14 +20,21 @@ Status Play::update() noexcept {
     std::array<size_t, ENUM_COUNT> count{};
     std::fill(count.begin(), count.end(), 0);
 
-    // Update for every role
-    for (int i = 0; i < roles.size(); i++) {
-        // TODO Refreshing of the robotviews is kind of ugly now, right?
-        tacticInfos[i].setRobot(world->getWorld()->getRobotForId(tacticInfos[i].getRobot()->get()->getId()));
+    if(world->getWorld()->getUs().size() != tacticInfos.size()) {
+        RTT_WARNING("Reassigning bots");
+        assignRoles();
+    }
 
-        // Update the role with the tacticInfo for that role (that was assigned by robotDealer)
-        auto index = static_cast<size_t>(roles[i]->update(tacticInfos[i]));
-        count[index] += 1;
+    for (auto& each : roles) {
+        auto roleName{each->getName()};
+        if(tacticInfos.find(roleName) != tacticInfos.end()) {
+
+            // TODO refresh robots
+            tacticInfos.find(roleName)->second.setRobot(world->getWorld()->getRobotForId(tacticInfos.find(roleName)->second.getRobot()->get()->getId()));
+
+            auto index = static_cast<size_t>(each->update(tacticInfos.find(each->getName())->second));
+            count[index] += 1;
+        }
     }
 
     if (count[static_cast<size_t>(Status::Success)] == ROBOT_COUNT) {

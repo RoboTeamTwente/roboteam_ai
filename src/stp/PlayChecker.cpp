@@ -23,6 +23,5 @@ bool PlayChecker::isValid(Play* play) const noexcept { return play->isValidPlay(
 
 void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept {
     this->allPlays = std::move(plays);
-    RTT_INFO("Plays: ", allPlays.size());
 }
 }  // namespace rtt::ai::stp

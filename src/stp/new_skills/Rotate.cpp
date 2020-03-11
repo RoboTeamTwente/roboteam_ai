@@ -11,8 +11,7 @@ namespace rtt::ai::stp {
 void Rotate::onInitialize() noexcept {}
 
 Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
-    robot = info.getRobot();
-
+    RTT_WARNING("UPDATING ROTATE")
     float targetAngle = info.getAngle();
     int targetDribblerSpeed = info.getDribblerSpeed();
 
@@ -38,7 +37,8 @@ Status Rotate::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = 0.03 * M_PI;
-    if (robot.value()->getAngle() == targetAngle + errorMargin && robot.value()->getDribblerState() == targetDribblerSpeed) {
+    if (fabs(robot.value()->getAngle().getAngle() - targetAngle) < errorMargin) {
+        RTT_INFO("ROTATE SUCCESSFUL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:)")
         return Status::Success;
     } else {
         return Status::Running;

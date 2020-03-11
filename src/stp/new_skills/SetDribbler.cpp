@@ -30,7 +30,7 @@ Status SetDribbler::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
     if (robot->get()->getDribblerState() == dribblerSpeed) {
         return Status::Success;
     }
-    return Status::Running;
+    return Status::Success;
 }
 
 void SetDribbler::onTerminate() noexcept {}
