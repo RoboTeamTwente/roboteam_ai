@@ -13,7 +13,7 @@ void Rotate::onInitialize() noexcept {}
 
 Status Rotate::onUpdate(const StpInfo &info) noexcept {
     // Constrain and set angle between -pi and pi
-    float targetAngle = rtt::ai::control::ControlUtils::constrainAngle(info.getAngle()) - M_PI;
+    double targetAngle = rtt::ai::control::ControlUtils::constrainAngle(info.getAngle()) - M_PI;
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
