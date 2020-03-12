@@ -8,6 +8,11 @@
 #include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {
+/**
+ * This tactic is for getting the ball. It has 3 skills: GoToPos, Rotate, and SetDribbler.
+ * It cannot fail, and it's getting reset when there the robot loses the ball. It's not an
+ * end tactic, therefore it can succeed.
+ */
 class GetBall : protected Tactic {
    protected:
     void onInitialize() noexcept override;
@@ -17,6 +22,20 @@ class GetBall : protected Tactic {
     void onTerminate() noexcept override;
 
     StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+
+    /**
+     * Check base class for usages. The current tactic cannot fail, only reset.
+     * @param info
+     * @return always false
+     */
+    bool isTacticFailing(const StpInfo &info) noexcept override;
+
+    /**
+     * This tactic will be reset when the robot looses the ball
+     * @param info
+     * @return true if the robot lost the ball
+     */
+    bool shouldTacticReset(const StpInfo &info) noexcept override;
 };
 }  // namespace rtt::ai::stp
 

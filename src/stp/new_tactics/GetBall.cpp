@@ -41,4 +41,12 @@ namespace rtt::ai::stp::tactic {
         return tacticInfo;
     }
 
+    bool GetBall::isTacticFailing(const StpInfo &info) noexcept {
+        return false;
+    }
+
+    bool GetBall::shouldTacticReset(const StpInfo &info) noexcept {
+        return !info.getRobot()->hasBall();
+    }
+
 }  // namespace rtt::ai::stp
