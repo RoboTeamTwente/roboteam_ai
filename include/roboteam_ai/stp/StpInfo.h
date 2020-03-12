@@ -79,6 +79,16 @@ enum targetType {
     DEFENDTARGET
 };
 
+/**
+ * Enum for the kick/chip speed type
+ */
+enum KickChipType{
+    DRIBBLE_KICK,
+    BALL_PLACEMENT,
+    PASS,
+    MAX_SPEED
+};
+
 struct StpInfo {
    public:
     const std::optional<world_new::view::RobotView>& getRobot() const { return robot; }
@@ -99,11 +109,14 @@ struct StpInfo {
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
 
-    float getAngle() const { return angle; }
-    void setAngle(float angle) { this->angle = angle; }
+    double getAngle() const { return angle; }
+    void setAngle(double angle) { this->angle = angle; }
 
     int getDribblerSpeed() const { return dribblerSpeed; }
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
+
+    KickChipType getKickChipType() const { return kickChipType; }
+    void setKickChipType(KickChipType kickChipType) { StpInfo::kickChipType = kickChipType; }
 
    private:
     /**
@@ -137,9 +150,14 @@ struct StpInfo {
     double kickChipVelocity = 0.0;
 
     /**
+     * Type of the kick/chip
+     */
+    KickChipType kickChipType{};
+
+    /**
      * Reference angle of the robot
      */
-    float angle = 0.0;
+    double angle = 0.0;
 
     /**
      * Speed of the dribbler
