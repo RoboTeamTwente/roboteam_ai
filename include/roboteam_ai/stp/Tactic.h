@@ -42,6 +42,20 @@ class Tactic {
     virtual void onTerminate() noexcept = 0;
 
     /**
+     * The condition when the current tactic fails
+     * @param info the tactic info passed down from the play
+     * @return true if the tactic's prerequisites are no longer met (e.g. losing the ball)
+     */
+    virtual bool isTacticFailing(const StpInfo &info) noexcept = 0;
+
+    /**
+     * When the state should reset
+     * @param info the tactic info passed down from the play
+     * @return true if the active skill cannot execute (it's prerequisites are no longer met)
+     */
+    virtual bool shouldTacticReset(const StpInfo &info) noexcept = 0;
+
+    /**
      * The state machine of skills
      */
     rtt::collections::state_machine<Skill, Status, StpInfo> skills;
@@ -63,6 +77,12 @@ class Tactic {
      * Calls onTerminate
      */
     virtual void terminate() noexcept;
+
+    /**
+     * Check if the current tactic is an end tactic - only Running or Failure status
+     * @return true if the current tactic cannot succeed (i.e. is an end tactic); default false
+     */
+    virtual bool isEndTactic() noexcept;
 };
 }  // namespace rtt::ai::stp
 
