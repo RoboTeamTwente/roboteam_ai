@@ -10,6 +10,7 @@ namespace rtt::ai::stp::tactic {
 
     BlockRobot::BlockRobot() {
         skills = rtt::collections::state_machine<Skill, Status, StpInfo>{GoToPos(), Rotate()};
+        skills.initialize();
     }
 
     void BlockRobot::onInitialize() noexcept {
@@ -32,7 +33,7 @@ namespace rtt::ai::stp::tactic {
     StpInfo BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
         StpInfo skillStpInfo = info;
         skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getTargetPos().second));
-        auto moveTarget = calculateMoveTarget(info.getTargetPos().first, info.getEnemyRobot().value(), info.getTargetPos().second);
+        auto moveTarget = calculateMoveTarget(info.getBlockDistance(), info.getEnemyRobot().value(), info.getTargetPos().second);
         skillStpInfo.setTargetPos(std::make_pair(TargetType::MOVETARGET, moveTarget));
 
     }
@@ -45,6 +46,8 @@ namespace rtt::ai::stp::tactic {
 
     Vector2 BlockRobot::calculateMoveTarget(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation) {
         Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
-        auto movePosition = lineEnemyToTarget*blockDistance;
+        auto proportion = blockDistance/4;
+        auto movePosition = lineEnemyToTarget*proportion;
+        return movePosition + enemy->getPos();
     }
 }

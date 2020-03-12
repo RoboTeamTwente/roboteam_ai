@@ -35,9 +35,23 @@ namespace rtt::ai::stp::tactic {
          */
         StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 
+        /**
+         * Find the desired angle for the robot to block the target
+         * @param enemy the robot that is being blocked
+         * @param targetLocation the location that you want to block off from the robot. For example, the ball position,
+         * or our goal
+         * @return desired angle for robot to block target
+         */
         double calculateAngle(const world_new::view::RobotView enemy, Vector2 targetLocation);
 
-
+        /**
+         * Find location for robot to move to to block the target
+         * @param blockDistance how close the robot should be to the enemy robot.
+         * @param enemy the enemy robot to be blocked
+         * @param targetLocation the location that you want to block off from the robot. For example, the ball position,
+         * or our goal
+         * @return the desired position to block the target.
+         */
         Vector2 calculateMoveTarget(BlockDistance blockDistance, const world_new::view::RobotView enemy,
                             Vector2 targetLocation);
     };
