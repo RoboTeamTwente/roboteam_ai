@@ -5,8 +5,6 @@
 #ifndef ROBOTEAM_AI_ATTACK_H
 #define ROBOTEAM_AI_ATTACK_H
 
-#include <control/PosController.h>
-#include <control/shot-controllers/ShotController.h>
 #include "Skill.h"
 
 namespace rtt::ai {

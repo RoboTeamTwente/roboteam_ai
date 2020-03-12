@@ -9,11 +9,11 @@
 
 namespace rtt::ai::stp {
 
-    class PlayDecider {
-    public:
-        Play *decideBestPlay(world_new::World *pWorld, std::vector<Play*> plays) noexcept;
-    };
+class PlayDecider {
+   public:
+    Play *decideBestPlay(world_new::World *pWorld, std::vector<Play *> plays) noexcept;
+};
 
-} // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp
 
-#endif //RTT_PLAYDECIDER_HPP
+#endif  // RTT_PLAYDECIDER_HPP

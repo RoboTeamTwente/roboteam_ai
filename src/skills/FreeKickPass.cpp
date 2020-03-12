@@ -2,9 +2,7 @@
 // Created by robzelluf on 7/2/19.
 //
 
-#include "skills/FreeKickPass.h"
-
-#include <control/ball-handling/BallHandlePosControl.h>
+#include <skills/FreeKickPass.h>
 
 namespace rtt::ai {
 
@@ -25,8 +23,8 @@ void FreeKickPass::onInitialize() {
 }
 
 void FreeKickPass::makeCommand() {
-    auto shotdata = robot->getShotController()->getRobotCommand(*field, *robot, getKicker(), false, control::PASS, false, control::LOW, 3);
-    command = shotdata.makeROSCommand();
+    auto shotData = robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), getKicker(), false, control::PASS, false, control::LOW, 3);
+    command = shotData.makeROSCommand();
 }
 
 }  // namespace rtt::ai

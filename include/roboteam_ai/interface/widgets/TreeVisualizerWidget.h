@@ -5,8 +5,8 @@
 #ifndef ROBOTEAM_AI_TREEVISUALIZER_H
 #define ROBOTEAM_AI_TREEVISUALIZER_H
 
-#include <bt/BehaviorTree.h>
-#include <bt/Node.h>
+#include "bt/BehaviorTree.h"
+#include "bt/Node.h"
 #include <utilities/GameState.h>
 #include <QtWidgets/QTreeWidget>
 

@@ -6,28 +6,28 @@
 
 namespace rtt::ai::stp {
 
-    void Chip::onInitialize() noexcept { }
+void Chip::onInitialize() noexcept {}
 
-    Status Chip::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
-        double chipVelocity = info.getKickChipVelocity();
+Status Chip::onUpdate(const StpInfo &info) noexcept {
+    double chipVelocity = info.getKickChipVelocity();
 
-        // Check if chip velocity is in range
-        if (chipVelocity < 0.0 || chipVelocity > Constants::MAX_KICK_POWER()) {
-            return Status::Failure;
-        }
-
-        // Set chip command
-        command.set_chipper(true);
-        command.set_chip_kick_vel(chipVelocity);
-
-        // Set angle command
-        command.set_w(info.getRobot().value()->getAngle());
-
-        publishRobotCommand();
-
-        return Status::Success;
+    // Check if chip velocity is in range
+    if (chipVelocity < 0.0 || chipVelocity > Constants::MAX_KICK_POWER()) {
+        return Status::Failure;
     }
 
-    void Chip::onTerminate() noexcept {  }
+    // Set chip command
+    command.set_chipper(true);
+    command.set_chip_kick_vel(chipVelocity);
 
-} // namespace rtt::ai::stp
+    // Set angle command
+    command.set_w(info.getRobot().value()->getAngle());
+
+    publishRobotCommand();
+
+    return Status::Success;
+}
+
+void Chip::onTerminate() noexcept {}
+
+}  // namespace rtt::ai::stp

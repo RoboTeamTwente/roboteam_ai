@@ -6,7 +6,7 @@
 
 #include "../helpers/WorldHelper.h"
 #include "conditions/WeHaveBall.h"
-#include "world/World.h"
+
 
 TEST(WeHaveBallTest, WeHaveBallTest) {
     //    auto BB = std::make_shared<bt::Blackboard>();

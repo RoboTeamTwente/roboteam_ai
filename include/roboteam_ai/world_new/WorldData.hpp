@@ -15,6 +15,11 @@
 #include "world_new/views/BallView.hpp"
 #include "world_new/views/RobotView.hpp"
 
+/**
+* Static map of previous velocity for each robotId
+*/
+static std::unordered_map<int, rtt::Vector2> previousRobotVelocity{{0,{0,0}}, {1,{0,0}}, {2,{0,0}}, {3,{0,0}}, {4,{0,0}}, {5,{0,0}}, {6,{0,0}}, {7,{0,0}}, {8,{0,0}}, {9,{0,0}}, {10,{0,0}}};
+
 namespace rtt::world_new {
 
 namespace robot {
@@ -80,10 +85,11 @@ class WorldData {
     WorldData() = default;
 
     /**
-     * Copy assignment operator and constructor, explicitly deleted
+     * Copy assignment operator and constructor
+     * Copy over members and set the view vectors
      */
-    WorldData &operator=(WorldData const &) = delete;
-    WorldData(WorldData const &) = delete;
+    WorldData &operator=(WorldData const &) noexcept;
+    WorldData(WorldData const &) noexcept;
 
     /**
      * Move constructor, simply moves all members
@@ -96,6 +102,11 @@ class WorldData {
      * @return *this
      */
     WorldData &operator=(WorldData &&) = default;
+
+    /**
+     * Does exactly what it says, it sets the internal vectors for the views
+     */
+    void setViewVectors() noexcept;
 
     /**
      * Gets a non-owning container of robots that are in our team

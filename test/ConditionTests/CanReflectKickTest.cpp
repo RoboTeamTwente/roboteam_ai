@@ -8,8 +8,8 @@
 #include "conditions/CanReflectKick.h"
 #include "utilities/Constants.h"
 #include "utilities/RobotDealer.h"
-#include "world/Robot.h"
-#include "world/World.h"
+
+
 
 TEST(CanReflectKickTest, can_reflect_kick) {
     //    auto field = testhelpers::FieldHelper::generateField(12, 9);

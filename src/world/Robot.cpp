@@ -2,7 +2,7 @@
 // Created by thijs on 1-4-19.
 //
 
-#include "world/Robot.h"
+
 
 #include <include/roboteam_ai/utilities/Settings.h>
 
@@ -11,8 +11,8 @@
 #include "control/ball-handling/BallHandlePosControl.h"
 #include "control/numtrees/NumTreePosControl.h"
 #include "control/shot-controllers/ShotController.h"
-#include "world/Ball.h"
-#include "world/World.h"
+
+
 
 namespace rtt::ai::world {
 

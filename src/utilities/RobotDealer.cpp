@@ -4,8 +4,6 @@
 #include "coach/PassCoach.h"
 #include "control/ControlUtils.h"
 #include "treeinterp/BTFactory.h"
-#include "world/Ball.h"
-#include "world/World.h"
 
 namespace rtt::ai::robotDealer {
 
@@ -52,16 +50,17 @@ void RobotDealer::addRobotToOwnerList(int ID, const std::string &roleName, const
 /// For internal use
 /// Look at the world and see if there are more robots than on the map and if so put them as free
 void RobotDealer::updateFromWorld() {
-    auto worldUs = world::world->getUs();
+    auto world = world_new::World::instance();
+
+    auto worldUs = world->getWorld()->getUs();
     std::set<int> robotIDs;
     for (const auto &robot : worldUs) {
-        robotIDs.insert(robot->id);
+        robotIDs.insert(robot->getId());
     }
     std::set<int> currentRobots = getRobots();
     for (const auto &robotID : robotIDs) {
         if (currentRobots.find(robotID) == currentRobots.end()) {
             if (robotID == keeperID) {
-                RTT_ERROR("The keeper just got registered as a free robot this should never happen");
                 continue;
             }
             std::lock_guard<std::mutex> lock(robotOwnersLock);
@@ -71,11 +70,11 @@ void RobotDealer::updateFromWorld() {
 }
 
 int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, const std::string &roleName, const std::string &tacticName) {
-    std::set<int> ids = getAvailableRobots();
+    std::set<uint8_t> ids;
 
-    // convert the set to a vector here
-    std::vector<int> idVector;
-    idVector.assign(ids.begin(), ids.end());
+    for (auto id : getAvailableRobots()) {
+        ids.insert(id);
+    }
 
     int id;
     if (!ids.empty()) {
@@ -85,10 +84,15 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
                 return -1;
 
             case CLOSE_TO_BALL: {
-                auto ball = world::world->getBall();
-                auto robot = world::world->getRobotClosestToPoint(ball->getPos(), idVector, true);
+                auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+                if (!ballOpt.has_value()) {
+                    id = -1;
+                    break;
+                }
+                auto ball = ballOpt.value();
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(ball->getPos(), ids, true);
                 if (robot) {
-                    id = robot->id;
+                    id = robot->getId();
                 } else {
                     id = -1;
                 }
@@ -96,11 +100,16 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             }
 
             case BETWEEN_BALL_AND_OUR_GOAL: {
-                auto ball = world::world->getBall();
+                auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+                if (!ballOpt.has_value()) {
+                    id = -1;
+                    break;
+                }
+                auto ball = ballOpt.value();
                 rtt::Vector2 ourGoal = field.getOurGoalCenter();
-                auto robots = world::world->getRobotsForIds(idVector, true);
+                auto robots = world_new::World::instance()->getWorld()->getRobotsForIds(ids, true);
                 if (!robots.empty()) {
-                    id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->id;
+                    id = control::ControlUtils::getRobotClosestToLine(robots, ball->getPos(), ourGoal, true)->getId();
                 } else {
                     id = -1;
                 }
@@ -108,9 +117,9 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             }
             case CLOSE_TO_OUR_GOAL: {
                 rtt::Vector2 ourGoal = field.getOurGoalCenter();
-                auto robot = world::world->getRobotClosestToPoint(ourGoal, idVector, true);
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(ourGoal, ids, true);
                 if (robot) {
-                    id = robot->id;
+                    id = robot->getId();
                 } else {
                     id = -1;
                 }
@@ -119,9 +128,9 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
 
             case CLOSE_TO_THEIR_GOAL: {
                 rtt::Vector2 theirGoal = field.getTheirGoalCenter();
-                auto robot = world::world->getRobotClosestToPoint(theirGoal, idVector, true);
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(theirGoal, ids, true);
                 if (robot) {
-                    id = robot->id;
+                    id = robot->getId();
                 } else {
                     id = -1;
                 }
@@ -134,9 +143,9 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             }
 
             case BALL_PLACEMENT_RECEIVER: {
-                auto robot = world::world->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), idVector, true);
+                auto robot = world_new::World::instance()->getWorld()->getRobotClosestToPoint(rtt::ai::coach::g_ballPlacement.getBallPlacementPos(), ids, true);
                 if (robot) {
-                    id = robot->id;
+                    id = robot->getId();
                 } else {
                     id = -1;
                 }
@@ -147,42 +156,18 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
                 break;
             }
             case WORKING_GENEVA: {
-                int test = -1;
-                for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingGeneva()) {
-                        test = r;
-                        break;
-                    }
-                }
-                if (test == -1) {
-                    id = *ids.begin();
-                    break;
-                }
-                id = test;
-                break;
-            }
-            case WORKING_BALL_SENSOR: {
-                int test = -1;
-                for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingBallSensor()) {
-                        test = r;
-                        break;
-                    }
-                }
-                if (test == -1) {
-                    id = *ids.begin();
-                    break;
-                }
-                id = test;
+                RTT_ERROR("Asking for a robot with working geneva should not be done. Picking random robot instead...");
+                id = -1;
                 break;
             }
             case WORKING_GENEVA_BALLSENSOR: {
+                RTT_ERROR("Asking for a robot with working geneva should not be done. Only picking on ballsensor property");
+            } // fallthrough
+            case WORKING_BALL_SENSOR: {
                 int test = -1;
                 for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingGeneva() && robot->hasWorkingBallSensor()) {
+                    auto robot = world_new::World::instance()->getWorld()->getRobotForId(r, true);
+                    if (robot && robot.value()->isWorkingBallSensor()) {
                         test = r;
                         break;
                     }
@@ -197,8 +182,8 @@ int RobotDealer::claimRobotForTactic(const Field &field, RobotType feature, cons
             case WORKING_DRIBBLER: {
                 int test = -1;
                 for (auto r : ids) {
-                    auto robot = rtt::ai::world::world->getRobotForId(r, true);
-                    if (robot && robot->hasWorkingDribbler()) {
+                    auto robot = world_new::World::instance()->getWorld()->getRobotForId(r, true);
+                    if (robot && robot.value()->isWorkingDribbler()) {
                         test = r;
                         break;
                     }
@@ -367,7 +352,7 @@ std::string RobotDealer::getRoleNameForId(int ID) {
             }
         }
     }
-    RTT_WARNING("No robot with that ID: ", ID);
+    //RTT_WARNING("No robot with that ID: ", ID);
     return "";
 }
 
@@ -412,9 +397,13 @@ void RobotDealer::refresh() {
 }
 
 bool RobotDealer::keeperExistsInWorld() {
-    for (auto const &robot : world::world->getUs()) {
-        if (robot && robot->id == getKeeperID()) {
-            return true;
+    auto worldOpt = world_new::World::instance()->getWorld();
+    if (worldOpt) {
+        auto us = worldOpt->getUs();
+        for (auto const &robot : us) {
+            if (robot && robot->getId()==getKeeperID()) {
+                return true;
+            }
         }
     }
     return false;

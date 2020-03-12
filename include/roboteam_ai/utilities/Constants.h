@@ -20,6 +20,8 @@ class Constants {
     static void OVERWRITE_GRSIM(bool grsim);
     static bool FEEDBACK_ENABLED();
 
+    static constexpr size_t ROBOT_COUNT() {return 11; };
+
     /// TICK RATE ///
     static constexpr int GAME_ANALYSIS_TICK_RATE() { return 5; };
     static constexpr int TICK_RATE() { return 60; };

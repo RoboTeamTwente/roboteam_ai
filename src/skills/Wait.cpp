@@ -2,11 +2,8 @@
 // Created by robzelluf on 6/5/19.
 //
 
-#include "skills/Wait.h"
-
+#include <skills/Wait.h>
 #include <utilities/Constants.h>
-
-#include "world/Robot.h"
 
 namespace rtt::ai {
 
@@ -16,7 +13,7 @@ void Wait::onInitialize() {
     if (properties->getBool("penalty")) {
         lockedAngle = 0.0;
     } else {
-        lockedAngle = robot->angle;
+        lockedAngle = robot->get()->getAngle();
     }
 
     double seconds;

@@ -4,8 +4,6 @@
 
 #include "control/numtrees/PathPoint.h"
 
-#include <control/ControlUtils.h>
-
 namespace rtt::ai::control {
 
 /// go back in the path until desired time or until Root

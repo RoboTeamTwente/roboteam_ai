@@ -27,6 +27,8 @@ Vector2 RobotView::getKicker() const noexcept {
 
 RobotView::operator bool() const noexcept { return get() != nullptr; }
 
-robot::RobotControllers const &RobotView::getControllers() const noexcept { return World::instance()->getControllersForRobot(get()->getId()); }
+robot::RobotControllers &RobotView::getControllers() const noexcept { 
+    return World::instance()->getControllersForRobot(get()->getId()); 
+}
 
 }  // namespace rtt::world_new::view

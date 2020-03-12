@@ -6,13 +6,11 @@
 #define ROBOTEAM_AI_GETBALL_H
 
 #include "Skill.h"
-#include "control/ball-handling/BallHandlePosControl.h"
 
 namespace rtt::ai {
 
 class GetBall : public Skill {
    private:
-    control::BallHandlePosControl ballHandlePosControl;
     Vector2 lockedTargetPos = Vector2();
 
    public:

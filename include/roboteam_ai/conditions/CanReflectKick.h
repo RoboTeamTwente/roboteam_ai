@@ -2,10 +2,10 @@
 // Created by robzelluf on 6/14/19.
 //
 
-#include "Condition.h"
-
 #ifndef ROBOTEAM_AI_CANREFLECTKICK_H
 #define ROBOTEAM_AI_CANREFLECTKICK_H
+
+#include "Condition.h"
 
 namespace rtt::ai {
 

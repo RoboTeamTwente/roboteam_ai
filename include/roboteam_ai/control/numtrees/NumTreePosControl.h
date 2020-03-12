@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_NUMTREEPOSCONTROL_H
 
 #include <interface/api/Output.h>
+
 #include "Collision.h"
 #include "PathPoint.h"
 #include "control/BasicPosControl.h"
@@ -20,18 +21,7 @@ class NumTreePosControl : public BasicPosControl {
     using PathPointer = std::shared_ptr<PathPoint>;
 
     std::vector<rtt::Vector2> triedPaths;
-    RobotPtr robot;
     Vector2 finalTargetPos;
-
-    bool doRecalculatePath(const Vector2 &targetPos);
-    bool checkCurrentRobotCollision();
-    bool checkEmptyPath();
-    bool checkIfTargetMoved(double maxTargetDeviation, const Vector2 &targetPos);
-    bool checkIfAtEndOfPath(double maxTargetDeviation, const Vector2 &targetPos);
-    bool checkIfTooFarFromCurrentPath(double maxTargetDeviation, const Vector2 &vector2);
-    bool checkIfRobotWillCollideFollowingThisPath();
-
-    RobotCommand computeCommand(const Vector2 &exactTargetPos);
 
     // constants
     static constexpr double MAX_CALCULATION_TIME = 10.0;            // Max calculation time in ms
@@ -39,24 +29,16 @@ class NumTreePosControl : public BasicPosControl {
     static constexpr double DEFAULT_ROBOT_COLLISION_RADIUS = 0.25;  // 3x robot radius
 
     // collisions
-    Collision getCollision(const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
-    Collision getRobotCollision(const PathPointer &point, const std::vector<RobotPtr> &robots, double distance);
-    Collision getBallCollision(const PathPointer &point, const BallPtr &ball);
-    Collision getFieldCollision(const PathPointer &point);
-    Collision getDefenseAreaCollision(const PathPointer &point);
+    Collision getFieldCollision(world_new::view::RobotView _robot, const PathPointer &point);
     Collision getGoalCollision(const PathPointer &point);
-    Collision getBallPlacementCollision(const PathPointer &point);
+    Collision getBallPlacementCollision(const PathPointer &point, world_new::view::BallView ball);
 
     Collision currentCollisionWithRobot;
     Collision currentCollisionWithFinalTarget;
 
    public:
-    const Collision &getCurrentCollisionWithRobot() const;
-    const Collision &getCurrentCollisionWithFinalTarget() const;
-
-   protected:
-    world::World *world = nullptr;
-    const world::Field *field = nullptr;
+    [[nodiscard]] const Collision &getCurrentCollisionWithRobot() const;
+    [[nodiscard]] const Collision &getCurrentCollisionWithFinalTarget() const;
 
    private:
     bool allowIllegalPositions = false;
@@ -69,7 +51,6 @@ class NumTreePosControl : public BasicPosControl {
     std::pair<std::vector<Vector2>, PathPointer> getNewTargets(const PathPointer &collisionPoint, const Collision &collision);
 
     // paths
-    void tracePath();
     std::vector<PathPoint> backTrackPath(PathPointer point, const PathPointer &root);
     double remainingStraightLinePathLength(const Vector2 &currentPos, const Vector2 &halfwayPos, const Vector2 &finalPos);
     std::vector<PathPoint> path;
@@ -83,12 +64,26 @@ class NumTreePosControl : public BasicPosControl {
 
     void clear();
 
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos) override;
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, bool illegalPositions);
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle) override;
-    RobotCommand getRobotCommand(world::World *world, const world::Field *field, const RobotPtr &robotPtr, const Vector2 &targetPos, const Angle &targetAngle, bool illegalPositions);
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos) override;
+    RobotCommand getRobotCommand(int robotId, const Vector2 &targetPos, const Angle &targetAngle) override;
+
+    bool doRecalculatePath(const Vector2 &targetPos, world_new::view::RobotView _robot);
+    void tracePath(world_new::view::RobotView _robot);
+
+    Collision getRobotCollision(world_new::view::RobotView _robot, const PathPointer &point, const std::vector<world_new::view::RobotView> &robots, double distance);
+    Collision getCollision(world_new::view::RobotView _robot, const PathPointer &point, double collisionRadius = DEFAULT_ROBOT_COLLISION_RADIUS);
+    Collision getBallCollision(const PathPointer &point, world_new::view::BallView ball);
+    Collision getDefenseAreaCollision(world_new::view::RobotView _robot, const PathPointer &point);
+
+    RobotCommand computeCommand(world_new::view::RobotView _robot, const Vector2 &exactTargetPos);
 
     bool checkChangeInMaxRobotVel();
+    bool checkCurrentRobotCollision(world_new::view::RobotView _robot);
+    bool checkEmptyPath(world_new::view::RobotView _robot);
+    bool checkIfTargetMoved(world_new::view::RobotView _robot, double maxTargetDeviation, const Vector2 &targetPos);
+    bool checkIfAtEndOfPath(world_new::view::RobotView _robot, double maxTargetDeviation, const Vector2 &targetPos);
+    bool checkIfTooFarFromCurrentPath(world_new::view::RobotView _robot, double maxTargetDeviation, const Vector2 &vector2);
+    bool checkIfRobotWillCollideFollowingThisPath(world_new::view::RobotView _robot);
 };
 
 }  // namespace rtt::ai::control

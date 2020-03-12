@@ -6,8 +6,6 @@
 #define ROBOTEAM_AI_GOAROUNDPOS_H
 
 #include "GoToPos.h"
-#include "skills/Skill.h"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 
@@ -19,7 +17,6 @@ class GoAroundPos : public GoToPos {
     const double BALL_DIST = 0.11;            // Meters
     const double POS_MARGIN = 0.05;           // Meters
     const double ANGLE_MARGIN = 0.03 * M_PI;  // Rad
-    const double MIN_SPEED = 0.25;            // Meters/second
 
     enum Progression { FAIL, ROTATING, STOPPING, DONE };
     Progression currentProgress;

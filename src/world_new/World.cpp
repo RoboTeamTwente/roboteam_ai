@@ -45,7 +45,7 @@ namespace rtt::world_new {
                   return std::nullopt;
          }
     }
-  
+
     std::optional<ai::world::Field> World::getField() const noexcept {
         if (currentField) {
             return currentField;
@@ -102,12 +102,17 @@ namespace rtt::world_new {
         lastTick = (*getWorld())->getTime();
     }
 
+    void World::updatePositionControl() {
+        std::vector<Vector2> robotPositions(getWorld()->getRobotsNonOwning().size());
+        std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robotPositions.begin(), [](const auto& robot) -> Vector2 { return (robot->getPos()); });
+        positionControl.setRobotPositions(robotPositions);
+    }
+
     uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 
     robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
 
     ai::control::PositionControl *World::getRobotPositionController() noexcept {
-        positionControl.setRobotVector(getWorld()->getRobotsNonOwning());
         return &positionControl;
     }
 

@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
 #define ROBOTEAM_AI_BALLPLACEMENTWITHINTERFACE_H
 
-#include <control/ball-handling/BallHandlePosControl.h>
 #include "Skill.h"
 
 namespace rtt::ai {
@@ -16,7 +15,6 @@ class BallPlacementWithInterface : public Skill {
     Status onUpdate() override;
 
    private:
-    control::BallHandlePosControl ballHandlePosControl;
     Vector2 previousTargetPos = Vector2();
 };
 

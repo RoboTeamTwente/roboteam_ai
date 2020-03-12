@@ -1,9 +1,7 @@
 #include "treeinterp/tactics/DefaultTactic.h"
 #include "world/BallPossession.h"
 #include <analysis/GameAnalyzer.h>
-#include <world/World.h>
-#include <world/WorldData.h>
-
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "utilities/RobotDealer.h"
 
 using dealer = rtt::ai::robotDealer::RobotDealer;
@@ -79,7 +77,7 @@ bool DefaultTactic::updateRobots() {
 
 void DefaultTactic::disClaimRobots(int amount) {
     for (auto robot : robotIDs) {
-        if (!rtt::ai::world::world->getRobotForId(robot)) {
+        if (!world.getRobotForId(robot)) {
             dealer::refresh();
             return;
         }
@@ -124,7 +122,7 @@ void DefaultTactic::parseType(const std::string &typee) {
 
 void DefaultTactic::updateStyle() {
     analysis::BallPossession possession = analysis::GameAnalyzer::convertPossession(ballPossessionPtr->getPossession());
-    analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession);
+    analysis::PlayStyle style = maker.getRecommendedPlayStyle(possession, world->getUs().size());
 
     if (thisType == Defensive) {
         amountToTick = style.amountOfDefenders;
@@ -133,9 +131,9 @@ void DefaultTactic::updateStyle() {
     } else if (thisType == Offensive) {
         amountToTick = style.amountOfAttackers;
     } else if (rtt::ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        amountToTick = rtt::ai::world::world->getUs().size() - 1;
+        amountToTick = rtt::world_new::World::instance()->getWorld()->getUs().size() - 1;
     } else {
-        amountToTick = rtt::ai::world::world->getUs().size();
+        amountToTick = rtt::world_new::World::instance()->getWorld()->getUs().size();
     }
 }
 

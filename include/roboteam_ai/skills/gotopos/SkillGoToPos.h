@@ -2,10 +2,10 @@
 // Created by thijs on 19-11-18.
 //
 
-#include "GoToPos.h"
-
 #ifndef ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
 #define ROBOTEAM_AI_GOTOPOSLUTH_OLD_H
+
+#include "GoToPos.h"
 
 namespace rtt::ai {
 class SkillGoToPos : public GoToPos {

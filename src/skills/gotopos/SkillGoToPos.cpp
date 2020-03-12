@@ -2,11 +2,7 @@
 // Created by thijs on 19-11-18.
 //
 
-#include "skills/gotopos/SkillGoToPos.h"
-
-#include <control/BasicPosControl.h>
-#include <control/ball-handling/BallHandlePosControl.h>
-#include <control/numtrees/NumTreePosControl.h>
+#include <skills/gotopos/SkillGoToPos.h>
 
 namespace rtt::ai {
 
@@ -21,7 +17,7 @@ void SkillGoToPos::gtpInitialize() {
 
 /// Called when the Skill is Updated
 SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
-    if (goToBall) targetPos = ball->getPos();
+    if (goToBall) targetPos = ball->get()->getPos();
 
     // Now check the progress we made
     currentProgress = checkProgression();
@@ -44,7 +40,7 @@ SkillGoToPos::Status SkillGoToPos::gtpUpdate() {
 void SkillGoToPos::gtpTerminate(Status s) { currentProgress = ON_THE_WAY; }
 
 SkillGoToPos::Progression SkillGoToPos::checkProgression() {
-    if ((targetPos - robot->pos).length2() > errorMargin * errorMargin)
+    if ((targetPos - robot->get()->getPos()).length2() > errorMargin * errorMargin)
         return ON_THE_WAY;
     else
         return DONE;

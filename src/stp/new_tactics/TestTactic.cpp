@@ -2,36 +2,39 @@
 // Created by roboteam on 9/3/20.
 //
 
-#include <stp/new_skills/Rotate.h>
-#include <stp/new_skills/SetDribbler.h>
 #include "stp/new_tactics/TestTactic.h"
 
+#include <stp/new_skills/Rotate.h>
+#include <stp/new_skills/GoToPos.h>
 
 namespace rtt::ai::stp {
 
-void TestTactic::onInitialize() noexcept {
-    skills = rtt::collections::state_machine<Skill, Status, SkillInfo>{Rotate(), SetDribbler(), Rotate()};
-
-    // Initialize first skill
+TestTactic::TestTactic(){
+    // Create state machine of skills and initialize first skill
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{GoToPos(), Rotate()};
     skills.initialize();
 }
 
-void TestTactic::onUpdate(Status const &status) noexcept {}
+void TestTactic::onInitialize() noexcept {
+}
+
+void TestTactic::onUpdate(Status const &status) noexcept {
+}
 
 void TestTactic::onTerminate() noexcept {
     // Call terminate on all skills
-    for(auto &x : skills) {
+    for (auto &x : skills) {
         x->terminate();
     }
 }
 
-SkillInfo TestTactic::calculateInfoForSkill(TacticInfo const &info) noexcept {
-    SkillInfo skillInfo;
+StpInfo TestTactic::calculateInfoForSkill(StpInfo const& info) noexcept {
+    StpInfo skillStpInfo = info;
+    // TODO make this smarter and better
+    skillStpInfo.setAngle(2.0);
+    skillStpInfo.setDribblerSpeed(31);
 
-    /// Update the skillInfo parameters here
-
-    return skillInfo;
+    return skillStpInfo;
 }
 
-} // namespace rtt::ai::stp
-
+}  // namespace rtt::ai::stp

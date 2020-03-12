@@ -7,8 +7,6 @@
 
 #include "conditions/IsBallCloseToBorder.h"
 
-#include <world/Ball.h>
-
 namespace rtt::ai {
 
 IsBallCloseToBorder::IsBallCloseToBorder(std::string name, bt::Blackboard::Ptr blackboard) : Condition(std::move(name), std::move(blackboard)){};
@@ -22,18 +20,18 @@ void IsBallCloseToBorder::onInitialize() {
 
 bt::Node::Status IsBallCloseToBorder::onUpdate() {
     if (properties->getBool("corner")) {
-        double xDiff = (*field).getFieldLength() / 2 - abs(ball->getPos().x);
-        double yDiff = (*field).getFieldWidth() / 2 - abs(ball->getPos().y);
+        double xDiff = (*field).getFieldLength() / 2 - abs(ball->get()->getPos().x);
+        double yDiff = (*field).getFieldWidth() / 2 - abs(ball->get()->getPos().y);
 
         if (xDiff >= margin || yDiff >= margin) {
             return Status::Failure;
         }
-    } else if (FieldComputations::pointIsInField(*field, ball->getPos(), static_cast<float>(margin))) {
+    } else if (FieldComputations::pointIsInField(*field, ball->get()->getPos(), static_cast<float>(margin))) {
         return Status::Failure;
     }
 
     if (ballShouldLayStill) {
-        bool ballIsLayingStill = Vector2(ball->getVel()).length() <= Constants::BALL_STILL_VEL();
+        bool ballIsLayingStill = Vector2(ball->get()->getVelocity()).length() <= Constants::BALL_STILL_VEL();
         return ballIsLayingStill ? Status::Success : Status::Failure;
     }
     return Status::Success;
