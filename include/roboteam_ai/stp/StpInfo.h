@@ -106,7 +106,6 @@ struct StpInfo {
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
 
    private:
-
     /**
      * Robot this tactic applies to
      */

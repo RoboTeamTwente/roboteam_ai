@@ -16,9 +16,6 @@ TestTactic::TestTactic(){
 }
 
 void TestTactic::onInitialize() noexcept {
-
-
-
 }
 
 void TestTactic::onUpdate(Status const &status) noexcept {
