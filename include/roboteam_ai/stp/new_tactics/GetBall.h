@@ -7,7 +7,7 @@
 
 #include "stp/Tactic.h"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::tactic {
 class GetBall : protected Tactic {
    protected:
     void onInitialize() noexcept override;
@@ -16,7 +16,7 @@ class GetBall : protected Tactic {
 
     void onTerminate() noexcept override;
 
-    SkillInfo calculateInfoForSkill(TacticInfo const &info) noexcept override;
+    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 };
 }  // namespace rtt::ai::stp
 
