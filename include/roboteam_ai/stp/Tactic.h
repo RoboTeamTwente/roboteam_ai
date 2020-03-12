@@ -35,6 +35,11 @@ class Tactic {
         virtual void initialize() noexcept;
         virtual Status update(TacticInfo const &info) noexcept;
         virtual void terminate() noexcept;
+
+        /**
+         * Ensure proper destruction of Tactic classes
+         */
+        virtual ~Tactic() = default;
 };
 }  // namespace rtt::ai::stp
 
