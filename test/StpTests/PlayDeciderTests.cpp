@@ -18,7 +18,6 @@ public:
     }
 
     void assignRoles() noexcept override {
-
     }
 };
 
@@ -32,7 +31,6 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     }
 
     void assignRoles() noexcept override {
-
     }
 };
 
