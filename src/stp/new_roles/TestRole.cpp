@@ -7,7 +7,7 @@
 #include <stp/new_tactics/TestTactic.h>
 
 #include <utility>
-
+#include <stp/new_tactics/BlockRobot.h>
 namespace rtt::ai::stp {
 
 TestRole::TestRole(std::string name) : Role(std::move(name)) {

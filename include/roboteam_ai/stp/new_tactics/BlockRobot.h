@@ -8,7 +8,7 @@
 #include <include/roboteam_ai/stp/Tactic.h>
 
 namespace rtt::ai::stp::tactic {
-    class BlockRobot : Tactic {
+    class BlockRobot : public Tactic {
     public:
         BlockRobot();
 

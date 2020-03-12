@@ -52,6 +52,8 @@ void TestPlay::assignRoles() noexcept {
 
             // TODO calculate additional info
             stpInfos[roleName].setTargetPos({MOVETARGET, {robot->getId()*0.5, robot->getId()*0.5}});
+            stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[3]);
+            stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
         }
     }
 }
