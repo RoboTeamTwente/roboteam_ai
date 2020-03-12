@@ -50,6 +50,8 @@ class Dealer {
   using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
   Dealer(v::WorldDataView world, world::Field * field);
   virtual ~Dealer() = default; // needed for test
+  // Create a distribution of robots
+  std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
 
  protected:
   // This function is virtual such that it can be mocked in the tests.
@@ -59,8 +61,7 @@ class Dealer {
  private:
   v::WorldDataView world;
   world::Field * field;
-  // Create a distribution of robots
-  std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView>& allRobots, const FlagMap& flagMap);
+
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
   std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
   static double getFactorForPriority(const DealerFlag &flag);
@@ -71,5 +72,5 @@ class Dealer {
                                                             const FlagMap &flagMap,
                                                             const std::vector<int> &assignment) const;
 };
-}
-#endif //RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
+}  // namespace rtt::ai
+#endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
