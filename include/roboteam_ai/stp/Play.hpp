@@ -6,6 +6,7 @@
 #define RTT_PLAY_HPP
 
 #include <utilities/Dealer.h>
+#include <utilities/Constants.h>
 
 #include <array>
 
@@ -20,8 +21,6 @@ namespace rtt::ai::stp {
  */
 class Play {
    public:
-    constexpr static size_t ROBOT_COUNT = 11;
-
     /**
      * Initializes tacticInfos vector and calls assignRoles
      */
@@ -81,7 +80,7 @@ class Play {
     /**
      * The roles, constructed in ctor of a play
      */
-    std::array<std::unique_ptr<Role>, ROBOT_COUNT> roles;
+    std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
 
     /**
      * The stpInfos, constructed in assignRoles

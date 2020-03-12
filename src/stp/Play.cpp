@@ -36,7 +36,7 @@ Status Play::update() noexcept {
         }
     }
 
-    if (count[static_cast<size_t>(Status::Success)] == ROBOT_COUNT) {
+    if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
         return Status::Success;
     }
 

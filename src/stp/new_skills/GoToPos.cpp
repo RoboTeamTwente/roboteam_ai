@@ -26,14 +26,14 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     //TODo clamp this
     if (robotCommand.vel.length() > Constants::MAX_VEL_CMD()) {
         RTT_ERROR("Velocity not within acceptable range")
-        return Status::Failure;
+        //return Status::Failure;
     }
 
     // Check if angle is in range
     //TODo clamp this
     if (robotCommand.angle.getAngle() < Constants::MIN_ANGLE() || robotCommand.angle.getAngle() > Constants::MAX_ANGLE()) {
         RTT_ERROR("Rotation angle not within acceptable range")
-        return Status::Failure;
+        //return Status::Failure;
     }
 
     // Set velocity and angle commands

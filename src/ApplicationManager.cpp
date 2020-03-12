@@ -79,8 +79,14 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
+            /**
+             * Comment/uncomment this line for new system (can't be used at the same time!)
+             */
             decidePlay(world_new::World::instance());
 
+            /**
+             * Comment/uncomment these lines for old system (can't be used at the same time!)
+             */
             //updateTrees();
             //updateCoaches(field);
             //runKeeperTree(field);
