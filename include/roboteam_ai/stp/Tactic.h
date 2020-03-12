@@ -68,7 +68,6 @@ class Tactic {
      * Ensure proper destruction of Tactic classes
      */
     virtual ~Tactic() = default;
-
 };
 }  // namespace rtt::ai::stp
 
