@@ -142,7 +142,7 @@ struct StpInfo {
     float angle = 0.0;
 
     /**
-     * Speed of the dribbler
+     * Speed of the dribbler in %
      */
     int dribblerSpeed = 0;
 };

@@ -7,7 +7,7 @@
 
 #include "include/roboteam_ai/stp/Skill.h"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::skill {
 
 class GoToPos : public Skill {
     /**
@@ -26,6 +26,6 @@ class GoToPos : public Skill {
     void onTerminate() noexcept override;
 };
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::skill
 
 #endif  // RTT_GOTOPOS_H

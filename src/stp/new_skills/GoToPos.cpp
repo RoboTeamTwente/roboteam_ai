@@ -8,55 +8,42 @@
 
 #include "include/roboteam_ai/world_new/World.hpp"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::skill {
 
-void GoToPos::onInitialize() noexcept {
-    RTT_WARNING("INITIALIZING GOTOPOS");
-}
+void GoToPos::onInitialize() noexcept { }
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    RTT_WARNING("UPDATING GOTOPOS")
     Vector2 targetPos = info.getTargetPos().second;
 
     // Calculate commands from path planning and tracking
-    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
-        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
+    auto robotCommand = world_new::World::instance()->getRobotPositionController()->
+            computeAndTrackPath(info.getField().value(), info.getRobot().value()->getId(),
+                    info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
-    // Check if velocity is in range
-    //TODo clamp this
-    if (robotCommand.vel.length() > Constants::MAX_VEL_CMD()) {
-        RTT_ERROR("Velocity not within acceptable range")
-        //return Status::Failure;
-    }
+    // Clamp and set velocity
+    double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, Constants::MAX_VEL_CMD());
+    Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
-    // Check if angle is in range
-    //TODo clamp this
-    if (robotCommand.angle.getAngle() < Constants::MIN_ANGLE() || robotCommand.angle.getAngle() > Constants::MAX_ANGLE()) {
-        RTT_ERROR("Rotation angle not within acceptable range")
-        //return Status::Failure;
-    }
+    // Constrain and set angle between -pi and pi
+    float targetAngle = rtt::ai::control::ControlUtils::constrainAngle(robotCommand.angle) - M_PI;
 
     // Set velocity and angle commands
-    command.mutable_vel()->set_x(robotCommand.vel.x);
-    command.mutable_vel()->set_y(robotCommand.vel.y);
-    command.set_w(robotCommand.angle);
+    command.mutable_vel()->set_x(targetVelocity.x);
+    command.mutable_vel()->set_y(targetVelocity.y);
+    command.set_w(targetAngle);
 
-    // Check if dribbler speed is in range
-    int dribblerSpeed = info.getDribblerSpeed();
-    if (dribblerSpeed < 0 || dribblerSpeed > 31) {
-        RTT_ERROR("Dribbler speed not within acceptable range")
-        return Status::Failure;
-    }
+    // Clamp and set dribbler speed
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
 
     // Set dribbler speed command
-    command.set_dribbler(dribblerSpeed);
+    command.set_dribbler(targetDribblerSpeed);
 
     publishRobotCommand();
 
     // Check if successful
     double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
     if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
-        RTT_SUCCESS("GTP SUCCESFUL")
         return Status::Success;
     } else {
         return Status::Running;
@@ -65,4 +52,4 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
 void GoToPos::onTerminate() noexcept {}
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::skill
