@@ -19,7 +19,7 @@ class SetDribbler : public Skill {
     /**
      * On update of this tactic
      */
-    Status onUpdate(SkillInfo const& info) noexcept override;
+    Status onUpdate(StpInfo const& info) noexcept override;
 
     /**
      * On terminate of this tactic

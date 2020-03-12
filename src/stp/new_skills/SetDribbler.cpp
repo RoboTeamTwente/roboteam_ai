@@ -10,7 +10,7 @@ namespace rtt::ai::stp {
 
 void SetDribbler::onInitialize() noexcept {}
 
-Status SetDribbler::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+Status SetDribbler::onUpdate(const StpInfo &info) noexcept {
     int dribblerSpeed = info.getDribblerSpeed();
 
     // Check if dribbler speed is in range

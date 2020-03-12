@@ -84,9 +84,10 @@ class Play {
     std::array<std::unique_ptr<Role>, ROBOT_COUNT> roles;
 
     /**
-     * The tacticInfos, constructed in assignRoles
+     * The stpInfos, constructed in assignRoles
+     * The string is the role_name to be able to update the info in the right role
      */
-    std::unordered_map<std::string, TacticInfo> tacticInfos;
+    std::unordered_map<std::string, StpInfo> stpInfos;
 
     /**
      * The world
@@ -98,7 +99,7 @@ class Play {
      */
     rtt::ai::Field field;
 
-   private:
+    protected:
     /**
      * Assigns robots to roles
      */

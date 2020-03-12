@@ -17,7 +17,7 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
     return validPlays;
 }
 
-void PlayChecker::update(world_new::World* _world) noexcept { this->world = _world; }
+void PlayChecker::update(world_new::World* world) noexcept { this->world = world; }
 
 bool PlayChecker::isValid(Play* play) const noexcept { return play->isValidPlay(world); }
 

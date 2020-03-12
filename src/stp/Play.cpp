@@ -20,18 +20,18 @@ Status Play::update() noexcept {
     std::array<size_t, ENUM_COUNT> count{};
     std::fill(count.begin(), count.end(), 0);
 
-    if(world->getWorld()->getUs().size() != tacticInfos.size()) {
+    if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
         assignRoles();
     }
 
     for (auto& each : roles) {
         auto roleName{each->getName()};
-        if(tacticInfos.find(roleName) != tacticInfos.end()) {
+        if(stpInfos.find(roleName) != stpInfos.end()) {
             // TODO refresh robots
-            tacticInfos.find(roleName)->second.setRobot(world->getWorld()->getRobotForId(tacticInfos.find(roleName)->second.getRobot()->get()->getId()));
+            stpInfos.find(roleName)->second.setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
 
-            auto index = static_cast<size_t>(each->update(tacticInfos.find(each->getName())->second));
+            auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
             count[index] += 1;
         }
     }

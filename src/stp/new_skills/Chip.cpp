@@ -8,7 +8,7 @@ namespace rtt::ai::stp {
 
 void Chip::onInitialize() noexcept {}
 
-Status Chip::onUpdate(const rtt::ai::stp::SkillInfo &info) noexcept {
+Status Chip::onUpdate(const StpInfo &info) noexcept {
     double chipVelocity = info.getKickChipVelocity();
 
     // Check if chip velocity is in range

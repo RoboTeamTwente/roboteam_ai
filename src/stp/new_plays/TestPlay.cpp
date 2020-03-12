@@ -40,18 +40,18 @@ void TestPlay::assignRoles() noexcept {
 
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
-    tacticInfos = std::unordered_map<std::string, TacticInfo>{};
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
     for (auto & role : roles) {
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
 
-            tacticInfos.emplace(roleName, TacticInfo{});
-            tacticInfos[roleName].setRobot(robot);
-            tacticInfos[roleName].setField(*world->getField());
+            stpInfos.emplace(roleName, StpInfo{});
+            stpInfos[roleName].setRobot(robot);
+            stpInfos[roleName].setField(*world->getField());
 
             // TODO calculate additional info
-            tacticInfos[roleName].setPosition({robot->getId()*0.5,robot->getId()*0.5});
+            stpInfos[roleName].setTargetPos({MOVETARGET, {robot->getId()*0.5, robot->getId()*0.5}});
         }
     }
 }

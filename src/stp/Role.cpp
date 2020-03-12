@@ -5,7 +5,7 @@
 #include "include/roboteam_ai/stp/Role.hpp"
 
 namespace rtt::ai::stp {
-Status Role::update(stp::TacticInfo const& info) noexcept {
+Status Role::update(StpInfo const& info) noexcept {
     // Check if the skills are all finished
     if (robotTactics.finished()) {
         return Status::Success;

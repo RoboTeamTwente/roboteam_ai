@@ -22,7 +22,7 @@ class Role {
      * @param info TacticInfo to be passed to update()
      * @return The status that the current tactic returns
      */
-    [[nodiscard]] virtual Status update(stp::TacticInfo const& info) noexcept;
+    [[nodiscard]] virtual Status update(StpInfo const& info) noexcept;
 
     /**
      * @return True if all tactics returned Status::finish
@@ -44,7 +44,7 @@ class Role {
     /**
      * State machine that keeps track of tactic states
      */
-    collections::state_machine<Tactic, Status, TacticInfo> robotTactics;
+    collections::state_machine<Tactic, Status, StpInfo> robotTactics;
 };
 
 }  // namespace rtt::ai::stp
