@@ -3,17 +3,19 @@
 //
 
 #include "include/roboteam_ai/stp/Tactic.h"
+
+#include <roboteam_utils/Print.h>
+
 #include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
 
-void Tactic::initialize() noexcept {
-    onInitialize();
-}
+void Tactic::initialize() noexcept { onInitialize(); }
 
-Status Tactic::update(TacticInfo const &info) noexcept {
+Status Tactic::update(StpInfo const &info) noexcept {
     // Check if the skills are all finished
-    if(skills.finished()) {
+    if (skills.finished()) {
+        RTT_INFO("TACTIC SUCCESSFUL!!!!!!!!!!!!!!!!!!!!!!!!:)")
         return Status::Success;
     }
 
@@ -22,14 +24,13 @@ Status Tactic::update(TacticInfo const &info) noexcept {
 
     // Update the current skill with the new SkillInfo
     auto status = skills.update(skill_info);
+    RTT_INFO("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId());
 
     // Call onUpdate on a skill for specific behaviour
     onUpdate(status);
 
-    return status;
+    return Status::Running;
 }
 
-void Tactic::terminate() noexcept {
-    onTerminate();
-}
+void Tactic::terminate() noexcept { onTerminate(); }
 }  // namespace rtt::ai::stp

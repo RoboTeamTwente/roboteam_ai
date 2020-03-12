@@ -325,6 +325,7 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     int ypos = robotpos.y;
     if (showTactics && ourTeam) {
         painter.setPen(Constants::TEXT_COLOR());
+
         painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(getTacticNameForRobot(robot)));
     }
 

@@ -4,13 +4,16 @@
 #include <coach/OffensiveCoach.h>
 #include <coach/PassCoach.h>
 #include <coach/defence/DefenceDealer.h>
-#include <include/roboteam_ai/world_new/World.hpp>
 #include <interface/api/Input.h>
-#include <roboteam_utils/Timer.h>
-#include <utilities/GameStateManager.hpp>
-#include "utilities/Constants.h"
-#include "roboteam_utils/normalize.h"
 #include <roboteam_utils/Print.h>
+#include <roboteam_utils/Timer.h>
+#include <stp/new_plays/TestPlay.h>
+
+#include <utilities/GameStateManager.hpp>
+#include <world_new/World.hpp>
+
+#include "roboteam_utils/normalize.h"
+#include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -25,18 +28,26 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
+    auto testVect = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    testVect.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+
+    playChecker.setPlays(testVect);
+
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
-    t.loop([&]() {
+    t.loop(
+        [&]() {
             runOneLoopCycle();
-             amountOfCycles++;
+            amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
             int fpsUpdateRate = 5;
-            t.limit([&]() {
+            t.limit(
+                [&]() {
                     ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
-                }, fpsUpdateRate);
+                },
+                fpsUpdateRate);
 
             // publish settings, but limit this function call to only run 1 times/s at most
             t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
@@ -58,7 +69,6 @@ void ApplicationManager::runOneLoopCycle() {
         }
         world_new::World::instance()->updateWorld(worldMessage);
 
-
         if (!world_new::World::instance()->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
                 RTT_SUCCESS("Received robots, starting behaviour trees!")
@@ -69,25 +79,32 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            decidePlay(world_new::World::instance(), field);
-            updateTrees();
-            updateCoaches(field);
-            runKeeperTree(field);
-            Status status = runStrategyTree(field);
-            this->notifyTreeStatus(status);
+            /**
+             * Comment/uncomment this line for new system (can't be used at the same time!)
+             */
+            decidePlay(world_new::World::instance());
+
+            /**
+             * Comment/uncomment these lines for old system (can't be used at the same time!)
+             */
+            //updateTrees();
+            //updateCoaches(field);
+            //runKeeperTree(field);
+            //Status status = runStrategyTree(field);
+            //this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
                 RTT_WARNING("No robots found in world. Behaviour trees are not running")
                 robotsInitialized = false;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds (100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     } else {
         if (fieldInitialized) {
             RTT_WARNING("No field data present!")
             fieldInitialized = false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds (100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     /*
      * This is a hack performed at the robocup.
@@ -126,7 +143,7 @@ void ApplicationManager::updateTrees() {
 }
 
 /// Tick the keeper tree if both the tree and keeper exist
-void ApplicationManager::runKeeperTree(const ai::world::Field & field) {
+void ApplicationManager::runKeeperTree(const ai::world::Field &field) {
     world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
     keeperTree = BTFactory::getKeeperTree();
     if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
@@ -135,7 +152,7 @@ void ApplicationManager::runKeeperTree(const ai::world::Field & field) {
 }
 
 /// Tick the strategy tree if the tree exists
-Status ApplicationManager::runStrategyTree(const ai::world::Field & field) {
+Status ApplicationManager::runStrategyTree(const ai::world::Field &field) {
     if (BTFactory::getCurrentTree() == "NaN") {
         RTT_ERROR("Current tree is NaN! The tree might be halting");
         return Status::Waiting;
@@ -147,7 +164,7 @@ Status ApplicationManager::runStrategyTree(const ai::world::Field & field) {
 }
 
 /// Update the coaches information
-void ApplicationManager::updateCoaches(const ai::world::Field & field) const {
+void ApplicationManager::updateCoaches(const ai::world::Field &field) const {
     auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
         ai::coach::getBallCoach->update(field);
         ai::coach::g_DefenceDealer.updateDefenderLocations(field);
@@ -195,12 +212,13 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     }
 }
 
-void ApplicationManager::decidePlay(world_new::World* world, const ai::world::Field &field) {
-    playChecker.update(world);
-    if (!playChecker.isValid(bestPlay)) {
-        bestPlay = playDecider.decideBestPlay(world, playChecker.getValidPlays());
-//       TODO: line below
-//       BTFactory::setCurrentTree(bestPlay);
+rtt::ai::stp::Status ApplicationManager::decidePlay(world_new::World *_world) {
+    playChecker.update(_world);
+    if (!currentPlay || !currentPlay->isValidPlay(_world)) {
+        currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
     }
+    return currentPlay->update();
 }
 }  // namespace rtt

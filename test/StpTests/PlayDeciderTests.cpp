@@ -16,6 +16,9 @@ public:
     uint8_t score(rtt::world_new::World *world) noexcept override {
         return 100;
     }
+
+    void assignRoles() noexcept override {
+    }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
@@ -25,6 +28,9 @@ class AlwaysFalse : public rtt::ai::stp::Play {
 
     uint8_t score(rtt::world_new::World *world) noexcept override {
         return 0;
+    }
+
+    void assignRoles() noexcept override {
     }
 };
 

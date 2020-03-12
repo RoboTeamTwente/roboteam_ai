@@ -8,8 +8,10 @@
 #include <gtest/gtest_prod.h>
 #include <roboteam_utils/Timer.h>
 #include <utilities/StrategyManager.h>
+
 #include <include/roboteam_ai/stp/PlayChecker.hpp>
 #include <include/roboteam_ai/stp/PlayDecider.hpp>
+
 #include "treeinterp/BTFactory.h"
 #include "utilities/IOManager.h"
 namespace rtt {
@@ -31,7 +33,7 @@ class ApplicationManager {
     /**
      * Current best play as picked by checker + decider
      */
-    ai::stp::Play* bestPlay;
+    ai::stp::Play* currentPlay{nullptr};
 
     /**
      * Checks which plays are valid out of all the plays
@@ -46,16 +48,16 @@ class ApplicationManager {
      * @param world the current world state
      * @param field the current field state
      */
-    void decidePlay(world_new::World* world, const ai::world::Field &field);
+    rtt::ai::stp::Status decidePlay(world_new::World* world);
 
    public:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches(const ai::world::Field & field) const;
+    void updateCoaches(const ai::world::Field& field) const;
     void updateTrees();
-    bt::Node::Status runStrategyTree(const ai::world::Field & field);
-    void runKeeperTree(const ai::world::Field & field);
+    bt::Node::Status runStrategyTree(const ai::world::Field& field);
+    void runKeeperTree(const ai::world::Field& field);
 };
 
 }  // namespace rtt
