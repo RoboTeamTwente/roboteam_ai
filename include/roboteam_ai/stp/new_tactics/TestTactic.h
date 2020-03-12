@@ -36,9 +36,9 @@ class TestTactic : public Tactic {
      */
     StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-    bool isTacticFailing() noexcept override;
+    bool isTacticFailing(const StpInfo &info) noexcept override;
 
-    bool shouldTacticReset() noexcept override;
+    bool shouldTacticReset(const StpInfo &info) noexcept override;
 };
 
 }  // namespace rtt::ai::stp

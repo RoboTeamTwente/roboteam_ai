@@ -43,15 +43,17 @@ class Tactic {
 
     /**
      * The condition when the current tactic fails
+     * @param info the tactic info passed down from the play
      * @return true if the tactic's prerequisites are no longer met (e.g. losing the ball)
      */
-    virtual bool isTacticFailing() noexcept = 0;
+    virtual bool isTacticFailing(const StpInfo &info) noexcept = 0;
 
     /**
      * When the state should reset
+     * @param info the tactic info passed down from the play
      * @return true if the active skill cannot execute (it's prerequisites are no longer met)
      */
-    virtual bool shouldTacticReset() noexcept = 0;
+    virtual bool shouldTacticReset(const StpInfo &info) noexcept = 0;
 
     /**
      * The state machine of skills

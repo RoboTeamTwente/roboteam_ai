@@ -37,11 +37,11 @@ StpInfo TestTactic::calculateInfoForSkill(StpInfo const& info) noexcept {
     return skillStpInfo;
 }
 
-bool TestTactic::isTacticFailing() noexcept {
+bool TestTactic::isTacticFailing(const StpInfo &info) noexcept {
     return false;
 }
 
-bool TestTactic::shouldTacticReset() noexcept {
+bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept {
     return false;
 }
 
