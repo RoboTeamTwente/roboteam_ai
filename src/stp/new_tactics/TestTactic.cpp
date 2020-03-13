@@ -37,4 +37,12 @@ StpInfo TestTactic::calculateInfoForSkill(StpInfo const& info) noexcept {
     return skillStpInfo;
 }
 
+bool TestTactic::isTacticFailing(const StpInfo &info) noexcept {
+    return false;
+}
+
+bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept {
+    return false;
+}
+
 }  // namespace rtt::ai::stp
