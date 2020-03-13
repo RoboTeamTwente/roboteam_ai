@@ -60,7 +60,6 @@ namespace rtt::ai::stp::tactic {
 
         virtual bool isTacticFailing(const StpInfo &info) noexcept;
         virtual bool shouldTacticReset(const StpInfo &info) noexcept;
-
     };
 }
 

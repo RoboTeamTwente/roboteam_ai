@@ -159,7 +159,6 @@ struct StpInfo {
      * Used to decide how close this robot should be to enemy robot
      */
     BlockDistance blockDistance;
-
 };
 };  // namespace rtt::ai::stp
 

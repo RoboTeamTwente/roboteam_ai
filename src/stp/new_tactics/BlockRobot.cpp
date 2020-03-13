@@ -14,11 +14,9 @@ namespace rtt::ai::stp::tactic {
     }
 
     void BlockRobot::onInitialize() noexcept {
-
     }
 
     void BlockRobot::onUpdate(Status const &status) noexcept {
-
     }
 
     void BlockRobot::onTerminate() noexcept {
@@ -41,7 +39,6 @@ namespace rtt::ai::stp::tactic {
     double BlockRobot::calculateAngle(const world_new::view::RobotView enemy, Vector2 targetLocation) {
         Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
         return lineEnemyToTarget.angle();
-
     }
 
     Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation) {

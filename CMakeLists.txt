@@ -176,7 +176,6 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockRobot.cpp
-
         )
 
 set(NEW_ROLES_SOURCES
