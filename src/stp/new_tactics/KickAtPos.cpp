@@ -4,14 +4,14 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
-#include <stp/new_skills/Rotate.h>
 #include <stp/new_skills/Kick.h>
+#include <stp/new_skills/Rotate.h>
 
 namespace rtt::ai::stp::tactic {
 
 KickAtPos::KickAtPos() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{Rotate(), Kick()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Kick()};
     skills.initialize();
 }
 
@@ -44,7 +44,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 }
 
 /// Determine how fast we should kick for a pass at a given distance
-double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept{
+double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
     double velocity = 0;
@@ -82,5 +82,15 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
 
     // limit the output to the max kick speed
     return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
+}
+
+bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
+    // Fail tactic if the robot doesn't have the ball or if the targetPosType is not a shootTarget
+    return !info.getRobot()->hasBall() || info.getTargetPos().first != SHOOTTARGET;
+}
+
+bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
+    // Never reset tactic
+    return false;
 }
 }  // namespace rtt::ai::stp::tactic

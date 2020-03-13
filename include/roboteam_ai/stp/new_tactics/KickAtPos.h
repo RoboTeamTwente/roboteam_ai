@@ -43,6 +43,10 @@ class KickAtPos : public Tactic {
      * @return the speed the kicker needs to kick at
      */
     double determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept;
+
+    bool isTacticFailing(const StpInfo &info) noexcept override;
+
+    bool shouldTacticReset(const StpInfo &info) noexcept override;
 };
 }  // namespace rtt::ai::stp::tactic
 
