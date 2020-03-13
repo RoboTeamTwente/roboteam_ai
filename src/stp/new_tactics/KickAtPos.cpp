@@ -84,6 +84,11 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
 }
 
+bool KickAtPos::isEndTactic() noexcept {
+    // This is not an end tactic
+    return false;
+}
+
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if the robot doesn't have the ball or if the targetPosType is not a shootTarget
     return !info.getRobot()->hasBall() || info.getTargetPos().first != SHOOTTARGET;
