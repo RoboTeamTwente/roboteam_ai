@@ -68,6 +68,16 @@ class Tactic {
      * Ensure proper destruction of Tactic classes
      */
     virtual ~Tactic() = default;
+
+    /**
+     * Default ctor, ensures proper construction of Tactic
+     */
+    Tactic() = default;
+
+    /**
+     * Default move-ctor, ensures proper move-construction of Tactic
+     */
+    Tactic(Tactic &&other) = default;
 };
 }  // namespace rtt::ai::stp
 
