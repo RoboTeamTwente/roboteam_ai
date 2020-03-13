@@ -9,7 +9,7 @@
 namespace rtt::ai::stp::tactic {
 
     BlockRobot::BlockRobot() {
-        skills = rtt::collections::state_machine<Skill, Status, StpInfo>{GoToPos(), Rotate()};
+        skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
         skills.initialize();
     }
 
@@ -28,13 +28,13 @@ namespace rtt::ai::stp::tactic {
         }
     }
 
-    // TODO: add blockDistance to STPInfo and calculate it
-    // TODO: Calculate the angle to be facing the second position
     StpInfo BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
         StpInfo skillStpInfo = info;
         skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getTargetPos().second));
-        auto moveTarget = calculateMoveTarget(info.getBlockDistance(), info.getEnemyRobot().value(), info.getTargetPos().second);
-        skillStpInfo.setTargetPos(std::make_pair(TargetType::MOVETARGET, moveTarget));
+
+        auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getTargetPos().second);
+        skillStpInfo.setTargetPos(std::make_pair(TargetType::MOVETARGET, desiredRobotPosition));
+
         return skillStpInfo;
     }
 
@@ -44,10 +44,24 @@ namespace rtt::ai::stp::tactic {
 
     }
 
-    Vector2 BlockRobot::calculateMoveTarget(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation) {
+    Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation) {
         Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
         double proportion = double(blockDistance)/4;
         auto movePosition = lineEnemyToTarget*proportion;
         return movePosition + enemy->getPos();
+    }
+
+    bool BlockRobot::isEndTactic() noexcept {
+        return true;
+    }
+
+    bool BlockRobot::isTacticFailing(const StpInfo &info) noexcept {
+        return false;
+    }
+
+    bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
+        auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getTargetPos().second);
+        auto currentRobotPosition = info.getRobot().value()->getPos();
+        return (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
     }
 }

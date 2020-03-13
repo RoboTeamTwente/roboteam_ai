@@ -11,8 +11,11 @@ namespace rtt::ai::stp::tactic {
     class BlockRobot : public Tactic {
     public:
         BlockRobot();
+        virtual bool isEndTactic() noexcept;
 
     private:
+        // TODO: make this a sensible margin
+        const double errorMargin = 4*Constants::ROBOT_RADIUS();
         /**
          * On initialization of this tactic, initialize the state machine with skills
          */
@@ -52,8 +55,12 @@ namespace rtt::ai::stp::tactic {
          * or our goal
          * @return the desired position to block the target.
          */
-        Vector2 calculateMoveTarget(BlockDistance blockDistance, const world_new::view::RobotView enemy,
-                            Vector2 targetLocation);
+        Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy,
+                                              Vector2 targetLocation);
+
+        virtual bool isTacticFailing(const StpInfo &info) noexcept;
+        virtual bool shouldTacticReset(const StpInfo &info) noexcept;
+
     };
 }
 
