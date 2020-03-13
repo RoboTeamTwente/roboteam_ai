@@ -44,7 +44,7 @@ class KickAtPos : public Tactic {
      */
     double determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept;
 
-    virtual bool isEndTactic() noexcept override;
+    bool isEndTactic() noexcept override;
 
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
