@@ -35,7 +35,7 @@ namespace rtt::ai::stp::tactic {
         skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getTargetPos().second));
         auto moveTarget = calculateMoveTarget(info.getBlockDistance(), info.getEnemyRobot().value(), info.getTargetPos().second);
         skillStpInfo.setTargetPos(std::make_pair(TargetType::MOVETARGET, moveTarget));
-
+        return skillStpInfo;
     }
 
     double BlockRobot::calculateAngle(const world_new::view::RobotView enemy, Vector2 targetLocation) {
@@ -46,7 +46,7 @@ namespace rtt::ai::stp::tactic {
 
     Vector2 BlockRobot::calculateMoveTarget(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation) {
         Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
-        auto proportion = blockDistance/4;
+        double proportion = double(blockDistance)/4;
         auto movePosition = lineEnemyToTarget*proportion;
         return movePosition + enemy->getPos();
     }
