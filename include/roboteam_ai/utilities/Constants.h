@@ -48,6 +48,7 @@ class Constants {
     static double MIN_ANGLE();
     static double MAX_ANGLE();
     static double MAX_ANGULAR_VELOCITY();  // Rad per second
+    static int MAX_DRIBBLER_CMD();
 
     /// ACCELERATION LIMITERS ///
     static double MIN_VEL();        // Minimum velocity to make the robot move
