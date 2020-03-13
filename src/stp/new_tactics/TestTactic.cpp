@@ -11,7 +11,7 @@ namespace rtt::ai::stp {
 
 TestTactic::TestTactic(){
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{GoToPos(), Rotate()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
     skills.initialize();
 }
 
@@ -35,6 +35,14 @@ StpInfo TestTactic::calculateInfoForSkill(StpInfo const& info) noexcept {
     skillStpInfo.setDribblerSpeed(31);
 
     return skillStpInfo;
+}
+
+bool TestTactic::isTacticFailing(const StpInfo &info) noexcept {
+    return false;
+}
+
+bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept {
+    return false;
 }
 
 }  // namespace rtt::ai::stp

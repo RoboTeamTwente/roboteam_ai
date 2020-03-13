@@ -7,7 +7,7 @@
 
 #include "include/roboteam_ai/stp/Skill.h"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::skill {
 
 class Kick : public Skill {
     /**
@@ -26,6 +26,6 @@ class Kick : public Skill {
     void onTerminate() noexcept override;
 };
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::skill
 
 #endif  // RTT_KICK_H
