@@ -4,24 +4,20 @@
 
 #include "include/roboteam_ai/stp/new_skills/Chip.h"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::skill {
 
 void Chip::onInitialize() noexcept {}
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
-    double chipVelocity = info.getKickChipVelocity();
-
-    // Check if chip velocity is in range
-    if (chipVelocity < 0.0 || chipVelocity > Constants::MAX_KICK_POWER()) {
-        return Status::Failure;
-    }
+    // Clamp and set chip velocity
+    double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, Constants::MAX_KICK_POWER());
 
     // Set chip command
     command.set_chipper(true);
     command.set_chip_kick_vel(chipVelocity);
 
     // Set angle command
-    command.set_w(info.getRobot().value()->getAngle());
+    command.set_w(info.getRobot().value()->getAngle().getAngle());
 
     publishRobotCommand();
 
@@ -30,4 +26,4 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
 void Chip::onTerminate() noexcept {}
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::skill
