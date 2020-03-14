@@ -28,7 +28,10 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world) {
-    auto field = world_new::World::instance()->getField().value();
+    auto field = world_new::World::instance()->getField();
+    if (!field){
+        return;
+    }
     auto us =world->getUs();
 
     // reload the widgets completely if a robot is added or removed
@@ -42,7 +45,7 @@ void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::
             groupBox->setCheckable(true);
             groupBox->setChecked(visualizer->robotIsSelected(robot->getId()));
             QObject::connect(groupBox, &QGroupBox::clicked, [=]() { visualizer->toggleSelectedRobot(robot); });
-            groupBox->setLayout(createRobotGroupItem(field, robot));
+            groupBox->setLayout(createRobotGroupItem(*field, robot));
             VLayout->addWidget(groupBox);
         }
     } else {
@@ -52,7 +55,7 @@ void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::
                 MainWindow::clearLayout(robotwidget->layout());
                 delete robotwidget->layout();
                 if (!robotwidget->layout()) {
-                    robotwidget->setLayout(createRobotGroupItem(field, world.getUs().at(i)));
+                    robotwidget->setLayout(createRobotGroupItem(*field, world.getUs().at(i)));
                 }
             }
         }
