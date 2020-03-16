@@ -35,7 +35,7 @@ namespace rtt::ai::stp::tactic {
         Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::ROBOT_RADIUS());
         if (ballDistance < 3 * Constants::ROBOT_RADIUS()){
             tacticInfo.setAngle((ballPosition - robotPosition).angle());
-            tacticInfo.setDribblerSpeed(31);
+            tacticInfo.setDribblerSpeed(100);
         }
 
         tacticInfo.setPosition(std::make_pair(PositionType::MOVE_TO_POSITION, newRobotPosition));
