@@ -24,6 +24,14 @@ protected:
 
     void onTerminate() noexcept override;
 
+    /**
+     * See base class' implementation for details. <br><br>
+     * Extra information for this skill is the target position (which will be a point
+     * close to the ball between it and the robot, the rotation angle (the robot will
+     * face the ball after getting close) and dribbler.
+     * @param info tactic info passed from play
+     * @return the modified tactic info with the new data
+     */
     StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
