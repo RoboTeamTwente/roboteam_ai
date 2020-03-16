@@ -108,7 +108,7 @@ double Constants::MAX_RECEIVE_TIME() { return 1.0; }
 
 double Constants::BALL_STILL_VEL() { return 0.1; }
 
-double Constants::GOTOPOS_ERROR_MARGIN() { return 0.3; }
+double Constants::GOTOPOS_ERROR_MARGIN() { return 0.03; }
 
 double Constants::GOTOPOS_ANGLE_ERROR_MARGIN() { return 0.03; }
 
