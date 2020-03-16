@@ -64,7 +64,7 @@ void TestPlay::assignRoles() noexcept {
                 auto robot = stpInfos[roleName].getRobot().value();
                 // TODO calculate additional info
                 stpInfos[roleName].setTargetPos({MOVETARGET, world->getWorld()->getBall()->get()->getPos()});
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[1]);
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[0]);
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
             }
         }
