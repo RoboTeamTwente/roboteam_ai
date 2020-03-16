@@ -61,7 +61,7 @@ void TestPlay::calculateInfoForPlay() noexcept {
                 auto robot = stpInfos.find(roleName)->second.getRobot().value();
 
                 // TODO calculate additional info
-                stpInfos[roleName].setTargetPos({SHOOTTARGET, {robot->getId()*0.2, robot->getId()*0.2}});
+                stpInfos[roleName].setPosition({SHOOT_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
             }
         }
     }

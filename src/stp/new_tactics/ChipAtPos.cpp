@@ -30,11 +30,11 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
-    double angleToBall = (info.getTargetPos().second - info.getBall()->get()->getPos()).angle();
+    double angleToBall = (info.getPosition().second - info.getBall()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);
 
     // Calculate the distance and the chip force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getTargetPos().second).length();
+    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineChipForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
     // When chipping, we don't need to activate the dribbler
@@ -91,7 +91,7 @@ bool ChipAtPos::isEndTactic() noexcept {
 
 bool ChipAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if the robot doesn't have the ball or if the targetPosType is not a shootTarget
-    return !info.getRobot()->hasBall() || info.getTargetPos().first != SHOOTTARGET;
+    return !info.getRobot()->hasBall() || info.getPosition().first != SHOOT_TO_POSITION;
 }
 
 bool ChipAtPos::shouldTacticReset(const StpInfo &info) noexcept {
