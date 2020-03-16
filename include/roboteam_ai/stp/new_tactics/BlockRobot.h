@@ -15,7 +15,7 @@ namespace rtt::ai::stp::tactic {
 
     private:
         // TODO: make this a sensible margin
-        const double errorMargin = 4*Constants::ROBOT_RADIUS();
+        const double errorMargin = 1*Constants::ROBOT_RADIUS();
         /**
          * On initialization of this tactic, initialize the state machine with skills
          */

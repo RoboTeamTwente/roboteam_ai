@@ -59,6 +59,8 @@ namespace rtt::ai::stp::tactic {
     bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
         auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getTargetPos().second);
         auto currentRobotPosition = info.getRobot().value()->getPos();
-        return (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
+        auto cond = (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
+        RTT_SUCCESS(cond, 'reset')
+        return cond;
     }
 }
