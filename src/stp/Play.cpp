@@ -29,7 +29,8 @@ Status Play::update() noexcept {
         auto roleName{each->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
             // TODO refresh robots
-            stpInfos.find(roleName)->second.setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
+            stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
+            stpInfos[roleName].setBall(world->getWorld()->getBall());
 
             auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
             count[index] += 1;

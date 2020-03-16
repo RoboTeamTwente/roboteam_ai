@@ -8,11 +8,13 @@
 #include "stp/new_skills/GoToPos.h"
 
 namespace rtt::ai::stp::tactic {
-    void GetBall::onInitialize() noexcept {
-        skills = collections::state_machine<Skill, Status, StpInfo>{GoToPos(), Rotate()};
+    GetBall::GetBall() {
+        skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
 
         skills.initialize();
     }
+
+    void GetBall::onInitialize() noexcept {}
 
     void GetBall::onUpdate(Status const &status) noexcept {}
 

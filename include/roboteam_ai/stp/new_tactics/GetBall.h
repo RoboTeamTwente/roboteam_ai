@@ -13,8 +13,13 @@ namespace rtt::ai::stp::tactic {
  * It cannot fail, and it's getting reset when there the robot loses the ball. It's not an
  * end tactic, therefore it can succeed.
  */
-class GetBall : protected Tactic {
-   protected:
+class GetBall : public Tactic {
+public:
+    GetBall();
+
+protected:
+
+
     void onInitialize() noexcept override;
 
     void onUpdate(Status const &status) noexcept override;
