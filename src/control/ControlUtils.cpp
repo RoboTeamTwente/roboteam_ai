@@ -47,12 +47,6 @@ double ControlUtils::constrainAngle(double angle) {
     return angle - M_PI;
 }
 
-/// Maps the input angle to be within the range of -PI - PI
-    double ControlUtils::constrainAngleMinusPiToPi(double angle) {
-        angle = constrainAngle(angle);
-        return angle < M_PI ? angle : angle - 2 * M_PI;
-    }
-
 bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin, const Vector2 &lineEnd) {
     Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
     double xMin = std::min(lineBegin.x, lineEnd.x);

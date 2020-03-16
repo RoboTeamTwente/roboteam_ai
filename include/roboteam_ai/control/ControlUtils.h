@@ -41,8 +41,6 @@ class Robot;
 
             static double constrainAngle(double angle);
 
-            static double constrainAngleMinusPiToPi(double angle);
-
             static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
 
             static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
