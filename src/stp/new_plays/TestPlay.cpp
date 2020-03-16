@@ -51,7 +51,6 @@ void TestPlay::assignRoles() noexcept {
             stpInfos[roleName].setField(*world->getField());
 
             // TODO calculate additional info
-
         }
     }
 }
