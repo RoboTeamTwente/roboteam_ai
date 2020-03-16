@@ -21,7 +21,12 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    return Status::Success;
+    if(info.getBall()->get()->getVelocity().length() > Constants::BALL_STILL_VEL()) {
+        return Status::Success;
+    }
+    else {
+        return Status::Running;
+    }
 }
 
 void Chip::onTerminate() noexcept {}

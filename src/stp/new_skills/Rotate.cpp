@@ -19,7 +19,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
 
     // Set angle command
-    command.set_w(targetAngle.getAngle());
+    command.set_w(targetAngle);
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
@@ -28,7 +28,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
-    if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+    if (fabs(info.getRobot().value()->getAngle() - targetAngle) < errorMargin) {
         return Status::Success;
     } else {
         return Status::Running;
