@@ -25,7 +25,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Constrain and set angle between -pi and pi
-    double targetAngle = rtt::ai::control::ControlUtils::constrainAngle(robotCommand.angle) - M_PI;
+    double targetAngle = rtt::ai::control::ControlUtils::constrainAngleMinusPiToPi(robotCommand.angle);
 
     // Set velocity and angle commands
     command.mutable_vel()->set_x(targetVelocity.x);
