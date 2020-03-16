@@ -99,8 +99,8 @@ struct StpInfo {
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
 
-    float getAngle() const { return angle; }
-    void setAngle(float angle) { this->angle = angle; }
+    Angle getAngle() const { return angle; }
+    void setAngle(double angle) { this->angle = Angle(angle); }
 
     int getDribblerSpeed() const { return dribblerSpeed; }
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
@@ -139,10 +139,10 @@ struct StpInfo {
     /**
      * Reference angle of the robot
      */
-    float angle = 0.0;
+    Angle angle = Angle(0.0);
 
     /**
-     * Speed of the dribbler
+     * Speed of the dribbler in %
      */
     int dribblerSpeed = 0;
 };

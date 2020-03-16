@@ -7,7 +7,7 @@
 
 #include "include/roboteam_ai/stp/Skill.h"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::skill {
 
 class Rotate : public Skill {
     /**
@@ -26,6 +26,6 @@ class Rotate : public Skill {
     void onTerminate() noexcept override;
 };
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::skill
 
 #endif  // RTT_ROTATE_H

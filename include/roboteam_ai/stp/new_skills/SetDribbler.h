@@ -7,7 +7,7 @@
 
 #include "include/roboteam_ai/stp/Skill.h"
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::skill {
 
 class SetDribbler : public Skill {
    public:
@@ -27,6 +27,6 @@ class SetDribbler : public Skill {
     void onTerminate() noexcept override;
 };
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::skill
 
 #endif  // RTT_SETDRIBBLER_H
