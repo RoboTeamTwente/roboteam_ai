@@ -39,7 +39,7 @@ class TestPlay : public Play {
      */
     void assignRoles() noexcept;
 
-    [[nodiscard]] virtual void calculateInfoForPlay() noexcept override;
+    [[nodiscard]] void calculateInfoForPlay() noexcept override;
 };
 }  // namespace rtt::ai::stp
 

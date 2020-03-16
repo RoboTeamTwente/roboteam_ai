@@ -19,7 +19,6 @@ public:
     void assignRoles() noexcept override {
     }
     [[nodiscard]] virtual void calculateInfoForPlay() noexcept {
-
     }
 
 };
@@ -37,7 +36,6 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     }
 
     [[nodiscard]] virtual void calculateInfoForPlay() noexcept {
-
     }
 };
 

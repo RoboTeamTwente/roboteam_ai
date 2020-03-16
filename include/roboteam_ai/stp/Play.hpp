@@ -43,7 +43,7 @@ class Play {
      */
     [[nodiscard]] virtual Status update() noexcept;
 
-    [[nodiscard]] virtual void calculateInfoForPlay() noexcept = 0;
+    virtual void calculateInfoForPlay() noexcept = 0;
 
     /**
      * Checks whether the current play is a valid play
