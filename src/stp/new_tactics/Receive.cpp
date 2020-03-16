@@ -56,7 +56,7 @@ namespace rtt::ai::stp::tactic {
     }
 
     double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
-        return (robot->getPos() - ball->getPos()).angle();
+        return (ball->getPos() - robot->getPos()).angle();
     }
 
     int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
