@@ -20,7 +20,6 @@ public:
     }
     virtual void calculateInfoForPlay() noexcept {
     }
-
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
