@@ -13,7 +13,7 @@ namespace rtt::ai::stp::skill {
 void GoToPos::onInitialize() noexcept { }
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    Vector2 targetPos = info.getTargetPos().second;
+    Vector2 targetPos = info.getPosition().second;
 
     // Calculate commands from path planning and tracking
     auto robotCommand = world_new::World::instance()->getRobotPositionController()->
@@ -24,13 +24,10 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, Constants::MAX_VEL_CMD());
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
-    // Constrain and set angle between -pi and pi
-    double targetAngle = rtt::ai::control::ControlUtils::constrainAngle(robotCommand.angle) - M_PI;
-
     // Set velocity and angle commands
     command.mutable_vel()->set_x(targetVelocity.x);
     command.mutable_vel()->set_y(targetVelocity.y);
-    command.set_w(targetAngle);
+    command.set_w(robotCommand.angle.getAngle());
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);

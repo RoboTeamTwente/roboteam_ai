@@ -30,11 +30,11 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
-    double angleToBall = (info.getTargetPos().second - info.getBall()->get()->getPos()).angle();
+    double angleToBall = (info.getPosition().second - info.getBall()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);
 
     // Calculate the distance and the kick force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getTargetPos().second).length();
+    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
     // When kicking, we don't need to activate the dribbler
@@ -91,7 +91,7 @@ bool KickAtPos::isEndTactic() noexcept {
 
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if the robot doesn't have the ball or if the targetPosType is not a shootTarget
-    return !info.getRobot()->hasBall() || info.getTargetPos().first != SHOOTTARGET;
+    return !info.getRobot()->hasBall() || info.getPosition().first != SHOOT_TO_POSITION;
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {

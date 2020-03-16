@@ -43,6 +43,8 @@ class Play {
      */
     [[nodiscard]] virtual Status update() noexcept;
 
+    virtual void calculateInfoForPlay() noexcept = 0;
+
     /**
      * Checks whether the current play is a valid play
      * @param world World to check for (world_new::World::instance())

@@ -12,8 +12,7 @@ namespace rtt::ai::stp::skill {
 void Rotate::onInitialize() noexcept {}
 
 Status Rotate::onUpdate(const StpInfo &info) noexcept {
-    // Constrain and set angle between -pi and pi
-    double targetAngle = rtt::ai::control::ControlUtils::constrainAngle(info.getAngle()) - M_PI;
+    auto targetAngle = info.getAngle();
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
@@ -29,7 +28,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
-    if (rtt::ai::control::ControlUtils::angleDifference(info.getRobot().value()->getAngle().getAngle(), targetAngle) < errorMargin) {
+    if (fabs(info.getRobot().value()->getAngle() - targetAngle) < errorMargin) {
         return Status::Success;
     } else {
         return Status::Running;

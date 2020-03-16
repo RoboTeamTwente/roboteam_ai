@@ -72,11 +72,11 @@ struct Areas {
     }
 };
 
-enum targetType {
-    MOVETARGET,
-    RECEIVETARGET,
-    SHOOTTARGET,
-    DEFENDTARGET
+enum PositionType {
+    MOVE_TO_POSITION,
+    RECEIVE_AT_POSITION,
+    SHOOT_TO_POSITION,
+    DEFEND_POSITION
 };
 
 /**
@@ -103,14 +103,14 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::pair<targetType, Vector2>& getTargetPos() const { return targetPos; }
-    void setTargetPos(const std::pair<targetType, Vector2>& targetPos) { this->targetPos = targetPos; }
+    const std::pair<PositionType, Vector2>& getPosition() const { return position; }
+    void setPosition(const std::pair<PositionType, Vector2>& position) { this->position = position; }
 
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
 
-    double getAngle() const { return angle; }
-    void setAngle(double angle) { this->angle = angle; }
+    Angle getAngle() const { return angle; }
+    void setAngle(double angle) { this->angle = Angle(angle); }
 
     int getDribblerSpeed() const { return dribblerSpeed; }
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
@@ -140,9 +140,9 @@ struct StpInfo {
     std::optional<world_new::view::BallView> ball;
 
     /**
-     * Tuple of the targetType and the position of this target
+     * Tuple of the PositionType and the position of this target
      */
-    std::pair<targetType, Vector2> targetPos;
+    std::pair<PositionType, Vector2> position;
 
     /**
      * Velocity of the kick/chip
@@ -157,7 +157,7 @@ struct StpInfo {
     /**
      * Reference angle of the robot
      */
-    double angle = 0.0;
+    Angle angle = Angle(0.0);
 
     /**
      * Speed of the dribbler in %

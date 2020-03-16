@@ -77,12 +77,27 @@ class Tactic {
      * Calls onTerminate
      */
     virtual void terminate() noexcept;
+  
+    /**
+     * Ensure proper destruction of Tactic classes
+     */
+    virtual ~Tactic() = default;
 
     /**
      * Check if the current tactic is an end tactic - only Running or Failure status
      * @return true if the current tactic cannot succeed (i.e. is an end tactic); default false
      */
     virtual bool isEndTactic() noexcept;
+
+    /**
+     * Default ctor, ensures proper construction of Tactic
+     */
+    Tactic() = default;
+
+    /**
+     * Default move-ctor, ensures proper move-construction of Tactic
+     */
+    Tactic(Tactic &&other) = default;
 };
 }  // namespace rtt::ai::stp
 
