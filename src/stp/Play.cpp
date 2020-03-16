@@ -25,19 +25,23 @@ Status Play::update() noexcept {
         assignRoles();
     }
 
+    calculateInfoForPlay();
+
     for (auto& each : roles) {
         auto roleName{each->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
             // TODO refresh robots in a neater way than is done now.
             // This is necessary to prevent the robotview from going out of scope
             stpInfos.find(roleName)->second.setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
-            stpInfos.find(roleName)->second.setEnemyRobot(world->getWorld()->getThem()[1]);
+            stpInfos.find(roleName)->second.setField(world->getField());
+            stpInfos.find(roleName)->second.setBall(world->getWorld()->getBall());
+
 
             auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
             count[index] += 1;
         }
     }
-    calculateInfoForPlay();
+
     if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
         return Status::Success;
     }
