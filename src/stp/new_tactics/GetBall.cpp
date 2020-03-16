@@ -38,7 +38,7 @@ namespace rtt::ai::stp::tactic {
             tacticInfo.setDribblerSpeed(31);
         }
 
-        tacticInfo.setTargetPos(std::make_pair(targetType::MOVETARGET, newRobotPosition));
+        tacticInfo.setPosition(std::make_pair(PositionType::MOVE_TO_POSITION, newRobotPosition));
 
         return tacticInfo;
     }
