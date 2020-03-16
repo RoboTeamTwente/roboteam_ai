@@ -72,11 +72,12 @@ struct Areas {
     }
 };
 
-enum TargetType {
-    MOVETARGET,
-    RECEIVETARGET,
-    SHOOTTARGET,
-    DEFENDTARGET
+
+enum PositionType {
+    MOVE_TO_POSITION,
+    RECEIVE_AT_POSITION,
+    SHOOT_TO_POSITION,
+    DEFEND_POSITION
 };
 enum BlockDistance {
     CLOSE = 1,
@@ -98,8 +99,8 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::pair<TargetType, Vector2>& getTargetPos() const { return targetPos; }
-    void setTargetPos(const std::pair<TargetType, Vector2>& targetPos) { this->targetPos = targetPos; }
+    const std::pair<PositionType, Vector2>& getPosition() const { return position; }
+    void setPosition(const std::pair<PositionType, Vector2>& position) { this->position = position; }
 
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
@@ -135,9 +136,10 @@ struct StpInfo {
     std::optional<world_new::view::BallView> ball;
 
     /**
-     * Tuple of the TargetType and the position of this target
+
+     * Tuple of the PositionType and the position of this target
      */
-    std::pair<TargetType, Vector2> targetPos;
+    std::pair<PositionType, Vector2> position;
 
     /**
      * Velocity of the kick/chip
