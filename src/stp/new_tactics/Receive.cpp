@@ -18,6 +18,10 @@ namespace rtt::ai::stp::tactic {
     }
 
     void Receive::onUpdate(Status const &status) noexcept {
+        // Keep executing Rotate skill
+        if (skills.current_num() == skills.total_count()) {
+            skills.skip_n(-1);
+        }
     }
 
     void Receive::onTerminate() noexcept {
