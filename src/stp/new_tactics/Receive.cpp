@@ -45,7 +45,7 @@ namespace rtt::ai::stp::tactic {
 
     bool Receive::isTacticFailing(const StpInfo &info) noexcept {
         // Receive tactic fails if targetType is not a receiveTarget
-        return info.getTargetPos().first != RECEIVETARGET;
+        return info.getTargetPos().first != RECEIVE_AT_POSITION;
     }
 
     bool Receive::shouldTacticReset(const StpInfo &info) noexcept {
