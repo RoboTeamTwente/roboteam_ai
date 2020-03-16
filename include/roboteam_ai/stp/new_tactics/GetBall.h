@@ -18,8 +18,6 @@ public:
     GetBall();
 
 protected:
-
-
     void onInitialize() noexcept override;
 
     void onUpdate(Status const &status) noexcept override;
