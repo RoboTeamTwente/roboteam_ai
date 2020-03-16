@@ -93,8 +93,8 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::pair<PositionType, Vector2>& getTargetPos() const { return targetPos; }
-    void setTargetPos(const std::pair<PositionType, Vector2>& targetPos) { this->targetPos = targetPos; }
+    const std::pair<PositionType, Vector2>& getPosition() const { return position; }
+    void setPosition(const std::pair<PositionType, Vector2>& position) { this->position = position; }
 
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
@@ -129,7 +129,7 @@ struct StpInfo {
     /**
      * Tuple of the PositionType and the position of this target
      */
-    std::pair<PositionType, Vector2> targetPos;
+    std::pair<PositionType, Vector2> position;
 
     /**
      * Velocity of the kick/chip
