@@ -24,13 +24,10 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, Constants::MAX_VEL_CMD());
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
-    // Constrain and set angle between -pi and pi
-    double targetAngle = rtt::ai::control::ControlUtils::constrainAngle(robotCommand.angle) - M_PI;
-
     // Set velocity and angle commands
     command.mutable_vel()->set_x(targetVelocity.x);
     command.mutable_vel()->set_y(targetVelocity.y);
-    command.set_w(targetAngle);
+    command.set_w(robotCommand.angle.getAngle());
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);

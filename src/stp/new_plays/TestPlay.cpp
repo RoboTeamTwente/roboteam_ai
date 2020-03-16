@@ -50,10 +50,21 @@ void TestPlay::assignRoles() noexcept {
             stpInfos[roleName].setRobot(robot);
             stpInfos[roleName].setField(*world->getField());
             stpInfos[roleName].setBall(*world->getWorld()->getBall());
-
-            // TODO calculate additional info
-            stpInfos[roleName].setTargetPos({SHOOTTARGET, {robot->getId()*0.2, robot->getId()*0.2}});
         }
     }
 }
+
+void TestPlay::calculateInfoForPlay() noexcept {
+        for (auto & role : roles) {
+            auto roleName{role->getName()};
+            if (stpInfos.find(roleName) != stpInfos.end()) {
+                auto robot = stpInfos.find(roleName)->second.getRobot().value();
+
+                // TODO calculate additional info
+                stpInfos[roleName].setTargetPos({SHOOTTARGET, {robot->getId()*0.2, robot->getId()*0.2}});
+            }
+        }
+    }
+
+
 }  // namespace rtt::ai::stp

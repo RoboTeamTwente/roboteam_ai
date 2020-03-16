@@ -25,6 +25,8 @@ Status Play::update() noexcept {
         assignRoles();
     }
 
+    calculateInfoForPlay();
+
     for (auto& each : roles) {
         auto roleName{each->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
