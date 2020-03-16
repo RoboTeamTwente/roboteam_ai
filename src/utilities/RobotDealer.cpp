@@ -338,7 +338,7 @@ std::string RobotDealer::getTacticNameForId(int ID) {
             }
         }
     }
-    RTT_WARNING("No robot with that ID: ", ID);
+//    RTT_WARNING("No robot with that ID: ", ID);
     return "";
 }
 

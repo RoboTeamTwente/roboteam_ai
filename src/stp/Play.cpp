@@ -37,7 +37,7 @@ Status Play::update() noexcept {
             count[index] += 1;
         }
     }
-
+    calculateInfoForPlay();
     if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
         return Status::Success;
     }
