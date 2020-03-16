@@ -49,6 +49,7 @@ void TestPlay::assignRoles() noexcept {
             stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
             stpInfos[roleName].setField(*world->getField());
+            stpInfos[roleName].setBall(world->getWorld()->getBall());
 
             // TODO calculate additional info
             stpInfos[roleName].setTargetPos({MOVETARGET, {robot->getId()*0.5, robot->getId()*0.5}});
