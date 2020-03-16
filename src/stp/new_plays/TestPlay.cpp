@@ -52,7 +52,6 @@ void TestPlay::assignRoles() noexcept {
 
             // TODO calculate additional info
 
-
         }
     }
 }
