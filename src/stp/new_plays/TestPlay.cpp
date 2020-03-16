@@ -52,7 +52,7 @@ void TestPlay::assignRoles() noexcept {
             stpInfos[roleName].setBall(world->getWorld()->getBall());
 
             // TODO calculate additional info
-            stpInfos[roleName].setTargetPos({MOVETARGET, {robot->getId()*0.5, robot->getId()*0.5}});
+            stpInfos[roleName].setTargetPos({MOVETARGET, {robot->getId()*0.2, robot->getId()*0.2}});
         }
     }
 }

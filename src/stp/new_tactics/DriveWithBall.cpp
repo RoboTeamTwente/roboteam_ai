@@ -43,6 +43,6 @@ StpInfo DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
 bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept { return !info.getRobot()->hasBall() || info.getTargetPos().first != MOVETARGET; }
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
-    return info.getRobot()->get()->getAngle() != (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
+    return fabs(info.getRobot()->get()->getAngle() + (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle()) <= Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
 }
 }  // namespace rtt::ai::stp::tactic
