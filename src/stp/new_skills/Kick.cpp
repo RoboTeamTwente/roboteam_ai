@@ -24,9 +24,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     if(info.getBall()->get()->getVelocity().length() > Constants::BALL_STILL_VEL()) {
         return Status::Success;
     }
-    else {
-        return Status::Running;
-    }
+    return Status::Running;
 }
 
 void Kick::onTerminate() noexcept {}
