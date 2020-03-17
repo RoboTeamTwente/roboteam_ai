@@ -16,6 +16,10 @@ class TestRole : public Role {
      * @param name name of the role
      */
     TestRole(std::string name);
+
+private:
+    virtual StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
+    virtual bool shouldRoleReset(const StpInfo &info) noexcept override;
 };
 }  // namespace rtt::ai::stp
 

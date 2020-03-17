@@ -15,4 +15,8 @@ TestRole::TestRole(std::string name) : Role(std::move(name)) {
     robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::BlockRobot()};
     robotTactics.initialize();
 }
+
+StpInfo TestRole::calculateInfoForTactic(StpInfo const &info) noexcept {};
+
+bool TestRole::shouldRoleReset(const StpInfo &info) noexcept {};
 }  // namespace rtt::ai::stp
