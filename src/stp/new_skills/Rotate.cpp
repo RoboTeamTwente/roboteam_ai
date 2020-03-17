@@ -28,7 +28,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
-    if (fabs(info.getRobot().value()->getAngle() - targetAngle) < errorMargin) {
+    if (fabs(info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle)) < errorMargin) {
         return Status::Success;
     } else {
         return Status::Running;
