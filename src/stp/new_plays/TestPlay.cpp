@@ -48,9 +48,6 @@ void TestPlay::assignRoles() noexcept {
 
             stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
-            stpInfos[roleName].setField(*world->getField());
-
-            // TODO calculate additional info
         }
     }
 }
@@ -63,7 +60,7 @@ void TestPlay::assignRoles() noexcept {
                 // TODO calculate additional info
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[0]);
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
-                stpInfos[roleName].setPosition({MOVE_TO_POSITION, world->getWorld()->getBall()->get()->getPos()});
+                stpInfos[roleName].setPosition({SHOOT_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
             }
         }
     }
