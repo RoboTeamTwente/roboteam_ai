@@ -78,12 +78,11 @@ enum PositionType {
     SHOOT_TO_POSITION,
     DEFEND_POSITION
 };
-
-
-
-/**
- * Enum for the kick/chip speed type
- */
+enum BlockDistance {
+    CLOSE = 1,
+    HALFWAY,
+    FAR
+};
 enum KickChipType{
     DRIBBLE_KICK,
     BALL_PLACEMENT,
@@ -116,6 +115,9 @@ struct StpInfo {
 
     int getDribblerSpeed() const { return dribblerSpeed; }
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
+
+    BlockDistance getBlockDistance() const { return blockDistance; }
+    void setBlockDistance(BlockDistance blockDistance) { StpInfo::blockDistance = blockDistance; }
 
     KickChipType getKickChipType() const { return kickChipType; }
     void setKickChipType(KickChipType kickChipType) { StpInfo::kickChipType = kickChipType; }
@@ -165,6 +167,12 @@ struct StpInfo {
      * Speed of the dribbler in %
      */
     int dribblerSpeed = 0;
+
+    /**
+     * When blocking off a position, the robot is on line between a targetposition to block, and the enemy robot.
+     * Used to decide how close this robot should be to enemy robot
+     */
+    BlockDistance blockDistance;
 };
 };  // namespace rtt::ai::stp
 
