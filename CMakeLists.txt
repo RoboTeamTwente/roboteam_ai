@@ -274,6 +274,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
         )
 
 
