@@ -10,7 +10,7 @@
 #include <utility>
 #include <include/roboteam_ai/stp/new_tactics/Receive.h>
 
-namespace rtt::ai::stp::role {
+namespace rtt::ai::stp {
 
     PassReceiver::PassReceiver(std::string name) : Role(std::move(name)) {
         // create state machine and initializes the first state

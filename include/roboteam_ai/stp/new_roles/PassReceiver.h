@@ -7,14 +7,14 @@
 
 #include "stp/Role.hpp"
 
-namespace rtt::ai::stp::role {
-    class PassReceiver : Role {
+namespace rtt::ai::stp {
+    class PassReceiver : public Role {
     public:
         /**
          * Ctor that sets the name of the role and creates a statemachine of tactics
          * @param name name of the role
          */
-        PassReceiver(std::string name);
+        explicit PassReceiver(std::string name);
     };
 }
 
