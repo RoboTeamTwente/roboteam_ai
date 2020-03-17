@@ -38,8 +38,11 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When turning, we need to dribble to keep the ball
-    skillStpInfo.setDribblerSpeed(31);
+    // When rotating, we need to dribble to keep the ball, but when kicking we don't
+    if(skills.current_num() == 0) {
+        skillStpInfo.setDribblerSpeed(31);
+    }
+    skillStpInfo.setDribblerSpeed(0);
 
     return skillStpInfo;
 }
