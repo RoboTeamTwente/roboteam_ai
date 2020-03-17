@@ -4,6 +4,7 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
+#include <roboteam_utils/Print.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
 
@@ -27,6 +28,11 @@ void KickAtPos::onTerminate() noexcept {
 }
 
 StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
+    if (!info.getBall() || !info.getRobot() || !info.getField()) {
+        RTT_WARNING("No Ball, Robot or Field present in StpInfo");
+        return {};
+    }
+
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
