@@ -61,7 +61,6 @@ void TestPlay::calculateInfoForPlay() noexcept {
                 stpInfos[roleName].setPosition({SHOOT_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[0]);
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
-
             }
         }
     }
