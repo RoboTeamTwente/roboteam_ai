@@ -29,11 +29,11 @@ namespace rtt::ai::stp::tactic {
         double ballDistance = (ballPosition - robotPosition).length();
         Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::ROBOT_RADIUS());
         if (ballDistance < 3 * Constants::ROBOT_RADIUS()){
-            skillInfo.setAngle((float)(ballPosition - robotPosition).angle());
-            skillInfo.setDribblerSpeed(31);
+            skillInfo.setAngle((ballPosition - robotPosition).angle());
+            skillInfo.setDribblerSpeed(100);
         }
 
-        skillInfo.setTargetPos(std::make_pair(targetType::MOVETARGET, newRobotPosition));
+        skillInfo.setTargetPos(std::make_pair(PositionType::MOVETARGET, newRobotPosition));
 
         return skillInfo;
     }
