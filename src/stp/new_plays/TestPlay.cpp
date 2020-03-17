@@ -53,13 +53,13 @@ void TestPlay::assignRoles() noexcept {
     }
 }
 
-    void TestPlay::calculateInfoForPlay() noexcept {
+void TestPlay::calculateInfoForPlay() noexcept {
         for (auto & role : roles) {
             auto roleName{role->getName()};
             if (stpInfos.find(roleName) != stpInfos.end()) {
                 auto robot = stpInfos[roleName].getRobot().value();
                 // TODO calculate additional info
-                stpInfos[roleName].setPosition({MOVE_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
+                stpInfos[roleName].setPosition({SHOOT_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[0]);
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
             }
