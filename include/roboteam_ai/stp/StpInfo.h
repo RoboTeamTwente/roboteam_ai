@@ -72,11 +72,17 @@ struct Areas {
     }
 };
 
-enum targetType {
-    MOVETARGET,
-    RECEIVETARGET,
-    SHOOTTARGET,
-    DEFENDTARGET
+
+enum PositionType {
+    MOVE_TO_POSITION,
+    RECEIVE_AT_POSITION,
+    SHOOT_TO_POSITION,
+    DEFEND_POSITION
+};
+enum BlockDistance {
+    CLOSE = 1,
+    HALFWAY,
+    FAR
 };
 
 struct StpInfo {
@@ -93,8 +99,8 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::pair<targetType, Vector2>& getTargetPos() const { return targetPos; }
-    void setTargetPos(const std::pair<targetType, Vector2>& targetPos) { this->targetPos = targetPos; }
+    const std::pair<PositionType, Vector2>& getPosition() const { return position; }
+    void setPosition(const std::pair<PositionType, Vector2>& position) { this->position = position; }
 
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
@@ -104,6 +110,9 @@ struct StpInfo {
 
     int getDribblerSpeed() const { return dribblerSpeed; }
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
+
+    BlockDistance getBlockDistance() const { return blockDistance; }
+    void setBlockDistance(BlockDistance blockDistance) { StpInfo::blockDistance = blockDistance; }
 
    private:
     /**
@@ -127,9 +136,10 @@ struct StpInfo {
     std::optional<world_new::view::BallView> ball;
 
     /**
-     * Tuple of the targetType and the position of this target
+
+     * Tuple of the PositionType and the position of this target
      */
-    std::pair<targetType, Vector2> targetPos;
+    std::pair<PositionType, Vector2> position;
 
     /**
      * Velocity of the kick/chip
@@ -145,6 +155,12 @@ struct StpInfo {
      * Speed of the dribbler in %
      */
     int dribblerSpeed = 0;
+
+    /**
+     * When blocking off a position, the robot is on line between a targetposition to block, and the enemy robot.
+     * Used to decide how close this robot should be to enemy robot
+     */
+    BlockDistance blockDistance;
 };
 };  // namespace rtt::ai::stp
 
