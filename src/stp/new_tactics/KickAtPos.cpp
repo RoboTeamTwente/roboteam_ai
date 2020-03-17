@@ -40,7 +40,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     // When rotating, we need to dribble to keep the ball, but when kicking we don't
     if(skills.current_num() == 0) {
-        skillStpInfo.setDribblerSpeed(31);
+        skillStpInfo.setDribblerSpeed(100);
     }
     skillStpInfo.setDribblerSpeed(0);
 
