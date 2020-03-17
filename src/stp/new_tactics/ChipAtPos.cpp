@@ -4,6 +4,7 @@
 
 #include "stp/new_tactics/ChipAtPos.h"
 
+#include <roboteam_utils/Print.h>
 #include <stp/new_skills/Chip.h>
 #include <stp/new_skills/Rotate.h>
 
@@ -27,6 +28,11 @@ void ChipAtPos::onTerminate() noexcept {
 }
 
 StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
+    if (!info.getBall() || !info.getRobot() || !info.getField()) {
+        RTT_WARNING("No Ball or Robot present in StpInfo");
+        return {};
+    }
+
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
