@@ -38,13 +38,17 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineChipForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When rotating we need to dribble to keep the ball
-    skillStpInfo.setDribblerSpeed(31);
+    // When rotating, we need to dribble to keep the ball, but when kicking we don't
+    if(skills.current_num() == 0) {
+        skillStpInfo.setDribblerSpeed(31);
+    }
+    skillStpInfo.setDribblerSpeed(0);
 
     return skillStpInfo;
 }
 
 /// Determine how fast we should chip for a pass at a given distance
+//TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
