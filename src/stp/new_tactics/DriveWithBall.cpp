@@ -40,7 +40,7 @@ StpInfo DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
     // When driving with ball, we need to activate the dribbler
     // For now, this means full power, but this might change later
     // TODO better way to determine dribblerspeed
-    skillStpInfo.setDribblerSpeed(31);
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }
