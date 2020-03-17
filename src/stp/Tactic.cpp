@@ -13,6 +13,11 @@ namespace rtt::ai::stp {
 void Tactic::initialize() noexcept { onInitialize(); }
 
 Status Tactic::update(StpInfo const &info) noexcept {
+    if (!info.getBall() || !info.getRobot() || !info.getField()) {
+        RTT_WARNING("Required information missing in the tactic info");
+        return Status::Failure;
+    }
+
     // Check if the skills are all finished
     if (skills.finished() && !isEndTactic()) {
         RTT_INFO("TACTIC SUCCESSFUL!!!!!!!!!!!!!!!!!!!!!!!!:)")

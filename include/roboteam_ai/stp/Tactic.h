@@ -7,7 +7,7 @@
 
 #include <roboteam_utils/containers/state_machine.hpp>
 #include <vector>
-
+#include <roboteam_utils/Print.h>
 #include "stp/Skill.h"
 #include "stp/StpInfo.h"
 
@@ -77,17 +77,17 @@ class Tactic {
      * Calls onTerminate
      */
     virtual void terminate() noexcept;
-  
-    /**
-     * Ensure proper destruction of Tactic classes
-     */
-    virtual ~Tactic() = default;
 
     /**
      * Check if the current tactic is an end tactic - only Running or Failure status
      * @return true if the current tactic cannot succeed (i.e. is an end tactic); default false
      */
     virtual bool isEndTactic() noexcept;
+
+    /**
+     * Ensure proper destruction of Tactic classes
+     */
+    virtual ~Tactic() = default;
 
     /**
      * Default ctor, ensures proper construction of Tactic
