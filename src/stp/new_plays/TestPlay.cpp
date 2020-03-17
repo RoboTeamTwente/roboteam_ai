@@ -49,7 +49,6 @@ void TestPlay::assignRoles() noexcept {
             stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
             stpInfos[roleName].setField(*world->getField());
-
         }
     }
 }
