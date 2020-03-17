@@ -117,10 +117,10 @@ struct StpInfo {
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
 
     BlockDistance getBlockDistance() const { return blockDistance; }
-    void setBlockDistance(BlockDistance blockDistance) { StpInfo::blockDistance = blockDistance; }
+    void setBlockDistance(BlockDistance blockDistance) { this->blockDistance = blockDistance; }
 
     KickChipType getKickChipType() const { return kickChipType; }
-    void setKickChipType(KickChipType kickChipType) { StpInfo::kickChipType = kickChipType; }
+    void setKickChipType(KickChipType kickChipType) { this->kickChipType = kickChipType; }
 
    private:
     /**

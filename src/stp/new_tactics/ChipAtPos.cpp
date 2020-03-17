@@ -28,11 +28,6 @@ void ChipAtPos::onTerminate() noexcept {
 }
 
 StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
-    if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("No Ball, Robot or Field present in StpInfo");
-        return {};
-    }
-
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
@@ -43,8 +38,8 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineChipForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When chipping, we don't need to activate the dribbler
-    skillStpInfo.setDribblerSpeed(0);
+    // When rotating we need to dribble to keep the ball
+    skillStpInfo.setDribblerSpeed(31);
 
     return skillStpInfo;
 }
