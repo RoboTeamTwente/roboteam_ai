@@ -7,6 +7,7 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
+    calculateInfoForPlay();
     assignRoles();
 }
 
@@ -25,7 +26,6 @@ Status Play::update() noexcept {
         assignRoles();
     }
 
-    calculateInfoForPlay();
 
     for (auto& each : roles) {
         auto roleName{each->getName()};
@@ -39,6 +39,8 @@ Status Play::update() noexcept {
             count[index] += 1;
         }
     }
+    calculateInfoForPlay();
+
 
     if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
         return Status::Success;
