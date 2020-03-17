@@ -38,6 +38,8 @@ class TestPlay : public Play {
      * Assigns robots to roles of this play
      */
     void assignRoles() noexcept;
+
+    void calculateInfoForPlay() noexcept override;
 };
 }  // namespace rtt::ai::stp
 
