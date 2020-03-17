@@ -30,12 +30,10 @@ Status Play::update() noexcept {
     for (auto& each : roles) {
         auto roleName{each->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
-            // TODO refresh robots in a neater way than is done now.
-            // This is necessary to prevent the robotview from going out of scope
-            stpInfos.find(roleName)->second.setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
-            stpInfos.find(roleName)->second.setField(world->getField());
-            stpInfos.find(roleName)->second.setBall(world->getWorld()->getBall());
-
+            // TODO refresh robots
+            stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
+            stpInfos[roleName].setBall(world->getWorld()->getBall());
+            stpInfos[roleName].setField(world->getField());
 
             auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
             count[index] += 1;
