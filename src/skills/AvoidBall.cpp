@@ -44,7 +44,7 @@ bt::Node::Status AvoidBall::onUpdate() {
     force = force + control::ControlUtils::calculateForce(robotPos - ball->get()->getPos(), ballWeight, minBallDistanceForForce);
 
     // forces from walls
-    double boundWidth =  field->getBoundaryWidth();
+    double boundWidth = field->getBoundaryWidth();
     double halfFieldLength = field->getFieldLength() / 2;
     double halfFieldWidth = field->getFieldWidth() / 2;
 
