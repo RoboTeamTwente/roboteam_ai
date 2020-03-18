@@ -53,9 +53,6 @@ void Skill::refreshRobotCommand() noexcept {
 }
 
 void Skill::limitRobotCommand() noexcept {
-    bool isDefendPenaltyState = rtt::ai::GameStateManager::getCurrentGameState().keeperStrategyName == "keeper_penalty_defend_tactic";
-    bool isKeeper = command.id() == robotDealer::RobotDealer::getKeeperID();
-
     auto limitedVel = Vector2(command.vel().x(), command.vel().y());
 
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
@@ -63,6 +60,13 @@ void Skill::limitRobotCommand() noexcept {
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
         RTT_ERROR("Robot will have NAN: " + std::string{name()} + "!\nrobot: " + std::to_string(robot.value()->getId()));
     }
+
+    // TODO: When using the dribbler, we probably want to limit the vel a bit smarter than this...
+    if(this->command.dribbler() != 0) {
+        limitedVel.x /= 3;
+        limitedVel.y /= 3;
+    }
+
     command.mutable_vel()->set_x(limitedVel.x);
     command.mutable_vel()->set_y(limitedVel.y);
 }
@@ -72,10 +76,6 @@ void Skill::terminate() noexcept { onTerminate(); }
 Status Skill::update(StpInfo const& info) noexcept {
     robot = info.getRobot();
     return onUpdate(info);
-}
-
-void Skill::refreshRobotPositionControllers() const noexcept {
-    rtt::world_new::World::instance()->getControllersForRobot(robot.value()->getId()) = world_new::robot::RobotControllers();
 }
 
 void Skill::initialize() noexcept { onInitialize(); }
