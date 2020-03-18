@@ -55,12 +55,7 @@ class Tactic {
      */
     virtual bool shouldTacticReset(const StpInfo &info) noexcept = 0;
 
-    /**
-     * The state machine of skills
-     */
-    rtt::collections::state_machine<Skill, Status, StpInfo> skills;
-
-   public:
+public:
     /**
      * Calls onInitialize of the tactic
      */
@@ -98,6 +93,11 @@ class Tactic {
      * Default move-ctor, ensures proper move-construction of Tactic
      */
     Tactic(Tactic &&other) = default;
+
+/**
+ * The state machine of skills
+ */
+rtt::collections::state_machine<Skill, Status, StpInfo> skills;
 };
 }  // namespace rtt::ai::stp
 

@@ -13,12 +13,14 @@ Status Role::update(StpInfo const& info) noexcept {
 
 
     // Reset the role
+    auto should = shouldRoleReset(info);
+    auto cur = robotTactics.current_num();
     if ((robotTactics.current_num() != 0) && shouldRoleReset(info)) {
         RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
         // TODO: messy reset, do it in the state machine
-        robotTactics.skip_n(-robotTactics.current_num());
+        robotTactics.reset();
         RTT_INFO("current state of SM: ", robotTactics.current_num(), roleName)
-
+        robotTactics.get_current()->skills.reset();
     }
 
     // Update tactic info
