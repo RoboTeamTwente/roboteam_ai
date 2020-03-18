@@ -25,7 +25,7 @@ class DealerTest : public ::testing::Test {
           amountYellow = 3;
           amountBlue = 1;
       }
-      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(amountYellow, amountBlue, false, testhelpers::FieldHelper::generateField());
+      auto protoWorld = testhelpers::WorldHelper::getWorldMsg(amountYellow, amountBlue, true, testhelpers::FieldHelper::generateField());
       world_new::World::instance()->updateWorld(protoWorld);
   }
 };
