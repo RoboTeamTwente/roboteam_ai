@@ -3,9 +3,7 @@
 //
 
 #include "include/roboteam_ai/stp/Tactic.h"
-
 #include <roboteam_utils/Print.h>
-
 #include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
@@ -20,7 +18,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
     // Check if the skills are all finished
     if (skills.finished() && !isEndTactic()) {
-        RTT_INFO("TACTIC SUCCESSFUL!!!!!!!!!!!!!!!!!!!!!!!!:)")
+        RTT_INFO("TACTIC SUCCESSFUL for ", info.getRobot()->get()->getId())
         return Status::Success;
     }
 

@@ -59,6 +59,11 @@ class Role {
      * @return true if the active tactic cannot execute (it's prerequisites are no longer met)
      */
     virtual bool shouldRoleReset(const StpInfo &info) noexcept = 0;
+
+    /**
+     * Current status of tactic state machine
+     */
+     Status currentTacticStatus;
 };
 
 }  // namespace rtt::ai::stp

@@ -18,4 +18,13 @@ namespace rtt::ai::stp {
         robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Receive()};
         robotTactics.initialize();
     }
+
+    StpInfo PassReceiver::calculateInfoForTactic(StpInfo const &info) noexcept {
+        return info;
+    }
+
+    bool PassReceiver::shouldRoleReset(const StpInfo &info) noexcept {
+        return currentTacticStatus == Status::Failure;
+    }
+
 }  // namespace rtt::ai::stp

@@ -19,7 +19,9 @@ TestRole::TestRole(std::string name) : Role(std::move(name)) {
     robotTactics.initialize();
 }
 
-StpInfo TestRole::calculateInfoForTactic(StpInfo const &info) noexcept {};
+StpInfo TestRole::calculateInfoForTactic(StpInfo const &info) noexcept { return info;};
 
-bool TestRole::shouldRoleReset(const StpInfo &info) noexcept {};
+bool TestRole::shouldRoleReset(const StpInfo &info) noexcept {
+    return false;
+};
 }  // namespace rtt::ai::stp

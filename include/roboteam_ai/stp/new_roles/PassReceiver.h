@@ -16,6 +16,11 @@ namespace rtt::ai::stp {
          * @param name name of the role
          */
         PassReceiver(std::string name);
+
+    protected:
+        StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
+
+        bool shouldRoleReset(const StpInfo &info) noexcept override;
     };
 }  // namespace rtt::ai::stp
 

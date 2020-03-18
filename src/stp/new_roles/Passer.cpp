@@ -17,4 +17,12 @@ namespace rtt::ai::stp {
         robotTactics.initialize();
     }
 
+    StpInfo Passer::calculateInfoForTactic(const StpInfo &info) noexcept {
+        return info;
+    }
+
+    bool Passer::shouldRoleReset(const StpInfo &info) noexcept {
+        return currentTacticStatus == Status::Failure;
+    }
+
 }  // namespace rtt::ai::stp
