@@ -2,26 +2,22 @@
 // Created by rolf on 10-4-19.
 //
 
-#include "skills/InterceptRobot.hpp"
+#include <skills/InterceptRobot.hpp>
 
 namespace rtt::ai {
 
 InterceptRobot::InterceptRobot(std::string name, bt::Blackboard::Ptr blackboard) : Skill(name, blackboard) {}
 
-void InterceptRobot::onInitialize() {
-    //    gtp.setAvoidBallDistance(false);
-    //    gtp.setCanMoveInDefenseArea(false);
-    //    gtp.setCanMoveOutOfField(false);
-}
+void InterceptRobot::onInitialize() {}
 
 Skill::Status InterceptRobot::onUpdate() {
     // TODO: fix that the robotToIntercept is called from coach
-    RobotPtr robotToIntercept = world->getRobotForId(1, true);
+    auto robotToIntercept = world.getRobotForId(1, true);
     if (!robotToIntercept) {
         return Status::Failure;
     }
     Vector2 interceptPos = getInterceptPos(*robotToIntercept);
-    auto velocities = robot->getBasicPosControl()->getRobotCommand(world, field, robot, interceptPos);
+    auto velocities = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(),  interceptPos);
     command.mutable_vel()->set_x(velocities.vel.x);
     command.mutable_vel()->set_y(velocities.vel.y);
     command.set_w(velocities.angle.getAngle());
@@ -30,14 +26,14 @@ Skill::Status InterceptRobot::onUpdate() {
     return Status::Running;
 }
 
-Vector2 InterceptRobot::getInterceptPos(Robot robotToIntercept) {
-    Vector2 robotVel = robotToIntercept.vel;
+Vector2 InterceptRobot::getInterceptPos(world_new::view::RobotView robotToIntercept) {
+    Vector2 robotVel = robotToIntercept->getVel();
     double maxVel = 2.0;                               // velocity at which or above it we drive at the max distance in front of the robot
     double maxDist = 1.0;                              // max distance in front of the robot
     double minDist = 2.5 * Constants::ROBOT_RADIUS();  // minimum distance in front of the robot
-    Vector2 interceptPos = robotToIntercept.pos;
+    Vector2 interceptPos = robotToIntercept->getPos();
     // we stand at a point in front of the robot depending on it's speed
-    Vector2 angle = robotToIntercept.angle.toVector2(1.0);
+    Vector2 angle = robotToIntercept->getAngle().toVector2(1.0);
     if (robotVel.length() < maxVel) {
         interceptPos += angle.stretchToLength(minDist + robotVel.length() * (maxDist - minDist));
     } else {

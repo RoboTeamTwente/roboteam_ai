@@ -5,8 +5,6 @@
  */
 
 #include "conditions/IsBallOnOurSide.h"
-#include <world/Ball.h>
-#include <world/FieldComputations.h>
 
 namespace rtt::ai {
 
@@ -15,7 +13,7 @@ IsBallOnOurSide::IsBallOnOurSide(std::string name, bt::Blackboard::Ptr blackboar
 void IsBallOnOurSide::onInitialize() { inField = properties->getBool("inField"); }
 
 bt::Node::Status IsBallOnOurSide::onUpdate() {
-    Vector2 ballPos = ball->getPos();
+    Vector2 ballPos = ball->get()->getPos();
 
     if (ballPos.x < 0) {
         if (inField) {

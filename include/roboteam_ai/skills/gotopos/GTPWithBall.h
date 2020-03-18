@@ -5,7 +5,6 @@
 #ifndef ROBOTEAM_AI_GTPWITHBALL_H
 #define ROBOTEAM_AI_GTPWITHBALL_H
 
-#include "control/ball-handling/BallHandlePosControl.h"
 #include "skills/Skill.h"
 
 namespace rtt::ai {
@@ -13,7 +12,6 @@ namespace rtt::ai {
 /// GTPWithBall should NOT have GoToPos as parent
 class GTPWithBall : public Skill {
    private:
-    control::BallHandlePosControl ballHandlePosControl;
     Vector2 targetPos;
     Angle targetAngle;
 

@@ -5,16 +5,12 @@
 #ifndef ROBOTEAM_AI_SIDEATTACKER_H
 #define ROBOTEAM_AI_SIDEATTACKER_H
 
-#include <coach/OffensiveCoach.h>
-#include <control/numtrees/NumTreePosControl.h>
-#include <roboteam_utils/Vector2.h>
 #include "Skill.h"
 
 namespace rtt::ai {
 
 class SideAttacker : public Skill {
    private:
-    Vector2 deltaPos;
     Vector2 targetPos;
 
     Vector2 getOffensivePosition(const Field &field);

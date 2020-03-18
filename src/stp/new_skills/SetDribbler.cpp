@@ -4,27 +4,28 @@
 
 #include "stp/new_skills/SetDribbler.h"
 
-namespace rtt::ai {
+#include <roboteam_utils/Print.h>
 
-SetDribbler::SetDribbler(std::string name, bt::Blackboard::Ptr blackboard)
-    : Skill(std::move(name), std::move(blackboard)) {}
+namespace rtt::ai::stp::skill {
 
-void SetDribbler::onInitialize() { Skill::onInitialize(); }
+void SetDribbler::onInitialize() noexcept {}
 
-SetDribbler::Status SetDribbler::onUpdate() {
-  int dribblerSpeed = properties->getInt("dribblerSpeed");
+Status SetDribbler::onUpdate(const StpInfo &info) noexcept {
+    // Clamp and set dribbler speed
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
 
-  if (dribblerSpeed < 0 || dribblerSpeed > 255) {
-      return Status::Failure;
-  }
+    // Set dribbler speed command
+    command.set_dribbler(targetDribblerSpeed);
 
-  command.set_dribbler(dribblerSpeed);
+    // Set angle command
+    command.set_w(info.getRobot().value()->getAngle().getAngle());
 
-  publishRobotCommand();
+    publishRobotCommand();
 
-  return Status::Running;
+    return Status::Running;
 }
 
-void SetDribbler::onTerminate(Skill::Status) {}
+void SetDribbler::onTerminate() noexcept {}
 
-}  // namespace rtt::ai
+}  // namespace rtt::ai::stp::skill

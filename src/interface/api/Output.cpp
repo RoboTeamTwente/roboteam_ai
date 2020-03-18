@@ -7,7 +7,7 @@
 #include <treeinterp/BTFactory.h>
 #include <utilities/Constants.h>
 
-#include "world/Ball.h"
+
 
 namespace rtt::ai::interface {
 
@@ -100,8 +100,9 @@ void Output::setKeeperTree(std::string name) { Output::interfaceGameState.keeper
 
 void Output::setStrategyTree(std::string name) {
     Output::interfaceGameState.strategyName = std::move(name);
-    if (world::world->getBall()) {
-        Output::interfaceGameState.ballPositionAtStartOfGameState = world::world->getBall()->getPos();
+    auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+    if (ballOpt.has_value()) {
+        Output::interfaceGameState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
     }
 }
 

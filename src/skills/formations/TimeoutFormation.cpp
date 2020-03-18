@@ -2,15 +2,13 @@
 // Created by mrlukasbos on 12-4-19.
 //
 
-#include "skills/formations/TimeoutFormation.h"
-#include <world/Field.h>
-#include <world/FieldComputations.h>
+#include <skills/formations/TimeoutFormation.h>
 
 namespace rtt::ai {
-std::shared_ptr<std::vector<std::shared_ptr<world::Robot>>> TimeoutFormation::robotsInFormation = nullptr;
+std::vector<world_new::view::RobotView> TimeoutFormation::robotsInFormation{};
 
-TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<std::vector<std::shared_ptr<world::Robot>>>();
+TimeoutFormation::TimeoutFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(std::move(name), std::move(blackboard)) {
+    robotsInFormation = std::vector<world_new::view::RobotView>();
 }
 
 Vector2 TimeoutFormation::getFormationPosition() {
@@ -23,14 +21,14 @@ Vector2 TimeoutFormation::getFormationPosition() {
     std::vector<Vector2> targetLocations;
     std::vector<int> robotIds;
 
-    for (unsigned int i = 0; i<robotsInFormation->size(); i++) {
+    for (unsigned int i = 0; i < robotsInFormation.size(); i++) {
         double targetLocationX = -field->getFieldLength() / 4 * 2 * i * Constants::ROBOT_RADIUS_MAX();
         targetLocations.emplace_back(targetLocationX, targetLocationY);
     }
 
-    return getOptimalPosition(robot->id, *robotsInFormation, targetLocations);
+    return getOptimalPosition(robot->get()->getId(), robotsInFormation, targetLocations);
 }
 
-std::shared_ptr<std::vector<world::World::RobotPtr>> TimeoutFormation::robotsInFormationPtr() { return robotsInFormation; }
+std::vector<world_new::view::RobotView> TimeoutFormation::robotsInFormationPtr() { return robotsInFormation; }
 
 }  // namespace rtt::ai

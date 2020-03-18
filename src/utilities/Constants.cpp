@@ -64,6 +64,8 @@ double Constants::MIN_ANGLE() { return -M_PI; }
 
 double Constants::MAX_ANGLE() { return M_PI; }
 
+int Constants::MAX_DRIBBLER_CMD() { return 31; }
+
 double Constants::MIN_VEL() { return 0.2; }
 
 double Constants::MAX_ACC_UPPER() { return 5.0; }

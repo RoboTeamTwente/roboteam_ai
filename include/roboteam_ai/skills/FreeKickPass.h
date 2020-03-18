@@ -11,10 +11,6 @@
 namespace rtt::ai {
 
 class FreeKickPass : public Pass {
-   private:
-    int maxTries = 3;
-    bool forcePass = false;
-
    public:
     explicit FreeKickPass(std::string name, bt::Blackboard::Ptr blackboard);
     void makeCommand() override;

@@ -3,9 +3,9 @@
 //
 
 #include "coach/heuristics/OffensiveScore.h"
-
 #include "coach/OffensiveCoach.h"
 #include "world/FieldComputations.h"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::coach {
 
@@ -33,7 +33,7 @@ bool OffensiveScore::positionIsValid(const Field &field, const Vector2 &defaultZ
     auto goalSides = FieldComputations::getGoalSides(field, false);
     vertices.push_back(goalSides.start);
     vertices.push_back(goalSides.end);
-    vertices.push_back(world::world->getBall()->getPos());
+    vertices.push_back(world_new::World::instance()->getWorld()->getBall().value()->getPos());
     Polygon goalBallTriangle(vertices);
 
     if (goalBallTriangle.contains(positionToCheck)) {

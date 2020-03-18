@@ -5,8 +5,6 @@
  */
 
 #include "conditions/BallNearOurGoalLineAndStill.h"
-#include <world/Ball.h>
-#include <world/World.h>
 
 namespace rtt::ai {
 
@@ -19,10 +17,10 @@ void BallNearOurGoalLineAndStill::onInitialize() {
 }
 
 bt::Node::Status BallNearOurGoalLineAndStill::onUpdate() {
-    Vector2 ballPos = world->getBall()->getPos();
+    Vector2 ballPos = ball->get()->getPos();
 
     bool ballNearGoalLine = ballPos.x < (field->getLeftmostX() + margin);
-    bool ballIsLayingStill = Vector2(ball->getVel()).length() < Constants::BALL_STILL_VEL();
+    bool ballIsLayingStill = Vector2(ball->get()->getVelocity()).length() < Constants::BALL_STILL_VEL();
 
     if (ballNearGoalLine && ballIsLayingStill) {
         return Status::Success;

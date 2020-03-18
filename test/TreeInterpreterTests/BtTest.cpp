@@ -16,6 +16,8 @@
 #include <bt/decorators/UntilFail.h>
 #include <bt/decorators/UntilSuccess.h>
 
+#include "world_new/views/WorldDataView.hpp"
+
 namespace bt {
 
 namespace {
@@ -99,13 +101,14 @@ class Counter : public Tracer {
 
 // Behavior Tree with one leaf //
 TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
+    auto null_view = rtt::world_new::view::WorldDataView(nullptr);
     {
         bt::Leaf::Ptr once = std::make_shared<Once>("A");
         once->setStatus(bt::Node::Status::Success);
         bt::BehaviorTree bt(once);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, (Field*)nullptr);
 
         std::vector<std::string> expectedTrace = {"Initialize: Once-A", "Update: Once-A", "Terminate: Once-A"};
 
@@ -117,9 +120,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(runner);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {"Initialize: Runner-A", "Update: Runner-A", "Update: Runner-A", "Update: Runner-A", "Terminate: Runner-A"};
@@ -132,9 +135,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(counter);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
 
         std::vector<std::string> expectedTrace = {"Initialize: Counter-A", "Update: Counter-A", "Update: Counter-A", "Update: Counter-A", "Terminate: Counter-A"};
 
@@ -146,9 +149,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
         bt::BehaviorTree bt(counter);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {"Initialize: Counter-A", "Update: Counter-A", "Update: Counter-A", "Update: Counter-A", "Terminate: Counter-A"};
@@ -160,6 +163,7 @@ TEST(BehaviorTreeTest, BehaviorTreeWithOneLeaf) {
 
 // Behavior Tree with counters & sequences
 TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
+    auto null_view = rtt::world_new::view::WorldDataView(nullptr);
     {
         bt::Leaf::Ptr counterA = std::make_shared<Counter>(bt::Node::Status::Success, "A", 2);
         bt::Leaf::Ptr counterB = std::make_shared<Counter>(bt::Node::Status::Success, "B", 2);
@@ -174,9 +178,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt(memSeq);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
 
         std::vector<std::string> expectedTrace = {"Initialize: Counter-A", "Update: Counter-A", "Update: Counter-A", "Terminate: Counter-A",
                                                   "Initialize: Counter-B", "Update: Counter-B", "Update: Counter-B", "Terminate: Counter-B"};
@@ -205,14 +209,14 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt.SetRoot(parSeq);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
 
         // after two ticks it should still be running
         EXPECT_TRUE(parSeq->IsRunning());
 
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
 
         EXPECT_TRUE(parSeq->IsSuccess());
         EXPECT_FALSE(parSeq->IsFailure());
@@ -235,9 +239,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt;
         bt.SetRoot(parSeq);
 
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
         EXPECT_TRUE(parSeq->IsRunning());
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
         EXPECT_TRUE(parSeq->IsSuccess());
     }
 
@@ -255,10 +259,10 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt(seq);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
 
         std::vector<std::string> expectedTrace = {
             "Initialize: Counter-A", "Update: Counter-A",     "Update: Counter-A",    "Terminate: Counter-A", "Initialize: Counter-B",
@@ -279,9 +283,9 @@ TEST(BehaviorTreeTest, BehaviorTreeWithSequencesAndCounters) {
         bt::BehaviorTree bt(seq);
 
         traces.clear();
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
-        bt.tick(nullptr, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
+        bt.tick(null_view, nullptr);
         bt.terminate(bt.getStatus());
 
         std::vector<std::string> expectedTrace = {

@@ -1,5 +1,5 @@
 /*
- * Returns true if the position is within the defence area.
+ * Returns SUCCESS if the position is within the defence area.
  * properties:
  * - useRobot: if true, use the robot location, otherwise use the ball location
  * - ourDefenceArea: if true, the condition returns true if the point is in our defence area. otherwise it is their defence area
@@ -7,9 +7,6 @@
  */
 
 #include "conditions/IsInDefenseArea.hpp"
-#include "world/Ball.h"
-#include "world/FieldComputations.h"
-#include "world/Robot.h"
 
 namespace rtt::ai {
 
@@ -21,12 +18,12 @@ bt::Node::Status IsInDefenseArea::onUpdate() {
     secondsAhead = properties->hasDouble("secondsAhead") ? properties->getDouble("secondsAhead") : 0.0;
     if (secondsAhead >= 0.0) {
         if (properties->getBool("useRobot")) {
-            point = robot->pos + robot->vel * secondsAhead;
+            point = robot->get()->getPos() + robot->get()->getVel() * secondsAhead;
         } else {
-            point = ball->getPos() + ball->getVel() * secondsAhead;
+            point = ball->get()->getPos() + ball->get()->getVelocity() * secondsAhead;
         }
     } else {
-        point = properties->getBool("useRobot") ? robot->pos : ball->getPos();
+        point = properties->getBool("useRobot") ? robot->get()->getPos() : ball->get()->getPos();
     }
 
     margin = properties->hasDouble("margin") ? static_cast<float>(properties->getDouble("margin")) : 0.0f;

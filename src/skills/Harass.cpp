@@ -1,11 +1,8 @@
 //
 // Created by baris on 12-12-18.
 //
-#include "skills/Harass.h"
 
-#include "world/Ball.h"
-#include "world/Robot.h"
-#include "world/World.h"
+#include <skills/Harass.h>
 
 namespace rtt::ai {
 
@@ -24,11 +21,11 @@ Skill::Status Harass::onUpdate() {
     if (harassmentTarget == -1) {
         pickHarassmentTarget();
     }
-    auto enemyBot = world->getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
+    auto enemyBot = world.getRobotForId(static_cast<unsigned int>(harassmentTarget), false);
 
-    Vector2 ballPos = ball->getPos();
+    Vector2 ballPos = ball->get()->getPos();
     Vector2 targetPos;
-    Vector2 enemyPos = enemyBot->pos;
+    Vector2 enemyPos = enemyBot->get()->getPos();
 
     if (harassBallOwner) {
         Vector2 vec = {ballPos - enemyPos};
@@ -39,11 +36,11 @@ Skill::Status Harass::onUpdate() {
     }
 
     std::cout << "call gotopos with target pos" << targetPos << std::endl;
-    std::cout << "call gotopos with robot pos           " << robot->pos << std::endl;
+    std::cout << "call gotopos with robot pos           " << robot->get()->getPos() << std::endl;
 
-    goToPos.getRobotCommand(world, field, robot, targetPos);
+    robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), targetPos);
 
-    if (harassBallOwner && !world::world->theirRobotHasBall(harassmentTarget)) {
+    if (harassBallOwner && !world.theirRobotHasBall(harassmentTarget)) {
         return Status::Success;
     }
     // TODO make something that will make harassment stop if something happens else we assume that there is a tree
@@ -51,6 +48,7 @@ Skill::Status Harass::onUpdate() {
     return Status::Running;
 }
 
+// TODO: Is this supposed to be commented out?
 void Harass::pickHarassmentTarget() {
     //    if (harassBallOwner) {
     //        harassmentTarget = Coach::whichRobotHasBall(false);
