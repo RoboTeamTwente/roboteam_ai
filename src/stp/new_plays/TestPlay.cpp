@@ -48,7 +48,6 @@ void TestPlay::assignRoles() noexcept {
 
             stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
-            stpInfos[roleName].setField(*world->getField());
         }
     }
 }
@@ -59,9 +58,9 @@ void TestPlay::calculateInfoForPlay() noexcept {
             if (stpInfos.find(roleName) != stpInfos.end()) {
                 auto robot = stpInfos[roleName].getRobot().value();
                 // TODO calculate additional info
-                stpInfos[roleName].setPosition({SHOOT_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[0]);
-                stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
+
+                // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
+                stpInfos[roleName].setPosition({MOVE_TO_POSITION, world->getWorld()->getBall()->get()->getPos()});
             }
         }
     }

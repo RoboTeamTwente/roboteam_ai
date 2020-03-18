@@ -181,7 +181,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockRobot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Receive.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/ChipAtPos.cpp
-        )
+        src/stp/new_tactics/Intercept.cpp)
 
 set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp

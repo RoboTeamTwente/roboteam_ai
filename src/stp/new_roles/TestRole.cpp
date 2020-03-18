@@ -5,8 +5,6 @@
 #include <roboteam_utils/Print.h>
 #include <stp/new_roles/TestRole.h>
 #include <stp/new_tactics/ChipAtPos.h>
-#include <stp/new_tactics/TestTactic.h>
-#include <stp/new_tactics/KickAtPos.h>
 
 #include <utility>
 
