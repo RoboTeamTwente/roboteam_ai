@@ -11,7 +11,7 @@ TEST(World_newTest, GenericWorldRemoval) {
     namespace w_n = rtt::world_new;
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
-    auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, false, size);
+    auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     w_n::World::instance()->reset();
     w_n::World::instance()->updateWorld(msg);
@@ -27,7 +27,7 @@ TEST(World_newTest, HistorySizeTest) {
     namespace w_n = rtt::world_new;
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
-    auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, false, size);
+    auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     w_n::World::instance()->reset();
     w_n::World::instance()->updateWorld(msg);
@@ -43,7 +43,7 @@ TEST(World_newTest, ResetWorldTest) {
     namespace w_n = rtt::world_new;
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
-    auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, false, size);
+    auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
     w_n::World::instance()->reset();
     w_n::World::instance()->updateWorld(msg);
