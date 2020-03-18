@@ -60,7 +60,6 @@ namespace rtt::ai::stp::tactic {
         auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPosition().second);
         auto currentRobotPosition = info.getRobot().value()->getPos();
         auto cond = (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
-        RTT_SUCCESS(cond, 'reset')
         return cond;
     }
 }
