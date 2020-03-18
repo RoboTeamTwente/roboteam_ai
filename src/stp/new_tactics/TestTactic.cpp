@@ -45,4 +45,9 @@ bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept {
     return false;
 }
 
+bool TestTactic::isEndTactic() noexcept {
+    // This is not an end tactic
+    return false;
+}
+
 }  // namespace rtt::ai::stp

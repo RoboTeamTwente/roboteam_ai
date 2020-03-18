@@ -46,4 +46,9 @@ namespace rtt::ai::stp::tactic {
         return !info.getRobot()->hasBall();
     }
 
+    bool GetBall::isEndTactic() noexcept {
+        // This is not an end tactic
+        return false;
+    }
+
 }  // namespace rtt::ai::stp
