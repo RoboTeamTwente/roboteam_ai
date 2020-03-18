@@ -154,7 +154,7 @@ std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const rtt_w
 std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const Vector2 &point, int id, bool ourTeam, const world_new::view::RobotView robot,
                                                             const double robotRadius, LineSegment goalSide) {
     // Discard the robot if it belong to the same team or if it has the given id.
-    if (robot->getId() == id && robot->getTeam() == (ourTeam ? Team::us : Team::them)) return {};
+    if (robot->getId() == id && robot->getTeam() == (ourTeam ? world_new::Team::us : world_new::Team::them)) return {};
 
     // Discard already the robot if it is not between the goal and point, or if the robot is standing on this point.
     double lenToBot = (point - robot->getPos()).length();

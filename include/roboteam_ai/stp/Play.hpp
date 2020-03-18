@@ -98,7 +98,7 @@ class Play {
     /**
      * The Field
      */
-    rtt::ai::Field field;
+    rtt::ai::world::Field field;
 
     protected:
     /**

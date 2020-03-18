@@ -9,8 +9,6 @@
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 #include "world/Field.h"
-#include "world/World.h"
-#include "world/WorldData.h"
 
 namespace rtt::world_new::view {
 class WorldDataView;

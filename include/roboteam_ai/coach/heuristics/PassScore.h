@@ -20,7 +20,7 @@ class PassScore {
 
    public:
     using WorldData = world::WorldData;
-    double calculatePassScore(const Field &field, const Vector2 &position);
+    double calculatePassScore(const rtt::ai::world::Field &field, const Vector2 &position);
 };
 
 }  // namespace rtt::ai::coach

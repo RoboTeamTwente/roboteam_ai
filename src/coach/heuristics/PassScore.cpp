@@ -10,7 +10,7 @@
 
 namespace rtt::ai::coach {
 
-double PassScore::calculatePassScore(const Field &field, const Vector2 &position) {
+double PassScore::calculatePassScore(const rtt::ai::world::Field &field, const Vector2 &position) {
     auto worldOpt = world_new::World::instance()->getWorld();
     if (!worldOpt.has_value()) {
         RTT_WARNING("No world available!")

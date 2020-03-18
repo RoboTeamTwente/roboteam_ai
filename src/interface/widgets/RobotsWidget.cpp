@@ -66,7 +66,7 @@ void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::
 }
 
 /// create a single layout with robot information for a specific robot
-QVBoxLayout *RobotsWidget::createRobotGroupItem(const Field &field, rtt::world_new::view::RobotView robot) {
+QVBoxLayout *RobotsWidget::createRobotGroupItem(const world::Field &field, rtt::world_new::view::RobotView robot) {
     auto vbox = new QVBoxLayout();
 
     auto absVel = robot->getVel().length();

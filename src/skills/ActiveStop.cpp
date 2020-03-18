@@ -40,17 +40,17 @@ Skill::Status ActiveStop::onUpdate() {
 
 void ActiveStop::onTerminate(Skill::Status s) { attack = -1; }
 
-Vector2 ActiveStop::getOffensiveActivePoint(const Field &field, const rtt::world_new::view::BallView ball) {
+Vector2 ActiveStop::getOffensiveActivePoint(const rtt::ai::world::Field &field, const rtt::world_new::view::BallView ball) {
     Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, false);
     return getPoint(field, ball, penaltyPos);
 }
 
-Vector2 ActiveStop::getDefensiveActivePoint(const Field &field, const rtt::world_new::view::BallView ball) {
+Vector2 ActiveStop::getDefensiveActivePoint(const rtt::ai::world::Field &field, const rtt::world_new::view::BallView ball) {
     Vector2 penaltyPos = FieldComputations::getPenaltyPoint(field, true);
     return getPoint(field, ball, penaltyPos);
 }
 
-Vector2 ActiveStop::getPoint(const Field &field, const rtt::world_new::view::BallView ball, const Vector2 &penaltyPos) {
+Vector2 ActiveStop::getPoint(const rtt::ai::world::Field &field, const rtt::world_new::view::BallView ball, const Vector2 &penaltyPos) {
     Vector2 ballPos = ball->getPos();
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2);  // ssl rule + significant buffer

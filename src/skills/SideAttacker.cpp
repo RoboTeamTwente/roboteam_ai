@@ -26,7 +26,7 @@ bt::Node::Status SideAttacker::onUpdate() {
     return status;
 }
 
-Vector2 SideAttacker::getOffensivePosition(const Field &field) { return coach::g_offensiveCoach.getPositionForRobotID(field, robot->get()->getId()); }
+Vector2 SideAttacker::getOffensivePosition(const rtt::ai::world::Field &field) { return coach::g_offensiveCoach.getPositionForRobotID(field, robot->get()->getId()); }
 
 void SideAttacker::onTerminate(Status s) {
     command.set_w(robot->get()->getAngle());

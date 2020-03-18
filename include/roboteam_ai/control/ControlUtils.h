@@ -10,7 +10,9 @@
 #include <cmath>
 #include <optional>
 #include "utilities/Constants.h"
+#include "world/Field.h"
 #include "world/FieldComputations.h"
+#include "world_new/views/WorldDataView.hpp"
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
@@ -48,7 +50,7 @@ class Robot;
             static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
                                                       const Vector2 &lineEnd);
 
-            static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world,
+            static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const rtt::world_new::view::WorldDataView world,
                       double safeDistanceFactor, bool includeKeeper = true);
 
             static double
@@ -110,7 +112,7 @@ class Robot;
                 bool lineWithEnds);
 
             static Vector2
-            getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line, bool canMoveInDefenseArea,
+            getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, Line line, bool canMoveInDefenseArea,
                                              bool canMoveOutOfField, double defenseAreamargin,
                                              double outOfFieldMargin);
         };

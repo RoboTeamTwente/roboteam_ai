@@ -36,7 +36,7 @@ Vector2 PossiblePass::botReceivePos(const Vector2 &_startPos, const Vector2 &bot
     Vector2 receivePos = botPos + (_startPos - botPos).stretchToLength(Constants::CENTRE_TO_FRONT() + Constants::BALL_RADIUS());
     return receivePos;
 }
-double PossiblePass::score(const Field &field, std::vector<world_new::view::RobotView> us, std::vector<world_new::view::RobotView> them) {
+double PossiblePass::score(const rtt::ai::world::Field &field, std::vector<world_new::view::RobotView> us, std::vector<world_new::view::RobotView> them) {
     double score = 1.0;
     score *= scoreForGoalAngle(field, us);
     score *= penaltyForBlocks(us, std::move(them));
@@ -44,7 +44,7 @@ double PossiblePass::score(const Field &field, std::vector<world_new::view::Robo
     return score;
 }
 
-double PossiblePass::scoreForGoalAngle(const Field &field, std::vector<world_new::view::RobotView> us) {
+double PossiblePass::scoreForGoalAngle(const rtt::ai::world::Field &field, std::vector<world_new::view::RobotView> us) {
     std::vector<Line> visibleParts = FieldComputations::getVisiblePartsOfGoal(field, true, endPos, us);
 
     // find the largest open angle in the world

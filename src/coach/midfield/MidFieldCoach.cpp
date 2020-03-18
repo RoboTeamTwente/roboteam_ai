@@ -16,7 +16,7 @@ void MidFieldCoach::addMidFielder(world_new::view::RobotView thisRobot) {
         targetPositions[thisRobot->getId()] = target;
 }
 
-MidFieldCoach::Target MidFieldCoach::getTargetPosition(const Field &field, world_new::view::RobotView thisRobot) {
+MidFieldCoach::Target MidFieldCoach::getTargetPosition(const world::Field &field, world_new::view::RobotView thisRobot) {
     // Check if already having an opponent as target
     if (targetRobotsToHarass_new.find(thisRobot->getId()) != targetRobotsToHarass_new.end()) {
         world_new::view::RobotView opponent = world_new::World::instance()->getWorld()->getRobotForId(thisRobot->getId()).value();
@@ -56,7 +56,7 @@ MidFieldCoach::Target MidFieldCoach::getTargetPosition(const Field &field, world
     }
 }
 
-bool MidFieldCoach::validOpponent(const Field &field, const world_new::view::RobotView opponent) {
+bool MidFieldCoach::validOpponent(const world::Field &field, const world_new::view::RobotView opponent) {
     if (abs(opponent->getPos().x) > DISTANCE_FROM_MIDDLE_LINE) {
         return false;
     }
@@ -125,7 +125,7 @@ MidFieldCoach::Target &MidFieldCoach::harassSlowRobot(const world_new::view::Rob
     return target;
 }
 
-world_new::view::RobotView MidFieldCoach::findRobotToHarass(const Field &field, const world_new::view::RobotView thisRobot) {
+world_new::view::RobotView MidFieldCoach::findRobotToHarass(const world::Field &field, const world_new::view::RobotView thisRobot) {
     world_new::view::RobotView closestRobot{nullptr};
     auto shortestDistance = 9e9;
 
@@ -159,7 +159,7 @@ bool MidFieldCoach::isRobotAlreadyBeingHarassed(const world_new::view::RobotView
     return alreadyBeingHarassed;
 }
 
-MidFieldCoach::Target MidFieldCoach::standFree(const Field &field, const world_new::view::RobotView thisRobot) {
+MidFieldCoach::Target MidFieldCoach::standFree(const world::Field &field, const world_new::view::RobotView thisRobot) {
     Target target;
     target.targetRobot = -1;
     target.targetPosition = calculateNewRobotPosition(field, thisRobot, thisRobot->getVel().toAngle());
@@ -211,7 +211,7 @@ MidFieldCoach::Target MidFieldCoach::getBall(world_new::view::RobotView thisRobo
     return target;
 }
 
-double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vector2 &position, const world_new::view::RobotView thisRobot) {
+double MidFieldCoach::calculateStandingFreeScore(const world::Field &field, const Vector2 &position, const world_new::view::RobotView thisRobot) {
     auto world = world_new::World::instance()->getWorld().value();
 
     double passLineScore = CoachHeuristics::calculatePassLineScore(position, world);
@@ -221,7 +221,7 @@ double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vecto
     return passLineScore + distanceToUsScore + distanceToBallScore;
 }
 
-Vector2 MidFieldCoach::calculateNewRobotPosition(const Field &field, const world_new::view::RobotView thisRobot, Angle targetAngle) {
+Vector2 MidFieldCoach::calculateNewRobotPosition(const world::Field &field, const world_new::view::RobotView thisRobot, Angle targetAngle) {
     Vector2 bestPosition = targetPositions[thisRobot->getId()];
     double highestScore = calculateStandingFreeScore(field, bestPosition, thisRobot);
 

@@ -13,7 +13,7 @@ class SideAttacker : public Skill {
    private:
     Vector2 targetPos;
 
-    Vector2 getOffensivePosition(const Field &field);
+    Vector2 getOffensivePosition(const rtt::ai::world::Field &field);
 
    public:
     explicit SideAttacker(std::string name, bt::Blackboard::Ptr blackboard);
