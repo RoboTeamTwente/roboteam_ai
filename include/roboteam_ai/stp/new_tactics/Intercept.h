@@ -49,6 +49,8 @@ class Intercept : public Tactic {
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
+bool isEndTactic() noexcept override;
+
     /**
      * Calculate the angle between the robot and the ball
      * @param robot Robot
