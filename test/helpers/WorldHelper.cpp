@@ -166,7 +166,8 @@ proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool wit
 
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
-        msg.set_allocated_ball(randomBall);
+
+        if (withBall) msg.set_allocated_ball(randomBall);
     } while (!allPositionsAreValid(msg, withBall));
 
     return msg;
