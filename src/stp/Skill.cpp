@@ -62,10 +62,10 @@ void Skill::limitRobotCommand() noexcept {
     }
 
     // TODO: When using the dribbler, we probably want to limit the vel a bit smarter than this...
-/*    if(this->command.dribbler() != 0) {
+    if(this->command.dribbler() != 0) {
         limitedVel.x /= 3;
         limitedVel.y /= 3;
-    }*/
+    }
 
     command.mutable_vel()->set_x(limitedVel.x);
     command.mutable_vel()->set_y(limitedVel.y);
