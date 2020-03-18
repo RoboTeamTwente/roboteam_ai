@@ -23,7 +23,7 @@ Status Play::update() noexcept {
 
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
-        assignRoles();
+        //assignRoles();
     }
 
 

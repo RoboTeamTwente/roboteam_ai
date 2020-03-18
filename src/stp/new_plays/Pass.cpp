@@ -66,7 +66,7 @@ namespace rtt::ai::stp {
         stpInfos["pass_receiver"].setPosition({MOVE_TO_POSITION, Vector2(2,2)});
 
         // Calculate Passer info
-        // stpInfos["passer"].setPosition();
+        stpInfos["passer"].setPosition({SHOOT_TO_POSITION, Vector2(-2,-2)});
 
         // Calculate defender1 info
         stpInfos["defender1"].setPosition({MOVE_TO_POSITION, defensivePositions[0]});
