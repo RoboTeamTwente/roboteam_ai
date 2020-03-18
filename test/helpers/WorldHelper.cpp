@@ -157,19 +157,16 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
 proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool withBall, const proto::GeometryFieldSize &field) {
     proto::World msg;
 
-
-    auto randomBall = generateRandomBall(field);
-    auto randomYellow = generateRandomRobots(amountYellow, field);
-    auto randomBlue = generateRandomRobots(amountBlue, field);
-
+    // Generate random robots and a ball and check if none are colliding
+    // If there is a collision, generate new random robots
     do {
+        auto randomBall = generateRandomBall(field);
+        auto randomYellow = generateRandomRobots(amountYellow, field);
+        auto randomBlue = generateRandomRobots(amountBlue, field);
+
         msg.mutable_yellow()->CopyFrom(randomYellow);
         msg.mutable_blue()->CopyFrom(randomBlue);
-
-        if (withBall) {
-            std::cerr << "[WorldHelper] Caution: generating a world with a ball is not stable!" << std::endl;
-            msg.set_allocated_ball(randomBall);
-        }
+        msg.set_allocated_ball(randomBall);
     } while (!allPositionsAreValid(msg, withBall));
 
     return msg;
