@@ -48,7 +48,6 @@ class Role {
 
     /**
      * This function should calculate any extra information that the tactics might need to be executed.
-
      * Though this method is responsible for ensuring everything is calculated, it helps to use helpers so this
      * function doesn't become a massive hack
      */
