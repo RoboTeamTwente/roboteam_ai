@@ -1,11 +1,11 @@
-#include <random>
+#include "WorldHelper.h"
+
+#include <include/roboteam_ai/utilities/Constants.h>
 #include <roboteam_proto/World.pb.h>
 #include <roboteam_proto/WorldRobot.pb.h>
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/utilities/Constants.h>
-#include "WorldHelper.h"
 
-
+#include <random>
 
 namespace testhelpers {
 
@@ -79,7 +79,7 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 /*
  * Generate a robot on a random position
  */
-proto::WorldRobot * WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
+proto::WorldRobot *WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
@@ -97,7 +97,7 @@ proto::WorldRobot * WorldHelper::generateRandomRobot(int id, proto::GeometryFiel
 /*
  * Generate a ball at a random position
  */
-proto::WorldBall * WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
+proto::WorldBall *WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
