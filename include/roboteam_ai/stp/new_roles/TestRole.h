@@ -18,8 +18,8 @@ class TestRole : public Role {
     TestRole(std::string name);
 
 private:
-    virtual StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
-    virtual bool shouldRoleReset(const StpInfo &info) noexcept override;
+    StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
+    bool shouldRoleReset(const StpInfo &info) noexcept override;
 };
 }  // namespace rtt::ai::stp
 
