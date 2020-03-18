@@ -28,5 +28,9 @@ StpInfo TestRole::calculateInfoForTactic(StpInfo const &info) noexcept {
     return tacticInfo;
 };
 
-bool TestRole::shouldRoleReset(const StpInfo &info) noexcept {};
+
+bool TestRole::shouldRoleReset(const StpInfo &info) noexcept {
+    return false;
+};
+
 }  // namespace rtt::ai::stp
