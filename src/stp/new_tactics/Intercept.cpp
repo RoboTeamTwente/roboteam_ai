@@ -55,7 +55,7 @@ bool Intercept::isTacticFailing(const StpInfo& info) noexcept {
 
 bool Intercept::shouldTacticReset(const StpInfo& info) noexcept {
     // If the robot is not on the velocity vector of the ball, reset this tactic to move towards this line again
-    return info.getRobot()->get()->getPos() - info.getBall()->get()->getVelocity() != info.getBall()->get()->getVelocity() - info.getRobot()->get()->getPos();
+    return (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() <= Constants::ROBOT_RADIUS();
 }
 
 double Intercept::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
