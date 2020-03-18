@@ -72,7 +72,6 @@ struct Areas {
     }
 };
 
-
 enum PositionType {
     MOVE_TO_POSITION,
     RECEIVE_AT_POSITION,
@@ -83,6 +82,12 @@ enum BlockDistance {
     CLOSE = 1,
     HALFWAY,
     FAR
+};
+enum KickChipType{
+    DRIBBLE_KICK,
+    BALL_PLACEMENT,
+    PASS,
+    MAX_SPEED
 };
 
 struct StpInfo {
@@ -112,7 +117,10 @@ struct StpInfo {
     void setDribblerSpeed(int dribblerSpeed) { this->dribblerSpeed = dribblerSpeed; }
 
     BlockDistance getBlockDistance() const { return blockDistance; }
-    void setBlockDistance(BlockDistance blockDistance) { StpInfo::blockDistance = blockDistance; }
+    void setBlockDistance(BlockDistance blockDistance) { this->blockDistance = blockDistance; }
+
+    KickChipType getKickChipType() const { return kickChipType; }
+    void setKickChipType(KickChipType kickChipType) { this->kickChipType = kickChipType; }
 
    private:
     /**
@@ -136,7 +144,6 @@ struct StpInfo {
     std::optional<world_new::view::BallView> ball;
 
     /**
-
      * Tuple of the PositionType and the position of this target
      */
     std::pair<PositionType, Vector2> position;
@@ -145,6 +152,11 @@ struct StpInfo {
      * Velocity of the kick/chip
      */
     double kickChipVelocity = 0.0;
+
+    /**
+     * Type of the kick/chip
+     */
+    KickChipType kickChipType{};
 
     /**
      * Reference angle of the robot
