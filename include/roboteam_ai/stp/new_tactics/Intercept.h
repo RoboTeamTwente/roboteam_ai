@@ -11,7 +11,6 @@ namespace rtt::ai::stp::tactic {
 class Intercept : public Tactic {
    public:
     Intercept();
-    virtual bool isEndTactic() noexcept;
 
    private:
     /**
