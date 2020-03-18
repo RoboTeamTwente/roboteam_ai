@@ -50,4 +50,10 @@ bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept { return !info
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     return fabs(info.getRobot()->get()->getAngle() + (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle()) <= Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
 }
+
+bool DriveWithBall::isEndTactic() noexcept {
+    // This is not an end tactic
+    return false;
+}
+
 }  // namespace rtt::ai::stp::tactic

@@ -12,7 +12,6 @@ namespace rtt::ai::stp::tactic {
     class Receive : public Tactic {
     public:
         Receive();
-        virtual bool isEndTactic() noexcept;
 
     private:
         /**
@@ -66,6 +65,8 @@ namespace rtt::ai::stp::tactic {
          * @return Dribbler speed in %
          */
         int determineDribblerSpeed(const world_new::view::RobotView &robot);
+
+        bool isEndTactic() noexcept override;
     };
 
 } // namespace rtt::ai::stp::tactic
