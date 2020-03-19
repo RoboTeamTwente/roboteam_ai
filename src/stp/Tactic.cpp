@@ -22,22 +22,22 @@ Status Tactic::update(StpInfo const &info) noexcept {
         return Status::Success;
     }
 
+    // Update skill info
+    auto skill_info = calculateInfoForSkill(info);
+
     // if the failing condition is true, the current tactic will fail
-    if(isTacticFailing(info)){
+    if(isTacticFailing(skill_info)){
         RTT_INFO("Current Tactic Failed for ID = ", info.getRobot()->get()->getId())
         return Status::Failure;
     }
 
     // the tactic will not be reset if it's the first skill; it will be reset as well if the
     // state machine is finished
-    if(skills.finished() || (skills.current_num() != 0 && shouldTacticReset(info))){
+    if(skills.finished() || (skills.current_num() != 0 && shouldTacticReset(skill_info))){
         RTT_INFO("State Machine reset for current tactic for ID = ", info.getRobot()->get()->getId())
         // TODO: messy reset, do it in the state machine
-        skills.skip_n(- skills.current_num());
+        skills.reset();
     }
-
-    // Update skill info
-    auto skill_info = calculateInfoForSkill(info);
 
     // Update the current skill with the new SkillInfo
     auto status = skills.update(skill_info);
