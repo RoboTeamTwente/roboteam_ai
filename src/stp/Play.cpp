@@ -21,11 +21,18 @@ Status Play::update() noexcept {
     std::array<size_t, ENUM_COUNT> count{};
     std::fill(count.begin(), count.end(), 0);
 
-    if(world->getWorld()->getUs().size() != stpInfos.size()) {
-        RTT_WARNING("Reassigning bots");
-        //assignRoles();
+    if (world->getWorld()->getUs().size() != stpInfos.size()) {
+        // Make sure we don't re assign with too many robots
+        if(world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
+            RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
+            // Make sure the stpInfos is cleared to trigger a reassign whenever
+            // the robots don't exceed ROBOT_COUNT anymore
+            stpInfos = std::unordered_map<std::string, StpInfo>{};
+            return {};
+        }
+        RTT_WARNING("Reassigning bots")
+        assignRoles();
     }
-
 
     for (auto& each : roles) {
         auto roleName{each->getName()};

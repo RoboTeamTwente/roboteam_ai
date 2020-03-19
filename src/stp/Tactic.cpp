@@ -35,13 +35,11 @@ Status Tactic::update(StpInfo const &info) noexcept {
     // state machine is finished
     if(skills.finished() || (skills.current_num() != 0 && shouldTacticReset(skill_info))){
         RTT_INFO("State Machine reset for current tactic for ID = ", info.getRobot()->get()->getId())
-        // TODO: messy reset, do it in the state machine
         skills.reset();
     }
 
     // Update the current skill with the new SkillInfo
     auto status = skills.update(skill_info);
-    RTT_INFO("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId());
 
     // Call onUpdate on a skill for specific behaviour
     onUpdate(status);

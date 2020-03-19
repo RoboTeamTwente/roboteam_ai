@@ -3,94 +3,97 @@
 //
 
 #include "include/roboteam_ai/stp/new_plays/Pass.h"
+
 #include <stp/new_roles/TestRole.h>
+
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
 namespace rtt::ai::stp {
 
-    Pass::Pass() {
-        roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+Pass::Pass() {
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<Passer>(Passer("passer")), std::make_unique<PassReceiver>(PassReceiver("pass_receiver")), std::make_unique<TestRole>(TestRole("defender1"))/*,
                 std::make_unique<Role>(TestRole("test_role_3")), std::make_unique<Role>(TestRole("test_role_4")), std::make_unique<Role>(TestRole("test_role_5")),
                 std::make_unique<Role>(TestRole("test_role_6")), std::make_unique<Role>(TestRole("test_role_7")), std::make_unique<Role>(TestRole("test_role_8")),
                 std::make_unique<Role>(TestRole("test_role_9")), std::make_unique<Role>(TestRole("test_role_10"))*/};
+}
+
+bool Pass::isValidPlay(world_new::World* world) noexcept { return true; }
+
+uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
+
+void Pass::assignRoles() noexcept {
+    Dealer dealer{world->getWorld().value(), &field};
+
+    Dealer::FlagMap flagMap;
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
+
+    flagMap.insert({"passer", {closeToBallFlag}});
+    flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender1", {notImportant}});
+    //        flagMap.insert({"test_role_3", {closeToDesiredPosition}});
+    //        flagMap.insert({"test_role_4", {closeToEnemyRobot}});
+    //        flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
+    //        flagMap.insert({"test_role_6", {closeToBallFlag}});
+    //        flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
+    //        flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
+    //        flagMap.insert({"test_role_9", {closeToBallFlag}});
+    //        flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+
+    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
+
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto& role : roles) {
+        auto roleName{role->getName()};
+        if (distribution.find(roleName) != distribution.end()) {
+            auto robot = distribution.find(role->getName())->second;
+
+            stpInfos.emplace(roleName, StpInfo{});
+            stpInfos[roleName].setRobot(robot);
+        }
     }
+}
 
-    bool Pass::isValidPlay(world_new::World* world) noexcept { return true; }
+void Pass::calculateInfoForPlay() noexcept {
+    // Calculate most important positions to defend
+    // You know you have n defenders, because the play assigned it that way
+    auto enemyRobots = world->getWorld()->getThem();
+    auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
 
-    uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
+    // Use this new information to assign the roles using the dealer.
 
-    void Pass::assignRoles() noexcept {
-        Dealer dealer{world->getWorld().value(), &field};
+    decltype(stpInfos)::iterator stpInfos_iter{};
 
-        Dealer::FlagMap flagMap;
-        Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-        Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-        Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
+    // Calculate receiver info
+    stpInfos_iter = stpInfos.find("pass_receiver");
+    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({RECEIVE_AT_POSITION, Vector2(-2, -2)});
 
-        flagMap.insert({"passer", {closeToBallFlag}});
-        flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-        flagMap.insert({"defender1", {notImportant}});
-//        flagMap.insert({"test_role_3", {closeToDesiredPosition}});
-//        flagMap.insert({"test_role_4", {closeToEnemyRobot}});
-//        flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-//        flagMap.insert({"test_role_6", {closeToBallFlag}});
-//        flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-//        flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-//        flagMap.insert({"test_role_9", {closeToBallFlag}});
-//        flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    // Calculate Passer info
+    stpInfos_iter = stpInfos.find("passer");
+    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({SHOOT_TO_POSITION, Vector2(-2, -2)});
 
-        auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
+    // Calculate defender1 info
+    stpInfos_iter = stpInfos.find("defender1");
+    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({MOVE_TO_POSITION, defensivePositions[0]});
 
-        stpInfos = std::unordered_map<std::string, StpInfo>{};
-        for (auto & role : roles) {
-            auto roleName{role->getName()};
-            if (distribution.find(roleName) != distribution.end()) {
-                auto robot = distribution.find(role->getName())->second;
+    stpInfos_iter = stpInfos.find("defender2");
+    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({MOVE_TO_POSITION, defensivePositions[1]});
+}
 
-                stpInfos.emplace(roleName, StpInfo{});
-                stpInfos[roleName].setRobot(robot);
-            }
+std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
+    std::vector<Vector2> positions = {};
+    // 3 robots will defend goal
+    for (int i = 0; i < numberOfDefenders; i++) {
+        if (i < 3) {
+            positions.push_back(world->getField()->getOurGoalCenter());
+        } else {
+            positions.push_back(enemyRobots[i].get()->getPos());
         }
     }
 
-    void Pass::calculateInfoForPlay() noexcept {
-        // TODO: make sure c++ doesnt create new map entries for the roles if they are not assigned
-        // Calculate most important positions to defend
-        // You know you have n defenders, because the play assigned it that way
-        auto enemyRobots = world->getWorld()->getThem();
-        auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
-
-        // Use this new information to assign the roles using the dealer.
-
-        // Calculate receiver info
-        stpInfos["pass_receiver"].setPosition({RECEIVE_AT_POSITION, Vector2(-2,-2)});
-
-        // Calculate Passer info
-        stpInfos["passer"].setPosition({SHOOT_TO_POSITION, Vector2(-2,-2)});
-
-        // Calculate defender1 info
-        stpInfos["defender1"].setPosition({MOVE_TO_POSITION, defensivePositions[0]});
-        stpInfos["defender2"].setPosition({MOVE_TO_POSITION, defensivePositions[1]});
-
-    }
-
-    std::vector<Vector2>
-    Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World *world, std::vector<world_new::view::RobotView> enemyRobots) {
-        std::vector<Vector2> positions = {};
-        // 3 robots will defend goal
-        for (int i = 0; i < numberOfDefenders; i++) {
-            if (i < 3) {
-                positions.push_back(world->getField()->getOurGoalCenter());
-            }
-            else {
-                positions.push_back(enemyRobots[i].get()->getPos());
-            }
-        }
-
-
-        return positions;
-    }
-
+    return positions;
+}
 
 }  // namespace rtt::ai::stp
