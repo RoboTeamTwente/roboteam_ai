@@ -49,7 +49,11 @@ TEST(TacticTests, nonEndTacticFinishedSuccessful){
     StpInfo info;
     info.setBall(rtt::world_new::view::BallView(nullptr));
     info.setField(rtt::ai::world::Field());
-    info.setRobot(rtt::world_new::view::RobotView(nullptr));
+    proto::WorldRobot robot_proto;
+    robot_proto.set_id(1);
+    std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
+    auto robot = rtt::world_new::robot::Robot(updateMap, robot_proto);
+    info.setRobot(rtt::world_new::view::RobotView(&robot));
 
     EXPECT_CALL(tactic, isEndTacticMock()).WillOnce(testing::Return(false));
     auto result = tactic.update(info);
@@ -68,7 +72,6 @@ TEST(TacticTests, endTacticFailingCondition){
 
     proto::WorldRobot robot_proto;
     robot_proto.set_id(1);
-    robot_proto.mutable_pos()->set_x(0.1);
     std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
     auto robot = rtt::world_new::robot::Robot(updateMap, robot_proto);
     info.setRobot(rtt::world_new::view::RobotView(&robot));
@@ -88,7 +91,6 @@ TEST(TacticTests, isTacticRunningSuccessful){
 
     proto::WorldRobot robot_proto;
     robot_proto.set_id(1);
-    robot_proto.mutable_pos()->set_x(0.1);
     std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
     auto robot = rtt::world_new::robot::Robot(updateMap, robot_proto);
     info.setRobot(rtt::world_new::view::RobotView(&robot));
