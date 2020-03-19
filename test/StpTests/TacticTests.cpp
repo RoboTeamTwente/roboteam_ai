@@ -40,6 +40,10 @@ public:
 };
 
 //TODO: nice to have, but too much for this: a before for each test case; see junit for details
+/** A non-end tactic will succeed when the state machine is finished.
+ * As the state machine is empty, this only implies that the tactic is not an end tactic.
+ */
+
 TEST(TacticTests, nonEndTacticFinishedSuccessful){
     MockTactic tactic;
     StpInfo info;
@@ -52,6 +56,10 @@ TEST(TacticTests, nonEndTacticFinishedSuccessful){
     ASSERT_EQ(rtt::ai::stp::Status::Success, result);
 }
 
+/** The tactic returns Failure if it didn't reach the end, and the failing condition is
+ * true. As the state machine is empty, this implies that this should be an end tactic
+ * (as it cannot succeed)
+ */
 TEST(TacticTests, endTacticFailingCondition){
     MockTactic tactic;
     StpInfo info;
@@ -71,6 +79,7 @@ TEST(TacticTests, endTacticFailingCondition){
     ASSERT_EQ(rtt::ai::stp::Status::Failure, result);
 }
 
+/// The tactic returns running if it's not an end tactic, and it didn't fail
 TEST(TacticTests, isTacticRunningSuccessful){
     MockTactic tactic;
     StpInfo info;
