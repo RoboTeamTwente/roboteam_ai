@@ -98,6 +98,12 @@ class Tactic {
      * Default move-ctor, ensures proper move-construction of Tactic
      */
     Tactic(Tactic &&other) = default;
+
+    /**
+     * Returns the skills state machine
+     * @return Skills state machine
+     */
+    rtt::collections::state_machine<Skill, Status, StpInfo> & getSkills() { return skills; };
 };
 }  // namespace rtt::ai::stp
 
