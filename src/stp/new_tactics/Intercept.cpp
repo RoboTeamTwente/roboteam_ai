@@ -54,7 +54,7 @@ bool Intercept::isTacticFailing(const StpInfo& info) noexcept {
 }
 
 bool Intercept::shouldTacticReset(const StpInfo& info) noexcept {
-    // If the robot is not on the velocity vector of the ball, reset this tactic to move towards this line again
+    // If the robot is not close to the ball, reset so GoToPos is called to move to the ball again
     return (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() <= Constants::ROBOT_RADIUS();
 }
 
