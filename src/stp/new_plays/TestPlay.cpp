@@ -36,7 +36,7 @@ void TestPlay::assignRoles() noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
