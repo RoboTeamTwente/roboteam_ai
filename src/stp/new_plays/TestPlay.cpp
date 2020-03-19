@@ -12,7 +12,7 @@ TestPlay::TestPlay() {
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("kicker"))/*, std::make_unique<TestRole>(TestRole("test_role_2")),
         std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
         std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
-        std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))*/};
+        std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
 bool TestPlay::isValidPlay(world_new::World* world) noexcept { return true; }
