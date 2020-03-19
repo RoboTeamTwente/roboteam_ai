@@ -54,8 +54,8 @@ bool Intercept::isTacticFailing(const StpInfo& info) noexcept {
 }
 
 bool Intercept::shouldTacticReset(const StpInfo& info) noexcept {
-    // If the robot is not close to the ball, reset so GoToPos is called to move to the ball again
-    return (info.getRobot()->get()->getPos() - info.getBall()->get()->getPos()).length() <= Constants::ROBOT_RADIUS();
+    // If the robot does not have the ball, reset so GoToPos is called to move to the ball again
+    return !info.getRobot()->hasBall(Constants::ROBOT_RADIUS());
 }
 
 double Intercept::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
