@@ -28,7 +28,7 @@ void TestPlay::assignRoles() noexcept {
 
     flagMap.insert({"test_role_0", {closeToBallFlag}});
     flagMap.insert({"kicker", {closeToTheirGoalFlag}});
-/*    flagMap.insert({"test_role_2", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_2", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_3", {closeToBallFlag}});
     flagMap.insert({"test_role_4", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
