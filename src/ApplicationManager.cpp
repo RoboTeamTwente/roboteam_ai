@@ -29,11 +29,11 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
-    auto testVect = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
-    testVect.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    testVect.emplace_back(std::make_unique<rtt::ai::stp::Pass>());
+    auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::Pass>());
 
-    playChecker.setPlays(testVect);
+    playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;

@@ -20,8 +20,6 @@ namespace rtt::ai::stp {
         bool shouldRoleReset(const StpInfo &info) noexcept override;
 
         StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
-
-
     };
 }  // namespace rtt::ai::stp
 

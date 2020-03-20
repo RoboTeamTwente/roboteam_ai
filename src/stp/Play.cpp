@@ -34,6 +34,8 @@ Status Play::update() noexcept {
         assignRoles();
     }
 
+    calculateInfoForPlay();
+
     for (auto& each : roles) {
         auto roleName{each->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
@@ -46,7 +48,6 @@ Status Play::update() noexcept {
             count[index] += 1;
         }
     }
-    calculateInfoForPlay();
 
     if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
         return Status::Success;

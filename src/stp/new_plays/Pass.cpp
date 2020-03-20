@@ -12,10 +12,10 @@ namespace rtt::ai::stp {
 
 Pass::Pass() {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<Passer>(Passer("passer")), std::make_unique<PassReceiver>(PassReceiver("pass_receiver")), std::make_unique<TestRole>(TestRole("defender1"))/*,
+                std::make_unique<Passer>(Passer("passer")), std::make_unique<PassReceiver>(PassReceiver("pass_receiver")), std::make_unique<TestRole>(TestRole("defender1")),
                 std::make_unique<Role>(TestRole("test_role_3")), std::make_unique<Role>(TestRole("test_role_4")), std::make_unique<Role>(TestRole("test_role_5")),
                 std::make_unique<Role>(TestRole("test_role_6")), std::make_unique<Role>(TestRole("test_role_7")), std::make_unique<Role>(TestRole("test_role_8")),
-                std::make_unique<Role>(TestRole("test_role_9")), std::make_unique<Role>(TestRole("test_role_10"))*/};
+                std::make_unique<Role>(TestRole("test_role_9")), std::make_unique<Role>(TestRole("test_role_10"))};
 }
 
 bool Pass::isValidPlay(world_new::World* world) noexcept { return true; }
@@ -33,14 +33,14 @@ void Pass::assignRoles() noexcept {
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
     flagMap.insert({"defender1", {notImportant}});
-    //        flagMap.insert({"test_role_3", {closeToDesiredPosition}});
-    //        flagMap.insert({"test_role_4", {closeToEnemyRobot}});
-    //        flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    //        flagMap.insert({"test_role_6", {closeToBallFlag}});
-    //        flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    //        flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    //        flagMap.insert({"test_role_9", {closeToBallFlag}});
-    //        flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_4", {closeToBallFlag}});
+    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_6", {closeToBallFlag}});
+    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_9", {closeToBallFlag}});
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
@@ -63,7 +63,6 @@ void Pass::calculateInfoForPlay() noexcept {
     auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
 
     // Use this new information to assign the roles using the dealer.
-
     decltype(stpInfos)::iterator stpInfos_iter{};
 
     // Calculate receiver info
