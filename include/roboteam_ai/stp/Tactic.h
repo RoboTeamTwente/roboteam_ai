@@ -5,9 +5,11 @@
 #ifndef RTT_TACTIC_H
 #define RTT_TACTIC_H
 
+#include <roboteam_utils/Print.h>
+
 #include <roboteam_utils/containers/state_machine.hpp>
 #include <vector>
-#include <roboteam_utils/Print.h>
+
 #include "stp/Skill.h"
 #include "stp/StpInfo.h"
 
@@ -61,6 +63,11 @@ class Tactic {
      */
     virtual bool isEndTactic() noexcept = 0;
 
+    /**
+     * The state machine of skills
+     */
+    rtt::collections::state_machine<Skill, Status, StpInfo> skills;
+
    public:
     /**
      * Calls onInitialize of the tactic
@@ -95,9 +102,9 @@ class Tactic {
     Tactic(Tactic &&other) = default;
 
     /**
-     * The state machine of skills
+     * Reset the state machine
      */
-    rtt::collections::state_machine<Skill, Status, StpInfo> skills;
+    void reset() noexcept;
 };
 }  // namespace rtt::ai::stp
 

@@ -22,7 +22,7 @@ class Role {
      * @param info TacticInfo to be passed to update()
      * @return The status that the current tactic returns
      */
-    [[nodiscard]] virtual Status update(StpInfo const& info) noexcept;
+    [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
 
     /**
      * @return True if all tactics returned Status::finish
@@ -61,9 +61,9 @@ class Role {
     virtual bool shouldRoleReset(const StpInfo &info) noexcept = 0;
 
     /**
-     * Current status of tactic state machine
+     * Stores the current status of tactic to be able to decide whether to reset or not.
      */
-     Status currentTacticStatus;
+    Status currentTacticStatus;
 };
 
 }  // namespace rtt::ai::stp

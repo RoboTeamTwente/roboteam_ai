@@ -9,43 +9,50 @@
 
 namespace rtt::ai::stp {
 
-    class Pass : public Play {
-    public:
-        /**
-         * Constructor that initializes roles with test roles
-         */
-        Pass();
+class Pass : public Play {
+   public:
+    /**
+     * Constructor that initializes roles with roles that are necessary for this play
+     */
+    Pass();
 
-        /**
-         * Checks whether the current play is a valid play
-         * @param world World to check for (world_new::World::instance())
-         * @return true if valid, false if not
-         */
-        bool isValidPlay(world_new::World* world) noexcept override;
+    /**
+     * Checks whether the current play is a valid play
+     * @param world World to check for (world_new::World::instance())
+     * @return true if valid, false if not
+     */
+    bool isValidPlay(world_new::World* world) noexcept override;
 
-        /**
-         * Gets the score for the current play
-         *
-         * On the contrary to isValidPlay() this checks how good the play actually is
-         * return in range of 0 - 100
-         *
-         * @param world World to get the score for (world_new::World::instance())
-         * @return The score, 0 - 100
-         */
-        uint8_t score(world_new::World* world) noexcept override;
+    /**
+     * Gets the score for the current play
+     *
+     * On the contrary to isValidPlay() this checks how good the play actually is
+     * return in range of 0 - 100
+     *
+     * @param world World to get the score for (world_new::World::instance())
+     * @return The score, 0 - 100
+     */
+    uint8_t score(world_new::World* world) noexcept override;
 
-        /**
-         * Assigns robots to roles of this play
-         */
-        void assignRoles() noexcept;
+    /**
+     * Assigns robots to roles of this play
+     */
+    void assignRoles() noexcept;
 
-        void calculateInfoForPlay() noexcept override;
+    /**
+     * Calculates info for the roles
+     */
+    void calculateInfoForRole() noexcept override;
 
-        std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World *world,
-                                                         std::vector<world_new::view::RobotView> enemyRobots);
-    };
+    /**
+     * Calculates n defensive positions for the roles to defend
+     * @param numberOfDefenders
+     * @param world
+     * @param enemyRobots
+     * @return A vector of defend positions
+     */
+    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+};
 }  // namespace rtt::ai::stp
 
-
-
-#endif //RTT_PASS_H
+#endif  // RTT_PASS_H

@@ -7,7 +7,7 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
-    calculateInfoForPlay();
+    calculateInfoForRole();
     assignRoles();
 }
 
@@ -34,7 +34,7 @@ Status Play::update() noexcept {
         assignRoles();
     }
 
-    calculateInfoForPlay();
+    calculateInfoForRole();
 
     for (auto& each : roles) {
         auto roleName{each->getName()};

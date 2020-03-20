@@ -3,7 +3,9 @@
 //
 
 #include "include/roboteam_ai/stp/Tactic.h"
+
 #include <roboteam_utils/Print.h>
+
 #include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
@@ -27,16 +29,16 @@ Status Tactic::update(StpInfo const &info) noexcept {
     auto skill_info = calculateInfoForSkill(info);
 
     // if the failing condition is true, the current tactic will fail
-    if(isTacticFailing(skill_info)){
+    if (isTacticFailing(skill_info)) {
         RTT_INFO("Current Tactic Failed for ID = ", info.getRobot()->get()->getId())
         return Status::Failure;
     }
 
     // the tactic will not be reset if it's the first skill; it will be reset as well if the
     // state machine is finished
-    if(skills.finished() || (skills.current_num() != 0 && shouldTacticReset(skill_info))){
+    if (skills.finished() || (skills.current_num() != 0 && shouldTacticReset(skill_info))) {
         RTT_INFO("State Machine reset for current tactic for ID = ", info.getRobot()->get()->getId())
-        skills.reset();
+        reset();
     }
 
     // Update the current skill with the new SkillInfo
@@ -50,4 +52,5 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
 void Tactic::terminate() noexcept { onTerminate(); }
 
+void Tactic::reset() noexcept { skills.reset(); }
 }  // namespace rtt::ai::stp

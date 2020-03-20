@@ -52,7 +52,7 @@ void TestPlay::assignRoles() noexcept {
     }
 }
 
-void TestPlay::calculateInfoForPlay() noexcept {
+void TestPlay::calculateInfoForRole() noexcept {
         for (auto & role : roles) {
             auto roleName{role->getName()};
             if (stpInfos.find(roleName) != stpInfos.end()) {

@@ -56,7 +56,7 @@ void Pass::assignRoles() noexcept {
     }
 }
 
-void Pass::calculateInfoForPlay() noexcept {
+void Pass::calculateInfoForRole() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
