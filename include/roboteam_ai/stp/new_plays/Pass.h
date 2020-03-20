@@ -1,20 +1,20 @@
 //
-// Created by timovdk on 3/10/20.
+// Created by jessevw on 17.03.20.
 //
 
-#ifndef RTT_TESTPLAY_H
-#define RTT_TESTPLAY_H
+#ifndef RTT_PASS_H
+#define RTT_PASS_H
 
 #include <stp/Play.hpp>
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::play {
 
-class TestPlay : public Play {
+class Pass : public Play {
    public:
     /**
-     * Constructor that initializes roles with test roles
+     * Constructor that initializes roles with roles that are necessary for this play
      */
-    TestPlay();
+    Pass();
 
     /**
      * Checks whether the current play is a valid play
@@ -39,8 +39,20 @@ class TestPlay : public Play {
      */
     void assignRoles() noexcept;
 
+    /**
+     * Calculates info for the roles
+     */
     void calculateInfoForRoles() noexcept override;
-};
-}  // namespace rtt::ai::stp
 
-#endif  // RTT_TESTPLAY_H
+    /**
+     * Calculates n defensive positions for the roles to defend
+     * @param numberOfDefenders
+     * @param world
+     * @param enemyRobots
+     * @return A vector of defend positions
+     */
+    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+};
+}  // namespace rtt::ai::stp::play
+
+#endif  // RTT_PASS_H
