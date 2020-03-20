@@ -18,16 +18,16 @@ public:
     Attacker(std::string name);
 
 private:
-    StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
+    //StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
 
-    bool shouldRoleReset(const StpInfo &info) noexcept override;
+    //bool shouldRoleReset(const StpInfo &info) noexcept override;
 
     /**
      * Calculate position of the goal to kick to
      * @param info Info of the Role
      * @return Position to kick to
      */
-    Vector2 calculateKickPosition(StpInfo const info) noexcept;
+    //Vector2 calculateKickPosition(StpInfo const info) noexcept;
 };
 
 } // namespace rtt::ai::stp::role

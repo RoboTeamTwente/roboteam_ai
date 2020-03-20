@@ -15,7 +15,7 @@ Attacker::Attacker(std::string name) : Role(std::move(name)) {
     robotTactics.initialize();
 }
 
-StpInfo Attacker::calculateInfoForTactic(StpInfo const &info) noexcept {
+/*StpInfo Attacker::calculateInfoForTactic(StpInfo const &info) noexcept {
     StpInfo tacticInfo = info;
 
     // Set info about the shot
@@ -33,6 +33,6 @@ bool Attacker::shouldRoleReset(const StpInfo &info) noexcept {
 Vector2 Attacker::calculateKickPosition(StpInfo const info) noexcept {
     // Calculate the position of the goal to kick to
     return info.getField()->getTheirGoalCenter();
-}
+}*/
 
 } // namespace rtt::ai::stp::role
