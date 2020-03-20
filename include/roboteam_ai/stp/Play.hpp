@@ -43,7 +43,10 @@ class Play {
      */
     [[nodiscard]] virtual Status update() noexcept;
 
-    virtual void calculateInfoForPlay() noexcept = 0;
+    /**
+     * Calculates all the info (mostly positions) the roles in this play need to execute
+     */
+    virtual void calculateInfoForRoles() noexcept = 0;
 
     /**
      * Checks whether the current play is a valid play

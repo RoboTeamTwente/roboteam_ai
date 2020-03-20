@@ -2,7 +2,7 @@
 // Created by jessevw on 03.03.20.
 //
 
-#include "include/roboteam_ai/stp/Tactic.h"
+#include "stp/Tactic.h"
 
 #include <roboteam_utils/Print.h>
 
@@ -30,7 +30,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
     // Check if the skills are all finished
     if (skills.finished()) {
-        RTT_INFO("TACTIC SUCCESSFUL!!!!!!!!!!!!!!!!!!!!!!!!:)")
+        RTT_INFO("TACTIC SUCCESSFUL for ", info.getRobot()->get()->getId())
         if (!isEndTactic()) {
             return Status::Success;
         }
@@ -39,16 +39,15 @@ Status Tactic::update(StpInfo const &info) noexcept {
     }
 
     // if the failing condition is true, the current tactic will fail
-    if(isTacticFailing(info)){
+    if (isTacticFailing(skill_info)) {
         RTT_INFO("Current Tactic Failed for ID = ", info.getRobot()->get()->getId())
         return Status::Failure;
     }
 
     // the tactic will not be reset if it's the first skill
-    if((skills.current_num() != 0 && shouldTacticReset(info))){
+    if((skills.current_num() != 0 && shouldTacticReset(skill_info))){
         RTT_INFO("State Machine reset for current tactic for ID = ", info.getRobot()->get()->getId())
-        // TODO: messy reset, do it in the state machine
-        skills.skip_n(- skills.current_num());
+        reset();
     }
 
     return Status::Running;
@@ -56,4 +55,5 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
 void Tactic::terminate() noexcept { onTerminate(); }
 
+void Tactic::reset() noexcept { skills.reset(); }
 }  // namespace rtt::ai::stp
