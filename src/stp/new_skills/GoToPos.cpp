@@ -13,7 +13,7 @@ namespace rtt::ai::stp::skill {
 void GoToPos::onInitialize() noexcept { }
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    Vector2 targetPos = info.getPosition().second;
+    Vector2 targetPos = info.getPositionMoveTo().value();
 
     // Calculate commands from path planning and tracking
     auto robotCommand = world_new::World::instance()->getRobotPositionController()->

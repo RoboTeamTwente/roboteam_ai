@@ -59,10 +59,10 @@ void TestPlay::calculateInfoForPlay() noexcept {
                 auto robot = stpInfos[roleName].getRobot().value();
                 // TODO calculate additional info
                 // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
-                stpInfos[roleName].setPosition({MOVE_TO_POSITION, world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5});
+                stpInfos[roleName].setPositionMoveTo(world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5);
             }
         }
-    stpInfos["kicker"].setPosition({SHOOT_TO_POSITION, {2, 2}});
+    stpInfos["kicker"].setPositionShootAt(Vector2(2, 2));
     }
 
 

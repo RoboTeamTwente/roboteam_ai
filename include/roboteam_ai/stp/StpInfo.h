@@ -104,8 +104,14 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::pair<PositionType, Vector2>& getPosition() const { return position; }
-    void setPosition(const std::pair<PositionType, Vector2>& position) { this->position = position; }
+    const std::optional<Vector2>& getPositionMoveTo() const { return positionMoveTo; }
+    void setPositionMoveTo(const std::optional<Vector2>& position) { this->positionMoveTo = position; }
+
+    const std::optional<Vector2>& getPositionShootAt() const { return positionShootAt; }
+    void setPositionShootAt(const std::optional<Vector2>& position) { this->positionShootAt = position; }
+
+    const std::optional<Vector2>& getPositionToDefend() const { return positionToDefend; }
+    void setPositionToDefend(const std::optional<Vector2>& position) { this->positionToDefend = position; }
 
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
@@ -143,10 +149,11 @@ struct StpInfo {
      */
     std::optional<world_new::view::BallView> ball;
 
-    /**
-     * Tuple of the PositionType and the position of this target
-     */
-    std::pair<PositionType, Vector2> position;
+    std::optional<Vector2> positionMoveTo;
+
+    std::optional<Vector2> positionShootAt;
+
+    std::optional<Vector2> positionToDefend;
 
     /**
      * Velocity of the kick/chip
