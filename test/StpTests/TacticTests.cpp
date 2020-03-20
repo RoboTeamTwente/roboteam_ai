@@ -8,8 +8,28 @@
 
 using namespace rtt::ai::stp;
 
+class TestSkill : public Skill{
+protected:
+    void onTerminate() noexcept override {}
+
+    Status onUpdate(StpInfo const &info) noexcept override {
+        return Status::Failure;
+    }
+
+    void onInitialize() noexcept override {}
+};
+
 class MockTactic : public Tactic{
 public:
+    explicit MockTactic(bool emptyTactic){
+        if (!emptyTactic){
+            skills = rtt::collections::state_machine<Skill, Status, StpInfo>{TestSkill()};
+        }
+        else{
+            skills = rtt::collections::state_machine<Skill, Status, StpInfo>{};
+        }
+    }
+
     StpInfo calculateInfoForSkill(const StpInfo &info) noexcept override {
         return StpInfo();
     }
@@ -45,7 +65,7 @@ public:
  */
 
 TEST(TacticTests, nonEndTacticFinishedSuccessful){
-    MockTactic tactic;
+    MockTactic tactic(true);
     StpInfo info;
     info.setBall(rtt::world_new::view::BallView(nullptr));
     info.setField(rtt::ai::world::Field());
@@ -60,12 +80,26 @@ TEST(TacticTests, nonEndTacticFinishedSuccessful){
     ASSERT_EQ(rtt::ai::stp::Status::Success, result);
 }
 
-/** The tactic returns Failure if it didn't reach the end, and the failing condition is
- * true. As the state machine is empty, this implies that this should be an end tactic
- * (as it cannot succeed)
- */
+/// The tactic will be waiting in the same condition as success, but it should be an end tactic
+TEST(TacticTests, endTacticWaiting){
+    MockTactic tactic(true);
+    StpInfo info;
+    info.setBall(rtt::world_new::view::BallView(nullptr));
+    info.setField(rtt::ai::world::Field());
+    proto::WorldRobot robot_proto;
+    robot_proto.set_id(1);
+    std::unordered_map<uint8_t, proto::RobotFeedback> updateMap;
+    auto robot = rtt::world_new::robot::Robot(updateMap, robot_proto);
+    info.setRobot(rtt::world_new::view::RobotView(&robot));
+
+    EXPECT_CALL(tactic, isEndTacticMock()).WillOnce(testing::Return(true));
+    auto result = tactic.update(info);
+    ASSERT_EQ(rtt::ai::stp::Status::Waiting, result);
+}
+
+/// The tactic returns Failure if it didn't reach the end, and the failing condition is true.
 TEST(TacticTests, endTacticFailingCondition){
-    MockTactic tactic;
+    MockTactic tactic(false);
     StpInfo info;
     info.setBall(rtt::world_new::view::BallView(nullptr));
     info.setField(rtt::ai::world::Field());
@@ -76,7 +110,6 @@ TEST(TacticTests, endTacticFailingCondition){
     auto robot = rtt::world_new::robot::Robot(updateMap, robot_proto);
     info.setRobot(rtt::world_new::view::RobotView(&robot));
 
-    EXPECT_CALL(tactic, isEndTacticMock()).WillOnce(testing::Return(true));
     EXPECT_CALL(tactic, isTacticFailingMock(testing::_)).WillOnce(testing::Return(true));
     auto result = tactic.update(info);
     ASSERT_EQ(rtt::ai::stp::Status::Failure, result);
@@ -84,7 +117,7 @@ TEST(TacticTests, endTacticFailingCondition){
 
 /// The tactic returns running if it's not an end tactic, and it didn't fail
 TEST(TacticTests, isTacticRunningSuccessful){
-    MockTactic tactic;
+    MockTactic tactic(false);
     StpInfo info;
     info.setBall(rtt::world_new::view::BallView(nullptr));
     info.setField(rtt::ai::world::Field());
@@ -95,7 +128,6 @@ TEST(TacticTests, isTacticRunningSuccessful){
     auto robot = rtt::world_new::robot::Robot(updateMap, robot_proto);
     info.setRobot(rtt::world_new::view::RobotView(&robot));
 
-    EXPECT_CALL(tactic, isEndTacticMock()).WillOnce(testing::Return(true));
     EXPECT_CALL(tactic, isTacticFailingMock(testing::_)).WillOnce(testing::Return(false));
     auto result = tactic.update(info);
     ASSERT_EQ(rtt::ai::stp::Status::Running, result);
