@@ -11,23 +11,27 @@ Status Role::update(StpInfo const& info) noexcept {
         return Status::Failure;
     }
 
+    // Update the current tactic with the new tacticInfo
+    auto status = robotTactics.update(info);
+
     // Check if the skills are all finished
     if (robotTactics.finished()) {
+        RTT_INFO("ROLE SUCCESSFUL for ", info.getRobot()->get()->getId())
         return Status::Success;
     }
 
     // Reset the role
-    if (robotTactics.current_num() != 0 && shouldRoleReset(info)) {
+    if (robotTactics.current_num() != 0 && status == Status::Failure) {
         RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
-        // TODO: messy reset, do it in the state machine
-        robotTactics.skip_n(-robotTactics.current_num());
+        // Reset all the Tactics state machines
+        for (auto& tactic : robotTactics) {
+            tactic->reset();
+        }
+        // Reset Role state machine
+        robotTactics.reset();
     }
 
-    // Update tactic info
-    auto tacticInfo = calculateInfoForTactic(info);
-
-    // Update the state machine of tactics with the TacticInfo from Play
-    return robotTactics.update(tacticInfo);
+    return Status::Running;
 }
 
 bool Role::finished() const noexcept { return robotTactics.finished(); }

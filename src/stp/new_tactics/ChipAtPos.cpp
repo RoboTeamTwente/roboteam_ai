@@ -31,18 +31,17 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
-    double angleToBall = (info.getPosition().second - info.getBall()->get()->getPos()).angle();
-    skillStpInfo.setAngle(angleToBall);
+    double angleToTarget = (info.getPosition().second - info.getRobot().value()->getPos()).angle();
+    skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the chip force
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineChipForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
     // When rotating, we need to dribble to keep the ball, but when kicking we don't
-    if(skills.current_num() == 0) {
-        skillStpInfo.setDribblerSpeed(100);
+    if (skills.current_num() == 0) {
+        skillStpInfo.setDribblerSpeed(30);
     }
-    skillStpInfo.setDribblerSpeed(0);
 
     return skillStpInfo;
 }
