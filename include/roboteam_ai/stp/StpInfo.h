@@ -98,11 +98,11 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::optional<Vector2>& getPositionMoveTo() const { return positionMoveTo; }
-    void setPositionMoveTo(const std::optional<Vector2>& position) { this->positionMoveTo = position; }
+    const std::optional<Vector2>& getPositionToMoveTo() const { return positionToMoveTo; }
+    void setPositionToMoveTo(const std::optional<Vector2>& position) { this->positionToMoveTo = position; }
 
-    const std::optional<Vector2>& getPositionShootAt() const { return positionShootAt; }
-    void setPositionShootAt(const std::optional<Vector2>& position) { this->positionShootAt = position; }
+    const std::optional<Vector2>& getPositionToShootAt() const { return positionToShootAt; }
+    void setPositionToShootAt(const std::optional<Vector2>& position) { this->positionToShootAt = position; }
 
     const std::optional<Vector2>& getPositionToDefend() const { return positionToDefend; }
     void setPositionToDefend(const std::optional<Vector2>& position) { this->positionToDefend = position; }
@@ -146,12 +146,12 @@ struct StpInfo {
     /**
      * Position to move to
      */
-    std::optional<Vector2> positionMoveTo;
+    std::optional<Vector2> positionToMoveTo;
 
     /**
      * Position to kick or chip at
      */
-    std::optional<Vector2> positionShootAt;
+    std::optional<Vector2> positionToShootAt;
 
     /**
      * Position to defend

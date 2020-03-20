@@ -33,7 +33,7 @@ namespace rtt::ai::stp::tactic {
             skillInfo.setDribblerSpeed(100);
         }
 
-        skillInfo.setPositionMoveTo(newRobotPosition);
+        skillInfo.setPositionToMoveTo(newRobotPosition);
 
         return skillInfo;
     }

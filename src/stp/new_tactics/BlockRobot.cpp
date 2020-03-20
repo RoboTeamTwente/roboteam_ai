@@ -31,7 +31,7 @@ namespace rtt::ai::stp::tactic {
         skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
         auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());
-        skillStpInfo.setPositionMoveTo(desiredRobotPosition);
+        skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
 
         return skillStpInfo;
     }
