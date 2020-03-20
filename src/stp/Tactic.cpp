@@ -18,7 +18,8 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
     // Check if the skills are all finished
     if (skills.finished() && !isEndTactic()) {
-        RTT_INFO("TACTIC SUCCESSFUL for ", info.getRobot()->get()->getId())
+        // Tactic tests don't have robotID, so make sure it does not segfault here
+        if (info.getRobot().value()) RTT_INFO("TACTIC SUCCESSFUL for ", info.getRobot()->get()->getId())
         return Status::Success;
     }
 
