@@ -15,7 +15,7 @@ void Play::updateWorld(world_new::World* world) noexcept {
     this->field = world->getField().value();
 }
 
-Status Play::update() noexcept {
+void Play::update() noexcept {
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
         assignRoles();

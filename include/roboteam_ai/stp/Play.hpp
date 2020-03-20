@@ -41,7 +41,7 @@ class Play {
      * if any waiting -> waiting
      * otherwise -> running
      */
-    [[nodiscard]] virtual Status update() noexcept;
+    [[nodiscard]] virtual void update() noexcept;
 
     virtual void calculateInfoForPlay() noexcept = 0;
 

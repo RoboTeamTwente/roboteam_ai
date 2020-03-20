@@ -214,7 +214,10 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
 
 void ApplicationManager::decidePlay(world_new::World *_world) {
     playChecker.update(_world);
-    if (!currentPlay || !currentPlay->isValidPlay(_world)) {
+
+    // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
+    // play is considered finished
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
         currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
