@@ -38,8 +38,9 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When rotating, we need to dribble to keep the ball, but when kicking we don't
-    if (skills.current_num() == 0) {
+    // When the angle is not within the margin, dribble so we don't lose the ball while rotating
+    double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+    if (fabs(info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget)) >= errorMargin) {
         skillStpInfo.setDribblerSpeed(100);
     } else {
         skillStpInfo.setDribblerSpeed(0);

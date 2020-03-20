@@ -7,22 +7,16 @@
 
 #include <stp/Role.hpp>
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::role {
 
-    class PassReceiver : public Role {
-    public:
-        /**
-         * Ctor that sets the name of the role and creates a statemachine of tactics
-         * @param name name of the role
-         */
-        PassReceiver(std::string name);
+class PassReceiver : public Role {
+   public:
+    /**
+     * Ctor that sets the name of the role and creates a statemachine of tactics
+     * @param name name of the role
+     */
+    PassReceiver(std::string name);
+};
+}  // namespace rtt::ai::stp::role
 
-    protected:
-        StpInfo calculateInfoForTactic(StpInfo const &info) noexcept override;
-
-        bool shouldRoleReset(const StpInfo &info) noexcept override;
-    };
-}  // namespace rtt::ai::stp
-
-
-#endif //RTT_PASSRECEIVER_H
+#endif  // RTT_PASSRECEIVER_H

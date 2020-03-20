@@ -7,7 +7,7 @@
 
 #include <stp/Play.hpp>
 
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::play {
 
 class Pass : public Play {
    public:
@@ -53,6 +53,6 @@ class Pass : public Play {
      */
     std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
 };
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::play
 
 #endif  // RTT_PASS_H

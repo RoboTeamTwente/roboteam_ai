@@ -8,14 +8,16 @@
 
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-namespace rtt::ai::stp {
+namespace rtt::ai::stp::play {
 
 Pass::Pass() {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<Passer>(Passer("passer")), std::make_unique<PassReceiver>(PassReceiver("pass_receiver")), std::make_unique<TestRole>(TestRole("defender1")),
-                std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
-                std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
-                std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
+        std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
+        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),
+        std::make_unique<TestRole>(TestRole("test_role_4")),    std::make_unique<TestRole>(TestRole("test_role_5")),
+        std::make_unique<TestRole>(TestRole("test_role_6")),    std::make_unique<TestRole>(TestRole("test_role_7")),
+        std::make_unique<TestRole>(TestRole("test_role_8")),    std::make_unique<TestRole>(TestRole("test_role_9")),
+        std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
 bool Pass::isValidPlay(world_new::World* world) noexcept { return true; }
@@ -62,6 +64,7 @@ void Pass::calculateInfoForRole() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
 
+    // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
     decltype(stpInfos)::iterator stpInfos_iter{};
 
@@ -95,4 +98,4 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::play
