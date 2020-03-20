@@ -42,7 +42,7 @@ class Pass : public Play {
     /**
      * Calculates info for the roles
      */
-    void calculateInfoForRole() noexcept override;
+    void calculateInfoForRoles() noexcept override;
 
     /**
      * Calculates n defensive positions for the roles to defend

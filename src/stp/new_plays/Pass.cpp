@@ -58,7 +58,7 @@ void Pass::assignRoles() noexcept {
     }
 }
 
-void Pass::calculateInfoForRole() noexcept {
+void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
@@ -66,22 +66,14 @@ void Pass::calculateInfoForRole() noexcept {
 
     // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
-    decltype(stpInfos)::iterator stpInfos_iter{};
-
     // Calculate receiver info
-    stpInfos_iter = stpInfos.find("pass_receiver");
-    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({RECEIVE_AT_POSITION, Vector2(-2, -2)});
-
+    if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPosition({RECEIVE_AT_POSITION, Vector2(-2, -2)});
     // Calculate Passer info
-    stpInfos_iter = stpInfos.find("passer");
-    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({SHOOT_TO_POSITION, Vector2(-2, -2)});
-
+    if (stpInfos.find("passer") != stpInfos.end()) stpInfos["passer"].setPosition({SHOOT_TO_POSITION, Vector2(-2, -2)});
     // Calculate defender1 info
-    stpInfos_iter = stpInfos.find("defender1");
-    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({MOVE_TO_POSITION, defensivePositions[0]});
-
-    stpInfos_iter = stpInfos.find("defender2");
-    if (stpInfos_iter != stpInfos.end()) stpInfos_iter->second.setPosition({MOVE_TO_POSITION, defensivePositions[1]});
+    if (stpInfos.find("defender1") != stpInfos.end()) stpInfos["defender1"].setPosition({MOVE_TO_POSITION, defensivePositions[0]});
+    // Calculate defender2 info
+    if (stpInfos.find("defender2") != stpInfos.end()) stpInfos["defender2"].setPosition({MOVE_TO_POSITION, defensivePositions[1]});
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
