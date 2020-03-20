@@ -16,15 +16,19 @@ Status Role::update(StpInfo const& info) noexcept {
         return Status::Success;
     }
 
-    // Reset the role
-    if (robotTactics.current_num() != 0 && shouldRoleReset(info)) {
-        RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
-        // TODO: messy reset, do it in the state machine
-        robotTactics.skip_n(-robotTactics.current_num());
-    }
-
     // Update tactic info
     auto tacticInfo = calculateInfoForTactic(info);
+
+    // Reset the role
+    if (robotTactics.current_num() != 0 && shouldRoleReset(tacticInfo)) {
+        RTT_INFO("State Machine reset for current role for ID = ", tacticInfo.getRobot()->get()->getId())
+        // Reset all the Tactics state machines
+        for (auto& tactic : robotTactics) {
+            tactic->reset();
+        }
+        // Reset Role state machine
+        robotTactics.reset();
+    }
 
     // Update the state machine of tactics with the TacticInfo from Play
     return robotTactics.update(tacticInfo);

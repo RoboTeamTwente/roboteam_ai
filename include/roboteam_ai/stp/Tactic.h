@@ -98,6 +98,11 @@ class Tactic {
      * Default move-ctor, ensures proper move-construction of Tactic
      */
     Tactic(Tactic &&other) = default;
+
+    /**
+     * Reset the state machine
+     */
+    void reset() noexcept;
 };
 }  // namespace rtt::ai::stp
 
