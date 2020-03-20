@@ -24,7 +24,7 @@ Status Role::update(StpInfo const& info) noexcept {
         RTT_INFO("State Machine reset for current role for ID = ", tacticInfo.getRobot()->get()->getId())
         // Reset all the Tactics state machines
         for (auto& tactic : robotTactics) {
-            tactic->getSkills().reset();
+            tactic->reset();
         }
         // Reset Role state machine
         robotTactics.reset();

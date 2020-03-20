@@ -100,10 +100,9 @@ class Tactic {
     Tactic(Tactic &&other) = default;
 
     /**
-     * Returns the skills state machine
-     * @return Skills state machine
+     * Reset the state machine
      */
-    rtt::collections::state_machine<Skill, Status, StpInfo> & getSkills() { return skills; };
+    void reset() noexcept;
 };
 }  // namespace rtt::ai::stp
 

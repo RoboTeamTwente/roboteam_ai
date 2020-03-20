@@ -37,7 +37,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
     // state machine is finished
     if(skills.finished() || (skills.current_num() != 0 && shouldTacticReset(skill_info))){
         RTT_INFO("State Machine reset for current tactic for ID = ", skill_info.getRobot()->get()->getId())
-        skills.reset();
+        reset();
     }
 
     // Update the current skill with the new SkillInfo
@@ -51,5 +51,9 @@ Status Tactic::update(StpInfo const &info) noexcept {
 }
 
 void Tactic::terminate() noexcept { onTerminate(); }
+
+void Tactic::reset() noexcept {
+    skills.reset();
+}
 
 }  // namespace rtt::ai::stp
