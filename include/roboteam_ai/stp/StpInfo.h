@@ -149,10 +149,19 @@ struct StpInfo {
      */
     std::optional<world_new::view::BallView> ball;
 
+    /**
+     * Position to move to
+     */
     std::optional<Vector2> positionMoveTo;
 
+    /**
+     * Position to kick or chip at
+     */
     std::optional<Vector2> positionShootAt;
 
+    /**
+     * Position to defend
+     */
     std::optional<Vector2> positionToDefend;
 
     /**
