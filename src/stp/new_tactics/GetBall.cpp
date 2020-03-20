@@ -27,8 +27,7 @@ namespace rtt::ai::stp::tactic {
 
         // the robot will go to the position of the ball
         double ballDistance = (ballPosition - robotPosition).length();
-        // TODO: Tweak this distance, maybe only GRSIM needs the 1.2 factor?
-        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::CENTRE_TO_FRONT() - Constants::BALL_RADIUS() * 1.2);
+        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::CENTRE_TO_FRONT() - Constants::BALL_RADIUS());
         if (ballDistance < 3 * Constants::ROBOT_RADIUS()){
             skillInfo.setAngle((ballPosition - robotPosition).angle());
             skillInfo.setDribblerSpeed(100);
