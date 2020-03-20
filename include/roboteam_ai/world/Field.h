@@ -359,9 +359,9 @@ class Field {
     void initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize);
 
     /**
-     * Initialize the field vectors (this function is only called inside the constructor)
+     * Initialize the other field values, linesegments, arcs and vectors (this function is only called inside the constructor)
      */
-    void initFieldVectors();
+    void initFieldOthers();
 };
 
 }  // namespace rtt::ai::world

@@ -9,7 +9,7 @@ Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
-    initFieldVectors();
+    initFieldOthers();
 }
 
 void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -18,13 +18,6 @@ void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     goalWidth = mm_to_m(sslFieldSize.goal_width());
     goalDepth = mm_to_m(sslFieldSize.goal_depth());
     boundaryWidth = mm_to_m(sslFieldSize.boundary_width());
-    leftmostX = -0.5 * fieldLength.value();
-    rightmostX = 0.5 * fieldLength.value();
-    bottommostY = -0.5 * fieldWidth.value();
-    topmostY = 0.5 * fieldWidth.value();
-    centerY = 0.0;
-    leftPenaltyX = leftPenaltyLine.value().begin.x;
-    rightPenaltyX = rightPenaltyLine.value().begin.x;
 }
 
 void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -57,7 +50,17 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     }
 }
 
-void Field::initFieldVectors() {
+void Field::initFieldOthers() {
+    // Initialize some additional field values
+    leftmostX = -0.5 * fieldLength.value();
+    rightmostX = 0.5 * fieldLength.value();
+    bottommostY = -0.5 * fieldWidth.value();
+    topmostY = 0.5 * fieldWidth.value();
+    centerY = 0.0;
+    leftPenaltyX = leftPenaltyLine.value().begin.x;
+    rightPenaltyX = rightPenaltyLine.value().begin.x;
+
+    // Initialize some additional field vectors
     ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
     theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
 
