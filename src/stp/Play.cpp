@@ -16,42 +16,50 @@ void Play::updateWorld(world_new::World* world) noexcept {
 }
 
 Status Play::update() noexcept {
-    constexpr static size_t ENUM_COUNT = 4;
-    std::array<size_t, ENUM_COUNT> count{};
-    std::fill(count.begin(), count.end(), 0);
-
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
         assignRoles();
     }
 
-    calculateInfoForPlay();
-
-    for (auto& each : roles) {
-        auto roleName{each->getName()};
+    // Connect roles to robotIDs, and set some other basic info each play needs
+    for (auto& role : roles) {
+        auto roleName{role->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
             // TODO refresh robots
             stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
             stpInfos[roleName].setBall(world->getWorld()->getBall());
             stpInfos[roleName].setField(world->getField());
-
-            auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
-            count[index] += 1;
         }
     }
 
-    if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
-        return Status::Success;
-    }
+    // derived class method call
+    calculateInfoForPlay();
 
-    if (count[static_cast<size_t>(Status::Failure)]) {
-        return Status::Failure;
+    for (auto& role : roles) {
+        // Update the roles
+        auto roleStatus = role->update(stpInfos[role->getName()]);
+        roleStatuses.emplace_back(roleStatus);
+        if (roleStatus == Status::Success) {
+            // TODO: Update default tactic here
+        }
+        if (roleStatus == Status::Waiting) {
+            // Should role skip end tactic?
+            if(shouldRoleSkipEndTactic()) {
+                // TODO: force role to go to next tactic
+                // role.forceNextTactic(); (not implemented yet)
+            }
+        }
     }
-
-    if (count[static_cast<size_t>(Status::Waiting)]) {
-        return Status::Waiting;
-    }
-
-    return Status::Running;
+    // Play is done when all statuses of roles are success. Keep in mind that a role that is in an endtactic will also
+    // return succes even if its tactic is not done
+    arePlayRolesFinished();
 }
+
+    bool Play::shouldRoleSkipEndTactic() {
+        return false;
+    }
+
+    bool Play::arePlayRolesFinished() {
+        return std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s){return s == Status::Success;});
+    }
 }  // namespace rtt::ai::stp

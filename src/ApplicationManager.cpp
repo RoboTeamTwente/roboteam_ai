@@ -212,13 +212,13 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
     }
 }
 
-rtt::ai::stp::Status ApplicationManager::decidePlay(world_new::World *_world) {
+void ApplicationManager::decidePlay(world_new::World *_world) {
     playChecker.update(_world);
     if (!currentPlay || !currentPlay->isValidPlay(_world)) {
         currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }
-    return currentPlay->update();
+    currentPlay->update();
 }
 }  // namespace rtt

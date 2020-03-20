@@ -78,11 +78,31 @@ class Play {
      */
     Play(Play&& other) = default;
 
+    /**
+     * Check if the preconditions of this play are true
+     * @return true if the play is allowed to be started, else false
+     */
+    [[nodiscard]] virtual bool isValidPlayToStart(world_new::World* world) noexcept = 0;
+
+    /**
+     * Check if the conditions for the play to keep running are true
+     * @param world
+     * @return
+     */
+    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept = 0;
+
+    [[nodiscard]] bool arePlayRolesFinished();
+
    protected:
     /**
      * The roles, constructed in ctor of a play
      */
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
+
+    /**
+     * Array that keeps track of the status of each role.
+     */
+    std::vector<Status> roleStatuses;
 
     /**
      * The stpInfos, constructed in assignRoles
@@ -100,11 +120,12 @@ class Play {
      */
     rtt::ai::Field field;
 
-    protected:
     /**
      * Assigns robots to roles
      */
     virtual void assignRoles() noexcept = 0;
+
+    bool shouldRoleSkipEndTactic();
 };
 
 }  // namespace rtt::ai::stp

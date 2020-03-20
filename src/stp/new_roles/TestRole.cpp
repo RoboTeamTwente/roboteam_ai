@@ -8,18 +8,12 @@
 #include <stp/new_tactics/Intercept.h>
 
 #include <utility>
+#include <include/roboteam_ai/stp/new_tactics/GetBall.h>
 
 namespace rtt::ai::stp {
 
 TestRole::TestRole(std::string name) : Role(std::move(name)) {
-    // create state machine and initializes the first state
-    if (getName() == "kicker") {
-        std::cerr << "Kicker\n";
-        robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KickAtPos()};
-    } else{
-        robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Intercept()};
-}
-
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall()};
     robotTactics.initialize();
 }
 

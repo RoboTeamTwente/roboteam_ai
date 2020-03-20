@@ -8,7 +8,7 @@
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() {
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+    roles = std::array<std::unique_ptr<Role>, 11>{
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("kicker")), std::make_unique<TestRole>(TestRole("test_role_2")),
         std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
         std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
@@ -52,7 +52,7 @@ void TestPlay::assignRoles() noexcept {
     }
 }
 
-void TestPlay::calculateInfoForPlay() noexcept {
+    void TestPlay::calculateInfoForPlay() noexcept {
         for (auto & role : roles) {
             auto roleName{role->getName()};
             if (stpInfos.find(roleName) != stpInfos.end()) {
@@ -62,8 +62,15 @@ void TestPlay::calculateInfoForPlay() noexcept {
                 stpInfos[roleName].setPosition({MOVE_TO_POSITION, world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5});
             }
         }
-    stpInfos["kicker"].setPosition({SHOOT_TO_POSITION, {2, 2}});
+        stpInfos["kicker"].setPosition({SHOOT_TO_POSITION, {2, 2}});
     }
 
+    bool TestPlay::isValidPlayToStart(world_new::World *world) {
+        return false;
+    }
+
+    bool TestPlay::isValidPlayToKeep(world_new::World *world) {
+        return false;
+    }
 
 }  // namespace rtt::ai::stp

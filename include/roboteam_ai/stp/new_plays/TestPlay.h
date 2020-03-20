@@ -40,6 +40,10 @@ class TestPlay : public Play {
     void assignRoles() noexcept;
 
     void calculateInfoForPlay() noexcept override;
+
+    bool isValidPlayToStart(world_new::World *world) noexcept override;
+
+    bool isValidPlayToKeep(world_new::World *world) noexcept override;
 };
 }  // namespace rtt::ai::stp
 
