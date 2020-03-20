@@ -38,16 +38,19 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When rotating, we need to dribble to keep the ball, but when kicking we don't
-    if (skills.current_num() == 0) {
-        skillStpInfo.setDribblerSpeed(30);
+    // When the angle is not within the margin, dribble so we don't lose the ball while rotating
+    double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+    if (fabs(info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget)) >= errorMargin) {
+        skillStpInfo.setDribblerSpeed(100);
+    } else {
+        skillStpInfo.setDribblerSpeed(0);
     }
 
     return skillStpInfo;
 }
 
 /// Determine how fast we should kick for a pass at a given distance
-//TODO: This is bad code full of magic numbers so please refactor at a later stage :)
+// TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
@@ -94,12 +97,18 @@ bool KickAtPos::isEndTactic() noexcept {
 }
 
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
-    // Fail tactic if the robot doesn't have the ball or if there is no position to kick at
-    return !info.getRobot()->hasBall() || !info.getPositionShootAt();
+    // Fail tactic if:
+    // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
+    // or if the targetPosType is not a shootTarget
+    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) || !info.getPositionShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
-    // Never reset tactic
+    // Reset when angle is wrong outside of the rotate skill, reset to rotate again
+    if(skills.current_num() != 0) {
+        double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+        return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
+    }
     return false;
 }
 }  // namespace rtt::ai::stp::tactic
