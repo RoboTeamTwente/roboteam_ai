@@ -5,15 +5,12 @@
 #ifndef ROBOTEAM_AI_INTERCEPTROBOT_HPP
 #define ROBOTEAM_AI_INTERCEPTROBOT_HPP
 
-#include <control/numtrees/NumTreePosControl.h>
-#include "control/BasicPosControl.h"
-
 #include "Skill.h"
+
 namespace rtt::ai {
 class InterceptRobot : public Skill {
    private:
-    //  control::BasicPosControl gtp;
-    Vector2 getInterceptPos(Robot robotToIntercept);
+    Vector2 getInterceptPos(world_new::view::RobotView robotToIntercept);
 
    public:
     explicit InterceptRobot(std::string name, bt::Blackboard::Ptr blackboard);

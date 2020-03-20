@@ -4,6 +4,7 @@
 
 #ifndef ROBOTEAM_AI_PENALTYHELPER_H
 #define ROBOTEAM_AI_PENALTYHELPER_H
+
 #include "Skill.h"
 
 namespace rtt::ai {

@@ -2,9 +2,7 @@
 // Created by robzelluf on 7/5/19.
 //
 
-#include "skills/ChipForward.h"
-#include <control/shot-controllers/ShotController.h>
-#include <world/FieldComputations.h>
+#include <skills/ChipForward.h>
 
 namespace rtt::ai {
 
@@ -16,7 +14,7 @@ void ChipForward::onInitialize() {
 }
 
 ChipForward::Status ChipForward::onUpdate() {
-    auto shotData = robot->getShotController()->getRobotCommand(*field, *robot, aimPoint, true, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
+    auto shotData = robot->getControllers().getShotController()->getRobotCommand(robot->get()->getId(), aimPoint, true, control::BallSpeed::MAX_SPEED, false, control::ShotPrecision::LOW);
     command = shotData.makeROSCommand();
     if (!hasChipped && command.chipper()) {
         if (command.chip_kick_forced() || robot->hasBall()) hasChipped = true;
@@ -24,7 +22,7 @@ ChipForward::Status ChipForward::onUpdate() {
 
     publishRobotCommand();
 
-    if (hasChipped && (ball->getPos() - robot->pos).length() > 0.5) {
+    if (hasChipped && (ball->get()->getPos() - robot->get()->getPos()).length() > 0.5) {
         return Status::Success;
     }
 

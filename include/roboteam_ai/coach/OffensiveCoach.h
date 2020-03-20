@@ -8,18 +8,16 @@
 #include <roboteam_utils/Hungarian.h>
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
+
 #include <algorithm>
+#include <world_new/views/RobotView.hpp>
 #include "coach/heuristics/OffensiveScore.h"
-#include "world/WorldData.h"
 
 namespace rtt::ai::coach {
 using namespace rtt::ai::world;
 
 class OffensiveCoach {
    public:
-    using Robot = world::Robot;
-    using RobotPtr = std::shared_ptr<Robot>;
-
     const double SEARCH_GRID_ROBOT_POSITIONS = 0.055;
     const double CLOSE_TO_GOAL_DISTANCE = 0.37;
     const double FURTHER_FROM_GOAL_DISTANCE = 6.0 * CLOSE_TO_GOAL_DISTANCE;
@@ -38,8 +36,10 @@ class OffensiveCoach {
     void updateOffensivePositions(const Field &field);
     std::vector<Vector2> getOffensivePositions(int numberOfRobots);
 
-    void addSideAttacker(const Field &field, const RobotPtr &robot);
-    void removeSideAttacker(const RobotPtr &robot);
+    void addSideAttacker(const Field &field, const world_new::view::RobotView robot);
+
+    void removeSideAttacker(const world_new::view::RobotView robot);
+
     Vector2 getPositionForRobotID(const Field &field, int robotID);
     void redistributePositions(const Field &field);
 

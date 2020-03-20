@@ -6,8 +6,8 @@
 #include <roboteam_utils/Line.h>
 #include <world/FieldComputations.h>
 #include <utilities/GameStateManager.hpp>
-#include "world/World.h"
-#include "world/WorldData.h"
+#include "world_new/World.hpp"
+
 
 namespace rtt::ai::control {
 
@@ -47,6 +47,12 @@ double ControlUtils::constrainAngle(double angle) {
     return angle - M_PI;
 }
 
+/// Maps the input angle to be within the range of -PI - PI
+    double ControlUtils::constrainAngleMinusPiToPi(double angle) {
+        angle = constrainAngle(angle);
+        return angle < M_PI ? angle : angle - 2 * M_PI;
+    }
+
 bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin, const Vector2 &lineEnd) {
     Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
     double xMin = std::min(lineBegin.x, lineEnd.x);
@@ -67,19 +73,19 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
     return d.length();
 }
 
-bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world::WorldData &world, double safeDistanceFactor, bool includeKeeper) {
-    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = GameStateManager::getRefereeData().blue().goalie();
+    bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper) {
+        double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
+        int keeperID = GameStateManager::getRefereeData().blue().goalie();
 
-    for (auto &enemy : world.them) {
-        if (!includeKeeper && enemy->id == keeperID) continue;
-        if (distanceToLineWithEnds(enemy->pos, fromPos, toPos) < minDistance) {
-            return false;
+        for (auto &enemy : world->getThem()) {
+            if (!includeKeeper && enemy->getId() == keeperID) continue;
+            if (distanceToLineWithEnds(enemy->getPos(), fromPos, toPos) < minDistance) {
+                return false;
+            }
         }
-    }
 
-    return true;
-}
+        return true;
+    }
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(const Vector2 &pointToCheck, const Vector2 &lineStart, const Vector2 &lineEnd) {
@@ -274,12 +280,11 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
     return {0, 0};
 }
 
-bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, double maxDifference) {
-    auto robot = world::world->getRobotForId(id, ourTeam);
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world, double maxDifference) {
+    auto robot = world.getRobotForId(id, ourTeam);
     if (robot) {
-        Angle exactAngleTowardsPoint = (point - robot->pos);
-
-        return abs(exactAngleTowardsPoint - robot->angle) < maxDifference;
+        Angle exactAngleTowardsPoint = (point - (*robot)->getPos());
+        return abs(exactAngleTowardsPoint - (*robot)->getAngle()) < maxDifference;
     }
     return false;
 }
@@ -291,22 +296,22 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-const world::World::RobotPtr ControlUtils::getRobotClosestToLine(std::vector<world::World::RobotPtr> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
+
+const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
     int maxDist = INT_MAX;
     auto closestRobot = robots.at(0);
     for (auto const &robot : robots) {
         double dist;
         if (lineWithEnds) {
-            dist = distanceToLine(robot->pos, lineStart, lineEnd);
+            dist = distanceToLine(robot->getPos(), lineStart, lineEnd);
         } else {
-            dist = distanceToLineWithEnds(robot->pos, lineStart, lineEnd);
+            dist = distanceToLineWithEnds(robot->getPos(), lineStart, lineEnd);
         }
         if (dist > maxDist) {
             dist = maxDist;
             closestRobot = robot;
         }
     }
-
     return closestRobot;
 }
 

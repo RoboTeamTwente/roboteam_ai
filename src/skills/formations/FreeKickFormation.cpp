@@ -1,21 +1,27 @@
-#include "skills/formations/FreeKickFormation.h"
 #include <control/PositionUtils.h>
+#include <skills/formations/FreeKickFormation.h>
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
 
 std::vector<Vector2> FreeKickFormation::posses;
-std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> rtt::ai::FreeKickFormation::robotsInFormation = nullptr;
+std::vector<world_new::view::RobotView> rtt::ai::FreeKickFormation::robotsInFormation{};
 
 Vector2 FreeKickFormation::getFormationPosition() {
-    update = true;
-    posses = rtt::ai::control::PositionUtils::getFreeKickPositions(*field, robotsInFormation->size());
-    return getOptimalPosition(robot->id, *robotsInFormation, posses);
+    auto ballOpt = world_new::World::instance()->getWorld()->getBall();
+    if (ballOpt) {
+        update = true;
+        posses = rtt::ai::control::PositionUtils::getFreeKickPositions(*field, ballOpt.value(), robotsInFormation.size());
+        return getOptimalPosition(robot->get()->getId(), robotsInFormation, posses);
+    }
+    RTT_ERROR("No ball found, so freekickformation is not behaving as desired")
+    return {};
 }
 
-std::shared_ptr<std::vector<bt::Leaf::RobotPtr>> FreeKickFormation::robotsInFormationPtr() { return robotsInFormation; }
+std::vector<world_new::view::RobotView> FreeKickFormation::robotsInFormationPtr() { return robotsInFormation; }
 
 FreeKickFormation::FreeKickFormation(std::string name, bt::Blackboard::Ptr blackboard) : Formation(name, blackboard) {
-    robotsInFormation = std::make_shared<std::vector<bt::Leaf::RobotPtr>>();
+    robotsInFormation = std::vector<world_new::view::RobotView>();
 };
 
 void FreeKickFormation::onTerminate(Skill::Status s) {

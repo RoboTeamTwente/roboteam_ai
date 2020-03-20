@@ -7,7 +7,7 @@
 
 #include "DefencePositionCoach.h"
 #include "roboteam_utils/Vector2.h"
-#include "world/World.h"
+#include "world/Field.h"
 
 namespace rtt::ai::coach {
 
@@ -19,7 +19,7 @@ class DefenceDealer {
     std::vector<int> availableIDs;
 
    public:
-    void updateDefenderLocations(const Field &field);
+    void updateDefenderLocations(const world::Field &field);
     void addDefender(int id);
     std::shared_ptr<std::pair<rtt::Vector2, double>> getDefenderPosition(int id);
     void visualizePoints();

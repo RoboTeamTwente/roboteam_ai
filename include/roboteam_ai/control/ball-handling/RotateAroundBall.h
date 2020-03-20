@@ -5,23 +5,17 @@
 #ifndef ROBOTEAM_AI_ROTATEAROUNDBALL_H
 #define ROBOTEAM_AI_ROTATEAROUNDBALL_H
 
-#include <include/roboteam_ai/utilities/Constants.h>
+#include <utilities/Constants.h>
 #include "control/RobotCommand.h"
 
-namespace rtt::ai {
+namespace rtt::world_new::view{
+    class RobotView;
+}
 
-namespace world {
-class Robot;
-class Ball;
-}  // namespace world
-
-namespace control {
+namespace rtt::ai::control {
 
 class RotateAroundBall {
    private:
-    using RobotPtr = std::shared_ptr<world::Robot>;
-    using BallPtr = std::shared_ptr<world::Ball>;
-
     double maxVel = 1.3;
     double maxBallDistance = Constants::ROBOT_RADIUS() * 2.0;
     double targetBallDistance = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
@@ -31,10 +25,9 @@ class RotateAroundBall {
 
    public:
     RotateAroundBall() = default;
-    RobotCommand getRobotCommand(RobotPtr r, const Vector2 &targetP, const Angle &targetA);
+    RobotCommand getRobotCommand(world_new::view::RobotView robot, const Vector2 &targetP, const Angle &targetA);
 };
 
-}  // namespace control
-}  // namespace rtt::ai
+}  // namespace rtt::ai::control
 
 #endif  // ROBOTEAM_AI_ROTATEAROUNDBALL_H

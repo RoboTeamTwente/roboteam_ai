@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_BALLISCLOSE_H
 
 #include "Condition.h"
+
 namespace rtt::ai {
 
 class BallIsClose : public Condition {

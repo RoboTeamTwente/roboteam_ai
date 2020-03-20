@@ -10,6 +10,7 @@
 #include "control/positionControl/PositionControl.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "views/WorldDataView.hpp"
+#include <roboteam_utils/Print.h>
 
 namespace rtt::world_new {
 
@@ -37,6 +38,9 @@ class World {
    public:
     /**
      * Global singleton for World, scott-meyers style
+     * @param[in] resetWorld Boolean that marks whether to reset the world before returning
+     * if set to true, world.clear() is called
+     * if set to false, worldInstance is simply reset
      * @return A pointer to a static World
      */
     inline static World *instance() {
@@ -91,11 +95,20 @@ class World {
     void updateField(proto::SSL_GeometryFieldSize &protoField);
 
     /**
+     * Update the position control using the new robot position
+     */
+    void updatePositionControl();
+
+    /**
      * Gets the current world
      * @return std::nullopt if there is no currentWorld, otherwise Some with the value
      */
     [[nodiscard]] std::optional<view::WorldDataView> getWorld() const noexcept;
 
+    /**
+     * Gets the current field
+     * @return std::nullopt if there is no currentField, otherwise Some with the value
+     */
     [[nodiscard]] std::optional<ai::world::Field> getField() const noexcept;
 
     /**
@@ -135,9 +148,28 @@ class World {
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
+#ifdef RUNNING_TEST
+    /**
+     * Resets the world
+     * Resets every member, sets tick duration to 0, etc etc...
+     * Everything EXCEPT positioncontrol and settings is reset.
+     */
+    void reset() noexcept {
+        std::lock_guard mtx{ updateMutex };
+        updateMap.clear();
+        history.clear();
+        robotControllers.clear();
+        currentIndex = 0;
+        currentWorld.reset();
+        currentField.reset();
+        lastTick = 0;
+        tickDuration = 0;
+    }
+#endif
+
    private:
     /**
-     * Upates the tickCount, sets lastTick to now(), sets duration to
+     * Updates the tickCount, sets lastTick to now(), sets duration to
      * oldNow - now();
      */
     void updateTickTime() noexcept;

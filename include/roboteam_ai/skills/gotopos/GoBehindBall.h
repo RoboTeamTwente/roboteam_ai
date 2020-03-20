@@ -7,8 +7,6 @@
 
 #include <random>
 #include "GoToPos.h"
-#include "skills/Skill.h"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai {
 

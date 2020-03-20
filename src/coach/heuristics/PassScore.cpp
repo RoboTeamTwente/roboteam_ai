@@ -3,17 +3,17 @@
 //
 
 #include <include/roboteam_ai/world_new/World.hpp>
+#include <roboteam_utils/Print.h>
 #include "coach/heuristics/PassScore.h"
 #include "roboteam_proto/GeometryFieldSize.pb.h"
 #include "world/FieldComputations.h"
-#include "world/WorldData.h"
 
 namespace rtt::ai::coach {
 
 double PassScore::calculatePassScore(const Field &field, const Vector2 &position) {
     auto worldOpt = world_new::World::instance()->getWorld();
     if (!worldOpt.has_value()) {
-        std::cout << "[PassScore.cpp: calculatePassScore] No world available!" << std::endl;
+        RTT_WARNING("No world available!")
         return 0;
     }
     auto world = worldOpt.value();

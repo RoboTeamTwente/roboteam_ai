@@ -5,24 +5,18 @@
 #ifndef ROBOTEAM_AI_KEEPER_H
 #define ROBOTEAM_AI_KEEPER_H
 
-#include <control/BasicPosControl.h>
-#include <world/BallPossession.h>
 #include "Skill.h"
-#include "roboteam_utils/Arc.h"
-#include "roboteam_utils/Mathematics.h"
 
 namespace rtt::ai {
 class Keeper : public Skill {
-    const double KEEPER_POSDIF = 0.01;
     const double MIN_ATTACKER_DIST = 0.3;
 
    private:
     Arc blockCircle;
     Vector2 computeBlockPoint(const Vector2 &defendPos);
     Vector2 goalPos;
-    double goalwidth;
-    void setGoalPosWithAttacker(RobotPtr attacker);
-    control::BasicPosControl posController;
+    double goalWidth;
+    void setGoalPosWithAttacker(world_new::view::RobotView attacker);
     rtt::Arc createKeeperArc();
 
    public:
