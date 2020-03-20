@@ -11,7 +11,6 @@ namespace rtt::ai::stp::tactic {
     class BlockRobot : public Tactic {
     public:
         BlockRobot();
-        virtual bool isEndTactic() noexcept;
 
     private:
         // TODO: make this a sensible margin
@@ -60,6 +59,8 @@ namespace rtt::ai::stp::tactic {
 
         virtual bool isTacticFailing(const StpInfo &info) noexcept;
         virtual bool shouldTacticReset(const StpInfo &info) noexcept;
+
+        bool isEndTactic() noexcept override;
     };
 }
 

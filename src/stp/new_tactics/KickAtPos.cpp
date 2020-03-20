@@ -31,8 +31,8 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
-    double angleToBall = (info.getPosition().second - info.getBall()->get()->getPos()).angle();
-    skillStpInfo.setAngle(angleToBall);
+    double angleToTarget = (info.getPosition().second - info.getRobot().value()->getPos()).angle();
+    skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the kick force
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();

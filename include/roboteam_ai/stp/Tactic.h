@@ -55,7 +55,13 @@ class Tactic {
      */
     virtual bool shouldTacticReset(const StpInfo &info) noexcept = 0;
 
-public:
+    /**
+     * Check if the current tactic is an end tactic - only Running or Failure status
+     * @return true if the current tactic cannot succeed (i.e. is an end tactic)
+     */
+    virtual bool isEndTactic() noexcept = 0;
+
+   public:
     /**
      * Calls onInitialize of the tactic
      */
@@ -74,12 +80,6 @@ public:
     virtual void terminate() noexcept;
 
     /**
-     * Check if the current tactic is an end tactic - only Running or Failure status
-     * @return true if the current tactic cannot succeed (i.e. is an end tactic); default false
-     */
-    virtual bool isEndTactic() noexcept;
-
-    /**
      * Ensure proper destruction of Tactic classes
      */
     virtual ~Tactic() = default;
@@ -94,10 +94,10 @@ public:
      */
     Tactic(Tactic &&other) = default;
 
-/**
- * The state machine of skills
- */
-rtt::collections::state_machine<Skill, Status, StpInfo> skills;
+    /**
+     * The state machine of skills
+     */
+    rtt::collections::state_machine<Skill, Status, StpInfo> skills;
 };
 }  // namespace rtt::ai::stp
 

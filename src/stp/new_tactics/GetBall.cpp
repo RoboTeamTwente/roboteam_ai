@@ -27,7 +27,7 @@ namespace rtt::ai::stp::tactic {
 
         // the robot will go to the position of the ball
         double ballDistance = (ballPosition - robotPosition).length();
-        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::ROBOT_RADIUS());
+        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::CENTRE_TO_FRONT());
         if (ballDistance < 3 * Constants::ROBOT_RADIUS()){
             skillInfo.setAngle((ballPosition - robotPosition).angle());
             skillInfo.setDribblerSpeed(100);
@@ -44,6 +44,11 @@ namespace rtt::ai::stp::tactic {
 
     bool GetBall::shouldTacticReset(const StpInfo &info) noexcept {
         return !info.getRobot()->hasBall();
+    }
+
+    bool GetBall::isEndTactic() noexcept {
+        // This is not an end tactic
+        return false;
     }
 
 }  // namespace rtt::ai::stp

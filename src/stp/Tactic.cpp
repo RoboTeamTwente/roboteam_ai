@@ -49,7 +49,4 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
 void Tactic::terminate() noexcept { onTerminate(); }
 
-bool Tactic::isEndTactic() noexcept {
-    return false;
-}
 }  // namespace rtt::ai::stp

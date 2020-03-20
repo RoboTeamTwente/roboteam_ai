@@ -10,9 +10,9 @@ namespace rtt::ai::stp {
 TestPlay::TestPlay() {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
-        std::make_unique<Role>(TestRole("test_role_3")), std::make_unique<Role>(TestRole("test_role_4")), std::make_unique<Role>(TestRole("test_role_5")),
-        std::make_unique<Role>(TestRole("test_role_6")), std::make_unique<Role>(TestRole("test_role_7")), std::make_unique<Role>(TestRole("test_role_8")),
-        std::make_unique<Role>(TestRole("test_role_9")), std::make_unique<Role>(TestRole("test_role_10"))};
+        std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
+        std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
+        std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
 bool TestPlay::isValidPlay(world_new::World* world) noexcept { return true; }
@@ -48,7 +48,6 @@ void TestPlay::assignRoles() noexcept {
 
             stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
-            stpInfos[roleName].setField(*world->getField());
         }
     }
 }
@@ -59,9 +58,8 @@ void TestPlay::calculateInfoForPlay() noexcept {
             if (stpInfos.find(roleName) != stpInfos.end()) {
                 auto robot = stpInfos[roleName].getRobot().value();
                 // TODO calculate additional info
-                stpInfos[roleName].setPosition({SHOOT_TO_POSITION, {robot->getId()*0.2, robot->getId()*0.2}});
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem()[0]);
-                stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
+                // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
+                stpInfos[roleName].setPosition({MOVE_TO_POSITION, world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5});
             }
         }
     }

@@ -47,6 +47,8 @@ protected:
      * @return true if the robot lost the ball
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
+
+    bool isEndTactic() noexcept override;
 };
 }  // namespace rtt::ai::stp
 
