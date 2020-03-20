@@ -72,12 +72,6 @@ struct Areas {
     }
 };
 
-enum PositionType {
-    MOVE_TO_POSITION,
-    RECEIVE_AT_POSITION,
-    SHOOT_TO_POSITION,
-    DEFEND_POSITION
-};
 enum BlockDistance {
     CLOSE = 1,
     HALFWAY,
