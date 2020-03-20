@@ -27,7 +27,7 @@ namespace rtt::ai::stp::tactic {
 
         // the robot will go to the position of the ball
         double ballDistance = (ballPosition - robotPosition).length();
-        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::CENTRE_TO_FRONT());
+        Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - Constants::CENTRE_TO_FRONT() - Constants::BALL_RADIUS());
         if (ballDistance < 3 * Constants::ROBOT_RADIUS()){
             skillInfo.setAngle((ballPosition - robotPosition).angle());
             skillInfo.setDribblerSpeed(100);
