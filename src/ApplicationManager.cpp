@@ -11,6 +11,7 @@
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
+#include "stp/new_plays/Pass.h"
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
@@ -28,10 +29,11 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
-    auto testVect = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
-    testVect.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
 
-    playChecker.setPlays(testVect);
+    playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;

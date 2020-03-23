@@ -37,13 +37,13 @@ class TestPlay : public Play {
     /**
      * Assigns robots to roles of this play
      */
-    void assignRoles() noexcept;
-
-    void calculateInfoForPlay() noexcept override;
+    void assignRoles() noexcept override;
 
     bool isValidPlayToStart(world_new::World *world) noexcept override;
 
     bool isValidPlayToKeep(world_new::World *world) noexcept override;
+
+    void calculateInfoForRoles() noexcept override;
 };
 }  // namespace rtt::ai::stp
 

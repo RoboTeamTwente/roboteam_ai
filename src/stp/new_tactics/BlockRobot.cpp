@@ -28,10 +28,10 @@ namespace rtt::ai::stp::tactic {
 
     StpInfo BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
         StpInfo skillStpInfo = info;
-        skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPosition().second));
+        skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
-        auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPosition().second);
-        skillStpInfo.setPosition(std::make_pair(PositionType::MOVE_TO_POSITION, desiredRobotPosition));
+        auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());
+        skillStpInfo.setPositionToMoveTo(desiredRobotPosition);
 
         return skillStpInfo;
     }
@@ -57,7 +57,7 @@ namespace rtt::ai::stp::tactic {
     }
 
     bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
-        auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPosition().second);
+        auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());
         auto currentRobotPosition = info.getRobot().value()->getPos();
         auto cond = (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
         return cond;

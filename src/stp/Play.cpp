@@ -7,6 +7,7 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
+    calculateInfoForRoles();
     assignRoles();
 }
 
@@ -25,7 +26,7 @@ void Play::update() noexcept {
     for (auto& role : roles) {
         auto roleName{role->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
-            // TODO refresh robots
+            // TODO refresh robots in a nicer way?
             stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
             stpInfos[roleName].setBall(world->getWorld()->getBall());
             stpInfos[roleName].setField(world->getField());
@@ -33,7 +34,7 @@ void Play::update() noexcept {
     }
 
     // derived class method call
-    calculateInfoForPlay();
+    calculateInfoForRoles();
 
     for (auto& role : roles) {
         // Update the roles

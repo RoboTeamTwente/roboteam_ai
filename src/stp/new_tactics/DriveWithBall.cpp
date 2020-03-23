@@ -34,18 +34,18 @@ StpInfo DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
 
     StpInfo skillStpInfo = info;
 
-    double angleToBall = (info.getPosition().second - info.getBall()->get()->getPos()).angle();
+    double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);
 
     // When driving with ball, we need to activate the dribbler
     // For now, this means full power, but this might change later
-    // TODO better way to determine dribblerspeed
+    // TODO: TUNE better way to determine dribblerspeed
     skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }
 
-bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept { return !info.getRobot()->hasBall() || info.getPosition().first != MOVE_TO_POSITION; }
+bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept { return !info.getRobot()->hasBall() || !info.getPositionToMoveTo(); }
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     return fabs(info.getRobot()->get()->getAngle() + (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle()) <= Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
