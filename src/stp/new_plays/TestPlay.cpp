@@ -63,7 +63,6 @@ void TestPlay::calculateInfoForRoles() noexcept {
                                                        world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5);
             }
         }
-
     }
 
     bool TestPlay::isValidPlayToStart(world_new::World *world) noexcept {
