@@ -60,6 +60,7 @@ bool Play::arePlayRolesFinished() {
 }
 
 void Play::refreshData() noexcept {
+    // Get a new BallView and field from world
     auto newBallView = world->getWorld()->getBall();
     auto newField = world->getField();
 
@@ -69,7 +70,7 @@ void Play::refreshData() noexcept {
             // Get a new RobotView from world using the old robot id
             stpInfo->second.setRobot(world->getWorld()->getRobotForId(stpInfo->second.getRobot()->get()->getId()));
 
-            // Get a new BallView and Field from world
+            // Assign the new BallView and field
             stpInfo->second.setBall(newBallView);
             stpInfo->second.setField(newField);
         }
