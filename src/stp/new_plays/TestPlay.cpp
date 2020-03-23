@@ -65,11 +65,11 @@ void TestPlay::assignRoles() noexcept {
         stpInfos["kicker"].setPosition({SHOOT_TO_POSITION, {2, 2}});
     }
 
-    bool TestPlay::isValidPlayToStart(world_new::World *world) {
+    bool TestPlay::isValidPlayToStart(world_new::World *world) noexcept {
         return false;
     }
 
-    bool TestPlay::isValidPlayToKeep(world_new::World *world) {
+    bool TestPlay::isValidPlayToKeep(world_new::World *world) noexcept {
         return false;
     }
 
