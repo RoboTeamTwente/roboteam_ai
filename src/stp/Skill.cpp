@@ -69,6 +69,22 @@ void Skill::limitRobotCommand() noexcept {
 
     command.mutable_vel()->set_x(limitedVel.x);
     command.mutable_vel()->set_y(limitedVel.y);
+
+    // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
+    // TODO: Might want to limit on the robot itself
+    if (robot->hasBall() && command.use_angle()) {
+        double angleRate = 0.2 * M_PI; // Angle increment per tick TODO: TUNE
+        auto targetAngle = command.w();
+        auto robotAngle = robot.value()->getAngle();
+
+        // If the angle error is larger than the desired angle rate, the angle command is adjusted
+        if (fabs(robotAngle.shortestAngleDiff(targetAngle)) > angleRate) {
+            // Direction of rotation is the shortest distance
+            auto direction = rtt::ai::control::ControlUtils::rotateDirection(robotAngle, targetAngle);
+            // Set the angle command to the current robot angle + the angle rate
+            command.set_w(robotAngle + direction * angleRate);
+        }
+    }
 }
 
 void Skill::terminate() noexcept { onTerminate(); }
