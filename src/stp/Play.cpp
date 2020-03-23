@@ -39,9 +39,7 @@ void Play::update() noexcept {
         // Update the roles
         auto roleStatus = role->update(stpInfos[role->getName()]);
         roleStatuses.emplace_back(roleStatus);
-        if (roleStatus == Status::Success) {
-            // TODO: Update default tactic here
-        }
+
         if (roleStatus == Status::Waiting) {
             // Should role skip end tactic?
             if(shouldRoleSkipEndTactic()) {
@@ -50,9 +48,6 @@ void Play::update() noexcept {
             }
         }
     }
-    // Play is done when all statuses of roles are success. Keep in mind that a role that is in an endtactic will also
-    // return succes even if its tactic is not done
-    arePlayRolesFinished();
 }
 
     bool Play::shouldRoleSkipEndTactic() {
