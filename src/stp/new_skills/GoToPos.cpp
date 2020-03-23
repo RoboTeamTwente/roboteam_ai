@@ -13,7 +13,7 @@ namespace rtt::ai::stp::skill {
 void GoToPos::onInitialize() noexcept { }
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    Vector2 targetPos = info.getPosition().second;
+    Vector2 targetPos = info.getPositionToMoveTo().value();
 
     // Calculate commands from path planning and tracking
     auto robotCommand = world_new::World::instance()->getRobotPositionController()->
@@ -39,7 +39,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     publishRobotCommand();
 
     // Check if successful
-    double errorMargin = Constants::GOTOPOS_ERROR_MARGIN()/2;
+    double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
     if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
         return Status::Success;
     } else {

@@ -30,7 +30,7 @@ void TestTactic::onTerminate() noexcept {
 
 StpInfo TestTactic::calculateInfoForSkill(StpInfo const& info) noexcept {
     StpInfo skillStpInfo = info;
-    // TODO make this smarter and better
+
     skillStpInfo.setAngle(2.0);
     skillStpInfo.setDribblerSpeed(31);
 
