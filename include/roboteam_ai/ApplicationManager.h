@@ -45,10 +45,10 @@ class ApplicationManager {
     rtt::ai::stp::PlayDecider playDecider;
     /**
      * Function that decides whether to change plays given a world and field.
-     * @param world the current world state
+     * @param _world the current world state
      * @param field the current field state
      */
-    rtt::ai::stp::Status decidePlay(world_new::World* world);
+    void decidePlay(world_new::World* _world);
 
    public:
     void start();

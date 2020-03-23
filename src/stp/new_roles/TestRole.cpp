@@ -7,13 +7,13 @@
 #include <stp/new_tactics/TestTactic.h>
 
 #include <utility>
+#include <stp/new_tactics/GetBall.h>
 
 namespace rtt::ai::stp {
 
 TestRole::TestRole(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
     robotTactics = collections::state_machine<Tactic, Status, StpInfo>{TestTactic()};
-
     robotTactics.initialize();
 }
 }  // namespace rtt::ai::stp

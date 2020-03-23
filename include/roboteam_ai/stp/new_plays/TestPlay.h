@@ -16,12 +16,6 @@ class TestPlay : public Play {
      */
     TestPlay();
 
-    /**
-     * Checks whether the current play is a valid play
-     * @param world World to check for (world_new::World::instance())
-     * @return true if valid, false if not
-     */
-    bool isValidPlay(world_new::World* world) noexcept override;
 
     /**
      * Gets the score for the current play
@@ -37,9 +31,15 @@ class TestPlay : public Play {
     /**
      * Assigns robots to roles of this play
      */
-    void assignRoles() noexcept;
+    void assignRoles() noexcept override;
+
+    bool isValidPlayToStart(world_new::World *world) noexcept override;
+
+    bool isValidPlayToKeep(world_new::World *world) noexcept override;
 
     void calculateInfoForRoles() noexcept override;
+
+    bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp
 

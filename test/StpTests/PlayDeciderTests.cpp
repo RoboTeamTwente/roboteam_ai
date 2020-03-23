@@ -4,43 +4,35 @@
 
 #include <gtest/gtest.h>
 
-#include <stp/PlayChecker.hpp>
 #include <include/roboteam_ai/stp/PlayDecider.hpp>
+#include <stp/PlayChecker.hpp>
 
 class AlwaysValid : public rtt::ai::stp::Play {
-public:
-    bool isValidPlay(rtt::world_new::World *world) noexcept override {
-        return true;
-    }
+   public:
+    uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
-    uint8_t score(rtt::world_new::World *world) noexcept override {
-        return 100;
-    }
+    void assignRoles() noexcept override {}
 
-    void assignRoles() noexcept override {
-    }
+    virtual void calculateInfoForRoles() noexcept {}
 
-    virtual void calculateInfoForRoles() noexcept {
-    }
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
+    bool shouldRoleSkipEndTactic() override { return false; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
-    bool isValidPlay(rtt::world_new::World *world) noexcept override {
-        return false;
-    }
+    uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
-    uint8_t score(rtt::world_new::World *world) noexcept override {
-        return 0;
-    }
+    void assignRoles() noexcept override {}
 
-    void assignRoles() noexcept override {
-    }
+    virtual void calculateInfoForRoles() noexcept {}
 
-    virtual void calculateInfoForRoles() noexcept {
-    }
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return false; }
+    bool shouldRoleSkipEndTactic() override { return false; }
 };
 
-class AnotherAlwaysTrue : public AlwaysValid{
+class AnotherAlwaysTrue : public AlwaysValid {
     using AlwaysValid::AlwaysValid;
 };
 
@@ -58,6 +50,6 @@ TEST(PlayCheckerTests, testHighestScore) {
     PlayDecider decider{};
     auto play = decider.decideBestPlay(rtt::world_new::World::instance(), checker.getValidPlays());
 
-    ASSERT_TRUE(dynamic_cast<AlwaysValid*>(play));
+    ASSERT_TRUE(dynamic_cast<AlwaysValid *>(play));
     ASSERT_EQ(play->score(rtt::world_new::World::instance()), 100);
 }

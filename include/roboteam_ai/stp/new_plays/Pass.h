@@ -16,12 +16,10 @@ class Pass : public Play {
      */
     Pass();
 
-    /**
-     * Checks whether the current play is a valid play
-     * @param world World to check for (world_new::World::instance())
-     * @return true if valid, false if not
-     */
-    bool isValidPlay(world_new::World* world) noexcept override;
+    bool isValidPlayToStart(world_new::World *world) noexcept override;
+
+    bool isValidPlayToKeep(world_new::World *world) noexcept override;
+
 
     /**
      * Gets the score for the current play
@@ -52,6 +50,9 @@ class Pass : public Play {
      * @return A vector of defend positions
      */
     std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+
+protected:
+    bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp::play
 

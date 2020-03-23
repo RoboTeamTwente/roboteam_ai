@@ -20,7 +20,6 @@ Pass::Pass() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-bool Pass::isValidPlay(world_new::World* world) noexcept { return true; }
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
 
@@ -89,5 +88,17 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 
     return positions;
 }
+
+    bool Pass::isValidPlayToStart(world_new::World *world) noexcept {
+        return true;
+    }
+
+    bool Pass::isValidPlayToKeep(world_new::World *world) noexcept {
+        return true;
+    }
+
+    bool Pass::shouldRoleSkipEndTactic() {
+        return false;
+    }
 
 }  // namespace rtt::ai::stp::play

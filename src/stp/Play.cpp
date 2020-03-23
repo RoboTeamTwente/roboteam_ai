@@ -16,51 +16,55 @@ void Play::updateWorld(world_new::World* world) noexcept {
     this->field = world->getField().value();
 }
 
-Status Play::update() noexcept {
-    constexpr static size_t ENUM_COUNT = 4;
-    std::array<size_t, ENUM_COUNT> count{};
-    std::fill(count.begin(), count.end(), 0);
+void Play::update() noexcept {
+    // clear roleStatuses so it only contains the current tick's statuses
+    roleStatuses.clear();
 
-    if (world->getWorld()->getUs().size() != stpInfos.size()) {
+    if(world->getWorld()->getUs().size() != stpInfos.size()) {
+        RTT_WARNING("Reassigning bots");
+
         // Make sure we don't re assign with too many robots
         if(world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
             // the robots don't exceed ROBOT_COUNT anymore
             stpInfos = std::unordered_map<std::string, StpInfo>{};
-            return {};
+            return;
         }
-        RTT_WARNING("Reassigning bots")
         assignRoles();
     }
 
-    calculateInfoForRoles();
-
-    for (auto& each : roles) {
-        auto roleName{each->getName()};
+    // Connect roles to robotIDs, and set some other basic info each play needs
+    for (auto& role : roles) {
+        auto roleName{role->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
             // TODO refresh robots in a nicer way?
             stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
             stpInfos[roleName].setBall(world->getWorld()->getBall());
             stpInfos[roleName].setField(world->getField());
-
-            auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
-            count[index] += 1;
         }
     }
 
-    if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
-        return Status::Success;
-    }
+    // derived class method call
+    calculateInfoForRoles();
 
-    if (count[static_cast<size_t>(Status::Failure)]) {
-        return Status::Failure;
-    }
+    for (auto& role : roles) {
+        // Update the roles
+        auto roleStatus = role->update(stpInfos[role->getName()]);
+        roleStatuses.emplace_back(roleStatus);
 
-    if (count[static_cast<size_t>(Status::Waiting)]) {
-        return Status::Waiting;
+        if (roleStatus == Status::Waiting) {
+            // Should role skip end tactic?
+            if(shouldRoleSkipEndTactic()) {
+                // TODO: force role to go to next tactic
+                // role.forceNextTactic(); (not implemented yet)
+            }
+        }
     }
-
-    return Status::Running;
 }
+
+
+    bool Play::arePlayRolesFinished() {
+        return std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s){return s == Status::Success;});
+    }
 }  // namespace rtt::ai::stp
