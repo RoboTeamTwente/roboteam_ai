@@ -36,7 +36,7 @@ void Pass::assignRoles() noexcept {
     flagMap.insert({"defender1", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}};
+    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_6", {closeToBallFlag}});
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
