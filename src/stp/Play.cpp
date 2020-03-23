@@ -39,7 +39,7 @@ Status Play::update() noexcept {
     for (auto& each : roles) {
         auto roleName{each->getName()};
         if(stpInfos.find(roleName) != stpInfos.end()) {
-            // TODO refresh robots
+            // TODO refresh robots in a nicer way?
             stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
             stpInfos[roleName].setBall(world->getWorld()->getBall());
             stpInfos[roleName].setField(world->getField());

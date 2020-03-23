@@ -13,7 +13,7 @@ namespace rtt::ai::stp::tactic {
         BlockRobot();
 
     private:
-        // TODO: make this a sensible margin
+        // TODO: TUNE make this a sensible margin
         const double errorMargin = 1*Constants::ROBOT_RADIUS();
         /**
          * On initialization of this tactic, initialize the state machine with skills

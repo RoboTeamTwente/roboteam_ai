@@ -57,7 +57,6 @@ void TestPlay::calculateInfoForRoles() noexcept {
             auto roleName{role->getName()};
             if (stpInfos.find(roleName) != stpInfos.end()) {
                 auto robot = stpInfos[roleName].getRobot().value();
-                // TODO calculate additional info
                 // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
                 stpInfos[roleName].setPosition({MOVE_TO_POSITION, world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5});
             }
