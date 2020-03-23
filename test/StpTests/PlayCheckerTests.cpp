@@ -7,38 +7,30 @@
 #include <stp/PlayChecker.hpp>
 
 class AlwaysValid : public rtt::ai::stp::Play {
-public:
-    uint8_t score(rtt::world_new::World *world) noexcept override {
-        return 100;
-    }
+   public:
+    uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
-    void assignRoles() noexcept override {
-    }
-    virtual void calculateInfoForRoles() noexcept {
-    }
+    void assignRoles() noexcept override {}
+    virtual void calculateInfoForRoles() noexcept {}
 
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override{return true;}
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override{return true;}
-    bool shouldRoleSkipEndTactic() override { return false;}
-
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
+    bool shouldRoleSkipEndTactic() override { return false; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
-    uint8_t score(rtt::world_new::World *world) noexcept override {
-        return 0;
-    }
+    uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
-    void assignRoles() noexcept override {
-    }
+    void assignRoles() noexcept override {}
 
-    virtual void calculateInfoForRoles() noexcept {
-    }
+    virtual void calculateInfoForRoles() noexcept {}
 
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override{return false;}
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override{return false;}
-    bool shouldRoleSkipEndTactic() override { return false;}
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return false; }
+    bool shouldRoleSkipEndTactic() override { return false; }
 };
-class AnotherAlwaysTrue : public AlwaysValid{
+
+class AnotherAlwaysTrue : public AlwaysValid {
     using AlwaysValid::AlwaysValid;
 };
 
