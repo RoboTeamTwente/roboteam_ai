@@ -50,7 +50,6 @@ void TestPlay::assignRoles() noexcept {
     }
 }
 
-
 void TestPlay::calculateInfoForRoles() noexcept {
         for (auto & role : roles) {
             auto roleName{role->getName()};

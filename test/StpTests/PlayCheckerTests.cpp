@@ -37,12 +37,10 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override{return false;}
     bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override{return false;}
     bool shouldRoleSkipEndTactic() override { return false;}
-
 };
 
 class AnotherAlwaysTrue : public AlwaysValid{
     using AlwaysValid::AlwaysValid;
-
 };
 
 TEST(PlayCheckerTests, testSetPlays) {

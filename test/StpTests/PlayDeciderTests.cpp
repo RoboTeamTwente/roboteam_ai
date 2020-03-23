@@ -9,7 +9,6 @@
 
 class AlwaysValid : public rtt::ai::stp::Play {
 public:
-
     uint8_t score(rtt::world_new::World *world) noexcept override {
         return 100;
     }
@@ -24,7 +23,6 @@ public:
     bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override{return true;}
     bool shouldRoleSkipEndTactic() override { return false;}
 };
-
 class AlwaysFalse : public rtt::ai::stp::Play {
 
     uint8_t score(rtt::world_new::World *world) noexcept override {

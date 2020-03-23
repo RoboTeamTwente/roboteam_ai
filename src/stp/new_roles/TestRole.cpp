@@ -7,7 +7,7 @@
 #include <stp/new_tactics/TestTactic.h>
 
 #include <utility>
-#include <include/roboteam_ai/stp/new_tactics/GetBall.h>
+#include <stp/new_tactics/GetBall.h>
 
 namespace rtt::ai::stp {
 

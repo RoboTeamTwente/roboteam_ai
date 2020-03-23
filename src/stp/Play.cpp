@@ -17,6 +17,7 @@ void Play::updateWorld(world_new::World* world) noexcept {
 }
 
 void Play::update() noexcept {
+    // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
 
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
