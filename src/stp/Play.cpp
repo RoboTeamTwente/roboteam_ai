@@ -21,6 +21,8 @@ void Play::update() noexcept {
 
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
+
+        // Make sure we don't re assign with too many robots
         if(world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
@@ -60,9 +62,6 @@ void Play::update() noexcept {
     }
 }
 
-    bool Play::shouldRoleSkipEndTactic() {
-        return false;
-    }
 
     bool Play::arePlayRolesFinished() {
         return std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s){return s == Status::Success;});

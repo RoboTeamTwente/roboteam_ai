@@ -37,7 +37,6 @@ void Pass::assignRoles() noexcept {
 //    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
 //    flagMap.insert({"test_role_4", {closeToBallFlag}});
 //    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}}
-
 //    flagMap.insert({"test_role_6", {closeToBallFlag}});
 //    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
 //    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -96,6 +95,10 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 
     bool Pass::isValidPlayToKeep(world_new::World *world) noexcept {
         return true;
+    }
+
+    bool Pass::shouldRoleSkipEndTactic() {
+        return false;
     }
 
 }  // namespace rtt::ai::stp::play

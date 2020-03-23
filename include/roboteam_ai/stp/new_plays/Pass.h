@@ -50,6 +50,9 @@ class Pass : public Play {
      * @return A vector of defend positions
      */
     std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+
+protected:
+    bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp::play
 

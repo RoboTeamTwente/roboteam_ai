@@ -71,4 +71,8 @@ void TestPlay::calculateInfoForRoles() noexcept {
         return false;
     }
 
+    bool TestPlay::shouldRoleSkipEndTactic() {
+        return false;
+    }
+
 }  // namespace rtt::ai::stp

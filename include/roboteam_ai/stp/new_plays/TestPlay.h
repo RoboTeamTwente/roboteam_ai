@@ -38,6 +38,8 @@ class TestPlay : public Play {
     bool isValidPlayToKeep(world_new::World *world) noexcept override;
 
     void calculateInfoForRoles() noexcept override;
+
+    bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp
 

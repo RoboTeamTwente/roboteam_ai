@@ -34,14 +34,7 @@ class Play {
 
     /**
      * Updates all the roles
-     * @param info Information to pass down to the Roles
-     * @return Status depending on return value,
-     * if all finished -> finished
-     * if any failed -> failed
-     * if any waiting -> waiting
-     * otherwise -> running
      */
-
     virtual void update() noexcept;
 
     /**
@@ -53,7 +46,7 @@ class Play {
     /**
      * Gets the score for the current play
      *
-     * On the contrary to isValidPlay() this checks how good the play actually is
+     * On the contrary to isValidPlayToStart() this checks how good the play actually is
      * return in range of 0 - 100
      *
      * @param world World to get the score for (world_new::World::instance())
@@ -89,6 +82,9 @@ class Play {
      */
     [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept = 0;
 
+    /**
+     * @return true if all roles are finished
+     */
     [[nodiscard]] bool arePlayRolesFinished();
 
    protected:
@@ -123,7 +119,12 @@ class Play {
      */
     virtual void assignRoles() noexcept = 0;
 
-    bool shouldRoleSkipEndTactic();
+    /**
+     * This function is used to determine if, when a role is in an endtactic, that endtactic should be skipped.
+     * An example could be BlockRobot and Intercept. You block a robot until a ball is shot and then the robot
+     * closest to the ball should try to intercept
+     */
+    virtual bool shouldRoleSkipEndTactic() = 0;
 };
 
 }  // namespace rtt::ai::stp
