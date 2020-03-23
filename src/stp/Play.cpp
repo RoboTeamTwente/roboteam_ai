@@ -19,6 +19,13 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
+        if(world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
+            RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
+            // Make sure the stpInfos is cleared to trigger a reassign whenever
+            // the robots don't exceed ROBOT_COUNT anymore
+            stpInfos = std::unordered_map<std::string, StpInfo>{};
+            return;
+        }
         assignRoles();
     }
 

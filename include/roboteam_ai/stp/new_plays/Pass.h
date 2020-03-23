@@ -16,9 +16,9 @@ class Pass : public Play {
      */
     Pass();
 
-    bool isValidPlayToStart(world_new::World *world) override;
+    bool isValidPlayToStart(world_new::World *world) noexcept override;
 
-    bool isValidPlayToKeep(world_new::World *world) override;
+    bool isValidPlayToKeep(world_new::World *world) noexcept override;
 
     /**
      * Checks whether the current play is a valid play
