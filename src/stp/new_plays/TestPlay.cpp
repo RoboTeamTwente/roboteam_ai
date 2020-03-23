@@ -15,8 +15,6 @@ TestPlay::TestPlay() {
         std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-bool TestPlay::isValidPlay(world_new::World* world) noexcept { return true; }
-
 uint8_t TestPlay::score(world_new::World* world) noexcept { return 10; }
 
 void TestPlay::assignRoles() noexcept {

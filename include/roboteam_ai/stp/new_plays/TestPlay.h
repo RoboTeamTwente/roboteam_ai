@@ -16,12 +16,6 @@ class TestPlay : public Play {
      */
     TestPlay();
 
-    /**
-     * Checks whether the current play is a valid play
-     * @param world World to check for (world_new::World::instance())
-     * @return true if valid, false if not
-     */
-    bool isValidPlay(world_new::World* world) noexcept override;
 
     /**
      * Gets the score for the current play

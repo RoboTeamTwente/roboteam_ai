@@ -8,10 +8,6 @@
 
 class AlwaysValid : public rtt::ai::stp::Play {
 public:
-    bool isValidPlay(rtt::world_new::World *world) noexcept override {
-        return true;
-    }
-
     uint8_t score(rtt::world_new::World *world) noexcept override {
         return 100;
     }
@@ -20,13 +16,12 @@ public:
     }
     virtual void calculateInfoForRoles() noexcept {
     }
+
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override{return true;}
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override{return true;}
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
-    bool isValidPlay(rtt::world_new::World *world) noexcept override {
-        return false;
-    }
-
     uint8_t score(rtt::world_new::World *world) noexcept override {
         return 0;
     }
@@ -36,10 +31,14 @@ class AlwaysFalse : public rtt::ai::stp::Play {
 
     virtual void calculateInfoForRoles() noexcept {
     }
+
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override{return false;}
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override{return false;}
 };
 
 class AnotherAlwaysTrue : public AlwaysValid{
     using AlwaysValid::AlwaysValid;
+
 };
 
 TEST(PlayCheckerTests, testSetPlays) {

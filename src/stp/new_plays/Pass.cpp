@@ -20,7 +20,6 @@ Pass::Pass() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-bool Pass::isValidPlay(world_new::World* world) noexcept { return true; }
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
 

@@ -41,19 +41,13 @@ class Play {
      * if any waiting -> waiting
      * otherwise -> running
      */
-    [[nodiscard]] virtual void update() noexcept;
+    virtual void update() noexcept;
 
     /**
      * Calculates all the info (mostly positions) the roles in this play need to execute
      */
     virtual void calculateInfoForRoles() noexcept = 0;
 
-    /**
-     * Checks whether the current play is a valid play
-     * @param world World to check for (world_new::World::instance())
-     * @return true if valid, false if not
-     */
-    [[nodiscard]] virtual bool isValidPlay(world_new::World* world) noexcept = 0;
 
     /**
      * Gets the score for the current play
