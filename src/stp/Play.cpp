@@ -17,6 +17,8 @@ void Play::updateWorld(world_new::World* world) noexcept {
 }
 
 void Play::update() noexcept {
+    roleStatuses.clear();
+
     if(world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
         if(world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {

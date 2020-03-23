@@ -90,11 +90,11 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 
-    bool Pass::isValidPlayToStart(world_new::World *world) {
+    bool Pass::isValidPlayToStart(world_new::World *world) noexcept {
         return true;
     }
 
-    bool Pass::isValidPlayToKeep(world_new::World *world) {
+    bool Pass::isValidPlayToKeep(world_new::World *world) noexcept {
         return true;
     }
 
