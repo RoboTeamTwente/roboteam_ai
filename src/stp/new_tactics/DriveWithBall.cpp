@@ -45,10 +45,17 @@ StpInfo DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
     return skillStpInfo;
 }
 
-bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept { return !info.getRobot()->hasBall() || !info.getPositionToMoveTo(); }
+bool DriveWithBall::isTacticFailing(const StpInfo& info) noexcept {
+    // Fail if we don't have the ball or there is no movement position
+    return !info.getRobot()->hasBall() || !info.getPositionToMoveTo();
+}
 
 bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
-    return fabs(info.getRobot()->get()->getAngle() + (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle()) <= Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
+    // Should reset if the angle the robot is at is no longer correct
+    auto robotAngle = info.getRobot()->get()->getAngle();
+    auto ballToRobotAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
+
+    return fabs(robotAngle + ballToRobotAngle) <= Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
 }
 
 bool DriveWithBall::isEndTactic() noexcept {
