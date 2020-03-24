@@ -49,46 +49,37 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     return skillStpInfo;
 }
 
-/// Determine how fast we should kick for a pass at a given distance
-// TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-    const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+    // TODO: TUNE these factors need tuning
+    // Increase these factors to decrease kick velocity
+    // Decrease these factors to increase kick velocity
+    const double TARGET_FACTOR{1.4};
+    const double GRSIM_TARGET_FACTOR{1.65};
+    const double PASS_FACTOR{1.2};
+    const double GRSIM_PASS_FACTOR{1.45};
 
-    double velocity = 0;
-    switch (desiredBallSpeedType) {
-        case DRIBBLE_KICK: {
-            velocity = sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER() / (sqrt(maxPowerDist) * 1.5);
-            break;
-        }
-        case BALL_PLACEMENT: {
-            if (distance > 2.5) {
-                velocity = Constants::GRSIM() ? 6.01 : 2.01;
-            } else {
-                velocity = Constants::GRSIM() ? 3.01 : 1.01;
-            }
-            break;
-        }
-        case PASS: {
-            if (distance >= maxPowerDist) {
-                velocity = Constants::MAX_KICK_POWER();
-            } else if (Constants::GRSIM()) {
-                velocity = std::min(1.4 * distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER());
-            } else {
-                velocity = std::min(distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER() * 0.7);
-            }
-            break;
-        }
-        case MAX_SPEED: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
-            break;
-        }
-        default: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
-        }
+    if (desiredBallSpeedType == MAX) return Constants::MAX_KICK_POWER();
+
+    double limitingFactor{};
+    // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
+    if (desiredBallSpeedType == PASS) {
+        Constants::GRSIM() ? limitingFactor = GRSIM_PASS_FACTOR : limitingFactor = PASS_FACTOR;
+    }
+    else if (desiredBallSpeedType == TARGET) {
+        Constants::GRSIM() ? limitingFactor = GRSIM_TARGET_FACTOR : limitingFactor = TARGET_FACTOR;
+    }
+    else {
+        RTT_ERROR("No valid ballSpeedType, kick velocity set to 0")
+        return 0;
     }
 
-    // limit the output to the max kick speed
-    return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
+    // TODO: TUNE this function might need to change
+    // TODO: TUNE kick related constants (in Constants.h) might need tuning
+    // Calculate the velocity based on this function with the previously set limitingFactor
+    auto velocity = sqrt(distance) * Constants::MAX_KICK_POWER() / (sqrt(Constants::MAX_POWER_KICK_DISTANCE()) * limitingFactor);
+
+    // Make sure velocity is always between 1.01 and MAX_KICK_POWER
+    return std::min(std::max(velocity, Constants::MIN_KICK_POWER()), Constants::MAX_KICK_POWER());
 }
 
 bool KickAtPos::isEndTactic() noexcept {
@@ -100,12 +91,13 @@ bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
     // or if the targetPosType is not a shootTarget
-    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) || !info.getPositionToShootAt();
+    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) ||
+           !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
-    if(skills.current_num() != 0) {
+    if (skills.current_num() != 0) {
         double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
         return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
     }

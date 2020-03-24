@@ -20,7 +20,6 @@ Pass::Pass() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
 
 void Pass::assignRoles() noexcept {
@@ -68,7 +67,10 @@ void Pass::calculateInfoForRoles() noexcept {
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPositionToMoveTo(Vector2(-2, -2));
     // Calculate Passer info
-    if (stpInfos.find("passer") != stpInfos.end()) stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
+    if (stpInfos.find("passer") != stpInfos.end()) {
+        stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
+        stpInfos["passer"].setKickChipType(PASS);
+    }
     // Calculate defender1 info
     if (stpInfos.find("defender1") != stpInfos.end()) stpInfos["defender1"].setPositionToMoveTo(defensivePositions[0]);
     // Calculate defender2 info
@@ -89,16 +91,10 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 
-    bool Pass::isValidPlayToStart(world_new::World *world) noexcept {
-        return true;
-    }
+bool Pass::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
-    bool Pass::isValidPlayToKeep(world_new::World *world) noexcept {
-        return true;
-    }
+bool Pass::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
 
-    bool Pass::shouldRoleSkipEndTactic() {
-        return false;
-    }
+bool Pass::shouldRoleSkipEndTactic() { return false; }
 
 }  // namespace rtt::ai::stp::play

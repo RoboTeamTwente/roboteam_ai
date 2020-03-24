@@ -78,10 +78,9 @@ enum BlockDistance {
     FAR
 };
 enum KickChipType{
-    DRIBBLE_KICK,
-    BALL_PLACEMENT,
     PASS,
-    MAX_SPEED
+    TARGET,
+    MAX
 };
 
 struct StpInfo {
