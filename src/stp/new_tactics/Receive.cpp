@@ -16,12 +16,7 @@ Receive::Receive() {
 
 void Receive::onInitialize() noexcept {}
 
-void Receive::onUpdate(Status const &status) noexcept {
-    // Keep executing Rotate skill
-    if (skills.current_num() == skills.total_count()) {
-        skills.skip_n(-1);
-    }
-}
+void Receive::onUpdate(Status const &status) noexcept {}
 
 void Receive::onTerminate() noexcept {
     // Call terminate on all skills
