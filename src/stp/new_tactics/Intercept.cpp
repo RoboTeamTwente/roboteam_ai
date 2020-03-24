@@ -22,7 +22,7 @@ bool Intercept::isEndTactic() noexcept {
 
 void Intercept::onInitialize() noexcept {}
 
-void Intercept::onUpdate(const Status& status) noexcept { }
+void Intercept::onUpdate(const Status& status) noexcept {}
 
 void Intercept::onTerminate() noexcept {
     // Call terminate on all skills

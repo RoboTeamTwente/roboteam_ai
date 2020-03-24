@@ -42,15 +42,19 @@ void Play::update() noexcept {
 
     for (auto& role : roles) {
         // Update the roles
-        auto roleStatus = role->update(stpInfos[role->getName()]);
-        roleStatuses.emplace_back(roleStatus);
+        if (stpInfos.find(role->getName()) != stpInfos.end()) {
+            auto roleStatus = role->update(stpInfos[role->getName()]);
+            roleStatuses.emplace_back(roleStatus);
 
-        if (roleStatus == Status::Waiting) {
-            // Should role skip end tactic?
-            if (shouldRoleSkipEndTactic()) {
-                // TODO: force role to go to next tactic
-                // role.forceNextTactic(); (not implemented yet)
+            if (roleStatus == Status::Waiting) {
+                // Should role skip end tactic?
+                if (shouldRoleSkipEndTactic()) {
+                    // TODO: force role to go to next tactic
+                    // role.forceNextTactic(); (not implemented yet)
+                }
             }
+        } else {
+            RTT_ERROR("Trying to update role that is not in STPInfos!")
         }
     }
 }
