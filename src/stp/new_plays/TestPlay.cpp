@@ -15,7 +15,7 @@ TestPlay::TestPlay() {
         std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t TestPlay::score(world_new::World* world) noexcept { return 10; }
+uint8_t TestPlay::score(world_new::World *world) noexcept { return 10; }
 
 void TestPlay::assignRoles() noexcept {
     Dealer dealer{world->getWorld().value(), &field};
@@ -39,7 +39,7 @@ void TestPlay::assignRoles() noexcept {
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
     stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto & role : roles) {
+    for (auto &role : roles) {
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
@@ -51,27 +51,20 @@ void TestPlay::assignRoles() noexcept {
 }
 
 void TestPlay::calculateInfoForRoles() noexcept {
-        for (auto & role : roles) {
-            auto roleName{role->getName()};
-            if (stpInfos.find(roleName) != stpInfos.end()) {
-                auto robot = stpInfos[roleName].getRobot().value();
-                // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
-                stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() +
-                                                       world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5);
-            }
+    for (auto &role : roles) {
+        auto roleName{role->getName()};
+        if (stpInfos.find(roleName) != stpInfos.end()) {
+            auto robot = stpInfos[roleName].getRobot().value();
+            // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
+            stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5);
         }
     }
+}
 
-    bool TestPlay::isValidPlayToStart(world_new::World *world) noexcept {
-        return false;
-    }
+bool TestPlay::isValidPlayToStart(world_new::World *world) noexcept { return false; }
 
-    bool TestPlay::isValidPlayToKeep(world_new::World *world) noexcept {
-        return false;
-    }
+bool TestPlay::isValidPlayToKeep(world_new::World *world) noexcept { return false; }
 
-    bool TestPlay::shouldRoleSkipEndTactic() {
-        return false;
-    }
+bool TestPlay::shouldRoleSkipEndTactic() { return false; }
 
 }  // namespace rtt::ai::stp

@@ -21,7 +21,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if(info.getBall()->get()->getVelocity().length() > Constants::BALL_STILL_VEL()) {
+    if (info.getBall()->get()->getVelocity().length() > Constants::BALL_STILL_VEL()) {
         return Status::Success;
     }
     return Status::Running;

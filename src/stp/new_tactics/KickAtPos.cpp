@@ -82,9 +82,7 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
             velocity = rtt::ai::Constants::MAX_KICK_POWER();
             break;
         }
-        default: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
-        }
+        default: { velocity = rtt::ai::Constants::MAX_KICK_POWER(); }
     }
 
     // limit the output to the max kick speed
@@ -100,12 +98,13 @@ bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
     // or if the targetPosType is not a shootTarget
-    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) || !info.getPositionToShootAt();
+    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) ||
+           !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
-    if(skills.current_num() != 0) {
+    if (skills.current_num() != 0) {
         double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
         return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
     }
