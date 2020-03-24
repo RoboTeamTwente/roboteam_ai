@@ -12,6 +12,7 @@
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
 #include "stp/new_plays/Pass.h"
+#include "stp/new_plays/Attack.h"
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
@@ -32,6 +33,7 @@ void ApplicationManager::start() {
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
 
     playChecker.setPlays(plays);
 
