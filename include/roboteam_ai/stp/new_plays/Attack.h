@@ -45,6 +45,10 @@ protected:
     bool shouldRoleSkipEndTactic() override;
 
 private:
+    /**
+     * Calculate point in goal to aim for
+     * @return Target point
+     */
     Vector2 calculateGoalTarget() noexcept;
 };
 
