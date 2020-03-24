@@ -32,7 +32,7 @@ void Pass::assignRoles() noexcept {
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender1", {notImportant}});
+/*    flagMap.insert({"defender1", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -40,7 +40,7 @@ void Pass::assignRoles() noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
 
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
@@ -79,8 +79,12 @@ void Pass::calculateInfoForRoles() noexcept {
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
     std::vector<Vector2> positions = {};
+
     // 3 robots will defend goal
     for (int i = 0; i < numberOfDefenders; i++) {
+        std::stringstream strstr;
+        strstr << "text" << i + 1;
+        std::string x = strstr.str();
         if (i < 3) {
             positions.push_back(world->getField()->getOurGoalCenter());
         } else {

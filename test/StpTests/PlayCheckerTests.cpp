@@ -11,7 +11,7 @@ class AlwaysValid : public rtt::ai::stp::Play {
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
     void assignRoles() noexcept override {}
-    virtual void calculateInfoForRoles() noexcept {}
+    void calculateInfoForRoles() noexcept override {}
 
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
     bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
@@ -23,7 +23,7 @@ class AlwaysFalse : public rtt::ai::stp::Play {
 
     void assignRoles() noexcept override {}
 
-    virtual void calculateInfoForRoles() noexcept {}
+    void calculateInfoForRoles() noexcept override {}
 
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
     bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return false; }

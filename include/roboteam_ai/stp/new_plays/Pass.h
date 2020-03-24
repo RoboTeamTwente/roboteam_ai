@@ -16,10 +16,9 @@ class Pass : public Play {
      */
     Pass();
 
-    bool isValidPlayToStart(world_new::World *world) noexcept override;
+    bool isValidPlayToStart(world_new::World* world) noexcept override;
 
-    bool isValidPlayToKeep(world_new::World *world) noexcept override;
-
+    bool isValidPlayToKeep(world_new::World* world) noexcept override;
 
     /**
      * Gets the score for the current play
@@ -51,7 +50,7 @@ class Pass : public Play {
      */
     std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp::play

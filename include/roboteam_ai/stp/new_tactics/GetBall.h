@@ -14,10 +14,10 @@ namespace rtt::ai::stp::tactic {
  * end tactic, therefore it can succeed.
  */
 class GetBall : public Tactic {
-public:
+   public:
     GetBall();
 
-protected:
+   protected:
     void onInitialize() noexcept override;
 
     void onUpdate(Status const &status) noexcept override;
@@ -49,7 +49,12 @@ protected:
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * keep track of when the ball is close enough that we should turn on the dribbler and rotate to the right angle
+     */
+    double ballDistanceMargin = 3 * Constants::ROBOT_RADIUS();
 };
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::tactic
 
 #endif  // RTT_GETBALL_H

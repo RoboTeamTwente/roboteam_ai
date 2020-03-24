@@ -72,16 +72,9 @@ struct Areas {
     }
 };
 
-enum BlockDistance {
-    CLOSE = 1,
-    HALFWAY,
-    FAR
-};
-enum KickChipType{
-    PASS,
-    TARGET,
-    MAX
-};
+const int blockLength = 3; // The number of elements in the blockdistance enum
+enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
+enum KickChipType { PASS, TARGET, MAX };
 
 struct StpInfo {
    public:

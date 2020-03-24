@@ -19,8 +19,5 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
 
 void PlayChecker::update(world_new::World* world) noexcept { this->world = world; }
 
-
-void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept {
-    this->allPlays = std::move(plays);
-}
+void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept { this->allPlays = std::move(plays); }
 }  // namespace rtt::ai::stp
