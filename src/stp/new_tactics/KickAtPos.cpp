@@ -78,7 +78,7 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // Calculate the velocity based on this function with the previously set limitingFactor
     auto velocity = sqrt(distance) * Constants::MAX_KICK_POWER() / (sqrt(Constants::MAX_POWER_KICK_DISTANCE()) * limitingFactor);
 
-    // Make sure velocity is always between 1.01 and MAX_KICK_POWER
+    // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
     return std::min(std::max(velocity, Constants::MIN_KICK_POWER()), Constants::MAX_KICK_POWER());
 }
 

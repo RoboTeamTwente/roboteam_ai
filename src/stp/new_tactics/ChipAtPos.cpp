@@ -75,7 +75,7 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
     // Calculate the velocity based on this function with the previously set limitingFactor
     auto velocity = sqrt(distance) * Constants::MAX_CHIP_POWER() / (sqrt(Constants::MAX_POWER_CHIP_DISTANCE()) * limitingFactor);
 
-    // Make sure velocity is always between 1.01 and MAX_CHIP_POWER
+    // Make sure velocity is always between MIN_CHIP_POWER and MAX_CHIP_POWER
     return std::min(std::max(velocity, Constants::MIN_CHIP_POWER()), Constants::MAX_CHIP_POWER());
 }
 
