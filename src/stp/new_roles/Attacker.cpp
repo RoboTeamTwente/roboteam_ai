@@ -15,24 +15,4 @@ Attacker::Attacker(std::string name) : Role(std::move(name)) {
     robotTactics.initialize();
 }
 
-/*StpInfo Attacker::calculateInfoForTactic(StpInfo const &info) noexcept {
-    StpInfo tacticInfo = info;
-
-    // Set info about the shot
-    tacticInfo.setPosition({SHOOT_TO_POSITION, calculateKickPosition(tacticInfo)});
-    tacticInfo.setKickChipType(MAX_SPEED);
-
-    return tacticInfo;
-}
-
-bool Attacker::shouldRoleReset(const StpInfo &info) noexcept {
-    // Reset Role when robot lost the ball
-    return !info.getRobot().value().hasBall();
-}
-
-Vector2 Attacker::calculateKickPosition(StpInfo const info) noexcept {
-    // Calculate the position of the goal to kick to
-    return info.getField()->getTheirGoalCenter();
-}*/
-
 } // namespace rtt::ai::stp::role
