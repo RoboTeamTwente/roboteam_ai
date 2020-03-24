@@ -44,7 +44,7 @@ class BlockRobot : public Tactic {
      * or our goal
      * @return desired angle for robot to block target
      */
-    double calculateAngle(const world_new::view::RobotView enemy, Vector2 targetLocation);
+    double calculateAngle(const world_new::view::RobotView enemy, const Vector2& targetLocation);
 
     /**
      * Find location for robot to move to to block the target
@@ -54,10 +54,10 @@ class BlockRobot : public Tactic {
      * or our goal
      * @return the desired position to block the target.
      */
-    Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation);
+    Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, const Vector2& targetLocation);
 
-    virtual bool isTacticFailing(const StpInfo &info) noexcept;
-    virtual bool shouldTacticReset(const StpInfo &info) noexcept;
+    bool isTacticFailing(const StpInfo &info) noexcept override;
+    bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
 };

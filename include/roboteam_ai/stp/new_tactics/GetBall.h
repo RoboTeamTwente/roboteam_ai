@@ -49,6 +49,11 @@ class GetBall : public Tactic {
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * keep track of when the ball is close enough that we should turn on the dribbler and rotate to the right angle
+     */
+    double ballDistanceMargin = 3 * Constants::ROBOT_RADIUS();
 };
 }  // namespace rtt::ai::stp::tactic
 
