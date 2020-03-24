@@ -55,6 +55,16 @@ class Skill {
     virtual void limitRobotCommand() noexcept;
 
     /**
+     * Limits the velocity
+     */
+    virtual void limitVel() noexcept;
+
+    /**
+     * Limits the angular velocity
+     */
+    virtual void limitAngularVel() noexcept;
+
+    /**
      * Terminates the skill
      * @return Status of termination
      */
