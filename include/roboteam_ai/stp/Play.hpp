@@ -5,8 +5,8 @@
 #ifndef RTT_PLAY_HPP
 #define RTT_PLAY_HPP
 
-#include <utilities/Dealer.h>
 #include <utilities/Constants.h>
+#include <utilities/Dealer.h>
 
 #include <array>
 
@@ -41,7 +41,6 @@ class Play {
      * Calculates all the info (mostly positions) the roles in this play need to execute
      */
     virtual void calculateInfoForRoles() noexcept = 0;
-
 
     /**
      * Gets the score for the current play
@@ -125,8 +124,14 @@ class Play {
      * closest to the ball should try to intercept
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
-};
 
+   private:
+    /**
+     * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
+     * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
+     */
+    void refreshData() noexcept;
+};
 }  // namespace rtt::ai::stp
 
 #endif  // RTT_PLAY_HPP

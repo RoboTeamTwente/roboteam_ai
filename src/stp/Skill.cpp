@@ -110,4 +110,4 @@ void Skill::initialize() noexcept { onInitialize(); }
 
 constexpr const char* Skill::name() const noexcept { return "[abc] Skill"; }
 
-}
+}  // namespace rtt::ai::stp

@@ -8,61 +8,59 @@
 #include <include/roboteam_ai/stp/Tactic.h>
 
 namespace rtt::ai::stp::tactic {
-    class BlockRobot : public Tactic {
-    public:
-        BlockRobot();
+class BlockRobot : public Tactic {
+   public:
+    BlockRobot();
 
-    private:
-        // TODO: TUNE make this a sensible margin
-        const double errorMargin = 1*Constants::ROBOT_RADIUS();
-        /**
-         * On initialization of this tactic, initialize the state machine with skills
-         */
-        void onInitialize() noexcept override;
+   private:
+    // TODO: TUNE make this a sensible margin
+    const double errorMargin = 1 * Constants::ROBOT_RADIUS();
+    /**
+     * On initialization of this tactic, initialize the state machine with skills
+     */
+    void onInitialize() noexcept override;
 
-        /**
-         * On update of this tactic
-         */
-        void onUpdate(Status const &status) noexcept override;
+    /**
+     * On update of this tactic
+     */
+    void onUpdate(Status const &status) noexcept override;
 
-        /**
-         * On terminate of this tactic, call terminate on all underlying skills
-         */
-        void onTerminate() noexcept override;
+    /**
+     * On terminate of this tactic, call terminate on all underlying skills
+     */
+    void onTerminate() noexcept override;
 
-        /**
-         * Calculate the SkillInfo from the TacticInfo
-         * @param info info is the TacticInfo passed by the role
-         * @return SkillInfo based on the TacticInfo
-         */
-        StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+    /**
+     * Calculate the SkillInfo from the TacticInfo
+     * @param info info is the TacticInfo passed by the role
+     * @return SkillInfo based on the TacticInfo
+     */
+    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-        /**
-         * Find the desired angle for the robot to block the target
-         * @param enemy the robot that is being blocked
-         * @param targetLocation the location that you want to block off from the robot. For example, the ball position,
-         * or our goal
-         * @return desired angle for robot to block target
-         */
-        double calculateAngle(const world_new::view::RobotView enemy, Vector2 targetLocation);
+    /**
+     * Find the desired angle for the robot to block the target
+     * @param enemy the robot that is being blocked
+     * @param targetLocation the location that you want to block off from the robot. For example, the ball position,
+     * or our goal
+     * @return desired angle for robot to block target
+     */
+    double calculateAngle(const world_new::view::RobotView enemy, Vector2 targetLocation);
 
-        /**
-         * Find location for robot to move to to block the target
-         * @param blockDistance how close the robot should be to the enemy robot.
-         * @param enemy the enemy robot to be blocked
-         * @param targetLocation the location that you want to block off from the robot. For example, the ball position,
-         * or our goal
-         * @return the desired position to block the target.
-         */
-        Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy,
-                                              Vector2 targetLocation);
+    /**
+     * Find location for robot to move to to block the target
+     * @param blockDistance how close the robot should be to the enemy robot.
+     * @param enemy the enemy robot to be blocked
+     * @param targetLocation the location that you want to block off from the robot. For example, the ball position,
+     * or our goal
+     * @return the desired position to block the target.
+     */
+    Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, Vector2 targetLocation);
 
-        virtual bool isTacticFailing(const StpInfo &info) noexcept;
-        virtual bool shouldTacticReset(const StpInfo &info) noexcept;
+    virtual bool isTacticFailing(const StpInfo &info) noexcept;
+    virtual bool shouldTacticReset(const StpInfo &info) noexcept;
 
-        bool isEndTactic() noexcept override;
-    };
-}
+    bool isEndTactic() noexcept override;
+};
+}  // namespace rtt::ai::stp::tactic
 
-
-#endif //RTT_BLOCKROBOT_H
+#endif  // RTT_BLOCKROBOT_H
