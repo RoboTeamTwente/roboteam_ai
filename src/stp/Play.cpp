@@ -54,7 +54,7 @@ void Play::update() noexcept {
                 }
             }
         } else {
-            RTT_ERROR("Trying to update role that is not in STPInfos!")
+            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
 }
