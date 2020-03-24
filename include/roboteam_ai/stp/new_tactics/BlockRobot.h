@@ -56,8 +56,8 @@ class BlockRobot : public Tactic {
      */
     Vector2 calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, const Vector2& targetLocation);
 
-    virtual bool isTacticFailing(const StpInfo &info) noexcept override;
-    virtual bool shouldTacticReset(const StpInfo &info) noexcept override;
+    bool isTacticFailing(const StpInfo &info) noexcept override;
+    bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
 };
