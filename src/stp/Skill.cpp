@@ -70,7 +70,7 @@ void Skill::limitVel() noexcept {
      * TODO: Test if it is necessary to limit the velocity when the robot has the ball
      * Might not be necessary because the robot is only allowed to move a small distance with the ball
      */
-    double maxVel = 3.0; // Maximum speed of the robot with ball TODO: TUNE
+    double maxVel = 3.0; // Maximum velocity of the robot with ball TODO: TUNE
 
     if (robot->hasBall() && limitedVel.length() > maxVel) {
         // Clamp velocity
