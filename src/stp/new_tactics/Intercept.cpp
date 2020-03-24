@@ -58,12 +58,10 @@ bool Intercept::shouldTacticReset(const StpInfo& info) noexcept {
     return !info.getRobot()->hasBall(Constants::ROBOT_RADIUS());
 }
 
-double Intercept::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
-    return (ball->getPos() - robot->getPos()).angle();
-}
+double Intercept::calculateAngle(const world_new::view::RobotView& robot, const world_new::view::BallView& ball) { return (ball->getPos() - robot->getPos()).angle(); }
 
-int Intercept::determineDribblerSpeed(const world_new::view::RobotView &robot) {
+int Intercept::determineDribblerSpeed(const world_new::view::RobotView& robot) {
     double turnOnDribblerDistance = 1.0;
     return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
 }
-}
+}  // namespace rtt::ai::stp::tactic

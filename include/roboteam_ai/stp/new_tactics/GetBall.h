@@ -14,10 +14,10 @@ namespace rtt::ai::stp::tactic {
  * end tactic, therefore it can succeed.
  */
 class GetBall : public Tactic {
-public:
+   public:
     GetBall();
 
-protected:
+   protected:
     void onInitialize() noexcept override;
 
     void onUpdate(Status const &status) noexcept override;
@@ -50,6 +50,6 @@ protected:
 
     bool isEndTactic() noexcept override;
 };
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::tactic
 
 #endif  // RTT_GETBALL_H

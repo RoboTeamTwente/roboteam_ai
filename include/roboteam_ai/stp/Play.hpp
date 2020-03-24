@@ -5,8 +5,8 @@
 #ifndef RTT_PLAY_HPP
 #define RTT_PLAY_HPP
 
-#include <utilities/Dealer.h>
 #include <utilities/Constants.h>
+#include <utilities/Dealer.h>
 
 #include <array>
 
@@ -34,14 +34,8 @@ class Play {
 
     /**
      * Updates all the roles
-     * @param info Information to pass down to the Roles
-     * @return Status depending on return value,
-     * if all finished -> finished
-     * if any failed -> failed
-     * if any waiting -> waiting
-     * otherwise -> running
      */
-    [[nodiscard]] virtual Status update() noexcept;
+    virtual void update() noexcept;
 
     /**
      * Calculates all the info (mostly positions) the roles in this play need to execute
@@ -49,16 +43,9 @@ class Play {
     virtual void calculateInfoForRoles() noexcept = 0;
 
     /**
-     * Checks whether the current play is a valid play
-     * @param world World to check for (world_new::World::instance())
-     * @return true if valid, false if not
-     */
-    [[nodiscard]] virtual bool isValidPlay(world_new::World* world) noexcept = 0;
-
-    /**
      * Gets the score for the current play
      *
-     * On the contrary to isValidPlay() this checks how good the play actually is
+     * On the contrary to isValidPlayToStart() this checks how good the play actually is
      * return in range of 0 - 100
      *
      * @param world World to get the score for (world_new::World::instance())
@@ -81,11 +68,34 @@ class Play {
      */
     Play(Play&& other) = default;
 
+    /**
+     * Check if the preconditions of this play are true
+     * @return true if the play is allowed to be started, else false
+     */
+    [[nodiscard]] virtual bool isValidPlayToStart(world_new::World* world) noexcept = 0;
+
+    /**
+     * Check if the conditions for the play to keep running are true
+     * @param world
+     * @return
+     */
+    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept = 0;
+
+    /**
+     * @return true if all roles are finished
+     */
+    [[nodiscard]] bool arePlayRolesFinished();
+
    protected:
     /**
      * The roles, constructed in ctor of a play
      */
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
+
+    /**
+     * Array that keeps track of the status of each role.
+     */
+    std::vector<Status> roleStatuses;
 
     /**
      * The stpInfos, constructed in assignRoles
@@ -103,13 +113,25 @@ class Play {
      */
     rtt::ai::Field field;
 
-    protected:
     /**
      * Assigns robots to roles
      */
     virtual void assignRoles() noexcept = 0;
-};
 
+    /**
+     * This function is used to determine if, when a role is in an endtactic, that endtactic should be skipped.
+     * An example could be BlockRobot and Intercept. You block a robot until a ball is shot and then the robot
+     * closest to the ball should try to intercept
+     */
+    virtual bool shouldRoleSkipEndTactic() = 0;
+
+   private:
+    /**
+     * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
+     * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
+     */
+    void refreshData() noexcept;
+};
 }  // namespace rtt::ai::stp
 
 #endif  // RTT_PLAY_HPP

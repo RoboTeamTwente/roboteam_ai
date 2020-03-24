@@ -10,15 +10,14 @@
 
 namespace rtt::ai::stp::skill {
 
-void GoToPos::onInitialize() noexcept { }
+void GoToPos::onInitialize() noexcept {}
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
     // Calculate commands from path planning and tracking
-    auto robotCommand = world_new::World::instance()->getRobotPositionController()->
-            computeAndTrackPath(info.getField().value(), info.getRobot().value()->getId(),
-                    info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
+    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
+        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Clamp and set velocity
     double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, Constants::MAX_VEL_CMD());

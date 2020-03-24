@@ -16,13 +16,13 @@ namespace rtt::ai::stp {
  */
 class Role {
    public:
-    Role(std::string name) : roleName{std::move(name)} {}
-    /**
-     * Function that's called every tick, default implementation is robotTactics.update();
-     * @param info TacticInfo to be passed to update()
-     * @return The status that the current tactic returns
-     */
-    [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
+    Role(std::string name)
+        : roleName{std::move(name)} {} /**
+                                        * Function that's called every tick, default implementation is robotTactics.update();
+                                        * @param info TacticInfo to be passed to update()
+                                        * @return The status that the current tactic returns
+                                        */
+              [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
 
     /**
      * @return True if all tactics returned Status::finish

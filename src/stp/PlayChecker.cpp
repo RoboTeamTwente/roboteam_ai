@@ -9,7 +9,7 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
     std::vector<Play*> validPlays;
 
     for (auto& each : allPlays) {
-        if (each->isValidPlay(world)) {
+        if (each->isValidPlayToStart(world)) {
             validPlays.push_back(each.get());
         }
     }
@@ -19,9 +19,5 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
 
 void PlayChecker::update(world_new::World* world) noexcept { this->world = world; }
 
-bool PlayChecker::isValid(Play* play) const noexcept { return play->isValidPlay(world); }
-
-void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept {
-    this->allPlays = std::move(plays);
-}
+void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept { this->allPlays = std::move(plays); }
 }  // namespace rtt::ai::stp
