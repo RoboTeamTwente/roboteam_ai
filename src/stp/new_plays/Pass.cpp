@@ -2,12 +2,13 @@
 // Created by jessevw on 17.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/Pass.h"
+#include "stp/new_plays/Pass.h"
 
 #include <stp/new_roles/TestRole.h>
 
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
+
 namespace rtt::ai::stp::play {
 
 Pass::Pass() {
@@ -47,18 +48,27 @@ void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
-    auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
+    int numberOfDefenders = 2;
+    auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
     // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
+    // TODO: compute the passing position
+    Vector2 passingPosition = Vector2(-2, -2);
+
     // Calculate receiver info
-    if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPositionToMoveTo(Vector2(-2, -2));
+    if (stpInfos.find("pass_receiver") != stpInfos.end())
+        stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
     // Calculate Passer info
-    if (stpInfos.find("passer") != stpInfos.end()) stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
-    // Calculate defender1 info
-    if (stpInfos.find("defender1") != stpInfos.end()) stpInfos["defender1"].setPositionToMoveTo(defensivePositions[0]);
-    // Calculate defender2 info
-    if (stpInfos.find("defender2") != stpInfos.end()) stpInfos["defender2"].setPositionToMoveTo(defensivePositions[1]);
+    if (stpInfos.find("passer") != stpInfos.end()) stpInfos["passer"].setPositionToShootAt(passingPosition);
+
+    for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
+        std::string defenderName = "defender" + std::to_string(defenderIndex + 1);
+
+        if (stpInfos.find(defenderName) != stpInfos.end()) {
+            stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
+        }
+    }
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
