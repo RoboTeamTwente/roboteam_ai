@@ -66,7 +66,7 @@ bool Play::arePlayRolesFinished() {
 void Play::refreshData() noexcept {
     // Get a new BallView and field from world
     auto newBallView = world->getWorld()->getBall();
-    auto newField = world->getField();
+    auto newField = world->getField(); // blub
     for (auto& role : roles) {
         auto stpInfo = stpInfos.find(role->getName());
         if (stpInfo != stpInfos.end()) {
