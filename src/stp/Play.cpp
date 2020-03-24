@@ -88,7 +88,7 @@ void Play::distributeRoles() noexcept {
     for (auto& role : roles) {
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
-            auto robot = distribution[role->getName()];
+            auto robot = distribution.find(role->getName())->second;
 
             stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
