@@ -17,9 +17,7 @@ TestPlay::TestPlay() {
 
 uint8_t TestPlay::score(world_new::World *world) noexcept { return 10; }
 
-void TestPlay::assignRoles() noexcept {
-    Dealer dealer{world->getWorld().value(), &field};
-
+Dealer::FlagMap TestPlay::decideRoleFlags() noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -36,25 +34,13 @@ void TestPlay::assignRoles() noexcept {
     flagMap.insert({"test_role_9", {closeToBallFlag}});
     flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
-    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
-
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto &role : roles) {
-        auto roleName{role->getName()};
-        if (distribution.find(roleName) != distribution.end()) {
-            auto robot = distribution.find(role->getName())->second;
-
-            stpInfos.emplace(roleName, StpInfo{});
-            stpInfos[roleName].setRobot(robot);
-        }
-    }
+    return flagMap;
 }
 
 void TestPlay::calculateInfoForRoles() noexcept {
     for (auto &role : roles) {
         auto roleName{role->getName()};
         if (stpInfos.find(roleName) != stpInfos.end()) {
-            auto robot = stpInfos[roleName].getRobot().value();
             // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
             stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5);
         }

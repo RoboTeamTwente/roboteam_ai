@@ -4,14 +4,14 @@
 
 #include <gtest/gtest.h>
 
-#include <include/roboteam_ai/stp/PlayDecider.hpp>
+#include <stp/PlayDecider.hpp>
 #include <stp/PlayChecker.hpp>
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
-    void assignRoles() noexcept override {}
+    rtt::ai::Dealer::FlagMap decideRoleFlags() noexcept override {}
 
     void calculateInfoForRoles() noexcept override {}
 
@@ -23,7 +23,7 @@ class AlwaysValid : public rtt::ai::stp::Play {
 class AlwaysFalse : public rtt::ai::stp::Play {
     uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
-    void assignRoles() noexcept override {}
+    rtt::ai::Dealer::FlagMap decideRoleFlags() noexcept override {}
 
     void calculateInfoForRoles() noexcept override {}
 

@@ -22,9 +22,7 @@ Pass::Pass() {
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
 
-void Pass::assignRoles() noexcept {
-    Dealer dealer{world->getWorld().value(), &field};
-
+Dealer::FlagMap Pass::decideRoleFlags() noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -42,18 +40,7 @@ void Pass::assignRoles() noexcept {
     flagMap.insert({"test_role_9", {closeToBallFlag}});
     flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
-    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
-
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto& role : roles) {
-        auto roleName{role->getName()};
-        if (distribution.find(roleName) != distribution.end()) {
-            auto robot = distribution.find(role->getName())->second;
-
-            stpInfos.emplace(roleName, StpInfo{});
-            stpInfos[roleName].setRobot(robot);
-        }
-    }
+    return flagMap;
 }
 
 void Pass::calculateInfoForRoles() noexcept {

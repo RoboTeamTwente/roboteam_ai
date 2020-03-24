@@ -22,7 +22,7 @@ namespace rtt::ai::stp {
 class Play {
    public:
     /**
-     * Initializes tacticInfos vector and calls assignRoles
+     * Initializes tacticInfos vector and calls distributeRoles
      */
     void initialize() noexcept;
 
@@ -98,7 +98,7 @@ class Play {
     std::vector<Status> roleStatuses;
 
     /**
-     * The stpInfos, constructed in assignRoles
+     * The stpInfos, constructed in distributeRoles
      * The string is the role_name to be able to update the info in the right role
      */
     std::unordered_map<std::string, StpInfo> stpInfos;
@@ -116,7 +116,7 @@ class Play {
     /**
      * Assigns robots to roles
      */
-    virtual void assignRoles() noexcept = 0;
+    virtual Dealer::FlagMap decideRoleFlags() noexcept = 0;
 
     /**
      * This function is used to determine if, when a role is in an endtactic, that endtactic should be skipped.
@@ -131,6 +131,8 @@ class Play {
      * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
      */
     void refreshData() noexcept;
+
+    void distributeRoles() noexcept;
 };
 }  // namespace rtt::ai::stp
 

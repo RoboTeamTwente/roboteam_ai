@@ -8,7 +8,7 @@ namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
     calculateInfoForRoles();
-    assignRoles();
+    distributeRoles();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
@@ -31,7 +31,7 @@ void Play::update() noexcept {
             stpInfos = std::unordered_map<std::string, StpInfo>{};
             return;
         }
-        assignRoles();
+        distributeRoles();
     }
 
     // Refresh the RobotViews, BallViews and fields
@@ -76,4 +76,25 @@ void Play::refreshData() noexcept {
         }
     }
 }
+
+void Play::distributeRoles() noexcept {
+    Dealer dealer{world->getWorld().value(), &field};
+
+    auto flagMap = decideRoleFlags();
+
+    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
+
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto& role : roles) {
+        auto roleName{role->getName()};
+        if (distribution.find(roleName) != distribution.end()) {
+            auto robot = distribution.find(role->getName())->second;
+
+            stpInfos.emplace(roleName, StpInfo{});
+            stpInfos[roleName].setRobot(robot);
+        }
+    }
+}
+
+
 }  // namespace rtt::ai::stp
