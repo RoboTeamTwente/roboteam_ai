@@ -114,7 +114,8 @@ class Play {
     rtt::ai::Field field;
 
     /**
-     * Assigns robots to roles
+     * Decides the input to the robot dealer. The result will be used to distribute the roles
+     * @return a mapping between roles and robot flags, used by the robot dealer to assign roles
      */
     virtual Dealer::FlagMap decideRoleFlags() noexcept = 0;
 
@@ -132,6 +133,9 @@ class Play {
      */
     void refreshData() noexcept;
 
+    /**
+     * Assigns robots to roles
+     */
     void distributeRoles() noexcept;
 };
 }  // namespace rtt::ai::stp
