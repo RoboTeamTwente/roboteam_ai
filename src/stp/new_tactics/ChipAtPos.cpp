@@ -47,7 +47,7 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 }
 
 /// Determine how fast we should chip for a pass at a given distance
-//TODO: This is bad code full of magic numbers so please refactor at a later stage :)
+// TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept {
     const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
 
@@ -79,9 +79,7 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
             velocity = rtt::ai::Constants::MAX_KICK_POWER();
             break;
         }
-        default: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
-        }
+        default: { velocity = rtt::ai::Constants::MAX_KICK_POWER(); }
     }
 
     // limit the output to the max chip speed

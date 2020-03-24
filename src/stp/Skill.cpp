@@ -62,7 +62,7 @@ void Skill::limitRobotCommand() noexcept {
     }
 
     // TODO: When using the dribbler, we probably want to limit the vel a bit smarter than this...
-    if(this->command.dribbler() != 0) {
+    if (this->command.dribbler() != 0) {
         limitedVel.x /= 3;
         limitedVel.y /= 3;
     }
@@ -82,4 +82,4 @@ void Skill::initialize() noexcept { onInitialize(); }
 
 constexpr const char* Skill::name() const noexcept { return "[abc] Skill"; }
 
-}
+}  // namespace rtt::ai::stp

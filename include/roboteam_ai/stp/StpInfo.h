@@ -72,17 +72,8 @@ struct Areas {
     }
 };
 
-enum BlockDistance {
-    CLOSE = 1,
-    HALFWAY,
-    FAR
-};
-enum KickChipType{
-    DRIBBLE_KICK,
-    BALL_PLACEMENT,
-    PASS,
-    MAX_SPEED
-};
+enum BlockDistance { CLOSE = 1, HALFWAY, FAR };
+enum KickChipType { DRIBBLE_KICK, BALL_PLACEMENT, PASS, MAX_SPEED };
 
 struct StpInfo {
    public:
