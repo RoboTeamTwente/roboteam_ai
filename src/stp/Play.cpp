@@ -60,7 +60,7 @@ void Play::update() noexcept {
 }
 
 bool Play::arePlayRolesFinished() {
-    return std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s) { return s == Status::Success; });
+    return !roleStatuses.empty() && std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s) { return s == Status::Success; });
 }
 
 void Play::refreshData() noexcept {
