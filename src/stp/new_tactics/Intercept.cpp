@@ -22,12 +22,7 @@ bool Intercept::isEndTactic() noexcept {
 
 void Intercept::onInitialize() noexcept {}
 
-void Intercept::onUpdate(const Status& status) noexcept {
-    // Keep executing Rotate skill
-    if (skills.current_num() == skills.total_count()) {
-        skills.skip_n(-1);
-    }
-}
+void Intercept::onUpdate(const Status& status) noexcept { }
 
 void Intercept::onTerminate() noexcept {
     // Call terminate on all skills
