@@ -82,9 +82,6 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 
     // 3 robots will defend goal
     for (int i = 0; i < numberOfDefenders; i++) {
-        std::stringstream strstr;
-        strstr << "text" << i + 1;
-        std::string x = strstr.str();
         if (i < 3) {
             positions.push_back(world->getField()->getOurGoalCenter());
         } else {
