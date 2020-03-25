@@ -59,7 +59,7 @@ class Play {
     virtual ~Play() = default;
 
     /**
-     * Default ctor, ensures proper construction of Play
+     * Ctor that constructs a play an assigns its name
      */
     explicit Play(std::string playName);
 
