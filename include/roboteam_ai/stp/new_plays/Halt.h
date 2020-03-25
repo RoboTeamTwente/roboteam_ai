@@ -34,7 +34,7 @@ namespace rtt::ai::stp::play {
         /**
          * Assigns robots to roles of this play
          */
-        void assignRoles() noexcept;
+        void assignRoles() noexcept override;
 
         /**
          * Calculates info for the roles

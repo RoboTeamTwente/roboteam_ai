@@ -9,8 +9,8 @@
 
 namespace rtt::ai::stp::tactic {
 /**
- * This tactic is for getting the ball. It has 3 skills: GoToPos, Rotate, and SetDribbler.
- * It cannot fail, and it's getting reset when there the robot loses the ball. It's not an
+ * This tactic is for halting, it rotates the robot to angle 0
+ * It cannot fail and reset. It's not an
  * end tactic, therefore it can succeed.
  */
     class Halt : public Tactic {
@@ -42,7 +42,7 @@ namespace rtt::ai::stp::tactic {
         /**
          * This tactic cannot be reset
          * @param info
-         * @return true if the robot lost the ball
+         * @return always false
          */
         bool shouldTacticReset(const StpInfo &info) noexcept override;
 

@@ -6,7 +6,6 @@
 #include <roboteam_utils/Print.h>
 
 #include <utility>
-#include <include/roboteam_ai/stp/new_tactics/GetBall.h>
 #include <include/roboteam_ai/stp/new_tactics/Halt.h>
 
 namespace rtt::ai::stp::role {
