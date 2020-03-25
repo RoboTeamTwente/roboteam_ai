@@ -38,8 +38,8 @@ class FieldComputations {
      * @param isOurDefenceArea True if our defence area is used, false if the opponents defence area is used (by default our defence are is used).
      * @param margin The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (by default it will be neither expanded/shrinked).
-     * @param includeOutsideField True then the defence area will also be expanded/shrinked at the goal side (boundary side) of the field. Otherwise it won't be expanded/shrinked
-     * at the goal side (by default the defence area will not be expanded/shrinked at goal side).
+     * @param includeOutsideField True then the defence area will also be expanded/shrinked at the goal side (boundary side) of the field. Otherwise it is only expanded by the
+     * boundary width at the goal side (by default the defence area will only be expanded with the boundary width at the goal side).
      * @return True if the point is in the defence area, false otherwise.
      */
     static bool pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0, bool includeOutsideField = false);
@@ -144,8 +144,8 @@ class FieldComputations {
      * @param ourDefenseArea True if our defense area will be returned, false if the opponents defense area will be returned (by default our defense area will be returned).
      * @param margin The outwards margin in which the defence area will be expanded/shrinked in all directions (except maybe for the goal side). A positive value means that it will
      * be expanded, a negative value means that it will be shrinked (by default it will be neither expanded/shrinked).
-     * @param includeOutSideField True then the defence area will also be expanded/shrinked at the goal side (boundary side) of the field. Otherwise it won't be expanded/shrinked
-     * at the goal side (by default the defence area will not be expanded/shrinked at goal side).
+     * @param includeOutSideField True then the defence area will also be expanded/shrinked at the goal side (boundary side) of the field. Otherwise it is only expanded by the
+     * boundary width at the goal side (by default the defence area will be expanded/shrinked at the goal side).
      * @return The area (Polygon) which represents the defense area.
      */
     static Polygon getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea = true, double margin = 0.0, bool includeOutSideField = true);

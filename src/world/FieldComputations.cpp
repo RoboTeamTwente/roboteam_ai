@@ -107,7 +107,7 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
 }
 
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
-    double backLineChanges = includeOutSideField ? field.getBoundaryWidth() : margin;
+    double backLineChanges = includeOutSideField ? margin : field.getBoundaryWidth();
     Vector2 bottomGoal = ourDefenseArea ? field.getOurBottomGoalSide() + Vector2(-backLineChanges, -margin) : field.getTheirBottomGoalSide() + Vector2(backLineChanges, -margin);
     Vector2 topGoal = ourDefenseArea ? field.getOurTopGoalSide() + Vector2(-backLineChanges, margin) : field.getTheirTopGoalSide() + Vector2(backLineChanges, margin);
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
