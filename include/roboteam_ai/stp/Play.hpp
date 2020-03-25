@@ -61,7 +61,7 @@ class Play {
     /**
      * Default ctor, ensures proper construction of Play
      */
-    Play() = default;
+    explicit Play(std::string playName);
 
     /**
      * Default move-ctor, ensures proper move-construction of Play
@@ -87,6 +87,7 @@ class Play {
     [[nodiscard]] bool arePlayRolesFinished();
 
    protected:
+    std::string playName;
     /**
      * The roles, constructed in ctor of a play
      */

@@ -30,8 +30,8 @@ void ApplicationManager::start() {
     RTT_INFO("Waiting for field_data and robots...");
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test Play"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass Play"));
 
     playChecker.setPlays(plays);
 

@@ -10,7 +10,7 @@
 #include "stp/new_roles/Passer.h"
 namespace rtt::ai::stp::play {
 
-Pass::Pass() {
+Pass::Pass(std::string playName) : Play(playName) {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
         std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),

@@ -4,6 +4,8 @@
 
 #include "include/roboteam_ai/stp/Play.hpp"
 
+#include <utility>
+
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
@@ -19,6 +21,7 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
+    RTT_INFO("Play executing: ", playName)
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
@@ -80,4 +83,7 @@ void Play::refreshData() noexcept {
         }
     }
 }
+
+Play::Play(std::string playName) : playName{std::move(playName)} { }
+
 }  // namespace rtt::ai::stp
