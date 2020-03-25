@@ -88,13 +88,13 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-bool Robot::hasBallBallSensor() const noexcept { return hasBall; }
+bool Robot::ballSensorSeesBall() const noexcept { return seesBall; }
 
-void Robot::setHasBallBallSensor(bool hasBall) noexcept { Robot::hasBall = hasBall; }
+void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { Robot::seesBall = _seesBall; }
 
 float Robot::getBallPosBallSensor() const noexcept { return ballPos; }
 
-void Robot::setBallPosBallSensor(float ballPos) noexcept { Robot::ballPos = ballPos; }
+void Robot::setBallPosBallSensor(float _ballPos) noexcept { Robot::ballPos = _ballPos; }
 
 void Robot::resetShotController() const noexcept { World::instance()->getControllersForRobot(getId()).getShotController() = std::make_unique<ai::control::ShotController>(); }
 
@@ -132,7 +132,7 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ballsensorisworking());
         setBatteryLow(feedback.batterylow());
-        setHasBallBallSensor(feedback.hasball());
+        setBallSensorSeesBall(feedback.hasball());
         setBallPosBallSensor(feedback.ballpos());
     }
 }
@@ -141,11 +141,7 @@ void Robot::setRobotType(RobotType _type) noexcept { this->type = _type; }
 
 RobotType Robot::getRobotType() const noexcept { return type; }
 
-bool Robot::isFiftyWatt() const noexcept {
-    return getRobotType() == RobotType::FIFTY_WATT;
-}
+bool Robot::isFiftyWatt() const noexcept { return getRobotType() == RobotType::FIFTY_WATT; }
 
-bool Robot::isThirtyWatt() const noexcept {
-    return getRobotType() == RobotType::THIRTY_WATT;
-}
+bool Robot::isThirtyWatt() const noexcept { return getRobotType() == RobotType::THIRTY_WATT; }
 }  // namespace rtt::world_new::robot

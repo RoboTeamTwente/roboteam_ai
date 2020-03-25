@@ -55,7 +55,7 @@ class Robot {
     bool workingDribbler;
     bool workingBallSensor;
 
-    bool hasBall;
+    bool seesBall;
     float ballPos;
 
    private:
@@ -89,11 +89,9 @@ class Robot {
 
     void setDistanceToBall(double distanceToBall) noexcept;
 
-    void setHasBallBallSensor(bool hasBall) noexcept;
+    void setBallSensorSeesBall(bool _seesBall) noexcept;
 
-    void setBallPosBallSensor(float ballPos) noexcept;
-
-    void setIHaveBall(bool iHaveBall) noexcept;
+    void setBallPosBallSensor(float _ballPos) noexcept;
 
     void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
 
@@ -130,7 +128,7 @@ class Robot {
 
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
-    [[nodiscard]] bool hasBallBallSensor() const noexcept;
+    [[nodiscard]] bool ballSensorSeesBall() const noexcept;
 
     [[nodiscard]] float getBallPosBallSensor() const noexcept;
 
@@ -145,8 +143,6 @@ class Robot {
     [[nodiscard]] const Vector2 &getPidPreviousVel() const noexcept;
 
     [[nodiscard]] double getDistanceToBall() const noexcept;
-
-    [[nodiscard]] bool isIHaveBall() const noexcept;
 
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 

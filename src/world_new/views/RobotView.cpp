@@ -22,7 +22,7 @@ robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 bool RobotView::hasBall(double maxDist, bool noBallSensor) const noexcept {
     // Take ballSensor input when noBallSensor is false (default) and the ballSensor works
     // else take radius check
-    if (!noBallSensor && get()->isWorkingBallSensor()) return get()->hasBallBallSensor();
+    if (!noBallSensor && get()->isWorkingBallSensor()) return get()->ballSensorSeesBall();
     return get()->getDistanceToBall() < maxDist;
 }
 

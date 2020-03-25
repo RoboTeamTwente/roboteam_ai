@@ -80,8 +80,9 @@ class RobotView {
 
     /**
      * Check whether the current robot has the ball
-     * @param maxDist maximum distance for ball posession
-     * @return true if dist(ball, robot) < maxDist else false
+     * @param maxDist maximum distance for ball possession
+     * @param noBallSensor false -> use ball sensor, true -> use radius
+     * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
      */
     [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE(), bool noBallSensor = false) const noexcept;
 
