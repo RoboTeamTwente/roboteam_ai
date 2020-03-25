@@ -88,6 +88,14 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
+bool Robot::hasBallBallSensor() const noexcept { return hasBall; }
+
+void Robot::setHasBallBallSensor(bool hasBall) noexcept { Robot::hasBall = hasBall; }
+
+float Robot::getBallPosBallSensor() const noexcept { return ballPos; }
+
+void Robot::setBallPosBallSensor(float ballPos) noexcept { Robot::ballPos = ballPos; }
+
 void Robot::resetShotController() const noexcept { World::instance()->getControllersForRobot(getId()).getShotController() = std::make_unique<ai::control::ShotController>(); }
 
 void Robot::resetNumTreePosControl() const noexcept {
@@ -124,6 +132,8 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ballsensorisworking());
         setBatteryLow(feedback.batterylow());
+        setHasBallBallSensor(feedback.hasball());
+        setBallPosBallSensor(feedback.ballpos());
     }
 }
 

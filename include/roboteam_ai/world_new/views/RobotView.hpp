@@ -83,7 +83,7 @@ class RobotView {
      * @param maxDist maximum distance for ball posession
      * @return true if dist(ball, robot) < maxDist else false
      */
-    [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE()) const noexcept;
+    [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE(), bool noBallSensor = false) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing

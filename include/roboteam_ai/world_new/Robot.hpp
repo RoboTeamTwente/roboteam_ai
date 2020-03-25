@@ -14,11 +14,11 @@
 #include "world_new/views/BallView.hpp"
 
 namespace rtt::ai::control {
-    class ShotController;
-    class NumTreePosControl;
-    class BallHandlePosControl;
-    class BasicPosControl;
-}
+class ShotController;
+class NumTreePosControl;
+class BallHandlePosControl;
+class BasicPosControl;
+}  // namespace rtt::ai::control
 
 namespace rtt::world_new::robot {
 
@@ -55,6 +55,9 @@ class Robot {
     bool workingDribbler;
     bool workingBallSensor;
 
+    bool hasBall;
+    float ballPos;
+
    private:
     void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
 
@@ -85,6 +88,10 @@ class Robot {
     void setWorkingBallSensor(bool workingBallSensor) noexcept;
 
     void setDistanceToBall(double distanceToBall) noexcept;
+
+    void setHasBallBallSensor(bool hasBall) noexcept;
+
+    void setBallPosBallSensor(float ballPos) noexcept;
 
     void setIHaveBall(bool iHaveBall) noexcept;
 
@@ -123,6 +130,10 @@ class Robot {
 
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
+    [[nodiscard]] bool hasBallBallSensor() const noexcept;
+
+    [[nodiscard]] float getBallPosBallSensor() const noexcept;
+
     [[nodiscard]] ai::control::ShotController *getShotController() const noexcept;
 
     [[nodiscard]] ai::control::NumTreePosControl *getNumTreePosControl() const noexcept;
@@ -151,7 +162,7 @@ class Robot {
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
                    std::optional<rtt::world_new::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
-    Robot &operator=(Robot const&) = default;
+    Robot &operator=(Robot const &) = default;
 
     Robot(Robot const &) = default;
 
