@@ -3,27 +3,23 @@
 //
 
 #include "include/roboteam_ai/stp/new_plays/Halt.h"
-#include "include/roboteam_ai/stp/new_plays/Pass.h"
-
 #include <stp/new_roles/TestRole.h>
-
-#include "stp/new_roles/PassReceiver.h"
-#include "stp/new_roles/Passer.h"
+#include "stp/new_roles/Halt.h"
 namespace rtt::ai::stp::play {
 
-    Pass::Pass() {
+    Halt::Halt() {
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
-                std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),
-                std::make_unique<TestRole>(TestRole("test_role_4")),    std::make_unique<TestRole>(TestRole("test_role_5")),
-                std::make_unique<TestRole>(TestRole("test_role_6")),    std::make_unique<TestRole>(TestRole("test_role_7")),
-                std::make_unique<TestRole>(TestRole("test_role_8")),    std::make_unique<TestRole>(TestRole("test_role_9")),
-                std::make_unique<TestRole>(TestRole("test_role_10"))};
+                std::make_unique<role::Halt>(role::Halt("halt0")), std::make_unique<role::Halt>(role::Halt("halt1")),
+                std::make_unique<role::Halt>(role::Halt("halt2")),      std::make_unique<role::Halt>(role::Halt("halt3")),
+                std::make_unique<role::Halt>(role::Halt("halt4")),    std::make_unique<role::Halt>(role::Halt("halt5")),
+                std::make_unique<role::Halt>(role::Halt("halt6")),    std::make_unique<role::Halt>(role::Halt("halt7")),
+                std::make_unique<role::Halt>(role::Halt("halt8")),    std::make_unique<role::Halt>(role::Halt("halt9")),
+                std::make_unique<role::Halt>(role::Halt("halt10"))};
     }
 
-    uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
+    uint8_t Halt::score(world_new::World* world) noexcept { return 14; }
 
-    void Pass::assignRoles() noexcept {
+    void Halt::assignRoles() noexcept {
         Dealer dealer{world->getWorld().value(), &field};
 
         Dealer::FlagMap flagMap;
@@ -31,17 +27,17 @@ namespace rtt::ai::stp::play {
         Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
         Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
 
-        flagMap.insert({"passer", {closeToBallFlag}});
-        flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-        flagMap.insert({"defender1", {notImportant}});
-        flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
-        flagMap.insert({"test_role_4", {closeToBallFlag}});
-        flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-        flagMap.insert({"test_role_6", {closeToBallFlag}});
-        flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-        flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-        flagMap.insert({"test_role_9", {closeToBallFlag}});
-        flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt0", {closeToBallFlag}});
+        flagMap.insert({"halt1", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt2", {notImportant}});
+        flagMap.insert({"halt3", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt4", {closeToBallFlag}});
+        flagMap.insert({"halt5", {closeToTheirGoalFlag, closeToBallFlag}});
+        flagMap.insert({"halt6", {closeToBallFlag}});
+        flagMap.insert({"halt7", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt8", {closeToTheirGoalFlag, closeToBallFlag}});
+        flagMap.insert({"halt9", {closeToBallFlag}});
+        flagMap.insert({"halt10", {closeToTheirGoalFlag}});
 
         auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
@@ -53,46 +49,18 @@ namespace rtt::ai::stp::play {
 
                 stpInfos.emplace(roleName, StpInfo{});
                 stpInfos[roleName].setRobot(robot);
+                stpInfos[roleName].setPositionToMoveTo(Vector2(robot->getId(), robot->getId()));
             }
         }
     }
 
-    void Pass::calculateInfoForRoles() noexcept {
-        // Calculate most important positions to defend
-        // You know you have n defenders, because the play assigned it that way
-        auto enemyRobots = world->getWorld()->getThem();
-        auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
+    void Halt::calculateInfoForRoles() noexcept { }
 
-        // TODO: is there really no better way to set data per role?
-        // Use this new information to assign the roles using the dealer.
-        // Calculate receiver info
-        if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPositionToMoveTo(Vector2(-2, -2));
-        // Calculate Passer info
-        if (stpInfos.find("passer") != stpInfos.end()) stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
-        // Calculate defender1 info
-        if (stpInfos.find("defender1") != stpInfos.end()) stpInfos["defender1"].setPositionToMoveTo(defensivePositions[0]);
-        // Calculate defender2 info
-        if (stpInfos.find("defender2") != stpInfos.end()) stpInfos["defender2"].setPositionToMoveTo(defensivePositions[1]);
-    }
 
-    std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-        std::vector<Vector2> positions = {};
-        // 3 robots will defend goal
-        for (int i = 0; i < numberOfDefenders; i++) {
-            if (i < 3) {
-                positions.push_back(world->getField()->getOurGoalCenter());
-            } else {
-                positions.push_back(enemyRobots[i].get()->getPos());
-            }
-        }
+    bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
-        return positions;
-    }
+    bool Halt::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
 
-    bool Pass::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
-    bool Pass::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
-
-    bool Pass::shouldRoleSkipEndTactic() { return false; }
+    bool Halt::shouldRoleSkipEndTactic() { return false; }
 
 }  // namespace rtt::ai::stp::play

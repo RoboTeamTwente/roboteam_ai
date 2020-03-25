@@ -41,15 +41,6 @@ namespace rtt::ai::stp::play {
          */
         void calculateInfoForRoles() noexcept override;
 
-        /**
-         * Calculates n defensive positions for the roles to defend
-         * @param numberOfDefenders
-         * @param world
-         * @param enemyRobots
-         * @return A vector of defend positions
-         */
-        std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
-
     protected:
         bool shouldRoleSkipEndTactic() override;
     };
