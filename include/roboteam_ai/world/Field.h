@@ -311,7 +311,21 @@ class Field {
      */
     const std::vector<FieldLineSegment> &getFieldLines() const;
 
+    /**
+     * Only use this function for unit test purposes!
+     * @return A field similar to the original field that is used for testing.
+     */
+    static Field createTestField();
+
    private:
+    /**
+     * Only use this function for unit test purposes! Create a field directly by assigning all main field variables.
+     */
+    Field(double fieldWidth, double fieldLength, double goalWidth, double goalDepth, double boundaryWidth, FieldLineSegment &topLine, FieldLineSegment &bottomLine,
+          FieldLineSegment &leftLine, FieldLineSegment &rightLine, FieldLineSegment &halfLine, FieldLineSegment &centerLine, FieldLineSegment &leftPenaltyLine,
+          FieldLineSegment &rightPenaltyLine, FieldLineSegment &topLeftPenaltyStretch, FieldLineSegment &bottomLeftPenaltyStretch, FieldLineSegment &topRightPenaltyStretch,
+          FieldLineSegment &bottomRightPenaltyStretch, FieldArc &centerCircle);
+
     /**
      * This method deals with getting field values and what should happen when a field value is missing.
      */

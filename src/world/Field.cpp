@@ -231,5 +231,54 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
 
 const std::vector<FieldLineSegment> &Field::getFieldLines() const { return allFieldLines; }
 
+Field Field::createTestField() {
+    double fieldWidth = 9;
+    double fieldLength = 12;
+    double goalWidth = 1.2000000476837158;
+    double goalDepth = 0.20000000298023224;
+    double boundaryWidth = 0.30000001192092896;
+    FieldLineSegment topLine = {{-5.9950000000000001, 4.4950000000000001}, {5.9950000000000001, 4.4950000000000001}, "top_line", 0.00999999978};
+    FieldLineSegment bottomLine = {{-5.9950000000000001, -4.4950000000000001}, {5.9950000000000001, -4.4950000000000001}, "bottom_line", 0.00999999978};
+    FieldLineSegment leftLine = {{-5.9900000000000002, -4.4950000000000001}, {-5.9900000000000002, 4.4950000000000001}, "left_line", 0.00999999978};
+    FieldLineSegment rightLine = {{5.9900000000000002, -4.4950000000000001}, {5.9900000000000002, 4.4950000000000001}, "right_line", 0.00999999978};
+    FieldLineSegment halfLine = {{0, -4.4950000000000001}, {0, 4.4950000000000001}, "half_line", 0.00999999978};
+    FieldLineSegment centerLine = {{-5.9900000000000002, 0}, {5.9900000000000002, 0}, "center_line", 0.00999999978};
+    FieldLineSegment leftPenaltyLine = {{-4.7949999999999999, -1.2}, {-4.7949999999999999, 1.2}, "left_penalty_line", 0.00999999978};
+    FieldLineSegment rightPenaltyLine = {{4.7949999999999999, -1.2}, {4.7949999999999999, 1.2}, "right_penalty_line", 0.00999999978};
+    FieldLineSegment topLeftPenaltyStretch = {{-5.9900000000000002, 1.2}, {-4.79, 1.2}, "top_left_penalty_stretch", 0.00999999978};
+    FieldLineSegment bottomLeftPenaltyStretch = {{-5.9900000000000002, -1.2}, {-4.79, -1.2}, "bottom_left_penalty_stretch", 0.00999999978};
+    FieldLineSegment topRightPenaltyStretch = {{5.9900000000000002, 1.2}, {4.79, 1.2}, "top_right_penalty_stretch", 0.00999999978};
+    FieldLineSegment bottomRightPenaltyStretch = {{5.9900000000000002, -1.2}, {4.79, -1.2}, "bottom_right_penalty_stretch", 0.00999999978};
+    FieldArc centerCircle = {{0, 0}, 0.495000005, 0, 0.00628318544, "center_circle", 0.00999999978};
+    return Field(fieldWidth, fieldLength, goalWidth, goalDepth, boundaryWidth, topLine, bottomLine, leftLine, rightLine, halfLine, centerLine, leftPenaltyLine, rightPenaltyLine,
+        topLeftPenaltyStretch, bottomLeftPenaltyStretch, topRightPenaltyStretch, bottomRightPenaltyStretch, centerCircle);
+}
+
+Field::Field(double fieldWidth, double fieldLength, double goalWidth, double goalDepth, double boundaryWidth, FieldLineSegment &topLine, FieldLineSegment &bottomLine,
+    FieldLineSegment &leftLine, FieldLineSegment &rightLine, FieldLineSegment &halfLine, FieldLineSegment &centerLine, FieldLineSegment &leftPenaltyLine,
+    FieldLineSegment &rightPenaltyLine, FieldLineSegment &topLeftPenaltyStretch, FieldLineSegment &bottomLeftPenaltyStretch, FieldLineSegment &topRightPenaltyStretch,
+    FieldLineSegment &bottomRightPenaltyStretch, FieldArc &centerCircle) {
+
+    this->fieldWidth = fieldWidth;
+    this->fieldLength = fieldLength;
+    this->goalWidth = goalWidth;
+    this->goalDepth = goalDepth;
+    this->boundaryWidth = boundaryWidth;
+    this->topLine = topLine;
+    this->bottomLine = bottomLine;
+    this->leftLine = leftLine;
+    this->rightLine = rightLine;
+    this->halfLine = halfLine;
+    this->centerLine = centerLine;
+    this->leftPenaltyLine = leftPenaltyLine;
+    this->rightPenaltyLine = rightPenaltyLine;
+    this->topLeftPenaltyStretch = topLeftPenaltyStretch;
+    this->bottomLeftPenaltyStretch = bottomLeftPenaltyStretch;
+    this->topRightPenaltyStretch = topRightPenaltyStretch;
+    this->bottomRightPenaltyStretch = bottomRightPenaltyStretch;
+    this->centerCircle = centerCircle;
+
+    initFieldOthers();
+}
 
 }  // namespace rtt::ai::world
