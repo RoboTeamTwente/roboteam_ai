@@ -50,6 +50,21 @@ private:
      * @return Target point
      */
     Vector2 calculateGoalTarget() noexcept;
+
+    /**
+     * Calculate points we want to aim for
+     * @param field Field
+     * @param fromPoint Position to shoot from
+     * @return Line between the two aim points
+     */
+    Line getAimPoints(const Field &field, const Vector2 &fromPoint);
+
+    /**
+     * Returns the longest line from openSegments
+     * @param openSegments Vector of lines
+     * @return Longest line from openSegments
+     */
+    const Line &getLongestSegment(const std::vector<Line> &openSegments);
 };
 
 } // namespace rtt::ai::stp::play
