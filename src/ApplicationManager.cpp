@@ -15,6 +15,7 @@
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
+#include "stp/new_constants/ControlConstants.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
