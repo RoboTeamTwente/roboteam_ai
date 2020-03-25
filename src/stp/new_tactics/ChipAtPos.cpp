@@ -49,12 +49,12 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 /// Determine how fast we should chip for a pass at a given distance
 // TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-    const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+    const double maxPowerDist = stp::control_constants::MAX_POWER_KICK_DISTANCE;
 
     double velocity = 0;
     switch (desiredBallSpeedType) {
         case DRIBBLE_KICK: {
-            velocity = sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER() / (sqrt(maxPowerDist) * 1.5);
+            velocity = sqrt(distance) * stp::control_constants::MAX_KICK_POWER / (sqrt(maxPowerDist) * 1.5);
             break;
         }
         case BALL_PLACEMENT: {
@@ -67,23 +67,23 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
         }
         case PASS: {
             if (distance >= maxPowerDist) {
-                velocity = Constants::MAX_KICK_POWER();
+                velocity = stp::control_constants::MAX_KICK_POWER;
             } else if (Constants::GRSIM()) {
-                velocity = std::min(1.4 * distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER());
+                velocity = std::min(1.4 * distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER);
             } else {
-                velocity = std::min(distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER() * 0.7);
+                velocity = std::min(distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants:::DEFAULT_KICK_POWER * 0.7);
             }
             break;
         }
         case MAX_SPEED: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
+            velocity = stp::control_constants::MAX_KICK_POWER;
             break;
         }
-        default: { velocity = rtt::ai::Constants::MAX_KICK_POWER(); }
+        default: { velocity = stp::control_constants::MAX_KICK_POWER; }
     }
 
     // limit the output to the max chip speed
-    return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
+    return std::min(std::max(velocity, 1.01), stp::control_constants::MAX_KICK_POWER);
 }
 
 bool ChipAtPos::isEndTactic() noexcept {

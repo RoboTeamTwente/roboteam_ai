@@ -3,7 +3,6 @@
 //
 
 #include "include/roboteam_ai/stp/Play.hpp"
-
 #include <utility>
 
 namespace rtt::ai::stp {
@@ -27,7 +26,7 @@ void Play::update() noexcept {
         RTT_WARNING("Reassigning bots");
 
         // Make sure we don't re assign with too many robots
-        if (world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
+        if (world->getWorld()->getUs().size() > stp::control_constants::ROBOT_COUNT) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
             // the robots don't exceed ROBOT_COUNT anymore

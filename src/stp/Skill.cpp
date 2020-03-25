@@ -12,6 +12,7 @@
 #include "utilities/Settings.h"
 #include "world_new/World.hpp"
 
+
 namespace rtt::ai::stp {
 
 void Skill::rotateRobotCommand() noexcept {

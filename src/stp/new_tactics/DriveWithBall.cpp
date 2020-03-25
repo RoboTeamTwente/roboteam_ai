@@ -55,7 +55,7 @@ bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     auto robotAngle = info.getRobot()->get()->getAngle();
     auto ballToRobotAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
 
-    return fabs(robotAngle + ballToRobotAngle) <= Constants::GOTOPOS_ANGLE_ERROR_MARGIN();
+    return fabs(robotAngle + ballToRobotAngle) <= control_constants::GOTOPOS_ANGLE_ERROR_MARGIN;
 }
 
 bool DriveWithBall::isEndTactic() noexcept {

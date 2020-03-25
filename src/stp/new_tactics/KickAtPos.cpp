@@ -39,7 +39,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
-    double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (fabs(info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget)) >= errorMargin) {
         skillStpInfo.setDribblerSpeed(100);
     } else {
@@ -52,12 +52,12 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 /// Determine how fast we should kick for a pass at a given distance
 // TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-    const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+    const double maxPowerDist = stp::control_constants:::MAX_POWER_KICK_DISTANCE;
 
     double velocity = 0;
     switch (desiredBallSpeedType) {
         case DRIBBLE_KICK: {
-            velocity = sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER() / (sqrt(maxPowerDist) * 1.5);
+            velocity = sqrt(distance) * stp::control_constants::MAX_KICK_POWER / (sqrt(maxPowerDist) * 1.5);
             break;
         }
         case BALL_PLACEMENT: {
@@ -70,23 +70,23 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
         }
         case PASS: {
             if (distance >= maxPowerDist) {
-                velocity = Constants::MAX_KICK_POWER();
+                velocity = stp::control_constants::MAX_KICK_POWER;
             } else if (Constants::GRSIM()) {
-                velocity = std::min(1.4 * distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER());
+                velocity = std::min(1.4 * distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER);
             } else {
-                velocity = std::min(distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER() * 0.7);
+                velocity = std::min(distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER * 0.7);
             }
             break;
         }
         case MAX_SPEED: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
+            velocity = stp::control_constants::MAX_KICK_POWER;
             break;
         }
-        default: { velocity = rtt::ai::Constants::MAX_KICK_POWER(); }
+        default: { velocity = stp::control_constants::MAX_KICK_POWER; }
     }
 
     // limit the output to the max kick speed
-    return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
+    return std::min(std::max(velocity, 1.01), stp::control_constants::MAX_KICK_POWER);
 }
 
 bool KickAtPos::isEndTactic() noexcept {
@@ -98,14 +98,14 @@ bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
     // or if the targetPosType is not a shootTarget
-    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) ||
+    return (info.getBall()->get()->getVelocity().length() < stp::control_constants::BALL_STILL_VEL && !info.getRobot()->hasBall(stp::control_constants::ROBOT_RADIUS + (stp::control_constants::BALL_RADIUS * 2))) ||
            !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
     if (skills.current_num() != 0) {
-        double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+        double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
         return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
     }
     return false;

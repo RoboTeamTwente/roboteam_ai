@@ -12,6 +12,7 @@
 
 #include "Role.hpp"
 #include "world_new/World.hpp"
+#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 
