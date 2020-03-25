@@ -9,12 +9,12 @@ namespace rtt::ai::stp::play {
 
     Halt::Halt() {
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::Halt>(role::Halt("halt0")), std::make_unique<role::Halt>(role::Halt("halt1")),
-                std::make_unique<role::Halt>(role::Halt("halt2")),      std::make_unique<role::Halt>(role::Halt("halt3")),
-                std::make_unique<role::Halt>(role::Halt("halt4")),    std::make_unique<role::Halt>(role::Halt("halt5")),
-                std::make_unique<role::Halt>(role::Halt("halt6")),    std::make_unique<role::Halt>(role::Halt("halt7")),
-                std::make_unique<role::Halt>(role::Halt("halt8")),    std::make_unique<role::Halt>(role::Halt("halt9")),
-                std::make_unique<role::Halt>(role::Halt("halt10"))};
+                std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
+                std::make_unique<role::Halt>(role::Halt("halt_2")),    std::make_unique<role::Halt>(role::Halt("halt_3")),
+                std::make_unique<role::Halt>(role::Halt("halt_4")),    std::make_unique<role::Halt>(role::Halt("halt_5")),
+                std::make_unique<role::Halt>(role::Halt("halt_6")),    std::make_unique<role::Halt>(role::Halt("halt_7")),
+                std::make_unique<role::Halt>(role::Halt("halt_8")),    std::make_unique<role::Halt>(role::Halt("halt_9")),
+                std::make_unique<role::Halt>(role::Halt("halt_10"))};
     }
 
     uint8_t Halt::score(world_new::World* world) noexcept { return 14; }
@@ -27,17 +27,17 @@ namespace rtt::ai::stp::play {
         Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
         Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
 
-        flagMap.insert({"halt0", {closeToBallFlag}});
-        flagMap.insert({"halt1", {closeToTheirGoalFlag}});
-        flagMap.insert({"halt2", {notImportant}});
-        flagMap.insert({"halt3", {closeToTheirGoalFlag}});
-        flagMap.insert({"halt4", {closeToBallFlag}});
-        flagMap.insert({"halt5", {closeToTheirGoalFlag, closeToBallFlag}});
-        flagMap.insert({"halt6", {closeToBallFlag}});
-        flagMap.insert({"halt7", {closeToTheirGoalFlag}});
-        flagMap.insert({"halt8", {closeToTheirGoalFlag, closeToBallFlag}});
-        flagMap.insert({"halt9", {closeToBallFlag}});
-        flagMap.insert({"halt10", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt_0", {closeToBallFlag}});
+        flagMap.insert({"halt_1", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt_2", {notImportant}});
+        flagMap.insert({"halt_3", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt_4", {closeToBallFlag}});
+        flagMap.insert({"halt_5", {closeToTheirGoalFlag, closeToBallFlag}});
+        flagMap.insert({"halt_6", {closeToBallFlag}});
+        flagMap.insert({"halt_7", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt_8", {closeToTheirGoalFlag, closeToBallFlag}});
+        flagMap.insert({"halt_9", {closeToBallFlag}});
+        flagMap.insert({"halt_10", {closeToTheirGoalFlag}});
 
         auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
