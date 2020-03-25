@@ -30,5 +30,3 @@ namespace rtt::ai::stp::control_constants {
     const double DRIBBLER_ANGLE_OFFSET = asin(FRONT_LENGTH / 2 / ROBOT_RADIUS);
     constexpr double FRONT_LENGTH = 0.118;
 }
-
-

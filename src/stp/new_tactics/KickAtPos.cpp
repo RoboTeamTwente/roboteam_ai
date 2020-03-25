@@ -52,7 +52,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 /// Determine how fast we should kick for a pass at a given distance
 // TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-    const double maxPowerDist = stp::control_constants:::MAX_POWER_KICK_DISTANCE;
+    const double maxPowerDist = stp::control_constants::MAX_POWER_KICK_DISTANCE;
 
     double velocity = 0;
     switch (desiredBallSpeedType) {

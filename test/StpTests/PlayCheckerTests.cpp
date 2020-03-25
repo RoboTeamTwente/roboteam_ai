@@ -28,7 +28,6 @@ public:
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
-
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {

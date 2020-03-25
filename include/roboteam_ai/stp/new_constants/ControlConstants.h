@@ -33,11 +33,6 @@ namespace rtt::ai::stp::control_constants {
     extern const double CENTER_TO_FRONT;
     extern const double DRIBBLER_ANGLE_OFFSET;
     extern const double FRONT_LENGTH;
-
 }
-
-
-
-
 
 #endif //RTT_CONTROLCONSTANTS_H
