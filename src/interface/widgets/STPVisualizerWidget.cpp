@@ -38,7 +38,7 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::updateContents(stp::Play *currentPlay) {
-        updateContent.clear();
+        updateContent.str("");
         displayPlay(currentPlay);
     }
 
@@ -51,7 +51,7 @@ namespace rtt::ai::interface {
 
     void STPVisualizerWidget::displayTactic(stp::Tactic *tactic) {
         if (!tactic) {
-            updateContent << "None";
+            updateContent << "None<br>";
             return;
         }
 
@@ -63,13 +63,13 @@ namespace rtt::ai::interface {
         updateContent << role->getName() << " ";
         auto& curBot = role->getCurrentRobot();
         if (!curBot) {
-            updateContent << "None";
+            updateContent << "None<br>";
             return;
         }
 
         auto& botView = curBot.value();
         if (!botView) {
-            updateContent << "None";
+            updateContent << "None<br>";
             return;
         }
 
@@ -80,7 +80,7 @@ namespace rtt::ai::interface {
 
     void STPVisualizerWidget::displaySkill(stp::Skill *skill) {
         if (!skill) {
-            updateContent << "None";
+            updateContent << "None<br>";
             return;
         }
 
