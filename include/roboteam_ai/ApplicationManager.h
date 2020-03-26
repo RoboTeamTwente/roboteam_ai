@@ -20,6 +20,7 @@ namespace rtt {
 class ApplicationManager {
 public:
     explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
+
 private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
 
