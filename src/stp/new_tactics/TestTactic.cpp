@@ -31,7 +31,9 @@ StpInfo TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     skillStpInfo.setAngle(2.0);
     skillStpInfo.setDribblerSpeed(31);
-
+    if (!skillStpInfo.getPositionToMoveTo()) {
+        skillStpInfo.setPositionToMoveTo(Vector2(0,0));
+    }
     return skillStpInfo;
 }
 
