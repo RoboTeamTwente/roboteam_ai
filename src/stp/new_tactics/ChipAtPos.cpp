@@ -71,7 +71,7 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
             } else if (Constants::GRSIM()) {
                 velocity = std::min(1.4 * distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER);
             } else {
-                velocity = std::min(distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants:::DEFAULT_KICK_POWER * 0.7);
+                velocity = std::min(distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER * 0.7);
             }
             break;
         }

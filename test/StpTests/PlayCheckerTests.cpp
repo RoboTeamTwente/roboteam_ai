@@ -3,7 +3,6 @@
 //
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 #include <stp/PlayChecker.hpp>
 
 class AlwaysValid : public rtt::ai::stp::Play {
@@ -16,6 +15,8 @@ class AlwaysValid : public rtt::ai::stp::Play {
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
@@ -28,6 +29,8 @@ public:
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {
