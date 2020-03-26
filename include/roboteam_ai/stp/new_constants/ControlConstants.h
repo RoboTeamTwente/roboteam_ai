@@ -13,7 +13,7 @@ namespace rtt::ai::stp::control_constants {
     extern const double MAX_POWER_KICK_DISTANCE;
 
     // Team constants TODO: Maybe this should be in a different constants file
-    extern inline constexpr size_t MAX_ROBOT_COUNT = 11;
+    inline constexpr size_t MAX_ROBOT_COUNT = 11;
 
     //
     extern const double BALL_STILL_VEL;
