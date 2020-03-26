@@ -2,7 +2,7 @@
 // Created by jordi on 09-03-20.
 //
 
-#include "include/roboteam_ai/stp/new_skills/Chip.h"
+#include "stp/new_skills/Chip.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -21,7 +21,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if (info.getBall()->get()->getVelocity().length() > 0.6) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::BALL_IS_MOVING_VEL) {
         return Status::Success;
     }
     return Status::Running;

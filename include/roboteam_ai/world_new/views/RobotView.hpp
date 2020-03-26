@@ -5,7 +5,7 @@
 #ifndef RTT_ROBOT_VIEW_HPP
 #define RTT_ROBOT_VIEW_HPP
 
-#include <include/roboteam_ai/utilities/Constants.h>
+#include <stp/new_constants/ControlConstants.h>
 #include <roboteam_utils/Vector2.h>
 
 #include <include/roboteam_ai/world_new/Robot.hpp>
@@ -87,7 +87,7 @@ class RobotView {
      * @param noBallSensor false -> use ball sensor, true -> use radius
      * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
      */
-    [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE(), double maxAngle = ai::Constants::HAS_BALL_ANGLE()) const noexcept;
+    [[nodiscard]] bool hasBall(double maxDist = ai::stp::control_constants::HAS_BALL_DISTANCE, double maxAngle = ai::stp::control_constants::HAS_BALL_ANGLE) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing
