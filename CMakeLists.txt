@@ -291,7 +291,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/TreeVisualizerWidget.cpp
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/STPVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RobotsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidBox.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidsWidget.cpp
@@ -310,7 +310,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/STPVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h

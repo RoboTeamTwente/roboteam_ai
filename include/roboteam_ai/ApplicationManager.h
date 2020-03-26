@@ -11,14 +11,18 @@
 
 #include <include/roboteam_ai/stp/PlayChecker.hpp>
 #include <include/roboteam_ai/stp/PlayDecider.hpp>
+#include <include/roboteam_ai/interface/widgets/mainWindow.h>
 
 #include "treeinterp/BTFactory.h"
 #include "utilities/IOManager.h"
 namespace rtt {
 
 class ApplicationManager {
-   private:
+public:
+    explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
+private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
+
     int ticksFree = 0;
     bt::BehaviorTree::Ptr strategy;
     bt::BehaviorTree::Ptr keeperTree;
@@ -29,6 +33,7 @@ class ApplicationManager {
     std::string oldStrategyName = "";
     bool fieldInitialized = false;
     bool robotsInitialized = false;
+    ai::interface::MainWindow* mainWindow;
 
     /**
      * Current best play as picked by checker + decider

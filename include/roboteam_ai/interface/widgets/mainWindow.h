@@ -26,7 +26,7 @@
 #include "QTreeWidgetItemIterator"
 #include "RobotsWidget.h"
 #include "RuleSetWidget.h"
-#include "TreeVisualizerWidget.h"
+#include "STPVisualizerWidget.h"
 #include "widget.h"
 
 namespace rtt::ai::interface {
@@ -46,12 +46,13 @@ class MainWindow : public QMainWindow {
 
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
+    void updatePlay(stp::Play* play);
+
+    signals:
+    void updateStpWidgets();
 
    public slots:
     void updateRobotsWidget();
-    void updateTreeWidget();
-    void updateKeeperTreeWidget();
-
     void refreshSignal();
     void refreshJSONSignal();
 
@@ -62,8 +63,8 @@ class MainWindow : public QMainWindow {
     RobotsWidget *robotsWidget;
     RuleSetWidget *refWidget;
     ManualControlWidget *manualControlWidget;
-    TreeVisualizerWidget *treeWidget;
-    TreeVisualizerWidget *keeperTreeWidget;
+    STPVisualizerWidget *stpWidget;
+    STPVisualizerWidget *keeperStpWidget;
     Visualizer *visualizer;
     GraphWidget *graphWidget;
 };

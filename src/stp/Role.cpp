@@ -47,4 +47,12 @@ Status Role::update(StpInfo const& info) noexcept {
 
 bool Role::finished() const noexcept { return robotTactics.finished(); }
 
+    std::optional<world_new::view::RobotView> const&Role::getCurrentRobot() const {
+        return currentRobot;
+    }
+
+    Tactic * Role::getCurrentTactic() {
+        return robotTactics.get_current();
+    }
+
 }  // namespace rtt::ai::stp
