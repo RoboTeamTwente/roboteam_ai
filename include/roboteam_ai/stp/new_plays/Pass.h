@@ -34,7 +34,7 @@ class Pass : public Play {
     /**
      * Assigns robots to roles of this play
      */
-    void assignRoles() noexcept;
+    Dealer::FlagMap decideRoleFlags() const noexcept override;
 
     /**
      * Calculates info for the roles
