@@ -61,11 +61,9 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
     // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
     if (desiredBallSpeedType == PASS) {
         Constants::GRSIM() ? limitingFactor = GRSIM_PASS_FACTOR : limitingFactor = PASS_FACTOR;
-    }
-    else if (desiredBallSpeedType == TARGET) {
+    } else if (desiredBallSpeedType == TARGET) {
         Constants::GRSIM() ? limitingFactor = GRSIM_TARGET_FACTOR : limitingFactor = TARGET_FACTOR;
-    }
-    else {
+    } else {
         RTT_ERROR("No valid ballSpeedType, chip velocity set to 0")
         return 0;
     }
@@ -76,7 +74,7 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
     auto velocity = sqrt(distance) * Constants::MAX_CHIP_POWER() / (sqrt(Constants::MAX_POWER_CHIP_DISTANCE()) * limitingFactor);
 
     // Make sure velocity is always between MIN_CHIP_POWER and MAX_CHIP_POWER
-    return std::min(std::max(velocity, Constants::MIN_CHIP_POWER()), Constants::MAX_CHIP_POWER());
+    return std::clamp(velocity, Constants::MIN_CHIP_POWER(), Constants::MAX_CHIP_POWER());
 }
 
 bool ChipAtPos::isEndTactic() noexcept {

@@ -64,11 +64,9 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
     if (desiredBallSpeedType == PASS) {
         Constants::GRSIM() ? limitingFactor = GRSIM_PASS_FACTOR : limitingFactor = PASS_FACTOR;
-    }
-    else if (desiredBallSpeedType == TARGET) {
+    } else if (desiredBallSpeedType == TARGET) {
         Constants::GRSIM() ? limitingFactor = GRSIM_TARGET_FACTOR : limitingFactor = TARGET_FACTOR;
-    }
-    else {
+    } else {
         RTT_ERROR("No valid ballSpeedType, kick velocity set to 0")
         return 0;
     }
@@ -79,7 +77,7 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     auto velocity = sqrt(distance) * Constants::MAX_KICK_POWER() / (sqrt(Constants::MAX_POWER_KICK_DISTANCE()) * limitingFactor);
 
     // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
-    return std::min(std::max(velocity, Constants::MIN_KICK_POWER()), Constants::MAX_KICK_POWER());
+    return std::clamp(velocity, Constants::MIN_KICK_POWER(), Constants::MAX_KICK_POWER());
 }
 
 bool KickAtPos::isEndTactic() noexcept {
