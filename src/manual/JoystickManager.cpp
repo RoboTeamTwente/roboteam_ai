@@ -105,7 +105,10 @@ void JoystickManager::loop() {
             iEvents++;
 
             /* PANIC BUTTON! STOP EVERYTHING! */
-            if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX) std::terminate();
+            // Prevent std::out_of_range in joystickHandlers when handler was removed in handleEvent()
+            if(joystickHandlers.count(event.jdevice.which) == 1)
+                if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX)
+                    std::terminate();
 
             /* Check if there is time for another event, of if it is time for the next tick */
             msToNextTick = (int)duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
