@@ -71,10 +71,10 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE this function might need to change
     // TODO: TUNE chip related constants might need tuning
     // Calculate the velocity based on this function with the previously set limitingFactor
-    auto velocity = sqrt(distance) * Constants::MAX_CHIP_POWER() / (sqrt(Constants::MAX_POWER_CHIP_DISTANCE()) * limitingFactor);
+    auto velocity = sqrt(distance) * stp::control_constants::MAX_CHIP_POWER / (sqrt(stp::control_constants::MAX_POWER_CHIP_DISTANCE) * limitingFactor);
 
     // Make sure velocity is always between MIN_CHIP_POWER and MAX_CHIP_POWER
-    return std::clamp(velocity, Constants::MIN_CHIP_POWER(), Constants::MAX_CHIP_POWER());
+    return std::clamp(velocity, stp::control_constants::MIN_CHIP_POWER, stp::control_constants::MAX_CHIP_POWER);
 }
 
 bool ChipAtPos::isEndTactic() noexcept {
