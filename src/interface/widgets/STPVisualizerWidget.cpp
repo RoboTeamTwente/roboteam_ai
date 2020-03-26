@@ -40,12 +40,12 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::updateContents(stp::Play *currentPlay) {
+        std::lock_guard lck{ contentLock };
         updateContent.str("");
         displayPlay(currentPlay);
     }
 
     void STPVisualizerWidget::displayPlay(stp::Play *currentPlay) {
-        std::lock_guard lck{ contentLock };
         updateContent << "Play: ";
         if (!currentPlay) {
             updateContent << "None<br>";
@@ -126,7 +126,6 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::outputStpData() {
-        std::lock_guard lck{ contentLock };
         setHtml(QString::fromStdString(updateContent.str()));
     }
 
@@ -135,6 +134,7 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::updateKeeperContents(stp::Role *pRole, stp::Status state) {
+        std::lock_guard lck{ contentLock };
         updateContent.str("");
         updateContent << "Keeper Role: <br>" << tab;
         displayRole(pRole, state, false, true);
