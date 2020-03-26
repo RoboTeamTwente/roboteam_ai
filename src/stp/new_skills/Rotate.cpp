@@ -16,7 +16,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set angle command
     command.set_w(targetAngle.getAngle());
@@ -27,7 +27,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     publishRobotCommand();
 
     // Check if successful
-    double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (fabs(info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle)) < errorMargin) {
         return Status::Success;
     } else {

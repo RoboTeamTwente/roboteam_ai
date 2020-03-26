@@ -14,7 +14,7 @@ class Pass : public Play {
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Pass();
+    Pass(std::string playName);
 
     bool isValidPlayToStart(world_new::World* world) noexcept override;
 

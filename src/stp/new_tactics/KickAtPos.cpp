@@ -39,7 +39,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
-    double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (fabs(info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget)) >= errorMargin) {
         skillStpInfo.setDribblerSpeed(100);
     } else {
@@ -74,10 +74,10 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE this function might need to change
     // TODO: TUNE kick related constants (in Constants.h) might need tuning
     // Calculate the velocity based on this function with the previously set limitingFactor
-    auto velocity = sqrt(distance) * Constants::MAX_KICK_POWER() / (sqrt(Constants::MAX_POWER_KICK_DISTANCE()) * limitingFactor);
+    auto velocity = sqrt(distance) * stp::control_constants::MAX_KICK_POWER / (sqrt(stp::control_constants::MAX_POWER_KICK_DISTANCE) * limitingFactor);
 
     // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
-    return std::clamp(velocity, Constants::MIN_KICK_POWER(), Constants::MAX_KICK_POWER());
+    return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
 }
 
 bool KickAtPos::isEndTactic() noexcept {
@@ -89,14 +89,14 @@ bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
     // or if the targetPosType is not a shootTarget
-    return (info.getBall()->get()->getVelocity().length() < Constants::BALL_STILL_VEL() && !info.getRobot()->hasBall(Constants::ROBOT_RADIUS() + (Constants::BALL_RADIUS() * 2))) ||
+    return (info.getBall()->get()->getVelocity().length() < stp::control_constants::BALL_STILL_VEL && !info.getRobot()->hasBall(stp::control_constants::ROBOT_RADIUS + (stp::control_constants::BALL_RADIUS * 2))) ||
            !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
     if (skills.current_num() != 0) {
-        double errorMargin = Constants::GOTOPOS_ANGLE_ERROR_MARGIN() * M_PI;
+        double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
         return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
     }
     return false;

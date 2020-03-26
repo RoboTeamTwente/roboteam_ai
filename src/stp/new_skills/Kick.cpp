@@ -10,7 +10,7 @@ void Kick::onInitialize() noexcept {}
 
 Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set kick velocity
-    double kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, Constants::MAX_KICK_POWER());
+    double kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
     // Set kick command
     command.set_kicker(true);
@@ -21,7 +21,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if (info.getBall()->get()->getVelocity().length() > Constants::BALL_STILL_VEL()) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::BALL_STILL_VEL) {
         return Status::Success;
     }
     return Status::Running;

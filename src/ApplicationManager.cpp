@@ -31,9 +31,10 @@ void ApplicationManager::start() {
     RTT_INFO("Waiting for field_data and robots...");
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
+
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
 
     playChecker.setPlays(plays);
 
@@ -91,11 +92,11 @@ void ApplicationManager::runOneLoopCycle() {
             /**
              * Comment/uncomment these lines for old system (can't be used at the same time!)
              */
-            //updateTrees();
-            //updateCoaches(field);
-            //runKeeperTree(field);
-            //Status status = runStrategyTree(field);
-            //this->notifyTreeStatus(status);
+            // updateTrees();
+            // updateCoaches(field);
+            // runKeeperTree(field);
+            // Status status = runStrategyTree(field);
+            // this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
                 RTT_WARNING("No robots found in world. Behaviour trees are not running")
