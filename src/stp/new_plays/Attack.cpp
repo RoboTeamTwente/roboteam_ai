@@ -2,9 +2,9 @@
 // Created by jordi on 24-03-20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/Attack.h"
-#include "include/roboteam_ai/stp/new_roles/Attacker.h"
-#include "include/roboteam_ai/stp/new_roles/TestRole.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_roles/Attacker.h"
+#include "stp/new_roles/TestRole.h"
 
 namespace rtt::ai::stp::play {
 
