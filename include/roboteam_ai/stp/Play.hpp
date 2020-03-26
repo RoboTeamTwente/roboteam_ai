@@ -12,6 +12,7 @@
 
 #include "Role.hpp"
 #include "world_new/World.hpp"
+#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 
@@ -59,9 +60,9 @@ class Play {
     virtual ~Play() = default;
 
     /**
-     * Default ctor, ensures proper construction of Play
+     * Ctor that constructs a play and assigns its name
      */
-    Play() = default;
+    explicit Play(std::string playName);
 
     /**
      * Default move-ctor, ensures proper move-construction of Play
@@ -87,6 +88,7 @@ class Play {
     [[nodiscard]] bool arePlayRolesFinished();
 
    protected:
+    std::string playName;
     /**
      * The roles, constructed in ctor of a play
      */

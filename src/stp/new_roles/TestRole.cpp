@@ -6,7 +6,6 @@
 #include <stp/new_roles/TestRole.h>
 #include <stp/new_tactics/TestTactic.h>
 
-#include <stp/new_tactics/GetBall.h>
 #include <utility>
 
 namespace rtt::ai::stp {

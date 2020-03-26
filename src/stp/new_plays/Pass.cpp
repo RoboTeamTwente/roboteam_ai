@@ -8,10 +8,11 @@
 
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
+
 namespace rtt::ai::stp::play {
 
-Pass::Pass() {
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+Pass::Pass(std::string playName) : Play(playName) {
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
         std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),
         std::make_unique<TestRole>(TestRole("test_role_4")),    std::make_unique<TestRole>(TestRole("test_role_5")),
@@ -67,7 +68,10 @@ void Pass::calculateInfoForRoles() noexcept {
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPositionToMoveTo(Vector2(-2, -2));
     // Calculate Passer info
-    if (stpInfos.find("passer") != stpInfos.end()) stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
+    if (stpInfos.find("passer") != stpInfos.end()) {
+        stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
+        stpInfos["passer"].setKickChipType(PASS);
+    }
     // Calculate defender1 info
     if (stpInfos.find("defender1") != stpInfos.end()) stpInfos["defender1"].setPositionToMoveTo(defensivePositions[0]);
     // Calculate defender2 info
@@ -76,6 +80,7 @@ void Pass::calculateInfoForRoles() noexcept {
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
     std::vector<Vector2> positions = {};
+
     // 3 robots will defend goal
     for (int i = 0; i < numberOfDefenders; i++) {
         if (i < 3) {

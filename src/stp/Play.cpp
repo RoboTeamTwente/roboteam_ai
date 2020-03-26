@@ -3,6 +3,7 @@
 //
 
 #include "include/roboteam_ai/stp/Play.hpp"
+#include <utility>
 
 namespace rtt::ai::stp {
 
@@ -19,12 +20,13 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
+    RTT_INFO("Play executing: ", playName)
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
 
         // Make sure we don't re assign with too many robots
-        if (world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
+        if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
             // the robots don't exceed ROBOT_COUNT anymore
@@ -80,4 +82,7 @@ void Play::refreshData() noexcept {
         }
     }
 }
+
+Play::Play(std::string playName) : playName{std::move(playName)} { }
+
 }  // namespace rtt::ai::stp

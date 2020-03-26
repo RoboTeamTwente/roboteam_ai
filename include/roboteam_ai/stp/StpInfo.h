@@ -71,9 +71,10 @@ struct Areas {
         return std::any_of(areasToAvoid.begin(), areasToAvoid.end(), [&](auto const& area) { return area.intersects(circle); });
     }
 };
+
 const int blockLength = 3; // The number of elements in the blockdistance enum
 enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
-enum KickChipType { DRIBBLE_KICK, BALL_PLACEMENT, PASS, MAX_SPEED };
+enum KickChipType { PASS, TARGET, MAX };
 
 struct StpInfo {
    public:
