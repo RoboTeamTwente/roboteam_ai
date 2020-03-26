@@ -38,7 +38,7 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(determineChipForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When rotating, we need to dribble to keep the ball, but when kicking we don't
+    // When rotating, we need to dribble to keep the ball, but when chipping we don't
     if (skills.current_num() == 0) {
         skillStpInfo.setDribblerSpeed(30);
     }
@@ -46,44 +46,36 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     return skillStpInfo;
 }
 
-/// Determine how fast we should chip for a pass at a given distance
-// TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-    const double maxPowerDist = stp::control_constants::MAX_POWER_KICK_DISTANCE;
 
-    double velocity = 0;
-    switch (desiredBallSpeedType) {
-        case DRIBBLE_KICK: {
-            velocity = sqrt(distance) * stp::control_constants::MAX_KICK_POWER / (sqrt(maxPowerDist) * 1.5);
-            break;
-        }
-        case BALL_PLACEMENT: {
-            if (distance > 2.5) {
-                velocity = Constants::GRSIM() ? 6.01 : 2.01;
-            } else {
-                velocity = Constants::GRSIM() ? 3.01 : 1.01;
-            }
-            break;
-        }
-        case PASS: {
-            if (distance >= maxPowerDist) {
-                velocity = stp::control_constants::MAX_KICK_POWER;
-            } else if (Constants::GRSIM()) {
-                velocity = std::min(1.4 * distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER);
-            } else {
-                velocity = std::min(distance / maxPowerDist * stp::control_constants::MAX_KICK_POWER, stp::control_constants::DEFAULT_KICK_POWER * 0.7);
-            }
-            break;
-        }
-        case MAX_SPEED: {
-            velocity = stp::control_constants::MAX_KICK_POWER;
-            break;
-        }
-        default: { velocity = stp::control_constants::MAX_KICK_POWER; }
+    // TODO: TUNE these factors need tuning
+    // Increase these factors to decrease chip velocity
+    // Decrease these factors to increase chip velocity
+    const double TARGET_FACTOR{1};
+    const double GRSIM_TARGET_FACTOR{1.3};
+    const double PASS_FACTOR{0.8};
+    const double GRSIM_PASS_FACTOR{1.1};
+
+    if (desiredBallSpeedType == MAX) return Constants::MAX_CHIP_POWER();
+
+    double limitingFactor{};
+    // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
+    if (desiredBallSpeedType == PASS) {
+        Constants::GRSIM() ? limitingFactor = GRSIM_PASS_FACTOR : limitingFactor = PASS_FACTOR;
+    } else if (desiredBallSpeedType == TARGET) {
+        Constants::GRSIM() ? limitingFactor = GRSIM_TARGET_FACTOR : limitingFactor = TARGET_FACTOR;
+    } else {
+        RTT_ERROR("No valid ballSpeedType, chip velocity set to 0")
+        return 0;
     }
 
-    // limit the output to the max chip speed
-    return std::min(std::max(velocity, 1.01), stp::control_constants::MAX_KICK_POWER);
+    // TODO: TUNE this function might need to change
+    // TODO: TUNE chip related constants might need tuning
+    // Calculate the velocity based on this function with the previously set limitingFactor
+    auto velocity = sqrt(distance) * stp::control_constants::MAX_CHIP_POWER / (sqrt(stp::control_constants::MAX_POWER_CHIP_DISTANCE) * limitingFactor);
+
+    // Make sure velocity is always between MIN_CHIP_POWER and MAX_CHIP_POWER
+    return std::clamp(velocity, stp::control_constants::MIN_CHIP_POWER, stp::control_constants::MAX_CHIP_POWER);
 }
 
 bool ChipAtPos::isEndTactic() noexcept {
