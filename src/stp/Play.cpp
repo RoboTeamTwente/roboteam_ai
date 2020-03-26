@@ -3,12 +3,13 @@
 //
 
 #include "include/roboteam_ai/stp/Play.hpp"
+#include <utility>
 
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
     calculateInfoForRoles();
-    assignRoles();
+    distributeRoles();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
@@ -19,19 +20,20 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
+    RTT_INFO("Play executing: ", playName)
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
 
         // Make sure we don't re assign with too many robots
-        if (world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
+        if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
             // the robots don't exceed ROBOT_COUNT anymore
             stpInfos = std::unordered_map<std::string, StpInfo>{};
             return;
         }
-        assignRoles();
+        distributeRoles();
     }
 
     // Refresh the RobotViews, BallViews and fields
@@ -80,4 +82,26 @@ void Play::refreshData() noexcept {
         }
     }
 }
+
+void Play::distributeRoles() noexcept {
+    Dealer dealer{world->getWorld().value(), &field};
+
+    auto flagMap = decideRoleFlags();
+
+    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
+
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto& role : roles) {
+        auto roleName{role->getName()};
+        if (distribution.find(roleName) != distribution.end()) {
+            auto robot = distribution.find(role->getName())->second;
+
+            stpInfos.emplace(roleName, StpInfo{});
+            stpInfos[roleName].setRobot(robot);
+        }
+    }
+}
+
+Play::Play(std::string playName) : playName{std::move(playName)} { }
+
 }  // namespace rtt::ai::stp

@@ -44,7 +44,7 @@ bool Receive::isTacticFailing(const StpInfo &info) noexcept {
 
 bool Receive::shouldTacticReset(const StpInfo &info) noexcept {
     // Receive tactic resets when robot position is not close enough to the target position for receiving
-    double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+    double errorMargin = stp::control_constants::GO_TO_POS_ERROR_MARGIN;
     return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
 }
 

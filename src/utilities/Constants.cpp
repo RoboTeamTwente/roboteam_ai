@@ -88,6 +88,14 @@ double Constants::MAX_POWER_KICK_DISTANCE() { return 9.0; }
 
 double Constants::MAX_KICK_POWER() { return 8.0; }
 
+double Constants::MIN_KICK_POWER() { return 1.01; }
+
+double Constants::MAX_POWER_CHIP_DISTANCE() { return 9.0; }
+
+double Constants::MAX_CHIP_POWER() { return 8.0; }
+
+double Constants::MIN_CHIP_POWER() { return 1.01; }
+
 double Constants::MAX_PASS_DISTANCE() { return 6.0; }
 
 bool Constants::REFLECT_KICK() { return true; }

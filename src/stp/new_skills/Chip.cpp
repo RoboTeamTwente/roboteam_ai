@@ -10,7 +10,7 @@ void Chip::onInitialize() noexcept {}
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set chip velocity
-    double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, Constants::MAX_KICK_POWER());
+    double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
     // Set chip command
     command.set_chipper(true);

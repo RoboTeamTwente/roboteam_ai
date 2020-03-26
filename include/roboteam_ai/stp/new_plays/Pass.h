@@ -14,7 +14,7 @@ class Pass : public Play {
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Pass();
+    Pass(std::string playName);
 
     bool isValidPlayToStart(world_new::World* world) noexcept override;
 
@@ -34,7 +34,7 @@ class Pass : public Play {
     /**
      * Assigns robots to roles of this play
      */
-    void assignRoles() noexcept;
+    Dealer::FlagMap decideRoleFlags() const noexcept override;
 
     /**
      * Calculates info for the roles

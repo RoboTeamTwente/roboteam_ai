@@ -14,7 +14,7 @@ class TestPlay : public Play {
     /**
      * Constructor that initializes roles with test roles
      */
-    TestPlay();
+    TestPlay(std::string playName);
 
     /**
      * Gets the score for the current play
@@ -30,7 +30,7 @@ class TestPlay : public Play {
     /**
      * Assigns robots to roles of this play
      */
-    void assignRoles() noexcept override;
+    Dealer::FlagMap decideRoleFlags() const noexcept override;
 
     bool isValidPlayToStart(world_new::World *world) noexcept override;
 

@@ -12,6 +12,7 @@
 
 #include "Role.hpp"
 #include "world_new/World.hpp"
+#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 
@@ -22,7 +23,7 @@ namespace rtt::ai::stp {
 class Play {
    public:
     /**
-     * Initializes tacticInfos vector and calls assignRoles
+     * Initializes tacticInfos vector and calls distributeRoles
      */
     void initialize() noexcept;
 
@@ -59,9 +60,9 @@ class Play {
     virtual ~Play() = default;
 
     /**
-     * Default ctor, ensures proper construction of Play
+     * Ctor that constructs a play and assigns its name
      */
-    Play() = default;
+    explicit Play(std::string playName);
 
     /**
      * Default move-ctor, ensures proper move-construction of Play
@@ -87,6 +88,7 @@ class Play {
     [[nodiscard]] bool arePlayRolesFinished();
 
    protected:
+    std::string playName;
     /**
      * The roles, constructed in ctor of a play
      */
@@ -98,7 +100,7 @@ class Play {
     std::vector<Status> roleStatuses;
 
     /**
-     * The stpInfos, constructed in assignRoles
+     * The stpInfos, constructed in distributeRoles
      * The string is the role_name to be able to update the info in the right role
      */
     std::unordered_map<std::string, StpInfo> stpInfos;
@@ -114,9 +116,10 @@ class Play {
     rtt::ai::Field field;
 
     /**
-     * Assigns robots to roles
+     * Decides the input to the robot dealer. The result will be used to distribute the roles
+     * @return a mapping between roles and robot flags, used by the robot dealer to assign roles
      */
-    virtual void assignRoles() noexcept = 0;
+    virtual Dealer::FlagMap decideRoleFlags() const noexcept = 0;
 
     /**
      * This function is used to determine if, when a role is in an endtactic, that endtactic should be skipped.
@@ -131,6 +134,11 @@ class Play {
      * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
      */
     void refreshData() noexcept;
+
+    /**
+     * Assigns robots to roles
+     */
+    void distributeRoles() noexcept;
 };
 }  // namespace rtt::ai::stp
 

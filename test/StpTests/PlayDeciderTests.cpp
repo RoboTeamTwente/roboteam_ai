@@ -4,14 +4,16 @@
 
 #include <gtest/gtest.h>
 
-#include <include/roboteam_ai/stp/PlayDecider.hpp>
+#include <stp/PlayDecider.hpp>
 #include <stp/PlayChecker.hpp>
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
+    AlwaysValid(std::string playName) : Play(playName) {}
+
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
-    void assignRoles() noexcept override {}
+    rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
     void calculateInfoForRoles() noexcept override {}
 
@@ -21,9 +23,11 @@ class AlwaysValid : public rtt::ai::stp::Play {
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
+   public:
+    AlwaysFalse(std::string playName) : Play(playName) {}
     uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
-    void assignRoles() noexcept override {}
+    rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
     void calculateInfoForRoles() noexcept override {}
 
@@ -41,9 +45,9 @@ TEST(PlayCheckerTests, testHighestScore) {
 
     PlayChecker checker{};
     std::vector<std::unique_ptr<Play>> plays;
-    plays.emplace_back(std::make_unique<AlwaysValid>());
-    plays.emplace_back(std::make_unique<AlwaysFalse>());
-    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
+    plays.emplace_back(std::make_unique<AlwaysValid>("Always Valid"));
+    plays.emplace_back(std::make_unique<AlwaysFalse>("Always False"));
+    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>("Also Always Valid"));
 
     checker.setPlays(plays);
 
