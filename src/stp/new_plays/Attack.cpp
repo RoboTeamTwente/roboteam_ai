@@ -78,7 +78,7 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     auto bestSegment = getLongestSegment(openSegments);
 
     // Make two aim points which are in the corners, since these points are harder for the keeper to intercept
-    Line aimPoints = getAimPoints(field, fromPoint);
+    Line aimPoints = getAimPoints(field, sourcePoint);
     auto leftPoint = aimPoints.start;
     auto rightPoint = aimPoints.end;
 
