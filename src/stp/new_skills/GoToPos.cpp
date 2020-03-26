@@ -4,7 +4,6 @@
 
 #include "include/roboteam_ai/stp/new_skills/GoToPos.h"
 
-#include <roboteam_utils/Print.h>
 
 #include "include/roboteam_ai/world_new/World.hpp"
 

@@ -95,10 +95,12 @@ namespace rtt::ai::interface {
          */
         void outputStatus(stp::Status status);
 
+    public slots:
         /**
          * Calls this->setHtml(updateContent);
          */
         void outputStpData();
+
     public:
         /**
          * Constructor, sets `this->parent` and makes it readonly

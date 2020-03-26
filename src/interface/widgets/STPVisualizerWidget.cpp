@@ -138,6 +138,5 @@ namespace rtt::ai::interface {
         updateContent.str("");
         updateContent << "Keeper Role: <br>" << tab;
         displayRole(pRole, state, false, true);
-        outputStpData();
     }
 }  // namespace rtt::ai::interface
