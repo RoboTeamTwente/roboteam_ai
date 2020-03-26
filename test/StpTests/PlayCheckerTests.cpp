@@ -29,8 +29,8 @@ public:
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
+    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return false; }
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {
