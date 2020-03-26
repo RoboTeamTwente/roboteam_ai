@@ -117,7 +117,7 @@ class Play {
      * Decides the input to the robot dealer. The result will be used to distribute the roles
      * @return a mapping between roles and robot flags, used by the robot dealer to assign roles
      */
-    virtual Dealer::FlagMap decideRoleFlags() noexcept = 0;
+    virtual Dealer::FlagMap decideRoleFlags() const noexcept = 0;
 
     /**
      * This function is used to determine if, when a role is in an endtactic, that endtactic should be skipped.

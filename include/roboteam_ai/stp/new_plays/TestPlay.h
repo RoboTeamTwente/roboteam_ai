@@ -30,7 +30,7 @@ class TestPlay : public Play {
     /**
      * Assigns robots to roles of this play
      */
-    Dealer::FlagMap decideRoleFlags() noexcept override;
+    Dealer::FlagMap decideRoleFlags() const noexcept override;
 
     bool isValidPlayToStart(world_new::World *world) noexcept override;
 

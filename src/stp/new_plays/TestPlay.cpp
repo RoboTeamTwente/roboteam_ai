@@ -17,7 +17,7 @@ TestPlay::TestPlay() {
 
 uint8_t TestPlay::score(world_new::World *world) noexcept { return 10; }
 
-Dealer::FlagMap TestPlay::decideRoleFlags() noexcept {
+Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);

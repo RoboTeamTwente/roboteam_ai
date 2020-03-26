@@ -23,7 +23,7 @@ Pass::Pass() {
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
 
-Dealer::FlagMap Pass::decideRoleFlags() noexcept {
+Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -48,13 +48,13 @@ void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
-    int numberOfDefenders = 2;
+    const int numberOfDefenders = 2;
     auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
     // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
     // TODO: compute the passing position
-    Vector2 passingPosition = Vector2(-2, -2);
+    const Vector2 passingPosition = Vector2(-2, -2);
 
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end())
