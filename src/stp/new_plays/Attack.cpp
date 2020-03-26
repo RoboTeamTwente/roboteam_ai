@@ -101,7 +101,7 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     }
 }
 
-Line Attack::getAimPoints(const Field &field, const Vector2 &fromPoint) {
+Line Attack::getAimPoints(const Field &field, const Vector2 &sourcePoint) {
     Line goalSides = FieldComputations::getGoalSides(field, false);
 
     // Aim points are located some distance away from the edges of the goal to take into account inaccuracies in the shot
