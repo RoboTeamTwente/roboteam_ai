@@ -29,7 +29,7 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     if (feedback.find(id) != feedback.end()) {
         updateFromFeedback(feedback[id]);
     }
-// (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle()
+
     if (ball.has_value()) {
         setDistanceToBall(pos.dist((*ball)->getPos()));
         setAngleDiffToBall(fabs(angle.shortestAngleDiff(((*ball)->getPos() - pos).angle())));

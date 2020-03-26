@@ -31,7 +31,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-/*    flagMap.insert({"defender1", {notImportant}});
+    flagMap.insert({"defender1", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -39,7 +39,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     return flagMap;
 }

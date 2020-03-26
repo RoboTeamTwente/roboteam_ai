@@ -5,8 +5,6 @@
 #ifndef RTT_CONTROLCONSTANTS_H
 #define RTT_CONTROLCONSTANTS_H
 
-#include <cstddef>
-
 namespace rtt::ai::stp::control_constants {
 // Kick and Chip constants
 extern const double MAX_CHIP_SPEED;
@@ -25,12 +23,16 @@ inline constexpr size_t MAX_ROBOT_COUNT = 11;
 extern const double BALL_STILL_VEL;
 extern const double BALL_IS_MOVING_VEL;
 extern const double BALL_RADIUS;
+extern const double HAS_KICKED_ERROR_MARGIN;
+extern const double HAS_CHIPPED_ERROR_MARGIN;
 
 // RobotCommand limits
 extern const double MAX_VEL_CMD;
 extern const double MAX_DRIBBLER_CMD;
-extern const double HAS_BALL_ANGLE;
-extern const double HAS_BALL_DISTANCE;
+
+// HasBall margins
+extern const double HAS_BALL_ANGLE_ERROR_MARGIN;
+extern const double HAS_BALL_DISTANCE_ERROR_MARGIN;
 
 // GTP Constants
 extern const double GO_TO_POS_ERROR_MARGIN;

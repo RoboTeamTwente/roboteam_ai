@@ -21,7 +21,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::BALL_IS_MOVING_VEL) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
         return Status::Success;
     }
     return Status::Running;

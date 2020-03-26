@@ -83,11 +83,11 @@ class RobotView {
 
     /**
      * Check whether the current robot has the ball
-     * @param maxDist maximum distance for ball possession
-     * @param noBallSensor false -> use ball sensor, true -> use radius
+     * @param distanceErrorMargin distance error margin for ball possession
+     * @param angleErrorMargin angle error margin for ball possession
      * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
      */
-    [[nodiscard]] bool hasBall(double maxDist = ai::stp::control_constants::HAS_BALL_DISTANCE, double maxAngle = ai::stp::control_constants::HAS_BALL_ANGLE) const noexcept;
+    [[nodiscard]] bool hasBall(double distanceErrorMargin = ai::stp::control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN, double angleErrorMargin = ai::stp::control_constants::HAS_BALL_ANGLE_ERROR_MARGIN) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing

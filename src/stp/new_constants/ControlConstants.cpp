@@ -2,8 +2,8 @@
 // Created by jessevw on 25.03.20.
 //
 
-#include "stp/new_constants/ControlConstants.h"
 #include <cmath>
+#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp::control_constants {
 // Kick and chip constants
@@ -20,12 +20,16 @@ constexpr double MIN_CHIP_POWER = 1.01;
 constexpr double BALL_STILL_VEL = 0.1;
 constexpr double BALL_IS_MOVING_VEL = 0.5;
 constexpr double BALL_RADIUS = 0.0215;
+constexpr double HAS_KICKED_ERROR_MARGIN = 0.6;
+constexpr double HAS_CHIPPED_ERROR_MARGIN = 0.6;
 
 // RobotCommand limits
 constexpr double MAX_VEL_CMD = 8.191;
 constexpr double MAX_DRIBBLER_CMD = 31;
-constexpr double HAS_BALL_ANGLE = 0.2;
-constexpr double HAS_BALL_DISTANCE = 0.2;
+
+// HasBall margins
+constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.2;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.2;
 
 // GTP Constants
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.02;
