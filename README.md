@@ -1,5 +1,5 @@
 # RoboTeam AI
-This repository will hold the logic for decision making and high-level robot control for RoboTeam Twente.
+This repository holds the logic for decision making and high-level robot control for RoboTeam Twente.
 
 
 ## Build status
