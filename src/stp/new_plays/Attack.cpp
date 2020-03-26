@@ -66,7 +66,7 @@ void Attack::calculateInfoForRoles() noexcept {
 
 Vector2 Attack::calculateGoalTarget() noexcept {
     // Position of the ball from which the goal target is determined
-    auto fromPoint = world->getWorld().value().getBall().value()->getPos();
+    auto sourcePoint = world->getWorld().value().getBall().value()->getPos();
 
     // Get the longest line section on the visible part of the goal
     std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, fromPoint, world->getWorld().value());
