@@ -13,7 +13,7 @@ class AlwaysValid : public rtt::ai::stp::Play {
 
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
-    rtt::ai::Dealer::FlagMap decideRoleFlags() noexcept override {}
+    rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
     void calculateInfoForRoles() noexcept override {}
 
@@ -27,7 +27,7 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     AlwaysFalse(std::string playName) : Play(playName) {}
     uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
-    rtt::ai::Dealer::FlagMap decideRoleFlags() noexcept override {}
+    rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
     void calculateInfoForRoles() noexcept override {}
 
