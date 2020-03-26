@@ -108,7 +108,7 @@ Line Attack::getAimPoints(const Field &field, const Vector2 &sourcePoint) {
     const double angleMargin = sin(2.0 / 180.0 * M_PI);
     const double constantMargin = 0.05 * field.getGoalWidth();
     Vector2 leftPoint(goalSides.start.x, goalSides.start.y + constantMargin + angleMargin * goalSides.start.dist(sourcePoint));
-    Vector2 rightPoint(goalSides.end.x, goalSides.end.y - angleMargin * goalSides.end.dist(fromPoint) - constantMargin);
+    Vector2 rightPoint(goalSides.end.x, goalSides.end.y - angleMargin * goalSides.end.dist(sourcePoint) - constantMargin);
 
     return Line(leftPoint, rightPoint);
 }
