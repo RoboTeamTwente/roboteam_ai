@@ -5,7 +5,7 @@
 #ifndef RTT_ATTACK_H
 #define RTT_ATTACK_H
 
-#include "include/roboteam_ai/stp/Play.hpp"
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
