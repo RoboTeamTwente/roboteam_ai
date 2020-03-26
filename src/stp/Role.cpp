@@ -12,6 +12,7 @@ Status Role::update(StpInfo const& info) noexcept {
         return Status::Failure;
     }
 
+    currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
     auto status = robotTactics.update(info);
 

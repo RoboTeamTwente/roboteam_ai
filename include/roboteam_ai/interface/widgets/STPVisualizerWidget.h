@@ -29,16 +29,17 @@ namespace rtt::ai::interface {
         FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
     private:
-        static QColor getColorForStatus(stp::Status status);
-        static constexpr const char* getNameForStatus(stp::Status status);
+        std::string_view getColorForStatus(stp::Status status);
 
         std::stringstream updateContent;
         MainWindow *parent = nullptr;
 
         void displayPlay(stp::Play* play);
-        void displayRole(stp::Role* role, stp::Status state);
-        void displayTactic(stp::Tactic* tactic);
-        void displaySkill(stp::Skill* skill);
+        void displayRole(stp::Role* role, stp::Status state, bool last);
+        void displayTactic(stp::Tactic* tactic, bool last);
+        void displaySkill(stp::Skill* skill, bool last);
+
+        void outputStatus(stp::Status status);
 
     public:
         explicit STPVisualizerWidget(MainWindow *parent);

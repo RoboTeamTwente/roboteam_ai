@@ -190,6 +190,10 @@ void MainWindow::updatePlay(stp::Play *play) {
     this->updateStpWidgets();
 }
 
+void MainWindow::setPlayForRobot(std::string_view str, uint8_t id) {
+    visualizer->setPlayForRobot(str, id);
+}
+
 }  // namespace rtt::ai::interface
 
 // QT performance improvement

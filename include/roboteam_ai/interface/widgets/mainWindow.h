@@ -55,6 +55,7 @@ class MainWindow : public QMainWindow {
     void updateRobotsWidget();
     void refreshSignal();
     void refreshJSONSignal();
+    void setPlayForRobot(std::string_view str, uint8_t id);
 
    private:
     QHBoxLayout *horizontalLayout;

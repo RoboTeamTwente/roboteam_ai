@@ -16,24 +16,26 @@
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
+    constexpr static const char *space = "&nbsp;";
+    constexpr static const char *tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
 
     STPVisualizerWidget::STPVisualizerWidget(MainWindow *parent) : QTextEdit(parent) {
         this->parent = parent;
         this->setReadOnly(true);
     }
 
-    QColor STPVisualizerWidget::getColorForStatus(stp::Status status) {
+    std::string_view STPVisualizerWidget::getColorForStatus(stp::Status status) {
         switch (status) {
             case stp::Status::Failure:
-                return Qt::red;
+                return "<font color=\"Red\">";
             case stp::Status::Running:
-                return {"#006600"};  // dark green
+                return "<font color=\"Green\">";  // dark green
             case stp::Status::Success:
-                return {"#66ff66"};  // bright green
+                return "<font color=\"Lime\">";  // bright green
             case stp::Status::Waiting:
-                return Qt::darkGray;
+                return "<font color=\"Aqua\">";
             default:
-                return Qt::white;
+                return "<font color=\"White\">";
         }
     }
 
@@ -42,67 +44,87 @@ namespace rtt::ai::interface {
         displayPlay(currentPlay);
     }
 
-    void STPVisualizerWidget::displayPlay(stp::Play * currentPlay) {
-        updateContent << currentPlay->getName() << "<br>";
-        for (auto& [role, state] : currentPlay->getRoleStatuses()) {
-            displayRole(role, state);
+    void STPVisualizerWidget::displayPlay(stp::Play *currentPlay) {
+        updateContent << "Play: ";
+        if (!currentPlay) {
+            updateContent << "None<br>";
+            return;
+        }
+        updateContent << "Some(" << currentPlay->getName() << ")<br>" << tab;
+        std::vector<std::pair<stp::Role*, stp::Status>> states = { currentPlay->getRoleStatuses().begin(), currentPlay->getRoleStatuses().end() };
+        std::sort(states.begin(), states.end(), [](auto const& lhs, auto const& rhs) {
+            auto firstRobot = lhs.first->getCurrentRobot();
+            auto secondRobot = rhs.first->getCurrentRobot();
+
+            if (!firstRobot || !firstRobot.value()) {
+                return true;
+            }
+            if (!secondRobot || !firstRobot.value()) {
+                return false;
+            }
+
+            return firstRobot.value()->getId() < secondRobot.value()->getId();
+        });
+
+        for (auto &elem : states) {
+            auto&[role, state] = elem;
+            displayRole(role, state, &elem == &*states.end());
         }
     }
 
-    void STPVisualizerWidget::displayTactic(stp::Tactic *tactic) {
+    void STPVisualizerWidget::displayTactic(stp::Tactic *tactic, bool last) {
         if (!tactic) {
-            updateContent << "None<br>";
+            updateContent << "None<br>" << tab << tab;
             return;
         }
 
-        updateContent << "Some(" << tactic->getName() << ") => " << getNameForStatus(tactic->getStatus()) << ":<br>";
-        displaySkill(tactic->getCurrentSkill());
+        updateContent << "Some(" << tactic->getName() << ") => ";
+        outputStatus(tactic->getStatus());
+        updateContent << ":<br>" << tab << tab << tab;
+        displaySkill(tactic->getCurrentSkill(), last);
     }
 
-    void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state) {
+    void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state, bool last) {
         updateContent << role->getName() << " ";
-        auto& curBot = role->getCurrentRobot();
+        auto &curBot = role->getCurrentRobot();
         if (!curBot) {
-            updateContent << "None<br>";
+            updateContent << "None<br>" << tab;
             return;
         }
 
-        auto& botView = curBot.value();
+        auto &botView = curBot.value();
         if (!botView) {
-            updateContent << "None<br>";
+            updateContent << "None<br>" << tab;
             return;
         }
 
+        parent->setPlayForRobot(role->getName(), botView->getId());
         // todo -> colors
-        updateContent << "Some(" << botView->getId() << ") => " << getNameForStatus(state) << "<br>";
-        displayTactic(role->getCurrentTactic());
+        updateContent << "Some(" << botView->getId() << ") => ";
+        outputStatus(state);
+        updateContent << ":<br>" << tab << tab;
+        displayTactic(role->getCurrentTactic(), last);
     }
 
-    void STPVisualizerWidget::displaySkill(stp::Skill *skill) {
+    void STPVisualizerWidget::displaySkill(stp::Skill *skill, bool last) {
         if (!skill) {
             updateContent << "None<br>";
             return;
         }
 
-        updateContent << "Some(" << skill->name() << ") => " << getNameForStatus(skill->getStatus()) << "<br>";
-    }
-
-    constexpr const char *STPVisualizerWidget::getNameForStatus(stp::Status status) {
-        switch (status) {
-            case stp::Status::Success:
-                return "Success";
-            case stp::Status::Failure:
-                return "Failure";
-            case stp::Status::Running:
-                return "Running";
-            case stp::Status::Waiting:
-                return "Waiting";
-            default:
-                return "Invalid";
+        updateContent << "Some(" << skill->name() << ") => ";
+        outputStatus(skill->getStatus());
+        updateContent << "<br><br>";
+        if (!last) {
+            updateContent << tab;
         }
     }
 
     void STPVisualizerWidget::outputStpData() {
-        this->setText(QString::fromStdString(updateContent.str()));
+        this->setHtml(QString::fromStdString(updateContent.str()));
+    }
+
+    void STPVisualizerWidget::outputStatus(stp::Status status) {
+        updateContent << getColorForStatus(status) << status << "</font>";
     }
 }  // namespace rtt::ai::interface
