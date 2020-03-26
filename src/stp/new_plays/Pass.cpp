@@ -2,7 +2,7 @@
 // Created by jessevw on 17.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/Pass.h"
+#include "stp/new_plays/Pass.h"
 
 #include <stp/new_roles/TestRole.h>
 
@@ -23,9 +23,7 @@ Pass::Pass(std::string playName) : Play(playName) {
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
 
-void Pass::assignRoles() noexcept {
-    Dealer dealer{world->getWorld().value(), &field};
-
+Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -43,39 +41,37 @@ void Pass::assignRoles() noexcept {
     flagMap.insert({"test_role_9", {closeToBallFlag}});
     flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
-    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
-
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto& role : roles) {
-        auto roleName{role->getName()};
-        if (distribution.find(roleName) != distribution.end()) {
-            auto robot = distribution.find(role->getName())->second;
-
-            stpInfos.emplace(roleName, StpInfo{});
-            stpInfos[roleName].setRobot(robot);
-        }
-    }
+    return flagMap;
 }
 
 void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
-    auto defensivePositions = calculateDefensivePositions(2, world, enemyRobots);
+    const int numberOfDefenders = 2;
+    auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
     // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
+    // TODO: compute the passing position
+    const Vector2 passingPosition = Vector2(-2, -2);
+
     // Calculate receiver info
-    if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPositionToMoveTo(Vector2(-2, -2));
+    if (stpInfos.find("pass_receiver") != stpInfos.end())
+        stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
     // Calculate Passer info
-    if (stpInfos.find("passer") != stpInfos.end()) {
-        stpInfos["passer"].setPositionToShootAt(Vector2(-2, -2));
+    if (stpInfos.find("passer") != stpInfos.end()){
+        stpInfos["passer"].setPositionToShootAt(passingPosition);
         stpInfos["passer"].setKickChipType(PASS);
     }
-    // Calculate defender1 info
-    if (stpInfos.find("defender1") != stpInfos.end()) stpInfos["defender1"].setPositionToMoveTo(defensivePositions[0]);
-    // Calculate defender2 info
-    if (stpInfos.find("defender2") != stpInfos.end()) stpInfos["defender2"].setPositionToMoveTo(defensivePositions[1]);
+
+    for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
+        std::string defenderName = "defender" + std::to_string(defenderIndex + 1);
+
+        if (stpInfos.find(defenderName) != stpInfos.end()) {
+            stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
+        }
+    }
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
