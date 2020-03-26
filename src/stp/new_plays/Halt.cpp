@@ -49,7 +49,6 @@ namespace rtt::ai::stp::play {
 
                 stpInfos.emplace(roleName, StpInfo{});
                 stpInfos[roleName].setRobot(robot);
-                stpInfos[roleName].setPositionToMoveTo(Vector2(robot->getId(), robot->getId()));
             }
         }
     }
