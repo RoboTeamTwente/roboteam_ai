@@ -4,7 +4,7 @@
 
 #include "world_new/views/RobotView.hpp"
 
-#include <include/roboteam_ai/utilities/Constants.h>
+#include <include/roboteam_ai/stp/new_constants/ControlConstants.h>
 
 #include <include/roboteam_ai/world_new/Robot.hpp>
 #include <include/roboteam_ai/world_new/World.hpp>
@@ -25,7 +25,7 @@ bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
 }
 
 Vector2 RobotView::getKicker() const noexcept {
-    Vector2 distanceToKicker{ai::Constants::CENTRE_TO_FRONT() + 0.1, 0};
+    Vector2 distanceToKicker{ai::stp::control_constants::CENTER_TO_FRONT + 0.1, 0};
     return get()->getPos() + distanceToKicker.rotate(get()->getAngle());
 }
 
@@ -36,7 +36,7 @@ robot::RobotControllers &RobotView::getControllers() const noexcept { return Wor
 bool RobotView::hasBallAccordingToVision(double maxDist, double maxAngle) const noexcept {
     auto dist = get()->getDistanceToBall();
     auto angle = get()->getAngleDiffToBall();
-    return dist < maxDist && angle < maxAngle*2;
+    return dist < maxDist && angle < maxAngle;
 }
 
 }  // namespace rtt::world_new::view
