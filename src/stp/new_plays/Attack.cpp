@@ -8,7 +8,8 @@
 
 namespace rtt::ai::stp::play {
 
-Attack::Attack() {
+Attack::Attack(std::string playName) : Play(playName) {
+    // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Attacker>(role::Attacker("attacker")),   std::make_unique<TestRole>(TestRole("test_role_1")),
             std::make_unique<TestRole>(TestRole("test_role_2")),            std::make_unique<TestRole>(TestRole("test_role_3")),
@@ -18,6 +19,7 @@ Attack::Attack() {
             std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
+// TODO: Determine score of play
 uint8_t Attack::score(world_new::World* world) noexcept { return 100; }
 
 void Attack::assignRoles() noexcept {
@@ -28,6 +30,7 @@ void Attack::assignRoles() noexcept {
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
 
+    // TODO: Add attack helpers/midfielders/defenders or whatever
     flagMap.insert({"attacker", {closeToBallFlag}});
     /*flagMap.insert({"test_role_1", {notImportant}});
     flagMap.insert({"test_role_2", {notImportant}});
@@ -57,10 +60,11 @@ void Attack::assignRoles() noexcept {
 void Attack::calculateInfoForRoles() noexcept {
     auto goalTarget = calculateGoalTarget();
 
+    // TODO: Add attack helpers/midfielders/defenders or whatever
     // Calculate attacker info
     if (stpInfos.find("attacker") != stpInfos.end()) {
         stpInfos["attacker"].setPositionToShootAt(goalTarget);
-        stpInfos["attacker"].setKickChipType(MAX_SPEED);
+        stpInfos["attacker"].setKickChipType(MAX);
     }
 }
 
