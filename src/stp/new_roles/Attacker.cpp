@@ -2,10 +2,10 @@
 // Created by jordi on 17-03-20.
 //
 
-#include "include/roboteam_ai/stp/new_roles/Attacker.h"
-#include "include/roboteam_ai/stp/new_tactics/GetBall.h"
-#include "include/roboteam_ai/stp/new_tactics/DriveWithBall.h"
-#include "include/roboteam_ai/stp/new_tactics/KickAtPos.h"
+#include "stp/new_roles/Attacker.h"
+#include "stp/new_tactics/GetBall.h"
+#include "stp/new_tactics/DriveWithBall.h"
+#include "stp/new_tactics/KickAtPos.h"
 
 namespace rtt::ai::stp::role {
 
