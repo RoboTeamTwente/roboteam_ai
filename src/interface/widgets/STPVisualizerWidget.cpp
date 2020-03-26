@@ -45,6 +45,7 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::displayPlay(stp::Play *currentPlay) {
+        std::lock_guard lck{ contentLock };
         updateContent << "Play: ";
         if (!currentPlay) {
             updateContent << "None<br>";
@@ -84,7 +85,7 @@ namespace rtt::ai::interface {
         displaySkill(tactic->getCurrentSkill(), last);
     }
 
-    void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state, bool last) {
+    void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state, bool last, bool updatingForKeeper) {
         updateContent << role->getName() << " ";
         auto &curBot = role->getCurrentRobot();
         if (!curBot) {
@@ -100,7 +101,7 @@ namespace rtt::ai::interface {
 
         parent->setPlayForRobot(role->getName(), botView->getId());
 
-        if (robotDealer::RobotDealer::getKeeperID() == botView->getId()) {
+        if (!updatingForKeeper && robotDealer::RobotDealer::getKeeperID() == botView->getId()) {
             parent->setKeeperRole(role, state);
             return;
         }
@@ -125,7 +126,8 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::outputStpData() {
-        this->setHtml(QString::fromStdString(updateContent.str()));
+        std::lock_guard lck{ contentLock };
+        setHtml(QString::fromStdString(updateContent.str()));
     }
 
     void STPVisualizerWidget::outputStatus(stp::Status status) {
@@ -134,8 +136,8 @@ namespace rtt::ai::interface {
 
     void STPVisualizerWidget::updateKeeperContents(stp::Role *pRole, stp::Status state) {
         updateContent.str("");
-        updateContent << "Keeper Role:";
-        displayRole(pRole, state, false);
+        updateContent << "Keeper Role: <br>" << tab;
+        displayRole(pRole, state, false, true);
         outputStpData();
     }
 }  // namespace rtt::ai::interface

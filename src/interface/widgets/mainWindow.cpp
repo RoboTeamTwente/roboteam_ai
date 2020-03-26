@@ -190,7 +190,7 @@ void MainWindow::updatePlay(stp::Play *play) {
     this->updateStpWidgets();
 }
 
-void MainWindow::setPlayForRobot(std::string_view str, uint8_t id) {
+void MainWindow::setPlayForRobot(std::string const& str, uint8_t id) {
     visualizer->setPlayForRobot(str, id);
 }
 

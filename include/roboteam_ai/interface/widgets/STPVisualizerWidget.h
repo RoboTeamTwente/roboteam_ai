@@ -31,11 +31,12 @@ namespace rtt::ai::interface {
     private:
         std::string_view getColorForStatus(stp::Status status);
 
+        std::mutex contentLock;
         std::stringstream updateContent;
         MainWindow *parent = nullptr;
 
         void displayPlay(stp::Play* play);
-        void displayRole(stp::Role* role, stp::Status state, bool last);
+        void displayRole(stp::Role* role, stp::Status state, bool last, bool updatingForKeeper = false);
         void displayTactic(stp::Tactic* tactic, bool last);
         void displaySkill(stp::Skill* skill, bool last);
 

@@ -261,6 +261,7 @@ void Visualizer::drawRobots(QPainter &painter, rtt::world_new::view::WorldDataVi
     for (auto const & robot : world->getUs()) {
         std::string role{};
         if (rolesForRobots.find(robot->getId()) != rolesForRobots.end()) {
+            std::lock_guard mtx{ rolesUpdate };
             role = rolesForRobots[robot->getId()];
         }
         drawRobot(painter, robot, true, role);
@@ -589,9 +590,10 @@ void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2>
     }
 }
 
-    void Visualizer::setPlayForRobot(std::string_view view, uint8_t i) {
-        rolesForRobots[i] = view;
-    }
+void Visualizer::setPlayForRobot(std::string const& view, uint8_t i) {
+    std::lock_guard mtx{ rolesUpdate };
+    rolesForRobots.insert({i, view});
+}
 
 }  // namespace rtt::ai::interface
 
