@@ -47,7 +47,6 @@ StpInfo ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 }
 
 double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-
     // TODO: TUNE these factors need tuning
     // Increase these factors to decrease chip velocity
     // Decrease these factors to increase chip velocity
