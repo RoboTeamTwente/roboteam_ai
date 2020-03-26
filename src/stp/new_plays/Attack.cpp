@@ -22,9 +22,7 @@ Attack::Attack(std::string playName) : Play(playName) {
 // TODO: Determine score of play
 uint8_t Attack::score(world_new::World* world) noexcept { return 100; }
 
-void Attack::assignRoles() noexcept {
-    Dealer dealer{world->getWorld().value(), &field};
-
+Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -43,18 +41,7 @@ void Attack::assignRoles() noexcept {
     flagMap.insert({"test_role_9", {notImportant}});
     flagMap.insert({"test_role_10", {notImportant}});*/
 
-    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
-
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
-    for (auto& role : roles) {
-        auto roleName{role->getName()};
-        if (distribution.find(roleName) != distribution.end()) {
-            auto robot = distribution.find(role->getName())->second;
-
-            stpInfos.emplace(roleName, StpInfo{});
-            stpInfos[roleName].setRobot(robot);
-        }
-    }
+    return flagMap;
 }
 
 void Attack::calculateInfoForRoles() noexcept {

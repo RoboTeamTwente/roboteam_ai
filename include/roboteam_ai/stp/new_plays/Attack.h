@@ -34,7 +34,7 @@ public:
     /**
      * Assigns robots to roles of this play
      */
-    void assignRoles() noexcept override;
+    Dealer::FlagMap decideRoleFlags() const noexcept override;
 
     /**
      * Calculates info for the roles
