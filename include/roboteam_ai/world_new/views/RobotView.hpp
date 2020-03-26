@@ -5,8 +5,8 @@
 #ifndef RTT_ROBOT_VIEW_HPP
 #define RTT_ROBOT_VIEW_HPP
 
-#include <stp/new_constants/ControlConstants.h>
 #include <roboteam_utils/Vector2.h>
+#include <stp/new_constants/ControlConstants.h>
 
 #include <include/roboteam_ai/world_new/Robot.hpp>
 
