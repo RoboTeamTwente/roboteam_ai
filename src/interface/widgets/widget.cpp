@@ -352,11 +352,8 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
         if (robot->isBatteryLow()) {
             text += "BATTERY LOW";
         }
-        if (!role.empty()) {
-            text += "\n";
-            text += &*role.begin();
-        }
         painter.drawText(robotpos.x, ypos += 20, text);
+        painter.drawText(robotpos.x, ypos + 10, QString::fromStdString(role));
     }
 
     // Todo : Get working feedback in RobotView
@@ -402,7 +399,7 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     // draw the id in it
     painter.setPen(Qt::black);
     painter.setFont(QFont("ubuntu", 9));  // 22 is a number which you have to change
-    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot->getId())));
+    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::number(robot->getId()));
     painter.setFont(QFont("ubuntu", 11));  // 22 is a number which you have to change
 }
 
