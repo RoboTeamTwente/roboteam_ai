@@ -7,9 +7,14 @@
 namespace rtt::ai::stp::control_constants {
     // Kick and chip constants
     constexpr double MAX_KICK_POWER = 8;
+    constexpr double MIN_KICK_POWER = 1.01;
     constexpr double DEFAULT_KICK_POWER = 5;
     constexpr double MAX_CHIP_SPEED = 8;
     constexpr double MAX_POWER_KICK_DISTANCE = 8;
+    constexpr double MAX_POWER_CHIP_DISTANCE = 9;
+    constexpr double MAX_CHIP_POWER = 8;
+    constexpr double MIN_CHIP_POWER = 1.01;
+
 
     //
     constexpr double BALL_STILL_VEL = 0.1;
