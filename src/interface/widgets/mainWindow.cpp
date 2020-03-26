@@ -194,6 +194,10 @@ void MainWindow::setPlayForRobot(std::string_view str, uint8_t id) {
     visualizer->setPlayForRobot(str, id);
 }
 
+void MainWindow::setKeeperRole(stp::Role * keeperRole, stp::Status state) {
+    keeperStpWidget->updateKeeperContents(keeperRole, state);
+}
+
 }  // namespace rtt::ai::interface
 
 // QT performance improvement

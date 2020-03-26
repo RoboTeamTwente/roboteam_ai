@@ -341,7 +341,7 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     // Todo : Get working stuff in RobotView
     if (showRobotInvalids && ourTeam) {
         painter.setPen(Qt::red);
-        std::string text;
+        QString text;
         if (!robot->isWorkingDribbler()) {
             text += "DR ";
         }
@@ -353,9 +353,9 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
         }
         if (!role.empty()) {
             text += "\n";
-            text += role;
+            text += &*role.begin();
         }
-        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+        painter.drawText(robotpos.x, ypos += 20, text);
     }
 
     // Todo : Get working feedback in RobotView

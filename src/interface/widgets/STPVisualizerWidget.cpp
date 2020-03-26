@@ -99,7 +99,11 @@ namespace rtt::ai::interface {
         }
 
         parent->setPlayForRobot(role->getName(), botView->getId());
-        // todo -> colors
+
+        if (robotDealer::RobotDealer::getKeeperID() == botView->getId()) {
+            parent->setKeeperRole(role, state);
+            return;
+        }
         updateContent << "Some(" << botView->getId() << ") => ";
         outputStatus(state);
         updateContent << ":<br>" << tab << tab;
@@ -126,5 +130,12 @@ namespace rtt::ai::interface {
 
     void STPVisualizerWidget::outputStatus(stp::Status status) {
         updateContent << getColorForStatus(status) << status << "</font>";
+    }
+
+    void STPVisualizerWidget::updateKeeperContents(stp::Role *pRole, stp::Status state) {
+        updateContent.str("");
+        updateContent << "Keeper Role:";
+        displayRole(pRole, state, false);
+        outputStpData();
     }
 }  // namespace rtt::ai::interface

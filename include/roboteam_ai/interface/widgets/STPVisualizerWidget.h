@@ -44,9 +44,11 @@ namespace rtt::ai::interface {
     public:
         explicit STPVisualizerWidget(MainWindow *parent);
         void updateContents(stp::Play* currentPlay);
+        void updateKeeperContents(stp::Role *pRole, stp::Status state);
 
     public slots:
         void outputStpData();
+
     };
 
 }  // namespace rtt::ai::interface
