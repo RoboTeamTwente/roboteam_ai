@@ -11,7 +11,7 @@
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
-#include <include/roboteam_ai/stp/new_plays/Halt.h>
+#include <stp/new_plays/Halt.h>
 #include "stp/new_plays/Pass.h"
 
 #include "roboteam_utils/normalize.h"

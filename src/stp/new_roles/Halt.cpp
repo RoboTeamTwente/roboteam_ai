@@ -2,11 +2,11 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_roles/Halt.h"
+#include "stp/new_roles/Halt.h"
 #include <roboteam_utils/Print.h>
 
 #include <utility>
-#include <include/roboteam_ai/stp/new_tactics/Halt.h>
+#include <stp/new_tactics/Halt.h>
 
 namespace rtt::ai::stp::role {
 
