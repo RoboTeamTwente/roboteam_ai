@@ -2,8 +2,8 @@
 // Created by jessevw on 17.03.20.
 //
 
-#ifndef RTT_PASS_H
-#define RTT_PASS_H
+#ifndef RTT_PASS_PLAY_H
+#define RTT_PASS_PLAY_H
 
 #include <stp/Play.hpp>
 
@@ -55,4 +55,4 @@ class Pass : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_PASS_H
+#endif  // RTT_PASS_PLAY_H
