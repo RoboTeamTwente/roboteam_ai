@@ -5,7 +5,7 @@
 #ifndef RTT_ATTACKER_H
 #define RTT_ATTACKER_H
 
-#include "include/roboteam_ai/stp/Role.hpp"
+#include "stp/Role.hpp"
 
 namespace rtt::ai::stp::role {
 
