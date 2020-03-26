@@ -20,7 +20,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Clamp and set velocity
-    double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, Constants::MAX_VEL_CMD());
+    double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
@@ -30,7 +30,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
@@ -38,7 +38,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     publishRobotCommand();
 
     // Check if successful
-    double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
+    double errorMargin = stp::control_constants::GO_TO_POS_ERROR_MARGIN;
     if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
         return Status::Success;
     } else {

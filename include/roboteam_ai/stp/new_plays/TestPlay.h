@@ -14,7 +14,7 @@ class TestPlay : public Play {
     /**
      * Constructor that initializes roles with test roles
      */
-    TestPlay();
+    TestPlay(std::string playName);
 
     /**
      * Gets the score for the current play

@@ -7,10 +7,9 @@
 
 #include <bt/Node.h>
 #include <roboteam_proto/RobotCommand.pb.h>
-
 #include <world_new/views/RobotView.hpp>
-
 #include "stp/StpInfo.h"
+#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 /**
@@ -53,6 +52,16 @@ class Skill {
      * Applies constraints to the internal robot command
      */
     virtual void limitRobotCommand() noexcept;
+
+    /**
+     * Limits the velocity
+     */
+    virtual void limitVel() noexcept;
+
+    /**
+     * Limits the angular velocity
+     */
+    virtual void limitAngularVel() noexcept;
 
     /**
      * Terminates the skill

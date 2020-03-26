@@ -3,6 +3,7 @@
 //
 
 #include "include/roboteam_ai/stp/Play.hpp"
+#include <utility>
 
 namespace rtt::ai::stp {
 
@@ -19,12 +20,13 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
+    RTT_INFO("Play executing: ", playName)
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
 
         // Make sure we don't re assign with too many robots
-        if (world->getWorld()->getUs().size() > Constants::ROBOT_COUNT()) {
+        if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
             // the robots don't exceed ROBOT_COUNT anymore
@@ -42,21 +44,25 @@ void Play::update() noexcept {
 
     for (auto& role : roles) {
         // Update the roles
-        auto roleStatus = role->update(stpInfos[role->getName()]);
-        roleStatuses.emplace_back(roleStatus);
+        if (stpInfos.find(role->getName()) != stpInfos.end()) {
+            auto roleStatus = role->update(stpInfos[role->getName()]);
+            roleStatuses.emplace_back(roleStatus);
 
-        if (roleStatus == Status::Waiting) {
-            // Should role skip end tactic?
-            if (shouldRoleSkipEndTactic()) {
-                // TODO: force role to go to next tactic
-                // role.forceNextTactic(); (not implemented yet)
+            if (roleStatus == Status::Waiting) {
+                // Should role skip end tactic?
+                if (shouldRoleSkipEndTactic()) {
+                    // TODO: force role to go to next tactic
+                    // role.forceNextTactic(); (not implemented yet)
+                }
             }
+        } else {
+            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
 }
 
 bool Play::arePlayRolesFinished() {
-    return std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s) { return s == Status::Success; });
+    return !roleStatuses.empty() && std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s) { return s == Status::Success; });
 }
 
 void Play::refreshData() noexcept {
@@ -96,5 +102,6 @@ void Play::distributeRoles() noexcept {
     }
 }
 
+Play::Play(std::string playName) : playName{std::move(playName)} { }
 
 }  // namespace rtt::ai::stp
