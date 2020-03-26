@@ -7,7 +7,7 @@
 #include "stp/new_roles/Halt.h"
 namespace rtt::ai::stp::play {
 
-    Halt::Halt() {
+    Halt::Halt(std::string playName) : Play(playName) {
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
                 std::make_unique<role::Halt>(role::Halt("halt_2")),    std::make_unique<role::Halt>(role::Halt("halt_3")),
@@ -19,9 +19,16 @@ namespace rtt::ai::stp::play {
 
     uint8_t Halt::score(world_new::World* world) noexcept { return 14; }
 
-    void Halt::assignRoles() noexcept {
-        Dealer dealer{world->getWorld().value(), &field};
+    void Halt::calculateInfoForRoles() noexcept { }
 
+
+    bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
+
+    bool Halt::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
+
+    bool Halt::shouldRoleSkipEndTactic() { return false; }
+
+    Dealer::FlagMap Halt::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
         Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -38,28 +45,8 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"halt_8", {closeToTheirGoalFlag, closeToBallFlag}});
         flagMap.insert({"halt_9", {closeToBallFlag}});
         flagMap.insert({"halt_10", {closeToTheirGoalFlag}});
-
-        auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
-
-        stpInfos = std::unordered_map<std::string, StpInfo>{};
-        for (auto& role : roles) {
-            auto roleName{role->getName()};
-            if (distribution.find(roleName) != distribution.end()) {
-                auto robot = distribution.find(role->getName())->second;
-
-                stpInfos.emplace(roleName, StpInfo{});
-                stpInfos[roleName].setRobot(robot);
-            }
-        }
+        return flagMap;
     }
 
-    void Halt::calculateInfoForRoles() noexcept { }
-
-
-    bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
-    bool Halt::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
-
-    bool Halt::shouldRoleSkipEndTactic() { return false; }
 
 }  // namespace rtt::ai::stp::play

@@ -14,7 +14,7 @@ namespace rtt::ai::stp::play {
         /**
          * Constructor that initializes roles with roles that are necessary for this play
          */
-        Halt();
+        Halt(std::string playName);
 
         bool isValidPlayToStart(world_new::World* world) noexcept override;
 
@@ -34,7 +34,7 @@ namespace rtt::ai::stp::play {
         /**
          * Assigns robots to roles of this play
          */
-        void assignRoles() noexcept override;
+        Dealer::FlagMap decideRoleFlags() const noexcept override;
 
         /**
          * Calculates info for the roles
