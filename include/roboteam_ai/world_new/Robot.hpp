@@ -42,6 +42,7 @@ class Robot {
     Vector2 pidPreviousVel;
 
     double distanceToBall;
+    double angleDiffToBall;
     unsigned long lastUpdatedWorldNumber = 0;
 
     double angularVelocity;
@@ -88,6 +89,8 @@ class Robot {
     void setWorkingBallSensor(bool workingBallSensor) noexcept;
 
     void setDistanceToBall(double distanceToBall) noexcept;
+
+    void setAngleDiffToBall(double _angleDiffToBall) noexcept;
 
     void setBallSensorSeesBall(bool _seesBall) noexcept;
 
@@ -143,6 +146,8 @@ class Robot {
     [[nodiscard]] const Vector2 &getPidPreviousVel() const noexcept;
 
     [[nodiscard]] double getDistanceToBall() const noexcept;
+
+    [[nodiscard]] double getAngleDiffToBall() const noexcept;
 
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 

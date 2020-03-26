@@ -5,12 +5,13 @@
 #ifndef RTT_ROBOT_VIEW_HPP
 #define RTT_ROBOT_VIEW_HPP
 
-#include <roboteam_utils/Vector2.h>
 #include <include/roboteam_ai/utilities/Constants.h>
+#include <roboteam_utils/Vector2.h>
+
 #include <include/roboteam_ai/world_new/Robot.hpp>
 
 namespace rtt::world_new::robot {
-    class RobotControllers;
+class RobotControllers;
 }
 namespace rtt::world_new::view {
 
@@ -22,6 +23,8 @@ namespace rtt::world_new::view {
  */
 class RobotView {
     robot::Robot const *robotPtr;
+
+    [[nodiscard]] bool hasBallAccordingToVision(double maxDist, double maxAngle) const noexcept;
 
    public:
     /**
@@ -84,7 +87,7 @@ class RobotView {
      * @param noBallSensor false -> use ball sensor, true -> use radius
      * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
      */
-    [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE(), bool noBallSensor = false) const noexcept;
+    [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE(), double maxAngle = ai::Constants::HAS_BALL_ANGLE()) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing

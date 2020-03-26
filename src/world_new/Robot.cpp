@@ -29,9 +29,10 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
     if (feedback.find(id) != feedback.end()) {
         updateFromFeedback(feedback[id]);
     }
-
+// (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle()
     if (ball.has_value()) {
         setDistanceToBall(pos.dist((*ball)->getPos()));
+        setAngleDiffToBall(fabs(angle.shortestAngleDiff(((*ball)->getPos() - pos).angle())));
     }
 
     resetShotController();
@@ -123,6 +124,10 @@ void Robot::setPidPreviousVel(const Vector2 &_pidPreviousVel) noexcept { Robot::
 double Robot::getDistanceToBall() const noexcept { return distanceToBall; }
 
 void Robot::setDistanceToBall(double _distanceToBall) noexcept { Robot::distanceToBall = _distanceToBall; }
+
+double Robot::getAngleDiffToBall() const noexcept { return angleDiffToBall; }
+
+void Robot::setAngleDiffToBall(double _angleDiffToBall) noexcept { Robot::angleDiffToBall = _angleDiffToBall; }
 
 unsigned long Robot::getLastUpdatedWorldNumber() const noexcept { return lastUpdatedWorldNumber; }
 

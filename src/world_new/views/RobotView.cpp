@@ -19,11 +19,10 @@ robot::Robot const &RobotView::operator*() const noexcept { return *get(); }
 robot::Robot const *RobotView::operator->() const noexcept { return get(); }
 
 // TODO: TEST to see if we don't have issues using this naive approach irl
-bool RobotView::hasBall(double maxDist, bool noBallSensor) const noexcept {
-    // Take ballSensor input when noBallSensor is false (default) and the ballSensor works
-    // else take radius check
-    if (!noBallSensor && get()->isWorkingBallSensor()) return get()->ballSensorSeesBall();
-    return get()->getDistanceToBall() < maxDist;
+bool RobotView::hasBall(double maxDist, double maxAngle) const noexcept {
+    // If ballSensor and/or vision say we have the ball, return true else false
+    // 0.4 0.2
+    return hasBallAccordingToVision(maxDist, maxAngle) || get()->ballSensorSeesBall();
 }
 
 Vector2 RobotView::getKicker() const noexcept {
@@ -34,5 +33,11 @@ Vector2 RobotView::getKicker() const noexcept {
 RobotView::operator bool() const noexcept { return get() != nullptr; }
 
 robot::RobotControllers &RobotView::getControllers() const noexcept { return World::instance()->getControllersForRobot(get()->getId()); }
+
+bool RobotView::hasBallAccordingToVision(double maxDist, double maxAngle) const noexcept {
+    auto dist = get()->getDistanceToBall();
+    auto angle = get()->getAngleDiffToBall();
+    return dist < maxDist && angle < maxAngle*2;
+}
 
 }  // namespace rtt::world_new::view
