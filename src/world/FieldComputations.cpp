@@ -112,12 +112,13 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
 
 // True standard which mean field.getBoundaryWidth() is used otherwise margin is used
 Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
-    Vector2 bottomGoal = ourDefenseArea ? field.getOurBottomGoalSide() + Vector2(-backMargin, -margin) : field.getTheirBottomGoalSide() + Vector2(backMargin, -margin);
-    Vector2 topGoal = ourDefenseArea ? field.getOurTopGoalSide() + Vector2(-backMargin, margin) : field.getTheirTopGoalSide() + Vector2(backMargin, margin);
+    Vector2 belowGoal = ourDefenseArea ? field.getBottomLeftOurDefenceArea() + Vector2(-backMargin, -margin)
+                                            : field.getBottomRightTheirDefenceArea() + Vector2(backMargin, -margin);
+    Vector2 aboveGoal = ourDefenseArea ? field.getTopLeftOurDefenceArea() + Vector2(-backMargin, margin) : field.getTopRightTheirDefenceArea() + Vector2(backMargin, margin);
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
 
-    std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, topGoal, bottomGoal};
+    std::vector<Vector2> defenseArea = {bottomPenalty, topPenalty, aboveGoal, belowGoal};
     interface::Input::drawDebugData(defenseArea);
     return Polygon(defenseArea);
 }
