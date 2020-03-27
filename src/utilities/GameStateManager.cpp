@@ -170,7 +170,6 @@ GameState GameStateManager::getCurrentGameState() {
     } else {
         newGameState = interface::Output::getInterfaceGameState();
     }
-    robotDealer::RobotDealer::setKeeperID(newGameState.keeperId);
     return newGameState;
 }
 

@@ -101,7 +101,7 @@ namespace rtt::ai::interface {
 
         parent->setPlayForRobot(role->getName(), botView->getId());
 
-        if (!updatingForKeeper && robotDealer::RobotDealer::getKeeperID() == botView->getId()) {
+        if (!updatingForKeeper && GameStateManager::getCurrentGameState().keeperId == botView->getId()) {
             parent->setKeeperRole(role, state);
             return;
         }
