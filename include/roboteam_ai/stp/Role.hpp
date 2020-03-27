@@ -22,7 +22,7 @@ class Role {
                                         * @param info TacticInfo to be passed to update()
                                         * @return The status that the current tactic returns
                                         */
-              [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
+    [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
 
     /**
      * @return True if all tactics returned Status::finish

@@ -21,7 +21,6 @@ namespace rtt::ai::stp::play {
 
     void Halt::calculateInfoForRoles() noexcept { }
 
-
     bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
     bool Halt::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
