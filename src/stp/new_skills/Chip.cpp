@@ -2,7 +2,7 @@
 // Created by jordi on 09-03-20.
 //
 
-#include "include/roboteam_ai/stp/new_skills/Chip.h"
+#include "stp/new_skills/Chip.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -21,7 +21,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::BALL_STILL_VEL) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         return Status::Success;
     }
     return Status::Running;
