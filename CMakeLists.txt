@@ -189,6 +189,7 @@ set(NEW_TACTICS_SOURCES
 set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/TestRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Attacker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PassReceiver.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
@@ -200,6 +201,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         )
 
