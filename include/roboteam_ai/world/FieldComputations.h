@@ -31,7 +31,7 @@ class FieldComputations {
     static std::vector<Line> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, std::vector<world_new::view::RobotView> robots, int id = -1, bool ourTeam = false);
     static std::vector<Line> mergeBlockades(std::vector<Line> blockades);
 
-    static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world);
+    static std::vector<Line> getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world_new::view::WorldDataView &world);
     static std::vector<Line> getVisiblePartsOfGoalByObstacles(const Field &field, bool ourGoal, const Vector2 &point, const std::vector<world_new::view::RobotView>& robots);
 
     static Line getGoalSides(const Field &field, bool ourGoal);

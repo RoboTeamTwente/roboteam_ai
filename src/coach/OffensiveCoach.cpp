@@ -183,7 +183,7 @@ const Line &OffensiveCoach::getLongestSegment(const std::vector<Line> &openSegme
     for (unsigned long i = 1; i < openSegments.size(); i++) {
         auto segment = openSegments[i];
         auto bestSegment = openSegments[bestIndex];
-        if (abs(segment.start.y - segment.start.y) > abs(bestSegment.start.y - bestSegment.start.y)) {
+        if (abs(segment.start.y - segment.end.y) > abs(bestSegment.start.y - bestSegment.end.y)) {
             bestIndex = i;
         }
     }
