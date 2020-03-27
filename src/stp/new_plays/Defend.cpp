@@ -48,7 +48,7 @@ void Defend::calculateInfoForRoles() noexcept {
         auto roleName{role->getName()};
         if (stpInfos.find(roleName) != stpInfos.end()) {
             if (stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
-                && world->getWorld()->getBall().value()->getVelocity().length() > 0.1) {
+                && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
                 role->forceToTactic(1);
                 stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall().value()->getPos());
             } else {
