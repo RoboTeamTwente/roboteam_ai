@@ -52,16 +52,6 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     stpWidget = new STPVisualizerWidget(this);
 
     behaviourTreeWidgetLayout->addWidget(stpWidget);
-
-    auto refreshHButtonsLayout = new QHBoxLayout();
-    auto refreshBtn = new QPushButton("Soft refresh");
-    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
-    refreshHButtonsLayout->addWidget(refreshBtn);
-
-    auto refreshJsonBtn = new QPushButton("Hard refresh");
-    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
-    refreshHButtonsLayout->addWidget(refreshJsonBtn);
-    behaviourTreeWidgetLayout->addLayout(refreshHButtonsLayout);
     behaviourTreeWidget->setLayout(behaviourTreeWidgetLayout);
 
     keeperStpWidget = new STPVisualizerWidget(this);

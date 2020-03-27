@@ -16,7 +16,6 @@
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
-    constexpr static const char *space = "&nbsp;";
     constexpr static const char *tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
 
     STPVisualizerWidget::STPVisualizerWidget(MainWindow *parent) : QTextEdit(parent) {
@@ -126,7 +125,9 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::outputStpData() {
+        auto sliderPos = this->verticalScrollBar()->sliderPosition();
         setHtml(QString::fromStdString(updateContent.str()));
+        this->verticalScrollBar()->setSliderPosition(sliderPos);
     }
 
     void STPVisualizerWidget::outputStatus(stp::Status status) {
