@@ -182,6 +182,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Receive.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/ChipAtPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Intercept.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
         )
 
@@ -191,6 +192,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Attacker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PassReceiver.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Passer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -200,6 +202,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         )
 
 set(CONDITIONS_SOURCES

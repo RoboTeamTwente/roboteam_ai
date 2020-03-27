@@ -11,6 +11,7 @@
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
+#include <stp/new_plays/Halt.h>
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/Attack.h"
 
@@ -35,6 +36,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
 
     playChecker.setPlays(plays);
 
