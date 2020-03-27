@@ -55,7 +55,7 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
     const double PASS_FACTOR{0.8};
     const double GRSIM_PASS_FACTOR{1.1};
 
-    if (desiredBallSpeedType == MAX) return Constants::MAX_CHIP_POWER();
+    if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_CHIP_POWER;
 
     double limitingFactor{};
     // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
