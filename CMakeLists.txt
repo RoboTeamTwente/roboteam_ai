@@ -201,7 +201,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
+        src/stp/invariants/WeHaveBallInvariant.cpp include/roboteam_ai/stp/invariants/WeHaveBallInvariant.h src/stp/invariants/HaltGameStateInvariant.cpp include/roboteam_ai/stp/invariants/HaltGameStateInvariant.h)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp

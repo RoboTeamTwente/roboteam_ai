@@ -104,4 +104,8 @@ void Play::distributeRoles() noexcept {
 
 Play::Play(std::string playName) : playName{std::move(playName)} { }
 
+bool Play::isValidPlayToKeep(world_new::World *world) noexcept {
+    return std::all_of(invariants.begin(), invariants.end(), [world](auto &x){return x->checkInvariant(world->getWorld().value());});
+}
+
 }  // namespace rtt::ai::stp

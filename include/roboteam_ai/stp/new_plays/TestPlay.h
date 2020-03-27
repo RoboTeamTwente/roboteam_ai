@@ -34,8 +34,6 @@ class TestPlay : public Play {
 
     bool isValidPlayToStart(world_new::World *world) noexcept override;
 
-    bool isValidPlayToKeep(world_new::World *world) noexcept override;
-
     void calculateInfoForRoles() noexcept override;
 
     bool shouldRoleSkipEndTactic() override;
