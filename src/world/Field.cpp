@@ -87,6 +87,11 @@ void Field::initFieldOthers() {
     topLeftCorner = Vector2(leftmostX.value(), topmostY.value());
     bottomRightCorner = Vector2(rightmostX.value(), bottommostY.value());
     topRightCorner = Vector2(rightmostX.value(), topmostY.value());
+
+    topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
+    bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
+    topRightTheirDefenceArea = topRightPenaltyStretch->end;
+    bottomRightTheirDefenceArea = bottomRightPenaltyStretch->end;
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
@@ -178,6 +183,14 @@ const Vector2 &Field::getTopLeftCorner() const { return getFieldVector(topLeftCo
 const Vector2 &Field::getBottomRightCorner() const { return getFieldVector(bottomRightCorner); }
 
 const Vector2 &Field::getTopRightCorner() const { return getFieldVector(topRightCorner); }
+
+const Vector2 &Field::getTopLeftOurDefenceArea() const { return getFieldVector(topLeftOurDefenceArea); }
+
+const Vector2 &Field::getBottomLeftOurDefenceArea() const { return getFieldVector(bottomLeftOurDefenceArea); }
+
+const Vector2 &Field::getTopRightTheirDefenceArea() const { return getFieldVector(topRightTheirDefenceArea); }
+
+const Vector2 &Field::getBottomRightTheirDefenceArea() const { return getFieldVector(bottomRightTheirDefenceArea); }
 
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {

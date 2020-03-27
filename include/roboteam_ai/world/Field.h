@@ -248,6 +248,18 @@ class Field {
     // The circle in the middle from which the ball will be kicked off
     std::optional<FieldArc> centerCircle;
 
+    // The top left corner of our defence area (note that this is not equal to the top of our goal side).
+    std::optional<Vector2> topLeftOurDefenceArea;
+
+    // The bottom left corner of our defence area (note that this is not equal to the bottom of our goal side).
+    std::optional<Vector2> bottomLeftOurDefenceArea;
+
+    // The top left corner of their defence area (note that this is not equal to the top of their goal side).
+    std::optional<Vector2> topRightTheirDefenceArea;
+
+    // The bottom left corner of their defence area (note that this is not equal to the bottom of their goal side).
+    std::optional<Vector2> bottomRightTheirDefenceArea;
+
    public:
     /**
      * Constructor that creates an unitialized Field
@@ -303,6 +315,10 @@ class Field {
     const Vector2 &getTopLeftCorner() const;
     const Vector2 &getBottomRightCorner() const;
     const Vector2 &getTopRightCorner() const;
+    const Vector2 &getTopLeftOurDefenceArea() const;
+    const Vector2 &getBottomLeftOurDefenceArea() const;
+    const Vector2 &getTopRightTheirDefenceArea() const;
+    const Vector2 &getBottomRightTheirDefenceArea() const;
     const FieldArc &getCenterCircle() const;
 
     /**
