@@ -58,7 +58,7 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     const double PASS_FACTOR{1.2};
     const double GRSIM_PASS_FACTOR{1.45};
 
-    if (desiredBallSpeedType == MAX) return Constants::MAX_KICK_POWER();
+    if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_KICK_POWER;
 
     double limitingFactor{};
     // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not

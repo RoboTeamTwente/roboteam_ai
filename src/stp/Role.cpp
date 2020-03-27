@@ -21,8 +21,8 @@ Status Role::update(StpInfo const& info) noexcept {
         return Status::Success;
     }
 
-    // Reset the tactic state machine if a tactic failed
-    if (status == Status::Failure) {
+    // Reset the tactic state machine if a tactic failed and the state machine is not yet finished
+    if (status == Status::Failure && !robotTactics.finished()) {
         RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
         // Reset all the Skills state machines
         for (auto& tactic : robotTactics) {
