@@ -14,11 +14,11 @@ namespace rtt::ai::stp::play {
 Pass::Pass() {
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
-        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),
-        std::make_unique<TestRole>(TestRole("test_role_4")),    std::make_unique<TestRole>(TestRole("test_role_5")),
-        std::make_unique<TestRole>(TestRole("test_role_6")),    std::make_unique<TestRole>(TestRole("test_role_7")),
-        std::make_unique<TestRole>(TestRole("test_role_8")),    std::make_unique<TestRole>(TestRole("test_role_9")),
-        std::make_unique<TestRole>(TestRole("test_role_10"))};
+        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("defender2")),
+        std::make_unique<TestRole>(TestRole("defender3")),    std::make_unique<TestRole>(TestRole("defender4")),
+        std::make_unique<TestRole>(TestRole("defender5")),    std::make_unique<TestRole>(TestRole("defender6")),
+        std::make_unique<TestRole>(TestRole("defender7")),    std::make_unique<TestRole>(TestRole("defender8")),
+        std::make_unique<TestRole>(TestRole("defender9"))};
 }
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
@@ -32,14 +32,14 @@ Dealer::FlagMap Pass::decideRoleFlags() noexcept {
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
     flagMap.insert({"defender1", {notImportant}});
-    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_4", {closeToBallFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_6", {closeToBallFlag}});
-    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender2", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender3", {closeToBallFlag}});
+    flagMap.insert({"defender4", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"defender5", {closeToBallFlag}});
+    flagMap.insert({"defender6", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender7", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"defender8", {closeToBallFlag}});
+    flagMap.insert({"defender9", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -48,7 +48,7 @@ void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
-    int numberOfDefenders = 2;
+    int numberOfDefenders = 8;
     auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
     // TODO: is there really no better way to set data per role?
@@ -73,9 +73,10 @@ void Pass::calculateInfoForRoles() noexcept {
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
     std::vector<Vector2> positions = {};
-    // 3 robots will defend goal
+    // how many robots will qdefend goal
+    int goalDefenders = 3;
     for (int i = 0; i < numberOfDefenders; i++) {
-        if (i < 3) {
+        if (i < goalDefenders) {
             positions.push_back(world->getField()->getOurGoalCenter());
         } else {
             positions.push_back(enemyRobots[i].get()->getPos());
@@ -83,6 +84,10 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     }
 
     return positions;
+}
+
+std::vector<Vector2> Pass::bestReceivePositions(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
+
 }
 
 bool Pass::isValidPlayToStart(world_new::World* world) noexcept { return true; }
