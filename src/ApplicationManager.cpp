@@ -13,6 +13,7 @@
 #include <world_new/World.hpp>
 #include <stp/new_plays/Halt.h>
 #include "stp/new_plays/Pass.h"
+#include "stp/new_plays/DefaultFormation.h"
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
@@ -34,7 +35,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
-
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefaultFormation>("Default Formation"));
 
     playChecker.setPlays(plays);
 
