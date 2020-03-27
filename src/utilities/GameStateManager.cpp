@@ -3,6 +3,7 @@
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <skills/Halt.h>
 #include <roboteam_utils/Print.h>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
 #include "interface/api/Output.h"
 
 namespace rtt::ai {

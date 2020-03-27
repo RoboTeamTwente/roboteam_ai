@@ -5,7 +5,6 @@
 #include "stp/new_skills/Rotate.h"
 
 #include <include/roboteam_ai/control/ControlUtils.h>
-#include <roboteam_utils/Print.h>
 
 namespace rtt::ai::stp::skill {
 

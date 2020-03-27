@@ -67,7 +67,7 @@ struct Areas {
      * @return any(robot in shape for shape in areas)
      */
     [[nodiscard]] bool isInAny(Vector2 const& pos) const noexcept {
-        Circle circle{pos, Constants::ROBOT_RADIUS()};
+        Circle circle{pos, stp::control_constants::ROBOT_RADIUS};
         return std::any_of(areasToAvoid.begin(), areasToAvoid.end(), [&](auto const& area) { return area.intersects(circle); });
     }
 };
