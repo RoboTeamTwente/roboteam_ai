@@ -32,8 +32,8 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
 
     if (ball.has_value()) {
         setDistanceToBall(pos.dist((*ball)->getPos()));
-        auto angleRobotToBall ((*ball)->getPos() - pos).angle();
-        setAngleDiffToBall(fabs(angle.shortestAngleDiff(angleRobotToBall));
+        auto angleRobotToBall = ((*ball)->getPos() - pos).angle();
+        setAngleDiffToBall(fabs(angle.shortestAngleDiff(angleRobotToBall)));
     }
 
     resetShotController();
