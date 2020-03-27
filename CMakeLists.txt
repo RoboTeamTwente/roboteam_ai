@@ -202,6 +202,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Defend.cpp
         )
 
 set(CONDITIONS_SOURCES
