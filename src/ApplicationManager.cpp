@@ -14,6 +14,8 @@
 #include <stp/new_plays/Halt.h>
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/Defend.h"
+#include "stp/new_plays/Attack.h"
+
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
@@ -32,10 +34,13 @@ void ApplicationManager::start() {
     RTT_INFO("Waiting for field_data and robots...");
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>("Defend"));
+
 
     playChecker.setPlays(plays);
 
