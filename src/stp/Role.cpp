@@ -12,6 +12,7 @@ Status Role::update(StpInfo const& info) noexcept {
         return Status::Failure;
     }
 
+    currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
     auto status = robotTactics.update(info);
 
@@ -53,6 +54,14 @@ void Role::forceNextTactic() noexcept {
 
 void Role::forceToTactic(int n) noexcept {
     robotTactics.skip_to(n);
+}
+
+std::optional<world_new::view::RobotView> const&Role::getCurrentRobot() const {
+    return currentRobot;
+}
+
+Tactic * Role::getCurrentTactic() {
+    return robotTactics.get_current();
 }
 
 }  // namespace rtt::ai::stp
