@@ -47,4 +47,8 @@ Status Role::update(StpInfo const& info) noexcept {
 
 bool Role::finished() const noexcept { return robotTactics.finished(); }
 
+void Role::forceNextTactic() noexcept {
+    robotTactics.skip_n(1);
+}
+
 }  // namespace rtt::ai::stp

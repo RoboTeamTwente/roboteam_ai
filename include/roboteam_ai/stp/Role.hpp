@@ -35,6 +35,11 @@ class Role {
      */
     std::string getName() { return roleName; }
 
+    /**
+     * Forces the Role to skip to the next tactic in the state machine
+     */
+    void forceNextTactic() noexcept;
+
    protected:
     /**
      * Name of the role
