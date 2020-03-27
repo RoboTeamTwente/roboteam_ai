@@ -76,7 +76,7 @@ void GTPSpecial::gtpInitialize() {
             break;
         }
         case ourDefenseAreaCenter: {
-            targetPos = FieldComputations::getDefenseArea(*field).centroid();
+            targetPos = FieldComputations::getDefenseArea(*field, true, 0.0, field->getBoundaryWidth()).centroid();
             break;
         }
     }
@@ -158,7 +158,7 @@ Skill::Status GTPSpecial::gtpUpdate() {
             break;
         }
         case ourDefenseAreaCenter: {
-            targetPos = FieldComputations::getDefenseArea(*field).centroid();
+            targetPos = FieldComputations::getDefenseArea(*field, true, 0.0, field->getBoundaryWidth()).centroid();
             robot->getControllers().getNumTreePosController()->setCanMoveInDefenseArea(true);
             command = robot->getControllers().getNumTreePosController()->getRobotCommand(robot->get()->getId(), targetPos, true).makeROSCommand();
             break;

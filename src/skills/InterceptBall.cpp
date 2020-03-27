@@ -151,7 +151,7 @@ Vector2 InterceptBall::computeInterceptPoint(Vector2 startBall, Vector2 endBall)
         Line shotLine(startBall, endBall);
         interceptionPoint = shotLine.project(robot->get()->getPos());
         // create an area in which the intersection point should be
-        auto DefenceArea = FieldComputations::getDefenseArea(*field, true);
+        auto DefenceArea = FieldComputations::getDefenseArea(*field, true, 0.0, field->getBoundaryWidth());
         if (!DefenceArea.contains(interceptionPoint)) {
             auto intersectPoints = DefenceArea.intersections(LineSegment(shotLine.start, shotLine.start + (shotLine.end - shotLine.start).scale(1000)));
             if (intersectPoints.empty()) {

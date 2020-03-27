@@ -17,7 +17,7 @@ bt::Node::Status BallInDefenseAreaAndStill::onUpdate() {
     Vector2 ballPos = ball->get()->getPos();
     Vector2 ballVel = ball->get()->getVelocity();
 
-    bool pointIsInDefenceArea = FieldComputations::pointIsInDefenceArea(*field, ballPos, !theirDefenceArea, 0.02, false);
+    bool pointIsInDefenceArea = FieldComputations::pointIsInDefenceArea(*field, ballPos, !theirDefenceArea, 0.02);
     bool ballIsLayingStill = ballVel.length() < Constants::BALL_STILL_VEL();
 
     if (pointIsInDefenceArea && ballIsLayingStill) {

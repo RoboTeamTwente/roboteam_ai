@@ -52,7 +52,7 @@ bool CoachDefend::useBasicGtp(Vector2 targetLocation) {
         return false;
     }
     // if line intersects our defence area or other robots we do not do it.
-    if (FieldComputations::getDefenseArea(*field, true, 0.15, false).doesIntersect(driveLine)) {
+    if (FieldComputations::getDefenseArea(*field, true, 0.15, 0.15).doesIntersect(driveLine)) {
         return false;
     }
     auto robots = world_new::World::instance()->getWorld()->getThem();

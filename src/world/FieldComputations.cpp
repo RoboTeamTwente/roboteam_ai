@@ -9,9 +9,13 @@ namespace ai {
 
 using util = control::ControlUtils;
 
-bool FieldComputations::pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
-    auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, includeOutsideField);
+bool FieldComputations::pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin) {
+    auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, backMargin);
     return defenseArea.contains(point);
+}
+
+bool FieldComputations::pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
+    return pointIsInDefenceArea(field, point, isOurDefenceArea, margin, margin);
 }
 
 bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin) {
@@ -92,7 +96,7 @@ Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool o
 
 std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(const rtt_world::Field &field, bool ourGoal, const Vector2 &lineStart, const Vector2 &lineEnd,
                                                                             double margin) {
-    auto defenseArea = getDefenseArea(field, ourGoal, margin);
+    auto defenseArea = getDefenseArea(field, ourGoal, margin, field.getBoundaryWidth());
     auto intersections = defenseArea.intersections({lineStart, lineEnd});
 
     if (intersections.size() == 1) {
@@ -106,10 +110,10 @@ std::shared_ptr<Vector2> FieldComputations::lineIntersectionWithDefenceArea(cons
     }
 }
 
-Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, bool includeOutSideField) {
-    double backLineChanges = includeOutSideField ? margin : field.getBoundaryWidth();
-    Vector2 bottomGoal = ourDefenseArea ? field.getOurBottomGoalSide() + Vector2(-backLineChanges, -margin) : field.getTheirBottomGoalSide() + Vector2(backLineChanges, -margin);
-    Vector2 topGoal = ourDefenseArea ? field.getOurTopGoalSide() + Vector2(-backLineChanges, margin) : field.getTheirTopGoalSide() + Vector2(backLineChanges, margin);
+// True standard which mean field.getBoundaryWidth() is used otherwise margin is used
+Polygon FieldComputations::getDefenseArea(const rtt_world::Field &field, bool ourDefenseArea, double margin, double backMargin) {
+    Vector2 bottomGoal = ourDefenseArea ? field.getOurBottomGoalSide() + Vector2(-backMargin, -margin) : field.getTheirBottomGoalSide() + Vector2(backMargin, -margin);
+    Vector2 topGoal = ourDefenseArea ? field.getOurTopGoalSide() + Vector2(-backMargin, margin) : field.getTheirTopGoalSide() + Vector2(backMargin, margin);
     Vector2 bottomPenalty = ourDefenseArea ? field.getLeftPenaltyLineBottom() + Vector2(margin, -margin) : field.getRightPenaltyLineBottom() + Vector2(-margin, -margin);
     Vector2 topPenalty = ourDefenseArea ? field.getLeftPenaltyLineTop() + Vector2(margin, margin) : field.getRightPenaltyLineTop() + Vector2(-margin, margin);
 

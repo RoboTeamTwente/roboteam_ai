@@ -325,8 +325,8 @@ Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vecto
     bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
 
     if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
-        Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));
-        Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, true));
+        Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, field.getBoundaryWidth()));
+        Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, field.getBoundaryWidth()));
 
         std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
         std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);

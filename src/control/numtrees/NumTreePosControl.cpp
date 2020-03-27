@@ -178,8 +178,8 @@ Collision NumTreePosControl::getDefenseAreaCollision(world_new::view::RobotView 
     if (!getCanMoveInDefenseArea(_robot->getId())) {
         auto _field = *world_new::World::instance()->getField();
         auto margin = Constants::ROBOT_RADIUS();
-        bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(_field, point->pos, true, margin, false);
-        bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(_field, point->pos, false, margin, false);
+        bool isInOurDefenseArea = FieldComputations::pointIsInDefenceArea(_field, point->pos, true, margin);
+        bool isInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(_field, point->pos, false, margin);
         if (isInOurDefenseArea || isInTheirDefenseArea) {
             double defenseAreaX = point->pos.x < 0 ? _field.getLeftPenaltyX() : _field.getRightPenaltyX();
             collision.setDefenseAreaCollision(point->pos, (fabs(defenseAreaX - point->pos.x) + margin) * 1.1);
