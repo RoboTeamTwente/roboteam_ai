@@ -40,6 +40,12 @@ class Role {
      */
     void forceNextTactic() noexcept;
 
+    /**
+     * Forces the Role to skip to tactic n in the state machine
+     * @param n Index of the tactic in the state machine
+     */
+    void forceToTactic(int n) noexcept;
+
    protected:
     /**
      * Name of the role

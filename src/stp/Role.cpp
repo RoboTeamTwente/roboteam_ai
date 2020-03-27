@@ -51,4 +51,8 @@ void Role::forceNextTactic() noexcept {
     robotTactics.skip_n(1);
 }
 
+void Role::forceToTactic(int n) noexcept {
+    robotTactics.skip_to(n);
+}
+
 }  // namespace rtt::ai::stp
