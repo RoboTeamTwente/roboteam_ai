@@ -21,6 +21,7 @@ AggressiveFormation::AggressiveFormation(std::string playName) : Play(std::move(
 uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 19; }
 
 void AggressiveFormation::calculateInfoForRoles() noexcept {
+    // TODO: TUNE these positions could probably be a bit better once we decide how we want to play
     if (stpInfos.find("keeper") != stpInfos.end()) stpInfos["keeper"].setPositionToMoveTo(Vector2{-4.5, 0});
     if (stpInfos.find("defender_0") != stpInfos.end()) stpInfos["defender_0"].setPositionToMoveTo(Vector2{-3, 3});
     if (stpInfos.find("defender_1") != stpInfos.end()) stpInfos["defender_1"].setPositionToMoveTo(Vector2{-3, 0});

@@ -21,6 +21,7 @@ DefensiveFormation::DefensiveFormation(std::string playName) : Play(std::move(pl
 uint8_t DefensiveFormation::score(world_new::World* world) noexcept { return 20; }
 
 void DefensiveFormation::calculateInfoForRoles() noexcept {
+    // TODO: TUNE these positions could probably be a bit better once we decide how we want to play
     if (stpInfos.find("keeper") != stpInfos.end()) stpInfos["keeper"].setPositionToMoveTo(Vector2{-4.5, 0});
     if (stpInfos.find("defender_0") != stpInfos.end()) stpInfos["defender_0"].setPositionToMoveTo(Vector2{-3, 4});
     if (stpInfos.find("defender_1") != stpInfos.end()) stpInfos["defender_1"].setPositionToMoveTo(Vector2{-3, 1});
