@@ -5,7 +5,7 @@
 #include "stp/new_plays/Pass.h"
 
 #include <stp/new_roles/TestRole.h>
-#include <include/roboteam_ai/stp/invariants/WeHaveBallInvariant.h>
+#include <stp/invariants/WeHaveBallInvariant.h>
 
 #include <utility>
 
