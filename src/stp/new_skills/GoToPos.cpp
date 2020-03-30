@@ -4,7 +4,6 @@
 
 #include "include/roboteam_ai/stp/new_skills/GoToPos.h"
 
-#include <roboteam_utils/Print.h>
 
 #include "include/roboteam_ai/world_new/World.hpp"
 
@@ -13,7 +12,13 @@ namespace rtt::ai::stp::skill {
 void GoToPos::onInitialize() noexcept {}
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    Vector2 targetPos = info.getPositionToMoveTo().value();
+    auto targetPosOpt = info.getPositionToMoveTo();
+
+    if (!targetPosOpt) {
+        return Status::Running;
+    }
+
+    auto targetPos = targetPosOpt.value();
 
     // Calculate commands from path planning and tracking
     auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(

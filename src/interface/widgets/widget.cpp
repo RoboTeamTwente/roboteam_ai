@@ -259,7 +259,12 @@ void Visualizer::drawBall(QPainter &painter, rtt::world_new::view::BallView ball
 void Visualizer::drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world) {
     // draw us
     for (auto const & robot : world->getUs()) {
-        drawRobot(painter, robot, true);
+        std::string role{};
+        if (rolesForRobots.find(robot->getId()) != rolesForRobots.end()) {
+            std::lock_guard mtx{ rolesUpdate };
+            role = rolesForRobots[robot->getId()];
+        }
+        drawRobot(painter, robot, true, role);
     }
 
     // draw them
@@ -285,7 +290,7 @@ rtt::Vector2 Visualizer::toFieldPosition(rtt::Vector2 screenPos) {
 }
 
 // draw a single robot
-void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam) {
+void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam, std::string role) {
     Vector2 robotpos = toScreenPosition(robot->getPos());
 
     // update the we are yellow
@@ -337,7 +342,7 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     // Todo : Get working stuff in RobotView
     if (showRobotInvalids && ourTeam) {
         painter.setPen(Qt::red);
-        std::string text;
+        QString text;
         if (!robot->isWorkingDribbler()) {
             text += "DR ";
         }
@@ -347,7 +352,8 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
         if (robot->isBatteryLow()) {
             text += "BATTERY LOW";
         }
-        painter.drawText(robotpos.x, ypos += 20, QString::fromStdString(text));
+        painter.drawText(robotpos.x, ypos += 20, text);
+        painter.drawText(robotpos.x, ypos + 10, QString::fromStdString(role));
     }
 
     // Todo : Get working feedback in RobotView
@@ -393,7 +399,7 @@ void Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView ro
     // draw the id in it
     painter.setPen(Qt::black);
     painter.setFont(QFont("ubuntu", 9));  // 22 is a number which you have to change
-    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::fromStdString(std::to_string(robot->getId())));
+    painter.drawText(robotpos.x - 3, robotpos.y + 5, QString::number(robot->getId()));
     painter.setFont(QFont("ubuntu", 11));  // 22 is a number which you have to change
 }
 
@@ -579,6 +585,11 @@ void Visualizer::drawRealLifeSizedPoints(QPainter &painter, std::vector<Vector2>
         Vector2 pointOnScreen = toScreenPosition(point);
         painter.drawEllipse(pointOnScreen.x - width / 2, pointOnScreen.y - height / 2, width, height);
     }
+}
+
+void Visualizer::setPlayForRobot(std::string const& view, uint8_t i) {
+    std::lock_guard mtx{ rolesUpdate };
+    rolesForRobots.insert({i, view});
 }
 
 }  // namespace rtt::ai::interface

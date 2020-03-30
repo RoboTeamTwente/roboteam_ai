@@ -87,17 +87,30 @@ class Play {
      */
     [[nodiscard]] bool arePlayRolesFinished();
 
-   protected:
+    /**
+     * @return The name of the current play
+     */
+    [[nodiscard]] std::string_view getName() const;
+
+    /**
+     * @return The internal role -> status mapping
+     */
+    [[nodiscard]] std::unordered_map<Role*, Status> const& getRoleStatuses() const;
+
+protected:
     std::string playName;
+
     /**
      * The roles, constructed in ctor of a play
      */
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
 
     /**
-     * Array that keeps track of the status of each role.
+     * Map that keeps track of the status of each role.
+     * It's a Role*, because that's hashable and only 1
+     * instance exists of each role
      */
-    std::vector<Status> roleStatuses;
+    std::unordered_map<Role*, Status> roleStatuses;
 
     /**
      * The stpInfos, constructed in distributeRoles

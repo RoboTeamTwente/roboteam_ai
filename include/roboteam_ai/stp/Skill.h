@@ -18,6 +18,11 @@ namespace rtt::ai::stp {
 class Skill {
    protected:
     /**
+     * Current status of the last time update() was called
+     */
+    Status currentStatus;
+
+    /**
      * Robot command that will be used for operations, such as publishing
      */
     proto::RobotCommand command;
@@ -26,12 +31,6 @@ class Skill {
      * Robot view, which should be set from the SkillInfo
      */
     std::optional<world_new::view::RobotView> robot;
-
-    /**
-     * Gets the name of the skill, must be a literal
-     * @return [{additional_info}] {class_name}
-     */
-    constexpr const char* name() const noexcept;
 
     /**
      * Publishes the current robot command, limits it and refreshes it
@@ -88,6 +87,18 @@ class Skill {
     void refreshRobotPositionControllers() const noexcept;
 
    public:
+    /**
+     * Gets the name of the skill, must be a literal
+     * @return [{additional_info}] {class_name}
+     */
+    std::string_view name() const noexcept;
+
+    /**
+     * Gets the status from the last time update() was called
+     * @return this->currentStatus
+     */
+    [[nodiscard]] Status getStatus() const;
+
     /**
      * Calls onInitialize
      * @return Status of initialization

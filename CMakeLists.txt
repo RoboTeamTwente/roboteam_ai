@@ -189,6 +189,7 @@ set(NEW_TACTICS_SOURCES
 set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/TestRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Attacker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PassReceiver.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
@@ -200,6 +201,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         src/stp/invariants/WeHaveBallInvariant.cpp include/roboteam_ai/stp/invariants/WeHaveBallInvariant.h src/stp/invariants/HaltGameStateInvariant.cpp include/roboteam_ai/stp/invariants/HaltGameStateInvariant.h)
@@ -295,7 +297,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/TreeVisualizerWidget.cpp
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/STPVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RobotsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidBox.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidsWidget.cpp
@@ -314,7 +316,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/STPVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h

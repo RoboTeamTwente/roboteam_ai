@@ -13,6 +13,7 @@
 #include <world_new/World.hpp>
 #include <stp/new_plays/Halt.h>
 #include "stp/new_plays/Pass.h"
+#include "stp/new_plays/Attack.h"
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
@@ -31,10 +32,11 @@ void ApplicationManager::start() {
     RTT_INFO("Waiting for field_data and robots...");
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
-
 
     playChecker.setPlays(plays);
 
@@ -227,6 +229,12 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }
+
     currentPlay->update();
+    mainWindow->updatePlay(currentPlay);
 }
+
+    ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) {
+        this->mainWindow = mainWindow;
+    }
 }  // namespace rtt
