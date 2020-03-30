@@ -27,10 +27,10 @@ void Formation::onTerminate() noexcept {
 StpInfo Formation::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    // Rotate robot towards the ball
+    // Be 100% sure the angle is 0 during the formation
     skillStpInfo.setAngle(0);
 
-    // If ball is close to robot, turn on dribbler
+    // Be 100% sure the dribbler is of during the formation
     skillStpInfo.setDribblerSpeed(0);
 
     return skillStpInfo;
@@ -42,7 +42,7 @@ bool Formation::isTacticFailing(const StpInfo &info) noexcept {
 }
 
 bool Formation::shouldTacticReset(const StpInfo &info) noexcept {
-    // Formation tactic resets when robot position is not close enough to the target position for receiving
+    // Formation tactic resets when robot position is not close enough to the target position
     double errorMargin = stp::control_constants::GO_TO_POS_ERROR_MARGIN;
     return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
 }

@@ -37,14 +37,14 @@ class Formation : public Tactic {
     StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
-     * Tactic fails if targetType is not a receiveTarget
+     * Tactic fails if target type is not a move target
      * @param info Info
-     * @return True if targetType is not a receiveTarget
+     * @return True if target type is not a move target
      */
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
     /**
-     * Reset tactic when robot position is not close enough to the target position for receiving
+     * Reset tactic when robot position is not close enough to the target position
      * @param info Info
      * @return True if robot position is not close enough to the target position
      */
