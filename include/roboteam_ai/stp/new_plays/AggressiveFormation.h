@@ -1,20 +1,20 @@
 //
-// Created by timo on 3/27/20.
+// Created by timo on 3/30/20.
 //
 
-#ifndef RTT_DEFAULTFORMATION_H
-#define RTT_DEFAULTFORMATION_H
+#ifndef RTT_AGGRESSIVEFORMATION_H
+#define RTT_AGGRESSIVEFORMATION_H
 
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
-class DefaultFormation : public Play {
+class AggressiveFormation : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    DefaultFormation(std::string playName);
+    AggressiveFormation(std::string playName);
 
     bool isValidPlayToStart(world_new::World* world) noexcept override;
 
@@ -46,4 +46,4 @@ class DefaultFormation : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_DEFAULTFORMATION_H
+#endif  // RTT_AGGRESSIVEFORMATION_H

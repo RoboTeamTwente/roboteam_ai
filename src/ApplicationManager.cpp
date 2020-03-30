@@ -7,15 +7,16 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
+#include <stp/new_plays/Halt.h>
 #include <stp/new_plays/TestPlay.h>
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
-#include <stp/new_plays/Halt.h>
-#include "stp/new_plays/Pass.h"
-#include "stp/new_plays/DefaultFormation.h"
 
 #include "roboteam_utils/normalize.h"
+#include "stp/new_plays/AggressiveFormation.h"
+#include "stp/new_plays/DefensiveFormation.h"
+#include "stp/new_plays/Pass.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -35,7 +36,8 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefaultFormation>("Default Formation"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>("Default Formation"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>("Aggressive Formation"));
 
     playChecker.setPlays(plays);
 
