@@ -22,7 +22,6 @@ public:
     explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
 
     std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
-    std::chrono::steady_clock::time_point begin;
     int programIndex{};
 
 private:
