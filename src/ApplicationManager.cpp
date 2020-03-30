@@ -31,6 +31,7 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
+    begin = std::chrono::steady_clock::now();
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
