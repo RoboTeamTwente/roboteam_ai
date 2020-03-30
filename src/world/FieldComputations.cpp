@@ -300,8 +300,8 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoalByObstacles(const Fiel
  * Get the visible parts of a goal
  * This is the inverse of getting the blockades of a goal
  */
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
-    return getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getUs());
+std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, const world_new::view::WorldDataView &world) {
+    return getVisiblePartsOfGoalByObstacles(field, ourGoal, point, world.getThem());
 }
 
 

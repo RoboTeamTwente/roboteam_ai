@@ -4,6 +4,7 @@
 
 #ifndef RTT_ROLE_HPP
 #define RTT_ROLE_HPP
+
 #include <utility>
 #include <vector>
 
@@ -14,38 +15,57 @@ namespace rtt::ai::stp {
  * Role class used in STP, pretty self explanatory
  * essentially a state machine of Tactics
  */
-class Role {
-   public:
-    Role(std::string name)
-        : roleName{std::move(name)} {} /**
-                                        * Function that's called every tick, default implementation is robotTactics.update();
-                                        * @param info TacticInfo to be passed to update()
-                                        * @return The status that the current tactic returns
-                                        */
-              [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
+    class Role {
+    public:
+        Role(std::string name)
+                : roleName{std::move(name)} {}
 
-    /**
-     * @return True if all tactics returned Status::finish
-     */
-    [[nodiscard]] bool finished() const noexcept;
+        /**
+         * Function that's called every tick, default implementation is robotTactics.update();
+         * @param info TacticInfo to be passed to update()
+         * @return The status that the current tactic returns
+         */
+        [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
 
-    /**
-     * Gets the name
-     * @return name of the role
-     */
-    std::string getName() { return roleName; }
+        /**
+         * @return True if all tactics returned Status::finish
+         */
+        [[nodiscard]] bool finished() const noexcept;
 
-   protected:
-    /**
-     * Name of the role
-     */
-    std::string roleName{};
+        /**
+         * Gets the name
+         * @return name of the role
+         */
+        std::string getName() { return roleName; }
 
-    /**
-     * State machine that keeps track of tactic states
-     */
-    collections::state_machine<Tactic, Status, StpInfo> robotTactics;
-};
+        /**
+         * Gets the current robot
+         * @return view to the robot this role belongs to, optional.
+         */
+         [[nodiscard]] std::optional<world_new::view::RobotView> const& getCurrentRobot() const;
+
+         /**
+          * Gets the tactic whose turn it is
+          * @return Tactic*
+          */
+          [[nodiscard]] Tactic* getCurrentTactic();
+
+    protected:
+        /**
+         * Robot to which this role is currently assigned
+         */
+        std::optional<world_new::view::RobotView> currentRobot;
+
+        /**
+         * Name of the role
+         */
+        std::string roleName{};
+
+        /**
+         * State machine that keeps track of tactic states
+         */
+        collections::state_machine<Tactic, Status, StpInfo> robotTactics;
+    };
 }  // namespace rtt::ai::stp
 
 #endif  // RTT_ROLE_HPP

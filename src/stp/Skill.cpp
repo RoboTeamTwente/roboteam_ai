@@ -103,11 +103,17 @@ void Skill::terminate() noexcept { onTerminate(); }
 
 Status Skill::update(StpInfo const& info) noexcept {
     robot = info.getRobot();
-    return onUpdate(info);
+    auto result = onUpdate(info);
+    currentStatus = result;
+    return result;
 }
 
 void Skill::initialize() noexcept { onInitialize(); }
 
-constexpr const char* Skill::name() const noexcept { return "[abc] Skill"; }
+std::string_view Skill::name() const noexcept { return "[abc] Skill"; }
+
+[[nodiscard]] Status Skill::getStatus() const {
+    return currentStatus;
+}
 
 }  // namespace rtt::ai::stp
