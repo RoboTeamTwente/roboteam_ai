@@ -18,7 +18,6 @@ class AlwaysValid : public rtt::ai::stp::Play {
     void calculateInfoForRoles() noexcept override {}
 
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
     bool shouldRoleSkipEndTactic() override { return false; }
 };
 
@@ -32,7 +31,6 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     void calculateInfoForRoles() noexcept override {}
 
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return false; }
     bool shouldRoleSkipEndTactic() override { return false; }
 };
 

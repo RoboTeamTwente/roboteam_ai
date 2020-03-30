@@ -6,6 +6,6 @@
 
 namespace rtt::ai::stp::invariant {
     bool HaltGameStateInvariant::checkInvariant(world_new::view::WorldDataView world) const noexcept {
-        GameStateManager::getCurrentGameState().getRuleSet()
+        return GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel == 0;
     }
 }
