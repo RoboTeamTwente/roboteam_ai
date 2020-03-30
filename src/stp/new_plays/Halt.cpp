@@ -36,7 +36,7 @@ namespace rtt::ai::stp::play {
 
         flagMap.insert({"halt_0", {closeToBallFlag}});
         flagMap.insert({"halt_1", {closeToTheirGoalFlag}});
-        flagMap.insert({"halt_2", {notImportant}});
+/*        flagMap.insert({"halt_2", {notImportant}});
         flagMap.insert({"halt_3", {closeToTheirGoalFlag}});
         flagMap.insert({"halt_4", {closeToBallFlag}});
         flagMap.insert({"halt_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -44,7 +44,7 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"halt_7", {closeToTheirGoalFlag}});
         flagMap.insert({"halt_8", {closeToTheirGoalFlag, closeToBallFlag}});
         flagMap.insert({"halt_9", {closeToBallFlag}});
-        flagMap.insert({"halt_10", {closeToTheirGoalFlag}});
+        flagMap.insert({"halt_10", {closeToTheirGoalFlag}});*/
         return flagMap;
     }
 

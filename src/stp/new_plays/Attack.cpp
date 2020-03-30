@@ -30,8 +30,8 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     flagMap.insert({"attacker", {closeToBallFlag}});
-    /*flagMap.insert({"test_role_1", {notImportant}});
-    flagMap.insert({"test_role_2", {notImportant}});
+    flagMap.insert({"test_role_1", {notImportant}});
+    /*flagMap.insert({"test_role_2", {notImportant}});
     flagMap.insert({"test_role_3", {notImportant}});
     flagMap.insert({"test_role_4", {notImportant}});
     flagMap.insert({"test_role_5", {notImportant}});
@@ -53,6 +53,7 @@ void Attack::calculateInfoForRoles() noexcept {
         stpInfos["attacker"].setPositionToShootAt(goalTarget);
         stpInfos["attacker"].setKickChipType(MAX);
     }
+    if (stpInfos.find("test_role_1") != stpInfos.end()) stpInfos["test_role_1"].setPositionToMoveTo(Vector2{4, 4});
 }
 
 Vector2 Attack::calculateGoalTarget() noexcept {

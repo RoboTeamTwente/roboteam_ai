@@ -7,15 +7,15 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
+#include <stp/new_plays/Halt.h>
 #include <stp/new_plays/TestPlay.h>
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
-#include <stp/new_plays/Halt.h>
-#include "stp/new_plays/Pass.h"
-#include "stp/new_plays/Attack.h"
 
 #include "roboteam_utils/normalize.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_plays/Pass.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -31,14 +31,15 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
-    auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    begin = std::chrono::steady_clock::now();
+    plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
 
-    playChecker.setPlays(plays);
+    //playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -220,21 +221,54 @@ void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
 }
 
 void ApplicationManager::decidePlay(world_new::World *_world) {
-    playChecker.update(_world);
+    //playChecker.update(_world);
+
+    auto end = std::chrono::steady_clock::now();
+    auto diff = std::chrono::duration<double>{end - begin};
+
+    if (programIndex == 0) {
+        currentPlay = plays[3].get();
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
+        begin = std::chrono::steady_clock::now();
+        ++programIndex;
+    } else if (diff.count() > 10 && programIndex == 1) {
+        currentPlay = plays[1].get();
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
+        begin = std::chrono::steady_clock::now();
+        ++programIndex;
+    } else if (diff.count() > 10 && programIndex == 2) {
+        currentPlay = plays[2].get();
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
+        begin = std::chrono::steady_clock::now();
+        ++programIndex;
+    } else if (diff.count() > 10 && programIndex == 3) {
+        currentPlay = plays[1].get();
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
+        begin = std::chrono::steady_clock::now();
+        ++programIndex;
+    } else if (diff.count() > 10 && programIndex == 4) {
+        currentPlay = plays[3].get();
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
+        begin = std::chrono::steady_clock::now();
+        ++programIndex;
+    }
 
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
-        currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
-        currentPlay->updateWorld(_world);
-        currentPlay->initialize();
-    }
+    /*    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
+            currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
+            currentPlay->updateWorld(_world);
+            currentPlay->initialize();
+        }*/
 
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }
 
-    ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) {
-        this->mainWindow = mainWindow;
-    }
+ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 }  // namespace rtt
