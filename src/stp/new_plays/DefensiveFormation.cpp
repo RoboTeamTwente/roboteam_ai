@@ -3,12 +3,17 @@
 //
 
 #include "stp/new_plays/DefensiveFormation.h"
+#include "stp/invariants/WeHaveBallInvariant.h"
 
 #include "stp/new_roles/Formation.h"
 
 namespace rtt::ai::stp::play {
 
 DefensiveFormation::DefensiveFormation(std::string playName) : Play(std::move(playName)) {
+    // TODO: decide invariants
+    invariants.clear();
+    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::Formation>(role::Formation("defender_0")),
         std::make_unique<role::Formation>(role::Formation("defender_1")),  std::make_unique<role::Formation>(role::Formation("defender_2")),
@@ -36,8 +41,6 @@ void DefensiveFormation::calculateInfoForRoles() noexcept {
 }
 
 bool DefensiveFormation::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
-bool DefensiveFormation::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
 
 bool DefensiveFormation::shouldRoleSkipEndTactic() { return false; }
 
