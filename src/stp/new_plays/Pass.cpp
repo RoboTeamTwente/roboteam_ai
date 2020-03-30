@@ -3,22 +3,20 @@
 //
 
 #include "stp/new_plays/Pass.h"
-
 #include <stp/new_roles/TestRole.h>
-
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-
+#include "pagmo/algorithms/pso.hpp"
 namespace rtt::ai::stp::play {
 
 Pass::Pass(std::string playName) : Play(playName) {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
-        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),
-        std::make_unique<TestRole>(TestRole("test_role_4")),    std::make_unique<TestRole>(TestRole("test_role_5")),
-        std::make_unique<TestRole>(TestRole("test_role_6")),    std::make_unique<TestRole>(TestRole("test_role_7")),
-        std::make_unique<TestRole>(TestRole("test_role_8")),    std::make_unique<TestRole>(TestRole("test_role_9")),
-        std::make_unique<TestRole>(TestRole("test_role_10"))};
+        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("defender2")),
+        std::make_unique<TestRole>(TestRole("defender3")),    std::make_unique<TestRole>(TestRole("defender4")),
+        std::make_unique<TestRole>(TestRole("defender5")),    std::make_unique<TestRole>(TestRole("defender6")),
+        std::make_unique<TestRole>(TestRole("defender7")),    std::make_unique<TestRole>(TestRole("defender8")),
+        std::make_unique<TestRole>(TestRole("defender9"))};
 }
 
 uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
@@ -32,14 +30,14 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
     flagMap.insert({"defender1", {notImportant}});
-    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_4", {closeToBallFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_6", {closeToBallFlag}});
-    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender2", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender3", {closeToBallFlag}});
+    flagMap.insert({"defender4", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"defender5", {closeToBallFlag}});
+    flagMap.insert({"defender6", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender7", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"defender8", {closeToBallFlag}});
+    flagMap.insert({"defender9", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -87,6 +85,10 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     }
 
     return positions;
+}
+Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
+    auto pso = pagmo::pso();
+    pso.evolve()
 }
 
 bool Pass::isValidPlayToStart(world_new::World* world) noexcept { return true; }

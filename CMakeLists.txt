@@ -204,7 +204,9 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         )
-
+set(NEW_PLAYS_ANALYSIS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassPopulation.cpp
+        )
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
         ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
@@ -369,6 +371,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        ${NEW_PLAYS_ANALYSIS_SOURCES}
         )
 
 set(AI_LIBS
@@ -387,9 +390,14 @@ set(AI_INCLUDES
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
+
+# Look for an installation of pagmo in the system.
+find_package(Pagmo REQUIRED PATHS /home/jesse/.local/lib/cmake/pagmo)
+
 # Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
-target_link_libraries(roboteam_ai ${AI_LIBS})
+target_link_libraries(roboteam_ai ${AI_LIBS} Pagmo::pagmo)
+
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #

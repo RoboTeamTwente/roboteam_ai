@@ -52,6 +52,8 @@ class Pass : public Play {
 
    protected:
     bool shouldRoleSkipEndTactic() override;
+
+    Vector2 calculatePositionToPassTo(world_new::World *world, std::vector<world_new::view::RobotView> enemyRobots);
 };
 }  // namespace rtt::ai::stp::play
 
