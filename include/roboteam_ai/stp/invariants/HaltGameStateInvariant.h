@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp::invariant {
 class HaltGameStateInvariant : public BaseInvariant {
-    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world) const noexcept override;
+    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept override;
 };
 }
 
