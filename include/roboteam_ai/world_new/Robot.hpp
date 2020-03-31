@@ -54,10 +54,10 @@ class Robot {
     double timeDribblerChanged = 0;
     constexpr static double timeToChangeOneDribblerLevel = 0.18;
     bool workingDribbler;
-    bool workingBallSensor;
+    bool workingBallSensor{};
 
-    bool seesBall;
-    float ballPos;
+    bool seesBall{};
+    float ballPos{};
 
    private:
     void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
