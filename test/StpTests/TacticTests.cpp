@@ -57,6 +57,8 @@ public:
     bool isEndTactic() noexcept override {
         return isEndTacticMock();
     }
+
+    const char *getName() override {}
 };
 
 //TODO: nice to have, but too much for this: a before for each test case; see junit for details
