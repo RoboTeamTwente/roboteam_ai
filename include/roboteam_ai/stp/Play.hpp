@@ -74,13 +74,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToStart(world_new::World* world) noexcept;
+    [[nodiscard]] bool isValidPlayToStart(world_new::World* world) const noexcept;
 
     /**
      * Check if the invariants for the play to keep running are true
      * @return
      */
-    [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept;
+    [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) const noexcept;
 
     /**
      * @return true if all roles are finished

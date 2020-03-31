@@ -111,12 +111,12 @@ std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
     return roleStatuses;
 }
 
-bool Play::isValidPlayToKeep(world_new::World *world) noexcept {
+bool Play::isValidPlayToKeep(world_new::World *world) const noexcept {
     world::Field field = world->getField().value();
     return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
 }
 
-bool Play::isValidPlayToStart(world_new::World *world) noexcept {
+bool Play::isValidPlayToStart(world_new::World *world) const noexcept {
     world::Field field = world->getField().value();
     return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
 }
