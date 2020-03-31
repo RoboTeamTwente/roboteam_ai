@@ -63,4 +63,8 @@ bool DriveWithBall::isEndTactic() noexcept {
     return false;
 }
 
+const char *DriveWithBall::getName() {
+    return "Drive With Ball";
+}
+
 }  // namespace rtt::ai::stp::tactic

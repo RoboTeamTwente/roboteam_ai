@@ -66,6 +66,11 @@ class Intercept : public Tactic {
      * @return Dribbler speed in %
      */
     int determineDribblerSpeed(const world_new::view::RobotView &robot);
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
 }  // namespace rtt::ai::stp::tactic
 

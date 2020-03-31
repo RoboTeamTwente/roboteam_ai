@@ -91,4 +91,9 @@ bool ChipAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Never reset tactic
     return false;
 }
+
+const char *ChipAtPos::getName() {
+    return "Chip At Pos";
+}
+
 }  // namespace rtt::ai::stp::tactic

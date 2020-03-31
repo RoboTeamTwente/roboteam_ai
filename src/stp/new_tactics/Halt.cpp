@@ -6,31 +6,36 @@
 #include "stp/new_skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
-    Halt::Halt() {
-        skills = collections::state_machine<Skill, Status, StpInfo>{skill::Rotate()};
-        skills.initialize();
-    }
 
-    void Halt::onInitialize() noexcept {}
+Halt::Halt() {
+    skills = collections::state_machine<Skill, Status, StpInfo>{skill::Rotate()};
+    skills.initialize();
+}
 
-    void Halt::onUpdate(Status const &status) noexcept {}
+void Halt::onInitialize() noexcept {}
 
-    void Halt::onTerminate() noexcept {}
+void Halt::onUpdate(Status const &status) noexcept {}
 
-    StpInfo Halt::calculateInfoForSkill(StpInfo const &info) noexcept {
-        StpInfo skillInfo = info;
-        skillInfo.setAngle(0);
+void Halt::onTerminate() noexcept {}
 
-        return skillInfo;
-    }
+StpInfo Halt::calculateInfoForSkill(StpInfo const &info) noexcept {
+    StpInfo skillInfo = info;
+    skillInfo.setAngle(0);
 
-    bool Halt::isTacticFailing(const StpInfo &info) noexcept { return false; }
+    return skillInfo;
+}
 
-    bool Halt::shouldTacticReset(const StpInfo &info) noexcept { return false; }
+bool Halt::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-    bool Halt::isEndTactic() noexcept {
-        // This is an end tactic
-        return true;
-    }
+bool Halt::shouldTacticReset(const StpInfo &info) noexcept { return false; }
+
+bool Halt::isEndTactic() noexcept {
+    // This is an end tactic
+    return true;
+}
+
+const char *Halt::getName() {
+    return "Halt";
+}
 
 }  // namespace rtt::ai::stp::tactic

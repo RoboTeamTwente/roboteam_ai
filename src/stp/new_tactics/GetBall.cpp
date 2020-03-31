@@ -46,4 +46,8 @@ bool GetBall::isEndTactic() noexcept {
     return false;
 }
 
+const char *GetBall::getName() {
+    return "Get Ball";
+}
+
 }  // namespace rtt::ai::stp::tactic

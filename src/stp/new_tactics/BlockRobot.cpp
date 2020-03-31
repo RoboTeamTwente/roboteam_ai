@@ -57,4 +57,9 @@ bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
     auto cond = (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
     return cond;
 }
+
+const char *BlockRobot::getName() {
+    return "Block Robot";
+}
+
 }  // namespace rtt::ai::stp::tactic
