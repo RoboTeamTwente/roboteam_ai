@@ -3,11 +3,12 @@
 //
 
 #include <gtest/gtest.h>
+
 #include <stp/PlayChecker.hpp>
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
-    AlwaysValid(std::string playName) : Play(playName) {}
+    AlwaysValid() : Play() {}
 
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
@@ -16,11 +17,13 @@ class AlwaysValid : public rtt::ai::stp::Play {
 
     bool shouldRoleSkipEndTactic() override { return false; }
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
+
+    const char *getName() override { return "Always Valid Play"; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
-public:
-    AlwaysFalse(std::string playName) : Play(playName) {}
+   public:
+    AlwaysFalse() : Play() {}
     uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
@@ -28,7 +31,10 @@ public:
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
+
     bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
+
+    const char *getName() override { return "Always Invalid Play"; }
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {
@@ -40,9 +46,9 @@ TEST(PlayCheckerTests, testSetPlays) {
 
     PlayChecker checker{};
     std::vector<std::unique_ptr<Play>> plays;
-    plays.emplace_back(std::make_unique<AlwaysValid>("always valid"));
-    plays.emplace_back(std::make_unique<AlwaysFalse>("always not valid"));
-    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>("another always valid"));
+    plays.emplace_back(std::make_unique<AlwaysValid>());
+    plays.emplace_back(std::make_unique<AlwaysFalse>());
+    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
     checker.setPlays(plays);
 }
@@ -52,9 +58,9 @@ TEST(PlayCheckerTests, testValidCount) {
 
     PlayChecker checker{};
     std::vector<std::unique_ptr<Play>> plays;
-    plays.emplace_back(std::make_unique<AlwaysValid>("always valid"));
-    plays.emplace_back(std::make_unique<AlwaysFalse>("always not valid"));
-    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>("another always valid"));
+    plays.emplace_back(std::make_unique<AlwaysValid>());
+    plays.emplace_back(std::make_unique<AlwaysFalse>());
+    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
     checker.setPlays(plays);
 

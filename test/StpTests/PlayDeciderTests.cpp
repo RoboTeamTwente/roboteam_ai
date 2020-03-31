@@ -9,29 +9,33 @@
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
-    AlwaysValid(std::string playName) : Play(playName) {}
+    AlwaysValid() : Play() {}
 
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
-
     void calculateInfoForRoles() noexcept override {}
 
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
     bool shouldRoleSkipEndTactic() override { return false; }
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
+
+    const char *getName() override { return "Always Valid Play"; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
    public:
-    AlwaysFalse(std::string playName) : Play(playName) {}
+    AlwaysFalse() : Play() {}
     uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
     void calculateInfoForRoles() noexcept override {}
 
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
     bool shouldRoleSkipEndTactic() override { return false; }
+
+    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
+
+    const char *getName() override { return "Always Invalid Play"; }
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {
@@ -43,9 +47,9 @@ TEST(PlayCheckerTests, testHighestScore) {
 
     PlayChecker checker{};
     std::vector<std::unique_ptr<Play>> plays;
-    plays.emplace_back(std::make_unique<AlwaysValid>("Always Valid"));
-    plays.emplace_back(std::make_unique<AlwaysFalse>("Always False"));
-    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>("Also Always Valid"));
+    plays.emplace_back(std::make_unique<AlwaysValid>());
+    plays.emplace_back(std::make_unique<AlwaysFalse>());
+    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
     checker.setPlays(plays);
 
