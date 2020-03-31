@@ -10,7 +10,6 @@ namespace rtt::ai::stp::tactic {
 
 BlockRobot::BlockRobot() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 void BlockRobot::onInitialize() noexcept {}
