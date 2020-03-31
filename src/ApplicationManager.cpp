@@ -7,15 +7,15 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
+#include <stp/new_plays/Halt.h>
 #include <stp/new_plays/TestPlay.h>
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
-#include <stp/new_plays/Halt.h>
-#include "stp/new_plays/Pass.h"
-#include "stp/new_plays/Attack.h"
 
 #include "roboteam_utils/normalize.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_plays/Pass.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -225,7 +225,14 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
     if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
-        currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
+        auto validPlays = playChecker.getValidPlays();
+        if (validPlays.empty()) {
+            RTT_ERROR("No valid plays")
+            // TODO: maybe we want to assign some default play (halt?) when there are no valid plays
+            currentPlay = nullptr;
+            return;
+        }
+        currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }
@@ -234,7 +241,5 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
     mainWindow->updatePlay(currentPlay);
 }
 
-    ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) {
-        this->mainWindow = mainWindow;
-    }
+ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 }  // namespace rtt

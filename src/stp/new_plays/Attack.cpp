@@ -10,9 +10,13 @@
 namespace rtt::ai::stp::play {
 
 Attack::Attack(std::string playName) : Play(playName) {
-    // TODO: decide invariants
-    invariants.clear();
-    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
@@ -120,8 +124,6 @@ const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
     }
     return openSegments[bestIndex];
 }
-
-bool Attack::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool Attack::shouldRoleSkipEndTactic() { return false; }
 
