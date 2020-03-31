@@ -2,6 +2,7 @@
 // Created by jordi on 24-03-20.
 //
 
+#include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_roles/Attacker.h"
 #include "stp/new_roles/TestRole.h"
@@ -9,6 +10,10 @@
 namespace rtt::ai::stp::play {
 
 Attack::Attack(std::string playName) : Play(playName) {
+    // TODO: decide invariants
+    invariants.clear();
+    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
     // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Attacker>(role::Attacker("attacker")),   std::make_unique<TestRole>(TestRole("test_role_1")),
@@ -118,8 +123,6 @@ const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
 }
 
 bool Attack::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
-bool Attack::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
 
 bool Attack::shouldRoleSkipEndTactic() { return false; }
 

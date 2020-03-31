@@ -203,6 +203,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         )
 
 set(CONDITIONS_SOURCES
