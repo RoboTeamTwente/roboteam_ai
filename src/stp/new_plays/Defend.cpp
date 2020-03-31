@@ -63,8 +63,6 @@ void Defend::calculateInfoForRoles() noexcept {
 
 bool Defend::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
-bool Defend::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
-
 bool Defend::shouldRoleSkipEndTactic() { return false; }
 
 }  // namespace rtt::ai::stp::play
