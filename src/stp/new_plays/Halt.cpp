@@ -10,7 +10,7 @@
 #include "stp/new_roles/Halt.h"
 namespace rtt::ai::stp::play {
 
-    Halt::Halt(std::string playName) : Play(std::move(playName)) {
+    Halt::Halt() : Play() {
         invariants.clear();
         invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
@@ -51,5 +51,7 @@ namespace rtt::ai::stp::play {
         return flagMap;
     }
 
-
+const char *Halt::getName() {
+    return "Halt";
+}
 }  // namespace rtt::ai::stp::play

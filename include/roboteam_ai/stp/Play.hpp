@@ -63,7 +63,7 @@ class Play {
     /**
      * Ctor that constructs a play and assigns its name
      */
-    explicit Play(std::string playName);
+    Play() = default;
 
     /**
      * Default move-ctor, ensures proper move-construction of Play
@@ -88,18 +88,16 @@ class Play {
     [[nodiscard]] bool arePlayRolesFinished();
 
     /**
-     * @return The name of the current play
-     */
-    [[nodiscard]] std::string_view getName() const;
-
-    /**
      * @return The internal role -> status mapping
      */
     [[nodiscard]] std::unordered_map<Role*, Status> const& getRoleStatuses() const;
 
-protected:
-    std::string playName;
+    /**
+     * Gets the current play name
+     */
+    virtual const char* getName() = 0;
 
+protected:
     /**
      * The roles, constructed in ctor of a play
      */

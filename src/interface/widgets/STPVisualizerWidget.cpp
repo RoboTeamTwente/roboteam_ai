@@ -117,7 +117,7 @@ namespace rtt::ai::interface {
             return;
         }
 
-        updateContent << "Some(" << skill->name() << ") => ";
+        updateContent << "Some(" << skill->getName() << ") => ";
         outputStatus(skill->getStatus());
         updateContent << "<br><br>";
         if (!last) {

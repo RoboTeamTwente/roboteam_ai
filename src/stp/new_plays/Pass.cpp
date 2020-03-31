@@ -14,7 +14,7 @@
 
 namespace rtt::ai::stp::play {
 
-Pass::Pass(std::string playName) : Play(std::move(playName)) {
+Pass::Pass() : Play() {
     invariants.clear();
     invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
@@ -98,5 +98,9 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 bool Pass::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool Pass::shouldRoleSkipEndTactic() { return false; }
+
+const char *Pass::getName() {
+    return "Pass";
+}
 
 }  // namespace rtt::ai::stp::play

@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp::play {
 
-DefensiveFormation::DefensiveFormation(std::string playName) : Play(std::move(playName)) {
+DefensiveFormation::DefensiveFormation() : Play() {
     // TODO: decide invariants
     invariants.clear();
     invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
@@ -63,5 +63,8 @@ Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
     return flagMap;
+}
+const char *DefensiveFormation::getName() {
+    return "Defensive Formation";
 }
 }  // namespace rtt::ai::stp::play

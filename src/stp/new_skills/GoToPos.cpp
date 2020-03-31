@@ -55,4 +55,8 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
 void GoToPos::onTerminate() noexcept {}
 
+const char *GoToPos::getName() {
+    return "Go To Position";
+}
+
 }  // namespace rtt::ai::stp::skill

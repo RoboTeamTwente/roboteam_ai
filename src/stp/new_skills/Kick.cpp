@@ -29,4 +29,8 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
 void Kick::onTerminate() noexcept {}
 
+const char *Kick::getName() {
+    return "Kick";
+}
+
 }  // namespace rtt::ai::stp::skill
