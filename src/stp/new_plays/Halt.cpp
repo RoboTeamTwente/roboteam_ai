@@ -2,12 +2,18 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/Halt.h"
+#include "stp/new_plays/Halt.h"
 #include <stp/new_roles/TestRole.h>
+#include "stp/invariants/WeHaveBallInvariant.h"
+
+#include <utility>
 #include "stp/new_roles/Halt.h"
 namespace rtt::ai::stp::play {
 
-    Halt::Halt(std::string playName) : Play(playName) {
+    Halt::Halt(std::string playName) : Play(std::move(playName)) {
+        invariants.clear();
+        invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
                 std::make_unique<role::Halt>(role::Halt("halt_2")),    std::make_unique<role::Halt>(role::Halt("halt_3")),
@@ -23,8 +29,6 @@ namespace rtt::ai::stp::play {
 
 
     bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
-    bool Halt::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
 
     bool Halt::shouldRoleSkipEndTactic() { return false; }
 
