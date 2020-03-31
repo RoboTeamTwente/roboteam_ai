@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp::play {
 
-Attack::Attack(std::string playName) : Play(playName) {
+Attack::Attack(std::string playName) : Play(std::move(playName)) {
     // TODO: decide start invariants
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
