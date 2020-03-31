@@ -9,8 +9,6 @@
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() {
     skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-
-    skills.initialize();
 }
 
 void GetBall::onInitialize() noexcept {}

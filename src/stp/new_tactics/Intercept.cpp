@@ -12,7 +12,6 @@ namespace rtt::ai::stp::tactic {
 Intercept::Intercept() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 bool Intercept::isEndTactic() noexcept {
