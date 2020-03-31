@@ -23,7 +23,7 @@ void Play::update() noexcept {
     RTT_INFO("Play executing: ", playName)
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
-        RTT_WARNING("Reassigning bots");
+        RTT_WARNING("Reassigning bots")
 
         // Make sure we don't re assign with too many robots
         if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {

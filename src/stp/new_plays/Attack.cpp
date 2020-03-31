@@ -25,7 +25,7 @@ Attack::Attack(std::string playName) : Play(playName) {
 }
 
 // TODO: Determine score of play
-uint8_t Attack::score(world_new::World* world) noexcept { return 100; }
+uint8_t Attack::score(world_new::World*) noexcept { return 100; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -121,7 +121,7 @@ const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
     return openSegments[bestIndex];
 }
 
-bool Attack::isValidPlayToStart(world_new::World* world) noexcept { return true; }
+bool Attack::isValidPlayToStart(world_new::World*) noexcept { return true; }
 
 bool Attack::shouldRoleSkipEndTactic() { return false; }
 

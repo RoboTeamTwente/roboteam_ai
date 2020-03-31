@@ -33,10 +33,10 @@ void BallPossession::recomputeState(world_new::view::WorldDataView world, const 
         state = OURBALL;
     } else if ((theyAreClose && !weAreClose) || (world->getBall().value()->getPos().x < theirPossessionX)) {
         state = THEIRBALL;
-    } else if (weAreClose && theyAreClose) {
-        state = CONTENDEDBALL;
     } else if (weAreFar && theyAreFar) {
         state = LOOSEBALL;
+    } else {
+        state = CONTENDEDBALL;
     }
     // In the other cases we stay in the same state (so we do nothing).
 }

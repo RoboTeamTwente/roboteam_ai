@@ -80,7 +80,7 @@ std::vector<std::pair<int, double>> GameAnalyzer::getRobotsToPassTo(v::RobotView
 /// get the shortest distance to an enemy robot
 /// this is useful to check if a robot stands free
 double GameAnalyzer::shortestDistToEnemyRobot(v::RobotView robot, bool ourTeam, v::WorldDataView world) {
-    auto enemyRobots = ourTeam ? world.getThem() : world.getThem();
+    auto enemyRobots = ourTeam ? world.getUs() : world.getThem();
     Vector2 robotPos = robot->getPos();
     double shortestDist = INT_MAX;
     for (auto opponent : enemyRobots) {

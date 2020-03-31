@@ -27,8 +27,8 @@ namespace rtt {
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
-    RTT_INFO("Start looping");
-    RTT_INFO("Waiting for field_data and robots...");
+    RTT_INFO("Start looping")
+    RTT_INFO("Waiting for field_data and robots...")
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 

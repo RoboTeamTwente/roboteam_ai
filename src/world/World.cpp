@@ -111,7 +111,7 @@ World::BallPtr World::getBall() {
         return worldDataPtr->ball;
     }
 
-    RTT_WARNING("No ball existing in world!");
+    RTT_WARNING("No ball existing in world!")
     return nullptr;
 }
 

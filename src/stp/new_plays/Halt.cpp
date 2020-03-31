@@ -23,12 +23,12 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::Halt>(role::Halt("halt_10"))};
     }
 
-    uint8_t Halt::score(world_new::World* world) noexcept { return 14; }
+    uint8_t Halt::score(world_new::World*) noexcept { return 14; }
 
     void Halt::calculateInfoForRoles() noexcept { }
 
 
-    bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
+    bool Halt::isValidPlayToStart(world_new::World*) noexcept { return true; }
 
     bool Halt::shouldRoleSkipEndTactic() { return false; }
 

@@ -18,16 +18,9 @@ std::shared_ptr<PathPoint> PathPoint::backTrack(double backTime) {
 
 /// go back in the path until desired collision difference or until Root
 std::shared_ptr<PathPoint> PathPoint::backTrack(int maxCollisionDiff) {
-    if (!parent)
+    if (!parent || !maxCollisionDiff)
         return shared_from_this();
-    else if (maxCollisionDiff == 0)
-        return shared_from_this();
-    else
-        return parent->backTrack(collisions - parent->collisions);
-    if (collisions > parent->collisions)
-        return parent->backTrack(maxCollisionDiff - 1);
-    else
-        return parent->backTrack(maxCollisionDiff);
+    return parent->backTrack(collisions - parent->collisions);
 }
 
 /// go back in the path until desired time, collision difference or until Root

@@ -148,9 +148,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
     if (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) return true;
 
     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-    if (o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd)) return true;
-
-    return false;  // Doesn't fall in any of the above cases
+    return o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd);
 }
 
 // Computes the absolute difference between 2 angles (the shortest orientation direction)
@@ -316,7 +314,7 @@ const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector
 }
 
 Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
-                                                       double outOfFieldMargin) {
+                                                       double) {
     LineSegment shotLine(line.start, line.end + (line.end - line.start));
     Vector2 projectPos = shotLine.project(position);
     Vector2 closestPoint = projectPos;

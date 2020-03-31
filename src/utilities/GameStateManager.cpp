@@ -79,7 +79,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
                 cmd = RefCommand::BALL_PLACEMENT_THEM;
                 break;
             default: {
-                RTT_ERROR("Unknown refstate, halting all robots for safety!");
+                RTT_ERROR("Unknown refstate, halting all robots for safety!")
                 cmd = RefCommand::HALT;
                 break;
             }
@@ -141,7 +141,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
                 cmd = RefCommand::BALL_PLACEMENT_US;
                 break;
             default: {
-                RTT_ERROR("Unknown refstate, halting all robots for safety!");
+                RTT_ERROR("Unknown refstate, halting all robots for safety!")
                 cmd = RefCommand::HALT;
                 break;
             }
@@ -174,7 +174,7 @@ GameState GameStateManager::getCurrentGameState() {
 }
 
 void GameStateManager::forceNewGameState(RefCommand cmd, std::optional<world_new::view::BallView> ball) {
-    RTT_INFO("Forcing new refstate!");
+    RTT_INFO("Forcing new refstate!")
 
     // overwrite both the interface and the strategy manager.
     interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));

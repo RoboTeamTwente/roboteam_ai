@@ -30,7 +30,7 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world) {
     auto field = world_new::World::instance()->getField();
     if (!field){
-        RTT_ERROR("Could not get field!");
+        RTT_ERROR("Could not get field!")
         return;
     }
     auto us =world->getUs();

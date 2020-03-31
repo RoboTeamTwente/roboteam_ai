@@ -204,7 +204,7 @@ MidFieldCoach::Target MidFieldCoach::standFree(const Field &field, const world_n
         }
     }
 
-MidFieldCoach::Target MidFieldCoach::getBall(world_new::view::RobotView thisRobot, const world_new::view::RobotView opponent) {
+MidFieldCoach::Target MidFieldCoach::getBall(world_new::view::RobotView, const world_new::view::RobotView opponent) {
     Target target;
     target.targetRobot = opponent->getId();
     target.targetPosition = world_new::World::instance()->getWorld()->getBall().value()->getPos();
@@ -221,7 +221,7 @@ double MidFieldCoach::calculateStandingFreeScore(const Field &field, const Vecto
     return passLineScore + distanceToUsScore + distanceToBallScore;
 }
 
-Vector2 MidFieldCoach::calculateNewRobotPosition(const Field &field, const world_new::view::RobotView thisRobot, Angle targetAngle) {
+Vector2 MidFieldCoach::calculateNewRobotPosition(const Field &field, const world_new::view::RobotView thisRobot, Angle) {
     Vector2 bestPosition = targetPositions[thisRobot->getId()];
     double highestScore = calculateStandingFreeScore(field, bestPosition, thisRobot);
 

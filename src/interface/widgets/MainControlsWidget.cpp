@@ -18,9 +18,10 @@ namespace rtt {
 namespace ai {
 namespace interface {
 
-MainControlsWidget::MainControlsWidget(QWidget *parent) {
+MainControlsWidget::MainControlsWidget(QWidget *parent) : QWidget(parent) {
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
+    // todo: 2 dropdown menus, fix them to reflect new STP
     vLayout = new QVBoxLayout();
 
     pauseBtn = new QPushButton("Stop");
