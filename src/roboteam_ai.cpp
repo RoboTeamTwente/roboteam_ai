@@ -7,10 +7,11 @@
 #include "interface/widgets/mainWindow.h"
 #include <roboteam_utils/Print.h>
 namespace ui = rtt::ai::interface;
-std::shared_ptr<ui::MainWindow> window;
+
+ui::MainWindow* window;
 
 void runBehaviourTrees() {
-    rtt::ApplicationManager app;
+    rtt::ApplicationManager app{ window };
     app.start();
     app.checkForShutdown();
 }
@@ -86,18 +87,17 @@ int main(int argc, char* argv[]) {
     BTFactory::makeTrees();
     while (!BTFactory::hasMadeTrees());
 
-    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
-
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
 
     // Todo make this a not-global-static thingy
     rtt::world_new::World* worldManager = rtt::world_new::World::instance();
-    window = std::make_shared<ui::MainWindow>(*worldManager);
+    window = new ui::MainWindow{ *worldManager };
     window->setWindowState(Qt::WindowMaximized);
 
-    window->show();
+    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
+    window->show();
     return a.exec();
 }

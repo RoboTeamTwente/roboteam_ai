@@ -18,8 +18,6 @@ class Pass : public Play {
 
     bool isValidPlayToStart(world_new::World* world) noexcept override;
 
-    bool isValidPlayToKeep(world_new::World* world) noexcept override;
-
     /**
      * Gets the score for the current play
      *

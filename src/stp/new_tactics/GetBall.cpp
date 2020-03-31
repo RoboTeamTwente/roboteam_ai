@@ -3,15 +3,12 @@
 //
 
 #include "stp/new_tactics/GetBall.h"
-#include <roboteam_utils/Print.h>
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() {
     skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-
-    skills.initialize();
 }
 
 void GetBall::onInitialize() noexcept {}

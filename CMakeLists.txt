@@ -203,6 +203,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         )
 set(NEW_PLAYS_ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
@@ -298,7 +300,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/TreeVisualizerWidget.cpp
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/STPVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RobotsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidBox.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidsWidget.cpp
@@ -317,7 +319,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/TreeVisualizerWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/STPVisualizerWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h

@@ -46,7 +46,7 @@ void Play::update() noexcept {
         // Update the roles
         if (stpInfos.find(role->getName()) != stpInfos.end()) {
             auto roleStatus = role->update(stpInfos[role->getName()]);
-            roleStatuses.emplace_back(roleStatus);
+            roleStatuses[role.get()] = roleStatus;
 
             if (roleStatus == Status::Waiting) {
                 // Should role skip end tactic?
@@ -62,7 +62,7 @@ void Play::update() noexcept {
 }
 
 bool Play::arePlayRolesFinished() {
-    return !roleStatuses.empty() && std::all_of(roleStatuses.begin(), roleStatuses.end(), [](Status s) { return s == Status::Success; });
+    return !roleStatuses.empty() && std::all_of(roleStatuses.begin(), roleStatuses.end(), [](auto& s) { return s.second == Status::Success; });
 }
 
 void Play::refreshData() noexcept {
@@ -103,5 +103,18 @@ void Play::distributeRoles() noexcept {
 }
 
 Play::Play(std::string playName) : playName{std::move(playName)} { }
+
+std::string_view Play::getName() const {
+    return playName;
+}
+
+std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
+    return roleStatuses;
+}
+
+bool Play::isValidPlayToKeep(world_new::World *world) noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(invariants.begin(), invariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+}
 
 }  // namespace rtt::ai::stp

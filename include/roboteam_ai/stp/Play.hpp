@@ -9,6 +9,7 @@
 #include <utilities/Dealer.h>
 
 #include <array>
+#include <include/roboteam_ai/stp/invariants/BaseInvariant.h>
 
 #include "Role.hpp"
 #include "world_new/World.hpp"
@@ -76,28 +77,40 @@ class Play {
     [[nodiscard]] virtual bool isValidPlayToStart(world_new::World* world) noexcept = 0;
 
     /**
-     * Check if the conditions for the play to keep running are true
-     * @param world
+     * Check if the invariants for the play to keep running are true
      * @return
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept = 0;
+    [[nodiscard]] bool isValidPlayToKeep(world_new::World *world) noexcept;
 
     /**
      * @return true if all roles are finished
      */
     [[nodiscard]] bool arePlayRolesFinished();
 
-   protected:
+    /**
+     * @return The name of the current play
+     */
+    [[nodiscard]] std::string_view getName() const;
+
+    /**
+     * @return The internal role -> status mapping
+     */
+    [[nodiscard]] std::unordered_map<Role*, Status> const& getRoleStatuses() const;
+
+protected:
     std::string playName;
+
     /**
      * The roles, constructed in ctor of a play
      */
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
 
     /**
-     * Array that keeps track of the status of each role.
+     * Map that keeps track of the status of each role.
+     * It's a Role*, because that's hashable and only 1
+     * instance exists of each role
      */
-    std::vector<Status> roleStatuses;
+    std::unordered_map<Role*, Status> roleStatuses;
 
     /**
      * The stpInfos, constructed in distributeRoles
@@ -114,6 +127,8 @@ class Play {
      * The Field
      */
     rtt::ai::Field field;
+
+    std::vector<std::unique_ptr<invariant::BaseInvariant>> invariants;
 
     /**
      * Decides the input to the robot dealer. The result will be used to distribute the roles

@@ -236,6 +236,12 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }
+
     currentPlay->update();
+    mainWindow->updatePlay(currentPlay);
 }
+
+    ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) {
+        this->mainWindow = mainWindow;
+    }
 }  // namespace rtt
