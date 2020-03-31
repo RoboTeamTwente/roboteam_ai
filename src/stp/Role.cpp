@@ -52,10 +52,6 @@ void Role::forceNextTactic() noexcept {
     robotTactics.skip_n(1);
 }
 
-void Role::forceToTactic(int n) noexcept {
-    robotTactics.skip_to(n);
-}
-
 std::optional<world_new::view::RobotView> const&Role::getCurrentRobot() const {
     return currentRobot;
 }

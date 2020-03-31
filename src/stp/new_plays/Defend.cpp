@@ -49,7 +49,8 @@ void Defend::calculateInfoForRoles() noexcept {
         if (stpInfos.find(roleName) != stpInfos.end()) {
             if (stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
                 && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-                role->forceToTactic(1);
+                // If current tactic is BlockRobot, force to tactic Intercept
+                if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
                 stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall().value()->getPos());
             } else {
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
