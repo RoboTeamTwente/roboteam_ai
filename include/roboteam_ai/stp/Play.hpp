@@ -9,6 +9,7 @@
 #include <utilities/Dealer.h>
 
 #include <array>
+#include <include/roboteam_ai/stp/invariants/BaseInvariant.h>
 
 #include "Role.hpp"
 #include "world_new/World.hpp"
@@ -76,11 +77,10 @@ class Play {
     [[nodiscard]] virtual bool isValidPlayToStart(world_new::World* world) noexcept = 0;
 
     /**
-     * Check if the conditions for the play to keep running are true
-     * @param world
+     * Check if the invariants for the play to keep running are true
      * @return
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept = 0;
+    [[nodiscard]] bool isValidPlayToKeep(world_new::World *world) noexcept;
 
     /**
      * @return true if all roles are finished
@@ -127,6 +127,8 @@ protected:
      * The Field
      */
     rtt::ai::Field field;
+
+    std::vector<std::unique_ptr<invariant::BaseInvariant>> invariants;
 
     /**
      * Decides the input to the robot dealer. The result will be used to distribute the roles

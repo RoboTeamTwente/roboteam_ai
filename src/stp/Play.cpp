@@ -112,4 +112,9 @@ std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
     return roleStatuses;
 }
 
+bool Play::isValidPlayToKeep(world_new::World *world) noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(invariants.begin(), invariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+}
+
 }  // namespace rtt::ai::stp
