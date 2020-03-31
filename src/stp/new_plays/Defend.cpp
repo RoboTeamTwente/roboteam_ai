@@ -2,6 +2,7 @@
 // Created by jordi on 27-03-20.
 //
 
+#include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/new_plays/Defend.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/TestRole.h"
@@ -11,6 +12,14 @@ namespace rtt::ai::stp::play {
 // TODO: Implement this play, this was just for testing purposes
 
 Defend::Defend(std::string playName) : Play(playName) {
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
             std::make_unique<role::Defender>(role::Defender("defender_1")), std::make_unique<role::Defender>(role::Defender("defender_2")),
             std::make_unique<TestRole>(TestRole("test_role_2")),      std::make_unique<TestRole>(TestRole("test_role_3")),
@@ -60,8 +69,6 @@ void Defend::calculateInfoForRoles() noexcept {
         }
     }
 }
-
-bool Defend::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool Defend::shouldRoleSkipEndTactic() { return false; }
 

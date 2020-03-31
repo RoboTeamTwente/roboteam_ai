@@ -58,7 +58,7 @@ public:
         return isEndTacticMock();
     }
 
-    const char *getName() override {}
+    const char *getName() override { return "Mock Tactic";}
 };
 
 //TODO: nice to have, but too much for this: a before for each test case; see junit for details
