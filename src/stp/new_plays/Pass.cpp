@@ -6,7 +6,10 @@
 #include <stp/new_roles/TestRole.h>
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-#include "pagmo/algorithms/pso.hpp"
+#include "pagmo/algorithms/pso_gen.hpp"
+#include "stp/new_plays_analysis/PassProblem.h"
+#include "pagmo/population.hpp"
+
 namespace rtt::ai::stp::play {
 
 Pass::Pass(std::string playName) : Play(playName) {
@@ -19,7 +22,7 @@ Pass::Pass(std::string playName) : Play(playName) {
         std::make_unique<TestRole>(TestRole("defender9"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 20; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -70,6 +73,8 @@ void Pass::calculateInfoForRoles() noexcept {
             stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
         }
     }
+
+    calculatePositionToPassTo(world, enemyRobots);
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
@@ -87,8 +92,20 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-    auto pso = pagmo::pso();
-    pso.evolve()
+    // Construct a pagmo::problem from our example problem.
+    pagmo::problem p{PassProblem{}};
+
+    // Fetch the lower/upper bounds for the first variable.
+    std::cout << "Lower bounds: [" << p.get_lb()[0] << "]\n";
+    std::cout << "Upper bounds: [" << p.get_ub()[0] << "]\n\n";
+
+    auto pso = pagmo::pso_gen(10);
+    pagmo::problem pro{PassProblem{}};
+    pagmo::population::size_type s = 10;
+    auto pop = pagmo::population(pro, s, 0);
+    auto evolved = pso.evolve(pop);
+    std::cout << evolved << std::endl;
+
 }
 
 bool Pass::isValidPlayToStart(world_new::World* world) noexcept { return true; }

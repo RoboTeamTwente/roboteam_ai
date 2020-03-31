@@ -205,7 +205,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         )
 set(NEW_PLAYS_ANALYSIS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassPopulation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
         )
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp

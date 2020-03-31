@@ -20,7 +20,7 @@ Attack::Attack(std::string playName) : Play(playName) {
 }
 
 // TODO: Determine score of play
-uint8_t Attack::score(world_new::World* world) noexcept { return 100; }
+uint8_t Attack::score(world_new::World* world) noexcept { return 10; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

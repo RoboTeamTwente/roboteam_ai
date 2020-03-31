@@ -44,6 +44,8 @@ void ApplicationManager::start() {
     roboteam_utils::Timer t;
     t.loop(
         [&]() {
+            auto begin = std::chrono::steady_clock::now();
+
             runOneLoopCycle();
             amountOfCycles++;
 
@@ -58,6 +60,11 @@ void ApplicationManager::start() {
 
             // publish settings, but limit this function call to only run 1 times/s at most
             t.limit([&]() { io::io.publishSettings(SETTINGS.toMessage()); }, 1);
+
+            auto end = std::chrono::steady_clock::now();
+            auto diff = std::chrono::duration<double>(end-begin);
+            std::cout << "tick duration: "<< diff.count() << std::endl;
+            std::cout << "tick allowed: " << 0.016 << std::endl;
         },
         ai::Constants::TICK_RATE());
 }
