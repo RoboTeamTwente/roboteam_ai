@@ -11,7 +11,6 @@ namespace rtt::ai::stp::tactic {
 Receive::Receive() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 void Receive::onInitialize() noexcept {}

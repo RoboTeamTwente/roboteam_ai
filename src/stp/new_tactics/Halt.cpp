@@ -9,7 +9,6 @@ namespace rtt::ai::stp::tactic {
 
 Halt::Halt() {
     skills = collections::state_machine<Skill, Status, StpInfo>{skill::Rotate()};
-    skills.initialize();
 }
 
 void Halt::onInitialize() noexcept {}

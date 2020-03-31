@@ -12,7 +12,6 @@ namespace rtt::ai::stp {
 TestTactic::TestTactic() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 void TestTactic::onInitialize() noexcept {}
