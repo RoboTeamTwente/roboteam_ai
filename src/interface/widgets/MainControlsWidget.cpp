@@ -4,17 +4,14 @@
 
 #include "interface/widgets/MainControlsWidget.h"
 
-#include <Switches.h>
 #include <include/roboteam_ai/interface/api/Input.h>
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <interface/api/Output.h>
-#include <treeinterp/BTFactory.h>
 #include <utilities/RobotDealer.h>
 
 #include <utilities/GameStateManager.hpp>
 
 #include "interface/widgets/mainWindow.h"
-#include "treeinterp/BTFactory.h"
 #include "utilities/GameState.h"
 
 namespace rtt {
@@ -53,9 +50,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent) {
     // get the strategy names from Switches
     select_strategy = new QComboBox();
     gameStateLayout->addWidget(select_strategy);
-    for (std::string const &strategyName : Switches::strategyJsonFileNames) {
-        select_strategy->addItem(QString::fromStdString(strategyName));
-    }
     select_strategy->setStyleSheet(
         QString::fromUtf8("QComboBox:disabled"
                           "{ color: gray }"));
@@ -65,9 +59,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent) {
     // get the keeper tree names from Switches
     select_keeper_strategy = new QComboBox();
     keeperHorizontalLayout->addWidget(select_keeper_strategy);
-    for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
-        select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
-    }
     select_keeper_strategy->setStyleSheet(
         QString::fromUtf8("QComboBox:disabled"
                           "{ color: gray }"));
@@ -220,16 +211,6 @@ void MainControlsWidget::setToggleSerialBtnLayout() const {
 }
 
 void MainControlsWidget::updateContents() {
-    auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
-    if (strategyText != select_strategy->currentText()) {
-        select_strategy->setCurrentText(strategyText);
-    }
-
-    auto keeperStrategyText = QString::fromStdString(BTFactory::getKeeperTreeName());
-    if (keeperStrategyText != select_keeper_strategy->currentText()) {
-        select_keeper_strategy->setCurrentText(keeperStrategyText);
-    }
-
     auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);
     if (ruleSetText != select_ruleset->currentText()) {
         select_ruleset->setCurrentText(ruleSetText);

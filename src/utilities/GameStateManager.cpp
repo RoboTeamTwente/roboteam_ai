@@ -1,9 +1,9 @@
 #include "utilities/GameStateManager.hpp"
 
 #include <include/roboteam_ai/utilities/Settings.h>
-#include <skills/Halt.h>
 #include <roboteam_utils/Print.h>
 #include <include/roboteam_ai/utilities/RobotDealer.h>
+#include <include/roboteam_ai/world_new/World.hpp>
 #include "interface/api/Output.h"
 
 namespace rtt::ai {

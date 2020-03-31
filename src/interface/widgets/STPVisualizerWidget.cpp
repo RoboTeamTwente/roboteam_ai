@@ -10,9 +10,7 @@
 #include "stp/Play.hpp"
 #include "stp/Role.hpp"
 #include "interface/widgets/STPVisualizerWidget.h"
-#include <treeinterp/BTFactory.h>
 #include <QtWidgets/QLayoutItem>
-#include <include/roboteam_ai/bt/Node.h>
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {

@@ -46,15 +46,6 @@ if (NOT SDL2_FOUND)
     message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
 endif ()
 
-set(JSON_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/treeinterp/TreeInterpreter.cpp
-        ${PROJECT_SOURCE_DIR}/src/treeinterp/BTFactory.cpp
-        ${PROJECT_SOURCE_DIR}/src/treeinterp/JsonReader.cpp
-        ${PROJECT_SOURCE_DIR}/src/treeinterp/PropertiesParser.cpp
-        ${PROJECT_SOURCE_DIR}/src/Switches.cpp
-        ${PROJECT_SOURCE_DIR}/src/treeinterp/OffensiveStrategy.cpp
-        )
-
 set(ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/analysis/GameAnalyzer.cpp
         ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
@@ -77,61 +68,6 @@ set(UTILS_SOURCES
 set(MANUAL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickManager.cpp
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickHandler.cpp
-        )
-
-set(SKILLS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/skills/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/SkillGoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Dribble.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/RotateToAngle.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/GetBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Pass.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Receive.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Harass.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Keeper.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/InterceptBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Attack.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/DribbleRotate.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/DribbleForward.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GTPSpecial.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GTPWithBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoAroundPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/AvoidBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/gotopos/GoBehindBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/PreparePenalty.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ShootPenalty.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ShootFreeKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/DemoAttack.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/FreeKickPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/MidFieldHarasser.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/SideAttacker.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/CoachDefend.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/SlingShot.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/InterceptRobot.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/PenaltyHelper.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ActiveStop.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ChipForward.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/TimeoutFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffUsFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/KickOffThemFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/PenaltyKeeper.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/PenaltyFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/FreeKickFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/DefendFreeKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ballPlacement/BallPlacementReceive.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/ballPlacement/BallPlacementPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/DriveWithInterface.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/BallPlacementWithInterface.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/Wait.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/KickTo.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/StopFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/skills/formations/BallPlacementFormation.cpp
         )
 
 set(NEW_SKILLS_SOURCES
@@ -177,34 +113,6 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         )
 
-set(CONDITIONS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsRobotClosestToBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/CanReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/Condition.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/TheyHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/WeHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallKickedToOurGoal.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallInDefenseAreaAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallOnOurSide.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsBeingPassedTo.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsCloseToPoint.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallOutOfField.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallCloseToBorder.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallNearOurGoalLineAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/HasClearShot.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/TwoRobotBallPlacement.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ShouldHandleBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsOnPassLine.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallIsClose.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/CanPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
-        )
-
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
         ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
@@ -236,12 +144,6 @@ set(CONTROL_SOURCES
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
         ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp

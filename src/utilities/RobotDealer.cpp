@@ -3,7 +3,6 @@
 #include "coach/BallplacementCoach.h"
 #include "coach/PassCoach.h"
 #include "control/ControlUtils.h"
-#include "treeinterp/BTFactory.h"
 
 namespace rtt::ai::robotDealer {
 
@@ -390,10 +389,8 @@ void RobotDealer::claimKeeper() {
 
 void RobotDealer::refresh() {
     halt();
-    if (BTFactory::getCurrentTree() != "NaN" && BTFactory::getTree(BTFactory::getCurrentTree())) {
-        BTFactory::getTree(BTFactory::getCurrentTree())->terminate(bt::Node::Status::Success);
-    }
-    if (keeperExistsInWorld()) claimKeeper();
+    if (keeperExistsInWorld())
+        claimKeeper();
 }
 
 bool RobotDealer::keeperExistsInWorld() {

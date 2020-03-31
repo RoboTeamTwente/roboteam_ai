@@ -1,9 +1,9 @@
 #include "interface/widgets/mainWindow.h"
 #include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
-#include <treeinterp/BTFactory.h>
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
+#include <include/roboteam_ai/utilities/RobotDealer.h>
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
@@ -166,13 +166,6 @@ void MainWindow::updateRobotsWidget() {
     if (currentWorld) {
         robotsWidget->updateContents(visualizer, *currentWorld);
     }
-}
-
-void MainWindow::refreshSignal() { robotDealer::RobotDealer::refresh(); }
-
-void MainWindow::refreshJSONSignal() {
-    BTFactory::makeTrees();
-    robotDealer::RobotDealer::refresh();
 }
 
 void MainWindow::updatePlay(stp::Play *play) {

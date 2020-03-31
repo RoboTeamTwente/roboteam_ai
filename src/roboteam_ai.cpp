@@ -84,9 +84,6 @@ int main(int argc, char* argv[]) {
 
     rtt::ai::io::io.init(rtt::SETTINGS.getId());
 
-    BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees());
-
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();

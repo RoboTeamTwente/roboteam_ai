@@ -5,6 +5,7 @@
 #ifndef RTT_GETBALL_H
 #define RTT_GETBALL_H
 
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {

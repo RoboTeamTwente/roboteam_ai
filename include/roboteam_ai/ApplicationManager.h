@@ -13,7 +13,6 @@
 #include <include/roboteam_ai/stp/PlayDecider.hpp>
 #include <include/roboteam_ai/interface/widgets/mainWindow.h>
 
-#include "treeinterp/BTFactory.h"
 #include "utilities/IOManager.h"
 namespace rtt {
 
@@ -25,9 +24,6 @@ private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
 
     int ticksFree = 0;
-    bt::BehaviorTree::Ptr strategy;
-    bt::BehaviorTree::Ptr keeperTree;
-    void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
     bool weHaveRobots = false;
     std::string oldKeeperTreeName = "";
@@ -61,9 +57,6 @@ private:
     void checkForShutdown();
     void checkForFreeRobots();
     void updateCoaches(const ai::world::Field& field) const;
-    void updateTrees();
-    bt::Node::Status runStrategyTree(const ai::world::Field& field);
-    void runKeeperTree(const ai::world::Field& field);
 };
 
 }  // namespace rtt

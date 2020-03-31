@@ -6,8 +6,10 @@
 #define RTT_BLOCKROBOT_H
 
 #include <include/roboteam_ai/stp/Tactic.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt::ai::stp::tactic {
+
 class BlockRobot : public Tactic {
    public:
     BlockRobot();

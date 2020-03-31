@@ -3,9 +3,6 @@
 ////
 //
 //#include <gtest/gtest.h>
-//#include <bt/tactics/DefaultTactic.h>
-//#include <Switches.h>
-//#include <treeinterp/BTFactory.h>
 //#include <world/World.h>
 //#include <utilities/RobotDealer.h>
 //#include <roboteam_ai/test/helpers/WorldHelper.h>
