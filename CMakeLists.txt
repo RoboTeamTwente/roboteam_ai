@@ -172,6 +172,7 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
+
 set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
@@ -184,6 +185,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Intercept.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -193,6 +195,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PassReceiver.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
         )
 
@@ -204,6 +207,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         )
