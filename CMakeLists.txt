@@ -194,6 +194,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Defender.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
         )
 
 set(NEW_PLAYS_SOURCES
