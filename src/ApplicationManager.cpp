@@ -13,10 +13,12 @@
 
 #include <stp/new_plays/TestPlay.h>
 #include "stp/new_plays/Pass.h"
+#include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
 #include <stp/new_plays/Halt.h>
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
+
 
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
@@ -40,9 +42,9 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>("Defend"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>("Defensive Formation"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>("Aggressive Formation"));
-
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;

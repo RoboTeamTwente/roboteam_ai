@@ -100,4 +100,9 @@ bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     }
     return false;
 }
+
+const char *KickAtPos::getName() {
+    return "Kick At Pos";
+}
+
 }  // namespace rtt::ai::stp::tactic

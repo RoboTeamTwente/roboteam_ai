@@ -45,4 +45,8 @@ bool TestTactic::isEndTactic() noexcept {
     return false;
 }
 
+const char *TestTactic::getName() {
+    return "Test Tactic";
+}
+
 }  // namespace rtt::ai::stp

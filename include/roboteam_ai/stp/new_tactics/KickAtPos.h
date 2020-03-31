@@ -49,6 +49,11 @@ class KickAtPos : public Tactic {
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
     bool shouldTacticReset(const StpInfo &info) noexcept override;
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
 }  // namespace rtt::ai::stp::tactic
 

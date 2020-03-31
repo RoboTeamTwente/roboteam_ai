@@ -59,4 +59,8 @@ int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
     return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
 }
 
+const char *Receive::getName() {
+    return "Receive";
+}
+
 }  // namespace rtt::ai::stp::tactic
