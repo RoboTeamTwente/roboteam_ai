@@ -52,4 +52,8 @@ bool Formation::isEndTactic() noexcept {
     return true;
 }
 
+const char *Formation::getName() {
+    return "Formation";
+}
+
 }  // namespace rtt::ai::stp::tactic
