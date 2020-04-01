@@ -15,8 +15,8 @@ Attack::Attack() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: decide keep invariants
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{

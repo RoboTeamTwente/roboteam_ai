@@ -16,8 +16,8 @@ Pass::Pass() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: decide keep invariants
-    keepPlayInvariants.clear();
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+/*    keepPlayInvariants.clear();
+    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),

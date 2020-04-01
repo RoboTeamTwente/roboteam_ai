@@ -15,8 +15,8 @@ AggressiveFormation::AggressiveFormation() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: decide keep invariants
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::Formation>(role::Formation("defender_0")),
@@ -27,7 +27,7 @@ AggressiveFormation::AggressiveFormation() : Play() {
         std::make_unique<role::Formation>(role::Formation("offender_3"))};
 }
 
-uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 19; }
+uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 101; }
 
 void AggressiveFormation::calculateInfoForRoles() noexcept {
     // TODO: TUNE these positions could probably be a bit better once we decide how we want to play

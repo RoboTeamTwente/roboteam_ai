@@ -14,8 +14,8 @@ namespace rtt::ai::stp::play {
         startPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
         // TODO: decide keep invariants
-        keepPlayInvariants.clear();
-        keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
+/*        keepPlayInvariants.clear();
+        keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());*/
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
