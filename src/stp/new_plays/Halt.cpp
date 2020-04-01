@@ -8,8 +8,8 @@
 
 namespace rtt::ai::stp::play {
 
-    Halt::Halt(std::string playName) : Play(std::move(playName)) {
-        // TODO: decide start invariants
+    Halt::Halt() : Play() {
+    // TODO: decide start invariants
         startPlayInvariants.clear();
         startPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
@@ -52,5 +52,7 @@ namespace rtt::ai::stp::play {
         return flagMap;
     }
 
-
+const char *Halt::getName() {
+    return "Halt";
+}
 }  // namespace rtt::ai::stp::play

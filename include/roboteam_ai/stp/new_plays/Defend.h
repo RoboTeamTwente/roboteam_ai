@@ -14,7 +14,7 @@ public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Defend(std::string playName);
+    Defend();
 
     /**
      * Gets the score for the current play
@@ -36,6 +36,11 @@ public:
      * Calculates info for the roles
      */
     void calculateInfoForRoles() noexcept override;
+
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
 
 protected:
     bool shouldRoleSkipEndTactic() override;

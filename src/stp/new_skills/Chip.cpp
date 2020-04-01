@@ -29,4 +29,8 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
 void Chip::onTerminate() noexcept {}
 
+const char *Chip::getName() {
+    return "Chip";
+}
+
 }  // namespace rtt::ai::stp::skill

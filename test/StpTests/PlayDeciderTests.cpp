@@ -18,7 +18,7 @@ class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
-    AlwaysValid(std::string playName) : Play(playName) {
+    AlwaysValid() : Play() {
         startPlayInvariants.emplace_back(std::make_unique<trueInvariant>());
     }
 
@@ -29,11 +29,13 @@ class AlwaysValid : public rtt::ai::stp::Play {
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
+
+    const char *getName() override { return "Always Valid Play"; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
    public:
-    AlwaysFalse(std::string playName) : Play(playName) {
+    AlwaysFalse() : Play() {
         startPlayInvariants.emplace_back(std::make_unique<falseInvariant>());
     }
 
@@ -44,6 +46,8 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     void calculateInfoForRoles() noexcept override {}
 
     bool shouldRoleSkipEndTactic() override { return false; }
+
+    const char *getName() override { return "Always Invalid Play"; }
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {
@@ -55,9 +59,9 @@ TEST(PlayCheckerTests, testHighestScore) {
 
     PlayChecker checker{};
     std::vector<std::unique_ptr<Play>> plays;
-    plays.emplace_back(std::make_unique<AlwaysValid>("Always Valid"));
-    plays.emplace_back(std::make_unique<AlwaysFalse>("Always False"));
-    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>("Also Always Valid"));
+    plays.emplace_back(std::make_unique<AlwaysValid>());
+    plays.emplace_back(std::make_unique<AlwaysFalse>());
+    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
     auto instance = rtt::world_new::World::instance();
 

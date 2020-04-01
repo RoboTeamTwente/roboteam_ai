@@ -74,6 +74,7 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::displayTactic(stp::Tactic *tactic, bool last) {
+        updateContent << "Tactic: ";
         if (!tactic) {
             updateContent << "None<br>" << tab << tab;
             return;
@@ -86,6 +87,7 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::displayRole(stp::Role *role, stp::Status state, bool last, bool updatingForKeeper) {
+        updateContent << "Role: ";
         updateContent << role->getName() << " ";
         auto &curBot = role->getCurrentRobot();
         if (!curBot) {
@@ -112,12 +114,13 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::displaySkill(stp::Skill *skill, bool last) {
+        updateContent << "Skill: ";
         if (!skill) {
             updateContent << "None<br>";
             return;
         }
 
-        updateContent << "Some(" << skill->name() << ") => ";
+        updateContent << "Some(" << skill->getName() << ") => ";
         outputStatus(skill->getStatus());
         updateContent << "<br><br>";
         if (!last) {

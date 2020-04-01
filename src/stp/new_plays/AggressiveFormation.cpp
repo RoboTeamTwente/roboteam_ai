@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp::play {
 
-AggressiveFormation::AggressiveFormation(std::string playName) : Play(std::move(playName)) {
+AggressiveFormation::AggressiveFormation() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
@@ -65,5 +65,9 @@ Dealer::FlagMap AggressiveFormation::decideRoleFlags() const noexcept {
     flagMap.insert({"offender_3", {closeToTheirGoalFlag}});
 
     return flagMap;
+}
+
+const char *AggressiveFormation::getName() {
+    return "Aggressive Formation";
 }
 }  // namespace rtt::ai::stp::play

@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp::play {
 
-Attack::Attack(std::string playName) : Play(std::move(playName)) {
+Attack::Attack() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
@@ -126,5 +126,9 @@ const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
 }
 
 bool Attack::shouldRoleSkipEndTactic() { return false; }
+
+const char *Attack::getName() {
+    return "Attack";
+}
 
 } // namespace rtt::ai::stp::play

@@ -19,7 +19,7 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
-    RTT_INFO("Play executing: ", playName)
+    RTT_INFO("Play executing: ", getName())
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
@@ -99,12 +99,6 @@ void Play::distributeRoles() noexcept {
             stpInfos[roleName].setRobot(robot);
         }
     }
-}
-
-Play::Play(std::string playName) : playName{std::move(playName)} { }
-
-std::string_view Play::getName() const {
-    return playName;
 }
 
 std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {

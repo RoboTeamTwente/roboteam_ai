@@ -11,7 +11,7 @@ namespace rtt::ai::stp::play {
 
 // TODO: Implement this play, this was just for testing purposes
 
-Defend::Defend(std::string playName) : Play(playName) {
+Defend::Defend() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
@@ -71,5 +71,9 @@ void Defend::calculateInfoForRoles() noexcept {
 }
 
 bool Defend::shouldRoleSkipEndTactic() { return false; }
+
+const char *Defend::getName() {
+    return "Defend";
+}
 
 }  // namespace rtt::ai::stp::play

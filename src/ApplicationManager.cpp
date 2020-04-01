@@ -38,13 +38,13 @@ void ApplicationManager::start() {
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>("Defend"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>("Defensive Formation"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>("Aggressive Formation"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
