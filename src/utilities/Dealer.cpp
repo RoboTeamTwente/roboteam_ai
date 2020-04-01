@@ -110,6 +110,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
             return lineSegment.distanceToLine(robot->getPos());
         }
+        case DealerFlagTitle::NOT_IMPORTANT: return 1000;
     }
     RTT_WARNING("Unhandled dealerflag!");
     return 0;

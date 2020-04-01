@@ -8,24 +8,42 @@
 #include "include/roboteam_ai/stp/new_plays_analysis/PassProblem.h"
 using namespace pagmo;
 namespace rtt::ai::stp{
-
-
     vector_double PassProblem::fitness(const vector_double &dv) const {
-        //vector_double v = calculateScoreForPoint(dv[0],dv[1]);
-        //return v;
-        double alpha = 1;
-        double alphaMax = 1;
-        double pi = 3.14;
-        auto passTarget = Vector2(dv[0], dv[1]);
-        auto pointscore = 1 - rel(alpha, pi = 3.14 / 4, alphaMax);
+        // Expectation for passpoint
+        // p(successfully_get_there)*reward + p(fail)*risk_if_pass_gets_intercepted
+        // reward = max {
+        //                  shoot_reward
+        //                  next_pass_reward
+        //              }
+        auto field = problemWorld->getField();
+        double p_success = 0.5;
+        double reward;
+        auto point = Vector2(dv[0], dv[1]);
+        auto dist_to_goal = (field->getTheirGoalCenter() - point).length();
+        bool inTheirDefenseArea = false;//ai::FieldComputations::pointIsInDefenceArea(field.value(), point, false);
+        reward = dist_to_goal;
+        auto robot = problemWorld->getWorld()->getRobotClosestToPoint(point, world_new::Team::them);
+        if (inTheirDefenseArea) {
+            reward = reward-100;
+        }
+
+        reward -= (robot->getPos() - point).length();
+
+        double risk = 9;
+        double expectation = p_success*reward + (1-p_success)*0;
 
 
-
-        return {dv[0] + dv[1]};
+        return {expectation};
     }
 
     std::pair<vector_double, vector_double> PassProblem::get_bounds() const {
-        return {{-1., -1.}, {1., 1.}};
+        // Field bounds, adjusted for robot radius (so the robot always stays fully inside the field at all times)
+        auto xboundright = problemWorld->getField()->getRightmostX() - stp::control_constants::ROBOT_RADIUS;
+        auto xboundleft = problemWorld->getField()->getLeftmostX() + stp::control_constants::ROBOT_RADIUS;
+        auto yboundbottom = problemWorld->getField()->getBottommostY() + stp::control_constants::ROBOT_RADIUS;
+        auto yboundtop = problemWorld->getField()->getTopmostY() - stp::control_constants::ROBOT_RADIUS;
+
+        return {{xboundleft, yboundbottom}, {xboundright, yboundtop}};
     }
 
     const double PassProblem::rel(double x, double min, double max) const {
@@ -38,6 +56,10 @@ namespace rtt::ai::stp{
         else {
             return 0;
         }
+    }
+
+    void PassProblem::updateInfoForProblem(world_new::World* problemWorld) {
+        this->problemWorld = problemWorld;
     }
 
 

@@ -32,20 +32,20 @@ uint8_t Pass::score(world_new::World* world) noexcept { return 20; }
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
     flagMap.insert({"defender1", {notImportant}});
-    flagMap.insert({"defender2", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender3", {closeToBallFlag}});
-    flagMap.insert({"defender4", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"defender5", {closeToBallFlag}});
-    flagMap.insert({"defender6", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender7", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"defender8", {closeToBallFlag}});
-    flagMap.insert({"defender9", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender2", {notImportant}});
+    flagMap.insert({"defender3", {notImportant}});
+    flagMap.insert({"defender4", {notImportant}});
+    flagMap.insert({"defender5", {notImportant}});
+    flagMap.insert({"defender6", {notImportant}});
+    flagMap.insert({"defender7", {notImportant}});
+    flagMap.insert({"defender8", {notImportant}});
+    flagMap.insert({"defender9", {notImportant}});
 
     return flagMap;
 }
@@ -63,8 +63,10 @@ void Pass::calculateInfoForRoles() noexcept {
     const Vector2 passingPosition = Vector2(-2, -2);
 
     // Calculate receiver info
-    if (stpInfos.find("pass_receiver") != stpInfos.end())
-        stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+    if (stpInfos.find("pass_receiver") != stpInfos.end()) {
+        std::cout<<field.getLeftmostX()<<std::endl;
+        stpInfos["pass_receiver"].setPositionToMoveTo(calculatePositionToPassTo(world, enemyRobots));
+    }
     // Calculate Passer info
     if (stpInfos.find("passer") != stpInfos.end()){
         stpInfos["passer"].setPositionToShootAt(passingPosition);
@@ -79,7 +81,6 @@ void Pass::calculateInfoForRoles() noexcept {
         }
     }
 
-    calculatePositionToPassTo(world, enemyRobots);
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
@@ -98,18 +99,16 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 }
 Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
     // Construct a pagmo::problem from our example problem.
-    pagmo::problem p{PassProblem{}};
 
-    // Fetch the lower/upper bounds for the first variable.
-    std::cout << "Lower bounds: [" << p.get_lb()[0] << "]\n";
-    std::cout << "Upper bounds: [" << p.get_ub()[0] << "]\n\n";
-
-    auto pso = pagmo::pso_gen(10);
-    pagmo::problem pro{PassProblem{}};
+    auto pso = pagmo::pso_gen(2);
+    //pagmo::problem pro{PassProblem{}};
+    PassProblem pro{};
+    pro.updateInfoForProblem(world);
     pagmo::population::size_type s = 10;
-    auto pop = pagmo::population(pro, s, 0);
+    auto pop = pagmo::population(pro, s);
     auto evolved = pso.evolve(pop);
     std::cout << evolved << std::endl;
+    return Vector2(evolved.champion_x()[0], evolved.champion_x()[1]);
 
 }
 

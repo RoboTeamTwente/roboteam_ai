@@ -28,7 +28,8 @@ enum class DealerFlagTitle {
   WITH_WORKING_DRIBBLER,
   ROBOT_TYPE_50W,
   ROBOT_TYPE_30W,
-  READY_TO_INTERCEPT_GOAL_SHOT
+  READY_TO_INTERCEPT_GOAL_SHOT,
+  NOT_IMPORTANT
 };
 
 enum class DealerFlagPriority {

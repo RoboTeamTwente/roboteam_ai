@@ -14,12 +14,19 @@ namespace rtt::ai::stp {
          * @param input
          * @return
          */
+    private:
+        world_new::World* problemWorld{nullptr};
     public:
         std::pair<vector_double, vector_double> get_bounds() const;
 
         vector_double fitness(const vector_double &aDouble) const;
 
+        // TODO: when this function is finished, refactor so it only uses those components of world it actually needs
+        void updateInfoForProblem(world_new::World* problemWorld);
+
         const double rel(double x, double min, double max) const;
+
+        PassProblem() = default;
 
     };
 }

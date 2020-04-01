@@ -2,9 +2,11 @@
 // Created by ratoone on 18-11-19.
 //
 
+#include <roboteam_utils/Print.h>
 #include "control/positionControl/PositionControl.h"
 #include "control/positionControl/PositionControlUtils.h"
 #include "interface/api/Input.h"
+
 
 namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
@@ -12,6 +14,7 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
     collisionDetector.setField(field);
     // if the target position is outside of the field (i.e. bug in AI), do nothing
     if(!collisionDetector.isPointInsideField(targetPosition)){
+        RTT_ERROR("Point sent is outside field: ")
         return {};
     }
 
