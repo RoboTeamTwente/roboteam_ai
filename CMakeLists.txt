@@ -136,13 +136,7 @@ set(CONTROL_SOURCES
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
-        ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
+
         ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
