@@ -1,13 +1,8 @@
 #include <ApplicationManager.h>
-#include <coach/GetBallCoach.h>
-#include <coach/OffensiveCoach.h>
-#include <coach/PassCoach.h>
-#include <coach/defence/DefenceDealer.h>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
 #include <stp/new_plays/TestPlay.h>
-#include <utilities/RobotDealer.h>
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
@@ -114,7 +109,6 @@ void ApplicationManager::runOneLoopCycle() {
     }
     /*
      * This is a hack performed at the robocup.
-     * It does a soft refresh when robots are not properly claimed by robotdealer.
      */
     checkForFreeRobots();
 }
@@ -127,15 +121,9 @@ void ApplicationManager::checkForShutdown() {
 //    }
 }
 
-// Robotdealer hack to prevent robots from staying 'free' during play
 void ApplicationManager::checkForFreeRobots() {
-    if (ai::robotDealer::RobotDealer::hasFree()) {
-        if (ticksFree++ > 10) {
-            ai::robotDealer::RobotDealer::refresh();
-        }
-    } else {
-        ticksFree = 0;
-    }
+    // todo: replace this
+    // basically just update tick count i guess?
 }
 
 void ApplicationManager::decidePlay(world_new::World *_world) {

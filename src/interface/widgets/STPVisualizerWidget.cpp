@@ -71,12 +71,13 @@ namespace rtt::ai::interface {
         }
     }
 
-    void STPVisualizerWidget::displayTactic(stp::Tactic *tactic, bool last) {
+    void STPVisualizerWidget::displayTactic(stp::Tactic *tactic, bool last, world_new::view::RobotView robot) {
         if (!tactic) {
             updateContent << "None<br>" << tab << tab;
             return;
         }
 
+        parent->setTacticForRobot(tactic->getName(), robot->getId());
         updateContent << "Some(" << tactic->getName() << ") => ";
         outputStatus(tactic->getStatus());
         updateContent << ":<br>" << tab << tab << tab;
@@ -106,7 +107,7 @@ namespace rtt::ai::interface {
         updateContent << "Some(" << botView->getId() << ") => ";
         outputStatus(state);
         updateContent << ":<br>" << tab << tab;
-        displayTactic(role->getCurrentTactic(), last);
+        displayTactic(role->getCurrentTactic(), last, botView);
     }
 
     void STPVisualizerWidget::displaySkill(stp::Skill *skill, bool last) {

@@ -5,8 +5,6 @@
 #include "coach/PassCoach.h"
 #include <chrono>
 #include "coach/heuristics/PassScore.h"
-#include "utilities/RobotDealer.h"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai::coach {
 
@@ -121,7 +119,7 @@ bool PassCoach::validReceiver(const Field &field, const world_new::view::RobotVi
         if (!ball || !passer || !receiver) {
             return false;
         }
-        if (receiver->getId() == robotDealer::RobotDealer::getKeeperID() || receiver->getId() == passer->getId()) {
+        if (receiver->getId() == GameStateManager::getCurrentGameState().keeperId || receiver->getId() == passer->getId()) {
             return false;
         }
 

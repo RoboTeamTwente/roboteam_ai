@@ -3,7 +3,6 @@
 //
 
 #include "coach/GetBallCoach.h"
-#include <utilities/RobotDealer.h>
 #include <world/FieldComputations.h>
 #include "interface/api/Input.h"
 #include "world_new/World.hpp"
@@ -41,7 +40,7 @@ int GetBallCoach::bestBallGetterID() {
     }
 
     for (const auto &robot : world_new::World::instance()->getWorld()->getUs()) {
-        if (robot->getId() != robotDealer::RobotDealer::getKeeperID() && robot->getId() != idGettingBall) {
+        if (robot->getId() != GameStateManager::getCurrentGameState().keeperId && robot->getId() != idGettingBall) {
             double distToBallSquared = (robot->getPos() - ballPos).length2();
             if (distToBallSquared < closestDistSquared) {
                 closestDistSquared = distToBallSquared;

@@ -7,7 +7,6 @@
 #include <include/roboteam_ai/interface/api/Input.h>
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <interface/api/Output.h>
-#include <utilities/RobotDealer.h>
 
 #include <utilities/GameStateManager.hpp>
 
@@ -207,7 +206,7 @@ namespace rtt::ai::interface {
         }
 
         // visual indication if we have a keeper or not
-        if (robotDealer::RobotDealer::keeperExistsInWorld()) {
+        if (GameStateManager::getCurrentGameState().keeperId == -1) {
             select_goalie->setStyleSheet("background-color: #00b200;");
         } else {
             select_goalie->setStyleSheet("background-color: #cc0000;");
