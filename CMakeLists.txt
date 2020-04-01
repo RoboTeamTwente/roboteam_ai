@@ -137,23 +137,13 @@ set(CONTROL_SOURCES
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/StrategyManagerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/WorldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.h
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
-        ${PROJECT_SOURCE_DIR}/test/UtilTests/DealerTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
