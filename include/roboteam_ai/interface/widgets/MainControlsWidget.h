@@ -21,11 +21,7 @@ class MainControlsWidget : public QWidget {
     void updatePlays();
     explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager* manager = nullptr);
 
-   signals:
-    void treeHasChanged();
-
    private:
-    //  QLineSeries* lineSeries;
     QVBoxLayout *vLayout;
     QPushButton *pauseBtn;
     QPushButton *toggleColorBtn;
@@ -46,12 +42,11 @@ class MainControlsWidget : public QWidget {
     void setToggleSerialBtnLayout() const;
 
    public slots:
-
     void toggleOurColorParam();
     void toggleOurSideParam();
     void toggleSerialParam();
     void sendPauseSignal();
-    void updatePause();
+
     void setUseReferee(bool useRef);
     void setIgnoreInvariants(bool ignore);
     void updateContents();

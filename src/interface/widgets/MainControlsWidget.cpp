@@ -38,7 +38,8 @@ namespace rtt::ai::interface {
         // functions to select strategies
         MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)),
                                       Constants::STD_USE_REFEREE());
-        MainWindow::configureCheckBox("Ignore invariants", refHorizontalLayout, this, SLOT(setIgnoreInvariants(bool)), false);
+        MainWindow::configureCheckBox("Ignore invariants", refHorizontalLayout, this, SLOT(setIgnoreInvariants(bool)),
+                                      false);
 
         toggleSerialBtn = new QPushButton("Serial");
         QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
@@ -105,27 +106,28 @@ namespace rtt::ai::interface {
         vLayout->addWidget(gameStateBox);
 
         // todo: figure out why this cast exists
-        QObject::connect(select_play, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
-                         [=](const QString &strategyName) {
-                             // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                             // todo: call change play function, same for 2 below this
-//                             interface::Output::setStrategyTree(strategyName.toStdString());
+        QObject::connect(select_play, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated),
+                         [=](int index) {
+                            // if number == -1 then the plays were refreshed, hence just keep the current play
+                            if (index == -1) {
+                                return;
+                            }
+                            // simply manager->plays[index] because they're inserted in-order
+                             stp::PlayDecider::lockPlay(manager->plays[index].get());
                          });
 
         QObject::connect(select_goalie,
                          static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                          [=](const QString &goalieId) {
                              // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-//                             interface::Output::setKeeperId(goalieId.toInt());
-//                             emit treeHasChanged();
+                             interface::Output::setKeeperId(goalieId.toInt());
                          });
 
         QObject::connect(select_ruleset,
                          static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated),
                          [=](const QString &rulesetName) {
                              // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-                             // robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
-//                             interface::Output::setRuleSetName(rulesetName.toStdString());
+                             interface::Output::setRuleSetName(rulesetName.toStdString());
                          });
 
         setUseReferee(Output::usesRefereeCommands());
@@ -166,17 +168,6 @@ namespace rtt::ai::interface {
 
 /// send a halt signal to stop all trees from executing
     void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
-
-    void MainControlsWidget::updatePause() {
-        rtt::ai::Pause pause;
-        if (pause.getPause()) {
-            pauseBtn->setText("Resume");
-            pauseBtn->setStyleSheet("background-color: #00b200;");
-        } else {
-            pauseBtn->setText("Stop");
-            pauseBtn->setStyleSheet("background-color: #cc0000;");
-        }
-    }
 
     void MainControlsWidget::setToggleColorBtnLayout() const {
         if (SETTINGS.isYellow()) {
@@ -235,6 +226,3 @@ namespace rtt::ai::interface {
     }
 
 }  // namespace rtt
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_MainControlsWidget.cpp"

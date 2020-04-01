@@ -25,9 +25,6 @@ private:
 
     int ticksFree = 0;
     void runOneLoopCycle();
-    bool weHaveRobots = false;
-    std::string oldKeeperTreeName = "";
-    std::string oldStrategyName = "";
     bool fieldInitialized = false;
     bool robotsInitialized = false;
     ai::interface::MainWindow* mainWindow;
@@ -56,7 +53,6 @@ private:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches(const ai::world::Field& field) const;
     std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
 
     ApplicationManager(ApplicationManager const&) = delete;

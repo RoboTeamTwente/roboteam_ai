@@ -119,17 +119,6 @@ void ApplicationManager::runOneLoopCycle() {
     checkForFreeRobots();
 }
 
-/// Update the coaches information
-void ApplicationManager::updateCoaches(const ai::world::Field &field) const {
-    auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
-        ai::coach::getBallCoach->update(field);
-        ai::coach::g_DefenceDealer.updateDefenderLocations(field);
-        ai::coach::g_offensiveCoach.updateOffensivePositions(field);
-        ai::coach::g_pass.updatePassProgression();
-    });
-    //    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
-}
-
 void ApplicationManager::checkForShutdown() {
     // Terminate if needed
     // TODO:
