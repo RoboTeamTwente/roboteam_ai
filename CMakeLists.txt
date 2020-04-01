@@ -70,6 +70,7 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
         )
+
 set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
@@ -136,6 +137,12 @@ set(CONTROL_SOURCES
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
         ${PROJECT_SOURCE_DIR}/test/ControlTests/ControlUtilsTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/btTests/RoleDividerTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BtTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTFactoryTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/TreeInterpreterTests/BTBlackBoardTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/PropertiesParserTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/UtilTests/JsonTest.cpp
         ${PROJECT_SOURCE_DIR}/test/TacticTests/DefaultTacticTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RefereeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/UtilTests/RobotDealerTest.cpp
@@ -221,6 +228,8 @@ set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
+        ${BT_SOURCES}
+        ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
         ${NEW_TACTICS_SOURCES}

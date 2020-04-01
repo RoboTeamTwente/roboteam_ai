@@ -11,7 +11,6 @@ int main(int argc, char **argv) {
     QApplication app(argc, argv);  // initialize qt5
     rtt::ai::Constants::init();
     rtt::SETTINGS.init(0);
-    rtt::ai::robotDealer::RobotDealer::setKeeperID(-1);
 
     return RUN_ALL_TESTS();
 }

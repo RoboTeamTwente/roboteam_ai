@@ -123,7 +123,7 @@ void ApplicationManager::checkForShutdown() {
 
 void ApplicationManager::checkForFreeRobots() {
     // todo: replace this
-    // basically just update tick count i guess?
+    // basically just update tick count for how long robots have been free? i guess?
 }
 
 void ApplicationManager::decidePlay(world_new::World *_world) {
