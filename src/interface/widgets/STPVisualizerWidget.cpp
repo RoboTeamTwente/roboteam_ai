@@ -45,12 +45,12 @@ namespace rtt::ai::interface {
     }
 
     void STPVisualizerWidget::displayPlay(stp::Play *currentPlay) {
-        updateContent << "Play: ";
+        updateContent << " Play: ";
         if (!currentPlay) {
             updateContent << "None<br>";
             return;
         }
-        updateContent << "Some(" << currentPlay->getName() << ")<br>" << tab;
+        updateContent << currentPlay->getName() << "<br>" << tab;
         std::vector<std::pair<stp::Role*, stp::Status>> states = { currentPlay->getRoleStatuses().begin(), currentPlay->getRoleStatuses().end() };
         // lhs and rhs are std::pair<stp::Role*, stp::Status>>, this function returns true if lhs < rhs (the robot id)
         std::sort(states.begin(), states.end(), [](auto const& lhs, auto const& rhs) {
@@ -80,7 +80,7 @@ namespace rtt::ai::interface {
             return;
         }
 
-        updateContent << "Some(" << tactic->getName() << ") => ";
+        updateContent << tactic->getName() << " => ";
         outputStatus(tactic->getStatus());
         updateContent << ":<br>" << tab << tab << tab;
         displaySkill(tactic->getCurrentSkill(), last);
@@ -107,7 +107,7 @@ namespace rtt::ai::interface {
             parent->setKeeperRole(role, state);
             return;
         }
-        updateContent << "Some(" << botView->getId() << ") => ";
+        updateContent << botView->getId() << " => ";
         outputStatus(state);
         updateContent << ":<br>" << tab << tab;
         displayTactic(role->getCurrentTactic(), last);
@@ -120,7 +120,7 @@ namespace rtt::ai::interface {
             return;
         }
 
-        updateContent << "Some(" << skill->getName() << ") => ";
+        updateContent << skill->getName() << " => ";
         outputStatus(skill->getStatus());
         updateContent << "<br><br>";
         if (!last) {
