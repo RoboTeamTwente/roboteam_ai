@@ -67,6 +67,11 @@ class Receive : public Tactic {
     int determineDribblerSpeed(const world_new::view::RobotView &robot);
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
 
 }  // namespace rtt::ai::stp::tactic

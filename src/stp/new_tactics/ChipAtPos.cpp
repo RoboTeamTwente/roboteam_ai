@@ -13,7 +13,6 @@ namespace rtt::ai::stp::tactic {
 ChipAtPos::ChipAtPos() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Chip()};
-    skills.initialize();
 }
 
 void ChipAtPos::onInitialize() noexcept {}
@@ -91,4 +90,9 @@ bool ChipAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Never reset tactic
     return false;
 }
+
+const char *ChipAtPos::getName() {
+    return "Chip At Pos";
+}
+
 }  // namespace rtt::ai::stp::tactic

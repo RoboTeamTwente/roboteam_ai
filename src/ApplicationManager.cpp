@@ -7,15 +7,19 @@
 #include <interface/api/Input.h>
 #include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
-#include <stp/new_plays/Halt.h>
-#include <stp/new_plays/TestPlay.h>
 
 #include <utilities/GameStateManager.hpp>
 #include <world_new/World.hpp>
 
-#include "roboteam_utils/normalize.h"
-#include "stp/new_plays/Attack.h"
+#include <stp/new_plays/TestPlay.h>
 #include "stp/new_plays/Pass.h"
+#include "stp/new_plays/Defend.h"
+#include "stp/new_plays/Attack.h"
+#include <stp/new_plays/Halt.h>
+#include "stp/new_plays/DefensiveFormation.h"
+#include "stp/new_plays/AggressiveFormation.h"
+
+#include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
@@ -31,14 +35,15 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping");
     RTT_INFO("Waiting for field_data and robots...");
 
-    begin = std::chrono::steady_clock::now();
-    plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
-
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>("Defend"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>("Defensive Formation"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>("Aggressive Formation"));
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -226,15 +231,9 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
     if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
-        if (auto validPlays = playChecker.getValidPlays(); !validPlays.empty()) {
-            currentPlay = playDecider.decideBestPlay(_world, validPlays);
-            currentPlay->updateWorld(_world);
-            currentPlay->initialize();
-        } else {
-            currentPlay = nullptr;
-            RTT_ERROR("There are no valid plays, aborting")
-            return;
-        }
+        currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
     }
 
     currentPlay->update();

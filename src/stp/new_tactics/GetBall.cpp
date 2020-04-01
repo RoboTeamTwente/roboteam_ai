@@ -9,8 +9,6 @@
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() {
     skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-
-    skills.initialize();
 }
 
 void GetBall::onInitialize() noexcept {}
@@ -44,6 +42,10 @@ bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return !info.get
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
+}
+
+const char *GetBall::getName() {
+    return "Get Ball";
 }
 
 }  // namespace rtt::ai::stp::tactic

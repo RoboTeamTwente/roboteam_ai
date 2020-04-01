@@ -12,7 +12,6 @@ namespace rtt::ai::stp::tactic {
 DriveWithBall::DriveWithBall() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::GoToPos()};
-    skills.initialize();
 }
 
 void DriveWithBall::onInitialize() noexcept {}
@@ -61,6 +60,10 @@ bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
 bool DriveWithBall::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
+}
+
+const char *DriveWithBall::getName() {
+    return "Drive With Ball";
 }
 
 }  // namespace rtt::ai::stp::tactic

@@ -119,7 +119,7 @@ class Tactic {
     /**
      * Gets the current tactic name
      */
-    virtual const char *getName();
+    virtual const char *getName() = 0;
 
     /**
      * Gets the skill whose turn it is

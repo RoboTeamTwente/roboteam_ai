@@ -1,16 +1,17 @@
 //
-// Created by timovdk on 3/16/20.
+// Created by timovdk on 3/27/20.
 //
 
-#ifndef RTT_DRIVEWITHBALL_H
-#define RTT_DRIVEWITHBALL_H
+#ifndef RTT_FORMATION_TACTIC_H
+#define RTT_FORMATION_TACTIC_H
 
-#include <stp/Tactic.h>
+#include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {
-class DriveWithBall : public Tactic {
+
+class Formation : public Tactic {
    public:
-    DriveWithBall();
+    Formation();
 
    private:
     /**
@@ -29,23 +30,34 @@ class DriveWithBall : public Tactic {
     void onTerminate() noexcept override;
 
     /**
-     * Calculate the SkillInfo from the TacticInfo
-     * @param info info is the TacticInfo passed by the role
-     * @return SkillInfo based on the TacticInfo
+     * Calculate info for the skills
+     * @param info Info passed by the role
+     * @return Info for the skills
      */
     StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-    bool isEndTactic() noexcept override;
-
+    /**
+     * Tactic fails if target type is not a move target
+     * @param info Info
+     * @return True if target type is not a move target
+     */
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
+    /**
+     * Reset tactic when robot position is not close enough to the target position
+     * @param info Info
+     * @return True if robot position is not close enough to the target position
+     */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
+
+    bool isEndTactic() noexcept override;
 
     /**
      * Gets the tactic name
      */
     const char *getName() override;
 };
+
 }  // namespace rtt::ai::stp::tactic
 
-#endif  // RTT_DRIVEWITHBALL_H
+#endif  // RTT_FORMATION_TACTIC_H

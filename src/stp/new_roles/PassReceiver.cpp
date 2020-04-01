@@ -14,6 +14,5 @@ namespace rtt::ai::stp::role {
 PassReceiver::PassReceiver(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
     robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Receive()};
-    robotTactics.initialize();
 }
 }  // namespace rtt::ai::stp::role

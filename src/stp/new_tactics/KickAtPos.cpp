@@ -13,7 +13,6 @@ namespace rtt::ai::stp::tactic {
 KickAtPos::KickAtPos() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Kick()};
-    skills.initialize();
 }
 
 void KickAtPos::onInitialize() noexcept {}
@@ -101,4 +100,9 @@ bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     }
     return false;
 }
+
+const char *KickAtPos::getName() {
+    return "Kick At Pos";
+}
+
 }  // namespace rtt::ai::stp::tactic
