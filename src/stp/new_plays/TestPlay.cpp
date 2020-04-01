@@ -10,7 +10,7 @@
 
 namespace rtt::ai::stp {
 
-TestPlay::TestPlay(std::string playName) : Play(std::move(playName)) {
+TestPlay::TestPlay() : Play() {
     invariants.clear();
     invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
@@ -56,5 +56,9 @@ void TestPlay::calculateInfoForRoles() noexcept {
 bool TestPlay::isValidPlayToStart(world_new::World *world) noexcept { return false; }
 
 bool TestPlay::shouldRoleSkipEndTactic() { return false; }
+
+const char *TestPlay::getName() {
+    return "Test Play";
+}
 
 }  // namespace rtt::ai::stp

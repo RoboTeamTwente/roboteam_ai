@@ -10,7 +10,7 @@ namespace rtt::ai::stp::play {
 
 // TODO: Implement this play, this was just for testing purposes
 
-Defend::Defend(std::string playName) : Play(playName) {
+Defend::Defend() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
             std::make_unique<role::Defender>(role::Defender("defender_1")), std::make_unique<role::Defender>(role::Defender("defender_2")),
             std::make_unique<TestRole>(TestRole("test_role_2")),      std::make_unique<TestRole>(TestRole("test_role_3")),
@@ -64,5 +64,9 @@ void Defend::calculateInfoForRoles() noexcept {
 bool Defend::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool Defend::shouldRoleSkipEndTactic() { return false; }
+
+const char *Defend::getName() {
+    return "Defend";
+}
 
 }  // namespace rtt::ai::stp::play

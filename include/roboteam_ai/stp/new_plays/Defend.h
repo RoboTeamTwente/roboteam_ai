@@ -14,7 +14,7 @@ public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Defend(std::string playName);
+    Defend();
 
     bool isValidPlayToStart(world_new::World* world) noexcept override;
 
@@ -38,6 +38,11 @@ public:
      * Calculates info for the roles
      */
     void calculateInfoForRoles() noexcept override;
+
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
 
 protected:
     bool shouldRoleSkipEndTactic() override;
