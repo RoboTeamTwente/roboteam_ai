@@ -9,6 +9,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
+#include <include/roboteam_ai/ApplicationManager.h>
 #include "QLayout"
 #include "widget.h"
 
@@ -17,7 +18,8 @@ namespace rtt::ai::interface {
 class MainControlsWidget : public QWidget {
     Q_OBJECT
    public:
-    explicit MainControlsWidget(QWidget *parent = nullptr);
+    void updatePlays();
+    explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager* manager = nullptr);
 
    signals:
     void treeHasChanged();
@@ -31,23 +33,27 @@ class MainControlsWidget : public QWidget {
     QPushButton *toggleSerialBtn;
     QShortcut *spaceClick;
 
-    QComboBox *select_strategy;
-    QComboBox *select_keeper_strategy;
+    QComboBox *select_play;
     QComboBox *select_goalie;
     QComboBox *select_ruleset;
+
+    ApplicationManager* manager;
+
+    bool ignoreInvariants;
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
     void setToggleSerialBtnLayout() const;
 
    public slots:
-    void setTimeOutTop(bool top);
+
     void toggleOurColorParam();
     void toggleOurSideParam();
     void toggleSerialParam();
     void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);
+    void setIgnoreInvariants(bool ignore);
     void updateContents();
 };
 }  // namespace rtt::ai::interface

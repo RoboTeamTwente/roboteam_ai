@@ -29,6 +29,10 @@
 #include "STPVisualizerWidget.h"
 #include "widget.h"
 
+namespace rtt {
+    class ApplicationManager;
+}
+
 namespace rtt::ai::interface {
 
 class MainWindow : public QMainWindow {
@@ -39,7 +43,7 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    public:
-    explicit MainWindow(const rtt::world_new::World &worldManager, QWidget *parent = nullptr);
+    explicit MainWindow(const rtt::world_new::World &worldManager, QWidget *parent = nullptr, rtt::ApplicationManager* manager = nullptr);
 
     // this function is useful everywhere
     static void configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
@@ -48,7 +52,7 @@ class MainWindow : public QMainWindow {
     static void clearLayout(QLayout *layout);
     void updatePlay(stp::Play* play);
 
-    signals:
+  signals:
     void updateStpWidgets();
 
    public slots:

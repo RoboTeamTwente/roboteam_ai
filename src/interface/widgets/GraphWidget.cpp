@@ -28,7 +28,7 @@ GraphWidget::GraphWidget(QWidget *parent) {
     fpsView->chart()->setMinimumHeight(300);
     fpsView->chart()->setTheme(QChart::ChartThemeDark);
     fpsView->chart()->setBackgroundBrush(QColor(53, 53, 53));
-    fpsView->chart()->axisY()->setMinorGridLineColor(Qt::gray);
+    fpsView->chart()->axisX()->setMinorGridLineColor(Qt::gray);
     fpsView->chart()->axisY()->setGridLineVisible(true);
 
     connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
@@ -37,17 +37,19 @@ GraphWidget::GraphWidget(QWidget *parent) {
 
         if (y > fpsGraphYMax) {
             if (y > fpsGraphYMax) fpsGraphYMax = y;
-            fpsView->chart()->axisY()->setRange(0, fpsGraphYMax + 20);
+            fpsView->chart()->axisX()->setRange(0, fpsGraphYMax + 20);
         }
 
         if (x < fpsGraphXMin || x > fpsGraphXMax) {
-            if (x < fpsGraphXMin) fpsGraphXMin = x;
-            if (x > fpsGraphXMax) fpsGraphXMax = x;
+            if (x < fpsGraphXMin)
+                fpsGraphXMin = x;
+            if (x > fpsGraphXMax)
+                fpsGraphXMax = x;
 
             if (fpsGraphXMax - fpsGraphXMin > 30) {
                 fpsGraphXMin = fpsGraphXMax - 30;
             }
-            fpsView->chart()->axisX()->setRange(fpsGraphXMin, fpsGraphXMax);
+            fpsView->chart()->axisY()->setRange(fpsGraphXMin, fpsGraphXMax);
         }
     });
 

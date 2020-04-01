@@ -13,7 +13,7 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent, ApplicationManager* manager) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -43,7 +43,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
-    auto mainControlsWidget = new MainControlsWidget(this);
+    auto mainControlsWidget = new MainControlsWidget(this, manager);
     vLayout->addWidget(mainControlsWidget);
 
     auto behaviourTreeWidget = new QWidget(this);
@@ -170,7 +170,7 @@ void MainWindow::updateRobotsWidget() {
 
 void MainWindow::updatePlay(stp::Play *play) {
     stpWidget->updateContents(play);
-    this->updateStpWidgets();
+    updateStpWidgets();
 }
 
 void MainWindow::setPlayForRobot(std::string const& str, uint8_t id) {
