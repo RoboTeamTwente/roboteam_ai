@@ -17,7 +17,7 @@ Pass::Pass() : Play() {
 
     // TODO: decide keep invariants
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
@@ -28,7 +28,7 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 13; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 20; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -38,7 +38,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender1", {notImportant}});
+/*    flagMap.insert({"defender1", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -46,7 +46,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
 
     return flagMap;
 }

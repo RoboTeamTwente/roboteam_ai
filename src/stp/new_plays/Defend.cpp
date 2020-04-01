@@ -29,7 +29,7 @@ Defend::Defend() : Play() {
             std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Defend::score(world_new::World* world) noexcept { return 100; }
+uint8_t Defend::score(world_new::World* world) noexcept { return 12; }
 
 Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -39,7 +39,7 @@ Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
 
     flagMap.insert({"defender_1", {closeToBallFlag}});
     flagMap.insert({"defender_2", {closeToTheirGoalFlag}});
-    /*flagMap.insert({"test_role_2", {notImportant}});
+    flagMap.insert({"test_role_2", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -47,7 +47,7 @@ Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     return flagMap;
 }

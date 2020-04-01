@@ -86,10 +86,12 @@ bool KickAtPos::isEndTactic() noexcept {
 
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
-    // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
-    // or if the targetPosType is not a shootTarget
-    return (info.getBall()->get()->getVelocity().length() < stp::control_constants::BALL_STILL_VEL && !info.getRobot()->hasBall(stp::control_constants::ROBOT_RADIUS + (stp::control_constants::BALL_RADIUS * 2))) ||
-           !info.getPositionToShootAt();
+    // robot doesn't have the ball or if there is no shootTarget
+    // But only check when we are not kicking
+    if(skills.current_num() != 1) {
+        return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    }
+    return false;
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
