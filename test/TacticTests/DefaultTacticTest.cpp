@@ -148,7 +148,6 @@
 ////
 ////    // get the playstyle from the decision maker
 ////    rtt::ai::analysis::DecisionMaker maker;
-////    auto style = maker.getRecommendedPlayStyle(report->ballPossession);
 ////
 ////    defensiveTactic.initialize();
 ////    midfieldTactic.initialize();

@@ -46,13 +46,6 @@ if (NOT SDL2_FOUND)
     message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
 endif ()
 
-set(ANALYSIS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/analysis/GameAnalyzer.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/AnalysisReport.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/RobotDanger.cpp
-        ${PROJECT_SOURCE_DIR}/src/analysis/DecisionMaker.cpp
-        )
-
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RobotDealer.cpp
@@ -229,7 +222,6 @@ set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
         ${JSON_SOURCES}
-        ${ANALYSIS_SOURCES}
         ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
         ${NEW_TACTICS_SOURCES}

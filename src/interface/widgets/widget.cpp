@@ -8,7 +8,6 @@
 #include <utilities/RobotDealer.h>
 #include <include/roboteam_ai/world_new/World.hpp>
 #include <utilities/GameStateManager.hpp>
-#include "analysis/GameAnalyzer.h"
 #include "interface/api/Input.h"
 #include "interface/api/Output.h"
 #include "world/FieldComputations.h"

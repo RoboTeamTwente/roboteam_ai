@@ -3,7 +3,6 @@
 //
 
 #include "coach/heuristics/CoachHeuristics.h"
-#include <analysis/GameAnalyzer.h>
 #include <include/roboteam_ai/world_new/World.hpp>
 #include "control/ControlUtils.h"
 #include "world/FieldComputations.h"
