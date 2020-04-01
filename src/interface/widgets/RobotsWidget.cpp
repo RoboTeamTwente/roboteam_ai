@@ -9,7 +9,6 @@
 #include <QtWidgets/QLabel>
 #include <include/roboteam_ai/world_new/World.hpp>
 #include "interface/widgets/mainWindow.h"
-#include "roboteam_proto/WorldRobot.pb.h"
 
 namespace rtt::ai::interface {
 
