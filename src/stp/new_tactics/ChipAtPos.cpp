@@ -82,12 +82,21 @@ bool ChipAtPos::isEndTactic() noexcept {
 }
 
 bool ChipAtPos::isTacticFailing(const StpInfo &info) noexcept {
-    // Fail tactic if the robot doesn't have the ball or if there is no position to chip at
-    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    // Fail tactic if:
+    // robot doesn't have the ball or if there is no shootTarget
+    // But only check when we are not chipping
+    if(skills.current_num() != 1) {
+        return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    }
+    return false;
 }
 
 bool ChipAtPos::shouldTacticReset(const StpInfo &info) noexcept {
-    // Never reset tactic
+    // Reset when angle is wrong outside of the rotate skill, reset to rotate again
+    if (skills.current_num() != 0) {
+        double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+        return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
+    }
     return false;
 }
 

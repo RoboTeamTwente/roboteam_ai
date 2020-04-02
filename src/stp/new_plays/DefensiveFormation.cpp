@@ -10,9 +10,13 @@
 namespace rtt::ai::stp::play {
 
 DefensiveFormation::DefensiveFormation() : Play() {
-    // TODO: decide invariants
-    invariants.clear();
-    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::Formation>(role::Formation("defender_0")),
@@ -39,8 +43,6 @@ void DefensiveFormation::calculateInfoForRoles() noexcept {
     if (stpInfos.find("offender_1") != stpInfos.end()) stpInfos["offender_1"].setPositionToMoveTo(Vector2{-1, 0});
     if (stpInfos.find("offender_2") != stpInfos.end()) stpInfos["offender_2"].setPositionToMoveTo(Vector2{-1, -4});
 }
-
-bool DefensiveFormation::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool DefensiveFormation::shouldRoleSkipEndTactic() { return false; }
 
