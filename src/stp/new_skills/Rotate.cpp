@@ -36,4 +36,8 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
 void Rotate::onTerminate() noexcept {}
 
+const char *Rotate::getName() {
+    return "Rotate";
+}
+
 }  // namespace rtt::ai::stp::skill

@@ -14,9 +14,7 @@ class DefensiveFormation : public Play {
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    DefensiveFormation(std::string playName);
-
-    bool isValidPlayToStart(world_new::World* world) noexcept override;
+    DefensiveFormation();
 
     /**
      * Gets the score for the current play
@@ -38,6 +36,11 @@ class DefensiveFormation : public Play {
      * Calculates info for the roles
      */
     void calculateInfoForRoles() noexcept override;
+
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
 
    protected:
     bool shouldRoleSkipEndTactic() override;

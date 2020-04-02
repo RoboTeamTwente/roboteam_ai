@@ -3,7 +3,6 @@
 //
 
 #include "include/roboteam_ai/stp/Play.hpp"
-#include <utility>
 
 namespace rtt::ai::stp {
 
@@ -20,7 +19,7 @@ void Play::updateWorld(world_new::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
-    RTT_INFO("Play executing: ", playName)
+    RTT_INFO("Play executing: ", getName())
 
     if (world->getWorld()->getUs().size() != stpInfos.size()) {
         RTT_WARNING("Reassigning bots");
@@ -102,19 +101,18 @@ void Play::distributeRoles() noexcept {
     }
 }
 
-Play::Play(std::string playName) : playName{std::move(playName)} { }
-
-std::string_view Play::getName() const {
-    return playName;
-}
-
 std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
     return roleStatuses;
 }
 
-bool Play::isValidPlayToKeep(world_new::World *world) noexcept {
+bool Play::isValidPlayToKeep(world_new::World *world) const noexcept {
     world::Field field = world->getField().value();
-    return std::all_of(invariants.begin(), invariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+}
+
+bool Play::isValidPlayToStart(world_new::World *world) const noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
 }
 
 }  // namespace rtt::ai::stp

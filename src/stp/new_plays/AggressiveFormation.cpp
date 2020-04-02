@@ -9,10 +9,14 @@
 
 namespace rtt::ai::stp::play {
 
-AggressiveFormation::AggressiveFormation(std::string playName) : Play(std::move(playName)) {
-    // TODO: decide invariants
-    invariants.clear();
-    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+AggressiveFormation::AggressiveFormation() : Play() {
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
         std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::Formation>(role::Formation("defender_0")),
@@ -23,7 +27,7 @@ AggressiveFormation::AggressiveFormation(std::string playName) : Play(std::move(
         std::make_unique<role::Formation>(role::Formation("offender_3"))};
 }
 
-uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 19; }
+uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 101; }
 
 void AggressiveFormation::calculateInfoForRoles() noexcept {
     // TODO: TUNE these positions could probably be a bit better once we decide how we want to play
@@ -39,8 +43,6 @@ void AggressiveFormation::calculateInfoForRoles() noexcept {
     if (stpInfos.find("offender_2") != stpInfos.end()) stpInfos["offender_2"].setPositionToMoveTo(Vector2{-1, -1.5});
     if (stpInfos.find("offender_3") != stpInfos.end()) stpInfos["offender_3"].setPositionToMoveTo(Vector2{-1, -4});
 }
-
-bool AggressiveFormation::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool AggressiveFormation::shouldRoleSkipEndTactic() { return false; }
 
@@ -63,5 +65,9 @@ Dealer::FlagMap AggressiveFormation::decideRoleFlags() const noexcept {
     flagMap.insert({"offender_3", {closeToTheirGoalFlag}});
 
     return flagMap;
+}
+
+const char *AggressiveFormation::getName() {
+    return "Aggressive Formation";
 }
 }  // namespace rtt::ai::stp::play

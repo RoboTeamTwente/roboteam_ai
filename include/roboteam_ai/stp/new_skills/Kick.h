@@ -24,6 +24,11 @@ class Kick : public Skill {
      * On terminate of this tactic
      */
     void onTerminate() noexcept override;
+
+    /**
+     * Gets the skill name
+     */
+    const char *getName() override;
 };
 
 }  // namespace rtt::ai::stp::skill

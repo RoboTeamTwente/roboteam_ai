@@ -2,6 +2,7 @@
 // Created by jordi on 27-03-20.
 //
 
+#include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/new_plays/Defend.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/TestRole.h"
@@ -10,7 +11,15 @@ namespace rtt::ai::stp::play {
 
 // TODO: Implement this play, this was just for testing purposes
 
-Defend::Defend(std::string playName) : Play(playName) {
+Defend::Defend() : Play() {
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
+
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
             std::make_unique<role::Defender>(role::Defender("defender_1")), std::make_unique<role::Defender>(role::Defender("defender_2")),
             std::make_unique<TestRole>(TestRole("test_role_2")),      std::make_unique<TestRole>(TestRole("test_role_3")),
@@ -20,7 +29,7 @@ Defend::Defend(std::string playName) : Play(playName) {
             std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Defend::score(world_new::World* world) noexcept { return 100; }
+uint8_t Defend::score(world_new::World* world) noexcept { return 12; }
 
 Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -30,7 +39,7 @@ Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
 
     flagMap.insert({"defender_1", {closeToBallFlag}});
     flagMap.insert({"defender_2", {closeToTheirGoalFlag}});
-    /*flagMap.insert({"test_role_2", {notImportant}});
+    flagMap.insert({"test_role_2", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -38,7 +47,7 @@ Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -61,8 +70,10 @@ void Defend::calculateInfoForRoles() noexcept {
     }
 }
 
-bool Defend::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
 bool Defend::shouldRoleSkipEndTactic() { return false; }
+
+const char *Defend::getName() {
+    return "Defend";
+}
 
 }  // namespace rtt::ai::stp::play

@@ -37,13 +37,13 @@ void ApplicationManager::start() {
 
     auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>("Test"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>("Pass"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>("Attack"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>("Halt"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>("Defend"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>("Defensive Formation"));
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>("Aggressive Formation"));
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -231,7 +231,14 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
     if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
-        currentPlay = playDecider.decideBestPlay(_world, playChecker.getValidPlays());
+        auto validPlays = playChecker.getValidPlays();
+        if (validPlays.empty()) {
+            RTT_ERROR("No valid plays")
+            // TODO: maybe we want to assign some default play (halt?) when there are no valid plays
+            // currentPlay = some_default_play;
+            return;
+        }
+        currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }
