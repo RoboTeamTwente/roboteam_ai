@@ -10,9 +10,13 @@
 namespace rtt::ai::stp::play {
 
 Attack::Attack() : Play() {
-    // TODO: decide invariants
-    invariants.clear();
-    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
@@ -25,7 +29,7 @@ Attack::Attack() : Play() {
 }
 
 // TODO: Determine score of play
-uint8_t Attack::score(world_new::World* world) noexcept { return 100; }
+uint8_t Attack::score(world_new::World* world) noexcept { return 10; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -35,7 +39,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     flagMap.insert({"attacker", {closeToBallFlag}});
-    /*flagMap.insert({"test_role_1", {notImportant}});
+    flagMap.insert({"test_role_1", {notImportant}});
     flagMap.insert({"test_role_2", {notImportant}});
     flagMap.insert({"test_role_3", {notImportant}});
     flagMap.insert({"test_role_4", {notImportant}});
@@ -44,7 +48,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {notImportant}});
     flagMap.insert({"test_role_8", {notImportant}});
     flagMap.insert({"test_role_9", {notImportant}});
-    flagMap.insert({"test_role_10", {notImportant}});*/
+    flagMap.insert({"test_role_10", {notImportant}});
 
     return flagMap;
 }
@@ -120,8 +124,6 @@ const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
     }
     return openSegments[bestIndex];
 }
-
-bool Attack::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
 bool Attack::shouldRoleSkipEndTactic() { return false; }
 

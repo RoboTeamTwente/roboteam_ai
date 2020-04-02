@@ -6,13 +6,16 @@
 #include <stp/new_roles/TestRole.h>
 #include "stp/invariants/WeHaveBallInvariant.h"
 
-#include <utility>
-
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
-    invariants.clear();
-    invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     roles = std::array<std::unique_ptr<Role>,stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
@@ -52,8 +55,6 @@ void TestPlay::calculateInfoForRoles() noexcept {
         }
     }
 }
-
-bool TestPlay::isValidPlayToStart(world_new::World *world) noexcept { return false; }
 
 bool TestPlay::shouldRoleSkipEndTactic() { return false; }
 

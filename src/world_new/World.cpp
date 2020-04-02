@@ -78,6 +78,10 @@ namespace rtt::world_new {
         this->currentField = field;
     }
 
+    void World::updateField(rtt::ai::Field &protoField) {
+        this->currentField = protoField;
+    }
+
     World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
         std::lock_guard mtx{updateMutex};
         history.reserve(HISTORY_SIZE);

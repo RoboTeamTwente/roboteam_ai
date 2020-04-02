@@ -32,8 +32,6 @@ class TestPlay : public Play {
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
-    bool isValidPlayToStart(world_new::World *world) noexcept override;
-
     void calculateInfoForRoles() noexcept override;
 
     bool shouldRoleSkipEndTactic() override;

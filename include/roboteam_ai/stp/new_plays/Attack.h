@@ -16,8 +16,6 @@ public:
      */
     Attack();
 
-    bool isValidPlayToStart(world_new::World* world) noexcept override;
-
     /**
      * Gets the score for the current play
      *
