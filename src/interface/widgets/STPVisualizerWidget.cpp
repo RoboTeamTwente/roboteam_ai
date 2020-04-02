@@ -107,7 +107,7 @@ namespace rtt::ai::interface {
             parent->setKeeperRole(role, state);
             return;
         }
-        updateContent << botView->getId() << " => ";
+        updateContent << "Robot ID: " << botView->getId() << " => ";
         outputStatus(state);
         updateContent << ":<br>" << tab << tab;
         displayTactic(role->getCurrentTactic(), last);
