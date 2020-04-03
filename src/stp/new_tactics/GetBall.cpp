@@ -3,9 +3,6 @@
 //
 
 #include "stp/new_tactics/GetBall.h"
-
-#include <include/roboteam_ai/utilities/Settings.h>
-
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 
