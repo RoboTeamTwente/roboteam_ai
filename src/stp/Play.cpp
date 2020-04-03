@@ -7,8 +7,8 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
-    distributeRoles();
     calculateInfoForRoles();
+    distributeRoles();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
@@ -32,6 +32,7 @@ void Play::update() noexcept {
             stpInfos = std::unordered_map<std::string, StpInfo>{};
             return;
         }
+        calculateInfoForRoles();
         distributeRoles();
     }
 
