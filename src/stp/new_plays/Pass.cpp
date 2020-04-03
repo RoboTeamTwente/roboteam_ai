@@ -5,6 +5,7 @@
 #include "stp/new_plays/Pass.h"
 #include <stp/new_roles/TestRole.h>
 #include <stp/invariants/WeHaveBallInvariant.h>
+#include "stp/invariants/BallMovesSlowInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
 
@@ -16,8 +17,8 @@ Pass::Pass() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: decide keep invariants
-/*    keepPlayInvariants.clear();
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
+    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
@@ -28,7 +29,7 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 20; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 101; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -38,7 +39,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-/*    flagMap.insert({"defender1", {notImportant}});
+    flagMap.insert({"defender1", {notImportant}});
     flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_4", {closeToBallFlag}});
     flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -46,7 +47,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
     flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
     flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -79,6 +80,14 @@ void Pass::calculateInfoForRoles() noexcept {
             stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
         }
     }
+    if (stpInfos.find("test_role_3") != stpInfos.end()) stpInfos["test_role_3"].setPositionToMoveTo(Vector2{-3, -3});
+    if (stpInfos.find("test_role_4") != stpInfos.end()) stpInfos["test_role_4"].setPositionToMoveTo(Vector2{-2, 3});
+    if (stpInfos.find("test_role_5") != stpInfos.end()) stpInfos["test_role_5"].setPositionToMoveTo(Vector2{-2, 0});
+    if (stpInfos.find("test_role_6") != stpInfos.end()) stpInfos["test_role_6"].setPositionToMoveTo(Vector2{-2, -3});
+    if (stpInfos.find("test_role_7") != stpInfos.end()) stpInfos["test_role_7"].setPositionToMoveTo(Vector2{-1, 4});
+    if (stpInfos.find("test_role_8") != stpInfos.end()) stpInfos["test_role_8"].setPositionToMoveTo(Vector2{-1, 1.5});
+    if (stpInfos.find("test_role_9") != stpInfos.end()) stpInfos["test_role_9"].setPositionToMoveTo(Vector2{-1, -1.5});
+    if (stpInfos.find("test_role_10") != stpInfos.end()) stpInfos["test_role_10"].setPositionToMoveTo(Vector2{-1, -4});
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {

@@ -213,7 +213,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
-        )
+        src/stp/invariants/BallMovesFastInvariant.cpp src/stp/invariants/BallMovesSlowInvariant.cpp)
 
 set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp

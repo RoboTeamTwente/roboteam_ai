@@ -60,7 +60,7 @@ class World {
     /**
      * Amount of ticks to store in history
      */
-    constexpr static size_t HISTORY_SIZE = 20;
+    constexpr static size_t HISTORY_SIZE = 200;
 
     /**
      * Constructs a World from settings

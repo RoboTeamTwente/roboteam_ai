@@ -14,8 +14,8 @@ namespace rtt::ai::stp::play {
         startPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
         // TODO: decide keep invariants
-/*        keepPlayInvariants.clear();
-        keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());*/
+        keepPlayInvariants.clear();
+        keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
@@ -40,7 +40,7 @@ namespace rtt::ai::stp::play {
 
         flagMap.insert({"halt_0", {closeToBallFlag}});
         flagMap.insert({"halt_1", {closeToTheirGoalFlag}});
-/*        flagMap.insert({"halt_2", {notImportant}});
+        flagMap.insert({"halt_2", {notImportant}});
         flagMap.insert({"halt_3", {closeToTheirGoalFlag}});
         flagMap.insert({"halt_4", {closeToBallFlag}});
         flagMap.insert({"halt_5", {closeToTheirGoalFlag, closeToBallFlag}});
@@ -48,7 +48,7 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"halt_7", {closeToTheirGoalFlag}});
         flagMap.insert({"halt_8", {closeToTheirGoalFlag, closeToBallFlag}});
         flagMap.insert({"halt_9", {closeToBallFlag}});
-        flagMap.insert({"halt_10", {closeToTheirGoalFlag}});*/
+        flagMap.insert({"halt_10", {closeToTheirGoalFlag}});
         return flagMap;
     }
 

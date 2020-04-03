@@ -7,8 +7,8 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
-    calculateInfoForRoles();
     distributeRoles();
+    calculateInfoForRoles();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
