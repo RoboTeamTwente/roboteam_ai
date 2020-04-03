@@ -10,9 +10,7 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
 
     for (auto& each : allPlays) {
         if (each->isValidPlayToStart(world)) {
-            if(each->isValidPlayToKeep(world)) {
-                validPlays.push_back(each.get());
-            }
+            validPlays.push_back(each.get());
         }
     }
 
