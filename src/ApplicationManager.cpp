@@ -19,7 +19,6 @@
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 
-
 #include "roboteam_utils/normalize.h"
 #include "utilities/Constants.h"
 

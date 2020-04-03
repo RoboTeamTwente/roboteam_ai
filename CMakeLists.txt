@@ -211,8 +211,13 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Defend.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
+        )
+
+set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesFastInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
         )
 
 set(CONDITIONS_SOURCES
@@ -372,6 +377,7 @@ set(AI_SOURCES
         ${NEW_TACTICS_SOURCES}
         ${NEW_ROLES_SOURCES}
         ${NEW_PLAYS_SOURCES}
+        ${INVARIANTS_SOURCES}
         ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
         ${TACTIC_SOURCES}

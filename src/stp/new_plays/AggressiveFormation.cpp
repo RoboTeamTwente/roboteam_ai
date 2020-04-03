@@ -3,8 +3,8 @@
 //
 
 #include "stp/new_plays/AggressiveFormation.h"
-#include "stp/invariants/WeHaveBallInvariant.h"
 
+#include "stp/invariants/BallMovesFastInvariant.h"
 #include "stp/new_roles/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -12,7 +12,7 @@ namespace rtt::ai::stp::play {
 AggressiveFormation::AggressiveFormation() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesFastInvariant>());
 
     // TODO: decide keep invariants
 /*    keepPlayInvariants.clear();

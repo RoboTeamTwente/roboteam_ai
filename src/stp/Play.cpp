@@ -32,6 +32,7 @@ void Play::update() noexcept {
             stpInfos = std::unordered_map<std::string, StpInfo>{};
             return;
         }
+        calculateInfoForRoles();
         distributeRoles();
     }
 
