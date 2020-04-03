@@ -21,11 +21,11 @@ void Skill::rotateRobotCommand() noexcept {
 }
 
 void Skill::publishRobotCommand() noexcept {
+    limitRobotCommand();
+
     if (!SETTINGS.isLeft()) {
         rotateRobotCommand();
     }
-
-    limitRobotCommand();
 
     if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
         RTT_ERROR("x or y vel in command is NaN in skill" + std::string{getName()} + "!\nRobot: " + std::to_string(robot.value()->getId()));
