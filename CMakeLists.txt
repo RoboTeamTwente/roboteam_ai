@@ -186,6 +186,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
         )
 
 set(NEW_ROLES_SOURCES
