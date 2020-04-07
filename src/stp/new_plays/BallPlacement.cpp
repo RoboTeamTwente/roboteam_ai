@@ -5,6 +5,7 @@
 #include "stp/new_plays/Halt.h"
 #include <stp/invariants/HaltGameStateInvariant.h>
 #include <include/roboteam_ai/stp/invariants/WeHaveBallInvariant.h>
+#include <include/roboteam_ai/stp/new_roles/BallPlacer.h>
 #include "stp/new_roles/Halt.h"
 #include "stp/new_plays/BallPlacement.h"
 namespace rtt::ai::stp::play {
@@ -16,10 +17,10 @@ namespace rtt::ai::stp::play {
 
         // TODO: decide keep invariants
         keepPlayInvariants.clear();
-        //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+        keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::Halt>(role::Halt("ball_placer")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
+                std::make_unique<role::BallPlacer>(role::BallPlacer("ball_placer")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
                 std::make_unique<role::Halt>(role::Halt("halt_2")),    std::make_unique<role::Halt>(role::Halt("halt_3")),
                 std::make_unique<role::Halt>(role::Halt("halt_4")),    std::make_unique<role::Halt>(role::Halt("halt_5")),
                 std::make_unique<role::Halt>(role::Halt("halt_6")),    std::make_unique<role::Halt>(role::Halt("halt_7")),
@@ -63,6 +64,6 @@ namespace rtt::ai::stp::play {
     }
 
     const char *BallPlacement::getName() {
-        return "Halt";
+        return "Ball Placement";
     }
 }  // namespace rtt::ai::stp::play
