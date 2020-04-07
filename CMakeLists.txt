@@ -120,8 +120,6 @@ set(INVARIANTS_SOURCES
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/BasicPosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/PosController.cpp
 
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
@@ -133,16 +131,6 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PathPointNode.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
-
-        ${PROJECT_SOURCE_DIR}/src/control/numtrees/NumTreePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numtrees/PathPoint.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/numtrees/Collision.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/shot-controllers/ShotController.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/BallHandlePosControl.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleBackwards.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/DribbleForwards.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateAroundBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/ball-handling/RotateWithBall.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
         )
 
@@ -199,49 +187,26 @@ set(INTERFACE_SOURCES
 
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
-        ${PROJECT_SOURCE_DIR}/src/world/BallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/RobotControllers.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
         ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
         )
 
-set(COACH_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/coach/heuristics/CoachHeuristics.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/heuristics/PassScore.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/heuristics/OffensiveScore.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/PassCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/BallplacementCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/control/PositionUtils.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/OffensiveCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/defence/DefencePositionCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/defence/DefenceDealer.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/defence/PossiblePass.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/midfield/MidFieldCoach.cpp
-        ${PROJECT_SOURCE_DIR}/src/coach/GetBallCoach.cpp)
-
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
-        ${JSON_SOURCES}
-        ${BT_SOURCES}
-        ${ANALYSIS_SOURCES}
-        ${SKILLS_SOURCES}
         ${NEW_SKILLS_SOURCES}
         ${NEW_TACTICS_SOURCES}
         ${NEW_ROLES_SOURCES}
         ${NEW_PLAYS_SOURCES}
         ${INVARIANTS_SOURCES}
-        ${CONDITIONS_SOURCES}
         ${CONTROL_SOURCES}
-        ${TACTIC_SOURCES}
-        ${COACH_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}

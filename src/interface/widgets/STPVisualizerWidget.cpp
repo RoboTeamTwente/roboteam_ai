@@ -7,11 +7,14 @@
  *
  */
 
+#include "interface/widgets/STPVisualizerWidget.h"
+
+#include <QtWidgets/QLayoutItem>
+#include <utilities/GameStateManager.hpp>
+
+#include "interface/widgets/mainWindow.h"
 #include "stp/Play.hpp"
 #include "stp/Role.hpp"
-#include "interface/widgets/STPVisualizerWidget.h"
-#include <QtWidgets/QLayoutItem>
-#include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
     constexpr static const char *tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
