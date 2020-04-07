@@ -77,9 +77,8 @@ namespace rtt::ai::interface {
          * Displays tactic
          * @param tactic tactic to display
          * @param last same as for displayRole
-         * @param Robot to which this applies
          */
-        void displayTactic(stp::Tactic* tactic, bool last, world_new::view::RobotView robot);
+        void displayTactic(stp::Tactic* tactic, bool last);
 
         /**
          * Displays a skill

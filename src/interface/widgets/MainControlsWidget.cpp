@@ -215,9 +215,10 @@ namespace rtt::ai::interface {
 
     void MainControlsWidget::updatePlays() {
         select_play->clear();
-        for (auto const &each : manager->plays) {
-            select_play->addItem(each->getName().begin());
-        }
+        //TODO: re add this
+/*        for (auto const &each : manager->plays) {
+            select_play->addItem(each->getName());
+        }*/
     }
 
     void MainControlsWidget::setIgnoreInvariants(bool ignore) {
