@@ -29,7 +29,7 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 101; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 0; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

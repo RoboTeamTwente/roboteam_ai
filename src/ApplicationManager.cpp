@@ -16,6 +16,7 @@
 #include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
 #include <stp/new_plays/Halt.h>
+#include <include/roboteam_ai/stp/new_plays/BallPlacement.h>
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 
@@ -44,6 +45,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -230,6 +232,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
+    RTT_SUCCESS(!currentPlay)
     if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
