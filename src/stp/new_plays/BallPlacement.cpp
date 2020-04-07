@@ -38,7 +38,6 @@ namespace rtt::ai::stp::play {
         else {
             RTT_ERROR("No ball placement robot assigned!")
         }
-
     }
 
     bool BallPlacement::shouldRoleSkipEndTactic() { return false; }
