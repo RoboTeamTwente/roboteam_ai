@@ -14,9 +14,7 @@ class Pass : public Play {
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Pass(std::string playName);
-
-    bool isValidPlayToStart(world_new::World* world) noexcept override;
+    Pass();
 
     /**
      * Gets the score for the current play
@@ -47,6 +45,11 @@ class Pass : public Play {
      * @return A vector of defend positions
      */
     std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
 
    protected:
     bool shouldRoleSkipEndTactic() override;

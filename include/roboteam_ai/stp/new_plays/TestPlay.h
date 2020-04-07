@@ -14,7 +14,7 @@ class TestPlay : public Play {
     /**
      * Constructor that initializes roles with test roles
      */
-    TestPlay(std::string playName);
+    TestPlay();
 
     /**
      * Gets the score for the current play
@@ -32,11 +32,14 @@ class TestPlay : public Play {
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
-    bool isValidPlayToStart(world_new::World *world) noexcept override;
-
     void calculateInfoForRoles() noexcept override;
 
     bool shouldRoleSkipEndTactic() override;
+
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
 };
 }  // namespace rtt::ai::stp
 

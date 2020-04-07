@@ -45,8 +45,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     publishRobotCommand();
 
     // Check if successful
-    double errorMargin = stp::control_constants::GO_TO_POS_ERROR_MARGIN;
-    if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
+    if ((info.getRobot().value()->getPos() - targetPos).length2() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
         return Status::Success;
     } else {
         return Status::Running;
@@ -54,5 +53,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 }
 
 void GoToPos::onTerminate() noexcept {}
+
+const char *GoToPos::getName() {
+    return "Go To Position";
+}
 
 }  // namespace rtt::ai::stp::skill

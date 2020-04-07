@@ -20,14 +20,14 @@ void Skill::rotateRobotCommand() noexcept {
 }
 
 void Skill::publishRobotCommand() noexcept {
+    limitRobotCommand();
+
     if (!SETTINGS.isLeft()) {
         rotateRobotCommand();
     }
 
-    limitRobotCommand();
-
     if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
-        RTT_ERROR("x or y vel in command is NaN in skill" + std::string{name()} + "!\nRobot: " + std::to_string(robot.value()->getId()))
+        RTT_ERROR("x or y vel in command is NaN in skill" + std::string{getName()} + "!\nRobot: " + std::to_string(robot.value()->getId()));
     }
 
     if (command.id() == -1) {
@@ -62,7 +62,7 @@ void Skill::limitVel() noexcept {
     limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
 
     if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-        RTT_ERROR("Robot will have NAN: " + std::string{name()} + "!\nrobot: " + std::to_string(robot.value()->getId()))
+        RTT_ERROR("Robot will have NAN: " + std::string{getName()} + "!\nrobot: " + std::to_string(robot.value()->getId()));
     }
 
     /* Limit the velocity when the robot has the ball
@@ -108,8 +108,6 @@ Status Skill::update(StpInfo const& info) noexcept {
 }
 
 void Skill::initialize() noexcept { onInitialize(); }
-
-std::string_view Skill::name() const noexcept { return "[abc] Skill"; }
 
 [[nodiscard]] Status Skill::getStatus() const {
     return currentStatus;

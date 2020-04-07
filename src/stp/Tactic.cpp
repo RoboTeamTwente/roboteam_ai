@@ -69,8 +69,4 @@ Skill *Tactic::getCurrentSkill() {
 [[nodiscard]] Status Tactic::getStatus() const {
     return currentStatus;
 }
-
-    const char *Tactic::getName() {
-        return "[abc] Tactic";
-    }
 }  // namespace rtt::ai::stp
