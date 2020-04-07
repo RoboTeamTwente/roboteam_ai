@@ -2,8 +2,8 @@
 // Created by jesse on 07-04-20.
 //
 
-#include <include/roboteam_ai/stp/new_tactics/GetBall.h>
-#include "include/roboteam_ai/stp/new_roles/BallPlacer.h"
+#include "stp/new_tactics/GetBall.h"
+#include "stp/new_roles/BallPlacer.h"
 #include "stp/new_tactics/DriveWithBall.h"
 
 namespace rtt::ai::stp::role {

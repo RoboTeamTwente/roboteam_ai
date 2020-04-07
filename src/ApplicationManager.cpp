@@ -16,7 +16,7 @@
 #include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
 #include <stp/new_plays/Halt.h>
-#include <include/roboteam_ai/stp/new_plays/BallPlacement.h>
+#include "stp/new_plays/BallPlacement.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 
