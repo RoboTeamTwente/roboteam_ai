@@ -7,6 +7,6 @@
 namespace rtt::ai::stp::invariant {
     bool WeHaveBallInvariant::checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept {
         auto& us = world.getUs();
-        return std::any_of(us.begin(), us.end(), [](auto& robot){return robot.hasBall() || true;});
+        return std::any_of(us.begin(), us.end(), [](auto& robot){return robot.hasBall();});
     }
 }
