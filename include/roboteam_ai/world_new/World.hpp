@@ -152,7 +152,6 @@ class World {
         std::lock_guard mtx{ updateMutex };
         updateMap.clear();
         history.clear();
-        robotControllers.clear();
         currentIndex = 0;
         currentWorld.reset();
         currentField.reset();
