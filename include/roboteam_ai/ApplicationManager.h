@@ -9,6 +9,7 @@
 #include <stp/PlayChecker.hpp>
 #include <stp/PlayDecider.hpp>
 #include <interface/widgets/mainWindow.h>
+#include "pagmo/archipelago.hpp"
 
 namespace rtt {
 
@@ -24,6 +25,7 @@ private:
     bool fieldInitialized = false;
     bool robotsInitialized = false;
     ai::interface::MainWindow* mainWindow;
+    pagmo::archipelago archipelago{};
 
     /**
      * Current best play as picked by checker + decider
@@ -45,11 +47,15 @@ private:
      */
     void decidePlay(world_new::World* _world);
 
+    void setPlays();
+
+    void setArchipelago();
+
    public:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+    std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays{};
 
     ApplicationManager(ApplicationManager const&) = delete;
     ApplicationManager& operator=(ApplicationManager const&) = delete;

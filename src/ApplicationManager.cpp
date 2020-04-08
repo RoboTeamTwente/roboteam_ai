@@ -4,7 +4,7 @@
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 #include <utilities/GameStateManager.hpp>
-
+#include "stp/new_plays_analysis/TestProblem.h"
 /**
  * Plays are included here
  */
@@ -29,17 +29,9 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping")
     RTT_INFO("Waiting for field_data and robots...")
 
-    plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    setArchipelago();
 
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
-    playChecker.setPlays(plays);
+    setPlays();
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -87,10 +79,24 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
+            /// If done, set new population and evolve again
+            if (archipelago.status() == pagmo::evolve_status::idle) {
+                RTT_WARNING("done, re-evolving!")
+                ai::stp::TestProblem problem{};
+                problem.updateInfoForProblem(world_new::World::instance());
+                auto population = pagmo::population(problem, 10);
+
+                archipelago[0].set_population(population);
+                archipelago.evolve(10000);
+            }
+
             /**
              * Comment/uncomment this line for new system (can't be used at the same time!)
              */
             decidePlay(world_new::World::instance());
+
+            /// test to get champions_x without blocking execution
+            RTT_ERROR("champions: ", archipelago.get_champions_x()[0][0])
 
             /**
              * Comment/uncomment these lines for old system (can't be used at the same time!)
@@ -156,4 +162,26 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 }
 
 ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
+
+void ApplicationManager::setPlays() {
+    plays.clear();
+
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
+
+    playChecker.setPlays(plays);
+}
+
+void ApplicationManager::setArchipelago() {
+    archipelago = pagmo::archipelago{};
+
+    /// Adding islands to the archipelago
+    archipelago.push_back(pagmo::island{pagmo::algorithm{}, pagmo::population{}});
+}
 }  // namespace rtt

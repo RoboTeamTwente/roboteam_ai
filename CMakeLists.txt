@@ -116,7 +116,7 @@ set(NEW_PLAYS_SOURCES
 
 set(NEW_PLAYS_ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
-        )
+        src/stp/new_plays_analysis/TestProblem.cpp)
 
 set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
@@ -158,7 +158,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
-        )
+        src/stp/new_plays_analysis/TestProblem.cpp)
 
 
 set(INTERFACE_SOURCES
