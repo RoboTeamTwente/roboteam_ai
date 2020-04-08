@@ -1,16 +1,14 @@
-#include "utilities/Settings.h"
-#include <utilities/Constants.h>
-#include <QApplication>
-#include <QStyleFactory>
-#include <include/roboteam_ai/world_new/World.hpp>
-#include "ApplicationManager.h"
-#include "interface/widgets/mainWindow.h"
+#include <utilities/IOManager.h>
 #include <roboteam_utils/Print.h>
+#include <world_new/World.hpp>
+#include "ApplicationManager.h"
+
 namespace ui = rtt::ai::interface;
-std::shared_ptr<ui::MainWindow> window;
+
+ui::MainWindow* window;
 
 void runBehaviourTrees() {
-    rtt::ApplicationManager app;
+    rtt::ApplicationManager app{ window };
     app.start();
     app.checkForShutdown();
 }
@@ -55,7 +53,7 @@ int main(int argc, char* argv[]) {
     if (argc == 2) {
         id = *argv[1] - '0';
     }
-    RTT_INFO("This AI is initialized with id ", id);
+    RTT_INFO("This AI is initialized with id ", id)
     // some default settings for different team ids (saves time while testing)
     if (id == 1) {
         // standard blue team on right
@@ -83,21 +81,17 @@ int main(int argc, char* argv[]) {
 
     rtt::ai::io::io.init(rtt::SETTINGS.getId());
 
-    BTFactory::makeTrees();
-    while (!BTFactory::hasMadeTrees());
-
-    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
-
     // initialize the interface
     QApplication a(argc, argv);
     setDarkTheme();
 
     // Todo make this a not-global-static thingy
     rtt::world_new::World* worldManager = rtt::world_new::World::instance();
-    window = std::make_shared<ui::MainWindow>(*worldManager);
+    window = new ui::MainWindow{ *worldManager };
     window->setWindowState(Qt::WindowMaximized);
 
-    window->show();
+    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
 
+    window->show();
     return a.exec();
 }

@@ -41,6 +41,11 @@ class TestTactic : public Tactic {
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
 
 }  // namespace rtt::ai::stp

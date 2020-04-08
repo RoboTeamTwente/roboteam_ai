@@ -4,6 +4,7 @@
 
 #ifndef RTT_ROLE_HPP
 #define RTT_ROLE_HPP
+
 #include <utility>
 #include <vector>
 
@@ -15,27 +16,51 @@ namespace rtt::ai::stp {
  * essentially a state machine of Tactics
  */
 class Role {
-   public:
-    Role(std::string name) : roleName{std::move(name)} {}
-    /**
-     * Function that's called every tick, default implementation is robotTactics.update();
-     * @param info TacticInfo to be passed to update()
-     * @return The status that the current tactic returns
-     */
-    [[nodiscard]] virtual Status update(StpInfo const& info) noexcept;
+public:
+    Role(std::string name)
+        : roleName{std::move(name)} {}
 
     /**
-     * @return True if all tactics returned Status::finish
-     */
+    * Function that's called every tick, default implementation is robotTactics.update();
+    * @param info TacticInfo to be passed to update()
+    * @return The status that the current tactic returns
+    */
+    [[nodiscard]] virtual Status update(StpInfo const &info) noexcept;
+
+    /**
+    * @return True if all tactics returned Status::finish
+    */
     [[nodiscard]] bool finished() const noexcept;
 
     /**
-     * Gets the name
-     * @return name of the role
-     */
+    * Gets the name
+    * @return name of the role
+    */
     std::string getName() { return roleName; }
 
-   protected:
+    /**
+    * Gets the current robot
+    * @return view to the robot this role belongs to, optional.
+    */
+    [[nodiscard]] std::optional<world_new::view::RobotView> const& getCurrentRobot() const;
+
+    /**
+    * Gets the tactic whose turn it is
+    * @return Tactic*
+    */
+    [[nodiscard]] Tactic* getCurrentTactic();
+
+    /**
+    * Forces the Role to skip to the next tactic in the state machine
+    */
+    void forceNextTactic() noexcept;
+
+protected:
+    /**
+     * Robot to which this role is currently assigned
+     */
+    std::optional<world_new::view::RobotView> currentRobot;
+
     /**
      * Name of the role
      */
@@ -45,20 +70,6 @@ class Role {
      * State machine that keeps track of tactic states
      */
     collections::state_machine<Tactic, Status, StpInfo> robotTactics;
-
-    /**
-     * This function should calculate any extra information that the tactics might need to be executed.
-     * Though this method is responsible for ensuring everything is calculated, it helps to use helpers so this
-     * function doesn't become a massive hack
-     */
-    virtual StpInfo calculateInfoForTactic(StpInfo const &info) noexcept = 0;
-
-    /**
-     * When the state should reset
-     * @param info the role info passed down from the play
-     * @return true if the active tactic cannot execute (it's prerequisites are no longer met)
-     */
-    virtual bool shouldRoleReset(const StpInfo &info) noexcept = 0;
 };
 
 }  // namespace rtt::ai::stp

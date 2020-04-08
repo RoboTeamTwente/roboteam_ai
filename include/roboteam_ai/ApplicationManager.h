@@ -6,29 +6,24 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <roboteam_utils/Timer.h>
-#include <utilities/StrategyManager.h>
+#include <stp/PlayChecker.hpp>
+#include <stp/PlayDecider.hpp>
+#include <interface/widgets/mainWindow.h>
 
-#include <include/roboteam_ai/stp/PlayChecker.hpp>
-#include <include/roboteam_ai/stp/PlayDecider.hpp>
-
-#include "treeinterp/BTFactory.h"
-#include "utilities/IOManager.h"
 namespace rtt {
 
 class ApplicationManager {
-   private:
+public:
+    explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
+
+private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
+
     int ticksFree = 0;
-    bt::BehaviorTree::Ptr strategy;
-    bt::BehaviorTree::Ptr keeperTree;
-    void notifyTreeStatus(bt::Node::Status status);
     void runOneLoopCycle();
-    bool weHaveRobots = false;
-    std::string oldKeeperTreeName = "";
-    std::string oldStrategyName = "";
     bool fieldInitialized = false;
     bool robotsInitialized = false;
+    ai::interface::MainWindow* mainWindow;
 
     /**
      * Current best play as picked by checker + decider
@@ -45,19 +40,19 @@ class ApplicationManager {
     rtt::ai::stp::PlayDecider playDecider;
     /**
      * Function that decides whether to change plays given a world and field.
-     * @param world the current world state
+     * @param _world the current world state
      * @param field the current field state
      */
-    rtt::ai::stp::Status decidePlay(world_new::World* world);
+    void decidePlay(world_new::World* _world);
 
    public:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    void updateCoaches(const ai::world::Field& field) const;
-    void updateTrees();
-    bt::Node::Status runStrategyTree(const ai::world::Field& field);
-    void runKeeperTree(const ai::world::Field& field);
+    std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+
+    ApplicationManager(ApplicationManager const&) = delete;
+    ApplicationManager& operator=(ApplicationManager const&) = delete;
 };
 
 }  // namespace rtt

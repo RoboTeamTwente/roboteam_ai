@@ -8,9 +8,7 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <include/roboteam_ai/world_new/World.hpp>
-#include "analysis/GameAnalyzer.h"
 #include "interface/widgets/mainWindow.h"
-#include "roboteam_proto/WorldRobot.pb.h"
 
 namespace rtt::ai::interface {
 
@@ -30,7 +28,7 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world) {
     auto field = world_new::World::instance()->getField();
     if (!field){
-        RTT_ERROR("Could not get field!");
+        RTT_ERROR("Could not get field!")
         return;
     }
     auto us =world->getUs();

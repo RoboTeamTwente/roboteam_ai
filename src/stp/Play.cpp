@@ -7,7 +7,8 @@
 namespace rtt::ai::stp {
 
 void Play::initialize() noexcept {
-    assignRoles();
+    calculateInfoForRoles();
+    distributeRoles();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
@@ -15,43 +16,104 @@ void Play::updateWorld(world_new::World* world) noexcept {
     this->field = world->getField().value();
 }
 
-Status Play::update() noexcept {
-    constexpr static size_t ENUM_COUNT = 4;
-    std::array<size_t, ENUM_COUNT> count{};
-    std::fill(count.begin(), count.end(), 0);
+void Play::update() noexcept {
+    // clear roleStatuses so it only contains the current tick's statuses
+    roleStatuses.clear();
+    RTT_INFO("Play executing: ", getName())
 
-    if(world->getWorld()->getUs().size() != stpInfos.size()) {
-        RTT_WARNING("Reassigning bots");
-        assignRoles();
+    if (world->getWorld()->getUs().size() != stpInfos.size()) {
+        RTT_WARNING("Reassigning bots")
+
+        // Make sure we don't re assign with too many robots
+        if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
+            RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
+            // Make sure the stpInfos is cleared to trigger a reassign whenever
+            // the robots don't exceed ROBOT_COUNT anymore
+            stpInfos = std::unordered_map<std::string, StpInfo>{};
+            return;
+        }
+        calculateInfoForRoles();
+        distributeRoles();
     }
 
-    calculateInfoForPlay();
+    // Refresh the RobotViews, BallViews and fields
+    refreshData();
 
-    for (auto& each : roles) {
-        auto roleName{each->getName()};
-        if(stpInfos.find(roleName) != stpInfos.end()) {
-            // TODO refresh robots
-            stpInfos[roleName].setRobot(world->getWorld()->getRobotForId(stpInfos.find(roleName)->second.getRobot()->get()->getId()));
-            stpInfos[roleName].setBall(world->getWorld()->getBall());
-            stpInfos[roleName].setField(world->getField());
+    // derived class method call
+    calculateInfoForRoles();
 
-            auto index = static_cast<size_t>(each->update(stpInfos.find(each->getName())->second));
-            count[index] += 1;
+    for (auto& role : roles) {
+        // Update the roles
+        if (stpInfos.find(role->getName()) != stpInfos.end()) {
+            auto roleStatus = role->update(stpInfos[role->getName()]);
+            roleStatuses[role.get()] = roleStatus;
+
+            if (roleStatus == Status::Waiting) {
+                // Should role skip end tactic?
+                if (shouldRoleSkipEndTactic()) {
+                    // TODO: force role to go to next tactic
+                    // role.forceNextTactic(); (not implemented yet)
+                }
+            }
+        } else {
+            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
-
-    if (count[static_cast<size_t>(Status::Success)] == rtt::ai::Constants::ROBOT_COUNT()) {
-        return Status::Success;
-    }
-
-    if (count[static_cast<size_t>(Status::Failure)]) {
-        return Status::Failure;
-    }
-
-    if (count[static_cast<size_t>(Status::Waiting)]) {
-        return Status::Waiting;
-    }
-
-    return Status::Running;
 }
+
+bool Play::arePlayRolesFinished() {
+    return !roleStatuses.empty() && std::all_of(roleStatuses.begin(), roleStatuses.end(), [](auto& s) { return s.second == Status::Success; });
+}
+
+void Play::refreshData() noexcept {
+    // Get a new BallView and field from world
+    auto newBallView = world->getWorld()->getBall();
+    auto newField = world->getField();
+
+    for (auto& role : roles) {
+        auto stpInfo = stpInfos.find(role->getName());
+        if (stpInfo != stpInfos.end()) {
+            // Get a new RobotView from world using the old robot id
+            stpInfo->second.setRobot(world->getWorld()->getRobotForId(stpInfo->second.getRobot()->get()->getId()));
+
+            // Assign the new BallView and field
+            stpInfo->second.setBall(newBallView);
+            stpInfo->second.setField(newField);
+        }
+    }
+}
+
+void Play::distributeRoles() noexcept {
+    Dealer dealer{world->getWorld().value(), &field};
+
+    auto flagMap = decideRoleFlags();
+
+    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
+
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto& role : roles) {
+        auto roleName{role->getName()};
+        if (distribution.find(roleName) != distribution.end()) {
+            auto robot = distribution.find(role->getName())->second;
+
+            stpInfos.emplace(roleName, StpInfo{});
+            stpInfos[roleName].setRobot(robot);
+        }
+    }
+}
+
+std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
+    return roleStatuses;
+}
+
+bool Play::isValidPlayToKeep(world_new::World *world) const noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+}
+
+bool Play::isValidPlayToStart(world_new::World *world) const noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+}
+
 }  // namespace rtt::ai::stp

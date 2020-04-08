@@ -148,9 +148,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
     if (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) return true;
 
     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-    if (o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd)) return true;
-
-    return false;  // Doesn't fall in any of the above cases
+    return o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd);
 }
 
 // Computes the absolute difference between 2 angles (the shortest orientation direction)
@@ -246,7 +244,7 @@ double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2
 }
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
-Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 position, double margin) {
+Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Vector2 position, double margin) {
     double hFieldLength = field.getFieldLength() / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, -hFieldLength + margin);
@@ -258,7 +256,7 @@ Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 p
     return position;
 }
 
-Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const Field &field, Vector2 position, double margin) {
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin) {
     if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
         return position;
@@ -315,8 +313,8 @@ const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector
     return closestRobot;
 }
 
-Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
-                                                       double outOfFieldMargin) {
+Vector2 ControlUtils::getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
+                                                       double) {
     LineSegment shotLine(line.start, line.end + (line.end - line.start));
     Vector2 projectPos = shotLine.project(position);
     Vector2 closestPoint = projectPos;
