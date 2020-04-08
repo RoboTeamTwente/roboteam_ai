@@ -29,7 +29,7 @@ namespace rtt::ai::stp::tactic {
 
         if (skills.current_num() == 0) {
             // First GoToPos: Go behind ball
-            newRobotPosition = ballPosition + (ballPosition - targetPosition).stretchToLength(2 * ballDistanceMargin);
+            newRobotPosition = ballPosition + (ballPosition - targetPosition).stretchToLength(ballDistanceMargin);
         } else {
             // Second GoToPos: Go towards ball
             newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance -
