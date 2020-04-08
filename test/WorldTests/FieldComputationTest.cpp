@@ -8,7 +8,6 @@ namespace rtt {
 
 // Checks whether the margins of the functions are all outwards
 TEST(FieldComputationTest, outwards_margin) {
-
 }
 
 }  // namespace rtt
