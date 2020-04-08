@@ -11,7 +11,7 @@ namespace input {
 JoystickHandler::JoystickHandler() {
     std::cout << "[JoystickHandler] New JoystickHandler" << std::endl;
     command.set_chip_kick_forced(true);
-};
+}
 
 void JoystickHandler::tick() {
     updateVelocity();

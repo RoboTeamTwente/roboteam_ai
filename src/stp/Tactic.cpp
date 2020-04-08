@@ -14,7 +14,7 @@ void Tactic::initialize() noexcept { onInitialize(); }
 
 Status Tactic::update(StpInfo const &info) noexcept {
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("Required information missing in the tactic info");
+        RTT_WARNING("Required information missing in the tactic info")
         currentStatus = Status::Failure;
         return Status::Failure;
     }
@@ -27,7 +27,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
     // Call onUpdate on a skill for specific behaviour
     onUpdate(status);
-    RTT_DEBUG("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId());
+    RTT_DEBUG("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId())
 
     // Check if the skills are all finished
     if (skills.finished()) {

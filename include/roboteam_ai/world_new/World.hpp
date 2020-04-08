@@ -5,7 +5,6 @@
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
 #include <vector>
-#include "RobotControllers.hpp"
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
@@ -131,13 +130,6 @@ class World {
     [[nodiscard]] uint64_t getTimeDifference() const noexcept;
 
     /**
-     * Gets robot controllers for a specific robot
-     * @param id Id of the robot to get the controllers from
-     * @return A constant reference to the robot controller struct
-     */
-    [[nodiscard]] robot::RobotControllers &getControllersForRobot(uint8_t id) noexcept;
-
-    /**
      * Gets the history size
      * @return size_t The amount of elements in the history
      */
@@ -160,7 +152,6 @@ class World {
         std::lock_guard mtx{ updateMutex };
         updateMap.clear();
         history.clear();
-        robotControllers.clear();
         currentIndex = 0;
         currentWorld.reset();
         currentField.reset();
@@ -210,11 +201,6 @@ class World {
      * History of the world, this is where old world data is pushed to
      */
     std::vector<rtt::world_new::WorldData> history;
-
-    /**
-     * Map that maps robot ID's to their robot controllers
-     */
-    std::unordered_map<uint8_t, robot::RobotControllers> robotControllers{};
 
     /**
      * Current index into the ringbuffer that's the world history
