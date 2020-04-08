@@ -13,6 +13,7 @@
 #include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_plays/Halt.h"
+#include "stp/new_plays/BallPlacement.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 
@@ -37,6 +38,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
