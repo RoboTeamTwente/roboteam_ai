@@ -5,11 +5,13 @@
 #ifndef ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 #define ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 
+#include <include/roboteam_ai/ApplicationManager.h>
+
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
-#include <include/roboteam_ai/ApplicationManager.h>
+
 #include "QLayout"
 #include "widget.h"
 
@@ -19,7 +21,7 @@ class MainControlsWidget : public QWidget {
     Q_OBJECT
    public:
     void updatePlays();
-    explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager* manager = nullptr);
+    explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager *manager = nullptr);
 
    private:
     QVBoxLayout *vLayout;
@@ -33,7 +35,7 @@ class MainControlsWidget : public QWidget {
     QComboBox *select_goalie;
     QComboBox *select_ruleset;
 
-    ApplicationManager* manager;
+    ApplicationManager *manager;
 
     bool ignoreInvariants;
 
