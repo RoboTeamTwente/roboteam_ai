@@ -27,7 +27,7 @@ StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     auto goalToBall = info.getBall().value()->getPos() - info.getField().value().getOurGoalCenter();
-    auto targetPosition = info.getField().value().getOurGoalCenter() + goalToBall.stretchToLength(0.75);
+    auto targetPosition = info.getField().value().getOurGoalCenter() + goalToBall.stretchToLength(info.getField().value().getGoalWidth() / 2.0);
     auto targetAngle = goalToBall.angle();
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
