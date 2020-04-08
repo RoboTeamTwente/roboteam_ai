@@ -6,6 +6,7 @@
 #define RTT_KEEPER_H
 
 #include "stp/Role.hpp"
+#include "world/Field.h"
 
 namespace rtt::ai::stp::role {
 
@@ -16,6 +17,11 @@ public:
      * @param name name of the role
      */
     Keeper(std::string name);
+
+    [[nodiscard]] Status update(StpInfo const &info) noexcept override;
+
+private:
+    [[nodiscard]] bool isBallInOurDefenseAreaAndStill(world::Field field, Vector2 ballPos, Vector2 ballVel) noexcept;
 };
 
 } // namespace rtt::ai::stp::role

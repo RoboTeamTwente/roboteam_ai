@@ -20,6 +20,6 @@ bool RobotOutside::checkPoint() {
     // return success if the ball is out of the field
     double margin = 0.15;
     return !(abs(robot->get()->getPos().x) < (*field).getFieldLength() / 2 + margin && abs(robot->get()->getPos().y) < (*field).getFieldWidth() / 2 + margin &&
-             !FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos()));
+             !FieldComputations::pointIsInDefenseArea(*field, robot->get()->getPos()));
 }
 }  // namespace rtt::ai

@@ -55,10 +55,10 @@ Vector2 ActiveStop::getPoint(const Field &field, const rtt::world_new::view::Bal
 
     Vector2 offset = (penaltyPos - ballPos).stretchToLength(1.2);  // ssl rule + significant buffer
 
-    if (FieldComputations::pointIsInDefenceArea(field, ballPos + offset, true, 0.3, true)) {
+    if (FieldComputations::pointIsInDefenseArea(field, ballPos + offset, true, 0.3, true)) {
         return offset;
     }
-    if (FieldComputations::pointIsInDefenceArea(field, ballPos + offset, false, 0.3, true)) {
+    if (FieldComputations::pointIsInDefenseArea(field, ballPos + offset, false, 0.3, true)) {
         return offset;
     }
     return ballPos + offset;

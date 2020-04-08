@@ -23,7 +23,7 @@ HasClearShot::Status HasClearShot::onUpdate() {
         return Status::Failure;
     }
 
-    if (FieldComputations::pointIsInDefenceArea(*field, robot->get()->getPos(), false, 0.5, false)) {
+    if (FieldComputations::pointIsInDefenseArea(*field, robot->get()->getPos(), false, 0.5, false)) {
         minViewAtGoal /= 4;
     }
 

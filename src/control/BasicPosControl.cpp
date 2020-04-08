@@ -36,7 +36,7 @@ RobotCommand BasicPosControl::getRobotCommand(int robotId, const Vector2 &target
         }
     }
     if (!getCanMoveInDefenseArea(robot->getId())) {
-        if (FieldComputations::pointIsInDefenceArea(field, targetPos)) {
+        if (FieldComputations::pointIsInDefenseArea(field, targetPos)) {
             target = ControlUtils::projectPositionToOutsideDefenseArea(field, targetPos);
         }
     }

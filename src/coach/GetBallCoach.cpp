@@ -17,7 +17,8 @@ bool GetBallCoach::shouldWeGetBall(const Field &field) {
     // return true if we want to do some ball handling (e.g. harrassing, getting the ball or so). False in other cases
     // should probably listen to ballPossession at some point
     Vector2 ballPos = world_new::World::instance()->getWorld()->getBall()->get()->getPos();
-    return !FieldComputations::pointIsInDefenceArea(field, ballPos, true, 0.04) && !FieldComputations::pointIsInDefenceArea(field, ballPos, false) &&
+    return !FieldComputations::pointIsInDefenseArea(field, ballPos, true, 0.04) && !FieldComputations::pointIsInDefenseArea(
+            field, ballPos, false) &&
            FieldComputations::pointIsInField(field, ballPos, -0.05);
 }
 

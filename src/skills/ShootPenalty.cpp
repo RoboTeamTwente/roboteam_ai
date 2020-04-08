@@ -41,9 +41,9 @@ bt::Node::Status ShootPenalty::onUpdate() {
             ballPos = ball->get()->getPos();
         }
     } else {
-        if (ball && !FieldComputations::pointIsInDefenceArea(*field, ballPos, false, -0.1)) {
+        if (ball && !FieldComputations::pointIsInDefenseArea(*field, ballPos, false, -0.1)) {
             Vector2 targetPos = world->getBall()->get()->getPos() + additionalBallDist;
-            if (FieldComputations::pointIsInDefenceArea(*field, ballPos, false, 0.2)) {
+            if (FieldComputations::pointIsInDefenseArea(*field, ballPos, false, 0.2)) {
                 auto cmd = robot->getControllers().getBasicPosController()->getRobotCommand(robot->get()->getId(), targetPos);
                 command.mutable_vel()->set_x(cmd.vel.x);
                 command.mutable_vel()->set_y(cmd.vel.y + gain);

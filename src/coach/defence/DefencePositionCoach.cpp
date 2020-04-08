@@ -46,7 +46,7 @@ std::shared_ptr<Line> DefencePositionCoach::getBlockLineSegment(const Field &fie
     Vector2 FurthestBlock = getBlockPoint(openGoalSegment, point, collisionRadius);
     Vector2 startPos = point + (FurthestBlock - point).stretchToLength(collisionRadius);  // start should be out of collision radius
     // if the starting position is in the defence area you cannot 'squeeze a robot in between the position and the defence area
-    if (FieldComputations::pointIsInDefenceArea(field, startPos, true, margin)) {
+    if (FieldComputations::pointIsInDefenseArea(field, startPos, true, margin)) {
         return nullptr;
     }
     // check intersections with defense area and shorten line if needed
@@ -65,7 +65,7 @@ std::shared_ptr<Vector2> DefencePositionCoach::blockOnDefenseLine(const Field &f
     Vector2 lineToSideTwo = (openGoalSegment.end - point);
     Vector2 startPos = point + (lineToSideOne + lineToSideTwo).stretchToLength(collisionRadius);
     // if starting point is in the defence area there is no room for a robot to squeeze in
-    if (FieldComputations::pointIsInDefenceArea(field, startPos, true, margin)) {
+    if (FieldComputations::pointIsInDefenseArea(field, startPos, true, margin)) {
         return nullptr;
     }
     Vector2 endPos = point + (lineToSideOne + lineToSideTwo) * 0.5;  // this defines the line on which the bisector lies.
@@ -255,7 +255,7 @@ std::vector<world_new::view::RobotView> DefencePositionCoach::getTheirAttackers(
     std::vector<world_new::view::RobotView> theirAttackers;
     for (auto &robot : them) {
         // we remove any attackers that are outside of the field or in our defence area
-        if (!FieldComputations::pointIsInDefenceArea(field, robot->getPos(), true, 0.04) && FieldComputations::pointIsInField(field, robot->getPos(), -0.1)) {
+        if (!FieldComputations::pointIsInDefenseArea(field, robot->getPos(), true, 0.04) && FieldComputations::pointIsInField(field, robot->getPos(), -0.1)) {
             theirAttackers.push_back(robot);
         }
     }
@@ -293,11 +293,15 @@ std::shared_ptr<Vector2> DefencePositionCoach::pickNewPosition(const Field &fiel
     // we pick new points on which we can defend preferably as close as possible to the middle of the pass.
     for (int j = 0; j <= segments * 0.5; ++j) {
         Vector2 forwardPosition = pass.posOnLine(0.5 + j / segments);
-        if (validNewPosition(field, forwardPosition) && !FieldComputations::pointIsInDefenceArea(field, forwardPosition, true, defenceLineMargin)) {
+        if (validNewPosition(field, forwardPosition) && !FieldComputations::pointIsInDefenseArea(field, forwardPosition,
+                                                                                                 true,
+                                                                                                 defenceLineMargin)) {
             return std::make_shared<Vector2>(forwardPosition);
         }
         Vector2 backwardPosition = pass.posOnLine(0.5 - j / segments);
-        if (validNewPosition(field, backwardPosition) && !FieldComputations::pointIsInDefenceArea(field, forwardPosition, true, defenceLineMargin)) {
+        if (validNewPosition(field, backwardPosition) && !FieldComputations::pointIsInDefenseArea(field,
+                                                                                                  forwardPosition, true,
+                                                                                                  defenceLineMargin)) {
             return std::make_shared<Vector2>(backwardPosition);
         }
     }

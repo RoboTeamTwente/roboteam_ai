@@ -77,7 +77,7 @@ Vector2 Keeper::computeBlockPoint(const Vector2 &defendPos) {
             posA = *intersections.first;
             posB = *intersections.second;
 
-            if (!FieldComputations::pointIsInDefenceArea(*field, posA, true)) {
+            if (!FieldComputations::pointIsInDefenseArea(*field, posA, true)) {
                 blockPos = posB;
             }
 
