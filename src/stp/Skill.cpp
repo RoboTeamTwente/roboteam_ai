@@ -8,7 +8,6 @@
 
 #include "control/ControlUtils.h"
 #include "utilities/IOManager.h"
-#include "utilities/RobotDealer.h"
 #include "utilities/Settings.h"
 #include "world_new/World.hpp"
 

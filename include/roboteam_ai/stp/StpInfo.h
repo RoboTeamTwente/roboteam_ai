@@ -176,6 +176,6 @@ struct StpInfo {
      */
     BlockDistance blockDistance;
 };
-};  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp
 
 #endif  // RTT_STPINFO_H

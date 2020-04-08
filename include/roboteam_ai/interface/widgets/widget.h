@@ -29,6 +29,7 @@ class Visualizer : public QWidget {
     bool robotIsSelected(rtt::world_new::view::RobotView robot);
     bool robotIsSelected(int id);
     void setPlayForRobot(std::string const& view, uint8_t i);
+    void setTacticForRobot(std::string const& view, uint8_t i);
 
    public slots:
     void setShowRoles(bool showRoles);
@@ -83,6 +84,7 @@ class Visualizer : public QWidget {
 
     std::unordered_map<int, rtt::world_new::view::RobotView> selectedRobots;
     std::unordered_map<uint8_t, std::string> rolesForRobots;
+    std::unordered_map<uint8_t, std::string> tacticsForRobots;
 
     // toggles
     bool showRoles = Constants::STD_SHOW_ROLES();
@@ -95,6 +97,7 @@ class Visualizer : public QWidget {
     bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
     bool fieldInversed = false;
     std::mutex rolesUpdate;
+    std::mutex tacticsUpdate;
 };
 
 }  // namespace rtt::ai::interface

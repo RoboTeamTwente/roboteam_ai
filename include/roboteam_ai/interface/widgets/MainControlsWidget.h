@@ -5,10 +5,13 @@
 #ifndef ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 #define ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 
+#include <include/roboteam_ai/ApplicationManager.h>
+
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
+
 #include "QLayout"
 #include "widget.h"
 
@@ -17,13 +20,10 @@ namespace rtt::ai::interface {
 class MainControlsWidget : public QWidget {
     Q_OBJECT
    public:
-    explicit MainControlsWidget(QWidget *parent = nullptr);
-
-   signals:
-    void treeHasChanged();
+    void updatePlays();
+    explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager *manager = nullptr);
 
    private:
-    //  QLineSeries* lineSeries;
     QVBoxLayout *vLayout;
     QPushButton *pauseBtn;
     QPushButton *toggleColorBtn;
@@ -31,23 +31,26 @@ class MainControlsWidget : public QWidget {
     QPushButton *toggleSerialBtn;
     QShortcut *spaceClick;
 
-    QComboBox *select_strategy;
-    QComboBox *select_keeper_strategy;
+    QComboBox *select_play;
     QComboBox *select_goalie;
     QComboBox *select_ruleset;
+
+    ApplicationManager *manager;
+
+    bool ignoreInvariants;
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;
     void setToggleSerialBtnLayout() const;
 
    public slots:
-    void setTimeOutTop(bool top);
     void toggleOurColorParam();
     void toggleOurSideParam();
     void toggleSerialParam();
     void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);
+    void setIgnoreInvariants(bool ignore);
     void updateContents();
 };
 }  // namespace rtt::ai::interface

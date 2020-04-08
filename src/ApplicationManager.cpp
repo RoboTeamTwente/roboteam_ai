@@ -1,30 +1,24 @@
 #include <ApplicationManager.h>
-#include <bt/Node.h>
-#include <coach/GetBallCoach.h>
-#include <coach/OffensiveCoach.h>
-#include <coach/PassCoach.h>
-#include <coach/defence/DefenceDealer.h>
+#include <include/roboteam_ai/utilities/IOManager.h>
 #include <interface/api/Input.h>
-#include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
-
+#include <roboteam_utils/normalize.h>
 #include <utilities/GameStateManager.hpp>
-#include <world_new/World.hpp>
 
-#include <stp/new_plays/TestPlay.h>
+/**
+ * Plays are included here
+ */
+#include "stp/new_plays/TestPlay.h"
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
-#include <stp/new_plays/Halt.h>
+#include "stp/new_plays/Halt.h"
+#include "stp/new_plays/BallPlacement.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 
-#include "roboteam_utils/normalize.h"
-#include "utilities/Constants.h"
-
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
-using Status = bt::Node::Status;
 
 namespace rtt {
 
@@ -32,10 +26,10 @@ namespace rtt {
 void ApplicationManager::start() {
     // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
-    RTT_INFO("Start looping");
-    RTT_INFO("Waiting for field_data and robots...");
+    RTT_INFO("Start looping")
+    RTT_INFO("Waiting for field_data and robots...")
 
-    auto plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
@@ -44,6 +38,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -121,108 +116,21 @@ void ApplicationManager::runOneLoopCycle() {
     }
     /*
      * This is a hack performed at the robocup.
-     * It does a soft refresh when robots are not properly claimed by robotdealer.
      */
     checkForFreeRobots();
 }
 
-// Update the trees from the GameState
-// The gamestate is usually altered by the interface or the referee
-// or, in exceptional cases, by forcing it in the code (for example in the notifyTreeStatus() function below)
-void ApplicationManager::updateTrees() {
-    auto gameState = ai::GameStateManager::getCurrentGameState();
-    std::string strategyName = gameState.strategyName;
-    std::string keeperTreeName = gameState.keeperStrategyName;
-
-    bool strategyChanged = oldStrategyName != strategyName;
-    bool keeperStrategyChanged = oldKeeperTreeName != keeperTreeName;
-
-    if (strategyChanged) {
-        RTT_INFO("Switching main strategy to ", strategyName);
-        BTFactory::setCurrentTree(strategyName);
-        oldStrategyName = strategyName;
-    }
-
-    if (keeperStrategyChanged) {
-        RTT_INFO("Switching keeper strategy to ", keeperTreeName)
-        BTFactory::setKeeperTree(keeperTreeName);
-        oldKeeperTreeName = keeperTreeName;
-    }
-
-    if (keeperStrategyChanged || strategyChanged) {
-        ai::robotDealer::RobotDealer::refresh();
-    }
-    ai::robotDealer::RobotDealer::setKeeperID(gameState.keeperId);
-}
-
-/// Tick the keeper tree if both the tree and keeper exist
-void ApplicationManager::runKeeperTree(const ai::world::Field &field) {
-    world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
-    keeperTree = BTFactory::getKeeperTree();
-    if (keeperTree && ai::robotDealer::RobotDealer::keeperExistsInWorld()) {
-        keeperTree->tick(_world, &field);
-    }
-}
-
-/// Tick the strategy tree if the tree exists
-Status ApplicationManager::runStrategyTree(const ai::world::Field &field) {
-    if (BTFactory::getCurrentTree() == "NaN") {
-        RTT_ERROR("Current tree is NaN! The tree might be halting");
-        return Status::Waiting;
-    }
-    world_new::view::WorldDataView _world = world_new::World::instance()->getWorld().value();
-    strategy = BTFactory::getTree(BTFactory::getCurrentTree());
-    Status status = strategy->tick(_world, &field);
-    return status;
-}
-
-/// Update the coaches information
-void ApplicationManager::updateCoaches(const ai::world::Field &field) const {
-    auto coachesCalculationTime = roboteam_utils::Timer::measure([&]() {
-        ai::coach::getBallCoach->update(field);
-        ai::coach::g_DefenceDealer.updateDefenderLocations(field);
-        ai::coach::g_offensiveCoach.updateOffensivePositions(field);
-        ai::coach::g_pass.updatePassProgression();
-    });
-    //    std::cout << "the coaches took: " << coachesCalculationTime.count() << " ms to calculate" << std::endl;
-}
-
-/// Terminate trees
 void ApplicationManager::checkForShutdown() {
     // Terminate if needed
-    if (strategy->getStatus() == Status::Running) {
-        strategy->terminate(Status::Running);
-    }
+    // TODO:
+    //    if (strategy->getStatus() == Status::Running) {
+//        strategy->terminate(Status::Running);
+//    }
 }
 
-// Robotdealer hack to prevent robots from staying 'free' during play
 void ApplicationManager::checkForFreeRobots() {
-    if (ai::robotDealer::RobotDealer::hasFree()) {
-        if (ticksFree++ > 10) {
-            ai::robotDealer::RobotDealer::refresh();
-        }
-    } else {
-        ticksFree = 0;
-    }
-}
-
-/// handle the status of a tree, and traverse to normal play when a tree either succeeds or fails.
-void ApplicationManager::notifyTreeStatus(bt::Node::Status status) {
-    switch (status) {
-        case Status::Running:
-            break;
-        case Status::Success:
-            RTT_SUCCESS("Tree returned status: success! -> Changing strategy to normal_play");
-            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, world_new::World::instance()->getWorld()->getBall());
-            break;
-        case Status::Failure:
-            RTT_WARNING("Tree returned status: failure! -> Changing strategy to normal_play");
-            ai::GameStateManager::forceNewGameState(RefCommand::NORMAL_START, world_new::World::instance()->getWorld()->getBall());
-            break;
-        case Status::Waiting:
-            RTT_INFO("Tree returned status: waiting");
-            break;
-    }
+    // todo: replace this
+    // basically just update tick count for how long robots have been free? i guess?
 }
 
 void ApplicationManager::decidePlay(world_new::World *_world) {
@@ -234,8 +142,8 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            // TODO: maybe we want to assign some default play (halt?) when there are no valid plays
-            // currentPlay = some_default_play;
+            // TODO: maybe we want to assign some default play (halt?) when there are no valid plays. Don't forget to cal initialize when we do!
+            currentPlay = nullptr;
             return;
         }
         currentPlay = playDecider.decideBestPlay(_world, validPlays);

@@ -4,26 +4,21 @@
 
 #include "interface/widgets/MainControlsWidget.h"
 
-#include <Switches.h>
 #include <include/roboteam_ai/interface/api/Input.h>
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <interface/api/Output.h>
-#include <treeinterp/BTFactory.h>
-#include <utilities/RobotDealer.h>
 
 #include <utilities/GameStateManager.hpp>
 
 #include "interface/widgets/mainWindow.h"
-#include "treeinterp/BTFactory.h"
 #include "utilities/GameState.h"
 
-namespace rtt {
-namespace ai {
-namespace interface {
+namespace rtt::ai::interface {
 
-MainControlsWidget::MainControlsWidget(QWidget *parent) {
+MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appManager) : QWidget(parent), manager{appManager} {
     Output::setUseRefereeCommands(Constants::STD_USE_REFEREE());
 
+    // todo: 2 dropdown menus, fix them to reflect new STP
     vLayout = new QVBoxLayout();
 
     pauseBtn = new QPushButton("Stop");
@@ -37,8 +32,10 @@ MainControlsWidget::MainControlsWidget(QWidget *parent) {
 
     auto refHorizontalLayout = new QHBoxLayout();
 
+    // todo: the hacks for SLOTS() are unbelievable
     // functions to select strategies
     MainWindow::configureCheckBox("Use referee", refHorizontalLayout, this, SLOT(setUseReferee(bool)), Constants::STD_USE_REFEREE());
+    MainWindow::configureCheckBox("Ignore invariants", refHorizontalLayout, this, SLOT(setIgnoreInvariants(bool)), false);
 
     toggleSerialBtn = new QPushButton("Serial");
     QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
@@ -51,26 +48,13 @@ MainControlsWidget::MainControlsWidget(QWidget *parent) {
     auto gameStateLayout = new QVBoxLayout();
 
     // get the strategy names from Switches
-    select_strategy = new QComboBox();
-    gameStateLayout->addWidget(select_strategy);
-    for (std::string const &strategyName : Switches::strategyJsonFileNames) {
-        select_strategy->addItem(QString::fromStdString(strategyName));
-    }
-    select_strategy->setStyleSheet(
+    select_play = new QComboBox();
+    gameStateLayout->addWidget(select_play);
+    select_play->setStyleSheet(
         QString::fromUtf8("QComboBox:disabled"
                           "{ color: gray }"));
 
     auto keeperHorizontalLayout = new QHBoxLayout();
-
-    // get the keeper tree names from Switches
-    select_keeper_strategy = new QComboBox();
-    keeperHorizontalLayout->addWidget(select_keeper_strategy);
-    for (std::string const &keeperTacticName : Switches::keeperJsonFiles) {
-        select_keeper_strategy->addItem(QString::fromStdString(keeperTacticName));
-    }
-    select_keeper_strategy->setStyleSheet(
-        QString::fromUtf8("QComboBox:disabled"
-                          "{ color: gray }"));
 
     select_goalie = new QComboBox();
     keeperHorizontalLayout->addWidget(select_goalie);
@@ -117,48 +101,42 @@ MainControlsWidget::MainControlsWidget(QWidget *parent) {
     gameStateBox->setLayout(gameStateLayout);
     vLayout->addWidget(gameStateBox);
 
-    // MainWindow::configureCheckBox("TimeOut to top", controlsLayout, this, SLOT(setTimeOutTop(bool)), Constants::STD_TIMEOUT_TO_TOP());
-
-    QObject::connect(select_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &strategyName) {
-        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        interface::Output::setStrategyTree(strategyName.toStdString());
-        emit treeHasChanged();
-    });
-
-    QObject::connect(select_keeper_strategy, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &keeperStrategyName) {
-        // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        interface::Output::setKeeperTree(keeperStrategyName.toStdString());
-        emit treeHasChanged();
+    // todo: figure out why this cast exists
+    QObject::connect(select_play, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [=](int index) {
+        // if number == -1 then the plays were refreshed, hence just keep the current play
+        if (index == -1) {
+            return;
+        }
+        // simply manager->plays[index] because they're inserted in-order
+        stp::PlayDecider::lockPlay(manager->plays[index].get());
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
         interface::Output::setKeeperId(goalieId.toInt());
-        emit treeHasChanged();
     });
 
     QObject::connect(select_ruleset, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &rulesetName) {
         // http://doc.qt.io/qt-5/qcombobox.html#currentIndexChanged-1
-        // robotDealer::RobotDealer::setKeeperID(goalieId.toInt());.
         interface::Output::setRuleSetName(rulesetName.toStdString());
-        emit treeHasChanged();
     });
 
     setUseReferee(Output::usesRefereeCommands());
     this->setLayout(vLayout);
 }
 
-void MainControlsWidget::setTimeOutTop(bool top) { Output::setTimeOutTop(top); }
-
 void MainControlsWidget::setUseReferee(bool useRef) {
     Output::setUseRefereeCommands(useRef);
 
-    select_strategy->setDisabled(useRef);
-    select_keeper_strategy->setDisabled(useRef);
+    select_play->setDisabled(useRef);
     select_ruleset->setDisabled(useRef);
     select_goalie->setDisabled(useRef);
     toggleSideBtn->setDisabled(useRef);
     toggleColorBtn->setDisabled(useRef);
+
+    if (!useRef) {
+        updatePlays();
+    }
 }
 
 /// toggle the setting 'isYellow'
@@ -220,16 +198,6 @@ void MainControlsWidget::setToggleSerialBtnLayout() const {
 }
 
 void MainControlsWidget::updateContents() {
-    auto strategyText = QString::fromStdString(BTFactory::getCurrentTree());
-    if (strategyText != select_strategy->currentText()) {
-        select_strategy->setCurrentText(strategyText);
-    }
-
-    auto keeperStrategyText = QString::fromStdString(BTFactory::getKeeperTreeName());
-    if (keeperStrategyText != select_keeper_strategy->currentText()) {
-        select_keeper_strategy->setCurrentText(keeperStrategyText);
-    }
-
     auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);
     if (ruleSetText != select_ruleset->currentText()) {
         select_ruleset->setCurrentText(ruleSetText);
@@ -241,16 +209,21 @@ void MainControlsWidget::updateContents() {
     }
 
     // visual indication if we have a keeper or not
-    if (robotDealer::RobotDealer::keeperExistsInWorld()) {
+    if (GameStateManager::getCurrentGameState().keeperId == -1) {
         select_goalie->setStyleSheet("background-color: #00b200;");
     } else {
         select_goalie->setStyleSheet("background-color: #cc0000;");
     }
 }
 
-}  // namespace interface
-}  // namespace ai
-}  // namespace rtt
+void MainControlsWidget::updatePlays() {
+    select_play->clear();
+    // TODO: re add this
+    /*        for (auto const &each : manager->plays) {
+                select_play->addItem(each->getName());
+            }*/
+}
 
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_MainControlsWidget.cpp"
+void MainControlsWidget::setIgnoreInvariants(bool ignore) { ignoreInvariants = ignore; }
+
+}  // namespace rtt::ai::interface
