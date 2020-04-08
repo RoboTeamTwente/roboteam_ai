@@ -26,6 +26,13 @@ void BlockBall::onTerminate() noexcept {
 StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
+    auto goalToBall = info.getBall().value()->getPos() - info.getField().value().getOurGoalCenter();
+    auto targetPosition = info.getField().value().getOurGoalCenter() + goalToBall.stretchToLength(0.75);
+    auto targetAngle = goalToBall.angle();
+
+    skillStpInfo.setPositionToMoveTo(targetPosition);
+    skillStpInfo.setAngle(targetAngle);
+
     return skillStpInfo;
 }
 
@@ -33,7 +40,10 @@ bool BlockBall::isEndTactic() noexcept { return true; }
 
 bool BlockBall::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
-bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept { return false; }
+bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept {
+    double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
+    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
+}
 
 const char *BlockBall::getName() {
     return "Block Ball";
