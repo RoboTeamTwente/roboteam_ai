@@ -30,17 +30,18 @@ if (APPLE)
             /usr/local/lib/libgmock.a
             /usr/local/lib/libgmock_main.a
             )
-else(NOT APPLE)
+else (NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
     set(GTEST_LIB
             PRIVATE gtest
             PRIVATE gmock)
-endif()
+endif ()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(SDL2 REQUIRED sdl2)
+find_package(Pagmo REQUIRED)
 
 if (NOT SDL2_FOUND)
     message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
@@ -111,6 +112,10 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacement.cpp
+        )
+
+set(NEW_PLAYS_ANALYSIS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
         )
 
 set(INVARIANTS_SOURCES
@@ -212,12 +217,14 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        ${NEW_PLAYS_ANALYSIS_SOURCES}
         )
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
+        PRIVATE Pagmo::pagmo
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
         PRIVATE ${SDL2_LIBRARY}
