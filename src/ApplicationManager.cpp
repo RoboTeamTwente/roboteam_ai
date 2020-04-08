@@ -143,6 +143,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
             RTT_ERROR("No valid plays")
             // TODO: maybe we want to assign some default play (halt?) when there are no valid plays
             // currentPlay = some_default_play;
+            currentPlay = nullptr;
             return;
         }
         currentPlay = playDecider.decideBestPlay(_world, validPlays);

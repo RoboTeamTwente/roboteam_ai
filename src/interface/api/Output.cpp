@@ -31,13 +31,19 @@ GameState Output::interfaceGameState("halt_strategy", "keeper_halt_tactic", "def
 
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
+    // TODO: This check prevents a segfault when we don't have a world (roobthub_world is off), but it should be checked earlier I think
+    if(world_new::World::instance()->getWorld().has_value()) {
+        if (pause.getPause()) {
+            // Already halted so unhalt
+            pause.setPause(false);
+        } else {
+            pause.setPause(true);
+            pause.haltRobots();
+        }
+    }
 
-    if (pause.getPause()) {
-        // Already halted so unhalt
-        pause.setPause(false);
-    } else {
-        pause.setPause(true);
-        pause.haltRobots();
+    else {
+        RTT_WARNING("Cannot pause robots, there is no world! Check roboteam_world")
     }
 }
 

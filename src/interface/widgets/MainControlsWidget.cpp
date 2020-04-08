@@ -166,17 +166,28 @@ namespace rtt::ai::interface {
     }
 
 /// send a halt signal to stop all trees from executing
-    void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
+void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
 
-    void MainControlsWidget::setToggleColorBtnLayout() const {
-        if (SETTINGS.isYellow()) {
-            toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
-            toggleColorBtn->setText("Playing as Yellow");
-        } else {
-            toggleColorBtn->setStyleSheet("background-color: blue;");
-            toggleColorBtn->setText("Playing as Blue");
-        }
+void MainControlsWidget::updatePause() {
+    rtt::ai::Pause pause;
+    if (pause.getPause()) {
+        pauseBtn->setText("Resume");
+        pauseBtn->setStyleSheet("background-color: #00b200;");
+    } else {
+        pauseBtn->setText("Stop");
+        pauseBtn->setStyleSheet("background-color: #cc0000;");
     }
+}
+
+void MainControlsWidget::setToggleColorBtnLayout() const {
+    if (SETTINGS.isYellow()) {
+        toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
+        toggleColorBtn->setText("Playing as Yellow");
+    } else {
+        toggleColorBtn->setStyleSheet("background-color: blue;");
+        toggleColorBtn->setText("Playing as Blue");
+    }
+}
 
     void MainControlsWidget::setToggleSideBtnLayout() const {
         if (SETTINGS.isLeft()) {
