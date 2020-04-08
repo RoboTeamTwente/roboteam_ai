@@ -6,14 +6,10 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <roboteam_utils/Timer.h>
-#include <utilities/StrategyManager.h>
+#include <stp/PlayChecker.hpp>
+#include <stp/PlayDecider.hpp>
+#include <interface/widgets/mainWindow.h>
 
-#include <include/roboteam_ai/stp/PlayChecker.hpp>
-#include <include/roboteam_ai/stp/PlayDecider.hpp>
-#include <include/roboteam_ai/interface/widgets/mainWindow.h>
-
-#include "utilities/IOManager.h"
 namespace rtt {
 
 class ApplicationManager {

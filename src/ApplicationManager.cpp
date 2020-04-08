@@ -1,21 +1,20 @@
 #include <ApplicationManager.h>
+#include <include/roboteam_ai/utilities/IOManager.h>
 #include <interface/api/Input.h>
-#include <roboteam_utils/Print.h>
 #include <roboteam_utils/Timer.h>
-
+#include <roboteam_utils/normalize.h>
 #include <utilities/GameStateManager.hpp>
-#include <world_new/World.hpp>
 
-#include <stp/new_plays/TestPlay.h>
+/**
+ * Plays are included here
+ */
+#include "stp/new_plays/TestPlay.h"
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
-#include <stp/new_plays/Halt.h>
+#include "stp/new_plays/Halt.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
-
-#include "roboteam_utils/normalize.h"
-#include "utilities/Constants.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
