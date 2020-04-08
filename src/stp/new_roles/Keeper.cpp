@@ -3,6 +3,7 @@
 //
 
 #include "stp/new_roles/Keeper.h"
+#include "stp/new_tactics/BlockBall.h"
 #include "stp/new_tactics/KickAtPos.h"
 #include "stp/new_tactics/GetBall.h"
 #include "world/FieldComputations.h"
