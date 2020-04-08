@@ -114,8 +114,6 @@ namespace rtt::world_new {
 
     uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
 
-    robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
-
     ai::control::PositionControl *World::getRobotPositionController() noexcept {
         return &positionControl;
     }

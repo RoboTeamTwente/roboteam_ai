@@ -400,7 +400,7 @@ int inline jcv_boxshape_clip(const jcv_clipper* clipper, jcv_edge* e) {
     } else {
         s1 = jcv_is_valid(&e->pos[0]) ? &e->pos[0] : 0;
         s2 = jcv_is_valid(&e->pos[1]) ? &e->pos[1] : 0;
-    };
+    }
 
     if (e->a == (jcv_real)1)  // delta x is larger
     {
@@ -470,8 +470,8 @@ int inline jcv_boxshape_clip(const jcv_clipper* clipper, jcv_edge* e) {
         } else if (y2 < pymin) {
             y2 = pymin;
             x2 = (e->c - y2) / e->a;
-        };
-    };
+        }
+    }
 
     e->pos[0].x = x1;
     e->pos[0].y = y1;
@@ -552,12 +552,12 @@ static int jcv_halfedge_rightof(const jcv_halfedge* he, const jcv_point* p) {
             above = (p->x + p->y * e->b) > e->c;
             if (e->b < (jcv_real)0) above = !above;
             if (!above) fast = 1;
-        };
+        }
         if (!fast) {
             dxs = topsite->p.x - e->sites[0]->p.x;
             above = e->b * (dxp * dxp - dyp * dyp) < dxs * dyp * ((jcv_real)1 + (jcv_real)2 * dxp / dxs + e->b * e->b);
             if (e->b < (jcv_real)0) above = !above;
-        };
+        }
     } else  // e->b == 1
     {
         yl = e->c - e->a * p->x;
@@ -565,7 +565,7 @@ static int jcv_halfedge_rightof(const jcv_halfedge* he, const jcv_point* p) {
         t2 = p->x - topsite->p.x;
         t3 = yl - topsite->p.y;
         above = t1 * t1 > (t2 * t2 + t3 * t3);
-    };
+    }
     return (he->direction == JCV_DIRECTION_LEFT ? above : !above);
 }
 
