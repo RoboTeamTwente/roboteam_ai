@@ -99,11 +99,6 @@ class Robot;
             objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point,
                                        double maxDifference = 0.3);
 
-            static const std::shared_ptr<world::Robot>
-            getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots, Vector2 const &lineStart,
-                                  Vector2 const &lineEnd,
-                                  bool lineWithEnds);
-
             static const world_new::view::RobotView getRobotClosestToLine(
                 std::vector<world_new::view::RobotView> robots,
                 Vector2 const &lineStart, Vector2 const &lineEnd,

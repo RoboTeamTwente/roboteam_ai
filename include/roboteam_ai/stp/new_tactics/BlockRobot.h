@@ -6,8 +6,10 @@
 #define RTT_BLOCKROBOT_H
 
 #include <include/roboteam_ai/stp/Tactic.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt::ai::stp::tactic {
+
 class BlockRobot : public Tactic {
    public:
     BlockRobot();
@@ -60,6 +62,11 @@ class BlockRobot : public Tactic {
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
 }  // namespace rtt::ai::stp::tactic
 

@@ -28,4 +28,8 @@ Status SetDribbler::onUpdate(const StpInfo &info) noexcept {
 
 void SetDribbler::onTerminate() noexcept {}
 
+const char *SetDribbler::getName() {
+    return "Set Dribbler";
+}
+
 }  // namespace rtt::ai::stp::skill

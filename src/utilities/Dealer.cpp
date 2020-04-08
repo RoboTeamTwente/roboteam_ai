@@ -112,7 +112,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         }
         case DealerFlagTitle::NOT_IMPORTANT: return 1000;
     }
-    RTT_WARNING("Unhandled dealerflag!");
+    RTT_WARNING("Unhandled dealerflag!")
     return 0;
 }
 

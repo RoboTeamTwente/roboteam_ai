@@ -37,7 +37,7 @@ class PlayChecker {
     /**
      * An array of all the plays
      */
-    std::vector<std::unique_ptr<Play>> allPlays{};
+    std::vector<std::unique_ptr<Play>>* allPlays{};
 
     /**
      * Current world, do not use before update()

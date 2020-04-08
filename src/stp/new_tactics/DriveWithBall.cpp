@@ -27,7 +27,7 @@ void DriveWithBall::onTerminate() noexcept {
 
 StpInfo DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("No Ball, Robot or Field present in StpInfo");
+        RTT_WARNING("No Ball, Robot or Field present in StpInfo")
         return {};
     }
 
@@ -60,6 +60,10 @@ bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
 bool DriveWithBall::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
+}
+
+const char *DriveWithBall::getName() {
+    return "Drive With Ball";
 }
 
 }  // namespace rtt::ai::stp::tactic
