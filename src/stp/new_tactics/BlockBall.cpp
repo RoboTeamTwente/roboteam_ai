@@ -26,8 +26,17 @@ void BlockBall::onTerminate() noexcept {
 StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    auto goalToBall = info.getBall().value()->getPos() - info.getField().value().getOurGoalCenter();
-    auto targetPosition = info.getField().value().getOurGoalCenter() + goalToBall.stretchToLength(info.getField().value().getGoalWidth() / 2.0);
+    auto field = info.getField().value();
+    auto goalToBall = info.getBall().value()->getPos() - field.getOurGoalCenter();
+
+    // Stay between the ball and the center of the goal
+    auto targetPosition = field.getOurGoalCenter() + goalToBall.stretchToLength(field.getGoalWidth() / 2.0);
+    auto targetPositionX = std::clamp(targetPosition.x, field.getLeftmostX() + control_constants::ROBOT_RADIUS,
+            field.getLeftPenaltyPoint().x - control_constants::ROBOT_RADIUS);
+    auto targetPositionY = std::clamp(targetPosition.y, field.getBottomLeftPenaltyStretch().begin.y + control_constants::ROBOT_RADIUS,
+            field.getTopLeftPenaltyStretch().begin.y - control_constants::ROBOT_RADIUS);
+    targetPosition = Vector2(targetPositionX, targetPositionY);
+
     auto targetAngle = goalToBall.angle();
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
