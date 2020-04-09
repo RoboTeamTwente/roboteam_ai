@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp::tactic {
 /**
- * This tactic is for getting the ball from a certain direction. It has 3 skills: GoToPos, Rotate, and SetDribbler.
+ * This tactic is for getting the ball from a certain direction. It has 3 skills: GoToPos, Rotate, and GoToPos.
  * It fails when there is no target to point towards and does not reset.
  * It's not an end tactic, therefore it can succeed.
  */
