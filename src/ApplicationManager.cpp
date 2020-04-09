@@ -1,9 +1,9 @@
 #include <ApplicationManager.h>
-#include <stp/new_plays_analysis/PassProblem.h>
-#include <utilities/IOManager.h>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
+#include <stp/new_plays_analysis/PassProblem.h>
+#include <utilities/IOManager.h>
 
 #include <utilities/GameStateManager.hpp>
 
@@ -32,8 +32,6 @@ void ApplicationManager::start() {
     RTT_INFO("Waiting for field_data and robots...")
 
     setPlays();
-
-    startArchipelago();
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -79,20 +77,16 @@ void ApplicationManager::runOneLoopCycle() {
 
             world_new::World::instance()->updateField(fieldMessage);
             world_new::World::instance()->updatePositionControl();
-            auto field = world_new::World::instance()->getField().value();
 
-            /// If idle, setup islands if necessary and evolve again
+            /// If idle, update the archipelago and evolve again
             if (archipelago.status() == pagmo::evolve_status::idle) {
-                RTT_WARNING("Archipelago idle, updating archipelago and evolving")
+                RTT_WARNING("Archipelago idle, updating and evolving")
                 updateArchipelago();
                 archipelago.evolve(100);
             }
 
-            /**
-             * Comment/uncomment this line for new system (can't be used at the same time!)
-             */
+            /// This call changes plays when necessary and ticks the currentPlay
             decidePlay(world_new::World::instance());
-
         } else {
             if (robotsInitialized) {
                 RTT_WARNING("No robots found in world. Behaviour trees are not running")
@@ -107,23 +101,6 @@ void ApplicationManager::runOneLoopCycle() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    /*
-     * This is a hack performed at the robocup.
-     */
-    checkForFreeRobots();
-}
-
-void ApplicationManager::checkForShutdown() {
-    // Terminate if needed
-    // TODO:
-    //    if (strategy->getStatus() == Status::Running) {
-    //        strategy->terminate(Status::Running);
-    //    }
-}
-
-void ApplicationManager::checkForFreeRobots() {
-    // todo: replace this
-    // basically just update tick count for how long robots have been free? i guess?
 }
 
 void ApplicationManager::decidePlay(world_new::World *_world) {
@@ -165,21 +142,16 @@ void ApplicationManager::setPlays() {
     playChecker.setPlays(plays);
 }
 
-void ApplicationManager::startArchipelago() {
-    /// clearing the archipelago
-    archipelago = pagmo::archipelago{};
-
-    /// Adding islands to the archipelago
-    archipelago.push_back(pagmo::island{pagmo::algorithm{}, pagmo::population{}});
-}
-
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem
     ai::stp::PassProblem passProblem{};
     passProblem.updateInfoForProblem(world_new::World::instance());
-    auto passPopulation = pagmo::population(passProblem, 10,0);
+    auto passPopulation = pagmo::population(passProblem, 10, 0);
 
-    /// setting refreshed population
-    archipelago[0].set_population(passPopulation);
+    /// clearing the archipelago
+    archipelago = pagmo::archipelago{};
+
+    /// Adding islands to the archipelago
+    archipelago.push_back(pagmo::island{pagmo::algorithm{}, passPopulation});
 }
 }  // namespace rtt

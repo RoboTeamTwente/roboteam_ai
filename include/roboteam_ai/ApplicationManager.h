@@ -59,12 +59,7 @@ private:
     void setPlays();
 
     /**
-     * This function starts the archipelago. It makes sure enough positions for islands are available
-     */
-    void startArchipelago();
-
-    /**
-     * Update the populations of the corresponding index of the population's island
+     * Clear the archipelago and create new islands with an up to date world
      */
     void updateArchipelago();
 
