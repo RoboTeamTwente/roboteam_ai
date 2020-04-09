@@ -1,13 +1,12 @@
 #include <ApplicationManager.h>
-#include <include/roboteam_ai/stp/new_plays_analysis/PassProblem.h>
-#include <include/roboteam_ai/utilities/IOManager.h>
+#include <stp/new_plays_analysis/PassProblem.h>
+#include <utilities/IOManager.h>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 
 #include <utilities/GameStateManager.hpp>
 
-#include "stp/new_plays_analysis/TestProblem.h"
 /**
  * Plays are included here
  */
