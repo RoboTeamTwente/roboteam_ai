@@ -53,12 +53,6 @@ namespace rtt::ai::stp::tactic {
         bool isEndTactic() noexcept override;
 
         /**
-         * Distance between the robot and the ball that is used for the position behind the ball
-         * and when the dribbler is turned on
-         */
-        double ballDistanceMargin = 3 * control_constants::ROBOT_RADIUS;
-
-        /**
          * Gets the tactic name
          */
         const char *getName() override;

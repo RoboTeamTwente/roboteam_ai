@@ -29,7 +29,7 @@ namespace rtt::ai::stp::tactic {
 
         if (skills.current_num() == 0) {
             // First GoToPos: Go behind ball
-            newRobotPosition = ballPosition + (ballPosition - targetPosition).stretchToLength(ballDistanceMargin);
+            newRobotPosition = ballPosition + (ballPosition - targetPosition).stretchToLength(control_constants::TURN_ON_DRIBBLER_DISTANCE);
         } else {
             // Second GoToPos: Go towards ball
             newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance -
@@ -40,7 +40,7 @@ namespace rtt::ai::stp::tactic {
         }
 
         // Turn on dribbler when close to ball
-        if (ballDistance < ballDistanceMargin) {
+        if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
             skillInfo.setDribblerSpeed(100);
         }
 
