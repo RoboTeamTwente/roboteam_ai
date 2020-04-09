@@ -6,7 +6,8 @@
 
 namespace rtt::ai::stp {
 
-void Play::initialize() noexcept {
+void Play::initialize(const pagmo::archipelago& pArchipelago) noexcept {
+    archipelago = &pArchipelago;
     calculateInfoForRoles();
     distributeRoles();
 }

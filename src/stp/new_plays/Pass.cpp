@@ -29,7 +29,7 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 0; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 120; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -62,7 +62,7 @@ void Pass::calculateInfoForRoles() noexcept {
     // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
     // TODO: compute the passing position
-    const Vector2 passingPosition = Vector2(-2, -2);
+    const Vector2 passingPosition = Vector2{archipelago->get_champions_x()[0][0], archipelago->get_champions_x()[0][1]};
 
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end())

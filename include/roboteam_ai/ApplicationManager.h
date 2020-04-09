@@ -25,6 +25,10 @@ private:
     bool fieldInitialized = false;
     bool robotsInitialized = false;
     ai::interface::MainWindow* mainWindow;
+
+    /**
+     * The archipelago that contains islands that calculate pass positions for example
+     */
     pagmo::archipelago archipelago{};
 
     /**
@@ -36,10 +40,12 @@ private:
      * Checks which plays are valid out of all the plays
      */
     rtt::ai::stp::PlayChecker playChecker;
+
     /**
      * Checks, out of the valid plays, which play is the best to choose
      */
     rtt::ai::stp::PlayDecider playDecider;
+
     /**
      * Function that decides whether to change plays given a world and field.
      * @param _world the current world state
@@ -47,9 +53,20 @@ private:
      */
     void decidePlay(world_new::World* _world);
 
+    /**
+     * This function generates the plays vector
+     */
     void setPlays();
 
-    void setArchipelago();
+    /**
+     * This function starts the archipelago. It makes sure enough positions for islands are available
+     */
+    void startArchipelago();
+
+    /**
+     * Update the populations of the corresponding index of the population's island
+     */
+    void updateArchipelago();
 
    public:
     void start();

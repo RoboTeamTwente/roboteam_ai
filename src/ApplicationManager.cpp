@@ -1,21 +1,24 @@
 #include <ApplicationManager.h>
+#include <include/roboteam_ai/stp/new_plays_analysis/PassProblem.h>
 #include <include/roboteam_ai/utilities/IOManager.h>
 #include <interface/api/Input.h>
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
+
 #include <utilities/GameStateManager.hpp>
+
 #include "stp/new_plays_analysis/TestProblem.h"
 /**
  * Plays are included here
  */
-#include "stp/new_plays/TestPlay.h"
-#include "stp/new_plays/Pass.h"
-#include "stp/new_plays/Defend.h"
-#include "stp/new_plays/Attack.h"
-#include "stp/new_plays/Halt.h"
-#include "stp/new_plays/BallPlacement.h"
-#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_plays/BallPlacement.h"
+#include "stp/new_plays/Defend.h"
+#include "stp/new_plays/DefensiveFormation.h"
+#include "stp/new_plays/Halt.h"
+#include "stp/new_plays/Pass.h"
+#include "stp/new_plays/TestPlay.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -29,9 +32,9 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping")
     RTT_INFO("Waiting for field_data and robots...")
 
-    setArchipelago();
-
     setPlays();
+
+    startArchipelago();
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -79,15 +82,11 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
             auto field = world_new::World::instance()->getField().value();
 
-            /// If done, set new population and evolve again
+            /// If idle, setup islands if necessary and evolve again
             if (archipelago.status() == pagmo::evolve_status::idle) {
-                RTT_WARNING("done, re-evolving!")
-                ai::stp::TestProblem problem{};
-                problem.updateInfoForProblem(world_new::World::instance());
-                auto population = pagmo::population(problem, 10);
-
-                archipelago[0].set_population(population);
-                archipelago.evolve(10000);
+                RTT_WARNING("Archipelago idle, updating archipelago and evolving")
+                updateArchipelago();
+                archipelago.evolve(100);
             }
 
             /**
@@ -95,17 +94,6 @@ void ApplicationManager::runOneLoopCycle() {
              */
             decidePlay(world_new::World::instance());
 
-            /// test to get champions_x without blocking execution
-            RTT_ERROR("champions: ", archipelago.get_champions_x()[0][0])
-
-            /**
-             * Comment/uncomment these lines for old system (can't be used at the same time!)
-             */
-            // updateTrees();
-            // updateCoaches(field);
-            // runKeeperTree(field);
-            // Status status = runStrategyTree(field);
-            // this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
                 RTT_WARNING("No robots found in world. Behaviour trees are not running")
@@ -130,8 +118,8 @@ void ApplicationManager::checkForShutdown() {
     // Terminate if needed
     // TODO:
     //    if (strategy->getStatus() == Status::Running) {
-//        strategy->terminate(Status::Running);
-//    }
+    //        strategy->terminate(Status::Running);
+    //    }
 }
 
 void ApplicationManager::checkForFreeRobots() {
@@ -154,7 +142,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         }
         currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(archipelago);
     }
 
     currentPlay->update();
@@ -178,10 +166,21 @@ void ApplicationManager::setPlays() {
     playChecker.setPlays(plays);
 }
 
-void ApplicationManager::setArchipelago() {
+void ApplicationManager::startArchipelago() {
+    /// clearing the archipelago
     archipelago = pagmo::archipelago{};
 
     /// Adding islands to the archipelago
     archipelago.push_back(pagmo::island{pagmo::algorithm{}, pagmo::population{}});
+}
+
+void ApplicationManager::updateArchipelago() {
+    /// generating pass problem
+    ai::stp::PassProblem passProblem{};
+    passProblem.updateInfoForProblem(world_new::World::instance());
+    auto passPopulation = pagmo::population(passProblem, 10,0);
+
+    /// setting refreshed population
+    archipelago[0].set_population(passPopulation);
 }
 }  // namespace rtt
