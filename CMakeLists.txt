@@ -38,10 +38,10 @@ else (NOT APPLE)
             PRIVATE gmock)
 endif ()
 
+find_package(Pagmo REQUIRED)
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(SDL2 REQUIRED sdl2)
-find_package(Pagmo REQUIRED)
 
 if (NOT SDL2_FOUND)
     message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
@@ -221,10 +221,10 @@ set(AI_SOURCES
         )
 
 set(AI_LIBS
+        PRIVATE Pagmo::pagmo
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
-        PRIVATE Pagmo::pagmo
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
         PRIVATE ${SDL2_LIBRARY}
