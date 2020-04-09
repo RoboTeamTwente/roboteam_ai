@@ -9,7 +9,7 @@ namespace ai {
 
 using util = control::ControlUtils;
 
-bool FieldComputations::pointIsInDefenceArea(const Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
+bool FieldComputations::pointIsInDefenseArea(const Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, bool includeOutsideField) {
     auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, includeOutsideField);
     return defenseArea.contains(point);
 }
