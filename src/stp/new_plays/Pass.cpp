@@ -5,11 +5,8 @@
 #include "stp/new_plays/Pass.h"
 #include <stp/new_roles/TestRole.h>
 #include <stp/invariants/WeHaveBallInvariant.h>
-<<<<<<< HEAD
 #include <utility>
-=======
 #include "stp/invariants/BallMovesSlowInvariant.h"
->>>>>>> development
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
 #include "pagmo/algorithms/pso_gen.hpp"
@@ -21,11 +18,11 @@ namespace rtt::ai::stp::play {
 Pass::Pass() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: decide keep invariants
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
+    //keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
@@ -36,7 +33,7 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("defender9"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 0; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 100; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -69,7 +66,7 @@ void Pass::calculateInfoForRoles() noexcept {
     // TODO: is there really no better way to set data per role?
     // Use this new information to assign the roles using the dealer.
     // TODO: compute the passing position
-    const Vector2 passingPosition = Vector2(-2, -2);
+    const Vector2 passingPosition = calculatePositionToPassTo(world, enemyRobots);
 
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end()) {
@@ -89,9 +86,7 @@ void Pass::calculateInfoForRoles() noexcept {
             stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
         }
     }
-<<<<<<< HEAD
 
-=======
     if (stpInfos.find("test_role_3") != stpInfos.end()) stpInfos["test_role_3"].setPositionToMoveTo(Vector2{-3, -3});
     if (stpInfos.find("test_role_4") != stpInfos.end()) stpInfos["test_role_4"].setPositionToMoveTo(Vector2{-2, 3});
     if (stpInfos.find("test_role_5") != stpInfos.end()) stpInfos["test_role_5"].setPositionToMoveTo(Vector2{-2, 0});
@@ -100,7 +95,6 @@ void Pass::calculateInfoForRoles() noexcept {
     if (stpInfos.find("test_role_8") != stpInfos.end()) stpInfos["test_role_8"].setPositionToMoveTo(Vector2{-1, 1.5});
     if (stpInfos.find("test_role_9") != stpInfos.end()) stpInfos["test_role_9"].setPositionToMoveTo(Vector2{-1, -1.5});
     if (stpInfos.find("test_role_10") != stpInfos.end()) stpInfos["test_role_10"].setPositionToMoveTo(Vector2{-1, -4});
->>>>>>> development
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
@@ -118,16 +112,15 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-    // Construct a pagmo::problem from our example problem.
-
-    auto pso = pagmo::pso_gen(2);
-    //pagmo::problem pro{PassProblem{}};
+    auto pso = pagmo::pso_gen(2, 0.6, 0.6, 0.6, 0.6, 3.6, 2, 2, 0.6, 0.6);
     PassProblem pro{};
     pro.updateInfoForProblem(world);
-    pagmo::population::size_type s = 10;
-    auto pop = pagmo::population(pro, s);
+
+    auto pop = pagmo::population(pro, 10, 0);
+
     auto evolved = pso.evolve(pop);
-    std::cout << evolved << std::endl;
+    std::cout << evolved.champion_x()[0] << evolved.champion_x()[1] << std::endl;
+
     return Vector2(evolved.champion_x()[0], evolved.champion_x()[1]);
 
 }

@@ -9,32 +9,40 @@
 using namespace pagmo;
 namespace rtt::ai::stp{
     vector_double PassProblem::fitness(const vector_double &dv) const {
-        // Expectation for passpoint
-        // p(successfully_get_there)*reward + p(fail)*risk_if_pass_gets_intercepted
-        // reward = max {
-        //                  shoot_reward
-        //                  next_pass_reward
-        //              }
-        auto field = problemWorld->getField();
-        double p_success = 0.5;
-        double reward;
+        auto score = 0.0;
         auto point = Vector2(dv[0], dv[1]);
-        auto dist_to_goal = (field->getTheirGoalCenter() - point).length();
-        bool inTheirDefenseArea = false;//ai::FieldComputations::pointIsInDefenceArea(field.value(), point, false);
-        reward = dist_to_goal;
-        auto robot = problemWorld->getWorld()->getRobotClosestToPoint(point, world_new::Team::them);
-        if (inTheirDefenseArea) {
-            reward = reward-100;
+
+        if (ai::FieldComputations::pointIsInDefenceArea(problemWorld->getField().value(), point)) {
+            score += 300;
         }
 
-        reward -= (robot->getPos() - point).length();
+        auto theirClosestBot = problemWorld->getWorld()->getRobotClosestToPoint(point, world_new::Team::us);
+        auto theirClosestDistance = (theirClosestBot->getPos() - point).length();
 
-        double risk = 9;
-        double expectation = p_success*reward + (1-p_success)*0;
-
-
-        return {expectation};
+        auto ourClosestBot = problemWorld->getWorld()->getRobotClosestToPoint(point, world_new::Team::them);
+        auto ourClosestDistance = (ourClosestBot->getPos() - point).length();
+        score += -100 * theirClosestDistance;
+        score += 100 * ourClosestDistance;
+        return {score};
     }
+
+//        score = 0
+//        if main_field.in_defense_area(xpoint, ypoint):
+//        score += 300
+//
+//        bot, dist = world.their_closest_robot_to_point(xpoint, ypoint)
+//        score += -100 * dist
+//
+//        ourbot, ourdist = world.our_closest_robot_to_point(xpoint, ypoint)
+//        score += 100 * ourdist
+//
+//        shoot_succes_reward = bot.shoot_from_pos(xpoint, ypoint)
+//        score += -shoot_succes_reward * 2
+//        score += field.distance_to_enemy_goal(field, xpoint, ypoint)
+//        return [score]
+
+
+
 
     std::pair<vector_double, vector_double> PassProblem::get_bounds() const {
         // Field bounds, adjusted for robot radius (so the robot always stays fully inside the field at all times)
