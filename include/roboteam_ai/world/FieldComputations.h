@@ -27,7 +27,6 @@ namespace rtt_world = rtt::ai::world;
  */
 class FieldComputations {
    private:
-    static constexpr double EPSILON = 0.000001;            // Value used for the blockade mapping on goal
     static constexpr double NEGLIGIBLE_LENGTH = 0.000001;  // If a line length is below or equal to this threshold then is it neglected during determining the blockades.
 
    public:
@@ -121,8 +120,8 @@ class FieldComputations {
     static Vector2 getPenaltyPoint(const rtt_world::Field &field, bool ourGoal);
 
     /**
-     * Determine the intersection between a LineSegment and the defence area and return the intersection point closest to the start of the line (if the LineSegment does not
-     * intersect then return a null pointer).
+     * Determine the intersection between a LineSegment and the boundary of the defence area and return the intersection point closest to the start of the line (if the LineSegment
+     * does not intersect then return a null pointer).
      * @param field The field used to determine where the defence area is located.
      * @param ourGoal True if we want to compute the intersection with our defence area, false if we compute this for the opponents defence area.
      * @param lineStart The location of the start of the LineSegment.
@@ -135,7 +134,7 @@ class FieldComputations {
 
     /**
      * Compute the total angle a given point makes with the goal, i.e. you create a triangle using this point and both upperside and lowerside of the goal and compute the angle
-     * at this given point.
+     * at this given point. Warning: this function does not work for points on the start & end points of the goal.
      * @param field The field used to determine where the goals are.
      * @param ourGoal True if the angle between the point and our goal is computed, false if we compute this for the opponnents goal.
      * @param point The given point from which the angle is computed.
@@ -190,7 +189,7 @@ class FieldComputations {
      * @return All the parts of the goal that are blocked.
      */
     static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, std::vector<world_new::view::RobotView> robots,
-                                                                int id = -1, bool ourTeam = false);
+                                                             int id = -1, bool ourTeam = false);
 
     /**
      * Check whether a given robot really blocks a part of the goal (which is not the case if the robot belongs to a given team or if the robot has a given id) and if so return

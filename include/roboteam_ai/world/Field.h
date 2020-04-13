@@ -27,13 +27,13 @@ struct FieldArc {
 
 /**
  * Stores all data which is directly obtained by the field camera (this data can change during the match) and store all
- * singular constant data (data that does not change through the match) about the field, which together includes: <br>
+ * singular constant data (data that does not change through the match) about the field, which combined includes: <br>
  * - Length, widths, heights of the field, goals and boundary. <br>
  * - The location, direction and sizes of all lines on the field. <br>
  * - The location and sizes of all arcs on the field. <br>
  * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
  *
- * The encoding of the field looks like:
+ * All these values are expressed in meters. Moreover the encoding of the field looks like:
  *
  *                          (upperFieldLine)
  *              (-x,y)_________________________ (x,y)
@@ -49,7 +49,7 @@ struct FieldArc {
  * every horizontal line of the field stored as FieldLineSegment has their begin position equal to the leftmost position of that line (position with the lowest x-coordinate) and
  * their end position equal to the rightmost position of that line (position with highest x-coordinate). And every vertical line of the field stored as FieldLineSegment has their
  * begin position equal to the bottommost position of that line (position with the lowest y-coordinate) and their end position equal to the topmost position of that line (position
- * with the highest y-coordinate).
+ * with the highest y-coordinate). The top/bottom penalty stretches are an exception for this: they have their end position always inwards the field.
  *
  * @author Created by: Lukas Bos <br>
  *         Documented and refactored by: Haico Dorenbos
