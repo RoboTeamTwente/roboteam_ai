@@ -90,8 +90,8 @@ void Field::initFieldOthers() {
 
     topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
     bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
-    topRightTheirDefenceArea = topRightPenaltyStretch->end;
-    bottomRightTheirDefenceArea = bottomRightPenaltyStretch->end;
+    topRightTheirDefenceArea = topRightPenaltyStretch->begin;
+    bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
