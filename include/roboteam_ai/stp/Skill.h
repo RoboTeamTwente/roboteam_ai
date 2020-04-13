@@ -5,12 +5,10 @@
 #ifndef RTT_SKILL_H
 #define RTT_SKILL_H
 
-#include <bt/Node.h>
 #include <roboteam_proto/RobotCommand.pb.h>
-
 #include <world_new/views/RobotView.hpp>
-
 #include "stp/StpInfo.h"
+#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 /**
@@ -18,6 +16,11 @@ namespace rtt::ai::stp {
  */
 class Skill {
    protected:
+    /**
+     * Current status of the last time update() was called
+     */
+    Status currentStatus;
+
     /**
      * Robot command that will be used for operations, such as publishing
      */
@@ -27,12 +30,6 @@ class Skill {
      * Robot view, which should be set from the SkillInfo
      */
     std::optional<world_new::view::RobotView> robot;
-
-    /**
-     * Gets the name of the skill, must be a literal
-     * @return [{additional_info}] {class_name}
-     */
-    constexpr const char* name() const noexcept;
 
     /**
      * Publishes the current robot command, limits it and refreshes it
@@ -53,6 +50,16 @@ class Skill {
      * Applies constraints to the internal robot command
      */
     virtual void limitRobotCommand() noexcept;
+
+    /**
+     * Limits the velocity
+     */
+    virtual void limitVel() noexcept;
+
+    /**
+     * Limits the angular velocity
+     */
+    virtual void limitAngularVel() noexcept;
 
     /**
      * Terminates the skill
@@ -80,6 +87,12 @@ class Skill {
 
    public:
     /**
+     * Gets the status from the last time update() was called
+     * @return this->currentStatus
+     */
+    [[nodiscard]] Status getStatus() const;
+
+    /**
      * Calls onInitialize
      * @return Status of initialization
      */
@@ -102,6 +115,11 @@ class Skill {
      * Virtual dtor that ensures proper destruction
      */
     virtual ~Skill() = default;
+
+    /**
+     * Gets the current skill name
+     */
+    virtual const char* getName() = 0;
 };
 }  // namespace rtt::ai::stp
 

@@ -60,10 +60,10 @@ class Robot;
 
             static int rotateDirection(double currentAngle, double targetAngle);
 
-            static Vector2 projectPositionToWithinField(const Field &field, Vector2 position,
+            static Vector2 projectPositionToWithinField(const world::Field &field, Vector2 position,
                                                         double margin = Constants::ROBOT_RADIUS());
 
-            static Vector2 projectPositionToOutsideDefenseArea(const Field &field, Vector2 position,
+            static Vector2 projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position,
                                                                double margin = Constants::ROBOT_RADIUS());
 
             static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
@@ -100,11 +100,6 @@ class Robot;
             static bool
             objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point,
                                        double maxDifference = 0.3);
-
-            static const std::shared_ptr<world::Robot>
-            getRobotClosestToLine(std::vector<std::shared_ptr<world::Robot>> robots, Vector2 const &lineStart,
-                                  Vector2 const &lineEnd,
-                                  bool lineWithEnds);
 
             static const world_new::view::RobotView getRobotClosestToLine(
                 std::vector<world_new::view::RobotView> robots,

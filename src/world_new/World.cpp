@@ -78,6 +78,10 @@ namespace rtt::world_new {
         this->currentField = field;
     }
 
+    void World::updateField(rtt::ai::world::Field &protoField) {
+        this->currentField = protoField;
+    }
+
     World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
         std::lock_guard mtx{updateMutex};
         history.reserve(HISTORY_SIZE);
@@ -109,8 +113,6 @@ namespace rtt::world_new {
     }
 
     uint64_t World::getTimeDifference() const noexcept { return tickDuration; }
-
-    robot::RobotControllers &World::getControllersForRobot(uint8_t id) noexcept { return robotControllers[id]; }
 
     ai::control::PositionControl *World::getRobotPositionController() noexcept {
         return &positionControl;

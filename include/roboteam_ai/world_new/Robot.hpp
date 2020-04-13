@@ -14,11 +14,11 @@
 #include "world_new/views/BallView.hpp"
 
 namespace rtt::ai::control {
-    class ShotController;
-    class NumTreePosControl;
-    class BallHandlePosControl;
-    class BasicPosControl;
-}
+class ShotController;
+class NumTreePosControl;
+class BallHandlePosControl;
+class BasicPosControl;
+}  // namespace rtt::ai::control
 
 namespace rtt::world_new::robot {
 
@@ -42,6 +42,7 @@ class Robot {
     Vector2 pidPreviousVel;
 
     double distanceToBall;
+    double angleDiffToBall;
     unsigned long lastUpdatedWorldNumber = 0;
 
     double angularVelocity;
@@ -53,7 +54,10 @@ class Robot {
     double timeDribblerChanged = 0;
     constexpr static double timeToChangeOneDribblerLevel = 0.18;
     bool workingDribbler;
-    bool workingBallSensor;
+    bool workingBallSensor{};
+
+    bool seesBall{};
+    float ballPos{};
 
    private:
     void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
@@ -86,7 +90,11 @@ class Robot {
 
     void setDistanceToBall(double distanceToBall) noexcept;
 
-    void setIHaveBall(bool iHaveBall) noexcept;
+    void setAngleDiffToBall(double _angleDiffToBall) noexcept;
+
+    void setBallSensorSeesBall(bool _seesBall) noexcept;
+
+    void setBallPosBallSensor(float _ballPos) noexcept;
 
     void setLastUpdatedWorldNumber(unsigned long lastUpdatedWorldNumber) noexcept;
 
@@ -123,6 +131,10 @@ class Robot {
 
     [[nodiscard]] bool isWorkingBallSensor() const noexcept;
 
+    [[nodiscard]] bool ballSensorSeesBall() const noexcept;
+
+    [[nodiscard]] float getBallPosBallSensor() const noexcept;
+
     [[nodiscard]] ai::control::ShotController *getShotController() const noexcept;
 
     [[nodiscard]] ai::control::NumTreePosControl *getNumTreePosControl() const noexcept;
@@ -135,7 +147,7 @@ class Robot {
 
     [[nodiscard]] double getDistanceToBall() const noexcept;
 
-    [[nodiscard]] bool isIHaveBall() const noexcept;
+    [[nodiscard]] double getAngleDiffToBall() const noexcept;
 
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
 
@@ -151,7 +163,7 @@ class Robot {
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
                    std::optional<rtt::world_new::view::BallView> ball = std::nullopt, unsigned char dribblerState = 0, unsigned long worldNumber = 0);
 
-    Robot &operator=(Robot const&) = default;
+    Robot &operator=(Robot const &) = default;
 
     Robot(Robot const &) = default;
 

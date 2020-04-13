@@ -7,13 +7,13 @@
 #include <roboteam_utils/Print.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt::ai::stp::tactic {
 
 KickAtPos::KickAtPos() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Kick()};
-    skills.initialize();
 }
 
 void KickAtPos::onInitialize() noexcept {}
@@ -31,61 +31,53 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Calculate the angle the robot needs to aim
-    double angleToTarget = (info.getPosition().second - info.getRobot().value()->getPos()).angle();
+    double angleToTarget = (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle();
     skillStpInfo.setAngle(angleToTarget);
 
     // Calculate the distance and the kick force
-    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPosition().second).length();
+    double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
 
-    // When rotating, we need to dribble to keep the ball, but when kicking we don't
-    if (skills.current_num() == 0) {
-        skillStpInfo.setDribblerSpeed(30);
+    // When the angle is not within the margin, dribble so we don't lose the ball while rotating
+    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    if (fabs(info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget)) >= errorMargin) {
+        skillStpInfo.setDribblerSpeed(100);
+    } else {
+        skillStpInfo.setDribblerSpeed(0);
     }
 
     return skillStpInfo;
 }
 
-/// Determine how fast we should kick for a pass at a given distance
-//TODO: This is bad code full of magic numbers so please refactor at a later stage :)
 double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept {
-    const double maxPowerDist = rtt::ai::Constants::MAX_POWER_KICK_DISTANCE();
+    // TODO: TUNE these factors need tuning
+    // Increase these factors to decrease kick velocity
+    // Decrease these factors to increase kick velocity
+    const double TARGET_FACTOR{1.4};
+    const double GRSIM_TARGET_FACTOR{1.65};
+    const double PASS_FACTOR{1.2};
+    const double GRSIM_PASS_FACTOR{1.45};
 
-    double velocity = 0;
-    switch (desiredBallSpeedType) {
-        case DRIBBLE_KICK: {
-            velocity = sqrt(distance) * rtt::ai::Constants::MAX_KICK_POWER() / (sqrt(maxPowerDist) * 1.5);
-            break;
-        }
-        case BALL_PLACEMENT: {
-            if (distance > 2.5) {
-                velocity = Constants::GRSIM() ? 6.01 : 2.01;
-            } else {
-                velocity = Constants::GRSIM() ? 3.01 : 1.01;
-            }
-            break;
-        }
-        case PASS: {
-            if (distance >= maxPowerDist) {
-                velocity = Constants::MAX_KICK_POWER();
-            } else if (Constants::GRSIM()) {
-                velocity = std::min(1.4 * distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER());
-            } else {
-                velocity = std::min(distance / maxPowerDist * Constants::MAX_KICK_POWER(), Constants::DEFAULT_KICK_POWER() * 0.7);
-            }
-            break;
-        }
-        case MAX_SPEED: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
-            break;
-        }
-        default: {
-            velocity = rtt::ai::Constants::MAX_KICK_POWER();
-        }
+    if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_KICK_POWER;
+
+    double limitingFactor{};
+    // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
+    if (desiredBallSpeedType == PASS) {
+        Constants::GRSIM() ? limitingFactor = GRSIM_PASS_FACTOR : limitingFactor = PASS_FACTOR;
+    } else if (desiredBallSpeedType == TARGET) {
+        Constants::GRSIM() ? limitingFactor = GRSIM_TARGET_FACTOR : limitingFactor = TARGET_FACTOR;
+    } else {
+        RTT_ERROR("No valid ballSpeedType, kick velocity set to 0")
+        return 0;
     }
 
-    // limit the output to the max kick speed
-    return std::min(std::max(velocity, 1.01), rtt::ai::Constants::MAX_KICK_POWER());
+    // TODO: TUNE this function might need to change
+    // TODO: TUNE kick related constants (in Constants.h) might need tuning
+    // Calculate the velocity based on this function with the previously set limitingFactor
+    auto velocity = sqrt(distance) * stp::control_constants::MAX_KICK_POWER / (sqrt(stp::control_constants::MAX_POWER_KICK_DISTANCE) * limitingFactor);
+
+    // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
+    return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
 }
 
 bool KickAtPos::isEndTactic() noexcept {
@@ -94,12 +86,26 @@ bool KickAtPos::isEndTactic() noexcept {
 }
 
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
-    // Fail tactic if the robot doesn't have the ball or if the targetPosType is not a shootTarget
-    return !info.getRobot()->hasBall() || info.getPosition().first != SHOOT_TO_POSITION;
+    // Fail tactic if:
+    // robot doesn't have the ball or if there is no shootTarget
+    // But only check when we are not kicking
+    if(skills.current_num() != 1) {
+        return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    }
+    return false;
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
-    // Never reset tactic
+    // Reset when angle is wrong outside of the rotate skill, reset to rotate again
+    if (skills.current_num() != 0) {
+        double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+        return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
+    }
     return false;
 }
+
+const char *KickAtPos::getName() {
+    return "Kick At Pos";
+}
+
 }  // namespace rtt::ai::stp::tactic

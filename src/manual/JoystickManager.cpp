@@ -15,7 +15,7 @@ JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioMan
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {
     if (!init()) {
-        RTT_ERROR("Could not initialize JoystickManager. Exiting..");
+        RTT_ERROR("Could not initialize JoystickManager. Exiting..")
         return false;
     }
 
@@ -31,14 +31,14 @@ bool JoystickManager::run() {
 void JoystickManager::activate() {
     std::lock_guard<std::mutex> lock(activeLock);
     active = true;
-    RTT_INFO("JoystickManager is now active");
+    RTT_INFO("JoystickManager is now active")
 }
 
 /** Deactivate the handling of events and ticking of JoystickHandlers */
 void JoystickManager::deactivate() {
     std::lock_guard<std::mutex> lock(activeLock);
     active = false;
-    RTT_INFO("JoystickManager is now inactive");
+    RTT_INFO("JoystickManager is now inactive")
 }
 
 /** Stops the loop of JoystickManager */
@@ -46,7 +46,7 @@ void JoystickManager::stop() {
     std::lock_guard<std::mutex> lock(runningLock);
     running = false;
     deactivate();
-    RTT_INFO("JoystickManager is now stopped");
+    RTT_INFO("JoystickManager is now stopped")
 }
 
 /** Checks if the JoystickManager is still running */
@@ -64,7 +64,7 @@ bool JoystickManager::isActive() {
 /** Inits SDL */
 bool JoystickManager::init() {
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
-        RTT_ERROR("SDL_INIT_JOYSTICK failed with error: " + std::string(SDL_GetError()));
+        RTT_ERROR("SDL_INIT_JOYSTICK failed with error: " + std::string(SDL_GetError()))
         return false;
     }
     SDL_JoystickEventState(SDL_ENABLE);
@@ -105,14 +105,17 @@ void JoystickManager::loop() {
             iEvents++;
 
             /* PANIC BUTTON! STOP EVERYTHING! */
-            if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX) std::terminate();
+            // Prevent std::out_of_range in joystickHandlers when handler was removed in handleEvent()
+            if(joystickHandlers.count(event.jdevice.which) == 1)
+                if (joystickHandlers.at(event.jdevice.which)->getJoystickState().XBOX)
+                    std::terminate();
 
             /* Check if there is time for another event, of if it is time for the next tick */
             msToNextTick = (int)duration_cast<milliseconds>(tTickNext - steady_clock::now()).count();
             if (msToNextTick <= 0) break;
         }
     }
-    RTT_INFO("Exiting loop");
+    RTT_INFO("Exiting loop")
 }
 
 /** Sends commands from JoystickHandlers */
@@ -141,26 +144,26 @@ void JoystickManager::handleEvent(SDL_Event &event) {
 
 /** Takes an SDL_Event and adds a new JoystickHandler to the map of JoystickHandlers */
 void JoystickManager::handleJoystickAdded(const SDL_Event &event) {
-    RTT_INFO("Adding joystick ", event.jdevice.which);
+    RTT_INFO("Adding joystick ", event.jdevice.which)
 
     SDL_Joystick *joystick = SDL_JoystickOpen(event.jdevice.which);
     if (!joystick) {
-        RTT_ERROR("Could not open joystick ", event.jdevice.which);
+        RTT_ERROR("Could not open joystick ", event.jdevice.which)
         return;
     }
 
     int instanceId = SDL_JoystickInstanceID(joystick);
     auto handler = new JoystickHandler();
     joystickHandlers.insert({instanceId, handler});
-    RTT_SUCCESS("Added joystick with InstanceID ", instanceId);
+    RTT_SUCCESS("Added joystick with InstanceID ", instanceId)
 }
 
 /** Takes an SDL_Event and deletes and removes the correct JoystickHandler from the map of JoystickHandlers */
 void JoystickManager::handleJoystickRemoved(const SDL_Event &event) {
-    RTT_INFO("Removing joystick with InstanceID ", event.jdevice.which);
+    RTT_INFO("Removing joystick with InstanceID ", event.jdevice.which)
     delete joystickHandlers.at(event.jdevice.which);
     joystickHandlers.erase(event.jdevice.which);
-    RTT_SUCCESS("Removed joystick with InstanceID ", event.jdevice.which);
+    RTT_SUCCESS("Removed joystick with InstanceID ", event.jdevice.which)
 }
 
 }  // namespace rtt::input

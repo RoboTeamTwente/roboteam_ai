@@ -28,6 +28,8 @@ class Visualizer : public QWidget {
     const std::unordered_map<int, rtt::world_new::view::RobotView> &getSelectedRobots() const;
     bool robotIsSelected(rtt::world_new::view::RobotView robot);
     bool robotIsSelected(int id);
+    void setPlayForRobot(std::string const& view, uint8_t i);
+    void setTacticForRobot(std::string const& view, uint8_t i);
 
    public slots:
     void setShowRoles(bool showRoles);
@@ -54,7 +56,7 @@ class Visualizer : public QWidget {
     void drawFieldHints(const rtt::ai::world::Field &field, QPainter &painter);
 
     void drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world);
-    void drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam);
+    void drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam, std::string role = "");
     void drawBall(QPainter &painter, rtt::world_new::view::BallView);
     void drawBallPlacementTarget(QPainter &painter);
     void drawTacticColorForRobot(QPainter &painter, rtt::world_new::view::RobotView robot);
@@ -81,6 +83,8 @@ class Visualizer : public QWidget {
     int tacticCount = 0;                          // increases when a new tactic is used
 
     std::unordered_map<int, rtt::world_new::view::RobotView> selectedRobots;
+    std::unordered_map<uint8_t, std::string> rolesForRobots;
+    std::unordered_map<uint8_t, std::string> tacticsForRobots;
 
     // toggles
     bool showRoles = Constants::STD_SHOW_ROLES();
@@ -92,6 +96,8 @@ class Visualizer : public QWidget {
     bool showBallPlacementMarker = Constants::STD_SHOW_BALL_PLACEMENT_MARKER();
     bool showDebugValueInTerminal = Constants::STD_SHOW_DEBUG_VALUES();
     bool fieldInversed = false;
+    std::mutex rolesUpdate;
+    std::mutex tacticsUpdate;
 };
 
 }  // namespace rtt::ai::interface
