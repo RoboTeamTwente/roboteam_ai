@@ -6,10 +6,7 @@
 
 namespace rtt::ai::stp::invariant {
 bool BallMovesFastInvariant::checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept {
-    if (world->getBall().has_value()) {
-        auto ballSpeed = world->getBall()->get()->getVelocity().length();
-        return ballSpeed > stp::control_constants::BALL_IS_MOVING_FAST_LIMIT;
-    }
-    return false;
+    auto ballSpeed = world->getBall()->get()->getVelocity().length();
+    return ballSpeed > stp::control_constants::BALL_IS_MOVING_FAST_LIMIT;
 }
 }  // namespace rtt::ai::stp::invariant

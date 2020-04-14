@@ -8,10 +8,10 @@
 #include "stp/invariants/BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-class WeHaveBallInvariant : public BaseInvariant{
-public:
+class WeHaveBallInvariant : public BaseInvariant {
+   public:
     [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept override;
 };
-}
+}  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_WEHAVEBALLINVARIANT_H
+#endif  // RTT_WEHAVEBALLINVARIANT_H

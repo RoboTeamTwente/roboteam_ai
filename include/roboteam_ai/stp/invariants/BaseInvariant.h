@@ -9,11 +9,11 @@
 
 namespace rtt::ai::stp::invariant {
 class BaseInvariant {
-public:
+   public:
     [[nodiscard]] virtual bool checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept = 0;
 
     virtual ~BaseInvariant() = default;
 };
-}
+}  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_BASEINVARIANT_H
+#endif  // RTT_BASEINVARIANT_H
