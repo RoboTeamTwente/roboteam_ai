@@ -46,6 +46,14 @@ private:
      * Gets the tactic name
      */
     const char *getName() override;
+
+    /**
+     * Calculates the position for the keeper
+     * @param ball Ball
+     * @param field Field
+     * @return Target position for the keeper
+     */
+    Vector2 calculateTargetPosition(world_new::view::BallView ball, world::Field field) noexcept;
 };
 
 } // namespace rtt::ai::stp::tactic
