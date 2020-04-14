@@ -1,5 +1,5 @@
 //
-// Created by timo on 4/3/20.
+// Created by timovdk on 4/3/20.
 //
 
 #ifndef RTT_BALLMOVESSLOWINVARIANT_H

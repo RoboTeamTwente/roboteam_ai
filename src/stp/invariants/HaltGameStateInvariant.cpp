@@ -3,7 +3,6 @@
 //
 
 #include "stp/invariants/HaltGameStateInvariant.h"
-
 #include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai::stp::invariant {
