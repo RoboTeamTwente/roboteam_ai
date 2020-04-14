@@ -2,7 +2,7 @@
 // Created by jordi on 08-04-20.
 //
 
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include "control/ControlUtils.h"
 #include "stp/new_tactics/BlockBall.h"
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
