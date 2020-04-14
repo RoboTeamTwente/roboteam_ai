@@ -10,8 +10,8 @@
 namespace rtt::ai::stp::invariant {
 class BaseInvariant {
    public:
-    [[nodiscard]] virtual bool checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept = 0;
-
+    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field, const double conversionMargin = 0.5) const noexcept;
+    [[nodiscard]] virtual double metricCheck(world_new::view::WorldDataView world, const Field *field) const noexcept = 0;
     virtual ~BaseInvariant() = default;
 };
 }  // namespace rtt::ai::stp::invariant

@@ -9,7 +9,10 @@
 
 namespace rtt::ai::stp::invariant {
 class BallMovesFastInvariant : public BaseInvariant {
-    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept override;
+   public:
+    [[nodiscard]] double metricCheck(world_new::view::WorldDataView world, const Field *field) const noexcept override;
+   private:
+    [[nodiscard]] double calculateMetric(const double& x) const noexcept;
 };
 }  // namespace rtt::ai::stp::invariant
 

@@ -6,7 +6,7 @@
 #include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai::stp::invariant {
-bool HaltGameStateInvariant::checkInvariant(world_new::view::WorldDataView, const Field *) const noexcept {
-    return GameStateManager::getCurrentGameState().getRuleSet().maxRobotVel == 0;
+double HaltGameStateInvariant::metricCheck(world_new::view::WorldDataView world, const Field *field) const noexcept {
+    return GameStateManager::getCurrentGameState().getRuleSet().title == "halt" ? 1.0 : 0.0;
 }
 }  // namespace rtt::ai::stp::invariant

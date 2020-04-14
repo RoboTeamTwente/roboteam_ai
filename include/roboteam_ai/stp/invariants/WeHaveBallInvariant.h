@@ -9,7 +9,8 @@
 
 namespace rtt::ai::stp::invariant {
 class WeHaveBallInvariant : public BaseInvariant {
-    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field) const noexcept override;
+   public:
+    [[nodiscard]] double metricCheck(world_new::view::WorldDataView world, const Field *field) const noexcept override;
 };
 }  // namespace rtt::ai::stp::invariant
 
