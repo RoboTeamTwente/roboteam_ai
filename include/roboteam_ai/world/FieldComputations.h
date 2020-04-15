@@ -40,13 +40,13 @@ class FieldComputations {
      * @param backMargin The outwards margin at the goal side (boundary side) of the field.
      * @return True if the point is in the defence area, false otherwise.
      */
-    static bool pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin);
+    static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin);
 
     /**
      * Look at the overloaded function pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0,
      * bool includeOutsideField = false) for the corresponding documentation. This function is used to fill in the default values.
      */
-    static bool pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0);
+    static bool pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0);
 
     /**
      * Check whether a given point is in the field.

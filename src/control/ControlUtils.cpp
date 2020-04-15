@@ -257,11 +257,11 @@ Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Ve
 }
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin) {
-    if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
+    if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
         return position;
     }
-    if (FieldComputations::pointIsInDefenceArea(field, position, false, margin)) {
+    if (FieldComputations::pointIsInDefenseArea(field, position, false, margin)) {
         position.x = std::min(position.x, field.getRightPenaltyX() - margin);
         return position;
     }
@@ -319,8 +319,8 @@ Vector2 ControlUtils::getInterceptPointOnLegalPosition(const world::Field &field
     Vector2 projectPos = shotLine.project(position);
     Vector2 closestPoint = projectPos;
 
-    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
-    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
+    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, true, defenseAreamargin);
+    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, false, defenseAreamargin);
 
     if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
         Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, field.getBoundaryWidth()));

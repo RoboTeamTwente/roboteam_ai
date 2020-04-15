@@ -9,12 +9,12 @@ namespace ai {
 
 using util = control::ControlUtils;
 
-bool FieldComputations::pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin) {
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin) {
     auto defenseArea = FieldComputations::getDefenseArea(field, isOurDefenceArea, margin, backMargin);
     return defenseArea.contains(point);
 }
 
-bool FieldComputations::pointIsInDefenceArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
+bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
     return pointIsInDefenceArea(field, point, isOurDefenceArea, margin, margin);
 }
 
