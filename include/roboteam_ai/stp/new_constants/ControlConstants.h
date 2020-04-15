@@ -16,6 +16,9 @@ extern const double DEFAULT_KICK_POWER;
 extern const double MAX_POWER_KICK_DISTANCE;
 extern const double MAX_POWER_CHIP_DISTANCE;
 
+// Dribbler constants
+extern const double TURN_ON_DRIBBLER_DISTANCE;
+
 // Team constants TODO: Maybe this should be in a different constants file
 inline constexpr size_t MAX_ROBOT_COUNT = 11;
 
