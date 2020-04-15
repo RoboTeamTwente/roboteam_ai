@@ -9,11 +9,11 @@
 #include <stp/PlayDecider.hpp>
 
 class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    double metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::Field *field) const noexcept override { return 1; }
+    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::Field *field) const noexcept override { return 1; }
 };
 
 class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    double metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::Field *field) const noexcept override { return 0; }
+    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::Field *field) const noexcept override { return 0; }
 };
 
 class AlwaysValid : public rtt::ai::stp::Play {
