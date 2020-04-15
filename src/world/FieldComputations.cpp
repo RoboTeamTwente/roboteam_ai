@@ -15,7 +15,7 @@ bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, cons
 }
 
 bool FieldComputations::pointIsInDefenseArea(const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin) {
-    return pointIsInDefenceArea(field, point, isOurDefenceArea, margin, margin);
+    return pointIsInDefenseArea(field, point, isOurDefenceArea, margin, margin);
 }
 
 bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vector2 &point, double margin) {
