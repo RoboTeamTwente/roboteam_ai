@@ -13,16 +13,27 @@ uint8_t BallMovesFastInvariant::metricCheck(world_new::view::WorldDataView world
 }
 
 uint8_t BallMovesFastInvariant::calculateMetric(const double& x) const noexcept {
+    /**
+     * If between -FastLimit and -FuzzyMargin -> slope
+     * If > FuzzyMargin -> True
+     * Else -> False
+     *
+     *         (255)
+     *        XXXXXXX
+     *       XX |
+     *      XX  |
+     *     XX   |
+     *    XX    |
+     * XXXX-----+----
+     * (0)
+     */
     uint8_t metric{};
-    // If the difference is between -1 and 0, make a slope to fuzz the boolean evaluation
-    // Else if the difference is 0 or higher return 255
-    // Else return 0, since this is too slow to classify as moving fast
-    if (x >= -1 && x <= 0) {
-        metric = static_cast<uint8_t>(255 * x + 255);
-    } else if (x >= 0) {
-        metric = 255;
+    if (x >= -stp::control_constants::BALL_IS_MOVING_FAST_LIMIT && x <= -stp::control_constants::FUZZY_MARGIN) {
+        metric = static_cast<uint8_t>(182.1429 * x + 273.2143);
+    } else if (x > stp::control_constants::FUZZY_MARGIN) {
+        metric = stp::control_constants::FUZZY_TRUE;
     } else {
-        metric = 0;
+        metric = stp::control_constants::FUZZY_FALSE;
     }
     return metric;
 }

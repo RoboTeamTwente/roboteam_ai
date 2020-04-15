@@ -48,8 +48,9 @@ extern const double DRIBBLER_ANGLE_OFFSET;
 extern const double CENTER_TO_FRONT;
 
 // Invariant constants
-extern const double MAX_METRIC;
-extern const double MIN_METRIC;
+extern const double FUZZY_TRUE;
+extern const double FUZZY_FALSE;
+extern const double FUZZY_MARGIN;
 }  // namespace rtt::ai::stp::control_constants
 
 #endif  // RTT_CONTROLCONSTANTS_H

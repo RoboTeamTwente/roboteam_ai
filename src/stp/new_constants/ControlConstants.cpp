@@ -45,6 +45,7 @@ const double DRIBBLER_ANGLE_OFFSET = asin(FRONT_LENGTH / 2 / ROBOT_RADIUS);
 const double CENTER_TO_FRONT = sin(DRIBBLER_ANGLE_OFFSET) * ROBOT_RADIUS;
 
 // Invariant constants
-constexpr double MAX_METRIC = 1.0;
-constexpr double MIN_METRIC = 0.0;
+constexpr double FUZZY_TRUE = 255;
+constexpr double FUZZY_FALSE = 0;
+constexpr double FUZZY_MARGIN = 0.1;
 }  // namespace rtt::ai::stp::control_constants
