@@ -16,6 +16,9 @@ constexpr double MAX_POWER_CHIP_DISTANCE = 9;
 constexpr double MAX_CHIP_POWER = 8;
 constexpr double MIN_CHIP_POWER = 1.01;
 
+// Dribbler constants
+const double TURN_ON_DRIBBLER_DISTANCE = 3 * ROBOT_RADIUS;
+
 // Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
 constexpr double BALL_IS_MOVING_VEL = 0.5;
