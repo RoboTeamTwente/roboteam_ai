@@ -27,7 +27,10 @@ uint8_t BallMovesSlowInvariant::calculateMetric(const double& x) const noexcept 
      */
     uint8_t metric{};
     if (x >= stp::control_constants::FUZZY_MARGIN && x <= stp::control_constants::BALL_IS_MOVING_FAST_LIMIT) {
-        metric = static_cast<uint8_t>(-182.1429 * x + 273.2143);
+        const double a = stp::control_constants::FUZZY_TRUE / (stp::control_constants::BALL_IS_MOVING_FAST_LIMIT - stp::control_constants::FUZZY_MARGIN);
+        const double b = stp::control_constants::FUZZY_TRUE + (stp::control_constants::FUZZY_MARGIN * a);
+
+        metric = static_cast<uint8_t>(-a * x + b);
     } else if (x < stp::control_constants::FUZZY_MARGIN) {
         metric = stp::control_constants::FUZZY_TRUE;
     } else {

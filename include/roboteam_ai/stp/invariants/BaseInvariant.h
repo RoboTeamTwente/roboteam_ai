@@ -14,10 +14,10 @@ class BaseInvariant {
      * Converts the fuzzy return to a boolean return
      * @param world the world
      * @param field the field
-     * @param conversionMargin the cutoff number
+     * @param cutOff the cutoff number
      * @return returns true when greater than cutoff and false when smaller than cutoff
      */
-    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field, const uint8_t conversionMargin = 127) const noexcept;
+    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const Field *field, const uint8_t cutOff = stp::control_constants::FUZZY_DEFAULT_CUTOFF) const noexcept;
 
     /**
      * Calculates the 'true-ness' of the invariant between 0 and 255. 0 == false, 255 == true

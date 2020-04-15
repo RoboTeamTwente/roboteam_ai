@@ -7,6 +7,6 @@
 namespace rtt::ai::stp::invariant {
 uint8_t WeHaveBallInvariant::metricCheck(world_new::view::WorldDataView world, const Field *field) const noexcept {
     auto& us = world.getUs();
-    return std::any_of(us.begin(), us.end(), [](auto& robot) { return robot.hasBall(); }) ? 255 : 0;
+    return std::any_of(us.begin(), us.end(), [](auto& robot) { return robot.hasBall(); }) ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
 }
 }  // namespace rtt::ai::stp::invariant

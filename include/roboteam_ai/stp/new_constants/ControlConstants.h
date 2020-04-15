@@ -51,6 +51,7 @@ extern const double CENTER_TO_FRONT;
 extern const double FUZZY_TRUE;
 extern const double FUZZY_FALSE;
 extern const double FUZZY_MARGIN;
+extern const double FUZZY_DEFAULT_CUTOFF;
 }  // namespace rtt::ai::stp::control_constants
 
 #endif  // RTT_CONTROLCONSTANTS_H

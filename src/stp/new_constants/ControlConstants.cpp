@@ -48,4 +48,5 @@ const double CENTER_TO_FRONT = sin(DRIBBLER_ANGLE_OFFSET) * ROBOT_RADIUS;
 constexpr double FUZZY_TRUE = 255;
 constexpr double FUZZY_FALSE = 0;
 constexpr double FUZZY_MARGIN = 0.1;
+constexpr double FUZZY_DEFAULT_CUTOFF = 127;
 }  // namespace rtt::ai::stp::control_constants
