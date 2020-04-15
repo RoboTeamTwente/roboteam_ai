@@ -5,7 +5,7 @@
 #include "stp/invariants/BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-bool BaseInvariant::checkInvariant(world_new::view::WorldDataView world, const Field *field, const double conversionMargin) const noexcept {
+bool BaseInvariant::checkInvariant(world_new::view::WorldDataView world, const Field *field, const uint8_t conversionMargin) const noexcept {
     return metricCheck(world, field) >= conversionMargin;
 }
 }  // namespace rtt::ai::stp::invariant
