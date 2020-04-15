@@ -53,7 +53,7 @@ private:
      * @param field Field
      * @return Target position for the keeper
      */
-    Vector2 calculateTargetPosition(world_new::view::BallView ball, world::Field field) noexcept;
+    static Vector2 calculateTargetPosition(const world_new::view::BallView& ball, const world::Field& field) noexcept;
 };
 
 } // namespace rtt::ai::stp::tactic

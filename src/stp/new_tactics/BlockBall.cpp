@@ -55,7 +55,7 @@ namespace rtt::ai::stp::tactic {
         return "Block Ball";
     }
 
-    Vector2 BlockBall::calculateTargetPosition(world_new::view::BallView ball, world::Field field) noexcept {
+    Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball, const world::Field& field) noexcept {
         // Ball is moving
         // Intercept ball when it is moving towards the goal
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
