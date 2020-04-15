@@ -29,12 +29,14 @@ namespace rtt::ai::stp::tactic {
 
         auto field = info.getField().value();
         auto ball = info.getBall().value();
+        auto keeper = info.getRobot().value();
+        auto enemyRobot = info.getEnemyRobot().value();
 
-        auto goalToBall = ball->getPos() - field.getOurGoalCenter();
+        auto keeperToBall = ball->getPos() - keeper->getPos();
 
-        auto targetPosition = calculateTargetPosition(ball, field);
+        auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
-        auto targetAngle = goalToBall.angle();
+        auto targetAngle = keeperToBall.angle();
 
         skillStpInfo.setPositionToMoveTo(targetPosition);
         skillStpInfo.setAngle(targetAngle);
@@ -55,7 +57,8 @@ namespace rtt::ai::stp::tactic {
         return "Block Ball";
     }
 
-    Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball, const world::Field& field) noexcept {
+    Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball, const world::Field& field,
+            const world_new::view::RobotView& enemyRobot) noexcept {
         // Ball is moving
         // Intercept ball when it is moving towards the goal
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
@@ -67,6 +70,18 @@ namespace rtt::ai::stp::tactic {
 
         // Opponent is close to ball
         // Block the ball by staying on the shot line of the opponent
+        if (enemyRobot->getDistanceToBall() < 1.0) {
+            auto start = enemyRobot->getPos();
+            auto enemyToBall = ball->getPos() - start;
+            auto end = start + enemyToBall.stretchToLength(3.0);
+            auto startGoal = field.getOurTopGoalSide();
+            auto endGoal = field.getOurBottomGoalSide();
+
+            if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
+                auto goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
+                return goalPos + Vector2(field.getGoalWidth()/2, 0).rotate(enemyToBall.angle() + M_PI);
+            }
+        }
 
         // Stay between the ball and the center of the goal
         auto goalToBall = ball->getPos() - field.getOurGoalCenter();
