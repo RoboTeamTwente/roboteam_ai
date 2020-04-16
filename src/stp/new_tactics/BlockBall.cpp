@@ -60,8 +60,6 @@ const char *BlockBall::getName() {
 Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
         const world_new::view::RobotView &enemyRobot) noexcept {
     const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
-    const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
-    const double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
     // Ball is on our side
     if (ball->getPos().x < 0) {
@@ -72,8 +70,8 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             auto start = ball->getPos();
             auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.5);
-            auto startGoal = field.getOurTopGoalSide() + Vector2(DISTANCE_FROM_GOAL_CLOSE, 0);
-            auto endGoal = field.getOurBottomGoalSide() + Vector2(DISTANCE_FROM_GOAL_CLOSE, 0);
+            auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
+            auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
 
             if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
                 return control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
@@ -82,7 +80,7 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
 
         // Opponent is close to ball
         // Block the ball by staying on the shot line of the opponent
-        if (enemyRobot->getDistanceToBall() < ENEMY_CLOSE_TO_BALL_DISTANCE) {
+        if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
             auto start = enemyRobot->getPos();
             auto enemyToBall = ball->getPos() - start;
             auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
