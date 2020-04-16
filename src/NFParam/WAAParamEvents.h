@@ -34,7 +34,7 @@ struct ValueAtTimeEvent : ParamEvent {
 
   float valueAtTime(double time) override;
 
-  virtual float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 };
 
 struct TargetAtTimeEvent : ParamEvent {
@@ -45,7 +45,7 @@ struct TargetAtTimeEvent : ParamEvent {
   virtual ~TargetAtTimeEvent();
 
   float valueAtTime(double time) override;
-  virtual float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 };
 
 struct LinearRampEvent : ParamEvent {
@@ -55,7 +55,7 @@ struct LinearRampEvent : ParamEvent {
   virtual ~LinearRampEvent();
 
   float valueAtTime(double time) override;
-  virtual float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 };
 
 struct ExponentialRampEvent : ParamEvent {
@@ -65,7 +65,7 @@ struct ExponentialRampEvent : ParamEvent {
   virtual ~ExponentialRampEvent();
 
   float valueAtTime(double time) override;
-  virtual float cumulativeValue(double start_time, double end_time, double precision = .1) override;
+  float cumulativeValue(double start_time, double end_time, double precision = .1) override;
 
  private:
   double base() { return target / start_value; }

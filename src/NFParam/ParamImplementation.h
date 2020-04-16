@@ -65,7 +65,7 @@ class ParamImplementation : public Param {
   void setValueCurveAtTime(std::vector<float> values, double start_time, double duration) override;
 
   // Custom
-  virtual void addCustomEvent(double start_time,
+  void addCustomEvent(double start_time,
                               double end_time,
                               Anchor anchor,
                               NF_AUDIO_PARAM_FUNCTION function) override;
