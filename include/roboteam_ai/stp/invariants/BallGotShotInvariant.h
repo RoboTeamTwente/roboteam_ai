@@ -6,7 +6,6 @@
 #define RTT_BALLGOTSHOTINVARIANT_H
 
 #include <NFParam/Param.h>
-
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
