@@ -64,6 +64,8 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball
     const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
     const double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
+    auto keeperArc = Arc(field.getOurGoalCenter(), DISTANCE_FROM_GOAL_FAR, -M_PI/2, M_PI/2);
+
     // Ball is moving
     // Intercept ball when it is moving towards the goal
     if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
@@ -88,21 +90,27 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball
 
         if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
             auto goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
-            return goalPos + Vector2(DISTANCE_FROM_GOAL_FAR, 0).rotate(enemyToBall.angle() + M_PI);
+
+            auto targetPositions = keeperArc.intersectionWithLine(start, goalPos);
+
+            if (targetPositions.first) {
+                return targetPositions.first.value();
+            } else if (targetPositions.second) {
+                return targetPositions.second.value();
+            }
         }
     }
 
     // Stay between the ball and the center of the goal
-    auto goalToBall = ball->getPos() - field.getOurGoalCenter();
+    auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
 
-    auto targetPosition = field.getOurGoalCenter() + goalToBall.stretchToLength(DISTANCE_FROM_GOAL_FAR);
-    auto targetPositionX = std::clamp(targetPosition.x, field.getLeftmostX() + control_constants::ROBOT_RADIUS,
-                                      field.getLeftPenaltyPoint().x - control_constants::ROBOT_RADIUS);
-    auto targetPositionY = std::clamp(targetPosition.y, field.getBottomLeftPenaltyStretch().begin.y + control_constants::ROBOT_RADIUS,
-                                      field.getTopLeftPenaltyStretch().begin.y - control_constants::ROBOT_RADIUS);
-    targetPosition = Vector2(targetPositionX, targetPositionY);
-
-    return targetPosition;
+    if (targetPositions.first) {
+        return targetPositions.first.value();
+    } else if (targetPositions.second) {
+        return targetPositions.second.value();
+    } else {
+        return field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0);
+    }
 }
 
 }  // namespace rtt::ai::stp::tactic
