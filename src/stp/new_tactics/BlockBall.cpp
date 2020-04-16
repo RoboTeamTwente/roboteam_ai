@@ -59,12 +59,17 @@ const char *BlockBall::getName() {
 
 Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball, const world::Field& field,
         const world_new::view::RobotView& enemyRobot) noexcept {
+
     // Ball is moving
     // Intercept ball when it is moving towards the goal
     if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-        auto targetPosition = control::ControlUtils::twoLineIntersection(ball->getPos(), ball->getPos() + ball->getVelocity()*1000, field.getOurGoalCenter() + Vector2(0.2, field.getGoalWidth()/2), field.getOurGoalCenter() + Vector2(0.2, -field.getGoalWidth()/2));
-        if (targetPosition.x == -5.8 && targetPosition.y >= -field.getGoalWidth()/2 && targetPosition.y <= field.getGoalWidth()/2) {
-            return targetPosition;
+        auto start = ball->getPos();
+        auto end = start + ball->getVelocity().stretchToLength(3.0);
+        auto startGoal = field.getOurTopGoalSide() + Vector2(0.2, 0);
+        auto endGoal = field.getOurBottomGoalSide() + Vector2(0.2, 0);
+
+        if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
+            return control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
         }
     }
 
