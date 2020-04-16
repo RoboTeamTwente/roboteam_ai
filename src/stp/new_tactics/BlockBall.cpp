@@ -60,13 +60,17 @@ const char *BlockBall::getName() {
 Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball, const world::Field& field,
         const world_new::view::RobotView& enemyRobot) noexcept {
 
+    const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
+    const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
+    const double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
+
     // Ball is moving
     // Intercept ball when it is moving towards the goal
     if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
         auto start = ball->getPos();
-        auto end = start + ball->getVelocity().stretchToLength(3.0);
-        auto startGoal = field.getOurTopGoalSide() + Vector2(0.2, 0);
-        auto endGoal = field.getOurBottomGoalSide() + Vector2(0.2, 0);
+        auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.5);
+        auto startGoal = field.getOurTopGoalSide() + Vector2(DISTANCE_FROM_GOAL_CLOSE, 0);
+        auto endGoal = field.getOurBottomGoalSide() + Vector2(DISTANCE_FROM_GOAL_CLOSE, 0);
 
         if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
             return control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
@@ -75,23 +79,23 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView& ball
 
     // Opponent is close to ball
     // Block the ball by staying on the shot line of the opponent
-    if (enemyRobot->getDistanceToBall() < 1.0) {
+    if (enemyRobot->getDistanceToBall() < ENEMY_CLOSE_TO_BALL_DISTANCE) {
         auto start = enemyRobot->getPos();
         auto enemyToBall = ball->getPos() - start;
-        auto end = start + enemyToBall.stretchToLength(3.0);
+        auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
         const auto& startGoal = field.getOurTopGoalSide();
         const auto& endGoal = field.getOurBottomGoalSide();
 
         if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
             auto goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
-            return goalPos + Vector2(field.getGoalWidth()/1.5, 0).rotate(enemyToBall.angle() + M_PI);
+            return goalPos + Vector2(DISTANCE_FROM_GOAL_FAR, 0).rotate(enemyToBall.angle() + M_PI);
         }
     }
 
     // Stay between the ball and the center of the goal
     auto goalToBall = ball->getPos() - field.getOurGoalCenter();
 
-    auto targetPosition = field.getOurGoalCenter() + goalToBall.stretchToLength(field.getGoalWidth()/1.5);
+    auto targetPosition = field.getOurGoalCenter() + goalToBall.stretchToLength(DISTANCE_FROM_GOAL_FAR);
     auto targetPositionX = std::clamp(targetPosition.x, field.getLeftmostX() + control_constants::ROBOT_RADIUS,
                                       field.getLeftPenaltyPoint().x - control_constants::ROBOT_RADIUS);
     auto targetPositionY = std::clamp(targetPosition.y, field.getBottomLeftPenaltyStretch().begin.y + control_constants::ROBOT_RADIUS,
