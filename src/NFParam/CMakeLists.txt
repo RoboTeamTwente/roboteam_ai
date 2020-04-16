@@ -1,7 +1,7 @@
 add_library(NFParam
   STATIC
-  ${NFPARAM_INCLUDE_DIRECTORY}/NFParam/Param.h
-  ${NFPARAM_INCLUDE_DIRECTORY}/NFParam/ParamEvent.h
+  include/NFParam/Param.h
+  include/NFParam/ParamEvent.h
         ParamEvent.cpp
         WAAParamEvents.h
         WAAParamEvents.cpp
@@ -10,4 +10,4 @@ add_library(NFParam
 target_include_directories(
   NFParam
   PUBLIC
-  ${NFPARAM_INCLUDE_DIRECTORY})
+  include)
