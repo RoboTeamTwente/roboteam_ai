@@ -29,6 +29,7 @@ extern const double BALL_IS_MOVING_FAST_LIMIT;
 extern const double BALL_RADIUS;
 extern const double HAS_KICKED_ERROR_MARGIN;
 extern const double HAS_CHIPPED_ERROR_MARGIN;
+extern const double ENEMY_CLOSE_TO_BALL_DISTANCE;
 
 // RobotCommand limits
 extern const double MAX_VEL_CMD;
@@ -48,6 +49,9 @@ extern const double ROBOT_RADIUS_MAX;
 extern const double FRONT_LENGTH;
 extern const double DRIBBLER_ANGLE_OFFSET;
 extern const double CENTER_TO_FRONT;
+
+// Keeper constants
+extern const double DISTANCE_FROM_GOAL_CLOSE;
 }  // namespace rtt::ai::stp::control_constants
 
 #endif  // RTT_CONTROLCONSTANTS_H
