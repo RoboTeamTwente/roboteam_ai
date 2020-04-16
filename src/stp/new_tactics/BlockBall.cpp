@@ -59,7 +59,6 @@ const char *BlockBall::getName() {
 
 Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
         const world_new::view::RobotView &enemyRobot) noexcept {
-
     const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
     const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
     const double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
