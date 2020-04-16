@@ -37,42 +37,42 @@ ParamImplementation::ParamImplementation(float default_value,
 
 ParamImplementation::~ParamImplementation() {}
 
-float ParamImplementation::valueForTime(double time) {
+float ParamImplementation::yForX(double x) {
   std::lock_guard<std::mutex> events_mutex(_events_mutex);
-  auto current_iterator = iteratorForTime(time);
+  auto current_iterator = iteratorForTime(x);
 
   if (current_iterator == _events.end()) {
-    return defaultValue();
+    return defaultY();
   }
-  return std::min(std::max((*current_iterator)->valueAtTime(time), minValue()), maxValue());
+  return std::min(std::max((*current_iterator)->valueAtTime(x), minY()), maxY());
 }
 
-void ParamImplementation::valuesForTimeRange(float *values,
-                                             size_t values_count,
-                                             double start_time,
-                                             double end_time) {
-  if (values_count == 0) {
+void ParamImplementation::yValuesForXRange(float *y_values,
+                                             size_t y_values_count,
+                                             double start_x,
+                                             double end_x) {
+  if (y_values_count == 0) {
     return;
   }
-  if (start_time == end_time) {
-    float value = valueForTime(start_time);
-    for (int i = 0; i < values_count; ++i) {
-      values[i] = value;
+  if (start_x == end_x) {
+    float value = yForX(start_x);
+    for (int i = 0; i < y_values_count; ++i) {
+        y_values[i] = value;
     }
     return;
   }
   std::lock_guard<std::mutex> events_mutex(_events_mutex);
-  memset(values, 0, values_count * sizeof(float));
-  auto event_it = iteratorForTime(start_time);
-  double step = (end_time - start_time) / (values_count - 1);
-  double current_time = start_time;
-  for (int i = 0; i < values_count; ++i, current_time += step) {
+  memset(y_values, 0, y_values_count * sizeof(float));
+  auto event_it = iteratorForTime(start_x);
+  double step = (end_x - start_x) / (y_values_count - 1);
+  double current_time = start_x;
+  for (int i = 0; i < y_values_count; ++i, current_time += step) {
     if (event_it != _events.end() && current_time >= (*event_it)->end_time &&
         (*event_it)->end_time != ParamEvent::INVALID_TIME && event_it != _events.end()) {
       event_it++;
     }
-    values[i] =
-        (event_it == _events.end()) ? defaultValue() : (*event_it)->valueAtTime(current_time);
+    y_values[i] =
+        (event_it == _events.end()) ? defaultY() : (*event_it)->valueAtTime(current_time);
   }
 }
 
@@ -80,13 +80,13 @@ std::string ParamImplementation::name() {
   return _name;
 }
 
-float ParamImplementation::smoothedValueForTimeRange(double start_time,
-                                                     double end_time,
+float ParamImplementation::smoothedYForXRange(double start_x,
+                                                     double end_x,
                                                      size_t samples) {
   if (_smoothed_samples_buffer.size() < samples) {
     _smoothed_samples_buffer.resize(samples);
   }
-  valuesForTimeRange(&_smoothed_samples_buffer[0], samples, start_time, end_time);
+  yValuesForXRange(&_smoothed_samples_buffer[0], samples, start_x, end_x);
   float average_value = 0.0f;
   for (size_t i = 0; i < samples; ++i) {
     average_value += _smoothed_samples_buffer[i];
@@ -95,11 +95,11 @@ float ParamImplementation::smoothedValueForTimeRange(double start_time,
   return output_value;
 }
 
-float ParamImplementation::cumulativeValueForTimeRange(double start_time,
-                                                       double end_time,
+float ParamImplementation::cumulativeYForXRange(double start_x,
+                                                       double end_x,
                                                        double precision) {
-  auto param_iter = iteratorForTime(start_time);
-  auto end_iter = iteratorForTime(end_time);
+  auto param_iter = iteratorForTime(start_x);
+  auto end_iter = iteratorForTime(end_x);
 
   if (param_iter == _events.end()) {
     return 0;
@@ -107,14 +107,14 @@ float ParamImplementation::cumulativeValueForTimeRange(double start_time,
 
   // special case where the whole time range is covered by one event
   if (param_iter == end_iter)
-    return param_iter->get()->cumulativeValue(start_time, end_time, precision);
+    return param_iter->get()->cumulativeValue(start_x, end_x, precision);
 
   // start with cumulative value in the start region
   float cumulative_value = 0.0f;
   auto current_end_time = param_iter->get()->end_time;
 
   if (current_end_time != ParamEvent::INVALID_TIME) {
-    cumulative_value += param_iter->get()->cumulativeValue(start_time, current_end_time, precision);
+    cumulative_value += param_iter->get()->cumulativeValue(start_x, current_end_time, precision);
   }
 
   // now get everything between the start event and the second to last event
@@ -126,90 +126,89 @@ float ParamImplementation::cumulativeValueForTimeRange(double start_time,
   // now get remainder
   if (param_iter != _events.end()) {
     cumulative_value +=
-        param_iter->get()->cumulativeValue(param_iter->get()->start_time, end_time, precision);
+        param_iter->get()->cumulativeValue(param_iter->get()->start_time, end_x, precision);
   }
 
   // if we went past the last event, use default
-  if (current_end_time < end_time) {
-    cumulative_value += (end_time - current_end_time) * defaultValue();
+  if (current_end_time < end_x) {
+    cumulative_value += (end_x - current_end_time) * defaultY();
   }
 
   return cumulative_value;
 }
 
-float ParamImplementation::defaultValue() const {
+float ParamImplementation::defaultY() const {
   return _default_value;
 }
 
-float ParamImplementation::maxValue() const {
+float ParamImplementation::maxY() const {
   return _max_value;
 }
 
-float ParamImplementation::minValue() const {
+float ParamImplementation::minY() const {
   return _min_value;
 }
 
-void ParamImplementation::setValue(float value) {
-  setValueAtTime(value, 0.0);
+void ParamImplementation::setY(float y) { setYAtX(y, 0.0);
 }
 
-void ParamImplementation::setValueAtTime(float value, double time) {
+void ParamImplementation::setYAtX(float y, double x) {
   std::lock_guard<std::mutex> events_mutex(_events_mutex);
-  auto prev_it = prevEvent(time);
-  auto event = createEvent<ValueAtTimeEvent>(value, time);
+  auto prev_it = prevEvent(x);
+  auto event = createEvent<ValueAtTimeEvent>(y, x);
   addEvent(std::move(event), prev_it);
 }
 
-void ParamImplementation::linearRampToValueAtTime(float end_value, double end_time) {
+void ParamImplementation::linearRampToYAtX(float end_y, double end_x) {
   {
     std::lock_guard<std::mutex> events_mutex(_events_mutex);
-    auto prev_it = prevEvent(end_time);
-    auto event = createEvent<LinearRampEvent>(end_value, end_time);
+    auto prev_it = prevEvent(end_x);
+    auto event = createEvent<LinearRampEvent>(end_y, end_x);
     addEvent(std::move(event), prev_it);
   }
 
-  // implicit setValueAtTime to maintain the end_value
-  setValueAtTime(end_value, end_time);
+  // implicit setYAtX to maintain the end_value
+  setYAtX(end_y, end_x);
 }
 
-void ParamImplementation::exponentialRampToValueAtTime(float end_value, double end_time) {
+void ParamImplementation::exponentialRampToYAtX(float end_value, double end_x) {
   {
     std::lock_guard<std::mutex> events_mutex(_events_mutex);
-    auto prev_it = prevEvent(end_time);
-    auto event = createEvent<ExponentialRampEvent>(end_value, end_time);
+    auto prev_it = prevEvent(end_x);
+    auto event = createEvent<ExponentialRampEvent>(end_value, end_x);
     addEvent(std::move(event), prev_it);
   }
 
-  // implicit setValueAtTime to maintain the end_value
-  setValueAtTime(end_value, end_time);
+  // implicit setYAtX to maintain the end_value
+  setYAtX(end_value, end_x);
 }
 
-void ParamImplementation::setTargetAtTime(float target, double start_time, float time_constant) {
+void ParamImplementation::setTargetYAtX(float target_y, double start_x, float x_constant) {
   std::lock_guard<std::mutex> events_mutex(_events_mutex);
-  auto prev_it = prevEvent(start_time);
-  auto event = createEvent<TargetAtTimeEvent>(target, start_time, time_constant);
+  auto prev_it = prevEvent(start_x);
+  auto event = createEvent<TargetAtTimeEvent>(target_y, start_x, x_constant);
   if (prev_it != _events.end()) {
     event->start_value = (*prev_it)->endValue();
   }
   addEvent(std::move(event), prev_it);
 }
 
-void ParamImplementation::setValueCurveAtTime(std::vector<float> values,
-                                              double start_time,
+void ParamImplementation::setYCurveAtX(std::vector<float> y_values,
+                                              double start_x,
                                               double duration) {
   std::lock_guard<std::mutex> events_mutex(_events_mutex);
-  auto prev_it = prevEvent(start_time);
-  auto event = createEvent<ValueCurveEvent>(values, start_time, duration);
+  auto prev_it = prevEvent(start_x);
+  auto event = createEvent<ValueCurveEvent>(y_values, start_x, duration);
   addEvent(std::move(event), prev_it);
 }
 
-void ParamImplementation::addCustomEvent(double start_time,
-                                         double end_time,
+void ParamImplementation::addCustomEvent(double start_x,
+                                         double end_x,
                                          Anchor anchor,
                                          NF_AUDIO_PARAM_FUNCTION function) {
   std::lock_guard<std::mutex> events_mutex(_events_mutex);
-  auto prev_it = prevEvent(start_time);
-  auto event = createEvent<CustomParamEvent>(start_time, end_time, anchor, function);
+  auto prev_it = prevEvent(start_x);
+  auto event = createEvent<CustomParamEvent>(start_x, end_x, anchor, function);
   addEvent(std::move(event), prev_it);
 }
 
@@ -315,11 +314,11 @@ void ParamImplementation::invalidateCachedCumulativeValuesAfterTime(double time)
   }
 }
 
-std::shared_ptr<Param> createParam(float default_value,
-                                   float max_value,
-                                   float min_value,
+std::unique_ptr<Param> createParam(float default_y,
+                                   float max_y,
+                                   float min_y,
                                    const std::string &name) {
-  return std::make_shared<ParamImplementation>(default_value, max_value, min_value, name);
+  return std::make_unique<ParamImplementation>(default_y, max_y, min_y, name);
 }
 
 }  // namespace param

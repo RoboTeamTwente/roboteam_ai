@@ -30,41 +30,40 @@ namespace param {
 
 class Param {
  public:
-  // from WAA spec
-  virtual float defaultValue() const = 0;
-  virtual float maxValue() const = 0;
-  virtual float minValue() const = 0;
-  virtual void setValue(float value) = 0;
-  virtual void setValueAtTime(float value, double time) = 0;
-  virtual void linearRampToValueAtTime(float end_value, double end_time) = 0;
-  virtual void setTargetAtTime(float target, double start_time, float time_constant) = 0;
-  virtual void exponentialRampToValueAtTime(float value, double end_time) = 0;
-  virtual void setValueCurveAtTime(std::vector<float> values,
-                                   double start_time,
+  virtual float defaultY() const = 0;
+  virtual float maxY() const = 0;
+  virtual float minY() const = 0;
+  virtual void setY(float y) = 0;
+  virtual void setYAtX(float y, double x) = 0;
+  virtual void linearRampToYAtX(float end_y, double end_x) = 0;
+  virtual void setTargetYAtX(float target_y, double start_x, float x_constant) = 0;
+  virtual void exponentialRampToYAtX(float y, double end_x) = 0;
+  virtual void setYCurveAtX(std::vector<float> y_values,
+                                   double start_x,
                                    double duration) = 0;
 
   // other methods
-  virtual void addCustomEvent(double start_time,
-                              double end_time,
+  virtual void addCustomEvent(double start_x,
+                              double end_x,
                               Anchor anchor,
                               NF_AUDIO_PARAM_FUNCTION function) = 0;
-  virtual float valueForTime(double time) = 0;
-  virtual void valuesForTimeRange(float *values,
-                                  size_t values_count,
-                                  double start_time,
-                                  double end_time) = 0;
+  virtual float yForX(double x) = 0;
+  virtual void yValuesForXRange(float *y_values,
+                                  size_t y_values_count,
+                                  double start_x,
+                                  double end_x) = 0;
   virtual std::string name() = 0;
-  virtual float smoothedValueForTimeRange(double start_time,
-                                          double end_time,
+  virtual float smoothedYForXRange(double start_x,
+                                          double end_x,
                                           size_t samples = 5) = 0;
-  virtual float cumulativeValueForTimeRange(double start_time,
-                                            double end_time,
+  virtual float cumulativeYForXRange(double start_x,
+                                            double end_x,
                                             double precision = 0.1) = 0;
 };
 
-std::shared_ptr<Param> createParam(float default_value,
-                                   float max_value,
-                                   float min_value,
+std::unique_ptr<Param> createParam(float default_y,
+                                   float max_y,
+                                   float min_y,
                                    const std::string &name);
 
 }  // namespace param

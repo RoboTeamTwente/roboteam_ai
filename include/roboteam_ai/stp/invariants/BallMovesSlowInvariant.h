@@ -24,7 +24,7 @@ class BallMovesSlowInvariant : public BaseInvariant {
      */
     [[nodiscard]] uint8_t calculateMetric(const double& x) const noexcept;
 
-    std::shared_ptr<nativeformat::param::Param> piecewiseLinearFunction;
+    std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
 }  // namespace rtt::ai::stp::invariant
 

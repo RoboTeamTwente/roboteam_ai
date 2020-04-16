@@ -41,32 +41,32 @@ class ParamImplementation : public Param {
                       const std::string &name);
   virtual ~ParamImplementation();
 
-  float valueForTime(double time) override;
-  void valuesForTimeRange(float *values,
-                          size_t values_count,
-                          double start_time,
-                          double end_time) override;
+  float yForX(double x) override;
+  void yValuesForXRange(float *y_values,
+                          size_t y_values_count,
+                          double start_x,
+                          double end_x) override;
 
   std::string name() override;
-  float smoothedValueForTimeRange(double start_time, double end_time, size_t samples = 5) override;
-  float cumulativeValueForTimeRange(double start_time,
-                                    double end_time,
+  float smoothedYForXRange(double start_x, double end_x, size_t samples = 5) override;
+  float cumulativeYForXRange(double start_x,
+                                    double end_x,
                                     double precision = 0.1) override;
 
   // WAAParam
-  float defaultValue() const override;
-  float maxValue() const override;
-  float minValue() const override;
-  void setValue(float value) override;
-  void setValueAtTime(float value, double time) override;
-  void linearRampToValueAtTime(float end_value, double end_time) override;
-  void setTargetAtTime(float target, double start_time, float time_constant) override;
-  void exponentialRampToValueAtTime(float value, double end_time) override;
-  void setValueCurveAtTime(std::vector<float> values, double start_time, double duration) override;
+  float defaultY() const override;
+  float maxY() const override;
+  float minY() const override;
+  void setY(float y) override;
+  void setYAtX(float y, double x) override;
+  void linearRampToYAtX(float end_y, double end_x) override;
+  void setTargetYAtX(float target_y, double start_x, float x_constant) override;
+  void exponentialRampToYAtX(float y, double end_x) override;
+  void setYCurveAtX(std::vector<float> y_values, double start_x, double duration) override;
 
   // Custom
-  void addCustomEvent(double start_time,
-                              double end_time,
+  void addCustomEvent(double start_x,
+                              double end_x,
                               Anchor anchor,
                               NF_AUDIO_PARAM_FUNCTION function) override;
 

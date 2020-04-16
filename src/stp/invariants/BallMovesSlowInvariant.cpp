@@ -7,10 +7,10 @@
 namespace rtt::ai::stp::invariant {
 BallMovesSlowInvariant::BallMovesSlowInvariant() noexcept {
     piecewiseLinearFunction = nativeformat::param::createParam(0, 255, 0, "testParam");
-    piecewiseLinearFunction->setValueAtTime(255, 0.0);
-    piecewiseLinearFunction->setValueAtTime(255, stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT + stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->linearRampToValueAtTime(0, stp::control_constants::BALL_IS_MOVING_FAST_LIMIT - stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->setValueAtTime(0, stp::control_constants::BALL_IS_MOVING_FAST_LIMIT - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setYAtX(255, 0.0);
+    piecewiseLinearFunction->setYAtX(255, stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT + stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->linearRampToYAtX(0, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setYAtX(0, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
 }
 
 uint8_t BallMovesSlowInvariant::metricCheck(world_new::view::WorldDataView world, const Field* field) const noexcept {
@@ -29,6 +29,6 @@ uint8_t BallMovesSlowInvariant::metricCheck(world_new::view::WorldDataView world
  *              (0)
  */
 uint8_t BallMovesSlowInvariant::calculateMetric(const double& x) const noexcept {
-    return piecewiseLinearFunction->valueForTime(x);
+    return piecewiseLinearFunction->yForX(x);
 }
 }  // namespace rtt::ai::stp::invariant

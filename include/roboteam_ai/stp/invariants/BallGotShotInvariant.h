@@ -2,17 +2,17 @@
 // Created by timovdk on 4/2/20.
 //
 
-#ifndef RTT_BALLMOVESFASTINVARIANT_H
-#define RTT_BALLMOVESFASTINVARIANT_H
+#ifndef RTT_BALLGOTSHOTINVARIANT_H
+#define RTT_BALLGOTSHOTINVARIANT_H
 
 #include <NFParam/Param.h>
 
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-class BallMovesFastInvariant : public BaseInvariant {
+class BallGotShotInvariant : public BaseInvariant {
    public:
-    BallMovesFastInvariant() noexcept;
+    BallGotShotInvariant() noexcept;
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const Field* field) const noexcept override;
 
@@ -24,8 +24,8 @@ class BallMovesFastInvariant : public BaseInvariant {
      */
     [[nodiscard]] uint8_t calculateMetric(const double& x) const noexcept;
 
-    std::shared_ptr<nativeformat::param::Param> piecewiseLinearFunction;
+    std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
 }  // namespace rtt::ai::stp::invariant
 
-#endif  // RTT_BALLMOVESFASTINVARIANT_H
+#endif  // RTT_BALLGOTSHOTINVARIANT_H

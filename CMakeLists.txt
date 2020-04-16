@@ -120,7 +120,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesFastInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
         )
 

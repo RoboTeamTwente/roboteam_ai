@@ -25,7 +25,7 @@ inline constexpr size_t MAX_ROBOT_COUNT = 11;
 // Ball constants
 extern const double BALL_STILL_VEL;
 extern const double BALL_IS_MOVING_VEL;
-extern const double BALL_IS_MOVING_FAST_LIMIT;
+extern const double BALL_GOT_SHOT_LIMIT;
 extern const double BALL_IS_MOVING_SLOW_LIMIT;
 extern const double BALL_RADIUS;
 extern const double HAS_KICKED_ERROR_MARGIN;

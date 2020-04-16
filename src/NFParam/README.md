@@ -1,8 +1,3 @@
-[![CircleCI](https://circleci.com/gh/spotify/NFParam/tree/master.svg?style=svg)](https://circleci.com/gh/spotify/NFParam/tree/master)
-[![License](https://img.shields.io/github/license/spotify/NFParam.svg)](LICENSE)
-[![Spotify FOSS Slack](https://slackin.spotify.com/badge.svg)](https://slackin.spotify.com)
-[![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/spotify/nfparam)](http://clayallsopp.github.io/readme-score?url=https://github.com/spotify/nfparam)
-
 A C++ library for defining and evaluating piecewise functions, inspired by the Web Audio API [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) interface.
 
 ## Platform support
@@ -13,7 +8,7 @@ A C++ library for defining and evaluating piecewise functions, inspired by the W
 - [x] 🐧 Ubuntu Trusty 14.04+ (clang 3.9 or gcc 4.9)
 
 ## Raison D'être :thought_balloon:
-When designing a cross platform player that could be used for complex mixing and effects, we required a library that worked in the same way that the Web Audio API [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) worked but on none web based platforms. This led to the creation of this library, which is not only able to emulate the [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) library but can also handle seeks into the centre of a function being evaluated due to its architecture not being a state machine. In addition to supporting everything [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) supports, we have also added in some extra goodies such as `smoothedValueForTimeRange` and `cumulativeValueForTimeRange`.
+When designing a cross platform player that could be used for complex mixing and effects, we required a library that worked in the same way that the Web Audio API [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) worked but on none web based platforms. This led to the creation of this library, which is not only able to emulate the [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) library but can also handle seeks into the centre of a function being evaluated due to its architecture not being a state machine. In addition to supporting everything [AudioParam](https://webaudio.github.io/web-audio-api/#AudioParam) supports, we have also added in some extra goodies such as `smoothedYForXRange` and `cumulativeYForXRange`.
 
 ## Architecture :triangular_ruler:
 `NFParam` is designed as a C++11 interface to define a control curve and interact with it in real time. The API allows you to create a parameter and then begin to add control curves to execute at specific times. The library is thread safe and can be written or read from any thread. The system works by having a list of events, doing a binary search on that list to find the correct function to execute, then executing that function on the current time being requested.
@@ -57,37 +52,37 @@ auto p = nativeformat::param::createParam(0, 1, -1, "testParam");
 ```
 
 #### Add some events
-The `setValueAtTime` command behaves as a step function.
+The `setYAtX` command behaves as a step function.
 The value specified will be maintained until the next event anchor.
 ```
-p->setValueAtTime(0.2f, 0.0);
-p->setValueAtTime(0.3f, 0.1);
-p->setValueAtTime(0.4f, 0.2);
+p->setYAtX(0.2f, 0.0);
+p->setYAtX(0.3f, 0.1);
+p->setYAtX(0.4f, 0.2);
 ```
 
-The linearRampToValueAtTime event computes the slope necessary to 
+The linearRampToYAtX event computes the slope necessary to 
 reach the target value from the previous anchor point by the specified time.
 ```
-p->linearRampToValueAtTime(1.0f, 0.3);
-p->linearRampToValueAtTime(0.8f, 0.325);
+p->linearRampToYAtX(1.0f, 0.3);
+p->linearRampToYAtX(0.8f, 0.325);
 ```
 
-The setTargetAtTime command will expoenentially approach the target value
+The setTargetYAtX command will expoenentially approach the target value
 from the previous anchor with a rate specified by the time constant.
 It does not have a fixed end time.
 ```
-p->setTargetAtTime(0.5f, 0.325, time_constant);
-p->setValueAtTime(0.552f, 0.5);
+p->setTargetYAtX(0.5f, 0.325, time_constant);
+p->setYAtX(0.552f, 0.5);
 ```
 
-The `exponentialRampToValueAtTime` event computes the constant necessary to
+The `exponentialRampToYAtX` event computes the constant necessary to
 reach the target value from the previous anchor point by the specified time.
 ```
-p->exponentialRampToValueAtTime(0.75f, 0.6);
-p->exponentialRampToValueAtTime(0.05f, 0.7);
+p->exponentialRampToYAtX(0.75f, 0.6);
+p->exponentialRampToYAtX(0.05f, 0.7);
 ```
 
-The `setValueCurveAtTime` event linearly interpolates between the points provided on the user-defined curve.
+The `setYCurveAtX` event linearly interpolates between the points provided on the user-defined curve.
 It cannot overlap with any other command anchors.
 ```
 size_t curve_len = 44100;
@@ -95,14 +90,14 @@ std::vector<float> curve(curve_len);
 for (int i = 0; i < curve_len; ++i) {
   curve[i] = std::sin((3.14159265 * i) / curve_len);
 }
-p->setValueCurveAtTime(curve, 0.7, 0.3);
+p->setYCurveAtX(curve, 0.7, 0.3);
 ```
 #### Retrieve some values from the `Param`
 Finally, let's sample some values from the param we have defined!
 ```
 size_t points = 1001;
 std::vector<float> x(points), y(points);
-p->valuesForTimeRange(y.data(), points, 0.0, 1.0);
+p->yValuesForXRange(y.data(), points, 0.0, 1.0);
 
 double ts = 1.0 / (points - 1);
 double t = 0;
