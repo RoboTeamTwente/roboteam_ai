@@ -12,21 +12,21 @@ uint8_t BallMovesFastInvariant::metricCheck(world_new::view::WorldDataView world
     return calculateMetric(ballSpeed - stp::control_constants::BALL_IS_MOVING_FAST_LIMIT);
 }
 
+/**
+ * If between -FastLimit and -FuzzyMargin -> slope
+ * If > FuzzyMargin -> True
+ * Else -> False
+ *
+ *         (255)
+ *        XXXXXXX
+ *       XX |
+ *      XX  |
+ *     XX   |
+ *    XX    |
+ * XXXX-----+----
+ * (0)
+ */
 uint8_t BallMovesFastInvariant::calculateMetric(const double& x) const noexcept {
-    /**
-     * If between -FastLimit and -FuzzyMargin -> slope
-     * If > FuzzyMargin -> True
-     * Else -> False
-     *
-     *         (255)
-     *        XXXXXXX
-     *       XX |
-     *      XX  |
-     *     XX   |
-     *    XX    |
-     * XXXX-----+----
-     * (0)
-     */
     uint8_t metric{};
     if (x >= -stp::control_constants::BALL_IS_MOVING_FAST_LIMIT && x <= -stp::control_constants::FUZZY_MARGIN) {
         const double a = stp::control_constants::FUZZY_TRUE / (stp::control_constants::BALL_IS_MOVING_FAST_LIMIT - stp::control_constants::FUZZY_MARGIN);
