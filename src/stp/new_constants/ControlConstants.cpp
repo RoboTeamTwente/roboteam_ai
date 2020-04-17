@@ -26,6 +26,7 @@ constexpr double BALL_IS_MOVING_FAST_LIMIT = 1.5;
 constexpr double BALL_RADIUS = 0.0215;
 constexpr double HAS_KICKED_ERROR_MARGIN = 0.4;
 constexpr double HAS_CHIPPED_ERROR_MARGIN = 0.4;
+constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
 // RobotCommand limits
 constexpr double MAX_VEL_CMD = 8.191;
@@ -45,4 +46,7 @@ constexpr double ROBOT_RADIUS_MAX = 0.091;
 constexpr double FRONT_LENGTH = 0.118;
 const double DRIBBLER_ANGLE_OFFSET = asin(FRONT_LENGTH / 2 / ROBOT_RADIUS);
 const double CENTER_TO_FRONT = sin(DRIBBLER_ANGLE_OFFSET) * ROBOT_RADIUS;
+
+// Keeper constants
+const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
 }  // namespace rtt::ai::stp::control_constants
