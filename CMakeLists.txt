@@ -85,6 +85,8 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -97,6 +99,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
         )
 
