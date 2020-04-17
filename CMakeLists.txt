@@ -230,12 +230,16 @@ set(AI_INCLUDES
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
+add_library(ai_lib ${AI_SOURCES})
+target_link_libraries(ai_lib ${AI_LIBS})
+target_include_directories(${AI_INCLUDES})
+
 # Main Executable
-add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
-target_link_libraries(roboteam_ai ${AI_LIBS})
+add_executable(roboteam_ai src/roboteam_ai.cpp)
+target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib)
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
-add_executable(ai_tests ${AI_SOURCES} ${TEST_SOURCES})
-target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB})
+add_executable(ai_tests ${TEST_SOURCES})
+target_link_libraries(ai_tests ${AI_LIBS} ai_lib ${GTEST_LIB})
 target_include_directories(ai_tests ${AI_INCLUDES})
