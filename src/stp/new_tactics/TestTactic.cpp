@@ -12,7 +12,6 @@ namespace rtt::ai::stp {
 TestTactic::TestTactic() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 void TestTactic::onInitialize() noexcept {}
@@ -44,6 +43,10 @@ bool TestTactic::shouldTacticReset(const StpInfo &info) noexcept { return false;
 bool TestTactic::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
+}
+
+const char *TestTactic::getName() {
+    return "Test Tactic";
 }
 
 }  // namespace rtt::ai::stp

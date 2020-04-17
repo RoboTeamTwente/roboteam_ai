@@ -25,7 +25,7 @@ using namespace rtt::ai::world;
 
 class FieldComputations {
    public:
-    static bool pointIsInDefenceArea(const Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0, bool includeOutsideField = false);
+    static bool pointIsInDefenseArea(const Field &field, const Vector2 &point, bool isOurDefenceArea = true, double margin = 0.0, bool includeOutsideField = false);
     static bool pointIsInField(const Field &field, const Vector2 &point, double margin = 0.0);  // TODO: Remove margin hack
     static double getPercentageOfGoalVisibleFromPoint(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id = -1, bool ourTeam = false);
     static std::vector<Line> getBlockadesMappedToGoal(const Field &field, bool ourGoal, const Vector2 &point, std::vector<world_new::view::RobotView> robots, int id = -1, bool ourTeam = false);

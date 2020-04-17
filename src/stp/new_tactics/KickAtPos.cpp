@@ -7,13 +7,13 @@
 #include <roboteam_utils/Print.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
+#include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt::ai::stp::tactic {
 
 KickAtPos::KickAtPos() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Kick()};
-    skills.initialize();
 }
 
 void KickAtPos::onInitialize() noexcept {}
@@ -87,10 +87,12 @@ bool KickAtPos::isEndTactic() noexcept {
 
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
-    // robot doesn't have the ball && ball is still (to prevent chasing a ball that was just shot)
-    // or if the targetPosType is not a shootTarget
-    return (info.getBall()->get()->getVelocity().length() < stp::control_constants::BALL_STILL_VEL && !info.getRobot()->hasBall(stp::control_constants::ROBOT_RADIUS + (stp::control_constants::BALL_RADIUS * 2))) ||
-           !info.getPositionToShootAt();
+    // robot doesn't have the ball or if there is no shootTarget
+    // But only check when we are not kicking
+    if(skills.current_num() != 1) {
+        return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    }
+    return false;
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
@@ -101,4 +103,9 @@ bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     }
     return false;
 }
+
+const char *KickAtPos::getName() {
+    return "Kick At Pos";
+}
+
 }  // namespace rtt::ai::stp::tactic

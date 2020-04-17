@@ -148,9 +148,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
     if (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) return true;
 
     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-    if (o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd)) return true;
-
-    return false;  // Doesn't fall in any of the above cases
+    return o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd);
 }
 
 // Computes the absolute difference between 2 angles (the shortest orientation direction)
@@ -259,11 +257,11 @@ Vector2 ControlUtils::projectPositionToWithinField(const Field &field, Vector2 p
 }
 
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const Field &field, Vector2 position, double margin) {
-    if (FieldComputations::pointIsInDefenceArea(field, position, true, margin)) {
+    if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyLine().begin.x + margin);
         return position;
     }
-    if (FieldComputations::pointIsInDefenceArea(field, position, false, margin)) {
+    if (FieldComputations::pointIsInDefenseArea(field, position, false, margin)) {
         position.x = std::min(position.x, field.getRightPenaltyLine().begin.x - margin);
         return position;
     }
@@ -316,13 +314,13 @@ const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector
 }
 
 Vector2 ControlUtils::getInterceptPointOnLegalPosition(const Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
-                                                       double outOfFieldMargin) {
+                                                       double) {
     LineSegment shotLine(line.start, line.end + (line.end - line.start));
     Vector2 projectPos = shotLine.project(position);
     Vector2 closestPoint = projectPos;
 
-    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, true, defenseAreamargin);
-    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenceArea(field, projectPos, false, defenseAreamargin);
+    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, true, defenseAreamargin);
+    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, false, defenseAreamargin);
 
     if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
         Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, true));

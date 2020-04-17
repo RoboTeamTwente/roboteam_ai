@@ -17,6 +17,7 @@
 #include <include/roboteam_ai/world_new/World.hpp>
 #include <iostream>
 #include <memory>
+
 #include "GraphWidget.h"
 #include "ManualControlWidget.h"
 #include "PidBox.h"
@@ -29,6 +30,10 @@
 #include "STPVisualizerWidget.h"
 #include "widget.h"
 
+namespace rtt {
+class ApplicationManager;
+}
+
 namespace rtt::ai::interface {
 
 class MainWindow : public QMainWindow {
@@ -39,24 +44,23 @@ class MainWindow : public QMainWindow {
     FRIEND_TEST(TreeVisualizerTest, it_sets_proper_color_for_status);
 
    public:
-    explicit MainWindow(const rtt::world_new::World &worldManager, QWidget *parent = nullptr);
+    explicit MainWindow(const rtt::world_new::World &worldManager, QWidget *parent = nullptr, rtt::ApplicationManager *manager = nullptr);
 
     // this function is useful everywhere
     static void configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
 
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
-    void updatePlay(stp::Play* play);
+    void updatePlay(stp::Play *play);
 
-    signals:
+   signals:
     void updateStpWidgets();
 
    public slots:
     void updateRobotsWidget();
-    void refreshSignal();
-    void refreshJSONSignal();
-    void setPlayForRobot(std::string const& str, uint8_t id);
-    void setKeeperRole(stp::Role* role, stp::Status state);
+    void setPlayForRobot(std::string const &str, uint8_t id);
+    void setTacticForRobot(std::string const &str, uint8_t id);
+    void setKeeperRole(stp::Role *role, stp::Status state);
 
    private:
     QHBoxLayout *horizontalLayout;

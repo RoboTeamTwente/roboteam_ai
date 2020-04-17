@@ -16,15 +16,20 @@ extern const double DEFAULT_KICK_POWER;
 extern const double MAX_POWER_KICK_DISTANCE;
 extern const double MAX_POWER_CHIP_DISTANCE;
 
+// Dribbler constants
+extern const double TURN_ON_DRIBBLER_DISTANCE;
+
 // Team constants TODO: Maybe this should be in a different constants file
 inline constexpr size_t MAX_ROBOT_COUNT = 11;
 
 // Ball constants
 extern const double BALL_STILL_VEL;
 extern const double BALL_IS_MOVING_VEL;
+extern const double BALL_IS_MOVING_FAST_LIMIT;
 extern const double BALL_RADIUS;
 extern const double HAS_KICKED_ERROR_MARGIN;
 extern const double HAS_CHIPPED_ERROR_MARGIN;
+extern const double ENEMY_CLOSE_TO_BALL_DISTANCE;
 
 // RobotCommand limits
 extern const double MAX_VEL_CMD;
@@ -44,6 +49,9 @@ extern const double ROBOT_RADIUS_MAX;
 extern const double FRONT_LENGTH;
 extern const double DRIBBLER_ANGLE_OFFSET;
 extern const double CENTER_TO_FRONT;
+
+// Keeper constants
+extern const double DISTANCE_FROM_GOAL_CLOSE;
 }  // namespace rtt::ai::stp::control_constants
 
 #endif  // RTT_CONTROLCONSTANTS_H

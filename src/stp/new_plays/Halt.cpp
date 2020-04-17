@@ -3,16 +3,19 @@
 //
 
 #include "stp/new_plays/Halt.h"
-#include <stp/new_roles/TestRole.h>
-#include "stp/invariants/WeHaveBallInvariant.h"
-
-#include <utility>
+#include <stp/invariants/HaltGameStateInvariant.h>
 #include "stp/new_roles/Halt.h"
+
 namespace rtt::ai::stp::play {
 
-    Halt::Halt(std::string playName) : Play(std::move(playName)) {
-        invariants.clear();
-        invariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    Halt::Halt() : Play() {
+    // TODO: decide start invariants
+        startPlayInvariants.clear();
+        startPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
+
+        // TODO: decide keep invariants
+        keepPlayInvariants.clear();
+        keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
@@ -26,9 +29,6 @@ namespace rtt::ai::stp::play {
     uint8_t Halt::score(world_new::World* world) noexcept { return 14; }
 
     void Halt::calculateInfoForRoles() noexcept { }
-
-
-    bool Halt::isValidPlayToStart(world_new::World* world) noexcept { return true; }
 
     bool Halt::shouldRoleSkipEndTactic() { return false; }
 
@@ -52,5 +52,7 @@ namespace rtt::ai::stp::play {
         return flagMap;
     }
 
-
+const char *Halt::getName() {
+    return "Halt";
+}
 }  // namespace rtt::ai::stp::play

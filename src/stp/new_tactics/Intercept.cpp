@@ -12,7 +12,6 @@ namespace rtt::ai::stp::tactic {
 Intercept::Intercept() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 bool Intercept::isEndTactic() noexcept {
@@ -59,4 +58,9 @@ int Intercept::determineDribblerSpeed(const world_new::view::RobotView& robot) {
     double turnOnDribblerDistance = 1.0;
     return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
 }
+
+const char *Intercept::getName() {
+    return "Intercept";
+}
+
 }  // namespace rtt::ai::stp::tactic
