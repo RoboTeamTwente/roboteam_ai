@@ -19,6 +19,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     std::vector<int> assignment;
 
     // solve the matrix and put the results in 'assignment'
+    // The cost function will be minimized
     rtt::Hungarian::Solve(scores, assignment);
 
     return mapFromAssignments(allRobots, flagMap, assignment);
@@ -112,7 +113,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
             return lineSegment.distanceToLine(robot->getPos());
         }
-        case DealerFlagTitle::KEEPER: return robot->getId() == GameStateManager::getCurrentGameState().keeperId ? 0.0 : 1.0;
+        case DealerFlagTitle::KEEPER: return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;
