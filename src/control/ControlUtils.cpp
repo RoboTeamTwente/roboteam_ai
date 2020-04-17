@@ -19,10 +19,11 @@ bool ControlUtils::pointInTriangle(const Vector2 &pointToCheck, const Vector2 &t
     bool s_ab = (tp2.x - tp1.x) * as_y - (tp2.y - tp1.y) * as_x > 0;
     if ((((tp3.x - tp1.x) * as_y - (tp3.y - tp1.y) * as_x) > 0) == s_ab) return false;
     return ((((tp3.x - tp2.x) * (pointToCheck.y - tp2.y) - (tp3.y - tp2.y) * (pointToCheck.x - tp2.x)) > 0) == s_ab);
-}
+} // Code clone
 
 /// Returns the area of a triangle constructed from three points.
 double ControlUtils::TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c) { return abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) * 0.5); }
+// Code clone
 
 /// Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
 bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const Vector2 &sp1, const Vector2 &sp2, const Vector2 &sp3, const Vector2 &sp4) {
@@ -31,21 +32,21 @@ bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const Vector2 &
     } else {
         return pointInTriangle(pointToCheck, sp4, sp1, sp3);
     }
-}
+} // Code clone
 
 bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const std::vector<Vector2> &rectangle) {
     if (rectangle.size() == 4) {
         return pointInRectangle(pointToCheck, rectangle[0], rectangle[1], rectangle[2], rectangle[3]);
     }
     return false;
-}
+} // Code clone
 
 /// Maps the input angle to be within the range of 0 - 2PI
 double ControlUtils::constrainAngle(double angle) {
     angle = fmod(angle + M_PI, 2 * M_PI);
     if (angle < 0) angle += 2 * M_PI;
     return angle - M_PI;
-}
+} // Code clone
 
 /// Get the distance from PointToCheck towards a line - the line is infinitely long
 // http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
@@ -55,7 +56,7 @@ double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &
     Vector2 c = n * (n.dot(pa) / n.dot(n));
     Vector2 d = pa - c;
     return d.length();
-}
+} // Code clone
 
 /// Get the distance from PointToCheck towards a line, the line is not infinite.
 double ControlUtils::distanceToLineWithEnds(const Vector2 &pointToCheck, const Vector2 &lineStart, const Vector2 &lineEnd) {
@@ -75,14 +76,14 @@ double ControlUtils::distanceToLineWithEnds(const Vector2 &pointToCheck, const V
     Vector2 project = lineStart + line * param;
     Vector2 distDiff = pointToCheck - project;
     return distDiff.length();
-}
+} // Code clone
 
 // https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
 bool ControlUtils::onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r) {
     return q.x <= fmax(p.x, r.x) && q.x >= fmin(p.x, r.x) && q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
-}
+} // Code clone
 
 // To find orientation of ordered triplet (p, q, r).
 // The function returns following values
@@ -119,7 +120,7 @@ bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector
 
     // p2, q2 and q1 are colinear and q1 lies on segment p2q2
     return o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd);
-}
+} // Code clone
 
 // Computes the absolute difference between 2 angles (the shortest orientation direction)
 /// both angles must go from[-pi,pi]!!
@@ -131,7 +132,7 @@ double ControlUtils::angleDifference(double A1, double A2) {
         angleDif -= 2 * M_PI;
     }
     return fabs(angleDif);
-}
+} // Code clone
 
 // returns the side of rotation that is best from this angle.
 int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
@@ -200,7 +201,8 @@ Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, 
     } else {
         return Vector2();
     }
-}
+} // Code clone
+
 /// returns true if the line intersects in the positive extension from point a1 to a2 with the extended line through b1 and b2
 double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1, const Vector2 &b2) {
     double denominator = ((a1.x - a2.x) * (b1.y - b2.y) - (a1.y - a2.y) * (b1.x - b2.x));
@@ -211,7 +213,7 @@ double ControlUtils::twoLineForwardIntersection(const Vector2 &a1, const Vector2
     } else {
         return -1.0;
     }
-}
+} // Code clone
 
 /// Calculate the force of a given vector + a certain type.
 /// the basic formula is: force = weight/distance^2 * unit vector
