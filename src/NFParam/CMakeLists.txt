@@ -1,5 +1,5 @@
 add_library(NFParam
-  STATIC
+  SHARED
   include/NFParam/Param.h
   include/NFParam/ParamEvent.h
         ParamEvent.cpp
