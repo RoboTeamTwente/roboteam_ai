@@ -106,7 +106,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     // update mainwindow and field visualization
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(100);  // 10fps
+    timer->start(20);  // 10fps
 
     // start the UI update cycles
     // these are slower than the tick rate
