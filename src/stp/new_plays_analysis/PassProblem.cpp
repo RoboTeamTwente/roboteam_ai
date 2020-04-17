@@ -13,7 +13,8 @@ namespace rtt::ai::stp{
         auto point = Vector2(dv[0], dv[1]);
 
         if (ai::FieldComputations::pointIsInDefenceArea(problemWorld->getField().value(), point)) {
-            score += 300;
+            score = 500;
+            return {score};
         }
 
         auto theirClosestBot = problemWorld->getWorld()->getRobotClosestToPoint(point, world_new::Team::us);
@@ -23,25 +24,12 @@ namespace rtt::ai::stp{
         auto ourClosestDistance = (ourClosestBot->getPos() - point).length();
         score += -100 * theirClosestDistance;
         score += 100 * ourClosestDistance;
+
+        score += -100 * shootSuccesReward(Vector2());
+        score += -ai::FieldComputations::getDistanceToGoal(problemWorld->getField().value(), false, point);
+
         return {score};
     }
-
-//        score = 0
-//        if main_field.in_defense_area(xpoint, ypoint):
-//        score += 300
-//
-//        bot, dist = world.their_closest_robot_to_point(xpoint, ypoint)
-//        score += -100 * dist
-//
-//        ourbot, ourdist = world.our_closest_robot_to_point(xpoint, ypoint)
-//        score += 100 * ourdist
-//
-//        shoot_succes_reward = bot.shoot_from_pos(xpoint, ypoint)
-//        score += -shoot_succes_reward * 2
-//        score += field.distance_to_enemy_goal(field, xpoint, ypoint)
-//        return [score]
-
-
 
 
     std::pair<vector_double, vector_double> PassProblem::get_bounds() const {
@@ -68,6 +56,16 @@ namespace rtt::ai::stp{
 
     void PassProblem::updateInfoForProblem(world_new::World* problemWorld) {
         this->problemWorld = problemWorld;
+    }
+
+    double PassProblem::shootSuccesReward(Vector2 point) const {
+        auto w = world_new::World::instance()->getWorld().value();
+        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(problemWorld->getField().value(), false, point, w, -1, true);
+        if(percentage != 100) {
+            RTT_DEBUG(percentage)
+
+        }
+        return percentage;
     }
 
 

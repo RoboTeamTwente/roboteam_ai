@@ -112,7 +112,7 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-    auto pso = pagmo::pso_gen(2, 0.6, 0.6, 0.6, 0.6, 3.6, 2, 2, 0.6, 0.6);
+    auto pso = pagmo::pso_gen(20, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1);
     PassProblem pro{};
     pro.updateInfoForProblem(world);
 

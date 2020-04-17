@@ -3,7 +3,6 @@
 //
 
 #include "stp/new_tactics/Intercept.h"
-
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 

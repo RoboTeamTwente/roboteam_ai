@@ -16,6 +16,8 @@ namespace rtt::ai::stp {
          */
     private:
         world_new::World* problemWorld{nullptr};
+
+        double shootSuccesReward(Vector2 point) const;
     public:
         std::pair<vector_double, vector_double> get_bounds() const;
 
