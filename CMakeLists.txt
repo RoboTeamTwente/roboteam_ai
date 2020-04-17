@@ -232,7 +232,7 @@ set(AI_INCLUDES
 
 add_library(ai_lib ${AI_SOURCES})
 target_link_libraries(ai_lib ${AI_LIBS})
-target_include_directories(${AI_INCLUDES})
+target_include_directories(ai_lib ${AI_INCLUDES})
 
 # Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp)
