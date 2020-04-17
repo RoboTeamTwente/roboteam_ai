@@ -11,36 +11,6 @@
 
 namespace rtt::ai::control {
 
-// Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
-/// Returns if PointToCheck is within the triangle constructed by three points.
-bool ControlUtils::pointInTriangle(const Vector2 &pointToCheck, const Vector2 &tp1, const Vector2 &tp2, const Vector2 &tp3) {
-    double as_x = pointToCheck.x - tp1.x;
-    double as_y = pointToCheck.y - tp1.y;
-    bool s_ab = (tp2.x - tp1.x) * as_y - (tp2.y - tp1.y) * as_x > 0;
-    if ((((tp3.x - tp1.x) * as_y - (tp3.y - tp1.y) * as_x) > 0) == s_ab) return false;
-    return ((((tp3.x - tp2.x) * (pointToCheck.y - tp2.y) - (tp3.y - tp2.y) * (pointToCheck.x - tp2.x)) > 0) == s_ab);
-} // Code clone
-
-/// Returns the area of a triangle constructed from three points.
-double ControlUtils::TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c) { return abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) * 0.5); }
-// Code clone
-
-/// Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
-bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const Vector2 &sp1, const Vector2 &sp2, const Vector2 &sp3, const Vector2 &sp4) {
-    if (pointInTriangle(pointToCheck, sp1, sp2, sp3)) {
-        return true;
-    } else {
-        return pointInTriangle(pointToCheck, sp4, sp1, sp3);
-    }
-} // Code clone
-
-bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const std::vector<Vector2> &rectangle) {
-    if (rectangle.size() == 4) {
-        return pointInRectangle(pointToCheck, rectangle[0], rectangle[1], rectangle[2], rectangle[3]);
-    }
-    return false;
-} // Code clone
-
 /// Maps the input angle to be within the range of 0 - 2PI
 double ControlUtils::constrainAngle(double angle) {
     angle = fmod(angle + M_PI, 2 * M_PI);

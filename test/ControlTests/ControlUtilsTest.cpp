@@ -41,32 +41,6 @@ TEST(ControlUtils, rotateDirection) {
     cr::ControlUtils::rotateDirection(ang2, ang4);
 }
 
-TEST(ControlUtils, point_in_rectangle) {
-    // test a valid rectangle
-    std::vector<Vector2> rectangle = {{0, 0}, {1, 0}, {1, 1}, {0, 1}};
-    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({0.2, 0.2}, rectangle));
-    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({0.8, 0.2}, rectangle));
-    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({0.999, 0.001}, rectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({1.8, 1.2}, rectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-0.001, 0.2}, rectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-8, 1.2}, rectangle));
-
-    // test an invalid rectangle
-    std::vector<Vector2> InvalidRectangle = {{0, 0}, {1, 0}, {1, 1}};
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({0.2, 0.2}, InvalidRectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({0.8, 0.2}, InvalidRectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({0.999, 0.001}, InvalidRectangle));
-
-    // test a rectangle with negative coordinates
-    rectangle = {{0, 0}, {-1, 0}, {-1, -1}, {0, -1}};
-    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({-0.2, -0.2}, rectangle));
-    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({-0.8, -0.2}, rectangle));
-    EXPECT_TRUE(cr::ControlUtils::pointInRectangle({-0.999, -0.001}, rectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-1.8, -1.2}, rectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-0.001, 0.2}, rectangle));
-    EXPECT_FALSE(cr::ControlUtils::pointInRectangle({-8, 1.2}, rectangle));
-}
-
 TEST(ControlUtils, angleDifference) {
     EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(0.4, 0.5), 0.1);
     EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(-0.4, 0.5), 0.9);
@@ -135,21 +109,6 @@ TEST(ControlUtils, accelerationLimiter) {
             acceleration = (ControlUtils::accelerationLimiter(targetVel, prevVel, targetAngle) - prevVel).length();
             EXPECT_TRUE(acceleration <= maxAcceleration);
         }
-    }
-}
-
-TEST(ControlUtils, triangleArea) {
-    {
-        Vector2 A(0, 0), B(0, 2), C(1, 1);
-        EXPECT_FLOAT_EQ(cr::ControlUtils::TriangleArea(A, B, C), 1);
-    }
-    {
-        Vector2 A(-1, 0), B(0, 1), C(1, 0);
-        EXPECT_FLOAT_EQ(cr::ControlUtils::TriangleArea(A, B, C), 1);
-    }
-    {
-        Vector2 A(0, 0), B(0, 100), C(1, 0);
-        EXPECT_FLOAT_EQ(cr::ControlUtils::TriangleArea(A, B, C), 50);
     }
 }
 

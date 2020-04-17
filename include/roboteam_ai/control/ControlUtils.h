@@ -30,17 +30,6 @@ class Robot;
 
         class ControlUtils {
         public:
-            static double TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c);
-
-            static bool
-            pointInTriangle(const Vector2 &pointToCheck, const Vector2 &tp1, const Vector2 &tp2, const Vector2 &tp3);
-
-            static bool
-            pointInRectangle(const Vector2 &pointToCheck, const Vector2 &sp1, const Vector2 &sp2, const Vector2 &sp3,
-                             const Vector2 &sp4);
-
-            static bool pointInRectangle(const Vector2 &pointToCheck, const std::vector<Vector2> &rectangle);
-
             static double constrainAngle(double angle);
 
             static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
