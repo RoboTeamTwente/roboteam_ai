@@ -3,6 +3,7 @@
 #include <roboteam_utils/LineSegment.h>
 #include "world/FieldComputations.h"
 #include <roboteam_utils/Print.h>
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai {
 
@@ -80,6 +81,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::LOW_PRIORITY: return 1.0;
         case DealerFlagPriority::MEDIUM_PRIORITY: return 2.0;
         case DealerFlagPriority::HIGH_PRIORITY: return 3.0;
+        case DealerFlagPriority::REQUIRED: return 100;
         default:
             std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
             return 0;
@@ -110,6 +112,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
             return lineSegment.distanceToLine(robot->getPos());
         }
+        case DealerFlagTitle::KEEPER: return robot->getId() == GameStateManager::getCurrentGameState().keeperId ? 0.0 : 1.0;
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;
