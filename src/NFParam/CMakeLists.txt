@@ -1,0 +1,13 @@
+add_library(NFParam
+  SHARED
+  include/NFParam/Param.h
+  include/NFParam/ParamEvent.h
+        ParamEvent.cpp
+        WAAParamEvents.h
+        WAAParamEvents.cpp
+        ParamImplementation.h
+        ParamImplementation.cpp)
+target_include_directories(
+  NFParam
+  PUBLIC
+  include)
