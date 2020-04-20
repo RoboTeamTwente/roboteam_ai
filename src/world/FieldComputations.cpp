@@ -83,7 +83,7 @@ Line FieldComputations::getGoalSides(const rtt_world::Field &field, bool ourGoal
 
 double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     auto sides = getGoalSides(field, ourGoal);
-    return control::ControlUtils::distanceToLineWithEnds(point, sides.start, sides.end);
+    return LineSegment(sides.start, sides.end).distanceToLine(point);
 }
 
 Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool ourGoal) {

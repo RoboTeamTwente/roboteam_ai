@@ -30,11 +30,6 @@ class Robot;
 
         class ControlUtils {
         public:
-            static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
-
-            static double
-            distanceToLineWithEnds(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
-
             static double angleDifference(double A1, double A2);
 
             static int rotateDirection(double currentAngle, double targetAngle);

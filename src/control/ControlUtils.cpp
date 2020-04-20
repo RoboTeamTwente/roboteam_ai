@@ -8,38 +8,7 @@
 #include <utilities/GameStateManager.hpp>
 #include "world_new/World.hpp"
 
-
 namespace rtt::ai::control {
-/// Get the distance from PointToCheck towards a line - the line is infinitely long
-// http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
-double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd) {
-    Vector2 n = LineEnd - LineStart;
-    Vector2 pa = LineStart - PointToCheck;
-    Vector2 c = n * (n.dot(pa) / n.dot(n));
-    Vector2 d = pa - c;
-    return d.length();
-} // Code clone
-
-/// Get the distance from PointToCheck towards a line, the line is not infinite.
-double ControlUtils::distanceToLineWithEnds(const Vector2 &pointToCheck, const Vector2 &lineStart, const Vector2 &lineEnd) {
-    Vector2 line = lineEnd - lineStart;
-    Vector2 diff = pointToCheck - lineStart;
-    double dot = line.x * diff.x + line.y * diff.y;
-    double len_sq = line.y * line.y + line.x * line.x;
-    double param = -1;
-    if (len_sq != 0) {
-        param = dot / len_sq;
-    }
-    if (param < 0) {
-        param = 0;
-    } else if (param > 1) {
-        param = 1;
-    }
-    Vector2 project = lineStart + line * param;
-    Vector2 distDiff = pointToCheck - project;
-    return distDiff.length();
-} // Code clone
-
 // https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 // Given three colinear points p, q, r, the function checks if
 // point q lies on line segment 'pr'
