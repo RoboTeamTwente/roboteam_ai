@@ -30,8 +30,6 @@ class Robot;
 
         class ControlUtils {
         public:
-            static double constrainAngle(double angle);
-
             static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
 
             static double

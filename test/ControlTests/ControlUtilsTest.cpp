@@ -112,11 +112,7 @@ TEST(ControlUtils, accelerationLimiter) {
     }
 }
 
-TEST(ControlUtils, constrainAngle) {
-    EXPECT_DOUBLE_EQ(cr::ControlUtils::constrainAngle(2.5 * M_PI), 0.5 * M_PI);
-    EXPECT_DOUBLE_EQ(cr::ControlUtils::constrainAngle(-2 * M_PI), 0);
-    EXPECT_NEAR(cr::ControlUtils::constrainAngle(200 * M_PI), 0, 0.01);
-}
+
 
 // remember the function assumes three colinear points
 TEST(ControlUtils, onLineSegment) {

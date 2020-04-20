@@ -10,14 +10,6 @@
 
 
 namespace rtt::ai::control {
-
-/// Maps the input angle to be within the range of 0 - 2PI
-double ControlUtils::constrainAngle(double angle) {
-    angle = fmod(angle + M_PI, 2 * M_PI);
-    if (angle < 0) angle += 2 * M_PI;
-    return angle - M_PI;
-} // Code clone
-
 /// Get the distance from PointToCheck towards a line - the line is infinitely long
 // http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
 double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd) {
@@ -107,8 +99,8 @@ double ControlUtils::angleDifference(double A1, double A2) {
 // returns the side of rotation that is best from this angle.
 int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
     double angDif = angleDifference(currentAngle, targetAngle);
-    double checkForward = constrainAngle(currentAngle + angDif);
-    double checkBackward = constrainAngle(currentAngle - angDif);
+    double checkForward = Angle(currentAngle + angDif).getAngle();
+    double checkBackward = Angle(currentAngle - angDif).getAngle();
     if (abs(checkForward - targetAngle) < abs(checkBackward - targetAngle)) {
         return 1;  // forwards
     } else {
