@@ -8,11 +8,11 @@
 #include <stp/PlayChecker.hpp>
 
 class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::Field *field) const noexcept override { return 255; }
+    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 255; }
 };
 
 class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::Field *field) const noexcept override { return 0; }
+    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 0; }
 };
 
 class AlwaysValid : public rtt::ai::stp::Play {
@@ -79,7 +79,7 @@ TEST(PlayCheckerTests, testValidCount) {
     size.set_field_length(250);
 
     auto world_msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
-    rtt::ai::Field field{};
+    rtt::ai::world::Field field{};
 
     instance->updateWorld(world_msg);
     instance->updateField(field);

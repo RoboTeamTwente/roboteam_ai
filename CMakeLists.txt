@@ -122,6 +122,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToUsInvariant.cpp
         )
 
@@ -151,6 +152,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp

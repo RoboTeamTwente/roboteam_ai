@@ -9,7 +9,7 @@ Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
     initFieldArcs(sslFieldSize);
     initFieldValues(sslFieldSize);
-    initFieldVectors();
+    initFieldOthers();
 }
 
 void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -18,11 +18,6 @@ void Field::initFieldValues(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     goalWidth = mm_to_m(sslFieldSize.goal_width());
     goalDepth = mm_to_m(sslFieldSize.goal_depth());
     boundaryWidth = mm_to_m(sslFieldSize.boundary_width());
-    leftmostX = -0.5 * fieldLength.value();
-    rightmostX = 0.5 * fieldLength.value();
-    bottommostY = -0.5 * fieldWidth.value();
-    topmostY = 0.5 * fieldWidth.value();
-    centerY = 0.0;
 }
 
 void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
@@ -55,7 +50,17 @@ void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
     }
 }
 
-void Field::initFieldVectors() {
+void Field::initFieldOthers() {
+    // Initialize some additional field values
+    leftmostX = -0.5 * fieldLength.value();
+    rightmostX = 0.5 * fieldLength.value();
+    bottommostY = -0.5 * fieldWidth.value();
+    topmostY = 0.5 * fieldWidth.value();
+    centerY = 0.0;
+    leftPenaltyX = leftPenaltyLine.value().begin.x;
+    rightPenaltyX = rightPenaltyLine.value().begin.x;
+
+    // Initialize some additional field vectors
     ourGoalCenter = Vector2(leftmostX.value(), centerY.value());
     theirGoalCenter = Vector2(rightmostX.value(), centerY.value());
 
@@ -72,6 +77,21 @@ void Field::initFieldVectors() {
     Vector2 rpl_begin = rightPenaltyLine.value().begin;
     Vector2 rpl_end = rightPenaltyLine.value().end;
     rightPenaltyPoint = rpl_begin + ((rpl_end - rpl_begin) * 0.5);
+
+    leftPenaltyLineBottom = leftPenaltyLine->begin;
+    leftPenaltyLineTop = leftPenaltyLine->end;
+    rightPenaltyLineBottom = rightPenaltyLine->begin;
+    rightPenaltyLineTop = rightPenaltyLine->end;
+
+    bottomLeftCorner = Vector2(leftmostX.value(), bottommostY.value());
+    topLeftCorner = Vector2(leftmostX.value(), topmostY.value());
+    bottomRightCorner = Vector2(rightmostX.value(), bottommostY.value());
+    topRightCorner = Vector2(rightmostX.value(), topmostY.value());
+
+    topLeftOurDefenceArea = topLeftPenaltyStretch->begin;
+    bottomLeftOurDefenceArea = bottomLeftPenaltyStretch->begin;
+    topRightTheirDefenceArea = topRightPenaltyStretch->begin;
+    bottomRightTheirDefenceArea = bottomRightPenaltyStretch->begin;
 }
 
 float Field::mm_to_m(float scalar) { return scalar / 1000; }
@@ -97,6 +117,14 @@ double Field::getRightmostX() const { return getFieldValue(rightmostX); }
 double Field::getBottommostY() const { return getFieldValue(bottommostY); }
 
 double Field::getTopmostY() const { return getFieldValue(topmostY); }
+
+double Field::getLeftPenaltyX() const { return getFieldValue(leftPenaltyX); }
+
+double Field::getRightPenaltyX() const { return getFieldValue(rightPenaltyX); }
+
+double Field::getPenaltyTopY() const { return getFieldValue(penaltyTopY); }
+
+double Field::getPenaltyBottomY() const { return getFieldValue(penaltyBottomY); }
 
 const FieldLineSegment &Field::getTopLine() const { return getFieldLine(topLine); }
 
@@ -138,7 +166,31 @@ const Vector2 &Field::getTheirBottomGoalSide() const { return getFieldVector(the
 
 const Vector2 &Field::getTheirTopGoalSide() const { return getFieldVector(theirTopGoalSide); }
 
+const Vector2 &Field::getLeftPenaltyLineTop() const { return getFieldVector(leftPenaltyLineTop); }
+
+const Vector2 &Field::getLeftPenaltyLineBottom() const { return getFieldVector(leftPenaltyLineBottom); }
+
+const Vector2 &Field::getRightPenaltyLineTop() const { return getFieldVector(rightPenaltyLineTop); }
+
+const Vector2 &Field::getRightPenaltyLineBottom() const { return getFieldVector(rightPenaltyLineBottom); }
+
 const FieldArc &Field::getCenterCircle() const { return getFieldArc(centerCircle); }
+
+const Vector2 &Field::getBottomLeftCorner() const { return getFieldVector(bottomLeftCorner); }
+
+const Vector2 &Field::getTopLeftCorner() const { return getFieldVector(topLeftCorner); }
+
+const Vector2 &Field::getBottomRightCorner() const { return getFieldVector(bottomRightCorner); }
+
+const Vector2 &Field::getTopRightCorner() const { return getFieldVector(topRightCorner); }
+
+const Vector2 &Field::getTopLeftOurDefenceArea() const { return getFieldVector(topLeftOurDefenceArea); }
+
+const Vector2 &Field::getBottomLeftOurDefenceArea() const { return getFieldVector(bottomLeftOurDefenceArea); }
+
+const Vector2 &Field::getTopRightTheirDefenceArea() const { return getFieldVector(topRightTheirDefenceArea); }
+
+const Vector2 &Field::getBottomRightTheirDefenceArea() const { return getFieldVector(bottomRightTheirDefenceArea); }
 
 double Field::getFieldValue(const std::optional<double> &fieldValue) const {
     if (fieldValue) {
@@ -191,5 +243,55 @@ const FieldArc &Field::getFieldArc(const std::optional<FieldArc> &fieldArc) cons
 }
 
 const std::vector<FieldLineSegment> &Field::getFieldLines() const { return allFieldLines; }
+
+Field Field::createTestField() {
+    double fieldWidth = 9;
+    double fieldLength = 12;
+    double goalWidth = 1.2000000476837158;
+    double goalDepth = 0.20000000298023224;
+    double boundaryWidth = 0.30000001192092896;
+    FieldLineSegment topLine = {{-5.9950000000000001, 4.4950000000000001}, {5.9950000000000001, 4.4950000000000001}, "top_line", 0.00999999978};
+    FieldLineSegment bottomLine = {{-5.9950000000000001, -4.4950000000000001}, {5.9950000000000001, -4.4950000000000001}, "bottom_line", 0.00999999978};
+    FieldLineSegment leftLine = {{-5.9900000000000002, -4.4950000000000001}, {-5.9900000000000002, 4.4950000000000001}, "left_line", 0.00999999978};
+    FieldLineSegment rightLine = {{5.9900000000000002, -4.4950000000000001}, {5.9900000000000002, 4.4950000000000001}, "right_line", 0.00999999978};
+    FieldLineSegment halfLine = {{0, -4.4950000000000001}, {0, 4.4950000000000001}, "half_line", 0.00999999978};
+    FieldLineSegment centerLine = {{-5.9900000000000002, 0}, {5.9900000000000002, 0}, "center_line", 0.00999999978};
+    FieldLineSegment leftPenaltyLine = {{-4.7949999999999999, -1.2}, {-4.7949999999999999, 1.2}, "left_penalty_line", 0.00999999978};
+    FieldLineSegment rightPenaltyLine = {{4.7949999999999999, -1.2}, {4.7949999999999999, 1.2}, "right_penalty_line", 0.00999999978};
+    FieldLineSegment topLeftPenaltyStretch = {{-5.9900000000000002, 1.2}, {-4.79, 1.2}, "top_left_penalty_stretch", 0.00999999978};
+    FieldLineSegment bottomLeftPenaltyStretch = {{-5.9900000000000002, -1.2}, {-4.79, -1.2}, "bottom_left_penalty_stretch", 0.00999999978};
+    FieldLineSegment topRightPenaltyStretch = {{5.9900000000000002, 1.2}, {4.79, 1.2}, "top_right_penalty_stretch", 0.00999999978};
+    FieldLineSegment bottomRightPenaltyStretch = {{5.9900000000000002, -1.2}, {4.79, -1.2}, "bottom_right_penalty_stretch", 0.00999999978};
+    FieldArc centerCircle = {{0, 0}, 0.495000005, 0, 0.00628318544, "center_circle", 0.00999999978};
+    return Field(fieldWidth, fieldLength, goalWidth, goalDepth, boundaryWidth, topLine, bottomLine, leftLine, rightLine, halfLine, centerLine, leftPenaltyLine, rightPenaltyLine,
+        topLeftPenaltyStretch, bottomLeftPenaltyStretch, topRightPenaltyStretch, bottomRightPenaltyStretch, centerCircle);
+}
+
+Field::Field(double fieldWidth, double fieldLength, double goalWidth, double goalDepth, double boundaryWidth, FieldLineSegment &topLine, FieldLineSegment &bottomLine,
+    FieldLineSegment &leftLine, FieldLineSegment &rightLine, FieldLineSegment &halfLine, FieldLineSegment &centerLine, FieldLineSegment &leftPenaltyLine,
+    FieldLineSegment &rightPenaltyLine, FieldLineSegment &topLeftPenaltyStretch, FieldLineSegment &bottomLeftPenaltyStretch, FieldLineSegment &topRightPenaltyStretch,
+    FieldLineSegment &bottomRightPenaltyStretch, FieldArc &centerCircle) {
+
+    this->fieldWidth = fieldWidth;
+    this->fieldLength = fieldLength;
+    this->goalWidth = goalWidth;
+    this->goalDepth = goalDepth;
+    this->boundaryWidth = boundaryWidth;
+    this->topLine = topLine;
+    this->bottomLine = bottomLine;
+    this->leftLine = leftLine;
+    this->rightLine = rightLine;
+    this->halfLine = halfLine;
+    this->centerLine = centerLine;
+    this->leftPenaltyLine = leftPenaltyLine;
+    this->rightPenaltyLine = rightPenaltyLine;
+    this->topLeftPenaltyStretch = topLeftPenaltyStretch;
+    this->bottomLeftPenaltyStretch = bottomLeftPenaltyStretch;
+    this->topRightPenaltyStretch = topRightPenaltyStretch;
+    this->bottomRightPenaltyStretch = bottomRightPenaltyStretch;
+    this->centerCircle = centerCircle;
+
+    initFieldOthers();
+}
 
 }  // namespace rtt::ai::world

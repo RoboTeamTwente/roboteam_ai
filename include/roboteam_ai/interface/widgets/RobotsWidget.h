@@ -14,7 +14,7 @@ namespace rtt::ai::interface {
 class RobotsWidget : public QWidget {
     Q_OBJECT
    private:
-    QVBoxLayout *createRobotGroupItem(const Field &field, rtt::world_new::view::RobotView robot);
+    QVBoxLayout *createRobotGroupItem(const rtt::ai::world::Field &field, rtt::world_new::view::RobotView robot);
     int amountOfSelectedRobots = 0;
     QVBoxLayout *VLayout;
 
