@@ -57,6 +57,10 @@ extern const double FUZZY_FALSE;
 extern const double FUZZY_MARGIN;
 extern const double FUZZY_DEFAULT_CUTOFF;
 
+// Distance constants
+extern const double DISTANCE_TO_ROBOT_CLOSE;
+extern const double DISTANCE_TO_ROBOT_FAR;
+
 // Keeper constants
 extern const double DISTANCE_FROM_GOAL_CLOSE;
 }  // namespace rtt::ai::stp::control_constants
