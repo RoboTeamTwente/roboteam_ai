@@ -60,7 +60,8 @@ namespace rtt::ai::stp{
 
     double PassProblem::shootSuccesReward(Vector2 point) const {
         auto w = world_new::World::instance()->getWorld().value();
-        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(problemWorld->getField().value(), false, point, w, -1, true);
+        auto p = Vector2(0,0);
+        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(problemWorld->getField().value(), true, p, w, -1, true);
         if(percentage != 100) {
             RTT_DEBUG(percentage)
 

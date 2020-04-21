@@ -33,6 +33,7 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const Field &field
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
     for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
+        std::cout << blockadeLength << "Blockade Length" << std::endl;
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
