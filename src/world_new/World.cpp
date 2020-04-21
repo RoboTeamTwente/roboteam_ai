@@ -78,7 +78,7 @@ namespace rtt::world_new {
         this->currentField = field;
     }
 
-    void World::updateField(rtt::ai::Field &protoField) {
+    void World::updateField(rtt::ai::world::Field &protoField) {
         this->currentField = protoField;
     }
 

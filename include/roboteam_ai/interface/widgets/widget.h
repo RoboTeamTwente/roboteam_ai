@@ -52,8 +52,8 @@ class Visualizer : public QWidget {
     float factor{};
     int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
     void drawBackground(QPainter &painter);
-    void drawFieldLines(const Field &field, QPainter &painter);
-    void drawFieldHints(const Field &field, QPainter &painter);
+    void drawFieldLines(const rtt::ai::world::Field &field, QPainter &painter);
+    void drawFieldHints(const rtt::ai::world::Field &field, QPainter &painter);
 
     void drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world);
     void drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam, std::string role = "");
@@ -75,7 +75,7 @@ class Visualizer : public QWidget {
     rtt::Vector2 toScreenPosition(rtt::Vector2 fieldPos);
     rtt::Vector2 toFieldPosition(rtt::Vector2 screenPos);
 
-    void calculateFieldSizeFactor(const Field &field);
+    void calculateFieldSizeFactor(const rtt::ai::world::Field &field);
 
     // interface variables
     std::vector<std::pair<std::string,

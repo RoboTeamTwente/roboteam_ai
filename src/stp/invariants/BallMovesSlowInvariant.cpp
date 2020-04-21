@@ -23,7 +23,7 @@ BallMovesSlowInvariant::BallMovesSlowInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(0, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t BallMovesSlowInvariant::metricCheck(world_new::view::WorldDataView world, const Field* field) const noexcept {
+uint8_t BallMovesSlowInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
     auto ballSpeed = world->getBall()->get()->getVelocity().length();
     return calculateMetric(ballSpeed);
 }
