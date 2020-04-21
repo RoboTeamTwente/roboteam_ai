@@ -123,6 +123,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
         )
 
 set(CONTROL_SOURCES
