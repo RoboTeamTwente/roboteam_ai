@@ -4,8 +4,8 @@
 
 #include "stp/new_plays/Pass.h"
 
-#include <stp/invariants/WeHaveBallInvariant.h>
-#include <stp/new_roles/TestRole.h>
+#include "stp/invariants/WeHaveBallInvariant.h"
+#include "stp/new_roles/TestRole.h"
 
 #include "stp/invariants/BallMovesSlowInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
