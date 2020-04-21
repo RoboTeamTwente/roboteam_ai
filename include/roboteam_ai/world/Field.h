@@ -27,11 +27,29 @@ struct FieldArc {
 
 /**
  * Stores all data which is directly obtained by the field camera (this data can change during the match) and store all
- * singular constant data (data that does not change through the match) about the field, which together includes: <br>
+ * singular constant data (data that does not change through the match) about the field, which combined includes: <br>
  * - Length, widths, heights of the field, goals and boundary. <br>
  * - The location, direction and sizes of all lines on the field. <br>
  * - The location and sizes of all arcs on the field. <br>
  * - Important and frequently used locations of the field, e.g. positions around our and the opponents goal.
+ *
+ * All these values are expressed in meters. Moreover the encoding of the field looks like:
+ *
+ *                          (upperFieldLine)
+ *              (-x,y)_________________________ (x,y)
+ *                 |                              |
+ *                 |                              |
+ * (your side)     |             (0,0)            | (their side)
+ * (leftFieldLine) |                              | (rightFieldLine)
+ *                 |                              |
+ *              (-x, -y)_______________________(x, -y)
+ *                          (bottomFieldLine)
+ *
+ * Thus the left side of the field always corresponds to our side of the field and the right side of the field always corresponds to the opponents side of the field. Moreover
+ * every horizontal line of the field stored as FieldLineSegment has their begin position equal to the leftmost position of that line (position with the lowest x-coordinate) and
+ * their end position equal to the rightmost position of that line (position with highest x-coordinate). And every vertical line of the field stored as FieldLineSegment has their
+ * begin position equal to the bottommost position of that line (position with the lowest y-coordinate) and their end position equal to the topmost position of that line (position
+ * with the highest y-coordinate). The top/bottom penalty stretches are an exception for this: they have their end position always inwards the field.
  *
  * @author Created by: Lukas Bos <br>
  *         Documented and refactored by: Haico Dorenbos
@@ -107,17 +125,31 @@ class Field {
     // The center y-coordinate of the field (the y-coordinate that corresponds with the center of the field)
     std::optional<double> centerY;
 
-    // The leftmost x-coordinate of the field (the x-coordinate closest to our goal)
+    // The leftmost x-coordinate of the field which is the lowest x-coordinate value (is a negative value) and is the x-coordinate closest to our goal.
     std::optional<double> leftmostX;
 
-    // The rightmost x-coordinate of the field (the x-coordinate closest to the opponents goal)
+    // The rightmost x-coordinate of the field which is the highest x-coordinate value (is a positive value) and is the x-coordinate closest to the opponents goal.
     std::optional<double> rightmostX;
 
-    // The bottommost y-coordinate of the field (the y-coordinate corresponding to the bottom side of the field)
+    // The bottommost y-coordinate of the field which is the lowest y-coordinate value (is a negative value) and is the y-coordinate corresponding to the bottom side of the field.
     std::optional<double> bottommostY;
 
-    // The uppermost y-coordinate of the field (the y-coordinate corresponding to the upper side of the field)
+    // The uppermost y-coordinate of the field which is the highest y-coordinate value (is a positive value) and is the y-coordinate corresponding to the upper side of the field.
     std::optional<double> topmostY;
+
+    // The x-coordinate of the left penalty line (the penalty line closest to our goal).
+    std::optional<double> leftPenaltyX;
+
+    // The x-coordinate of the right penalty line (the penalty line closest to the opponents goal).
+    std::optional<double> rightPenaltyX;
+
+    /* The highest y-coordinate of the penalty lines (since both penalty lines have the same y-coordinates
+     * at top and bottom, we do not need a seperate variable for the left and right penalty line) */
+    std::optional<double> penaltyTopY;
+
+    /* The lowest y-coordinate of the penalty lines (since both penalty lines have the same y-coordinates
+     * at top and bottom, we do not need a seperate variable for the left and right penalty line) */
+    std::optional<double> penaltyBottomY;
 
     // The field line with the highest y-coordinate which goes from the left side to the right side of the field.
     std::optional<FieldLineSegment> topLine;
@@ -185,8 +217,48 @@ class Field {
     // The top most point of the opponents goal (this point is on the right line).
     std::optional<Vector2> theirTopGoalSide;
 
+    // The top position, point with the highest y-coordinate, of the left penalty line (our penalty line).
+    std::optional<Vector2> leftPenaltyLineTop;
+
+    // The bottom position, point with the lowest y-coordinate, of the left penalty line (our penalty line).
+    std::optional<Vector2> leftPenaltyLineBottom;
+
+    // The top position, point with the highest y-coordinate, of the right penalty line (their penalty line).
+    std::optional<Vector2> rightPenaltyLineTop;
+
+    // The bottom position, point with the lowest y-coordinate, of the right penalty line (their penalty line).
+    std::optional<Vector2> rightPenaltyLineBottom;
+
+    /* The bottom left corner of the field, which is the point on the field with the lowest x-coordinate (is a negative value) and lowest y-coordinate (is a negative value) and is
+     * located at our side of the field. */
+    std::optional<Vector2> bottomLeftCorner;
+
+    /* The top left corner of the field, which is the point on the field with the lowest x-coordinate (is a negative value) and highest y-coordinate (is a positive value) and is
+    located at our side of the field. */
+    std::optional<Vector2> topLeftCorner;
+
+    /* The bottom right corner of the field, which is the point on the field with the highest x-coordinate (is a positive value) and lowest y-coordinate (is a negative value) and
+     * is located at the opponents side of the field. */
+    std::optional<Vector2> bottomRightCorner;
+
+    /* The top right corner of the field, which is the point on the field with the highest x-coordinate (is a positive value) and highest y-coordinate (is a positive value) and is
+     * located at the opponents side of the field. */
+    std::optional<Vector2> topRightCorner;
+
     // The circle in the middle from which the ball will be kicked off
     std::optional<FieldArc> centerCircle;
+
+    // The top left corner of our defence area (note that this is not equal to the top of our goal side).
+    std::optional<Vector2> topLeftOurDefenceArea;
+
+    // The bottom left corner of our defence area (note that this is not equal to the bottom of our goal side).
+    std::optional<Vector2> bottomLeftOurDefenceArea;
+
+    // The top left corner of their defence area (note that this is not equal to the top of their goal side).
+    std::optional<Vector2> topRightTheirDefenceArea;
+
+    // The bottom left corner of their defence area (note that this is not equal to the bottom of their goal side).
+    std::optional<Vector2> bottomRightTheirDefenceArea;
 
    public:
     /**
@@ -211,6 +283,10 @@ class Field {
     double getRightmostX() const;
     double getBottommostY() const;
     double getTopmostY() const;
+    double getLeftPenaltyX() const;
+    double getRightPenaltyX() const;
+    double getPenaltyTopY() const;
+    double getPenaltyBottomY() const;
     const FieldLineSegment &getTopLine() const;
     const FieldLineSegment &getBottomLine() const;
     const FieldLineSegment &getLeftLine() const;
@@ -231,6 +307,18 @@ class Field {
     const Vector2 &getOurTopGoalSide() const;
     const Vector2 &getTheirBottomGoalSide() const;
     const Vector2 &getTheirTopGoalSide() const;
+    const Vector2 &getLeftPenaltyLineTop() const;
+    const Vector2 &getLeftPenaltyLineBottom() const;
+    const Vector2 &getRightPenaltyLineTop() const;
+    const Vector2 &getRightPenaltyLineBottom() const;
+    const Vector2 &getBottomLeftCorner() const;
+    const Vector2 &getTopLeftCorner() const;
+    const Vector2 &getBottomRightCorner() const;
+    const Vector2 &getTopRightCorner() const;
+    const Vector2 &getTopLeftOurDefenceArea() const;
+    const Vector2 &getBottomLeftOurDefenceArea() const;
+    const Vector2 &getTopRightTheirDefenceArea() const;
+    const Vector2 &getBottomRightTheirDefenceArea() const;
     const FieldArc &getCenterCircle() const;
 
     /**
@@ -239,7 +327,21 @@ class Field {
      */
     const std::vector<FieldLineSegment> &getFieldLines() const;
 
+    /**
+     * Only use this function for unit test purposes!
+     * @return A field similar to the original field that is used for testing.
+     */
+    static Field createTestField();
+
    private:
+    /**
+     * Only use this function for unit test purposes! Create a field directly by assigning all main field variables.
+     */
+    Field(double fieldWidth, double fieldLength, double goalWidth, double goalDepth, double boundaryWidth, FieldLineSegment &topLine, FieldLineSegment &bottomLine,
+          FieldLineSegment &leftLine, FieldLineSegment &rightLine, FieldLineSegment &halfLine, FieldLineSegment &centerLine, FieldLineSegment &leftPenaltyLine,
+          FieldLineSegment &rightPenaltyLine, FieldLineSegment &topLeftPenaltyStretch, FieldLineSegment &bottomLeftPenaltyStretch, FieldLineSegment &topRightPenaltyStretch,
+          FieldLineSegment &bottomRightPenaltyStretch, FieldArc &centerCircle);
+
     /**
      * This method deals with getting field values and what should happen when a field value is missing.
      */
@@ -287,9 +389,9 @@ class Field {
     void initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize);
 
     /**
-     * Initialize the field vectors (this function is only called inside the constructor)
+     * Initialize the other field values, linesegments, arcs and vectors (this function is only called inside the constructor)
      */
-    void initFieldVectors();
+    void initFieldOthers();
 };
 
 }  // namespace rtt::ai::world

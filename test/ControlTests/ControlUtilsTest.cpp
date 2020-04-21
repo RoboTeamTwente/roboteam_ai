@@ -330,7 +330,7 @@ TEST(ControlUtils, getInterceptPointOnLegalPosition) {
     //
     //        auto newPoint = cr::ControlUtils::getInterceptPointOnLegalPosition(robotpos, line, false, false, 0, 0.1);
     //        EXPECT_TRUE(rtt::ai::world::field->pointIsInField(newPoint, 0));
-    //        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, true, -0.01, false));
-    //        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenceArea(newPoint, false, -0.01, false));
+    //        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenseArea(newPoint, true, -0.01, false));
+    //        EXPECT_FALSE(rtt::ai::world::field->pointIsInDefenseArea(newPoint, false, -0.01, false));
     //    }
 }

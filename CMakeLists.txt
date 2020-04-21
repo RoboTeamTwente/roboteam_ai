@@ -84,6 +84,8 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -96,6 +98,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
         )
 
@@ -144,10 +147,12 @@ set(CONDITIONS_SOURCES
         )
 
 set(INVARIANTS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesFastInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
         )
 
 set(CONTROL_SOURCES
@@ -176,6 +181,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/helpers/FieldHelper.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
         ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
@@ -251,6 +257,7 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
+        PRIVATE NFParam
         PRIVATE ${SDL2_LIBRARY}
         )
 
@@ -269,9 +276,10 @@ find_package(Pagmo REQUIRED PATHS /home/jesse/.local/lib/cmake/pagmo)
 add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
 target_link_libraries(roboteam_ai ${AI_LIBS} Pagmo::pagmo)
 
+
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
-add_executable(ai_tests ${AI_SOURCES} ${TEST_SOURCES})
-target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB})
+add_executable(ai_tests ${TEST_SOURCES})
+target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
 target_include_directories(ai_tests ${AI_INCLUDES})

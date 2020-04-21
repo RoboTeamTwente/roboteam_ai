@@ -124,7 +124,7 @@ protected:
     /**
      * The Field
      */
-    rtt::ai::Field field;
+    rtt::ai::world::Field field;
 
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play

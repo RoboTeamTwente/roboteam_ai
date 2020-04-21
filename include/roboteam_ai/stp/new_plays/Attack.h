@@ -58,7 +58,7 @@ private:
      * @param fromPoint Position to shoot from
      * @return Line between the two aim points
      */
-    Line getAimPoints(const Field &field, const Vector2 &fromPoint);
+    Line getAimPoints(const world::Field &field, const Vector2 &fromPoint);
 
     /**
      * Returns the longest line from openSegments

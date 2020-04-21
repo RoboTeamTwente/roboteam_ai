@@ -3,9 +3,9 @@
 //
 
 #include "stp/new_plays/Pass.h"
-#include <stp/new_roles/TestRole.h>
 #include <stp/invariants/WeHaveBallInvariant.h>
 #include <utility>
+#include <stp/new_roles/TestRole.h>
 #include "stp/invariants/BallMovesSlowInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
@@ -33,7 +33,8 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("defender9"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 100; }
+
+uint8_t Pass::score(world_new::World* world) noexcept { return 110; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -73,8 +74,9 @@ void Pass::calculateInfoForRoles() noexcept {
         std::cout<<field.getLeftmostX()<<std::endl;
         stpInfos["pass_receiver"].setPositionToMoveTo(calculatePositionToPassTo(world, enemyRobots));
     }
+
     // Calculate Passer info
-    if (stpInfos.find("passer") != stpInfos.end()){
+    if (stpInfos.find("passer") != stpInfos.end()) {
         stpInfos["passer"].setPositionToShootAt(passingPosition);
         stpInfos["passer"].setKickChipType(PASS);
     }
@@ -127,8 +129,6 @@ Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<wor
 
 bool Pass::shouldRoleSkipEndTactic() { return false; }
 
-const char *Pass::getName() {
-    return "Pass";
-}
+const char* Pass::getName() { return "Pass"; }
 
 }  // namespace rtt::ai::stp::play

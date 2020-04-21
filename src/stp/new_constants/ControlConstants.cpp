@@ -16,13 +16,18 @@ constexpr double MAX_POWER_CHIP_DISTANCE = 9;
 constexpr double MAX_CHIP_POWER = 8;
 constexpr double MIN_CHIP_POWER = 1.01;
 
+// Dribbler constants
+const double TURN_ON_DRIBBLER_DISTANCE = 3 * ROBOT_RADIUS;
+
 // Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
 constexpr double BALL_IS_MOVING_VEL = 0.5;
-constexpr double BALL_IS_MOVING_FAST_LIMIT = 1.5;
+constexpr double BALL_GOT_SHOT_LIMIT = 1.5;
+constexpr double BALL_IS_MOVING_SLOW_LIMIT = 0.5;
 constexpr double BALL_RADIUS = 0.0215;
 constexpr double HAS_KICKED_ERROR_MARGIN = 0.4;
 constexpr double HAS_CHIPPED_ERROR_MARGIN = 0.4;
+constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
 // RobotCommand limits
 constexpr double MAX_VEL_CMD = 8.191;
@@ -42,4 +47,13 @@ constexpr double ROBOT_RADIUS_MAX = 0.091;
 constexpr double FRONT_LENGTH = 0.118;
 const double DRIBBLER_ANGLE_OFFSET = asin(FRONT_LENGTH / 2 / ROBOT_RADIUS);
 const double CENTER_TO_FRONT = sin(DRIBBLER_ANGLE_OFFSET) * ROBOT_RADIUS;
+
+// Invariant constants
+constexpr double FUZZY_TRUE = 255;
+constexpr double FUZZY_FALSE = 0;
+constexpr double FUZZY_MARGIN = 0.1;
+constexpr double FUZZY_DEFAULT_CUTOFF = 127;
+
+// Keeper constants
+const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
 }  // namespace rtt::ai::stp::control_constants
