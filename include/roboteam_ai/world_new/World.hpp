@@ -93,7 +93,7 @@ class World {
     */
     void updateField(proto::SSL_GeometryFieldSize &protoField);
 
-    void updateField(rtt::ai::Field &protoField);
+    void updateField(ai::world::Field &protoField);
 
     /**
      * Update the position control using the new robot position

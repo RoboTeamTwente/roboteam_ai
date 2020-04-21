@@ -13,7 +13,7 @@ class BallGotShotInvariant : public BaseInvariant {
    public:
     BallGotShotInvariant() noexcept;
 
-    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const Field* field) const noexcept override;
+    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
    private:
     /**
