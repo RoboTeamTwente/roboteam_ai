@@ -17,11 +17,11 @@ FreedomOfRobotsInvariant::FreedomOfRobotsInvariant() noexcept {
      *   (0,0)  |XXXXXX---------
      *              (Distance to closest robot)
      */
-    piecewiseLinearFunction = nativeformat::param::createParam(0, 255, 0, "distance to closest robot");
-    piecewiseLinearFunction->setYAtX(0.0, 0.0);
-    piecewiseLinearFunction->setYAtX(0.0, stp::control_constants::DISTANCE_TO_ROBOT_CLOSE + stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->linearRampToYAtX(255, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->setYAtX(255, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction = nativeformat::param::createParam(stp::control_constants::FUZZY_FALSE, stp::control_constants::FUZZY_TRUE, stp::control_constants::FUZZY_FALSE, "distance to closest robot");
+    piecewiseLinearFunction->setYAtX(stp::control_constants::FUZZY_FALSE, 0.0);
+    piecewiseLinearFunction->setYAtX(stp::control_constants::FUZZY_FALSE, stp::control_constants::DISTANCE_TO_ROBOT_CLOSE + stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->linearRampToYAtX(stp::control_constants::FUZZY_TRUE, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setYAtX(stp::control_constants::FUZZY_TRUE, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
 }
 
 uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView world, const Field* field) const noexcept {
