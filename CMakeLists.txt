@@ -117,10 +117,12 @@ set(NEW_PLAYS_SOURCES
         )
 
 set(INVARIANTS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesFastInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
         )
 
 set(CONTROL_SOURCES
@@ -224,6 +226,7 @@ set(AI_LIBS
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
+        PRIVATE NFParam
         PRIVATE ${SDL2_LIBRARY}
         )
 
@@ -234,12 +237,16 @@ set(AI_INCLUDES
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
+add_library(ai_lib ${AI_SOURCES})
+target_link_libraries(ai_lib ${AI_LIBS})
+target_include_directories(ai_lib ${AI_INCLUDES})
+
 # Main Executable
-add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
-target_link_libraries(roboteam_ai ${AI_LIBS})
+add_executable(roboteam_ai src/roboteam_ai.cpp)
+target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib)
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
-add_executable(ai_tests ${AI_SOURCES} ${TEST_SOURCES})
-target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB})
+add_executable(ai_tests ${TEST_SOURCES})
+target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
 target_include_directories(ai_tests ${AI_INCLUDES})
