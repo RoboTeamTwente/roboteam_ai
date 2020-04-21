@@ -4,7 +4,7 @@
 
 #include "stp/new_plays/Pass.h"
 
-#include <stp/invariants/WeHaveBallInvariant.h>
+#include <stp/invariants/BallCloseToUsInvariant.h>
 #include <stp/new_roles/TestRole.h>
 
 #include "stp/invariants/BallMovesSlowInvariant.h"
@@ -16,7 +16,7 @@ namespace rtt::ai::stp::play {
 Pass::Pass() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     // TODO: decide keep invariants
     keepPlayInvariants.clear();
