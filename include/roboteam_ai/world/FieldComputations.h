@@ -65,10 +65,10 @@ class FieldComputations {
      * @param ourGoal True if we want to compute this for our goal, false if we want to compute it for the opponents goal.
      * @param point The point from which it is checked how much of the goal is visible.
      * @param world Data about the world which is used to determine the locations of all robots.
-     * @param id The id of the robot which is not considered as blockade. Set this value to -1 if you do exclude a robot as blockade (by default no robot is excluded as blockade).
+     * @param id The id of the robot which is not considered as blockade. Set this value to -1 if you do not exclude a robot as blockade (by default no robot is excluded as blockade).
      * @param ourTeam True if our robots get excluded as blockades. False if all opponents robots get excluded as blockades (by default the opponents robots get excluded as
      * blockades).
-     * @return The percentage of the goal visible, which is a double value between 0.0 and 100.0 including both 0.0 and 100.0.
+     * @return The percentage of the goal visible, \in [0.0, 100.0]
      */
     static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id = -1,
                                                       bool ourTeam = false);

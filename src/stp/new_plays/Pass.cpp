@@ -4,9 +4,7 @@
 
 #include "stp/new_plays/Pass.h"
 #include <stp/invariants/WeHaveBallInvariant.h>
-#include <utility>
 #include <stp/new_roles/TestRole.h>
-#include "stp/invariants/BallMovesSlowInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
 #include "pagmo/algorithms/pso_gen.hpp"
@@ -114,7 +112,7 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-    auto pso = pagmo::pso_gen(20, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1);
+    auto pso = pagmo::pso_gen(2, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
     PassProblem pro{};
     pro.updateInfoForProblem(world);
 

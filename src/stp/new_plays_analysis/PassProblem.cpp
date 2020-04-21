@@ -12,7 +12,7 @@ namespace rtt::ai::stp{
         auto score = 0.0;
         auto point = Vector2(dv[0], dv[1]);
 
-        if (ai::FieldComputations::pointIsInDefenceArea(problemWorld->getField().value(), point)) {
+        if (ai::FieldComputations::pointIsInDefenseArea(problemWorld->getField().value(), point)) {
             score = 500;
             return {score};
         }
@@ -25,7 +25,7 @@ namespace rtt::ai::stp{
         score += -100 * theirClosestDistance;
         score += 100 * ourClosestDistance;
 
-        score += -100 * shootSuccesReward(Vector2());
+        score += -10 * shootSuccesReward(point);
         score += -ai::FieldComputations::getDistanceToGoal(problemWorld->getField().value(), false, point);
 
         return {score};
@@ -60,12 +60,7 @@ namespace rtt::ai::stp{
 
     double PassProblem::shootSuccesReward(Vector2 point) const {
         auto w = world_new::World::instance()->getWorld().value();
-        auto p = Vector2(0,0);
-        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(problemWorld->getField().value(), true, p, w, -1, true);
-        if(percentage != 100) {
-            RTT_DEBUG(percentage)
-
-        }
+        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(problemWorld->getField().value(), false, point, w, -1, true);
         return percentage;
     }
 
