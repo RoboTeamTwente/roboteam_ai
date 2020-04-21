@@ -25,7 +25,14 @@ FreedomOfRobotsInvariant::FreedomOfRobotsInvariant() noexcept {
 }
 
 uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView world, const Field* field) const noexcept {
+    auto& us = world.getUs();
+    std::vector<uint8_t> distanceMetrics{};
 
+    std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) {
+        auto robotPosition = robot.get()->getPos();
+        auto distance = (world.getRobotClosestToPoint(robotPosition, world_new::them)->getPos() - robotPosition).length();
+        return calculateMetric(distance);
+    });
 }
 
 uint8_t FreedomOfRobotsInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
