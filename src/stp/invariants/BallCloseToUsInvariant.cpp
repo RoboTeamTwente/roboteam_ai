@@ -27,11 +27,11 @@ BallCloseToUsInvariant::BallCloseToUsInvariant() noexcept {
 uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     auto ballPos = world.getBall()->get()->getPos();
-    std::vector<uint8_t> distanceMetrics{};
+    std::vector<double> distanceMetrics{};
 
-    std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) { return calculateMetric(robot.get()->getPos().dist(ballPos)); });
+    std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
 
-    return *std::max_element(distanceMetrics.begin(), distanceMetrics.end());
+    return calculateMetric(*std::min_element(distanceMetrics.begin(), distanceMetrics.end()));
 }
 
 uint8_t BallCloseToUsInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
