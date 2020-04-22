@@ -5,9 +5,11 @@
 #ifndef RTT_TACTIC_H
 #define RTT_TACTIC_H
 
+#include <roboteam_utils/Print.h>
+
 #include <roboteam_utils/containers/state_machine.hpp>
 #include <vector>
-#include <roboteam_utils/Print.h>
+
 #include "stp/Skill.h"
 #include "stp/StpInfo.h"
 
@@ -16,6 +18,11 @@ class Skill;
 
 class Tactic {
    protected:
+    /**
+     * Current status of tactic, from last time update() was called
+     */
+    Status currentStatus;
+
     /**
      * This function should calculate any extra information that the skills might need to be executed.
      * Things that should be calculated are for example how hard the kicker should shoot to get to the desired position
@@ -68,6 +75,11 @@ class Tactic {
 
    public:
     /**
+     * Gets this->currentStatus
+     */
+    [[nodiscard]] Status getStatus() const;
+
+    /**
      * Calls onInitialize of the tactic
      */
     virtual void initialize() noexcept;
@@ -103,6 +115,17 @@ class Tactic {
      * Reset the state machine
      */
     void reset() noexcept;
+
+    /**
+     * Gets the current tactic name
+     */
+    virtual const char *getName() = 0;
+
+    /**
+     * Gets the skill whose turn it is
+     * @return Skill*
+     */
+     Skill* getCurrentSkill();
 };
 }  // namespace rtt::ai::stp
 

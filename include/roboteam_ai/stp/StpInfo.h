@@ -67,28 +67,14 @@ struct Areas {
      * @return any(robot in shape for shape in areas)
      */
     [[nodiscard]] bool isInAny(Vector2 const& pos) const noexcept {
-        Circle circle{pos, Constants::ROBOT_RADIUS()};
+        Circle circle{pos, stp::control_constants::ROBOT_RADIUS};
         return std::any_of(areasToAvoid.begin(), areasToAvoid.end(), [&](auto const& area) { return area.intersects(circle); });
     }
 };
 
-enum PositionType {
-    MOVE_TO_POSITION,
-    RECEIVE_AT_POSITION,
-    SHOOT_TO_POSITION,
-    DEFEND_POSITION
-};
-enum BlockDistance {
-    CLOSE = 1,
-    HALFWAY,
-    FAR
-};
-enum KickChipType{
-    DRIBBLE_KICK,
-    BALL_PLACEMENT,
-    PASS,
-    MAX_SPEED
-};
+const int blockLength = 3; // The number of elements in the blockdistance enum
+enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
+enum KickChipType { PASS, TARGET, MAX };
 
 struct StpInfo {
    public:
@@ -104,8 +90,14 @@ struct StpInfo {
     const std::optional<world_new::view::BallView>& getBall() const { return ball; }
     void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
 
-    const std::pair<PositionType, Vector2>& getPosition() const { return position; }
-    void setPosition(const std::pair<PositionType, Vector2>& position) { this->position = position; }
+    const std::optional<Vector2>& getPositionToMoveTo() const { return positionToMoveTo; }
+    void setPositionToMoveTo(const std::optional<Vector2>& position) { this->positionToMoveTo = position; }
+
+    const std::optional<Vector2>& getPositionToShootAt() const { return positionToShootAt; }
+    void setPositionToShootAt(const std::optional<Vector2>& position) { this->positionToShootAt = position; }
+
+    const std::optional<Vector2>& getPositionToDefend() const { return positionToDefend; }
+    void setPositionToDefend(const std::optional<Vector2>& position) { this->positionToDefend = position; }
 
     double getKickChipVelocity() const { return kickChipVelocity; }
     void setKickChipVelocity(double kickChipVelocity) { this->kickChipVelocity = kickChipVelocity; }
@@ -144,9 +136,19 @@ struct StpInfo {
     std::optional<world_new::view::BallView> ball;
 
     /**
-     * Tuple of the PositionType and the position of this target
+     * Position to move to
      */
-    std::pair<PositionType, Vector2> position;
+    std::optional<Vector2> positionToMoveTo;
+
+    /**
+     * Position to kick or chip at
+     */
+    std::optional<Vector2> positionToShootAt;
+
+    /**
+     * Position to defend
+     */
+    std::optional<Vector2> positionToDefend;
 
     /**
      * Velocity of the kick/chip
@@ -174,6 +176,6 @@ struct StpInfo {
      */
     BlockDistance blockDistance;
 };
-};  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp
 
 #endif  // RTT_STPINFO_H

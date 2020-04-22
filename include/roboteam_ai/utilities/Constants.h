@@ -74,9 +74,13 @@ class Constants {
     static int DEFAULT_KEEPER_ID();
 
     /// GENERAL SKILLS ///
-    static double DEFAULT_KICK_POWER();  // max kick power() { return  100
-    static double MAX_KICK_POWER();      // TODO: CHECK
-    static double MAX_POWER_KICK_DISTANCE();
+    static double DEFAULT_KICK_POWER();
+    static double MAX_KICK_POWER();      // TODO: TUNE MAX KICK POWER
+    static double MIN_KICK_POWER();      // TODO: TUNE MIN KICK POWER
+    static double MAX_POWER_KICK_DISTANCE(); // TODO: TUNE MAX KICK DISTANCE
+    static double MAX_CHIP_POWER();      // TODO: TUNE MAX CHIP POWER
+    static double MIN_CHIP_POWER();      // TODO: TUNE MIN CHIP POWER
+    static double MAX_POWER_CHIP_DISTANCE(); // TODO: TUNE MAX CHIP DISTANCE
     static double OUT_OF_FIELD_MARGIN();
     static double MAX_BALL_BOUNCE_RANGE();
     static double MAX_BALL_RANGE();  // Could maybe be even less? Is a LOT lower in real life, think max 0.05 m.

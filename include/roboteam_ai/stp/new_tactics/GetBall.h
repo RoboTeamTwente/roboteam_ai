@@ -5,6 +5,7 @@
 #ifndef RTT_GETBALL_H
 #define RTT_GETBALL_H
 
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {
@@ -14,10 +15,10 @@ namespace rtt::ai::stp::tactic {
  * end tactic, therefore it can succeed.
  */
 class GetBall : public Tactic {
-public:
+   public:
     GetBall();
 
-protected:
+   protected:
     void onInitialize() noexcept override;
 
     void onUpdate(Status const &status) noexcept override;
@@ -49,7 +50,12 @@ protected:
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
-}  // namespace rtt::ai::stp
+}  // namespace rtt::ai::stp::tactic
 
 #endif  // RTT_GETBALL_H

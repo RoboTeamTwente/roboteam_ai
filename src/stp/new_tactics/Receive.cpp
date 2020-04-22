@@ -8,64 +8,59 @@
 
 namespace rtt::ai::stp::tactic {
 
-    Receive::Receive(){
-        // Create state machine of skills and initialize first skill
-        skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-        skills.initialize();
+Receive::Receive() {
+    // Create state machine of skills and initialize first skill
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
+}
+
+void Receive::onInitialize() noexcept {}
+
+void Receive::onUpdate(Status const &status) noexcept {}
+
+void Receive::onTerminate() noexcept {
+    // Call terminate on all skills
+    for (auto &x : skills) {
+        x->terminate();
     }
+}
 
-    void Receive::onInitialize() noexcept {
-    }
+StpInfo Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
+    StpInfo skillStpInfo = info;
 
-    void Receive::onUpdate(Status const &status) noexcept {
-        // Keep executing Rotate skill
-        if (skills.current_num() == skills.total_count()) {
-            skills.skip_n(-1);
-        }
-    }
+    // Rotate robot towards the ball
+    skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
 
-    void Receive::onTerminate() noexcept {
-        // Call terminate on all skills
-        for (auto &x : skills) {
-            x->terminate();
-        }
-    }
+    // If ball is close to robot, turn on dribbler
+    skillStpInfo.setDribblerSpeed(determineDribblerSpeed(info.getRobot().value()));
 
-    StpInfo Receive::calculateInfoForSkill(StpInfo const& info) noexcept {
-        StpInfo skillStpInfo = info;
+    return skillStpInfo;
+}
 
-        // Rotate robot towards the ball
-        skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
+bool Receive::isTacticFailing(const StpInfo &info) noexcept {
+    // Receive tactic fails if targetType is not a receiveTarget
+    return !info.getPositionToMoveTo();
+}
 
-        // If ball is close to robot, turn on dribbler
-        skillStpInfo.setDribblerSpeed(determineDribblerSpeed(info.getRobot().value()));
+bool Receive::shouldTacticReset(const StpInfo &info) noexcept {
+    // Receive tactic resets when robot position is not close enough to the target position for receiving
+    double errorMargin = stp::control_constants::GO_TO_POS_ERROR_MARGIN;
+    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
+}
 
-        return skillStpInfo;
-    }
+bool Receive::isEndTactic() noexcept {
+    // Receive tactic is an end tactic
+    return true;
+}
 
-    bool Receive::isTacticFailing(const StpInfo &info) noexcept {
-        // Receive tactic fails if targetType is not a receiveTarget
-        return info.getPosition().first != RECEIVE_AT_POSITION;
-    }
+double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) { return (ball->getPos() - robot->getPos()).angle(); }
 
-    bool Receive::shouldTacticReset(const StpInfo &info) noexcept {
-        // Receive tactic resets when robot position is not close enough to the target position for receiving
-        double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
-        return (info.getRobot().value()->getPos() - info.getPosition().second).length() > errorMargin;
-    }
+int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
+    double turnOnDribblerDistance = 1.0;
+    return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
+}
 
-    bool Receive::isEndTactic() noexcept {
-        // Receive tactic is an end tactic
-        return true;
-    }
+const char *Receive::getName() {
+    return "Receive";
+}
 
-    double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
-        return (ball->getPos() - robot->getPos()).angle();
-    }
-
-    int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
-        double turnOnDribblerDistance = 1.0;
-        return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
-    }
-
-} // namespace rtt::ai::stp::tactic
+}  // namespace rtt::ai::stp::tactic

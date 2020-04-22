@@ -6,12 +6,9 @@
 #define RTT_ROBOT_VIEW_HPP
 
 #include <roboteam_utils/Vector2.h>
-#include <include/roboteam_ai/utilities/Constants.h>
-#include <include/roboteam_ai/world_new/Robot.hpp>
+#include <stp/new_constants/ControlConstants.h>
+#include <world_new/Robot.hpp>
 
-namespace rtt::world_new::robot {
-    class RobotControllers;
-}
 namespace rtt::world_new::view {
 
 /**
@@ -22,6 +19,8 @@ namespace rtt::world_new::view {
  */
 class RobotView {
     robot::Robot const *robotPtr;
+
+    [[nodiscard]] bool hasBallAccordingToVision(double maxDist, double maxAngle) const noexcept;
 
    public:
     /**
@@ -80,22 +79,17 @@ class RobotView {
 
     /**
      * Check whether the current robot has the ball
-     * @param maxDist maximum distance for ball posession
-     * @return true if dist(ball, robot) < maxDist else false
+     * @param distanceErrorMargin distance error margin for ball possession
+     * @param angleErrorMargin angle error margin for ball possession
+     * @return true if ballSensorSeesBall or dist(ball, robot) < maxDist else false
      */
-    [[nodiscard]] bool hasBall(double maxDist = ai::Constants::MAX_BALL_BOUNCE_RANGE()) const noexcept;
+    [[nodiscard]] bool hasBall(double distanceErrorMargin = ai::stp::control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN, double angleErrorMargin = ai::stp::control_constants::HAS_BALL_ANGLE_ERROR_MARGIN) const noexcept;
 
     /**
      * Gets the kicker for the Robot that this view is viewing
      * @return A vector2 representation of the kicker
      */
     [[nodiscard]] Vector2 getKicker() const noexcept;
-
-    /**
-     * Gets the controllers for a robot
-     * @return World->getControllersForRobot(robotPtr->id);
-     */
-    [[nodiscard]] robot::RobotControllers &getControllers() const noexcept;
 };
 
 }  // namespace rtt::world_new::view

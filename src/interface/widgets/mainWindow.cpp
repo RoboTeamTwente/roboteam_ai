@@ -1,9 +1,11 @@
 #include "interface/widgets/mainWindow.h"
+
 #include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
-#include <treeinterp/BTFactory.h>
+
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
+
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
@@ -13,7 +15,7 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent, ApplicationManager *manager) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -43,28 +45,18 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
-    auto mainControlsWidget = new MainControlsWidget(this);
+    auto mainControlsWidget = new MainControlsWidget(this, manager);
     vLayout->addWidget(mainControlsWidget);
 
     auto behaviourTreeWidget = new QWidget(this);
     auto behaviourTreeWidgetLayout = new QVBoxLayout();
     // create widgets hidden under tabs
-    treeWidget = new TreeVisualizerWidget(this);
+    stpWidget = new STPVisualizerWidget(this);
 
-    behaviourTreeWidgetLayout->addWidget(treeWidget);
-
-    auto refreshHButtonsLayout = new QHBoxLayout();
-    auto refreshBtn = new QPushButton("Soft refresh");
-    QObject::connect(refreshBtn, SIGNAL(clicked()), this, SLOT(refreshSignal()));
-    refreshHButtonsLayout->addWidget(refreshBtn);
-
-    auto refreshJsonBtn = new QPushButton("Hard refresh");
-    QObject::connect(refreshJsonBtn, SIGNAL(clicked()), this, SLOT(refreshJSONSignal()));
-    refreshHButtonsLayout->addWidget(refreshJsonBtn);
-    behaviourTreeWidgetLayout->addLayout(refreshHButtonsLayout);
+    behaviourTreeWidgetLayout->addWidget(stpWidget);
     behaviourTreeWidget->setLayout(behaviourTreeWidgetLayout);
 
-    keeperTreeWidget = new TreeVisualizerWidget(this);
+    keeperStpWidget = new STPVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto settingsWidget = new SettingsWidget(this);
 
@@ -79,8 +71,8 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     graphWidget = new GraphWidget(this);
 
     auto DataTabWidget = new QTabWidget;
-    DataTabWidget->addTab(behaviourTreeWidget, tr("Behaviour trees"));
-    DataTabWidget->addTab(keeperTreeWidget, tr("Keeper"));
+    DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
+    DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
@@ -114,18 +106,14 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     // update mainwindow and field visualization
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(100);  // 10fps
-
-    connect(mainControlsWidget, SIGNAL(treeHasChanged()), treeWidget, SLOT(invalidateTree()));
-    connect(mainControlsWidget, SIGNAL(treeHasChanged()), keeperTreeWidget, SLOT(invalidateTree()));
+    timer->start(20);  // 50fps
 
     // start the UI update cycles
     // these are slower than the tick rate
     auto *robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateTreeWidget()));
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateKeeperTreeWidget()));
     connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), this,
+            SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
     robotsTimer->start(500);  // 2fps
@@ -133,6 +121,9 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     auto *graphTimer = new QTimer(this);
     connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
     graphTimer->start(500);  // 2fps
+
+    connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
+    connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
 }
 
 /// Set up a checkbox and add it to the layout
@@ -180,18 +171,16 @@ void MainWindow::updateRobotsWidget() {
     }
 }
 
-// update the tree widget with the newest strategy tree
-void MainWindow::updateTreeWidget() { this->treeWidget->updateContents(BTFactory::getTree(BTFactory::getCurrentTree())); }
-
-// update the keeper widget with the newest keeper tree
-void MainWindow::updateKeeperTreeWidget() { this->keeperTreeWidget->updateContents(BTFactory::getKeeperTree()); }
-
-void MainWindow::refreshSignal() { robotDealer::RobotDealer::refresh(); }
-
-void MainWindow::refreshJSONSignal() {
-    BTFactory::makeTrees();
-    robotDealer::RobotDealer::refresh();
+void MainWindow::updatePlay(stp::Play *play) {
+    stpWidget->updateContents(play);
+    updateStpWidgets();
 }
+
+void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
+
+void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keeperStpWidget->updateKeeperContents(keeperRole, state); }
+
+void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
 
 }  // namespace rtt::ai::interface
 

@@ -2,7 +2,7 @@
 // Created by jordi on 09-03-20.
 //
 
-#include "include/roboteam_ai/stp/new_skills/Chip.h"
+#include "stp/new_skills/Chip.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -10,7 +10,7 @@ void Chip::onInitialize() noexcept {}
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set chip velocity
-    double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, Constants::MAX_KICK_POWER());
+    double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
     // Set chip command
     command.set_chipper(true);
@@ -21,12 +21,16 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if(info.getBall()->get()->getVelocity().length() > Constants::BALL_STILL_VEL()) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         return Status::Success;
     }
     return Status::Running;
 }
 
 void Chip::onTerminate() noexcept {}
+
+const char *Chip::getName() {
+    return "Chip";
+}
 
 }  // namespace rtt::ai::stp::skill

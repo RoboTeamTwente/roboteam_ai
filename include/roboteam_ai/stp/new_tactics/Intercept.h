@@ -49,7 +49,7 @@ class Intercept : public Tactic {
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
-bool isEndTactic() noexcept override;
+    bool isEndTactic() noexcept override;
 
     /**
      * Calculate the angle between the robot and the ball
@@ -66,6 +66,11 @@ bool isEndTactic() noexcept override;
      * @return Dribbler speed in %
      */
     int determineDribblerSpeed(const world_new::view::RobotView &robot);
+
+    /**
+     * Gets the tactic name
+     */
+    const char *getName() override;
 };
 }  // namespace rtt::ai::stp::tactic
 

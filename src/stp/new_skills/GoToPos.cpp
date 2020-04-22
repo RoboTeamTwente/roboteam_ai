@@ -4,34 +4,40 @@
 
 #include "include/roboteam_ai/stp/new_skills/GoToPos.h"
 
-#include <roboteam_utils/Print.h>
 
 #include "include/roboteam_ai/world_new/World.hpp"
 
 namespace rtt::ai::stp::skill {
 
-void GoToPos::onInitialize() noexcept { }
+void GoToPos::onInitialize() noexcept {}
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    Vector2 targetPos = info.getPosition().second;
+    auto targetPosOpt = info.getPositionToMoveTo();
+
+    if (!targetPosOpt) {
+        return Status::Running;
+    }
+
+    auto targetPos = targetPosOpt.value();
 
     // Calculate commands from path planning and tracking
-    auto robotCommand = world_new::World::instance()->getRobotPositionController()->
-            computeAndTrackPath(info.getField().value(), info.getRobot().value()->getId(),
-                    info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
+    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
+        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Clamp and set velocity
-    double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, Constants::MAX_VEL_CMD());
+    double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
     command.mutable_vel()->set_x(targetVelocity.x);
     command.mutable_vel()->set_y(targetVelocity.y);
-    command.set_w(robotCommand.angle.getAngle());
+
+    if(info.getAngle()) command.set_w(info.getAngle().getAngle());
+    else command.set_w(robotCommand.angle.getAngle());
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
@@ -39,8 +45,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     publishRobotCommand();
 
     // Check if successful
-    double errorMargin = Constants::GOTOPOS_ERROR_MARGIN();
-    if ((info.getRobot().value()->getPos() - targetPos).length2() <= errorMargin * errorMargin) {
+    if ((info.getRobot().value()->getPos() - targetPos).length2() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
         return Status::Success;
     } else {
         return Status::Running;
@@ -48,5 +53,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 }
 
 void GoToPos::onTerminate() noexcept {}
+
+const char *GoToPos::getName() {
+    return "Go To Position";
+}
 
 }  // namespace rtt::ai::stp::skill

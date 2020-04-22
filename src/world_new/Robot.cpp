@@ -32,12 +32,9 @@ Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const 
 
     if (ball.has_value()) {
         setDistanceToBall(pos.dist((*ball)->getPos()));
+        auto angleRobotToBall = ((*ball)->getPos() - pos).angle();
+        setAngleDiffToBall(fabs(angle.shortestAngleDiff(angleRobotToBall)));
     }
-
-    resetShotController();
-    resetNumTreePosControl();
-    resetBasicPosControl();
-    resetBallHandlePosControl();
 }
 
 uint32_t Robot::getId() const noexcept { return id; }
@@ -88,25 +85,13 @@ bool Robot::isWorkingBallSensor() const noexcept { return workingBallSensor; }
 
 void Robot::setWorkingBallSensor(bool _workingBallSensor) noexcept { Robot::workingBallSensor = _workingBallSensor; }
 
-void Robot::resetShotController() const noexcept { World::instance()->getControllersForRobot(getId()).getShotController() = std::make_unique<ai::control::ShotController>(); }
+bool Robot::ballSensorSeesBall() const noexcept { return seesBall; }
 
-void Robot::resetNumTreePosControl() const noexcept {
-    World::instance()->getControllersForRobot(getId()).getNumTreePosController() = std::make_unique<ai::control::NumTreePosControl>();
-}
+void Robot::setBallSensorSeesBall(bool _seesBall) noexcept { Robot::seesBall = _seesBall; }
 
-void Robot::resetBasicPosControl() const noexcept { World::instance()->getControllersForRobot(getId()).getBasicPosController() = std::make_unique<ai::control::BasicPosControl>(); }
+float Robot::getBallPosBallSensor() const noexcept { return ballPos; }
 
-void Robot::resetBallHandlePosControl() const noexcept {
-    World::instance()->getControllersForRobot(getId()).getBallHandlePosController() = std::make_unique<ai::control::BallHandlePosControl>();
-}
-
-ai::control::ShotController *Robot::getShotController() const noexcept { return World::instance()->getControllersForRobot(getId()).getShotController().get(); }
-
-ai::control::NumTreePosControl *Robot::getNumTreePosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getNumTreePosController().get(); }
-
-ai::control::BasicPosControl *Robot::getBasicPosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getBasicPosController().get(); }
-
-ai::control::BallHandlePosControl *Robot::getBallHandlePosControl() const noexcept { return World::instance()->getControllersForRobot(getId()).getBallHandlePosController().get(); }
+void Robot::setBallPosBallSensor(float _ballPos) noexcept { Robot::ballPos = _ballPos; }
 
 const Vector2 &Robot::getPidPreviousVel() const noexcept { return pidPreviousVel; }
 
@@ -116,6 +101,10 @@ double Robot::getDistanceToBall() const noexcept { return distanceToBall; }
 
 void Robot::setDistanceToBall(double _distanceToBall) noexcept { Robot::distanceToBall = _distanceToBall; }
 
+double Robot::getAngleDiffToBall() const noexcept { return angleDiffToBall; }
+
+void Robot::setAngleDiffToBall(double _angleDiffToBall) noexcept { Robot::angleDiffToBall = _angleDiffToBall; }
+
 unsigned long Robot::getLastUpdatedWorldNumber() const noexcept { return lastUpdatedWorldNumber; }
 
 void Robot::setLastUpdatedWorldNumber(unsigned long _lastUpdatedWorldNumber) noexcept { Robot::lastUpdatedWorldNumber = _lastUpdatedWorldNumber; }
@@ -124,6 +113,8 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
     if (ai::Constants::FEEDBACK_ENABLED()) {
         setWorkingBallSensor(feedback.ballsensorisworking());
         setBatteryLow(feedback.batterylow());
+        setBallSensorSeesBall(feedback.hasball());
+        setBallPosBallSensor(feedback.ballpos());
     }
 }
 
@@ -131,11 +122,7 @@ void Robot::setRobotType(RobotType _type) noexcept { this->type = _type; }
 
 RobotType Robot::getRobotType() const noexcept { return type; }
 
-bool Robot::isFiftyWatt() const noexcept {
-    return getRobotType() == RobotType::FIFTY_WATT;
-}
+bool Robot::isFiftyWatt() const noexcept { return getRobotType() == RobotType::FIFTY_WATT; }
 
-bool Robot::isThirtyWatt() const noexcept {
-    return getRobotType() == RobotType::THIRTY_WATT;
-}
+bool Robot::isThirtyWatt() const noexcept { return getRobotType() == RobotType::THIRTY_WATT; }
 }  // namespace rtt::world_new::robot

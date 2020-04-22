@@ -33,18 +33,11 @@ class PlayChecker {
      */
     void update(world_new::World* world) noexcept;
 
-    /**
-     * Checks whether the play is still valid
-     * @param play Play to check
-     * @return play->isValidPlay(world);
-     */
-    [[nodiscard]] bool isValid(Play* play) const noexcept;
-
    private:
     /**
      * An array of all the plays
      */
-    std::vector<std::unique_ptr<Play>> allPlays{};
+    std::vector<std::unique_ptr<Play>>* allPlays{};
 
     /**
      * Current world, do not use before update()

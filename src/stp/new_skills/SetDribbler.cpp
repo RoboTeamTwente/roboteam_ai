@@ -13,7 +13,7 @@ void SetDribbler::onInitialize() noexcept {}
 Status SetDribbler::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * Constants::MAX_DRIBBLER_CMD();
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
@@ -27,5 +27,9 @@ Status SetDribbler::onUpdate(const StpInfo &info) noexcept {
 }
 
 void SetDribbler::onTerminate() noexcept {}
+
+const char *SetDribbler::getName() {
+    return "Set Dribbler";
+}
 
 }  // namespace rtt::ai::stp::skill
