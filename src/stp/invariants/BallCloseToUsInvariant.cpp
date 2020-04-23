@@ -20,7 +20,7 @@ BallCloseToUsInvariant::BallCloseToUsInvariant() noexcept {
     piecewiseLinearFunction = nativeformat::param::createParam(0, 255, 0, "testParam");
     piecewiseLinearFunction->setYAtX(255, 0.0);
     piecewiseLinearFunction->setYAtX(255, stp::control_constants::BALL_IS_CLOSE + stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->linearRampToYAtX(0, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
 }
 
