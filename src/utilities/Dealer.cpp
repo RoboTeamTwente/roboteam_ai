@@ -59,7 +59,6 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
         }
         scores.push_back(row);
     }
-
     return scores;
 }
 
