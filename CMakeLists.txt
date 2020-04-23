@@ -30,14 +30,15 @@ if (APPLE)
             /usr/local/lib/libgmock.a
             /usr/local/lib/libgmock_main.a
             )
-else(NOT APPLE)
+else (NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
     set(GTEST_LIB
             PRIVATE gtest
             PRIVATE gmock)
-endif()
+endif ()
 
+find_package(Pagmo REQUIRED)
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(SDL2 REQUIRED sdl2)
@@ -146,6 +147,10 @@ set(CONDITIONS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
         )
 
+set(NEW_PLAYS_ANALYSIS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
+        )
+
 set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
@@ -252,6 +257,7 @@ set(AI_SOURCES
         )
 
 set(AI_LIBS
+        PRIVATE Pagmo::pagmo
         PRIVATE Qt5::Widgets
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts

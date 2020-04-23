@@ -10,7 +10,6 @@ ui::MainWindow* window;
 void runBehaviourTrees() {
     rtt::ApplicationManager app{ window };
     app.start();
-    app.checkForShutdown();
 }
 
 void setDarkTheme() {

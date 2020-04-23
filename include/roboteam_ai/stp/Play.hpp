@@ -5,15 +5,16 @@
 #ifndef RTT_PLAY_HPP
 #define RTT_PLAY_HPP
 
+#include <stp/invariants/BaseInvariant.h>
 #include <utilities/Constants.h>
 #include <utilities/Dealer.h>
 
 #include <array>
-#include <stp/invariants/BaseInvariant.h>
+#include <pagmo/archipelago.hpp>
 
 #include "Role.hpp"
-#include "world_new/World.hpp"
 #include "stp/new_constants/ControlConstants.h"
+#include "world_new/World.hpp"
 
 namespace rtt::ai::stp {
 
@@ -26,7 +27,7 @@ class Play {
     /**
      * Initializes tacticInfos vector and calls distributeRoles
      */
-    void initialize() noexcept;
+    void initialize(const pagmo::archipelago& pArchipelago) noexcept;
 
     /**
      * Updated the stored world
@@ -148,6 +149,11 @@ protected:
      * closest to the ball should try to intercept
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
+
+    /**
+     * The archipelago containing the islands that compute pass position
+     */
+    const pagmo::archipelago* archipelago;
 
    private:
     /**

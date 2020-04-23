@@ -9,6 +9,7 @@
 #include <stp/PlayChecker.hpp>
 #include <stp/PlayDecider.hpp>
 #include <interface/widgets/mainWindow.h>
+#include "pagmo/archipelago.hpp"
 
 namespace rtt {
 
@@ -26,6 +27,11 @@ private:
     ai::interface::MainWindow* mainWindow;
 
     /**
+     * The archipelago that contains islands that calculate pass positions for example
+     */
+    pagmo::archipelago archipelago{};
+
+    /**
      * Current best play as picked by checker + decider
      */
     ai::stp::Play* currentPlay{nullptr};
@@ -34,10 +40,12 @@ private:
      * Checks which plays are valid out of all the plays
      */
     rtt::ai::stp::PlayChecker playChecker;
+
     /**
      * Checks, out of the valid plays, which play is the best to choose
      */
     rtt::ai::stp::PlayDecider playDecider;
+
     /**
      * Function that decides whether to change plays given a world and field.
      * @param _world the current world state
@@ -45,11 +53,21 @@ private:
      */
     void decidePlay(world_new::World* _world);
 
+    /**
+     * This function generates the plays vector
+     */
+    void setPlays();
+
+    /**
+     * Clear the archipelago and create new islands with an up to date world
+     */
+    void updateArchipelago();
+
    public:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+    std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays{};
 
     ApplicationManager(ApplicationManager const&) = delete;
     ApplicationManager& operator=(ApplicationManager const&) = delete;
