@@ -25,8 +25,8 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     return mapFromAssignments(allRobots, flagMap, assignment);
 }
 
-/* assignments now has the robot index in allRobots (not id) at the role index, and is ordered according to the roleNames
-* for example: assignments[0] = 2 // index
+/* assignment now has the robot index in allRobots (not id) at the role index, and is ordered according to the roleNames
+* for example: assignment[0] = 2 // index
 * and roleNames[0] = role_1
 * robot_id = allRobots[index]
 * --> we can therefore make a map of <rolename, robot_id>
