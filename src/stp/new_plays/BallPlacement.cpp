@@ -28,7 +28,7 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::Halt>(role::Halt("halt_10"))};
     }
 
-    uint8_t BallPlacement::score(world_new::World* world) noexcept { return 100; }
+    uint8_t BallPlacement::score(world_new::World* world) noexcept { return 0; }
 
     void BallPlacement::calculateInfoForRoles() noexcept {
         if (stpInfos.find("ball_placer") != stpInfos.end()) {

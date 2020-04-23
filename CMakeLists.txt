@@ -122,7 +122,12 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallPlacementUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToUsInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
         )
 
 set(CONTROL_SOURCES
