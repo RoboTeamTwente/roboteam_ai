@@ -26,7 +26,7 @@ uint8_t DistanceFromBallInvariant::metricCheck(world_new::view::WorldDataView wo
     auto& us = world.getUs();
     auto ballPos = world.getBall()->get()->getPos();
     std::vector<double> distanceMetrics{};
-    distanceMetrics.reserve(control_constants::MAX_ROBOT_COUNT);
+    distances.reserve(control_constants::MAX_ROBOT_COUNT);
 
     std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
 
