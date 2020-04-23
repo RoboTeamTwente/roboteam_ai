@@ -17,7 +17,7 @@ BallCloseToUsInvariant::BallCloseToUsInvariant() noexcept {
      *   (0,0)  |--------XXXXXX
      *              (Distance from the ball)
      */
-    piecewiseLinearFunction = nativeformat::param::createParam(0, 255, 0, "testParam");
+    piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "testParam");
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, stp::control_constants::BALL_IS_CLOSE + stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
