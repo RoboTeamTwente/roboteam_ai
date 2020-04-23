@@ -5,7 +5,7 @@
 #include "stp/invariants/BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-bool BaseInvariant::checkInvariant(world_new::view::WorldDataView world, const Field *field, const uint8_t cutOff) const noexcept {
+bool BaseInvariant::checkInvariant(world_new::view::WorldDataView world, const world::Field *field, const uint8_t cutOff) const noexcept {
     return metricCheck(world, field) >= cutOff;
 }
 }  // namespace rtt::ai::stp::invariant
