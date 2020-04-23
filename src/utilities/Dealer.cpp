@@ -25,9 +25,10 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     return mapFromAssignments(allRobots, flagMap, assignment);
 }
 
-/* assignments now has the robot ids at the role index, and is ordered according to the roleNames
-* for example: assignments[0] = 2 // robot_id
+/* assignments now has the robot index in allRobots (not id) at the role index, and is ordered according to the roleNames
+* for example: assignments[0] = 2 // index
 * and roleNames[0] = role_1
+* robot_id = allRobots[index]
 * --> we can therefore make a map of <rolename, robot_id>
 */
 std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const std::vector<v::RobotView> &allRobots,
@@ -39,10 +40,8 @@ std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const s
     }
     unordered_map<string, v::RobotView> result;
     for (int i = 0; i < orderedRoleNames.size(); i++) {
-        for (auto robot : allRobots) {
-            if (robot->getId() == assignment[i]) {
-                result.insert({orderedRoleNames[i], robot});
-            }
+        if (assignment[i] != -1) {
+            result.insert({orderedRoleNames[i], allRobots[assignment[i]]});
         }
     }
     return result;
@@ -60,6 +59,7 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
         }
         scores.push_back(row);
     }
+
     return scores;
 }
 
