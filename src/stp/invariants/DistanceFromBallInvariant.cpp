@@ -25,12 +25,12 @@ DistanceFromBallInvariant::DistanceFromBallInvariant() noexcept {
 uint8_t DistanceFromBallInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     auto ballPos = world.getBall()->get()->getPos();
-    std::vector<double> distanceMetrics{};
+    std::vector<double> distances{};
     distances.reserve(control_constants::MAX_ROBOT_COUNT);
 
-    std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
+    std::transform(us.begin(), us.end(), std::back_inserter(distances), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
 
-    return calculateMetric(*std::min_element(distanceMetrics.begin(), distanceMetrics.end()));
+    return calculateMetric(*std::min_element(distances.begin(), distances.end()));
 }
 
 uint8_t DistanceFromBallInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
