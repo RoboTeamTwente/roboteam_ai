@@ -16,10 +16,10 @@ DistanceFromBallInvariant::DistanceFromBallInvariant() noexcept {
      *   (0,0)  |----------------XXXXXXX
      *              (Distance to Ball)
      */
-    piecewiseLinearFunction = nativeformat::param::createParam(0, 255, 0, "testParam");
-    piecewiseLinearFunction->setYAtX(255, 0.0);
-    piecewiseLinearFunction->linearRampToYAtX(0, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->setYAtX(0, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "distanceFromBall");
+    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
+    piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
 }
 
 uint8_t DistanceFromBallInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
