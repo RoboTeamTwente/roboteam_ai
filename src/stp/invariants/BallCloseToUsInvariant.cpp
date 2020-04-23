@@ -21,7 +21,7 @@ BallCloseToUsInvariant::BallCloseToUsInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(255, 0.0);
     piecewiseLinearFunction->setYAtX(255, stp::control_constants::BALL_IS_CLOSE + stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->linearRampToYAtX(0, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->setYAtX(0, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
 }
 
 uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
