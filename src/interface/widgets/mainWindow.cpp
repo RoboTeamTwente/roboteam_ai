@@ -1,9 +1,11 @@
 #include "interface/widgets/mainWindow.h"
+
 #include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
-#include <treeinterp/BTFactory.h>
+
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
+
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
@@ -13,7 +15,7 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent, ApplicationManager *manager) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
@@ -43,7 +45,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
-    auto mainControlsWidget = new MainControlsWidget(this);
+    auto mainControlsWidget = new MainControlsWidget(this, manager);
     vLayout->addWidget(mainControlsWidget);
 
     auto behaviourTreeWidget = new QWidget(this);
@@ -104,13 +106,14 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     // update mainwindow and field visualization
     auto *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start(100);  // 10fps
+    timer->start(20);  // 50fps
 
     // start the UI update cycles
     // these are slower than the tick rate
     auto *robotsTimer = new QTimer(this);
     connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
-    connect(robotsTimer, SIGNAL(timeout()), this, SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
+    connect(robotsTimer, SIGNAL(timeout()), this,
+            SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
     robotsTimer->start(500);  // 2fps
@@ -168,25 +171,16 @@ void MainWindow::updateRobotsWidget() {
     }
 }
 
-void MainWindow::refreshSignal() { robotDealer::RobotDealer::refresh(); }
-
-void MainWindow::refreshJSONSignal() {
-    BTFactory::makeTrees();
-    robotDealer::RobotDealer::refresh();
-}
-
 void MainWindow::updatePlay(stp::Play *play) {
     stpWidget->updateContents(play);
-    this->updateStpWidgets();
+    updateStpWidgets();
 }
 
-void MainWindow::setPlayForRobot(std::string const& str, uint8_t id) {
-    visualizer->setPlayForRobot(str, id);
-}
+void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
 
-void MainWindow::setKeeperRole(stp::Role * keeperRole, stp::Status state) {
-    keeperStpWidget->updateKeeperContents(keeperRole, state);
-}
+void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keeperStpWidget->updateKeeperContents(keeperRole, state); }
+
+void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
 
 }  // namespace rtt::ai::interface
 

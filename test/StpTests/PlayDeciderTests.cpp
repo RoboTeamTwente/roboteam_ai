@@ -3,13 +3,24 @@
 //
 
 #include <gtest/gtest.h>
+#include <test/helpers/WorldHelper.h>
 
-#include <stp/PlayDecider.hpp>
 #include <stp/PlayChecker.hpp>
+#include <stp/PlayDecider.hpp>
+
+class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
+    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 255; }
+};
+
+class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
+    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 0; }
+};
 
 class AlwaysValid : public rtt::ai::stp::Play {
    public:
-    AlwaysValid(std::string playName) : Play(playName) {}
+    AlwaysValid() : Play() {
+        startPlayInvariants.emplace_back(std::make_unique<trueInvariant>());
+    }
 
     uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
 
@@ -17,23 +28,26 @@ class AlwaysValid : public rtt::ai::stp::Play {
 
     void calculateInfoForRoles() noexcept override {}
 
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return true; }
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return true; }
     bool shouldRoleSkipEndTactic() override { return false; }
+
+    const char *getName() override { return "Always Valid Play"; }
 };
 
 class AlwaysFalse : public rtt::ai::stp::Play {
    public:
-    AlwaysFalse(std::string playName) : Play(playName) {}
+    AlwaysFalse() : Play() {
+        startPlayInvariants.emplace_back(std::make_unique<falseInvariant>());
+    }
+
     uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
     void calculateInfoForRoles() noexcept override {}
 
-    bool isValidPlayToStart(rtt::world_new::World *world) noexcept override { return false; }
-    bool isValidPlayToKeep(rtt::world_new::World *world) noexcept override { return false; }
     bool shouldRoleSkipEndTactic() override { return false; }
+
+    const char *getName() override { return "Always Invalid Play"; }
 };
 
 class AnotherAlwaysTrue : public AlwaysValid {
@@ -45,10 +59,22 @@ TEST(PlayCheckerTests, testHighestScore) {
 
     PlayChecker checker{};
     std::vector<std::unique_ptr<Play>> plays;
-    plays.emplace_back(std::make_unique<AlwaysValid>("Always Valid"));
-    plays.emplace_back(std::make_unique<AlwaysFalse>("Always False"));
-    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>("Also Always Valid"));
+    plays.emplace_back(std::make_unique<AlwaysValid>());
+    plays.emplace_back(std::make_unique<AlwaysFalse>());
+    plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
+    auto instance = rtt::world_new::World::instance();
+
+    proto::GeometryFieldSize size {};
+    size.set_field_length(250);
+
+    auto world_msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
+    rtt::ai::world::Field field{};
+
+    instance->updateWorld(world_msg);
+    instance->updateField(field);
+
+    checker.update(instance);
     checker.setPlays(plays);
 
     PlayDecider decider{};

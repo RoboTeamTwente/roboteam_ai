@@ -5,6 +5,7 @@
 #ifndef RTT_GETBALL_H
 #define RTT_GETBALL_H
 
+#include <include/roboteam_ai/utilities/Constants.h>
 #include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {
@@ -51,9 +52,9 @@ class GetBall : public Tactic {
     bool isEndTactic() noexcept override;
 
     /**
-     * keep track of when the ball is close enough that we should turn on the dribbler and rotate to the right angle
+     * Gets the tactic name
      */
-    double ballDistanceMargin = 3 * Constants::ROBOT_RADIUS();
+    const char *getName() override;
 };
 }  // namespace rtt::ai::stp::tactic
 

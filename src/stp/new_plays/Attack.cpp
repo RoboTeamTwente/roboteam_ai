@@ -2,13 +2,22 @@
 // Created by jordi on 24-03-20.
 //
 
+#include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_roles/Attacker.h"
 #include "stp/new_roles/TestRole.h"
 
 namespace rtt::ai::stp::play {
 
-Attack::Attack(std::string playName) : Play(playName) {
+Attack::Attack() : Play() {
+    // TODO: decide start invariants
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    // TODO: decide keep invariants
+/*    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
+
     // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Attacker>(role::Attacker("attacker")),   std::make_unique<TestRole>(TestRole("test_role_1")),
@@ -20,7 +29,7 @@ Attack::Attack(std::string playName) : Play(playName) {
 }
 
 // TODO: Determine score of play
-uint8_t Attack::score(world_new::World* world) noexcept { return 100; }
+uint8_t Attack::score(world_new::World* world) noexcept { return 10; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -30,7 +39,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     flagMap.insert({"attacker", {closeToBallFlag}});
-    /*flagMap.insert({"test_role_1", {notImportant}});
+    flagMap.insert({"test_role_1", {notImportant}});
     flagMap.insert({"test_role_2", {notImportant}});
     flagMap.insert({"test_role_3", {notImportant}});
     flagMap.insert({"test_role_4", {notImportant}});
@@ -39,7 +48,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     flagMap.insert({"test_role_7", {notImportant}});
     flagMap.insert({"test_role_8", {notImportant}});
     flagMap.insert({"test_role_9", {notImportant}});
-    flagMap.insert({"test_role_10", {notImportant}});*/
+    flagMap.insert({"test_role_10", {notImportant}});
 
     return flagMap;
 }
@@ -60,7 +69,7 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     auto sourcePoint = world->getWorld().value().getBall().value()->getPos();
 
     // Get the longest line section on the visible part of the goal
-    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, world->getWorld().value());
+    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, world->getWorld().value().getUs());
 
     // If there is no empty location to shoot at, just shoot at the center of the goal
     if (openSegments.empty()) return field.getTheirGoalCenter();
@@ -92,7 +101,7 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     }
 }
 
-Line Attack::getAimPoints(const Field &field, const Vector2 &sourcePoint) {
+Line Attack::getAimPoints(const world::Field &field, const Vector2 &sourcePoint) {
     Line goalSides = FieldComputations::getGoalSides(field, false);
 
     // Aim points are located some distance away from the edges of the goal to take into account inaccuracies in the shot
@@ -116,10 +125,10 @@ const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
     return openSegments[bestIndex];
 }
 
-bool Attack::isValidPlayToStart(world_new::World* world) noexcept { return true; }
-
-bool Attack::isValidPlayToKeep(world_new::World* world) noexcept { return true; }
-
 bool Attack::shouldRoleSkipEndTactic() { return false; }
+
+const char *Attack::getName() {
+    return "Attack";
+}
 
 } // namespace rtt::ai::stp::play

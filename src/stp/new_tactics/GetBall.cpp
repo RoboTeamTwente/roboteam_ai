@@ -9,8 +9,6 @@
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() {
     skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-
-    skills.initialize();
 }
 
 void GetBall::onInitialize() noexcept {}
@@ -27,7 +25,7 @@ StpInfo GetBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     // the robot will go to the position of the ball
     double ballDistance = (ballPosition - robotPosition).length();
     Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - stp::control_constants::CENTER_TO_FRONT - stp::control_constants::BALL_RADIUS);
-    if (ballDistance < ballDistanceMargin) {
+    if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
         skillInfo.setAngle((ballPosition - robotPosition).angle());
         skillInfo.setDribblerSpeed(100);
     }
@@ -44,6 +42,10 @@ bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return !info.get
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
+}
+
+const char *GetBall::getName() {
+    return "Get Ball";
 }
 
 }  // namespace rtt::ai::stp::tactic

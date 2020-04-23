@@ -7,12 +7,8 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <stp/new_constants/ControlConstants.h>
+#include <world_new/Robot.hpp>
 
-#include <include/roboteam_ai/world_new/Robot.hpp>
-
-namespace rtt::world_new::robot {
-class RobotControllers;
-}
 namespace rtt::world_new::view {
 
 /**
@@ -94,12 +90,6 @@ class RobotView {
      * @return A vector2 representation of the kicker
      */
     [[nodiscard]] Vector2 getKicker() const noexcept;
-
-    /**
-     * Gets the controllers for a robot
-     * @return World->getControllersForRobot(robotPtr->id);
-     */
-    [[nodiscard]] robot::RobotControllers &getControllers() const noexcept;
 };
 
 }  // namespace rtt::world_new::view

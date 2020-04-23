@@ -5,7 +5,6 @@
 #ifndef RTT_SKILL_H
 #define RTT_SKILL_H
 
-#include <bt/Node.h>
 #include <roboteam_proto/RobotCommand.pb.h>
 #include <world_new/views/RobotView.hpp>
 #include "stp/StpInfo.h"
@@ -88,12 +87,6 @@ class Skill {
 
    public:
     /**
-     * Gets the name of the skill, must be a literal
-     * @return [{additional_info}] {class_name}
-     */
-    std::string_view name() const noexcept;
-
-    /**
      * Gets the status from the last time update() was called
      * @return this->currentStatus
      */
@@ -122,6 +115,11 @@ class Skill {
      * Virtual dtor that ensures proper destruction
      */
     virtual ~Skill() = default;
+
+    /**
+     * Gets the current skill name
+     */
+    virtual const char* getName() = 0;
 };
 }  // namespace rtt::ai::stp
 

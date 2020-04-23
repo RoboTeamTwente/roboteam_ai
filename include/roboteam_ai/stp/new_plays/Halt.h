@@ -9,16 +9,12 @@
 
 namespace rtt::ai::stp::play {
 
-    class Halt : public Play {
-    public:
-        /**
-         * Constructor that initializes roles with roles that are necessary for this play
-         */
-        Halt(std::string playName);
-
-        bool isValidPlayToStart(world_new::World* world) noexcept override;
-
-        bool isValidPlayToKeep(world_new::World* world) noexcept override;
+class Halt : public Play {
+   public:
+    /**
+     * Constructor that initializes roles with roles that are necessary for this play
+     */
+    Halt();
 
         /**
          * Gets the score for the current play
@@ -31,21 +27,24 @@ namespace rtt::ai::stp::play {
          */
         uint8_t score(world_new::World* world) noexcept override;
 
-        /**
-         * Assigns robots to roles of this play
-         */
-        Dealer::FlagMap decideRoleFlags() const noexcept override;
+    /**
+     * Assigns robots to roles of this play
+     */
+    Dealer::FlagMap decideRoleFlags() const noexcept override;
 
-        /**
-         * Calculates info for the roles
-         */
-        void calculateInfoForRoles() noexcept override;
+    /**
+     * Calculates info for the roles
+     */
+    void calculateInfoForRoles() noexcept override;
 
-    protected:
-        bool shouldRoleSkipEndTactic() override;
-    };
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
+
+   protected:
+    bool shouldRoleSkipEndTactic() override;
+};
 }  // namespace rtt::ai::stp::play
 
-
-
-#endif //RTT_HALT_PLAY_H
+#endif  // RTT_HALT_PLAY_H

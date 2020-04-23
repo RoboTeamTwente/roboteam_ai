@@ -10,7 +10,6 @@ namespace rtt::ai::stp::tactic {
 
 BlockRobot::BlockRobot() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 void BlockRobot::onInitialize() noexcept {}
@@ -57,4 +56,9 @@ bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
     auto cond = (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
     return cond;
 }
+
+const char *BlockRobot::getName() {
+    return "Block Robot";
+}
+
 }  // namespace rtt::ai::stp::tactic

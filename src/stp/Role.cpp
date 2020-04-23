@@ -8,7 +8,7 @@ namespace rtt::ai::stp {
 Status Role::update(StpInfo const& info) noexcept {
     // Failure if the required data is not present
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("Required information missing in the tactic info");
+        RTT_WARNING("Required information missing in the tactic info")
         return Status::Failure;
     }
 
@@ -48,12 +48,16 @@ Status Role::update(StpInfo const& info) noexcept {
 
 bool Role::finished() const noexcept { return robotTactics.finished(); }
 
-    std::optional<world_new::view::RobotView> const&Role::getCurrentRobot() const {
-        return currentRobot;
-    }
+void Role::forceNextTactic() noexcept {
+    robotTactics.skip_n(1);
+}
 
-    Tactic * Role::getCurrentTactic() {
-        return robotTactics.get_current();
-    }
+std::optional<world_new::view::RobotView> const&Role::getCurrentRobot() const {
+    return currentRobot;
+}
+
+Tactic * Role::getCurrentTactic() {
+    return robotTactics.get_current();
+}
 
 }  // namespace rtt::ai::stp

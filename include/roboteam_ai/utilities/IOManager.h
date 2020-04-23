@@ -59,7 +59,7 @@ class IOManager {
     void init(int teamId);
     const proto::World &getWorldState();
     const proto::SSL_GeometryData &getGeometryData();
-    const proto::RobotFeedback &getRobotFeedback();
+
     const proto::SSL_Referee &getRefereeData();
     const proto::DemoRobot &getDemoInfo();
 

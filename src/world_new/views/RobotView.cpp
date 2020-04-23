@@ -31,8 +31,6 @@ Vector2 RobotView::getKicker() const noexcept {
 
 RobotView::operator bool() const noexcept { return get() != nullptr; }
 
-robot::RobotControllers &RobotView::getControllers() const noexcept { return World::instance()->getControllersForRobot(get()->getId()); }
-
 bool RobotView::hasBallAccordingToVision(double maxDist, double maxAngle) const noexcept {
     auto dist = get()->getDistanceToBall();
     auto angle = get()->getAngleDiffToBall();

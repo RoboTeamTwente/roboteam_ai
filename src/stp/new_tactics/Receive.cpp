@@ -11,7 +11,6 @@ namespace rtt::ai::stp::tactic {
 Receive::Receive() {
     // Create state machine of skills and initialize first skill
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-    skills.initialize();
 }
 
 void Receive::onInitialize() noexcept {}
@@ -58,6 +57,10 @@ double Receive::calculateAngle(const world_new::view::RobotView &robot, const wo
 int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
     double turnOnDribblerDistance = 1.0;
     return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
+}
+
+const char *Receive::getName() {
+    return "Receive";
 }
 
 }  // namespace rtt::ai::stp::tactic

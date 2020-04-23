@@ -14,11 +14,7 @@ public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Attack(std::string playName);
-
-    bool isValidPlayToStart(world_new::World* world) noexcept override;
-
-    bool isValidPlayToKeep(world_new::World* world) noexcept override;
+    Attack();
 
     /**
      * Gets the score for the current play
@@ -41,6 +37,11 @@ public:
      */
     void calculateInfoForRoles() noexcept override;
 
+    /**
+     * Gets the play name
+     */
+    const char* getName() override;
+
 protected:
     bool shouldRoleSkipEndTactic() override;
 
@@ -57,7 +58,7 @@ private:
      * @param fromPoint Position to shoot from
      * @return Line between the two aim points
      */
-    Line getAimPoints(const Field &field, const Vector2 &fromPoint);
+    Line getAimPoints(const world::Field &field, const Vector2 &fromPoint);
 
     /**
      * Returns the longest line from openSegments
