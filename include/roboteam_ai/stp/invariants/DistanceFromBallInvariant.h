@@ -1,17 +1,18 @@
 //
-// Created by timovdk on 4/2/20.
+// Created by timovdk on 4/21/20.
 //
 
-#ifndef RTT_BALLGOTSHOTINVARIANT_H
-#define RTT_BALLGOTSHOTINVARIANT_H
+#ifndef RTT_DISTANCEFROMBALLINVARIANT_H
+#define RTT_DISTANCEFROMBALLINVARIANT_H
 
 #include <NFParam/Param.h>
+
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-class BallGotShotInvariant : public BaseInvariant {
+class DistanceFromBallInvariant : public BaseInvariant {
    public:
-    BallGotShotInvariant() noexcept;
+    DistanceFromBallInvariant() noexcept;
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
@@ -30,4 +31,4 @@ class BallGotShotInvariant : public BaseInvariant {
 };
 }  // namespace rtt::ai::stp::invariant
 
-#endif  // RTT_BALLGOTSHOTINVARIANT_H
+#endif  // RTT_DISTANCEFROMBALLINVARIANT_H
