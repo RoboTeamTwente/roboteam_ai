@@ -27,7 +27,7 @@ BallCloseToUsInvariant::BallCloseToUsInvariant() noexcept {
 uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     auto ballPos = world.getBall()->get()->getPos();
-    std::vector<double> distanceMetrics{};
+    std::vector<double> distances{};
 
     std::transform(us.begin(), us.end(), std::back_inserter(distances), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
 
