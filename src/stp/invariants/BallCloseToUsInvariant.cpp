@@ -29,9 +29,9 @@ uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world
     auto ballPos = world.getBall()->get()->getPos();
     std::vector<double> distanceMetrics{};
 
-    std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
+    std::transform(us.begin(), us.end(), std::back_inserter(distances), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
 
-    return calculateMetric(*std::min_element(distanceMetrics.begin(), distanceMetrics.end()));
+    return calculateMetric(*std::min_element(distances.begin(), distances.end()));
 }
 
 uint8_t BallCloseToUsInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
