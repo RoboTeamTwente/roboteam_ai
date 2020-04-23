@@ -22,7 +22,7 @@ const double TURN_ON_DRIBBLER_DISTANCE = 3 * ROBOT_RADIUS;
 // Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
 constexpr double BALL_IS_MOVING_VEL = 0.5;
-constexpr double BALL_GOT_SHOT_LIMIT = 1.5;
+constexpr double BALL_GOT_SHOT_LIMIT = 1.3;
 constexpr double BALL_IS_MOVING_SLOW_LIMIT = 0.5;
 constexpr double BALL_IS_CLOSE = 0.5;
 constexpr double BALL_RADIUS = 0.0215;
