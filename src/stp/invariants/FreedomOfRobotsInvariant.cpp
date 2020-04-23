@@ -15,9 +15,9 @@ FreedomOfRobotsInvariant::FreedomOfRobotsInvariant() noexcept {
      *          |      XX
      *          |     XX
      *   (0,0)  |XXXXXX---------
-     *              (Distance to closest robot)
+     *              (Distance to closest enemy robot)
      */
-    piecewiseLinearFunction = nativeformat::param::createParam(stp::control_constants::FUZZY_FALSE, stp::control_constants::FUZZY_TRUE, stp::control_constants::FUZZY_FALSE, "distance to closest robot");
+    piecewiseLinearFunction = nativeformat::param::createParam(stp::control_constants::FUZZY_FALSE, stp::control_constants::FUZZY_TRUE, stp::control_constants::FUZZY_FALSE, "distance to closest enemy robot");
     piecewiseLinearFunction->setYAtX(stp::control_constants::FUZZY_FALSE, 0.0);
     piecewiseLinearFunction->setYAtX(stp::control_constants::FUZZY_FALSE, stp::control_constants::DISTANCE_TO_ROBOT_CLOSE + stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->linearRampToYAtX(stp::control_constants::FUZZY_TRUE, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
@@ -33,6 +33,8 @@ uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView wor
         auto distance = (world.getRobotClosestToPoint(robotPosition, world_new::them)->getPos() - robotPosition).length();
         return calculateMetric(distance);
     });
+
+    return std::accumulate(distanceMetrics.begin(), distanceMetrics.end(), 0) / distanceMetrics.size();
 }
 
 uint8_t FreedomOfRobotsInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
