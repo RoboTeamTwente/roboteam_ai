@@ -41,9 +41,6 @@ class Robot;
             static rtt::Vector2
             twoLineIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1, const Vector2 &b2);
 
-            static double
-            twoLineForwardIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1, const Vector2 &b2);
-
             static int lineOrientation(const Vector2 &p, const Vector2 &q, const Vector2 &r);
 
             static bool
