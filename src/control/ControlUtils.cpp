@@ -9,13 +9,6 @@
 #include "world_new/World.hpp"
 
 namespace rtt::ai::control {
-// https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
-// Given three colinear points p, q, r, the function checks if
-// point q lies on line segment 'pr'
-bool ControlUtils::onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r) {
-    return q.x <= fmax(p.x, r.x) && q.x >= fmin(p.x, r.x) && q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
-} // Code clone
-
 // To find orientation of ordered triplet (p, q, r).
 // The function returns following values
 // 0 --> p, q and r are colinear
@@ -30,28 +23,6 @@ int ControlUtils::lineOrientation(const Vector2 &p, const Vector2 &q, const Vect
 
     return (val > 0) ? 1 : 2;  // clock or counterclock wise
 }
-bool ControlUtils::lineSegmentsIntersect(const Vector2 &lineAStart, const Vector2 &lineAEnd, const Vector2 &lineBStart, const Vector2 &lineBEnd) {
-    int o1 = lineOrientation(lineAStart, lineAEnd, lineBStart);
-    int o2 = lineOrientation(lineAStart, lineAEnd, lineBEnd);
-    int o3 = lineOrientation(lineBStart, lineBEnd, lineAStart);
-    int o4 = lineOrientation(lineBStart, lineBEnd, lineAEnd);
-
-    // General case
-    if (o1 != o2 && o3 != o4) return true;
-
-    // Special Cases
-    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
-    if (o1 == 0 && onLineSegment(lineAStart, lineBStart, lineAEnd)) return true;
-
-    // p1, q1 and q2 are colinear and q2 lies on segment p1q1
-    if (o2 == 0 && onLineSegment(lineAStart, lineBEnd, lineAEnd)) return true;
-
-    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
-    if (o3 == 0 && onLineSegment(lineBStart, lineAStart, lineBEnd)) return true;
-
-    // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-    return o4 == 0 && onLineSegment(lineBStart, lineAEnd, lineBEnd);
-} // Code clone
 
 // Computes the absolute difference between 2 angles (the shortest orientation direction)
 /// both angles must go from[-pi,pi]!!
@@ -120,19 +91,6 @@ Vector2 ControlUtils::accelerationLimiter(const Vector2 &targetVel, const Vector
     }
     return prevVel + deltaVel.stretchToLength(finalAcceleration);
 }
-
-/// Get the intersection of two lines
-Vector2 ControlUtils::twoLineIntersection(const Vector2 &a1, const Vector2 &a2, const Vector2 &b1, const Vector2 &b2) {
-    // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
-    double denominator = ((a1.x - a2.x) * (b1.y - b2.y) - (a1.y - a2.y) * (b1.x - b2.x));
-    if (denominator != 0) {
-        double numerator = ((a1.x - b1.x) * (b1.y - b2.y) - (a1.y - b1.y) * (b1.x - b2.x));
-        double t = numerator / denominator;
-        return (a1 + (Vector2){t, t} * (a2 - a1));
-    } else {
-        return Vector2();
-    }
-} // Code clone
 
 /// Calculate the force of a given vector + a certain type.
 /// the basic formula is: force = weight/distance^2 * unit vector

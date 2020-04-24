@@ -96,28 +96,6 @@ TEST(ControlUtils, accelerationLimiter) {
     }
 }
 
-
-
-// remember the function assumes three colinear points
-TEST(ControlUtils, onLineSegment) {
-    {
-        Vector2 A(0, 0), B(0, 100), C(1, 0);
-        EXPECT_FALSE(cr::ControlUtils::onLineSegment(A, B, C));
-    }
-    {
-        Vector2 A(0, 0), B(0, 1), C(0, 2);
-        EXPECT_TRUE(cr::ControlUtils::onLineSegment(A, B, C));
-    }
-    {
-        Vector2 A(0, 0), B(1, 1), C(2, 2);
-        EXPECT_TRUE(cr::ControlUtils::onLineSegment(A, B, C));
-    }
-    {
-        Vector2 A(-2, -2), B(1, 1), C(2, 2);
-        EXPECT_TRUE(cr::ControlUtils::onLineSegment(A, B, C));
-    }
-}
-
 TEST(ControlUtils, lineOrientation) {
     {
         Vector2 A(0, 0), B(0, 100), C(1, 0);
@@ -134,59 +112,6 @@ TEST(ControlUtils, lineOrientation) {
     {
         Vector2 A(-2, -2), B(1, 1), C(2, 2);
         EXPECT_EQ(cr::ControlUtils::lineOrientation(A, B, C), 0);
-    }
-}
-
-TEST(ControlUtils, lineSegmentsIntersect) {
-    {
-        Vector2 A(0, 0), B(1, 1), C(1, 0), D(0, 1);  // cross
-        EXPECT_TRUE(cr::ControlUtils::lineSegmentsIntersect(A, B, C, D));
-    }
-    {
-        Vector2 A(0, 1), B(1, 1), C(1, 0), D(1, 1);  // touch at corner
-        EXPECT_TRUE(cr::ControlUtils::lineSegmentsIntersect(A, B, C, D));
-    }
-    {
-        Vector2 A(-100, -2), B(2500, 0), C(-10, -1000), D(-1, 100);  // cross
-        EXPECT_TRUE(cr::ControlUtils::lineSegmentsIntersect(A, B, C, D));
-    }
-    {
-        Vector2 A(0, 0), B(0, 1), C(0, 2), D(0, 4);  // colinear and not touching
-        EXPECT_FALSE(cr::ControlUtils::lineSegmentsIntersect(A, B, C, D));
-    }
-    {
-        Vector2 A(0, 0), B(0, 1), C(0, 0.5), D(0, 4);  // colinear and touching
-        EXPECT_TRUE(cr::ControlUtils::lineSegmentsIntersect(A, B, C, D));
-    }
-}
-
-TEST(ControlUtils, line_intersection) {
-    {  // cross
-        Vector2 A(0, 0), B(2.4, 2.4), C(2.4, 0), D(0, 2.4);
-        Vector2 intersection = cr::ControlUtils::twoLineIntersection(A, B, C, D);
-        EXPECT_FLOAT_EQ(intersection.x, 1.2);
-        EXPECT_FLOAT_EQ(intersection.y, 1.2);
-    }
-
-    {  // cross with negative numbers
-        Vector2 A(-1, -1), B(1, 1), C(-1, 0), D(0, -1);
-        Vector2 intersection = cr::ControlUtils::twoLineIntersection(A, B, C, D);
-        EXPECT_EQ(intersection.x, -0.5);
-        EXPECT_EQ(intersection.y, -0.5);
-    }
-
-    {  // the segments are not touching but the lines can be made infintely long
-        Vector2 A(0, 1), B(0, 3), C(-1, 5), D(1, 5);
-        Vector2 intersection = cr::ControlUtils::twoLineIntersection(A, B, C, D);
-        EXPECT_EQ(intersection.x, 0);
-        EXPECT_EQ(intersection.y, 5);
-    }
-
-    {  // two parallel lines should return the empty vector
-        Vector2 A(0, 1), B(0, 3), C(-1, 1), D(-1, 5);
-        Vector2 intersection = cr::ControlUtils::twoLineIntersection(A, B, C, D);
-        EXPECT_EQ(intersection.x, 0);
-        EXPECT_EQ(intersection.y, 0);
     }
 }
 
