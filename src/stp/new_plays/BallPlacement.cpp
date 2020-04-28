@@ -3,7 +3,7 @@
 //
 
 #include "stp/new_plays/Halt.h"
-#include "stp/invariants/HaltGameStateInvariant.h"
+#include "include/roboteam_ai/stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/new_roles/BallPlacer.h"
 #include "stp/new_roles/Halt.h"

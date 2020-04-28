@@ -2,7 +2,7 @@
 // Created by ratoone on 27-03-20.
 //
 
-#include "stp/invariants/HaltGameStateInvariant.h"
+#include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai::stp::invariant {

@@ -119,17 +119,19 @@ set(NEW_PLAYS_SOURCES
 set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallPlacementUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/FreedomOfRobotsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemGameStateInvariant.cpp
         )
 
 set(CONTROL_SOURCES

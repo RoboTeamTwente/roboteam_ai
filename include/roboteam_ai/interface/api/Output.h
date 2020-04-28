@@ -16,6 +16,8 @@ typedef std::tuple<double, double, double> pidVals;
 
 class Output {
    private:
+    Output() {}
+
     static pidVals basicPID;
     static pidVals numTreePID;
     static pidVals forcePID;

@@ -2,8 +2,7 @@
 // Created by timovdk on 4/20/20.
 //
 
-#include "stp/invariants/BallPlacementThemGameStateInvariant.h"
-
+#include "stp/invariants/game_states/BallPlacementThemGameStateInvariant.h"
 #include <utilities/GameStateManager.hpp>
 
 namespace rtt::ai::stp::invariant {
