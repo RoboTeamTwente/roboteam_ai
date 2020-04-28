@@ -8,7 +8,9 @@
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-
+/** 
+ * Check if the ball is currently not owned by any team
+ */
 class BallIsFreeInvariant : public BaseInvariant {
 public:
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept override;
