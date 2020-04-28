@@ -7,9 +7,7 @@
 #include <stp/new_roles/TestRole.h>
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-#include "pagmo/algorithms/pso_gen.hpp"
 #include "stp/new_plays_analysis/PassProblem.h"
-#include "pagmo/population.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -29,6 +27,8 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("defender5")),    std::make_unique<TestRole>(TestRole("defender6")),
         std::make_unique<TestRole>(TestRole("defender7")),    std::make_unique<TestRole>(TestRole("defender8")),
         std::make_unique<TestRole>(TestRole("defender9"))};
+    currentPassLocation = {0,0};
+    currentPassScore = 1000;
 }
 
 
@@ -62,16 +62,19 @@ void Pass::calculateInfoForRoles() noexcept {
     const int numberOfDefenders = 2;
     auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
-    // TODO: is there really no better way to set data per role?
-    // Use this new information to assign the roles using the dealer.
-    // TODO: compute the passing position
-
     const Vector2 passingPosition = Vector2{archipelago->get_champions_x()[0][0], archipelago->get_champions_x()[0][1]};
 
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end()) {
-        std::cout<<field.getLeftmostX()<<std::endl;
-        stpInfos["pass_receiver"].setPositionToMoveTo(calculatePositionToPassTo(world, enemyRobots));
+        std::cout << field.getLeftmostX() << std::endl;
+
+        auto pos = archipelago->get_champions_x();
+        auto candidatePosition = Vector2(pos[0][0],pos[0][1]);
+        double candidatePassScore = archipelago->get_champions_f()[0][0];
+        auto chosenPosition = compareNewLocationToCurrentLocation(currentPassLocation, candidatePosition);
+        currentPassLocation = chosenPosition.first;
+        currentPassScore = chosenPosition.second;
+        stpInfos["pass_receiver"].setPositionToMoveTo(chosenPosition.first);
     }
 
     // Calculate Passer info
@@ -112,17 +115,32 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 
     return positions;
 }
-Vector2 Pass::calculatePositionToPassTo(world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-    auto pso = pagmo::pso_gen(2, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
-    PassProblem pro{};
-    pro.updateInfoForProblem(world);
+std::pair<Vector2, double>
+Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition) {
+    const std::vector<double> m = {0,1};
+    archipelago;
+    auto currentPositionScore = 1;
+    auto candidatePositionScore = 1;
 
-    auto pop = pagmo::population(pro, 10, 0);
+    auto cand = std::make_pair(candidatePosition, candidatePositionScore);
+    auto curr = std::make_pair(currentPosition, currentPositionScore);
 
-    auto evolved = pso.evolve(pop);
-    std::cout << evolved.champion_x()[0] << evolved.champion_x()[1] << std::endl;
+    // Always choose a score that is negative, if possible
+    if (currentPositionScore > 0 && !(candidatePositionScore > 0)) {
+        return cand;
+    }
 
-    return Vector2(evolved.champion_x()[0], evolved.champion_x()[1]);
+    // Ratio of scores
+    if (candidatePositionScore/currentPositionScore > 1.3) {
+        return cand;
+    }
+
+    // Proximity of candidate and current locations:
+    if ((currentPosition - candidatePosition).length() > 0.1 *  field.getFieldLength()) {
+        return std::make_pair(currentPosition, currentPositionScore);
+    }
+
+    return std::make_pair(candidatePosition, candidatePositionScore);
 
 }
 

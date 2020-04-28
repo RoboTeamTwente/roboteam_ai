@@ -18,6 +18,8 @@
 #include "stp/new_plays/Halt.h"
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/TestPlay.h"
+#include <pagmo/algorithms/pso.hpp>
+#include <pagmo/algorithms/pso_gen.hpp>
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -151,6 +153,8 @@ void ApplicationManager::setPlays() {
 
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem
+    auto pso = pagmo::pso(2, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
+
     ai::stp::PassProblem passProblem{};
     passProblem.updateInfoForProblem(world_new::World::instance());
     auto passPopulation = pagmo::population(passProblem, 10, 0);
@@ -159,6 +163,7 @@ void ApplicationManager::updateArchipelago() {
     archipelago = pagmo::archipelago{};
 
     /// Adding islands to the archipelago
-    archipelago.push_back(pagmo::island{pagmo::algorithm{}, passPopulation});
+    auto isl = pagmo::island{pagmo::algorithm{pagmo::pso_gen()}, passPopulation};
+    archipelago.push_back(isl);
 }
 }  // namespace rtt

@@ -54,7 +54,19 @@ class Pass : public Play {
    protected:
     bool shouldRoleSkipEndTactic() override;
 
-    Vector2 calculatePositionToPassTo(world_new::World *world, std::vector<world_new::view::RobotView> enemyRobots);
+    /**
+     * Decide whether or not we need to switch to a different pass location. Currently based on:
+     *      The ratio of the scores
+     *      The proximity of the locations
+     *      The proximity of the robot to either location
+     * @param candidatePosition the position suggested by the current iteration of the pass algorithm
+     * @param currentPosition the position suggested by the previous iteration of the pass algorithm
+     * @return true if desirable to switch
+     */
+    std::pair<Vector2, double> compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition);
+
+    Vector2 currentPassLocation;
+    double currentPassScore;
 };
 }  // namespace rtt::ai::stp::play
 
