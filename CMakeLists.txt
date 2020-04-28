@@ -136,6 +136,10 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.cpp
         )
 
 set(CONTROL_SOURCES
