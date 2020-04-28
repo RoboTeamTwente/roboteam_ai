@@ -7,7 +7,7 @@
 namespace rtt::ai::stp::invariant {
 
 uint8_t BallIsFreeInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept {
-    auto& robots = world.getRobots();
+    auto& robots = world.getRobotsNonOwning();
     return std::any_of(robots.begin(), robots.end(), [](auto& robot) { return robot.hasBall(); }) ? stp::control_constants::FUZZY_FALSE : stp::control_constants::FUZZY_TRUE;
 }
 
