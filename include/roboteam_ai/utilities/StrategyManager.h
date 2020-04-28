@@ -28,32 +28,22 @@ class StrategyManager {
     const std::vector<RefGameState> gameStates = {
 
         // failsafe: for an undefined refstate everything should halt
-            RefGameState(RefCommand::UNDEFINED, "halt_strategy", "halt", false, RefCommand::NORMAL_START),
+        RefGameState(RefCommand::UNDEFINED, "halt_strategy", "halt"),
 
-        RefGameState(RefCommand::NORMAL_START, "normal_play_strategy", "default", false, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::FORCED_START, "normal_play_strategy", "default", false, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::HALT, "halt_strategy", "halt", false, RefCommand::NORMAL_START), RefGameState(RefCommand::STOP,
-                                                                                                               "stop_strategy",
-                                                                                                               "stop", false,
-                                                                                                               RefCommand::NORMAL_START),
-        RefGameState(RefCommand::TIMEOUT_US, "time_out_strategy", "stop", false, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::TIMEOUT_THEM, "halt_strategy", "halt", false, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::GOAL_US, "kickoff_them_formation_strategy", "default", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::GOAL_THEM, "kickoff_us_formation_strategy", "default", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us_strategy", "ballplacement_us", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them_strategy", "ballplacement_them", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_shoot_strategy", "default", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them_strategy", "default", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_shoot_strategy", "default", false,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them_strategy", "default", false,
-                     RefCommand::NORMAL_START),
+        RefGameState(RefCommand::NORMAL_START, "normal_play_strategy", "default"),
+        RefGameState(RefCommand::FORCED_START, "normal_play_strategy", "default"),
+        RefGameState(RefCommand::HALT, "halt_strategy", "halt"),
+        RefGameState(RefCommand::STOP, "stop_strategy", "stop"),
+        RefGameState(RefCommand::TIMEOUT_US, "time_out_strategy", "stop"),
+        RefGameState(RefCommand::TIMEOUT_THEM, "halt_strategy", "halt"),
+        RefGameState(RefCommand::GOAL_US, "kickoff_them_formation_strategy", "default"),
+        RefGameState(RefCommand::GOAL_THEM, "kickoff_us_formation_strategy", "default"),
+        RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us_strategy", "ballplacement_us"),
+        RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them_strategy", "ballplacement_them"),
+        RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_shoot_strategy", "default"),
+        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them_strategy", "default"),
+        RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_shoot_strategy", "default"),
+        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them_strategy", "default"),
 
         // prepare commands
         // These have a follow up command
@@ -72,13 +62,12 @@ class StrategyManager {
                      RefCommand::DEFEND_SHOOTOUT),
         // follow up commands
         // these are custom commands, called when 'normal play' is called after a prepare_ command
-        RefGameState(RefCommand::DO_KICKOFF, "kickoff_shoot_strategy", "default", true, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DEFEND_KICKOFF, "kickoff_them_strategy", "default", true, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DO_PENALTY, "penalty_us_shoot_strategy", "default", true, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DEFEND_PENALTY, "penalty_them_defend_strategy", "default", true,
-                     RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DO_SHOOTOUT, "time_out_strategy", "default", true, RefCommand::NORMAL_START),
-        RefGameState(RefCommand::DEFEND_SHOOTOUT, "time_out_strategy", "default", true, RefCommand::NORMAL_START)};
+        RefGameState(RefCommand::DO_KICKOFF, "kickoff_shoot_strategy", "default", true),
+        RefGameState(RefCommand::DEFEND_KICKOFF, "kickoff_them_strategy", "default", true),
+        RefGameState(RefCommand::DO_PENALTY, "penalty_us_shoot_strategy", "default", true),
+        RefGameState(RefCommand::DEFEND_PENALTY, "penalty_them_defend_strategy", "default", true),
+        RefGameState(RefCommand::DO_SHOOTOUT, "time_out_strategy", "default", true),
+        RefGameState(RefCommand::DEFEND_SHOOTOUT, "time_out_strategy", "default", true)};
     RefGameState currentRefGameState = gameStates[0];
     RefCommand currentRefCmd = RefCommand::UNDEFINED;
 };
