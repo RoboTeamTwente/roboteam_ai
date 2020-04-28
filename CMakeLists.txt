@@ -132,6 +132,8 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.cpp
         )
 
 set(CONTROL_SOURCES
