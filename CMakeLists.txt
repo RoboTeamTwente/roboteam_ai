@@ -134,6 +134,8 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickThemGameStateInvariant.cpp
         )
 
 set(CONTROL_SOURCES
