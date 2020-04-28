@@ -130,6 +130,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
         )
 
 set(CONTROL_SOURCES
