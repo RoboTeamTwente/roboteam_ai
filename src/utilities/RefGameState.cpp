@@ -7,9 +7,9 @@
 
 namespace rtt::ai {
 
-RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string ruleSet, bool isFollowUpCommand,
+RefGameState::RefGameState(RefCommand commandId, std::string strategyName, std::string ruleSetName, bool isFollowUpCommand,
                            RefCommand followUpCommandId)
-    : GameState(std::move(strategyName), std::move(ruleSet)),
+    : GameState(std::move(strategyName), std::move(ruleSetName)),
       commandId(commandId),
       isfollowUpCommand(isFollowUpCommand),
       followUpCommandId(followUpCommandId) {}
