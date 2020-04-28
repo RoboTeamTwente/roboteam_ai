@@ -55,6 +55,7 @@ namespace rtt::ai::stp{
     }
 
     void PassProblem::updateInfoForProblem(world_new::World* problemWorld) {
+        std::lock_guard<std::mutex> guard(world_mutex);
         this->problemWorld = problemWorld;
     }
 

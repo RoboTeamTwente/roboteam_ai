@@ -15,6 +15,8 @@ namespace rtt::ai::stp {
          * @return
          */
     private:
+        std::mutex world_mutex;
+
         world_new::World* problemWorld{nullptr};
 
         double shootSuccesReward(Vector2 point) const;
