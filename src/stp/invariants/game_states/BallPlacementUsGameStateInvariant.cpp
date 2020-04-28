@@ -7,6 +7,6 @@
 
 namespace rtt::ai::stp::invariant {
 uint8_t BallPlacementUsGameStateInvariant::metricCheck(world_new::view::WorldDataView, const world::Field *) const noexcept {
-    return GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us_strategy" ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
+    return GameStateManager::getCurrentGameState().getStrategyName() == "ball_placement_us" ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
 }
 }  // namespace rtt::ai::stp::invariant
