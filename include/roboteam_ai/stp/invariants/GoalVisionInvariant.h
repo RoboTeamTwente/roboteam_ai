@@ -10,7 +10,9 @@
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-
+/**
+    Calculates goal vision percentage based on the positions of all our robots
+**/
 class GoalVisionInvariant : public BaseInvariant {
    public:
     GoalVisionInvariant() noexcept;
