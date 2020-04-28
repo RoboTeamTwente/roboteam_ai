@@ -118,9 +118,8 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 std::pair<Vector2, double>
 Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition) {
     const std::vector<double> m = {0,1};
-    archipelago;
-    auto currentPositionScore = 1;
-    auto candidatePositionScore = 1;
+    auto currentPositionScore = PassProblem::fitness(currentPosition, world);
+    auto candidatePositionScore = PassProblem::fitness(candidatePosition, world);
 
     auto cand = std::make_pair(candidatePosition, candidatePositionScore);
     auto curr = std::make_pair(currentPosition, currentPositionScore);

@@ -20,7 +20,7 @@
 #include "stp/new_plays/TestPlay.h"
 #include <pagmo/algorithms/pso.hpp>
 #include <pagmo/algorithms/pso_gen.hpp>
-
+#include <pagmo/islands/thread_island.hpp>
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 
@@ -91,7 +91,7 @@ void ApplicationManager::runOneLoopCycle() {
             if (archipelago.status() == pagmo::evolve_status::idle) {
                 RTT_WARNING("Archipelago idle, updating and evolving")
                 updateArchipelago();
-                archipelago.evolve(100);
+                archipelago.evolve(200);
             }
 
             /// This call changes plays when necessary and ticks the currentPlay
@@ -152,18 +152,19 @@ void ApplicationManager::setPlays() {
 }
 
 void ApplicationManager::updateArchipelago() {
-    /// generating pass problem
-    auto pso = pagmo::pso(20, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
+    /// generating pass problem.
+    auto pso = pagmo::pso(200, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
 
     ai::stp::PassProblem passProblem{};
     passProblem.updateInfoForProblem(world_new::World::instance());
-    auto passPopulation = pagmo::population(passProblem, 100, 0);
+    auto passPopulation = pagmo::population(passProblem, 10, 0);
 
     /// clearing the archipelago
     archipelago = pagmo::archipelago{};
 
     /// Adding islands to the archipelago
     auto isl = pagmo::island{pagmo::algorithm{pagmo::pso_gen()}, passPopulation};
+
     archipelago.push_back(isl);
 }
 }  // namespace rtt

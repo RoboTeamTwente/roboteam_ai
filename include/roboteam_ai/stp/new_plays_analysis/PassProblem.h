@@ -1,5 +1,5 @@
 //
-// Created by no one on never/never/ever
+// Created by RobotJesse on 1/4/2020
 //
 
 #ifndef RTT_PASSPROBLEM_H
@@ -19,16 +19,19 @@ namespace rtt::ai::stp {
 
         world_new::World* problemWorld{nullptr};
 
-        double shootSuccesReward(Vector2 point) const;
+        static double shootSuccesReward(Vector2 point, world_new::World* world);
     public:
+        /// Pagmo bounds function, only used for pagmo, don't change the signature as Pagmo algo's expect this exact function
         std::pair<vector_double, vector_double> get_bounds() const;
 
+        /// Pagmo fitness function, only used for pagmo, don't change the signature as Pagmo algo's expect this exact function
         vector_double fitness(const vector_double &aDouble) const;
+
+        /// Actual fitness function
+        static double fitness(const Vector2 &point, world_new::World* world);
 
         // TODO: when this function is finished, refactor so it only uses those components of world it actually needs
         void updateInfoForProblem(world_new::World* problemWorld);
-
-        const double rel(double x, double min, double max) const;
 
         PassProblem() = default;
 
