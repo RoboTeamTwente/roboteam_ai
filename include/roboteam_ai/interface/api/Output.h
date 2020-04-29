@@ -16,8 +16,6 @@ typedef std::tuple<double, double, double> pidVals;
 
 class Output {
    private:
-    Output() {}
-
     static pidVals basicPID;
     static pidVals numTreePID;
     static pidVals forcePID;
@@ -78,8 +76,6 @@ class Output {
     static void setBallHandlePid(const pidVals &ballHandlePid);
     static void sendHaltCommand();
 
-    static void setKeeperTree(std::string name);
-    static void setStrategyTree(std::string name);
     static void setRuleSetName(std::string name);
     static void setKeeperId(int id);
 };
