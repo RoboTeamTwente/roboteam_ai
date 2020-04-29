@@ -3,8 +3,11 @@
 //
 
 #include "stp/new_plays/Pass.h"
-#include <stp/new_roles/TestRole.h>
-#include <stp/invariants/WeHaveBallInvariant.h>
+
+#include <stp/invariants/BallCloseToUsInvariant.h>
+#include "stp/invariants/WeHaveBallInvariant.h"
+#include "stp/new_roles/TestRole.h"
+
 #include "stp/invariants/BallMovesSlowInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
@@ -14,7 +17,7 @@ namespace rtt::ai::stp::play {
 Pass::Pass() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     // TODO: decide keep invariants
     keepPlayInvariants.clear();
@@ -29,7 +32,7 @@ Pass::Pass() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 101; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 110; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -65,10 +68,9 @@ void Pass::calculateInfoForRoles() noexcept {
     const Vector2 passingPosition = Vector2(-2, -2);
 
     // Calculate receiver info
-    if (stpInfos.find("pass_receiver") != stpInfos.end())
-        stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+    if (stpInfos.find("pass_receiver") != stpInfos.end()) stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
     // Calculate Passer info
-    if (stpInfos.find("passer") != stpInfos.end()){
+    if (stpInfos.find("passer") != stpInfos.end()) {
         stpInfos["passer"].setPositionToShootAt(passingPosition);
         stpInfos["passer"].setKickChipType(PASS);
     }
@@ -107,8 +109,6 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 
 bool Pass::shouldRoleSkipEndTactic() { return false; }
 
-const char *Pass::getName() {
-    return "Pass";
-}
+const char* Pass::getName() { return "Pass"; }
 
 }  // namespace rtt::ai::stp::play

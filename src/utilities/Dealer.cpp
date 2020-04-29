@@ -3,6 +3,7 @@
 #include <roboteam_utils/LineSegment.h>
 #include "world/FieldComputations.h"
 #include <roboteam_utils/Print.h>
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai {
 
@@ -18,14 +19,16 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     std::vector<int> assignment;
 
     // solve the matrix and put the results in 'assignment'
+    // The cost function will be minimized
     rtt::Hungarian::Solve(scores, assignment);
 
     return mapFromAssignments(allRobots, flagMap, assignment);
 }
 
-/* assignments now has the robot ids at the role index, and is ordered according to the roleNames
-* for example: assignments[0] = 2 // robot_id
+/* assignment now has the robot index in allRobots (not id) at the role index, and is ordered according to the roleNames
+* for example: assignment[0] = 2 // index
 * and roleNames[0] = role_1
+* robot_id = allRobots[index]
 * --> we can therefore make a map of <rolename, robot_id>
 */
 std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const std::vector<v::RobotView> &allRobots,
@@ -37,10 +40,8 @@ std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const s
     }
     unordered_map<string, v::RobotView> result;
     for (int i = 0; i < orderedRoleNames.size(); i++) {
-        for (auto robot : allRobots) {
-            if (robot->getId() == assignment[i]) {
-                result.insert({orderedRoleNames[i], robot});
-            }
+        if (assignment[i] != -1) {
+            result.insert({orderedRoleNames[i], allRobots[assignment[i]]});
         }
     }
     return result;
@@ -80,6 +81,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::LOW_PRIORITY: return 1.0;
         case DealerFlagPriority::MEDIUM_PRIORITY: return 2.0;
         case DealerFlagPriority::HIGH_PRIORITY: return 3.0;
+        case DealerFlagPriority::REQUIRED: return 100;
         default:
             std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
             return 0;
@@ -110,6 +112,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
             return lineSegment.distanceToLine(robot->getPos());
         }
+        case DealerFlagTitle::KEEPER: return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;

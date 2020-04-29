@@ -20,6 +20,8 @@ namespace rtt::ai::interface {
 /// The update loop of the field widget. Invoked by widget->update();
     void Visualizer::paintEvent(QPaintEvent *event) {
         QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
         std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
 
         if (!world.has_value() || !world.value()->weHaveRobots()) {
