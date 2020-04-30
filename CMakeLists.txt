@@ -38,7 +38,7 @@ else (NOT APPLE)
             PRIVATE gmock)
 endif ()
 
-find_package(Pagmo REQUIRED)
+#find_package(Pagmo REQUIRED)
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(SDL2 REQUIRED sdl2)

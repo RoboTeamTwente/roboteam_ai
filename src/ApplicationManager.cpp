@@ -91,7 +91,7 @@ void ApplicationManager::runOneLoopCycle() {
             if (archipelago.status() == pagmo::evolve_status::idle) {
                 RTT_WARNING("Archipelago idle, updating and evolving")
                 updateArchipelago();
-                archipelago.evolve(200);
+                archipelago[0].evolve(200);
             }
 
             /// This call changes plays when necessary and ticks the currentPlay
@@ -156,15 +156,15 @@ void ApplicationManager::updateArchipelago() {
     auto pso = pagmo::pso(200, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
 
     ai::stp::PassProblem passProblem{};
-    passProblem.updateInfoForProblem(world_new::World::instance());
-    auto passPopulation = pagmo::population(passProblem, 10, 0);
+    auto field = world_new::World::instance()->getField().value();
+    passProblem.updateInfoForProblem(world_new::view::WorldDataView(world_new::World::instance()->getWorld().value()), field);
+    auto passPopulation = pagmo::population(passProblem, 10);
 
     /// clearing the archipelago
     archipelago = pagmo::archipelago{};
 
     /// Adding islands to the archipelago
-    auto isl = pagmo::island{pagmo::algorithm{pagmo::pso_gen()}, passPopulation};
-
+    auto isl = pagmo::island{pagmo::algorithm{pso}, passPopulation};
     archipelago.push_back(isl);
 }
 }  // namespace rtt

@@ -33,7 +33,7 @@ class Play {
      * Updated the stored world
      * @param world
      */
-    void updateWorld(world_new::World* world) noexcept;
+    void updateWorld(world_new::World *world) noexcept;
 
     /**
      * Updates all the roles

@@ -66,7 +66,6 @@ void Pass::calculateInfoForRoles() noexcept {
 
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end()) {
-        std::cout << field.getLeftmostX() << std::endl;
 
         auto pos = archipelago->get_champions_x();
         auto candidatePosition = Vector2(pos[0][0],pos[0][1]);
@@ -118,8 +117,8 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 std::pair<Vector2, double>
 Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition) {
     const std::vector<double> m = {0,1};
-    auto currentPositionScore = PassProblem::fitness(currentPosition, world);
-    auto candidatePositionScore = PassProblem::fitness(candidatePosition, world);
+    auto currentPositionScore = 1;//PassProblem::cost_function(currentPosition, world);
+    auto candidatePositionScore = 1;// PassProblem::cost_function(candidatePosition, world);
 
     auto cand = std::make_pair(candidatePosition, candidatePositionScore);
     auto curr = std::make_pair(currentPosition, currentPositionScore);

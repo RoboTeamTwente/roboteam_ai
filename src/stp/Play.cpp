@@ -12,7 +12,7 @@ void Play::initialize(const pagmo::archipelago& pArchipelago) noexcept {
     distributeRoles();
 }
 
-void Play::updateWorld(world_new::World* world) noexcept {
+void Play::updateWorld(world_new::World *world) noexcept {
     this->world = world;
     this->field = world->getField().value();
 }
