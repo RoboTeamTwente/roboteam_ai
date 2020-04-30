@@ -49,7 +49,7 @@ private:
     void start();
     void checkForShutdown();
     void checkForFreeRobots();
-    std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+    static inline std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
 
     ApplicationManager(ApplicationManager const&) = delete;
     ApplicationManager& operator=(ApplicationManager const&) = delete;

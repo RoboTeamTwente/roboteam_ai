@@ -239,7 +239,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        )
+        src/interface/widgets/PlaysWidget.cpp include/roboteam_ai/interface/widgets/PlaysWidget.hpp src/interface/widgets/InvariantsWidget.cpp include/roboteam_ai/interface/widgets/InvariantsWidget.hpp)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

@@ -29,6 +29,7 @@
 #include "RuleSetWidget.h"
 #include "STPVisualizerWidget.h"
 #include "widget.h"
+#include "PlaysWidget.hpp"
 
 namespace rtt {
 class ApplicationManager;
@@ -73,6 +74,7 @@ class MainWindow : public QMainWindow {
     STPVisualizerWidget *keeperStpWidget;
     Visualizer *visualizer;
     GraphWidget *graphWidget;
+    PlaysWidget* playsWidget;
 };
 
 }  // namespace rtt::ai::interface

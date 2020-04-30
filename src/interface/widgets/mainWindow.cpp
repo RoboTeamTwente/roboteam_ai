@@ -5,6 +5,7 @@
 
 #include <QSplitter>
 #include <QtWidgets/QMenuBar>
+#include <include/roboteam_ai/interface/widgets/PlaysWidget.hpp>
 
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/ManualControlWidget.h"
@@ -70,9 +71,15 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     graphWidget = new GraphWidget(this);
 
+    auto playsOwner = new QWidget(this);
+    playsWidget = new PlaysWidget(playsOwner);
+    playsOwner->setLayout(playsWidget);
+
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
+    DataTabWidget->addTab(playsOwner, "Plays");
+    DataTabWidget->addTab(new QWidget(), "Invariants");
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
@@ -174,6 +181,7 @@ void MainWindow::updateRobotsWidget() {
 void MainWindow::updatePlay(stp::Play *play) {
     stpWidget->updateContents(play);
     updateStpWidgets();
+    playsWidget->updatePlays();
 }
 
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
