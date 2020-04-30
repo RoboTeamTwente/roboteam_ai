@@ -69,7 +69,6 @@ void Pass::calculateInfoForRoles() noexcept {
 
         auto pos = archipelago->get_champions_x();
         auto candidatePosition = Vector2(pos[0][0],pos[0][1]);
-        double candidatePassScore = archipelago->get_champions_f()[0][0];
         auto chosenPosition = compareNewLocationToCurrentLocation(currentPassLocation, candidatePosition);
         currentPassLocation = chosenPosition.first;
         currentPassScore = chosenPosition.second;
@@ -117,8 +116,8 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 std::pair<Vector2, double>
 Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition) {
     const std::vector<double> m = {0,1};
-    auto currentPositionScore = 1;//PassProblem::cost_function(currentPosition, world);
-    auto candidatePositionScore = 1;// PassProblem::cost_function(candidatePosition, world);
+    auto currentPositionScore = PassProblem::cost_function(currentPosition, world_new::World::instance()->getWorld().value(), world->getField().value());
+    auto candidatePositionScore = PassProblem::cost_function(candidatePosition, world_new::World::instance()->getWorld().value(), world->getField().value());
 
     auto cand = std::make_pair(candidatePosition, candidatePositionScore);
     auto curr = std::make_pair(currentPosition, currentPositionScore);
@@ -129,16 +128,16 @@ Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candi
     }
 
     // Ratio of scores
-    if (candidatePositionScore/currentPositionScore > 1.3) {
+    if (candidatePositionScore/currentPositionScore > 1.7) {
         return cand;
     }
 
     // Proximity of candidate and current locations:
     if ((currentPosition - candidatePosition).length() > 0.1 *  field.getFieldLength()) {
-        return std::make_pair(currentPosition, currentPositionScore);
+        return curr;
     }
 
-    return std::make_pair(candidatePosition, candidatePositionScore);
+    return cand;
 
 }
 

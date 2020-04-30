@@ -17,11 +17,11 @@ namespace rtt::ai::stp {
     private:
         //std::mutex world_mutex;
 
-        world_new::view::WorldDataView problemWorld{nullptr};
+        world_new::WorldData problemWorld{};
 
         world::Field problemField;
 
-        double shootSuccesReward(Vector2 point, world_new::view::WorldDataView world) const;
+        static double shootSuccesReward(Vector2 point, world_new::view::WorldDataView world, const world::Field& field);
     public:
         /// Pagmo bounds function, only used for pagmo, don't change the signature as Pagmo algo's expect this exact function
         std::pair<vector_double, vector_double> get_bounds() const;
@@ -30,10 +30,10 @@ namespace rtt::ai::stp {
         vector_double fitness(const vector_double &aDouble) const;
 
         /// Actual fitness function
-        double cost_function(const Vector2 &point, world_new::view::WorldDataView world) const;
+        static double cost_function(const Vector2 &point, world_new::view::WorldDataView world, const world::Field& field);
 
         // TODO: when this function is finished, refactor so it only uses those components of world it actually needs
-        void updateInfoForProblem(world_new::view::WorldDataView problemWorld, world::Field field);
+        void updateInfoForProblem(world_new::WorldData problemWorld, world::Field& field);
 
         PassProblem() = default;
 

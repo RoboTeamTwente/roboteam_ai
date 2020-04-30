@@ -153,12 +153,15 @@ void ApplicationManager::setPlays() {
 
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem.
-    auto pso = pagmo::pso(200, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
+    auto pso = pagmo::pso(10, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
 
     ai::stp::PassProblem passProblem{};
+
     auto field = world_new::World::instance()->getField().value();
-    passProblem.updateInfoForProblem(world_new::view::WorldDataView(world_new::World::instance()->getWorld().value()), field);
-    auto passPopulation = pagmo::population(passProblem, 10);
+    world_new::WorldData data = **world_new::World::instance()->getWorld();
+    passProblem.updateInfoForProblem(data, field);
+
+    auto passPopulation = pagmo::population(passProblem, 10, 0);
 
     /// clearing the archipelago
     archipelago = pagmo::archipelago{};

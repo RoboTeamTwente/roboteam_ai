@@ -5,14 +5,15 @@
 #include <roboteam_utils/Print.h>
 #include <roboteam_utils/Vector2.h>
 #include <include/roboteam_ai/world_new/World.hpp>
+#include <utility>
 #include "stp/new_plays_analysis/PassProblem.h"
 using namespace pagmo;
 namespace rtt::ai::stp{
     vector_double PassProblem::fitness(const vector_double &dv) const {
         auto score = 0.0;
         auto point = Vector2(dv[0], dv[1]);
-        RTT_DEBUG("HI IM HAPPENING")
-        score = cost_function(point, problemWorld);
+        //RTT_DEBUG("HI IM HAPPENING")
+        score = cost_function(point, world_new::view::WorldDataView(&problemWorld), problemField);
 
         return {score};
     }
@@ -29,22 +30,21 @@ namespace rtt::ai::stp{
     }
 
 
-    void PassProblem::updateInfoForProblem(world_new::view::WorldDataView problemWorld, world::Field field) {
+    void PassProblem::updateInfoForProblem(world_new::WorldData problemWorld, world::Field& field) {
         //std::lock_guard<std::mutex> guard(world_mutex);
-        this->problemWorld = problemWorld;
-        this->problemField = field;
+        this->problemWorld = std::move(problemWorld);
+        this->problemField = std::move(field);
     }
 
-    double PassProblem::shootSuccesReward(Vector2 point, world_new::view::WorldDataView world) const {
-        auto w = world_new::World::instance()->getWorld().value();
-        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(problemField, false, point, w, -1, true);
+    double PassProblem::shootSuccesReward(Vector2 point, world_new::view::WorldDataView world, const world::Field& field) {
+        double percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world, -1, true);
         return percentage;
     }
 
-    double PassProblem::cost_function(const Vector2 &point, world_new::view::WorldDataView world) const {
+    double PassProblem::cost_function(const Vector2 &point, world_new::view::WorldDataView world, const world::Field& field) {
         auto score = 0.0;
 
-        if (ai::FieldComputations::pointIsInDefenseArea(problemField, point)) {
+        if (ai::FieldComputations::pointIsInDefenseArea(field, point)) {
             score = 500;
             return {score};
         }
@@ -57,8 +57,8 @@ namespace rtt::ai::stp{
         score += -100 * theirClosestDistance;
         score += 100 * ourClosestDistance;
 
-        score += -10 * shootSuccesReward(point, world);
-        score += -ai::FieldComputations::getDistanceToGoal(problemField, false, point);
+        score += -10 * shootSuccesReward(point, world, field);
+        score += -ai::FieldComputations::getDistanceToGoal(field, false, point);
 
         return {score};
     }
