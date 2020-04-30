@@ -5,7 +5,7 @@
 #ifndef RTT_HALTGAMESTATEINVARIANT_H
 #define RTT_HALTGAMESTATEINVARIANT_H
 
-#include "BaseInvariant.h"
+#include "stp/invariants/BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
 class HaltGameStateInvariant : public BaseInvariant {
