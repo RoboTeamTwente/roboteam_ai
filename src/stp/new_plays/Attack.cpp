@@ -61,13 +61,56 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 }
 
 void Attack::calculateInfoForRoles() noexcept {
-    auto goalTarget = calculateGoalTarget();
-
-    // TODO: Add attack helpers/midfielders/defenders or whatever
-    // Calculate attacker info
+    // Attacker
     if (stpInfos.find("attacker") != stpInfos.end()) {
+        auto goalTarget = calculateGoalTarget();
         stpInfos["attacker"].setPositionToShootAt(goalTarget);
         stpInfos["attacker"].setKickChipType(MAX);
+    }
+
+    // Offenders
+    if (stpInfos.find("offender_1") != stpInfos.end()) {
+        stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength()/2, field.getFieldWidth()/2));
+    }
+    if (stpInfos.find("offender_2") != stpInfos.end()) {
+        stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength()/2, -field.getFieldWidth()/2));
+    }
+
+    // Midfielders
+    if (stpInfos.find("midfielder_1") != stpInfos.end()) {
+        stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, field.getFieldWidth()/2));
+    }
+    if (stpInfos.find("midfielder_2") != stpInfos.end()) {
+        stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -field.getFieldWidth()/2));
+    }
+    if (stpInfos.find("midfielder_3") != stpInfos.end()) {
+        stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(field.getFieldLength()/4, 0.0));
+    }
+    if (stpInfos.find("midfielder_4") != stpInfos.end()) {
+        stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength()/4, 0.0));
+    }
+
+    // Defenders
+    if (stpInfos.find("defender_1") != stpInfos.end()) {
+        stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+        stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+    }
+    if (stpInfos.find("defender_2") != stpInfos.end()) {
+        stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
+        stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
+        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+    }
+    if (stpInfos.find("defender_3") != stpInfos.end()) {
+        stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
+        stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
+        stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
+    }
+
+    // Keeper
+    if (stpInfos.find("keeper") != stpInfos.end()) {
+        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+        stpInfos["keeper"].setPositionToShootAt(Vector2());
     }
 }
 
