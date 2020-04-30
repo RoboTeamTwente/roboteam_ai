@@ -76,7 +76,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     playsOwner->setLayout(playsWidget);
 
     auto invariantsOwner = new QWidget(this);
-    invariantsWidget = new PlaysWidget(playsOwner);
+    invariantsWidget = new InvariantsWidget(playsOwner);
     playsOwner->setLayout(invariantsWidget);
 
     auto DataTabWidget = new QTabWidget;
@@ -186,6 +186,7 @@ void MainWindow::updatePlay(stp::Play *play) {
     stpWidget->updateContents(play);
     updateStpWidgets();
     playsWidget->updatePlays();
+    invariantsWidget->updateInvariants();
 }
 
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }

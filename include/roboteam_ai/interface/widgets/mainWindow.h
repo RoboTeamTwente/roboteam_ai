@@ -30,6 +30,7 @@
 #include "STPVisualizerWidget.h"
 #include "widget.h"
 #include "PlaysWidget.hpp"
+#include "InvariantsWidget.hpp"
 
 namespace rtt {
 class ApplicationManager;
@@ -75,7 +76,7 @@ class MainWindow : public QMainWindow {
     Visualizer *visualizer;
     GraphWidget *graphWidget;
     PlaysWidget* playsWidget;
-    PlaysWidget *invariantsWidget;
+    InvariantsWidget *invariantsWidget;
 };
 
 }  // namespace rtt::ai::interface
