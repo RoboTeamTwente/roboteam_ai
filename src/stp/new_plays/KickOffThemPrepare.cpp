@@ -2,18 +2,18 @@
 // Created by jordi on 30-04-20.
 //
 
-#include "stp/new_plays/KickOffUsPrepare.h"
+#include "stp/new_plays/KickOffThemPrepare.h"
 #include "stp/new_roles/Formation.h"
-#include "stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.h"
+#include "stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.h"
 
 namespace rtt::ai::stp::play {
 
-KickOffUsPrepare::KickOffUsPrepare() : Play() {
+KickOffThemPrepare::KickOffThemPrepare() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::KickOffUsPrepareGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::KickOffThemPrepareGameStateInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::KickOffUsPrepareGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::KickOffThemPrepareGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::Formation>(role::Formation("formation_1")),
@@ -24,17 +24,17 @@ KickOffUsPrepare::KickOffUsPrepare() : Play() {
             std::make_unique<role::Formation>(role::Formation("formation_10"))};
 }
 
-uint8_t KickOffUsPrepare::score(world_new::World* world) noexcept { return 100; }
+uint8_t KickOffThemPrepare::score(world_new::World* world) noexcept { return 100; }
 
-void KickOffUsPrepare::calculateInfoForRoles() noexcept {
+void KickOffThemPrepare::calculateInfoForRoles() noexcept {
     auto width = field.getFieldWidth();
     auto length = field.getFieldLength();
 
-    // Positions of the kick off us formation which will be dealt to the Formation roles in order
+    // Positions of the kick off them formation which will be dealt to the Formation roles in order
     std::vector<Vector2> formationPositions = {
-        Vector2(-0.25, 0.0), Vector2(-length/4, 0.0), Vector2(-length/8, width/4), Vector2(-length/8, -width/4),
-        Vector2(-length*3/8, 0.0), Vector2(-length*3/8, width/5), Vector2(-length*3/8, -width/5),
-        Vector2(-length/4, width/3), Vector2(-length/4, -width/3), Vector2(-length/8, 0.0)
+            Vector2(-length/4, width/8), Vector2(-length/4, -width/8), Vector2(-length/8, width/4), Vector2(-length/8, -width/4),
+            Vector2(-length*3/8, 0.0), Vector2(-length*3/8, width/5), Vector2(-length*3/8, -width/5),
+            Vector2(-length/4, width/3), Vector2(-length/4, -width/3), Vector2(-length/8, 0.0)
     };
 
     if (stpInfos.find("keeper") != stpInfos.end()) {
@@ -50,9 +50,9 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     }
 }
 
-bool KickOffUsPrepare::shouldRoleSkipEndTactic() { return false; }
+bool KickOffThemPrepare::shouldRoleSkipEndTactic() { return false; }
 
-Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
+Dealer::FlagMap KickOffThemPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
 
@@ -71,8 +71,8 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *KickOffUsPrepare::getName() {
-    return "Kick Off Us Prepare";
+const char *KickOffThemPrepare::getName() {
+    return "Kick Off Them Prepare";
 }
 
 }  // namespace rtt::ai::stp::play

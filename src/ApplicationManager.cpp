@@ -17,6 +17,7 @@
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 #include "stp/new_plays/KickOffUsPrepare.h"
+#include "stp/new_plays/KickOffThemPrepare.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -41,6 +42,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
