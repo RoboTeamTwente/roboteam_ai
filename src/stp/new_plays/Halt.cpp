@@ -3,7 +3,7 @@
 //
 
 #include "stp/new_plays/Halt.h"
-#include <stp/invariants/HaltGameStateInvariant.h>
+#include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/new_roles/Halt.h"
 
 namespace rtt::ai::stp::play {

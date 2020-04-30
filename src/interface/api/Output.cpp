@@ -27,7 +27,7 @@ std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 std::mutex Output::showDebugMutex;
 
-GameState Output::interfaceGameState("halt_strategy", "keeper_halt_tactic", "default");
+GameState Output::interfaceGameState("halt_strategy", "default");
 
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
@@ -100,16 +100,6 @@ void Output::setBasicPid(const pidVals &basicPid) { basicPID = basicPid; }
 void Output::setTimeOutTop(bool top) { timeOutAtTop = top; }
 
 bool Output::isTimeOutAtTop() { return timeOutAtTop; }
-
-void Output::setKeeperTree(std::string name) { Output::interfaceGameState.keeperStrategyName = std::move(name); }
-
-void Output::setStrategyTree(std::string name) {
-    Output::interfaceGameState.strategyName = std::move(name);
-    auto ballOpt = world_new::World::instance()->getWorld()->getBall();
-    if (ballOpt.has_value()) {
-        Output::interfaceGameState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
-    }
-}
 
 void Output::setRuleSetName(std::string name) { Output::interfaceGameState.ruleSetName = std::move(name); }
 

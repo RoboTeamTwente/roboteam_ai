@@ -76,8 +76,6 @@ class Output {
     static void setBallHandlePid(const pidVals &ballHandlePid);
     static void sendHaltCommand();
 
-    static void setKeeperTree(std::string name);
-    static void setStrategyTree(std::string name);
     static void setRuleSetName(std::string name);
     static void setKeeperId(int id);
 };
