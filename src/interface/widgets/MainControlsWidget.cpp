@@ -224,6 +224,8 @@ void MainControlsWidget::updatePlays() {
             }*/
 }
 
-void MainControlsWidget::setIgnoreInvariants(bool ignore) { ignoreInvariants = ignore; }
+void MainControlsWidget::setIgnoreInvariants(bool ignore) {
+    MainControlsWidget::ignoreInvariants = ignore;
+}
 
 }  // namespace rtt::ai::interface
