@@ -61,6 +61,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 }
 
 void Attack::calculateInfoForRoles() noexcept {
+    // TODO: Improve roles
     // Attacker
     if (stpInfos.find("attacker") != stpInfos.end()) {
         auto goalTarget = calculateGoalTarget();
@@ -70,24 +71,24 @@ void Attack::calculateInfoForRoles() noexcept {
 
     // Offenders
     if (stpInfos.find("offender_1") != stpInfos.end()) {
-        stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength()/2, field.getFieldWidth()/2));
+        stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength()/4, field.getFieldWidth()/4));
     }
     if (stpInfos.find("offender_2") != stpInfos.end()) {
-        stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength()/2, -field.getFieldWidth()/2));
+        stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength()/4, -field.getFieldWidth()/4));
     }
 
     // Midfielders
     if (stpInfos.find("midfielder_1") != stpInfos.end()) {
-        stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, field.getFieldWidth()/2));
+        stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, field.getFieldWidth()/4));
     }
     if (stpInfos.find("midfielder_2") != stpInfos.end()) {
-        stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -field.getFieldWidth()/2));
+        stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -field.getFieldWidth()/4));
     }
     if (stpInfos.find("midfielder_3") != stpInfos.end()) {
-        stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(field.getFieldLength()/4, 0.0));
+        stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(field.getFieldLength()/8, 0.0));
     }
     if (stpInfos.find("midfielder_4") != stpInfos.end()) {
-        stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength()/4, 0.0));
+        stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength()/8, 0.0));
     }
 
     // Defenders
