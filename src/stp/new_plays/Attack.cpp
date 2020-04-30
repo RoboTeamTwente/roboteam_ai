@@ -6,6 +6,7 @@
 #include "stp/invariants/GoalVisionInvariant.h"
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_roles/Attacker.h"
 #include "stp/new_roles/Keeper.h"
@@ -15,16 +16,16 @@
 namespace rtt::ai::stp::play {
 
 Attack::Attack() : Play() {
-    // TODO:: Normal play game state invariant
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionInvariant>());
 
     keepPlayInvariants.clear();
-    // TODO: Normal play game state invariant
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
 
-    // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Keeper>(role::Keeper("keeper")),             std::make_unique<role::Attacker>(role::Attacker("attacker")),
             std::make_unique<role::Formation>(role::Formation("offender_1")),   std::make_unique<role::Formation>(role::Formation("offender_2")),
