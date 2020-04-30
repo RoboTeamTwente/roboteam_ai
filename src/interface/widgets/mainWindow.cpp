@@ -75,11 +75,15 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
     playsWidget = new PlaysWidget(playsOwner);
     playsOwner->setLayout(playsWidget);
 
+    auto invariantsOwner = new QWidget(this);
+    invariantsWidget = new PlaysWidget(playsOwner);
+    playsOwner->setLayout(invariantsWidget);
+
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
     DataTabWidget->addTab(playsOwner, "Plays");
-    DataTabWidget->addTab(new QWidget(), "Invariants");
+    DataTabWidget->addTab(invariantsOwner, "Invariants");
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));

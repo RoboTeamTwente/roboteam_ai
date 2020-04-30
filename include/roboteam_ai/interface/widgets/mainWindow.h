@@ -75,6 +75,7 @@ class MainWindow : public QMainWindow {
     Visualizer *visualizer;
     GraphWidget *graphWidget;
     PlaysWidget* playsWidget;
+    PlaysWidget *invariantsWidget;
 };
 
 }  // namespace rtt::ai::interface

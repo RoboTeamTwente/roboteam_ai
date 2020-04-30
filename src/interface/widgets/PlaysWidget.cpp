@@ -7,6 +7,7 @@
 
 namespace rtt::ai::interface {
     PlaysWidget::PlaysWidget(QWidget* parent) : QVBoxLayout(parent) {
+        textEdit = new QTextEdit();
         addWidget(textEdit);
         textEdit->setReadOnly(true);
     }

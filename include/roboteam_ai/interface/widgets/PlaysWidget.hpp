@@ -16,8 +16,10 @@ namespace rtt::ai::interface {
         explicit PlaysWidget(QWidget* parent = nullptr);
         void updatePlays();
 
+        virtual ~PlaysWidget() {};
+
     private:
-        QTextEdit* textEdit = new QTextEdit();
+        QTextEdit* textEdit;
     };
 }
 
