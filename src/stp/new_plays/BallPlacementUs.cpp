@@ -1,34 +1,32 @@
 //
 // Created by jessevw on 24.03.20.
 //
-
-#include "stp/new_plays/Halt.h"
-#include "stp/invariants/HaltGameStateInvariant.h"
-#include "stp/invariants/WeHaveBallInvariant.h"
+#include "stp/Play.hpp"
+#include "stp/invariants/BallPlacementUsGameStateInvariant.h"
 #include "stp/new_roles/BallPlacer.h"
-#include "stp/new_roles/Halt.h"
+#include "stp/new_roles/BallAvoider.h"
 #include "stp/new_plays/BallPlacementUs.h"
 namespace rtt::ai::stp::play {
 
     BallPlacementUs::BallPlacementUs() : Play() {
         // TODO: decide start invariants
         startPlayInvariants.clear();
-        startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+        //startPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
         // TODO: decide keep invariants
         keepPlayInvariants.clear();
-        keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+        //keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::BallPlacer>(role::BallPlacer("ball_placer")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
-                std::make_unique<role::Halt>(role::Halt("halt_2")),    std::make_unique<role::Halt>(role::Halt("halt_3")),
-                std::make_unique<role::Halt>(role::Halt("halt_4")),    std::make_unique<role::Halt>(role::Halt("halt_5")),
-                std::make_unique<role::Halt>(role::Halt("halt_6")),    std::make_unique<role::Halt>(role::Halt("halt_7")),
-                std::make_unique<role::Halt>(role::Halt("halt_8")),    std::make_unique<role::Halt>(role::Halt("halt_9")),
-                std::make_unique<role::Halt>(role::Halt("halt_10"))};
+                std::make_unique<role::BallPlacer>(role::BallPlacer("ball_placer")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_2")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_3")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_10"))};
     }
 
-    uint8_t BallPlacementUs::score(world_new::World* world) noexcept { return 0; }
+    uint8_t BallPlacementUs::score(world_new::World* world) noexcept { return 100; }
 
     void BallPlacementUs::calculateInfoForRoles() noexcept {
         if (stpInfos.find("ball_placer") != stpInfos.end()) {
@@ -49,16 +47,16 @@ namespace rtt::ai::stp::play {
         Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
 
         flagMap.insert({"ball_placer", {closeToBallFlag}});
-        flagMap.insert({"halt_1", {notImportant}});
-        flagMap.insert({"halt_2", {notImportant}});
-        flagMap.insert({"halt_3", {notImportant}});
-        flagMap.insert({"halt_4", {notImportant}});
-        flagMap.insert({"halt_5", {notImportant}});
-        flagMap.insert({"halt_6", {notImportant}});
-        flagMap.insert({"halt_7", {notImportant}});
-        flagMap.insert({"halt_8", {notImportant}});
-        flagMap.insert({"halt_9", {notImportant}});
-        flagMap.insert({"halt_10", {notImportant}});
+        flagMap.insert({"ball_avoider_1", {notImportant}});
+        flagMap.insert({"ball_avoider_2", {notImportant}});
+        flagMap.insert({"ball_avoider_3", {notImportant}});
+        flagMap.insert({"ball_avoider_4", {notImportant}});
+        flagMap.insert({"ball_avoider_5", {notImportant}});
+        flagMap.insert({"ball_avoider_6", {notImportant}});
+        flagMap.insert({"ball_avoider_7", {notImportant}});
+        flagMap.insert({"ball_avoider_8", {notImportant}});
+        flagMap.insert({"ball_avoider_9", {notImportant}});
+        flagMap.insert({"ball_avoider_10", {notImportant}});
         return flagMap;
     }
 
