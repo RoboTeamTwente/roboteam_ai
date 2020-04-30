@@ -3,52 +3,58 @@
 //
 
 #include "stp/invariants/WeHaveBallInvariant.h"
+#include "stp/invariants/GoalVisionInvariant.h"
+#include "stp/invariants/BallCloseToUsInvariant.h"
+#include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_roles/Attacker.h"
-#include "stp/new_roles/TestRole.h"
+#include "stp/new_roles/Keeper.h"
+#include "stp/new_roles/Formation.h"
+#include "stp/new_roles/Defender.h"
 
 namespace rtt::ai::stp::play {
 
 Attack::Attack() : Play() {
-    // TODO: decide start invariants
-    startPlayInvariants.clear();
+    // TODO:: Normal play game state invariant
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionInvariant>());
 
-    // TODO: decide keep invariants
-/*    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
+    keepPlayInvariants.clear();
+    // TODO: Normal play game state invariant
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
 
     // TODO: Add attack helpers/midfielders/defenders or whatever
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-            std::make_unique<role::Attacker>(role::Attacker("attacker")),   std::make_unique<TestRole>(TestRole("test_role_1")),
-            std::make_unique<TestRole>(TestRole("test_role_2")),            std::make_unique<TestRole>(TestRole("test_role_3")),
-            std::make_unique<TestRole>(TestRole("test_role_4")),            std::make_unique<TestRole>(TestRole("test_role_5")),
-            std::make_unique<TestRole>(TestRole("test_role_6")),            std::make_unique<TestRole>(TestRole("test_role_7")),
-            std::make_unique<TestRole>(TestRole("test_role_8")),            std::make_unique<TestRole>(TestRole("test_role_9")),
-            std::make_unique<TestRole>(TestRole("test_role_10"))};
+            std::make_unique<role::Keeper>(role::Keeper("keeper")),             std::make_unique<role::Attacker>(role::Attacker("attacker")),
+            std::make_unique<role::Formation>(role::Formation("offender_1")),   std::make_unique<role::Formation>(role::Formation("offender_2")),
+            std::make_unique<role::Formation>(role::Formation("midfielder_1")), std::make_unique<role::Formation>(role::Formation("midfielder_2")),
+            std::make_unique<role::Formation>(role::Formation("midfielder_3")), std::make_unique<role::Formation>(role::Formation("midfielder_4")),
+            std::make_unique<role::Defender>(role::Defender("defender_1")),     std::make_unique<role::Defender>(role::Defender("defender_2")),
+            std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
 // TODO: Determine score of play
-uint8_t Attack::score(world_new::World* world) noexcept { return 10; }
+uint8_t Attack::score(world_new::World* world) noexcept { return 50; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
 
-    // TODO: Add attack helpers/midfielders/defenders or whatever
+    flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"attacker", {closeToBallFlag}});
-    flagMap.insert({"test_role_1", {notImportant}});
-    flagMap.insert({"test_role_2", {notImportant}});
-    flagMap.insert({"test_role_3", {notImportant}});
-    flagMap.insert({"test_role_4", {notImportant}});
-    flagMap.insert({"test_role_5", {notImportant}});
-    flagMap.insert({"test_role_6", {notImportant}});
-    flagMap.insert({"test_role_7", {notImportant}});
-    flagMap.insert({"test_role_8", {notImportant}});
-    flagMap.insert({"test_role_9", {notImportant}});
-    flagMap.insert({"test_role_10", {notImportant}});
+    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"midfielder_1", {}});
+    flagMap.insert({"midfielder_2", {}});
+    flagMap.insert({"midfielder_3", {}});
+    flagMap.insert({"midfielder_4", {}});
+    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
 }
