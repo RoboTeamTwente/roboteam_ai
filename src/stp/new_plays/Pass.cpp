@@ -1,13 +1,12 @@
 //
 // Created by jessevw on 17.03.20.
 //
-
+#include "stp/new_plays_analysis/PassProblem.h"
 #include "stp/new_plays/Pass.h"
 #include <stp/invariants/WeHaveBallInvariant.h>
-#include <stp/new_roles/TestRole.h>
+#include "stp/new_roles/TestRole.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-#include "stp/new_plays_analysis/PassProblem.h"
 
 namespace rtt::ai::stp::play {
 
