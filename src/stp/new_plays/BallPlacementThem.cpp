@@ -7,10 +7,11 @@
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/new_roles/BallPlacer.h"
 #include "stp/new_roles/Halt.h"
-#include "stp/new_plays/BallPlacement.h"
+#include "stp/new_plays/BallPlacementThem.h"
+
 namespace rtt::ai::stp::play {
 
-    BallPlacement::BallPlacement() : Play() {
+    BallPlacementThem::BallPlacementThem() : Play() {
         // TODO: decide start invariants
         startPlayInvariants.clear();
         startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
@@ -28,9 +29,9 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::Halt>(role::Halt("halt_10"))};
     }
 
-    uint8_t BallPlacement::score(world_new::World* world) noexcept { return 0; }
+    uint8_t BallPlacementThem::score(world_new::World* world) noexcept { return 0; }
 
-    void BallPlacement::calculateInfoForRoles() noexcept {
+    void BallPlacementThem::calculateInfoForRoles() noexcept {
         if (stpInfos.find("ball_placer") != stpInfos.end()) {
             auto ballTarget = Vector2(0,0);
             stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
@@ -40,9 +41,9 @@ namespace rtt::ai::stp::play {
         }
     }
 
-    bool BallPlacement::shouldRoleSkipEndTactic() { return false; }
+    bool BallPlacementThem::shouldRoleSkipEndTactic() { return false; }
 
-    Dealer::FlagMap BallPlacement::decideRoleFlags() const noexcept {
+    Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
         Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -62,7 +63,7 @@ namespace rtt::ai::stp::play {
         return flagMap;
     }
 
-    const char *BallPlacement::getName() {
+    const char *BallPlacementThem::getName() {
         return "Ball Placement";
     }
 }  // namespace rtt::ai::stp::play

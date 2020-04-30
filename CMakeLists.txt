@@ -86,6 +86,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -100,6 +101,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallAvoider.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -113,7 +115,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Defend.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacement.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacementUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacementThem.cpp
         )
 
 set(INVARIANTS_SOURCES
