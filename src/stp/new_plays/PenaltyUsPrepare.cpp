@@ -43,8 +43,8 @@ void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
     // Keeper
     if (stpInfos.find("keeper") != stpInfos.end()) {
         stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
-        stpInfos["keeper"].setPositionToShootAt(Vector2(Vector2(0.0, 0.0)));
-        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotForId(0, false));
+        stpInfos["keeper"].setPositionToShootAt(Vector2(Vector2(0.0, 2.0)));
+        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     }
 
     // kicker, position right behind the ball
