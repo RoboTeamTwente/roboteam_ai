@@ -50,7 +50,6 @@ void TimeOut::calculateInfoForRoles() noexcept {
     for (auto& stpInfo : stpInfos) {
         stpInfo.second.setPositionToMoveTo(optimizedTimeOutPositions[stpInfo.second.getRobot().value()->getId()]);
     }
-
 }
 
 bool TimeOut::shouldRoleSkipEndTactic() { return false; }
