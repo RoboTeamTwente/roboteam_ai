@@ -5,7 +5,6 @@
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/GoalVisionInvariant.h"
 #include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_roles/Attacker.h"
