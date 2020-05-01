@@ -16,6 +16,8 @@
 #include "stp/new_plays/BallPlacement.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
+#include "stp/new_plays/PenaltyThem.h"
+#include "stp/new_plays/PenaltyUs.h"
 #include "stp/new_plays/KickOffUsPrepare.h"
 #include "stp/new_plays/KickOffThemPrepare.h"
 
@@ -41,6 +43,8 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
     playChecker.setPlays(plays);
