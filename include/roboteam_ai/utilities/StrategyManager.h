@@ -28,40 +28,47 @@ class StrategyManager {
     const std::vector<RefGameState> gameStates = {
 
         // failsafe: for an undefined refstate everything should halt
-        RefGameState(RefCommand::UNDEFINED, "halt_strategy", "keeper_halt_tactic", "halt"),
+        RefGameState(RefCommand::UNDEFINED, "halt", "halt"),
 
-        RefGameState(RefCommand::NORMAL_START, "normal_play_strategy", "keeper_default_tactic", "default"),
-        RefGameState(RefCommand::FORCED_START, "normal_play_strategy", "keeper_default_tactic", "default"),
-        RefGameState(RefCommand::HALT, "halt_strategy", "keeper_halt_tactic", "halt"), RefGameState(RefCommand::STOP, "stop_strategy", "keeper_avoid_tactic", "stop"),
-        RefGameState(RefCommand::TIMEOUT_US, "time_out_strategy", "keeper_formation_tactic", "stop"),
-        RefGameState(RefCommand::TIMEOUT_THEM, "halt_strategy", "keeper_halt_tactic", "halt"),
-        RefGameState(RefCommand::GOAL_US, "kickoff_them_formation_strategy", "keeper_formation_tactic", "default"),
-        RefGameState(RefCommand::GOAL_THEM, "kickoff_us_formation_strategy", "keeper_formation_tactic", "default"),
-        RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us_strategy", "keeper_avoid_tactic", "ballplacement_us"),
-        RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them_strategy", "keeper_avoid_tactic", "ballplacement_them"),
-        RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_shoot_strategy", "keeper_default_tactic", "default"),
-        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them_strategy", "keeper_default_tactic", "default"),
-        RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_shoot_strategy", "keeper_default_tactic", "default"),
-        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them_strategy", "keeper_default_tactic", "default"),
+        RefGameState(RefCommand::NORMAL_START, "normal_play", "default"),
+        RefGameState(RefCommand::FORCED_START, "normal_play", "default"),
+        RefGameState(RefCommand::HALT, "halt", "halt"),
+        RefGameState(RefCommand::STOP, "stop", "stop"),
+        RefGameState(RefCommand::TIMEOUT_US, "time_out", "stop"),
+        RefGameState(RefCommand::TIMEOUT_THEM, "halt", "halt"),
+        RefGameState(RefCommand::GOAL_US, "kickoff_them_prepare", "default"),
+        RefGameState(RefCommand::GOAL_THEM, "kickoff_us_prepare", "default"),
+        RefGameState(RefCommand::BALL_PLACEMENT_US, "ball_placement_us", "ballplacement_us"),
+        RefGameState(RefCommand::BALL_PLACEMENT_THEM, "ball_placement_them", "ballplacement_them"),
+        RefGameState(RefCommand::DIRECT_FREE_US, "free_kick_us", "default"),
+        RefGameState(RefCommand::DIRECT_FREE_THEM, "free_kick_them", "default"),
+        RefGameState(RefCommand::INDIRECT_FREE_US, "free_kick_us", "default"),
+        RefGameState(RefCommand::INDIRECT_FREE_THEM, "free_kick_them", "default"),
 
         // prepare commands
         // These have a follow up command
-        RefGameState(RefCommand::PREPARE_KICKOFF_US, "kickoff_us_formation_strategy", "keeper_formation_tactic", "kickoff", false, RefCommand::DO_KICKOFF),
-        RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_formation_strategy", "keeper_default_tactic", "kickoff", false, RefCommand::DEFEND_KICKOFF),
-        RefGameState(RefCommand::PREPARE_PENALTY_US, "penalty_us_prepare_strategy", "keeper_formation_tactic", "default", false, RefCommand::DO_PENALTY),
-        RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_prepare_strategy", "keeper_penalty_prepare_tactic", "default", false, RefCommand::DEFEND_PENALTY),
+        RefGameState(RefCommand::PREPARE_KICKOFF_US, "kickoff_us_prepare", "kickoff", false,
+                     RefCommand::DO_KICKOFF),
+        RefGameState(RefCommand::PREPARE_KICKOFF_THEM, "kickoff_them_prepare", "kickoff", false,
+                     RefCommand::DEFEND_KICKOFF),
+        RefGameState(RefCommand::PREPARE_PENALTY_US, "penalty_us_prepare", "default", false,
+                     RefCommand::DO_PENALTY),
+        RefGameState(RefCommand::PREPARE_PENALTY_THEM, "penalty_them_prepare", "default", false,
+                     RefCommand::DEFEND_PENALTY),
 
         // These two prepares are 'custom' because the refbox does not have seperate commands even though the rules are different
-        RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "time_out_strategy", "shootout_prepare_tactic", "default", false, RefCommand::DO_SHOOTOUT),
-        RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "time_out_strategy", "keeper_penalty_prepare_tactic", "default", false, RefCommand::DEFEND_SHOOTOUT),
+        RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "time_out", "default", false, RefCommand::DO_SHOOTOUT),
+        RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "time_out", "default", false,
+                     RefCommand::DEFEND_SHOOTOUT),
         // follow up commands
         // these are custom commands, called when 'normal play' is called after a prepare_ command
-        RefGameState(RefCommand::DO_KICKOFF, "kickoff_shoot_strategy", "keeper_default_tactic", "default", true),
-        RefGameState(RefCommand::DEFEND_KICKOFF, "kickoff_them_strategy", "keeper_default_tactic", "default", true),
-        RefGameState(RefCommand::DO_PENALTY, "penalty_us_shoot_strategy", "keeper_default_tactic", "default", true),
-        RefGameState(RefCommand::DEFEND_PENALTY, "penalty_them_defend_strategy", "keeper_penalty_defend_tactic", "default", true),
-        RefGameState(RefCommand::DO_SHOOTOUT, "time_out_strategy", "shootout_shoot_tactic", "default", true),
-        RefGameState(RefCommand::DEFEND_SHOOTOUT, "time_out_strategy", "keeper_default_tactic", "default", true)};
+        RefGameState(RefCommand::DO_KICKOFF, "kickoff_us", "default", true),
+        RefGameState(RefCommand::DEFEND_KICKOFF, "kickoff_them", "default", true),
+        RefGameState(RefCommand::DO_PENALTY, "penalty_us", "default", true),
+        RefGameState(RefCommand::DEFEND_PENALTY, "penalty_them", "default", true),
+        RefGameState(RefCommand::DO_SHOOTOUT, "time_out", "default", true),
+        RefGameState(RefCommand::DEFEND_SHOOTOUT, "time_out", "default", true)};
+
     RefGameState currentRefGameState = gameStates[0];
     RefCommand currentRefCmd = RefCommand::UNDEFINED;
 };
