@@ -11,11 +11,11 @@ namespace rtt::ai::stp::play {
     BallPlacementUs::BallPlacementUs() : Play() {
         // TODO: decide start invariants
         startPlayInvariants.clear();
-        //startPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
+        startPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
         // TODO: decide keep invariants
         keepPlayInvariants.clear();
-        //keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
+        keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::BallPlacer>(role::BallPlacer("ball_placer")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")),
@@ -43,7 +43,6 @@ namespace rtt::ai::stp::play {
     Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-        Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
         Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
 
         flagMap.insert({"ball_placer", {closeToBallFlag}});
@@ -61,6 +60,6 @@ namespace rtt::ai::stp::play {
     }
 
     const char *BallPlacementUs::getName() {
-        return "Ball Placement";
+        return "Ball Placement Us";
     }
 }  // namespace rtt::ai::stp::play
