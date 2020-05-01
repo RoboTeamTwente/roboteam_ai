@@ -69,6 +69,9 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     if (stpInfos.find("formation_8") != stpInfos.end()) {
         stpInfos["formation_8"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 3));
     }
+    if (stpInfos.find("formation_9") != stpInfos.end()) {
+        stpInfos["formation_9"].setPositionToMoveTo(Vector2(-length/8 + 2, 0.0));
+    }
 }
 
 bool PenaltyThemPrepare::shouldRoleSkipEndTactic() { return false; }
