@@ -59,6 +59,6 @@ void PenaltyThem::calculateInfoForRoles() noexcept {
 
 bool PenaltyThem::shouldRoleSkipEndTactic() { return false; }
 
-const char *PenaltyThem::getName() { return "Penalty Them Play"; }
+const char *PenaltyThem::getName() { return "Penalty Them"; }
 
 }  // namespace rtt::ai::stp::play

@@ -20,6 +20,7 @@ PenaltyUs::PenaltyUs() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::PenaltyKeeper>(role::PenaltyKeeper("keeper")),
                                                                                        std::make_unique<role::Attacker>(role::Attacker("kicker")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("halt_0")),
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_1")),
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_2")),
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_3")),
@@ -27,8 +28,7 @@ PenaltyUs::PenaltyUs() : Play() {
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_5")),
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_6")),
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_7")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_8")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_9"))};
+                                                                                       std::make_unique<role::Halt>(role::Halt("halt_8"))};
 }
 
 uint8_t PenaltyUs::score(world_new::World *world) noexcept { return 100; }
@@ -40,6 +40,7 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"kicker", {kickerFlag}});
+    flagMap.insert({"halt_0", {}});
     flagMap.insert({"halt_1", {}});
     flagMap.insert({"halt_2", {}});
     flagMap.insert({"halt_3", {}});
@@ -48,7 +49,6 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
     flagMap.insert({"halt_6", {}});
     flagMap.insert({"halt_7", {}});
     flagMap.insert({"halt_8", {}});
-    flagMap.insert({"halt_9", {}});
 
     return flagMap;
 }
@@ -66,6 +66,6 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
 
 bool PenaltyUs::shouldRoleSkipEndTactic() { return false; }
 
-const char *PenaltyUs::getName() { return "Penalty Us Play"; }
+const char *PenaltyUs::getName() { return "Penalty Us"; }
 
 }  // namespace rtt::ai::stp::play
