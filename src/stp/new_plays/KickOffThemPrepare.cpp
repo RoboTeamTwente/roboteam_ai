@@ -5,6 +5,7 @@
 #include "stp/new_plays/KickOffThemPrepare.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.h"
+#include "roboteam_utils/Hungarian.h"
 
 namespace rtt::ai::stp::play {
 
@@ -30,6 +31,11 @@ void KickOffThemPrepare::calculateInfoForRoles() noexcept {
     auto width = field.getFieldWidth();
     auto length = field.getFieldLength();
 
+    // Keeper
+    if (stpInfos.find("keeper") != stpInfos.end()) {
+        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
+    }
+
     // Positions of the kick off them formation which will be dealt to the Formation roles in order
     std::vector<Vector2> formationPositions = {
             Vector2(-length/4, width/8), Vector2(-length/4, -width/8), Vector2(-length/8, width/4), Vector2(-length/8, -width/4),
@@ -37,15 +43,25 @@ void KickOffThemPrepare::calculateInfoForRoles() noexcept {
             Vector2(-length/4, width/3), Vector2(-length/4, -width/3), Vector2(-length/8, 0.0)
     };
 
-    if (stpInfos.find("keeper") != stpInfos.end()) {
-        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
-    }
-
     int numberOfFormationRole = 0;
+    std::unordered_map<int, Vector2> currentPositions;
+    std::vector<Vector2> usedFormationPositions;
+
     for (auto& stpInfo : stpInfos) {
         if (stpInfo.first != "keeper") {
-            stpInfo.second.setPositionToMoveTo(formationPositions[numberOfFormationRole]);
+            auto robot = stpInfo.second.getRobot().value();
+            currentPositions.insert({robot->getId(), robot->getPos()});
+            usedFormationPositions.emplace_back(formationPositions[numberOfFormationRole]);
             numberOfFormationRole++;
+        }
+    }
+
+    // Minimize the distance between the robots and the used formation positions
+    auto optimizedFormationPositions = Hungarian::getOptimalPairsIdentified(currentPositions, usedFormationPositions);
+
+    for (auto& stpInfo : stpInfos) {
+        if (stpInfo.first != "keeper") {
+            stpInfo.second.setPositionToMoveTo(optimizedFormationPositions[stpInfo.second.getRobot().value()->getId()]);
         }
     }
 }
