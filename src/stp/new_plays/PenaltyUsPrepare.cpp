@@ -96,6 +96,6 @@ Dealer::FlagMap PenaltyUsPrepare::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char* PenaltyUsPrepare::getName() { return "Penalty Us Prepare Play"; }
+const char* PenaltyUsPrepare::getName() { return "Penalty Us Prepare"; }
 
 }  // namespace rtt::ai::stp::play
