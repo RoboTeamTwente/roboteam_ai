@@ -4,9 +4,6 @@
 
 #include "stp/new_plays/PenaltyThemPrepare.h"
 
-#include <include/roboteam_ai/stp/invariants/BallCloseToUsInvariant.h>
-#include <roboteam_utils/Hungarian.h>
-
 #include "stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/new_roles/Keeper.h"
@@ -15,10 +12,10 @@ namespace rtt::ai::stp::play {
 
 PenaltyThemPrepare::PenaltyThemPrepare() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::PenaltyThemPrepareGameStateInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::PenaltyThemPrepareGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::Formation>(role::Formation("formation_0")),

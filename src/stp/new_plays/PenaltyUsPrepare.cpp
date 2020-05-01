@@ -8,8 +8,6 @@
 
 #include "stp/new_plays/PenaltyUsPrepare.h"
 
-#include <roboteam_utils/Hungarian.h>
-
 #include "stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/new_roles/Keeper.h"
