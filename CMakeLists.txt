@@ -116,6 +116,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacement.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUs.cpp
         )
 
 set(INVARIANTS_SOURCES
