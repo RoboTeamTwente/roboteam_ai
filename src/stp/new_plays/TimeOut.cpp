@@ -28,8 +28,8 @@ TimeOut::TimeOut() : Play() {
 uint8_t TimeOut::score(world_new::World* world) noexcept { return 100; }
 
 void TimeOut::calculateInfoForRoles() noexcept {
-    auto xPosition = -4 * control_constants::ROBOT_RADIUS;
-    auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2 : -field.getFieldWidth() / 2;
+    const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
+    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2 : -field.getFieldWidth() / 2;
 
     std::unordered_map<int, Vector2> currentPositions;
 
