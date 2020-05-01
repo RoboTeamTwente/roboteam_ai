@@ -1,11 +1,6 @@
 //
 // Created by timovdk on 5/1/20.
 //
-
-//
-// Created by timovdk on 5/1/20.
-//
-
 #include "stp/new_plays/PenaltyUsPrepare.h"
 
 #include "stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.h"
