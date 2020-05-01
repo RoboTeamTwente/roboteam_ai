@@ -23,7 +23,6 @@ Attack::Attack() : Play() {
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Keeper>(role::Keeper("keeper")),             std::make_unique<role::Attacker>(role::Attacker("attacker")),
