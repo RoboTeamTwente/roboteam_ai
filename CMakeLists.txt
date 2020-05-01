@@ -116,6 +116,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacement.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
         )
 
 set(INVARIANTS_SOURCES
