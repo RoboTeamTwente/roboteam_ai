@@ -6,7 +6,6 @@
 
 #include "stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.h"
 #include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -17,7 +16,7 @@ PenaltyThemPrepare::PenaltyThemPrepare() : Play() {
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::PenaltyThemPrepareGameStateInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Formation>(role::Formation("keeper")),
                                                                                  std::make_unique<role::Formation>(role::Formation("formation_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("formation_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("formation_2")),
@@ -39,8 +38,6 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     // Keeper
     if (stpInfos.find("keeper") != stpInfos.end()) {
         stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
-        stpInfos["keeper"].setPositionToShootAt(Vector2(Vector2(0.0, 2.0)));
-        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     }
 
     // TODO: Improve positions
