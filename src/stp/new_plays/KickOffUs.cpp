@@ -5,6 +5,7 @@
 #include "stp/new_plays/KickOffUs.h"
 
 #include "stp/invariants/game_states/KickOffUsGameStateInvariant.h"
+#include "stp/new_roles/Attacker.h"
 #include "stp/new_roles/Halt.h"
 #include "stp/new_roles/Keeper.h"
 
@@ -18,10 +19,10 @@ KickOffUs::KickOffUs() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::KickOffUsGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")),
-        std::make_unique<role::Halt>(role::Halt("halt_2")),     std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")),
-        std::make_unique<role::Halt>(role::Halt("halt_5")),     std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7")),
-        std::make_unique<role::Halt>(role::Halt("halt_8")),     std::make_unique<role::Halt>(role::Halt("halt_9"))};
+        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Attacker>(role::Attacker("kicker")), std::make_unique<role::Halt>(role::Halt("halt_0")),
+        std::make_unique<role::Halt>(role::Halt("halt_1")),     std::make_unique<role::Halt>(role::Halt("halt_2")),         std::make_unique<role::Halt>(role::Halt("halt_3")),
+        std::make_unique<role::Halt>(role::Halt("halt_4")),     std::make_unique<role::Halt>(role::Halt("halt_5")),         std::make_unique<role::Halt>(role::Halt("halt_6")),
+        std::make_unique<role::Halt>(role::Halt("halt_7")),     std::make_unique<role::Halt>(role::Halt("halt_8"))};
 }
 
 uint8_t KickOffUs::score(world_new::World* world) noexcept { return 100; }
@@ -39,7 +40,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
 
     // Kicker
     if (stpInfos.find("kicker") != stpInfos.end()) {
-        stpInfos["kicker"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() - Vector2(-0.2,0));
+        stpInfos["kicker"].setPositionToShootAt(Vector2{3.0, 2.0});
     }
 
     // TODO: Improve positions
