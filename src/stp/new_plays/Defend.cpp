@@ -96,6 +96,19 @@ void Defend::calculateInfoForRoles() noexcept {
         stpInfos["keeper"].setPositionToShootAt(Vector2());
     }
 
+    auto length = field.getFieldLength();
+    auto width = field.getFieldWidth();
+
+    // Midfielders
+    if (stpInfos.find("midfielder_1") != stpInfos.end()) stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width/4));
+    if (stpInfos.find("midfielder_2") != stpInfos.end()) stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width/4));
+    if (stpInfos.find("midfielder_3") != stpInfos.end()) stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(-length/8, 0.0));
+    if (stpInfos.find("midfielder_4") != stpInfos.end()) stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length/8, 0.0));
+
+    // Offenders
+    if (stpInfos.find("offender_1") != stpInfos.end()) stpInfos["offender_1"].setPositionToMoveTo(Vector2(length/4, width/6));
+    if (stpInfos.find("offender_2") != stpInfos.end()) stpInfos["offender_2"].setPositionToMoveTo(Vector2(length/4, -width/6));
+
 
     /*for (auto &role : roles) {
         auto roleName{role->getName()};
