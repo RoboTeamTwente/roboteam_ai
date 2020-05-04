@@ -9,11 +9,9 @@ namespace rtt::ai {
 
 struct GameState {
     GameState() = default;
-    GameState(std::string strategyName, std::string keeperStrategyName, std::string ruleSetName)
-        : strategyName(std::move(strategyName)), keeperStrategyName(std::move(keeperStrategyName)), ruleSetName(std::move(ruleSetName)){};
+    GameState(std::string strategyName, std::string ruleSetName)
+        : strategyName(std::move(strategyName)), ruleSetName(std::move(ruleSetName)){};
 
-    std::string strategyName;
-    std::string keeperStrategyName;
     std::string ruleSetName;
     Vector2 ballPositionAtStartOfGameState;
     int keeperId = Constants::DEFAULT_KEEPER_ID();
@@ -27,6 +25,11 @@ struct GameState {
         std::cerr << "Returning empty ruleset with name '" << ruleSetName << "', this should never happen!" << std::endl;
         return {};
     }
+
+    std::string getStrategyName() { return strategyName; }
+
+private:
+    std::string strategyName;
 };
 
 }  // namespace rtt::ai
