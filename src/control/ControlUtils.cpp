@@ -9,45 +9,6 @@
 #include "world_new/World.hpp"
 
 namespace rtt::ai::control {
-// To find orientation of ordered triplet (p, q, r).
-// The function returns following values
-// 0 --> p, q and r are colinear
-// 1 --> Clockwise
-// 2 --> Counterclockwise
-int ControlUtils::lineOrientation(const Vector2 &p, const Vector2 &q, const Vector2 &r) {
-    // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
-    // for details of below formula.
-    double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-
-    if (val == 0) return 0;  // colinear
-
-    return (val > 0) ? 1 : 2;  // clock or counterclock wise
-}
-
-// Computes the absolute difference between 2 angles (the shortest orientation direction)
-/// both angles must go from[-pi,pi]!!
-double ControlUtils::angleDifference(double A1, double A2) {
-    double angleDif = A1 - A2;
-    if (angleDif < -M_PI) {
-        angleDif += 2 * M_PI;
-    } else if (angleDif > M_PI) {
-        angleDif -= 2 * M_PI;
-    }
-    return fabs(angleDif);
-} // Code clone
-
-// returns the side of rotation that is best from this angle.
-int ControlUtils::rotateDirection(double currentAngle, double targetAngle) {
-    double angDif = angleDifference(currentAngle, targetAngle);
-    double checkForward = Angle(currentAngle + angDif).getAngle();
-    double checkBackward = Angle(currentAngle - angDif).getAngle();
-    if (abs(checkForward - targetAngle) < abs(checkBackward - targetAngle)) {
-        return 1;  // forwards
-    } else {
-        return -1;  // backwards
-    }
-}
-
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
 Vector2 ControlUtils::velocityLimiter(const Vector2 &vel, double maxVel, double minVel, bool listenToReferee) {
     if (listenToReferee) {

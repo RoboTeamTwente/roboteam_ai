@@ -30,13 +30,7 @@ class Robot;
 
         class ControlUtils {
         public:
-            static double angleDifference(double A1, double A2);
-
-            static int rotateDirection(double currentAngle, double targetAngle);
-
             static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
-
-            static int lineOrientation(const Vector2 &p, const Vector2 &q, const Vector2 &r);
 
             static Vector2
             velocityLimiter(const Vector2 &vel, double maxVel = Constants::MAX_VEL(), double minVel = 0.0,
