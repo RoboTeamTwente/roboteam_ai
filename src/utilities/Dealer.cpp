@@ -14,8 +14,8 @@ Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priorit
     : title(title), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView>& allRobots, const FlagMap &flagMap) {
-    std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap);
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView>& allRobots, const FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo>& stpInfoMap) {
+    std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
     std::vector<int> assignment;
 
     // solve the matrix and put the results in 'assignment'
@@ -48,14 +48,26 @@ std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const s
 }
 
 // Populate a matrix with scores
-std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap) {
+std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo>& stpInfoMap) {
     vector<vector<double>> scores;
     scores.reserve(flagMap.size());
+
+    // Loop through all roles that are in the dealerFlags map
     for (auto const& [roleName, dealerFlags] : flagMap) {
         std::vector<double> row;
         row.reserve(allRobots.size());
+
+        // Calculate the score for each robot for a role; the row
         for (auto robot : allRobots) {
-            row.push_back(scoreForFlags(dealerFlags, robot));
+            double distanceScore{};
+            double flagScore{};
+
+            if(stpInfoMap.find(roleName) != stpInfoMap.end()){
+                distanceScore = getScoreForDistance(stpInfoMap.find(roleName)->second, robot);
+            }
+
+            flagScore = scoreForFlags(dealerFlags, robot);
+            row.push_back(distanceScore + flagScore);
         }
         scores.push_back(row);
     }
@@ -73,6 +85,18 @@ double Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags,
 double Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
     double factor = getFactorForPriority(flag);
     return factor * getDefaultFlagScores(robot, flag);
+}
+
+double Dealer::getScoreForDistance(const stp::StpInfo& stpInfo, const v::RobotView& robot){
+    double distance{};
+    if (stpInfo.getPositionToMoveTo().has_value()) {
+        distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
+    }
+    else if (stpInfo.getPositionToShootAt().has_value()) {
+        distance = robot->getPos().dist(world.getBall()->get()->getPos());
+    }
+
+    return costForDistance(distance, field->getFieldWidth(), field->getFieldLength());
 }
 
 // TODO these values need to be tuned.

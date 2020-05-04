@@ -7,13 +7,16 @@
  * requirements best to that role in the tree.
  */
 
-#include <vector>
-#include <map>
+#include <stp/StpInfo.h>
+
 #include <iostream>
+#include <map>
+#include <vector>
+
 #include "gtest/gtest_prod.h"
+#include "world/Field.h"
 #include "world_new/views/RobotView.hpp"
 #include "world_new/views/WorldDataView.hpp"
-#include "world/Field.h"
 
 namespace rtt::ai {
 
@@ -53,7 +56,7 @@ class Dealer {
   Dealer(v::WorldDataView world, world::Field * field);
   virtual ~Dealer() = default; // needed for test
   // Create a distribution of robots
-  std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
+  std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo>& stpInfoMap);
 
  protected:
   // This function is virtual such that it can be mocked in the tests.
@@ -65,7 +68,8 @@ class Dealer {
   world::Field * field;
 
   double getScoreForFlag(v::RobotView robot, DealerFlag flag);
-  std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap);
+  double getScoreForDistance(const stp::StpInfo& stpInfo, const v::RobotView& robot);
+  std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::unordered_map<std::string, stp::StpInfo>& stpInfoMap);
   static double getFactorForPriority(const DealerFlag &flag);
   static double costForDistance(double distance, double fieldWidth, double fieldHeight);
   static double costForProperty(bool property);
