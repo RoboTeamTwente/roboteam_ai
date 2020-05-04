@@ -8,11 +8,11 @@
 #include <stp/PlayChecker.hpp>
 
 class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 255; }
+    bool checkInvariant(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return true; }
 };
 
 class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 0; }
+    bool checkInvariant(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return false; }
 };
 
 class AlwaysValid : public rtt::ai::stp::Play {

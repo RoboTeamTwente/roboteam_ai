@@ -4,7 +4,7 @@
 
 #include "stp/new_plays/AggressiveFormation.h"
 
-#include "stp/invariants/BallGotShotInvariant.h"
+#include "stp/invariants/BallMovesFastInvariant.h"
 #include "stp/new_roles/Formation.h"
 
 namespace rtt::ai::stp::play {
@@ -12,7 +12,7 @@ namespace rtt::ai::stp::play {
 AggressiveFormation::AggressiveFormation() : Play() {
     // TODO: decide start invariants
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallGotShotInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesFastInvariant>());
 
     // TODO: decide keep invariants
 /*    keepPlayInvariants.clear();
@@ -27,7 +27,7 @@ AggressiveFormation::AggressiveFormation() : Play() {
         std::make_unique<role::Formation>(role::Formation("offender_3"))};
 }
 
-uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 2; }
+uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 102; }
 
 void AggressiveFormation::calculateInfoForRoles() noexcept {
     // TODO: TUNE these positions could probably be a bit better once we decide how we want to play

@@ -151,7 +151,7 @@ class WorldDataView {
     [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotView> &robots) const noexcept;
 
     /**
-     * Gets the robot closest to a ball
+     * Gest the robot closest to a ball
      * @param team Team to fetch from
      * @return getRobotClosestToPoint(ball.pos(), team);
      */

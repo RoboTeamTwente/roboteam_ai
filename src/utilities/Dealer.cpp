@@ -3,7 +3,6 @@
 #include <roboteam_utils/LineSegment.h>
 #include "world/FieldComputations.h"
 #include <roboteam_utils/Print.h>
-#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai {
 
@@ -19,7 +18,6 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     std::vector<int> assignment;
 
     // solve the matrix and put the results in 'assignment'
-    // The cost function will be minimized
     rtt::Hungarian::Solve(scores, assignment);
 
     return mapFromAssignments(allRobots, flagMap, assignment);
@@ -81,7 +79,6 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::LOW_PRIORITY: return 1.0;
         case DealerFlagPriority::MEDIUM_PRIORITY: return 2.0;
         case DealerFlagPriority::HIGH_PRIORITY: return 3.0;
-        case DealerFlagPriority::REQUIRED: return 100;
         default:
             std::cerr << "[Dealer] Unhandled dealerflag!" << endl;
             return 0;
@@ -112,7 +109,6 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             LineSegment lineSegment = {world.getBall()->get()->getPos(), field->getOurGoalCenter()};
             return lineSegment.distanceToLine(robot->getPos());
         }
-        case DealerFlagTitle::KEEPER: return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;

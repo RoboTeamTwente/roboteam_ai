@@ -83,7 +83,6 @@ int main(int argc, char* argv[]) {
 
     // initialize the interface
     QApplication a(argc, argv);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     setDarkTheme();
 
     // Todo make this a not-global-static thingy
