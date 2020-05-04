@@ -100,6 +100,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -114,16 +115,22 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacement.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TimeOut.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
         )
 
 set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/HaltGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallPlacementUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/FreedomOfRobotsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToUsInvariant.cpp
@@ -131,6 +138,22 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/NormalPlayGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/StopGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/TimeOutGameStateInvariant.cpp
         )
 
 set(CONTROL_SOURCES
