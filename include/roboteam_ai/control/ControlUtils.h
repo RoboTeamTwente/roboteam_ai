@@ -43,7 +43,15 @@ class Robot;
 
             static double constrainAngle(double angle);
 
+            static double constrainAngleMinusPiToPi(double angle);
+
             static double distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
+
+            static bool isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin,
+                                                      const Vector2 &lineEnd);
+
+            static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const rtt::world_new::view::WorldDataView world,
+                      double safeDistanceFactor, bool includeKeeper = true);
 
             static double
             distanceToLineWithEnds(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd);
@@ -51,6 +59,12 @@ class Robot;
             static double angleDifference(double A1, double A2);
 
             static int rotateDirection(double currentAngle, double targetAngle);
+
+            static Vector2 projectPositionToWithinField(const world::Field &field, Vector2 position,
+                                                        double margin = Constants::ROBOT_RADIUS());
+
+            static Vector2 projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position,
+                                                               double margin = Constants::ROBOT_RADIUS());
 
             static Vector2 calculateForce(const rtt::Vector2 &vector, double weight, double minDistance);
 
@@ -80,8 +94,22 @@ class Robot;
                                 double forwardsDeceleration = Constants::MAX_DEC_UPPER() / Constants::TICK_RATE());
 
             static bool
+            robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world,
+                                double maxDifference = 0.3);
+
+            static bool
             objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point,
                                        double maxDifference = 0.3);
+
+            static const world_new::view::RobotView getRobotClosestToLine(
+                std::vector<world_new::view::RobotView> robots,
+                Vector2 const &lineStart, Vector2 const &lineEnd,
+                bool lineWithEnds);
+
+            static Vector2
+            getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, Line line, bool canMoveInDefenseArea,
+                                             bool canMoveOutOfField, double defenseAreamargin,
+                                             double outOfFieldMargin);
         };
 
     }  // namespace control
