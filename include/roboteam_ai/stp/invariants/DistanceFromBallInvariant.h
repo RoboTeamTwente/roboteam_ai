@@ -1,18 +1,18 @@
 //
-// Created by timovdk on 4/3/20.
+// Created by timovdk on 4/21/20.
 //
 
-#ifndef RTT_BALLMOVESSLOWINVARIANT_H
-#define RTT_BALLMOVESSLOWINVARIANT_H
+#ifndef RTT_DISTANCEFROMBALLINVARIANT_H
+#define RTT_DISTANCEFROMBALLINVARIANT_H
 
 #include <NFParam/Param.h>
 
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-class BallMovesSlowInvariant : public BaseInvariant {
+class DistanceFromBallInvariant : public BaseInvariant {
    public:
-    BallMovesSlowInvariant() noexcept;
+    DistanceFromBallInvariant() noexcept;
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
@@ -31,4 +31,4 @@ class BallMovesSlowInvariant : public BaseInvariant {
 };
 }  // namespace rtt::ai::stp::invariant
 
-#endif  // RTT_BALLMOVESSLOWINVARIANT_H
+#endif  // RTT_DISTANCEFROMBALLINVARIANT_H
