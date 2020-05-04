@@ -2,7 +2,7 @@
 // Created by jesse on 30-04-20.
 //
 
-#include "include/roboteam_ai/stp/new_tactics/AvoidBall.h"
+#include "stp/new_tactics/AvoidBall.h"
 #include "stp/new_skills/GoToPos.h"
 #include "world/FieldComputations.h"
 
@@ -27,12 +27,18 @@ namespace rtt::ai::stp::tactic {
         StpInfo skillStpInfo = info;
         // Stretch vector between ball and robot to desired length
         auto ballToRobot = info.getRobot()->get()->getPos() - info.getBall().value()->getPos();
-        auto stretchedBallToRobot = ballToRobot.stretchToLength(0.5);
+        Vector2 stretchedBallToRobot;
+        if (info.getAvoidBallDistance()) {
+            stretchedBallToRobot = ballToRobot.stretchToLength(info.getAvoidBallDistance().value());
+        }
+        else {
+            stretchedBallToRobot = ballToRobot.stretchToLength(0.5);
+        }
+
         auto positionFromBall = info.getRobot()->get()->getPos() + stretchedBallToRobot;
 
         auto field = info.getField().value();
-        auto margin = 0.8;
-        if (rtt::ai::FieldComputations::pointIsInField(field, positionFromBall, margin)){
+        if (!rtt::ai::FieldComputations::pointIsInField(field, positionFromBall, control_constants::ROBOT_RADIUS_MAX)){
 
         }
 
