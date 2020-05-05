@@ -35,9 +35,8 @@
 
 namespace rtt::ai::interface {
     namespace inv = stp::invariant;
-    InvariantsWidget::InvariantsWidget(QWidget* parent) : QVBoxLayout(parent) {
-        textEdit = new QTextEdit();
-        textEdit->setReadOnly(true);
+    InvariantsWidget::InvariantsWidget(QWidget* parent) : QTextEdit(parent) {
+        this->setReadOnly(true);
 
         /**
          * Normal invariants
@@ -75,6 +74,7 @@ namespace rtt::ai::interface {
     }
 
     void InvariantsWidget::updateInvariants() {
+        clear();
         QString result = "";
         auto world = world_new::World::instance()->getWorld().value();
         auto field = world_new::World::instance()->getField().value();
@@ -84,8 +84,8 @@ namespace rtt::ai::interface {
             result += (inv->checkInvariant(world, &field) ? "true" : "false");
             result += "<br>";
         }
-        auto sliderPos = textEdit->verticalScrollBar()->sliderPosition();
-        textEdit->setHtml(result);
-        textEdit->verticalScrollBar()->setSliderPosition(sliderPos);
+        auto sliderPos = verticalScrollBar()->sliderPosition();
+        setText(result);
+        verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }

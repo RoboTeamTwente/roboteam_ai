@@ -28,7 +28,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     auto menu = new QMenuBar(this);
     this->setMenuBar(menu);
-    auto fileMenu = menu->addMenu(tr("&File"));
+    menu->addMenu(tr("&File"));
     auto viewMenu = menu->addMenu(tr("&Visualization"));
 
     MainWindow::configureCheckableMenuItem("show rolenames", "show rolenames", viewMenu, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
@@ -71,19 +71,15 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     graphWidget = new GraphWidget(this);
 
-    auto playsOwner = new QWidget(this);
-    playsWidget = new PlaysWidget(playsOwner);
-    playsOwner->setLayout(playsWidget);
+    playsWidget = new PlaysWidget(this);
 
-    auto invariantsOwner = new QWidget(this);
-    invariantsWidget = new InvariantsWidget(playsOwner);
-    playsOwner->setLayout(invariantsWidget);
+    invariantsWidget = new InvariantsWidget(this);
 
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
-    DataTabWidget->addTab(playsOwner, "Plays");
-    DataTabWidget->addTab(invariantsOwner, "Invariants");
+    DataTabWidget->addTab(playsWidget, "Plays");
+    DataTabWidget->addTab(invariantsWidget, "Invariants");
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));

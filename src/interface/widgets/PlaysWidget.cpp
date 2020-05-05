@@ -6,14 +6,12 @@
 #include "include/roboteam_ai/interface/widgets/PlaysWidget.hpp"
 
 namespace rtt::ai::interface {
-    PlaysWidget::PlaysWidget(QWidget* parent) : QVBoxLayout(parent) {
-        textEdit = new QTextEdit();
-        addWidget(textEdit);
-        textEdit->setReadOnly(true);
+    PlaysWidget::PlaysWidget(QWidget* parent) : QTextEdit(parent) {
+        setReadOnly(true);
     }
 
     void PlaysWidget::updatePlays() {
-        textEdit->clear();
+        clear();
         QString ss;
         for (auto& each : ApplicationManager::plays) {
             ss += each->getName();
@@ -21,8 +19,8 @@ namespace rtt::ai::interface {
             ss += each->score(world_new::World::instance());
             ss += "<br>";
         }
-        auto sliderPos = textEdit->verticalScrollBar()->sliderPosition();
-        textEdit->setHtml(ss);
-        textEdit->verticalScrollBar()->setSliderPosition(sliderPos);
+        auto sliderPos = verticalScrollBar()->sliderPosition();
+        setHtml(ss);
+        verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }

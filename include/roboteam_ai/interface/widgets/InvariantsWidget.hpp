@@ -11,13 +11,12 @@
 #include <QtWidgets/QTextEdit>
 
 namespace rtt::ai::interface {
-    class InvariantsWidget : public QVBoxLayout {
+    class InvariantsWidget : public QTextEdit {
     Q_OBJECT
     private:
-        std::unordered_map<std::string, std::unique_ptr<stp::invariant::BaseInvariant>> invariants;
-        QTextEdit* textEdit;
+        std::map<std::string, std::unique_ptr<stp::invariant::BaseInvariant>> invariants;
 
-        virtual ~InvariantsWidget() {};
+        ~InvariantsWidget() override = default;
 
     public:
         explicit InvariantsWidget(QWidget* parent = nullptr);

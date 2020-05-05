@@ -10,16 +10,13 @@
 
 namespace rtt::ai::interface {
 
-    class PlaysWidget : public QVBoxLayout {
+    class PlaysWidget : public QTextEdit {
     Q_OBJECT
     public:
         explicit PlaysWidget(QWidget* parent = nullptr);
         void updatePlays();
 
-        virtual ~PlaysWidget() {};
-
-    private:
-        QTextEdit* textEdit;
+        ~PlaysWidget() override = default;
     };
 }
 
