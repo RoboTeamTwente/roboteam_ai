@@ -27,6 +27,7 @@ extern const double BALL_STILL_VEL;
 extern const double BALL_IS_MOVING_VEL;
 extern const double BALL_GOT_SHOT_LIMIT;
 extern const double BALL_IS_MOVING_SLOW_LIMIT;
+extern const double BALL_IS_CLOSE;
 extern const double BALL_RADIUS;
 extern const double HAS_KICKED_ERROR_MARGIN;
 extern const double HAS_CHIPPED_ERROR_MARGIN;
@@ -56,6 +57,10 @@ extern const double FUZZY_TRUE;
 extern const double FUZZY_FALSE;
 extern const double FUZZY_MARGIN;
 extern const double FUZZY_DEFAULT_CUTOFF;
+
+// Distance constants
+extern const double DISTANCE_TO_ROBOT_CLOSE;
+extern const double DISTANCE_TO_ROBOT_FAR;
 
 // Keeper constants
 extern const double DISTANCE_FROM_GOAL_CLOSE;
