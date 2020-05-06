@@ -94,7 +94,8 @@ void Defend::calculateInfoForDefenders() noexcept {
         auto roleName = role->getName();
         if (roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
+            if (stpInfos[roleName].getRobot().has_value()
+                && stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
                 && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
