@@ -73,34 +73,26 @@ void Defend::calculateInfoForDefenders() noexcept {
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    if (stpInfos.find("defender_1") != stpInfos.end()) {
-        stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-        stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
-        stpInfos["defender_1"].setBlockDistance(HALFWAY);
-    }
+    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_1"].setBlockDistance(HALFWAY);
 
-    if (stpInfos.find("defender_2") != stpInfos.end()) {
-        stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
-        stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
-        stpInfos["defender_2"].setBlockDistance(HALFWAY);
-    }
+    stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
+    stpInfos["defender_2"].setBlockDistance(HALFWAY);
 
-    if (stpInfos.find("defender_3") != stpInfos.end()) {
-        stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal->getPos());
-        stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
-        stpInfos["defender_3"].setBlockDistance(HALFWAY);
-    }
+    stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal->getPos());
+    stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_3"].setBlockDistance(HALFWAY);
 
-    if (stpInfos.find("defender_4") != stpInfos.end()) {
-        stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter() + Vector2(4*control_constants::ROBOT_RADIUS, 0));
-        stpInfos["defender_4"].setEnemyRobot(enemyAttacker);
-        stpInfos["defender_4"].setBlockDistance(HALFWAY);
-    }
+    stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter() + Vector2(4*control_constants::ROBOT_RADIUS, 0));
+    stpInfos["defender_4"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_4"].setBlockDistance(HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
     for (auto &role : roles) {
         auto roleName = role->getName();
-        if (roleName.find("defender") != std::string::npos && stpInfos.find(roleName) != stpInfos.end()) {
+        if (roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
             if (stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
                 && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
@@ -114,28 +106,26 @@ void Defend::calculateInfoForDefenders() noexcept {
 }
 
 void Defend::calculateInfoForKeeper() noexcept {
-    if (stpInfos.find("keeper") != stpInfos.end()) {
-        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-        stpInfos["keeper"].setPositionToShootAt(Vector2());
-    }
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
 void Defend::calculateInfoForMidfielders() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
-    if (stpInfos.find("midfielder_1") != stpInfos.end()) stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width/4));
-    if (stpInfos.find("midfielder_2") != stpInfos.end()) stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width/4));
-    if (stpInfos.find("midfielder_3") != stpInfos.end()) stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(-length/8, 0.0));
-    if (stpInfos.find("midfielder_4") != stpInfos.end()) stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length/8, 0.0));
+    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width/4));
+    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width/4));
+    stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(-length/8, 0.0));
+    stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length/8, 0.0));
 }
 
 void Defend::calculateInfoForOffenders() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
-    if (stpInfos.find("offender_1") != stpInfos.end()) stpInfos["offender_1"].setPositionToMoveTo(Vector2(length/4, width/6));
-    if (stpInfos.find("offender_2") != stpInfos.end()) stpInfos["offender_2"].setPositionToMoveTo(Vector2(length/4, -width/6));
+    stpInfos["offender_1"].setPositionToMoveTo(Vector2(length/4, width/6));
+    stpInfos["offender_2"].setPositionToMoveTo(Vector2(length/4, -width/6));
 }
 
 bool Defend::shouldRoleSkipEndTactic() { return false; }
