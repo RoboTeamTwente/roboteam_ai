@@ -5,9 +5,7 @@
 #ifndef RTT_BALLPLACEMENTTHEMGAMESTATEINVARIANT_H
 #define RTT_BALLPLACEMENTTHEMGAMESTATEINVARIANT_H
 
-#include <NFParam/Param.h>
-
-#include "BaseInvariant.h"
+#include "stp/invariants/BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
 class BallPlacementThemGameStateInvariant : public BaseInvariant {

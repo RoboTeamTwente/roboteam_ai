@@ -55,6 +55,10 @@ constexpr double FUZZY_FALSE = 0;
 constexpr double FUZZY_MARGIN = 0.1;
 constexpr double FUZZY_DEFAULT_CUTOFF = 127;
 
+// Distance constants
+const double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS; // TODO: TUNE
+const double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS; // TODO: TUNE
+
 // Keeper constants
 const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
 }  // namespace rtt::ai::stp::control_constants
