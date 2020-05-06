@@ -94,6 +94,8 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
     } else if (stpInfo.getPositionToShootAt().has_value()) {
         distance = robot->getPos().dist(world.getBall()->get()->getPos());
+    } else if (stpInfo.getEnemyRobot().has_value()) {
+        distance = robot->getPos().dist(stpInfo.getEnemyRobot().value()->getPos());
     }
 
     return costForDistance(distance, field->getFieldWidth(), field->getFieldLength());
