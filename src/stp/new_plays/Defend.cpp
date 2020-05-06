@@ -23,12 +23,17 @@ Defend::Defend() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-            std::make_unique<role::Keeper>(role::Keeper("keeper")),             std::make_unique<role::Defender>(role::Defender("defender_1")),
-            std::make_unique<role::Defender>(role::Defender("defender_2")),     std::make_unique<role::Defender>(role::Defender("defender_3")),
-            std::make_unique<role::Defender>(role::Defender("defender_4")),     std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_2")), std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_4")), std::make_unique<role::Formation>(role::Formation("offender_1")),
-            std::make_unique<role::Formation>(role::Formation("offender_2"))};
+        std::make_unique<role::Keeper>(role::Keeper("keeper")),
+        std::make_unique<role::Defender>(role::Defender("defender_1")),
+        std::make_unique<role::Defender>(role::Defender("defender_2")),
+        std::make_unique<role::Defender>(role::Defender("defender_3")),
+        std::make_unique<role::Defender>(role::Defender("defender_4")),
+        std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+        std::make_unique<role::Formation>(role::Formation("midfielder_2")),
+        std::make_unique<role::Formation>(role::Formation("midfielder_3")),
+        std::make_unique<role::Formation>(role::Formation("midfielder_4")),
+        std::make_unique<role::Formation>(role::Formation("offender_1")),
+        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
 uint8_t Defend::score(world_new::World* world) noexcept { return 50; }
