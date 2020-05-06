@@ -63,7 +63,6 @@ class Dealer {
    private:
     v::WorldDataView world;
     world::Field *field;
-    
     /**
      * Calculates the score for a flag by multiplying the factor and score
      * The factor is based on the priority and the score is based on the trueness of a property
