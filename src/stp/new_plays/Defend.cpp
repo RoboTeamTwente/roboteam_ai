@@ -90,6 +90,21 @@ void Defend::calculateInfoForRoles() noexcept {
         stpInfos["defender_4"].setBlockDistance(HALFWAY);
     }
 
+    // When the ball moves, one defender tries to intercept the ball
+    for (auto &role : roles) {
+        auto roleName = role->getName();
+        if (roleName.find("defender") != std::string::npos && stpInfos.find(roleName) != stpInfos.end()) {
+            // TODO: Improve choice of intercept robot based on trajectory and intercept position
+            if (stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
+                && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+                // If current tactic is BlockRobot, force to tactic Intercept
+                if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
+                // TODO: Improve intercept position
+                stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall().value()->getPos());
+            }
+        }
+    }
+
     // Keeper
     if (stpInfos.find("keeper") != stpInfos.end()) {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
@@ -108,23 +123,6 @@ void Defend::calculateInfoForRoles() noexcept {
     // Offenders
     if (stpInfos.find("offender_1") != stpInfos.end()) stpInfos["offender_1"].setPositionToMoveTo(Vector2(length/4, width/6));
     if (stpInfos.find("offender_2") != stpInfos.end()) stpInfos["offender_2"].setPositionToMoveTo(Vector2(length/4, -width/6));
-
-
-    /*for (auto &role : roles) {
-        auto roleName{role->getName()};
-        if (stpInfos.find(roleName) != stpInfos.end()) {
-            if (stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId()
-                && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-                // If current tactic is BlockRobot, force to tactic Intercept
-                if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
-                stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall().value()->getPos());
-            } else {
-                stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getThem().at(stpInfos[roleName].getRobot().value()->getId()));
-                stpInfos[roleName].setBlockDistance(HALFWAY);
-            }
-        }
-    }*/
 }
 
 bool Defend::shouldRoleSkipEndTactic() { return false; }
