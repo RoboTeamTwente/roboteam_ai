@@ -70,11 +70,9 @@ void Defend::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    for (auto enemyRobot = enemyRobots.begin(); enemyRobot < enemyRobots.end(); enemyRobot++) {
-        if (enemyRobot->get()->getId() == enemyAttacker->getId()) {
-            enemyRobots.erase(enemyRobot);
-        }
-    }
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&] (const auto enemyRobot) -> bool {
+        return enemyRobot->getId() == enemyAttacker->getId();
+    }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
