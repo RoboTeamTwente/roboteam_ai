@@ -3,6 +3,7 @@
 //
 
 #include "stp/new_plays/Halt.h"
+
 #include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/new_roles/Halt.h"
 
@@ -16,17 +17,15 @@ Halt::Halt() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-            std::make_unique<role::Halt>(role::Halt("halt_0")),    std::make_unique<role::Halt>(role::Halt("halt_1")),
-            std::make_unique<role::Halt>(role::Halt("halt_2")),    std::make_unique<role::Halt>(role::Halt("halt_3")),
-            std::make_unique<role::Halt>(role::Halt("halt_4")),    std::make_unique<role::Halt>(role::Halt("halt_5")),
-            std::make_unique<role::Halt>(role::Halt("halt_6")),    std::make_unique<role::Halt>(role::Halt("halt_7")),
-            std::make_unique<role::Halt>(role::Halt("halt_8")),    std::make_unique<role::Halt>(role::Halt("halt_9")),
-            std::make_unique<role::Halt>(role::Halt("halt_10"))};
+        std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")), std::make_unique<role::Halt>(role::Halt("halt_2")),
+        std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")), std::make_unique<role::Halt>(role::Halt("halt_5")),
+        std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7")), std::make_unique<role::Halt>(role::Halt("halt_8")),
+        std::make_unique<role::Halt>(role::Halt("halt_9")), std::make_unique<role::Halt>(role::Halt("halt_10"))};
 }
 
 uint8_t Halt::score(world_new::World* world) noexcept { return 100; }
 
-void Halt::calculateInfoForRoles() noexcept { }
+void Halt::calculateInfoForRoles() noexcept {}
 
 bool Halt::shouldRoleSkipEndTactic() { return false; }
 
@@ -47,8 +46,6 @@ Dealer::FlagMap Halt::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char *Halt::getName() {
-    return "Halt";
-}
+const char* Halt::getName() { return "Halt"; }
 
 }  // namespace rtt::ai::stp::play

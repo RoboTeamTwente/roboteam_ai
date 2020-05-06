@@ -18,57 +18,19 @@ KickOffThem::KickOffThem() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::KickOffThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")), std::make_unique<role::Halt>(role::Halt("halt_2")),
-        std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")), std::make_unique<role::Halt>(role::Halt("halt_5")),
-        std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7")), std::make_unique<role::Halt>(role::Halt("halt_8")),
-        std::make_unique<role::Halt>(role::Halt("halt_9"))};
+        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")),
+        std::make_unique<role::Halt>(role::Halt("halt_2")),     std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")),
+        std::make_unique<role::Halt>(role::Halt("halt_5")),     std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7")),
+        std::make_unique<role::Halt>(role::Halt("halt_8")),     std::make_unique<role::Halt>(role::Halt("halt_9"))};
 }
 
 uint8_t KickOffThem::score(world_new::World* world) noexcept { return 100; }
 
 void KickOffThem::calculateInfoForRoles() noexcept {
-    auto width = field.getFieldWidth();
-    auto length = field.getFieldLength();
-
     // Keeper
-    if (stpInfos.find("keeper") != stpInfos.end()) {
-        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
-        stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
-        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    }
-
-    // TODO: Improve positions
-    // regular bots
-    if (stpInfos.find("formation_0") != stpInfos.end()) {
-        stpInfos["formation_0"].setPositionToMoveTo(Vector2(-length / 4 + 2, width / 8));
-    }
-    if (stpInfos.find("formation_1") != stpInfos.end()) {
-        stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 8));
-    }
-    if (stpInfos.find("formation_2") != stpInfos.end()) {
-        stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 8 + 2, width / 4));
-    }
-    if (stpInfos.find("formation_3") != stpInfos.end()) {
-        stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8 + 2, -width / 4));
-    }
-    if (stpInfos.find("formation_4") != stpInfos.end()) {
-        stpInfos["formation_4"].setPositionToMoveTo(Vector2(-length * 3 / 8 + 2, 0.0));
-    }
-    if (stpInfos.find("formation_5") != stpInfos.end()) {
-        stpInfos["formation_5"].setPositionToMoveTo(Vector2(-length * 3 / 8 + 2, width / 5));
-    }
-    if (stpInfos.find("formation_6") != stpInfos.end()) {
-        stpInfos["formation_6"].setPositionToMoveTo(Vector2(-length * 3 / 8 + 2, -width / 5));
-    }
-    if (stpInfos.find("formation_7") != stpInfos.end()) {
-        stpInfos["formation_7"].setPositionToMoveTo(Vector2(-length / 4 + 2, width / 3));
-    }
-    if (stpInfos.find("formation_8") != stpInfos.end()) {
-        stpInfos["formation_8"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 3));
-    }
-    if (stpInfos.find("formation_9") != stpInfos.end()) {
-        stpInfos["formation_9"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 3));
-    }
+    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
+    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 }
 
 bool KickOffThem::shouldRoleSkipEndTactic() { return false; }
