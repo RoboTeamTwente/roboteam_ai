@@ -54,6 +54,13 @@ Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
 }
 
 void Defend::calculateInfoForRoles() noexcept {
+    calculateInfoForDefenders();
+    calculateInfoForKeeper();
+    calculateInfoForMidfielders();
+    calculateInfoForOffenders();
+}
+
+void Defend::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
@@ -65,7 +72,6 @@ void Defend::calculateInfoForRoles() noexcept {
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    // Defenders
     if (stpInfos.find("defender_1") != stpInfos.end()) {
         stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
@@ -104,23 +110,29 @@ void Defend::calculateInfoForRoles() noexcept {
             }
         }
     }
+}
 
-    // Keeper
+void Defend::calculateInfoForKeeper() noexcept {
     if (stpInfos.find("keeper") != stpInfos.end()) {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
         stpInfos["keeper"].setPositionToShootAt(Vector2());
     }
+}
 
+void Defend::calculateInfoForMidfielders() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
-    // Midfielders
     if (stpInfos.find("midfielder_1") != stpInfos.end()) stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width/4));
     if (stpInfos.find("midfielder_2") != stpInfos.end()) stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width/4));
     if (stpInfos.find("midfielder_3") != stpInfos.end()) stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(-length/8, 0.0));
     if (stpInfos.find("midfielder_4") != stpInfos.end()) stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length/8, 0.0));
+}
 
-    // Offenders
+void Defend::calculateInfoForOffenders() noexcept {
+    auto length = field.getFieldLength();
+    auto width = field.getFieldWidth();
+
     if (stpInfos.find("offender_1") != stpInfos.end()) stpInfos["offender_1"].setPositionToMoveTo(Vector2(length/4, width/6));
     if (stpInfos.find("offender_2") != stpInfos.end()) stpInfos["offender_2"].setPositionToMoveTo(Vector2(length/4, -width/6));
 }
