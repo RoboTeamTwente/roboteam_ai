@@ -89,7 +89,7 @@ void Skill::limitAngularVel() noexcept {
         auto robotAngle = robot.value()->getAngle();
 
         // If the angle error is larger than the desired angle rate, the angle command is adjusted
-        if (fabs(robotAngle.shortestAngleDiff(targetAngle)) > angleRate) {
+        if (robotAngle.shortestAngleDiff(targetAngle) > angleRate) {
             // Direction of rotation is the shortest distance
             int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
             // Set the angle command to the current robot angle + the angle rate

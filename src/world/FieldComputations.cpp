@@ -27,7 +27,7 @@ double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool 
     Line goal = getGoalSides(field, ourGoal);
     Angle angleLeft = Angle(goal.start - point);
     Angle angleRight = Angle(goal.end - point);
-    return (angleLeft - angleRight).getAngle();
+    return angleLeft.shortestAngleDiff(angleRight);
 }
 
 double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id,
