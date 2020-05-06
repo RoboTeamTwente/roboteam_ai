@@ -2,6 +2,7 @@
 // Created by jesse on 30-04-20.
 //
 
+#include <include/roboteam_ai/utilities/GameStateManager.hpp>
 #include "stp/new_tactics/AvoidBall.h"
 #include "stp/new_skills/GoToPos.h"
 #include "world/FieldComputations.h"
@@ -36,15 +37,15 @@ namespace rtt::ai::stp::tactic {
         }
 
         auto positionFromBall = info.getRobot()->get()->getPos() + stretchedBallToRobot;
+        //skillStpInfo.setPositionToMoveTo(positionFromBall);
 
-        auto field = info.getField().value();
-        if (!rtt::ai::FieldComputations::pointIsInField(field, positionFromBall, control_constants::ROBOT_RADIUS_MAX)){
+        if (rtt::distanceFromPointToLine(info.getBall()->get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition(),
+                info.getRobot()->get()->getPos()) > 0.5){
+                LineSegment lineSegment = LineSegment(info.getBall().value().get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition());
+                lineSegment.project(info.getRobot()->get()->getPos());
+                skillStpInfo.setPositionToMoveTo(lineSegment.project(info.getRobot()->get()->getPos()));
 
         }
-
-        skillStpInfo.setPositionToMoveTo(positionFromBall);
-
-
 
         return skillStpInfo;
     }
