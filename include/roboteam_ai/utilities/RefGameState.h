@@ -17,7 +17,7 @@ struct RefGameState : public GameState {
     bool isfollowUpCommand;
     RefCommand followUpCommandId;
     RefGameState() = default;
-    RefGameState(RefCommand commandId, std::string strategyName, std::string keeperStrategyName, std::string ruleSet, bool isFollowUpCommand = false,
+    RefGameState(RefCommand commandId, std::string strategyName, std::string ruleSet, bool isFollowUpCommand = false,
                  RefCommand followUpCommandId = RefCommand::UNDEFINED);
     bool hasFollowUpCommand() const;
 };
