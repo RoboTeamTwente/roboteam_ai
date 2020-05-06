@@ -102,6 +102,13 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
     return {0, 0};
 }
 
+bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference) {
+    double exactAngleTowardsPoint = (point - objectPosition).angle();
+
+    // Note: The angles should NOT be constrained here. This is necessary.
+    return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
+}
+
 bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world, double maxDifference) {
     auto robot = world.getRobotForId(id, ourTeam);
     if (robot) {
@@ -111,13 +118,45 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &poin
     return false;
 }
 
-bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference) {
-    double exactAngleTowardsPoint = (point - objectPosition).angle();
+bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper) {
+    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
+    int keeperID = GameStateManager::getRefereeData().blue().goalie();
 
-    // Note: The angles should NOT be constrained here. This is necessary.
-    return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
+    for (auto &enemy : world->getThem()) {
+        if (!includeKeeper && enemy->getId() == keeperID) continue;
+        if (LineSegment(fromPos, toPos).distanceToLine(enemy->getPos()) < minDistance) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
+/// Returns point in field closest to a given point.
+/// If the point is already in the field it returns the same as the input.
+Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Vector2 position, double margin) {
+    double hFieldLength = field.getFieldLength() / 2;
+    position.x = std::min(position.x, hFieldLength - margin);
+    position.x = std::max(position.x, -hFieldLength + margin);
+
+    double hFieldWidth = field.getFieldWidth() / 2;
+    position.y = std::min(position.y, hFieldWidth - margin);
+    position.y = std::max(position.y, -hFieldWidth + margin);
+
+    return position;
+}
+
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin) {
+    if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
+        position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
+        return position;
+    }
+    if (FieldComputations::pointIsInDefenseArea(field, position, false, margin)) {
+        position.x = std::min(position.x, field.getRightPenaltyX() - margin);
+        return position;
+    }
+    return position;
+}
 
 const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
     int maxDist = INT_MAX;
@@ -125,9 +164,9 @@ const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector
     for (auto const &robot : robots) {
         double dist;
         if (lineWithEnds) {
-            dist = distanceToLine(robot->getPos(), lineStart, lineEnd);
+            dist = Line(lineStart, lineEnd).distanceToLine(robot->getPos());
         } else {
-            dist = distanceToLineWithEnds(robot->getPos(), lineStart, lineEnd);
+            dist = LineSegment(lineStart, lineEnd).distanceToLine(robot->getPos());
         }
         if (dist > maxDist) {
             dist = maxDist;
