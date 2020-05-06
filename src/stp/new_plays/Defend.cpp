@@ -4,6 +4,7 @@
 
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/invariants/BallOnOurSideInvariant.h"
+#include "stp/invariants/BallCloseToThemInvariant.h"
 #include "stp/new_plays/Defend.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Keeper.h"
@@ -15,7 +16,7 @@ Defend::Defend() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
-    // Ball close to them invariant
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToThemInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
