@@ -40,11 +40,11 @@ namespace rtt::ai::stp::tactic {
         //skillStpInfo.setPositionToMoveTo(positionFromBall);
 
         if (rtt::distanceFromPointToLine(info.getBall()->get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition(),
-                info.getRobot()->get()->getPos()) > 0.5){
+                info.getRobot()->get()->getPos()) < 0.5){
                 LineSegment lineSegment = LineSegment(info.getBall().value().get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition());
-                lineSegment.project(info.getRobot()->get()->getPos());
-                skillStpInfo.setPositionToMoveTo(lineSegment.project(info.getRobot()->get()->getPos()));
-
+                auto a = info.getRobot()->get()->getPos().project(info.getBall().value().get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition());
+                auto c = info.getRobot().value()->getPos();
+                skillStpInfo.setPositionToMoveTo(a + (a-c).stretchToLength(0.9));
         }
 
         return skillStpInfo;
