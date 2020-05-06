@@ -1,8 +1,6 @@
 /**
  * The dealer will check for the flags that are set in plays, but also for the distance
  * to a position that a robot might need to travel to. The lower the score of a robot, the better.
- * The robot with the lowest score for a role will get assigned to that role, unless it has already been assigned.
- * In that case it will pick the second best and so on.
  */
 #include "utilities/Dealer.h"
 
