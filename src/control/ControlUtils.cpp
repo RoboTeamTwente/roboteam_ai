@@ -102,11 +102,78 @@ Vector2 ControlUtils::calculateForce(const Vector2 &vector, double weight, doubl
     return {0, 0};
 }
 
+bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world, double maxDifference) {
+    auto robot = world.getRobotForId(id, ourTeam);
+    if (robot) {
+        Angle exactAngleTowardsPoint = (point - (*robot)->getPos());
+        return abs(exactAngleTowardsPoint - (*robot)->getAngle()) < maxDifference;
+    }
+    return false;
+}
+
 bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point, double maxDifference) {
     double exactAngleTowardsPoint = (point - objectPosition).angle();
 
     // Note: The angles should NOT be constrained here. This is necessary.
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
+}
+
+
+const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
+    int maxDist = INT_MAX;
+    auto closestRobot = robots.at(0);
+    for (auto const &robot : robots) {
+        double dist;
+        if (lineWithEnds) {
+            dist = distanceToLine(robot->getPos(), lineStart, lineEnd);
+        } else {
+            dist = distanceToLineWithEnds(robot->getPos(), lineStart, lineEnd);
+        }
+        if (dist > maxDist) {
+            dist = maxDist;
+            closestRobot = robot;
+        }
+    }
+    return closestRobot;
+}
+
+Vector2 ControlUtils::getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
+                                                       double) {
+    LineSegment shotLine(line.start, line.end + (line.end - line.start));
+    Vector2 projectPos = shotLine.project(position);
+    Vector2 closestPoint = projectPos;
+
+    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, true, defenseAreamargin);
+    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, false, defenseAreamargin);
+
+    if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
+        Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, field.getBoundaryWidth()));
+        Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, field.getBoundaryWidth()));
+
+        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
+        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
+
+            intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
+            if (intersects.empty()) {
+                return projectPos;
+            }
+            double closestDist = 9e9;
+            for (const auto &point: intersects) {
+                if (FieldComputations::pointIsInField(field, point, -defenseAreamargin)) {
+                    double dist = point.dist(position);
+                    if (dist < closestDist) {
+                        closestDist = dist;
+                        closestPoint = point;
+                    }
+                }
+            }
+        }
+
+        if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, -defenseAreamargin)) {
+            closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
+        }
+
+    return closestPoint;
 }
 
 }  // namespace rtt::ai::control
