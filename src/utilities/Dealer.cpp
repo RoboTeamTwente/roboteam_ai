@@ -1,3 +1,7 @@
+/**
+ * The dealer will check for the flags that are set in plays, but also for the distance
+ * to a position that a robot might need to travel to. The lower the score of a robot, the better.
+ */
 #include "utilities/Dealer.h"
 
 #include <roboteam_utils/Hungarian.h>
@@ -64,9 +68,11 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
             double flagScore{};
 
             if (stpInfoMap.find(roleName) != stpInfoMap.end()) {
+                // The shorter the distance, the lower the distance score
                 distanceScore = getScoreForDistance(stpInfoMap.find(roleName)->second, robot);
             }
 
+            // The better the flags, the lower the score
             flagScore = scoreForFlags(dealerFlags, robot);
             row.push_back(distanceScore + flagScore);
         }
@@ -75,6 +81,7 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
     return scores;
 }
 
+// Calculate the score for all flags for a role for one robot
 double Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
     double robotScore = 0;
     for (auto flag : dealerFlags) {
@@ -83,11 +90,13 @@ double Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags,
     return robotScore;
 }
 
+// Get the score of one flag for a role for one robot
 double Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
     double factor = getFactorForPriority(flag);
     return factor * getDefaultFlagScores(robot, flag);
 }
 
+// Get the distance score for a robot to a position when there is a position that role needs to go to
 double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
     if (stpInfo.getPositionToMoveTo().has_value()) {
@@ -153,6 +162,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
     return 0;
 }
 
+// Calculate the cost for distance. The further away the target, the higher the cost for that distance.
 double Dealer::costForDistance(double distance, double fieldWidth, double fieldHeight) {
     auto fieldDiagonalLength = sqrt(pow(fieldWidth, 2.0) + pow(fieldHeight, 2.0));
     return distance / fieldDiagonalLength;

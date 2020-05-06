@@ -5,6 +5,7 @@
  * The purpose of Dealer is to go from pairs of (name -> dealerFlags) to pairs of (name -> robot id).
  * In other words, there is a requirement for each role in the tree, and Dealer maps the robot that fits those
  * requirements best to that role in the tree.
+ * The lower the score, the better.
  */
 
 #include <stp/StpInfo.h>
@@ -62,15 +63,72 @@ class Dealer {
    private:
     v::WorldDataView world;
     world::Field *field;
-
+  
+    /**
+     * Calculates the score for a flag by multiplying the factor and score
+     * The factor is based on the priority and the score is based on the trueness of a property
+     * @param robot
+     * @param flag
+     * @return Score for a flag
+     */
     double getScoreForFlag(v::RobotView robot, DealerFlag flag);
+
+    /**
+     * Calculates the score for a distance between a point and a robot
+     * @param stpInfo
+     * @param robot
+     * @return Score for distance
+     */
     double getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot);
+
+    /**
+     * Populates the matrix of robots and roles with scores based on flags and distance
+     * @param allRobots
+     * @param flagMap
+     * @param stpInfoMap
+     * @return The score matrix
+     */
     std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                     const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
+
+    /**
+     * Translates a priority into a double
+     * @param flag
+     * @return priority factor
+     */
     static double getFactorForPriority(const DealerFlag &flag);
+
+    /**
+     * Calculates the cost of travelling a certain distance
+     * @param distance  the distance to travel
+     * @param fieldWidth
+     * @param fieldHeight
+     * @return cost of travelling that distance
+     */
     static double costForDistance(double distance, double fieldWidth, double fieldHeight);
+
+    /**
+     * Calculates the cost of a property (think of isWorkingDribbler())
+     * @param property
+     * @return cost of a property
+     */
     static double costForProperty(bool property);
+
+    /**
+     * Calculates the score for all flags for a role, for one robot (so will be called 11 times for each role)
+     * @param dealerFlags
+     * @param robot
+     * @return the score of all flags combined
+     */
     double scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+
+    /**
+     * Makes a mapping from roleName to a robot using the result of the hungarian
+     * @param allRobots
+     * @param flagMap
+     * @param assignment
+     * @return Returns the mapping
+     */
     std::unordered_map<std::string, v::RobotView> mapFromAssignments(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::vector<int> &assignment) const;
 };
 }  // namespace rtt::ai
