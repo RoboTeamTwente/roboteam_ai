@@ -48,18 +48,19 @@ bool TimeOut::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap TimeOut::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
+    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"time_out_1", {}});
-    flagMap.insert({"time_out_2", {}});
-    flagMap.insert({"time_out_3", {}});
-    flagMap.insert({"time_out_4", {}});
-    flagMap.insert({"time_out_5", {}});
-    flagMap.insert({"time_out_6", {}});
-    flagMap.insert({"time_out_7", {}});
-    flagMap.insert({"time_out_8", {}});
-    flagMap.insert({"time_out_9", {}});
-    flagMap.insert({"time_out_10", {}});
-    flagMap.insert({"time_out_11", {}});
+    flagMap.insert({"time_out_1", {not_important}});
+    flagMap.insert({"time_out_2", {not_important}});
+    flagMap.insert({"time_out_3", {not_important}});
+    flagMap.insert({"time_out_4", {not_important}});
+    flagMap.insert({"time_out_5", {not_important}});
+    flagMap.insert({"time_out_6", {not_important}});
+    flagMap.insert({"time_out_7", {not_important}});
+    flagMap.insert({"time_out_8", {not_important}});
+    flagMap.insert({"time_out_9", {not_important}});
+    flagMap.insert({"time_out_10", {not_important}});
+    flagMap.insert({"time_out_11", {not_important}});
 
     return flagMap;
 }

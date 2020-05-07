@@ -38,24 +38,24 @@ Attack::Attack() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-// TODO: Determine score of play
 uint8_t Attack::score(world_new::World *world) noexcept { return 50; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"attacker", {closeToBallFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
-    flagMap.insert({"midfielder_1", {}});
-    flagMap.insert({"midfielder_2", {}});
-    flagMap.insert({"midfielder_3", {}});
-    flagMap.insert({"midfielder_4", {}});
+    flagMap.insert({"midfielder_1", {not_important}});
+    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"midfielder_3", {not_important}});
+    flagMap.insert({"midfielder_4", {not_important}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"defender_3", {closeToOurGoalFlag}});

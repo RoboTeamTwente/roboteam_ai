@@ -51,19 +51,20 @@ bool KickOffThemPrepare::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap KickOffThemPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"formation_0", {}});
-    flagMap.insert({"formation_1", {}});
-    flagMap.insert({"formation_2", {}});
-    flagMap.insert({"formation_3", {}});
-    flagMap.insert({"formation_4", {}});
-    flagMap.insert({"formation_5", {}});
-    flagMap.insert({"formation_6", {}});
-    flagMap.insert({"formation_7", {}});
-    flagMap.insert({"formation_8", {}});
-    flagMap.insert({"formation_9", {}});
+    flagMap.insert({"formation_0", {not_important}});
+    flagMap.insert({"formation_1", {not_important}});
+    flagMap.insert({"formation_2", {not_important}});
+    flagMap.insert({"formation_3", {not_important}});
+    flagMap.insert({"formation_4", {not_important}});
+    flagMap.insert({"formation_5", {not_important}});
+    flagMap.insert({"formation_6", {not_important}});
+    flagMap.insert({"formation_7", {not_important}});
+    flagMap.insert({"formation_8", {not_important}});
+    flagMap.insert({"formation_9", {not_important}});
 
     return flagMap;
 }

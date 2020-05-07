@@ -46,19 +46,20 @@ bool DefensiveFormation::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"defender_0", {}});
-    flagMap.insert({"defender_1", {}});
-    flagMap.insert({"defender_2", {}});
-    flagMap.insert({"defender_3", {}});
-    flagMap.insert({"mid_field_0", {}});
-    flagMap.insert({"mid_field_1", {}});
-    flagMap.insert({"mid_field_2", {}});
-    flagMap.insert({"offender_0", {}});
-    flagMap.insert({"offender_1", {}});
-    flagMap.insert({"offender_2", {}});
+    flagMap.insert({"defender_0", {not_important}});
+    flagMap.insert({"defender_1", {not_important}});
+    flagMap.insert({"defender_2", {not_important}});
+    flagMap.insert({"defender_3", {not_important}});
+    flagMap.insert({"mid_field_0", {not_important}});
+    flagMap.insert({"mid_field_1", {not_important}});
+    flagMap.insert({"mid_field_2", {not_important}});
+    flagMap.insert({"offender_0", {not_important}});
+    flagMap.insert({"offender_1", {not_important}});
+    flagMap.insert({"offender_2", {not_important}});
 
     return flagMap;
 }
