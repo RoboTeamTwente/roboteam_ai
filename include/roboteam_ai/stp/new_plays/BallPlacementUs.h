@@ -1,6 +1,7 @@
 #ifndef RTT_BALLPLACEMENTUS_H
 #define RTT_BALLPLACEMENTUS_H
 
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
