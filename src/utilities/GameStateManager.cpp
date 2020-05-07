@@ -158,9 +158,9 @@ GameState GameStateManager::getCurrentGameState() {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
         if (SETTINGS.isYellow()) {
-            newGameState.keeperId = getRefereeData().yellow().goalie();
+            newGameState.keeperId = getRefereeData().yellow().goalkeeper();
         } else {
-            newGameState.keeperId = getRefereeData().blue().goalie();
+            newGameState.keeperId = getRefereeData().blue().goalkeeper();
         }
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,

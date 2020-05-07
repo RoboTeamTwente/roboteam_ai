@@ -18,9 +18,20 @@
 #include "stp/new_plays/Halt.h"
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/TestPlay.h"
+
 #include <pagmo/algorithms/pso.hpp>
 #include <pagmo/algorithms/pso_gen.hpp>
 #include <pagmo/islands/thread_island.hpp>
+
+#include "stp/new_plays/AggressiveFormation.h"
+#include "stp/new_plays/TimeOut.h"
+#include "stp/new_plays/PenaltyThemPrepare.h"
+#include "stp/new_plays/PenaltyUsPrepare.h"
+#include "stp/new_plays/PenaltyThem.h"
+#include "stp/new_plays/PenaltyUs.h"
+#include "stp/new_plays/KickOffUsPrepare.h"
+#include "stp/new_plays/KickOffThemPrepare.h"
+
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
 
@@ -33,7 +44,23 @@ void ApplicationManager::start() {
     RTT_INFO("Start looping")
     RTT_INFO("Waiting for field_data and robots...")
 
-    setPlays();
+    plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
+    playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
@@ -136,20 +163,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 
 ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 
-void ApplicationManager::setPlays() {
-    plays.clear();
 
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
-
-    playChecker.setPlays(plays);
-}
 
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem.

@@ -101,6 +101,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Keeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -115,6 +116,15 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacement.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TimeOut.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
         )
 set(NEW_PLAYS_ANALYSIS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
@@ -159,6 +169,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/FreedomOfRobotsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToUsInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToThemInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
