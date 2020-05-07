@@ -15,7 +15,9 @@ namespace rtt::ai::interface {
     Q_OBJECT
     private:
         std::map<std::string, std::unique_ptr<stp::invariant::BaseInvariant>> invariants;
-
+        std::stringstream data;
+        std::mutex dataLock;
+    	
         ~InvariantsWidget() override = default;
 
     public:

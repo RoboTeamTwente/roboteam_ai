@@ -12,6 +12,9 @@ namespace rtt::ai::interface {
 
     class PlaysWidget : public QTextEdit {
     Q_OBJECT
+    private:
+        std::stringstream data;
+        std::mutex dataMtx;
     public:
         explicit PlaysWidget(QWidget* parent = nullptr);
         void updatePlays();

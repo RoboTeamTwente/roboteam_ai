@@ -11,15 +11,12 @@ namespace rtt::ai::interface {
     }
 
     void PlaysWidget::updatePlays() {
-        QString ss;
+        std::lock_guard mtxLck{ dataMtx };
         for (auto& each : ApplicationManager::plays) {
-            ss += each->getName();
-            ss += " -> ";
-            ss += each->score(world_new::World::instance());
-            ss += "<br>";
+            data << each->getName() << " -> " << static_cast<int>(each->score(world_new::World::instance())) << "<br>";
         }
         auto sliderPos = verticalScrollBar()->sliderPosition();
-        setHtml(ss);
+        setHtml(QString::fromStdString(data.str()));
         verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }
