@@ -115,7 +115,7 @@ struct StpInfo {
     void setKickChipType(KickChipType kickChipType) { this->kickChipType = kickChipType; }
 
     const std::optional<double> &getAvoidBallDistance() const { return avoidBallDistance; }
-    void setAvoidBallDistance(const std::optional<double> &avoidBallDistance) { StpInfo::avoidBallDistance = avoidBallDistance; }
+    void setAvoidBallDistance(const std::optional<double> &avoidBallDistance) { this->avoidBallDistance = avoidBallDistance; }
 
 
    private:
