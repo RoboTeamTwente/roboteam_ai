@@ -127,6 +127,10 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
         )
 
+set(NEW_PLAYS_ANALYSIS_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
+        )
+
 set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
@@ -193,7 +197,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
         )
-
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
