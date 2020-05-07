@@ -10,11 +10,9 @@
 namespace rtt::ai::stp::play {
 
     BallPlacementUs::BallPlacementUs() : Play() {
-        // TODO: decide start invariants
         startPlayInvariants.clear();
         startPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
-        // TODO: decide keep invariants
         keepPlayInvariants.clear();
         keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
@@ -44,19 +42,18 @@ namespace rtt::ai::stp::play {
     Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-        Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
 
         flagMap.insert({"ball_placer", {closeToBallFlag}});
-        flagMap.insert({"ball_avoider_1", {notImportant}});
-        flagMap.insert({"ball_avoider_2", {notImportant}});
-        flagMap.insert({"ball_avoider_3", {notImportant}});
-        flagMap.insert({"ball_avoider_4", {notImportant}});
-        flagMap.insert({"ball_avoider_5", {notImportant}});
-        flagMap.insert({"ball_avoider_6", {notImportant}});
-        flagMap.insert({"ball_avoider_7", {notImportant}});
-        flagMap.insert({"ball_avoider_8", {notImportant}});
-        flagMap.insert({"ball_avoider_9", {notImportant}});
-        flagMap.insert({"ball_avoider_10", {notImportant}});
+        flagMap.insert({"ball_avoider_1", {}});
+        flagMap.insert({"ball_avoider_2", {}});
+        flagMap.insert({"ball_avoider_3", {}});
+        flagMap.insert({"ball_avoider_4", {}});
+        flagMap.insert({"ball_avoider_5", {}});
+        flagMap.insert({"ball_avoider_6", {}});
+        flagMap.insert({"ball_avoider_7", {}});
+        flagMap.insert({"ball_avoider_8", {}});
+        flagMap.insert({"ball_avoider_9", {}});
+        flagMap.insert({"ball_avoider_10", {}});
         return flagMap;
     }
 
