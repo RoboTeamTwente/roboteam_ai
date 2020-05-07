@@ -3,6 +3,7 @@
 //
 #include "stp/invariants/game_states/BallPlacementUsGameStateInvariant.h"
 #include "stp/new_roles/BallPlacer.h"
+#include "stp/new_roles/Keeper.h"
 #include "stp/new_roles/BallAvoider.h"
 #include "stp/new_plays/BallPlacementUs.h"
 #include "utilities/GameStateManager.hpp"
@@ -24,7 +25,7 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9")),
-                std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_10"))};
+                std::make_unique<role::Keeper>(role::Keeper("keeper"))};
     }
 
     uint8_t BallPlacementUs::score(world_new::World* world) noexcept { return 100; }
@@ -33,6 +34,9 @@ namespace rtt::ai::stp::play {
         if (stpInfos.find("ball_placer") != stpInfos.end()) {
             auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
             stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
+        }
+        if (stpInfos.find("keeper") != stpInfos.end()) {
+            stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::Team::them));
         }
         else {
             RTT_ERROR("No ball placement robot assigned!")
@@ -43,20 +47,20 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap BallPlacementUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-        Dealer::DealerFlag notImportant(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::LOW_PRIORITY);
-
-        flagMap.insert({"ball_placer", {closeToBallFlag}});
-        flagMap.insert({"ball_avoider_1", {notImportant}});
-        flagMap.insert({"ball_avoider_2", {notImportant}});
-        flagMap.insert({"ball_avoider_3", {notImportant}});
-        flagMap.insert({"ball_avoider_4", {notImportant}});
-        flagMap.insert({"ball_avoider_5", {notImportant}});
-        flagMap.insert({"ball_avoider_6", {notImportant}});
-        flagMap.insert({"ball_avoider_7", {notImportant}});
-        flagMap.insert({"ball_avoider_8", {notImportant}});
-        flagMap.insert({"ball_avoider_9", {notImportant}});
-        flagMap.insert({"ball_avoider_10", {notImportant}});
+        Dealer::DealerFlag ball_placement(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag keeper(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+        Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
+        flagMap.insert({"ball_placer", {ball_placement}});
+        flagMap.insert({"ball_avoider_1", {not_important}});
+        flagMap.insert({"ball_avoider_2", {not_important}});
+        flagMap.insert({"ball_avoider_3", {not_important}});
+        flagMap.insert({"ball_avoider_4", {not_important}});
+        flagMap.insert({"ball_avoider_5", {not_important}});
+        flagMap.insert({"ball_avoider_6", {not_important}});
+        flagMap.insert({"ball_avoider_7", {not_important}});
+        flagMap.insert({"ball_avoider_8", {not_important}});
+        flagMap.insert({"ball_avoider_9", {not_important}});
+        flagMap.insert({"keeper", {keeper}});
         return flagMap;
     }
 

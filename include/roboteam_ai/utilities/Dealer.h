@@ -36,7 +36,7 @@ enum class DealerFlagTitle {
     KEEPER
 };
 
-enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED };
+enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
 
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
