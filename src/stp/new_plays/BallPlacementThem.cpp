@@ -2,7 +2,6 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "stp/new_plays/Halt.h"
 #include "stp/invariants/game_states/BallPlacementThemGameStateInvariant.h"
 #include "stp/new_roles/BallPlacer.h"
 #include "stp/new_roles/BallAvoider.h"

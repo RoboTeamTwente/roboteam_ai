@@ -2,7 +2,7 @@
 // Created by jesse on 30-04-20.
 //
 
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include "utilities/GameStateManager.hpp"
 #include "stp/new_tactics/AvoidBall.h"
 #include "stp/new_skills/GoToPos.h"
 #include "world/FieldComputations.h"
@@ -26,19 +26,7 @@ namespace rtt::ai::stp::tactic {
 
     StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
         StpInfo skillStpInfo = info;
-        // Stretch vector between ball and robot to desired length
-        auto ballToRobot = info.getRobot()->get()->getPos() - info.getBall().value()->getPos();
-        Vector2 stretchedBallToRobot;
-        if (info.getAvoidBallDistance()) {
-            stretchedBallToRobot = ballToRobot.stretchToLength(info.getAvoidBallDistance().value());
-        }
-        else {
-            stretchedBallToRobot = ballToRobot.stretchToLength(0.5);
-        }
-
-        auto positionFromBall = info.getRobot()->get()->getPos() + stretchedBallToRobot;
-        //skillStpInfo.setPositionToMoveTo(positionFromBall);
-
+        // If the robot is not colinear with ballplacement path
         if (rtt::distanceFromPointToLine(info.getBall()->get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition(),
                 info.getRobot()->get()->getPos()) < 0.5){
                 LineSegment lineSegment = LineSegment(info.getBall().value().get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition());
@@ -46,6 +34,7 @@ namespace rtt::ai::stp::tactic {
                 auto c = info.getRobot().value()->getPos();
                 skillStpInfo.setPositionToMoveTo(a + (a-c).stretchToLength(0.9));
         }
+        // TODO: fix if robot is colinear
 
         return skillStpInfo;
     }

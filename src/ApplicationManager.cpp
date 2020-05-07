@@ -14,6 +14,7 @@
 #include "stp/new_plays/Attack.h"
 #include "stp/new_plays/Halt.h"
 #include "stp/new_plays/BallPlacementUs.h"
+#include "stp/new_plays/BallPlacementThem.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 #include "stp/new_plays/TimeOut.h"
@@ -46,6 +47,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());

@@ -1,6 +1,8 @@
-#include "stp/Play.hpp"
 #ifndef RTT_BALLPLACEMENTTHEM_H
 #define RTT_BALLPLACEMENTTHEM_H
+
+#include "stp/Play.hpp"
+
 namespace rtt::ai::stp::play {
 
     class BallPlacementThem : public Play {
