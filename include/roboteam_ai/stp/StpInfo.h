@@ -185,7 +185,6 @@ struct StpInfo {
      */
     std::optional<double> avoidBallDistance;
 
-
 };
 }  // namespace rtt::ai::stp
 

@@ -31,7 +31,6 @@ namespace rtt::ai::stp::play {
     uint8_t BallPlacementThem::score(world_new::World* world) noexcept { return 0; }
 
     void BallPlacementThem::calculateInfoForRoles() noexcept {
-
     }
 
     bool BallPlacementThem::shouldRoleSkipEndTactic() { return false; }
