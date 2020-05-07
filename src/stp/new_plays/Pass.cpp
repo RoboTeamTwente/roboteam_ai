@@ -37,19 +37,18 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender1", {notImportant}});
-    flagMap.insert({"defender2", {notImportant}});
-    flagMap.insert({"defender3", {notImportant}});
-    flagMap.insert({"defender4", {notImportant}});
-    flagMap.insert({"defender5", {notImportant}});
-    flagMap.insert({"defender6", {notImportant}});
-    flagMap.insert({"defender7", {notImportant}});
-    flagMap.insert({"defender8", {notImportant}});
-    flagMap.insert({"defender9", {notImportant}});
+    flagMap.insert({"defender1", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender2", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender3", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender4", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender5", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender6", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender7", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender8", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender9", {closeToTheirGoalFlag}});
 
     return flagMap;
 }

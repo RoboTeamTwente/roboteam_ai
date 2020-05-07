@@ -6,6 +6,9 @@
 #define RTT_PASSPROBLEM_H
 
 #include <pagmo/problem.hpp>
+#include "world_new/WorldData.hpp"
+#include "world_new/views/WorldDataView.hpp"
+#include "world/Field.h"
 using namespace pagmo;
 namespace rtt::ai::stp {
     class PassProblem : public pagmo::problem {

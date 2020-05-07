@@ -148,7 +148,10 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
     }
 
     auto stage = refMsg.stage();
-    strategymanager.setCurrentRefGameState(cmd, stage, world_new::World::instance()->getWorld()->getBall());
+    auto world = world_new::World::instance()->getWorld();
+    if (world.has_value()) {
+        strategymanager.setCurrentRefGameState(cmd, stage, world->getBall());
+    }
 }
 
 // Initialize static variables
