@@ -184,7 +184,6 @@ struct StpInfo {
      * When avoiding the ball, the robot will try to keep this distance (in meters) between the ball and the robot)
      */
     std::optional<double> avoidBallDistance;
-
 };
 }  // namespace rtt::ai::stp
 
