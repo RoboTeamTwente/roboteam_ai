@@ -11,7 +11,6 @@ namespace rtt::ai::interface {
     }
 
     void PlaysWidget::updatePlays() {
-        clear();
         QString ss;
         for (auto& each : ApplicationManager::plays) {
             ss += each->getName();
