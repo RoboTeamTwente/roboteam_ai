@@ -1,5 +1,5 @@
 //
-// Created by jordi on 08-04-20.
+// Created by RobotJesse on 08-04-20.
 //
 
 #ifndef RTT_AVOIDBALL_H

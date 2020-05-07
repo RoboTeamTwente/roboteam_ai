@@ -11,11 +11,9 @@
 namespace rtt::ai::stp::play {
 
     BallPlacementUs::BallPlacementUs() : Play() {
-        // TODO: decide start invariants
         startPlayInvariants.clear();
         startPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
-        // TODO: decide keep invariants
         keepPlayInvariants.clear();
         keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementUsGameStateInvariant>());
 
@@ -61,6 +59,7 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"ball_avoider_8", {not_important}});
         flagMap.insert({"ball_avoider_9", {not_important}});
         flagMap.insert({"keeper", {keeper}});
+
         return flagMap;
     }
 
