@@ -37,6 +37,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
     }
 
     // Positions of the kick off us formation which will be dealt to the Formation roles in order
+    // Formation_0 will go to the ball
     stpInfos["formation_0"].setPositionToMoveTo(Vector2(-0.25, 0.0));
     stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
     stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
@@ -54,10 +55,11 @@ bool KickOffUsPrepare::shouldRoleSkipEndTactic() { return false; }
 Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"formation_0", {not_important}});
+    flagMap.insert({"formation_0", {kickerFlag}});
     flagMap.insert({"formation_1", {not_important}});
     flagMap.insert({"formation_2", {not_important}});
     flagMap.insert({"formation_3", {not_important}});
