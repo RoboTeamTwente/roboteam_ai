@@ -9,7 +9,9 @@
 #include "world_new/WorldData.hpp"
 #include "world_new/views/WorldDataView.hpp"
 #include "world/Field.h"
+
 using namespace pagmo;
+
 namespace rtt::ai::stp {
     class PassProblem : public pagmo::problem {
         /**
@@ -18,10 +20,8 @@ namespace rtt::ai::stp {
          * @return
          */
     private:
-        //std::mutex world_mutex;
 
         world_new::WorldData problemWorld{};
-
         world::Field problemField;
 
         static double shootSuccesReward(Vector2 point, world_new::view::WorldDataView world, const world::Field& field);
@@ -42,7 +42,4 @@ namespace rtt::ai::stp {
 
     };
 }
-
-
-
 #endif //RTT_PASSPROBLEM_H

@@ -7,7 +7,9 @@
 #include <include/roboteam_ai/world_new/World.hpp>
 #include <utility>
 #include "stp/new_plays_analysis/PassProblem.h"
+
 using namespace pagmo;
+
 namespace rtt::ai::stp{
     vector_double PassProblem::fitness(const vector_double &dv) const {
         auto score = 0.0;
