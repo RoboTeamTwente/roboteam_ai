@@ -28,7 +28,39 @@ FreeKickThem::FreeKickThem() : Play() {
 uint8_t FreeKickThem::score(world_new::World* world) noexcept { return 100; }
 
 void FreeKickThem::calculateInfoForRoles() noexcept {
+    // Keeper
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setPositionToShootAt(Vector2());
 
+    // Defenders
+    const double MINIMAL_DISTANCE_FROM_BALL = 0.5;
+    auto enemyRobots = world->getWorld()->getThem();
+
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&] (const auto enemyRobot) -> bool {
+        return enemyRobot->getDistanceToBall() <= 1.5 * MINIMAL_DISTANCE_FROM_BALL;
+    }), enemyRobots.end());
+
+    for (int i = 0; i < 10; i++) {
+        auto roleName = "defender_" + std::to_string(i);
+
+        if (enemyRobots.size() != 0) {
+            auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(
+                    world->getWorld()->getBall().value()->getPos(), enemyRobots);
+
+            enemyRobots.erase(
+                std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool {
+                    return enemyRobot->getId() == enemyToDefend->getId();
+                }));
+
+            stpInfos[roleName].setPositionToDefend(enemyToDefend->getPos());
+            stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+            stpInfos[roleName].setBlockDistance(FAR);
+        } else {
+            stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
+            stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+            stpInfos[roleName].setBlockDistance(HALFWAY);
+        }
+    }
 }
 
 bool FreeKickThem::shouldRoleSkipEndTactic() { return false; }
