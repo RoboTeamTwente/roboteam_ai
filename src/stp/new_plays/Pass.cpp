@@ -64,7 +64,6 @@ void Pass::calculateInfoForRoles() noexcept {
 
     // Calculate receiver info
     if (stpInfos.find("pass_receiver") != stpInfos.end()) {
-
         auto pos = archipelago->get_champions_x();
         auto candidatePosition = Vector2(pos[0][0],pos[0][1]);
         auto chosenPosition = compareNewLocationToCurrentLocation(currentPassLocation, candidatePosition);
@@ -136,7 +135,6 @@ Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candi
     }
 
     return cand;
-
 }
 
 bool Pass::shouldRoleSkipEndTactic() { return false; }

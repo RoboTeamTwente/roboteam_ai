@@ -158,7 +158,6 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
 
         case DealerFlagTitle::KEEPER:
             return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
-
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;
