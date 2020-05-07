@@ -13,7 +13,8 @@
 #include "stp/new_plays/Defend.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_plays/Halt.h"
-#include "stp/new_plays/BallPlacement.h"
+#include "stp/new_plays/BallPlacementUs.h"
+#include "stp/new_plays/BallPlacementThem.h"
 #include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
 #include "stp/new_plays/TimeOut.h"
@@ -41,13 +42,14 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
