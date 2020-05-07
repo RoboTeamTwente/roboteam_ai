@@ -30,15 +30,15 @@ if (APPLE)
             /usr/local/lib/libgmock.a
             /usr/local/lib/libgmock_main.a
             )
-else (NOT APPLE)
+else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
     set(GTEST_LIB
             PRIVATE gtest
             PRIVATE gmock)
-endif ()
+endif()
 
-#find_package(Pagmo REQUIRED)
+find_package(Pagmo REQUIRED)
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(SDL2 REQUIRED sdl2)
@@ -125,40 +125,6 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThemPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
-        )
-set(NEW_PLAYS_ANALYSIS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
-        )
-set(CONDITIONS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/conditions/HasBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsInDefenseArea.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsRobotClosestToBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/CanReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/Condition.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/TheyHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/WeHaveBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallKickedToOurGoal.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallInDefenseAreaAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallOnOurSide.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsBeingPassedTo.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsCloseToPoint.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallOutOfField.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsBallCloseToBorder.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallNearOurGoalLineAndStill.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/HasClearShot.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/TwoRobotBallPlacement.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ShouldHandleBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/IsOnPassLine.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/BallIsClose.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/CanPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/RobotOutside.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/RefStateIsNormalPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/RefBallIsMoving.cpp
-        ${PROJECT_SOURCE_DIR}/src/conditions/ResumePlayAfterPenalty.cpp
-        )
-
-set(NEW_PLAYS_ANALYSIS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays_analysis/PassProblem.cpp
         )
 
 set(INVARIANTS_SOURCES
@@ -306,15 +272,13 @@ set(AI_INCLUDES
         PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
-
-# Look for an installation of pagmo in the system.
-find_package(Pagmo REQUIRED PATHS /home/jesse/.local/lib/cmake/pagmo)
+add_library(ai_lib ${AI_SOURCES})
+target_link_libraries(ai_lib ${AI_LIBS})
+target_include_directories(ai_lib ${AI_INCLUDES})
 
 # Main Executable
-add_executable(roboteam_ai src/roboteam_ai.cpp ${AI_SOURCES})
-target_link_libraries(roboteam_ai ${AI_LIBS} Pagmo::pagmo)
-
-
+add_executable(roboteam_ai src/roboteam_ai.cpp)
+target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib)
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
