@@ -34,16 +34,21 @@ void FreeKickThem::calculateInfoForRoles() noexcept {
 
     // Defenders
     const double MINIMAL_DISTANCE_FROM_BALL = 0.5;
+    const int NUMBER_OF_DEFENDERS = 10;
+
     auto enemyRobots = world->getWorld()->getThem();
 
+    // We cannot block enemy robots that are too close to the ball
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&] (const auto enemyRobot) -> bool {
         return enemyRobot->getDistanceToBall() <= 1.5 * MINIMAL_DISTANCE_FROM_BALL;
     }), enemyRobots.end());
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < NUMBER_OF_DEFENDERS; i++) {
         auto roleName = "defender_" + std::to_string(i);
 
+
         if (enemyRobots.size() != 0) {
+            // If there are enemy robots available, block the closest robot to the ball
             auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(
                     world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
@@ -56,6 +61,7 @@ void FreeKickThem::calculateInfoForRoles() noexcept {
             stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
             stpInfos[roleName].setBlockDistance(FAR);
         } else {
+            // TODO: Improve default behaviour when there are no enemy robots to block
             stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
             stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
             stpInfos[roleName].setBlockDistance(HALFWAY);
