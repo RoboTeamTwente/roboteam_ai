@@ -1,11 +1,16 @@
+#ifndef RTT_BALLPLACEMENTUS_H
+#define RTT_BALLPLACEMENTUS_H
+
+#include "stp/Play.hpp"
+
 namespace rtt::ai::stp::play {
 
-    class BallPlacement : public Play {
+    class BallPlacementUs : public Play {
     public:
         /**
          * Constructor that initializes roles with roles that are necessary for this play
          */
-        BallPlacement();
+        BallPlacementUs();
 
         /**
          * Gets the score for the current play
@@ -37,3 +42,5 @@ namespace rtt::ai::stp::play {
         bool shouldRoleSkipEndTactic() override;
     };
 }  // namespace rtt::ai::stp::play
+
+#endif // RTT_BALLPLACEMENTUS_H
