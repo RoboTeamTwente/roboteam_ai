@@ -5,13 +5,16 @@
 #include "stp/new_plays/Pass.h"
 
 #include <stp/invariants/WeHaveBallInvariant.h>
+
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallMovesSlowInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-#include "stp/new_roles/TestRole.h"
+#include "stp/new_roles/Defender.h"
+#include "stp/new_roles/Attacker.h"
+#include "stp/new_roles/Harasser.h"
 
 namespace rtt::ai::stp::play {
 
@@ -28,16 +31,16 @@ Pass::Pass() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
-        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("defender2")),
-        std::make_unique<TestRole>(TestRole("defender3")),    std::make_unique<TestRole>(TestRole("midfielder1")),
-        std::make_unique<TestRole>(TestRole("midfielder2")),    std::make_unique<TestRole>(TestRole("midfielder3")),
-        std::make_unique<TestRole>(TestRole("attacker1")),    std::make_unique<TestRole>(TestRole("attacker2")),
-        std::make_unique<TestRole>(TestRole("attacker3"))};
+        std::make_unique<role::Defender>(role::Defender("defender1")),      std::make_unique<role::Defender>(role::Defender("defender2")),
+        std::make_unique<role::Defender>(role::Defender("defender3")),    std::make_unique<role::Harasser>(role::Harasser("midfielder1")),
+        std::make_unique<role::Harasser>(role::Harasser("midfielder2")),    std::make_unique<role::Harasser>(role::Harasser("midfielder3")),
+        std::make_unique<role::Harasser>(role::Harasser("attacker1")),    std::make_unique<role::Harasser>(role::Harasser("attacker2")),
+        std::make_unique<role::Harasser>(role::Harasser("attacker3"))};
     currentPassLocation = {0,0};
     currentPassScore = 1000;
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return -10; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 100; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -93,15 +96,19 @@ void Pass::calculateInfoForRoles() noexcept {
             stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
         }
     }
-    stpInfos["defender1"].setPositionToMoveTo(Vector2{-2, 0});
-    stpInfos["defender2"].setPositionToMoveTo(Vector2{-2, -3});
-    stpInfos["defender3"].setPositionToMoveTo(Vector2{-1, 4});
-    stpInfos["attacker1"].setPositionToMoveTo(Vector2{-1, 1.5});
-    stpInfos["attacker2"].setPositionToMoveTo(Vector2{-1, -1.5});
-    stpInfos["attacker3"].setPositionToMoveTo(Vector2{-1, -4});
-    stpInfos["midfielder1"].setPositionToMoveTo(Vector2{-1, -4});
-    stpInfos["midfielder2"].setPositionToMoveTo(Vector2{-1, -4});
-    stpInfos["midfielder3"].setPositionToMoveTo(Vector2{-1, -4});
+    std::vector<Vector2> defendPoints = {Vector2(0,0.5), Vector2(0,-0.5)};
+    stpInfos["defender1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall());
+    stpInfos["defender2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[0]));
+    stpInfos["defender3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[1]));
+    stpInfos["defender1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender3"].setBlockDistance(BlockDistance::HALFWAY);
+//    stpInfos["attacker1"].setEnemyRobot();
+//    stpInfos["attacker2"].setEnemyRobot();
+//    stpInfos["attacker3"].setEnemyRobot();
+//    stpInfos["midfielder1"].setEnemyRobot();
+//    stpInfos["midfielder2"].setEnemyRobot();
+//    stpInfos["midfielder3"].setEnemyRobot();
 
 }
 
