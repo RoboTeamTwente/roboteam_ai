@@ -31,7 +31,6 @@ StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     if (GameStateManager::getCurrentGameState().getStrategyName() == "stop") {
         auto ballPosition = info.getBall()->get()->getPos();
         auto targetPosition = info.getPositionToMoveTo().value();
-        auto robotPosition = info.getRobot()->get()->getPos();
 
         if (targetPosition.dist(ballPosition) < 0.5) {
             skillStpInfo.setPositionToMoveTo(ballPosition.scale(0.7));
