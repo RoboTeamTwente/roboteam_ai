@@ -9,6 +9,110 @@
 #include "world_new/World.hpp"
 
 namespace rtt::ai::control {
+
+// Efficient implementation, see this: https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+/// Returns if PointToCheck is within the triangle constructed by three points.
+bool ControlUtils::pointInTriangle(const Vector2 &pointToCheck, const Vector2 &tp1, const Vector2 &tp2, const Vector2 &tp3) {
+    double as_x = pointToCheck.x - tp1.x;
+    double as_y = pointToCheck.y - tp1.y;
+    bool s_ab = (tp2.x - tp1.x) * as_y - (tp2.y - tp1.y) * as_x > 0;
+    if ((((tp3.x - tp1.x) * as_y - (tp3.y - tp1.y) * as_x) > 0) == s_ab) return false;
+    return ((((tp3.x - tp2.x) * (pointToCheck.y - tp2.y) - (tp3.y - tp2.y) * (pointToCheck.x - tp2.x)) > 0) == s_ab);
+}
+
+/// Returns the area of a triangle constructed from three points.
+double ControlUtils::TriangleArea(const Vector2 &a, const Vector2 &b, const Vector2 &c) { return abs((a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)) * 0.5); }
+
+/// Square points must be connected! (e.g. SP1 is connected to SP2 and SP4)
+bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const Vector2 &sp1, const Vector2 &sp2, const Vector2 &sp3, const Vector2 &sp4) {
+    if (pointInTriangle(pointToCheck, sp1, sp2, sp3)) {
+        return true;
+    } else {
+        return pointInTriangle(pointToCheck, sp4, sp1, sp3);
+    }
+}
+
+bool ControlUtils::pointInRectangle(const Vector2 &pointToCheck, const std::vector<Vector2> &rectangle) {
+    if (rectangle.size() == 4) {
+        return pointInRectangle(pointToCheck, rectangle[0], rectangle[1], rectangle[2], rectangle[3]);
+    }
+    return false;
+}
+
+/// Maps the input angle to be within the range of 0 - 2PI
+double ControlUtils::constrainAngle(double angle) {
+    angle = fmod(angle + M_PI, 2 * M_PI);
+    if (angle < 0) angle += 2 * M_PI;
+    return angle - M_PI;
+}
+
+/// Maps the input angle to be within the range of -PI - PI
+    double ControlUtils::constrainAngleMinusPiToPi(double angle) {
+        angle = constrainAngle(angle);
+        return angle < M_PI ? angle : angle - 2 * M_PI;
+    }
+
+bool ControlUtils::isPointProjectedOnLineSegment(const Vector2 &pointToCheck, const Vector2 &lineBegin, const Vector2 &lineEnd) {
+    Vector2 projectionPoint = pointToCheck.project(lineBegin, lineEnd);
+    double xMin = std::min(lineBegin.x, lineEnd.x);
+    double xMax = std::max(lineBegin.x, lineEnd.x);
+    double yMin = std::min(lineBegin.y, lineEnd.y);
+    double yMax = std::max(lineBegin.y, lineEnd.y);
+
+    return (projectionPoint.x > xMin && projectionPoint.x < xMax && projectionPoint.y > yMin && projectionPoint.y < yMax);
+}
+
+/// Get the distance from PointToCheck towards a line - the line is infinitely long
+// http://www.randygaul.net/2014/07/23/distance-point-to-line-segment/
+double ControlUtils::distanceToLine(const Vector2 &PointToCheck, const Vector2 &LineStart, const Vector2 &LineEnd) {
+    Vector2 n = LineEnd - LineStart;
+    Vector2 pa = LineStart - PointToCheck;
+    Vector2 c = n * (n.dot(pa) / n.dot(n));
+    Vector2 d = pa - c;
+    return d.length();
+}
+
+    bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper) {
+        double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
+        int keeperID = GameStateManager::getRefereeData().blue().goalkeeper();
+
+        for (auto &enemy : world->getThem()) {
+            if (!includeKeeper && enemy->getId() == keeperID) continue;
+            if (distanceToLineWithEnds(enemy->getPos(), fromPos, toPos) < minDistance) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+/// Get the distance from PointToCheck towards a line, the line is not infinite.
+double ControlUtils::distanceToLineWithEnds(const Vector2 &pointToCheck, const Vector2 &lineStart, const Vector2 &lineEnd) {
+    Vector2 line = lineEnd - lineStart;
+    Vector2 diff = pointToCheck - lineStart;
+    double dot = line.x * diff.x + line.y * diff.y;
+    double len_sq = line.y * line.y + line.x * line.x;
+    double param = -1;
+    if (len_sq != 0) {
+        param = dot / len_sq;
+    }
+    if (param < 0) {
+        param = 0;
+    } else if (param > 1) {
+        param = 1;
+    }
+    Vector2 project = lineStart + line * param;
+    Vector2 distDiff = pointToCheck - project;
+    return distDiff.length();
+}
+
+// https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
+// Given three colinear points p, q, r, the function checks if
+// point q lies on line segment 'pr'
+bool ControlUtils::onLineSegment(const Vector2 &p, const Vector2 &q, const Vector2 &r) {
+    return q.x <= fmax(p.x, r.x) && q.x >= fmin(p.x, r.x) && q.y <= fmax(p.y, r.y) && q.y >= fmin(p.y, r.y);
+}
+
 // To find orientation of ordered triplet (p, q, r).
 // The function returns following values
 // 0 --> p, q and r are colinear
