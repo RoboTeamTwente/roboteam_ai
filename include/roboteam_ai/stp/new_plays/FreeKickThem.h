@@ -44,6 +44,27 @@ public:
 
 protected:
     bool shouldRoleSkipEndTactic() override;
+
+private:
+    /**
+     * Calculates info for the keeper
+     */
+    void calculateInfoForKeeper() noexcept;
+
+    /**
+     * Calculates info the the blockers, which block off enemy robots
+     */
+    void calculateInfoForBlockers() noexcept;
+
+    /**
+     * Calculates info for the defenders, which defend the goal
+     */
+    void calculateInfoForDefenders() noexcept;
+
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 
 }  // namespace rtt::ai::stp::play

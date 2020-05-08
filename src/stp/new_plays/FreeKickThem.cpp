@@ -13,10 +13,10 @@ namespace rtt::ai::stp::play {
 
 FreeKickThem::FreeKickThem() : Play() {
     startPlayInvariants.clear();
-    //startPlayInvariants.emplace_back(std::make_unique<invariant::FreeKickThemGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::FreeKickThemGameStateInvariant>());
 
     keepPlayInvariants.clear();
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::FreeKickThemGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreeKickThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Keeper>(role::Keeper("keeper")),
@@ -32,14 +32,21 @@ FreeKickThem::FreeKickThem() : Play() {
             std::make_unique<role::Formation>(role::Formation("offender"))};
 }
 
-uint8_t FreeKickThem::score(world_new::World* world) noexcept { return 1000; }
+uint8_t FreeKickThem::score(world_new::World* world) noexcept { return 100; }
 
 void FreeKickThem::calculateInfoForRoles() noexcept {
-    // Keeper
+    calculateInfoForKeeper();
+    calculateInfoForBlockers();
+    calculateInfoForDefenders();
+    calculateInfoForOffenders();
+}
+
+void FreeKickThem::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
+}
 
-    // Blockers
+void FreeKickThem::calculateInfoForBlockers() noexcept {
     const double MINIMAL_DISTANCE_FROM_BALL = 0.5;
     const int NUMBER_OF_BLOCKERS = 6;
 
@@ -60,9 +67,9 @@ void FreeKickThem::calculateInfoForRoles() noexcept {
                     world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
             enemyRobots.erase(
-                std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool {
-                    return enemyRobot->getId() == enemyToDefend->getId();
-                }));
+                    std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool {
+                        return enemyRobot->getId() == enemyToDefend->getId();
+                    }));
 
             stpInfos[roleName].setPositionToDefend(enemyToDefend->getPos());
             stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
@@ -74,8 +81,9 @@ void FreeKickThem::calculateInfoForRoles() noexcept {
             stpInfos[roleName].setBlockDistance(HALFWAY);
         }
     }
+}
 
-    // Defenders
+void FreeKickThem::calculateInfoForDefenders() noexcept {
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["defender_0"].setBlockDistance(HALFWAY);
@@ -87,8 +95,9 @@ void FreeKickThem::calculateInfoForRoles() noexcept {
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
+}
 
-    // Offender
+void FreeKickThem::calculateInfoForOffenders() noexcept {
     stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0));
 }
 
