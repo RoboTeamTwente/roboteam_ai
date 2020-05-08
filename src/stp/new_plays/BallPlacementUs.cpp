@@ -48,6 +48,7 @@ namespace rtt::ai::stp::play {
         Dealer::DealerFlag ball_placement(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
         Dealer::DealerFlag keeper(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
         Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
+
         flagMap.insert({"ball_placer", {ball_placement}});
         flagMap.insert({"ball_avoider_1", {not_important}});
         flagMap.insert({"ball_avoider_2", {not_important}});
