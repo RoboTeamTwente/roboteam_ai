@@ -114,6 +114,10 @@ struct StpInfo {
     KickChipType getKickChipType() const { return kickChipType; }
     void setKickChipType(KickChipType kickChipType) { this->kickChipType = kickChipType; }
 
+    const std::optional<double> &getAvoidBallDistance() const { return avoidBallDistance; }
+    void setAvoidBallDistance(const std::optional<double> &avoidBallDistance) { this->avoidBallDistance = avoidBallDistance; }
+
+
    private:
     /**
      * Robot this tactic applies to
@@ -175,6 +179,11 @@ struct StpInfo {
      * Used to decide how close this robot should be to enemy robot
      */
     BlockDistance blockDistance;
+
+    /**
+     * When avoiding the ball, the robot will try to keep this distance (in meters) between the ball and the robot)
+     */
+    std::optional<double> avoidBallDistance;
 };
 }  // namespace rtt::ai::stp
 
