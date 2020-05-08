@@ -9,13 +9,11 @@
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
-    // TODO: decide start invariants
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
-    // TODO: decide keep invariants
-/*    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
+    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     roles = std::array<std::unique_ptr<Role>,stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
@@ -24,7 +22,7 @@ TestPlay::TestPlay() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t TestPlay::score(world_new::World *world) noexcept { return 10; }
+uint8_t TestPlay::score(world_new::World *world) noexcept { return 0; }
 
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -50,7 +48,6 @@ void TestPlay::calculateInfoForRoles() noexcept {
     for (auto &role : roles) {
         auto roleName{role->getName()};
         if (stpInfos.find(roleName) != stpInfos.end()) {
-            // TODO when deciding the intercept position, there should be some compensation for movement of the ball and reaction times, up to control I guess
             stpInfos[roleName].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos() + world->getWorld()->getBall()->get()->getFilteredVelocity() * 0.5);
         }
     }
