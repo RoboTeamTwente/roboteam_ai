@@ -3,21 +3,28 @@
 //
 #include "stp/new_plays_analysis/PassProblem.h"
 #include "stp/new_plays/Pass.h"
+
 #include <stp/invariants/WeHaveBallInvariant.h>
-#include "stp/new_roles/TestRole.h"
+#include "stp/invariants/BallCloseToUsInvariant.h"
+#include "stp/invariants/BallMovesSlowInvariant.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
+#include "stp/new_roles/TestRole.h"
 
 namespace rtt::ai::stp::play {
 
 Pass::Pass() : Play() {
-    // TODO: decide start invariants
     startPlayInvariants.clear();
-    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
-    // TODO: decide keep invariants
+
     keepPlayInvariants.clear();
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
+
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
@@ -30,25 +37,25 @@ Pass::Pass() : Play() {
     currentPassScore = 1000;
 }
 
-
-uint8_t Pass::score(world_new::World* world) noexcept { return 120; }
+uint8_t Pass::score(world_new::World* world) noexcept { return -10; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
+    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender1", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender2", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender3", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender4", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender5", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender6", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender7", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender8", {closeToTheirGoalFlag}});
-    flagMap.insert({"defender9", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender1", {not_important}});
+    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_4", {closeToBallFlag}});
+    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_6", {closeToBallFlag}});
+    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"test_role_9", {closeToBallFlag}});
+    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -57,7 +64,7 @@ void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
-    const int numberOfDefenders = 2;
+    const int numberOfDefenders = 1;
     auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
     const Vector2 passingPosition = Vector2{archipelago->get_champions_x()[0][0], archipelago->get_champions_x()[0][1]};
@@ -78,6 +85,7 @@ void Pass::calculateInfoForRoles() noexcept {
         stpInfos["passer"].setKickChipType(PASS);
     }
 
+    // Defenders
     for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
         std::string defenderName = "defender" + std::to_string(defenderIndex + 1);
 
@@ -94,6 +102,7 @@ void Pass::calculateInfoForRoles() noexcept {
     if (stpInfos.find("test_role_8") != stpInfos.end()) stpInfos["test_role_8"].setPositionToMoveTo(Vector2{-1, 1.5});
     if (stpInfos.find("test_role_9") != stpInfos.end()) stpInfos["test_role_9"].setPositionToMoveTo(Vector2{-1, -1.5});
     if (stpInfos.find("test_role_10") != stpInfos.end()) stpInfos["test_role_10"].setPositionToMoveTo(Vector2{-1, -4});
+
 }
 
 std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {

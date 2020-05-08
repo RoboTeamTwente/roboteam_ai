@@ -7,23 +7,20 @@
 
 #include <utilities/GameStateManager.hpp>
 
+#include <pagmo/algorithms/pso.hpp>
+#include <pagmo/islands/thread_island.hpp>
 /**
  * Plays are included here
  */
 #include "stp/new_plays/AggressiveFormation.h"
 #include "stp/new_plays/Attack.h"
-#include "stp/new_plays/BallPlacement.h"
 #include "stp/new_plays/Defend.h"
-#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/Halt.h"
+#include "stp/new_plays/BallPlacementUs.h"
+#include "stp/new_plays/BallPlacementThem.h"
+#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/TestPlay.h"
-
-#include <pagmo/algorithms/pso.hpp>
-#include <pagmo/algorithms/pso_gen.hpp>
-#include <pagmo/islands/thread_island.hpp>
-
-#include "stp/new_plays/AggressiveFormation.h"
 #include "stp/new_plays/TimeOut.h"
 #include "stp/new_plays/PenaltyThemPrepare.h"
 #include "stp/new_plays/PenaltyUsPrepare.h"
@@ -31,6 +28,8 @@
 #include "stp/new_plays/PenaltyUs.h"
 #include "stp/new_plays/KickOffUsPrepare.h"
 #include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/KickOffUs.h"
+#include "stp/new_plays/KickOffThem.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -52,7 +51,8 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacement>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
@@ -60,6 +60,8 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;

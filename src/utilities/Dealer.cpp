@@ -114,12 +114,14 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
 double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
     switch (flag.priority) {
         case DealerFlagPriority::LOW_PRIORITY:
-            return 1.0;
+            return 3.0;
         case DealerFlagPriority::MEDIUM_PRIORITY:
             return 2.0;
         case DealerFlagPriority::HIGH_PRIORITY:
-            return 3.0;
+            return 1.0;
         case DealerFlagPriority::REQUIRED:
+            return 0.1;
+        case DealerFlagPriority::KEEPER:
             return 100;
         default:
             RTT_WARNING("Unhandled dealerflag!")

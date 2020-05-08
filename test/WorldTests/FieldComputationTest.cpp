@@ -80,45 +80,45 @@ TEST(FieldComputationTest, outwards_margin) {
     EXPECT_TRUE(fabs(expectedGoalAreaSize - actualGoalAreaSize) < MAXIMUM_DIFFERENCE);
 }
 
-/* Checks whether the margins of the functions that return an Polygon are all in outwards direction by checking if the actual size of the area
- * matches with the expected size of the area. */
 TEST(FieldComputationTest, point_in_polygon) {
     double smallChanges = 0.001;
     Field testField = Field::createTestField();
 
-    // Pick the corner cases (boundary value analysis) and the center of the field for the pointInField function
-    Vector2 testPoint = testField.getTopLeftCorner() + Vector2(-1.0, 1.0);
+    // Test whether the center of the field is indeed located in the field
+    Vector2 testPoint = Vector2(0, 0);
+    EXPECT_TRUE(FieldComputations::pointIsInField(testField, testPoint, 0.0));
+
+    /* In the following test cases you do boundary value analysis + error guessing by extending the areas and pick 2 corners of this area from which you slightly move inwards and
+     * check if these new positions are indeed located in that area. Also you shrink the areas and pick the same corners from which you slightly move outwards and check if these
+     * new positions are indeed located outside that area. */
+    
+    // Do the boundary value analysis + error guessing for the pointInField function
+    testPoint = testField.getTopLeftCorner() + Vector2(-1.0, 1.0);
     EXPECT_TRUE(FieldComputations::pointIsInField(testField, testPoint, 1.0));
     testPoint = testField.getTopLeftCorner() + Vector2(-1.0 - smallChanges, 1.0 + smallChanges);
     EXPECT_FALSE(FieldComputations::pointIsInField(testField, testPoint, 1.0));
-    testPoint = Vector2(0, 0);
-    EXPECT_TRUE(FieldComputations::pointIsInField(testField, testPoint, 0.0));
     testPoint = testField.getBottomRightCorner() + Vector2(-1.0, 1.0);
     EXPECT_TRUE(FieldComputations::pointIsInField(testField, testPoint, -1.0));
     testPoint = testField.getBottomRightCorner() + Vector2(-1.0 + smallChanges, 1.0 - smallChanges);
     EXPECT_FALSE(FieldComputations::pointIsInField(testField, testPoint, -1.0));
 
-    // Pick the corner cases (boundary value analysis) for our defence area in the pointInDefenceArea function
-    testPoint = testField.getLeftPenaltyLineTop() + Vector2(0.3, 0.3);
-
-    // TODO: FIX THIS
-    // EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, 0.3, 0.2));
+    // Do the boundary value analysis + error guessing for our defence area in the pointInDefenseArea function
+    testPoint = testField.getLeftPenaltyLineTop() + Vector2(0.3 - smallChanges, 0.3 - smallChanges);
+    EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, 0.3, 0.2));
     testPoint = testField.getLeftPenaltyLineTop() + Vector2(0.3 + smallChanges, 0.3 + smallChanges);
     EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, 0.3, 0.2));
-    testPoint = testField.getBottomLeftOurDefenceArea() + Vector2(0.2, 0.3);
+    testPoint = testField.getBottomLeftOurDefenceArea() + Vector2(0.2 + smallChanges, 0.3 + smallChanges);
     EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, -0.3, -0.2));
     testPoint = testField.getBottomLeftOurDefenceArea() + Vector2(0.2 - smallChanges, 0.3 - smallChanges);
     EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, true, -0.3, -0.2));
 
-    // Pick the corner cases (boundary value analysis) for their defence area in the pointInDefenceArea function
+    // Do the boundary value analysis + error guessing for their defence area in the pointInDefenseArea function
     testPoint = testField.getRightPenaltyLineTop() + Vector2(0.3 + smallChanges, -0.3 - smallChanges);
     EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, -0.3, -0.2));
     testPoint = testField.getRightPenaltyLineTop() + Vector2(0.3 - smallChanges, -0.3 + smallChanges);
     EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, -0.3, -0.2));
-    testPoint = testField.getBottomRightTheirDefenceArea() + Vector2(0.2, -0.3);
-
-    // TODO: FIX THIS!
-    // EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, 0.3, 0.2));
+    testPoint = testField.getBottomRightTheirDefenceArea() + Vector2(0.2 - smallChanges, -0.3 + smallChanges);
+    EXPECT_TRUE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, 0.3, 0.2));
     testPoint = testField.getBottomRightTheirDefenceArea() + Vector2(0.2 + smallChanges, -0.3 - smallChanges);
     EXPECT_FALSE(FieldComputations::pointIsInDefenseArea(testField, testPoint, false, 0.3, 0.2));
 }

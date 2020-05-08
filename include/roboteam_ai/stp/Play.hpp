@@ -166,6 +166,8 @@ protected:
      * Assigns robots to roles
      */
     void distributeRoles() noexcept;
+
+    int previousRobotNum{};
 };
 }  // namespace rtt::ai::stp
 
