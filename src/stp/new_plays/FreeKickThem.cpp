@@ -60,16 +60,14 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
     for (int i = 0; i < NUMBER_OF_BLOCKERS; i++) {
         auto roleName = "blocker_" + std::to_string(i);
 
-
-        if (enemyRobots.size() != 0) {
+        if (!enemyRobots.empty()) {
             // If there are enemy robots available, block the closest robot to the ball
             auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(
                     world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
-            enemyRobots.erase(
-                    std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool {
-                        return enemyRobot->getId() == enemyToDefend->getId();
-                    }));
+            enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool {
+                return enemyRobot->getId() == enemyToDefend->getId();
+            }));
 
             stpInfos[roleName].setPositionToDefend(enemyToDefend->getPos());
             stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
