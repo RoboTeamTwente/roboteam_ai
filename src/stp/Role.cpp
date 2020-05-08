@@ -63,7 +63,7 @@ Tactic * Role::getCurrentTactic() {
 void Role::reset() noexcept {
     currentRobot.reset();
 
-    // Reset all skills
+    // Reset all tactics
     for (auto& tactic : robotTactics) {
         tactic->reset();
     }
