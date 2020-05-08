@@ -33,19 +33,20 @@ uint8_t PenaltyThem::score(world_new::World *world) noexcept { return 100; }
 
 Dealer::FlagMap PenaltyThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"halt_0", {}});
-    flagMap.insert({"halt_1", {}});
-    flagMap.insert({"halt_2", {}});
-    flagMap.insert({"halt_3", {}});
-    flagMap.insert({"halt_4", {}});
-    flagMap.insert({"halt_5", {}});
-    flagMap.insert({"halt_6", {}});
-    flagMap.insert({"halt_7", {}});
-    flagMap.insert({"halt_8", {}});
-    flagMap.insert({"halt_9", {}});
+    flagMap.insert({"halt_0", {not_important}});
+    flagMap.insert({"halt_1", {not_important}});
+    flagMap.insert({"halt_2", {not_important}});
+    flagMap.insert({"halt_3", {not_important}});
+    flagMap.insert({"halt_4", {not_important}});
+    flagMap.insert({"halt_5", {not_important}});
+    flagMap.insert({"halt_6", {not_important}});
+    flagMap.insert({"halt_7", {not_important}});
+    flagMap.insert({"halt_8", {not_important}});
+    flagMap.insert({"halt_9", {not_important}});
 
     return flagMap;
 }
