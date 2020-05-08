@@ -88,7 +88,7 @@ void Play::distributeRoles() noexcept {
 
     auto flagMap = decideRoleFlags();
 
-    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap, stpInfos);
+    auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap);
 
     stpInfos = std::unordered_map<std::string, StpInfo>{};
     for (auto& role : roles) {
