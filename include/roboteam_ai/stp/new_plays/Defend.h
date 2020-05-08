@@ -44,6 +44,26 @@ public:
 
 protected:
     bool shouldRoleSkipEndTactic() override;
+
+    /**
+     * Calculates info for the defenders
+     */
+    void calculateInfoForDefenders() noexcept;
+
+    /**
+     * Calculates info for the keeper
+     */
+    void calculateInfoForKeeper() noexcept;
+
+    /**
+     * Calculates info for the midfielders
+     */
+    void calculateInfoForMidfielders() noexcept;
+
+    /**
+     * Calculates info for the offenders
+     */
+    void calculateInfoForOffenders() noexcept;
 };
 
 } // namespace rtt::ai::stp::play
