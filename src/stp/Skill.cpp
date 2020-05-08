@@ -16,7 +16,7 @@ namespace rtt::ai::stp {
 void Skill::rotateRobotCommand() noexcept {
     command.mutable_vel()->set_x(-command.vel().x());
     command.mutable_vel()->set_y(-command.vel().y());
-    command.set_w(static_cast<float>(Angle(command.w() + M_PI).getAngle()));
+    command.set_w(static_cast<float>(control::ControlUtils::constrainAngle(command.w() + M_PI)));
 }
 
 void Skill::publishRobotCommand() noexcept {
@@ -89,7 +89,7 @@ void Skill::limitAngularVel() noexcept {
         auto robotAngle = robot.value()->getAngle();
 
         // If the angle error is larger than the desired angle rate, the angle command is adjusted
-        if (robotAngle.shortestAngleDiff(targetAngle) > angleRate) {
+        if (fabs(robotAngle.shortestAngleDiff(targetAngle)) > angleRate) {
             // Direction of rotation is the shortest distance
             auto direction = rtt::ai::control::ControlUtils::rotateDirection(robotAngle, targetAngle);
             // Set the angle command to the current robot angle + the angle rate

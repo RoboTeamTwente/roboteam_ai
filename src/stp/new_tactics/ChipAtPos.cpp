@@ -96,7 +96,7 @@ bool ChipAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
     if (skills.current_num() != 0) {
         double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-        return info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle()) > errorMargin;
+        return fabs(info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle())) > errorMargin;
     }
     return false;
 }

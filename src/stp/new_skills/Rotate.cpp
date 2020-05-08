@@ -27,7 +27,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+    if (fabs(info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle)) < errorMargin) {
         return Status::Success;
     } else {
         return Status::Running;

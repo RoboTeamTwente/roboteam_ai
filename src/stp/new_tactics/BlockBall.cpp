@@ -73,9 +73,8 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
             auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
             auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
 
-            auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
-            if (intersection) {
-                return intersection.value();
+            if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
+                return control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
             }
         }
 
@@ -88,9 +87,11 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
             const auto &startGoal = field.getOurTopGoalSide();
             const auto &endGoal = field.getOurBottomGoalSide();
 
-            auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
-            if (intersection) {
-                auto targetPositions = keeperArc.intersectionWithLine(start, intersection.value());
+            if (control::ControlUtils::lineSegmentsIntersect(start, end, startGoal, endGoal)) {
+                auto goalPos = control::ControlUtils::twoLineIntersection(start, end, startGoal, endGoal);
+
+                auto targetPositions = keeperArc.intersectionWithLine(start, goalPos);
+
                 if (targetPositions.first) {
                     return targetPositions.first.value();
                 } else if (targetPositions.second) {

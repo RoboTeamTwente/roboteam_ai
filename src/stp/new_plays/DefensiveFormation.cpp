@@ -11,11 +11,11 @@ namespace rtt::ai::stp::play {
 
 DefensiveFormation::DefensiveFormation() : Play() {
     // TODO: decide start invariants
-    /* startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>()); */
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     // TODO: decide keep invariants
-    /* keepPlayInvariants.clear();
+/*    keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());*/
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
@@ -66,5 +66,7 @@ Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
 
     return flagMap;
 }
-const char* DefensiveFormation::getName() { return "Defensive Formation"; }
+const char *DefensiveFormation::getName() {
+    return "Defensive Formation";
+}
 }  // namespace rtt::ai::stp::play

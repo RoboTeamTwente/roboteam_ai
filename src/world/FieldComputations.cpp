@@ -25,9 +25,9 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     Line goal = getGoalSides(field, ourGoal);
-    Angle angleLeft = Angle(goal.start - point);
-    Angle angleRight = Angle(goal.end - point);
-    return angleLeft.shortestAngleDiff(angleRight);
+    double angleLeft = (goal.start - point).angle();
+    double angleRight = (goal.end - point).angle();
+    return control::ControlUtils::angleDifference(control::ControlUtils::constrainAngle(angleLeft), control::ControlUtils::constrainAngle(angleRight));
 }
 
 double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world, int id,
@@ -83,7 +83,7 @@ Line FieldComputations::getGoalSides(const rtt_world::Field &field, bool ourGoal
 
 double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     auto sides = getGoalSides(field, ourGoal);
-    return LineSegment(sides.start, sides.end).distanceToLine(point);
+    return control::ControlUtils::distanceToLineWithEnds(point, sides.start, sides.end);
 }
 
 Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool ourGoal) {
