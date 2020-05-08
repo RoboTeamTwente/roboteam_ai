@@ -34,8 +34,8 @@ StpInfo BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
 }
 
 double BlockRobot::calculateAngle(const world_new::view::RobotView enemy, const Vector2 &targetLocation) {
-    Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
-    return lineEnemyToTarget.angle();
+    Vector2 lineTargetToEnemy = enemy->getPos() - targetLocation;
+    return lineTargetToEnemy.angle();
 }
 
 Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, const Vector2 &targetLocation) {
