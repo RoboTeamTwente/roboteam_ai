@@ -29,10 +29,10 @@ Pass::Pass() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
         std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("defender2")),
-        std::make_unique<TestRole>(TestRole("defender3")),    std::make_unique<TestRole>(TestRole("defender4")),
-        std::make_unique<TestRole>(TestRole("defender5")),    std::make_unique<TestRole>(TestRole("defender6")),
-        std::make_unique<TestRole>(TestRole("defender7")),    std::make_unique<TestRole>(TestRole("defender8")),
-        std::make_unique<TestRole>(TestRole("defender9"))};
+        std::make_unique<TestRole>(TestRole("defender3")),    std::make_unique<TestRole>(TestRole("midfielder1")),
+        std::make_unique<TestRole>(TestRole("midfielder2")),    std::make_unique<TestRole>(TestRole("midfielder3")),
+        std::make_unique<TestRole>(TestRole("attacker1")),    std::make_unique<TestRole>(TestRole("attacker2")),
+        std::make_unique<TestRole>(TestRole("attacker3"))};
     currentPassLocation = {0,0};
     currentPassScore = 1000;
 }
@@ -48,14 +48,14 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
     flagMap.insert({"defender1", {not_important}});
-    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_4", {closeToBallFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_6", {closeToBallFlag}});
-    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender2", {closeToTheirGoalFlag}});
+    flagMap.insert({"defender3", {closeToBallFlag}});
+    flagMap.insert({"midfielder1", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"midfielder2", {closeToBallFlag}});
+    flagMap.insert({"midfielder3", {closeToTheirGoalFlag}});
+    flagMap.insert({"attacker1", {closeToTheirGoalFlag, closeToBallFlag}});
+    flagMap.insert({"attacker2", {closeToBallFlag}});
+    flagMap.insert({"attacker3", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -93,15 +93,15 @@ void Pass::calculateInfoForRoles() noexcept {
             stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
         }
     }
-
-    if (stpInfos.find("test_role_3") != stpInfos.end()) stpInfos["test_role_3"].setPositionToMoveTo(Vector2{-3, -3});
-    if (stpInfos.find("test_role_4") != stpInfos.end()) stpInfos["test_role_4"].setPositionToMoveTo(Vector2{-2, 3});
-    if (stpInfos.find("test_role_5") != stpInfos.end()) stpInfos["test_role_5"].setPositionToMoveTo(Vector2{-2, 0});
-    if (stpInfos.find("test_role_6") != stpInfos.end()) stpInfos["test_role_6"].setPositionToMoveTo(Vector2{-2, -3});
-    if (stpInfos.find("test_role_7") != stpInfos.end()) stpInfos["test_role_7"].setPositionToMoveTo(Vector2{-1, 4});
-    if (stpInfos.find("test_role_8") != stpInfos.end()) stpInfos["test_role_8"].setPositionToMoveTo(Vector2{-1, 1.5});
-    if (stpInfos.find("test_role_9") != stpInfos.end()) stpInfos["test_role_9"].setPositionToMoveTo(Vector2{-1, -1.5});
-    if (stpInfos.find("test_role_10") != stpInfos.end()) stpInfos["test_role_10"].setPositionToMoveTo(Vector2{-1, -4});
+    stpInfos["defender1"].setPositionToMoveTo(Vector2{-2, 0});
+    stpInfos["defender2"].setPositionToMoveTo(Vector2{-2, -3});
+    stpInfos["defender3"].setPositionToMoveTo(Vector2{-1, 4});
+    stpInfos["attacker1"].setPositionToMoveTo(Vector2{-1, 1.5});
+    stpInfos["attacker2"].setPositionToMoveTo(Vector2{-1, -1.5});
+    stpInfos["attacker3"].setPositionToMoveTo(Vector2{-1, -4});
+    stpInfos["midfielder1"].setPositionToMoveTo(Vector2{-1, -4});
+    stpInfos["midfielder2"].setPositionToMoveTo(Vector2{-1, -4});
+    stpInfos["midfielder3"].setPositionToMoveTo(Vector2{-1, -4});
 
 }
 
