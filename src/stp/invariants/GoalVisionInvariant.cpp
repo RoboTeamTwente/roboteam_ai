@@ -26,15 +26,7 @@ GoalVisionInvariant::GoalVisionInvariant() noexcept {
 }
 
 uint8_t GoalVisionInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
-    auto& us = world.getUs();
-    std::vector<double> visibilities{};
-    visibilities.reserve(control_constants::MAX_ROBOT_COUNT);
-
-    std::transform(us.begin(), us.end(), std::back_inserter(visibilities), [&](auto& robot) {
-        return FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, robot.get()->getPos(), world, robot.get()->getId(), true);
-    });
-
-    return calculateMetric(*std::min_element(visibilities.begin(), visibilities.end()));
+    return calculateMetric(FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, world.getBall().value()->getPos(), world, -1, true));
 }
 
 uint8_t GoalVisionInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }

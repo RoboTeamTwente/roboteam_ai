@@ -11,7 +11,7 @@
 
 namespace rtt::ai::stp::invariant {
 /**
-    Calculates goal vision percentage based on the positions of all our robots
+    Calculates goal vision percentage based on the position of the ball
 **/
 class GoalVisionInvariant : public BaseInvariant {
    public:
