@@ -3,7 +3,6 @@
 //
 #include "stp/invariants/game_states/BallPlacementUsGameStateInvariant.h"
 #include "stp/new_roles/BallPlacer.h"
-#include "stp/new_roles/Keeper.h"
 #include "stp/new_roles/BallAvoider.h"
 #include "stp/new_plays/BallPlacementUs.h"
 #include "utilities/GameStateManager.hpp"
@@ -23,16 +22,17 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8")),    std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9")),
-                std::make_unique<role::Keeper>(role::Keeper("keeper"))};
+                std::make_unique<role::BallAvoider>(role::BallAvoider("keeper"))};
     }
 
     uint8_t BallPlacementUs::score(world_new::World* world) noexcept { return 100; }
 
     void BallPlacementUs::calculateInfoForRoles() noexcept {
+        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
+
         auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
         stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
-        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::Team::them));
-        stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
+
         stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
         stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-3, 1});
         stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{-3, -1});
@@ -52,6 +52,7 @@ namespace rtt::ai::stp::play {
         Dealer::DealerFlag keeper(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
         Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
+        flagMap.insert({"keeper", {keeper}});
         flagMap.insert({"ball_placer", {ball_placement}});
         flagMap.insert({"ball_avoider_1", {not_important}});
         flagMap.insert({"ball_avoider_2", {not_important}});
@@ -62,7 +63,6 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"ball_avoider_7", {not_important}});
         flagMap.insert({"ball_avoider_8", {not_important}});
         flagMap.insert({"ball_avoider_9", {not_important}});
-        flagMap.insert({"keeper", {keeper}});
 
         return flagMap;
     }

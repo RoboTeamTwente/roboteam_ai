@@ -29,8 +29,8 @@ uint8_t BallPlacementThem::score(world_new::World* world) noexcept { return 0; }
 
 void BallPlacementThem::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
+
     stpInfos["ball_avoider_0"].setPositionToMoveTo(Vector2{-1, -4});
-    stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
     stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
     stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-3, 1});
     stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{-3, -1});
