@@ -32,6 +32,16 @@ namespace rtt::ai::stp::play {
         auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
         stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::Team::them));
+        stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
+        stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
+        stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-3, 1});
+        stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{-3, -1});
+        stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-3, -4});
+        stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-2, 3});
+        stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{-2, 0});
+        stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{-2, -3});
+        stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{-1, 4});
+        stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{-1, 0});
     }
 
     bool BallPlacementUs::shouldRoleSkipEndTactic() { return false; }

@@ -4,11 +4,12 @@
 
 #include "stp/new_tactics/AvoidBall.h"
 
+#include "roboteam_utils/Circle.h"
+#include "roboteam_utils/Tube.h"
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/new_skills/GoToPos.h"
 #include "utilities/GameStateManager.hpp"
 #include "world/FieldComputations.h"
-#include "roboteam_utils/Circle.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -27,11 +28,15 @@ void AvoidBall::onTerminate() noexcept {
 
 StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
+    auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
 
-    // Code for stop state is here
-    if (GameStateManager::getCurrentGameState().getStrategyName() == "stop") {
-        auto avoidCircle = Circle(skillStpInfo.getBall()->get()->getPos(), control_constants::AVOID_BALL_DISTANCE);
+    // If gameState == stop we need to avoid using a circle around the ball
+    if (currentGameState == "stop") {
+        auto ballPosition = skillStpInfo.getBall()->get()->getPos();
         auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
+
+        // Circle around the ball with default avoid radius (0.5m)
+        auto avoidCircle = Circle(ballPosition, control_constants::AVOID_BALL_DISTANCE);
 
         // If position is within the avoidCircle, project the position on this circle
         if (avoidCircle.doesIntersectOrContain(targetPosition)) {
@@ -39,17 +44,19 @@ StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
         }
     }
 
-    // Code for ballplacement is here
-    // If the robot is not colinear with ballplacement path
-    else {
-        if (rtt::distanceFromPointToLine(info.getBall()->get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition(), info.getRobot()->get()->getPos()) < 0.5) {
-            LineSegment lineSegment = LineSegment(info.getBall().value().get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition());
-            auto a = info.getRobot()->get()->getPos().project(info.getBall().value().get()->getPos(), rtt::ai::GameStateManager::getRefereeDesignatedPosition());
-            auto c = info.getRobot().value()->getPos();
-            skillStpInfo.setPositionToMoveTo(a + (a - c).stretchToLength(0.9));
+    // If gameState == ballPlacement we need to avoid using a tube on the shortest path from the ball to the ball placement position
+    else if (currentGameState == "ball_placement_us" || currentGameState == "ball_placement_them") {
+        auto ballPosition = skillStpInfo.getBall()->get()->getPos();
+        auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
+
+        // Tube around the shortest path from ball to placement position with default avoid radius (0.5m)
+        auto avoidTube = Tube(ballPosition, GameStateManager::getRefereeDesignatedPosition(), control_constants::AVOID_BALL_DISTANCE);
+
+        // If position is within the avoidTube, project the position on this tube
+        if (avoidTube.contains(targetPosition)) {
+            skillStpInfo.setPositionToMoveTo(avoidTube.project(targetPosition));
         }
     }
-    // TODO: fix if robot is colinear
 
     return skillStpInfo;
 }
