@@ -7,6 +7,7 @@
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/new_roles/Keeper.h"
+#include "stp/new_roles/BallGetter.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Formation.h"
 
@@ -16,6 +17,7 @@ GetBallPossession::GetBallPossession() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
+    // TODO: Add first arrival to ball invariant
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
@@ -37,7 +39,33 @@ GetBallPossession::GetBallPossession() : Play() {
 
 uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 100; }
 
-void GetBallPossession::calculateInfoForRoles() noexcept {}
+void GetBallPossession::calculateInfoForRoles() noexcept {
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setPositionToShootAt(Vector2());
+
+    stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+
+    stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
+    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+
+    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
+    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
+    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+
+    auto length = field.getFieldLength();
+    auto width = field.getFieldWidth();
+
+    stpInfos["midfielder_0"].setPositionToMoveTo(Vector2(0.0, width / 4));
+    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, -width / 4));
+    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
+
+    stpInfos["offender_0"].setPositionToMoveTo(Vector2(length / 4, width / 6));
+    stpInfos["offender_1"].setPositionToMoveTo(Vector2(length / 4, -width / 6));
+    stpInfos["offender_2"].setPositionToMoveTo(Vector2(length / 4, 0.0));
+}
 
 bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }
 
