@@ -2,8 +2,7 @@
 // Created by jordi on 11-05-20.
 //
 
-#include "BallGetter.h"
-
+#include "stp/new_roles/BallGetter.h"
 #include "stp/new_tactics/GetBall.h"
 
 namespace rtt::ai::stp::role {
