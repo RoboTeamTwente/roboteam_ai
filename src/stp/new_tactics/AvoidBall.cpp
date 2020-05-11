@@ -8,6 +8,7 @@
 #include "stp/new_skills/GoToPos.h"
 #include "utilities/GameStateManager.hpp"
 #include "world/FieldComputations.h"
+#include "roboteam_utils/Circle.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -29,11 +30,12 @@ StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     // Code for stop state is here
     if (GameStateManager::getCurrentGameState().getStrategyName() == "stop") {
-        auto ballPosition = info.getBall()->get()->getPos();
-        auto targetPosition = info.getPositionToMoveTo().value();
+        auto avoidCircle = Circle(skillStpInfo.getBall()->get()->getPos(), control_constants::AVOID_BALL_DISTANCE);
+        auto targetPosition = skillStpInfo.getPositionToMoveTo().value();
 
-        if (targetPosition.dist(ballPosition) < 0.5) {
-            skillStpInfo.setPositionToMoveTo(ballPosition.scale(0.7));
+        // If position is within the avoidCircle, project the position on this circle
+        if (avoidCircle.doesIntersectOrContain(targetPosition)) {
+            skillStpInfo.setPositionToMoveTo(avoidCircle.project(targetPosition));
         }
     }
 

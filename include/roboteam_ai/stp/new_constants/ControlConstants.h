@@ -64,6 +64,9 @@ extern const double DISTANCE_TO_ROBOT_FAR;
 
 // Keeper constants
 extern const double DISTANCE_FROM_GOAL_CLOSE;
+
+// GameState constants
+extern const double AVOID_BALL_DISTANCE;
 }  // namespace rtt::ai::stp::control_constants
 
 #endif  // RTT_CONTROLCONSTANTS_H
