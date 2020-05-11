@@ -5,7 +5,7 @@
 #include "stp/new_plays/AggressiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/new_roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
 
@@ -17,12 +17,12 @@ AggressiveFormation::AggressiveFormation() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Formation>(role::Formation("keeper")),      std::make_unique<role::Formation>(role::Formation("defender_0")),
-        std::make_unique<role::Formation>(role::Formation("defender_1")),  std::make_unique<role::Formation>(role::Formation("defender_2")),
-        std::make_unique<role::Formation>(role::Formation("mid_field_0")), std::make_unique<role::Formation>(role::Formation("mid_field_1")),
-        std::make_unique<role::Formation>(role::Formation("mid_field_2")), std::make_unique<role::Formation>(role::Formation("offender_0")),
-        std::make_unique<role::Formation>(role::Formation("offender_1")),  std::make_unique<role::Formation>(role::Formation("offender_2")),
-        std::make_unique<role::Formation>(role::Formation("offender_3"))};
+        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),      std::make_unique<role::BallAvoider>(role::BallAvoider("defender_0")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("defender_1")),  std::make_unique<role::BallAvoider>(role::BallAvoider("defender_2")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_0")), std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_1")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_2")), std::make_unique<role::BallAvoider>(role::BallAvoider("offender_0")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("offender_3"))};
 }
 
 uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 2; }

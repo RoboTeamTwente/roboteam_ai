@@ -61,4 +61,7 @@ const double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS; // TODO: TUNE
 
 // Keeper constants
 const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
+
+// GameState constants
+const double AVOID_BALL_DISTANCE = 0.55;
 }  // namespace rtt::ai::stp::control_constants
