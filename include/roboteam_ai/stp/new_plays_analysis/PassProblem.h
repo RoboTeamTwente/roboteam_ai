@@ -14,11 +14,6 @@ using namespace pagmo;
 
 namespace rtt::ai::stp {
     class PassProblem : public pagmo::problem {
-        /**
-         * Fitness for a point on the field
-         * @param input
-         * @return
-         */
     private:
 
         world_new::WorldData problemWorld{};

@@ -14,7 +14,6 @@ namespace rtt::ai::stp{
     vector_double PassProblem::fitness(const vector_double &dv) const {
         auto score = 0.0;
         auto point = Vector2(dv[0], dv[1]);
-        //RTT_DEBUG("HI IM HAPPENING")
         score = cost_function(point, world_new::view::WorldDataView(&problemWorld), problemField);
 
         return {score};
@@ -33,7 +32,6 @@ namespace rtt::ai::stp{
 
 
     void PassProblem::updateInfoForProblem(world_new::WorldData problemWorld, world::Field& field) {
-        //std::lock_guard<std::mutex> guard(world_mutex);
         this->problemWorld = std::move(problemWorld);
         this->problemField = std::move(field);
     }

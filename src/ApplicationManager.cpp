@@ -87,8 +87,8 @@ void ApplicationManager::start() {
 
             auto end = std::chrono::steady_clock::now();
             auto diff = std::chrono::duration<double>(end-begin);
-            std::cout << "tick duration: "<< diff.count() << std::endl;
-            std::cout << "tick allowed: " << 0.016 << std::endl;
+            RTT_DEBUG("tick duration: ", diff.count())
+            RTT_DEBUG("tick allowed: ", 0.016)
         },
         ai::Constants::TICK_RATE());
 }
