@@ -60,4 +60,15 @@ Tactic * Role::getCurrentTactic() {
     return robotTactics.get_current();
 }
 
+void Role::reset() noexcept {
+    currentRobot.reset();
+
+    // Reset all tactics
+    for (auto& tactic : robotTactics) {
+        tactic->reset();
+    }
+    // Reset Tactics state machine
+    robotTactics.reset();
+}
+
 }  // namespace rtt::ai::stp

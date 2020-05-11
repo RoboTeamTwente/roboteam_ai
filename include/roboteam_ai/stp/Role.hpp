@@ -55,6 +55,11 @@ public:
     */
     void forceNextTactic() noexcept;
 
+    /**
+     * Resets the tactics, skills and robot of this role so re-dealing of robots works as expected
+     */
+    void reset() noexcept;
+
 protected:
     /**
      * Robot to which this role is currently assigned
