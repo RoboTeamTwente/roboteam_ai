@@ -102,6 +102,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallGetter.cpp
         )
 
 set(NEW_PLAYS_SOURCES
