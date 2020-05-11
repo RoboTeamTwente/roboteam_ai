@@ -47,14 +47,17 @@ void FreeKickThem::calculateInfoForKeeper() noexcept {
 }
 
 void FreeKickThem::calculateInfoForBlockers() noexcept {
-    const double MINIMAL_DISTANCE_FROM_BALL = 0.5;
     const int NUMBER_OF_BLOCKERS = 6;
+
+    // Factor that is multiplied by the minimal avoid ball distance.
+    // We do not block enemy robots within this distance, since they are too close to the ball
+    const double AVOID_BALL_DISTANCE_FACTOR = 1.5;
 
     auto enemyRobots = world->getWorld()->getThem();
 
     // We cannot block enemy robots that are too close to the ball
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&] (const auto enemyRobot) -> bool {
-        return enemyRobot->getDistanceToBall() <= 1.5 * MINIMAL_DISTANCE_FROM_BALL;
+        return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE;
     }), enemyRobots.end());
 
     for (int i = 0; i < NUMBER_OF_BLOCKERS; i++) {
