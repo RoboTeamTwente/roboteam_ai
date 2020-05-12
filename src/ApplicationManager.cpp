@@ -24,6 +24,7 @@
 #include "stp/new_plays/PenaltyUs.h"
 #include "stp/new_plays/KickOffUsPrepare.h"
 #include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/FreeKickThem.h"
 #include "stp/new_plays/KickOffUs.h"
 #include "stp/new_plays/KickOffThem.h"
 
@@ -57,6 +58,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     playChecker.setPlays(plays);
