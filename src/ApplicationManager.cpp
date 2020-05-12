@@ -27,6 +27,7 @@
 #include "stp/new_plays/FreeKickThem.h"
 #include "stp/new_plays/KickOffUs.h"
 #include "stp/new_plays/KickOffThem.h"
+#include "stp/new_plays/GetBallPossession.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -61,6 +62,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
