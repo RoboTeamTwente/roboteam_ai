@@ -6,7 +6,6 @@
 
 #include "stp/invariants/game_states/BallPlacementThemGameStateInvariant.h"
 #include "stp/new_roles/BallAvoider.h"
-#include "stp/new_roles/BallPlacer.h"
 
 namespace rtt::ai::stp::play {
 
@@ -18,7 +17,7 @@ BallPlacementThem::BallPlacementThem() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),         std::make_unique<role::BallPlacer>(role::BallPlacer("ball_avoider_0")),
+        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")),
         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_2")),
         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_3")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),
         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),
@@ -28,7 +27,20 @@ BallPlacementThem::BallPlacementThem() : Play() {
 
 uint8_t BallPlacementThem::score(world_new::World* world) noexcept { return 0; }
 
-void BallPlacementThem::calculateInfoForRoles() noexcept {}
+void BallPlacementThem::calculateInfoForRoles() noexcept {
+    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
+
+    stpInfos["ball_avoider_0"].setPositionToMoveTo(Vector2{-1, -4});
+    stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
+    stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-3, 1});
+    stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{-3, -1});
+    stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-3, -4});
+    stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-2, 3});
+    stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{-2, 0});
+    stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{-2, -3});
+    stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{-1, 4});
+    stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{-1, 0});
+}
 
 bool BallPlacementThem::shouldRoleSkipEndTactic() { return false; }
 
