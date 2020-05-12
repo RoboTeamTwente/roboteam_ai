@@ -47,8 +47,6 @@ void FreeKickThem::calculateInfoForKeeper() noexcept {
 }
 
 void FreeKickThem::calculateInfoForBlockers() noexcept {
-    const int NUMBER_OF_BLOCKERS = 6;
-
     // Factor that is multiplied by the minimal avoid ball distance.
     // We do not block enemy robots within this distance, since they are too close to the ball
     const double AVOID_BALL_DISTANCE_FACTOR = 1.5;
@@ -60,26 +58,28 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
         return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE;
     }), enemyRobots.end());
 
-    for (int i = 0; i < NUMBER_OF_BLOCKERS; i++) {
-        auto roleName = "blocker_" + std::to_string(i);
+    for (auto &stpInfo : stpInfos) {
+        if (stpInfo.first.find("blocker") != std::string::npos) {
+            auto roleName = stpInfo.first;
 
-        if (!enemyRobots.empty()) {
-            // If there are enemy robots available, block the closest robot to the ball
-            auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(
-                    world->getWorld()->getBall().value()->getPos(), enemyRobots);
+            if (!enemyRobots.empty()) {
+                // If there are enemy robots available, block the closest robot to the ball
+                auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(
+                        world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
-            enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool {
-                return enemyRobot->getId() == enemyToDefend->getId();
-            }));
+                enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                        [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyToDefend->getId(); }));
 
-            stpInfos[roleName].setPositionToDefend(enemyToDefend->getPos());
-            stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-            stpInfos[roleName].setBlockDistance(FAR);
-        } else {
-            // TODO: Improve default behaviour when there are no enemy robots to block
-            stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
-            stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
-            stpInfos[roleName].setBlockDistance(HALFWAY);
+                stpInfos[roleName].setPositionToDefend(enemyToDefend->getPos());
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+                stpInfos[roleName].setBlockDistance(FAR);
+            } else {
+                // TODO: Improve default behaviour when there are no enemy robots to block
+                stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
+                stpInfos[roleName].setEnemyRobot(
+                        world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+                stpInfos[roleName].setBlockDistance(HALFWAY);
+            }
         }
     }
 }
@@ -119,10 +119,10 @@ Dealer::FlagMap FreeKickThem::decideRoleFlags() const noexcept {
     flagMap.insert({"blocker_0", {closeToBallFlag}});
     flagMap.insert({"blocker_1", {closeToBallFlag}});
     flagMap.insert({"blocker_2", {closeToBallFlag}});
-    flagMap.insert({"blocker_3", {not_important}});
-    flagMap.insert({"blocker_4", {not_important}});
-    flagMap.insert({"blocker_5", {not_important}});
-    flagMap.insert({"offender", {not_important}});
+    flagMap.insert({"blocker_3", {closeToBallFlag}});
+    flagMap.insert({"blocker_4", {closeToBallFlag}});
+    flagMap.insert({"blocker_5", {closeToBallFlag}});
+    flagMap.insert({"offender", {closeToBallFlag}});
 
     return flagMap;
 }
