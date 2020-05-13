@@ -29,16 +29,9 @@ namespace rtt::ai::stp::play {
     uint8_t BallPlacementUs::score(world_new::World* world) noexcept { return 100; }
 
     void BallPlacementUs::calculateInfoForRoles() noexcept {
-        if (stpInfos.find("ball_placer") != stpInfos.end()) {
-            auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
-            stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
-        }
-        if (stpInfos.find("keeper") != stpInfos.end()) {
-            stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::Team::them));
-        }
-        else {
-            RTT_ERROR("No ball placement robot assigned!")
-        }
+        auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
+        stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
+        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::Team::them));
     }
 
     bool BallPlacementUs::shouldRoleSkipEndTactic() { return false; }

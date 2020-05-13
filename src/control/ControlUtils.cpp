@@ -81,7 +81,7 @@ bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &poin
 
 bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper) {
     double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = GameStateManager::getRefereeData().blue().goalie();
+    int keeperID = GameStateManager::getRefereeData().blue().goalkeeper();
 
     for (auto &enemy : world->getThem()) {
         if (!includeKeeper && enemy->getId() == keeperID) continue;
