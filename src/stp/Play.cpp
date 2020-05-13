@@ -97,6 +97,7 @@ void Play::distributeRoles() noexcept {
 
     stpInfos = std::unordered_map<std::string, StpInfo>{};
     for (auto& role : roles) {
+        role->reset();
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
