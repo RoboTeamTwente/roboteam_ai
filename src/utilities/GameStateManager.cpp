@@ -148,10 +148,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
     }
 
     auto stage = refMsg.stage();
-    auto world = world_new::World::instance()->getWorld();
-    if (world.has_value()) {
-        strategymanager.setCurrentRefGameState(cmd, stage, world->getBall());
-    }
+    strategymanager.setCurrentRefGameState(cmd, stage, world_new::World::instance()->getWorld()->getBall());
 }
 
 // Initialize static variables
@@ -161,9 +158,9 @@ GameState GameStateManager::getCurrentGameState() {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
         if (SETTINGS.isYellow()) {
-            newGameState.keeperId = getRefereeData().yellow().goalkeeper();
+            newGameState.keeperId = getRefereeData().yellow().goalie();
         } else {
-            newGameState.keeperId = getRefereeData().blue().goalkeeper();
+            newGameState.keeperId = getRefereeData().blue().goalie();
         }
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,

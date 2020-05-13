@@ -65,7 +65,11 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
         SETTINGS.setYellow(false);
     }
 
-    SETTINGS.setLeft(!(refData.blue_team_on_positive_half() ^ SETTINGS.isYellow()));
+    if (refData.blueteamonpositivehalf() ^ SETTINGS.isYellow()) {
+        SETTINGS.setLeft(false);
+    } else {
+        SETTINGS.setLeft(true);
+    }
     ai::GameStateManager::setRefereeData(refData);
 }
 
