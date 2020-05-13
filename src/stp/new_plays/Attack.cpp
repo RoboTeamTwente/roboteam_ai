@@ -5,7 +5,7 @@
 #include "stp/new_plays/Attack.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/GoalVisionInvariant.h"
+#include "stp/invariants/GoalVisionFromBallInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Attacker.h"
@@ -19,7 +19,7 @@ Attack::Attack() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
