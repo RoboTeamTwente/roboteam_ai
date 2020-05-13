@@ -1,6 +1,7 @@
 //
 // Created by jessevw on 17.03.20.
 //
+
 #include "stp/new_plays_analysis/PassProblem.h"
 #include "stp/new_plays/Pass.h"
 
@@ -20,14 +21,14 @@ namespace rtt::ai::stp::play {
 
 Pass::Pass() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
 
     keepPlayInvariants.clear();
 
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
@@ -66,10 +67,6 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
 void Pass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
-    auto enemyRobots = world->getWorld()->getThem();
-    const int numberOfDefenders = 1;
-    auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
-
     const Vector2 passingPosition = Vector2{archipelago->get_champions_x()[0][0], archipelago->get_champions_x()[0][1]};
 
     // Calculate receiver info
@@ -88,44 +85,39 @@ void Pass::calculateInfoForRoles() noexcept {
         stpInfos["passer"].setKickChipType(PASS);
     }
 
-    // Defenders
-    for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
-        std::string defenderName = "defender" + std::to_string(defenderIndex + 1);
-
-        if (stpInfos.find(defenderName) != stpInfos.end()) {
-            stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
-        }
-    }
-    std::vector<Vector2> defendPoints = {Vector2(0,0.5), Vector2(0,-0.5)};
+    std::vector<Vector2> defendPoints = {Vector2(0,0.5), Vector2(0,-0.5)Fix bu};
     stpInfos["defender1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall());
     stpInfos["defender2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[0]));
     stpInfos["defender3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[1]));
     stpInfos["defender1"].setBlockDistance(BlockDistance::HALFWAY);
     stpInfos["defender2"].setBlockDistance(BlockDistance::HALFWAY);
     stpInfos["defender3"].setBlockDistance(BlockDistance::HALFWAY);
-//    stpInfos["attacker1"].setEnemyRobot();
-//    stpInfos["attacker2"].setEnemyRobot();
-//    stpInfos["attacker3"].setEnemyRobot();
-//    stpInfos["midfielder1"].setEnemyRobot();
-//    stpInfos["midfielder2"].setEnemyRobot();
-//    stpInfos["midfielder3"].setEnemyRobot();
+    stpInfos["defender1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender2"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender3"].setPositionToDefend(field.getOurGoalCenter());
 
+    stpInfos["midfielder1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall());
+    stpInfos["midfielder2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[0]));
+    stpInfos["midfielder3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[1]));
+    stpInfos["midfielder1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["midfielder2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["midfielder3"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["midfielder1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["midfielder2"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["midfielder3"].setPositionToDefend(field.getOurGoalCenter());
+
+    stpInfos["attacker1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall());
+    stpInfos["attacker2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[0]));
+    stpInfos["attacker3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(defendPoints[1]));
+    stpInfos["attacker1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["attacker2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["attacker3"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["attacker1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["attacker2"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["attacker3"].setPositionToDefend(field.getOurGoalCenter());
 }
 
-std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
-    std::vector<Vector2> positions = {};
 
-    // 3 robots will defend goal
-    for (int i = 0; i < numberOfDefenders; i++) {
-        if (i < 3) {
-            positions.push_back(world->getField()->getOurGoalCenter());
-        } else {
-            positions.push_back(enemyRobots[i].get()->getPos());
-        }
-    }
-
-    return positions;
-}
 std::pair<Vector2, double>
 Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition) {
     const std::vector<double> m = {0,1};
@@ -136,7 +128,7 @@ Pass::compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candi
     auto curr = std::make_pair(currentPosition, currentPositionScore);
 
     // Always choose a score that is negative, if possible
-    if (currentPositionScore > 0 && !(candidatePositionScore > 0)) {
+    if (currentPositionScore > 0 && (candidatePositionScore < 0)) {
         return cand;
     }
 
