@@ -5,12 +5,13 @@
 #include "stp/new_tactics/BlockBall.h"
 
 #include "control/ControlUtils.h"
+#include "interface/api/Input.h"
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
-BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
+BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
 void BlockBall::onInitialize() noexcept {}
 
@@ -61,25 +62,34 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
     // Opponent is close to ball
     // Block the ball by staying on the shot line of the opponent
     if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
-        /**
-         * If an opponent is close, weigh the angle of that enemy robot as well (to prevent shot/pass)
-         */
-        // targetPosition = ;
+        // TODO: Tune this distance
+        const double BLOCK_DISTANCE(0.5);
+
+        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
+
+        targetPosition = ballCircle.project(enemyRobot->getPos()).rotate(M_PI) + ballCircle.center + ballCircle.center;
     }
 
     // Ball is moving
-    // Intercept ball when it is moving towards the goal
+    // Intercept ball when it is moving
     else if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-        /**
-         * If ball is moving, weigh direction and speed (and maybe increase distance from ball / switch to intercept mode)
-         */
-        // targetPosition = ;
+        // TODO: Tune this distance
+        const double BLOCK_DISTANCE(ball->getVelocity().length() * 0.5);
+
+        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
+
+        targetPosition = ballCircle.project(enemyRobot->getPos()).rotate(M_PI) + ballCircle.center + ballCircle.center;
     }
 
     // Default
     // Stay between the ball and the center of the goal
     else {
-        targetPosition = LineSegment(ball->getPos(), field.getOurGoalCenter()).project(robot->getPos());
+        // TODO: Tune this distance
+        const double BLOCK_DISTANCE(0.5);
+
+        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
+
+        targetPosition = ballCircle.project(field.getOurGoalCenter());
     }
 
     return targetPosition;
