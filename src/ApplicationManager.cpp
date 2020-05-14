@@ -169,8 +169,6 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 
 ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 
-
-
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem.
     int generations = 10;
