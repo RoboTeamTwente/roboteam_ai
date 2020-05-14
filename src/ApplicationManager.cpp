@@ -169,8 +169,6 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 
 ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 
-
-
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem.
     auto pso = pagmo::pso(10, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
