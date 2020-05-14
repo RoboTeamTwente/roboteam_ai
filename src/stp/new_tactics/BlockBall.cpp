@@ -67,18 +67,7 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
 
         auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
 
-        targetPosition = ballCircle.project(enemyRobot->getPos()).rotate(M_PI) + ballCircle.center + ballCircle.center;
-    }
-
-    // Ball is moving
-    // Intercept ball when it is moving
-    else if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-        // TODO: Tune this distance
-        const double BLOCK_DISTANCE(ball->getVelocity().length() * 0.5);
-
-        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
-
-        targetPosition = ballCircle.project(enemyRobot->getPos()).rotate(M_PI) + ballCircle.center + ballCircle.center;
+        targetPosition = ballCircle.project(enemyRobot->getPos()).rotateAroundPoint(M_PI, ballCircle.center);
     }
 
     // Default
