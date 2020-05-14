@@ -11,6 +11,7 @@
 #include "stp/new_plays/TestPlay.h"
 #include "stp/new_plays/Pass.h"
 #include "stp/new_plays/DefendShot.h"
+#include "stp/new_plays/DefendPass.h"
 #include "stp/new_plays/Attack.h"
 #include "stp/new_plays/Halt.h"
 #include "stp/new_plays/BallPlacementUs.h"
@@ -48,6 +49,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());

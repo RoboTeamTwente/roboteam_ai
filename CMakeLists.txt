@@ -114,6 +114,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacementUs.cpp
