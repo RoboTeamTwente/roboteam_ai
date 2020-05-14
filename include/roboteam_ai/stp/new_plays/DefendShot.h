@@ -2,19 +2,19 @@
 // Created by jordi on 27-03-20.
 //
 
-#ifndef RTT_DEFEND_H
-#define RTT_DEFEND_H
+#ifndef RTT_DEFENDSHOT_H
+#define RTT_DEFENDSHOT_H
 
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
-class Defend : public Play {
+class DefendShot : public Play {
 public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Defend();
+    DefendShot();
 
     /**
      * Gets the score for the current play
@@ -68,4 +68,4 @@ protected:
 
 } // namespace rtt::ai::stp::play
 
-#endif //RTT_DEFEND_H
+#endif // RTT_DEFENDSHOT_H

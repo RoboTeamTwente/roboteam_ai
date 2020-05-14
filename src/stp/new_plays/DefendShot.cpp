@@ -2,7 +2,7 @@
 // Created by jordi on 27-03-20.
 //
 
-#include "stp/new_plays/Defend.h"
+#include "stp/new_plays/DefendShot.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
 #include "stp/invariants/BallOnOurSideInvariant.h"
@@ -13,7 +13,7 @@
 
 namespace rtt::ai::stp::play {
 
-Defend::Defend() : Play() {
+DefendShot::DefendShot() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
@@ -36,9 +36,9 @@ Defend::Defend() : Play() {
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t Defend::score(world_new::World *world) noexcept { return 50; }
+uint8_t DefendShot::score(world_new::World *world) noexcept { return 50; }
 
-Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
+Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
@@ -60,14 +60,14 @@ Dealer::FlagMap Defend::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void Defend::calculateInfoForRoles() noexcept {
+void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
     calculateInfoForKeeper();
     calculateInfoForMidfielders();
     calculateInfoForOffenders();
 }
 
-void Defend::calculateInfoForDefenders() noexcept {
+void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
@@ -107,12 +107,12 @@ void Defend::calculateInfoForDefenders() noexcept {
     }
 }
 
-void Defend::calculateInfoForKeeper() noexcept {
+void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
-void Defend::calculateInfoForMidfielders() noexcept {
+void DefendShot::calculateInfoForMidfielders() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
@@ -122,7 +122,7 @@ void Defend::calculateInfoForMidfielders() noexcept {
     stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length / 8, 0.0));
 }
 
-void Defend::calculateInfoForOffenders() noexcept {
+void DefendShot::calculateInfoForOffenders() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
@@ -130,8 +130,8 @@ void Defend::calculateInfoForOffenders() noexcept {
     stpInfos["offender_2"].setPositionToMoveTo(Vector2(length / 4, -width / 6));
 }
 
-bool Defend::shouldRoleSkipEndTactic() { return false; }
+bool DefendShot::shouldRoleSkipEndTactic() { return false; }
 
-const char *Defend::getName() { return "Defend"; }
+const char *DefendShot::getName() { return "Defend Shot"; }
 
 }  // namespace rtt::ai::stp::play
