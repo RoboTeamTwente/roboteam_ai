@@ -23,12 +23,12 @@ DefendPass::DefendPass() : Play() {
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_1")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_3")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_4")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_1")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_2")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_3")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_4")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_4")),
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_1")),
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
@@ -45,12 +45,12 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_4", {closeToOurGoalFlag}});
+    flagMap.insert({"blocker_1", {closeToOurGoalFlag}});
+    flagMap.insert({"blocker_2", {closeToOurGoalFlag}});
+    flagMap.insert({"blocker_3", {not_important}});
+    flagMap.insert({"blocker_4", {not_important}});
     flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"midfielder_3", {not_important}});
-    flagMap.insert({"midfielder_4", {not_important}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
@@ -59,34 +59,22 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
 
 void DefendPass::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
+    calculateInfoForBlockers();
     calculateInfoForKeeper();
     calculateInfoForMidfielders();
     calculateInfoForOffenders();
 }
 
 void DefendPass::calculateInfoForDefenders() noexcept {
-    auto enemyRobots = world->getWorld()->getThem();
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyAttacker->getId(); }));
-
-    auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
-
-    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
+    stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
     stpInfos["defender_1"].setBlockDistance(HALFWAY);
 
-    stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
+    stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
-
-    stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal->getPos());
-    stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_3"].setBlockDistance(HALFWAY);
-
-    stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter() + Vector2(4 * control_constants::ROBOT_RADIUS, 0));
-    stpInfos["defender_4"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_4"].setBlockDistance(HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
     for (auto &role : roles) {
@@ -104,6 +92,37 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     }
 }
 
+void DefendPass::calculateInfoForBlockers() noexcept {
+    auto enemyRobots = world->getWorld()->getThem();
+    auto enemyPasser = world->getWorld()->getRobotClosestToBall(world_new::them);
+
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyPasser->getId(); }));
+
+    for (auto &stpInfo : stpInfos) {
+        if (stpInfo.first.find("blocker") != std::string::npos) {
+            auto roleName = stpInfo.first;
+
+            if (!enemyRobots.empty()) {
+                // If there are enemy robots available, block the closest robot to the ball
+                auto enemyToBlock = world->getWorld()->getRobotClosestToPoint(enemyPasser->getPos(), enemyRobots);
+
+                enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                        [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyToBlock->getId(); }));
+
+                stpInfos[roleName].setPositionToDefend(enemyToBlock->getPos());
+                stpInfos[roleName].setEnemyRobot(enemyPasser);
+                stpInfos[roleName].setBlockDistance(FAR);
+            } else {
+                // TODO: Improve default behaviour when there are no enemy robots to block
+                stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
+                stpInfos[roleName].setEnemyRobot(
+                        world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+                stpInfos[roleName].setBlockDistance(HALFWAY);
+            }
+        }
+    }
+}
+
 void DefendPass::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
@@ -115,8 +134,6 @@ void DefendPass::calculateInfoForMidfielders() noexcept {
 
     stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width / 4));
     stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width / 4));
-    stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
-    stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length / 8, 0.0));
 }
 
 void DefendPass::calculateInfoForOffenders() noexcept {
