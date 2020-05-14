@@ -5,7 +5,6 @@
 #include "stp/new_plays/DefendPass.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
-#include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Formation.h"
