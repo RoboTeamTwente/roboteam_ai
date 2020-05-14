@@ -67,6 +67,8 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
 
         auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
 
+        // Project the enemy robot on the circle, and rotate this position with Pi.
+        // This is to stand directly opposite the enemy robot with the ball in the middle.
         targetPosition = ballCircle.project(enemyRobot->getPos()).rotateAroundPoint(M_PI, ballCircle.center);
     }
 
@@ -78,6 +80,7 @@ Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball
 
         auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
 
+        // Project our goal center on the circle to get the position to block
         targetPosition = ballCircle.project(field.getOurGoalCenter());
     }
 
