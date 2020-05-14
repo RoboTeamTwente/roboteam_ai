@@ -41,24 +41,27 @@ namespace rtt::ai::stp{
         return percentage;
     }
 
+    // Negative -> desirable
     double PassProblem::cost_function(const Vector2 &point, world_new::view::WorldDataView world, const world::Field& field) {
         auto score = 0.0;
 
+        // TODO: This should actually be a constraint of the Pagmo Problem
+        // If the point is in the defense area, make it very undesirable
         if (ai::FieldComputations::pointIsInDefenseArea(field, point)) {
-            score = 500;
+            score = pointInFieldScore;
             return {score};
         }
 
+        // Use the relative distance of our and their closest robots to decide how safe a point is
         auto theirClosestBot = world.getRobotClosestToPoint(point, world_new::Team::us);
         auto theirClosestDistance = (theirClosestBot->getPos() - point).length();
-
         auto ourClosestBot = world.getRobotClosestToPoint(point, world_new::Team::them);
         auto ourClosestDistance = (ourClosestBot->getPos() - point).length();
-        score += -100 * theirClosestDistance;
-        score += 100 * ourClosestDistance;
+        score += -theirDistanceScore * theirClosestDistance;
+        score += ourDistanceScore * ourClosestDistance;
 
-        score += -10 * shootSuccesReward(point, world, field);
-        score += -ai::FieldComputations::getDistanceToGoal(field, false, point);
+        score += -shootSuccesScore * shootSuccesReward(point, world, field);
+        score += -distanceFromGoalScore * ai::FieldComputations::getDistanceToGoal(field, false, point);
 
         return {score};
     }

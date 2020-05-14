@@ -53,10 +53,6 @@ private:
      */
     void decidePlay(world_new::World* _world);
 
-    /**
-     * This function generates the plays vector
-     */
-    void setPlays();
 
     /**
      * Clear the archipelago and create new islands with an up to date world

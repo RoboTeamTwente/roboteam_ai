@@ -56,6 +56,10 @@ class Pass : public Play {
      */
     std::pair<Vector2, double> compareNewLocationToCurrentLocation(Vector2 currentPosition, Vector2 candidatePosition);
 
+    /**
+     * Ratio used to compare the scores of different pass locations
+     */
+    double swapRatio = 1.7;
     Vector2 currentPassLocation;
     double currentPassScore;
 };

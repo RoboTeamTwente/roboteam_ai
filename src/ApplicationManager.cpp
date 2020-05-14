@@ -173,7 +173,9 @@ ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { 
 
 void ApplicationManager::updateArchipelago() {
     /// generating pass problem.
-    auto pso = pagmo::pso(10, 0.6, 0.6, 0.6, 0.6, 4, 2, 2, 1, 0);
+    int generations = 10;
+    int popSize = 10;
+    auto pso = pagmo::pso(generations);
 
     ai::stp::PassProblem passProblem{};
 
@@ -181,7 +183,7 @@ void ApplicationManager::updateArchipelago() {
     world_new::WorldData data = **world_new::World::instance()->getWorld();
     passProblem.updateInfoForProblem(data, field);
 
-    auto passPopulation = pagmo::population(passProblem, 10, 0);
+    auto passPopulation = pagmo::population(passProblem, popSize, 0);
 
     /// clearing the archipelago
     archipelago = pagmo::archipelago{};

@@ -15,6 +15,14 @@ using namespace pagmo;
 namespace rtt::ai::stp {
     class PassProblem : public pagmo::problem {
     private:
+        // Convention: keep all scores positive, and add a minus sign in the fitness calculation
+        static constexpr double pointInFieldScore = 500;
+        static constexpr double ourDistanceScore = 100;
+        static constexpr double theirDistanceScore = 100;
+        static constexpr double shootSuccesScore = 10;
+        static constexpr double distanceFromGoalScore = 10;
+
+
 
         world_new::WorldData problemWorld{};
         world::Field problemField;
