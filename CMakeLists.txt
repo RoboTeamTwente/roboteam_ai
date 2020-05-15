@@ -85,6 +85,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
         )
 
@@ -146,6 +147,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
