@@ -44,7 +44,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());

@@ -53,6 +53,8 @@ class Pass : public Play {
 
    protected:
     bool shouldRoleSkipEndTactic() override;
+
+    Vector2 calculatePassLocation();
 };
 }  // namespace rtt::ai::stp::play
 

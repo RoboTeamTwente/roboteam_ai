@@ -2,6 +2,7 @@
 // Created by jessevw on 17.03.20.
 //
 
+#include <include/roboteam_ai/stp/new_roles/Halt.h>
 #include "stp/new_plays/Pass.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
@@ -10,28 +11,30 @@
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
 #include "stp/new_roles/TestRole.h"
+#include "roboteam_utils/Tube.h"
 
 namespace rtt::ai::stp::play {
 
 Pass::Pass() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
+//
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
-        std::make_unique<TestRole>(TestRole("defender1")),      std::make_unique<TestRole>(TestRole("test_role_3")),
-        std::make_unique<TestRole>(TestRole("test_role_4")),    std::make_unique<TestRole>(TestRole("test_role_5")),
-        std::make_unique<TestRole>(TestRole("test_role_6")),    std::make_unique<TestRole>(TestRole("test_role_7")),
-        std::make_unique<TestRole>(TestRole("test_role_8")),    std::make_unique<TestRole>(TestRole("test_role_9")),
-        std::make_unique<TestRole>(TestRole("test_role_10"))};
+        std::make_unique<role::Halt>(role::Halt("defender1")),      std::make_unique<role::Halt>(role::Halt("test_role_3")),
+        std::make_unique<role::Halt>(role::Halt("test_role_4")),    std::make_unique<role::Halt>(role::Halt("test_role_5")),
+        std::make_unique<role::Halt>(role::Halt("test_role_6")),    std::make_unique<role::Halt>(role::Halt("test_role_7")),
+        std::make_unique<role::Halt>(role::Halt("test_role_8")),    std::make_unique<role::Halt>(role::Halt("test_role_9")),
+        std::make_unique<role::Halt>(role::Halt("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return -10; }
+uint8_t Pass::score(world_new::World* world) noexcept { return 100; }
 
 Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -62,7 +65,7 @@ void Pass::calculateInfoForRoles() noexcept {
     auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
 
     // TODO: compute the passing position
-    const Vector2 passingPosition = Vector2(-2, -2);
+    const Vector2 passingPosition = calculatePassLocation();
 
     // Receiver
     stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
@@ -70,16 +73,6 @@ void Pass::calculateInfoForRoles() noexcept {
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
     stpInfos["passer"].setKickChipType(PASS);
-
-    // Regular bots
-    stpInfos["test_role_3"].setPositionToMoveTo(Vector2{-3, -3});
-    stpInfos["test_role_4"].setPositionToMoveTo(Vector2{-2, 3});
-    stpInfos["test_role_5"].setPositionToMoveTo(Vector2{-2, 0});
-    stpInfos["test_role_6"].setPositionToMoveTo(Vector2{-2, -3});
-    stpInfos["test_role_7"].setPositionToMoveTo(Vector2{-1, 4});
-    stpInfos["test_role_8"].setPositionToMoveTo(Vector2{-1, 1.5});
-    stpInfos["test_role_9"].setPositionToMoveTo(Vector2{-1, -1.5});
-    stpInfos["test_role_10"].setPositionToMoveTo(Vector2{-1, -4});
 
     // Defenders
     for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
@@ -109,5 +102,36 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
 bool Pass::shouldRoleSkipEndTactic() { return false; }
 
 const char* Pass::getName() { return "Pass"; }
+
+    Vector2 Pass::calculatePassLocation() {
+        auto ourBots = world->getWorld()->getUs();
+        auto theirBots = world->getWorld()->getThem();
+        auto c = Circle();
+
+        std::vector<Vector2> suitablePositions = {};
+
+        // Create a rectangle around the line the pass will go on, and see if any enemy robots are
+        // within this interception rectangle
+        for (auto ourBot : ourBots) {
+            for (auto theirBot : theirBots) {
+                auto ballPos = world->getWorld()->getBall()->get()->getPos();
+                auto targetLocation = ourBot->getPos();
+                auto passLine = LineSegment(ballPos, targetLocation);
+
+                if (passLine.distanceToLine(theirBot->getPos()) > 0.5) {
+                    suitablePositions.push_back(ourBot->getPos());
+                }
+                else {
+                    break;
+                }
+            }
+            suitablePositions.push_back(Vector2(0,0));
+        }
+
+
+
+
+        return suitablePositions[0];
+    }
 
 }  // namespace rtt::ai::stp::play
