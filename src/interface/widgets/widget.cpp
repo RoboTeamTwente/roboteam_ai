@@ -555,8 +555,8 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
                         arrowLength > maxArrowSize / arrowSizeFactor ? arrowSizeFactor : arrowSizeFactor * arrowLength;
 
                 Vector2 startPoint = arrowEnd + (arrowStart - arrowEnd).stretchToLength(arrowSize);
-                Vector2 pointyBitLeft = startPoint + (arrowAngle + M_PI_2).toVector2(arrowSize);
-                Vector2 pointyBitRight = startPoint + (arrowAngle + M_PI_2).toVector2(-arrowSize);
+                Vector2 pointyBitLeft = startPoint + (arrowAngle + Angle(M_PI_2)).toVector2(arrowSize);
+                Vector2 pointyBitRight = startPoint + (arrowAngle + Angle(M_PI_2)).toVector2(-arrowSize);
 
                 Vector2 arrowStartOnScreen = toScreenPosition(arrowStart);
                 Vector2 arrowEndOnScreen = toScreenPosition(arrowEnd);
