@@ -6,7 +6,7 @@
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallMovesSlowInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
 #include "stp/new_roles/TestRole.h"
@@ -15,11 +15,11 @@ namespace rtt::ai::stp::play {
 
 Pass::Pass() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{

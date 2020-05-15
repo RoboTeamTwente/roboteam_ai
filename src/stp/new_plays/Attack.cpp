@@ -7,7 +7,7 @@
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/GoalVisionFromBallInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
 #include "stp/new_roles/Attacker.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Formation.h"
@@ -17,12 +17,12 @@ namespace rtt::ai::stp::play {
 
 Attack::Attack() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
