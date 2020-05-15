@@ -20,12 +20,12 @@ GetBallRisky::GetBallRisky() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
-    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
