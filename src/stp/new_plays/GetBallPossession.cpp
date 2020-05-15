@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/new_plays/GetBallPossession.h"
 
-#include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/new_roles/Keeper.h"
 #include "stp/new_roles/BallGetter.h"
@@ -15,12 +15,12 @@ namespace rtt::ai::stp::play {
 
 GetBallPossession::GetBallPossession() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     // TODO: Add first arrival to ball invariant
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
