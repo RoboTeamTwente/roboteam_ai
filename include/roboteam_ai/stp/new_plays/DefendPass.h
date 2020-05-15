@@ -61,9 +61,9 @@ protected:
     void calculateInfoForKeeper() noexcept;
 
     /**
-     * Calculates info for the midfielders
+     * Calculates info for the harassers
      */
-    void calculateInfoForMidfielders() noexcept;
+    void calculateInfoForHarassers() noexcept;
 
     /**
      * Calculates info for the offenders

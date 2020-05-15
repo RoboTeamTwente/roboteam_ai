@@ -7,6 +7,7 @@
 #include "stp/invariants/BallCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
+#include "stp/new_roles/Harasser.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/new_roles/Keeper.h"
 
@@ -27,8 +28,8 @@ DefendPass::DefendPass() : Play() {
                                                                                        std::make_unique<role::Defender>(role::Defender("blocker_2")),
                                                                                        std::make_unique<role::Defender>(role::Defender("blocker_3")),
                                                                                        std::make_unique<role::Defender>(role::Defender("blocker_4")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_2")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_5")),
+                                                                                       std::make_unique<role::Harasser>(role::Harasser("harasser")),
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_1")),
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
@@ -38,6 +39,7 @@ uint8_t DefendPass::score(world_new::World *world) noexcept { return 40; }
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
@@ -49,8 +51,8 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     flagMap.insert({"blocker_2", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_3", {not_important}});
     flagMap.insert({"blocker_4", {not_important}});
-    flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"blocker_5", {not_important}});
+    flagMap.insert({"harasser", {closeToBallFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
@@ -61,7 +63,7 @@ void DefendPass::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
     calculateInfoForBlockers();
     calculateInfoForKeeper();
-    calculateInfoForMidfielders();
+    calculateInfoForHarassers();
     calculateInfoForOffenders();
 }
 
@@ -128,12 +130,8 @@ void DefendPass::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
-void DefendPass::calculateInfoForMidfielders() noexcept {
-    auto length = field.getFieldLength();
-    auto width = field.getFieldWidth();
-
-    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width / 4));
-    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width / 4));
+void DefendPass::calculateInfoForHarassers() noexcept {
+    stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 }
 
 void DefendPass::calculateInfoForOffenders() noexcept {
