@@ -9,6 +9,11 @@
 
 namespace rtt::ai::stp::play {
 
+/**
+ * DefendShot Play is executed when the opponent has or is close to the ball and on our side of the field.
+ * In this case they most likely will try to score. Some defenders defend the goal by blocking the path between enemy
+ * robots and the goal. Other defenders block other enemy robots to avoid passes to them.
+ */
 class DefendShot : public Play {
 public:
     /**

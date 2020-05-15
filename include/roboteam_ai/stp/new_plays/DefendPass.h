@@ -9,6 +9,11 @@
 
 namespace rtt::ai::stp::play {
 
+/**
+ * DefendPass Play is executed when the opponent has or is close to the ball but not necessarily on our side of the field.
+ * In this case the opponent most likely will pass to another robot. Our robots will namely block off robots that can
+ * be passed to.
+ */
 class DefendPass : public Play {
 public:
     /**
