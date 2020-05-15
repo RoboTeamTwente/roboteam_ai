@@ -3,16 +3,17 @@
 //
 
 #include "stp/new_roles/Keeper.h"
-#include "stp/new_tactics/BlockBall.h"
-#include "stp/new_tactics/KickAtPos.h"
+
 #include "stp/new_tactics/GetBall.h"
+#include "stp/new_tactics/KeeperBlockBall.h"
+#include "stp/new_tactics/KickAtPos.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::role {
 
 Keeper::Keeper(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::BlockBall(), tactic::GetBall(), tactic::KickAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KeeperBlockBall(), tactic::GetBall(), tactic::KickAtPos()};
 }
 
 Status Keeper::update(StpInfo const& info) noexcept {
