@@ -60,6 +60,20 @@ public:
      */
     void reset() noexcept;
 
+    /**
+     * Virtual default dtor, ensures proper destruction of Role
+     */
+    virtual ~Role() = default;
+
+    /**
+     * Default cpy ctor, ensures proper copy construction of Role
+     */
+    Role(Role& other) = default;
+    /**
+     * Default mv ctor, ensures proper move construction of Role
+     */
+    Role(Role&& other) = default;
+
 protected:
     /**
      * Robot to which this role is currently assigned
