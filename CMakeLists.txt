@@ -102,6 +102,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallGetter.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -126,6 +127,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThemPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
         )
 
 set(INVARIANTS_SOURCES
@@ -140,7 +143,9 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
