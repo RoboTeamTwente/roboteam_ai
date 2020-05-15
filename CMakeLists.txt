@@ -85,6 +85,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
         )
 
