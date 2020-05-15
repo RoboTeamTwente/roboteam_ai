@@ -51,6 +51,11 @@ protected:
     void calculateInfoForDefenders() noexcept;
 
     /**
+     * Calculates info for the harassers
+     */
+    void calculateInfoForHarassers() noexcept;
+
+    /**
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;

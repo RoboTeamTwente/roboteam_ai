@@ -8,6 +8,7 @@
 #include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
+#include "stp/new_roles/Harasser.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/new_roles/Keeper.h"
 
@@ -28,10 +29,10 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_2")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_3")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_4")),
+                                                                                       std::make_unique<role::Defender>(role::Defender("defender_5")),
+                                                                                       std::make_unique<role::Harasser>(role::Harasser("harasser")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                        std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_4")),
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_1")),
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
@@ -41,6 +42,7 @@ uint8_t DefendShot::score(world_new::World *world) noexcept { return 50; }
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
@@ -49,11 +51,11 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"defender_3", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_4", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_4", {not_important}});
+    flagMap.insert({"defender_5", {not_important}});
+    flagMap.insert({"harasser", {closeToBallFlag}});
     flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"midfielder_3", {not_important}});
-    flagMap.insert({"midfielder_4", {not_important}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
@@ -62,6 +64,7 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
 
 void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForDefenders();
+    calculateInfoForHarassers();
     calculateInfoForKeeper();
     calculateInfoForMidfielders();
     calculateInfoForOffenders();
@@ -69,11 +72,14 @@ void DefendShot::calculateInfoForRoles() noexcept {
 
 void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyAttacker->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyClosestToGoal->getId(); }));
+
+    auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
@@ -87,9 +93,13 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_3"].setBlockDistance(HALFWAY);
 
-    stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter() + Vector2(4 * control_constants::ROBOT_RADIUS, 0));
-    stpInfos["defender_4"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_4"].setEnemyRobot(secondEnemyClosestToGoal);
     stpInfos["defender_4"].setBlockDistance(HALFWAY);
+
+    stpInfos["defender_5"].setPositionToDefend(secondEnemyClosestToGoal->getPos());
+    stpInfos["defender_5"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_5"].setBlockDistance(HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
     for (auto &role : roles) {
@@ -107,19 +117,20 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
+void DefendShot::calculateInfoForHarassers() noexcept {
+    stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+}
+
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
 void DefendShot::calculateInfoForMidfielders() noexcept {
-    auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
     stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width / 4));
     stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width / 4));
-    stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
-    stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(length / 8, 0.0));
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {
