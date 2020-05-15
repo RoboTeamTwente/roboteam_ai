@@ -105,8 +105,8 @@ void DefendPass::calculateInfoForBlockers() noexcept {
             auto roleName = stpInfo.first;
 
             if (!enemyRobots.empty()) {
-                // If there are enemy robots available, block the closest robot to the ball
-                auto enemyToBlock = world->getWorld()->getRobotClosestToPoint(enemyPasser->getPos(), enemyRobots);
+                // If there are enemy robots available, block the closest robot to our goal
+                auto enemyToBlock = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
                 enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
                         [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyToBlock->getId(); }));
