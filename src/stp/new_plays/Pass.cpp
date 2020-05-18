@@ -43,16 +43,16 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"pass_receiver", {closeToTheirGoalFlag}});
+    flagMap.insert({"pass_receiver", {not_important}});
     flagMap.insert({"defender1", {not_important}});
-    flagMap.insert({"test_role_3", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_4", {closeToBallFlag}});
-    flagMap.insert({"test_role_5", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_6", {closeToBallFlag}});
-    flagMap.insert({"test_role_7", {closeToTheirGoalFlag}});
-    flagMap.insert({"test_role_8", {closeToTheirGoalFlag, closeToBallFlag}});
-    flagMap.insert({"test_role_9", {closeToBallFlag}});
-    flagMap.insert({"test_role_10", {closeToTheirGoalFlag}});
+    flagMap.insert({"test_role_3", {not_important}});
+    flagMap.insert({"test_role_4", {not_important}});
+    flagMap.insert({"test_role_5", {not_important}});
+    flagMap.insert({"test_role_6", {not_important}});
+    flagMap.insert({"test_role_7", {not_important}});
+    flagMap.insert({"test_role_8", {not_important}});
+    flagMap.insert({"test_role_9", {not_important}});
+    flagMap.insert({"test_role_10", {not_important}});
 
     return flagMap;
 }
@@ -106,32 +106,43 @@ const char* Pass::getName() { return "Pass"; }
     Vector2 Pass::calculatePassLocation() {
         auto ourBots = world->getWorld()->getUs();
         auto theirBots = world->getWorld()->getThem();
-        auto c = Circle();
 
-        std::vector<Vector2> suitablePositions = {};
+        double fieldWidth = field.getFieldWidth();
 
-        // Create a rectangle around the line the pass will go on, and see if any enemy robots are
-        // within this interception rectangle
-        for (auto ourBot : ourBots) {
-            for (auto theirBot : theirBots) {
-                auto ballPos = world->getWorld()->getBall()->get()->getPos();
-                auto targetLocation = ourBot->getPos();
-                auto passLine = LineSegment(ballPos, targetLocation);
+        double offSetX = 0.3*fieldWidth; // start looking for suitable positions to move to at 30% of the field width
+        double offSetY = 0;
+        double regionWidth = 3;
+        double regionHeight = 3;
+        auto numStepsX = 10;
+        auto numStepsY = 10;
 
-                if (passLine.distanceToLine(theirBot->getPos()) > 0.5) {
-                    suitablePositions.push_back(ourBot->getPos());
-                }
-                else {
-                    break;
+        double stepSizeX = regionWidth/numStepsX;
+        double stepSizeY = regionHeight/numStepsY;
+
+        double bestScore = 0;
+        Vector2 bestPosition{};
+        for (int i = 0; i < numStepsX; i++){
+            for (int j = 0; j < numStepsY; j++) {
+                auto trial = Vector2(offSetX + stepSizeX * i, stepSizeY * j);
+                auto w = world->getWorld().value();
+                auto percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w);
+                auto fieldDiagonalLength = sqrt(pow(fieldWidth, 2.0) + pow(field.getFieldLength(), 2.0));
+
+                // Normalize distance, and then subtract 1
+                // This inverts the score, so if the distance is really large, the score for the distance will be close to 0
+                auto goalDistance = 1 - FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength;
+                goalDistance *= 100;
+                auto pointScore = goalDistance + percentage;
+
+                if (pointScore > bestScore && !FieldComputations::pointIsInDefenseArea(field, trial, false)) {
+                    bestScore = pointScore;
+                    bestPosition = trial;
                 }
             }
-            suitablePositions.push_back(Vector2(0,0));
         }
 
 
-
-
-        return suitablePositions[0];
+        return bestPosition;
     }
 
 }  // namespace rtt::ai::stp::play
