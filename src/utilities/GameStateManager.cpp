@@ -3,6 +3,7 @@
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <roboteam_utils/Print.h>
 #include <include/roboteam_ai/world_new/World.hpp>
+
 #include "interface/api/Output.h"
 
 namespace rtt::ai {
@@ -148,7 +149,10 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
     }
 
     auto stage = refMsg.stage();
-    strategymanager.setCurrentRefGameState(cmd, stage, world_new::World::instance()->getWorld()->getBall());
+    auto world = world_new::World::instance()->getWorld();
+    if (world.has_value()) {
+        strategymanager.setCurrentRefGameState(cmd, stage, world->getBall());
+    }
 }
 
 // Initialize static variables
@@ -158,9 +162,9 @@ GameState GameStateManager::getCurrentGameState() {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
         if (SETTINGS.isYellow()) {
-            newGameState.keeperId = getRefereeData().yellow().goalie();
+            newGameState.keeperId = getRefereeData().yellow().goalkeeper();
         } else {
-            newGameState.keeperId = getRefereeData().blue().goalie();
+            newGameState.keeperId = getRefereeData().blue().goalkeeper();
         }
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,

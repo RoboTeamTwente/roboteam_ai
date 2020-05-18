@@ -1,20 +1,20 @@
 //
-// Created by jordi on 27-03-20.
+// Created by timovdk on 5/1/20.
 //
 
-#ifndef RTT_DEFEND_H
-#define RTT_DEFEND_H
+#ifndef RTT_KICKOFFUS_H
+#define RTT_KICKOFFUS_H
 
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
-class Defend : public Play {
-public:
+class KickOffUs : public Play {
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Defend();
+    KickOffUs();
 
     /**
      * Gets the score for the current play
@@ -42,30 +42,9 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
-
-    /**
-     * Calculates info for the defenders
-     */
-    void calculateInfoForDefenders() noexcept;
-
-    /**
-     * Calculates info for the keeper
-     */
-    void calculateInfoForKeeper() noexcept;
-
-    /**
-     * Calculates info for the midfielders
-     */
-    void calculateInfoForMidfielders() noexcept;
-
-    /**
-     * Calculates info for the offenders
-     */
-    void calculateInfoForOffenders() noexcept;
 };
+}  // namespace rtt::ai::stp::play
 
-} // namespace rtt::ai::stp::play
-
-#endif //RTT_DEFEND_H
+#endif  // RTT_KICKOFFUS_H

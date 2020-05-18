@@ -21,7 +21,9 @@ namespace rtt::ai::interface {
          * an std::reference_wrapper to it.
          */
         std::map<std::string, std::unique_ptr<stp::invariant::BaseInvariant>> invariants;
-
+        std::stringstream data;
+        std::mutex dataLock;
+    	
         ~InvariantsWidget() override = default;
 
     public:

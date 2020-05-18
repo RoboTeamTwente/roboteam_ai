@@ -19,7 +19,7 @@ namespace rtt::ai::interface {
             ss += "<br>";
         }
         auto sliderPos = verticalScrollBar()->sliderPosition();
-        setHtml(ss);
+        setHtml(QString::fromStdString(data.str()));
         verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }

@@ -38,41 +38,42 @@ namespace rtt::ai::interface {
     InvariantsWidget::InvariantsWidget(QWidget* parent) : QTextEdit(parent) {
         setReadOnly(true);
 
-        /**
-         * Normal invariants
-         */
-        invariants["Ball close to us"] = std::make_unique<inv::BallCloseToUsInvariant>();
-        invariants["Ball got shot"] = std::make_unique<inv::BallGotShotInvariant>();
-        invariants["Ball is free"] = std::make_unique<inv::BallIsFreeInvariant>();
-        invariants["Ball moves slow"] = std::make_unique<inv::BallMovesSlowInvariant>();
-        invariants["Ball on our side"] = std::make_unique<inv::BallOnOurSideInvariant>();
-        invariants["Distance from ball"] = std::make_unique<inv::DistanceFromBallInvariant>();
-        invariants["Freedom of robots"] = std::make_unique<inv::FreedomOfRobotsInvariant>();
-        invariants["Goal vision"] = std::make_unique<inv::GoalVisionInvariant>();
-        invariants["We have ball"] = std::make_unique<inv::WeHaveBallInvariant>();
-        invariants["We have majority"] = std::make_unique<inv::WeHaveMajorityInvariant>();
+		/**
+		 * Normal invariants
+		 */
+		invariants["Ball close to us"] = std::make_unique<inv::BallCloseToUsInvariant>();
+		invariants["Ball got shot"] = std::make_unique<inv::BallGotShotInvariant>();
+		invariants["Ball is free"] = std::make_unique<inv::BallIsFreeInvariant>();
+		invariants["Ball moves slow"] = std::make_unique<inv::BallMovesSlowInvariant>();
+		invariants["Ball on our side"] = std::make_unique<inv::BallOnOurSideInvariant>();
+		invariants["Distance from ball"] = std::make_unique<inv::DistanceFromBallInvariant>();
+		invariants["Freedom of robots"] = std::make_unique<inv::FreedomOfRobotsInvariant>();
+		invariants["Goal vision"] = std::make_unique<inv::GoalVisionInvariant>();
+		invariants["We have ball"] = std::make_unique<inv::WeHaveBallInvariant>();
+		invariants["We have majority"] = std::make_unique<inv::WeHaveMajorityInvariant>();
 
-        /**
-         * Game State invariants
-         */
-        invariants["gs::Ball placement them"] = std::make_unique<inv::BallPlacementThemGameStateInvariant>();
-        invariants["gs::Ball placement us"] = std::make_unique<inv::BallPlacementUsGameStateInvariant>();
-        invariants["gs::Free kick them"] = std::make_unique<inv::FreeKickThemGameStateInvariant>();
-        invariants["gs::Free kick us"] = std::make_unique<inv::FreeKickUsGameStateInvariant>();
-        invariants["gs::Halt"] = std::make_unique<inv::HaltGameStateInvariant>();
-        invariants["gs::Kick Off Them"] = std::make_unique<inv::KickOffThemGameStateInvariant>();
-        invariants["gs::Kick Off Them Prepare"] = std::make_unique<inv::KickOffThemPrepareGameStateInvariant>();
-        invariants["gs::Kick Off Us"] = std::make_unique<inv::KickOffUsGameStateInvariant>();
-        invariants["gs::Kick Off Us Prepare"] = std::make_unique<inv::KickOffUsPrepareGameStateInvariant>();
-        invariants["gs::Normal Play"] = std::make_unique<inv::NormalPlayGameStateInvariant>();
-        invariants["gs::Penalty Them"] = std::make_unique<inv::PenaltyThemGameStateInvariant>();
-        invariants["gs::Penalty Them Prepare"] = std::make_unique<inv::PenaltyThemPrepareGameStateInvariant>();
-        invariants["gs::Penalty Us"] = std::make_unique<inv::PenaltyUsGameStateInvariant>();
-        invariants["gs::Penalty Us Prepare"] = std::make_unique<inv::PenaltyUsPrepareGameStateInvariant>();
-        invariants["gs::Stop"] = std::make_unique<inv::StopGameStateInvariant>();
-        invariants["gs::Time out"] = std::make_unique<inv::TimeOutGameStateInvariant>();
-    }
+		/**
+		 * Game State invariants
+		 */
+		invariants["gs::Ball placement them"] = std::make_unique<inv::BallPlacementThemGameStateInvariant>();
+		invariants["gs::Ball placement us"] = std::make_unique<inv::BallPlacementUsGameStateInvariant>();
+		invariants["gs::Free kick them"] = std::make_unique<inv::FreeKickThemGameStateInvariant>();
+		invariants["gs::Free kick us"] = std::make_unique<inv::FreeKickUsGameStateInvariant>();
+		invariants["gs::Halt"] = std::make_unique<inv::HaltGameStateInvariant>();
+		invariants["gs::Kick Off Them"] = std::make_unique<inv::KickOffThemGameStateInvariant>();
+		invariants["gs::Kick Off Them Prepare"] = std::make_unique<inv::KickOffThemPrepareGameStateInvariant>();
+		invariants["gs::Kick Off Us"] = std::make_unique<inv::KickOffUsGameStateInvariant>();
+		invariants["gs::Kick Off Us Prepare"] = std::make_unique<inv::KickOffUsPrepareGameStateInvariant>();
+		invariants["gs::Normal Play"] = std::make_unique<inv::NormalPlayGameStateInvariant>();
+		invariants["gs::Penalty Them"] = std::make_unique<inv::PenaltyThemGameStateInvariant>();
+		invariants["gs::Penalty Them Prepare"] = std::make_unique<inv::PenaltyThemPrepareGameStateInvariant>();
+		invariants["gs::Penalty Us"] = std::make_unique<inv::PenaltyUsGameStateInvariant>();
+		invariants["gs::Penalty Us Prepare"] = std::make_unique<inv::PenaltyUsPrepareGameStateInvariant>();
+		invariants["gs::Stop"] = std::make_unique<inv::StopGameStateInvariant>();
+		invariants["gs::Time out"] = std::make_unique<inv::TimeOutGameStateInvariant>();
+	}
 
+<<<<<<< HEAD
     void InvariantsWidget::updateInvariants() {
         QString result = "";
         auto world = world_new::World::instance()->getWorld().value();
@@ -87,4 +88,17 @@ namespace rtt::ai::interface {
         setText(result);
         verticalScrollBar()->setSliderPosition(sliderPos);
     }
+=======
+	void InvariantsWidget::updateInvariants() {
+		std::lock_guard mtx{ dataLock };
+		auto world = world_new::World::instance()->getWorld().value();
+		auto field = world_new::World::instance()->getField().value();
+		for (auto const& [name, inv] : invariants) {
+			data << name << " -> " << std::boolalpha << inv->checkInvariant(world, &field) << "<br>";
+		}
+		auto const sliderPos = verticalScrollBar()->sliderPosition();
+		setText(QString::fromStdString(data.str()));
+		verticalScrollBar()->setSliderPosition(sliderPos);
+	}
+>>>>>>> 6d3338e251c1d11a0d5558cb9cd1b5b727764b4c
 }
