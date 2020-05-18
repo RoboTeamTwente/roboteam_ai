@@ -24,6 +24,10 @@
 #include "stp/new_plays/PenaltyUs.h"
 #include "stp/new_plays/KickOffUsPrepare.h"
 #include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/FreeKickThem.h"
+#include "stp/new_plays/KickOffUs.h"
+#include "stp/new_plays/KickOffThem.h"
+#include "stp/new_plays/GetBallPossession.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -55,6 +59,10 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -95,30 +103,18 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (!world_new::World::instance()->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
-                RTT_SUCCESS("Received robots, starting behaviour trees!")
+                RTT_SUCCESS("Received robots, starting STP!")
             }
             robotsInitialized = true;
 
             world_new::World::instance()->updateField(fieldMessage);
             world_new::World::instance()->updatePositionControl();
-            auto field = world_new::World::instance()->getField().value();
 
-            /**
-             * Comment/uncomment this line for new system (can't be used at the same time!)
-             */
             decidePlay(world_new::World::instance());
 
-            /**
-             * Comment/uncomment these lines for old system (can't be used at the same time!)
-             */
-            // updateTrees();
-            // updateCoaches(field);
-            // runKeeperTree(field);
-            // Status status = runStrategyTree(field);
-            // this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
-                RTT_WARNING("No robots found in world. Behaviour trees are not running")
+                RTT_WARNING("No robots found in world. STP is not running")
                 robotsInitialized = false;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -167,6 +163,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->initialize();
     }
 
+    currentPlay->updateWorld(_world);
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }

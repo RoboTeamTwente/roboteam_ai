@@ -36,9 +36,9 @@ private:
     [[nodiscard]] static bool isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept;
 
     /**
-     * Resets state machine when ball is in our defense area and still and current tactic is not BlockBall
+     * Resets state machine when ball is in our defense area and still and current tactic is not KeeperBlockBall
      * @param isBallInOurDefenseAreaAndStill True if ball is in our defense area and still
-     * @return True if isBallInOurDefenseAreaAndStill and current tactic is not BlockBall
+     * @return True if isBallInOurDefenseAreaAndStill and current tactic is not KeeperBlockBall
      */
     [[nodiscard]] bool shouldRoleReset(bool isBallInOurDefenseAreaAndStill) noexcept;
 };
