@@ -12,6 +12,7 @@
 #include "stp/new_roles/Passer.h"
 #include "stp/new_roles/TestRole.h"
 #include "roboteam_utils/Tube.h"
+#include "roboteam_utils/Grid.h"
 
 namespace rtt::ai::stp::play {
 
@@ -108,40 +109,37 @@ const char* Pass::getName() { return "Pass"; }
         auto theirBots = world->getWorld()->getThem();
 
         double fieldWidth = field.getFieldWidth();
-
-        double offSetX = 0.3*fieldWidth; // start looking for suitable positions to move to at 30% of the field width
+        double offSetX = 0.3 * fieldWidth; // start looking for suitable positions to move to at 30% of the field width
         double offSetY = 0;
         double regionWidth = 3;
         double regionHeight = 3;
         auto numStepsX = 10;
         auto numStepsY = 10;
 
-        double stepSizeX = regionWidth/numStepsX;
-        double stepSizeY = regionHeight/numStepsY;
-
         double bestScore = 0;
         Vector2 bestPosition{};
-        for (int i = 0; i < numStepsX; i++){
-            for (int j = 0; j < numStepsY; j++) {
-                auto trial = Vector2(offSetX + stepSizeX * i, stepSizeY * j);
+
+        Grid grid = Grid(offSetX, offSetY, regionWidth, regionHeight, numStepsX, numStepsY);
+        for (const auto& nestedPoints : grid.getPoints()) {
+            for (const auto& trial : nestedPoints) {
                 auto w = world->getWorld().value();
                 auto percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w);
                 auto fieldDiagonalLength = sqrt(pow(fieldWidth, 2.0) + pow(field.getFieldLength(), 2.0));
 
                 // Normalize distance, and then subtract 1
-                // This inverts the score, so if the distance is really large, the score for the distance will be close to 0
+                // This inverts the score, so if the distance is really large,
+                // the score for the distance will be close to 0
                 auto goalDistance = 1 - FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength;
                 goalDistance *= 100;
                 auto pointScore = goalDistance + percentage;
 
+                // Robot is never allowed to stand in their defense area, so exclude any points in the grid that are in it
                 if (pointScore > bestScore && !FieldComputations::pointIsInDefenseArea(field, trial, false)) {
                     bestScore = pointScore;
                     bestPosition = trial;
                 }
             }
         }
-
-
         return bestPosition;
     }
 
