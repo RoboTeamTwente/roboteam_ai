@@ -131,6 +131,8 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
     connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
+    connect(this, &MainWindow::updateStpWidgets, playsWidget, &PlaysWidget::updatePlays);
+    connect(this, &MainWindow::updateStpWidgets, invariantsWidget, &InvariantsWidget::updateInvariants);
 }
 
 /// Set up a checkbox and add it to the layout
@@ -180,9 +182,9 @@ void MainWindow::updateRobotsWidget() {
 
 void MainWindow::updatePlay(stp::Play *play) {
     stpWidget->updateContents(play);
+//    playsWidget->updatePlays();
+//    invariantsWidget->updateInvariants();
     updateStpWidgets();
-    playsWidget->updatePlays();
-    invariantsWidget->updateInvariants();
 }
 
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }

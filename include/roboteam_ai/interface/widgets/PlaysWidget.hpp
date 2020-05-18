@@ -14,9 +14,10 @@ namespace rtt::ai::interface {
     Q_OBJECT
     public:
         explicit PlaysWidget(QWidget* parent = nullptr);
-        void updatePlays();
-
         ~PlaysWidget() override = default;
+
+    public slots:
+        void updatePlays();
     };
 }
 

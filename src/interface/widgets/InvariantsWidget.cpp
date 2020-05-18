@@ -36,7 +36,7 @@
 namespace rtt::ai::interface {
     namespace inv = stp::invariant;
     InvariantsWidget::InvariantsWidget(QWidget* parent) : QTextEdit(parent) {
-        this->setReadOnly(true);
+        setReadOnly(true);
 
         /**
          * Normal invariants
@@ -74,7 +74,6 @@ namespace rtt::ai::interface {
     }
 
     void InvariantsWidget::updateInvariants() {
-        clear();
         QString result = "";
         auto world = world_new::World::instance()->getWorld().value();
         auto field = world_new::World::instance()->getField().value();

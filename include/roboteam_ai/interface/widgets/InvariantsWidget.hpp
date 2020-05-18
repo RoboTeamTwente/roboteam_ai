@@ -20,6 +20,8 @@ namespace rtt::ai::interface {
 
     public:
         explicit InvariantsWidget(QWidget* parent = nullptr);
+
+    public slots:
         void updateInvariants();
     };
 

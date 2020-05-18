@@ -11,12 +11,11 @@ namespace rtt::ai::interface {
     }
 
     void PlaysWidget::updatePlays() {
-        clear();
         QString ss;
         for (auto& each : ApplicationManager::plays) {
             ss += each->getName();
             ss += " -> ";
-            ss += each->score(world_new::World::instance());
+            ss += QString::number(static_cast<int>(each->score(world_new::World::instance())), 10);
             ss += "<br>";
         }
         auto sliderPos = verticalScrollBar()->sliderPosition();
