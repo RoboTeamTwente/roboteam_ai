@@ -182,8 +182,6 @@ void MainWindow::updateRobotsWidget() {
 
 void MainWindow::updatePlay(stp::Play *play) {
     stpWidget->updateContents(play);
-//    playsWidget->updatePlays();
-//    invariantsWidget->updateInvariants();
     updateStpWidgets();
 }
 
