@@ -14,17 +14,18 @@
 #include "roboteam_utils/Tube.h"
 #include "roboteam_utils/Grid.h"
 
+
 namespace rtt::ai::stp::play {
 
 Pass::Pass() : Play() {
     startPlayInvariants.clear();
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
-//
+
     keepPlayInvariants.clear();
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
