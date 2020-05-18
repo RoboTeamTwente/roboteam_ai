@@ -73,7 +73,6 @@ namespace rtt::ai::interface {
 		invariants["gs::Time out"] = std::make_unique<inv::TimeOutGameStateInvariant>();
 	}
 
-<<<<<<< HEAD
     void InvariantsWidget::updateInvariants() {
         QString result = "";
         auto world = world_new::World::instance()->getWorld().value();
@@ -88,17 +87,4 @@ namespace rtt::ai::interface {
         setText(result);
         verticalScrollBar()->setSliderPosition(sliderPos);
     }
-=======
-	void InvariantsWidget::updateInvariants() {
-		std::lock_guard mtx{ dataLock };
-		auto world = world_new::World::instance()->getWorld().value();
-		auto field = world_new::World::instance()->getField().value();
-		for (auto const& [name, inv] : invariants) {
-			data << name << " -> " << std::boolalpha << inv->checkInvariant(world, &field) << "<br>";
-		}
-		auto const sliderPos = verticalScrollBar()->sliderPosition();
-		setText(QString::fromStdString(data.str()));
-		verticalScrollBar()->setSliderPosition(sliderPos);
-	}
->>>>>>> 6d3338e251c1d11a0d5558cb9cd1b5b727764b4c
 }
