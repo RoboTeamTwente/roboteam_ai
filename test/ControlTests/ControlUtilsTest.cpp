@@ -15,23 +15,6 @@ using Vector2 = rtt::Vector2;
 using Constants = rtt::ai::Constants;
 using ControlUtils = rtt::ai::control::ControlUtils;
 
-TEST(ControlUtils, rotateDirection) {
-    // TODO: This is not used? what does this test even do?
-    // double ang1 = - 0.8*M_PI;
-    double ang2 = 0.8 * M_PI;
-    double ang3 = -0.2 * M_PI;
-    double ang4 = 0.2 * M_PI;
-    cr::ControlUtils::rotateDirection(ang3, ang4);
-    cr::ControlUtils::rotateDirection(ang2, ang4);
-}
-
-TEST(ControlUtils, angleDifference) {
-    EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(0.4, 0.5), 0.1);
-    EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(-0.4, 0.5), 0.9);
-    EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(-0.4 * M_PI, -2 * M_PI), 0.4 * M_PI);
-    EXPECT_FLOAT_EQ(cr::ControlUtils::angleDifference(-0.4 * M_PI, 1 * M_PI), 0.6 * M_PI);
-}
-
 TEST(ControlUtils, velocityLimiter) {
     for (int i = 0; i < 200; i++) {
         EXPECT_LE(cr::ControlUtils::velocityLimiter(Vector2(-102 + i * 10, 512 + i * 8)).length(), rtt::ai::Constants::MAX_VEL() + 0.01);
@@ -93,25 +76,6 @@ TEST(ControlUtils, accelerationLimiter) {
             acceleration = (ControlUtils::accelerationLimiter(targetVel, prevVel, targetAngle) - prevVel).length();
             EXPECT_TRUE(acceleration <= maxAcceleration);
         }
-    }
-}
-
-TEST(ControlUtils, lineOrientation) {
-    {
-        Vector2 A(0, 0), B(0, 100), C(1, 0);
-        EXPECT_EQ(cr::ControlUtils::lineOrientation(A, B, C), 1);
-    }
-    {
-        Vector2 A(0, 0), B(0, 1), C(0, 2);
-        EXPECT_EQ(cr::ControlUtils::lineOrientation(A, B, C), 0);
-    }
-    {
-        Vector2 A(0, 0), B(1, -1), C(2, 2);
-        EXPECT_EQ(cr::ControlUtils::lineOrientation(A, B, C), 2);
-    }
-    {
-        Vector2 A(-2, -2), B(1, 1), C(2, 2);
-        EXPECT_EQ(cr::ControlUtils::lineOrientation(A, B, C), 0);
     }
 }
 
