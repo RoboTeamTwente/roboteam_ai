@@ -114,7 +114,8 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Defend.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacementUs.cpp
@@ -148,6 +149,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallShotOrCloseToThemInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
