@@ -63,7 +63,41 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 }
 
 void ReflectKick::calculateInfoForRoles() noexcept {
+    auto passPosition = stpInfos["reflecter"].getRobot().value()->getPos();
 
+    // Reflecter
+    stpInfos["reflecter"].setPositionToMoveTo(passPosition);
+    stpInfos["reflecter"].setPositionToShootAt(field.getTheirGoalCenter());
+
+    // Passer
+    stpInfos["passer"].setPositionToShootAt(passPosition);
+    stpInfos["passer"].setKickChipType(PASS);
+
+    // Offenders
+    stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));
+    stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, -field.getFieldWidth() / 4));
+
+    // Midfielders
+    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, field.getFieldWidth() / 4));
+    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -field.getFieldWidth() / 4));
+    stpInfos["midfielder_3"].setPositionToMoveTo(Vector2(field.getFieldLength() / 8, 0.0));
+
+    // Defenders
+    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
+    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+
+    stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
+    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
+    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
+
+    // Keeper
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
 bool ReflectKick::shouldRoleSkipEndTactic() { return false; }
