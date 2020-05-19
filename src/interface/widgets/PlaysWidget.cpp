@@ -8,28 +8,31 @@
 namespace rtt::ai::interface {
     inline QString formatPlay(stp::Play* play)
     {
-        auto* data = world_new::World::instance();
-        auto const& field = *data->getField();
-        auto const& world = *data->getWorld();
+        auto const& field = world_new::World::instance()->getField();
+        auto const& world = world_new::World::instance()->getWorld();
+        if (!world.has_value()) {
+            return "Unable to read world...";
+        }
+
         QString ss = "";
         ss += play->getName();
-        ss += ":<br>  keep:<br>";
+        ss += ":<br>&nbsp;&nbsp;keep:<br>";
         for (auto& each : play->keepPlayInvariants)
         {
-            ss += "    ";
+            ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
-            ss += ": ";
-            ss += each->checkInvariant(world, &field);
+            ss += ":&nbsp;";
+            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
             ss += "<br>";
         }
 
-        ss += ":<br>  start:<br>";
+        ss += "&nbsp;&nbsp;start:<br>";
         for (auto& each : play->startPlayInvariants)
         {
-            ss += "    ";
+            ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
-            ss += ": ";
-            ss += each->checkInvariant(world, &field);
+            ss += ":&nbsp;";
+            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
             ss += "<br>";
         }
         ss += "<br>";
