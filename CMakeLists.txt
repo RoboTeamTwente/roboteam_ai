@@ -85,6 +85,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
         )
 
@@ -129,6 +130,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
         )
 
 set(INVARIANTS_SOURCES
@@ -145,6 +147,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
@@ -154,6 +157,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickThemGameStateInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.cpp

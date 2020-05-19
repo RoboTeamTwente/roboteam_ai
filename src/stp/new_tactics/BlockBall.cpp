@@ -1,17 +1,17 @@
 //
-// Created by jordi on 08-04-20.
+// Created by timovdk on 5/12/20.
 //
 
-#include "control/ControlUtils.h"
 #include "stp/new_tactics/BlockBall.h"
+
+#include "control/ControlUtils.h"
+#include "interface/api/Input.h"
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
-BlockBall::BlockBall() {
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-}
+BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
 void BlockBall::onInitialize() noexcept {}
 
@@ -29,14 +29,14 @@ StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
-    auto keeper = info.getRobot().value();
+    auto robot = info.getRobot().value();
     auto enemyRobot = info.getEnemyRobot().value();
 
-    auto keeperToBall = ball->getPos() - keeper->getPos();
+    auto robotToBall = ball->getPos() - robot->getPos();
 
-    auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
+    auto targetPosition = calculateTargetPosition(ball, field, enemyRobot, robot);
 
-    auto targetAngle = keeperToBall.angle();
+    auto targetAngle = robotToBall.angle();
 
     skillStpInfo.setPositionToMoveTo(targetPosition);
     skillStpInfo.setAngle(targetAngle);
@@ -53,64 +53,38 @@ bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept {
     return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
 }
 
-const char *BlockBall::getName() {
-    return "Block Ball";
-}
+const char *BlockBall::getName() { return "Block Ball"; }
 
-Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
-        const world_new::view::RobotView &enemyRobot) noexcept {
-    const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
+Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot,
+                                           const world_new::view::RobotView &robot) noexcept {
+    Vector2 targetPosition{};
 
-    // Ball is on our side
-    if (ball->getPos().x < 0) {
-        auto keeperArc = Arc(field.getOurGoalCenter(), DISTANCE_FROM_GOAL_FAR, -M_PI / 2, M_PI / 2);
+    // Opponent is close to ball
+    // Block the ball by staying on the shot line of the opponent
+    if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
+        // TODO: Tune this distance
+        const double BLOCK_DISTANCE(0.5);
 
-        // Ball is moving
-        // Intercept ball when it is moving towards the goal
-        if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-            auto start = ball->getPos();
-            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.5);
-            auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
-            auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
+        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
 
-            auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
-            if (intersection) {
-                return intersection.value();
-            }
-        }
-
-        // Opponent is close to ball
-        // Block the ball by staying on the shot line of the opponent
-        if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
-            auto start = enemyRobot->getPos();
-            auto enemyToBall = ball->getPos() - start;
-            auto end = start + enemyToBall.stretchToLength(field.getFieldLength() * 0.5);
-            const auto &startGoal = field.getOurTopGoalSide();
-            const auto &endGoal = field.getOurBottomGoalSide();
-
-            auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
-            if (intersection) {
-                auto targetPositions = keeperArc.intersectionWithLine(start, intersection.value());
-                if (targetPositions.first) {
-                    return targetPositions.first.value();
-                } else if (targetPositions.second) {
-                    return targetPositions.second.value();
-                }
-            }
-        }
-
-        // Stay between the ball and the center of the goal
-        auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
-
-        if (targetPositions.first) {
-            return targetPositions.first.value();
-        } else if (targetPositions.second) {
-            return targetPositions.second.value();
-        }
+        // Project the enemy robot on the circle, and rotate this position with Pi.
+        // This is to stand directly opposite the enemy robot with the ball in the middle.
+        targetPosition = ballCircle.project(enemyRobot->getPos()).rotateAroundPoint(M_PI, ballCircle.center);
     }
 
-    // Default position
-    return field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0);
+    // Default
+    // Stay between the ball and the center of the goal
+    else {
+        // TODO: Tune this distance
+        const double BLOCK_DISTANCE(0.5);
+
+        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
+
+        // Project our goal center on the circle to get the position to block
+        targetPosition = ballCircle.project(field.getOurGoalCenter());
+    }
+
+    return targetPosition;
 }
 
 }  // namespace rtt::ai::stp::tactic
