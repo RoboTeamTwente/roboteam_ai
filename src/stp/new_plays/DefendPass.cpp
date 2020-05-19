@@ -5,6 +5,7 @@
 #include "stp/new_plays/DefendPass.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
+#include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Harasser.h"
@@ -20,6 +21,7 @@ DefendPass::DefendPass() : Play() {
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Defender>(role::Defender("defender_1")),
@@ -34,7 +36,7 @@ DefendPass::DefendPass() : Play() {
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendPass::score(world_new::World *world) noexcept { return 40; }
+uint8_t DefendPass::score(world_new::World *world) noexcept { return 90; }
 
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

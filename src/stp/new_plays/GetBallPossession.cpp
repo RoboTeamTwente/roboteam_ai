@@ -37,7 +37,7 @@ GetBallPossession::GetBallPossession() : Play() {
             std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 100; }
+uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 80; }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
