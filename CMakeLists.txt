@@ -132,6 +132,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
         )
 
 set(INVARIANTS_SOURCES
