@@ -37,7 +37,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
             return Status::Success;
         }
         // Make sure we keep executing the last tactic since it is an end tactic
-        skills.skip_n(-1);
+        skills.reset();
         currentStatus = Status::Waiting;
         return Status::Waiting;
     }

@@ -9,7 +9,7 @@
  * Plays are included here
  */
 #include "stp/new_plays/TestPlay.h"
-#include "stp/new_plays/Pass.h"
+#include "stp/new_plays/AttackingPass.h"
 #include "stp/new_plays/DefendShot.h"
 #include "stp/new_plays/DefendPass.h"
 #include "stp/new_plays/Attack.h"
@@ -46,7 +46,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Pass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
@@ -73,7 +73,12 @@ void ApplicationManager::start() {
     roboteam_utils::Timer t;
     t.loop(
         [&]() {
+            auto start = std::clock();
             runOneLoopCycle();
+
+            RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
+            RTT_WARNING("Time allowed: 16 ms")
+
             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
