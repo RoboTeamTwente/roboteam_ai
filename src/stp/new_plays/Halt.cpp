@@ -23,7 +23,7 @@ Halt::Halt() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_9")), std::make_unique<role::Halt>(role::Halt("halt_10"))};
 }
 
-uint8_t Halt::score(world_new::World* world) noexcept { return 100; }
+uint8_t Halt::score(world_new::World* world) noexcept { return 50; }
 
 void Halt::calculateInfoForRoles() noexcept {}
 
