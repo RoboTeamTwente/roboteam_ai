@@ -105,30 +105,18 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (!world_new::World::instance()->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
-                RTT_SUCCESS("Received robots, starting behaviour trees!")
+                RTT_SUCCESS("Received robots, starting STP!")
             }
             robotsInitialized = true;
 
             world_new::World::instance()->updateField(fieldMessage);
             world_new::World::instance()->updatePositionControl();
-            auto field = world_new::World::instance()->getField().value();
 
-            /**
-             * Comment/uncomment this line for new system (can't be used at the same time!)
-             */
             decidePlay(world_new::World::instance());
 
-            /**
-             * Comment/uncomment these lines for old system (can't be used at the same time!)
-             */
-            // updateTrees();
-            // updateCoaches(field);
-            // runKeeperTree(field);
-            // Status status = runStrategyTree(field);
-            // this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
-                RTT_WARNING("No robots found in world. Behaviour trees are not running")
+                RTT_WARNING("No robots found in world. STP is not running")
                 robotsInitialized = false;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -177,6 +165,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->initialize();
     }
 
+    currentPlay->updateWorld(_world);
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }
