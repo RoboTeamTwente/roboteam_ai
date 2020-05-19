@@ -129,13 +129,13 @@ Vector2 AttackingPass::calculatePassLocation() {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
+                // Check goal visibility from  a point
                 auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w) / 100;
-
-                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
 
                 // Normalize distance, and then subtract 1
                 // This inverts the score, so if the distance is really large,
                 // the score for the distance will be close to 0
+                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
                 auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength);
 
                 // Make sure the angle to shoot at the goal with is okay
@@ -149,14 +149,14 @@ Vector2 AttackingPass::calculatePassLocation() {
                     canReachTarget = 0.0;
                 }
 
-                // Search closest bot
+                // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
 
-                // Calculate final total
+                // Calculate total score for this point
                 auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance * canReachTarget);
 
-                // Robot is never allowed to stand in their defense area, so exclude any points in the grid that are in it
+                // Check for best score
                 if (pointScore > bestScore) {
                     bestScore = pointScore;
                     bestPosition = trial;
