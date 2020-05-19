@@ -2,19 +2,19 @@
 // Created by jessevw on 17.03.20.
 //
 
-#ifndef RTT_PASS_PLAY_H
-#define RTT_PASS_PLAY_H
+#ifndef RTT_ATTACKING_PASS_PLAY_H
+#define RTT_ATTACKING_PASS_PLAY_H
 
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
-class GoalPotentialPass : public Play {
+class AttackingPass : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    GoalPotentialPass();
+    AttackingPass();
 
     /**
      * Gets the score for the current play
@@ -58,4 +58,4 @@ class GoalPotentialPass : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_PASS_PLAY_H
+#endif  // RTT_ATTACKING_PASS_PLAY_H

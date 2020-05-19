@@ -8,26 +8,26 @@
 /**
  * Plays are included here
  */
-#include "stp/new_plays/TestPlay.h"
-#include "stp/new_plays/GoalPotentialPass.h"
-#include "stp/new_plays/Defend.h"
-#include "stp/new_plays/Attack.h"
-#include "stp/new_plays/Halt.h"
-#include "stp/new_plays/BallPlacementUs.h"
-#include "stp/new_plays/BallPlacementThem.h"
-#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
-#include "stp/new_plays/TimeOut.h"
-#include "stp/new_plays/PenaltyThemPrepare.h"
-#include "stp/new_plays/PenaltyUsPrepare.h"
-#include "stp/new_plays/PenaltyThem.h"
-#include "stp/new_plays/PenaltyUs.h"
-#include "stp/new_plays/KickOffUsPrepare.h"
-#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_plays/AttackingPass.h"
+#include "stp/new_plays/BallPlacementThem.h"
+#include "stp/new_plays/BallPlacementUs.h"
+#include "stp/new_plays/Defend.h"
+#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/FreeKickThem.h"
-#include "stp/new_plays/KickOffUs.h"
-#include "stp/new_plays/KickOffThem.h"
 #include "stp/new_plays/GetBallPossession.h"
+#include "stp/new_plays/Halt.h"
+#include "stp/new_plays/KickOffThem.h"
+#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/KickOffUs.h"
+#include "stp/new_plays/KickOffUsPrepare.h"
+#include "stp/new_plays/PenaltyThem.h"
+#include "stp/new_plays/PenaltyThemPrepare.h"
+#include "stp/new_plays/PenaltyUs.h"
+#include "stp/new_plays/PenaltyUsPrepare.h"
+#include "stp/new_plays/TestPlay.h"
+#include "stp/new_plays/TimeOut.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -44,7 +44,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GoalPotentialPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
@@ -73,8 +73,8 @@ void ApplicationManager::start() {
             auto start = std::clock();
             runOneLoopCycle();
 
-            std::cout << "Time: " << (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000) << " ms" << std::endl;
-            std::cout << "Time allowed: 16 ms" << std::endl;
+            RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
+            RTT_WARNING("Time allowed: 16 ms")
 
             return 0;
 
@@ -111,30 +111,17 @@ void ApplicationManager::runOneLoopCycle() {
 
         if (!world_new::World::instance()->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
-                RTT_SUCCESS("Received robots, starting behaviour trees!")
+                RTT_SUCCESS("Received robots, starting STP!")
             }
             robotsInitialized = true;
 
             world_new::World::instance()->updateField(fieldMessage);
             world_new::World::instance()->updatePositionControl();
-            auto field = world_new::World::instance()->getField().value();
 
-            /**
-             * Comment/uncomment this line for new system (can't be used at the same time!)
-             */
             decidePlay(world_new::World::instance());
-
-            /**
-             * Comment/uncomment these lines for old system (can't be used at the same time!)
-             */
-            // updateTrees();
-            // updateCoaches(field);
-            // runKeeperTree(field);
-            // Status status = runStrategyTree(field);
-            // this->notifyTreeStatus(status);
         } else {
             if (robotsInitialized) {
-                RTT_WARNING("No robots found in world. Behaviour trees are not running")
+                RTT_WARNING("No robots found in world. STP not running")
                 robotsInitialized = false;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -183,6 +170,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->initialize();
     }
 
+    currentPlay->updateWorld(_world);
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }

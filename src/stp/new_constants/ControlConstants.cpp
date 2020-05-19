@@ -58,6 +58,7 @@ constexpr double FUZZY_DEFAULT_CUTOFF = 127;
 // Distance constants
 const double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS; // TODO: TUNE
 const double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS; // TODO: TUNE
+constexpr double ROBOT_CLOSE_TO_POINT = 0.5;
 
 // Keeper constants
 const double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
