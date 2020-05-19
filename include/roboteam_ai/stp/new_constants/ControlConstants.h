@@ -61,6 +61,7 @@ extern const double FUZZY_DEFAULT_CUTOFF;
 // Distance constants
 extern const double DISTANCE_TO_ROBOT_CLOSE;
 extern const double DISTANCE_TO_ROBOT_FAR;
+extern const double ROBOT_CLOSE_TO_POINT;
 
 // Keeper constants
 extern const double DISTANCE_FROM_GOAL_CLOSE;
