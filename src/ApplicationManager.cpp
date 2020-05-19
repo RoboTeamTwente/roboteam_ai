@@ -8,26 +8,28 @@
 /**
  * Plays are included here
  */
-#include "stp/new_plays/AggressiveFormation.h"
-#include "stp/new_plays/Attack.h"
-#include "stp/new_plays/AttackingPass.h"
-#include "stp/new_plays/BallPlacementThem.h"
-#include "stp/new_plays/BallPlacementUs.h"
-#include "stp/new_plays/Defend.h"
-#include "stp/new_plays/DefensiveFormation.h"
-#include "stp/new_plays/FreeKickThem.h"
-#include "stp/new_plays/GetBallPossession.h"
-#include "stp/new_plays/Halt.h"
-#include "stp/new_plays/KickOffThem.h"
-#include "stp/new_plays/KickOffThemPrepare.h"
-#include "stp/new_plays/KickOffUs.h"
-#include "stp/new_plays/KickOffUsPrepare.h"
-#include "stp/new_plays/PenaltyThem.h"
-#include "stp/new_plays/PenaltyThemPrepare.h"
-#include "stp/new_plays/PenaltyUs.h"
-#include "stp/new_plays/PenaltyUsPrepare.h"
 #include "stp/new_plays/TestPlay.h"
+#include "stp/new_plays/AttackingPass.h"
+#include "stp/new_plays/DefendShot.h"
+#include "stp/new_plays/DefendPass.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_plays/Halt.h"
+#include "stp/new_plays/BallPlacementUs.h"
+#include "stp/new_plays/BallPlacementThem.h"
+#include "stp/new_plays/DefensiveFormation.h"
+#include "stp/new_plays/AggressiveFormation.h"
 #include "stp/new_plays/TimeOut.h"
+#include "stp/new_plays/PenaltyThemPrepare.h"
+#include "stp/new_plays/PenaltyUsPrepare.h"
+#include "stp/new_plays/PenaltyThem.h"
+#include "stp/new_plays/PenaltyUs.h"
+#include "stp/new_plays/KickOffUsPrepare.h"
+#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/FreeKickThem.h"
+#include "stp/new_plays/KickOffUs.h"
+#include "stp/new_plays/KickOffThem.h"
+#include "stp/new_plays/GetBallPossession.h"
+#include "stp/new_plays/GetBallRisky.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -47,7 +49,8 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Defend>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
@@ -63,6 +66,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -116,9 +120,10 @@ void ApplicationManager::runOneLoopCycle() {
             world_new::World::instance()->updatePositionControl();
 
             decidePlay(world_new::World::instance());
+
         } else {
             if (robotsInitialized) {
-                RTT_WARNING("No robots found in world. STP not running")
+                RTT_WARNING("No robots found in world. STP is not running")
                 robotsInitialized = false;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
