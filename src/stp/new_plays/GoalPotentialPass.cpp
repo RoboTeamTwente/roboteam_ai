@@ -3,7 +3,7 @@
 //
 
 #include <include/roboteam_ai/stp/new_roles/Halt.h>
-#include "stp/new_plays/Pass.h"
+#include "stp/new_plays/GoalPotentialPass.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallMovesSlowInvariant.h"
@@ -17,15 +17,15 @@
 
 namespace rtt::ai::stp::play {
 
-Pass::Pass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
-
-
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
+GoalPotentialPass::GoalPotentialPass() : Play() {
+//    startPlayInvariants.clear();
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//
+//
+//    keepPlayInvariants.clear();
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
@@ -36,9 +36,9 @@ Pass::Pass() : Play() {
         std::make_unique<role::Halt>(role::Halt("test_role_10"))};
 }
 
-uint8_t Pass::score(world_new::World* world) noexcept { return 100; }
+uint8_t GoalPotentialPass::score(world_new::World* world) noexcept { return 100; }
 
-Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
+Dealer::FlagMap GoalPotentialPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -59,7 +59,7 @@ Dealer::FlagMap Pass::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void Pass::calculateInfoForRoles() noexcept {
+void GoalPotentialPass::calculateInfoForRoles() noexcept {
     // Calculate most important positions to defend
     // You know you have n defenders, because the play assigned it that way
     auto enemyRobots = world->getWorld()->getThem();
@@ -86,7 +86,7 @@ void Pass::calculateInfoForRoles() noexcept {
     }
 }
 
-std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
+std::vector<Vector2> GoalPotentialPass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
     std::vector<Vector2> positions = {};
 
     // 3 robots will defend goal
@@ -101,38 +101,49 @@ std::vector<Vector2> Pass::calculateDefensivePositions(int numberOfDefenders, wo
     return positions;
 }
 
-bool Pass::shouldRoleSkipEndTactic() { return false; }
+bool GoalPotentialPass::shouldRoleSkipEndTactic() { return false; }
 
-const char* Pass::getName() { return "Pass"; }
+const char* GoalPotentialPass::getName() { return "GoalPotentialPass"; }
 
-    Vector2 Pass::calculatePassLocation() {
+    Vector2 GoalPotentialPass::calculatePassLocation() {
         auto ourBots = world->getWorld()->getUs();
         auto theirBots = world->getWorld()->getThem();
 
         double fieldWidth = field.getFieldWidth();
         double offSetX = 0.3 * fieldWidth; // start looking for suitable positions to move to at 30% of the field width
-        double offSetY = 0;
+        double offSetY = -3;
         double regionWidth = 3;
-        double regionHeight = 3;
-        auto numStepsX = 10;
-        auto numStepsY = 10;
+        double regionHeight = 6;
+        auto numStepsX = 20;
+        auto numStepsY = 20;
 
         double bestScore = 0;
         Vector2 bestPosition{};
 
+        // Make a grid with all potentially good points
         Grid grid = Grid(offSetX, offSetY, regionWidth, regionHeight, numStepsX, numStepsY);
         for (const auto& nestedPoints : grid.getPoints()) {
             for (const auto& trial : nestedPoints) {
                 auto w = world->getWorld().value();
-                auto percentage = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w);
+                auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w)/100;
                 auto fieldDiagonalLength = sqrt(pow(fieldWidth, 2.0) + pow(field.getFieldLength(), 2.0));
 
                 // Normalize distance, and then subtract 1
                 // This inverts the score, so if the distance is really large,
                 // the score for the distance will be close to 0
-                auto goalDistance = 1 - FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength;
-                goalDistance *= 100;
-                auto pointScore = goalDistance + percentage;
+                auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength);
+
+                auto theirClosestBot = world->getWorld().value().getRobotClosestToPoint(trial, world_new::Team::them);
+                auto theirClosestBotDistance = (theirClosestBot->getPos().dist(trial) / fieldDiagonalLength);
+
+                // Make sure the angle to shoot at the goal with is okay
+                auto trialToGoal = field.getTheirGoalCenter() - trial;
+
+                // Some modifications to scores:
+                if (theirClosestBotDistance < 0.5) {
+                    goalDistance = 0;
+                }
+                auto pointScore = trialToGoal.angle();//1.6 * theirClosestBotDistance + 0.3 * goalDistance + visibility;
 
                 // Robot is never allowed to stand in their defense area, so exclude any points in the grid that are in it
                 if (pointScore > bestScore && !FieldComputations::pointIsInDefenseArea(field, trial, false)) {

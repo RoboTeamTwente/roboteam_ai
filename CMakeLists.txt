@@ -110,7 +110,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GoalPotentialPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Defend.cpp

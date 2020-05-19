@@ -9,12 +9,12 @@
 
 namespace rtt::ai::stp::play {
 
-class Pass : public Play {
+class GoalPotentialPass : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Pass();
+    GoalPotentialPass();
 
     /**
      * Gets the score for the current play
