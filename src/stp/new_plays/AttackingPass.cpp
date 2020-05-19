@@ -35,7 +35,7 @@ AttackingPass::AttackingPass() : Play() {
         std::make_unique<role::Halt>(role::Halt("test_role_10"))};
 }
 
-uint8_t AttackingPass::score(world_new::World* world) noexcept { return 100; }
+uint8_t AttackingPass::score(world_new::World* world) noexcept { return 120; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -127,31 +127,33 @@ Vector2 AttackingPass::calculatePassLocation() {
     Grid grid = Grid(offSetX, offSetY, regionWidth, regionHeight, numStepsX, numStepsY);
     for (const auto& nestedPoints : grid.getPoints()) {
         for (const auto& trial : nestedPoints) {
-            auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w) / 100;
-            auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
+            // Make sure we only check valid points
+            if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
+                auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w) / 100;
 
-            // Normalize distance, and then subtract 1
-            // This inverts the score, so if the distance is really large,
-            // the score for the distance will be close to 0
-            auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength);
+                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
 
-            auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
-            auto theirClosestBotDistance = (theirClosestBot->getPos().dist(trial) / fieldDiagonalLength);
+                // Normalize distance, and then subtract 1
+                // This inverts the score, so if the distance is really large,
+                // the score for the distance will be close to 0
+                auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength);
 
-            // Some modifications to scores:
-            if (theirClosestBotDistance < control_constants::ROBOT_CLOSE_TO_POINT) {
-                goalDistance = 0;
-            }
+                // Make sure the angle to shoot at the goal with is okay
+                auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
 
-            // Make sure the angle to shoot at the goal with is okay
-            auto trialToGoal = field.getTheirGoalCenter() - trial;
+                // Search closest bot
+                auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
+                auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
 
-            auto pointScore = trialToGoal.angle();  // 1.6 * theirClosestBotDistance + 0.3 * goalDistance + visibility;
+                // Calculate final total
+                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance);
 
-            // Robot is never allowed to stand in their defense area, so exclude any points in the grid that are in it
-            if (pointScore > bestScore && !FieldComputations::pointIsInDefenseArea(field, trial, false)) {
-                bestScore = pointScore;
-                bestPosition = trial;
+                // Robot is never allowed to stand in their defense area, so exclude any points in the grid that are in it
+                if (pointScore > bestScore) {
+                    RTT_WARNING(trial, goalDistance, visibility, trialToGoalAngle, pointScore)
+                    bestScore = pointScore;
+                    bestPosition = trial;
+                }
             }
         }
     }

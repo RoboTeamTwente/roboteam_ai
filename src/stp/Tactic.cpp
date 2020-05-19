@@ -30,7 +30,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
     RTT_DEBUG("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId())
 
     // Check if the skills are all finished
-    if (skills.finished()) {
+    if (!this->isEndTactic() && skills.finished()) {
         RTT_INFO("TACTIC SUCCESSFUL for ", info.getRobot()->get()->getId())
         if (!isEndTactic()) {
             currentStatus = Status::Success;
