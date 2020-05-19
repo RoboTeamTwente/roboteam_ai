@@ -91,7 +91,7 @@ void Skill::limitAngularVel() noexcept {
         // If the angle error is larger than the desired angle rate, the angle command is adjusted
         if (robotAngle.shortestAngleDiff(targetAngle) > angleRate) {
             // Direction of rotation is the shortest distance
-            auto direction = rtt::ai::control::ControlUtils::rotateDirection(robotAngle, targetAngle);
+            int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
             // Set the angle command to the current robot angle + the angle rate
             command.set_w(robotAngle + direction * angleRate);
         }
