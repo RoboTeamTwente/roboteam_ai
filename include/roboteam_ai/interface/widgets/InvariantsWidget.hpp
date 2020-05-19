@@ -13,6 +13,7 @@
 namespace rtt::ai::interface {
     class InvariantsWidget : public QTextEdit {
     Q_OBJECT
+    
     private:
         /**
          * Map that holds all the invariants, ordered map because I want them to be alphabetical
