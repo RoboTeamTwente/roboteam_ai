@@ -141,16 +141,23 @@ Vector2 AttackingPass::calculatePassLocation() {
                 // Make sure the angle to shoot at the goal with is okay
                 auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
 
+                // Make sure the ball can reach the target
+                auto canReachTarget{1.0};
+                auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
+                auto enemyBots = w.getThem();
+                if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
+                    canReachTarget = 0.0;
+                }
+
                 // Search closest bot
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
 
                 // Calculate final total
-                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance);
+                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance * canReachTarget);
 
                 // Robot is never allowed to stand in their defense area, so exclude any points in the grid that are in it
                 if (pointScore > bestScore) {
-                    RTT_WARNING(trial, goalDistance, visibility, trialToGoalAngle, pointScore)
                     bestScore = pointScore;
                     bestPosition = trial;
                 }
