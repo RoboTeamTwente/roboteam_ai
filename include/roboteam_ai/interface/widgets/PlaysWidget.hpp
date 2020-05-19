@@ -12,9 +12,6 @@ namespace rtt::ai::interface {
 
     class PlaysWidget : public QTextEdit {
     Q_OBJECT
-    private:
-        std::stringstream data;
-        std::mutex dataMtx;
     public:
         /**
          * Constructor that sets readonly(true)

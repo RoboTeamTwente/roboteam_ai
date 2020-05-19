@@ -84,7 +84,7 @@ namespace rtt::ai::interface {
             result += "<br>";
         }
         auto sliderPos = verticalScrollBar()->sliderPosition();
-        setText(result);
+        setHtml(result);
         verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }

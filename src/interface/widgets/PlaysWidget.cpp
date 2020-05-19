@@ -11,7 +11,7 @@ namespace rtt::ai::interface {
     }
 
     void PlaysWidget::updatePlays() {
-        QString ss;
+        QString ss = {};
         for (auto& each : ApplicationManager::plays) {
             ss += each->getName();
             ss += " -> ";
@@ -19,7 +19,7 @@ namespace rtt::ai::interface {
             ss += "<br>";
         }
         auto sliderPos = verticalScrollBar()->sliderPosition();
-        setHtml(QString::fromStdString(data.str()));
+        setHtml(ss);
         verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }
