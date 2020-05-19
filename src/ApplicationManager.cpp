@@ -76,8 +76,6 @@ void ApplicationManager::start() {
             RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
             RTT_WARNING("Time allowed: 16 ms")
 
-            return 0;
-
             amountOfCycles++;
 
             // update the measured FPS, but limit this function call to only run 5 times/s at most
