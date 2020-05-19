@@ -69,7 +69,6 @@ void ApplicationManager::start() {
     roboteam_utils::Timer t;
     t.loop(
         [&]() {
-
             auto start = std::clock();
             runOneLoopCycle();
 
