@@ -1,20 +1,25 @@
 //
-// Created by jordi on 27-03-20.
+// Created by jordi on 14-05-20.
 //
 
-#ifndef RTT_DEFEND_H
-#define RTT_DEFEND_H
+#ifndef RTT_DEFENDPASS_H
+#define RTT_DEFENDPASS_H
 
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
-class Defend : public Play {
+/**
+ * DefendPass Play is executed when the opponent has or is close to the ball but not necessarily on our side of the field.
+ * In this case the opponent most likely will pass to another robot. Our robots will namely block off robots that can
+ * be passed to.
+ */
+class DefendPass : public Play {
 public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    Defend();
+    DefendPass();
 
     /**
      * Gets the score for the current play
@@ -51,14 +56,19 @@ protected:
     void calculateInfoForDefenders() noexcept;
 
     /**
+     * Calculates info for the blockers
+     */
+    void calculateInfoForBlockers() noexcept;
+
+    /**
      * Calculates info for the keeper
      */
     void calculateInfoForKeeper() noexcept;
 
     /**
-     * Calculates info for the midfielders
+     * Calculates info for the harassers
      */
-    void calculateInfoForMidfielders() noexcept;
+    void calculateInfoForHarassers() noexcept;
 
     /**
      * Calculates info for the offenders
@@ -68,4 +78,4 @@ protected:
 
 } // namespace rtt::ai::stp::play
 
-#endif //RTT_DEFEND_H
+#endif // RTT_DEFENDPASS_H
