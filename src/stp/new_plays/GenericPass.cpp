@@ -2,9 +2,16 @@
 // Created by timovdk on 5/20/20.
 //
 
-#include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/new_plays/GenericPass.h"
+
+#include <roboteam_utils/Grid.h>
+#include <roboteam_utils/Tube.h>
+
+#include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/new_roles/Halt.h"
+#include "stp/new_roles/Keeper.h"
+#include "stp/new_roles/PassReceiver.h"
+#include "stp/new_roles/Passer.h"
 
 namespace rtt::ai::stp::play {
 
@@ -16,22 +23,41 @@ GenericPass::GenericPass() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
         std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")), std::make_unique<role::Halt>(role::Halt("halt_2")),
         std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")), std::make_unique<role::Halt>(role::Halt("halt_5")),
-        std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7")), std::make_unique<role::Halt>(role::Halt("halt_8")),
-        std::make_unique<role::Halt>(role::Halt("halt_9")), std::make_unique<role::Halt>(role::Halt("halt_10"))};
+        std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
 uint8_t GenericPass::score(world_new::World* world) noexcept { return 50; }
 
-void GenericPass::calculateInfoForRoles() noexcept {}
+void GenericPass::calculateInfoForRoles() noexcept {
+    // Keeper
+    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+
+    const Vector2 passingPosition = calculatePassLocation();
+
+    // Receiver
+    stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+
+    // Passer
+    stpInfos["passer"].setPositionToShootAt(passingPosition);
+    stpInfos["passer"].setKickChipType(PASS);
+}
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
+    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"passer", {closeToBallFlag}});
+    flagMap.insert({"receiver", {receiverFlag}});
     flagMap.insert({"halt_0", {not_important}});
     flagMap.insert({"halt_1", {not_important}});
     flagMap.insert({"halt_2", {not_important}});
@@ -40,12 +66,72 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     flagMap.insert({"halt_5", {not_important}});
     flagMap.insert({"halt_6", {not_important}});
     flagMap.insert({"halt_7", {not_important}});
-    flagMap.insert({"halt_8", {not_important}});
-    flagMap.insert({"halt_9", {not_important}});
-    flagMap.insert({"halt_10", {not_important}});
     return flagMap;
 }
 
 const char* GenericPass::getName() { return "Generic Pass"; }
+
+const Vector2 GenericPass::calculatePassLocation() const noexcept {
+    auto ourBots = world->getWorld()->getUs();
+    auto theirBots = world->getWorld()->getThem();
+
+    auto fieldWidth = field.getFieldWidth();
+    auto fieldLength = field.getFieldLength();
+
+    double offSetX = 0.3 * fieldWidth;  // start looking for suitable positions to move to at 30% of the field width
+    double offSetY = -3;
+    double regionWidth = 3;
+    double regionHeight = 6;
+    auto numStepsX = 20;
+    auto numStepsY = 20;
+
+    double bestScore = 0;
+    Vector2 bestPosition{};
+
+    auto w = world->getWorld().value();
+
+    // Make a grid with all potentially good points
+    Grid grid = Grid(offSetX, offSetY, regionWidth, regionHeight, numStepsX, numStepsY);
+    for (const auto& nestedPoints : grid.getPoints()) {
+        for (const auto& trial : nestedPoints) {
+            // Make sure we only check valid points
+            if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
+                // Check goal visibility from  a point
+                auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w) / 100;
+
+                // Normalize distance, and then subtract 1
+                // This inverts the score, so if the distance is really large,
+                // the score for the distance will be close to 0
+                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
+                auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength);
+
+                // Make sure the angle to shoot at the goal with is okay
+                auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
+
+                // Make sure the ball can reach the target
+                auto canReachTarget{1.0};
+                auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
+                auto enemyBots = w.getThem();
+                if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
+                    canReachTarget = 0.0;
+                }
+
+                // Search closest bot to this point and get that distance
+                auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
+                auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
+
+                // Calculate total score for this point
+                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance * canReachTarget);
+
+                // Check for best score
+                if (pointScore > bestScore) {
+                    bestScore = pointScore;
+                    bestPosition = trial;
+                }
+            }
+        }
+    }
+    return bestPosition;
+}
 
 }  // namespace rtt::ai::stp::play

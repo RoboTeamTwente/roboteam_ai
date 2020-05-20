@@ -42,6 +42,12 @@ class GenericPass : public Play {
      */
     const char* getName() override;
 
+    /**
+     * Calculates the pass location
+     * @return the pass location
+     */
+    const Vector2 calculatePassLocation() const noexcept;
+
    protected:
     bool shouldRoleSkipEndTactic() override;
 };
