@@ -50,8 +50,8 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"reflecter", {closeToTheirGoalFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_1", {not_important}});
+    flagMap.insert({"offender_2", {not_important}});
     flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
     flagMap.insert({"midfielder_3", {not_important}});
@@ -63,11 +63,12 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 }
 
 void ReflectKick::calculateInfoForRoles() noexcept {
-    auto passPosition = stpInfos["reflecter"].getRobot().value()->getPos();
+    auto passPosition = field.getTopRightTheirDefenceArea() + Vector2(-2.0, 1.0);
 
     // Reflecter
     stpInfos["reflecter"].setPositionToMoveTo(passPosition);
     stpInfos["reflecter"].setPositionToShootAt(field.getTheirGoalCenter());
+    stpInfos["reflecter"].setKickChipType(MAX);
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);

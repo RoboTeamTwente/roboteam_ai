@@ -4,14 +4,14 @@
 
 #include "stp/new_roles/BallReflecter.h"
 
-#include "stp/new_tactics/Receive.h"
+#include "stp/new_tactics/PositionAndAim.h"
 #include "stp/new_tactics/KickAtPos.h"
 
 namespace rtt::ai::stp::role {
 
 BallReflecter::BallReflecter(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Receive(), tactic::KickAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic:: PositionAndAim(), tactic::KickAtPos()};
 }
 
 } // namespace rtt::ai::stp::role
