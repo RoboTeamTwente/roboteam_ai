@@ -31,7 +31,7 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer,
             select->setCurrentIndex(Toggles::toggles[i].generalShowType);
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].generalShowType] + " }");
 
-            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated), [=](const int index) {
+            QObject::connect(select, &QComboBox::activated, [=](const int index) {
                 Toggles::toggles[i].generalShowType = static_cast<GeneralShowType>(index);
                 select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<GeneralShowType>(index)] + " }");
             });
@@ -44,7 +44,7 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer,
             select->setCurrentIndex(Toggles::toggles[i].robotShowType);
             select->setStyleSheet("QComboBox { background-color: " + colors[Toggles::toggles[i].robotShowType] + " }");
 
-            QObject::connect(select, static_cast<void (QComboBox::*)(const int)>(&QComboBox::activated), [=](const int index) {
+            QObject::connect(select, &QComboBox::activated, [=](const int index) {
                 Toggles::toggles[i].robotShowType = static_cast<RobotShowType>(index);
                 select->setStyleSheet("QComboBox { background-color: " + colors[static_cast<RobotShowType>(index)] + " }");
             });

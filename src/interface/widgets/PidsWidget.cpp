@@ -36,17 +36,17 @@ PidsWidget::PidsWidget(QWidget *parent) {
     ballHandlePidBox->setPid(Output::getBallHandlePid());
     shotControlPidbox->setPid(Output::getShotControllerPID());
 
-    QObject::connect(numTreePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged), [=](const pidVals &pid) { Output::setNumTreePid(pid); });
+    QObject::connect(numTreePidBox, &PidBox::pidChanged, [=](const pidVals &pid) { Output::setNumTreePid(pid); });
 
-    QObject::connect(basicPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged), [=](const pidVals &pid) { Output::setBasicPid(pid); });
+    QObject::connect(basicPidBox, &PidBox::pidChanged, [=](const pidVals &pid) { Output::setBasicPid(pid); });
 
-    QObject::connect(keeperPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged), [=](const pidVals &pid) { Output::setKeeperPid(pid); });
+    QObject::connect(keeperPidBox, &PidBox::pidChanged, [=](const pidVals &pid) { Output::setKeeperPid(pid); });
 
-    QObject::connect(keeperInterceptPidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged), [=](const pidVals &pid) { Output::setKeeperInterceptPid(pid); });
+    QObject::connect(keeperInterceptPidBox, &PidBox::pidChanged, [=](const pidVals &pid) { Output::setKeeperInterceptPid(pid); });
 
-    QObject::connect(ballHandlePidBox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged), [=](const pidVals &pid) { Output::setBallHandlePid(pid); });
+    QObject::connect(ballHandlePidBox, &PidBox::pidChanged, [=](const pidVals &pid) { Output::setBallHandlePid(pid); });
 
-    QObject::connect(shotControlPidbox, static_cast<void (PidBox::*)(pidVals)>(&PidBox::pidChanged), [=](const pidVals &pid) { Output::setShotControllerPID(pid); });
+    QObject::connect(shotControlPidbox, &PidBox::pidChanged, [=](const pidVals &pid) { Output::setShotControllerPID(pid); });
 
     // add the pid widgets to the layout
     pidVLayout->addWidget(numTreePidBox);
