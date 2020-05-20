@@ -84,12 +84,6 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
 const char* GenericPass::getName() { return "Generic Pass"; }
 
 const Vector2 GenericPass::calculatePassLocation() const noexcept {
-    auto ourBots = world->getWorld()->getUs();
-    auto theirBots = world->getWorld()->getThem();
-
-    auto fieldWidth = field.getFieldWidth();
-    auto fieldLength = field.getFieldLength();
-
     double offSetX = 0;  // start looking for suitable positions to move to at 30% of the field width
     double offSetY = -3;
     double regionWidth = 3;
@@ -97,7 +91,7 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
     auto numStepsX = 20;
     auto numStepsY = 20;
 
-    double bestScore = 0;
+    double bestScore{};
     Vector2 bestPosition{};
 
     auto w = world->getWorld().value();
@@ -108,6 +102,10 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
+                auto fieldWidth = field.getFieldWidth();
+                auto fieldLength = field.getFieldLength();
+                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
+
                 // Make sure the ball can reach the target
                 auto canReachTarget{1.0};
                 auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
@@ -117,7 +115,6 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
                 }
 
                 // Search closest bot to this point and get that distance
-                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
 
