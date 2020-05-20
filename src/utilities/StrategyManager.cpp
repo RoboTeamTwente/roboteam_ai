@@ -3,7 +3,6 @@
 //
 
 #include "utilities/StrategyManager.h"
-#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai {
 
@@ -42,11 +41,9 @@ void StrategyManager::setCurrentRefGameState(RefCommand command, proto::SSL_Refe
     }
 
     if (ballOpt.has_value()) {
-        newState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
-    } else {
-        newState.ballPositionAtStartOfGameState = {0, 0};
+        ballOpt.value()->getPos();
     }
-    currentRefGameState = newState;
+        currentRefGameState = newState;
     currentRefCmd = command;
 }
 
@@ -66,9 +63,7 @@ void StrategyManager::forceCurrentRefGameState(RefCommand command, std::optional
     // we need to change refgamestate here
     RefGameState newState = getRefGameStateForRefCommand(command);
     if (ballOpt.has_value()) {
-        newState.ballPositionAtStartOfGameState = ballOpt.value()->getPos();
-    } else {
-        newState.ballPositionAtStartOfGameState = {0, 0};
+        ballOpt.value()->getPos();
     }
 
     currentRefGameState = newState;

@@ -6,9 +6,6 @@
 
 #include <include/roboteam_ai/stp/new_tactics/GetBall.h>
 #include <include/roboteam_ai/stp/new_tactics/KickAtPos.h>
-#include <roboteam_utils/Print.h>
-
-#include <utility>
 
 namespace rtt::ai::stp::role {
 

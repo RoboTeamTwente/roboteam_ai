@@ -5,7 +5,6 @@
 #include "stp/new_tactics/BlockBall.h"
 
 #include "control/ControlUtils.h"
-#include "interface/api/Input.h"
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 

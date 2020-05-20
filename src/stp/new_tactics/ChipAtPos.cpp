@@ -4,7 +4,6 @@
 
 #include "stp/new_tactics/ChipAtPos.h"
 
-#include <roboteam_utils/Print.h>
 #include <stp/new_skills/Chip.h>
 #include <stp/new_skills/Rotate.h>
 #include <include/roboteam_ai/utilities/Constants.h>

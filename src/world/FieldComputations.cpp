@@ -1,8 +1,4 @@
 #include "world/FieldComputations.h"
-#include <control/ControlUtils.h>
-#include <interface/api/Input.h>
-#include "world_new/views/RobotView.hpp"
-#include "world_new/views/WorldDataView.hpp"
 
 namespace rtt {
 namespace ai {

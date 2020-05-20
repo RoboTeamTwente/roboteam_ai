@@ -4,10 +4,6 @@
 
 #include "stp/Tactic.h"
 
-#include <roboteam_utils/Print.h>
-
-#include "stp/StpInfo.h"
-
 namespace rtt::ai::stp {
 
 void Tactic::initialize() noexcept { onInitialize(); }

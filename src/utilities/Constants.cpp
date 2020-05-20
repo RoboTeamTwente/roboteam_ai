@@ -5,7 +5,6 @@
 #include "utilities/Constants.h"
 #include <assert.h>
 #include <iostream>
-#include <vector>
 #include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
