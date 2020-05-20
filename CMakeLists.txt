@@ -87,6 +87,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/PositionAndAim.cpp
         )
 
 set(NEW_ROLES_SOURCES
