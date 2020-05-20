@@ -7,7 +7,10 @@
 #include <roboteam_utils/Grid.h>
 #include <roboteam_utils/Tube.h>
 
-#include "stp/invariants/game_states/HaltGameStateInvariant.h"
+#include "stp/invariants/BallCloseToUsInvariant.h"
+#include "stp/invariants/BallOnOurSideInvariant.h"
+#include "stp/invariants/FreedomOfRobotsInvariant.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Halt.h"
 #include "stp/new_roles/Keeper.h"
 #include "stp/new_roles/PassReceiver.h"
@@ -17,16 +20,25 @@ namespace rtt::ai::stp::play {
 
 GenericPass::GenericPass() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::HaltGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Passer>(role::Passer("passer")), std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-        std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")), std::make_unique<role::Halt>(role::Halt("halt_2")),
-        std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")), std::make_unique<role::Halt>(role::Halt("halt_5")),
-        std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                 std::make_unique<role::Passer>(role::Passer("passer")),
+                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_0")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_1")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_2")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_3")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_4")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_5")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_6")),
+                                                                                 std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
 uint8_t GenericPass::score(world_new::World* world) noexcept { return 50; }
