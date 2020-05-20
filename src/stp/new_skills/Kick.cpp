@@ -21,7 +21,8 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     publishRobotCommand();
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN &&
+            info.getRobot().value()->getAngleDiffToBall() <= control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI) {
         return Status::Success;
     }
     return Status::Running;
