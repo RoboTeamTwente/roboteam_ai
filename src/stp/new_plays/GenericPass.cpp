@@ -78,7 +78,7 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
     auto fieldWidth = field.getFieldWidth();
     auto fieldLength = field.getFieldLength();
 
-    double offSetX = 0.3 * fieldWidth;  // start looking for suitable positions to move to at 30% of the field width
+    double offSetX = 0;  // start looking for suitable positions to move to at 30% of the field width
     double offSetY = -3;
     double regionWidth = 3;
     double regionHeight = 6;
@@ -96,18 +96,6 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
-                // Check goal visibility from  a point
-                auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, trial, w) / 100;
-
-                // Normalize distance, and then subtract 1
-                // This inverts the score, so if the distance is really large,
-                // the score for the distance will be close to 0
-                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
-                auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, trial) / fieldDiagonalLength);
-
-                // Make sure the angle to shoot at the goal with is okay
-                auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
-
                 // Make sure the ball can reach the target
                 auto canReachTarget{1.0};
                 auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
@@ -117,11 +105,12 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
                 }
 
                 // Search closest bot to this point and get that distance
+                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
 
                 // Calculate total score for this point
-                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance * canReachTarget);
+                auto pointScore = 0.5 * theirClosestBotDistance * canReachTarget;
 
                 // Check for best score
                 if (pointScore > bestScore) {
