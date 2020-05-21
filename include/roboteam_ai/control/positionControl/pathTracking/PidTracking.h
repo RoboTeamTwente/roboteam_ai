@@ -26,7 +26,7 @@ class PidTracking : public PathTrackingAlgorithm {
     std::unordered_map<int, std::pair<PID, PID>> pidMapping = {};
 
     // updates the PID parameters from the UI
-    void updatePidValuesFromInterface();
+    void updatePidValuesFromInterface(bool isKeeper);
 
    public:
     /**
