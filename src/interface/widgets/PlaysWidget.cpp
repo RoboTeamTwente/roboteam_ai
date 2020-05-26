@@ -16,11 +16,8 @@ namespace rtt::ai::interface {
         if (!field.has_value()) {
             return "Unable to read field...";
         }
-        if (!field.value()) {
-            return;
-        }
         if (!world.value()) {
-            return;
+            return "World is null";
         }
 
         QString ss = "";

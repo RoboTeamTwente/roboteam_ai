@@ -83,9 +83,6 @@ namespace rtt::ai::interface {
         if (!field.has_value()) {
             return;
         }
-        if (!field.value()) {
-            return;
-        }
         if (!world.value()) {
             return;
         }
