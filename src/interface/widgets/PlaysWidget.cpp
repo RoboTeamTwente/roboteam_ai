@@ -13,6 +13,15 @@ namespace rtt::ai::interface {
         if (!world.has_value()) {
             return "Unable to read world...";
         }
+        if (!field.has_value()) {
+            return "Unable to read field...";
+        }
+        if (!field.value()) {
+            return;
+        }
+        if (!world.value()) {
+            return;
+        }
 
         QString ss = "";
         ss += play->getName();

@@ -75,12 +75,24 @@ namespace rtt::ai::interface {
 
     void InvariantsWidget::updateInvariants() {
         QString result = "";
-        auto world = world_new::World::instance()->getWorld().value();
-        auto field = world_new::World::instance()->getField().value();
+        auto world = world_new::World::instance()->getWorld();
+        auto field = world_new::World::instance()->getField();
+        if (!world.has_value()) {
+            return;
+        }
+        if (!field.has_value()) {
+            return;
+        }
+        if (!field.value()) {
+            return;
+        }
+        if (!world.value()) {
+            return;
+        }
         for (auto const& [name, inv] : invariants) {
             result += name.c_str();
             result += " -> ";
-            result += (inv->checkInvariant(world, &field) ? "true" : "false");
+            result += (inv->checkInvariant(world.value(), &field.value()) ? "true" : "false");
             result += "<br>";
         }
         auto sliderPos = verticalScrollBar()->sliderPosition();
