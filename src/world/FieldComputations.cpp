@@ -1,6 +1,7 @@
 #include "world/FieldComputations.h"
 #include <control/ControlUtils.h>
 #include <interface/api/Input.h>
+#include <roboteam_utils/Shadow.h>
 #include "world_new/views/RobotView.hpp"
 #include "world_new/views/WorldDataView.hpp"
 
@@ -172,7 +173,7 @@ std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const 
     double length = sqrt(lenToBot * lenToBot - robotRadius * robotRadius);
     Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() - theta);
     Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() + theta);
-    return goalSide.shadow(point, LineSegment(lowerSideOfRobot, upperSideOfRobot), NEGLIGIBLE_LENGTH);
+    return Shadow::shadow(point, LineSegment(lowerSideOfRobot, upperSideOfRobot), goalSide, NEGLIGIBLE_LENGTH);
 }
 
 std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegment> blockades) {
