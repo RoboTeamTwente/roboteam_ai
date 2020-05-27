@@ -38,7 +38,7 @@ Attack::Attack() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t Attack::score(world_new::World *world) noexcept { return 50; }
+uint8_t Attack::score(world_new::World *world) noexcept { return 110; }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

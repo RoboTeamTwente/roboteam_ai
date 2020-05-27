@@ -38,7 +38,7 @@ AttackingPass::AttackingPass() : Play() {
         std::make_unique<role::Halt>(role::Halt("test_role_10"))};
 }
 
-uint8_t AttackingPass::score(world_new::World* world) noexcept { return 120; }
+uint8_t AttackingPass::score(world_new::World* world) noexcept { return 100; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
