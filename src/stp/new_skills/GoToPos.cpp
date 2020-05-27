@@ -32,8 +32,8 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     command.mutable_vel()->set_x(targetVelocity.x);
     command.mutable_vel()->set_y(targetVelocity.y);
 
-    if(info.getAngle()) command.set_w(info.getAngle().getAngle());
-    else command.set_w(robotCommand.angle.getAngle());
+    if(info.getAngle()) command.set_w(info.getAngle());
+    else command.set_w(robotCommand.angle);
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);

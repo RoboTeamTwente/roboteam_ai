@@ -16,7 +16,7 @@ namespace rtt::ai::stp {
 void Skill::rotateRobotCommand() noexcept {
     command.mutable_vel()->set_x(-command.vel().x());
     command.mutable_vel()->set_y(-command.vel().y());
-    command.set_w(static_cast<float>(Angle(command.w() + M_PI).getAngle()));
+    command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
 }
 
 void Skill::publishRobotCommand() noexcept {
@@ -93,7 +93,7 @@ void Skill::limitAngularVel() noexcept {
             // Direction of rotation is the shortest distance
             int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
             // Set the angle command to the current robot angle + the angle rate
-            command.set_w(robotAngle + direction * angleRate);
+            command.set_w(robotAngle + Angle(direction * angleRate));
         }
     }
 }

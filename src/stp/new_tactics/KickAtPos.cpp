@@ -40,7 +40,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget) >= errorMargin) {
+    if (info.getRobot()->get()->getAngle().shortestAngleDiff(Angle(angleToTarget)) >= errorMargin) {
         skillStpInfo.setDribblerSpeed(100);
     } else {
         skillStpInfo.setDribblerSpeed(0);
