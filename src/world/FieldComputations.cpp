@@ -25,7 +25,7 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
-    Line goal = getGoalSides(field, ourGoal);
+    LineSegment goal = getGoalSides(field, ourGoal);
     Angle angleLeft = Angle(goal.start - point);
     Angle angleRight = Angle(goal.end - point);
     return angleLeft.shortestAngleDiff(angleRight);
@@ -48,7 +48,7 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Fiel
 std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
                                                             const std::vector<world_new::view::RobotView> &robots) {
     std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
-    Line goalSide = getGoalSides(field, ourGoal);
+    LineSegment goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x;  // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
     double lowerY = goalSide.start.y;
@@ -74,17 +74,16 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Fiel
     return visibleParts;
 }
 
-Line FieldComputations::getGoalSides(const rtt_world::Field &field, bool ourGoal) {
+LineSegment FieldComputations::getGoalSides(const rtt_world::Field &field, bool ourGoal) {
     if (ourGoal) {
-        return Line(field.getOurBottomGoalSide(), field.getOurTopGoalSide());
+        return LineSegment(field.getOurBottomGoalSide(), field.getOurTopGoalSide());
     } else {
-        return Line(field.getTheirBottomGoalSide(), field.getTheirTopGoalSide());
+        return LineSegment(field.getTheirBottomGoalSide(), field.getTheirTopGoalSide());
     }
 }
 
 double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
-    auto sides = getGoalSides(field, ourGoal);
-    return LineSegment(sides.start, sides.end).distanceToLine(point);
+    return getGoalSides(field, ourGoal).distanceToLine(point);
 }
 
 Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool ourGoal) {
@@ -147,9 +146,9 @@ std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const rtt_w
                                                                         std::vector<world_new::view::RobotView> robots, int id, bool ourTeam) {
     std::vector<LineSegment> blockades = {};
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-    auto goalSide = getGoalSides(field, ourGoal);
+    LineSegment goalSide = getGoalSides(field, ourGoal);
     for (auto const &robot : robots) {
-        std::optional<LineSegment> blockade = robotBlockade(ourGoal, point, id, ourTeam, robot, robotRadius, LineSegment(goalSide));
+        std::optional<LineSegment> blockade = robotBlockade(ourGoal, point, id, ourTeam, robot, robotRadius, goalSide);
         if (blockade.has_value()) {
             blockades.emplace_back(blockade.value());
         }

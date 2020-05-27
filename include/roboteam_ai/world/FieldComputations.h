@@ -100,7 +100,7 @@ class FieldComputations {
      * @return The LineSegment which represents the goal side (the first part is always the bottom part of the goal, i.e. the part with the lowest y-coordinate, the second part
      * is always the top part of the goal, i.e. the part with the highest y-coordinate).
      */
-    static Line getGoalSides(const rtt_world::Field &field, bool ourGoal);
+    static LineSegment getGoalSides(const rtt_world::Field &field, bool ourGoal);
 
     /**
      * Compute the Euclidean distance from a given point to the closest point on the goal.

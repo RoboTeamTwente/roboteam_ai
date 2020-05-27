@@ -114,7 +114,7 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     auto bestSegment = getLongestSegment(openSegments);
 
     // Make two aim points which are in the corners, since these points are harder for the keeper to intercept
-    Line aimPoints = getAimPoints(field, sourcePoint);
+    LineSegment aimPoints = getAimPoints(field, sourcePoint);
     auto leftPoint = aimPoints.start;
     auto rightPoint = aimPoints.end;
 
@@ -137,8 +137,8 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     }
 }
 
-Line Attack::getAimPoints(const world::Field &field, const Vector2 &sourcePoint) {
-    Line goalSides = FieldComputations::getGoalSides(field, false);
+LineSegment Attack::getAimPoints(const world::Field &field, const Vector2 &sourcePoint) {
+    LineSegment goalSides = FieldComputations::getGoalSides(field, false);
 
     // Aim points are located some distance away from the edges of the goal to take into account inaccuracies in the shot
     const double angleMargin = sin(2.0 / 180.0 * M_PI);
@@ -146,7 +146,7 @@ Line Attack::getAimPoints(const world::Field &field, const Vector2 &sourcePoint)
     Vector2 leftPoint(goalSides.start.x, goalSides.start.y + constantMargin + angleMargin * goalSides.start.dist(sourcePoint));
     Vector2 rightPoint(goalSides.end.x, goalSides.end.y - angleMargin * goalSides.end.dist(sourcePoint) - constantMargin);
 
-    return Line(leftPoint, rightPoint);
+    return LineSegment(leftPoint, rightPoint);
 }
 
 const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
