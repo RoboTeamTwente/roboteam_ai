@@ -29,6 +29,9 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
         }
 
         if (point.getParent()){
+            if (!collisionDetector.isPointInsideField(point.getPosition())) {
+                continue;
+            }
             auto parentCollision = collisionDetector.getCollisionBetweenPoints(point.getParent()->getPosition(), point.getPosition());
             if (parentCollision){
                 auto branches = branchPath(*point.getParent(), parentCollision.value());

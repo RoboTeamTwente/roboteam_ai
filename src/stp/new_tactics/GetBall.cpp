@@ -24,7 +24,14 @@ StpInfo GetBall::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     // the robot will go to the position of the ball
     double ballDistance = (ballPosition - robotPosition).length();
-    Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - stp::control_constants::CENTER_TO_FRONT - stp::control_constants::BALL_RADIUS);
+    Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - stp::control_constants::CENTER_TO_FRONT);
+
+    bool withinFeedbackRange = ballDistance < 0.15;
+    // Feedback
+    if (!info.getRobot().value().hasBall() && withinFeedbackRange) {
+        newRobotPosition += Vector2(0.2,0.2);
+    }
+
     if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
         skillInfo.setAngle((ballPosition - robotPosition).angle());
         skillInfo.setDribblerSpeed(100);

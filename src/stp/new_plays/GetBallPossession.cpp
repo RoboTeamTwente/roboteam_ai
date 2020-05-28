@@ -17,9 +17,9 @@ GetBallPossession::GetBallPossession() : Play() {
     startPlayInvariants.clear();
 //    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
 //    startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
-//    // TODO: Add first arrival to ball invariant
-//
-//    keepPlayInvariants.clear();
+    // TODO: Add first arrival to ball invariant
+
+    keepPlayInvariants.clear();
 //    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
 //    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
 
@@ -37,7 +37,7 @@ GetBallPossession::GetBallPossession() : Play() {
             std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 80; }
+uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 100; }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
