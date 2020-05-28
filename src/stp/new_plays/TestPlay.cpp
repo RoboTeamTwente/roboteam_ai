@@ -44,9 +44,7 @@ Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-void TestPlay::calculateInfoForRoles() noexcept {
-
-}
+void TestPlay::calculateInfoForRoles() noexcept {}
 
 bool TestPlay::shouldRoleSkipEndTactic() { return false; }
 
