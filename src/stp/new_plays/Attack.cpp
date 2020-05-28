@@ -43,13 +43,13 @@ uint8_t Attack::score(world_new::World *world) noexcept { return 110; }
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag attackerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"attacker", {closeToBallFlag}});
+    flagMap.insert({"attacker", {attackerFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
     flagMap.insert({"midfielder_1", {not_important}});
@@ -64,6 +64,10 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 }
 
 void Attack::calculateInfoForRoles() noexcept {
+    // Keeper
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setPositionToShootAt(Vector2());
+
     // TODO: Improve roles
     // Attacker
     auto goalTarget = calculateGoalTarget();
@@ -94,10 +98,6 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
     stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
-
-    // Keeper
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
 Vector2 Attack::calculateGoalTarget() noexcept {
