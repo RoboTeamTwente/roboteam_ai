@@ -101,6 +101,8 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
     double distance{};
     if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
+    } else if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
+        distance = 0;
     } else if (stpInfo.getPositionToShootAt().has_value()) {
         distance = robot->getPos().dist(world.getBall()->get()->getPos());
     } else if (stpInfo.getEnemyRobot().has_value()) {
