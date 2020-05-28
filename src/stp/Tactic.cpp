@@ -28,8 +28,11 @@ Status Tactic::update(StpInfo const &info) noexcept {
 
         // Call onUpdate on a skill for specific behaviour
         onUpdate(status);
+        RTT_DEBUG("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId())
     }
-    RTT_DEBUG("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId())
+    else {
+        RTT_ERROR("Not all data was present, bad update!")
+    }
 
     // Check if the skills are all finished
     if (skills.finished()) {

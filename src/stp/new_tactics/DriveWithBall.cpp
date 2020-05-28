@@ -27,12 +27,9 @@ void DriveWithBall::onTerminate() noexcept {
 }
 
 std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
-    if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("No Ball, Robot or Field present in StpInfo")
-        return {};
-    }
-
     StpInfo skillStpInfo = info;
+
+    if(!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
 
     double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);

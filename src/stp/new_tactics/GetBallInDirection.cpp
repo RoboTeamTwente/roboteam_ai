@@ -18,7 +18,10 @@ namespace rtt::ai::stp::tactic {
     void GetBallInDirection::onTerminate() noexcept {}
 
     std::optional<StpInfo> GetBallInDirection::calculateInfoForSkill(StpInfo const &info) noexcept {
-        StpInfo skillInfo = info;
+        StpInfo skillStpInfo = info;
+
+        if(!skillStpInfo.getRobot() || !skillStpInfo.getBall() || !skillStpInfo.getPositionToShootAt()) return std::nullopt;
+
         Vector2 robotPosition = info.getRobot().value()->getPos();
         Vector2 ballPosition = info.getBall().value()->getPos();
         Vector2 targetPosition = info.getPositionToShootAt().value();
@@ -36,17 +39,17 @@ namespace rtt::ai::stp::tactic {
                     stp::control_constants::CENTER_TO_FRONT - stp::control_constants::BALL_RADIUS);
 
             // Rotate towards ball
-            skillInfo.setAngle((ballPosition - robotPosition).angle());
+            skillStpInfo.setAngle((ballPosition - robotPosition).angle());
         }
 
         // Turn on dribbler when close to ball
         if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
-            skillInfo.setDribblerSpeed(100);
+            skillStpInfo.setDribblerSpeed(100);
         }
 
-        skillInfo.setPositionToMoveTo(newRobotPosition);
+        skillStpInfo.setPositionToMoveTo(newRobotPosition);
 
-        return skillInfo;
+        return skillStpInfo;
     }
 
     bool GetBallInDirection::isTacticFailing(const StpInfo &info) noexcept { return !info.getPositionToShootAt(); }

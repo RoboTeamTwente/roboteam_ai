@@ -27,6 +27,8 @@ void Receive::onTerminate() noexcept {
 std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
+    if(!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
+
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
 

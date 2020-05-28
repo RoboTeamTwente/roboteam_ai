@@ -27,6 +27,8 @@ void BlockBall::onTerminate() noexcept {
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
+    if(!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+
     auto field = info.getField().value();
     auto ball = info.getBall().value();
     auto robot = info.getRobot().value();
