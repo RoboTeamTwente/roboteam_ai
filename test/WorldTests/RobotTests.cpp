@@ -30,7 +30,7 @@ TEST(RobotAndView, test_getters) {
     Robot data{feedback, robotData, us};
 
     ASSERT_EQ(data.getId(), 1);
-    ASSERT_EQ(data.getAngle(), 5.0);
+    ASSERT_EQ(data.getAngle(), Angle(5.0));
     ASSERT_EQ(data.getPos(), *getVec(5.0, 7.0));
     ASSERT_EQ(data.getVel(), *getVec(3, 0));
     ASSERT_EQ(data.getAngularVelocity(), 5.0);
