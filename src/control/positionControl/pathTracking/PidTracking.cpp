@@ -13,7 +13,9 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
         pidMapping[robotId].first.setMaxIOutput(MAX_VELOCITY);
         pidMapping[robotId].second.setMaxIOutput(MAX_VELOCITY);
     }
-    updatePidValuesFromInterface();
+
+    bool isKeeper = interface::Output::getInterfaceGameState().keeperId == robotId;
+    updatePidValuesFromInterface(isKeeper);
 
     Vector2 velocity;
     velocity.x = pidMapping[robotId].first.getOutput(currentPosition.x, pathPoints.front().x);
@@ -22,8 +24,10 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     return {velocity, angle};
 }
 
-void PidTracking::updatePidValuesFromInterface() {
-    auto newPid = interface::Output::getNumTreePid();
+void PidTracking::updatePidValuesFromInterface(bool isKeeper) {
+    auto newPid = isKeeper ?
+            interface::Output::getKeeperPid() :
+            interface::Output::getNumTreePid();
     for (auto pid: pidMapping){
         pidMapping[pid.first].first.setPID(newPid);
         pidMapping[pid.first].second.setPID(newPid);
