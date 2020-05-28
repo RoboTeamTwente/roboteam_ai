@@ -11,7 +11,7 @@ namespace rtt::ai::stp {
 
 TestTactic::TestTactic() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::GoToPos(), skill::GoToPos(), skill::GoToPos(), skill::GoToPos()};
 }
 
 void TestTactic::onInitialize() noexcept {}
@@ -28,11 +28,29 @@ void TestTactic::onTerminate() noexcept {
 StpInfo TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    skillStpInfo.setAngle(2.0);
-    skillStpInfo.setDribblerSpeed(31);
-    if (!skillStpInfo.getPositionToMoveTo()) {
-        skillStpInfo.setPositionToMoveTo(Vector2(0,0));
+    auto length = skillStpInfo.getField()->getFieldLength();
+    auto width = skillStpInfo.getField()->getFieldWidth();
+
+    switch (skills.current_num()) {
+    case 0:
+        skillStpInfo.setPositionToMoveTo(Vector2(length / 8, width / 8));
+        break;
+    case 1:
+        skillStpInfo.setPositionToMoveTo(Vector2(length / 8, -width / 8));
+        break;
+    case 2:
+        skillStpInfo.setPositionToMoveTo(Vector2(-length / 8, -width / 8));
+        break;
+    case 3:
+        skillStpInfo.setPositionToMoveTo(Vector2(-length / 8, width / 8));
+        break;
+    case 4:
+        skillStpInfo.setPositionToMoveTo(Vector2(length / 8, width / 8));
+        skills.reset();
+        break;
     }
+
+
     return skillStpInfo;
 }
 
