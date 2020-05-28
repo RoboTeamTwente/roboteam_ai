@@ -122,7 +122,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::HIGH_PRIORITY:
             return 1.0;
         case DealerFlagPriority::REQUIRED:
-            return 0.1;
+            return 0.0;
         case DealerFlagPriority::KEEPER:
             return 100;
         default:
