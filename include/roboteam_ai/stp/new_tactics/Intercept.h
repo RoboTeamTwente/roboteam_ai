@@ -33,7 +33,7 @@ class Intercept : public Tactic {
      * @param info Info passed by the role
      * @return Info for the skills
      */
-    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+    std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
      * Tactic fails if targetType is not a receiveTarget

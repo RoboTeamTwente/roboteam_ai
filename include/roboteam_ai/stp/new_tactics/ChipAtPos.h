@@ -34,7 +34,7 @@ class ChipAtPos : public Tactic {
      * @param info info is the TacticInfo passed by the role
      * @return SkillInfo based on the TacticInfo
      */
-    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+    std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
      * Calculate the chipforce for the skill

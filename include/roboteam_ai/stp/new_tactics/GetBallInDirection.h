@@ -30,7 +30,7 @@ namespace rtt::ai::stp::tactic {
          * @param info tactic info passed from play
          * @return the modified tactic info with the new data
          */
-        StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+        std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
         /**
          * Check base class for usages. The current tactic fails if there is no target position to aim

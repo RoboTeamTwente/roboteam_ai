@@ -23,7 +23,7 @@ void KeeperBlockBall::onTerminate() noexcept {
     }
 }
 
-StpInfo KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     auto field = info.getField().value();

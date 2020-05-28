@@ -17,7 +17,7 @@ namespace rtt::ai::stp::tactic {
 
     void GetBallInDirection::onTerminate() noexcept {}
 
-    StpInfo GetBallInDirection::calculateInfoForSkill(StpInfo const &info) noexcept {
+    std::optional<StpInfo> GetBallInDirection::calculateInfoForSkill(StpInfo const &info) noexcept {
         StpInfo skillInfo = info;
         Vector2 robotPosition = info.getRobot().value()->getPos();
         Vector2 ballPosition = info.getBall().value()->getPos();

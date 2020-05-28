@@ -24,7 +24,7 @@ void Receive::onTerminate() noexcept {
     }
 }
 
-StpInfo Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Rotate robot towards the ball

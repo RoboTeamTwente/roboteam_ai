@@ -24,7 +24,7 @@ void BlockBall::onTerminate() noexcept {
     }
 }
 
-StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     auto field = info.getField().value();

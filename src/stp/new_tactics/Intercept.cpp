@@ -30,7 +30,7 @@ void Intercept::onTerminate() noexcept {
     }
 }
 
-StpInfo Intercept::calculateInfoForSkill(const StpInfo& info) noexcept {
+std::optional<StpInfo> Intercept::calculateInfoForSkill(const StpInfo& info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Rotate robot towards the ball

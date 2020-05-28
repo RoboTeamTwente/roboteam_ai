@@ -25,7 +25,7 @@ void TestTactic::onTerminate() noexcept {
     }
 }
 
-StpInfo TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     auto length = skillStpInfo.getField()->getFieldLength();

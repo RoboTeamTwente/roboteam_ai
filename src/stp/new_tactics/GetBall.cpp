@@ -17,7 +17,7 @@ void GetBall::onUpdate(Status const &status) noexcept {}
 
 void GetBall::onTerminate() noexcept {}
 
-StpInfo GetBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillInfo = info;
     Vector2 robotPosition = info.getRobot().value()->getPos();
     Vector2 ballPosition = info.getBall().value()->getPos();

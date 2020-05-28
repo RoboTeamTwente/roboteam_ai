@@ -22,11 +22,13 @@ Status Tactic::update(StpInfo const &info) noexcept {
     // Update skill info
     auto skill_info = calculateInfoForSkill(info);
 
-    // Update the current skill with the new SkillInfo
-    auto status = skills.update(skill_info);
+    if(skill_info) {
+        // Update the current skill with the new SkillInfo
+        auto status = skills.update(skill_info.value());
 
-    // Call onUpdate on a skill for specific behaviour
-    onUpdate(status);
+        // Call onUpdate on a skill for specific behaviour
+        onUpdate(status);
+    }
     RTT_DEBUG("ID AFTER UPDATE: ", skills.current_num(), " Called on robot: ", info.getRobot()->get()->getId())
 
     // Check if the skills are all finished
@@ -43,14 +45,14 @@ Status Tactic::update(StpInfo const &info) noexcept {
     }
 
     // if the failing condition is true, the current tactic will fail
-    if (isTacticFailing(skill_info)) {
+    if (skill_info && isTacticFailing(skill_info.value())) {
         RTT_INFO("Current Tactic Failed for ID = ", info.getRobot()->get()->getId())
         currentStatus = Status::Failure;
         return Status::Failure;
     }
 
     // the tactic will not be reset if it's the first skill
-    if ((skills.current_num() != 0 && shouldTacticReset(skill_info))) {
+    if (skill_info && (skills.current_num() != 0 && shouldTacticReset(skill_info.value()))) {
         RTT_INFO("State Machine reset for current tactic for ID = ", info.getRobot()->get()->getId())
         reset();
     }
