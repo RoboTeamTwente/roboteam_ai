@@ -9,8 +9,8 @@
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Harasser.h"
 #include "stp/new_roles/Formation.h"
+#include "stp/new_roles/Harasser.h"
 #include "stp/new_roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
@@ -76,10 +76,12 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
 
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyAttacker->getId(); }));
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                     [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyClosestToGoal->getId(); }));
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                     [&](const auto enemyRobot) -> bool { return enemyClosestToGoal && enemyRobot->getId() == enemyClosestToGoal.value()->getId(); }));
 
     auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
@@ -91,7 +93,10 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
 
-    stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal->getPos());
+    if (enemyClosestToGoal)
+        stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
+    else
+        stpInfos["defender_3"].setPositionToDefend(std::nullopt);
     stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_3"].setBlockDistance(HALFWAY);
 
@@ -99,7 +104,10 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     stpInfos["defender_4"].setEnemyRobot(secondEnemyClosestToGoal);
     stpInfos["defender_4"].setBlockDistance(HALFWAY);
 
-    stpInfos["defender_5"].setPositionToDefend(secondEnemyClosestToGoal->getPos());
+    if (enemyClosestToGoal)
+        stpInfos["defender_5"].setPositionToDefend(secondEnemyClosestToGoal.value()->getPos());
+    else
+        stpInfos["defender_5"].setPositionToDefend(std::nullopt);
     stpInfos["defender_5"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_5"].setBlockDistance(HALFWAY);
 
@@ -108,7 +116,8 @@ void DefendShot::calculateInfoForDefenders() noexcept {
         auto roleName = role->getName();
         if (roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (stpInfos[roleName].getRobot().has_value() && stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId() &&
+            if (world->getWorld()->getRobotClosestToBall(world_new::us) && stpInfos[roleName].getRobot().has_value() &&
+                stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us).value()->getId() &&
                 world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
@@ -119,9 +128,7 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
-void DefendShot::calculateInfoForHarassers() noexcept {
-    stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-}
+void DefendShot::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them)); }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));

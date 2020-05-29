@@ -151,7 +151,10 @@ Vector2 AttackingPass::calculatePassLocation() {
 
                 // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
-                auto theirClosestBotDistance = theirClosestBot->getPos().dist(trial) / fieldDiagonalLength;
+                auto theirClosestBotDistance{1.0};
+                if(theirClosestBot) {
+                     theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
+                }
 
                 // Calculate total score for this point
                 auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance * canReachTarget);

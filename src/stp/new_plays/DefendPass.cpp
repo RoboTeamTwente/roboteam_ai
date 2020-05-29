@@ -8,8 +8,8 @@
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Harasser.h"
 #include "stp/new_roles/Formation.h"
+#include "stp/new_roles/Harasser.h"
 #include "stp/new_roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
@@ -23,17 +23,13 @@ DefendPass::DefendPass() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_1")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_2")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_3")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_4")),
-                                                                                       std::make_unique<role::Defender>(role::Defender("blocker_5")),
-                                                                                       std::make_unique<role::Harasser>(role::Harasser("harasser")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("offender_2"))};
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
+        std::make_unique<role::Keeper>(role::Keeper("keeper")),          std::make_unique<role::Defender>(role::Defender("defender_1")),
+        std::make_unique<role::Defender>(role::Defender("defender_2")),  std::make_unique<role::Defender>(role::Defender("blocker_1")),
+        std::make_unique<role::Defender>(role::Defender("blocker_2")),   std::make_unique<role::Defender>(role::Defender("blocker_3")),
+        std::make_unique<role::Defender>(role::Defender("blocker_4")),   std::make_unique<role::Defender>(role::Defender("blocker_5")),
+        std::make_unique<role::Harasser>(role::Harasser("harasser")),    std::make_unique<role::Formation>(role::Formation("offender_1")),
+        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
 uint8_t DefendPass::score(world_new::World *world) noexcept { return 90; }
@@ -85,7 +81,8 @@ void DefendPass::calculateInfoForDefenders() noexcept {
         auto roleName = role->getName();
         if (roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (stpInfos[roleName].getRobot().has_value() && stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us)->getId() &&
+            if (world->getWorld()->getRobotClosestToBall(world_new::us) && stpInfos[roleName].getRobot() &&
+                stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us).value()->getId() &&
                 world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
@@ -100,7 +97,7 @@ void DefendPass::calculateInfoForBlockers() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyPasser = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyPasser->getId(); }));
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyPasser && enemyRobot->getId() == enemyPasser.value()->getId(); }));
 
     for (auto &stpInfo : stpInfos) {
         if (stpInfo.first.find("blocker") != std::string::npos) {
@@ -110,17 +107,22 @@ void DefendPass::calculateInfoForBlockers() noexcept {
                 // If there are enemy robots available, block the closest robot to our goal
                 auto enemyToBlock = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-                enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                        [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyToBlock->getId(); }));
+                enemyRobots.erase(
+                    std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyToBlock && enemyRobot->getId() == enemyToBlock.value()->getId(); }));
 
-                stpInfos[roleName].setPositionToDefend(enemyToBlock->getPos());
+                if(enemyToBlock) {
+                    stpInfos[roleName].setPositionToDefend(enemyToBlock.value()->getPos());
+                }
+                else {
+                    stpInfos[roleName].setPositionToDefend(std::nullopt);
+                }
+
                 stpInfos[roleName].setEnemyRobot(enemyPasser);
                 stpInfos[roleName].setBlockDistance(FAR);
             } else {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
-                stpInfos[roleName].setEnemyRobot(
-                        world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
                 stpInfos[roleName].setBlockDistance(HALFWAY);
             }
         }
@@ -132,9 +134,7 @@ void DefendPass::calculateInfoForKeeper() noexcept {
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
-void DefendPass::calculateInfoForHarassers() noexcept {
-    stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-}
+void DefendPass::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them)); }
 
 void DefendPass::calculateInfoForOffenders() noexcept {
     auto length = field.getFieldLength();
