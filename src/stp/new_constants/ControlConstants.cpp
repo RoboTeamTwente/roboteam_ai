@@ -36,11 +36,11 @@ constexpr double MAX_DRIBBLER_CMD = 31;
 
 // HasBall margins
 constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.106;
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.106;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.206;
 
 // GTP Constants
-constexpr double GO_TO_POS_ERROR_MARGIN = 0.018;
-constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.019;
+constexpr double GO_TO_POS_ERROR_MARGIN = 0.01;
+constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.01;
 
 // Robot physical constants
 constexpr double ROBOT_RADIUS = 0.089;

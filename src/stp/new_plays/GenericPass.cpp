@@ -19,14 +19,14 @@
 namespace rtt::ai::stp::play {
 
 GenericPass::GenericPass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
-
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
+//    startPlayInvariants.clear();
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+//
+//    keepPlayInvariants.clear();
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::Passer>(role::Passer("passer")),
@@ -41,21 +41,21 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(world_new::World* world) noexcept { return 50; }
+uint8_t GenericPass::score(world_new::World* world) noexcept { return 100; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
-    const Vector2 passingPosition = calculatePassLocation();
+    const Vector2 passingPosition = Vector2(-field.getFieldLength()/2, -field.getFieldWidth()/2);//calculatePassLocation();
 
     // Receiver
     stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setKickChipType(MAX);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -67,17 +67,17 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {keeperFlag}});
+//    flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"receiver", {receiverFlag}});
-    flagMap.insert({"halt_0", {not_important}});
-    flagMap.insert({"halt_1", {not_important}});
-    flagMap.insert({"halt_2", {not_important}});
-    flagMap.insert({"halt_3", {not_important}});
-    flagMap.insert({"halt_4", {not_important}});
-    flagMap.insert({"halt_5", {not_important}});
-    flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"halt_7", {not_important}});
+//    flagMap.insert({"receiver", {receiverFlag}});
+//    flagMap.insert({"halt_0", {not_important}});
+//    flagMap.insert({"halt_1", {not_important}});
+//    flagMap.insert({"halt_2", {not_important}});
+//    flagMap.insert({"halt_3", {not_important}});
+//    flagMap.insert({"halt_4", {not_important}});
+//    flagMap.insert({"halt_5", {not_important}});
+//    flagMap.insert({"halt_6", {not_important}});
+//    flagMap.insert({"halt_7", {not_important}});
     return flagMap;
 }
 

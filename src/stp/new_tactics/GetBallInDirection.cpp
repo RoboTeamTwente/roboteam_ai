@@ -33,7 +33,7 @@ namespace rtt::ai::stp::tactic {
         } else {
             // Second GoToPos: Go towards ball
             newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance -
-                    stp::control_constants::CENTER_TO_FRONT - stp::control_constants::BALL_RADIUS);
+                    stp::control_constants::CENTER_TO_FRONT);
 
             // Rotate towards ball
             skillInfo.setAngle((ballPosition - robotPosition).angle());
