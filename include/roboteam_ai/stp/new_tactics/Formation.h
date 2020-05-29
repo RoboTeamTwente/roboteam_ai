@@ -32,7 +32,7 @@ class Formation : public Tactic {
     /**
      * Calculate info for the skills
      * @param info Info passed by the role
-     * @return Info for the skills
+     * @return std::optional<SkillInfo> based on the TacticInfo
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 

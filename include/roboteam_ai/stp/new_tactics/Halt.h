@@ -28,7 +28,7 @@ protected:
      * See base class' implementation for details. <br><br>
      * Extra information for this skill is the target position and rotation angle
      * @param info tactic info passed from play
-     * @return the modified tactic info with the new data
+     * @return std::optional<SkillInfo> based on the TacticInfo
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 

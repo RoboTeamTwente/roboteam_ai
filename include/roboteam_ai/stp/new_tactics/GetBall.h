@@ -31,7 +31,7 @@ class GetBall : public Tactic {
      * close to the ball between it and the robot, the rotation angle (the robot will
      * face the ball after getting close) and dribbler.
      * @param info tactic info passed from play
-     * @return the modified tactic info with the new data
+     * @return std::optional<SkillInfo> based on the TacticInfo
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
