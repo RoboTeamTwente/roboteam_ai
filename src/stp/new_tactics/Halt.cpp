@@ -17,7 +17,7 @@ void Halt::onUpdate(Status const &status) noexcept {}
 
 void Halt::onTerminate() noexcept {}
 
-StpInfo Halt::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> Halt::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillInfo = info;
     skillInfo.setAngle(0);
 

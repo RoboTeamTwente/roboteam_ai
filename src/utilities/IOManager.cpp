@@ -97,19 +97,24 @@ const proto::SSL_Referee &IOManager::getRefereeData() {
 
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
     if (!pause->getPause()) {
-        // the geneva cannot be received from world, so we set it when it gets sent.
-        auto robot = world_new::World::instance()->getWorld()->getRobotForId(cmd.id(), true);
-        if (robot) {
-            if (cmd.kicker()) {
-                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
+        if (world_new::World::instance()->getWorld()) {
+            // the geneva cannot be received from world, so we set it when it gets sent.
+            auto robot = world_new::World::instance()->getWorld()->getRobotForId(cmd.id(), true);
+            if (robot) {
+                if (cmd.kicker()) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green,
+                            robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
+                }
+                if (cmd.chip_kick_forced()) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green,
+                            robot->get()->getId(), interface::Drawing::DOTS, 36, 36, 8);
+                }
+                if (cmd.chipper()) {
+                    interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::yellow,
+                            robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
+                }
+                //robot->setDribblerState(cmd.dribbler());
             }
-            if (cmd.chip_kick_forced()) {
-                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::DOTS, 36, 36, 8);
-            }
-            if (cmd.chipper()) {
-                interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::yellow, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);
-            }
-            //robot->setDribblerState(cmd.dribbler());
         }
         // sometimes trees are terminated without having a role assigned.
         // It is then possible that a skill gets terminated with an empty robot: and then the id can be for example -1.
