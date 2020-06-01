@@ -28,9 +28,9 @@ namespace rtt::ai::stp::tactic {
          * See base class' implementation for details. <br><br>
          * Extra information for this skill is the position behind the ball, rotation angle and dribbler speed.
          * @param info tactic info passed from play
-         * @return the modified tactic info with the new data
+         * @return std::optional<SkillInfo> based on the TacticInfo
          */
-        StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+        std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
         /**
          * Check base class for usages. The current tactic fails if there is no target position to aim

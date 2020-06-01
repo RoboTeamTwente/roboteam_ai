@@ -101,6 +101,8 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
     double distance{};
     if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
+    } else if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
+        distance = 0;
     } else if (stpInfo.getPositionToShootAt().has_value()) {
         distance = robot->getPos().dist(world.getBall()->get()->getPos());
     } else if (stpInfo.getEnemyRobot().has_value()) {
@@ -120,7 +122,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::HIGH_PRIORITY:
             return 1.0;
         case DealerFlagPriority::REQUIRED:
-            return 0.1;
+            return 0.0;
         case DealerFlagPriority::KEEPER:
             return 100;
         default:

@@ -113,7 +113,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Pass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AttackingPass.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendShot.cpp
@@ -134,7 +134,11 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
+<<<<<<< HEAD
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
+=======
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GenericPass.cpp
+>>>>>>> development
         )
 
 set(INVARIANTS_SOURCES
@@ -153,6 +157,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallShotOrCloseToThemInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/NoGoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
