@@ -34,7 +34,7 @@ private:
      * @param info Info passed by the role
      * @return Info for the skills
      */
-    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+    std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
      * Tactic fails if target type is not a move target

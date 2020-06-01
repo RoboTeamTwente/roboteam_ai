@@ -25,9 +25,11 @@ void PositionAndAim::onTerminate() noexcept {
     }
 }
 
-StpInfo PositionAndAim::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> PositionAndAim::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
-
+    if (!skillStpInfo.getPositionToShootAt() && !skillStpInfo.getRobot()) {
+        return std::nullopt;
+    }
     skillStpInfo.setAngle(Angle(info.getPositionToShootAt().value() - info.getRobot().value()->getPos()));
 
     return skillStpInfo;
