@@ -32,9 +32,9 @@ class BlockBall : public Tactic {
     /**
      * Calculate the SkillInfo from the TacticInfo
      * @param info info is the TacticInfo passed by the role
-     * @return SkillInfo based on the TacticInfo
+     * @return std::optional<SkillInfo> based on the TacticInfo
      */
-    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+    std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
@@ -54,8 +54,7 @@ class BlockBall : public Tactic {
      * @param enemyRobot Enemy robot closest to ball
      * @return Target position for the blocker
      */
-    static Vector2 calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot,
-                                           const world_new::view::RobotView &robot) noexcept;
+    static Vector2 calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept;
 };
 
 }  // namespace rtt::ai::stp::tactic

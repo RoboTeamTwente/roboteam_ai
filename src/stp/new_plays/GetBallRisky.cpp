@@ -46,7 +46,7 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyAttacker->getId(); }));
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
@@ -65,7 +65,8 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToGoal);
     stpInfos["defender_1"].setBlockDistance(HALFWAY);
 
-    stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal->getPos());
+    if(enemyClosestToGoal) stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
+    else stpInfos["defender_2"].setPositionToDefend(std::nullopt);
     stpInfos["defender_2"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
 
@@ -77,7 +78,8 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setEnemyRobot(enemyClosestToGoal);
     stpInfos["midfielder_1"].setBlockDistance(CLOSE);
 
-    stpInfos["midfielder_2"].setPositionToDefend(enemyClosestToGoal->getPos());
+    if(enemyClosestToGoal) stpInfos["midfielder_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
+    else stpInfos["midfielder_2"].setPositionToDefend(std::nullopt);
     stpInfos["midfielder_2"].setEnemyRobot(enemyAttacker);
     stpInfos["midfielder_2"].setBlockDistance(CLOSE);
 }
