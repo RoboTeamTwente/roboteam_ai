@@ -24,7 +24,7 @@ void Formation::onTerminate() noexcept {
     }
 }
 
-StpInfo Formation::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
     // Be 100% sure the angle is 0 during the formation
