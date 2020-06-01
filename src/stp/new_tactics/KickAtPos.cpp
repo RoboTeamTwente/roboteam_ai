@@ -30,7 +30,7 @@ void KickAtPos::onTerminate() noexcept {
 std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall() || !skillStpInfo.getKickChipType()) return std::nullopt;
+    if(!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Calculate the angle the robot needs to aim
     double angleToTarget = (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle();
