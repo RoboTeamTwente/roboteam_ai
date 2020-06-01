@@ -15,6 +15,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Set kick command
     command.set_kicker(true);
     command.set_chip_kick_vel(kickVelocity);
+    command.set_chip_kick_forced(true);
 
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());

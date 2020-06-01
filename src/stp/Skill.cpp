@@ -48,7 +48,6 @@ void Skill::refreshRobotCommand() noexcept {
     emptyCmd.set_use_angle(true);
     emptyCmd.set_id(robot ? robot.value()->getId() : -1);
     emptyCmd.set_geneva_state(0);
-    emptyCmd.set_chip_kick_forced(true);
     command = emptyCmd;
 }
 
