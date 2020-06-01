@@ -48,7 +48,7 @@ bool PositionAndAim::shouldTacticReset(const StpInfo &info) noexcept {
 
 bool PositionAndAim::isEndTactic() noexcept {
     // Tactic is not an end tactic
-    return false;
+    return true;
 }
 
 const char *PositionAndAim::getName() {
