@@ -2,6 +2,7 @@
 // Created by jordi on 19-05-20.
 //
 
+#include <roboteam_utils/HalfLine.h>
 #include "include/roboteam_ai/stp/new_plays/ReflectKick.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
@@ -17,12 +18,12 @@ namespace rtt::ai::stp::play {
 
 ReflectKick::ReflectKick() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    //startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    //keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    //keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallReflecter>(role::BallReflecter("reflecter")),
@@ -37,7 +38,7 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(world_new::World *world) noexcept { return 50; }
+uint8_t ReflectKick::score(world_new::World *world) noexcept { return 500; }
 
 Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -63,12 +64,34 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 }
 
 void ReflectKick::calculateInfoForRoles() noexcept {
-    auto passPosition = field.getTopRightTheirDefenceArea() + Vector2(-2.0, 1.0);
+    auto passPosition = Vector2(3.8, 2.2);
+
+    auto ball = world->getWorld()->getBall().value();
+    std::optional<Vector2> intersection;
+
+    if ((ball->getPos() - passPosition).length() <= 2.0) {
+        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(
+                Line(passPosition, field.getTheirGoalCenter()));
+    }
+
+    auto reflectPosition = intersection.has_value() ? intersection.value() : passPosition;
+    std::cout <<reflectPosition<<std::endl;
+    reflectPosition = field.getTheirGoalCenter() + (reflectPosition - field.getTheirGoalCenter()).stretchToLength((reflectPosition - field.getTheirGoalCenter()).length() + control_constants::CENTER_TO_FRONT);
 
     // Reflecter
-    stpInfos["reflecter"].setPositionToMoveTo(passPosition);
+    stpInfos["reflecter"].setPositionToMoveTo(reflectPosition);
     stpInfos["reflecter"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["reflecter"].setKickChipType(MAX);
+
+    for (auto &role : roles) {
+        if (role->getName() == "reflecter") {
+            if (strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 &&
+                stpInfos["reflecter"].getRobot().has_value()
+                && stpInfos["reflecter"].getRobot().value()->getDistanceToBall() <= control_constants::BALL_IS_CLOSE) {
+                role->forceNextTactic();
+            }
+        }
+    }
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);
