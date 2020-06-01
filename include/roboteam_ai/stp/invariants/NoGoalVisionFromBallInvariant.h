@@ -12,7 +12,7 @@
 namespace rtt::ai::stp::invariant {
 /**
     Calculates the goal vision percentage based on the position of the ball and inverts this value
-**/
+*/
 class NoGoalVisionFromBallInvariant : public BaseInvariant {
    public:
     NoGoalVisionFromBallInvariant() noexcept;
