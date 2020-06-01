@@ -162,6 +162,7 @@ protected:
     void distributeRoles() noexcept;
 
     int previousRobotNum{};
+
 };
 }  // namespace rtt::ai::stp
 

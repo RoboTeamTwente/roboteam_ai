@@ -30,7 +30,7 @@ GenericPass::GenericPass() : Play() {
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::Passer>(role::Passer("passer")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
+                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_0")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_1")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_2")),
@@ -48,7 +48,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
-    const Vector2 passingPosition = Vector2(-field.getFieldLength()/2, -field.getFieldWidth()/2);//calculatePassLocation();
+    const Vector2 passingPosition = Vector2();///*Vector2(-field.getFieldLength()/2, -field.getFieldWidth()/2);//*/calculatePassLocation();
 
     // Receiver
     stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
@@ -69,7 +69,7 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
 
 //    flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
-//    flagMap.insert({"receiver", {receiverFlag}});
+    flagMap.insert({"pass_receiver", {receiverFlag}});
 //    flagMap.insert({"halt_0", {not_important}});
 //    flagMap.insert({"halt_1", {not_important}});
 //    flagMap.insert({"halt_2", {not_important}});

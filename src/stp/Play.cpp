@@ -83,6 +83,7 @@ void Play::refreshData() noexcept {
             // Assign the new BallView and field
             stpInfo->second.setBall(newBallView);
             stpInfo->second.setField(newField);
+
         }
     }
 }
