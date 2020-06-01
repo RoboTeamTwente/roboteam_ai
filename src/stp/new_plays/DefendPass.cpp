@@ -4,6 +4,8 @@
 
 #include "stp/new_plays/DefendPass.h"
 
+#include "stp/invariants/BallOnOurSideInvariant.h"
+
 #include "stp/invariants/BallCloseToThemInvariant.h"
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
@@ -18,6 +20,7 @@ DefendPass::DefendPass() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToThemInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
