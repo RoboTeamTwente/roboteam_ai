@@ -35,7 +35,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
     }
 
     // the tactic will not be reset if it's the first skill
-    if ((skills.current_num() != 0 && shouldTacticReset(skill_info))) {
+    if ((skills.current_num() != 0 && shouldTacticReset(skill_info.value()))) {
         RTT_INFO("State Machine reset for current tactic for ID = ", info.getRobot()->get()->getId())
         reset();
     }

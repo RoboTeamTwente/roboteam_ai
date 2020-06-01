@@ -18,12 +18,12 @@ namespace rtt::ai::stp::play {
 
 ReflectKick::ReflectKick() : Play() {
     startPlayInvariants.clear();
-    //startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     keepPlayInvariants.clear();
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallReflecter>(role::BallReflecter("reflecter")),
@@ -64,18 +64,19 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 }
 
 void ReflectKick::calculateInfoForRoles() noexcept {
-    auto passPosition = Vector2(3.8, 2.2);
+    // TODO: Change this
+    auto passPosition = Vector2();
 
     auto ball = world->getWorld()->getBall().value();
     std::optional<Vector2> intersection;
 
-    if ((ball->getPos() - passPosition).length() <= 2.0) {
+    if ((ball->getPos() - passPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
         intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(
                 Line(passPosition, field.getTheirGoalCenter()));
     }
 
     auto reflectPosition = intersection.has_value() ? intersection.value() : passPosition;
-    std::cout <<reflectPosition<<std::endl;
+
     reflectPosition = field.getTheirGoalCenter() + (reflectPosition - field.getTheirGoalCenter()).stretchToLength((reflectPosition - field.getTheirGoalCenter()).length() + control_constants::CENTER_TO_FRONT);
 
     // Reflecter
@@ -95,7 +96,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setKickChipType(TARGET);
 
     // Offenders
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));
