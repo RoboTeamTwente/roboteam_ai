@@ -9,7 +9,7 @@ namespace rtt::ai::stp {
 void Play::initialize() noexcept {
     calculateInfoForRoles();
     distributeRoles();
-    previousRobotNum = world->getWorld()->getUs().size();
+    previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
@@ -22,13 +22,13 @@ void Play::update() noexcept {
     roleStatuses.clear();
     RTT_INFO("Play executing: ", getName())
 
-    auto currentRobotNum{world->getWorld()->getUs().size()};
+    auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
 
     if (currentRobotNum != previousRobotNum) {
         RTT_WARNING("Reassigning bots")
 
         // Make sure we don't re assign with too many robots
-        if (currentRobotNum > stp::control_constants::MAX_ROBOT_COUNT) {
+        if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
             RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
             // Make sure the stpInfos is cleared to trigger a reassign whenever
             // the robots don't exceed ROBOT_COUNT anymore
