@@ -87,9 +87,9 @@ namespace rtt::world_new {
         history.reserve(HISTORY_SIZE);
     }
 
-    void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
+    void World::updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback) {
         std::scoped_lock<std::mutex> lock{updateMutex};
-        updateMap[robotId] = std::move(feedback);
+        updateMap = std::move(feedback);
     }
 
     void World::updateTickTime() noexcept {

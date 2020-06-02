@@ -71,7 +71,8 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
     std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-    feedbackMap.insert({feedback.id(), feedback});
+    auto const result = feedbackMap.insert({feedback.id(), feedback});
+    if (!result.second) { result.first->second = feedback; }
 }
 
 const proto::World &IOManager::getWorldState() {
@@ -93,6 +94,13 @@ const proto::SSL_Referee &IOManager::getRefereeData() {
     auto msg = new proto::SSL_Referee();
     msg->CopyFrom(this->refDataMsg);
     return *msg;
+}
+
+const std::unordered_map<uint8_t, proto::RobotFeedback> &IOManager::getFeedbackDataMap() {
+    std::lock_guard<std::mutex> lock(robotFeedbackMutex);
+    auto fbm = new std::unordered_map<uint8_t, proto::RobotFeedback>;
+    fbm->insert(feedbackMap.begin(), feedbackMap.end());
+    return *fbm;
 }
 
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {

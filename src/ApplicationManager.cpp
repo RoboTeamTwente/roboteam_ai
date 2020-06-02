@@ -106,6 +106,7 @@ void ApplicationManager::runOneLoopCycle() {
 
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
+        auto feedbackMap = io::io.getFeedbackDataMap();
 
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
@@ -120,6 +121,7 @@ void ApplicationManager::runOneLoopCycle() {
 
             world_new::World::instance()->updateField(fieldMessage);
             world_new::World::instance()->updatePositionControl();
+            world_new::World::instance()->updateFeedback(feedbackMap);
 
             decidePlay(world_new::World::instance());
 
