@@ -11,7 +11,7 @@ struct RuleSet {
     RuleSet() = default;
     RuleSet(std::string title, double maxRobotVel, double maxBallVel, double minDistanceToBall, double minDistanceToDefenseArea, bool robotsCanGoOutOfField)
         : title(std::move(title)),
-          maxRobotVel(maxRobotVel),
+          maxRobotVel(1.5),
           maxBallVel(maxBallVel),
           minDistanceToBall(minDistanceToBall),
           minDistanceToDefenseArea(minDistanceToDefenseArea),
