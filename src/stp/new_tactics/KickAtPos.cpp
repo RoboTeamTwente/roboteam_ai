@@ -84,7 +84,7 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
 
 bool KickAtPos::isEndTactic() noexcept {
     // This is not an end tactic
-    return true;
+    return false;
 }
 
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
