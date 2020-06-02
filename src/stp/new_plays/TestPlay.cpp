@@ -10,10 +10,10 @@ namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     roles = std::array<std::unique_ptr<Role>,stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
@@ -22,7 +22,7 @@ TestPlay::TestPlay() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t TestPlay::score(world_new::World *world) noexcept { return 0; }
+uint8_t TestPlay::score(world_new::World *world) noexcept { return 80; }
 
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
