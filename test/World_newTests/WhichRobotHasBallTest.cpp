@@ -32,7 +32,7 @@ TEST(World_newTest, WhichRobotHasBallTest) {
 
     // Create ball
     proto::WorldBall ball;
-    ball.mutable_pos()->set_x(0);
+    ball.mutable_pos()->set_x(0.001);
     ball.mutable_pos()->set_y(0);
     ball.set_visible(true);
 
@@ -41,40 +41,28 @@ TEST(World_newTest, WhichRobotHasBallTest) {
     robotsYellow.Add()->CopyFrom(roboty2);
     robotsBlue.Add()->CopyFrom(robotb1);
 
-    /** Test 1 : no ball. No robot closest */
-    proto::World msgNoBall;
-    msgNoBall.mutable_yellow()->CopyFrom(robotsYellow);
-    msgNoBall.mutable_blue()->CopyFrom(robotsBlue);
-    worldInstance->updateWorld(msgNoBall);
-
-    auto world = worldInstance->getWorld();
-    assert(world->getUs().size() == 2);
-    assert(world->getThem().size() == 1);
-    assert(!world->getBall().has_value());
-    std::optional<rtt::world_new::view::RobotView> robot = world->whichRobotHasBall(rtt::world_new::Team::us);
-    EXPECT_TRUE(!robot.has_value());
-
-    /** Test 2 : Two yellow robots (1 & 2), two blue robots (3 & 4), one ball **/
+    /** Test 1 : Two yellow robots (1 & 2), two blue robots (3 & 4), one ball **/
     proto::World msgBall;
     msgBall.mutable_yellow()->CopyFrom(robotsYellow);
     msgBall.mutable_blue()->CopyFrom(robotsBlue);
     msgBall.mutable_ball()->CopyFrom(ball);
     worldInstance->updateWorld(msgBall);
-    world = worldInstance->getWorld();
+    auto world = worldInstance->getWorld();
     assert(world->getUs().size() == 2);
     assert(world->getThem().size() == 1);
     assert(world->getBall().has_value());
 
-    /** Test 2.1 : us */
-    robot = world->whichRobotHasBall(rtt::world_new::Team::us, 1.0);
+    /** Test 1.1 : us */
+    std::optional<rtt::world_new::view::RobotView> robot = world->whichRobotHasBall(rtt::world_new::Team::us, 1.0);
     EXPECT_EQ((*robot)->getId(), 1);
-    /** Test 2.2 : them */
+    /** Test 1.2 : them */
     robot = world->whichRobotHasBall(rtt::world_new::Team::them, 1.0);
     EXPECT_EQ((*robot)->getId(), 3);
-    /** Test 2.3 : both */
+    /** Test 1.3 : both */
+    std::cout << world->getBall()->get()->getPos() << '\n';
     robot = world->whichRobotHasBall(rtt::world_new::Team::both, 1.0);
     EXPECT_EQ((*robot)->getId(), 3);
-    /** Test 2.4 : both, all out of range */
+    /** Test 1.4 : both, all out of range */
     robot = world->whichRobotHasBall(rtt::world_new::Team::both, 0.001);
     EXPECT_FALSE(robot.has_value());
 }
