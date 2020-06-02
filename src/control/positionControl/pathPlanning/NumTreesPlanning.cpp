@@ -34,7 +34,7 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
             }
             auto parentCollision = collisionDetector.getCollisionBetweenPoints(point.getParent()->getPosition(), point.getPosition());
             if (parentCollision){
-                auto branches = branchPath(*point.getParent(), parentCollision.value());
+                auto branches = branchPath(*point.getParent(), parentCollision.value(), targetPosition);
                 std::for_each(branches.begin(), branches.end(), [&pointQueue](PathPointNode& newPoint){
                     pointQueue.push(newPoint);
                     });
@@ -50,7 +50,7 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
             break;
         }
 
-        auto branches = branchPath(point, collision.value());
+        auto branches = branchPath(point, collision.value(), targetPosition);
         std::for_each(branches.begin(), branches.end(), [&pointQueue](const PathPointNode& newPoint){pointQueue.push(newPoint);});
     }
 
@@ -62,11 +62,17 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
     return path;
 }
 
-std::vector<PathPointNode> NumTreesPlanning::branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const {
+std::vector<PathPointNode> NumTreesPlanning::branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition,
+                                                        const Vector2 &destination) const {
     Vector2 deltaPosition = collisionPosition - parentPoint.getPosition();
 
     Vector2 leftTargetPosition = collisionPosition + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(AVOIDANCE_DISTANCE);
     Vector2 rightTargetPosition = collisionPosition + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(-AVOIDANCE_DISTANCE);
-    return {PathPointNode(leftTargetPosition, parentPoint), PathPointNode(rightTargetPosition, parentPoint)};
+
+    // pick the closest branch to try first
+    if (leftTargetPosition - destination < rightTargetPosition - destination){
+        return {PathPointNode(leftTargetPosition, parentPoint), PathPointNode(rightTargetPosition, parentPoint)};
+    }
+    return {PathPointNode(rightTargetPosition, parentPoint), PathPointNode(leftTargetPosition, parentPoint)};
 }
 }

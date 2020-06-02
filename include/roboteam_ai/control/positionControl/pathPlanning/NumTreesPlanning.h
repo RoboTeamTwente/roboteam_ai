@@ -20,12 +20,14 @@ private:
 
     /**
      * Generate 2 new points to the side of the collisionPosition, such that the points and the parent point form
-     * an isosceles triangle, with the collisionPosition being the middle of the base.
+     * an isosceles triangle, with the collisionPosition being the middle of the base. The first point will bt the one
+     * closest to the destimation.
      * @param parentPoint starting point
      * @param collisionPosition the point to branch from
+     * @param destination the target position.
      * @return
      */
-    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2& collisionPosition) const;
+    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, const Vector2 &destination) const;
 
 public:
     /**
