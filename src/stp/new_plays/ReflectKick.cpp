@@ -75,8 +75,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
                 Line(passPosition, field.getTheirGoalCenter()));
     }
 
-    auto reflectPosition = intersection.has_value() ? intersection.value() : passPosition;
-
+    auto reflectPosition = (intersection.has_value() && FieldComputations::pointIsInField(field, intersection.value())) ? intersection.value() : passPosition;
     reflectPosition = field.getTheirGoalCenter() + (reflectPosition - field.getTheirGoalCenter()).stretchToLength((reflectPosition - field.getTheirGoalCenter()).length() + control_constants::CENTER_TO_FRONT);
 
     // Reflecter
