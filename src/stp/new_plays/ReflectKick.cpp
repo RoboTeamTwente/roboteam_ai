@@ -2,17 +2,17 @@
 // Created by jordi on 19-05-20.
 //
 
-#include <roboteam_utils/HalfLine.h>
 #include "include/roboteam_ai/stp/new_plays/ReflectKick.h"
+#include <roboteam_utils/HalfLine.h>
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
 #include "stp/new_roles/BallReflecter.h"
-#include "stp/new_roles/Passer.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/new_roles/Keeper.h"
+#include "stp/new_roles/Passer.h"
 
 namespace rtt::ai::stp::play {
 
@@ -71,12 +71,14 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     std::optional<Vector2> intersection;
 
     if ((ball->getPos() - passPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(
-                Line(passPosition, field.getTheirGoalCenter()));
+        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(Line(passPosition, field.getTheirGoalCenter()));
     }
 
-    auto reflectPosition = (intersection.has_value() && FieldComputations::pointIsInField(field, intersection.value())) ? intersection.value() : passPosition;
-    reflectPosition = field.getTheirGoalCenter() + (reflectPosition - field.getTheirGoalCenter()).stretchToLength((reflectPosition - field.getTheirGoalCenter()).length() + control_constants::CENTER_TO_FRONT);
+    // First estimate of where the reflect kick location should be
+    auto intermediateReflectPosition = (intersection.has_value() && FieldComputations::pointIsInField(field, intersection.value())) ? intersection.value() : passPosition;
+    auto reflectPositionToGoal = intermediateReflectPosition - field.getTheirGoalCenter();
+    // The final reflect kick position is stretched to account for the robot diameter
+    auto reflectPosition = field.getTheirGoalCenter() + (reflectPositionToGoal).stretchToLength((reflectPositionToGoal).length() + control_constants::CENTER_TO_FRONT);
 
     // Reflecter
     stpInfos["reflecter"].setPositionToMoveTo(reflectPosition);
@@ -85,9 +87,8 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     for (auto &role : roles) {
         if (role->getName() == "reflecter") {
-            if (strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 &&
-                stpInfos["reflecter"].getRobot().has_value()
-                && stpInfos["reflecter"].getRobot().value()->getDistanceToBall() <= control_constants::BALL_IS_CLOSE) {
+            if (strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 && stpInfos["reflecter"].getRobot().has_value() &&
+                stpInfos["reflecter"].getRobot().value()->getDistanceToBall() <= control_constants::BALL_IS_CLOSE) {
                 role->forceNextTactic();
             }
         }
