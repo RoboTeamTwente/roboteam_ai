@@ -29,7 +29,7 @@ class MockTactic : public Tactic {
         }
     }
 
-    StpInfo calculateInfoForSkill(const StpInfo &info) noexcept override { return StpInfo(); }
+    std::optional<StpInfo> calculateInfoForSkill(const StpInfo &info) noexcept override { return StpInfo(); }
 
     void onInitialize() noexcept override {}
 
