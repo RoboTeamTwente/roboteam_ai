@@ -17,7 +17,7 @@ constexpr double MAX_CHIP_POWER = 8;
 constexpr double MIN_CHIP_POWER = 1.01;
 
 // Dribbler constants
-const double TURN_ON_DRIBBLER_DISTANCE = 3 * ROBOT_RADIUS;
+const double TURN_ON_DRIBBLER_DISTANCE = 5 * ROBOT_RADIUS;
 
 // Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
@@ -36,7 +36,7 @@ constexpr double MAX_DRIBBLER_CMD = 31;
 
 // HasBall margins
 constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.106;
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.206;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.1;
 
 // GTP Constants
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.01;

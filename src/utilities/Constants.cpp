@@ -263,7 +263,8 @@ pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
-        {"default", 8.0, 6.5, 0.0, ROBOT_RADIUS(), true}, {"halt", 0.0, 0.0, 0.0, -1, true},    {"stop", 1.5, 0.0, 0.8, -1, false}, {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
+        // TODO: CHANGE DEFAULT VEL BACK
+        {"default", 2.0, 6.5, 0.0, ROBOT_RADIUS(), true}, {"halt", 0.0, 0.0, 0.0, -1, true},    {"stop", 1.5, 0.0, 0.8, -1, false}, {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
         {"ballplacement_us", 2.5, 6.5, 0.0, -1, true},    {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 

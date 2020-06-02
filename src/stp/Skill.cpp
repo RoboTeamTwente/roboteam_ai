@@ -84,7 +84,7 @@ void Skill::limitAngularVel() noexcept {
     // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
     // TODO: Might want to limit on the robot itself
     if (robot->hasBall() && command.use_angle()) {
-        double angleRate = 0.3 * M_PI; // Angle increment per tick TODO: TUNE
+        double angleRate = 0.1 * M_PI; // Angle increment per tick TODO: TUNE
         auto targetAngle = command.w();
         auto robotAngle = robot.value()->getAngle();
 

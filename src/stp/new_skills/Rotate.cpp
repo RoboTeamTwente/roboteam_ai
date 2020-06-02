@@ -15,9 +15,8 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    std::clamp(targetDribblerPercentage, 0, 30);
+    targetDribblerPercentage = std::clamp(targetDribblerPercentage, 0, 10);
     int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
-
 
     // Set angle command
     command.set_w(targetAngle);
