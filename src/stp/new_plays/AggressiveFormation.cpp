@@ -25,7 +25,7 @@ AggressiveFormation::AggressiveFormation() : Play() {
         std::make_unique<role::BallAvoider>(role::BallAvoider("offender_3"))};
 }
 
-uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 2; }
+uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 100; }
 
 void AggressiveFormation::calculateInfoForRoles() noexcept {
     // TODO: TUNE these positions could probably be a bit better once we decide how we want to play

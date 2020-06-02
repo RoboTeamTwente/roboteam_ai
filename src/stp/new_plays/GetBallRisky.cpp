@@ -47,7 +47,6 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyAttacker->getId(); }));
-
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
