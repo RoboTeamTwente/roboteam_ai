@@ -41,7 +41,7 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(world_new::World* world) noexcept { return 50; }
+uint8_t GenericPass::score(world_new::World* world) noexcept { return 100; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     // Keeper
@@ -50,8 +50,20 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     const Vector2 passingPosition = calculatePassLocation();
 
+    auto ball = world->getWorld()->getBall().value();
+    std::optional<Vector2> intersection;
+
+    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
+        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(
+            Line(passingPosition, field.getTheirGoalCenter()));
+    }
+
+    auto reflectPosition = intersection.has_value() ? intersection.value() : passingPosition;
+
+    reflectPosition = field.getTheirGoalCenter() + (reflectPosition - field.getTheirGoalCenter()).stretchToLength((reflectPosition - field.getTheirGoalCenter()).length() + control_constants::CENTER_TO_FRONT);
+
     // Receiver
-    stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+    stpInfos["receiver"].setPositionToMoveTo(reflectPosition);
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);

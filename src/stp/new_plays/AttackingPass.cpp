@@ -39,7 +39,7 @@ AttackingPass::AttackingPass() : Play() {
         std::make_unique<role::Halt>(role::Halt("test_role_8")), std::make_unique<role::Halt>(role::Halt("test_role_9"))};
 }
 
-uint8_t AttackingPass::score(world_new::World* world) noexcept { return 100; }
+uint8_t AttackingPass::score(world_new::World* world) noexcept { return 50; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -77,8 +77,20 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     // TODO: compute the passing position
     const Vector2 passingPosition = calculatePassLocation();
 
+    auto ball = world->getWorld()->getBall().value();
+    std::optional<Vector2> intersection;
+
+    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
+        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(
+            Line(passingPosition, field.getTheirGoalCenter()));
+    }
+
+    auto reflectPosition = intersection.has_value() ? intersection.value() : passingPosition;
+
+    reflectPosition = field.getTheirGoalCenter() + (reflectPosition - field.getTheirGoalCenter()).stretchToLength((reflectPosition - field.getTheirGoalCenter()).length() + control_constants::CENTER_TO_FRONT);
+
     // Receiver
-    stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+    stpInfos["pass_receiver"].setPositionToMoveTo(reflectPosition);
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
