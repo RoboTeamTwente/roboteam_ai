@@ -15,7 +15,6 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Set chip command
     command.set_chipper(true);
     command.set_chip_kick_vel(chipVelocity);
-    command.set_chip_kick_forced(true);
 
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
