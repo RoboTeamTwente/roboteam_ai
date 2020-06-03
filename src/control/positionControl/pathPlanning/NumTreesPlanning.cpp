@@ -12,7 +12,7 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
     auto root = PathPointNode(robotPosition);
     std::queue<PathPointNode> pointQueue;
     pointQueue.push(root);
-    auto finalPath = PathPointNode(targetPosition, root);
+    auto finalPath = root;
 
     while (!pointQueue.empty()){
         PathPointNode& point = pointQueue.front();
@@ -40,6 +40,10 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
                     });
                 continue;
             }
+            // current path has no collisions - update current best path
+            if (point.getPosition() - targetPosition < finalPath.getPosition() - targetPosition){
+                finalPath = point;
+            }
         }
 
         auto collision = collisionDetector.getCollisionBetweenPoints(point.getPosition(), targetPosition);
@@ -59,6 +63,11 @@ NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targe
         path.push_back(it.getParent()->getPosition());
     }
     std::reverse(path.begin(), path.end());
+    // path should contain final point - if there are collisions between the last 2 points, the path will be recalculated
+    // closer to the destination
+    if (path.back() != targetPosition){
+        path.push_back(targetPosition);
+    }
     return path;
 }
 
