@@ -27,19 +27,17 @@ AttackingPass::AttackingPass() : Play() {
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallMovesSlowInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NoGoalVisionFromBallInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Passer>(role::Passer("passer")),  std::make_unique<role::PassReceiver>(role::PassReceiver("pass_receiver")),
+        std::make_unique<role::Passer>(role::Passer("passer")),  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
         std::make_unique<role::Halt>(role::Halt("defender1")),   std::make_unique<role::Halt>(role::Halt("test_role_3")),
         std::make_unique<role::Halt>(role::Halt("test_role_4")), std::make_unique<role::Halt>(role::Halt("test_role_5")),
         std::make_unique<role::Halt>(role::Halt("test_role_6")), std::make_unique<role::Halt>(role::Halt("test_role_7")),
         std::make_unique<role::Halt>(role::Halt("test_role_8")), std::make_unique<role::Halt>(role::Halt("test_role_9"))};
 }
 
-uint8_t AttackingPass::score(world_new::World* world) noexcept { return 100; }
+uint8_t AttackingPass::score(world_new::World* world) noexcept { return 50; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -51,7 +49,7 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"passer", {passerFlag}});
-    flagMap.insert({"pass_receiver", {receiverFlag}});
+    flagMap.insert({"receiver", {receiverFlag}});
     flagMap.insert({"defender1", {not_important}});
     flagMap.insert({"test_role_3", {not_important}});
     flagMap.insert({"test_role_4", {not_important}});
@@ -77,8 +75,15 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     // TODO: compute the passing position
     const Vector2 passingPosition = calculatePassLocation();
 
+    auto ball = world->getWorld()->getBall().value();
+
+    auto receivePosition = passingPosition;
+    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
+        receivePosition = ball->getPos();
+    }
+
     // Receiver
-    stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+    stpInfos["receiver"].setPositionToMoveTo(receivePosition);
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
@@ -179,4 +184,22 @@ Vector2 AttackingPass::calculatePassLocation() {
     return bestPosition;
 }
 
+bool AttackingPass::isValidPlayToKeep(world_new::World *world) noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);}) && !passFinished() && !passFailed();
+}
+
+bool AttackingPass::passFinished() noexcept {
+    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
+        return true;
+    }
+    return false;
+}
+
+bool AttackingPass::passFailed() noexcept {
+    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
+        return true;
+    }
+    return false;
+}
 }  // namespace rtt::ai::stp::play

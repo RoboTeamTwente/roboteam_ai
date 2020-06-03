@@ -43,6 +43,7 @@ GenericPass::GenericPass() : Play() {
 
 uint8_t GenericPass::score(world_new::World* world) noexcept { return 10; }
 
+
 void GenericPass::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
@@ -50,8 +51,15 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     const Vector2 passingPosition = Vector2();///*Vector2(-field.getFieldLength()/2, -field.getFieldWidth()/2);//*/calculatePassLocation();
 
+    auto ball = world->getWorld()->getBall().value();
+
+    auto receivePosition = passingPosition;
+    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
+       receivePosition = ball->getPos();
+    }
+
     // Receiver
-    stpInfos["pass_receiver"].setPositionToMoveTo(passingPosition);
+    stpInfos["receiver"].setPositionToMoveTo(receivePosition);
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
@@ -135,4 +143,22 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
     return bestPosition;
 }
 
+bool GenericPass::isValidPlayToKeep(world_new::World *world) noexcept {
+    world::Field field = world->getField().value();
+    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);}) && !passFinished() && !passFailed();
+}
+
+bool GenericPass::passFinished() noexcept {
+    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
+        return true;
+    }
+    return false;
+}
+
+bool GenericPass::passFailed() noexcept {
+    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
+        return true;
+    }
+    return false;
+}
 }  // namespace rtt::ai::stp::play
