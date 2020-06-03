@@ -35,8 +35,8 @@ constexpr double MAX_VEL_CMD = 8.191;
 constexpr double MAX_DRIBBLER_CMD = 31;
 
 // HasBall margins
-constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.106;
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.1;
+constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.05;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.2;
 
 // GTP Constants
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.01;

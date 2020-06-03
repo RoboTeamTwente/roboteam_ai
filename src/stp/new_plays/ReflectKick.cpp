@@ -18,12 +18,12 @@ namespace rtt::ai::stp::play {
 
 ReflectKick::ReflectKick() : Play() {
     startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+//
+//    keepPlayInvariants.clear();
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallReflecter>(role::BallReflecter("reflecter")),
@@ -48,17 +48,17 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeperFlag}});
+//    flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"reflecter", {closeToTheirGoalFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"offender_1", {not_important}});
-    flagMap.insert({"offender_2", {not_important}});
-    flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"midfielder_3", {not_important}});
-    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
+//    flagMap.insert({"offender_1", {not_important}});
+//    flagMap.insert({"offender_2", {not_important}});
+//    flagMap.insert({"midfielder_1", {not_important}});
+//    flagMap.insert({"midfielder_2", {not_important}});
+//    flagMap.insert({"midfielder_3", {not_important}});
+//    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
+//    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+//    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
 }
