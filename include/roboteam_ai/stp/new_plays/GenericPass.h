@@ -48,7 +48,7 @@ class GenericPass : public Play {
      */
     const Vector2 calculatePassLocation() const noexcept;
 
-    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World *world) noexcept override;
+    [[nodiscard]] bool isValidPlayToKeep(world_new::World *world) noexcept override;
 
    protected:
     bool shouldRoleSkipEndTactic() override;
