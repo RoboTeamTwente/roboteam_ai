@@ -80,7 +80,7 @@ class Play {
      * Check if the invariants for the play to keep running are true
      * @return
      */
-    [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) const noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept;
 
     /**
      * @return true if all roles are finished
