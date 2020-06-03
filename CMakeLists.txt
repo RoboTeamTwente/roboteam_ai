@@ -87,6 +87,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/PositionAndAim.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -104,6 +105,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallGetter.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallReflecter.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -132,6 +134,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
+         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GenericPass.cpp
         )
 

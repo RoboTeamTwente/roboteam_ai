@@ -30,6 +30,7 @@
 #include "stp/new_plays/KickOffThem.h"
 #include "stp/new_plays/GetBallPossession.h"
 #include "stp/new_plays/GetBallRisky.h"
+#include "stp/new_plays/ReflectKick.h"
 #include "stp/new_plays/GenericPass.h"
 
 namespace io = rtt::ai::io;
@@ -68,6 +69,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
