@@ -122,7 +122,7 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
         case DealerFlagPriority::HIGH_PRIORITY:
             return 1.0;
         case DealerFlagPriority::REQUIRED:
-            return 0.0;
+            return 0.1;
         case DealerFlagPriority::KEEPER:
             return 100;
         default:
@@ -141,9 +141,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::CLOSE_TO_OUR_GOAL:
             return costForDistance(FieldComputations::getDistanceToGoal(*field, true, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_BALL: {
-            auto ball = world.getBall();
-            if (!ball) return 0.0;
-            return robot->getPos().dist(ball.value()->getPos());
+            return robot->getDistanceToBall();
         }
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());
