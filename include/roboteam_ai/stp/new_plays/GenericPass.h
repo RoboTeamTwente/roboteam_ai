@@ -48,8 +48,15 @@ class GenericPass : public Play {
      */
     const Vector2 calculatePassLocation() const noexcept;
 
+    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World *world) noexcept override;
+
    protected:
     bool shouldRoleSkipEndTactic() override;
+
+   private:
+    [[nodiscard]] bool passFinished() noexcept;
+
+    [[nodiscard]] bool passFailed() noexcept;
 };
 }  // namespace rtt::ai::stp::play
 
