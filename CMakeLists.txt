@@ -13,7 +13,6 @@ set(CMAKE_AUTOMOC ON) #Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 
 include(cotire)
-include(FindSDL2)
 include(ccache)
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
@@ -24,27 +23,13 @@ if (APPLE)
     SET(Qt5Charts_DIR "/usr/local/opt/qt/lib/cmake/Qt5Charts")
     find_package(Qt5Core REQUIRED)
     find_package(Qt5Gui REQUIRED)
-    set(GTEST_LIB
-            /usr/local/lib/libgtest.a
-            /usr/local/lib/libgtest_main.a
-            /usr/local/lib/libgmock.a
-            /usr/local/lib/libgmock_main.a
-            )
 else(NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
-    set(GTEST_LIB
-            PRIVATE gtest
-            PRIVATE gmock)
 endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
-find_package(SDL2 REQUIRED sdl2)
-
-if (NOT SDL2_FOUND)
-    message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
-endif ()
 
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
@@ -294,5 +279,8 @@ target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
 add_executable(ai_tests ${TEST_SOURCES})
-target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
+target_link_libraries(ai_tests ${AI_LIBS}
+        PRIVATE gtest
+        PRIVATE gmock
+        ai_lib)
 target_include_directories(ai_tests ${AI_INCLUDES})

@@ -61,6 +61,8 @@ class Param {
   virtual float cumulativeYForXRange(double start_x,
                                             double end_x,
                                             double precision = 0.1) = 0;
+
+  virtual ~Param() = default;
 };
 
 std::unique_ptr<Param> createParam(float default_y,
