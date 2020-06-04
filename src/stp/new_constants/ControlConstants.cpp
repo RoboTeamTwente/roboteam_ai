@@ -17,7 +17,7 @@ constexpr double MAX_CHIP_POWER = 8;
 constexpr double MIN_CHIP_POWER = 1.01;
 
 // Dribbler constants
-const double TURN_ON_DRIBBLER_DISTANCE = 5 * ROBOT_RADIUS;
+const double TURN_ON_DRIBBLER_DISTANCE = 4 * ROBOT_RADIUS;
 
 // Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
@@ -35,19 +35,16 @@ constexpr double MAX_VEL_CMD = 8.191;
 constexpr double MAX_DRIBBLER_CMD = 31;
 
 // HasBall margins
-constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.05;
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.2;
+constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.11;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.11;
 
 // GTP Constants
-constexpr double GO_TO_POS_ERROR_MARGIN = 0.01;
-constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.01;
+constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
+constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.02;
 
 // Robot physical constants
-constexpr double ROBOT_RADIUS = 0.089;
-constexpr double ROBOT_RADIUS_MAX = 0.091;
-constexpr double FRONT_LENGTH = 0.118;
-const double DRIBBLER_ANGLE_OFFSET = asin(FRONT_LENGTH / 2 / ROBOT_RADIUS);
-const double CENTER_TO_FRONT = sin(DRIBBLER_ANGLE_OFFSET) * ROBOT_RADIUS;
+constexpr double ROBOT_RADIUS = 0.088;
+constexpr double CENTER_TO_FRONT = 0.05;
 
 // Invariant constants
 constexpr double FUZZY_TRUE = 255;

@@ -91,10 +91,7 @@ bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
     // But only check when we are not kicking
-    if(skills.current_num() != 1) {
-        return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
-    }
-    return false;
+    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
 }
 
 bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {

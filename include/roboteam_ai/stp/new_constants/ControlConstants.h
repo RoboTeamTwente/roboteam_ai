@@ -47,9 +47,6 @@ extern const double GO_TO_POS_ANGLE_ERROR_MARGIN;
 
 // Robot physical constants
 extern const double ROBOT_RADIUS;
-extern const double ROBOT_RADIUS_MAX;
-extern const double FRONT_LENGTH;
-extern const double DRIBBLER_ANGLE_OFFSET;
 extern const double CENTER_TO_FRONT;
 
 // Invariant constants
