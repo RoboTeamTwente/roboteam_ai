@@ -19,10 +19,10 @@ GoalVisionInvariant::GoalVisionInvariant() noexcept {
      * For 0% visibility return 0, for 100% visibility return 255
      */
     piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "goalVision");
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, 0.0);
+    piecewiseLinearFunction->setValueAtTime(control_constants::FUZZY_FALSE, 0.0);
     // end_x is the maximum visibility percentage; 100
-    piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_TRUE, 100);
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 100);
+    piecewiseLinearFunction->linearRampToValueAtTime(control_constants::FUZZY_TRUE, 100);
+    piecewiseLinearFunction->setValueAtTime(control_constants::FUZZY_TRUE, 100);
 }
 
 uint8_t GoalVisionInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
@@ -37,5 +37,5 @@ uint8_t GoalVisionInvariant::metricCheck(world_new::view::WorldDataView world, c
     return calculateMetric(*std::min_element(visibilities.begin(), visibilities.end()));
 }
 
-uint8_t GoalVisionInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
+uint8_t GoalVisionInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->valueForTime(x); }
 }  // namespace rtt::ai::stp::invariant

@@ -19,10 +19,10 @@ BallGotShotInvariant::BallGotShotInvariant() noexcept {
      *              (BallSpeed)
      */
     piecewiseLinearFunction = nativeformat::param::createParam(0, 255, 0, "ballMovesFast");
-    piecewiseLinearFunction->setYAtX(0.0, 0.0);
-    piecewiseLinearFunction->setYAtX(0.0, stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT + stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->linearRampToYAtX(255, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->setYAtX(255, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setValueAtTime(0.0, 0.0);
+    piecewiseLinearFunction->setValueAtTime(0.0, stp::control_constants::BALL_IS_MOVING_SLOW_LIMIT + stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->linearRampToValueAtTime(255, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setValueAtTime(255, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
 }
 
 uint8_t BallGotShotInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
@@ -30,5 +30,5 @@ uint8_t BallGotShotInvariant::metricCheck(world_new::view::WorldDataView world, 
     return calculateMetric(ballSpeed);
 }
 
-uint8_t BallGotShotInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
+uint8_t BallGotShotInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->valueForTime(x); }
 }  // namespace rtt::ai::stp::invariant

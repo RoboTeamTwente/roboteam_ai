@@ -18,10 +18,10 @@ BallCloseToThemInvariant::BallCloseToThemInvariant() noexcept {
      *              (Distance from the ball)
      */
     piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "ballCloseToThem");
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, stp::control_constants::BALL_IS_CLOSE + stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
-    piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setValueAtTime(control_constants::FUZZY_TRUE, 0.0);
+    piecewiseLinearFunction->setValueAtTime(control_constants::FUZZY_TRUE, stp::control_constants::BALL_IS_CLOSE + stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->linearRampToValueAtTime(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
+    piecewiseLinearFunction->setValueAtTime(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
 }
 
 uint8_t BallCloseToThemInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
@@ -30,6 +30,6 @@ uint8_t BallCloseToThemInvariant::metricCheck(world_new::view::WorldDataView wor
     else return 0;
 }
 
-uint8_t BallCloseToThemInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
+uint8_t BallCloseToThemInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->valueForTime(x); }
 
 }  // namespace rtt::ai::stp::invariant
