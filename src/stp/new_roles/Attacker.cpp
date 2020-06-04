@@ -6,6 +6,7 @@
 #include "stp/new_tactics/GetBallInDirection.h"
 #include "stp/new_tactics/DriveWithBall.h"
 #include "stp/new_tactics/KickAtPos.h"
+#include "stp/new_tactics/GetBall.h"
 
 namespace rtt::ai::stp::role {
 

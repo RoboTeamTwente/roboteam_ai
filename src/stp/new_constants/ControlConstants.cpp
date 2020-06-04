@@ -26,7 +26,7 @@ constexpr double BALL_GOT_SHOT_LIMIT = 1.3;
 constexpr double BALL_IS_MOVING_SLOW_LIMIT = 0.5;
 constexpr double BALL_IS_CLOSE = 0.5;
 constexpr double BALL_RADIUS = 0.0215;
-constexpr double HAS_KICKED_ERROR_MARGIN = 0.4;
+constexpr double HAS_KICKED_ERROR_MARGIN = 1;
 constexpr double HAS_CHIPPED_ERROR_MARGIN = 0.4;
 constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
@@ -40,7 +40,7 @@ constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.11;
 
 // GTP Constants
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
-constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.02;
+constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.007;
 
 // Robot physical constants
 constexpr double ROBOT_RADIUS = 0.088;

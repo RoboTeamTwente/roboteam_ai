@@ -14,8 +14,10 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     // Set kick command
     command.set_kicker(true);
+    if(robot->hasBall(0.09, 0.09)) command.set_chip_kick_forced(true);
+
     command.set_chip_kick_vel(kickVelocity);
-    command.set_chip_kick_forced(true);
+    command.set_dribbler(info.getDribblerSpeed()/100*32);
 
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());

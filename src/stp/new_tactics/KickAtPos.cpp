@@ -43,9 +43,9 @@ std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noe
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
     if (info.getRobot()->get()->getAngle().shortestAngleDiff(Angle(angleToTarget)) >= errorMargin) {
-        skillStpInfo.setDribblerSpeed(100);
+        skillStpInfo.setDribblerSpeed(50);
     } else {
-        skillStpInfo.setDribblerSpeed(0);
+        skillStpInfo.setDribblerSpeed(50);
     }
 
     return skillStpInfo;
@@ -55,9 +55,9 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE these factors need tuning
     // Increase these factors to decrease kick velocity
     // Decrease these factors to increase kick velocity
-    const double TARGET_FACTOR{1.4};
+    const double TARGET_FACTOR{1.65};
     const double GRSIM_TARGET_FACTOR{1.65};
-    const double PASS_FACTOR{1.2};
+    const double PASS_FACTOR{1.45};
     const double GRSIM_PASS_FACTOR{1.45};
 
     if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_KICK_POWER;

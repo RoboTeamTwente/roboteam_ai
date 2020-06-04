@@ -78,8 +78,8 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall().value();
 
     auto receivePosition = passingPosition;
-    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-        receivePosition = ball->getPos();
+    if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
+        receivePosition = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     }
 
     // Receiver
@@ -87,7 +87,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setKickChipType(TARGET);
 
     // Defenders
     for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
