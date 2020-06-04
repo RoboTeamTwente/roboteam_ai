@@ -27,7 +27,7 @@ private:
     /**
      * Unique pointer to the piecewise linear function that calculates the fuzzy value
      */
-    std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
+    std::shared_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
 
 }  // namespace rtt::ai::stp::invariant

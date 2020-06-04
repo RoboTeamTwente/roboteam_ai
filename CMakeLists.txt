@@ -270,7 +270,7 @@ set(AI_INCLUDES
 
 add_library(ai_lib ${AI_SOURCES})
 target_link_libraries(ai_lib ${AI_LIBS})
-target_include_directories(ai_lib ${AI_INCLUDES})
+target_include_directories(ai_lib ${AI_INCLUDES} ${CMAKE_SOURCE_DIR}/thirdparty/nfparam/include)
 
 # Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp)
