@@ -63,7 +63,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(MAX);
+    stpInfos["passer"].setKickChipType(TARGET);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -75,17 +75,17 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
-//    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"receiver", {receiverFlag}});
-//    flagMap.insert({"halt_0", {not_important}});
-//    flagMap.insert({"halt_1", {not_important}});
-//    flagMap.insert({"halt_2", {not_important}});
-//    flagMap.insert({"halt_3", {not_important}});
-//    flagMap.insert({"halt_4", {not_important}});
-//    flagMap.insert({"halt_5", {not_important}});
-//    flagMap.insert({"halt_6", {not_important}});
-//    flagMap.insert({"halt_7", {not_important}});
+    flagMap.insert({"halt_0", {not_important}});
+    flagMap.insert({"halt_1", {not_important}});
+    flagMap.insert({"halt_2", {not_important}});
+    flagMap.insert({"halt_3", {not_important}});
+    flagMap.insert({"halt_4", {not_important}});
+    flagMap.insert({"halt_5", {not_important}});
+    flagMap.insert({"halt_6", {not_important}});
+    flagMap.insert({"halt_7", {not_important}});
     return flagMap;
 }
 
@@ -149,6 +149,7 @@ bool GenericPass::isValidPlayToKeep(world_new::World *world) noexcept {
 }
 
 bool GenericPass::passFinished() noexcept {
+    //TODO: fix this condition
     if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
         return true;
     }
@@ -156,6 +157,7 @@ bool GenericPass::passFinished() noexcept {
 }
 
 bool GenericPass::passFailed() noexcept {
+    //TODO: fix this condition
     if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
         return true;
     }

@@ -18,12 +18,12 @@ namespace rtt::ai::stp::play {
 
 ReflectKick::ReflectKick() : Play() {
     startPlayInvariants.clear();
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-//
-//    keepPlayInvariants.clear();
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallReflecter>(role::BallReflecter("reflecter")),
@@ -38,7 +38,7 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(world_new::World *world) noexcept { return 500; }
+uint8_t ReflectKick::score(world_new::World *world) noexcept { return 20; }
 
 Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

@@ -190,6 +190,7 @@ bool AttackingPass::isValidPlayToKeep(world_new::World *world) noexcept {
 }
 
 bool AttackingPass::passFinished() noexcept {
+    //TODO: fix this condition
     if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
         return true;
     }
@@ -197,6 +198,7 @@ bool AttackingPass::passFinished() noexcept {
 }
 
 bool AttackingPass::passFailed() noexcept {
+    //TODO: fix this condition
     if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
         return true;
     }

@@ -33,7 +33,7 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
 
     // If ball is close to robot, turn on dribbler
-    if(skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE*3) skillStpInfo.setDribblerSpeed(100);
+    if(skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE*5) skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }
@@ -54,7 +54,14 @@ bool Receive::isEndTactic() noexcept {
     return true;
 }
 
-double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) { return (ball->getPos() - robot->getPos()).angle(); }
+double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
+    if(robot->getDistanceToBall() <= 1.0) {
+    return robot->getAngle();
+    }
+    else{
+        return (ball->getPos() - robot->getPos()).angle();
+    }
+}
 
 int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
     double turnOnDribblerDistance = 1.0;

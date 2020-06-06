@@ -31,7 +31,7 @@ constexpr double HAS_CHIPPED_ERROR_MARGIN = 0.4;
 constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
 // RobotCommand limits
-constexpr double MAX_VEL_CMD = 8.191;
+constexpr double MAX_VEL_CMD = 0.891;
 constexpr double MAX_DRIBBLER_CMD = 31;
 
 // HasBall margins

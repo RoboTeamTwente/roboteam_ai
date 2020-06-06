@@ -34,19 +34,19 @@ std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) no
 
     switch (skills.current_num()) {
     case 0:
-        skillStpInfo.setPositionToMoveTo(Vector2(length / 8, width / 8));
+        skillStpInfo.setPositionToMoveTo(Vector2(length / 8 + 1.5, width / 8));
         break;
     case 1:
-        skillStpInfo.setPositionToMoveTo(Vector2(length / 8, -width / 8));
+        skillStpInfo.setPositionToMoveTo(Vector2(length / 8 + 1.5, -width / 8));
         break;
     case 2:
-        skillStpInfo.setPositionToMoveTo(Vector2(-length / 8, -width / 8));
+        skillStpInfo.setPositionToMoveTo(Vector2(-length / 8 + 1.5, -width / 8));
         break;
     case 3:
-        skillStpInfo.setPositionToMoveTo(Vector2(-length / 8, width / 8));
+        skillStpInfo.setPositionToMoveTo(Vector2(-length / 8 + 1.5, width / 8));
         break;
     case 4:
-        skillStpInfo.setPositionToMoveTo(Vector2(length / 8, width / 8));
+        skillStpInfo.setPositionToMoveTo(Vector2(length / 8 + 1.5, width / 8));
         skills.reset();
         break;
     }
