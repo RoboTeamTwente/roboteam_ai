@@ -82,4 +82,16 @@ Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Ve
     return position;
 }
 
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin) {
+    if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
+        position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
+        return position;
+    }
+    if (FieldComputations::pointIsInDefenseArea(field, position, false, margin)) {
+        position.x = std::min(position.x, field.getRightPenaltyX() - margin);
+        return position;
+    }
+    return position;
+}
+
 }  // namespace rtt::ai::control

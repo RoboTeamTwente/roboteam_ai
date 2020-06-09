@@ -95,7 +95,7 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
     vLayout->addWidget(gameStateBox);
 
     // todo: figure out why this cast exists
-    QObject::connect(select_play, &QComboBox::activated, [=](int index) {
+    QObject::connect(select_play, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [=](int index) {
         // if number == -1 then the plays were refreshed, hence just keep the current play
         if (index == -1) {
             return;

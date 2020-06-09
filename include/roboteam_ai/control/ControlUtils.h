@@ -47,6 +47,8 @@ namespace rtt::ai {
                                        double maxDifference = 0.3);
 
             static Vector2 projectPositionToWithinField(const world::Field &field, Vector2 position, double margin);
+
+            static Vector2 projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin);
         };
 
     }  // namespace control
