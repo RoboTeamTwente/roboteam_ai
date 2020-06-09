@@ -8,8 +8,8 @@
 #include "interface/api/Input.h"
 
 namespace rtt::ai::control {
-RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                                  const Vector2 &targetPosition) {
+    RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
+                                                      const Vector2 &targetPosition) {
     collisionDetector.setField(field);
     // if the target position is outside of the field (i.e. bug in AI), do nothing
     if (!collisionDetector.isPointInsideField(targetPosition)) {
@@ -19,7 +19,7 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
 
     if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
         // if the robot is close to the final position and can't get there, stop
-        if (!computedPaths[robotId].empty() && (currentPosition - targetPosition).length() < 4 * Constants::ROBOT_RADIUS()) {
+        if (!computedPaths[robotId].empty() && (currentPosition - targetPosition).length() < FINAL_AVOIDANCE_DISTANCE) {
             RTT_INFO("Path collides with something close to the target position for robot ID ", robotId)
             return {};
         }
