@@ -23,8 +23,11 @@ void BlockRobot::onTerminate() noexcept {
     }
 }
 
-StpInfo BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
+
+    if(!skillStpInfo.getEnemyRobot() || !skillStpInfo.getPositionToDefend()) return std::nullopt;
+
     skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
     auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());

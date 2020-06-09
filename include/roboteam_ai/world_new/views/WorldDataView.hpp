@@ -138,24 +138,24 @@ class WorldDataView {
      * Gets a view of the closest robot to a point
      * @param point Point to check to
      * @param team `us` if it should be fetched from our team, `them` if theirs, `both` if both teams
-     * @return A non-owning view over the robot
+     * @return An std::optional of a non-owning view of the robot or an std::nullopt
      */
-    [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2 &point, Team team = both) const noexcept;
+    [[nodiscard]] std::optional<RobotView> getRobotClosestToPoint(const Vector2 &point, Team team = both) const noexcept;
 
     /**
      * Gets a view of the robot closes to a point
      * @param point Point to check to
      * @param robots Vector of RobotViews
-     * @return Gets a non-owning view over the robot that's closest
+     * @return An std::optional of a non-owning view of the robot or an std::nullopt
      */
-    [[nodiscard]] RobotView getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotView> &robots) const noexcept;
+    [[nodiscard]] std::optional<RobotView> getRobotClosestToPoint(const Vector2 &point, const std::vector<RobotView> &robots) const noexcept;
 
     /**
      * Gets the robot closest to a ball
      * @param team Team to fetch from
-     * @return getRobotClosestToPoint(ball.pos(), team);
+     * @return An std::optional of a non-owning view of the robot or an std::nullopt
      */
-    [[nodiscard]] RobotView getRobotClosestToBall(Team team = both) const noexcept;
+    [[nodiscard]] std::optional<RobotView> getRobotClosestToBall(Team team = both) const noexcept;
 
     /**
      * Checks whether a robot has the ball
