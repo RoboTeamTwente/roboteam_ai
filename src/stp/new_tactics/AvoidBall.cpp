@@ -24,9 +24,11 @@ void AvoidBall::onTerminate() noexcept {
     }
 }
 
-StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
     auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
+
+    if(!skillStpInfo.getBall() || !skillStpInfo.getPositionToMoveTo()) return std::nullopt;
 
     // If gameState == stop we need to avoid using a circle around the ball
     if (currentGameState == "stop") {

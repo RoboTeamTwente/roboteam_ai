@@ -23,8 +23,10 @@ void BlockBall::onTerminate() noexcept {
     }
 }
 
-StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
+
+    if(!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
@@ -33,7 +35,7 @@ StpInfo BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     auto robotToBall = ball->getPos() - robot->getPos();
 
-    auto targetPosition = calculateTargetPosition(ball, field, enemyRobot, robot);
+    auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
     auto targetAngle = robotToBall.angle();
 
@@ -54,8 +56,7 @@ bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept {
 
 const char *BlockBall::getName() { return "Block Ball"; }
 
-Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot,
-                                           const world_new::view::RobotView &robot) noexcept {
+Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept {
     Vector2 targetPosition{};
 
     // Opponent is close to ball

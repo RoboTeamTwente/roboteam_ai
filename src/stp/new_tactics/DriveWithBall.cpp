@@ -26,13 +26,10 @@ void DriveWithBall::onTerminate() noexcept {
     }
 }
 
-StpInfo DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
-    if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("No Ball, Robot or Field present in StpInfo")
-        return {};
-    }
-
+std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
     StpInfo skillStpInfo = info;
+
+    if(!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
 
     double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);
@@ -55,7 +52,7 @@ bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     auto robotAngle = info.getRobot()->get()->getAngle();
     auto ballToRobotAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
 
-    return fabs(robotAngle + ballToRobotAngle) <= stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN;
+    return fabs(robotAngle + Angle(ballToRobotAngle)) <= stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN;
 }
 
 bool DriveWithBall::isEndTactic() noexcept {

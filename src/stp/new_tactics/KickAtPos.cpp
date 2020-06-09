@@ -26,8 +26,10 @@ void KickAtPos::onTerminate() noexcept {
     }
 }
 
-StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
+
+    if(!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Calculate the angle the robot needs to aim
     double angleToTarget = (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle();
@@ -39,7 +41,7 @@ StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (info.getRobot()->get()->getAngle().shortestAngleDiff(angleToTarget) >= errorMargin) {
+    if (info.getRobot()->get()->getAngle().shortestAngleDiff(Angle(angleToTarget)) >= errorMargin) {
         skillStpInfo.setDribblerSpeed(100);
     } else {
         skillStpInfo.setDribblerSpeed(0);
