@@ -48,5 +48,3 @@ void RuleSetWidget::updateLabels() {
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
