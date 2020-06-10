@@ -178,3 +178,4 @@ void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visuali
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
+#include "include/roboteam_ai/interface/widgets/moc_mainWindow.cpp"

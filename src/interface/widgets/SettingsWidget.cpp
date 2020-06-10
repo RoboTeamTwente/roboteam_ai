@@ -48,3 +48,4 @@ void SettingsWidget::changeGrSimPort(int port) {
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
+#include "include/roboteam_ai/interface/widgets/moc_SettingsWidget.cpp"

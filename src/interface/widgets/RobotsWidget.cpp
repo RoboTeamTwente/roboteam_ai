@@ -92,3 +92,4 @@ QVBoxLayout *RobotsWidget::createRobotGroupItem(const world::Field &field, rtt::
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
+#include "include/roboteam_ai/interface/widgets/moc_RobotsWidget.cpp"

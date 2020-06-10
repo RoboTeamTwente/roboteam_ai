@@ -52,3 +52,4 @@ void PidBox::updatePID() {
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
+#include "include/roboteam_ai/interface/widgets/moc_PidBox.cpp"
