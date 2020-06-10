@@ -5,9 +5,6 @@
 #include "include/roboteam_ai/stp/new_roles/PassReceiver.h"
 
 #include <include/roboteam_ai/stp/new_tactics/Receive.h>
-#include <roboteam_utils/Print.h>
-
-#include <utility>
 
 namespace rtt::ai::stp::role {
 

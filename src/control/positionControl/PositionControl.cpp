@@ -3,19 +3,24 @@
 //
 
 #include "control/positionControl/PositionControl.h"
-#include "control/positionControl/PositionControlUtils.h"
-#include "interface/api/Input.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::control {
-RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                                  const Vector2 &targetPosition) {
+    RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
+                                                      const Vector2 &targetPosition) {
     collisionDetector.setField(field);
     // if the target position is outside of the field (i.e. bug in AI), do nothing
-    if(!collisionDetector.isPointInsideField(targetPosition)){
+    if (!collisionDetector.isPointInsideField(targetPosition)) {
+        RTT_WARNING("Target point not in field for robot ID ", robotId)
         return {};
     }
 
     if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
+        // if the robot is close to the final position and can't get there, stop
+        if (!computedPaths[robotId].empty() && (currentPosition - targetPosition).length() < FINAL_AVOIDANCE_DISTANCE) {
+            RTT_INFO("Path collides with something close to the target position for robot ID ", robotId)
+            return {};
+        }
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
 
@@ -32,12 +37,10 @@ RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int
     return command;
 }
 
-bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
-                                            const Vector2 &currentVelocity, int robotId) {
+bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos, const Vector2 &currentVelocity, int robotId) {
     return computedPaths[robotId].empty() || PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
-            (currentVelocity != Vector2(0, 0) && collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
+           (currentVelocity != Vector2(0, 0) && collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
 }
 
-void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) {
-    collisionDetector.setRobotPositions(robotPositions); }
+void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { collisionDetector.setRobotPositions(robotPositions); }
 }  // namespace rtt::ai::control

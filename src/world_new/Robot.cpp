@@ -4,8 +4,6 @@
 
 #include "world_new/Robot.hpp"
 
-#include <cassert>
-
 #include "utilities/Constants.h"
 #include "world_new/World.hpp"
 

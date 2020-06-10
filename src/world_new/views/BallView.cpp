@@ -4,10 +4,6 @@
 
 #include "world_new/views/BallView.hpp"
 
-#include <cassert>
-
-#include "utilities/Constants.h"
-
 namespace rtt::world_new::view {
 BallView::BallView(const rtt::world_new::ball::Ball *const _ptr) noexcept : _ptr{_ptr} {}
 

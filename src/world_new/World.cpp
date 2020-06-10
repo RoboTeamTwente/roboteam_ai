@@ -4,12 +4,6 @@
 
 #include "world_new/World.hpp"
 
-#include <utility>
-#include <include/roboteam_ai/world/Field.h>
-
-#include "include/roboteam_ai/utilities/Settings.h"
-#include "world_new/views/WorldDataView.hpp"
-
 namespace rtt::world_new {
     WorldData const &World::setWorld(WorldData &newWorld) noexcept {
         std::lock_guard mtx{updateMutex};
