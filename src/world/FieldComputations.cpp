@@ -175,8 +175,8 @@ std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegme
     /* If two blockades intersect (in this case, overlap), we take the beginning of the first obstacle and the end of the second obstacle, and put them back in the front of the
      * obstacles vector. The second element gets erased. If they don't intersect, try the next two obstacles. Repeat this procedure until no overlaps are left. */
     std::sort(blockades.begin(), blockades.end(), [](const LineSegment &a, const LineSegment &b) { return a.start.y < b.start.y; });
-    size_t iterator = 0;
-    while (iterator < blockades.size() - 1) {
+    int iterator = 0;
+    while (iterator < static_cast<int>(blockades.size()) - 1) {
         LineSegment &firstBlockade = blockades.at(iterator);
         LineSegment &secondBlockade = blockades.at(iterator + 1);
         if (firstBlockade.end.y >= secondBlockade.start.y) {

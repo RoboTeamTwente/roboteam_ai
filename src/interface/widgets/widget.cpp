@@ -626,5 +626,3 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
     }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement

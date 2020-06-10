@@ -60,5 +60,3 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer,
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement

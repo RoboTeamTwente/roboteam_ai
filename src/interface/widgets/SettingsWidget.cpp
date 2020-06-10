@@ -46,5 +46,3 @@ void SettingsWidget::changeGrSimPort(int port) {
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
