@@ -3,8 +3,6 @@
 //
 
 #include "world_new/views/WorldDataView.hpp"
-
-#include "world_new/Ball.hpp"
 #include "world_new/WorldData.hpp"
 
 namespace rtt::world_new::view {

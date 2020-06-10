@@ -4,9 +4,6 @@
 
 #include "world_new/views/RobotView.hpp"
 
-#include <include/roboteam_ai/stp/new_constants/ControlConstants.h>
-
-#include <include/roboteam_ai/world_new/Robot.hpp>
 #include <include/roboteam_ai/world_new/World.hpp>
 
 namespace rtt::world_new::view {

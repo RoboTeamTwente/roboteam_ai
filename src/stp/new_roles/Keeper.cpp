@@ -20,7 +20,7 @@ Keeper::Keeper(std::string name) : Role(std::move(name)) {
 Status Keeper::update(StpInfo const& info) noexcept {
     // Failure if the required data is not present
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("Required information missing in the tactic info");
+        RTT_WARNING("Required information missing in the tactic info")
         return Status::Failure;
     }
 

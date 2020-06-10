@@ -4,7 +4,6 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
-#include <roboteam_utils/Print.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
 #include <include/roboteam_ai/utilities/Constants.h>

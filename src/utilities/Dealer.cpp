@@ -5,7 +5,6 @@
 #include "utilities/Dealer.h"
 
 #include <roboteam_utils/Hungarian.h>
-#include <roboteam_utils/LineSegment.h>
 #include <roboteam_utils/Print.h>
 
 #include "utilities/GameStateManager.hpp"

@@ -4,12 +4,10 @@
 
 #include "stp/new_tactics/AvoidBall.h"
 
-#include "roboteam_utils/Circle.h"
 #include "roboteam_utils/Tube.h"
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/new_skills/GoToPos.h"
 #include "utilities/GameStateManager.hpp"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::tactic {
 

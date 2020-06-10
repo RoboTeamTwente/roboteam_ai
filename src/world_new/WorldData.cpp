@@ -4,10 +4,6 @@
 
 #include "world_new/WorldData.hpp"
 
-#include "include/roboteam_ai/utilities/Settings.h"
-#include "world_new/Robot.hpp"
-#include "world_new/Team.hpp"
-
 namespace rtt::world_new {
     WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
         auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();

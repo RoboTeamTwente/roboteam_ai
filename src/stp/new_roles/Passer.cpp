@@ -2,13 +2,10 @@
 // Created by jessevw on 17.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_roles/Passer.h"
-
-#include <include/roboteam_ai/stp/new_tactics/GetBallInDirection.h>
-#include <include/roboteam_ai/stp/new_tactics/KickAtPos.h>
-#include <roboteam_utils/Print.h>
+#include "stp/new_roles/Passer.h"
 
 #include "stp/new_tactics/GetBallInDirection.h"
+#include "stp/new_tactics/KickAtPos.h"
 
 namespace rtt::ai::stp::role {
 

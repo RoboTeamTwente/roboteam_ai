@@ -5,7 +5,6 @@
 #include "utilities/Constants.h"
 #include <assert.h>
 #include <iostream>
-#include <vector>
 #include <roboteam_utils/Print.h>
 
 namespace rtt::ai {
@@ -263,9 +262,12 @@ pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0
 
 std::vector<RuleSet> Constants::ruleSets() {
     return {
-        // TODO: CHANGE DEFAULT VEL BACK
-        {"default", 2.0, 6.5, 0.0, ROBOT_RADIUS(), true}, {"halt", 0.0, 0.0, 0.0, -1, true},    {"stop", 1.5, 0.0, 0.8, -1, false}, {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
-        {"ballplacement_us", 2.5, 6.5, 0.0, -1, true},    {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
+        {"default", 8.0, 6.5, 0.0, ROBOT_RADIUS(), true},
+        {"halt", 0.0, 0.0, 0.0, -1, true},
+        {"stop", 1.5, 0.0, 0.8, -1, false}, {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
+        {"ballplacement_us", 2.5, 6.5, 0.0, -1, true},
+        {"kickoff", 1.5, 6.5, 0.5, 0.0, true}
+    };
 }
 
 }  // namespace rtt::ai

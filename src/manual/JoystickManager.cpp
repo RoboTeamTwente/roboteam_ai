@@ -1,9 +1,4 @@
 #include "manual/JoystickManager.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_joystick.h>
-#include <chrono>
-#include <memory>
-#include <thread>
 #include <roboteam_utils/Print.h>
 
 using namespace std::chrono;

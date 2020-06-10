@@ -11,9 +11,8 @@
 namespace rtt::ai {
 
 typedef std::tuple<double, double, double> pidVals;
-typedef std::tuple<double, double, double, double> pidfVals;
 
-class Constants {
+    class Constants {
    public:
     static void init();
     static bool GRSIM();
