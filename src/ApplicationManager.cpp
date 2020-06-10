@@ -150,7 +150,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)/* || currentPlay->arePlayRolesFinished()*/) {
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")

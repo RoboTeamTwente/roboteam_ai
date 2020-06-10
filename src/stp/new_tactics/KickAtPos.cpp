@@ -4,9 +4,9 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
+#include <include/roboteam_ai/utilities/Constants.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
-#include <include/roboteam_ai/utilities/Constants.h>
 
 namespace rtt::ai::stp::tactic {
 
@@ -29,7 +29,7 @@ void KickAtPos::onTerminate() noexcept {
 std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
+    if (!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Calculate the angle the robot needs to aim
     double angleToTarget = (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle();
@@ -41,11 +41,7 @@ std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noe
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (info.getRobot()->get()->getAngle().shortestAngleDiff(Angle(angleToTarget)) >= errorMargin) {
-        skillStpInfo.setDribblerSpeed(50);
-    } else {
-        skillStpInfo.setDribblerSpeed(50);
-    }
+    skillStpInfo.setDribblerSpeed(50);
 
     return skillStpInfo;
 }
@@ -89,7 +85,6 @@ bool KickAtPos::isEndTactic() noexcept {
 bool KickAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    // But only check when we are not kicking
     return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
 }
 
@@ -102,8 +97,6 @@ bool KickAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     return false;
 }
 
-const char *KickAtPos::getName() {
-    return "Kick At Pos";
-}
+const char *KickAtPos::getName() { return "Kick At Pos"; }
 
 }  // namespace rtt::ai::stp::tactic

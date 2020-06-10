@@ -2,7 +2,7 @@
 // Created by jordi on 20-05-20.
 //
 
-#include "include/roboteam_ai/stp/new_tactics/PositionAndAim.h"
+#include "stp/new_tactics/PositionAndAim.h"
 
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"

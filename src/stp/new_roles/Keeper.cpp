@@ -8,7 +8,6 @@
 #include "stp/new_tactics/KeeperBlockBall.h"
 #include "stp/new_tactics/KickAtPos.h"
 #include "world/FieldComputations.h"
-#include "stp/new_tactics/GetBallInDirection.h"
 
 namespace rtt::ai::stp::role {
 
@@ -65,7 +64,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
 
 bool Keeper::isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept {
     bool pointIsInDefenseArea = FieldComputations::pointIsInDefenseArea(field, ballPos, true, -2);
-    bool ballIsLayingStill = ballVel.length() < control_constants::BALL_STILL_VEL + 0.5;
+    bool ballIsLayingStill = ballVel.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT;
 
     return pointIsInDefenseArea && ballIsLayingStill;
 }

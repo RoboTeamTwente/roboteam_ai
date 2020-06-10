@@ -3,12 +3,13 @@
 //
 
 #include "include/roboteam_ai/stp/new_plays/ReflectKick.h"
+
 #include <roboteam_utils/HalfLine.h>
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/new_roles/BallReflecter.h"
+#include "stp/new_roles/BallReflector.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Formation.h"
 #include "stp/new_roles/Keeper.h"
@@ -17,16 +18,16 @@
 namespace rtt::ai::stp::play {
 
 ReflectKick::ReflectKick() : Play() {
-//    startPlayInvariants.clear();
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-//
-//    keepPlayInvariants.clear();
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+    startPlayInvariants.clear();
+    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+
+    keepPlayInvariants.clear();
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::BallReflecter>(role::BallReflecter("reflecter")),
+                                                                                 std::make_unique<role::BallReflector>(role::BallReflector("reflector")),
                                                                                  std::make_unique<role::Passer>(role::Passer("passer")),
                                                                                  std::make_unique<role::Formation>(role::Formation("offender_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("offender_2")),
@@ -48,17 +49,17 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
-//    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"reflecter", {closeToTheirGoalFlag}});
-//    flagMap.insert({"passer", {closeToBallFlag}});
-//    flagMap.insert({"offender_1", {not_important}});
-//    flagMap.insert({"offender_2", {not_important}});
-//    flagMap.insert({"midfielder_1", {not_important}});
-//    flagMap.insert({"midfielder_2", {not_important}});
-//    flagMap.insert({"midfielder_3", {not_important}});
-//    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-//    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-//    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
+    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"reflector", {closeToTheirGoalFlag}});
+    flagMap.insert({"passer", {closeToBallFlag}});
+    flagMap.insert({"offender_1", {not_important}});
+    flagMap.insert({"offender_2", {not_important}});
+    flagMap.insert({"midfielder_1", {not_important}});
+    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"midfielder_3", {not_important}});
+    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
 }
@@ -80,15 +81,15 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     // The final reflect kick position is stretched to account for the robot diameter
     auto reflectPosition = field.getTheirGoalCenter() + (reflectPositionToGoal).stretchToLength((reflectPositionToGoal).length() + control_constants::CENTER_TO_FRONT);
 
-    // Reflecter
-    stpInfos["reflecter"].setPositionToMoveTo(reflectPosition);
-    stpInfos["reflecter"].setPositionToShootAt(field.getTheirGoalCenter());
-    stpInfos["reflecter"].setKickChipType(MAX);
+    // Reflector
+    stpInfos["reflector"].setPositionToMoveTo(reflectPosition);
+    stpInfos["reflector"].setPositionToShootAt(field.getTheirGoalCenter());
+    stpInfos["reflector"].setKickChipType(MAX);
 
     for (auto &role : roles) {
-        if (role->getName() == "reflecter") {
+        if (role->getName() == "reflector") {
             if (strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 && stpInfos["reflecter"].getRobot().has_value() &&
-                stpInfos["reflecter"].getRobot().value().hasBall() /*getDistanceToBall() <= control_constants::BALL_IS_CLOSE*/) {
+                stpInfos["reflector"].getRobot().value().hasBall() /*getDistanceToBall() <= control_constants::BALL_IS_CLOSE*/) {
                 role->forceNextTactic();
             }
         }

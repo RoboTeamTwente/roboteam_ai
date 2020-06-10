@@ -43,7 +43,6 @@ GenericPass::GenericPass() : Play() {
 
 uint8_t GenericPass::score(world_new::World* world) noexcept { return 100; }
 
-
 void GenericPass::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});

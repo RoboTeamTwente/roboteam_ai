@@ -71,7 +71,7 @@ void Attack::calculateInfoForRoles() noexcept {
     // TODO: Improve roles
     // Attacker
     auto goalTarget = calculateGoalTarget();
-    stpInfos["attacker"].setPositionToShootAt(field.getOurGoalCenter());
+    stpInfos["attacker"].setPositionToShootAt(goalTarget);
     stpInfos["attacker"].setKickChipType(MAX);
 
     // Offenders
@@ -105,10 +105,10 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     auto sourcePoint = world->getWorld().value().getBall().value()->getPos();
 
     // Get the longest line section on the visible part of the goal
-    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, true, sourcePoint, world->getWorld().value().getUs());
+    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, world->getWorld().value().getUs());
 
     // If there is no empty location to shoot at, just shoot at the center of the goal
-    if (openSegments.empty()) return field.getOurGoalCenter();
+    if (openSegments.empty()) return field.getTheirGoalCenter();
 
     // The longest open segment of the goal will be the best to shoot at
     auto bestSegment = getLongestSegment(openSegments);
@@ -138,7 +138,7 @@ Vector2 Attack::calculateGoalTarget() noexcept {
 }
 
 Line Attack::getAimPoints(const world::Field &field, const Vector2 &sourcePoint) {
-    Line goalSides = FieldComputations::getGoalSides(field, true);
+    Line goalSides = FieldComputations::getGoalSides(field, false);
 
     // Aim points are located some distance away from the edges of the goal to take into account inaccuracies in the shot
     const double angleMargin = sin(2.0 / 180.0 * M_PI);
