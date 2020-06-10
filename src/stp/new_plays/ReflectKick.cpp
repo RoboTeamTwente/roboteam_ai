@@ -17,13 +17,13 @@
 namespace rtt::ai::stp::play {
 
 ReflectKick::ReflectKick() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//    startPlayInvariants.clear();
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+//
+//    keepPlayInvariants.clear();
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallReflecter>(role::BallReflecter("reflecter")),
@@ -38,7 +38,7 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(world_new::World *world) noexcept { return 20; }
+uint8_t ReflectKick::score(world_new::World *world) noexcept { return 70; }
 
 Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -50,7 +50,7 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 
 //    flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"reflecter", {closeToTheirGoalFlag}});
-    flagMap.insert({"passer", {closeToBallFlag}});
+//    flagMap.insert({"passer", {closeToBallFlag}});
 //    flagMap.insert({"offender_1", {not_important}});
 //    flagMap.insert({"offender_2", {not_important}});
 //    flagMap.insert({"midfielder_1", {not_important}});
@@ -88,7 +88,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     for (auto &role : roles) {
         if (role->getName() == "reflecter") {
             if (strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 && stpInfos["reflecter"].getRobot().has_value() &&
-                stpInfos["reflecter"].getRobot().value()->getDistanceToBall() <= control_constants::BALL_IS_CLOSE) {
+                stpInfos["reflecter"].getRobot().value().hasBall() /*getDistanceToBall() <= control_constants::BALL_IS_CLOSE*/) {
                 role->forceNextTactic();
             }
         }

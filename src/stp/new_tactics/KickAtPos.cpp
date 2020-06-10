@@ -55,7 +55,7 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE these factors need tuning
     // Increase these factors to decrease kick velocity
     // Decrease these factors to increase kick velocity
-    const double TARGET_FACTOR{1.65};
+    const double TARGET_FACTOR{2.65};
     const double GRSIM_TARGET_FACTOR{1.65};
     const double PASS_FACTOR{1.45};
     const double GRSIM_PASS_FACTOR{1.45};
