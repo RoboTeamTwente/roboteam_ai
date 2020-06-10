@@ -19,6 +19,10 @@ namespace rtt::ai::control {
  */
 class PositionControl {
    private:
+    /// the distance to the target position at which the robot will stop if it
+    /// detects a collision (e.g. target is inside a robot)
+    static constexpr double FINAL_AVOIDANCE_DISTANCE = 4 * Constants::ROBOT_RADIUS();
+
     CollisionDetector collisionDetector;
     NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
     PidTracking pathTrackingAlgorithm;
