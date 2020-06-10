@@ -626,6 +626,3 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
     }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_widget.cpp"

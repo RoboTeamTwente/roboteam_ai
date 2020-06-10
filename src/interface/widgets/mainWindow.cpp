@@ -176,6 +176,3 @@ void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keepe
 void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_mainWindow.cpp"

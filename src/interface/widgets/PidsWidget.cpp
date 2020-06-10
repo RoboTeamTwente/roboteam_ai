@@ -62,6 +62,3 @@ PidsWidget::PidsWidget(QWidget *parent) {
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_PidsWidget.cpp"
