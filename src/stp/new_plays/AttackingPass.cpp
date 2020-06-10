@@ -15,7 +15,6 @@
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/PassReceiver.h"
 #include "stp/new_roles/Passer.h"
-#include "stp/new_roles/TestRole.h"
 
 namespace rtt::ai::stp::play {
 

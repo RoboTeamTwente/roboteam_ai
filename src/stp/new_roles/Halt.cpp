@@ -3,9 +3,7 @@
 //
 
 #include "stp/new_roles/Halt.h"
-#include <roboteam_utils/Print.h>
 
-#include <utility>
 #include <stp/new_tactics/Halt.h>
 
 namespace rtt::ai::stp::role {

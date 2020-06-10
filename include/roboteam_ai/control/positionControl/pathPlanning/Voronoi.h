@@ -1136,7 +1136,7 @@ void inline jcv_diagram_generate_useralloc(int num_points, const jcv_point* poin
     tmp.charp = mem;
     internal->eventmem = tmp.voidpp;
 
-    jcv_pq_create(internal->eventqueue, max_num_events, (void**)internal->eventmem);
+    jcv_pq_create(internal->eventqueue, max_num_events, internal->eventmem);
 
     internal->numsites = num_points;
     jcv_site* sites = internal->sites;

@@ -3,11 +3,9 @@
 //
 
 #include "interface/widgets/RobotsWidget.h"
-#include <include/roboteam_ai/utilities/IOManager.h>
 #include <QScrollArea>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
-#include <include/roboteam_ai/world_new/World.hpp>
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
@@ -94,4 +92,3 @@ QVBoxLayout *RobotsWidget::createRobotGroupItem(const world::Field &field, rtt::
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_RobotsWidget.cpp"
