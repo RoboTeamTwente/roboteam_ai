@@ -7,10 +7,9 @@ namespace ui = rtt::ai::interface;
 
 ui::MainWindow* window;
 
-void runBehaviourTrees() {
+void runStp() {
     rtt::ApplicationManager app{ window };
     app.start();
-    app.checkForShutdown();
 }
 
 void setDarkTheme() {
@@ -91,7 +90,7 @@ int main(int argc, char* argv[]) {
     window = new ui::MainWindow{ *worldManager };
     window->setWindowState(Qt::WindowMaximized);
 
-    std::thread behaviourTreeThread = std::thread(&runBehaviourTrees);
+    std::thread stpThread = std::thread(&runStp);
 
     window->show();
     return a.exec();

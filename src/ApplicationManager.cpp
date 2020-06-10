@@ -2,34 +2,35 @@
 #include <include/roboteam_ai/utilities/IOManager.h>
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
+
 #include <utilities/GameStateManager.hpp>
 
 /**
  * Plays are included here
  */
-#include "stp/new_plays/TestPlay.h"
-#include "stp/new_plays/AttackingPass.h"
-#include "stp/new_plays/DefendShot.h"
-#include "stp/new_plays/DefendPass.h"
-#include "stp/new_plays/Attack.h"
-#include "stp/new_plays/Halt.h"
-#include "stp/new_plays/BallPlacementUs.h"
-#include "stp/new_plays/BallPlacementThem.h"
-#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/AggressiveFormation.h"
-#include "stp/new_plays/TimeOut.h"
-#include "stp/new_plays/PenaltyThemPrepare.h"
-#include "stp/new_plays/PenaltyUsPrepare.h"
-#include "stp/new_plays/PenaltyThem.h"
-#include "stp/new_plays/PenaltyUs.h"
-#include "stp/new_plays/KickOffUsPrepare.h"
-#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/Attack.h"
+#include "stp/new_plays/AttackingPass.h"
+#include "stp/new_plays/BallPlacementThem.h"
+#include "stp/new_plays/BallPlacementUs.h"
+#include "stp/new_plays/DefendPass.h"
+#include "stp/new_plays/DefendShot.h"
+#include "stp/new_plays/DefensiveFormation.h"
 #include "stp/new_plays/FreeKickThem.h"
-#include "stp/new_plays/KickOffUs.h"
-#include "stp/new_plays/KickOffThem.h"
+#include "stp/new_plays/GenericPass.h"
 #include "stp/new_plays/GetBallPossession.h"
 #include "stp/new_plays/GetBallRisky.h"
-#include "stp/new_plays/GenericPass.h"
+#include "stp/new_plays/Halt.h"
+#include "stp/new_plays/KickOffThem.h"
+#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/new_plays/KickOffUs.h"
+#include "stp/new_plays/KickOffUsPrepare.h"
+#include "stp/new_plays/PenaltyThem.h"
+#include "stp/new_plays/PenaltyThemPrepare.h"
+#include "stp/new_plays/PenaltyUs.h"
+#include "stp/new_plays/PenaltyUsPrepare.h"
+#include "stp/new_plays/TestPlay.h"
+#include "stp/new_plays/TimeOut.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -45,7 +46,7 @@ void ApplicationManager::start() {
 
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
@@ -136,23 +137,6 @@ void ApplicationManager::runOneLoopCycle() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    /*
-     * This is a hack performed at the robocup.
-     */
-    checkForFreeRobots();
-}
-
-void ApplicationManager::checkForShutdown() {
-    // Terminate if needed
-    // TODO:
-    //    if (strategy->getStatus() == Status::Running) {
-//        strategy->terminate(Status::Running);
-//    }
-}
-
-void ApplicationManager::checkForFreeRobots() {
-    // todo: replace this
-    // basically just update tick count for how long robots have been free? i guess?
 }
 
 void ApplicationManager::decidePlay(world_new::World *_world) {
