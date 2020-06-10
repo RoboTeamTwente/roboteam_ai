@@ -4,8 +4,6 @@
 #include <roboteam_utils/Print.h>
 #include <include/roboteam_ai/world_new/World.hpp>
 
-#include "interface/api/Output.h"
-
 namespace rtt::ai {
 
 proto::SSL_Referee GameStateManager::refMsg;

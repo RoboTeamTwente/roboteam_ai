@@ -4,14 +4,7 @@
 
 #include "interface/widgets/MainControlsWidget.h"
 
-#include <include/roboteam_ai/interface/api/Input.h>
-#include <include/roboteam_ai/utilities/Settings.h>
-#include <interface/api/Output.h>
-
 #include <utilities/GameStateManager.hpp>
-
-#include "interface/widgets/mainWindow.h"
-#include "utilities/GameState.h"
 
 namespace rtt::ai::interface {
 

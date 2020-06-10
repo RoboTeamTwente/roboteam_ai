@@ -1,18 +1,10 @@
 #include "interface/widgets/mainWindow.h"
 
-#include <interface/widgets/GraphWidget.h>
 #include <interface/widgets/SettingsWidget.h>
 
-#include <QSplitter>
-#include <QtWidgets/QMenuBar>
-#include <include/roboteam_ai/interface/widgets/PlaysWidget.hpp>
-
 #include "interface/widgets/MainControlsWidget.h"
-#include "interface/widgets/ManualControlWidget.h"
 #include "interface/widgets/PidsWidget.h"
-#include "interface/widgets/RobotsWidget.h"
 #include "interface/widgets/VisualizationSettingsWidget.h"
-#include "utilities/Constants.h"
 
 namespace rtt::ai::interface {
 
@@ -194,4 +186,3 @@ void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visuali
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_mainWindow.cpp"

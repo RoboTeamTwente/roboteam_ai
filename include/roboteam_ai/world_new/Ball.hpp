@@ -11,12 +11,6 @@
 namespace rtt::world_new::ball {
 
 /**
- * If the closest distance between the ball and our robots is smaller than this value
- * than the ball is considered to be close to that robot
- */
-constexpr static float THRESHOLD_ROBOT_CLOSE_TO_BALL = 0.5;
-
-/**
  * The movement friction during simulation and real life are different, because the simulation does not model
  * everything. So the movement friction has to be adjusted to compensate for this difference.
  *

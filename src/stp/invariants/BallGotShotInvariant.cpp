@@ -4,8 +4,6 @@
 
 #include "stp/invariants/BallGotShotInvariant.h"
 
-#include <stp/new_constants/ControlConstants.h>
-
 namespace rtt::ai::stp::invariant {
 BallGotShotInvariant::BallGotShotInvariant() noexcept {
     /**

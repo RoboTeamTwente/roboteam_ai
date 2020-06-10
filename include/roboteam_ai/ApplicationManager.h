@@ -47,8 +47,10 @@ private:
 
    public:
     void start();
-    void checkForShutdown();
-    void checkForFreeRobots();
+
+    /**
+     * The vector that contains all plays
+     */
     static inline std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
 
     ApplicationManager(ApplicationManager const&) = delete;

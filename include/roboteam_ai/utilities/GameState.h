@@ -13,7 +13,6 @@ struct GameState {
         : strategyName(std::move(strategyName)), ruleSetName(std::move(ruleSetName)){};
 
     std::string ruleSetName;
-    Vector2 ballPositionAtStartOfGameState;
     int keeperId = Constants::DEFAULT_KEEPER_ID();
 
     RuleSet getRuleSet() {
