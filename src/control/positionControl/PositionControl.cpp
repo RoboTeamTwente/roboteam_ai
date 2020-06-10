@@ -3,6 +3,7 @@
 //
 
 #include "control/positionControl/PositionControl.h"
+#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::control {
     RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
