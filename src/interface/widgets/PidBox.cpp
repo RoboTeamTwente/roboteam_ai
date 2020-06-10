@@ -50,5 +50,3 @@ void PidBox::updatePID() {
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement

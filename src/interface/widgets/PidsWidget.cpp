@@ -62,5 +62,3 @@ PidsWidget::PidsWidget(QWidget *parent) {
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
