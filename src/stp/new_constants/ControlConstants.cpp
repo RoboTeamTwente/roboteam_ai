@@ -8,8 +8,6 @@ namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
 constexpr double MAX_KICK_POWER = 8;
 constexpr double MIN_KICK_POWER = 1.01;
-constexpr double DEFAULT_KICK_POWER = 5;
-constexpr double MAX_CHIP_SPEED = 8;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;
 constexpr double MAX_CHIP_POWER = 8;
@@ -21,7 +19,6 @@ const double TURN_ON_DRIBBLER_DISTANCE = 4 * ROBOT_RADIUS;
 
 /// Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
-constexpr double BALL_IS_MOVING_VEL = 0.5;
 constexpr double BALL_GOT_SHOT_LIMIT = 1.3;
 constexpr double BALL_IS_MOVING_SLOW_LIMIT = 0.5;
 constexpr double BALL_IS_CLOSE = 0.5;
@@ -57,8 +54,8 @@ constexpr double FUZZY_MARGIN = 0.1;
 constexpr double FUZZY_DEFAULT_CUTOFF = 127;
 
 /// Distance constants
-const double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS; // TODO: TUNE
-const double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS; // TODO: TUNE
+const double DISTANCE_TO_ROBOT_CLOSE = ROBOT_RADIUS;
+const double DISTANCE_TO_ROBOT_FAR = 5 * ROBOT_RADIUS;
 constexpr double ROBOT_CLOSE_TO_POINT = 0.2;
 
 /// Keeper constants

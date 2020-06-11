@@ -59,7 +59,6 @@ TEST(World_newTest, WhichRobotHasBallTest) {
     robot = world->whichRobotHasBall(rtt::world_new::Team::them, 1.0);
     EXPECT_EQ((*robot)->getId(), 3);
     /** Test 1.3 : both */
-    std::cout << world->getBall()->get()->getPos() << '\n';
     robot = world->whichRobotHasBall(rtt::world_new::Team::both, 1.0);
     EXPECT_EQ((*robot)->getId(), 3);
     /** Test 1.4 : both, all out of range */

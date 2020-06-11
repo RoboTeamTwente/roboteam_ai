@@ -7,12 +7,10 @@
 
 namespace rtt::ai::stp::control_constants {
 // Kick and Chip constants
-extern const double MAX_CHIP_SPEED;
 extern const double MAX_KICK_POWER;
 extern const double MIN_KICK_POWER;
 extern const double MAX_CHIP_POWER;
 extern const double MIN_CHIP_POWER;
-extern const double DEFAULT_KICK_POWER;
 extern const double MAX_POWER_KICK_DISTANCE;
 extern const double MAX_POWER_CHIP_DISTANCE;
 
@@ -20,11 +18,10 @@ extern const double MAX_POWER_CHIP_DISTANCE;
 extern const double TURN_ON_DRIBBLER_DISTANCE;
 
 // Team constants TODO: Maybe this should be in a different constants file
-inline constexpr size_t MAX_ROBOT_COUNT = 11;
+inline constexpr int MAX_ROBOT_COUNT = 11;
 
 // Ball constants
 extern const double BALL_STILL_VEL;
-extern const double BALL_IS_MOVING_VEL;
 extern const double BALL_GOT_SHOT_LIMIT;
 extern const double BALL_IS_MOVING_SLOW_LIMIT;
 extern const double BALL_IS_CLOSE;
