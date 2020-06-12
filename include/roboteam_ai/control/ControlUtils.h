@@ -58,7 +58,7 @@ class Robot;
             static const world_new::view::RobotView getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd,
                 bool lineWithEnds);
 
-            static Vector2 getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField,
+            static Vector2 getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, LineSegment line, bool canMoveInDefenseArea, bool canMoveOutOfField,
                 double defenseAreamargin, double outOfFieldMargin);
         };
 

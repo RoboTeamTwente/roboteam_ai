@@ -105,13 +105,13 @@ Vector2 Attack::calculateGoalTarget() noexcept {
     auto sourcePoint = world->getWorld().value().getBall().value()->getPos();
 
     // Get the longest line section on the visible part of the goal
-    std::vector<Line> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, world->getWorld().value().getUs());
+    std::vector<LineSegment> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, world->getWorld().value().getUs());
 
     // If there is no empty location to shoot at, just shoot at the center of the goal
     if (openSegments.empty()) return field.getTheirGoalCenter();
 
     // The longest open segment of the goal will be the best to shoot at
-    auto bestSegment = getLongestSegment(openSegments);
+    LineSegment bestSegment = getLongestSegment(openSegments);
 
     // Make two aim points which are in the corners, since these points are harder for the keeper to intercept
     LineSegment aimPoints = getAimPoints(field, sourcePoint);
@@ -149,7 +149,7 @@ LineSegment Attack::getAimPoints(const world::Field &field, const Vector2 &sourc
     return LineSegment(leftPoint, rightPoint);
 }
 
-const Line &Attack::getLongestSegment(const std::vector<Line> &openSegments) {
+const LineSegment &Attack::getLongestSegment(const std::vector<LineSegment> &openSegments) {
     unsigned bestIndex = 0;
     for (unsigned i = 1; i < openSegments.size(); i++) {
         auto segment = openSegments[i];

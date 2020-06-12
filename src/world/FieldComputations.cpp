@@ -41,18 +41,18 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::F
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
+std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) {
     return getVisiblePartsOfGoal(field, ourGoal, point, world.getUs());
 }
 
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
+std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
                                                             const std::vector<world_new::view::RobotView> &robots) {
     std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
     LineSegment goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x;  // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
     double lowerY = goalSide.start.y;
-    std::vector<Line> visibleParts = {};
+    std::vector<LineSegment> visibleParts = {};
 
     // The obstacles are sorted on their smallest y value. We start from the lowest goal side at the start as lowerY value and everytime we add a vector from the lowest goalside to
     // the lowest part of the obstacle and we remember the upper part of the obstacle. That upper part is stored as the lowerY value again and we can repeat the same process.
@@ -62,14 +62,14 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Fiel
         // If the lowerbound is the same as the lowerY value then the visible part has a length of 0 and we don't care about it. Originally used to be != but floating point errors
         // are tears, i.e. rounding of floating points might turn two same float values to different values.
         if (fabs(lowerbound - lowerY) > NEGLIGIBLE_LENGTH) {
-            visibleParts.emplace_back(Line(Vector2(goalX, lowerY), Vector2(goalX, lowerbound)));
+            visibleParts.emplace_back(LineSegment(Vector2(goalX, lowerY), Vector2(goalX, lowerbound)));
         }
         lowerY = blockade.end.y;
     }
 
     // If the last lowerY value is the same as the upper goal side then the last visible part has a length of 0 and we don't care about it.
     if (fabs(lowerY - upperGoalY) > NEGLIGIBLE_LENGTH) {
-        visibleParts.emplace_back(Line(Vector2(goalX, lowerY), Vector2(goalX, upperGoalY)));
+        visibleParts.emplace_back(LineSegment(Vector2(goalX, lowerY), Vector2(goalX, upperGoalY)));
     }
     return visibleParts;
 }

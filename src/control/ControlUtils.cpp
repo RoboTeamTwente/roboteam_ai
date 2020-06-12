@@ -137,8 +137,8 @@ const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector
     return closestRobot;
 }
 
-Vector2 ControlUtils::getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, Line line, bool canMoveInDefenseArea, bool canMoveOutOfField, double defenseAreamargin,
-                                                       double) {
+Vector2 ControlUtils::getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, LineSegment line, bool canMoveInDefenseArea, bool canMoveOutOfField,
+    double defenseAreamargin, double) {
     LineSegment shotLine(line.start, line.end + (line.end - line.start));
     Vector2 projectPos = shotLine.project(position);
     Vector2 closestPoint = projectPos;

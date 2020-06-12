@@ -65,7 +65,7 @@ private:
      * @param openSegments Vector of lines
      * @return Longest line from openSegments
      */
-    const Line &getLongestSegment(const std::vector<Line> &openSegments);
+    const LineSegment &getLongestSegment(const std::vector<LineSegment> &openSegments);
 };
 
 } // namespace rtt::ai::stp::play

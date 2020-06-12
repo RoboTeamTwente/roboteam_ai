@@ -82,7 +82,7 @@ class FieldComputations {
      * @param world Data about the world used to determine the locations of all robots.
      * @return All LineSegments on the goal which represents all the visible goal points.
      */
-    static std::vector<Line> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world);
+    static std::vector<LineSegment> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world);
 
     /**
      * Look at the overloaded function getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world) for the corresponding
@@ -91,7 +91,7 @@ class FieldComputations {
      * @param robots A list of all robots that could possibly block the goal.
      * @cite getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world_new::view::WorldDataView &world)
      */
-    static std::vector<Line> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<world_new::view::RobotView> &robots);
+    static std::vector<LineSegment> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<world_new::view::RobotView> &robots);
 
     /**
      * Get the goal side (the line segment regarding the goal line) of either our goal or the opponents goal.
