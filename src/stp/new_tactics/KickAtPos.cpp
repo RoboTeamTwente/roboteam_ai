@@ -4,7 +4,6 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
-#include <roboteam_utils/Print.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
 #include <include/roboteam_ai/utilities/Constants.h>
@@ -27,8 +26,10 @@ void KickAtPos::onTerminate() noexcept {
     }
 }
 
-StpInfo KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
+
+    if(!skillStpInfo.getPositionToShootAt() || !skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Calculate the angle the robot needs to aim
     double angleToTarget = (info.getPositionToShootAt().value() - info.getRobot().value()->getPos()).angle();

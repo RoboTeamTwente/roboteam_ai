@@ -2,8 +2,6 @@
 // Created by luukkn on 23-10-19.
 //
 #include "include/roboteam_ai/manual/JoystickHandler.h"
-#include <SDL2/SDL.h>
-#include <iostream>
 
 namespace rtt {
 namespace input {
@@ -36,6 +34,8 @@ void JoystickHandler::handleEvent(SDL_Event &event) {
             break;
         case SDL_JOYBUTTONDOWN: /* Handle Button pressing*/
             handleJoystickButton(event);
+            break;
+        default:
             break;
     }
 }
@@ -145,6 +145,8 @@ void JoystickHandler::handleJoystickMotion(SDL_Event &event) {
         case 5:
             joystickState.triggerRight = event.jaxis.value;
             break;
+        default:
+            break;
     }
 }
 
@@ -196,6 +198,8 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
             break;
         case 14:
             joystickState.dpadDown = button_State;
+            break;
+        default:
             break;
     }
 }

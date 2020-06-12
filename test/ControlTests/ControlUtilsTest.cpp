@@ -5,10 +5,6 @@
 #include <gtest/gtest.h>
 #include <roboteam_utils/Angle.h>
 #include <test/helpers/FieldHelper.h>
-#include <test/helpers/WorldHelper.h>
-#include <world/FieldComputations.h>
-#include "control/ControlUtils.h"
-#include "utilities/Constants.h"
 
 namespace cr = rtt::ai::control;
 using Vector2 = rtt::Vector2;

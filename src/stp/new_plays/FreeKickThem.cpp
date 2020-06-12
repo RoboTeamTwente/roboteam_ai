@@ -68,9 +68,10 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
                         world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
                 enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                        [&](const auto enemyRobot) -> bool { return enemyRobot->getId() == enemyToDefend->getId(); }));
+                        [&](const auto enemyRobot) -> bool { return enemyToDefend && enemyRobot->getId() == enemyToDefend.value()->getId(); }));
 
-                stpInfos[roleName].setPositionToDefend(enemyToDefend->getPos());
+                if(enemyToDefend) stpInfos[roleName].setPositionToDefend(enemyToDefend.value()->getPos());
+                else stpInfos[roleName].setPositionToDefend(std::nullopt);
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
                 stpInfos[roleName].setBlockDistance(FAR);
             } else {

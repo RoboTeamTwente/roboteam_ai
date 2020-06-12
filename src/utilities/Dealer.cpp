@@ -5,7 +5,6 @@
 #include "utilities/Dealer.h"
 
 #include <roboteam_utils/Hungarian.h>
-#include <roboteam_utils/LineSegment.h>
 #include <roboteam_utils/Print.h>
 
 #include "utilities/GameStateManager.hpp"
@@ -101,6 +100,8 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
     double distance{};
     if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
+    } else if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
+        distance = 0;
     } else if (stpInfo.getPositionToShootAt().has_value()) {
         distance = robot->getPos().dist(world.getBall()->get()->getPos());
     } else if (stpInfo.getEnemyRobot().has_value()) {
@@ -139,9 +140,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::CLOSE_TO_OUR_GOAL:
             return costForDistance(FieldComputations::getDistanceToGoal(*field, true, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_BALL: {
-            auto ball = world.getBall();
-            if (!ball) return 0.0;
-            return robot->getPos().dist(ball.value()->getPos());
+            return robot->getDistanceToBall();
         }
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());

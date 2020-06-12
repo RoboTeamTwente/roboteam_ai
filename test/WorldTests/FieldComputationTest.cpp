@@ -5,7 +5,6 @@
 #include <gtest/gtest.h>
 #include <include/roboteam_ai/world/Field.h>
 #include <include/roboteam_ai/world/FieldComputations.h>
-#include <cmath>
 
 namespace rtt {
 using namespace rtt::ai::world;

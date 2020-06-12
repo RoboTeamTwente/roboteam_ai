@@ -31,7 +31,7 @@ class Tactic {
      * Though this method is responsible for ensuring everything is calculated, it helps to use helpers so this
      * function doesn't become a massive hack
      */
-    virtual StpInfo calculateInfoForSkill(StpInfo const &info) noexcept = 0;
+    virtual std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept = 0;
 
     /**
      * called on initialization of this tactic

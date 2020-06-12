@@ -3,13 +3,7 @@
 //
 
 #include "interface/widgets/widget.h"
-#include <roboteam_utils/Line.h>
-#include <include/roboteam_ai/world_new/World.hpp>
 #include <utilities/GameStateManager.hpp>
-#include "interface/api/Input.h"
-#include "interface/api/Output.h"
-#include "world/FieldComputations.h"
-#include "world/Field.h"
 
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
@@ -632,6 +626,3 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
     }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_widget.cpp"

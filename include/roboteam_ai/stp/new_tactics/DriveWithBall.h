@@ -31,9 +31,9 @@ class DriveWithBall : public Tactic {
     /**
      * Calculate the SkillInfo from the TacticInfo
      * @param info info is the TacticInfo passed by the role
-     * @return SkillInfo based on the TacticInfo
+     * @return std::optional<SkillInfo> based on the TacticInfo
      */
-    StpInfo calculateInfoForSkill(StpInfo const &info) noexcept override;
+    std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     bool isEndTactic() noexcept override;
 

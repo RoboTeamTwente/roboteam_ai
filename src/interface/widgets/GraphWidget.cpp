@@ -31,7 +31,7 @@ GraphWidget::GraphWidget(QWidget *parent) {
     fpsView->chart()->axisX()->setMinorGridLineColor(Qt::gray);
     fpsView->chart()->axisY()->setGridLineVisible(true);
 
-    connect(fpsSeries, &QSplineSeries::pointAdded, [=](int index) {
+    connect(dynamic_cast<const QSplineSeries *>(fpsSeries), &QSplineSeries::pointAdded, [=](int index) {
         qreal y = fpsSeries->at(index).y();
         qreal x = fpsSeries->at(index).x();
 

@@ -4,12 +4,10 @@
 
 #include "stp/new_tactics/AvoidBall.h"
 
-#include "roboteam_utils/Circle.h"
 #include "roboteam_utils/Tube.h"
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/new_skills/GoToPos.h"
 #include "utilities/GameStateManager.hpp"
-#include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -26,9 +24,11 @@ void AvoidBall::onTerminate() noexcept {
     }
 }
 
-StpInfo AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
+std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
     auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
+
+    if(!skillStpInfo.getBall() || !skillStpInfo.getPositionToMoveTo()) return std::nullopt;
 
     // If gameState == stop we need to avoid using a circle around the ball
     if (currentGameState == "stop") {
