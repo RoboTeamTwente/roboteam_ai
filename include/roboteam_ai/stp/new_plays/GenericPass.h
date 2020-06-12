@@ -1,20 +1,20 @@
 //
-// Created by jessevw on 17.03.20.
+// Created by timovdk on 5/20/20.
 //
 
-#ifndef RTT_ATTACKING_PASS_PLAY_H
-#define RTT_ATTACKING_PASS_PLAY_H
+#ifndef RTT_GENERICPASS_H
+#define RTT_GENERICPASS_H
 
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
-class AttackingPass : public Play {
+class GenericPass : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    AttackingPass();
+    GenericPass();
 
     /**
      * Gets the score for the current play
@@ -38,25 +38,20 @@ class AttackingPass : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
-     * Calculates n defensive positions for the roles to defend
-     * @param numberOfDefenders
-     * @param world
-     * @param enemyRobots
-     * @return A vector of defend positions
-     */
-    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
-
-    /**
      * Gets the play name
      */
     const char* getName() override;
+
+    /**
+     * Calculates the pass location
+     * @return the pass location
+     */
+    const Vector2 calculatePassLocation() const noexcept;
 
     [[nodiscard]] bool isValidPlayToKeep(world_new::World *world) noexcept override;
 
    protected:
     bool shouldRoleSkipEndTactic() override;
-
-    Vector2 calculatePassLocation();
 
    private:
     [[nodiscard]] bool passFinished() noexcept;
@@ -65,4 +60,4 @@ class AttackingPass : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_ATTACKING_PASS_PLAY_H
+#endif  // RTT_GENERICPASS_H

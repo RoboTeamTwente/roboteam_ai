@@ -3,10 +3,6 @@
 
 #include <include/roboteam_ai/utilities/Settings.h>
 
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QVBoxLayout>
-
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
@@ -50,6 +46,3 @@ void SettingsWidget::changeGrSimPort(int port) {
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_SettingsWidget.cpp"

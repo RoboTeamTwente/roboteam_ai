@@ -4,7 +4,6 @@
 
 #include "interface/widgets/VisualizationSettingsWidget.h"
 
-#include "interface/api/Toggles.h"
 #include "interface/widgets/mainWindow.h"
 
 namespace rtt::ai::interface {
@@ -61,6 +60,3 @@ VisualizationSettingsWidget::VisualizationSettingsWidget(Visualizer *visualizer,
 }
 
 }  // namespace rtt::ai::interface
-
-// QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_VisualizationSettingsWidget.cpp"

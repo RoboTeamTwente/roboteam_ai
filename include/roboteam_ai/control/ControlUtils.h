@@ -20,10 +20,9 @@ using Angle = rtt::Angle;
 namespace rtt::ai {
 
 // fwd declarations
-namespace world {
-class WorldData;
-class Robot;
-}  // namespace world
+    namespace world {
+        class Robot;
+    }  // namespace world
 
     namespace control {
         using namespace rtt::ai::world;
@@ -47,19 +46,9 @@ class Robot;
             objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point,
                                        double maxDifference = 0.3);
 
-            static bool robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world, double maxDifference = 0.3);
-
-            static bool clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper);
-
             static Vector2 projectPositionToWithinField(const world::Field &field, Vector2 position, double margin);
 
             static Vector2 projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin);
-
-            static const world_new::view::RobotView getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd,
-                bool lineWithEnds);
-
-            static Vector2 getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, LineSegment line, bool canMoveInDefenseArea, bool canMoveOutOfField,
-                double defenseAreamargin, double outOfFieldMargin);
         };
 
     }  // namespace control

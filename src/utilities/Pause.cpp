@@ -3,7 +3,6 @@
 //
 
 #include <include/roboteam_ai/world_new/World.hpp>
-#include "utilities/Pause.h"
 #include "include/roboteam_ai/utilities/IOManager.h"
 
 namespace rtt::ai {

@@ -4,8 +4,6 @@
 
 #include "stp/new_roles/Harasser.h"
 
-#include <utility>
-
 #include "stp/new_tactics/BlockBall.h"
 #include "stp/new_tactics/Intercept.h"
 

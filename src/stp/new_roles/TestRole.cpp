@@ -6,8 +6,6 @@
 #include <stp/new_roles/TestRole.h>
 #include <stp/new_tactics/TestTactic.h>
 
-#include <utility>
-
 namespace rtt::ai::stp {
 
 TestRole::TestRole(std::string name) : Role(std::move(name)) {

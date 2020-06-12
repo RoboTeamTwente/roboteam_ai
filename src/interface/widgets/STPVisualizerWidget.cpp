@@ -14,7 +14,6 @@
 
 #include "interface/widgets/mainWindow.h"
 #include "stp/Play.hpp"
-#include "stp/Role.hpp"
 
 namespace rtt::ai::interface {
     constexpr static const char *tab = "&nbsp;&nbsp;&nbsp;&nbsp;";

@@ -3,8 +3,6 @@
 //
 
 #include "control/ControlUtils.h"
-#include <roboteam_utils/Line.h>
-#include <world/FieldComputations.h>
 #include <utilities/GameStateManager.hpp>
 #include "world_new/World.hpp"
 
@@ -70,29 +68,6 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
     return (velocity.length() > 0 && velocity.angle() > exactAngleTowardsPoint - maxDifference / 2 && velocity.angle() < exactAngleTowardsPoint + maxDifference / 2);
 }
 
-bool ControlUtils::robotIsAimedAtPoint(int id, bool ourTeam, const Vector2 &point, const world_new::view::WorldDataView world, double maxDifference) {
-    auto robot = world.getRobotForId(id, ourTeam);
-    if (robot) {
-        Angle exactAngleTowardsPoint = (point - (*robot)->getPos());
-        return abs(exactAngleTowardsPoint - (*robot)->getAngle()) < maxDifference;
-    }
-    return false;
-}
-
-bool ControlUtils::clearLine(const Vector2 &fromPos, const Vector2 &toPos, const world_new::view::WorldDataView world, double safeDistanceFactor, bool includeKeeper) {
-    double minDistance = Constants::ROBOT_RADIUS() * safeDistanceFactor;
-    int keeperID = GameStateManager::getRefereeData().blue().goalkeeper();
-
-    for (auto &enemy : world->getThem()) {
-        if (!includeKeeper && enemy->getId() == keeperID) continue;
-        if (LineSegment(fromPos, toPos).distanceToLine(enemy->getPos()) < minDistance) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
 Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Vector2 position, double margin) {
@@ -117,63 +92,6 @@ Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &fi
         return position;
     }
     return position;
-}
-
-const world_new::view::RobotView ControlUtils::getRobotClosestToLine(std::vector<world_new::view::RobotView> robots, Vector2 const &lineStart, Vector2 const &lineEnd, bool lineWithEnds) {
-    int maxDist = INT_MAX;
-    auto closestRobot = robots.at(0);
-    for (auto const &robot : robots) {
-        double dist;
-        if (lineWithEnds) {
-            dist = Line(lineStart, lineEnd).distanceToLine(robot->getPos());
-        } else {
-            dist = LineSegment(lineStart, lineEnd).distanceToLine(robot->getPos());
-        }
-        if (dist > maxDist) {
-            dist = maxDist;
-            closestRobot = robot;
-        }
-    }
-    return closestRobot;
-}
-
-Vector2 ControlUtils::getInterceptPointOnLegalPosition(const world::Field &field, Vector2 position, LineSegment line, bool canMoveInDefenseArea, bool canMoveOutOfField,
-    double defenseAreamargin, double) {
-    LineSegment shotLine(line.start, line.end + (line.end - line.start));
-    Vector2 projectPos = shotLine.project(position);
-    Vector2 closestPoint = projectPos;
-
-    bool pointInOurDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, true, defenseAreamargin);
-    bool pointInTheirDefenseArea = FieldComputations::pointIsInDefenseArea(field, projectPos, false, defenseAreamargin);
-
-    if (!canMoveInDefenseArea && (pointInOurDefenseArea || pointInTheirDefenseArea)) {
-        Polygon defenceAreaUs(FieldComputations::getDefenseArea(field, true, defenseAreamargin, field.getBoundaryWidth()));
-        Polygon defenceAreaThem(FieldComputations::getDefenseArea(field, false, defenseAreamargin, field.getBoundaryWidth()));
-
-        std::vector<Vector2> intersects = defenceAreaUs.intersections(shotLine);
-        std::vector<Vector2> intersectsThem = defenceAreaThem.intersections(shotLine);
-
-            intersects.insert(intersects.end(), intersectsThem.begin(), intersectsThem.end());
-            if (intersects.empty()) {
-                return projectPos;
-            }
-            double closestDist = 9e9;
-            for (const auto &point: intersects) {
-                if (FieldComputations::pointIsInField(field, point, -defenseAreamargin)) {
-                    double dist = point.dist(position);
-                    if (dist < closestDist) {
-                        closestDist = dist;
-                        closestPoint = point;
-                    }
-                }
-            }
-        }
-
-        if (!canMoveOutOfField && !FieldComputations::pointIsInField(field, closestPoint, -defenseAreamargin)) {
-            closestPoint = projectPositionToWithinField(field, projectPos, defenseAreamargin);
-        }
-
-    return closestPoint;
 }
 
 }  // namespace rtt::ai::control
