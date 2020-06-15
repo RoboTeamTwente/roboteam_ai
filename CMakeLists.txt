@@ -224,7 +224,6 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/InvariantsWidget.cpp
 
         #QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
