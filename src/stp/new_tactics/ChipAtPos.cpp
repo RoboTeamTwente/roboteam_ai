@@ -51,10 +51,10 @@ double ChipAtPos::determineChipForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE these factors need tuning
     // Increase these factors to decrease chip velocity
     // Decrease these factors to increase chip velocity
-    const double TARGET_FACTOR{1};
-    const double GRSIM_TARGET_FACTOR{1.3};
-    const double PASS_FACTOR{0.8};
-    const double GRSIM_PASS_FACTOR{1.1};
+    constexpr double TARGET_FACTOR{1.0};
+    constexpr double GRSIM_TARGET_FACTOR{1.3};
+    constexpr double PASS_FACTOR{0.8};
+    constexpr double GRSIM_PASS_FACTOR{1.1};
 
     if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_CHIP_POWER;
 

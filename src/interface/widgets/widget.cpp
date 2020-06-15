@@ -32,8 +32,7 @@ namespace rtt::ai::interface {
             drawFieldLines(field.value(), painter);
         }
 
-        QString s;
-        s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
+        auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
         painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
         drawRobots(painter, world.value());

@@ -4,7 +4,7 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
-#include <include/roboteam_ai/utilities/Constants.h>
+#include <utilities/Constants.h>
 #include <stp/new_skills/Kick.h>
 #include <stp/new_skills/Rotate.h>
 
@@ -50,10 +50,10 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE these factors need tuning
     // Increase these factors to decrease kick velocity
     // Decrease these factors to increase kick velocity
-    const double TARGET_FACTOR{2.65};
-    const double GRSIM_TARGET_FACTOR{1.65};
-    const double PASS_FACTOR{1.45};
-    const double GRSIM_PASS_FACTOR{1.45};
+    constexpr double TARGET_FACTOR{2.65};
+    constexpr double GRSIM_TARGET_FACTOR{1.65};
+    constexpr double PASS_FACTOR{1.45};
+    constexpr double GRSIM_PASS_FACTOR{1.45};
 
     if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_KICK_POWER;
 

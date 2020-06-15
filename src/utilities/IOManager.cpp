@@ -92,11 +92,9 @@ const proto::SSL_Referee &IOManager::getRefereeData() {
     return *msg;
 }
 
-const std::unordered_map<uint8_t, proto::RobotFeedback> &IOManager::getFeedbackDataMap() {
+std::unordered_map<uint8_t, proto::RobotFeedback> IOManager::getFeedbackDataMap() {
     std::lock_guard<std::mutex> lock(robotFeedbackMutex);
-    auto fbm = new std::unordered_map<uint8_t, proto::RobotFeedback>;
-    fbm->insert(feedbackMap.begin(), feedbackMap.end());
-    return *fbm;
+    return feedbackMap;
 }
 
 void IOManager::publishRobotCommand(proto::RobotCommand cmd) {

@@ -59,7 +59,7 @@ class IOManager {
     void init(int teamId);
     const proto::World &getWorldState();
     const proto::SSL_GeometryData &getGeometryData();
-    const std::unordered_map<uint8_t, proto::RobotFeedback> &getFeedbackDataMap();
+    std::unordered_map<uint8_t, proto::RobotFeedback> getFeedbackDataMap();
 
     const proto::SSL_Referee &getRefereeData();
     const proto::DemoRobot &getDemoInfo();
