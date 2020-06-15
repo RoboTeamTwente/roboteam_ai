@@ -30,7 +30,6 @@
 #include "STPVisualizerWidget.h"
 #include "widget.h"
 #include "PlaysWidget.hpp"
-#include "InvariantsWidget.hpp"
 
 namespace rtt {
 class ApplicationManager;
