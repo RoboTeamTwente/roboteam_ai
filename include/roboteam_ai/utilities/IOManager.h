@@ -53,15 +53,16 @@ class IOManager {
     rtt::ai::Pause *pause;
 
    public:
+    ~IOManager();
     explicit IOManager() = default;
     void publishRobotCommand(proto::RobotCommand cmd);
     void publishSettings(proto::Setting setting);
     void init(int teamId);
-    const proto::World &getWorldState();
-    const proto::SSL_GeometryData &getGeometryData();
+    proto::World getWorldState();
+    proto::SSL_GeometryData getGeometryData();
     std::unordered_map<uint8_t, proto::RobotFeedback> getFeedbackDataMap();
 
-    const proto::SSL_Referee &getRefereeData();
+    proto::SSL_Referee getRefereeData();
     const proto::DemoRobot &getDemoInfo();
 
     static std::mutex worldStateMutex;
