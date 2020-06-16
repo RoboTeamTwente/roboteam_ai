@@ -76,6 +76,12 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
 
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+
+    if(enemyRobots.empty()) {
+      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+      return;
+    }
+
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
                                      [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
