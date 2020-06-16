@@ -20,7 +20,7 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     auto menu = new QMenuBar(this);
     this->setMenuBar(menu);
-    auto fileMenu = menu->addMenu(tr("&File"));
+    menu->addMenu(tr("&File"));
     auto viewMenu = menu->addMenu(tr("&Visualization"));
 
     MainWindow::configureCheckableMenuItem("show rolenames", "show rolenames", viewMenu, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
@@ -63,9 +63,15 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     graphWidget = new GraphWidget(this);
 
+    playsWidget = new PlaysWidget(this);
+
+//    invariantsWidget = new InvariantsWidget(this);
+
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
+    DataTabWidget->addTab(playsWidget, "Plays");
+//    DataTabWidget->addTab(invariantsWidget, "Invariants");
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
@@ -117,6 +123,8 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
     connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
+    connect(this, &MainWindow::updateStpWidgets, playsWidget, &PlaysWidget::updatePlays);
+//    connect(this, &MainWindow::updateStpWidgets, invariantsWidget, &InvariantsWidget::updateInvariants);
 }
 
 /// Set up a checkbox and add it to the layout
