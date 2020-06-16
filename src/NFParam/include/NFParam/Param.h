@@ -50,10 +50,13 @@ public:
   virtual void yValuesForXRange(float *y_values, size_t y_values_count,
                                 double start_x, double end_x) = 0;
   virtual std::string name() = 0;
-  virtual float smoothedYForXRange(double start_x, double end_x,
-                                   size_t samples = 5) = 0;
-  virtual float cumulativeYForXRange(double start_x, double end_x,
-                                     double precision = 0.1) = 0;
+
+  virtual float smoothedYForXRange(double start_x,
+                                          double end_x,
+                                          size_t samples = 5) = 0;
+  virtual float cumulativeYForXRange(double start_x,
+                                            double end_x,
+                                            double precision = 0.1) = 0;
 
   virtual ~Param() = default;
 };

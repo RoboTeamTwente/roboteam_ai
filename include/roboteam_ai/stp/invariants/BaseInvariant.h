@@ -31,6 +31,8 @@ class BaseInvariant {
      * dtor
      */
     virtual ~BaseInvariant() = default;
+
+    virtual const char* getName() = 0;
 };
 }  // namespace rtt::ai::stp::invariant
 

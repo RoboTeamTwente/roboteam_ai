@@ -31,7 +31,10 @@ uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView wor
     std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) {
         auto robotPosition = robot.get()->getPos();
         auto distance{0.0};
-        if(world.getRobotClosestToPoint(robotPosition, world_new::them)) distance = (world.getRobotClosestToPoint(robotPosition, world_new::them).value()->getPos() - robotPosition).length();
+        auto closestRobot = world.getRobotClosestToPoint(robotPosition, world_new::them);
+        if(closestRobot.has_value() && closestRobot.value()) {
+            distance = (closestRobot.value()->getPos() - robotPosition).length();
+        }
         return calculateMetric(distance);
     });
 
