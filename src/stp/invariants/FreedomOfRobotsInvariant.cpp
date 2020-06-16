@@ -28,6 +28,10 @@ uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView wor
     auto& us = world.getUs();
     std::vector<uint8_t> distanceMetrics{};
 
+    // If there are no bots, ball is not close to us
+    if(us.empty()) {
+        return control_constants::FUZZY_FALSE;
+    }
     std::transform(us.begin(), us.end(), std::back_inserter(distanceMetrics), [&](auto& robot) {
         auto robotPosition = robot.get()->getPos();
         auto distance{0.0};

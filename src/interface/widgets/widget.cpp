@@ -264,7 +264,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
         // draw us
         for (auto const &robot : world->getUs()) {
             std::string role{};
-            if (rolesForRobots.find(robot->getId()) != rolesForRobots.end()) {
+            if (robot && rolesForRobots.find(robot->getId()) != rolesForRobots.end()) {
                 std::lock_guard mtx{rolesUpdate};
                 role = rolesForRobots[robot->getId()];
             }
