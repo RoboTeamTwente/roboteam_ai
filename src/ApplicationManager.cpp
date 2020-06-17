@@ -163,7 +163,6 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->initialize();
     }
 
-    currentPlay->updateWorld(_world);
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }

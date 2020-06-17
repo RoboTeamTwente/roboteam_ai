@@ -20,8 +20,8 @@ TEST(BallAndView, test_getters) {
     protoData.set_visible(true);
     Ball data{protoData};
 
-    EXPECT_EQ(data.getVelocity(), *getVec(10.0, 3.0));
-    EXPECT_EQ(data.getPos(), *getVec(10.0, 3.0));  // yeye memory leak doesn't rlly matter
+    EXPECT_EQ(data.getVelocity(), Vector2(10.0, 3.0));
+    EXPECT_EQ(data.getPos(), Vector2(10.0, 3.0));  // yeye memory leak doesn't rlly matter
     EXPECT_EQ(data.isVisible(), true);
     EXPECT_EQ(0, 0);
 

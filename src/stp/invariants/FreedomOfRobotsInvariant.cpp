@@ -42,6 +42,9 @@ uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView wor
         return calculateMetric(distance);
     });
 
+    if(distanceMetrics.empty()) {
+        return control_constants::FUZZY_FALSE;
+    }
     return std::accumulate(distanceMetrics.begin(), distanceMetrics.end(), 0) / distanceMetrics.size();
 }
 
