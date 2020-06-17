@@ -28,7 +28,7 @@ namespace rtt::ai::interface {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
             ss += ":&nbsp;";
-            //ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
+            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
             ss += "<br>";
         }
 
@@ -38,7 +38,7 @@ namespace rtt::ai::interface {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
             ss += ":&nbsp;";
-            //ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
+            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
             ss += "<br>";
         }
         ss += "<br>";
