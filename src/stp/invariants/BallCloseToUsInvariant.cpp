@@ -29,7 +29,14 @@ uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world
     auto ballPos = world.getBall()->get()->getPos();
     std::vector<double> distances{};
 
-    std::transform(us.begin(), us.end(), std::back_inserter(distances), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
+    if (us.empty()) {
+        RTT_ERROR("Us vector is empty")
+        return control_constants::FUZZY_FALSE;
+    }
+
+    for (auto robot : us) {
+        distances.emplace_back(robot.get()->getPos().dist(ballPos));
+    }
 
     return calculateMetric(*std::min_element(distances.begin(), distances.end()));
 }
