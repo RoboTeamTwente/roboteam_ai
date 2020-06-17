@@ -35,7 +35,7 @@ uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world
     }
 
     for (auto robot : us) {
-        distances.push_back(robot.get()->getPos().dist(ballPos));
+        distances.emplace_back(robot.get()->getPos().dist(ballPos));
     }
 
     return calculateMetric(*std::min_element(distances.begin(), distances.end()));

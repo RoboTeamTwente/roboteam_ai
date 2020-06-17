@@ -37,7 +37,7 @@ uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView wor
             distance = (closestRobot.value()->getPos() - robotPosition).length();
         }
         auto m = calculateMetric(distance);
-        distanceMetrics.push_back(m);
+        distanceMetrics.emplace_back(m);
     }
 
     return std::accumulate(distanceMetrics.begin(), distanceMetrics.end(), 0) / distanceMetrics.size();
