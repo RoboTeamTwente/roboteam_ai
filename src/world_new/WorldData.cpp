@@ -10,11 +10,8 @@ namespace rtt::world_new {
         auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
         // If there is a ball in the protobuf message, add it to the world
-        if (protoMsg.has_ball()) {
-            ball = ball::Ball{protoMsg.ball()};
-        } else {
-            ball = std::nullopt;
-        }
+        ball = ball::Ball{protoMsg.ball()};
+
         auto amountUs = ours.size();
         auto amountThem = others.size();
         us.reserve(amountUs);

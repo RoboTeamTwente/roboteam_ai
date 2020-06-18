@@ -28,6 +28,10 @@ uint8_t DistanceFromBallInvariant::metricCheck(world_new::view::WorldDataView wo
     std::vector<double> distances{};
     distances.reserve(control_constants::MAX_ROBOT_COUNT);
 
+    // If there are no bots, ball is not close to us
+    if(us.empty()) {
+        return control_constants::FUZZY_FALSE;
+    }
     std::transform(us.begin(), us.end(), std::back_inserter(distances), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });
 
     return calculateMetric(*std::min_element(distances.begin(), distances.end()));

@@ -35,7 +35,7 @@ DefendPass::DefendPass() : Play() {
         std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendPass::score(world_new::World *world) noexcept { return 90; }
+uint8_t DefendPass::score(world_new::World *world) noexcept { return 100; }
 
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

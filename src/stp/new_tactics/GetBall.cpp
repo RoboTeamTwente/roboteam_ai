@@ -35,11 +35,11 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
     // the robot will go to the position of the ball
     double ballDistance = (ballPosition - robotPosition).length();
-    Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - stp::control_constants::CENTER_TO_FRONT - stp::control_constants::BALL_RADIUS);
+    Vector2 newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance - control_constants::CENTER_TO_FRONT + 0.035) ;
 
     if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
         skillStpInfo.setAngle((ballPosition - robotPosition).angle());
-        skillStpInfo.setDribblerSpeed(100);
+        skillStpInfo.setDribblerSpeed(35);
     }
 
     skillStpInfo.setPositionToMoveTo(newRobotPosition);

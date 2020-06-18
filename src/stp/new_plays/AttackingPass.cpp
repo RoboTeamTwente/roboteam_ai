@@ -27,13 +27,17 @@ AttackingPass::AttackingPass() : Play() {
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Passer>(role::Passer("passer")),  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-        std::make_unique<role::Halt>(role::Halt("defender1")),   std::make_unique<role::Halt>(role::Halt("test_role_3")),
-        std::make_unique<role::Halt>(role::Halt("test_role_4")), std::make_unique<role::Halt>(role::Halt("test_role_5")),
-        std::make_unique<role::Halt>(role::Halt("test_role_6")), std::make_unique<role::Halt>(role::Halt("test_role_7")),
-        std::make_unique<role::Halt>(role::Halt("test_role_8")), std::make_unique<role::Halt>(role::Halt("test_role_9"))};
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                       std::make_unique<role::Passer>(role::Passer("passer")),
+                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("defender1")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_3")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_4")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_5")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_6")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_7")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_8")),
+                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_9"))};
 }
 
 uint8_t AttackingPass::score(world_new::World* world) noexcept { return 50; }
@@ -77,8 +81,8 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall().value();
 
     auto receivePosition = passingPosition;
-    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-        receivePosition = ball->getPos();
+    if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
+        receivePosition = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     }
 
     // Receiver
@@ -86,7 +90,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setKickChipType(TARGET);
 
     // Defenders
     for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
@@ -165,8 +169,8 @@ Vector2 AttackingPass::calculatePassLocation() {
                 // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance{1.0};
-                if(theirClosestBot) {
-                     theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
+                if (theirClosestBot) {
+                    theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
                 }
 
                 // Calculate total score for this point
@@ -183,22 +187,19 @@ Vector2 AttackingPass::calculatePassLocation() {
     return bestPosition;
 }
 
-bool AttackingPass::isValidPlayToKeep(world_new::World *world) noexcept {
+bool AttackingPass::isValidPlayToKeep(world_new::World* world) noexcept {
     world::Field field = world->getField().value();
-    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);}) && !passFinished() && !passFailed();
+    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
+           !passFinished() && !passFailed();
 }
 
 bool AttackingPass::passFinished() noexcept {
-    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
-        return true;
-    }
-    return false;
+    // TODO: fix this condition
+    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5;
 }
 
 bool AttackingPass::passFailed() noexcept {
-    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
-        return true;
-    }
-    return false;
+    // TODO: fix this condition
+    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4;
 }
 }  // namespace rtt::ai::stp::play

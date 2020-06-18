@@ -23,15 +23,16 @@ namespace rtt::ai::interface {
             return;
         }
 
-        auto field = worldManager.getField().value();
+        auto field = worldManager.getField();
 
-        calculateFieldSizeFactor(field);
-        drawBackground(painter);
-        drawFieldHints(field, painter);
-        drawFieldLines(field, painter);
+        if(field.has_value()) {
+            calculateFieldSizeFactor(field.value());
+            drawBackground(painter);
+            drawFieldHints(field.value(), painter);
+            drawFieldLines(field.value(), painter);
+        }
 
-        QString s;
-        s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
+        auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
         painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
         drawRobots(painter, world.value());

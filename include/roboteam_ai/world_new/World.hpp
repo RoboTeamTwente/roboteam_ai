@@ -79,7 +79,7 @@ class World {
      *
      * Undefined behavior may occur if feedback is used after being passed to this function
      */
-    void updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback);
+    void updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback);
 
     /**
      * Updates the currentWorld

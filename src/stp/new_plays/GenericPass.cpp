@@ -62,7 +62,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setKickChipType(TARGET);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -148,6 +148,7 @@ bool GenericPass::isValidPlayToKeep(world_new::World *world) noexcept {
 }
 
 bool GenericPass::passFinished() noexcept {
+    //TODO: fix this condition
     if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
         return true;
     }
@@ -155,6 +156,7 @@ bool GenericPass::passFinished() noexcept {
 }
 
 bool GenericPass::passFailed() noexcept {
+    //TODO: fix this condition
     if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
         return true;
     }

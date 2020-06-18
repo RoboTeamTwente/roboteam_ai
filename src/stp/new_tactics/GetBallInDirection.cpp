@@ -35,8 +35,7 @@ namespace rtt::ai::stp::tactic {
             newRobotPosition = ballPosition + (ballPosition - targetPosition).stretchToLength(control_constants::TURN_ON_DRIBBLER_DISTANCE);
         } else {
             // Second GoToPos: Go towards ball
-            newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance -
-                    stp::control_constants::CENTER_TO_FRONT - stp::control_constants::BALL_RADIUS);
+            newRobotPosition = robotPosition + (ballPosition - robotPosition).stretchToLength(ballDistance);
 
             // Rotate towards ball
             skillStpInfo.setAngle((ballPosition - robotPosition).angle());
