@@ -42,7 +42,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
     }
 
     // the tactic will not be reset if it's the first skill
-    if ((skills.current_num() != 0 && shouldTacticReset(skill_info.value()))) {
+    if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
         reset();
     }
 
