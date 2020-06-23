@@ -68,6 +68,7 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Shoot.cpp
         )
 
 set(NEW_TACTICS_SOURCES
@@ -134,7 +135,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
-         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GenericPass.cpp
         )
 
