@@ -31,7 +31,11 @@ void Ball::initializeCalculations() noexcept {
 }
 
 void Ball::initBallAtRobotPosition() noexcept {
-    auto previousWorld = World::instance()->getHistoryWorld(1);
+    std::optional<view::WorldDataView> previousWorld;
+    {
+        auto const&[_, world] = world_new::World::instance();
+        previousWorld = world->getHistoryWorld(1);
+    }
     if (!previousWorld) {
         return;
     }
@@ -55,7 +59,12 @@ void Ball::initBallAtRobotPosition() noexcept {
 }
 
 void Ball::filterBallVelocity() noexcept {
-    auto previousWorld = World::instance()->getHistoryWorld(1);
+    std::optional<view::WorldDataView> previousWorld;
+    {
+        auto const&[_, world] = world_new::World::instance();
+        previousWorld = world->getHistoryWorld(1);
+    }
+
     if (!previousWorld) {
         return;
     }
@@ -83,7 +92,11 @@ void Ball::filterBallVelocity() noexcept {
 }
 
 void Ball::updateExpectedBallEndPosition() noexcept {
-    auto previousWorld = World::instance()->getHistoryWorld(1);
+    std::optional<view::WorldDataView> previousWorld;
+    {
+        auto const&[_, world] = world_new::World::instance();
+        previousWorld = world->getHistoryWorld(1);
+    }
     if (!previousWorld) {
         return;
     }
@@ -112,7 +125,11 @@ void Ball::updateBallAtRobotPosition() noexcept {
         return;
     }
 
-    auto world = World::instance()->getWorld();
+    std::optional<view::WorldDataView> world;
+    {
+        auto const&[_, worldOwn] = world_new::World::instance();
+        world = worldOwn->getWorld();
+    }
     if (!world.has_value()) return;
 
     std::optional<rtt::world_new::view::RobotView> robotWithBall = world->whichRobotHasBall();
