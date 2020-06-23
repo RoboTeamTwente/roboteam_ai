@@ -74,9 +74,6 @@ namespace rtt::ai::stp::tactic {
          * Gets the tactic name
          */
         const char *getName() override;
-
-
-
     };
 }  // namespace rtt::ai::stp::tactic
 

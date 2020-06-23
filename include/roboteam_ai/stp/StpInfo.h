@@ -121,6 +121,7 @@ struct StpInfo {
     const std::optional<KickChip> &getShootType() const { return shootType; }
 
     void setShootType(const std::optional<KickChip> &shootType) { StpInfo::shootType = shootType; }
+    
    private:
     /**
      * Robot this tactic applies to
@@ -192,7 +193,6 @@ struct StpInfo {
      * Set the shot to be a kick or chip
      */
     std::optional<KickChip> shootType;
-
 };
 }  // namespace rtt::ai::stp
 

@@ -18,7 +18,6 @@ namespace rtt::ai::stp::skill {
     }
 
     Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
-
         // Clamp and set kick velocity
         double kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
