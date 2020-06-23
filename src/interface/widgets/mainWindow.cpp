@@ -161,12 +161,15 @@ void MainWindow::clearLayout(QLayout *layout) {
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-    auto const&[_, world] = world_new::World::instance();
-    if (!world) {
-        std::cerr << "World is nullptr" << std::endl;
-        return;
+    std::optional<world_new::view::WorldDataView> currentWorld;
+    {
+        auto const &[_, world] = world_new::World::instance();
+        if (!world) {
+            std::cerr << "World is nullptr" << std::endl;
+            return;
+        }
+        currentWorld = world->getWorld();
     }
-    auto currentWorld = world->getWorld();
     if (currentWorld) {
         robotsWidget->updateContents(visualizer, *currentWorld);
     }
