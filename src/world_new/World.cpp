@@ -6,7 +6,6 @@
 
 namespace rtt::world_new {
     WorldData const &World::setWorld(WorldData &newWorld) noexcept {
-        std::lock_guard mtx{updateMutex};
         if (currentWorld) {
             toHistory(currentWorld.value());
         }
@@ -63,7 +62,7 @@ namespace rtt::world_new {
     }
 
     void World::updateWorld(proto::World &protoWorld) {
-        WorldData data{protoWorld, *settings, updateMap};
+        WorldData data{this, protoWorld, *settings, updateMap};
         setWorld(data);
     }
 

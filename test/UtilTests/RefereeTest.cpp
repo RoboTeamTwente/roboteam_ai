@@ -13,7 +13,8 @@
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
     auto world = testhelpers::WorldHelper::getWorldMsg(11, 11, true, testhelpers::FieldHelper::generateField());
-    rtt::world_new::World::instance()->updateWorld(world);
+    auto const& [_, worldPtr] = rtt::world_new::World::instance();
+    worldPtr->updateWorld(world);
     proto::SSL_Referee refereeData;
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);
     rtt::ai::GameStateManager::setRefereeData(refereeData);
