@@ -8,8 +8,15 @@
 namespace rtt::ai::interface {
     inline QString formatPlay(stp::Play* play)
     {
-        auto const& field = world_new::World::instance()->getField();
-        auto const& world = world_new::World::instance()->getWorld();
+        std::optional<world_new::view::WorldDataView> world;
+        std::optional<world::Field> field;
+
+        {
+            auto const&[_, worldOwner] = world_new::World::instance();
+            field = worldOwner->getField();
+            world = worldOwner->getWorld();
+        }
+
         if (!world.has_value()) {
             return "Unable to read world...";
         }

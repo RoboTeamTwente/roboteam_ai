@@ -40,7 +40,7 @@ TEST(World_newTest, HistoryRetrievalTest) {
 
     /** Test the WorldInstance / WorldManager **/
     // By default, the settings for a world are that we are blue, meaning us = blue
-    rtt::world_new::World* worldInstance = rtt::world_new::World::instance();
+    auto const& [_, worldInstance] = rtt::world_new::World::instance();
     std::optional<rtt::world_new::view::WorldDataView> view;
 
     // Insert the world with a yellow robot, and check that the size of getThem() == 1 and getId() == 1

@@ -73,7 +73,8 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
     }
 
     SETTINGS.setLeft(!(refData.blue_team_on_positive_half() ^ SETTINGS.isYellow()));
-    ai::GameStateManager::setRefereeData(refData);
+    auto const& [_, data] = world_new::World::instance();
+    ai::GameStateManager::setRefereeData(refData, data);
 }
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {
@@ -102,11 +103,11 @@ std::unordered_map<uint8_t, proto::RobotFeedback> IOManager::getFeedbackDataMap(
     return feedbackMap;
 }
 
-void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
+void IOManager::publishRobotCommand(proto::RobotCommand cmd, world_new::World const* world) {
     if (!pause->getPause()) {
-        if (world_new::World::instance()->getWorld()) {
+        if (world->getWorld()) {
             // the geneva cannot be received from world, so we set it when it gets sent.
-            auto robot = world_new::World::instance()->getWorld()->getRobotForId(cmd.id(), true);
+            auto robot = world->getWorld()->getRobotForId(cmd.id(), true);
             if (robot) {
                 if (cmd.kicker()) {
                     interface::Input::drawData(interface::Visual::SHOTLINES, {robot->get()->getPos()}, Qt::green, robot->get()->getId(), interface::Drawing::CIRCLES, 36, 36, 8);

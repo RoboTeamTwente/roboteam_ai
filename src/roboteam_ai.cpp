@@ -86,8 +86,7 @@ int main(int argc, char* argv[]) {
     setDarkTheme();
 
     // Todo make this a not-global-static thingy
-    rtt::world_new::World* worldManager = rtt::world_new::World::instance();
-    window = new ui::MainWindow{ *worldManager };
+    window = new ui::MainWindow{ };
     window->setWindowState(Qt::WindowMaximized);
 
     std::thread stpThread = std::thread(&runStp);

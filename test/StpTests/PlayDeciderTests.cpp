@@ -73,7 +73,7 @@ TEST(PlayCheckerTests, testHighestScore) {
     plays.emplace_back(std::make_unique<AlwaysFalse>());
     plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
-    auto instance = rtt::world_new::World::instance();
+    auto const& [_, instance] = rtt::world_new::World::instance();
 
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
@@ -88,8 +88,8 @@ TEST(PlayCheckerTests, testHighestScore) {
     checker.setPlays(plays);
 
     PlayDecider decider{};
-    auto play = decider.decideBestPlay(rtt::world_new::World::instance(), checker.getValidPlays());
+    auto play = decider.decideBestPlay(instance, checker.getValidPlays());
 
     ASSERT_TRUE(dynamic_cast<AlwaysValid *>(play));
-    ASSERT_EQ(play->score(rtt::world_new::World::instance()), 100);
+    ASSERT_EQ(play->score(instance), 100);
 }
