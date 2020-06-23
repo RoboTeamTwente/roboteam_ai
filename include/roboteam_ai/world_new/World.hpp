@@ -34,6 +34,20 @@ namespace rtt::world_new {
  * one of the only ways to keep a project datarace-free
  */
 class World {
+    /**
+     * Structure that provides structured binding support for the world.
+     * @tparam T Type of data to lock (a pointer to!)
+     *
+     * AcquireInfo<int> get_int() {
+     *     static std::mutex mtx;
+     *     static int value;
+     *     return AcquireInfo{ mtx, &value };
+     * }
+     *
+     * auto const& [_, t_obj] = something::instance();
+     * // _ is a lock guard
+     * // t_obj is a pointer to T
+     */
     template <typename T>
     struct AcquireInfo {
         std::lock_guard<std::mutex> mtx;
