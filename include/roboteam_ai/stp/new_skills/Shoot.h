@@ -21,6 +21,11 @@ namespace rtt::ai::stp::skill {
          */
         Status onUpdate(StpInfo const& info) noexcept override;
 
+        /**
+         * Calculate skillInfo based on whether the desired behaviour of the skill is a kick or a chip
+         * @param info
+         * @return
+         */
         Status onUpdateChip(StpInfo const& info) noexcept;
 
         Status onUpdateKick(StpInfo const& info) noexcept;
