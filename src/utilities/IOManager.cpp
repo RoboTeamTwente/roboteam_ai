@@ -73,7 +73,8 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
     }
 
     SETTINGS.setLeft(!(refData.blue_team_on_positive_half() ^ SETTINGS.isYellow()));
-    ai::GameStateManager::setRefereeData(refData);
+    auto const& [_, data] = world_new::World::instance();
+    ai::GameStateManager::setRefereeData(refData, data);
 }
 
 void IOManager::handleFeedback(proto::RobotFeedback &feedback) {

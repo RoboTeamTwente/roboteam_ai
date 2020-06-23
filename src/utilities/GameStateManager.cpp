@@ -15,7 +15,7 @@ proto::SSL_Referee GameStateManager::getRefereeData() {
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
+void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const world_new::World* data) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
     RefCommand cmd;
@@ -147,8 +147,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg) {
     }
 
     auto stage = refMsg.stage();
-    auto const& [_, worldObj] = world_new::World::instance();
-    auto world = worldObj->getWorld();
+    auto world = data->getWorld();
     if (world.has_value()) {
         strategymanager.setCurrentRefGameState(cmd, stage, world->getBall());
     }

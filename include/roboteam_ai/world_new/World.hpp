@@ -154,7 +154,6 @@ public:
      * Everything EXCEPT positioncontrol and settings is reset.
      */
     void reset() noexcept {
-        std::lock_guard mtx{ updateMutex };
         updateMap.clear();
         history.clear();
         currentIndex = 0;

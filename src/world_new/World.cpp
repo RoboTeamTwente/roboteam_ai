@@ -76,12 +76,10 @@ namespace rtt::world_new {
     }
 
     World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
-        std::lock_guard mtx{updateMutex};
         history.reserve(HISTORY_SIZE);
     }
 
     void World::updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback) {
-        std::scoped_lock<std::mutex> lock{updateMutex};
         updateMap = std::move(feedback);
     }
 
