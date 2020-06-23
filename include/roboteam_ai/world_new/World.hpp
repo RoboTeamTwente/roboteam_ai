@@ -53,6 +53,7 @@ class World {
         std::lock_guard<std::mutex> mtx;
         T* data;
     };
+
 public:
     /**
      * Global singleton for World, scott-meyers style
