@@ -117,8 +117,21 @@ struct StpInfo {
     const std::optional<double> &getAvoidBallDistance() const { return avoidBallDistance; }
     void setAvoidBallDistance(const std::optional<double> &avoidBallDistance) { this->avoidBallDistance = avoidBallDistance; }
 
+    world_new::World const* getCurrentWorld() const {
+        return currentWorld;
+    }
+
+    void setCurrentWorld(world_new::World const* world) {
+        currentWorld = world;
+    }
+
 
    private:
+    /**
+     * Current world pointer
+     */
+     world_new::World const* currentWorld;
+
     /**
      * Robot this tactic applies to
      */

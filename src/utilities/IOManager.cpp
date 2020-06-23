@@ -103,9 +103,8 @@ std::unordered_map<uint8_t, proto::RobotFeedback> IOManager::getFeedbackDataMap(
     return feedbackMap;
 }
 
-void IOManager::publishRobotCommand(proto::RobotCommand cmd) {
+void IOManager::publishRobotCommand(proto::RobotCommand cmd, world_new::World const* world) {
     if (!pause->getPause()) {
-        auto const& [_, world] = world_new::World::instance();
         if (world->getWorld()) {
             // the geneva cannot be received from world, so we set it when it gets sent.
             auto robot = world->getWorld()->getRobotForId(cmd.id(), true);

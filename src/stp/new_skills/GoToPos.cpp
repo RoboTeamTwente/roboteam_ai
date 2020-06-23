@@ -43,7 +43,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
 
-    publishRobotCommand();
+    publishRobotCommand(info.getCurrentWorld());
 
     // Check if successful
     if ((info.getRobot().value()->getPos() - targetPos).length() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN || info.getRobot().value().hasBall()) {
