@@ -27,6 +27,8 @@ namespace rtt::ai::interface {
             return "World is null";
         }
 
+        world_new::WorldData data = *world.value();
+
         QString ss = "";
         ss += play->getName();
         ss += ":<br>&nbsp;&nbsp;keep:<br>";
@@ -35,7 +37,7 @@ namespace rtt::ai::interface {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
             ss += ":&nbsp;";
-            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
+            ss += (each->checkInvariant(world_new::view::WorldDataView{ &data }, &*field) ? "true" : "false");
             ss += "<br>";
         }
 
