@@ -15,7 +15,8 @@ bool Pause::getPause() {
     return pause;
 }
 void Pause::haltRobots() {
-    auto us = world_new::World::instance()->getWorld()->getUs();
+    auto const& [_, world] = world_new::World::instance();
+    auto us = world->getWorld()->getUs();
     for (const auto &robot : us) {
         proto::RobotCommand cmd;
         cmd.mutable_vel()->set_x(0);

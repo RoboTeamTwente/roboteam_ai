@@ -21,7 +21,8 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     auto targetPos = targetPosOpt.value();
 
     // Calculate commands from path planning and tracking
-    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
+    auto const& [_, world] = world_new::World::instance();
+    auto robotCommand = world->getRobotPositionController()->computeAndTrackPath(
         info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Clamp and set velocity

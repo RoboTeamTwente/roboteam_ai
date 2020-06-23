@@ -34,7 +34,12 @@ namespace rtt::world_new {
  * one of the only ways to keep a project datarace-free
  */
 class World {
-   public:
+    template <typename T>
+    struct AcquireInfo {
+        std::lock_guard<std::mutex> mtx;
+        T* data;
+    };
+public:
     /**
      * Global singleton for World, scott-meyers style
      * @param[in] resetWorld Boolean that marks whether to reset the world before returning
@@ -42,9 +47,9 @@ class World {
      * if set to false, worldInstance is simply reset
      * @return A pointer to a static World
      */
-    inline static World *instance() {
+    inline static AcquireInfo<World> instance() {
         static World worldInstance{&rtt::SETTINGS};
-        return &worldInstance;
+        return { std::lock_guard(worldInstance.updateMutex), &worldInstance };
     }
 
     /**
