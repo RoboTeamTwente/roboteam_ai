@@ -19,7 +19,7 @@ void Skill::rotateRobotCommand() noexcept {
     command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
 }
 
-void Skill::publishRobotCommand() noexcept {
+void Skill::publishRobotCommand(world_new::World const* data) noexcept {
     limitRobotCommand();
 
     if (!SETTINGS.isLeft()) {
@@ -33,10 +33,10 @@ void Skill::publishRobotCommand() noexcept {
     if (command.id() == -1) {
         if (robot && robot.value()->getId() != -1) {
             command.set_id(robot.value()->getId());
-            io::io.publishRobotCommand(command);  // We default to our robots being on the left if parameter is not set
+            io::io.publishRobotCommand(command, data);  // We default to our robots being on the left if parameter is not set
         }
     } else {
-        io::io.publishRobotCommand(command);  // We default to our robots being on the left if parameter is not set
+        io::io.publishRobotCommand(command, data);  // We default to our robots being on the left if parameter is not set
     }
 
     // refresh the robot command after it has been sent

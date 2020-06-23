@@ -6,14 +6,13 @@
 #define RTT_WORLD_DATA_HPP
 
 #include <vector>
+#include <include/roboteam_ai/world_new/views/RobotView.hpp>
 
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/Setting.pb.h"
 #include "roboteam_proto/World.pb.h"
 
 #include "include/roboteam_ai/utilities/Settings.h"
-#include "world_new/views/BallView.hpp"
-#include "world_new/views/RobotView.hpp"
 
 /**
 * Static map of previous velocity for each robotId
@@ -21,6 +20,7 @@
 static std::unordered_map<int, rtt::Vector2> previousRobotVelocity{{0,{0,0}}, {1,{0,0}}, {2,{0,0}}, {3,{0,0}}, {4,{0,0}}, {5,{0,0}}, {6,{0,0}}, {7,{0,0}}, {8,{0,0}}, {9,{0,0}}, {10,{0,0}}};
 
 namespace rtt::world_new {
+class World;
 
 namespace robot {
 class Robot;
@@ -46,7 +46,7 @@ class WorldData {
      *
      * Ownership is taken of protoMsg
      */
-    WorldData(proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
+    WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
 
     /**
      * Owning container of robots
@@ -56,17 +56,17 @@ class WorldData {
     /**
      * Non owning vector of views
      */
-    std::vector<view::RobotView> robotsNonOwning = {};
+    std::vector<world_new::view::RobotView> robotsNonOwning = {};
 
     /**
      * Non-owning container of Robot const* const's (aka RobotView) for our team
      */
-    std::vector<view::RobotView> us = {};
+    std::vector<world_new::view::RobotView> us = {};
 
     /**
      * Non-owning container of RobotViews of the enemy team
      */
-    std::vector<view::RobotView> them = {};
+    std::vector<world_new::view::RobotView> them = {};
 
     /**
      * Optional ball, None variant if not visible

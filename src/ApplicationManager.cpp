@@ -115,19 +115,20 @@ void ApplicationManager::runOneLoopCycle() {
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
-        world_new::World::instance()->updateWorld(worldMessage);
+        auto const& [_, world] = world_new::World::instance();
+        world->updateWorld(worldMessage);
 
-        if (!world_new::World::instance()->getWorld()->getUs().empty()) {
+        if (!world->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
                 RTT_SUCCESS("Received robots, starting STP!")
             }
             robotsInitialized = true;
 
-            world_new::World::instance()->updateField(fieldMessage);
-            world_new::World::instance()->updatePositionControl();
-            world_new::World::instance()->updateFeedback(feedbackMap);
+            world->updateField(fieldMessage);
+            world->updatePositionControl();
+            world->updateFeedback(feedbackMap);
 
-            decidePlay(world_new::World::instance());
+            decidePlay(world);
 
         } else {
             if (robotsInitialized) {
