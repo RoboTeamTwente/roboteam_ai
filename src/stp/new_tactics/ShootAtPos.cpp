@@ -1,4 +1,8 @@
-#include "include/roboteam_ai/stp/new_tactics/ShootAtPos.h"
+//
+// Created by Jesse on 23-06-20.
+//
+
+#include "stp/new_tactics/ShootAtPos.h"
 #include "stp/new_tactics/KickAtPos.h"
 
 #include <utilities/Constants.h>

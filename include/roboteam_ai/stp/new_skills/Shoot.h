@@ -1,12 +1,11 @@
 //
-// Created by rtt-vision on 23-06-20.
+// Created by Jesse on 23-06-20.
 //
 
 #ifndef RTT_SHOOT_H
 #define RTT_SHOOT_H
 
-
-#include "include/roboteam_ai/stp/Skill.h"
+#include "stp/Skill.h"
 
 namespace rtt::ai::stp::skill {
 

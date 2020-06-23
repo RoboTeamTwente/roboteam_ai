@@ -1,8 +1,8 @@
 //
-// Created by rtt-vision on 23-06-20.
+// Created by Jesse on 23-06-20.
 //
 
-#include "include/roboteam_ai/stp/new_skills/Shoot.h"
+#include "stp/new_skills/Shoot.h"
 
 namespace rtt::ai::stp::skill {
 
