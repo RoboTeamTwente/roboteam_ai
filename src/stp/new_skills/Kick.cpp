@@ -27,11 +27,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
 
-    if(robot->hasBall()) {
-       //command.set_chip_kick_forced(true);
-    }
-
-    publishRobotCommand();
+    publishRobotCommand(info.getCurrentWorld());
 
     if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN &&
         info.getRobot().value()->getAngleDiffToBall() <= control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI) {

@@ -25,7 +25,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
 
-    publishRobotCommand();
+    publishRobotCommand(info.getCurrentWorld());
 
     // Check if successful
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;

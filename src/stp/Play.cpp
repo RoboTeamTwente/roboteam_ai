@@ -111,6 +111,8 @@ void Play::distributeRoles() noexcept {
             stpInfos[roleName].setRobot(robot);
         }
     }
+
+    std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto& each) { each.second.setCurrentWorld(world); });
 }
 
 std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {

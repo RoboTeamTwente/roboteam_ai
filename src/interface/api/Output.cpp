@@ -30,8 +30,9 @@ GameState Output::interfaceGameState("halt_strategy", "default");
 
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
+    auto const& [_, world] = world_new::World::instance();
     // TODO: This check prevents a segfault when we don't have a world (roobthub_world is off), but it should be checked earlier I think
-    if(world_new::World::instance()->getWorld().has_value()) {
+    if(world->getWorld().has_value()) {
         if (pause.getPause()) {
             // Already halted so unhalt
             pause.setPause(false);
