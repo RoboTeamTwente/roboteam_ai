@@ -34,7 +34,8 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
     // Kicker
-    stpInfos["kicker"].setPositionToShootAt(Vector2{3.0, 2.0});
+    stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0 ,0.0});
+    stpInfos["kicker"].setKickChipType(PASS);
 }
 
 bool KickOffUs::shouldRoleSkipEndTactic() { return false; }
@@ -51,14 +52,15 @@ Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
     flagMap.insert({"halt_1", {not_important}});
     flagMap.insert({"halt_2", {not_important}});
     flagMap.insert({"halt_3", {not_important}});
-    flagMap.insert({"halt_4", {not_important}});
-    flagMap.insert({"halt_5", {not_important}});
-    flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"halt_7", {not_important}});
-    flagMap.insert({"halt_8", {not_important}});
+//    flagMap.insert({"halt_4", {not_important}});
+//    flagMap.insert({"halt_5", {not_important}});
+//    flagMap.insert({"halt_6", {not_important}});
+//    flagMap.insert({"halt_7", {not_important}});
+//    flagMap.insert({"halt_8", {not_important}});
     return flagMap;
 }
 
 const char* KickOffUs::getName() { return "Kick Off Us"; }
 
 }  // namespace rtt::ai::stp::play
+

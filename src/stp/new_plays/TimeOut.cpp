@@ -29,7 +29,7 @@ uint8_t TimeOut::score(world_new::World* world) noexcept { return 100; }
 
 void TimeOut::calculateInfoForRoles() noexcept {
     const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
-    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2 : -field.getFieldWidth() / 2;
+    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2.2 : -field.getFieldWidth() / 2.2;
 
     stpInfos["time_out_1"].setPositionToMoveTo(Vector2(xPosition, yPosition));
     stpInfos["time_out_2"].setPositionToMoveTo(Vector2(xPosition - 4 * control_constants::ROBOT_RADIUS, yPosition));
@@ -56,11 +56,11 @@ Dealer::FlagMap TimeOut::decideRoleFlags() const noexcept {
     flagMap.insert({"time_out_4", {not_important}});
     flagMap.insert({"time_out_5", {not_important}});
     flagMap.insert({"time_out_6", {not_important}});
-    flagMap.insert({"time_out_7", {not_important}});
-    flagMap.insert({"time_out_8", {not_important}});
-    flagMap.insert({"time_out_9", {not_important}});
-    flagMap.insert({"time_out_10", {not_important}});
-    flagMap.insert({"time_out_11", {not_important}});
+//    flagMap.insert({"time_out_7", {not_important}});
+//    flagMap.insert({"time_out_8", {not_important}});
+//    flagMap.insert({"time_out_9", {not_important}});
+//    flagMap.insert({"time_out_10", {not_important}});
+//    flagMap.insert({"time_out_11", {not_important}});
 
     return flagMap;
 }

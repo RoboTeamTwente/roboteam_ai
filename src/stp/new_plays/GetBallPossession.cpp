@@ -2,6 +2,7 @@
 // Created by jordi on 11-05-20.
 //
 
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "include/roboteam_ai/stp/new_plays/GetBallPossession.h"
 
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
@@ -17,11 +18,15 @@ GetBallPossession::GetBallPossession() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+
     // TODO: Add first arrival to ball invariant
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::Keeper>(role::Keeper("keeper")),
@@ -42,6 +47,8 @@ uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 80; 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
+
+    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0,0});
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
@@ -81,13 +88,13 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     flagMap.insert({"ball_getter", {ballGetterFlag}});
     flagMap.insert({"defender_0", {closeToOurGoalFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    flagMap.insert({"midfielder_0", {not_important}});
-    flagMap.insert({"midfielder_1", {not_important}});
+    //flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    //flagMap.insert({"midfielder_0", {not_important}});
+    //flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
     flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+/*    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});*/
     return flagMap;
 }
 

@@ -30,7 +30,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
     }
 
     // Check if the skills are all finished
-    if (skills.finished()) {
+    if (skills.finished() || forceTacticSuccess(skill_info.value())) {
         if (!isEndTactic()) {
             currentStatus = Status::Success;
             return Status::Success;

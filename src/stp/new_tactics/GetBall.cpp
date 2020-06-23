@@ -39,7 +39,7 @@ std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexc
 
     if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
         skillStpInfo.setAngle((ballPosition - robotPosition).angle());
-        skillStpInfo.setDribblerSpeed(35);
+        skillStpInfo.setDribblerSpeed(100);
     }
 
     skillStpInfo.setPositionToMoveTo(newRobotPosition);
@@ -54,6 +54,10 @@ bool GetBall::shouldTacticReset(const StpInfo &info) noexcept { return !info.get
 bool GetBall::isEndTactic() noexcept {
     // This is not an end tactic
     return false;
+}
+
+bool GetBall::forceTacticSuccess(const StpInfo &info) noexcept {
+    return info.getRobot()->hasBall();
 }
 
 const char *GetBall::getName() {

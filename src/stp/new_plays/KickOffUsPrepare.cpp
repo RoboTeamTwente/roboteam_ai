@@ -38,7 +38,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
 
     // Positions of the kick off us formation which will be dealt to the Formation roles in order
     // Formation_0 will go to the ball
-    stpInfos["formation_0"].setPositionToMoveTo(Vector2(-0.25, 0.0));
+    stpInfos["formation_0"].setPositionToMoveTo(Vector2(0.25, 0.0));
     stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
     stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
     stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, width / 4));
@@ -64,11 +64,11 @@ Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
     flagMap.insert({"formation_2", {not_important}});
     flagMap.insert({"formation_3", {not_important}});
     flagMap.insert({"formation_4", {not_important}});
-    flagMap.insert({"formation_5", {not_important}});
-    flagMap.insert({"formation_6", {not_important}});
-    flagMap.insert({"formation_7", {not_important}});
-    flagMap.insert({"formation_8", {not_important}});
-    flagMap.insert({"formation_9", {not_important}});
+//    flagMap.insert({"formation_5", {not_important}});
+//    flagMap.insert({"formation_6", {not_important}});
+//    flagMap.insert({"formation_7", {not_important}});
+//    flagMap.insert({"formation_8", {not_important}});
+//    flagMap.insert({"formation_9", {not_important}});
 
     return flagMap;
 }

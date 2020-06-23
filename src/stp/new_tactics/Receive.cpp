@@ -33,8 +33,12 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
 
+    if(info.getRobot().value()->getDistanceToBall() <= 1.0){
+        skillStpInfo.setPositionToMoveTo(info.getRobot().value()->getPos());
+    }
+
     // If ball is close to robot, turn on dribbler
-    if (skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE * 5) {
+    if (skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE) {
         skillStpInfo.setDribblerSpeed(100);
     }
 
@@ -66,8 +70,7 @@ double Receive::calculateAngle(const world_new::view::RobotView &robot, const wo
 }
 
 int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
-    double turnOnDribblerDistance = 1.0;
-    return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
+    return robot->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE ? 100 : 0;
 }
 
 const char *Receive::getName() { return "Receive"; }

@@ -68,6 +68,8 @@ class Tactic {
      */
     virtual bool isEndTactic() noexcept = 0;
 
+    virtual bool forceTacticSuccess(const StpInfo &info) noexcept { return false; }
+
     /**
      * The state machine of skills
      */

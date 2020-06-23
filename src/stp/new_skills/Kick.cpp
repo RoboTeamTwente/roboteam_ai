@@ -17,10 +17,19 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     command.set_chip_kick_vel(kickVelocity);
 
-    command.set_dribbler(info.getDribblerSpeed() / 100 * 32);
+    // Clamp and set dribbler speed
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
+    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
+
+    // Set dribbler speed command
+    command.set_dribbler(targetDribblerSpeed);
 
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
+
+    if(robot->hasBall()) {
+       //command.set_chip_kick_forced(true);
+    }
 
     publishRobotCommand();
 

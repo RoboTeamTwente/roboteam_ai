@@ -51,6 +51,8 @@ class GetBall : public Tactic {
 
     bool isEndTactic() noexcept override;
 
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;
+
     /**
      * Gets the tactic name
      */

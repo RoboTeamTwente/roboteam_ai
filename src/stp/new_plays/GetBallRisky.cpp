@@ -7,6 +7,7 @@
 #include <include/roboteam_ai/stp/new_roles/Defender.h>
 #include <include/roboteam_ai/stp/new_roles/Halt.h>
 #include <include/roboteam_ai/stp/new_roles/PassReceiver.h>
+#include "stp/invariants/BallClosestToUsInvariant.h""
 
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
@@ -21,11 +22,14 @@ GetBallRisky::GetBallRisky() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
@@ -100,12 +104,12 @@ Dealer::FlagMap GetBallRisky::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {keeper}});
     flagMap.insert({"ball_getter", {ball_getter}});
     flagMap.insert({"receiver_0", {not_important}});
-    flagMap.insert({"receiver_1", {not_important}});
-    flagMap.insert({"receiver_2", {not_important}});
+    /*flagMap.insert({"receiver_1", {not_important}});
+    flagMap.insert({"receiver_2", {not_important}});*/
     flagMap.insert({"defender_0", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
+    /*flagMap.insert({"defender_1", {not_important}});
     flagMap.insert({"defender_2", {not_important}});
-    flagMap.insert({"midfielder_0", {not_important}});
+    flagMap.insert({"midfielder_0", {not_important}});*/
     flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
     return flagMap;

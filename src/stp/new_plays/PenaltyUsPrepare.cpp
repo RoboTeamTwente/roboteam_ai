@@ -63,11 +63,11 @@ Dealer::FlagMap PenaltyUsPrepare::decideRoleFlags() const noexcept {
     flagMap.insert({"formation_1", {not_important}});
     flagMap.insert({"formation_2", {not_important}});
     flagMap.insert({"formation_3", {not_important}});
-    flagMap.insert({"formation_4", {not_important}});
-    flagMap.insert({"formation_5", {not_important}});
-    flagMap.insert({"formation_6", {not_important}});
-    flagMap.insert({"formation_7", {not_important}});
-    flagMap.insert({"formation_8", {not_important}});
+//    flagMap.insert({"formation_4", {not_important}});
+//    flagMap.insert({"formation_5", {not_important}});
+//    flagMap.insert({"formation_6", {not_important}});
+//    flagMap.insert({"formation_7", {not_important}});
+//    flagMap.insert({"formation_8", {not_important}});
     return flagMap;
 }
 

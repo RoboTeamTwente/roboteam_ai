@@ -19,7 +19,7 @@ void Halt::onTerminate() noexcept {}
 
 std::optional<StpInfo> Halt::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillInfo = info;
-    skillInfo.setAngle(0);
+    skillInfo.setAngle(0.00001);
 
     return skillInfo;
 }

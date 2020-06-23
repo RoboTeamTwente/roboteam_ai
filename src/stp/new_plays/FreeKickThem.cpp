@@ -119,14 +119,14 @@ Dealer::FlagMap FreeKickThem::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"defender_0", {closeToOurGoalFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    //flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_0", {closeToBallFlag}});
     flagMap.insert({"blocker_1", {closeToBallFlag}});
     flagMap.insert({"blocker_2", {closeToBallFlag}});
-    flagMap.insert({"blocker_3", {closeToBallFlag}});
-    flagMap.insert({"blocker_4", {closeToBallFlag}});
-    flagMap.insert({"blocker_5", {closeToBallFlag}});
-    flagMap.insert({"offender", {closeToBallFlag}});
+//    flagMap.insert({"blocker_3", {closeToBallFlag}});
+//    flagMap.insert({"blocker_4", {closeToBallFlag}});
+//    flagMap.insert({"blocker_5", {closeToBallFlag}});
+//    flagMap.insert({"offender", {closeToBallFlag}});
 
     return flagMap;
 }

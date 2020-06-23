@@ -29,17 +29,20 @@ uint8_t DefensiveFormation::score(world_new::World* world) noexcept { return 20;
 
 void DefensiveFormation::calculateInfoForRoles() noexcept {
     // TODO: TUNE these positions could probably be a bit better once we decide how we want to play
-    stpInfos["keeper"].setPositionToMoveTo(Vector2{-4.5, 0});
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2{-3, 4});
-    stpInfos["defender_1"].setPositionToMoveTo(Vector2{-3, 1});
-    stpInfos["defender_2"].setPositionToMoveTo(Vector2{-3, -1});
-    stpInfos["defender_3"].setPositionToMoveTo(Vector2{-3, -4});
-    stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-2, 3});
-    stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-2, 0});
-    stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-2, -3});
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2{-1, 4});
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2{-1, 0});
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2{-1, -4});
+    auto length = field.getFieldLength();
+    auto width = field.getFieldWidth();
+
+    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2{0.5, 0.0});
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2{-length / 5, width / 3});
+    stpInfos["defender_1"].setPositionToMoveTo(Vector2{-length / 5, -width / 3});
+    stpInfos["defender_2"].setPositionToMoveTo(Vector2{-length / 5, width / 6});
+    stpInfos["defender_3"].setPositionToMoveTo(Vector2{-length / 5, -width / 6});
+    stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
+    stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
+    stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
+    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 4, 0.0});
+    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 4, width / 4});
+    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
 }
 
 bool DefensiveFormation::shouldRoleSkipEndTactic() { return false; }
@@ -50,14 +53,14 @@ Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"defender_0", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
+    //flagMap.insert({"defender_0", {not_important}});
+    //flagMap.insert({"defender_1", {not_important}});
     flagMap.insert({"defender_2", {not_important}});
     flagMap.insert({"defender_3", {not_important}});
     flagMap.insert({"mid_field_0", {not_important}});
-    flagMap.insert({"mid_field_1", {not_important}});
-    flagMap.insert({"mid_field_2", {not_important}});
-    flagMap.insert({"offender_0", {not_important}});
+//    flagMap.insert({"mid_field_1", {not_important}});
+//    flagMap.insert({"mid_field_2", {not_important}});
+    //flagMap.insert({"offender_0", {not_important}});
     flagMap.insert({"offender_1", {not_important}});
     flagMap.insert({"offender_2", {not_important}});
 

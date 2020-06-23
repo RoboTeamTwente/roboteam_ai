@@ -47,6 +47,7 @@ void Play::update() noexcept {
     // derived class method call
     calculateInfoForRoles();
 
+
     for (auto& role : roles) {
         // Update the roles
         if (stpInfos.find(role->getName()) != stpInfos.end()) {

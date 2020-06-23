@@ -16,7 +16,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set dribbler speed
     // TODO: fix this, why do we clamp this twice?
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    targetDribblerPercentage = std::clamp(targetDribblerPercentage, 0, 10);
+    targetDribblerPercentage = std::clamp(targetDribblerPercentage, 0, 30);
     int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set angle command
@@ -29,7 +29,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+    if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin/2) {
         return Status::Success;
     } else {
         return Status::Running;

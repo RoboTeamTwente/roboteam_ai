@@ -8,10 +8,10 @@
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/new_skills/GoToPos.h"
 #include "utilities/GameStateManager.hpp"
-
+#include "stp/new_skills/Rotate.h"
 namespace rtt::ai::stp::tactic {
 
-AvoidBall::AvoidBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
+AvoidBall::AvoidBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
 
 void AvoidBall::onInitialize() noexcept {}
 
@@ -57,6 +57,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
             skillStpInfo.setPositionToMoveTo(avoidTube.project(targetPosition));
         }
     }
+    skillStpInfo.setAngle(0.00001);
 
     return skillStpInfo;
 }

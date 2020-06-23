@@ -33,15 +33,18 @@ namespace rtt::ai::stp::play {
         auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
         stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
 
-        stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
-        stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-3, 1});
-        stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{-3, -1});
-        stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-3, -4});
-        stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-2, 3});
-        stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{-2, 0});
-        stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{-2, -3});
-        stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{-1, 4});
-        stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{-1, 0});
+        auto length = field.getFieldLength();
+        auto width = field.getFieldWidth();
+
+        stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-length / 5, 0.0});
+        stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-length / 5, width / 6});
+        stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{--length / 5, -width / 6});
+        stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
+        stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
+        stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{--length / 9, width / 4});
+        stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{length / 4, 0.0});
+        stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{length / 4, width / 4});
+        stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
     }
 
     bool BallPlacementUs::shouldRoleSkipEndTactic() { return false; }
@@ -58,11 +61,11 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"ball_avoider_2", {not_important}});
         flagMap.insert({"ball_avoider_3", {not_important}});
         flagMap.insert({"ball_avoider_4", {not_important}});
-        flagMap.insert({"ball_avoider_5", {not_important}});
-        flagMap.insert({"ball_avoider_6", {not_important}});
-        flagMap.insert({"ball_avoider_7", {not_important}});
-        flagMap.insert({"ball_avoider_8", {not_important}});
-        flagMap.insert({"ball_avoider_9", {not_important}});
+//        flagMap.insert({"ball_avoider_5", {not_important}});
+//        flagMap.insert({"ball_avoider_6", {not_important}});
+//        flagMap.insert({"ball_avoider_7", {not_important}});
+//        flagMap.insert({"ball_avoider_8", {not_important}});
+//        flagMap.insert({"ball_avoider_9", {not_important}});
 
         return flagMap;
     }

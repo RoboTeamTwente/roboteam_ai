@@ -6,6 +6,7 @@
 
 #include <roboteam_utils/Grid.h>
 #include <roboteam_utils/Tube.h>
+#include "stp/invariants/BallClosestToUsInvariant.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallOnOurSideInvariant.h"
@@ -23,10 +24,12 @@ GenericPass::GenericPass() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
+
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::Passer>(role::Passer("passer")),
@@ -41,20 +44,20 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(world_new::World* world) noexcept { return 100; }
+uint8_t GenericPass::score(world_new::World* world) noexcept { return 130; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
-    const Vector2 passingPosition = calculatePassLocation();
+    const Vector2 passingPosition = Vector2{0,0};//calculatePassLocation();
 
     auto ball = world->getWorld()->getBall().value();
 
     auto receivePosition = passingPosition;
-    if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-       receivePosition = ball->getPos();
+    if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
+        receivePosition = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()*100).project(passingPosition);
     }
 
     // Receiver
@@ -62,7 +65,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(TARGET);
+    stpInfos["passer"].setKickChipType(PASS);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -80,11 +83,11 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     flagMap.insert({"halt_0", {not_important}});
     flagMap.insert({"halt_1", {not_important}});
     flagMap.insert({"halt_2", {not_important}});
-    flagMap.insert({"halt_3", {not_important}});
+    /*flagMap.insert({"halt_3", {not_important}});
     flagMap.insert({"halt_4", {not_important}});
     flagMap.insert({"halt_5", {not_important}});
     flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"halt_7", {not_important}});
+    flagMap.insert({"hal0_7", {not_important}});*/
     return flagMap;
 }
 

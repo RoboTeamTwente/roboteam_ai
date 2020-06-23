@@ -4,12 +4,13 @@
 
 #include "stp/new_roles/BallGetter.h"
 #include "stp/new_tactics/GetBall.h"
+#include "stp/new_tactics/GetBallInDirection.h"
 
 namespace rtt::ai::stp::role {
 
 BallGetter::BallGetter(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBallInDirection()};
 }
 
 } // namespace rtt::ai::stp::role

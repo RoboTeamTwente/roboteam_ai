@@ -24,9 +24,9 @@ Status Keeper::update(StpInfo const& info) noexcept {
     }
 
     // Stop blocking when ball is in defense area and still, start getting the ball and pass
-    bool isBallInOurDefenseAreaAndStill = Keeper::isBallInOurDefenseAreaAndStill(
+    bool stopBlockBall = isBallInOurDefenseAreaAndStill(
             info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
-    if (isBallInOurDefenseAreaAndStill && robotTactics.current_num() == 0) forceNextTactic();
+    if (stopBlockBall && robotTactics.current_num() == 0) forceNextTactic();
 
     currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
@@ -39,7 +39,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
     }
 
     // Reset the tactic state machine if a tactic failed and the state machine is not yet finished
-    if ((status == Status::Failure && !robotTactics.finished()) || shouldRoleReset(isBallInOurDefenseAreaAndStill)) {
+    if ((status == Status::Failure && !robotTactics.finished()) || shouldRoleReset(stopBlockBall)) {
         RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
         // Reset all the Skills state machines
         for (auto& tactic : robotTactics) {
@@ -63,7 +63,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
 }
 
 bool Keeper::isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept {
-    bool pointIsInDefenseArea = FieldComputations::pointIsInDefenseArea(field, ballPos, true, -2);
+    bool pointIsInDefenseArea = FieldComputations::pointIsInDefenseArea(field, ballPos, true);
     bool ballIsLayingStill = ballVel.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT;
 
     return pointIsInDefenseArea && ballIsLayingStill;

@@ -58,12 +58,12 @@ namespace rtt::ai::interface {
 	 *   start:
 	 */
     void PlaysWidget::updatePlays() {
-        QString ss = {};
-        for (auto& each : ApplicationManager::plays) {
-            ss += formatPlay(each.get());
-        }
-        auto sliderPos = verticalScrollBar()->sliderPosition();
-        setHtml(ss);
-        verticalScrollBar()->setSliderPosition(sliderPos);
+//        QString ss = {};
+//        for (auto& each : ApplicationManager::plays) {
+//            ss += formatPlay(each.get());
+//        }
+//        auto sliderPos = verticalScrollBar()->sliderPosition();
+//        setHtml(ss);
+//        verticalScrollBar()->setSliderPosition(sliderPos);
     }
 }

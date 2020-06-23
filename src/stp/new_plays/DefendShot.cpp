@@ -18,12 +18,12 @@ namespace rtt::ai::stp::play {
 DefendShot::DefendShot() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToThemInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
@@ -53,13 +53,13 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"defender_3", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_4", {not_important}});
-    flagMap.insert({"defender_5", {not_important}});
-    flagMap.insert({"harasser", {closeToBallFlag}});
-    flagMap.insert({"midfielder_1", {not_important}});
+//    flagMap.insert({"defender_4", {not_important}});
+//    flagMap.insert({"defender_5", {not_important}});
+//    flagMap.insert({"harasser", {closeToBallFlag}});
+//    flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+//    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -82,14 +82,15 @@ void DefendShot::calculateInfoForDefenders() noexcept {
       return;
     }
 
+
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
                                      [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToGoal && enemyRobot->getId() == enemyClosestToGoal.value()->getId(); }));
+//    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+//                                     [&](const auto enemyRobot) -> bool { return enemyClosestToGoal && enemyRobot->getId() == enemyClosestToGoal.value()->getId(); }));
 
-    auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
+   auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);

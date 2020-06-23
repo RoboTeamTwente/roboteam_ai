@@ -4,13 +4,13 @@
 
 #include "stp/new_roles/Passer.h"
 
-#include "stp/new_tactics/GetBallInDirection.h"
+#include "stp/new_tactics/GetBall.h"
 #include "stp/new_tactics/KickAtPos.h"
 
 namespace rtt::ai::stp::role {
 
 Passer::Passer(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBallInDirection(), tactic::KickAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall/*InDirection*/(), tactic::KickAtPos()};
 }
 }  // namespace rtt::ai::stp::role

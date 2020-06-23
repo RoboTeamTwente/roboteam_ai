@@ -261,20 +261,20 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
 
 // draw the robots
     void Visualizer::drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world) {
-        // draw us
-        for (auto const &robot : world->getUs()) {
-            std::string role{};
-            if (rolesForRobots.find(robot->getId()) != rolesForRobots.end()) {
-                std::lock_guard mtx{rolesUpdate};
-                role = rolesForRobots[robot->getId()];
-            }
-            drawRobot(painter, robot, true, role);
-        }
-
-        // draw them
-        for (auto const &robot : world->getThem()) {
-            drawRobot(painter, robot, false);
-        }
+//        // draw us
+//        for (auto const &robot : world->getUs()) {
+//            std::string role{};
+//            if (rolesForRobots.find(robot->getId()) != rolesForRobots.end()) {
+//                std::lock_guard mtx{rolesUpdate};
+//                role = rolesForRobots[robot->getId()];
+//            }
+//            drawRobot(painter, robot, true, role);
+//        }
+//
+//        // draw them
+//        for (auto const &robot : world->getThem()) {
+//            drawRobot(painter, robot, false);
+//        }
     }
 
 // convert field coordinates to screen coordinates

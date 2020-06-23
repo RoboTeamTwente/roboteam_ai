@@ -51,11 +51,11 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     flagMap.insert({"blocker_1", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_2", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_3", {not_important}});
-    flagMap.insert({"blocker_4", {not_important}});
+/*    flagMap.insert({"blocker_4", {not_important}});
     flagMap.insert({"blocker_5", {not_important}});
     flagMap.insert({"harasser", {closeToBallFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});*/
 
     return flagMap;
 }

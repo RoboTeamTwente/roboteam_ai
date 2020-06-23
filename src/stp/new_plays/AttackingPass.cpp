@@ -6,6 +6,7 @@
 
 #include <stp/new_roles/Halt.h>
 #include <stp/new_roles/Keeper.h>
+#include "stp/invariants/BallClosestToUsInvariant.h"
 
 #include "roboteam_utils/Grid.h"
 #include "roboteam_utils/Tube.h"
@@ -23,9 +24,11 @@ AttackingPass::AttackingPass() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::NoGoalVisionFromBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
@@ -56,11 +59,11 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     flagMap.insert({"defender1", {not_important}});
     flagMap.insert({"test_role_3", {not_important}});
     flagMap.insert({"test_role_4", {not_important}});
-    flagMap.insert({"test_role_5", {not_important}});
+    /*flagMap.insert({"test_role_5", {not_important}});
     flagMap.insert({"test_role_6", {not_important}});
     flagMap.insert({"test_role_7", {not_important}});
     flagMap.insert({"test_role_8", {not_important}});
-    flagMap.insert({"test_role_9", {not_important}});
+    flagMap.insert({"test_role_9", {not_important}});*/
 
     return flagMap;
 }
