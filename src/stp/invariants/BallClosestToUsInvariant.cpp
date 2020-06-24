@@ -15,7 +15,6 @@ uint8_t BallClosestToUsInvariant::metricCheck(world_new::view::WorldDataView wor
     else return control_constants::FUZZY_FALSE;
 }
 BallClosestToUsInvariant::BallClosestToUsInvariant() noexcept {
-
 }
 
 }  // namespace rtt::ai::stp::invariant
