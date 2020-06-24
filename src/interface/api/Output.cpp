@@ -38,7 +38,7 @@ void Output::sendHaltCommand() {
             pause.setPause(false);
         } else {
             pause.setPause(true);
-            pause.haltRobots();
+            pause.haltRobots(world);
         }
     }
 
