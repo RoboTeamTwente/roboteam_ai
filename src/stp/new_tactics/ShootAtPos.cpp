@@ -101,6 +101,6 @@ bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     return false;
 }
 
-const char *ShootAtPos::getName() { return "Kick At Pos"; }
+const char *ShootAtPos::getName() { return "Shoot At Pos"; }
 
 }  // namespace rtt::ai::stp::tactic

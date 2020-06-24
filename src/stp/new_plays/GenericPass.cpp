@@ -50,7 +50,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
-    const Vector2 passingPosition = Vector2{0,0};//calculatePassLocation();
+    const Vector2 passingPosition = calculatePassLocation();
 
     auto ball = world->getWorld()->getBall().value();
 
@@ -97,13 +97,16 @@ const Vector2 GenericPass::calculatePassLocation() noexcept {
     double offSetY = -2.5;
     double regionWidth = 3;
     double regionHeight = 5;
-    auto numStepsX = 20;
-    auto numStepsY = 20;
+    auto numStepsX = 5;
+    auto numStepsY = 5;
 
     double bestScore{};
     Vector2 bestPosition{};
 
     auto w = world->getWorld().value();
+    auto fieldWidth = field.getFieldWidth();
+    auto fieldLength = field.getFieldLength();
+    auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
 
     // Make a grid with all potentially good points
     Grid grid = Grid(offSetX, offSetY, regionWidth, regionHeight, numStepsX, numStepsY);
@@ -111,9 +114,6 @@ const Vector2 GenericPass::calculatePassLocation() noexcept {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
-                auto fieldWidth = field.getFieldWidth();
-                auto fieldLength = field.getFieldLength();
-                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
 
                 /// If we can't reach target using kick, use chip
                 auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
@@ -153,17 +153,11 @@ bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
 
 bool GenericPass::passFinished() noexcept {
     // TODO: fix this condition
-    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
-        return true;
-    }
-    return false;
+    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5;
 }
 
 bool GenericPass::passFailed() noexcept {
     // TODO: fix this condition
-    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
-        return true;
-    }
-    return false;
+    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4;
 }
 }  // namespace rtt::ai::stp::play

@@ -29,6 +29,9 @@ class Kick : public Skill {
      * Gets the skill name
      */
     const char *getName() override;
+
+    private:
+        int kickAttempts = 0;
 };
 
 }  // namespace rtt::ai::stp::skill
