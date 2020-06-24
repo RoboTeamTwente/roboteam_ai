@@ -5,10 +5,13 @@
 #ifndef ROBOTEAM_AI_CONTROLUTILS_H
 #define ROBOTEAM_AI_CONTROLUTILS_H
 
+#include <stp/StpInfo.h>
 #include <roboteam_utils/Arc.h>
 #include <roboteam_utils/Line.h>
+
 #include <cmath>
 #include <optional>
+
 #include "utilities/Constants.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
@@ -49,6 +52,22 @@ namespace rtt::ai {
             static Vector2 projectPositionToWithinField(const world::Field &field, Vector2 position, double margin);
 
             static Vector2 projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin);
+
+            /**
+             * Determines the chip force based on the distance and the type of chip
+             * @param distance distance to the target
+             * @param desiredBallSpeedType type of the chip
+             * @return a chip speed between min and max chip speed
+             */
+            static double determineChipForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept;
+
+            /**
+             * Determines the kick force based on the distance and the type of kick
+             * @param distance distance to the target
+             * @param desiredBallSpeedType type of the kick
+             * @return a kick speed between min and max kick speed
+             */
+            static double determineKickForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept;
         };
 
     }  // namespace control

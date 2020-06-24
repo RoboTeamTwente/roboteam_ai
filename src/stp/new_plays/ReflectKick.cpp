@@ -98,6 +98,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);
     stpInfos["passer"].setKickChipType(TARGET);
+    stpInfos["passer"].setShootType(KICK);
 
     // Offenders
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));
