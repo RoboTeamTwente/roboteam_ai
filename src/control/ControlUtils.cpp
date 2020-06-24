@@ -3,7 +3,11 @@
 //
 
 #include "control/ControlUtils.h"
+
+#include "stp/StpInfo.h"
+
 #include <utilities/GameStateManager.hpp>
+
 #include "world_new/World.hpp"
 
 namespace rtt::ai::control {
@@ -82,6 +86,7 @@ Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Ve
     return position;
 }
 
+/// Projects the position outside the defense area
 Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin) {
     if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
@@ -94,4 +99,34 @@ Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &fi
     return position;
 }
 
+/// Calculates the chip force
+double ControlUtils::determineChipForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept {
+    // TODO: For now, we just return the max_chip_power, but this needs tuning
+    return stp::control_constants::MAX_CHIP_POWER;
+}
+
+/// Calculate the kick force
+double ControlUtils::determineKickForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept {
+    constexpr double TARGET_FACTOR{0.5};
+    constexpr double PASS_FACTOR{1.0};
+
+    if (desiredBallSpeedType == stp::MAX) return stp::control_constants::MAX_KICK_POWER;
+
+    double limitingFactor{};
+    // Pick the right limiting factor based on ballSpeedType and whether we use GRSIM or not
+    if (desiredBallSpeedType == stp::PASS) {
+        limitingFactor = PASS_FACTOR;
+    } else if (desiredBallSpeedType == stp::TARGET) {
+        limitingFactor = TARGET_FACTOR;
+    } else {
+        RTT_ERROR("No valid ballSpeedType, kick velocity set to 0")
+        return 0;
+    }
+
+    // Calculate the velocity based on this function with the previously set limitingFactor
+    auto velocity = distance * limitingFactor;
+
+    // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
+    return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
+}
 }  // namespace rtt::ai::control

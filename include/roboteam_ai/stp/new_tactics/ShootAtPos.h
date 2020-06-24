@@ -46,22 +46,6 @@ namespace rtt::ai::stp::tactic {
          */
         std::optional<StpInfo> calculateInfoForChip(const StpInfo &info) noexcept;
 
-        /**
-         * Calculate the kickforce for the skill
-         * @param distance distance to the target
-         * @param desiredBallSpeedType type of the kick
-         * @return the speed the kicker needs to kick at
-         */
-        double determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept;
-
-        /**
-         * Calculate the chip force for the skill
-         * @param distance distance to the target
-         * @param desiredBallSpeedType type of the chip
-         * @return the speed the chipper needs to chip at
-         */
-        double determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept;
-
         bool isEndTactic() noexcept override;
 
         bool isTacticFailing(const StpInfo &info) noexcept override;
