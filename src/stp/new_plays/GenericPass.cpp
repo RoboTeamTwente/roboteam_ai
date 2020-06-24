@@ -95,9 +95,9 @@ const char* GenericPass::getName() { return "Generic Pass"; }
 
 const Vector2 GenericPass::calculatePassLocation() const noexcept {
     double offSetX = 0;  // start looking for suitable positions to move to at 30% of the field width
-    double offSetY = -3;
+    double offSetY = -2.5;
     double regionWidth = 3;
-    double regionHeight = 6;
+    double regionHeight = 5;
     auto numStepsX = 20;
     auto numStepsY = 20;
 

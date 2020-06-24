@@ -10,7 +10,7 @@ namespace rtt::ai::stp::role {
 
 BallGetter::BallGetter(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBallInDirection()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall()};
 }
 
 } // namespace rtt::ai::stp::role

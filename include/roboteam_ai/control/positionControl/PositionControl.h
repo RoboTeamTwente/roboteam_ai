@@ -41,7 +41,8 @@ class PositionControl {
      * @param targetPosition the desired position that the robot has to reach
      * @return a RobotCommand, which can be fed directly in the output
      */
-    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, const Vector2 &targetPosition);
+    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition,
+            const Vector2 &currentVelocity, const Vector2 &targetPosition, stp::PIDType pidType);
 
     /**
      * Updates the robot view vector

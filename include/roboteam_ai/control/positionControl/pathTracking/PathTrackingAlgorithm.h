@@ -6,11 +6,14 @@
 #define RTT_PATHTRACKINGALGORITHM_H
 
 #include <roboteam_utils/Position.h>
+#include <stp/StpInfo.h>
 
 namespace rtt::ai::control{
 class PathTrackingAlgorithm {
 public:
-    virtual Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle) = 0;
+    virtual Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
+            std::vector<Vector2> &pathPoints,
+            int robotId, double angle, stp::PIDType pidType) = 0;
 
     /**
      * Uses the implementation of trackPath, but replaces the angle with the orientation of the
@@ -21,7 +24,8 @@ public:
      * @param robotId
      * @return a structure containing the tracking velocity and the orientation angle
      */
-    Position trackPathDefaultAngle(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId);
+    Position trackPathDefaultAngle(const Vector2 &currentPosition,
+            const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, stp::PIDType pidType);
 };
 }
 

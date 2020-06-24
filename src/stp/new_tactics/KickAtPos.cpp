@@ -50,8 +50,8 @@ double KickAtPos::determineKickForce(double distance, KickChipType desiredBallSp
     // TODO: TUNE these factors need tuning
     // Increase these factors to decrease kick velocity
     // Decrease these factors to increase kick velocity
-    constexpr double TARGET_FACTOR{2};
-    constexpr double PASS_FACTOR{1.8};
+    constexpr double TARGET_FACTOR{1.0};
+    constexpr double PASS_FACTOR{1.0};
 
     if (desiredBallSpeedType == MAX) return stp::control_constants::MAX_KICK_POWER;
 

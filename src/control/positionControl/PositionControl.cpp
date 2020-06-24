@@ -2,12 +2,14 @@
 // Created by ratoone on 18-11-19.
 //
 
+#include "stp/StpInfo.h"
 #include "control/positionControl/PositionControl.h"
 #include "roboteam_utils/Print.h"
 
 namespace rtt::ai::control {
-    RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
-                                                      const Vector2 &targetPosition) {
+    RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId,
+            const Vector2 &currentPosition,
+            const Vector2 &currentVelocity, const Vector2 &targetPosition, stp::PIDType pidType) {
     collisionDetector.setField(field);
     // if the target position is outside of the field (i.e. bug in AI), do nothing
     if (!collisionDetector.isPointInsideField(targetPosition)) {
@@ -31,7 +33,8 @@ namespace rtt::ai::control {
 
     RobotCommand command = RobotCommand();
     command.pos = computedPaths[robotId].front();
-    Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity, computedPaths[robotId], robotId);
+    Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,
+            computedPaths[robotId], robotId, pidType);
     command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
     command.angle = trackingVelocity.rot;
 

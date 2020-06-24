@@ -32,8 +32,8 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
 
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
-
-    if(info.getRobot().value()->getDistanceToBall() <= 1.0){
+    skillStpInfo.setPidType(RECEIVE);
+    if(info.getRobot().value()->getDistanceToBall() <= 0.4){
         skillStpInfo.setPositionToMoveTo(info.getRobot().value()->getPos());
     }
 
@@ -62,7 +62,7 @@ bool Receive::isEndTactic() noexcept {
 }
 
 double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
-    if (robot->getDistanceToBall() <= 1.0) {
+    if (robot->getDistanceToBall() <= 2.0) {
         return robot->getAngle();
     } else {
         return (ball->getPos() - robot->getPos()).angle();

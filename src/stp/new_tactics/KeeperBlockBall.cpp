@@ -39,7 +39,8 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
 
     auto targetAngle = keeperToBall.angle();
 
-    skillStpInfo.setPositionToMoveTo(targetPosition);
+    skillStpInfo.setPositionToMoveTo(targetPosition.first);
+    skillStpInfo.setPidType(targetPosition.second);
     skillStpInfo.setAngle(targetAngle);
 
     return skillStpInfo;
@@ -56,7 +57,7 @@ bool KeeperBlockBall::shouldTacticReset(const StpInfo &info) noexcept {
 
 const char *KeeperBlockBall::getName() { return "Keeper Block Ball"; }
 
-Vector2 KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept {
+std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept {
     const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
 
     // Ball is on our side
@@ -73,7 +74,7 @@ Vector2 KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView
 
             auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
             if (intersection) {
-                return intersection.value();
+                return std::make_pair(intersection.value(), KEEPER_INTERCEPT);
             }
         }
 
@@ -91,9 +92,9 @@ Vector2 KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView
                 auto targetPositions = keeperArc.intersectionWithLine(start, intersection.value());
 
                 if (targetPositions.first) {
-                    return targetPositions.first.value();
+                    return std::make_pair(targetPositions.first.value(), KEEPER);
                 } else if (targetPositions.second) {
-                    return targetPositions.second.value();
+                    return std::make_pair(targetPositions.second.value(), KEEPER);
                 }
             }
         }
@@ -102,14 +103,14 @@ Vector2 KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView
         auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
 
         if (targetPositions.first) {
-            return targetPositions.first.value();
+            return std::make_pair(targetPositions.first.value(), KEEPER);
         } else if (targetPositions.second) {
-            return targetPositions.second.value();
+            return std::make_pair(targetPositions.second.value(), KEEPER);
         }
     }
 
     // Default position
-    return field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0);
+    return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), KEEPER);
 }
 
 }  // namespace rtt::ai::stp::tactic

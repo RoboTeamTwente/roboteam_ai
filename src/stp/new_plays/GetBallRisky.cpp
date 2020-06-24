@@ -7,7 +7,7 @@
 #include <include/roboteam_ai/stp/new_roles/Defender.h>
 #include <include/roboteam_ai/stp/new_roles/Halt.h>
 #include <include/roboteam_ai/stp/new_roles/PassReceiver.h>
-#include "stp/invariants/BallClosestToUsInvariant.h""
+#include "stp/invariants/BallClosestToUsInvariant.h"
 
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
@@ -75,7 +75,7 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["defender_1"].setBlockDistance(HALFWAY);
 
     if(enemyClosestToGoal) stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
-    else stpInfos["defender_2"].setPositionToDefend(std::nullopt);
+    else stpInfos["defender_2"].setPositionToDefend(field.getTheirGoalCenter() + Vector2{1,1});
     stpInfos["defender_2"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
 
@@ -88,7 +88,7 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setBlockDistance(CLOSE);
 
     if(enemyClosestToGoal) stpInfos["midfielder_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
-    else stpInfos["midfielder_2"].setPositionToDefend(std::nullopt);
+    else stpInfos["midfielder_2"].setPositionToDefend(field.getTheirGoalCenter() + Vector2{1,1});
     stpInfos["midfielder_2"].setEnemyRobot(enemyAttacker);
     stpInfos["midfielder_2"].setBlockDistance(CLOSE);
 }

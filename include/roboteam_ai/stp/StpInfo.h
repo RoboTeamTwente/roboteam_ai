@@ -75,6 +75,7 @@ struct Areas {
 const int blockLength = 3; // The number of elements in the blockdistance enum
 enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
 enum KickChipType { PASS, TARGET, MAX };
+enum PIDType {DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT};
 
 struct StpInfo {
    public:
@@ -125,6 +126,13 @@ struct StpInfo {
         currentWorld = world;
     }
 
+    const std::optional<PIDType> &getPidType() const {
+        return PIDType;
+    }
+
+    void setPidType(const std::optional<PIDType> &pidType) {
+        PIDType = pidType;
+    }
 
    private:
     /**
@@ -197,6 +205,12 @@ struct StpInfo {
      * When avoiding the ball, the robot will try to keep this distance (in meters) between the ball and the robot)
      */
     std::optional<double> avoidBallDistance;
+
+    /**
+     * Enum for deciding wwhich PID should be chosen
+     */
+     std::optional<PIDType> PIDType {DEFAULT};
+
 };
 }  // namespace rtt::ai::stp
 

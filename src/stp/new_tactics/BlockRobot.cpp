@@ -37,7 +37,7 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 }
 
 double BlockRobot::calculateAngle(const world_new::view::RobotView enemy, const Vector2 &targetLocation) {
-    Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
+    Vector2 lineEnemyToTarget = enemy->getPos() - targetLocation;
     return lineEnemyToTarget.angle();
 }
 

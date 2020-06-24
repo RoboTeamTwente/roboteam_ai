@@ -44,7 +44,20 @@ ReflectKick::ReflectKick() : Play() {
 }
 
 uint8_t ReflectKick::score(world_new::World *world) noexcept {
-    return 70;
+    auto closestBot = world->getWorld()->getRobotClosestToBall(world_new::us);
+    auto sum = 0;
+    std::vector<world_new::view::RobotView> potentialBots = {};
+    for (auto robot : world->getWorld()->getUs()) {
+        if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength()/4)  {
+            potentialBots.push_back(robot);
+            sum += 30;
+        }
+    }
+    for (auto robot : potentialBots) {
+        auto robotToGoal = field.getTheirGoalCenter() - robot->getPos();
+    }
+
+    return sum;
 }
 
 Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {

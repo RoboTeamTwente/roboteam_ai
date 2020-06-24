@@ -16,19 +16,11 @@ typedef std::tuple<double, double, double> pidVals;
 
 class Output {
    private:
-    static pidVals basicPID;
     static pidVals numTreePID;
-    static pidVals forcePID;
-    static pidVals shotControllerPID;
-
-   public:
-    static const pidVals &getShotControllerPID();
-    static void setShotControllerPID(const pidVals &shotControllerPID);
-
-   private:
+    static pidVals receivePID;
+    static pidVals interceptPID;
     static pidVals keeperPID;
     static pidVals keeperInterceptPID;
-    static pidVals ballHandlePID;
 
     static std::mutex markerMutex;
     static std::mutex refMutex;
@@ -66,14 +58,14 @@ class Output {
 
     static const pidVals &getNumTreePid();
     static void setNumTreePid(const pidVals &numTreePid);
-    static const pidVals &getBasicPid();
-    static void setBasicPid(const pidVals &basicPid);
+    static const pidVals &getReceivePid();
+    static void setReceivePid(const pidVals &receivePid);
+    static const pidVals &getInterceptPid();
+    static void setInterceptPid(const pidVals &interceptPid);
     static const pidVals &getKeeperPid();
     static void setKeeperPid(const pidVals &keeperPid);
     static const pidVals &getKeeperInterceptPid();
     static void setKeeperInterceptPid(const pidVals &keeperInterceptPid);
-    static const pidVals &getBallHandlePid();
-    static void setBallHandlePid(const pidVals &ballHandlePid);
     static void sendHaltCommand();
 
     static void setRuleSetName(std::string name);

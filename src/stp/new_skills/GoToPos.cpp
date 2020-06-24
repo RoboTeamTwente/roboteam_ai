@@ -22,7 +22,8 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // Calculate commands from path planning and tracking
     auto robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
-        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
+            info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
 
     // Clamp and set velocity
     double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);

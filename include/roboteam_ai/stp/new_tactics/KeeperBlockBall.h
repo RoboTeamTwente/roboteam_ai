@@ -54,7 +54,7 @@ private:
      * @param enemyRobot Enemy robot closest to ball
      * @return Target position for the keeper
      */
-    static Vector2 calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
+    static std::pair<Vector2, stp::PIDType> calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
             const world_new::view::RobotView &enemyRobot) noexcept;
 };
 
