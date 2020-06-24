@@ -16,8 +16,8 @@ Status Shoot::onUpdate(const StpInfo &info) noexcept {
     } else if (info.getShootType() == rtt::ai::stp::KickChip::KICK) {
         return onUpdateKick(info);
     } else {
-        RTT_ERROR("No ShootType set!")
-        return Status::Failure;
+        RTT_ERROR("No ShootType set, kicking by default!")
+        return onUpdateKick(info);
     }
 }
 
