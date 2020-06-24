@@ -121,10 +121,7 @@ bool AttackingPass::shouldRoleSkipEndTactic() { return false; }
 
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
-Vector2 AttackingPass::calculatePassLocation() {
-    auto ourBots = world->getWorld()->getUs();
-    auto theirBots = world->getWorld()->getThem();
-
+const Vector2 AttackingPass::calculatePassLocation() noexcept{
     auto fieldWidth = field.getFieldWidth();
     auto fieldLength = field.getFieldLength();
 
@@ -158,12 +155,13 @@ Vector2 AttackingPass::calculatePassLocation() {
                 // Make sure the angle to shoot at the goal with is okay
                 auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
 
-                // Make sure the ball can reach the target
-                auto canReachTarget{1.0};
+                /// If we can't reach target using kick, use chip
                 auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
                 auto enemyBots = w.getThem();
                 if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
-                    canReachTarget = 0.0;
+                    stpInfos["passer"].setShootType(CHIP);
+                } else {
+                    stpInfos["passer"].setShootType(KICK);
                 }
 
                 // Search closest bot to this point and get that distance
@@ -174,7 +172,7 @@ Vector2 AttackingPass::calculatePassLocation() {
                 }
 
                 // Calculate total score for this point
-                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance * canReachTarget);
+                auto pointScore = (goalDistance + visibility + trialToGoalAngle) * (0.5 * theirClosestBotDistance);
 
                 // Check for best score
                 if (pointScore > bestScore) {
