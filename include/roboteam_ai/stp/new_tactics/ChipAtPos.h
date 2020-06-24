@@ -36,14 +36,6 @@ class ChipAtPos : public Tactic {
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-    /**
-     * Calculate the chipforce for the skill
-     * @param distance distance to the target
-     * @param desiredBallSpeedType type of the chip
-     * @return the speed the chipper needs to chip at
-     */
-    double determineChipForce(double distance, KickChipType desiredBallSpeedType) noexcept;
-
     bool isEndTactic() noexcept override;
 
     bool isTacticFailing(const StpInfo &info) noexcept override;

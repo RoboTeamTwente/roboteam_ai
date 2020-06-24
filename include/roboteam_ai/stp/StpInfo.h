@@ -75,6 +75,7 @@ struct Areas {
 const int blockLength = 3; // The number of elements in the blockdistance enum
 enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
 enum KickChipType { PASS, TARGET, MAX };
+enum KickChip {KICK, CHIP};
 enum PIDType {DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT};
 
 struct StpInfo {
@@ -117,6 +118,9 @@ struct StpInfo {
 
     const std::optional<double> &getAvoidBallDistance() const { return avoidBallDistance; }
     void setAvoidBallDistance(const std::optional<double> &avoidBallDistance) { this->avoidBallDistance = avoidBallDistance; }
+
+    const std::optional<KickChip> &getShootType() const { return shootType; }
+    void setShootType(const std::optional<KickChip> &shootType) { StpInfo::shootType = shootType; }
 
     world_new::World* getCurrentWorld() const {
         return currentWorld;
@@ -205,6 +209,11 @@ struct StpInfo {
      * When avoiding the ball, the robot will try to keep this distance (in meters) between the ball and the robot)
      */
     std::optional<double> avoidBallDistance;
+
+    /**
+     * Set the shot to be a kick or chip
+     */
+    std::optional<KickChip> shootType;
 
     /**
      * Enum for deciding wwhich PID should be chosen
