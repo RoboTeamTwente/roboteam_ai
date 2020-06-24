@@ -114,7 +114,6 @@ const Vector2 GenericPass::calculatePassLocation() noexcept {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
-
                 /// If we can't reach target using kick, use chip
                 auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
                 auto enemyBots = w.getThem();
