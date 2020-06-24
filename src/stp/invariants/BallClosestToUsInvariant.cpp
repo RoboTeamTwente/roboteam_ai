@@ -13,7 +13,6 @@ uint8_t BallClosestToUsInvariant::metricCheck(world_new::view::WorldDataView wor
         return control_constants::FUZZY_TRUE;
     }
     else return control_constants::FUZZY_FALSE;
-
 }
 BallClosestToUsInvariant::BallClosestToUsInvariant() noexcept {
 
