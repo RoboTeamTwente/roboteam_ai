@@ -210,7 +210,6 @@ struct StpInfo {
      * Enum for deciding wwhich PID should be chosen
      */
      std::optional<PIDType> PIDType {DEFAULT};
-
 };
 }  // namespace rtt::ai::stp
 
