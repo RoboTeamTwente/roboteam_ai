@@ -20,10 +20,16 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     command.set_w(info.getRobot().value()->getAngle());
 
     publishRobotCommand(info.getCurrentWorld());
+    if (chipAttempts > 25) {
+        command.set_chip_kick_forced(true);
+        chipAttempts = 0;
+    }
 
     if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
+        chipAttempts = 0;
         return Status::Success;
     }
+    ++chipAttempts;
     return Status::Running;
 }
 

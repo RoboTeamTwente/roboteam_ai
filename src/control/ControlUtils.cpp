@@ -108,7 +108,7 @@ double ControlUtils::determineChipForce(const double distance, stp::KickChipType
 /// Calculate the kick force
 double ControlUtils::determineKickForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept {
     constexpr double TARGET_FACTOR{0.5};
-    constexpr double PASS_FACTOR{1.0};
+    constexpr double PASS_FACTOR{0.745};
 
     if (desiredBallSpeedType == stp::MAX) return stp::control_constants::MAX_KICK_POWER;
 

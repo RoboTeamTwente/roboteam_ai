@@ -68,8 +68,6 @@ class Tactic {
      */
     virtual bool isEndTactic() noexcept = 0;
 
-    virtual bool forceTacticSuccess(const StpInfo &info) noexcept { return false; }
-
     /**
      * The state machine of skills
      */
@@ -128,6 +126,7 @@ class Tactic {
      * @return Skill*
      */
      Skill* getCurrentSkill();
+        virtual bool forceTacticSuccess(const StpInfo &info) noexcept { return false; }
 };
 }  // namespace rtt::ai::stp
 

@@ -20,15 +20,15 @@
 namespace rtt::ai::stp::play {
 
 GenericPass::GenericPass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
-
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
+//    startPlayInvariants.clear();
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+//
+//    keepPlayInvariants.clear();
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+//    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::Passer>(role::Passer("passer")),
@@ -114,16 +114,6 @@ const Vector2 GenericPass::calculatePassLocation() noexcept {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
-
-                /// If we can't reach target using kick, use chip
-                auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
-                auto enemyBots = w.getThem();
-                if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
-                    stpInfos["passer"].setShootType(CHIP);
-                } else {
-                    stpInfos["passer"].setShootType(KICK);
-                }
-
                 // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance{1.0};
@@ -142,6 +132,14 @@ const Vector2 GenericPass::calculatePassLocation() noexcept {
             }
         }
     }
+    /// If we can't reach target using kick, use chip
+    auto passLine = Tube(w->getBall()->get()->getPos(), bestPosition, control_constants::ROBOT_CLOSE_TO_POINT);
+    auto enemyBots = w.getThem();
+    if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
+        stpInfos["passer"].setShootType(CHIP);
+    } else {
+        stpInfos["passer"].setShootType(KICK);
+    }
     return bestPosition;
 }
 
@@ -153,7 +151,7 @@ bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
 
 bool GenericPass::passFinished() noexcept {
     // TODO: fix this condition
-    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5;
+    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.1;
 }
 
 bool GenericPass::passFailed() noexcept {

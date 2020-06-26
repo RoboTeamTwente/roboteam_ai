@@ -29,6 +29,9 @@ class Chip : public Skill {
      * Gets the skill name
      */
     const char* getName() override;
+
+    private:
+        int chipAttempts = 0;
 };
 
 }  // namespace rtt::ai::stp::skill

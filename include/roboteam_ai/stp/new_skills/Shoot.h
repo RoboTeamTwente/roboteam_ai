@@ -38,6 +38,9 @@ namespace rtt::ai::stp::skill {
          * Gets the skill name
          */
         const char *getName() override;
+
+        private:
+            int shootAttempts = 0;
     };
 
 }  // namespace rtt::ai::stp::skill

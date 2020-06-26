@@ -43,7 +43,7 @@ AttackingPass::AttackingPass() : Play() {
                                                                                        std::make_unique<role::Halt>(role::Halt("test_role_9"))};
 }
 
-uint8_t AttackingPass::score(world_new::World* world) noexcept { return 50; }
+uint8_t AttackingPass::score(world_new::World* world) noexcept { return 131; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -158,15 +158,6 @@ const Vector2 AttackingPass::calculatePassLocation() noexcept{
                 // Make sure the angle to shoot at the goal with is okay
                 auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
 
-                /// If we can't reach target using kick, use chip
-                auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
-                auto enemyBots = w.getThem();
-                if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
-                    stpInfos["passer"].setShootType(CHIP);
-                } else {
-                    stpInfos["passer"].setShootType(KICK);
-                }
-
                 // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance{1.0};
@@ -184,6 +175,14 @@ const Vector2 AttackingPass::calculatePassLocation() noexcept{
                 }
             }
         }
+    }
+    /// If we can't reach target using kick, use chip
+    auto passLine = Tube(w->getBall()->get()->getPos(), bestPosition, control_constants::ROBOT_CLOSE_TO_POINT);
+    auto enemyBots = w.getThem();
+    if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
+        stpInfos["passer"].setShootType(CHIP);
+    } else {
+        stpInfos["passer"].setShootType(KICK);
     }
     return bestPosition;
 }

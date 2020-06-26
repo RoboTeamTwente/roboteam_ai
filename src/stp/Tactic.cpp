@@ -29,6 +29,11 @@ Status Tactic::update(StpInfo const &info) noexcept {
         RTT_ERROR("Not all data was present, bad update!")
     }
 
+    // the tactic will not be reset if it's the first skill
+    if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
+        reset();
+    }
+
     // Check if the skills are all finished
     if (skills.finished() || forceTacticSuccess(skill_info.value())) {
         if (!isEndTactic()) {
@@ -39,11 +44,6 @@ Status Tactic::update(StpInfo const &info) noexcept {
         skills.reset();
         currentStatus = Status::Waiting;
         return Status::Waiting;
-    }
-
-    // the tactic will not be reset if it's the first skill
-    if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
-        reset();
     }
 
     // if the failing condition is true, the current tactic will fail
