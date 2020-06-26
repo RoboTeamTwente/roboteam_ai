@@ -131,11 +131,11 @@ struct StpInfo {
     }
 
     const std::optional<PIDType> &getPidType() const {
-        return PIDType;
+        return PidType;
     }
 
     void setPidType(const std::optional<PIDType> &pidType) {
-        PIDType = pidType;
+        PidType = pidType;
     }
 
    private:
@@ -218,7 +218,7 @@ struct StpInfo {
     /**
      * Enum for deciding wwhich PID should be chosen
      */
-     std::optional<PIDType> PIDType {DEFAULT};
+     std::optional<PIDType> PidType {DEFAULT};
 };
 }  // namespace rtt::ai::stp
 
