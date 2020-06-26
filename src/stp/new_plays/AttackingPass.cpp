@@ -195,7 +195,7 @@ bool AttackingPass::isValidPlayToKeep(world_new::World* world) noexcept {
 
 bool AttackingPass::passFinished() noexcept {
     // TODO: fix this condition
-    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5;
+    return stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.1;
 }
 
 bool AttackingPass::passFailed() noexcept {
