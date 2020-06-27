@@ -18,7 +18,12 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         return Status::Running;
     }
 
-    auto targetPos = targetPosOpt.value();
+    Vector2 targetPos = targetPosOpt.value();
+
+    if (!FieldComputations::pointIsInField(info.getField().value(),targetPos)){
+        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId());
+        targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
+    }
 
     // Calculate commands from path planning and tracking
     auto robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
