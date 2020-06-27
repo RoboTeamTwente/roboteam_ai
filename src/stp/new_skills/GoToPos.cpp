@@ -18,13 +18,19 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         return Status::Running;
     }
 
-    auto targetPos = targetPosOpt.value();
+    Vector2 targetPos = targetPosOpt.value();
+
+    if (!FieldComputations::pointIsInField(info.getField().value(),targetPos)){
+        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId());
+        targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
+    }
 
     // Calculate commands from path planning and tracking
     auto robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
             info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
 
+    RTT_INFO("Set velocity")
     // Clamp and set velocity
     double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
