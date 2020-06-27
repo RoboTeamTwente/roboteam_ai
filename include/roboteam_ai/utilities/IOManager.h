@@ -19,8 +19,13 @@
 #include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
 
+namespace rtt::world_new {
+class World;
+}
+
 namespace rtt::ai {
 class Pause;
+
 
 namespace io {
 using namespace rtt::ai::world;
@@ -55,7 +60,7 @@ class IOManager {
    public:
     ~IOManager();
     explicit IOManager() = default;
-    void publishRobotCommand(proto::RobotCommand cmd);
+    void publishRobotCommand(proto::RobotCommand cmd, world_new::World const* world);
     void publishSettings(proto::Setting setting);
     void init(int teamId);
     proto::World getWorldState();

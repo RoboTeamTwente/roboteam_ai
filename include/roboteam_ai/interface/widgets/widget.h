@@ -24,7 +24,7 @@ class Visualizer : public QWidget {
     FRIEND_TEST(MainWindowTest, it_shows_the_visualizer_properly);
 
    public:
-    explicit Visualizer(const rtt::world_new::World &worldManager, QWidget *parent = nullptr);
+    explicit Visualizer(QWidget *parent = nullptr);
     const std::unordered_map<int, rtt::world_new::view::RobotView> &getSelectedRobots() const;
     bool robotIsSelected(rtt::world_new::view::RobotView robot);
     bool robotIsSelected(int id);
@@ -48,7 +48,6 @@ class Visualizer : public QWidget {
     void mousePressEvent(QMouseEvent *event) override;
 
    private:
-    const rtt::world_new::World &worldManager;
     float factor{};
     int fieldmargin = Constants::WINDOW_FIELD_MARGIN();
     void drawBackground(QPainter &painter);

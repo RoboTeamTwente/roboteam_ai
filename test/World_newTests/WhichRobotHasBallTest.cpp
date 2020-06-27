@@ -10,7 +10,7 @@ TEST(World_newTest, WhichRobotHasBallTest) {
     // set us to yellow
     rtt::SETTINGS.setYellow(true);
 
-    auto worldInstance = rtt::world_new::World::instance();
+    auto const& [_, worldInstance] = rtt::world_new::World::instance();
 
     google::protobuf::RepeatedPtrField<proto::WorldRobot> robotsYellow;
     google::protobuf::RepeatedPtrField<proto::WorldRobot> robotsBlue;

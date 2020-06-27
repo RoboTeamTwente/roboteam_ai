@@ -83,7 +83,7 @@ TEST(PlayCheckerTests, testValidCount) {
     plays.emplace_back(std::make_unique<AlwaysFalse>());
     plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
-    auto instance = rtt::world_new::World::instance();
+    auto const& [_, instance] = rtt::world_new::World::instance();
 
     proto::GeometryFieldSize size {};
     size.set_field_length(250);

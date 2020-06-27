@@ -34,7 +34,7 @@ class Skill {
     /**
      * Publishes the current robot command, limits it and refreshes it
      */
-    virtual void publishRobotCommand() noexcept;
+    virtual void publishRobotCommand(world_new::World const* data) noexcept;
 
     /**
      * Rotates the robot command to the other side of the field

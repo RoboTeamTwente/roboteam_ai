@@ -8,8 +8,15 @@
 namespace rtt::ai::interface {
     inline QString formatPlay(stp::Play* play)
     {
-        auto const& field = world_new::World::instance()->getField();
-        auto const& world = world_new::World::instance()->getWorld();
+        std::optional<world_new::view::WorldDataView> world;
+        std::optional<world::Field> field;
+
+        {
+            auto const&[_, worldOwner] = world_new::World::instance();
+            field = worldOwner->getField();
+            world = worldOwner->getWorld();
+        }
+
         if (!world.has_value()) {
             return "Unable to read world...";
         }
@@ -20,6 +27,8 @@ namespace rtt::ai::interface {
             return "World is null";
         }
 
+        world_new::WorldData data = *world.value();
+
         QString ss = "";
         ss += play->getName();
         ss += ":<br>&nbsp;&nbsp;keep:<br>";
@@ -28,7 +37,7 @@ namespace rtt::ai::interface {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
             ss += ":&nbsp;";
-            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
+            ss += (each->checkInvariant(world_new::view::WorldDataView{ &data }, &*field) ? "true" : "false");
             ss += "<br>";
         }
 
