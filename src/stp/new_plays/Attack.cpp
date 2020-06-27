@@ -19,7 +19,7 @@ namespace rtt::ai::stp::play {
 Attack::Attack() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
@@ -41,7 +41,14 @@ Attack::Attack() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t Attack::score(world_new::World *world) noexcept { return 80; }
+uint8_t Attack::score(world_new::World *world) noexcept {
+        if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength()/4) {
+            return 132;
+        }
+        else {
+            return 60;
+        }
+    }
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

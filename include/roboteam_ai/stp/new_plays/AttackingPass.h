@@ -6,6 +6,7 @@
 #define RTT_ATTACKING_PASS_PLAY_H
 
 #include <stp/Play.hpp>
+#include <roboteam_utils/Grid.h>
 
 namespace rtt::ai::stp::play {
 
@@ -60,12 +61,18 @@ class AttackingPass : public Play {
      * Calculates the pass location
      * @return the pass location
      */
-    const Vector2 calculatePassLocation() noexcept;
+    std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
 
    private:
     [[nodiscard]] bool passFinished() noexcept;
 
     [[nodiscard]] bool passFailed() noexcept;
+
+    virtual void onInitialize() noexcept override;
+
+    Vector2 passingPosition;
+
+    bool passerShot{false};
 };
 }  // namespace rtt::ai::stp::play
 

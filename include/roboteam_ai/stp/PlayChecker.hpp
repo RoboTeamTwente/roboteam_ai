@@ -33,6 +33,12 @@ class PlayChecker {
      */
     void update(world_new::World* world) noexcept;
 
+    /**
+     * Returns the default play
+     * @return default play
+     */
+    Play* getPlayForName(const std::string& playName) const noexcept;
+
    private:
     /**
      * An array of all the plays

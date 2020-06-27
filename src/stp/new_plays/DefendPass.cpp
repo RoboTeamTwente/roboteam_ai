@@ -80,13 +80,16 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
+    auto closestBotUs = world->getWorld()->getRobotClosestToBall(world_new::us);
+    auto closestBotThem = world->getWorld()->getRobotClosestToBall(world_new::them);
     for (auto &role : roles) {
         auto roleName = role->getName();
-        if (roleName.find("defender") != std::string::npos) {
+        if (closestBotUs && closestBotThem && roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (world->getWorld()->getRobotClosestToBall(world_new::us) && stpInfos[roleName].getRobot() &&
-                stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us).value()->getId() &&
-                world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+            if (stpInfos[roleName].getRobot()
+                    && stpInfos[roleName].getRobot().value()->getId() == closestBotUs.value()->getId()
+                    && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL
+                    && closestBotThem->get()->getDistanceToBall() > control_constants::BALL_IS_CLOSE) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
                 // TODO: Improve intercept position

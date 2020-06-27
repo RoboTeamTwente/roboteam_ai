@@ -155,11 +155,14 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            // TODO: maybe we want to assign some default play (halt?) when there are no valid plays. Don't forget to cal initialize when we do!
-            currentPlay = nullptr;
-            return;
+            currentPlay = playChecker.getPlayForName("Defend Shot");
+            if(!currentPlay) {
+                return;
+            }
         }
-        currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        else {
+            currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        }
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }

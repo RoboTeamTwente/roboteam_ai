@@ -6,6 +6,7 @@
 #define RTT_GENERICPASS_H
 
 #include <stp/Play.hpp>
+#include <roboteam_utils/Grid.h>
 
 namespace rtt::ai::stp::play {
 
@@ -46,7 +47,7 @@ class GenericPass : public Play {
      * Calculates the pass location
      * @return the pass location
      */
-    const Vector2 calculatePassLocation() noexcept;
+    std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
 
     [[nodiscard]] bool isValidPlayToKeep(world_new::World *world) noexcept override;
 
@@ -57,6 +58,12 @@ class GenericPass : public Play {
     [[nodiscard]] bool passFinished() noexcept;
 
     [[nodiscard]] bool passFailed() noexcept;
+
+    virtual void onInitialize() noexcept override;
+
+    Vector2 passingPosition;
+
+    bool passerShot{false};
 };
 }  // namespace rtt::ai::stp::play
 

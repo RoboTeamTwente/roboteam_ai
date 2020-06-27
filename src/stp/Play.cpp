@@ -11,6 +11,7 @@ void Play::initialize() noexcept {
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
+    onInitialize();
 }
 
 void Play::updateWorld(world_new::World* world) noexcept {
