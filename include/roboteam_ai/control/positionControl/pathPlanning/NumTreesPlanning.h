@@ -5,18 +5,19 @@
 #ifndef RTT_NUMTREESPLANNING_H
 #define RTT_NUMTREESPLANNING_H
 
-#include "utilities/Constants.h"
+#include <queue>
+#include "PathPlanningAlgorithm.h"
 #include "control/positionControl/CollisionDetector.h"
 #include "control/positionControl/PathPointNode.h"
-#include "PathPlanningAlgorithm.h"
-#include <queue>
+#include "utilities/Constants.h"
 
-namespace rtt::ai::control{
+namespace rtt::ai::control {
 class NumTreesPlanning : public PathPlanningAlgorithm {
-private:
+   private:
     static constexpr double AVOIDANCE_DISTANCE = 5 * Constants::ROBOT_RADIUS();
     static constexpr double TARGET_THRESHOLD = 0.1;
     static constexpr int MAX_BRANCHING = 10;
+    static constexpr int MAX_ITERATIONS = 10;
 
     /**
      * Generate 2 new points to the side of the collisionPosition, such that the points and the parent point form
@@ -29,7 +30,7 @@ private:
      */
     std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, const Vector2 &destination) const;
 
-public:
+   public:
     /**
      * The collision detector is provided by the position control. This class was intended
      * to be used only with the PositionControl
@@ -49,6 +50,6 @@ public:
      */
     std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) override;
 };
-}
+}  // namespace rtt::ai::control
 
-#endif //RTT_NUMTREESPLANNING_H
+#endif  // RTT_NUMTREESPLANNING_H
