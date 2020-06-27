@@ -30,7 +30,6 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
             info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
 
-    RTT_INFO("Set velocity")
     // Clamp and set velocity
     double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
