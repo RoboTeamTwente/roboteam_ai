@@ -132,7 +132,7 @@ the world, usage outside of tests can and will result in undefined behavior.
 
 ## Advice for next year ##
 The world is really nice right now, it properly abstracts the hard parts away.
-It tries to guarantee shared immutability which is a very complicate topic and will be covered
+It tries to guarantee shared immutability which is a very complicated topic and will be covered
 in one of the lectures, specifically about shared ownership and concurrency.
 
 My advice is simple.
