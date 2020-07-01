@@ -72,7 +72,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     std::optional<Vector2> intersection;
 
     if ((ball->getPos() - passPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersects(Line(passPosition, field.getTheirGoalCenter()));
+        intersection = Line(ball->getPos(), ball->getPos() + ball->getVelocity()).intersect(Line(passPosition, field.getTheirGoalCenter()));
     }
 
     // First estimate of where the reflect kick location should be
