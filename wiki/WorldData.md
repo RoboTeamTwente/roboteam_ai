@@ -104,15 +104,18 @@ std::span<Robot> getTheirs() {
  *     Robot* robot;    
  * };
  * so &*robots.begin() == Robot*, so what we can do is the following.
+ * Weellll, not exactly, you'll have to wrap it in some sort of
+ * RobotViewArray, or you could of course just have a second std::array<RobotView, N> 
+ * to which you return slices.
  */
 std::span<RobotView> getOurs() {
-    return std::span(&*robots.begin(), &*robots.begin() + ROBOT_COUNT);
+    return std::span(&*robots_views.begin(), &*robots_views.begin() + ROBOT_COUNT);
 }
 
 std::span<RobotView> getTheirs() {
-    return std::span(&*robots.begin() + ROBOT_COUNT, &*robots.end());
+    return std::span(&*robots_views.begin() + ROBOT_COUNT, &*robots_views.end());
 }
 
 std::span<RobotView> getRobotsNonOwning() {
-    return std::span(&*robots.begin(), &*robots.end());
+    return std::span(&*robots_views.begin(), &*robots_views.end());
 }
