@@ -8,30 +8,35 @@
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {
 
-    Visualizer::Visualizer(const rtt::world_new::World &worldManager, QWidget *parent) : worldManager(worldManager),
-                                                                                         QWidget(parent) {}
+    Visualizer::Visualizer(QWidget *parent)
+        : QWidget(parent) {}
 
 /// The update loop of the field widget. Invoked by widget->update();
     void Visualizer::paintEvent(QPaintEvent *event) {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-        std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
+        std::optional<rtt::world_new::view::WorldDataView> world;
+        std::optional<world::Field> field;
+        {
+            auto const&[_, worldPtr] = world_new::World::instance();
+            world = worldPtr->getWorld();
+            field = worldPtr->getField();
+        }
 
         if (!world.has_value() || !world.value()->weHaveRobots()) {
             painter.drawText(24, 24, "Waiting for incoming world state");
             return;
         }
 
-        auto field = worldManager.getField().value();
+        if(field.has_value()) {
+            calculateFieldSizeFactor(field.value());
+            drawBackground(painter);
+            drawFieldHints(field.value(), painter);
+            drawFieldLines(field.value(), painter);
+        }
 
-        calculateFieldSizeFactor(field);
-        drawBackground(painter);
-        drawFieldHints(field, painter);
-        drawFieldLines(field, painter);
-
-        QString s;
-        s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
+        auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
         painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
         drawRobots(painter, world.value());
@@ -415,7 +420,12 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
         pos.x = event->pos().x();
         pos.y = event->pos().y();
 
-        std::optional<rtt::world_new::view::WorldDataView> world = worldManager.getWorld();
+
+        std::optional<rtt::world_new::view::WorldDataView> world;
+        {
+            auto const& [_, worldPtr] = world_new::World::instance();
+            world = worldPtr->getWorld();
+        }
 
         if (event->button() == Qt::LeftButton && world.has_value()) {
             for (auto &robot : world->getUs()) {

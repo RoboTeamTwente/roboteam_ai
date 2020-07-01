@@ -24,7 +24,12 @@ RobotsWidget::RobotsWidget(QWidget *parent) : QWidget(parent) {
 }
 
 void RobotsWidget::updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world) {
-    auto field = world_new::World::instance()->getField();
+    std::optional<world::Field> field;
+    {
+        auto const& [_, world] = world_new::World::instance();
+        field = world->getField();
+    }
+
     if (!field){
         RTT_ERROR("Could not get field!")
         return;

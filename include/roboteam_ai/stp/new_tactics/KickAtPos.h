@@ -36,14 +36,6 @@ class KickAtPos : public Tactic {
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-    /**
-     * Calculate the kickforce for the skill
-     * @param distance distance to the target
-     * @param desiredBallSpeedType type of the kick
-     * @return the speed the kicker needs to kick at
-     */
-    double determineKickForce(double distance, KickChipType desiredBallSpeedType) noexcept;
-
     bool isEndTactic() noexcept override;
 
     bool isTacticFailing(const StpInfo &info) noexcept override;

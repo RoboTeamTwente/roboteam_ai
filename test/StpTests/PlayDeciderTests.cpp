@@ -10,10 +10,20 @@
 
 class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
     uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 255; }
+
+	const char* getName() override
+    {
+        return "true";
+    }
 };
 
 class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
     uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 0; }
+
+	const char* getName() override
+    {
+        return "false";
+    }
 };
 
 class AlwaysValid : public rtt::ai::stp::Play {
@@ -63,7 +73,7 @@ TEST(PlayCheckerTests, testHighestScore) {
     plays.emplace_back(std::make_unique<AlwaysFalse>());
     plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
-    auto instance = rtt::world_new::World::instance();
+    auto const& [_, instance] = rtt::world_new::World::instance();
 
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
@@ -78,8 +88,8 @@ TEST(PlayCheckerTests, testHighestScore) {
     checker.setPlays(plays);
 
     PlayDecider decider{};
-    auto play = decider.decideBestPlay(rtt::world_new::World::instance(), checker.getValidPlays());
+    auto play = decider.decideBestPlay(instance, checker.getValidPlays());
 
     ASSERT_TRUE(dynamic_cast<AlwaysValid *>(play));
-    ASSERT_EQ(play->score(rtt::world_new::World::instance()), 100);
+    ASSERT_EQ(play->score(instance), 100);
 }

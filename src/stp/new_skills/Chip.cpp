@@ -19,7 +19,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
 
-    publishRobotCommand();
+    publishRobotCommand(info.getCurrentWorld());
 
     if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
         return Status::Success;

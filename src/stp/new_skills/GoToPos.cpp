@@ -21,7 +21,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     auto targetPos = targetPosOpt.value();
 
     // Calculate commands from path planning and tracking
-    auto robotCommand = world_new::World::instance()->getRobotPositionController()->computeAndTrackPath(
+    auto robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
         info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos);
 
     // Clamp and set velocity
@@ -42,10 +42,10 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
 
-    publishRobotCommand();
+    publishRobotCommand(info.getCurrentWorld());
 
     // Check if successful
-    if ((info.getRobot().value()->getPos() - targetPos).length2() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
+    if ((info.getRobot().value()->getPos() - targetPos).length() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN || info.getRobot().value().hasBall()) {
         return Status::Success;
     } else {
         return Status::Running;

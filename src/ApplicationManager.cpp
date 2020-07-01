@@ -29,6 +29,7 @@
 #include "stp/new_plays/PenaltyThemPrepare.h"
 #include "stp/new_plays/PenaltyUs.h"
 #include "stp/new_plays/PenaltyUsPrepare.h"
+#include "stp/new_plays/ReflectKick.h"
 #include "stp/new_plays/TestPlay.h"
 #include "stp/new_plays/TimeOut.h"
 
@@ -48,7 +49,7 @@ void ApplicationManager::start() {
 
     /// This play is only used for testing purposes, when needed uncomment this play!
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-
+  
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
@@ -70,6 +71,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
@@ -108,22 +110,25 @@ void ApplicationManager::runOneLoopCycle() {
 
         auto fieldMessage = io::io.getGeometryData().field();
         auto worldMessage = io::io.getWorldState();
+        auto feedbackMap = io::io.getFeedbackDataMap();
 
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
-        world_new::World::instance()->updateWorld(worldMessage);
+        auto const& [_, world] = world_new::World::instance();
+        world->updateWorld(worldMessage);
 
-        if (!world_new::World::instance()->getWorld()->getUs().empty()) {
+        if (!world->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
                 RTT_SUCCESS("Received robots, starting STP!")
             }
             robotsInitialized = true;
 
-            world_new::World::instance()->updateField(fieldMessage);
-            world_new::World::instance()->updatePositionControl();
+            world->updateField(fieldMessage);
+            world->updatePositionControl();
+            world->updateFeedback(feedbackMap);
 
-            decidePlay(world_new::World::instance());
+            decidePlay(world);
 
         } else {
             if (robotsInitialized) {
@@ -159,7 +164,6 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         currentPlay->initialize();
     }
 
-    currentPlay->updateWorld(_world);
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }

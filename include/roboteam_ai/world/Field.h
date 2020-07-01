@@ -267,6 +267,21 @@ class Field {
     Field() = default;
 
     /**
+     * Copy assignment operator and constructor.
+     * Trivial copies, skips the 3 unordered maps.
+     * @return
+     */
+    Field& operator=(Field const&) noexcept;
+    Field(Field const&) noexcept;
+
+    /**
+     * Move constructors that copy every member except for the first map
+     * Please keep in mind that it _does_ allocate.
+     */
+    Field& operator=(Field&&) noexcept;
+    Field(Field&&) noexcept;
+
+    /**
      * Constructor that converts a protobuf message into a Field Message object.
      * @param sslFieldSize The corresponding protobuf message.
      */

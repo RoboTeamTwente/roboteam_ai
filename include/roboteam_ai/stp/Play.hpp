@@ -13,7 +13,6 @@
 
 #include "Role.hpp"
 #include "world_new/World.hpp"
-#include "stp/new_constants/ControlConstants.h"
 
 namespace rtt::ai::stp {
 
@@ -23,6 +22,16 @@ namespace rtt::ai::stp {
  */
 class Play {
    public:
+    /**
+    * Invariant vector that contains invariants that need to be true to continue execution of this play
+    */
+    std::vector<std::unique_ptr<invariant::BaseInvariant>> keepPlayInvariants;
+
+    /**
+    * Invariant vector that contains invariants that need to be true to start this play
+    */
+    std::vector<std::unique_ptr<invariant::BaseInvariant>> startPlayInvariants;
+	
     /**
      * Initializes tacticInfos vector and calls distributeRoles
      */
@@ -125,16 +134,6 @@ protected:
      * The Field
      */
     rtt::ai::world::Field field;
-
-    /**
-     * Invariant vector that contains invariants that need to be true to continue execution of this play
-     */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> keepPlayInvariants;
-
-    /**
-     * Invariant vector that contains invariants that need to be true to start this play
-     */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> startPlayInvariants;
 
     /**
      * Decides the input to the robot dealer. The result will be used to distribute the roles

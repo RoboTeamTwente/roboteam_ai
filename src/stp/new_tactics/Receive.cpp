@@ -2,9 +2,10 @@
 // Created by jordi on 13-03-20.
 //
 
-#include "include/roboteam_ai/stp/new_tactics/Receive.h"
-#include "include/roboteam_ai/stp/new_skills/GoToPos.h"
-#include "include/roboteam_ai/stp/new_skills/Rotate.h"
+#include "stp/new_tactics/Receive.h"
+
+#include "stp/new_skills/GoToPos.h"
+#include "stp/new_skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -27,13 +28,15 @@ void Receive::onTerminate() noexcept {
 std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
+    if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
 
     // If ball is close to robot, turn on dribbler
-    skillStpInfo.setDribblerSpeed(determineDribblerSpeed(info.getRobot().value()));
+    if (skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE * 5) {
+        skillStpInfo.setDribblerSpeed(100);
+    }
 
     return skillStpInfo;
 }
@@ -54,15 +57,19 @@ bool Receive::isEndTactic() noexcept {
     return true;
 }
 
-double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) { return (ball->getPos() - robot->getPos()).angle(); }
+double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
+    if (robot->getDistanceToBall() <= 1.0) {
+        return robot->getAngle();
+    } else {
+        return (ball->getPos() - robot->getPos()).angle();
+    }
+}
 
 int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
     double turnOnDribblerDistance = 1.0;
     return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
 }
 
-const char *Receive::getName() {
-    return "Receive";
-}
+const char *Receive::getName() { return "Receive"; }
 
 }  // namespace rtt::ai::stp::tactic

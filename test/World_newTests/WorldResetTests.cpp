@@ -13,12 +13,12 @@ TEST(World_newTest, GenericWorldRemoval) {
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
-    w_n::World::instance()->reset();
-    w_n::World::instance()->updateWorld(msg);
-    w_n::World::instance()->updateWorld(second);
-    ASSERT_TRUE(w_n::World::instance()->getWorld().has_value());
+    auto const& [_, world] = w_n::World::instance();
+    world->reset();
+    world->updateWorld(msg);
+    world->updateWorld(second);
+    ASSERT_TRUE(world->getWorld().has_value());
 
-    auto world = w_n::World::instance();
     world->reset();
     ASSERT_FALSE(world->getWorld().has_value());
 }
@@ -29,12 +29,12 @@ TEST(World_newTest, HistorySizeTest) {
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
-    w_n::World::instance()->reset();
-    w_n::World::instance()->updateWorld(msg);
-    w_n::World::instance()->updateWorld(second);
-    ASSERT_EQ(w_n::World::instance()->getHistorySize(), 1);
+    auto const& [_, world] = w_n::World::instance();
+    world->reset();
+    world->updateWorld(msg);
+    world->updateWorld(second);
+    ASSERT_EQ(world->getHistorySize(), 1);
 
-    auto world = w_n::World::instance();
     world->reset();
     ASSERT_EQ(world->getHistorySize(), 0);
 }
@@ -45,15 +45,15 @@ TEST(World_newTest, ResetWorldTest) {
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
-    w_n::World::instance()->reset();
-    w_n::World::instance()->updateWorld(msg);
-    w_n::World::instance()->updateWorld(second);
-    ASSERT_EQ(w_n::World::instance()->getWorld()->getUs().size(), 5);
-    ASSERT_EQ(w_n::World::instance()->getWorld()->getThem().size(), 7);
+    auto const& [_, world] = w_n::World::instance();
+    world->reset();
+    world->updateWorld(msg);
+    world->updateWorld(second);
+    ASSERT_EQ(world->getWorld()->getUs().size(), 5);
+    ASSERT_EQ(world->getWorld()->getThem().size(), 7);
     //ASSERT_TRUE(w_n::World::instance()->getWorld()->getBall().has_value());
 
 
-    auto world = w_n::World::instance();
     world->reset();
     ASSERT_FALSE(world->getWorld().has_value());
 }

@@ -5,16 +5,13 @@
 #include "world_new/WorldData.hpp"
 
 namespace rtt::world_new {
-    WorldData::WorldData(proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
+    WorldData::WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
         auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
         auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
 
         // If there is a ball in the protobuf message, add it to the world
-        if (protoMsg.has_ball()) {
-            ball = ball::Ball{protoMsg.ball()};
-        } else {
-            ball = std::nullopt;
-        }
+        ball = ball::Ball{protoMsg.ball(), data};
+
         auto amountUs = ours.size();
         auto amountThem = others.size();
         us.reserve(amountUs);

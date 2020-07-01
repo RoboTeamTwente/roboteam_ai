@@ -30,6 +30,11 @@ uint8_t GoalVisionInvariant::metricCheck(world_new::view::WorldDataView world, c
     std::vector<double> visibilities{};
     visibilities.reserve(control_constants::MAX_ROBOT_COUNT);
 
+    // If there are no bots, ball is not close to us
+    if(us.empty()) {
+        return control_constants::FUZZY_FALSE;
+    }
+
     std::transform(us.begin(), us.end(), std::back_inserter(visibilities), [&](auto& robot) {
         return FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, robot.get()->getPos(), world, robot.get()->getId(), true);
     });

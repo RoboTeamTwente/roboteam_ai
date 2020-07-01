@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include "world_new/Ball.hpp"
 #include "world_new/views/BallView.hpp"
+#include "world_new/World.hpp"
 
 namespace rtt::world_new::ball {
 proto::Vector2f *getVec(float x, float y) {
@@ -18,10 +19,11 @@ TEST(BallAndView, test_getters) {
     protoData.set_allocated_pos(getVec(10.0, 3.0));
     protoData.set_allocated_vel(getVec(10.0, 3.0));
     protoData.set_visible(true);
-    Ball data{protoData};
+    auto const& [_, world] = rtt::world_new::World::instance();
+    Ball data{protoData, world};
 
-    EXPECT_EQ(data.getVelocity(), *getVec(10.0, 3.0));
-    EXPECT_EQ(data.getPos(), *getVec(10.0, 3.0));  // yeye memory leak doesn't rlly matter
+    EXPECT_EQ(data.getVelocity(), Vector2(10.0, 3.0));
+    EXPECT_EQ(data.getPos(), Vector2(10.0, 3.0));  // yeye memory leak doesn't rlly matter
     EXPECT_EQ(data.isVisible(), true);
     EXPECT_EQ(0, 0);
 

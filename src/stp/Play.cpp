@@ -3,6 +3,7 @@
 //
 
 #include "include/roboteam_ai/stp/Play.hpp"
+#include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
 
@@ -109,6 +110,8 @@ void Play::distributeRoles() noexcept {
             stpInfos[roleName].setRobot(robot);
         }
     }
+
+    std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto& each) { each.second.setCurrentWorld(world); });
 }
 
 std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
@@ -116,13 +119,23 @@ std::unordered_map<Role*, Status> const&Play::getRoleStatuses() const {
 }
 
 bool Play::isValidPlayToKeep(world_new::World *world) noexcept {
-    world::Field field = world->getField().value();
-    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+    if (!interface::MainControlsWidget::ignoreInvariants) {
+        world::Field field = world->getField().value();
+        return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(),
+                           [world, field](auto &x) { return x->checkInvariant(world->getWorld().value(), &field); });
+    } else {
+        return true;
+    }
 }
 
 bool Play::isValidPlayToStart(world_new::World *world) const noexcept {
-    world::Field field = world->getField().value();
-    return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);});
+    if (!interface::MainControlsWidget::ignoreInvariants) {
+        world::Field field = world->getField().value();
+        return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(),
+                           [world, field](auto &x) { return x->checkInvariant(world->getWorld().value(), &field); });
+    } else {
+        return true;
+    }
 }
 
 }  // namespace rtt::ai::stp
