@@ -15,7 +15,7 @@ namespace rtt::ai {
 
 class GameStateManager {
    public:
-    static void setRefereeData(proto::SSL_Referee refMsg);
+    static void setRefereeData(proto::SSL_Referee refMsg, const world_new::World* data);
     static proto::SSL_Referee getRefereeData();
     static GameState getCurrentGameState();
     static bool canEnterDefenseArea(int robotId);

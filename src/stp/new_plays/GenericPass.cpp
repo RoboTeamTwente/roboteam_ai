@@ -54,7 +54,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     auto receivePosition = passingPosition;
     if ((ball->getPos() - passingPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
-       receivePosition = ball->getPos();
+        receivePosition = ball->getPos();
     }
 
     // Receiver
@@ -62,7 +62,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setKickChipType(TARGET);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -90,7 +90,7 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
 
 const char* GenericPass::getName() { return "Generic Pass"; }
 
-const Vector2 GenericPass::calculatePassLocation() const noexcept {
+const Vector2 GenericPass::calculatePassLocation() noexcept {
     double offSetX = 0;  // start looking for suitable positions to move to at 30% of the field width
     double offSetY = -3;
     double regionWidth = 3;
@@ -113,23 +113,24 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
                 auto fieldLength = field.getFieldLength();
                 auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
 
-                // Make sure the ball can reach the target
-                auto canReachTarget{1.0};
+                /// If we can't reach target using kick, use chip
                 auto passLine = Tube(w->getBall()->get()->getPos(), trial, control_constants::ROBOT_CLOSE_TO_POINT);
                 auto enemyBots = w.getThem();
                 if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
-                    canReachTarget = 0.0;
+                    stpInfos["passer"].setShootType(CHIP);
+                } else {
+                    stpInfos["passer"].setShootType(KICK);
                 }
 
                 // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance{1.0};
-                if(theirClosestBot) {
+                if (theirClosestBot) {
                     theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
                 }
 
                 // Calculate total score for this point
-                auto pointScore = 0.5 * theirClosestBotDistance * canReachTarget;
+                auto pointScore = 0.5 * theirClosestBotDistance;
 
                 // Check for best score
                 if (pointScore > bestScore) {
@@ -142,20 +143,23 @@ const Vector2 GenericPass::calculatePassLocation() const noexcept {
     return bestPosition;
 }
 
-bool GenericPass::isValidPlayToKeep(world_new::World *world) noexcept {
+bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
     world::Field field = world->getField().value();
-    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto &x){return x->checkInvariant(world->getWorld().value(), &field);}) && !passFinished() && !passFailed();
+    return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
+           !passFinished() && !passFailed();
 }
 
 bool GenericPass::passFinished() noexcept {
-    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
+    // TODO: fix this condition
+    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getDistanceToBall() < 0.5) {
         return true;
     }
     return false;
 }
 
 bool GenericPass::passFailed() noexcept {
-    if(stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
+    // TODO: fix this condition
+    if (stpInfos["receiver"].getRobot() && stpInfos["receiver"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) {
         return true;
     }
     return false;

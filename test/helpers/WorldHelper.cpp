@@ -76,18 +76,18 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 /*
  * Generate a robot on a random position
  */
-proto::WorldRobot *WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
+proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
-    auto robot = new proto::WorldRobot();
-    robot->set_id((unsigned)id);
-    robot->mutable_pos()->set_x(randomFieldPos.x);
-    robot->mutable_pos()->set_y(randomFieldPos.y);
-    robot->set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
-    robot->mutable_vel()->set_x(randomVel.x);
-    robot->mutable_vel()->set_y(randomVel.x);
-    robot->set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
+    auto robot = proto::WorldRobot();
+    robot.set_id((unsigned)id);
+    robot.mutable_pos()->set_x(randomFieldPos.x);
+    robot.mutable_pos()->set_y(randomFieldPos.y);
+    robot.set_angle(static_cast<float>(getRandomValue(rtt::ai::Constants::MIN_ANGLE(), rtt::ai::Constants::MAX_ANGLE())));
+    robot.mutable_vel()->set_x(randomVel.x);
+    robot.mutable_vel()->set_y(randomVel.x);
+    robot.set_w(static_cast<float>(getRandomValue(0, rtt::ai::Constants::MAX_ANGULAR_VELOCITY())));
     return robot;
 }
 
@@ -143,7 +143,7 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
     for (int i = 0; i < amount; i++) {
         auto randombot = generateRandomRobot(i, field);
         auto botmsg = robots.Add();
-        botmsg->CopyFrom(*randombot);
+        botmsg->CopyFrom(randombot);
     }
     return robots;
 }

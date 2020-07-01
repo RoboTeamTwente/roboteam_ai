@@ -68,6 +68,7 @@ set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Chip.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Shoot.cpp
         )
 
 set(NEW_TACTICS_SOURCES
@@ -79,6 +80,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockRobot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Receive.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/ChipAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/ShootAtPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Intercept.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
@@ -87,6 +89,7 @@ set(NEW_TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/PositionAndAim.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -104,6 +107,7 @@ set(NEW_ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallGetter.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallReflector.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -132,6 +136,7 @@ set(NEW_PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GenericPass.cpp
         )
 
@@ -223,6 +228,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/GraphWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
+        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
 
         #QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
@@ -236,6 +242,7 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
+        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
         )
 
 set(WORLD_SOURCES

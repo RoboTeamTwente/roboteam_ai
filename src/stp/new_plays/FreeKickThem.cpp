@@ -53,6 +53,10 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
 
     auto enemyRobots = world->getWorld()->getThem();
 
+    if(enemyRobots.empty()) {
+      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+      return;
+    }
     // We cannot block enemy robots that are too close to the ball
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&] (const auto enemyRobot) -> bool {
         return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE;

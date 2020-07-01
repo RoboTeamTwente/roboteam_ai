@@ -8,19 +8,19 @@
 
 namespace rtt::ai::interface {
 
-MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *parent, ApplicationManager *manager) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWindow(parent) {
     setMinimumWidth(800);
     setMinimumHeight(600);
 
     // layouts
-    visualizer = new Visualizer(worldManager, this);
+    visualizer = new Visualizer(this);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
 
     auto menu = new QMenuBar(this);
     this->setMenuBar(menu);
-    auto fileMenu = menu->addMenu(tr("&File"));
+    menu->addMenu(tr("&File"));
     auto viewMenu = menu->addMenu(tr("&Visualization"));
 
     MainWindow::configureCheckableMenuItem("show rolenames", "show rolenames", viewMenu, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
@@ -63,9 +63,15 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     graphWidget = new GraphWidget(this);
 
+    playsWidget = new PlaysWidget(this);
+
+//    invariantsWidget = new InvariantsWidget(this);
+
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
+    DataTabWidget->addTab(playsWidget, "Plays");
+//    DataTabWidget->addTab(invariantsWidget, "Invariants");
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
@@ -117,6 +123,8 @@ MainWindow::MainWindow(const rtt::world_new::World &worldManager, QWidget *paren
 
     connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
     connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
+    connect(this, &MainWindow::updateStpWidgets, playsWidget, &PlaysWidget::updatePlays);
+//    connect(this, &MainWindow::updateStpWidgets, invariantsWidget, &InvariantsWidget::updateInvariants);
 }
 
 /// Set up a checkbox and add it to the layout
@@ -153,12 +161,15 @@ void MainWindow::clearLayout(QLayout *layout) {
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-    auto world = rtt::world_new::World::instance();
-    if (!world) {
-        std::cerr << "World is NULL" << std::endl;
-        return;
+    std::optional<world_new::view::WorldDataView> currentWorld;
+    {
+        auto const &[_, world] = world_new::World::instance();
+        if (!world) {
+            std::cerr << "World is nullptr" << std::endl;
+            return;
+        }
+        currentWorld = world->getWorld();
     }
-    auto currentWorld = world->getWorld();
     if (currentWorld) {
         robotsWidget->updateContents(visualizer, *currentWorld);
     }

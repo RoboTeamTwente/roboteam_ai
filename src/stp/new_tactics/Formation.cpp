@@ -28,7 +28,7 @@ std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noe
     StpInfo skillStpInfo = info;
 
     // Be 100% sure the angle is 0 during the formation
-    skillStpInfo.setAngle(0);
+    skillStpInfo.setAngle(0.0001);
 
     // Be 100% sure the dribbler is of during the formation
     skillStpInfo.setDribblerSpeed(0);

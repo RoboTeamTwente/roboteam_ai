@@ -6,7 +6,6 @@
 
 namespace rtt::world_new {
     WorldData const &World::setWorld(WorldData &newWorld) noexcept {
-        std::lock_guard mtx{updateMutex};
         if (currentWorld) {
             toHistory(currentWorld.value());
         }
@@ -63,7 +62,7 @@ namespace rtt::world_new {
     }
 
     void World::updateWorld(proto::World &protoWorld) {
-        WorldData data{protoWorld, *settings, updateMap};
+        WorldData data{this, protoWorld, *settings, updateMap};
         setWorld(data);
     }
 
@@ -77,13 +76,11 @@ namespace rtt::world_new {
     }
 
     World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
-        std::lock_guard mtx{updateMutex};
         history.reserve(HISTORY_SIZE);
     }
 
-    void World::updateFeedback(uint8_t robotId, proto::RobotFeedback &feedback) {
-        std::scoped_lock<std::mutex> lock{updateMutex};
-        updateMap[robotId] = std::move(feedback);
+    void World::updateFeedback(std::unordered_map<uint8_t, proto::RobotFeedback> feedback) {
+        updateMap = std::move(feedback);
     }
 
     void World::updateTickTime() noexcept {

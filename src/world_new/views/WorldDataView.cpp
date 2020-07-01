@@ -61,10 +61,11 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, std::set<u
 rtt::world_new::view::WorldDataView::operator bool() const noexcept { return get() != nullptr; }
 
 std::optional<RobotView> WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
-    std::vector<RobotView> robots;
-    if (team == us) robots = getUs();
-    else if (team == them) robots = getThem();
-    else robots = getRobotsNonOwning();
+    std::vector<RobotView> robots{};
+    robots.reserve(ai::stp::control_constants::MAX_ROBOT_COUNT * 2);
+    if (team == us) robots.assign(getUs().begin(), getUs().end());
+    else if (team == them) robots.assign(getThem().begin(), getThem().end());
+    else robots.assign(getRobotsNonOwning().begin(), getRobotsNonOwning().end());
 
     return getRobotClosestToPoint(point, robots);
 }
@@ -115,10 +116,12 @@ std::optional<RobotView> WorldDataView::getRobotClosestToPoint(const Vector2 &po
     size_t bestIndex = 0;
     double closest = 9e9;
     for (size_t i = 0; i < robots.size(); i++) {
-        double distance = (robots[i]->getPos() - point).length();
-        if (distance < closest) {
-            closest = distance;
-            bestIndex = i;
+        if (auto currentBot = robots[i]) {
+            double distance = (currentBot->getPos() - point).length();
+            if (distance < closest) {
+                closest = distance;
+                bestIndex = i;
+            }
         }
     }
 

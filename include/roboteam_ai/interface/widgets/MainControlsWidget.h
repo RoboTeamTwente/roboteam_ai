@@ -19,9 +19,12 @@ namespace rtt::ai::interface {
 
 class MainControlsWidget : public QWidget {
     Q_OBJECT
-   public:
+
+public:
     void updatePlays();
     explicit MainControlsWidget(QWidget *parent = nullptr, ApplicationManager *manager = nullptr);
+
+    inline static std::atomic<bool> ignoreInvariants;
 
    private:
     QVBoxLayout *vLayout;
@@ -36,8 +39,6 @@ class MainControlsWidget : public QWidget {
     QComboBox *select_ruleset;
 
     ApplicationManager *manager;
-
-    bool ignoreInvariants;
 
     void setToggleColorBtnLayout() const;
     void setToggleSideBtnLayout() const;

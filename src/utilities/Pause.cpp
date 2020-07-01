@@ -14,8 +14,8 @@ bool Pause::getPause() {
     std::lock_guard<std::mutex> lock(pauseLock);
     return pause;
 }
-void Pause::haltRobots() {
-    auto us = world_new::World::instance()->getWorld()->getUs();
+void Pause::haltRobots(rtt::world_new::World const* data) {
+    auto us = data->getWorld()->getUs();
     for (const auto &robot : us) {
         proto::RobotCommand cmd;
         cmd.mutable_vel()->set_x(0);
@@ -24,7 +24,7 @@ void Pause::haltRobots() {
         cmd.set_dribbler(0);
         cmd.set_use_angle(1);
         cmd.set_w(static_cast<float>(robot->getAngle()));
-        io::io.publishRobotCommand(cmd);
+        io::io.publishRobotCommand(cmd, data);
     }
 }
 void Pause::setPause(bool set) {

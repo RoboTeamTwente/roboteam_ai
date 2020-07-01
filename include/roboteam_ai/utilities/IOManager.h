@@ -19,8 +19,13 @@
 #include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
 
+namespace rtt::world_new {
+class World;
+}
+
 namespace rtt::ai {
 class Pause;
+
 
 namespace io {
 using namespace rtt::ai::world;
@@ -33,7 +38,7 @@ class IOManager {
     proto::SSL_Referee refDataMsg;
     proto::DemoRobot demoInfoMsg;
 
-    std::unordered_map<int, proto::RobotFeedback> feedbackMap;
+    std::unordered_map<uint8_t, proto::RobotFeedback> feedbackMap;
 
     proto::Subscriber<proto::World> *worldSubscriber;
     void handleWorldState(proto::World &world);
@@ -53,14 +58,16 @@ class IOManager {
     rtt::ai::Pause *pause;
 
    public:
+    ~IOManager();
     explicit IOManager() = default;
-    void publishRobotCommand(proto::RobotCommand cmd);
+    void publishRobotCommand(proto::RobotCommand cmd, world_new::World const* world);
     void publishSettings(proto::Setting setting);
     void init(int teamId);
-    const proto::World &getWorldState();
-    const proto::SSL_GeometryData &getGeometryData();
+    proto::World getWorldState();
+    proto::SSL_GeometryData getGeometryData();
+    std::unordered_map<uint8_t, proto::RobotFeedback> getFeedbackDataMap();
 
-    const proto::SSL_Referee &getRefereeData();
+    proto::SSL_Referee getRefereeData();
     const proto::DemoRobot &getDemoInfo();
 
     static std::mutex worldStateMutex;

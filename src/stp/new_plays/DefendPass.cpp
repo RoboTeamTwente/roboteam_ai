@@ -35,7 +35,7 @@ DefendPass::DefendPass() : Play() {
         std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendPass::score(world_new::World *world) noexcept { return 90; }
+uint8_t DefendPass::score(world_new::World *world) noexcept { return 100; }
 
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -99,6 +99,11 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 void DefendPass::calculateInfoForBlockers() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyPasser = world->getWorld()->getRobotClosestToBall(world_new::them);
+
+    if(enemyRobots.empty()) {
+      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+      return;
+    }
 
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyPasser && enemyRobot->getId() == enemyPasser.value()->getId(); }));
 

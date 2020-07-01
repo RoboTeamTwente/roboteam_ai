@@ -14,14 +14,18 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
     // Set kick command
     command.set_kicker(true);
+
     command.set_chip_kick_vel(kickVelocity);
+
+    command.set_dribbler(info.getDribblerSpeed() / 100 * 32);
 
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
 
-    publishRobotCommand();
+    publishRobotCommand(info.getCurrentWorld());
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN &&
+        info.getRobot().value()->getAngleDiffToBall() <= control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI) {
         return Status::Success;
     }
     return Status::Running;
@@ -29,8 +33,6 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
 
 void Kick::onTerminate() noexcept {}
 
-const char *Kick::getName() {
-    return "Kick";
-}
+const char *Kick::getName() { return "Kick"; }
 
 }  // namespace rtt::ai::stp::skill

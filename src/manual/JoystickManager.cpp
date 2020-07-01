@@ -1,5 +1,6 @@
 #include "manual/JoystickManager.h"
 #include <roboteam_utils/Print.h>
+#include "world_new/World.hpp"
 
 using namespace std::chrono;
 
@@ -117,7 +118,8 @@ void JoystickManager::loop() {
 void JoystickManager::tickJoystickHandlers() {
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
-        ioManager->publishRobotCommand(joystickHandler.second->getCommand());
+        auto const& [_, world] = world_new::World::instance();
+        ioManager->publishRobotCommand(joystickHandler.second->getCommand(), world);
     }
 }
 
