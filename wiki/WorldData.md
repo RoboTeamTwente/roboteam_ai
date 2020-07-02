@@ -108,11 +108,11 @@ std::span<Robot> getTheirs() {
  * RobotViewArray, or you could of course just have a second std::array<RobotView, N> 
  * to which you return slices.
  */
-std::span<RobotView> getOurs() {
+std::span<RobotView> getUs() {
     return std::span(&*robots_views.begin(), &*robots_views.begin() + ROBOT_COUNT);
 }
 
-std::span<RobotView> getTheirs() {
+std::span<RobotView> getThem() {
     return std::span(&*robots_views.begin() + ROBOT_COUNT, &*robots_views.end());
 }
 
