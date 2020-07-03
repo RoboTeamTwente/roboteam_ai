@@ -138,5 +138,3 @@ in one of the lectures, specifically about shared ownership and concurrency.
 My advice is simple.
  * Update the history to be an `std::array` instead of `std::vector`. 
  * [Optional] Return copies of data so you don't rely on the user using it correctly.
- 
-  

@@ -119,3 +119,13 @@ std::span<RobotView> getThem() {
 std::span<RobotView> getRobotsNonOwning() {
     return std::span(&*robots_views.begin(), &*robots_views.end());
 }
+```
+
+We think certain members should be pre-initialized on construction of the world. For example, `getRobotClosestToBall`, `whichRobotHasBall`, and things like that are used every tick, and it's computationally faster to set this as a member variable rather than run the calculation each time, depending on how many times they are called, of course. Maybe something like this:
+```cpp
+WorldData::WorldData(...) {
+     setRobotClosestToBall(calculateRobotClosestToBall());
+     ...
+}
+```
+
