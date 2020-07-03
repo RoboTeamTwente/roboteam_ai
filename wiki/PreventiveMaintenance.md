@@ -45,3 +45,16 @@ Below is an example how you should not document your code:
 void calculateInfoForDefenders() noexcept;
 ```
 The documentation basically tells the same as the name of the function. Hence the goal of documentation, to inform others about usage, is missing here. What kind of info is computed is totally unclear? What are requirements for calling this function is also missing? When should this function be called?
+
+# Design
+
+# Unit Testing
+## Why?
+Writing unit test cases for your code is very important, because
+- Even the simplest code can contain bugs and even when fully reasoned that the code works, it can still contain some bugs.
+- It encourage you to inspect your code better for bugs, because during the process of writing test you might already find bugs (without executing the tests).
+- It improves the trust in the code, since it is properly tested and therefore it is less likely that your code suddenly fails during the RoboCup.
+
+# Consistency
+
+# Dead code & Code clones
