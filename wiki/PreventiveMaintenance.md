@@ -16,3 +16,32 @@ Keep in mind that documentation is different than comments. Comments are placed 
 * What is the meaning of abbreviations used inside the code? Is there a website which explains (partially) the meaning of the code? From which source has this code been copied? Etc.
 * In case of class documentation: Who has written/maintained this code? At which date has this code been written?
 * Less important, but could be included as well: Why does this code work? Why is this code efficient? Why did you choose this type of design? What other solutions have you tried out for this code? What major decisions have been made regarding this code? 
+
+## Good Example
+Below is an example how you should document your code:
+```
+/**
+ * Get the intersection between two (finite) LineSegment. Note that this function knows how to deal with LineSegments that are points and how to deal with
+ * parallel LineSegments. Moreover this function guarantees to return an intersection point if the LineSegments intersects. In case:
+ * - There is no intersection then std:nullopt is returned.
+ * - There is a single intersection point then that intersection point is returned.
+ * - There are multiple intersection points (infinitely many) which happens when the LineSegments overlap then it prefers to returns 1: start, 2: end, 3: 
+ *  line.start of which the first most option is selected that lies on both LineSegments. Note that if none of these points lie on both LineSegments and if both 
+ *  the LineSegments are parallel then the LineSegments cannot intersect.
+ *
+ * @param line The other (finite) LineSegment.
+ * @return std::nullopt if the LineSegments do not intersect. Otherwise return an intersection point.
+ */
+[[nodiscard]] std::optional<Vector2> intersects(const LineSegment &line) const;
+```
+Note that this documentation gives a clear description of what the code does, by explaining what happens for each situation. But beside that it also explain why this code works, by telling that the function knows how to deal with parallel & point cases and that you don't have to check if line.end is on the line if start, end and line.start are not on both lines.
+
+## Bad Example
+Below is an example how you should not document your code:
+```
+/**
+ * Calculates info for the defenders
+ */
+void calculateInfoForDefenders() noexcept;
+```
+The documentation basically tells the same as the name of the function. Hence the goal of documentation, to inform others about usage, is missing here. What kind of info is computed is totally unclear? What are requirements for calling this function is also missing? When should this function be called?
