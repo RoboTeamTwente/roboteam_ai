@@ -74,7 +74,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     if ((ball->getPos() - passPosition).length() <= 2.0 && ball->getVelocity().length() > 0.1) {
         LineSegment ballDirection = LineSegment(ball->getPos(), ball->getPos() + ball->getVelocity());
         LineSegment betweenPassAndGoal = LineSegment(passPosition, field.getTheirGoalCenter());
-        intersection = ballDirection.intersects(betweenPassAndGoal)
+        intersection = ballDirection.intersects(betweenPassAndGoal);
     }
 
     // First estimate of where the reflect kick location should be
