@@ -92,7 +92,7 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     //flagMap.insert({"midfielder_0", {not_important}});
     //flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
+    //flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
 /*    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});*/
     return flagMap;

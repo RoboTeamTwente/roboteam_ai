@@ -70,7 +70,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
@@ -151,7 +151,7 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
 
     // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
     // play is considered finished
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) /*|| currentPlay->arePlayRolesFinished()*/) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")

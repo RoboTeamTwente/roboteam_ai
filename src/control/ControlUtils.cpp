@@ -151,9 +151,11 @@ double ControlUtils::determineKickForce(const double distance, stp::KickChipType
     return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
 }
 
-Vector2 determineMidfielderPosition(Grid searchGrid, Field field, world_new::view::WorldDataView world) {
+Vector2 ControlUtils::determineMidfielderPosition(Grid searchGrid, Field field, world_new::World* world) {
     auto fieldWidth = field.getFieldWidth();
     auto fieldLength = field.getFieldLength();
+
+    auto w = world->getWorld().value();
 
     double bestScore = 0;
     Vector2 bestPosition{};
@@ -168,7 +170,7 @@ Vector2 determineMidfielderPosition(Grid searchGrid, Field field, world_new::vie
 
 
                     // Search closest bot to this point and get that distance
-                    auto theirClosestBot = world.getRobotClosestToPoint(trial, world_new::Team::them);
+                    auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                     auto theirClosestBotDistance{1.0};
                     if (theirClosestBot) {
                         theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;

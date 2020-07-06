@@ -89,7 +89,9 @@ bool ShootAtPos::isEndTactic() noexcept {
 bool ShootAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return (!info.getRobot()->hasBall() && info.getBall()->get()->getVelocity().length() > control_constants::BALL_STILL_VEL )|| !info.getPositionToShootAt();
+    auto ballDistance = info.getRobot()->get()->getDistanceToBall() < control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 3;
+
+    return (!info.getRobot()->hasBall() && info.getBall()->get()->getFilteredVelocity().length() < control_constants::BALL_STILL_VEL) || !info.getPositionToShootAt();
 }
 
 bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {

@@ -52,13 +52,13 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
+   // flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 //    flagMap.insert({"defender_4", {not_important}});
 //    flagMap.insert({"defender_5", {not_important}});
 //    flagMap.insert({"harasser", {closeToBallFlag}});
-//    flagMap.insert({"midfielder_1", {not_important}});
+    flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
+//    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
 //    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
     return flagMap;
@@ -146,10 +146,19 @@ void DefendShot::calculateInfoForKeeper() noexcept {
 }
 
 void DefendShot::calculateInfoForMidfielders() noexcept {
-    auto width = field.getFieldWidth();
+    auto ball = world->getWorld()->getBall().value();
 
-    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width / 4));
-    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width / 4));
+    if (stpInfos["midfielder_1"].getRobot() && stpInfos["midfielder_2"].getRobot()) {
+        stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
+        stpInfos["midfielder_2"].setAngle((ball->getPos() - stpInfos["midfielder_2"].getRobot()->get()->getPos()).angle());
+    }
+
+    auto searchGridLeft = Grid(0, 0, 1.5, 1.5, 3, 3);
+    auto searchGridRight = Grid(0, -1.5, 1.5, 1.5, 3, 3);
+
+    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridRight, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
+
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {

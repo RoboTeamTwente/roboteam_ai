@@ -76,7 +76,7 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 //    flagMap.insert({"midfielder_1", {not_important}});
 //    flagMap.insert({"midfielder_2", {not_important}});
     flagMap.insert({"midfielder_3", {not_important}});
-    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
+    //flagMap.insert({"defender_1", {closeToOurGoalFlag}});
 //    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
 //    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 

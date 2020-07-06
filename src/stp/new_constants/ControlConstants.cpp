@@ -41,9 +41,9 @@ constexpr double ANGLE_RATE = 0.1 * M_PI;
 
 /// HasBall margins
 // Angle margin robot to ball. Within this margin, the robot has the ball
-constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.11;
+constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.10;//0.11;
 // Distance margin robot to ball. Within this margin, the robot has the ball
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.11;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.10;//0.11;
 
 /// GTP Constants
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful

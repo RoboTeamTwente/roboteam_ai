@@ -111,7 +111,7 @@ Dealer::FlagMap GetBallRisky::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_2", {not_important}});
     flagMap.insert({"midfielder_0", {not_important}});*/
     flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
+    //flagMap.insert({"midfielder_2", {not_important}});
     return flagMap;
 }
 

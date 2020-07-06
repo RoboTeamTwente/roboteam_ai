@@ -20,7 +20,7 @@ Attack::Attack() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
 //    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
+//    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
 
@@ -42,8 +42,8 @@ Attack::Attack() : Play() {
 }
 
 uint8_t Attack::score(world_new::World *world) noexcept {
-        if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength()/4) {
-            return 132;
+        if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength()/2) {
+            return 150;
         }
         else {
             return 60;
@@ -63,11 +63,11 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     //flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     //flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
     flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
+    //flagMap.insert({"midfielder_2", {not_important}});
     //flagMap.insert({"midfielder_3", {not_important}});
     //flagMap.insert({"midfielder_4", {not_important}});
-    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_1", {not_important}});
+    flagMap.insert({"defender_2", {not_important}});
     //flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;

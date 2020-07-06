@@ -64,6 +64,11 @@ class GenericPass : public Play {
     Vector2 passingPosition;
 
     bool passerShot{false};
+
+        std::pair<Vector2, double> receiverPositionLeft{};
+        std::pair<Vector2, double> receiverPositionRight{};
+        const Grid gridLeft = Grid(0, 0, 3, 2.5, 5, 5);
+        const Grid gridRight = Grid(0, -2.5, 3, 2.5, 5, 5);
 };
 }  // namespace rtt::ai::stp::play
 

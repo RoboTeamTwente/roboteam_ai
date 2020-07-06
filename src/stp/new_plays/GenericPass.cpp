@@ -22,7 +22,10 @@ namespace rtt::ai::stp::play {
 
 void GenericPass::onInitialize() noexcept {
     passerShot = false;
-    passingPosition = calculatePassLocation(Grid(0, -2.5, 2, 2.5, 5, 5)).first;
+    receiverPositionLeft = calculatePassLocation(gridLeft);
+    receiverPositionRight = calculatePassLocation(gridRight);
+    passingPosition = receiverPositionRight.first;
+
 }
 
 GenericPass::GenericPass() : Play() {
@@ -40,8 +43,8 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::Passer>(role::Passer("passer")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
                                                                                  std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_1")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("defender_1")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_3")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_4")),
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_5")),
@@ -54,9 +57,12 @@ uint8_t GenericPass::score(world_new::World* world) noexcept { return 130; }
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
 
-    if(!passerShot && ball->getVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
+    if(!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }
+/*    else if (passerShot && stpInfos["passer"].getRobot() && stpInfos["passer"].getRobot()->get()->getPos().dist(ball->getPos()) < 0.2) {
+        passerShot = false;
+    }*/
 
     // Keeper
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
@@ -64,45 +70,74 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
     /// For the receive locations, divide the field up into grids where the passers should stand,
     /// and find the best locations in those grids
-    auto gridLeft = Grid(0, 0, 2, 2.5, 5, 5);
-    auto gridRight = Grid(0, -2.5, 2, 2.5, 5, 5);
 
-    auto [receiverPositionRight, scoreRight] = calculatePassLocation(gridRight);
-    auto [receiverPositionLeft, scoreLeft] = calculatePassLocation(gridLeft);
 
     /// From the available receivers, select the best
     bool passLeft{};
     Vector2 otherpos{};
     if(!passerShot) {
-        if (scoreLeft > scoreRight) {
-            passingPosition = receiverPositionLeft;
-            otherpos = receiverPositionRight;
+        receiverPositionRight = calculatePassLocation(gridRight);
+        receiverPositionLeft = calculatePassLocation(gridLeft);
+
+        if (receiverPositionLeft.second > receiverPositionRight.second) {
+            passingPosition = receiverPositionLeft.first;
+            otherpos = receiverPositionRight.first;
             passLeft = true;
         } else {
-            passingPosition = receiverPositionRight;
-            otherpos = receiverPositionLeft;
+            passingPosition = receiverPositionRight.first;
+            otherpos = receiverPositionLeft.first;
             passLeft = false;
         }
     }
     ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {passingPosition}, ai::Constants::ROBOT_COLOR_BLUE(), -1, ai::interface::Drawing::CIRCLES, 80, 80, 6);
     ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {otherpos}, ai::Constants::SELECTED_ROBOT_COLOR(), -1, ai::interface::Drawing::CIRCLES, 80, 80, 6);
 
-    if (passLeft && ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionLeft = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
-    } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionRight = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
-    }
 
+    if (passLeft && ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
+        receiverPositionLeft.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+    } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
+        receiverPositionRight.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+    }
+    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {receiverPositionLeft.first}, ai::Constants::ROBOT_COLOR_BLUE(), -1, ai::interface::Drawing::CIRCLES, 40, 40, 6);
+    ai::interface::Input::drawData(ai::interface::Visual::BALL_DATA, {receiverPositionRight.first}, ai::Constants::SELECTED_ROBOT_COLOR(), -1, ai::interface::Drawing::CIRCLES, 40, 40, 6);
     // Receiver
-    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft);
-    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight);
+    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.first);
+    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.first);
+
+    // decide kick or chip
+    auto passLine = Tube(ball->getPos(), passingPosition, control_constants::ROBOT_CLOSE_TO_POINT/2);
+    auto allBots = world->getWorld()->getRobotsNonOwning();
+    if (std::any_of(allBots.begin(), allBots.end(), [&](const auto& bot) {
+      if((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId())
+              || (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId())
+              || (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
+          return false;
+      }
+      return passLine.contains(bot->getPos());
+    })) {
+        stpInfos["passer"].setShootType(CHIP);
+    } else {
+        stpInfos["passer"].setShootType(KICK);
+    }
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
     stpInfos["passer"].setKickChipType(PASS);
 
-//    stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
-//    stpInfos["midfielder_2"].setAngle((ball->getPos() - stpInfos["midfielder_2"].getRobot()->get()->getPos()).angle());
+    // Defender
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+
+    // Midfielder
+    if (stpInfos["midfielder_1"].getRobot()) {
+        stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
+    }
+    auto fieldWidth = field.getFieldWidth();
+    auto searchGrid = Grid(-0.15*fieldWidth, -2, 0.10*fieldWidth, 4, 4, 4);
+
+    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGrid, field, world));
 
 }
 
@@ -119,8 +154,8 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"receiver_left", {receiverFlag}});
     flagMap.insert({"receiver_right", {not_important}});
-    flagMap.insert({"halt_1", {not_important}});
-    flagMap.insert({"halt_2", {not_important}});
+    flagMap.insert({"midfielder_1", {not_important}});
+    //flagMap.insert({"midfielder_2", {not_important}});
     /*flagMap.insert({"halt_3", {not_important}});
     flagMap.insert({"halt_4", {not_important}});
     flagMap.insert({"halt_5", {not_important}});
@@ -145,7 +180,7 @@ std::pair<Vector2, double> GenericPass::calculatePassLocation(Grid searchGrid) n
     for (const auto& nestedPoints : searchGrid.getPoints()) {
         for (const auto& trial : nestedPoints) {
             // Make sure we only check valid points
-            if (!FieldComputations::pointIsInDefenseArea(field, trial, false) && trial.dist(ballPos) > 1) {
+            if (!FieldComputations::pointIsInDefenseArea(field, trial, false) && trial.dist(ballPos) > 2) {
                 // Search closest bot to this point and get that distance
                 auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
                 auto theirClosestBotDistance{1.0};
