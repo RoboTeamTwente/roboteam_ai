@@ -1,3 +1,4 @@
+#include <roboteam_utils/Shadow.h>
 #include "world/FieldComputations.h"
 
 namespace rtt {

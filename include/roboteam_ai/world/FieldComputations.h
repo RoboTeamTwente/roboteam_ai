@@ -2,7 +2,6 @@
 #define ROBOTEAM_AI_FIELDCOMPUTATIONS_H
 
 #include <roboteam_utils/Polygon.h>
-#include <roboteam_utils/Shadow.h>
 #include <cmath>
 #include <mutex>
 #include "control/ControlUtils.h"
