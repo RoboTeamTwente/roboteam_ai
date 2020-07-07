@@ -61,11 +61,11 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"ball_avoider_2", {not_important}});
         flagMap.insert({"ball_avoider_3", {not_important}});
         flagMap.insert({"ball_avoider_4", {not_important}});
-//        flagMap.insert({"ball_avoider_5", {not_important}});
-//        flagMap.insert({"ball_avoider_6", {not_important}});
-//        flagMap.insert({"ball_avoider_7", {not_important}});
-//        flagMap.insert({"ball_avoider_8", {not_important}});
-//        flagMap.insert({"ball_avoider_9", {not_important}});
+        flagMap.insert({"ball_avoider_5", {not_important}});
+        flagMap.insert({"ball_avoider_6", {not_important}});
+        flagMap.insert({"ball_avoider_7", {not_important}});
+        flagMap.insert({"ball_avoider_8", {not_important}});
+        flagMap.insert({"ball_avoider_9", {not_important}});
 
         return flagMap;
     }

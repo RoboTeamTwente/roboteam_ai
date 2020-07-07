@@ -42,11 +42,11 @@ Dealer::FlagMap PenaltyThem::decideRoleFlags() const noexcept {
     flagMap.insert({"halt_2", {not_important}});
     flagMap.insert({"halt_3", {not_important}});
     flagMap.insert({"halt_4", {not_important}});
-//    flagMap.insert({"halt_5", {not_important}});
-//    flagMap.insert({"halt_6", {not_important}});
-//    flagMap.insert({"halt_7", {not_important}});
-//    flagMap.insert({"halt_8", {not_important}});
-//    flagMap.insert({"halt_9", {not_important}});
+    flagMap.insert({"halt_5", {not_important}});
+    flagMap.insert({"halt_6", {not_important}});
+    flagMap.insert({"halt_7", {not_important}});
+    flagMap.insert({"halt_8", {not_important}});
+    flagMap.insert({"halt_9", {not_important}});
 
     return flagMap;
 }

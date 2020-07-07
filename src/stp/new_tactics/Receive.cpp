@@ -66,9 +66,7 @@ double Receive::calculateAngle(const world_new::view::RobotView &robot, const wo
     }
 }
 
-int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) {
-    return robot->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE ? 100 : 0;
-}
+int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) { return robot->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE ? 100 : 0; }
 
 const char *Receive::getName() { return "Receive"; }
 

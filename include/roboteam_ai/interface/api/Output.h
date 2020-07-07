@@ -6,6 +6,7 @@
 #define ROBOTEAM_AI_OUTPUT_H
 
 #include <mutex>
+
 #include "roboteam_utils/Vector2.h"
 #include "utilities/GameState.h"
 #include "utilities/Pause.h"
@@ -34,12 +35,11 @@ class Output {
     static GameState interfaceGameState;
 
    public:
-    static void setInterfaceGameState(GameState interfaceGameState);
+    static void sendHaltCommand();
 
-   public:
+    static void setInterfaceGameState(GameState interfaceGameState);
     static const GameState &getInterfaceGameState();
 
-   public:
     static bool isTimeOutAtTop();
     static void setShowDebugValues(bool showDebug);
     static bool getShowDebugValues();
@@ -66,7 +66,6 @@ class Output {
     static void setKeeperPid(const pidVals &keeperPid);
     static const pidVals &getKeeperInterceptPid();
     static void setKeeperInterceptPid(const pidVals &keeperInterceptPid);
-    static void sendHaltCommand();
 
     static void setRuleSetName(std::string name);
     static void setKeeperId(int id);

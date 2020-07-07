@@ -20,7 +20,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     command.set_w(info.getRobot().value()->getAngle());
 
     publishRobotCommand(info.getCurrentWorld());
-    if (chipAttempts > 25) {
+    if (chipAttempts > control_constants::MAX_CHIP_ATTEMPTS) {
         command.set_chip_kick_forced(true);
         chipAttempts = 0;
     }
@@ -35,8 +35,6 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
 
 void Chip::onTerminate() noexcept {}
 
-const char *Chip::getName() {
-    return "Chip";
-}
+const char *Chip::getName() { return "Chip"; }
 
 }  // namespace rtt::ai::stp::skill

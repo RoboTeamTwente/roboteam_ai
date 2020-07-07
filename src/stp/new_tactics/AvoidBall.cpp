@@ -7,8 +7,8 @@
 #include "roboteam_utils/Tube.h"
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/new_skills/GoToPos.h"
-#include "utilities/GameStateManager.hpp"
 #include "stp/new_skills/Rotate.h"
+#include "utilities/GameStateManager.hpp"
 namespace rtt::ai::stp::tactic {
 
 AvoidBall::AvoidBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
@@ -28,7 +28,7 @@ std::optional<StpInfo> AvoidBall::calculateInfoForSkill(StpInfo const &info) noe
     StpInfo skillStpInfo = info;
     auto currentGameState = GameStateManager::getCurrentGameState().getStrategyName();
 
-    if(!skillStpInfo.getBall() || !skillStpInfo.getPositionToMoveTo()) return std::nullopt;
+    if (!skillStpInfo.getBall() || !skillStpInfo.getPositionToMoveTo()) return std::nullopt;
 
     // If gameState == stop we need to avoid using a circle around the ball
     if (currentGameState == "stop") {

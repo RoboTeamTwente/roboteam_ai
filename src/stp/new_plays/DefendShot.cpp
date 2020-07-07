@@ -5,7 +5,6 @@
 #include "stp/new_plays/DefendShot.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
-#include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
@@ -18,12 +17,10 @@ namespace rtt::ai::stp::play {
 DefendShot::DefendShot() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToThemInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-//    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
@@ -52,14 +49,14 @@ Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-   // flagMap.insert({"defender_3", {closeToOurGoalFlag}});
-//    flagMap.insert({"defender_4", {not_important}});
-//    flagMap.insert({"defender_5", {not_important}});
-//    flagMap.insert({"harasser", {closeToBallFlag}});
+    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_4", {not_important}});
+    flagMap.insert({"defender_5", {not_important}});
+    flagMap.insert({"harasser", {closeToBallFlag}});
     flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
-//    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-//    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -77,20 +74,17 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    if(enemyRobots.empty()) {
-      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
-      return;
+    if (enemyRobots.empty()) {
+        RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+        return;
     }
-
 
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
                                      [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
-//    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-//                                     [&](const auto enemyRobot) -> bool { return enemyClosestToGoal && enemyRobot->getId() == enemyClosestToGoal.value()->getId(); }));
 
-   auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
+    auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
@@ -125,10 +119,9 @@ void DefendShot::calculateInfoForDefenders() noexcept {
         auto roleName = role->getName();
         if (closestBotUs && closestBotThem && roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (stpInfos[roleName].getRobot()
-            && stpInfos[roleName].getRobot().value()->getId() == closestBotUs.value()->getId()
-            && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL
-            && closestBotThem->get()->getDistanceToBall() > control_constants::BALL_IS_CLOSE) {
+            if (stpInfos[roleName].getRobot() && stpInfos[roleName].getRobot().value()->getId() == closestBotUs.value()->getId() &&
+                world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL &&
+                closestBotThem->get()->getDistanceToBall() > control_constants::BALL_IS_CLOSE) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
                 // TODO: Improve intercept position
@@ -158,7 +151,6 @@ void DefendShot::calculateInfoForMidfielders() noexcept {
 
     stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridRight, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
-
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {

@@ -4,7 +4,7 @@
 
 #include "stp/new_skills/Rotate.h"
 
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include <control/ControlUtils.h>
 
 namespace rtt::ai::stp::skill {
 
@@ -14,9 +14,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     auto targetAngle = info.getAngle();
 
     // Clamp and set dribbler speed
-    // TODO: fix this, why do we clamp this twice?
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    targetDribblerPercentage = std::clamp(targetDribblerPercentage, 0, 30);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 30);
     int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
 
     // Set angle command
@@ -38,8 +36,6 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
 void Rotate::onTerminate() noexcept {}
 
-const char *Rotate::getName() {
-    return "Rotate";
-}
+const char *Rotate::getName() { return "Rotate"; }
 
 }  // namespace rtt::ai::stp::skill

@@ -6,10 +6,9 @@
 
 #include <include/roboteam_ai/world_new/World.hpp>
 
-
 namespace rtt::ai::interface {
 
-// these values need to be set AFTER ros::init, so they are initialized with values in the constructor of mainwindow
+// these values are default initialized here, but will be updated once mainWidget.cpp constructs the PID widget.
 pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::receivePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::interceptPID = pidVals(0.0, 0.0, 0.0);
@@ -29,9 +28,9 @@ GameState Output::interfaceGameState("halt_strategy", "default");
 
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
-    auto const& [_, world] = world_new::World::instance();
+    auto const &[_, world] = world_new::World::instance();
     // TODO: This check prevents a segfault when we don't have a world (roobthub_world is off), but it should be checked earlier I think
-    if(world->getWorld().has_value()) {
+    if (world->getWorld().has_value()) {
         if (pause.getPause()) {
             // Already halted so unhalt
             pause.setPause(false);

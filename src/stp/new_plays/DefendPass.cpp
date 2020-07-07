@@ -4,9 +4,8 @@
 
 #include "stp/new_plays/DefendPass.h"
 
-#include "stp/invariants/BallOnOurSideInvariant.h"
-
 #include "stp/invariants/BallCloseToThemInvariant.h"
+#include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
@@ -50,12 +49,12 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_1", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_2", {closeToOurGoalFlag}});
-    //flagMap.insert({"blocker_3", {not_important}});
-/*    flagMap.insert({"blocker_4", {not_important}});
+    flagMap.insert({"blocker_3", {not_important}});
+    flagMap.insert({"blocker_4", {not_important}});
     flagMap.insert({"blocker_5", {not_important}});
     flagMap.insert({"harasser", {closeToBallFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
 
     return flagMap;
 }
@@ -86,10 +85,9 @@ void DefendPass::calculateInfoForDefenders() noexcept {
         auto roleName = role->getName();
         if (closestBotUs && closestBotThem && roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (stpInfos[roleName].getRobot()
-                    && stpInfos[roleName].getRobot().value()->getId() == closestBotUs.value()->getId()
-                    && world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL
-                    && closestBotThem->get()->getDistanceToBall() > control_constants::BALL_IS_CLOSE) {
+            if (stpInfos[roleName].getRobot() && stpInfos[roleName].getRobot().value()->getId() == closestBotUs.value()->getId() &&
+                world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL &&
+                closestBotThem->get()->getDistanceToBall() > control_constants::BALL_IS_CLOSE) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
                 // TODO: Improve intercept position
@@ -103,12 +101,13 @@ void DefendPass::calculateInfoForBlockers() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyPasser = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    if(enemyRobots.empty()) {
-      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
-      return;
+    if (enemyRobots.empty()) {
+        RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+        return;
     }
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyPasser && enemyRobot->getId() == enemyPasser.value()->getId(); }));
+    enemyRobots.erase(
+        std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyPasser && enemyRobot->getId() == enemyPasser.value()->getId(); }));
 
     for (auto &stpInfo : stpInfos) {
         if (stpInfo.first.find("blocker") != std::string::npos) {
@@ -118,13 +117,12 @@ void DefendPass::calculateInfoForBlockers() noexcept {
                 // If there are enemy robots available, block the closest robot to our goal
                 auto enemyToBlock = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-                enemyRobots.erase(
-                    std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyToBlock && enemyRobot->getId() == enemyToBlock.value()->getId(); }));
+                enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                                 [&](const auto enemyRobot) -> bool { return enemyToBlock && enemyRobot->getId() == enemyToBlock.value()->getId(); }));
 
-                if(enemyToBlock) {
+                if (enemyToBlock) {
                     stpInfos[roleName].setPositionToDefend(enemyToBlock.value()->getPos());
-                }
-                else {
+                } else {
                     stpInfos[roleName].setPositionToDefend(std::nullopt);
                 }
 

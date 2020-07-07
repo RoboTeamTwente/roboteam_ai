@@ -35,7 +35,8 @@ class PlayChecker {
 
     /**
      * Returns the default play
-     * @return default play
+     * @param playName The name of the play we want to return
+     * @return The play with the name of the argument
      */
     Play* getPlayForName(const std::string& playName) const noexcept;
 

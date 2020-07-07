@@ -5,7 +5,7 @@
 #ifndef RTT_KICK_H
 #define RTT_KICK_H
 
-#include "include/roboteam_ai/stp/Skill.h"
+#include "stp/Skill.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -28,10 +28,13 @@ class Kick : public Skill {
     /**
      * Gets the skill name
      */
-    const char *getName() override;
+    const char* getName() override;
 
-    private:
-        int kickAttempts = 0;
+   private:
+    /**
+     * Keeps track of how many ticks we tried to kick
+     */
+    int kickAttempts = 0;
 };
 
 }  // namespace rtt::ai::stp::skill

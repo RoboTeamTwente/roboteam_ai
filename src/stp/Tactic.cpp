@@ -18,14 +18,13 @@ Status Tactic::update(StpInfo const &info) noexcept {
     // Update skill info
     auto skill_info = calculateInfoForSkill(info);
 
-    if(skill_info) {
+    if (skill_info) {
         // Update the current skill with the new SkillInfo
         auto status = skills.update(skill_info.value());
 
         // Call onUpdate on a skill for specific behaviour
         onUpdate(status);
-    }
-    else {
+    } else {
         RTT_ERROR("Not all data was present, bad update!")
     }
 
@@ -60,11 +59,9 @@ void Tactic::terminate() noexcept { onTerminate(); }
 
 void Tactic::reset() noexcept { skills.reset(); }
 
-Skill *Tactic::getCurrentSkill() {
-    return skills.get_current();
-}
+Skill *Tactic::getCurrentSkill() { return skills.get_current(); }
 
-[[nodiscard]] Status Tactic::getStatus() const {
-    return currentStatus;
-}
+[[nodiscard]] Status Tactic::getStatus() const { return currentStatus; }
+
+bool Tactic::forceTacticSuccess(const StpInfo &info) noexcept { return false; }
 }  // namespace rtt::ai::stp

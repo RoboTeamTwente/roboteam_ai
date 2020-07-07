@@ -3,6 +3,7 @@
 //
 
 #include "stp/new_roles/Attacker.h"
+
 #include "stp/new_tactics/GetBall.h"
 #include "stp/new_tactics/KickAtPos.h"
 
@@ -13,4 +14,4 @@ Attacker::Attacker(std::string name) : Role(std::move(name)) {
     robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall(), tactic::KickAtPos()};
 }
 
-} // namespace rtt::ai::stp::role
+}  // namespace rtt::ai::stp::role

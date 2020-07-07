@@ -26,7 +26,7 @@ void KeeperBlockBall::onTerminate() noexcept {
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
@@ -57,7 +57,8 @@ bool KeeperBlockBall::shouldTacticReset(const StpInfo &info) noexcept {
 
 const char *KeeperBlockBall::getName() { return "Keeper Block Ball"; }
 
-std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept {
+std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
+                                                                          const world_new::view::RobotView &enemyRobot) noexcept {
     const double DISTANCE_FROM_GOAL_FAR = field.getGoalWidth() / 1.5;
 
     // Ball is on our side

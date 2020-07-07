@@ -125,8 +125,14 @@ class Tactic {
      * Gets the skill whose turn it is
      * @return Skill*
      */
-     Skill* getCurrentSkill();
-        virtual bool forceTacticSuccess(const StpInfo &info) noexcept { return false; }
+    Skill *getCurrentSkill();
+
+    /**
+     * Forces a tactic to be success, when we have the ball for example.
+     * @param info to do calculations on
+     * @return a bool whether the tactic is forced successful or not
+     */
+    virtual bool forceTacticSuccess(const StpInfo &info) noexcept;
 };
 }  // namespace rtt::ai::stp
 

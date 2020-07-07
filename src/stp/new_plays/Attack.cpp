@@ -2,12 +2,10 @@
 // Created by jordi on 24-03-20.
 //
 
-#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/new_plays/Attack.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/GoalVisionFromBallInvariant.h"
-#include "stp/invariants/WeHaveBallInvariant.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
 #include "stp/new_roles/Attacker.h"
 #include "stp/new_roles/Defender.h"
@@ -19,10 +17,7 @@ namespace rtt::ai::stp::play {
 Attack::Attack() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-//    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
-
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
@@ -42,13 +37,11 @@ Attack::Attack() : Play() {
 }
 
 uint8_t Attack::score(world_new::World *world) noexcept {
-        if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength()/2) {
-            return 150;
-        }
-        else {
-            return 60;
-        }
-    }
+    if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 2) {
+        return 150;
+    } else
+        return 60;
+}
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -60,15 +53,15 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"attacker", {attackerFlag}});
-    //flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    //flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
     flagMap.insert({"midfielder_1", {not_important}});
-    //flagMap.insert({"midfielder_2", {not_important}});
-    //flagMap.insert({"midfielder_3", {not_important}});
-    //flagMap.insert({"midfielder_4", {not_important}});
+    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"midfielder_3", {not_important}});
+    flagMap.insert({"midfielder_4", {not_important}});
     flagMap.insert({"defender_1", {not_important}});
     flagMap.insert({"defender_2", {not_important}});
-    //flagMap.insert({"defender_3", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
 }

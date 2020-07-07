@@ -5,8 +5,9 @@
 #ifndef RTT_GENERICPASS_H
 #define RTT_GENERICPASS_H
 
-#include <stp/Play.hpp>
 #include <roboteam_utils/Grid.h>
+
+#include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
 
@@ -39,36 +40,77 @@ class GenericPass : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculates n defensive positions for the roles to defend
+     * @param numberOfDefenders
+     * @param world
+     * @param enemyRobots
+     * @return A vector of defend positions
+     */
+    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+
+    /**
      * Gets the play name
      */
     const char* getName() override;
 
+    [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept override;
+
+   protected:
+    /**
+     * Checks whether this role should skip the end tactic in its state machine
+     * @return whether to skip the end tactic
+     */
+    bool shouldRoleSkipEndTactic() override;
+
     /**
      * Calculates the pass location
-     * @return the pass location
+     * @return a pair of the pass location and the score of that location
+     * The score is used to decide to which pass location to pass when there are more receivers
      */
     std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
 
-    [[nodiscard]] bool isValidPlayToKeep(world_new::World *world) noexcept override;
-
-   protected:
-    bool shouldRoleSkipEndTactic() override;
-
    private:
+    /**
+     * Checks if the pass is finished
+     * @return whether the pass is finished
+     */
     [[nodiscard]] bool passFinished() noexcept;
 
+    /**
+     * Checks if the pass failed
+     * @return whether the pass failed
+     */
     [[nodiscard]] bool passFailed() noexcept;
 
-    virtual void onInitialize() noexcept override;
+    /**
+     * Called every time the .initialize() is called on a play,
+     * runs exactly once at the start of this play when this play is picked to be executed
+     */
+    void onInitialize() noexcept override;
 
+    /**
+     * Position that will be passed to
+     */
     Vector2 passingPosition;
 
+    /**
+     * Did the passer shoot or not
+     */
     bool passerShot{false};
 
-        std::pair<Vector2, double> receiverPositionLeft{};
-        std::pair<Vector2, double> receiverPositionRight{};
-        const Grid gridLeft = Grid(0, 0, 3, 2.5, 5, 5);
-        const Grid gridRight = Grid(0, -2.5, 3, 2.5, 5, 5);
+    /**
+     * Two receive locations with their scores.
+     * The passer will shoot to the highest scoring position
+     */
+    std::pair<Vector2, double> receiverPositionLeft{};
+    std::pair<Vector2, double> receiverPositionRight{};
+
+    /**
+     * The two grids that are used to calculate pass locations within it.
+     * In this case the grids are on their side, one on the left and one on the right
+     */
+    const Grid gridLeft = Grid(0, 0, 3, 2.5, 5, 5);
+    const Grid gridRight = Grid(0, -2.5, 3, 2.5, 5, 5);
 };
 }  // namespace rtt::ai::stp::play
 

@@ -72,8 +72,8 @@ struct Areas {
     }
 };
 
-const int blockLength = 3; // The number of elements in the blockdistance enum
-enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
+constexpr int blockEnumSize = 3; // The number of elements in the blockDistance enum
+enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blockLength also
 enum KickChipType { PASS, TARGET, MAX };
 enum KickChip {KICK, CHIP};
 enum PIDType {DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT};
@@ -200,7 +200,7 @@ struct StpInfo {
     int dribblerSpeed = 0;
 
     /**
-     * When blocking off a position, the robot is on line between a targetposition to block, and the enemy robot.
+     * When blocking off a position, the robot is on line between a targetPosition to block, and the enemy robot.
      * Used to decide how close this robot should be to enemy robot
      */
     BlockDistance blockDistance;
@@ -216,7 +216,7 @@ struct StpInfo {
     std::optional<KickChip> shootType;
 
     /**
-     * Enum for deciding wwhich PID should be chosen
+     * Enum for deciding which PID should be chosen
      */
      std::optional<PIDType> PidType {DEFAULT};
 };

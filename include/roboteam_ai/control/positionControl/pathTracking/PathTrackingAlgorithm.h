@@ -11,6 +11,16 @@
 namespace rtt::ai::control{
 class PathTrackingAlgorithm {
 public:
+ /**
+  * Purely virtual function that will handle tracking of a path
+  * @param currentPosition
+  * @param currentVelocity
+  * @param pathPoints
+  * @param robotId
+  * @param angle
+  * @param pidType The desired PID type (intercept, regular, keeper etc.)
+  * @return a structure containing the tracking velocity and the orientation angle
+  */
     virtual Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity,
             std::vector<Vector2> &pathPoints,
             int robotId, double angle, stp::PIDType pidType) = 0;
@@ -22,6 +32,7 @@ public:
      * @param currentVelocity
      * @param pathPoints
      * @param robotId
+     * @param pidType The desired PID type (intercept, regular, keeper etc.)
      * @return a structure containing the tracking velocity and the orientation angle
      */
     Position trackPathDefaultAngle(const Vector2 &currentPosition,

@@ -53,14 +53,14 @@ Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
     Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    //flagMap.insert({"defender_0", {not_important}});
-    //flagMap.insert({"defender_1", {not_important}});
+    flagMap.insert({"defender_0", {not_important}});
+    flagMap.insert({"defender_1", {not_important}});
     flagMap.insert({"defender_2", {not_important}});
     flagMap.insert({"defender_3", {not_important}});
     flagMap.insert({"mid_field_0", {not_important}});
-//    flagMap.insert({"mid_field_1", {not_important}});
-//    flagMap.insert({"mid_field_2", {not_important}});
-    //flagMap.insert({"offender_0", {not_important}});
+    flagMap.insert({"mid_field_1", {not_important}});
+    flagMap.insert({"mid_field_2", {not_important}});
+    flagMap.insert({"offender_0", {not_important}});
     flagMap.insert({"offender_1", {not_important}});
     flagMap.insert({"offender_2", {not_important}});
 

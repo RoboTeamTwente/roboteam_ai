@@ -27,7 +27,6 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
 
     // Set kick command
     command.set_kicker(true);
-
     command.set_chip_kick_vel(kickVelocity);
 
     command.set_dribbler(info.getDribblerSpeed() / 100 * 32);
@@ -35,14 +34,13 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
 
-    if (shootAttempts > 25) {
+    if (shootAttempts > control_constants::MAX_KICK_ATTEMPTS) {
         shootAttempts = 0;
         command.set_chip_kick_forced(true);
     }
     publishRobotCommand(info.getCurrentWorld());
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN
-        /*info.getRobot().value()->getAngleDiffToBall() <= control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI*/) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
         shootAttempts = 0;
         return Status::Success;
     }
@@ -60,7 +58,7 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
 
-    if (shootAttempts > 25) {
+    if (shootAttempts > control_constants::MAX_CHIP_ATTEMPTS) {
         shootAttempts = 0;
         command.set_chip_kick_forced(true);
     }

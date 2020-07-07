@@ -24,8 +24,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
     }
 
     // Stop blocking when ball is in defense area and still, start getting the ball and pass
-    bool stopBlockBall = isBallInOurDefenseAreaAndStill(
-            info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
+    bool stopBlockBall = isBallInOurDefenseAreaAndStill(info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
     if (stopBlockBall && robotTactics.current_num() == 0) forceNextTactic();
 
     currentRobot = info.getRobot();
@@ -69,8 +68,6 @@ bool Keeper::isBallInOurDefenseAreaAndStill(const world::Field& field, const Vec
     return pointIsInDefenseArea && ballIsLayingStill;
 }
 
-bool Keeper::shouldRoleReset(bool isBallInOurDefenseAreaAndStill) noexcept {
-    return robotTactics.current_num() != 0 && !isBallInOurDefenseAreaAndStill;
-}
+bool Keeper::shouldRoleReset(bool isBallInOurDefenseAreaAndStill) noexcept { return robotTactics.current_num() != 0 && !isBallInOurDefenseAreaAndStill; }
 
 }  // namespace rtt::ai::stp::role

@@ -10,10 +10,10 @@
 namespace rtt::ai::stp::tactic {
 
 class KeeperBlockBall : public Tactic {
-public:
- KeeperBlockBall();
+   public:
+    KeeperBlockBall();
 
-private:
+   private:
     /**
      * On initialization of this tactic, initialize the state machine with skills
      */
@@ -52,12 +52,13 @@ private:
      * @param ball Ball
      * @param field Field
      * @param enemyRobot Enemy robot closest to ball
-     * @return Target position for the keeper
+     * @return Target position for the keeper and the corresponding PID type
+     * PID type is different for intercepting and kicking (coarse and fast or fine and slower control)
      */
     static std::pair<Vector2, stp::PIDType> calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field,
-            const world_new::view::RobotView &enemyRobot) noexcept;
+                                                                    const world_new::view::RobotView &enemyRobot) noexcept;
 };
 
-} // namespace rtt::ai::stp::tactic
+}  // namespace rtt::ai::stp::tactic
 
 #endif  // RTT_KEEPERBLOCKBALL_H

@@ -2,15 +2,15 @@
 // Created by jordi on 11-05-20.
 //
 
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "include/roboteam_ai/stp/new_plays/GetBallPossession.h"
+#include "stp/new_plays/GetBallPossession.h"
 
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/BallGetter.h"
 #include "stp/new_roles/Defender.h"
 #include "stp/new_roles/Formation.h"
+#include "stp/new_roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -20,26 +20,22 @@ GetBallPossession::GetBallPossession() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
-    // TODO: Add first arrival to ball invariant
-
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
-
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-            std::make_unique<role::Keeper>(role::Keeper("keeper")),
-            std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
-            std::make_unique<role::Defender>(role::Defender("defender_0")),
-            std::make_unique<role::Defender>(role::Defender("defender_1")),
-            std::make_unique<role::Defender>(role::Defender("defender_2")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_0")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-            std::make_unique<role::Formation>(role::Formation("offender_0")),
-            std::make_unique<role::Formation>(role::Formation("offender_1")),
-            std::make_unique<role::Formation>(role::Formation("offender_2"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                 std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
 uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 80; }
@@ -48,7 +44,7 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
-    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0,0});
+    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
@@ -88,13 +84,13 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     flagMap.insert({"ball_getter", {ballGetterFlag}});
     flagMap.insert({"defender_0", {closeToOurGoalFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    //flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    //flagMap.insert({"midfielder_0", {not_important}});
-    //flagMap.insert({"midfielder_1", {not_important}});
+    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    flagMap.insert({"midfielder_0", {not_important}});
+    flagMap.insert({"midfielder_1", {not_important}});
     flagMap.insert({"midfielder_2", {not_important}});
-    //flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
-/*    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});*/
+    flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
+    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
     return flagMap;
 }
 

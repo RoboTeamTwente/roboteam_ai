@@ -3,13 +3,12 @@
 //
 
 #include "stp/new_tactics/Halt.h"
+
 #include "stp/new_skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
-Halt::Halt() {
-    skills = collections::state_machine<Skill, Status, StpInfo>{skill::Rotate()};
-}
+Halt::Halt() { skills = collections::state_machine<Skill, Status, StpInfo>{skill::Rotate()}; }
 
 void Halt::onInitialize() noexcept {}
 
@@ -33,8 +32,6 @@ bool Halt::isEndTactic() noexcept {
     return true;
 }
 
-const char *Halt::getName() {
-    return "Halt";
-}
+const char *Halt::getName() { return "Halt"; }
 
 }  // namespace rtt::ai::stp::tactic

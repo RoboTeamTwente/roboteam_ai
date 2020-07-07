@@ -71,11 +71,11 @@ namespace rtt::ai {
             static double determineKickForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept;
 
             /**
-             * Determine the best positions for the midfielders
-             * @param searchGrid the grid you want to choose positions from
+             * Determine the best position for a midfielder
+             * @param searchGrid the grid you want to choose a position from
              * @param field
              * @param world
-             * @return
+             * @return a midfielder position
              */
             static Vector2 determineMidfielderPosition(Grid searchGrid, Field field, world_new::World* world);
         };

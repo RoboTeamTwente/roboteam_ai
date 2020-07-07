@@ -2,12 +2,12 @@
 // Created by jordi on 19-05-20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/ReflectKick.h"
+#include "stp/new_plays/ReflectKick.h"
 
 #include <roboteam_utils/HalfLine.h>
-#include "stp/invariants/BallClosestToUsInvariant.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
 #include "stp/new_roles/BallReflector.h"
@@ -24,11 +24,9 @@ ReflectKick::ReflectKick() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
-
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
-
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallReflector>(role::BallReflector("reflector")),
@@ -48,7 +46,7 @@ uint8_t ReflectKick::score(world_new::World *world) noexcept {
     auto sum = 0;
     std::vector<world_new::view::RobotView> potentialBots = {};
     for (auto robot : world->getWorld()->getUs()) {
-        if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength()/4)  {
+        if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 4) {
             potentialBots.push_back(robot);
             sum += 30;
         }
@@ -72,21 +70,21 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     flagMap.insert({"reflector", {closeToTheirGoalFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
     flagMap.insert({"offender_1", {not_important}});
-//    flagMap.insert({"offender_2", {not_important}});
-//    flagMap.insert({"midfielder_1", {not_important}});
-//    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"offender_2", {not_important}});
+    flagMap.insert({"midfielder_1", {not_important}});
+    flagMap.insert({"midfielder_2", {not_important}});
     flagMap.insert({"midfielder_3", {not_important}});
-    //flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-//    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-//    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
+    // flagMap.insert({"defender_1", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
 }
 
 void ReflectKick::calculateInfoForRoles() noexcept {
     // TODO: Change this
-    //TODO: Leave play when reflect kick fails
-    auto passPosition = Vector2(field.getFieldLength()/4, -field.getFieldWidth()/4);
+    // TODO: Leave play when reflect kick fails
+    auto passPosition = Vector2(field.getFieldLength() / 4, -field.getFieldWidth() / 4);
 
     auto ball = world->getWorld()->getBall().value();
     std::optional<Vector2> intersection;

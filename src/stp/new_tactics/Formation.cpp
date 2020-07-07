@@ -3,6 +3,7 @@
 //
 
 #include "stp/new_tactics/Formation.h"
+
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 
@@ -30,8 +31,7 @@ std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noe
     // Be 100% sure the angle is 0 during the formation
     if (info.getAngle() == Angle()) {
         skillStpInfo.setAngle(0.0001);
-    }
-    else {
+    } else {
         skillStpInfo.setAngle(info.getAngle());
     }
 
@@ -57,8 +57,6 @@ bool Formation::isEndTactic() noexcept {
     return true;
 }
 
-const char *Formation::getName() {
-    return "Formation";
-}
+const char *Formation::getName() { return "Formation"; }
 
 }  // namespace rtt::ai::stp::tactic

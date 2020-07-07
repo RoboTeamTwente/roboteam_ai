@@ -27,14 +27,13 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Set angle command
     command.set_w(info.getRobot().value()->getAngle());
 
-    if (kickAttempts > 25) {
+    if (kickAttempts > control_constants::MAX_KICK_ATTEMPTS) {
         command.set_chip_kick_forced(true);
         kickAttempts = 0;
     }
     publishRobotCommand(info.getCurrentWorld());
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN &&
-        info.getRobot().value()->getAngleDiffToBall() <= control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI) {
+    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_KICKED_ERROR_MARGIN) {
         kickAttempts = 0;
         return Status::Success;
     }

@@ -4,18 +4,17 @@
 
 #include <stp/new_plays/TestPlay.h>
 #include <stp/new_roles/TestRole.h>
-#include "stp/invariants/WeHaveBallInvariant.h"
 
 namespace rtt::ai::stp {
 
 TestPlay::TestPlay() : Play() {
     startPlayInvariants.clear();
-    //startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    // startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
     keepPlayInvariants.clear();
-    //keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    // keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>,stp::control_constants::MAX_ROBOT_COUNT>{
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
         std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
         std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
         std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
@@ -48,8 +47,6 @@ void TestPlay::calculateInfoForRoles() noexcept {}
 
 bool TestPlay::shouldRoleSkipEndTactic() { return false; }
 
-const char *TestPlay::getName() {
-    return "Test Play";
-}
+const char *TestPlay::getName() { return "Test Play"; }
 
 }  // namespace rtt::ai::stp

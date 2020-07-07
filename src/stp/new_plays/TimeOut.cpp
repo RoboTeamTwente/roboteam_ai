@@ -56,11 +56,11 @@ Dealer::FlagMap TimeOut::decideRoleFlags() const noexcept {
     flagMap.insert({"time_out_4", {not_important}});
     flagMap.insert({"time_out_5", {not_important}});
     flagMap.insert({"time_out_6", {not_important}});
-//    flagMap.insert({"time_out_7", {not_important}});
-//    flagMap.insert({"time_out_8", {not_important}});
-//    flagMap.insert({"time_out_9", {not_important}});
-//    flagMap.insert({"time_out_10", {not_important}});
-//    flagMap.insert({"time_out_11", {not_important}});
+    flagMap.insert({"time_out_7", {not_important}});
+    flagMap.insert({"time_out_8", {not_important}});
+    flagMap.insert({"time_out_9", {not_important}});
+    flagMap.insert({"time_out_10", {not_important}});
+    flagMap.insert({"time_out_11", {not_important}});
 
     return flagMap;
 }

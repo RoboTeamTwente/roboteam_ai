@@ -30,11 +30,9 @@ void ShootAtPos::onTerminate() noexcept {
 std::optional<StpInfo> ShootAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     if (info.getShootType() == stp::KickChip::KICK) {
         return calculateInfoForKick(info);
-    }
-    else if (info.getShootType() == stp::KickChip::CHIP) {
+    } else if (info.getShootType() == stp::KickChip::CHIP) {
         return calculateInfoForChip(info);
-    }
-    else {
+    } else {
         RTT_ERROR("No ShootType is set, kicking by default")
         return calculateInfoForKick(info);
     }
