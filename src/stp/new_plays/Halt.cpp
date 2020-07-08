@@ -31,7 +31,7 @@ bool Halt::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap Halt::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"halt_0", {not_important}});
     flagMap.insert({"halt_1", {not_important}});

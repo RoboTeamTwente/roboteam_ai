@@ -144,10 +144,8 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         }
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());
-        case DealerFlagTitle::ROBOT_TYPE_50W:
-            return costForProperty(robot->isFiftyWatt());
-        case DealerFlagTitle::ROBOT_TYPE_30W:
-            return costForProperty(robot->isThirtyWatt());
+        case DealerFlagTitle::NOT_IMPORTANT:
+            return costForProperty(true);
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {

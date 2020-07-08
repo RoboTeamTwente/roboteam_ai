@@ -46,7 +46,7 @@ bool AggressiveFormation::shouldRoleSkipEndTactic() { return false; }
 Dealer::FlagMap AggressiveFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeper_flag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeper_flag}});
     flagMap.insert({"defender_0", {not_important}});

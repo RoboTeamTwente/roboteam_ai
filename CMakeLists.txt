@@ -13,7 +13,6 @@ set(CMAKE_AUTOMOC ON) #Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
 
 include(cotire)
-include(FindSDL2)
 include(ccache)
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
@@ -40,11 +39,6 @@ endif()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
-find_package(SDL2 REQUIRED sdl2)
-
-if (NOT SDL2_FOUND)
-    message("SDL2 not found! For linux, run 'sudo apt install libsdl2-dev'")
-endif ()
 
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
@@ -280,14 +274,12 @@ set(AI_LIBS
         PRIVATE roboteam_utils
         PRIVATE roboteam_proto
         PRIVATE NFParam
-        PRIVATE ${SDL2_LIBRARY}
+        PRIVATE SDL2
         )
 
 set(AI_INCLUDES
         INTERFACE include
         PRIVATE include/roboteam_ai
-        PRIVATE ${SDL2_INCLUDE_DIRS}
-        PRIVATE ${SDL2IMAGE_INCLUDE_DIRS}
         )
 
 add_library(ai_lib ${AI_SOURCES})
