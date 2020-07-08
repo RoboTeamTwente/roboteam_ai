@@ -33,7 +33,7 @@ cache:
     - ~/.ccache
 
 after_success:
-  - curl https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh | /bin/bash success $WEBHOOK_URL
+  - curl https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh | /bin/bash -s success $WEBHOOK_URL
 
 after_failure:
-  - curl https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh | /bin/bash failure $WEBHOOK_URL
+  - curl https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh | /bin/bash -s failure $WEBHOOK_URL
