@@ -61,14 +61,18 @@ When writing unit test cases, your goal is to create unit test cases that might/
 
 ### Equivalence Partitioning 
 With this technique you split up your test cases logically up in multiple classes based on the input and/or output. For example in case of the intersection between LineSegments you split it up in: no intersection, 1 intersection, infinitely many intersections. And you can split it up in: parallel lines versus non-parallel lines. The Equivalence Partitioning method proposes you to pick a test cases such that every class is covered at least once. For example in this case you can create 3 test cases:
-  - Two parallel LineSegments that do not intersect (covers the no intersection class and the parallel class).
-  - Two non-parallel LineSegments that intersect once (covers the 1 intersection class and the non-parallel class).
-  - Two equal LineSegments (covers the infinitely many intersections class and the parallel class).
+- Two parallel LineSegments that do not intersect (covers the no intersection class and the parallel class).
+- Two non-parallel LineSegments that intersect once (covers the 1 intersection class and the non-parallel class).
+- Two equal LineSegments (covers the infinitely many intersections class and the parallel class).
   
 which will cover all classes at least once. Equivalence Partitioning is a quite suitable technique that ensures you to look at all different type of cases. More information about Equivalence Partitioning can be found at: https://en.wikipedia.org/wiki/Equivalence_partitioning
 
 ### Boundary Value Analysis
-Boundary Value Analysis is often combined with Equivalence Partitioning. With Boundary Value Analysis you pick quite huge/small cases and input cases that are close to the regions where the output will change.
+Boundary Value Analysis is often combined with Equivalence Partitioning. With Boundary Value Analysis you pick quite huge/small cases and input cases that are close to the regions where the output will change. For example with a path finding algorithm to the ball you can test the following cases:
+- Path finding when the entire field is filled with soccer robots.
+- Path finding when one of your robots already possesses the ball. 
+- Path finding when two of your robots have almost the same distance to the ball, except one of them has a slightly lower distance.
+- Path finding for cases when you have a very long path towards the ball.
 
 
 # Consistency
