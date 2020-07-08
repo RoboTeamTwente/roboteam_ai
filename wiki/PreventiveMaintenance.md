@@ -57,7 +57,19 @@ Writing unit test cases for your code is very important, because
 - It will help you find the location of bugs.
 
 ## How?
-When writing unit test cases, your goal is to create unit test cases that might/will fail. So for example you should test the path planning algorithm for the case that the ball cannot be reached (because it is surrounded by enemy robots) and for LineSegments you should test LineSegments that are actually points (have an equal start position as end position). Using random unit test cases or just writing a few test cases will in most cases not find the most common type of bugs. Hence you should be more systematic in writing test cases. For this there are 2 types of approaches: black box testing and white box testing.
+When writing unit test cases, your goal is to create unit test cases that might/will fail. So for example you should test the path planning algorithm for the case that the ball cannot be reached (because it is surrounded by enemy robots) and for LineSegments you should test LineSegments that are actually points (have an equal start position as end position). Using random unit test cases or just writing a few test cases will in most cases not find the most common type of bugs. Hence you should be more systematic in writing test cases. For this there are 2 types of approaches: black-box testing and white-box testing. With black-box testing you only look at the specification and ignore the implementation. With white-box testing you also take a look at the implementation. Some black-box testing techniques are:
+
+### Equivalence Partitioning 
+With this technique you split up your test cases logically up in multiple classes based on the input and/or output. For example in case of the intersection between LineSegments you split it up in: no intersection, 1 intersection, infinitely many intersections. And you can split it up in: parallel lines versus non-parallel lines. The Equivalence Partitioning method proposes you to pick a test cases such that every class is covered at least once. For example in this case you can create 3 test cases:
+  - Two parallel LineSegments that do not intersect (covers the no intersection class and the parallel class).
+  - Two non-parallel LineSegments that intersect once (covers the 1 intersection class and the non-parallel class).
+  - Two equal LineSegments (covers the infinitely many intersections class and the parallel class).
+  
+which will cover all classes at least once. Equivalence Partitioning is a quite suitable technique that ensures you to look at all different type of cases. More information about Equivalence Partitioning can be found at: https://en.wikipedia.org/wiki/Equivalence_partitioning
+
+### Boundary Value Analysis
+Boundary Value Analysis is often combined with Equivalence Partitioning. With Boundary Value Analysis you pick quite huge/small cases and input cases that are close to the regions where the output will change.
+
 
 # Consistency
 
