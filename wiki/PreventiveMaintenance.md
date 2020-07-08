@@ -34,7 +34,7 @@ Below is an example how you should document your code:
  */
 [[nodiscard]] std::optional<Vector2> intersects(const LineSegment &line) const;
 ```
-Note that this documentation gives a clear description of what the code does, by explaining what happens for each situation. But beside that it also explain why this code works, by telling that the function knows how to deal with parallel & point cases and that you don't have to check if line.end is on the line if start, end and line.start are not on both lines.
+Note that this documentation gives a clear description of what the code does, by explaining what happens for each situation. But besides that it also explains why this code works, by telling that the function knows how to deal with parallel & point cases and that you don't have to check if line.end is on the line if start, end and line.start are not on both lines.
 
 ## Bad Example
 Below is an example how you should not document your code:
