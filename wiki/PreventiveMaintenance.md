@@ -57,7 +57,7 @@ Writing unit test cases for your code is very important, because
 - It will help you find the location of bugs.
 
 ## How?
-When writing unit test cases, your goal is to create unit test cases that might/will fail. So for example you should test the path planning algorithm for the case that the ball cannot be reached (because it is surrounded by enemy robots) and for LineSegments you should test LineSegments that are actually points (have an equal start position as end position). Using random unit test cases or just writing a few test cases will in most cases not found the most common type of bugs. Hence you should be more systematic in writing test cases. For this there are 2 types of approaches: black box testing and white box testing.
+When writing unit test cases, your goal is to create unit test cases that might/will fail. So for example you should test the path planning algorithm for the case that the ball cannot be reached (because it is surrounded by enemy robots) and for LineSegments you should test LineSegments that are actually points (have an equal start position as end position). Using random unit test cases or just writing a few test cases will in most cases not find the most common type of bugs. Hence you should be more systematic in writing test cases. For this there are 2 types of approaches: black box testing and white box testing.
 
 # Consistency
 
