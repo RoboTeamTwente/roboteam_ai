@@ -52,7 +52,7 @@ The documentation basically tells the same as the name of the function. Hence th
 ## Why?
 Writing unit test cases for your code is very important, because
 - Even the simplest code can contain bugs and even when fully reasoned that the code works, it can still contain some bugs.
-- It encourage you to inspect your code better for bugs, because during the process of writing test you might already find bugs (without executing the tests).
+- It encourages you to inspect your code better for bugs, because during the process of writing test you might already find bugs (without executing the tests).
 - It improves the trust in the code, since it is properly tested and therefore it is less likely that your code suddenly fails during the RoboCup.
 - It will help you find the location of bugs.
 
