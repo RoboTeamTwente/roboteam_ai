@@ -58,7 +58,7 @@ std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition,
     }
 
     std::vector<Vector2> path{finalPath.getPosition()};
-    for (PathPointNode &it = finalPath; it.getParent(); it = *it.getParent()) {
+    for (PathPointNode &it = finalPath; it.getParent(); it = it->getParent()) {
         path.push_back(it.getParent()->getPosition());
     }
     std::reverse(path.begin(), path.end());

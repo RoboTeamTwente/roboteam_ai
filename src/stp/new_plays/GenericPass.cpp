@@ -127,7 +127,6 @@ void GenericPass::calculateInfoForRoles() noexcept {
     }
     auto fieldWidth = field.getFieldWidth();
     auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-
     stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGrid, field, world));
 }
 
@@ -208,10 +207,8 @@ bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
     if (canKeep) {
         if (closestToBall && closestToBall->get()->getTeam() == world_new::us) {
             return true;
-        } else {
-            if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+        } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
                 return true;
-            }
         }
     }
     return false;

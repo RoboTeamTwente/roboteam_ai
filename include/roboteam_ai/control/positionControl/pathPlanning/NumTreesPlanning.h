@@ -12,6 +12,7 @@
 #include "utilities/Constants.h"
 
 namespace rtt::ai::control {
+
 class NumTreesPlanning : public PathPlanningAlgorithm {
    private:
     static constexpr double AVOIDANCE_DISTANCE = 5 * Constants::ROBOT_RADIUS();

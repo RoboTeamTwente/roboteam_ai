@@ -240,10 +240,8 @@ bool AttackingPass::isValidPlayToKeep(world_new::World* world) noexcept {
     if (canKeep) {
         if (closestToBall && closestToBall->get()->getTeam() == world_new::us) {
             return true;
-        } else {
-            if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+        } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
                 return true;
-            }
         }
     }
     return false;

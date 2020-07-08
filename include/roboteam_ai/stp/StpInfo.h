@@ -72,7 +72,7 @@ struct Areas {
     }
 };
 
-constexpr int blockEnumSize = 3; // The number of elements in the blockDistance enum
+constexpr static int blockEnumSize = 3; // The number of elements in the blockDistance enum
 enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blockLength also
 enum KickChipType { PASS, TARGET, MAX };
 enum KickChip {KICK, CHIP};
