@@ -109,8 +109,8 @@ class GenericPass : public Play {
      * The two grids that are used to calculate pass locations within it.
      * In this case the grids are on their side, one on the left and one on the right
      */
-    const Grid gridLeft = Grid(0, 0, 3, 2.5, 5, 5);
-    const Grid gridRight = Grid(0, -2.5, 3, 2.5, 5, 5);
+    Grid gridLeft = Grid(0, 0, 3, 2.5, 5, 5);
+    Grid gridRight = Grid(0, -2.5, 3, 2.5, 5, 5);
 };
 }  // namespace rtt::ai::stp::play
 

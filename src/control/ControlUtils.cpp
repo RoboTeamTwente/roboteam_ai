@@ -152,7 +152,7 @@ double ControlUtils::determineKickForce(const double distance, stp::KickChipType
     return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
 }
 
-Vector2 ControlUtils::determineMidfielderPosition(Grid searchGrid, Field field, world_new::World *world) {
+Vector2 ControlUtils::determineMidfielderPosition(const Grid& searchGrid, const Field& field, world_new::World *world) {
     auto fieldWidth = field.getFieldWidth();
     auto fieldLength = field.getFieldLength();
 

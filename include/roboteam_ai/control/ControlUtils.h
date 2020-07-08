@@ -77,7 +77,7 @@ namespace rtt::ai {
              * @param world
              * @return a midfielder position
              */
-            static Vector2 determineMidfielderPosition(Grid searchGrid, Field field, world_new::World* world);
+            static Vector2 determineMidfielderPosition(const Grid& searchGrid, const Field& field, world_new::World* world);
         };
 
     }  // namespace control
