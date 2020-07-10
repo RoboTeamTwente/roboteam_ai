@@ -68,11 +68,18 @@ With this technique you split up your test cases logically up in multiple classe
 which will cover all classes at least once. Equivalence Partitioning is a quite suitable technique that ensures you to look at all different type of cases. More information about Equivalence Partitioning can be found at: https://en.wikipedia.org/wiki/Equivalence_partitioning
 
 ### Boundary Value Analysis
-Boundary Value Analysis is often combined with Equivalence Partitioning. With Boundary Value Analysis you pick quite huge/small cases and input cases that are close to the regions where the output will change. For example with a path finding algorithm to the ball you can test the following cases:
+Boundary Value Analysis is often combined with Equivalence Partitioning. With Boundary Value Analysis you pick quite huge/small cases, e.g. using INT_MAX, FLT_MIN and vectors of maximum size as test input. Moreover you test input cases that are close to the regions where the output will change. If you apply Boundary Value Analysis on for example the path finding algorithm to the ball, then you can test the following cases:
 - Path finding when the entire field is filled with soccer robots.
 - Path finding when one of your robots already possesses the ball. 
 - Path finding when two of your robots have almost the same distance to the ball, except one of them has a slightly lower distance.
 - Path finding for cases when you have a very long path towards the ball.
+
+When combined with Equivalence Partitioning you can test cases that are close to the class boundaries. For example in the LineSegment intersection case you can pick two LineSegments that are almost parallel. More information about Boundary Value Analysis can be found at: https://en.wikipedia.org/wiki/Boundary-value_analysis
+
+### Error Guessing
+The last black box testing technique is Error Guessing. With Error Guessing you try to find test cases that might fail. Examples of error guessing are computing the intersection between two LineSegments that are actually points and applying the path finding algorithm when the ball cannot be reached, because it is surrounded by enemy robots. With error guessing you can also look for input which might result in division by zero or taking the logarithm of zero. Also cases where for-loops and while-loops don't get executed at all are interesting for Error Guessing. Or using empty vectors/arrays as input will often result in good test cases as well. Important for Error Guessing is to think outside the box, because for Error Guessing it is less straightforward to find test cases than for Boundary Value Analysis and Equivalence Partitioning. Also it requires more experience than for the previous black box testing techniques. However Error Guessing will definitely help you to find bugs inside your code. 
+
+### White Box Testing
 
 
 # Consistency
