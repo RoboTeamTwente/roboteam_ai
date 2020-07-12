@@ -2,8 +2,8 @@
 #ifndef RTT_JOYSTICKHANDLER_H
 #define RTT_JOYSTICKHANDLER_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_joystick.h>
+#include "SDL.h"
+#include "SDL_joystick.h"
 #include <stdio.h>
 #include <iostream>
 #include "JoystickState.h"

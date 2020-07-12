@@ -7,24 +7,15 @@
 
 #include <roboteam_proto/RobotFeedback.pb.h>
 
-#include "RobotType.hpp"
 #include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Angle.h"
 #include "world_new/Team.hpp"
 #include "world_new/views/BallView.hpp"
 
-namespace rtt::ai::control {
-class ShotController;
-class NumTreePosControl;
-class BallHandlePosControl;
-class BasicPosControl;
-}  // namespace rtt::ai::control
-
 namespace rtt::world_new::robot {
 
 /**
  * Geneva driver gone
- * 30 / 50 watt motor flag
  *
  * robot still changes:
  *  battery
@@ -34,7 +25,6 @@ class Robot {
    private:
     uint32_t id;
     Team team;
-    RobotType type = RobotType::THIRTY_WATT;
 
     Vector2 pos;
     Vector2 vel;
@@ -61,8 +51,6 @@ class Robot {
 
    private:
     void updateFromFeedback(proto::RobotFeedback &feedback) noexcept;
-
-    void setRobotType(RobotType type) noexcept;
 
     void setId(uint32_t id) noexcept;
 
@@ -103,8 +91,6 @@ class Robot {
    public:
     [[nodiscard]] uint32_t getId() const noexcept;
 
-    [[nodiscard]] RobotType getRobotType() const noexcept;
-
     [[nodiscard]] Team getTeam() const noexcept;
 
     [[nodiscard]] const Vector2 &getPos() const noexcept;
@@ -116,10 +102,6 @@ class Robot {
     [[nodiscard]] double getAngularVelocity() const noexcept;
 
     [[nodiscard]] bool isBatteryLow() const noexcept;
-
-    [[nodiscard]] bool isFiftyWatt() const noexcept;
-
-    [[nodiscard]] bool isThirtyWatt() const noexcept;
 
     [[nodiscard]] unsigned char getDribblerState() const noexcept;
 
@@ -135,14 +117,6 @@ class Robot {
 
     [[nodiscard]] float getBallPosBallSensor() const noexcept;
 
-    [[nodiscard]] ai::control::ShotController *getShotController() const noexcept;
-
-    [[nodiscard]] ai::control::NumTreePosControl *getNumTreePosControl() const noexcept;
-
-    [[nodiscard]] ai::control::BasicPosControl *getBasicPosControl() const noexcept;
-
-    [[nodiscard]] ai::control::BallHandlePosControl *getBallHandlePosControl() const noexcept;
-
     [[nodiscard]] const Vector2 &getPidPreviousVel() const noexcept;
 
     [[nodiscard]] double getDistanceToBall() const noexcept;
@@ -150,14 +124,6 @@ class Robot {
     [[nodiscard]] double getAngleDiffToBall() const noexcept;
 
     [[nodiscard]] unsigned long getLastUpdatedWorldNumber() const noexcept;
-
-    void resetShotController() const noexcept;
-
-    void resetNumTreePosControl() const noexcept;
-
-    void resetBasicPosControl() const noexcept;
-
-    void resetBallHandlePosControl() const noexcept;
 
    public:
     explicit Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, Team team = both,
