@@ -92,5 +92,16 @@ The last thing regarding to writing unit test cases is to always use your common
 - Do not test external libraries or functions in the C++ standard library, you can assume that these functions have been properly tested. 
 
 # Consistency
+## Why?
+Being consistent when writing code is important, because:
+- Code is being re-used by other/future software developers that do not expect these consistencies.
+- Often it is forgotten to properly document code or documentation of the code is not read, so others are unaware of these inconsistencies.
+- Being consistent makes it easier to find a better design.
 
-# Dead code & Code clones
+## How?
+What I don't mean with consistency is: code style formatting, commit message guidelines, documentation guidelines, etc. which is also quite important, but being consistent in implementation and design of your code is even more important. Unfortunately there is no clear definition of consistency, however some important points regarding consistency are:
+- Naming:
+
+# Code Clones
+
+# Dead Code
