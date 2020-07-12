@@ -97,10 +97,19 @@ Being consistent when writing code is important, because:
 - Code is being re-used by other/future software developers that do not expect these consistencies.
 - Often it is forgotten to properly document code or documentation of the code is not read, so others are unaware of these inconsistencies.
 - Being consistent makes it easier to find a better design.
+- It makes it easier to find bugs, since either at all places it goes wrong or it goes wrong at no place at all.
 
 ## How?
 What I don't mean with consistency is: code style formatting, commit message guidelines, documentation guidelines, etc. which is also quite important, but being consistent in implementation and design of your code is even more important. Unfortunately there is no clear definition of consistency, however some important points regarding consistency are:
-- Naming:
+- Naming: You should use the same/similar (variable) names when speaking about the same/similar object, values, constants, etc.
+- Class: You should treat a class as it is defined. So for example an infinite Line class cannot have methods that interpret it as a finite LineSegment.
+- Measures: Make sure that similar methods use similar base units, regarding time, mass and length. So do not have halve of the methods in a class use seconds and the other halve uses milliseconds. Often it is the best approach to express everything in SI base units.
+- Parameters: Make sure that if similar methods use similar parameters that the exact definition of those parameters is the same. So for example if you have functions that check if a certain location is in an area using a given margin to extend this area then make sure that the margins of all these functions are either outwards margins or inwards margins. Do not use both at the same time.
+- Output: Make sure that the output of similar methods have the same meaning. So when returning a location on the field by different methods, you should make sure that these locations are comparable.
+- Exceptions: Exceptions should be dealt with in the same way by similar methods. So either throw an exception, send an error message, ignore it, etc. but never use a combination of these options. Also odd cases should be dealt with in the same way by similar methods, so for example if you compute intersections between objects and there a multiple of them then you should be consistent in what you return for all these methods in different classes.
+- Metrics: When using a distance metric in similar methods make sure that you use the same distance metric for all of them. For example in case you check whether two locations (Vector2) are the same then either use Manhattan distance or Euclidean distance everywhere (checking if float values are equal can cause issues due to rounding of float values).
+
+Important regarding consistency is that you should discuss a lot with your fellow software developers on which guidelines/definitions you will agree on. 
 
 # Code Clones
 
