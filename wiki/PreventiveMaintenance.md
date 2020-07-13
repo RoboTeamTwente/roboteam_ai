@@ -47,10 +47,36 @@ void calculateInfoForDefenders() noexcept;
 The documentation basically tells the same as the name of the function. Hence the goal of documentation, to inform others about usage, is missing here. What kind of info is computed is totally unclear? What are requirements for calling this function is also missing? When should this function be called?
 
 # Design
+## Why?
+Having a good code design is very important, because:
+- It will be much easier to make changes to the code and to introduce new features.
+- It will increase the general understandability in the code by other/future software developers which reduces the number of bugs.
+- Code with a good design is overall faster than code with a bad design.
+- It will increase the productivity of all software developers, because you can all work easily on separate tasks.
+- It will be much easier to write and update documentation for your code.
+- It will makes it easier to enforce consistency.
+- It will reveal code clones and reduce the risk of introducing new code clones.
+
+## How?
+Before introducing new features you should discuss with your fellow software developers how you expect the structure of the code that implements these features will look like, since different developers have different opinions about this and they also have to work with it. The following points can help you to find an optimal design for your code:
+
+### Design Patterns
+
+### Passing Information
+- Avoid statics
+
+### Naming
+
+### Responsibilities
+- Single responsibilities
+- Push responsibilities downwards
+
+### Simplicity & Shortness
+
 
 # Unit Testing
 ## Why?
-Writing unit test cases for your code is very important, because
+Writing unit test cases for your code is very important, because:
 - Even the simplest code can contain bugs and even when fully reasoned that the code works, it can still contain some bugs.
 - It encourages you to inspect your code better for bugs, because during the process of writing test you might already find bugs (without executing the tests).
 - It improves the trust in the code, since it is properly tested and therefore it is less likely that your code suddenly fails during the RoboCup.
