@@ -61,15 +61,24 @@ Having a good code design is very important, because:
 Before introducing new features you should discuss with your fellow software developers how you expect the structure of the code that implements these features will look like, since different developers have different opinions about this and they also have to work with it. The following points can help you to find an optimal design for your code:
 
 ### Design Patterns
+A good place to start when inexperienced with code design is design patterns. Design patterns are quite useful to know as software developers and are applicable to almost any programming language. Design patterns tell you in general how to deal with common types of problems in code design, which can be re-used or guide you in finding a proper design for your situation. A list of all design patterns can be found at https://sourcemaking.com/design_patterns. The most important design patterns to know are: Factory Method, Singleton (although should only be used in a few case), Adapter, Composite, Decorator, Facade, Command, Iterator, Observer, State, Strategy, Template Method. 
 
 ### Passing Information
-- Avoid statics
+A problem that is quite common in programming is how to pass your information from classes to other classes. There are a lot of different approaches for this and you should be familiar with these approaches and select the right approach for your situation. As example 
+#### Interface method
+- Pass by additional method
+- Pass by constructor
+- Pass by constant
+- Pass by static
 
 ### Naming
 
 ### Responsibilities
 - Single responsibilities
 - Push responsibilities downwards
+
+### Hard Coding
+Magic values, assuming things don't change
 
 ### Simplicity & Shortness
 
