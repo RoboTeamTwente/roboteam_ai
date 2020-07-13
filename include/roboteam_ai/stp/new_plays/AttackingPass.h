@@ -71,16 +71,12 @@ class AttackingPass : public Play {
 
    private:
     /**
-     * Checks if the pass is finished
-     * @return whether the pass is finished
+     * Checks if the pass is finished so the play knows whether it should
+     * keep this play or move to another play
+     * @return true: when ONE of the receivers is closer than 0.08m to the ball
+     *         false: when NONE of the receivers is closer than 0.08m to the ball
      */
     [[nodiscard]] bool passFinished() noexcept;
-
-    /**
-     * Checks if the pass failed
-     * @return whether the pass failed
-     */
-    [[nodiscard]] bool passFailed() noexcept;
 
     /**
      * Called every time the .initialize() is called on a play,
@@ -89,7 +85,7 @@ class AttackingPass : public Play {
     void onInitialize() noexcept override;
 
     /**
-     * Position that will be passed to
+     * Position that the passer will pass to
      */
     Vector2 passingPosition;
 

@@ -220,11 +220,4 @@ bool GenericPass::passFinished() noexcept {
     return (stpInfos["receiver_left"].getRobot() && stpInfos["receiver_left"].getRobot()->get()->getDistanceToBall() < 0.08) ||
            (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);
 }
-
-bool GenericPass::passFailed() noexcept {
-    // TODO: fix this condition
-    // Pass failed when both receivers are not tracking the ball angle anymore
-    return (stpInfos["receiver_left"].getRobot() && stpInfos["receiver_left"].getRobot()->get()->getAngleDiffToBall() > M_PI_4) &&
-           (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getAngleDiffToBall() > M_PI_4);
-}
 }  // namespace rtt::ai::stp::play
