@@ -48,7 +48,7 @@ bool TimeOut::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap TimeOut::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag not_important(DealerFlagTitle::ROBOT_TYPE_50W, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"time_out_1", {not_important}});
     flagMap.insert({"time_out_2", {not_important}});

@@ -5,9 +5,9 @@
 #ifndef RTT_JOYSTICKMANAGER_H
 #define RTT_JOYSTICKMANAGER_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_joystick.h>
-#include <include/roboteam_ai/utilities/IOManager.h>
+#include "SDL.h"
+#include "SDL_joystick.h"
+#include <utilities/IOManager.h>
 #include <unistd.h>
 #include <map>
 #include <memory>
