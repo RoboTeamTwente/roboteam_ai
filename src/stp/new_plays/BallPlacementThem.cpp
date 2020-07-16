@@ -30,16 +30,19 @@ uint8_t BallPlacementThem::score(world_new::World* world) noexcept { return 0; }
 void BallPlacementThem::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
 
-    stpInfos["ball_avoider_0"].setPositionToMoveTo(Vector2{-1, -4});
-    stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-3, 4});
-    stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-3, 1});
-    stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{-3, -1});
-    stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-3, -4});
-    stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-2, 3});
-    stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{-2, 0});
-    stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{-2, -3});
-    stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{-1, 4});
-    stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{-1, 0});
+    auto length = field.getFieldLength();
+    auto width = field.getFieldWidth();
+
+    stpInfos["ball_avoider_0"].setPositionToMoveTo(Vector2{-length / 5, -width / 3});
+    stpInfos["ball_avoider_1"].setPositionToMoveTo(Vector2{-length / 5, width / 3});
+    stpInfos["ball_avoider_2"].setPositionToMoveTo(Vector2{-length / 5, width / 6});
+    stpInfos["ball_avoider_3"].setPositionToMoveTo(Vector2{--length / 5, -width / 6});
+    stpInfos["ball_avoider_4"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
+    stpInfos["ball_avoider_5"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
+    stpInfos["ball_avoider_6"].setPositionToMoveTo(Vector2{--length / 9, width / 4});
+    stpInfos["ball_avoider_7"].setPositionToMoveTo(Vector2{length / 4, 0.0});
+    stpInfos["ball_avoider_8"].setPositionToMoveTo(Vector2{length / 4, width / 4});
+    stpInfos["ball_avoider_9"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
 }
 
 bool BallPlacementThem::shouldRoleSkipEndTactic() { return false; }

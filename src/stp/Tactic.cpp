@@ -18,19 +18,23 @@ Status Tactic::update(StpInfo const &info) noexcept {
     // Update skill info
     auto skill_info = calculateInfoForSkill(info);
 
-    if(skill_info) {
+    if (skill_info) {
         // Update the current skill with the new SkillInfo
         auto status = skills.update(skill_info.value());
 
         // Call onUpdate on a skill for specific behaviour
         onUpdate(status);
-    }
-    else {
+    } else {
         RTT_ERROR("Not all data was present, bad update!")
     }
 
+    // the tactic will not be reset if it's the first skill
+    if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
+        reset();
+    }
+
     // Check if the skills are all finished
-    if (skills.finished()) {
+    if (skills.finished() || forceTacticSuccess(skill_info.value())) {
         if (!isEndTactic()) {
             currentStatus = Status::Success;
             return Status::Success;
@@ -39,11 +43,6 @@ Status Tactic::update(StpInfo const &info) noexcept {
         skills.reset();
         currentStatus = Status::Waiting;
         return Status::Waiting;
-    }
-
-    // the tactic will not be reset if it's the first skill
-    if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
-        reset();
     }
 
     // if the failing condition is true, the current tactic will fail
@@ -60,11 +59,9 @@ void Tactic::terminate() noexcept { onTerminate(); }
 
 void Tactic::reset() noexcept { skills.reset(); }
 
-Skill *Tactic::getCurrentSkill() {
-    return skills.get_current();
-}
+Skill *Tactic::getCurrentSkill() { return skills.get_current(); }
 
-[[nodiscard]] Status Tactic::getStatus() const {
-    return currentStatus;
-}
+[[nodiscard]] Status Tactic::getStatus() const { return currentStatus; }
+
+bool Tactic::forceTacticSuccess(const StpInfo &info) noexcept { return false; }
 }  // namespace rtt::ai::stp

@@ -3,9 +3,11 @@
 //
 
 #include "utilities/Constants.h"
+
 #include <assert.h>
-#include <iostream>
 #include <roboteam_utils/Print.h>
+
+#include <iostream>
 
 namespace rtt::ai {
 
@@ -115,7 +117,7 @@ double Constants::MAX_RECEIVE_TIME() { return 1.0; }
 
 double Constants::BALL_STILL_VEL() { return 0.1; }
 
-double Constants::GOTOPOS_ERROR_MARGIN() { return 0.02; } // was 0.03 before STP
+double Constants::GOTOPOS_ERROR_MARGIN() { return 0.02; }  // was 0.03 before STP
 
 double Constants::GOTOPOS_ANGLE_ERROR_MARGIN() { return 0.03; }
 
@@ -248,26 +250,23 @@ QColor Constants::SELECTED_ROBOT_COLOR() { return Qt::magenta; }
 
 std::vector<QColor> Constants::TACTIC_COLORS() { return {{255, 0, 255, 50}, {0, 255, 255, 50}, {255, 255, 0, 50}, {0, 255, 0, 50}, {0, 0, 255, 100}}; }
 
-pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(2.5, 0.0, 0) : pidVals(3.1, 0.0, 0.6); }
+pidVals Constants::standardNumTreePID() { return GRSIM() ? pidVals(2.5, 0.0, 0) : pidVals(2.5, 0.0, 0); }
 
-pidVals Constants::standardBasicPID() { return GRSIM() ? pidVals(2.5, 0.0, 0) : pidVals(4.0, 0.0, 0.4); }
+pidVals Constants::standardReceivePID() { return GRSIM() ? pidVals(4, 0, 0) : pidVals(4, 0, 0); }
 
-pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(5.0, 0.0, 0.4) : pidVals(3.6, 0.0, 0.2); }
+pidVals Constants::standardInterceptPID() { return GRSIM() ? pidVals(6, 0, 1) : pidVals(6, 0, 1); }
 
-pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6.0, 0.0, 1.2) : pidVals(4.2, 0.0, 0.4); }
+pidVals Constants::standardKeeperPID() { return GRSIM() ? pidVals(2.5, 0.0, 0) : pidVals(2.5, 0.0, 0); }
 
-pidVals Constants::standardBallHandlePID() { return GRSIM() ? pidVals(0.0, 0.0, 0.0) : pidVals(0.0, 0.0, 0.0); }
-
-pidVals Constants::standardShotControllerPID() { return GRSIM() ? pidVals(2.0, 0.0, 0.0) : pidVals(9.0, 0.2, 0.0); }
+pidVals Constants::standardKeeperInterceptPID() { return GRSIM() ? pidVals(6, 0, 1) : pidVals(6, 0, 1); }
 
 std::vector<RuleSet> Constants::ruleSets() {
-    return {
-        {"default", 8.0, 6.5, 0.0, ROBOT_RADIUS(), true},
-        {"halt", 0.0, 0.0, 0.0, -1, true},
-        {"stop", 1.5, 0.0, 0.8, -1, false}, {"ballplacement_them", 2.5, 6.5, 0.8, -1, true},
-        {"ballplacement_us", 2.5, 6.5, 0.0, -1, true},
-        {"kickoff", 1.5, 6.5, 0.5, 0.0, true}
-    };
+    return {{"default", 1.5, 6.5, 0.0, ROBOT_RADIUS(), true},
+            {"halt", 0.0, 0.0, 0.0, -1, true},
+            {"stop", 1.5, 0.0, 0.8, -1, false},
+            {"ballplacement_them", 1.5, 6.5, 0.8, -1, true},
+            {"ballplacement_us", 0.75 /*2.5*/, 6.5, 0.0, -1, true},
+            {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 
 }  // namespace rtt::ai

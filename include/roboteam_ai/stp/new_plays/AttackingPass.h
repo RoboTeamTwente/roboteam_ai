@@ -5,6 +5,8 @@
 #ifndef RTT_ATTACKING_PASS_PLAY_H
 #define RTT_ATTACKING_PASS_PLAY_H
 
+#include <roboteam_utils/Grid.h>
+
 #include <stp/Play.hpp>
 
 namespace rtt::ai::stp::play {
@@ -54,18 +56,57 @@ class AttackingPass : public Play {
     [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept override;
 
    protected:
+    /**
+     * Checks whether this role should skip the end tactic in its state machine
+     * @return whether to skip the end tactic
+     */
     bool shouldRoleSkipEndTactic() override;
 
     /**
      * Calculates the pass location
-     * @return the pass location
+     * @return a pair of the pass location and the score of that location
+     * The score is used to decide to which pass location to pass when there are more receivers
      */
-    const Vector2 calculatePassLocation() noexcept;
+    std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
 
    private:
+    /**
+     * Checks if the pass is finished so the play knows whether it should
+     * keep this play or move to another play
+     * @return true: when ONE of the receivers is closer than 0.08m to the ball
+     *         false: when NONE of the receivers is closer than 0.08m to the ball
+     */
     [[nodiscard]] bool passFinished() noexcept;
 
-    [[nodiscard]] bool passFailed() noexcept;
+    /**
+     * Called every time the .initialize() is called on a play,
+     * runs exactly once at the start of this play when this play is picked to be executed
+     */
+    void onInitialize() noexcept override;
+
+    /**
+     * Position that the passer will pass to
+     */
+    Vector2 passingPosition;
+
+    /**
+     * Did the passer shoot or not
+     */
+    bool passerShot{false};
+
+    /**
+     * Two receive locations with their scores.
+     * The passer will shoot to the highest scoring position
+     */
+    std::pair<Vector2, double> receiverPositionLeft{};
+    std::pair<Vector2, double> receiverPositionRight{};
+
+    /**
+     * The two grids that are used to calculate pass locations within it.
+     * In this case the grids are on their side, one on the left and one on the right
+     */
+    Grid gridLeft = Grid(0.15 * field.getFieldWidth(), 0, 3, 2.5, 5, 5);
+    Grid gridRight = Grid(0.15 * field.getFieldWidth(), -2.5, 3, 2.5, 5, 5);
 };
 }  // namespace rtt::ai::stp::play
 

@@ -37,13 +37,13 @@ std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) no
 }
 
 double BlockRobot::calculateAngle(const world_new::view::RobotView enemy, const Vector2 &targetLocation) {
-    Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
+    Vector2 lineEnemyToTarget = enemy->getPos() - targetLocation;
     return lineEnemyToTarget.angle();
 }
 
 Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world_new::view::RobotView enemy, const Vector2 &targetLocation) {
     Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
-    double proportion = double(blockDistance) / (blockLength + 1);  // adding 1 results in 0.25, 0.5, 0.75
+    double proportion = double(blockDistance) / (blockEnumSize + 1);  // adding 1 results in 0.25, 0.5, 0.75
     auto movePosition = lineEnemyToTarget * proportion;
     return movePosition + enemy->getPos();
 }

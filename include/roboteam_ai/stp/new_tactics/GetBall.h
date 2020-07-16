@@ -5,7 +5,6 @@
 #ifndef RTT_GETBALL_H
 #define RTT_GETBALL_H
 
-#include <include/roboteam_ai/utilities/Constants.h>
 #include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {
@@ -50,6 +49,14 @@ class GetBall : public Tactic {
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     bool isEndTactic() noexcept override;
+
+    /**
+     * Checks if this tactic should be forced success
+     * It is forced success whenever the corresponding robot has the ball
+     * @param info
+     * @return whether the tactic is forced success
+     */
+    bool forceTacticSuccess(const StpInfo &info) noexcept override;
 
     /**
      * Gets the tactic name

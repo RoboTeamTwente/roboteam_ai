@@ -5,7 +5,7 @@
 #ifndef RTT_CHIP_H
 #define RTT_CHIP_H
 
-#include "include/roboteam_ai/stp/Skill.h"
+#include "stp/Skill.h"
 
 namespace rtt::ai::stp::skill {
 
@@ -29,6 +29,12 @@ class Chip : public Skill {
      * Gets the skill name
      */
     const char* getName() override;
+
+   private:
+    /**
+     * Keeps track of how many ticks we tried to chip
+     */
+    int chipAttempts = 0;
 };
 
 }  // namespace rtt::ai::stp::skill

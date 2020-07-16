@@ -3,6 +3,7 @@
 //
 
 #include "stp/new_tactics/Formation.h"
+
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 
@@ -28,7 +29,11 @@ std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noe
     StpInfo skillStpInfo = info;
 
     // Be 100% sure the angle is 0 during the formation
-    skillStpInfo.setAngle(0.0001);
+    if (info.getAngle() == Angle()) {
+        skillStpInfo.setAngle(0.0001);
+    } else {
+        skillStpInfo.setAngle(info.getAngle());
+    }
 
     // Be 100% sure the dribbler is of during the formation
     skillStpInfo.setDribblerSpeed(0);
@@ -52,8 +57,6 @@ bool Formation::isEndTactic() noexcept {
     return true;
 }
 
-const char *Formation::getName() {
-    return "Formation";
-}
+const char *Formation::getName() { return "Formation"; }
 
 }  // namespace rtt::ai::stp::tactic

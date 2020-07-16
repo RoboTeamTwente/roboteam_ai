@@ -5,7 +5,6 @@
 #include "stp/new_plays/DefendShot.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
-#include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/new_roles/Defender.h"
@@ -18,12 +17,10 @@ namespace rtt::ai::stp::play {
 DefendShot::DefendShot() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToThemInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
@@ -77,17 +74,15 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    if(enemyRobots.empty()) {
-      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
-      return;
+    if (enemyRobots.empty()) {
+        RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+        return;
     }
 
     enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
                                      [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                                     [&](const auto enemyRobot) -> bool { return enemyClosestToGoal && enemyRobot->getId() == enemyClosestToGoal.value()->getId(); }));
 
     auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
@@ -118,13 +113,15 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     stpInfos["defender_5"].setBlockDistance(HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
+    auto closestBotUs = world->getWorld()->getRobotClosestToBall(world_new::us);
+    auto closestBotThem = world->getWorld()->getRobotClosestToBall(world_new::them);
     for (auto &role : roles) {
         auto roleName = role->getName();
-        if (roleName.find("defender") != std::string::npos) {
+        if (closestBotUs && closestBotThem && roleName.find("defender") != std::string::npos) {
             // TODO: Improve choice of intercept robot based on trajectory and intercept position
-            if (world->getWorld()->getRobotClosestToBall(world_new::us) && stpInfos[roleName].getRobot().has_value() &&
-                stpInfos[roleName].getRobot().value()->getId() == world->getWorld()->getRobotClosestToBall(world_new::us).value()->getId() &&
-                world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+            if (stpInfos[roleName].getRobot() && stpInfos[roleName].getRobot().value()->getId() == closestBotUs.value()->getId() &&
+                world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL &&
+                closestBotThem->get()->getDistanceToBall() > control_constants::BALL_IS_CLOSE) {
                 // If current tactic is BlockRobot, force to tactic Intercept
                 if (strcmp(role->getCurrentTactic()->getName(), "Block Robot") == 0) role->forceNextTactic();
                 // TODO: Improve intercept position
@@ -142,10 +139,18 @@ void DefendShot::calculateInfoForKeeper() noexcept {
 }
 
 void DefendShot::calculateInfoForMidfielders() noexcept {
-    auto width = field.getFieldWidth();
+    auto ball = world->getWorld()->getBall().value();
 
-    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, width / 4));
-    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(0.0, -width / 4));
+    if (stpInfos["midfielder_1"].getRobot() && stpInfos["midfielder_2"].getRobot()) {
+        stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
+        stpInfos["midfielder_2"].setAngle((ball->getPos() - stpInfos["midfielder_2"].getRobot()->get()->getPos()).angle());
+    }
+
+    auto searchGridLeft = Grid(0, 0, 1.5, 1.5, 3, 3);
+    auto searchGridRight = Grid(0, -1.5, 1.5, 1.5, 3, 3);
+
+    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridRight, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {

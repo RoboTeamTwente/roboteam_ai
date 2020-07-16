@@ -3,6 +3,7 @@
 //
 
 #include "stp/new_roles/BallGetter.h"
+
 #include "stp/new_tactics/GetBall.h"
 
 namespace rtt::ai::stp::role {
@@ -12,4 +13,4 @@ BallGetter::BallGetter(std::string name) : Role(std::move(name)) {
     robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall()};
 }
 
-} // namespace rtt::ai::stp::role
+}  // namespace rtt::ai::stp::role

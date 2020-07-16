@@ -37,6 +37,8 @@ class Play {
      */
     void initialize() noexcept;
 
+    virtual void onInitialize() noexcept {};
+
     /**
      * Updated the stored world
      * @param world

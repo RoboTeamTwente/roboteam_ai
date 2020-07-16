@@ -11,6 +11,7 @@
 
 #include <cmath>
 #include <optional>
+#include <roboteam_utils/Grid.h>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
@@ -68,6 +69,15 @@ namespace rtt::ai {
              * @return a kick speed between min and max kick speed
              */
             static double determineKickForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept;
+
+            /**
+             * Determine the best position for a midfielder
+             * @param searchGrid the grid you want to choose a position from
+             * @param field
+             * @param world
+             * @return a midfielder position
+             */
+            static Vector2 determineMidfielderPosition(const Grid& searchGrid, const Field& field, world_new::World* world);
         };
 
     }  // namespace control

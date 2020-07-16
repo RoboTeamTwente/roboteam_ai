@@ -144,11 +144,10 @@ typedef std::tuple<double, double, double> pidVals;
 
     // Default PID values for the gotoposses/interface
     static pidVals standardNumTreePID();
-    static pidVals standardBasicPID();
+    static pidVals standardReceivePID();
+    static pidVals standardInterceptPID();
     static pidVals standardKeeperPID();
     static pidVals standardKeeperInterceptPID();
-    static pidVals standardBallHandlePID();
-    static pidVals standardShotControllerPID();
 
    private:
     static bool isInitialized;

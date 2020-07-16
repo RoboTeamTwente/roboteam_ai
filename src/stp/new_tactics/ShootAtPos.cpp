@@ -30,11 +30,9 @@ void ShootAtPos::onTerminate() noexcept {
 std::optional<StpInfo> ShootAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     if (info.getShootType() == stp::KickChip::KICK) {
         return calculateInfoForKick(info);
-    }
-    else if (info.getShootType() == stp::KickChip::CHIP) {
+    } else if (info.getShootType() == stp::KickChip::CHIP) {
         return calculateInfoForChip(info);
-    }
-    else {
+    } else {
         RTT_ERROR("No ShootType is set, kicking by default")
         return calculateInfoForKick(info);
     }
@@ -89,11 +87,16 @@ bool ShootAtPos::isEndTactic() noexcept {
 bool ShootAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    return !info.getRobot()->hasBall() || !info.getPositionToShootAt();
+    auto ballDistance = info.getRobot()->get()->getDistanceToBall() < control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 3;
+
+    return (!info.getRobot()->hasBall() && info.getBall()->get()->getFilteredVelocity().length() < control_constants::BALL_STILL_VEL) || !info.getPositionToShootAt();
 }
 
 bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     // Reset when angle is wrong outside of the rotate skill, reset to rotate again
+    if (info.getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+        return false;
+    }
     if (skills.current_num() != 0) {
         double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
         return info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle()) > errorMargin;
@@ -101,6 +104,6 @@ bool ShootAtPos::shouldTacticReset(const StpInfo &info) noexcept {
     return false;
 }
 
-const char *ShootAtPos::getName() { return "Kick At Pos"; }
+const char *ShootAtPos::getName() { return "Shoot At Pos"; }
 
 }  // namespace rtt::ai::stp::tactic

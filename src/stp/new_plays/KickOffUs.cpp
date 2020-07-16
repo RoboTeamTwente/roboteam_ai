@@ -34,7 +34,8 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
     // Kicker
-    stpInfos["kicker"].setPositionToShootAt(Vector2{3.0, 2.0});
+    stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});
+    stpInfos["kicker"].setKickChipType(PASS);
 }
 
 bool KickOffUs::shouldRoleSkipEndTactic() { return false; }
