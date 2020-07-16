@@ -41,7 +41,7 @@ std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noe
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    skillStpInfo.setDribblerSpeed(50);
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }

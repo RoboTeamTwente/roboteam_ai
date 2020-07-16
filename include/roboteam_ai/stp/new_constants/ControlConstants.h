@@ -15,6 +15,8 @@ extern const double MAX_CHIP_POWER;
 extern const double MIN_CHIP_POWER;
 extern const double MAX_POWER_KICK_DISTANCE;
 extern const double MAX_POWER_CHIP_DISTANCE;
+extern const double MAX_KICK_ATTEMPTS;
+extern const double MAX_CHIP_ATTEMPTS;
 
 // Robot physical constants
 extern const double ROBOT_RADIUS;

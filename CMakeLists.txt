@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O3")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
@@ -151,6 +151,7 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallShotOrCloseToThemInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/NoGoalVisionFromBallInvariant.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallClosestToUsInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp

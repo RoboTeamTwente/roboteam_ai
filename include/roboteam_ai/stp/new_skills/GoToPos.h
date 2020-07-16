@@ -5,7 +5,7 @@
 #ifndef RTT_GOTOPOS_H
 #define RTT_GOTOPOS_H
 
-#include "include/roboteam_ai/stp/Skill.h"
+#include "stp/Skill.h"
 
 namespace rtt::ai::stp::skill {
 

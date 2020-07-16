@@ -33,6 +33,13 @@ class PlayChecker {
      */
     void update(world_new::World* world) noexcept;
 
+    /**
+     * Returns the default play
+     * @param playName The name of the play we want to return
+     * @return The play with the name of the argument
+     */
+    Play* getPlayForName(const std::string& playName) const noexcept;
+
    private:
     /**
      * An array of all the plays

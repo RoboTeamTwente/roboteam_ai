@@ -4,10 +4,11 @@
 
 #include "stp/new_plays/GetBallRisky.h"
 
-#include <include/roboteam_ai/stp/new_roles/Defender.h>
-#include <include/roboteam_ai/stp/new_roles/Halt.h>
-#include <include/roboteam_ai/stp/new_roles/PassReceiver.h>
+#include <stp/new_roles/Defender.h>
+#include <stp/new_roles/Halt.h>
+#include <stp/new_roles/PassReceiver.h>
 
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
@@ -21,11 +22,13 @@ GetBallRisky::GetBallRisky() : Play() {
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
@@ -46,12 +49,13 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
 
-    if(enemyRobots.empty()) {
-      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
-      return;
+    if (enemyRobots.empty()) {
+        RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+        return;
     }
 
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
+    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                     [&](const auto enemyRobot) -> bool { return enemyAttacker && enemyRobot->getId() == enemyAttacker.value()->getId(); }));
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
@@ -70,8 +74,10 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToGoal);
     stpInfos["defender_1"].setBlockDistance(HALFWAY);
 
-    if(enemyClosestToGoal) stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
-    else stpInfos["defender_2"].setPositionToDefend(std::nullopt);
+    if (enemyClosestToGoal)
+        stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
+    else
+        stpInfos["defender_2"].setPositionToDefend(field.getTheirGoalCenter() + Vector2{1, 1});
     stpInfos["defender_2"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_2"].setBlockDistance(HALFWAY);
 
@@ -83,8 +89,10 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setEnemyRobot(enemyClosestToGoal);
     stpInfos["midfielder_1"].setBlockDistance(CLOSE);
 
-    if(enemyClosestToGoal) stpInfos["midfielder_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
-    else stpInfos["midfielder_2"].setPositionToDefend(std::nullopt);
+    if (enemyClosestToGoal)
+        stpInfos["midfielder_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
+    else
+        stpInfos["midfielder_2"].setPositionToDefend(field.getTheirGoalCenter() + Vector2{1, 1});
     stpInfos["midfielder_2"].setEnemyRobot(enemyAttacker);
     stpInfos["midfielder_2"].setBlockDistance(CLOSE);
 }

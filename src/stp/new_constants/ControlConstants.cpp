@@ -8,12 +8,15 @@
 
 namespace rtt::ai::stp::control_constants {
 /// Kick and chip constants
-constexpr double MAX_KICK_POWER = 8;
-constexpr double MIN_KICK_POWER = 1.01;
+constexpr double MAX_KICK_POWER = 6.5;
+constexpr double MIN_KICK_POWER = 0.123;
 constexpr double MAX_POWER_KICK_DISTANCE = 8;
 constexpr double MAX_POWER_CHIP_DISTANCE = 9;
 constexpr double MAX_CHIP_POWER = 8;
 constexpr double MIN_CHIP_POWER = 1.01;
+// Max attempts before the force_kick_chip is set to true
+constexpr double MAX_KICK_ATTEMPTS = 25;
+constexpr double MAX_CHIP_ATTEMPTS = 25;
 
 /// Robot physical constants
 constexpr double ROBOT_RADIUS = 0.088;
@@ -21,7 +24,7 @@ constexpr double CENTER_TO_FRONT = 0.05;
 
 /// Dribbler constants
 // The distance from robot to ball at which the dribbler should turn on
-constexpr double TURN_ON_DRIBBLER_DISTANCE = 4 * ROBOT_RADIUS;
+constexpr double TURN_ON_DRIBBLER_DISTANCE = 5 * ROBOT_RADIUS;
 
 /// Ball constants
 constexpr double BALL_STILL_VEL = 0.1;
@@ -34,22 +37,23 @@ constexpr double HAS_CHIPPED_ERROR_MARGIN = 0.4;
 constexpr double ENEMY_CLOSE_TO_BALL_DISTANCE = 1.0;
 
 /// RobotCommand limits
-constexpr double MAX_VEL_CMD = 0.891;
+// TODO: for testing, this is set to 1.89!
+constexpr double MAX_VEL_CMD = 1.891;
 constexpr double MAX_DRIBBLER_CMD = 31;
 // Angle increment per tick
 constexpr double ANGLE_RATE = 0.1 * M_PI;
 
 /// HasBall margins
 // Angle margin robot to ball. Within this margin, the robot has the ball
-constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.11;
+constexpr double HAS_BALL_ANGLE_ERROR_MARGIN = 0.10;
 // Distance margin robot to ball. Within this margin, the robot has the ball
-constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.11;
+constexpr double HAS_BALL_DISTANCE_ERROR_MARGIN = 0.10;
 
 /// GTP Constants
 // Distance margin for 'goToPos'. If the robot is within this margin, goToPos is successful
 constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
 // Angle margin for 'goToPos'. If the robot is within this margin, goToPos is successful
-constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.007;
+constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.009;
 
 /// Invariant constants
 constexpr double FUZZY_TRUE = 255;
