@@ -135,6 +135,31 @@ The world is really nice right now, it properly abstracts the hard parts away.
 It tries to guarantee shared immutability which is a very complicated topic and will be covered
 in one of the lectures, specifically about shared ownership and concurrency.
 
+There's an issue where views persist to data that doens't exist anymore reglardless of the current mutex situation.
+
+I'd return copies of WorldData, which could be wrapped like the following:
+
+```cpp
+class WorldData {
+    // ... stuff
+    WorldDataView view() { 
+        return this; 
+    }
+    // ... stuff
+};
+```
+
+Then you can 
+
+
+```cpp
+std::optional<WorldData> getWorld() { return this->world; }
+
+getWorld().value().view()->...; // stuff
+```
+
+I don't know there's a lot of ways you could approach this but returning a copy is one of the few where immutable safety is guaranteed (don't use shared ptr pls).
+
 My advice is simple.
  * Update the history to be an `std::array` instead of `std::vector`. 
  * [Optional] Return copies of data so you don't rely on the user using it correctly.
