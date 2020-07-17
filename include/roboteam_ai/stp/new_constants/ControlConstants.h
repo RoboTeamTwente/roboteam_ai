@@ -25,7 +25,7 @@ extern const double CENTER_TO_FRONT;
 // Dribbler constants
 extern const double TURN_ON_DRIBBLER_DISTANCE;
 
-// Team constants TODO: Maybe this should be in a different constants file
+// Team constants
 inline constexpr uint8_t MAX_ROBOT_COUNT = 11;
 
 // Ball constants
