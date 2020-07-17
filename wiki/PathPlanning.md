@@ -59,7 +59,7 @@ Consider experimenting with / researching different algorithms for different tas
 - Bezier (interpolate the path points and take the path derivative(?) to track it)
 - Potential Field (each obstacle gives a repelling force proportional to distance, while the goal has an attracting force - maybe combine with planning)
 - Couple the PID controllers together - also taking into account the robots maximum velocity
-- Bang bang control (accelerate to maximum velocity and slow down when needed - Rolf may want to write some more details here)
+- Bang bang control (Simplify the control into Accelerate/Decellerate at the highest rate and coasting at the maximal velocity and choose one of these 3  )
 3. Others
 - Maybe the velocity can be computed directly in the path planning, according to different metrics, and then the tracking can just filter the velocity or something
 - Ignoring collisions for far away points (e.g. after 3seconds of path or 2m away)
