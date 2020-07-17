@@ -136,13 +136,13 @@ void AttackingPass::calculateInfoForRoles() noexcept {
             }
             return passLine.contains(bot->getPos());
         })) {
-        stpInfos["passer"].setShootType(CHIP);
+        stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
     } else {
-        stpInfos["passer"].setShootType(KICK);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     }
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(TARGET);
+    stpInfos["passer"].setShotType(ShotType::TARGET);
 
     // Defenders
     for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {

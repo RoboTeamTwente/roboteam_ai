@@ -102,7 +102,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     // Reflector
     stpInfos["reflector"].setPositionToMoveTo(reflectPosition);
     stpInfos["reflector"].setPositionToShootAt(field.getTheirGoalCenter());
-    stpInfos["reflector"].setKickChipType(MAX);
+    stpInfos["reflector"].setShotType(ShotType::MAX);
 
     for (auto &role : roles) {
         if (role->getName() == "reflector") {
@@ -115,8 +115,8 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);
-    stpInfos["passer"].setKickChipType(TARGET);
-    stpInfos["passer"].setShootType(KICK);
+    stpInfos["passer"].setShotType(ShotType::TARGET);
+    stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
     // Offenders
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));

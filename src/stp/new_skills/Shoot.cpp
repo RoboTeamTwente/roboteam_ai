@@ -11,9 +11,9 @@ namespace rtt::ai::stp::skill {
 void Shoot::onInitialize() noexcept {}
 
 Status Shoot::onUpdate(const StpInfo &info) noexcept {
-    if (info.getShootType() == rtt::ai::stp::KickChip::CHIP) {
+    if (info.getKickOrChip() == KickOrChip::CHIP) {
         return onUpdateChip(info);
-    } else if (info.getShootType() == rtt::ai::stp::KickChip::KICK) {
+    } else if (info.getKickOrChip() == KickOrChip::KICK) {
         return onUpdateKick(info);
     } else {
         RTT_ERROR("No ShootType set, kicking by default!")
@@ -23,7 +23,7 @@ Status Shoot::onUpdate(const StpInfo &info) noexcept {
 
 Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     // Clamp and set kick velocity
-    double kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
+    float kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
     // Set kick command
     command.set_kicker(true);

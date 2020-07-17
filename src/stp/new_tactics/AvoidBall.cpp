@@ -9,6 +9,8 @@
 #include "stp/new_skills/GoToPos.h"
 #include "stp/new_skills/Rotate.h"
 #include "utilities/GameStateManager.hpp"
+#include "roboteam_utils/Circle.h"
+
 namespace rtt::ai::stp::tactic {
 
 AvoidBall::AvoidBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }

@@ -75,7 +75,7 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
 
             auto intersection = LineSegment(start, end).intersects(LineSegment(startGoal, endGoal));
             if (intersection) {
-                return std::make_pair(intersection.value(), KEEPER_INTERCEPT);
+                return std::make_pair(intersection.value(), PIDType::KEEPER_INTERCEPT);
             }
         }
 
@@ -93,9 +93,9 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
                 auto targetPositions = keeperArc.intersectionWithLine(start, intersection.value());
 
                 if (targetPositions.first) {
-                    return std::make_pair(targetPositions.first.value(), KEEPER);
+                    return std::make_pair(targetPositions.first.value(), PIDType::KEEPER);
                 } else if (targetPositions.second) {
-                    return std::make_pair(targetPositions.second.value(), KEEPER);
+                    return std::make_pair(targetPositions.second.value(), PIDType::KEEPER);
                 }
             }
         }
@@ -104,14 +104,14 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         auto targetPositions = keeperArc.intersectionWithLine(ball->getPos(), field.getOurGoalCenter());
 
         if (targetPositions.first) {
-            return std::make_pair(targetPositions.first.value(), KEEPER);
+            return std::make_pair(targetPositions.first.value(), PIDType::KEEPER);
         } else if (targetPositions.second) {
-            return std::make_pair(targetPositions.second.value(), KEEPER);
+            return std::make_pair(targetPositions.second.value(), PIDType::KEEPER);
         }
     }
 
     // Default position
-    return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), KEEPER);
+    return std::make_pair(field.getOurGoalCenter() + Vector2(DISTANCE_FROM_GOAL_FAR, 0), PIDType::KEEPER);
 }
 
 }  // namespace rtt::ai::stp::tactic

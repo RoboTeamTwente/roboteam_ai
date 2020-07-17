@@ -42,6 +42,7 @@ extern const double ENEMY_CLOSE_TO_BALL_DISTANCE;
 extern const double MAX_VEL_CMD;
 extern const double MAX_DRIBBLER_CMD;
 extern const double ANGLE_RATE;
+extern const double MAX_VEL_WHEN_HAS_BALL;
 
 // HasBall margins
 extern const double HAS_BALL_ANGLE_ERROR_MARGIN;

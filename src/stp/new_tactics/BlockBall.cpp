@@ -6,7 +6,8 @@
 
 #include "control/ControlUtils.h"
 #include "stp/new_skills/GoToPos.h"
-#include "stp/new_skills/Rotate.h"
+
+#include "roboteam_utils/Circle.h"
 
 namespace rtt::ai::stp::tactic {
 
