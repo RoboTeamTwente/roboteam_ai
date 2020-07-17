@@ -13,15 +13,11 @@ namespace rtt::ai::stp::invariant {
  * Invariant for the game state penalty us prepare
  */
 class PenaltyUsPrepareGameStateInvariant : public BaseInvariant {
-public:
-    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
+ public:
+  [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-	const char* getName() override
-	{
-		return "gs::PenaltyUsPrepare";
-	}
+  const char* getName() override { return "gs::PenaltyUsPrepare"; }
 };
-
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_PENALTYUSPREPAREGAMESTATEINVARIANT_H
+#endif  // RTT_PENALTYUSPREPAREGAMESTATEINVARIANT_H

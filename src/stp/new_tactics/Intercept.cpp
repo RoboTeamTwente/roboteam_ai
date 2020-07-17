@@ -19,17 +19,6 @@ bool Intercept::isEndTactic() noexcept {
     return true;
 }
 
-void Intercept::onInitialize() noexcept {}
-
-void Intercept::onUpdate(const Status& status) noexcept {}
-
-void Intercept::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto& x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> Intercept::calculateInfoForSkill(const StpInfo& info) noexcept {
     StpInfo skillStpInfo = info;
 

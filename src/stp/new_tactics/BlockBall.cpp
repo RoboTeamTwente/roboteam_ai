@@ -13,17 +13,6 @@ namespace rtt::ai::stp::tactic {
 
 BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
 
-void BlockBall::onInitialize() noexcept {}
-
-void BlockBall::onUpdate(Status const &status) noexcept {}
-
-void BlockBall::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 

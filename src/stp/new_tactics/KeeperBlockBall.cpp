@@ -12,17 +12,6 @@ namespace rtt::ai::stp::tactic {
 
 KeeperBlockBall::KeeperBlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
 
-void KeeperBlockBall::onInitialize() noexcept {}
-
-void KeeperBlockBall::onUpdate(Status const &status) noexcept {}
-
-void KeeperBlockBall::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 

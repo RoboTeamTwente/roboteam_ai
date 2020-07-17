@@ -15,17 +15,6 @@ KickAtPos::KickAtPos() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Kick()};
 }
 
-void KickAtPos::onInitialize() noexcept {}
-
-void KickAtPos::onUpdate(Status const &status) noexcept {}
-
-void KickAtPos::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> KickAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 

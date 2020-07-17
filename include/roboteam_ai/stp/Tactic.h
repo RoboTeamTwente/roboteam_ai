@@ -19,7 +19,7 @@ class Tactic {
   /**
    * Status of tactic, from last time update() was called
    */
-  Status currentStatus;
+  Status currentStatus{};
 
   /**
    * This function should calculate any extra information that the skills might need to be executed.
@@ -32,21 +32,6 @@ class Tactic {
    * @return an StpInfo struct with extra information for the skill
    */
   virtual std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept = 0;
-
-  /**
-   * called on initialization of this tactic
-   */
-  virtual void onInitialize() noexcept = 0;
-
-  /**
-   * called on update of this tactic
-   */
-  virtual void onUpdate(Status const &status) noexcept = 0;
-
-  /**
-   * called on terminate of this tactic
-   */
-  virtual void onTerminate() noexcept = 0;
 
   /**
    * The condition when the current tactic fails
@@ -82,19 +67,19 @@ class Tactic {
   /**
    * Calls onInitialize of the tactic
    */
-  virtual void initialize() noexcept;
+  void initialize() noexcept;
 
   /**
    * Check if state machine is done, calls calculateInfoForSkill, calls update on the state machine with SkillInfo and calls onUpdate of this tactic for extra customization
    * @param info info passed by the Role
    * @return Status of the skill that is currently being ticked
    */
-  virtual Status update(StpInfo const &info) noexcept;
+  Status update(StpInfo const &info) noexcept;
 
   /**
    * Calls onTerminate
    */
-  virtual void terminate() noexcept;
+  void terminate() noexcept;
 
   /**
    * Ensure proper destruction of Tactic classes

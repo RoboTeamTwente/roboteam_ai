@@ -10,33 +10,25 @@
 namespace rtt::ai::stp::skill {
 
 class Kick : public Skill {
-    /**
-     * On initialize of this tactic
-     */
-    void onInitialize() noexcept override;
+  /**
+   * On update of this tactic
+   * @param info StpInfo struct with all relevant info for this robot and this skill
+   * @return A Status, either Running or Success
+   */
+  Status onUpdate(StpInfo const& info) noexcept override;
 
-    /**
-     * On update of this tactic
-     */
-    Status onUpdate(StpInfo const& info) noexcept override;
+  /**
+   * Gets the skill name
+   * @return The name of this skill
+   */
+  const char* getName() override;
 
-    /**
-     * On terminate of this tactic
-     */
-    void onTerminate() noexcept override;
-
-    /**
-     * Gets the skill name
-     */
-    const char* getName() override;
-
-   private:
-    /**
-     * Keeps track of how many ticks we tried to kick
-     */
-    int kickAttempts = 0;
+ private:
+  /**
+   * Keeps track of how many ticks we tried to kick
+   */
+  int kickAttempts = 0;
 };
-
 }  // namespace rtt::ai::stp::skill
 
 #endif  // RTT_KICK_H

@@ -13,15 +13,11 @@ namespace rtt::ai::stp::invariant {
  * Invariant for the game state timeout
  */
 class TimeOutGameStateInvariant : public BaseInvariant {
-public:
-    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept override;
+ public:
+  [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-	const char* getName() override
-	{
-		return "gs::TimeOut";
-	}
+  const char* getName() override { return "gs::TimeOut"; }
 };
-
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_TIMEOUTGAMESTATEINVARIANT_H
+#endif  // RTT_TIMEOUTGAMESTATEINVARIANT_H

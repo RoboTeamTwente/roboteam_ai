@@ -8,8 +8,6 @@
 
 namespace rtt::ai::stp::skill {
 
-void Shoot::onInitialize() noexcept {}
-
 Status Shoot::onUpdate(const StpInfo &info) noexcept {
     if (info.getKickOrChip() == KickOrChip::CHIP) {
         return onUpdateChip(info);
@@ -48,31 +46,30 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     return Status::Running;
 }
 Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
-    // Clamp and set chip velocity
-    double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
+  // Clamp and set chip velocity
+  double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
 
-    // Set chip command
-    command.set_chipper(true);
-    command.set_chip_kick_vel(chipVelocity);
+  // Set chip command
+  command.set_chipper(true);
+  command.set_chip_kick_vel(chipVelocity);
 
-    // Set angle command
-    command.set_w(info.getRobot().value()->getAngle());
+  // Set angle command
+  command.set_w(info.getRobot().value()->getAngle());
 
-    if (shootAttempts > control_constants::MAX_CHIP_ATTEMPTS) {
-        shootAttempts = 0;
-        command.set_chip_kick_forced(true);
-    }
+  if (shootAttempts > control_constants::MAX_CHIP_ATTEMPTS) {
+    shootAttempts = 0;
+    command.set_chip_kick_forced(true);
+  }
 
-    publishRobotCommand(info.getCurrentWorld());
+  publishRobotCommand(info.getCurrentWorld());
 
-    if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
-        shootAttempts = 0;
-        return Status::Success;
-    }
-    ++shootAttempts;
-    return Status::Running;
+  if (info.getBall()->get()->getVelocity().length() > stp::control_constants::HAS_CHIPPED_ERROR_MARGIN) {
+    shootAttempts = 0;
+    return Status::Success;
+  }
+  ++shootAttempts;
+  return Status::Running;
 }
-void Shoot::onTerminate() noexcept {}
 
 const char *Shoot::getName() { return "Shoot"; }
 

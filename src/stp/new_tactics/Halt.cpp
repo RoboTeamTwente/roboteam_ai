@@ -10,12 +10,6 @@ namespace rtt::ai::stp::tactic {
 
 Halt::Halt() { skills = collections::state_machine<Skill, Status, StpInfo>{skill::Rotate()}; }
 
-void Halt::onInitialize() noexcept {}
-
-void Halt::onUpdate(Status const &status) noexcept {}
-
-void Halt::onTerminate() noexcept {}
-
 std::optional<StpInfo> Halt::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillInfo = info;
     skillInfo.setAngle(0.00001);

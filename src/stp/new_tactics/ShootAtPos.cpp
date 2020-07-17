@@ -19,16 +19,6 @@ ShootAtPos::ShootAtPos() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Shoot()};
 }
 
-void ShootAtPos::onInitialize() noexcept {}
-
-void ShootAtPos::onUpdate(Status const &status) noexcept {}
-
-void ShootAtPos::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
 std::optional<StpInfo> ShootAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     if (info.getKickOrChip() == stp::KickOrChip::KICK) {
         return calculateInfoForKick(info);

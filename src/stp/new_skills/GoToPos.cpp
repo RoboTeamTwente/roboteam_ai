@@ -8,8 +8,6 @@
 
 namespace rtt::ai::stp::skill {
 
-void GoToPos::onInitialize() noexcept {}
-
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     auto targetPosOpt = info.getPositionToMoveTo();
 
@@ -57,8 +55,6 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         return Status::Running;
     }
 }
-
-void GoToPos::onTerminate() noexcept {}
 
 const char *GoToPos::getName() { return "Go To Position"; }
 

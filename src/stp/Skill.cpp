@@ -92,7 +92,7 @@ void Skill::limitAngularVel() noexcept {
   }
 }
 
-void Skill::terminate() noexcept { onTerminate(); }
+void Skill::terminate() noexcept { }
 
 Status Skill::update(StpInfo const& info) noexcept {
   robot = info.getRobot();
@@ -101,7 +101,7 @@ Status Skill::update(StpInfo const& info) noexcept {
   return result;
 }
 
-void Skill::initialize() noexcept { onInitialize(); }
+void Skill::initialize() noexcept { }
 
 [[nodiscard]] Status Skill::getStatus() const { return currentStatus; }
 

@@ -15,17 +15,6 @@ ChipAtPos::ChipAtPos() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Chip()};
 }
 
-void ChipAtPos::onInitialize() noexcept {}
-
-void ChipAtPos::onUpdate(Status const &status) noexcept {}
-
-void ChipAtPos::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> ChipAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 

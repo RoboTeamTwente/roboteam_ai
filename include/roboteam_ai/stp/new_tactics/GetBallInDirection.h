@@ -13,50 +13,49 @@ namespace rtt::ai::stp::tactic {
  * It fails when there is no target to point towards and does not reset.
  * It's not an end tactic, therefore it can succeed.
  */
-    class GetBallInDirection : public Tactic {
-    public:
-        GetBallInDirection();
+class GetBallInDirection : public Tactic {
+ public:
+  /**
+   * Constructor for the tactic, it constructs the state machine of skills
+   */
+  GetBallInDirection();
 
-    protected:
-        void onInitialize() noexcept override;
+ private:
+  /**
+   * Calculate the info for skills from the StpInfo struct parameter
+   * @param info info is the StpInfo passed by the role
+   * @return std::optional<SkillInfo> based on the StpInfo parameter
+   */
+  std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-        void onUpdate(Status const &status) noexcept override;
+  /**
+   * Is this tactic failing during execution (go back to the previous tactic)
+   * @param info StpInfo can be used to check some data
+   * @return true, tactic will fail (go back to prev tactic), false execution will continue as usual
+   * Fails when there is no target to shoot at
+   */
+  bool isTacticFailing(const StpInfo &info) noexcept override;
 
-        void onTerminate() noexcept override;
+  /**
+   * Should this tactic be reset (go back to the first skill of this tactic)
+   * @param info StpInfo can be used to check some data
+   * @return true if tactic  should reset, false if execution should continue
+   * This tactic never resets, so false
+   */
+  bool shouldTacticReset(const StpInfo &info) noexcept override;
 
-        /**
-         * See base class' implementation for details. <br><br>
-         * Extra information for this skill is the position behind the ball, rotation angle and dribbler speed.
-         * @param info tactic info passed from play
-         * @return std::optional<SkillInfo> based on the TacticInfo
-         */
-        std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
+  /**
+   * Is this tactic an end tactic?
+   * @return This will always return false, since it is NOT an endTactic
+   */
+  bool isEndTactic() noexcept override;
 
-        /**
-         * Check base class for usages. The current tactic fails if there is no target position to aim
-         * @param info
-         * @return True when there is no positionToShootAt
-         */
-        bool isTacticFailing(const StpInfo &info) noexcept override;
-
-        /**
-         * This tactic does not reset
-         * @param info
-         * @return Always false
-         */
-        bool shouldTacticReset(const StpInfo &info) noexcept override;
-
-        /**
-         * This tactic is not an end tactic
-         * @return Always false
-         */
-        bool isEndTactic() noexcept override;
-
-        /**
-         * Gets the tactic name
-         */
-        const char *getName() override;
-    };
+  /**
+   * Gets the tactic name
+   * @return The name of this tactic
+   */
+  const char *getName() override;
+};
 }  // namespace rtt::ai::stp::tactic
 
-#endif //RTT_GETBALLINDIRECTION_H
+#endif  // RTT_GETBALLINDIRECTION_H

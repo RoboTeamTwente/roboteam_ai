@@ -9,68 +9,63 @@
 
 namespace rtt::ai::stp::tactic {
 class Intercept : public Tactic {
-   public:
-    Intercept();
+ public:
+  /**
+   * Constructor for the tactic, it constructs the state machine of skills
+   */
+  Intercept();
 
-   private:
-    /**
-     * On initialization of this tactic, initialize the state machine with skills
-     */
-    void onInitialize() noexcept override;
+ private:
+  /**
+   * Calculate the info for skills from the StpInfo struct parameter
+   * @param info info is the StpInfo passed by the role
+   * @return std::optional<SkillInfo> based on the StpInfo parameter
+   */
+  std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
-    /**
-     * On update of this tactic
-     */
-    void onUpdate(Status const &status) noexcept override;
+  /**
+   * Is this tactic failing during execution (go back to the previous tactic)
+   * @param info StpInfo can be used to check some data
+   * @return true, tactic will fail (go back to prev tactic), false execution will continue as usual
+   * This tactic fails if the ball does not move
+   */
+  bool isTacticFailing(const StpInfo &info) noexcept override;
 
-    /**
-     * On terminate of this tactic, call terminate on all underlying skills
-     */
-    void onTerminate() noexcept override;
+  /**
+   * Should this tactic be reset (go back to the first skill of this tactic)
+   * @param info StpInfo can be used to check some data
+   * @return true if tactic  should reset, false if execution should continue
+   * Returns true when the robot does not have the ball
+   */
+  bool shouldTacticReset(const StpInfo &info) noexcept override;
 
-    /**
-     * Calculate info for the skills
-     * @param info Info passed by the role
-     * @return std::optional<SkillInfo> based on the TacticInfo
-     */
-    std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
+  /**
+   * Is this tactic an end tactic?
+   * @return This will always return true, since it is an endTactic
+   */
+  bool isEndTactic() noexcept override;
 
-    /**
-     * Tactic fails if targetType is not a receiveTarget
-     * @param info Info
-     * @return True if targetType is not a receiveTarget
-     */
-    bool isTacticFailing(const StpInfo &info) noexcept override;
+  /**
+   * Gets the tactic name
+   * @return The name of this tactic
+   */
+  const char *getName() override;
 
-    /**
-     * Reset tactic when robot position is not close enough to the target position for receiving
-     * @param info Info
-     * @return True if robot position is not close enough to the target position
-     */
-    bool shouldTacticReset(const StpInfo &info) noexcept override;
+  /**
+   * Calculate the angle between the robot and the ball
+   * @param robot Robot
+   * @param ball Ball
+   * @return Angle between robot and ball
+   */
+  double calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball);
 
-    bool isEndTactic() noexcept override;
-
-    /**
-     * Calculate the angle between the robot and the ball
-     * @param robot Robot
-     * @param ball Ball
-     * @return Angle between robot and ball
-     */
-    double calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball);
-
-    /**
-     * Determine the dribbler speed
-     * Turn dribbler at full speed when ball is close to robot, otherwise do not dribble
-     * @param robot Robot
-     * @return Dribbler speed in %
-     */
-    int determineDribblerSpeed(const world_new::view::RobotView &robot);
-
-    /**
-     * Gets the tactic name
-     */
-    const char *getName() override;
+  /**
+   * Determine the dribbler speed
+   * Turn dribbler at full speed when ball is close to robot, otherwise do not dribble
+   * @param robot Robot
+   * @return Dribbler speed in %
+   */
+  int determineDribblerSpeed(const world_new::view::RobotView &robot);
 };
 }  // namespace rtt::ai::stp::tactic
 

@@ -63,23 +63,11 @@ class Skill {
   virtual void limitAngularVel() noexcept;
 
   /**
-   * Terminates the skill
-   * @return Status of termination
-   */
-  virtual void onTerminate() noexcept = 0;
-
-  /**
    * Function that's called when the skill gets updated (every tick)
    * @param info StpInfo structure that provides data to the skill
    * @return Status according to its current execution
    */
   virtual Status onUpdate(StpInfo const& info) noexcept = 0;
-
-  /**
-   * Initializes the skill
-   * @return Status of initialization
-   */
-  virtual void onInitialize() noexcept = 0;
 
  public:
   /**
