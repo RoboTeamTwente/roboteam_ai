@@ -51,8 +51,8 @@ Consider experimenting with / researching different algorithms for different tas
 1. Path Planning
 - Voronoi (slow for many robots, also large avoidance - an implementation already exists in the code base)
 - Split the search area into grids and check grid occupancy
-- RRT* augmented with Particle Swarm (or other RTT implementations - many teams use RTT for their path planning)
-- Magnetic field lines (basically smart picking for RTT - draw magnetic field lines from the current position to the target and sample points from these lines to try to build a path)
+- RRT* augmented with Particle Swarm (or other RRT implementations - many teams use RRT for their path planning)
+- Magnetic field lines (basically smart picking for RRT - draw magnetic field lines from the current position to the target and sample points from these lines to try to build a path)
 2. Path Tracking
 - Pure Pursuit (use a look ahead distance to try to track a path)
 - Fast Marching (personally I didn't understand this, but there are papers on it)
