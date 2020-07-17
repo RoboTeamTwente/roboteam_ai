@@ -42,6 +42,7 @@ constexpr double MAX_VEL_CMD = 1.891;
 constexpr double MAX_DRIBBLER_CMD = 31;
 // Angle increment per tick
 constexpr double ANGLE_RATE = 0.1 * M_PI;
+constexpr double MAX_VEL_WHEN_HAS_BALL = 3.0;
 
 /// HasBall margins
 // Angle margin robot to ball. Within this margin, the robot has the ball

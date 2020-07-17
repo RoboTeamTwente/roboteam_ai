@@ -32,7 +32,7 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
 
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
-    skillStpInfo.setPidType(RECEIVE);
+    skillStpInfo.setPidType(PIDType::RECEIVE);
 
     // If ball is close to robot, turn on dribbler
     if (skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE) {
