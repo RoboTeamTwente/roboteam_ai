@@ -16,94 +16,94 @@ namespace rtt::ai::stp {
  * Base skill class, inherit from it for making your own skill
  */
 class Skill {
- protected:
-  /**
-   * Status of the last time update() was called
-   */
-  Status currentStatus;
+   protected:
+    /**
+     * Status of the last time update() was called
+     */
+    Status currentStatus;
 
-  /**
-   * Robot command that will eventually be send to the robot
-   */
-  proto::RobotCommand command;
+    /**
+     * Robot command that will eventually be send to the robot
+     */
+    proto::RobotCommand command;
 
-  /**
-   * Robot this skill controls
-   */
-  std::optional<world_new::view::RobotView> robot;
+    /**
+     * Robot this skill controls
+     */
+    std::optional<world_new::view::RobotView> robot;
 
-  /**
-   * Publishes the current robot command, limits it and refreshes it
-   */
-  virtual void publishRobotCommand(world_new::World const* data) noexcept;
+    /**
+     * Publishes the current robot command, limits it and refreshes it
+     */
+    virtual void publishRobotCommand(world_new::World const* data) noexcept;
 
-  /**
-   * Rotates the robot command to the other side of the field
-   */
-  virtual void rotateRobotCommand() noexcept;
+    /**
+     * Rotates the robot command to the other side of the field
+     */
+    virtual void rotateRobotCommand() noexcept;
 
-  /**
-   * Resets the internal robot command
-   */
-  virtual void refreshRobotCommand() noexcept;
+    /**
+     * Resets the internal robot command
+     */
+    virtual void refreshRobotCommand() noexcept;
 
-  /**
-   * Applies constraints to the internal robot command
-   */
-  virtual void limitRobotCommand() noexcept;
+    /**
+     * Applies constraints to the internal robot command
+     */
+    virtual void limitRobotCommand() noexcept;
 
-  /**
-   * Limits the velocity
-   */
-  virtual void limitVel() noexcept;
+    /**
+     * Limits the velocity
+     */
+    virtual void limitVel() noexcept;
 
-  /**
-   * Limits the angular velocity
-   */
-  virtual void limitAngularVel() noexcept;
+    /**
+     * Limits the angular velocity
+     */
+    virtual void limitAngularVel() noexcept;
 
-  /**
-   * Function that's called when the skill gets updated (every tick)
-   * @param info StpInfo structure that provides data to the skill
-   * @return Status according to its current execution
-   */
-  virtual Status onUpdate(StpInfo const& info) noexcept = 0;
+    /**
+     * Function that's called when the skill gets updated (every tick)
+     * @param info StpInfo structure that provides data to the skill
+     * @return Status according to its current execution
+     */
+    virtual Status onUpdate(StpInfo const& info) noexcept = 0;
 
- public:
-  /**
-   * Gets the status from the last time update() was called
-   * @return this->currentStatus
-   */
-  [[nodiscard]] Status getStatus() const;
+   public:
+    /**
+     * Gets the status from the last time update() was called
+     * @return this->currentStatus
+     */
+    [[nodiscard]] Status getStatus() const;
 
-  /**
-   * Calls onInitialize
-   * @return Status of initialization
-   */
-  virtual void initialize() noexcept;
+    /**
+     * Calls onInitialize
+     * @return Status of initialization
+     */
+    virtual void initialize() noexcept;
 
-  /**
-   * Function that's called when the skill gets updated (every tick)
-   * @param info StpInfo structure that provides data to the skill
-   * @return Status according to its current execution
-   */
-  virtual Status update(StpInfo const& info) noexcept;
+    /**
+     * Function that's called when the skill gets updated (every tick)
+     * @param info StpInfo structure that provides data to the skill
+     * @return Status according to its current execution
+     */
+    virtual Status update(StpInfo const& info) noexcept;
 
-  /**
-   * Calls onTerminate
-   * @return Status of termination
-   */
-  virtual void terminate() noexcept;
+    /**
+     * Calls onTerminate
+     * @return Status of termination
+     */
+    virtual void terminate() noexcept;
 
-  /**
-   * Virtual dtor that ensures proper destruction
-   */
-  virtual ~Skill() = default;
+    /**
+     * Virtual dtor that ensures proper destruction
+     */
+    virtual ~Skill() = default;
 
-  /**
-   * Gets the current skill name
-   */
-  virtual const char* getName() = 0;
+    /**
+     * Gets the current skill name
+     */
+    virtual const char* getName() = 0;
 };
 }  // namespace rtt::ai::stp
 

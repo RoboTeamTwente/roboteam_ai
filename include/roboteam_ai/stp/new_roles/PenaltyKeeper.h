@@ -12,19 +12,19 @@
 namespace rtt::ai::stp::role {
 
 class PenaltyKeeper : public Role {
- public:
-  /**
-   * Ctor that sets the name of the role and creates a state machine of tactics
-   * @param name name of the role
-   */
-  explicit PenaltyKeeper(std::string name);
+   public:
+    /**
+     * Ctor that sets the name of the role and creates a state machine of tactics
+     * @param name name of the role
+     */
+    explicit PenaltyKeeper(std::string name);
 
-  /**
-   * Besides the default update from base class Role, it also switches between tactics depending on the ball position and velocity
-   * @param info TacticInfo to be passed to update()
-   * @return The status that the current tactic returns
-   */
-  [[nodiscard]] Status update(StpInfo const& info) noexcept override;
+    /**
+     * Besides the default update from base class Role, it also switches between tactics depending on the ball position and velocity
+     * @param info TacticInfo to be passed to update()
+     * @return The status that the current tactic returns
+     */
+    [[nodiscard]] Status update(StpInfo const& info) noexcept override;
 };
 }  // namespace rtt::ai::stp::role
 

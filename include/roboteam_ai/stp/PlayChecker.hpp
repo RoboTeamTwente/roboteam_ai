@@ -15,42 +15,42 @@ namespace rtt::ai::stp {
  * Class that gets all the viable plays for a tick
  */
 class PlayChecker {
- public:
-  /**
-   * Sets all the plays in the PlayChecker, takes ownership of plays
-   * @param plays Moved vector of unique plays
-   */
-  void setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept;
+   public:
+    /**
+     * Sets all the plays in the PlayChecker, takes ownership of plays
+     * @param plays Moved vector of unique plays
+     */
+    void setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept;
 
-  /**
-   * Gets a vector of currently valid plays
-   * @return map(plays, isValid)
-   */
-  [[nodiscard]] std::vector<Play*> getValidPlays() noexcept;
+    /**
+     * Gets a vector of currently valid plays
+     * @return map(plays, isValid)
+     */
+    [[nodiscard]] std::vector<Play*> getValidPlays() noexcept;
 
-  /**
-   * Sets this->world
-   * @param world World to update against
-   */
-  void update(world_new::World* world) noexcept;
+    /**
+     * Sets this->world
+     * @param world World to update against
+     */
+    void update(world_new::World* world) noexcept;
 
-  /**
-   * Returns the default play
-   * @param playName The name of the play we want to return
-   * @return The play with the name of the argument
-   */
-  [[nodiscard]] Play* getPlayForName(const std::string& playName) const noexcept;
+    /**
+     * Returns the default play
+     * @param playName The name of the play we want to return
+     * @return The play with the name of the argument
+     */
+    [[nodiscard]] Play* getPlayForName(const std::string& playName) const noexcept;
 
- private:
-  /**
-   * A vector of all the plays
-   */
-  std::vector<std::unique_ptr<Play>>* allPlays{};
+   private:
+    /**
+     * A vector of all the plays
+     */
+    std::vector<std::unique_ptr<Play>>* allPlays{};
 
-  /**
-   * Current world, do not use before update()
-   */
-  world_new::World* world{};
+    /**
+     * Current world, do not use before update()
+     */
+    world_new::World* world{};
 };
 }  // namespace rtt::ai::stp
 
