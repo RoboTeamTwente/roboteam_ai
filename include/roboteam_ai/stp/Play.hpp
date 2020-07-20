@@ -42,18 +42,19 @@ class Play {
     virtual void onInitialize() noexcept {};
 
     /**
-     * Updates the stored world pointer and field using this world pointer
+     * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
      * @param pointer to World
      */
     void updateWorld(world_new::World* world) noexcept;
 
     /**
-     * Updates all the roles that have robots assigned to them
+     * Updates (or ticks) all the roles that have robots assigned to them
      */
     virtual void update() noexcept;
 
     /**
-     * Calculates all the info the roles need in order to execute correctly
+     * Calculates all the info the roles need in order to execute correctly.
+     * This is a purely virtual function, so it is implemented in every play.
      */
     virtual void calculateInfoForRoles() noexcept = 0;
 
