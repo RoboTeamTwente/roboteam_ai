@@ -23,7 +23,7 @@ class Skill {
     Status currentStatus;
 
     /**
-     * Robot command that will eventually be send to the robot
+     * Robot command that will eventually be sent to the robot
      */
     proto::RobotCommand command;
 
