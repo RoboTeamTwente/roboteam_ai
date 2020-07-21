@@ -64,8 +64,12 @@ Before introducing new features you should discuss with your fellow software dev
 A good place to start when inexperienced with code design is design patterns. Design patterns are quite useful to know as software developers and are applicable to almost any programming language. Design patterns tell you in general how to deal with common types of problems in code design, which can be re-used or guide you in finding a proper design for your situation. A list of all design patterns can be found at https://sourcemaking.com/design_patterns. The most important design patterns to know are: Factory Method, Singleton (although should only be used in a few case), Adapter, Composite, Decorator, Facade, Command, Iterator, Observer, State, Strategy, Template Method. 
 
 ### Passing Information
-A problem that is quite common in programming is how to pass your information from classes to other classes. There are a lot of different approaches for this and you should be familiar with these approaches and select the right approach for your situation. As example 
-#### Interface method
+A problem that is quite common in programming is how to pass your information from classes to other classes. There are a lot of different approaches for this and you should be familiar with these approaches and select the right approach for your situation. To better illustrate these approaches we use as example the chip skill (chipping is shooting the ball through air). For this skill we need to know with which speed in z-direction the ball should be launched when executing this skill. We will show how data is passed for the chip skill with each of these approaches. 
+
+#### Pass by Interface method
+Pass by Interface Method means that you pass the information by the method inherited from a commonly used interface. In this example we know that the Chip class inherits from the Skill interface and to pass the zSpeed as information, we need to adjust the execute method in the Skill class such that it uses zSpeed as parameter, which will look like:
+
+
 - Pass by additional method
 - Pass by constructor
 - Pass by constant
