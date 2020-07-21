@@ -75,11 +75,11 @@ namespace std {
  */
 std::array<Robot, ROBOT_COUNT * 2> robots = {};
 for (size_t i = 0; i < our_proto_robots.size(); i++) {
-    robots = our_proto_robots[i]; // implicit conversion, maybe needs another argument who knows.
+    robots[i] = our_proto_robots[i]; // implicit conversion, maybe needs another argument who knows.
 }
 
 for (size_t i = our_proto_robots.size(); i < their_proto_robots.size(); i++) {
-    robots = their_proto_robots[i]; // implicit conversion, maybe needs another argument who knows.
+    robots[i] = their_proto_robots[i]; // implicit conversion, maybe needs another argument who knows.
 }
 
 /**
