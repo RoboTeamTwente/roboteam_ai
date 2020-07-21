@@ -144,12 +144,12 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     flagMap.insert({"receiver_left", {receiverFlag}});
     flagMap.insert({"receiver_right", {not_important}});
     flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"defender_1", {not_important}});
     flagMap.insert({"halt_3", {not_important}});
     flagMap.insert({"halt_4", {not_important}});
     flagMap.insert({"halt_5", {not_important}});
     flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"hal0_7", {not_important}});
+    flagMap.insert({"halt_7", {not_important}});
 
     return flagMap;
 }
