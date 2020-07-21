@@ -28,7 +28,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
     // Update the current skill with the new SkillInfo
     auto status = skills.update(skill_info.value());
 
-    (void)status;
+    (void)status; // return of update is never used, but it is marked [[no-discard]] in the state machine. This cast to void uses up the return to suppress the compile warning.
   } else {
     RTT_ERROR("Not all data was present, bad update!")
   }
