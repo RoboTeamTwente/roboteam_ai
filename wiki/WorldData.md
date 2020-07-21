@@ -79,7 +79,7 @@ for (size_t i = 0; i < our_proto_robots.size(); i++) {
 }
 
 for (size_t i = our_proto_robots.size(); i < their_proto_robots.size(); i++) {
-    robots[i] = their_proto_robots[i]; // implicit conversion, maybe needs another argument who knows.
+    robots[ROBOT_COUNT + i] = their_proto_robots[i]; // implicit conversion, maybe needs another argument who knows.
 }
 
 /**
