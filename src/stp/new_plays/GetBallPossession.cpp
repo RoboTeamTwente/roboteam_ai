@@ -48,15 +48,15 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
-    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();

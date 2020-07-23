@@ -14,12 +14,6 @@
 namespace rtt::ai::stp::tactic {
 GetBall::GetBall() { skills = collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
 
-void GetBall::onInitialize() noexcept {}
-
-void GetBall::onUpdate(Status const &status) noexcept {}
-
-void GetBall::onTerminate() noexcept {}
-
 std::optional<StpInfo> GetBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 

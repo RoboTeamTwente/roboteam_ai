@@ -14,17 +14,6 @@ Receive::Receive() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
 }
 
-void Receive::onInitialize() noexcept {}
-
-void Receive::onUpdate(Status const &status) noexcept {}
-
-void Receive::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
@@ -32,7 +21,7 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
 
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
-    skillStpInfo.setPidType(RECEIVE);
+    skillStpInfo.setPidType(PIDType::RECEIVE);
 
     // If ball is close to robot, turn on dribbler
     if (skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE) {
@@ -65,8 +54,6 @@ double Receive::calculateAngle(const world_new::view::RobotView &robot, const wo
         return (ball->getPos() - robot->getPos()).angle();
     }
 }
-
-int Receive::determineDribblerSpeed(const world_new::view::RobotView &robot) { return robot->getDistanceToBall() < control_constants::TURN_ON_DRIBBLER_DISTANCE ? 100 : 0; }
 
 const char *Receive::getName() { return "Receive"; }
 

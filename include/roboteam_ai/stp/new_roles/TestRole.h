@@ -5,7 +5,7 @@
 #ifndef RTT_TESTROLE_H
 #define RTT_TESTROLE_H
 
-#include <stp/Role.hpp>
+#include "stp/Role.hpp"
 
 namespace rtt::ai::stp {
 

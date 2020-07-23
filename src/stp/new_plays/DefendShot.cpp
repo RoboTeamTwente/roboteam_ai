@@ -88,29 +88,29 @@ void DefendShot::calculateInfoForDefenders() noexcept {
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     if (enemyClosestToGoal)
         stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
     else
         stpInfos["defender_3"].setPositionToDefend(std::nullopt);
     stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_3"].setBlockDistance(HALFWAY);
+    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_4"].setEnemyRobot(secondEnemyClosestToGoal);
-    stpInfos["defender_4"].setBlockDistance(HALFWAY);
+    stpInfos["defender_4"].setBlockDistance(BlockDistance::HALFWAY);
 
     if (enemyClosestToGoal)
         stpInfos["defender_5"].setPositionToDefend(secondEnemyClosestToGoal.value()->getPos());
     else
         stpInfos["defender_5"].setPositionToDefend(std::nullopt);
     stpInfos["defender_5"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_5"].setBlockDistance(HALFWAY);
+    stpInfos["defender_5"].setBlockDistance(BlockDistance::HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
     auto closestBotUs = world->getWorld()->getRobotClosestToBall(world_new::us);

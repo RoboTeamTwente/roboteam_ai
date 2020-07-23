@@ -14,17 +14,6 @@ Formation::Formation() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
 }
 
-void Formation::onInitialize() noexcept {}
-
-void Formation::onUpdate(Status const &status) noexcept {}
-
-void Formation::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 

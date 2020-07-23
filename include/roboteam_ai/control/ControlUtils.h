@@ -57,18 +57,18 @@ namespace rtt::ai {
             /**
              * Determines the chip force based on the distance and the type of chip
              * @param distance distance to the target
-             * @param desiredBallSpeedType type of the chip
+             * @param shotType type of the chip
              * @return a chip speed between min and max chip speed
              */
-            static double determineChipForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept;
+            static double determineChipForce(const double distance, stp::ShotType shotType) noexcept;
 
             /**
              * Determines the kick force based on the distance and the type of kick
              * @param distance distance to the target
-             * @param desiredBallSpeedType type of the kick
+             * @param shotType type of the kick
              * @return a kick speed between min and max kick speed
              */
-            static double determineKickForce(const double distance, stp::KickChipType desiredBallSpeedType) noexcept;
+            static double determineKickForce(const double distance, stp::ShotType shotType) noexcept;
 
             /**
              * Determine the best position for a midfielder

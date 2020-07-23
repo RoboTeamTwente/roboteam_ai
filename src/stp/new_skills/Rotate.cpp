@@ -8,8 +8,6 @@
 
 namespace rtt::ai::stp::skill {
 
-void Rotate::onInitialize() noexcept {}
-
 Status Rotate::onUpdate(const StpInfo &info) noexcept {
     auto targetAngle = info.getAngle();
 
@@ -33,8 +31,6 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
         return Status::Running;
     }
 }
-
-void Rotate::onTerminate() noexcept {}
 
 const char *Rotate::getName() { return "Rotate"; }
 

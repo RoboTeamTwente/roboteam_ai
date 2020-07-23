@@ -11,22 +11,15 @@ namespace rtt::ai::stp::skill {
 
 class Chip : public Skill {
     /**
-     * On initialize of this tactic
-     */
-    void onInitialize() noexcept override;
-
-    /**
      * On update of this tactic
+     * @param info StpInfo struct with all relevant info for this robot and this skill
+     * @return A Status, either Running or Success
      */
     Status onUpdate(StpInfo const& info) noexcept override;
 
     /**
-     * On terminate of this tactic
-     */
-    void onTerminate() noexcept override;
-
-    /**
      * Gets the skill name
+     * @return The name of this skill
      */
     const char* getName() override;
 
@@ -36,7 +29,6 @@ class Chip : public Skill {
      */
     int chipAttempts = 0;
 };
-
 }  // namespace rtt::ai::stp::skill
 
 #endif  // RTT_CHIP_H

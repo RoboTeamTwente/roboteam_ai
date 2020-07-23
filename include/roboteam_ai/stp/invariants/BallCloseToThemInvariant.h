@@ -6,22 +6,20 @@
 #define RTT_BALLCLOSETOTHEMINVARIANT_H
 
 #include <NFParam/Param.h>
+
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
 
 class BallCloseToThemInvariant : public BaseInvariant {
-public:
+   public:
     BallCloseToThemInvariant() noexcept;
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-    const char* getName() override
-    {
-        return "BallCloseToThem";
-    }
+    const char* getName() override { return "BallCloseToThem"; }
 
-private:
+   private:
     /**
      * Calculates the actual metric value using the piecewise linear function member
      * @param x the x of the function
@@ -37,4 +35,4 @@ private:
 
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_BALLCLOSETOTHEMINVARIANT_H
+#endif  // RTT_BALLCLOSETOTHEMINVARIANT_H

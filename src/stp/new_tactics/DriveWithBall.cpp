@@ -15,21 +15,10 @@ DriveWithBall::DriveWithBall() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::GoToPos()};
 }
 
-void DriveWithBall::onInitialize() noexcept {}
-
-void DriveWithBall::onUpdate(Status const& status) noexcept {}
-
-void DriveWithBall::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto& x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
+    if (!skillStpInfo.getPositionToMoveTo() || !skillStpInfo.getBall()) return std::nullopt;
 
     double angleToBall = (info.getPositionToMoveTo().value() - info.getBall()->get()->getPos()).angle();
     skillStpInfo.setAngle(angleToBall);
@@ -51,7 +40,6 @@ bool DriveWithBall::shouldTacticReset(const StpInfo& info) noexcept {
     // Should reset if the angle the robot is at is no longer correct
     auto robotAngle = info.getRobot()->get()->getAngle();
     auto ballToRobotAngle = (info.getBall()->get()->getPos() - info.getRobot()->get()->getPos()).angle();
-
     return fabs(robotAngle + Angle(ballToRobotAngle)) <= stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN;
 }
 
@@ -60,8 +48,6 @@ bool DriveWithBall::isEndTactic() noexcept {
     return false;
 }
 
-const char *DriveWithBall::getName() {
-    return "Drive With Ball";
-}
+const char* DriveWithBall::getName() { return "Drive With Ball"; }
 
 }  // namespace rtt::ai::stp::tactic

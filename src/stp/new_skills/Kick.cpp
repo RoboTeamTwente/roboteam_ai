@@ -6,8 +6,6 @@
 
 namespace rtt::ai::stp::skill {
 
-void Kick::onInitialize() noexcept {}
-
 Status Kick::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set kick velocity
     double kickVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
@@ -40,8 +38,6 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     ++kickAttempts;
     return Status::Running;
 }
-
-void Kick::onTerminate() noexcept {}
 
 const char *Kick::getName() { return "Kick"; }
 
