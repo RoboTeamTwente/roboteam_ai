@@ -14,50 +14,48 @@ namespace rtt::ai::stp::tactic {
  * end tactic, therefore it can succeed.
  */
 class Halt : public Tactic {
-public:
+   public:
+    /**
+     * Constructor for the tactic, it constructs the state machine of skills
+     */
     Halt();
 
-protected:
-    void onInitialize() noexcept override;
-
-    void onUpdate(Status const &status) noexcept override;
-
-    void onTerminate() noexcept override;
-
+   private:
     /**
-     * See base class' implementation for details. <br><br>
-     * Extra information for this skill is the target position and rotation angle
-     * @param info tactic info passed from play
-     * @return std::optional<SkillInfo> based on the TacticInfo
+     * Calculate the info for skills from the StpInfo struct parameter
+     * @param info info is the StpInfo passed by the role
+     * @return std::optional<SkillInfo> based on the StpInfo parameter
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
-     * Check base class for usages. The current tactic cannot fail
-     * @param info
-     * @return always false
+     * Is this tactic failing during execution (go back to the previous tactic)
+     * @param info StpInfo can be used to check some data
+     * @return true, tactic will fail (go back to prev tactic), false execution will continue as usual
+     * This tactic can never fail, so always returns false
      */
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
     /**
-     * This tactic cannot be reset
-     * @param info
-     * @return always false
+     * Should this tactic be reset (go back to the first skill of this tactic)
+     * @param info StpInfo can be used to check some data
+     * @return true if tactic  should reset, false if execution should continue
+     * This tactic can never reset, so always returns false
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     /**
-     * This tactic is an end tactic
-     * @return true
+     * Is this tactic an end tactic?
+     * @return This will always return true, since it is an endTactic
      */
     bool isEndTactic() noexcept override;
 
     /**
      * Gets the tactic name
+     * @return The name of this tactic
      */
     const char *getName() override;
 };
 }  // namespace rtt::ai::stp::tactic
 
-
-#endif //RTT_HALT_TACTIC_H
+#endif  // RTT_HALT_TACTIC_H

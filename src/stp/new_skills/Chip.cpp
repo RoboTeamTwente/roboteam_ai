@@ -6,8 +6,6 @@
 
 namespace rtt::ai::stp::skill {
 
-void Chip::onInitialize() noexcept {}
-
 Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set chip velocity
     double chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
@@ -32,8 +30,6 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     ++chipAttempts;
     return Status::Running;
 }
-
-void Chip::onTerminate() noexcept {}
 
 const char *Chip::getName() { return "Chip"; }
 

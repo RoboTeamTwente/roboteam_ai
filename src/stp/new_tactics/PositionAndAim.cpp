@@ -14,17 +14,6 @@ PositionAndAim::PositionAndAim() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
 }
 
-void PositionAndAim::onInitialize() noexcept {}
-
-void PositionAndAim::onUpdate(Status const &status) noexcept {}
-
-void PositionAndAim::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> PositionAndAim::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
     if (!skillStpInfo.getPositionToShootAt() && !skillStpInfo.getRobot()) {

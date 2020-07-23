@@ -5,12 +5,12 @@
 #ifndef RTT_GETBALLPOSSESSION_H
 #define RTT_GETBALLPOSSESSION_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
 class GetBallPossession : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -42,10 +42,9 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 };
-
 }  // namespace rtt::ai::stp::play
 
-#endif //RTT_GETBALLPOSSESSION_H
+#endif  // RTT_GETBALLPOSSESSION_H

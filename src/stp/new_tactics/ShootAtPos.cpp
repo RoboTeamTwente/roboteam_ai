@@ -10,6 +10,8 @@
 
 #include "stp/new_tactics/KickAtPos.h"
 
+#include "roboteam_utils/Print.h"
+
 namespace rtt::ai::stp::tactic {
 
 ShootAtPos::ShootAtPos() {
@@ -17,20 +19,10 @@ ShootAtPos::ShootAtPos() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::Rotate(), skill::Shoot()};
 }
 
-void ShootAtPos::onInitialize() noexcept {}
-
-void ShootAtPos::onUpdate(Status const &status) noexcept {}
-
-void ShootAtPos::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
 std::optional<StpInfo> ShootAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
-    if (info.getShootType() == stp::KickChip::KICK) {
+    if (info.getKickOrChip() == stp::KickOrChip::KICK) {
         return calculateInfoForKick(info);
-    } else if (info.getShootType() == stp::KickChip::CHIP) {
+    } else if (info.getKickOrChip() == stp::KickOrChip::CHIP) {
         return calculateInfoForChip(info);
     } else {
         RTT_ERROR("No ShootType is set, kicking by default")
@@ -49,7 +41,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForKick(StpInfo const &info) noe
 
     // Calculate the distance and the kick force
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
-    skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
+    skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // When the angle is not within the margin, dribble so we don't lose the ball while rotating
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
@@ -69,7 +61,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForChip(StpInfo const &info) noe
 
     // Calculate the distance and the chip force
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
-    skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getKickChipType()));
+    skillStpInfo.setKickChipVelocity(control::ControlUtils::determineChipForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // When rotating, we need to dribble to keep the ball, but when chipping we don't
     if (skills.current_num() == 0) {

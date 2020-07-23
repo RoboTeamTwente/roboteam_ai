@@ -35,22 +35,22 @@ void PidTracking::updatePIDValues(stp::PIDType pidType, int robotID) {
     std::tuple<double, double, double> newPID;
 
     switch (pidType) {
-        case stp::DEFAULT: {
+      case stp::PIDType::DEFAULT: {
             newPID = interface::Output::getNumTreePid();
             break;
         }
-        case stp::RECEIVE: {
+        case stp::PIDType::RECEIVE: {
             newPID = interface::Output::getReceivePid();
             break;
         }
-        case stp::INTERCEPT: {
+        case stp::PIDType::INTERCEPT: {
             newPID = interface::Output::getInterceptPid();
         }
-        case stp::KEEPER: {
+        case stp::PIDType::KEEPER: {
             newPID = interface::Output::getKeeperPid();
             break;
         }
-        case stp::KEEPER_INTERCEPT: {
+        case stp::PIDType::KEEPER_INTERCEPT: {
             newPID = interface::Output::getKeeperInterceptPid();
             break;
         }

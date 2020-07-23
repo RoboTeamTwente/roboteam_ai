@@ -14,7 +14,7 @@ namespace rtt::ai::stp::role {
 class PenaltyKeeper : public Role {
    public:
     /**
-     * Ctor that sets the name of the role and creates a statemachine of tactics
+     * Ctor that sets the name of the role and creates a state machine of tactics
      * @param name name of the role
      */
     explicit PenaltyKeeper(std::string name);
@@ -26,7 +26,6 @@ class PenaltyKeeper : public Role {
      */
     [[nodiscard]] Status update(StpInfo const& info) noexcept override;
 };
-
 }  // namespace rtt::ai::stp::role
 
 #endif  // RTT_PENALTYKEEPER_H

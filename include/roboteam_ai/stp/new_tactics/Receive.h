@@ -5,75 +5,61 @@
 #ifndef RTT_RECEIVE_H
 #define RTT_RECEIVE_H
 
-#include "include/roboteam_ai/stp/Tactic.h"
+#include "stp/Tactic.h"
 
 namespace rtt::ai::stp::tactic {
 
 class Receive : public Tactic {
    public:
+    /**
+     * Constructor for the tactic, it constructs the state machine of skills
+     */
     Receive();
 
    private:
     /**
-     * On initialization of this tactic, initialize the state machine with skills
-     */
-    void onInitialize() noexcept override;
-
-    /**
-     * On update of this tactic
-     */
-    void onUpdate(Status const &status) noexcept override;
-
-    /**
-     * On terminate of this tactic, call terminate on all underlying skills
-     */
-    void onTerminate() noexcept override;
-
-    /**
-     * Calculate info for the skills
-     * @param info Info passed by the role
-     * @return std::optional<SkillInfo> based on the TacticInfo
+     * Calculate the info for skills from the StpInfo struct parameter
+     * @param info info is the StpInfo passed by the role
+     * @return std::optional<SkillInfo> based on the StpInfo parameter
      */
     std::optional<StpInfo> calculateInfoForSkill(StpInfo const &info) noexcept override;
 
     /**
-     * Tactic fails if targetType is not a receiveTarget
-     * @param info Info
-     * @return True if targetType is not a receiveTarget
+     * Is this tactic failing during execution (go back to the previous tactic)
+     * @param info StpInfo can be used to check some data
+     * @return true, tactic will fail (go back to prev tactic), false execution will continue as usual
+     * This tactic fails if there is no move to position
      */
     bool isTacticFailing(const StpInfo &info) noexcept override;
 
     /**
-     * Reset tactic when robot position is not close enough to the target position for receiving
-     * @param info Info
-     * @return True if robot position is not close enough to the target position
+     * Should this tactic be reset (go back to the first skill of this tactic)
+     * @param info StpInfo can be used to check some data
+     * @return true if tactic  should reset, false if execution should continue
+     * Returns true when the robot is further away from the target position than some error margin
      */
     bool shouldTacticReset(const StpInfo &info) noexcept override;
 
     /**
-     * Calculate the angle between the robot and the ball
-     * @param robot Robot
-     * @param ball Ball
-     * @return Angle between robot and ball
+     * Is this tactic an end tactic?
+     * @return This will always return true, since it is an endTactic
      */
-    double calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball);
-
-    /**
-     * Determine the dribbler speed
-     * Turn dribbler at full speed when ball is close to robot, otherwise do not dribble
-     * @param robot Robot
-     * @return Dribbler speed in %
-     */
-    int determineDribblerSpeed(const world_new::view::RobotView &robot);
-
     bool isEndTactic() noexcept override;
 
     /**
      * Gets the tactic name
+     * @return The name of this tactic
      */
     const char *getName() override;
-};
 
+    /**
+     * Calculates the angle the robot needs to have using the ball position
+     * @param robot
+     * @param ball
+     * @return Angle the robot should take
+     */
+    double calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball);
+};
 }  // namespace rtt::ai::stp::tactic
 
 #endif  // RTT_RECEIVE_H

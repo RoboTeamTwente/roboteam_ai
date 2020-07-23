@@ -107,19 +107,19 @@ void GenericPass::calculateInfoForRoles() noexcept {
             }
             return passLine.contains(bot->getPos());
         })) {
-        stpInfos["passer"].setShootType(CHIP);
+        stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
     } else {
-        stpInfos["passer"].setShootType(KICK);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     }
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
-    stpInfos["passer"].setKickChipType(PASS);
+    stpInfos["passer"].setShotType(ShotType::PASS);
 
     // Defender
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     // Midfielder
     if (stpInfos["midfielder_1"].getRobot()) {
@@ -144,12 +144,12 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     flagMap.insert({"receiver_left", {receiverFlag}});
     flagMap.insert({"receiver_right", {not_important}});
     flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"defender_1", {not_important}});
     flagMap.insert({"halt_3", {not_important}});
     flagMap.insert({"halt_4", {not_important}});
     flagMap.insert({"halt_5", {not_important}});
     flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"hal0_7", {not_important}});
+    flagMap.insert({"halt_7", {not_important}});
 
     return flagMap;
 }
@@ -192,9 +192,9 @@ std::pair<Vector2, double> GenericPass::calculatePassLocation(Grid searchGrid) n
     auto passLine = Tube(w->getBall()->get()->getPos(), bestPosition, control_constants::ROBOT_CLOSE_TO_POINT / 2);
     auto enemyBots = w.getThem();
     if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
-        stpInfos["passer"].setShootType(CHIP);
+        stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
     } else {
-        stpInfos["passer"].setShootType(KICK);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     }
     return std::make_pair(bestPosition, bestScore);
 }

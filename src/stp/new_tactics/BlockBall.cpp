@@ -6,22 +6,12 @@
 
 #include "control/ControlUtils.h"
 #include "stp/new_skills/GoToPos.h"
-#include "stp/new_skills/Rotate.h"
+
+#include "roboteam_utils/Circle.h"
 
 namespace rtt::ai::stp::tactic {
 
 BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos()}; }
-
-void BlockBall::onInitialize() noexcept {}
-
-void BlockBall::onUpdate(Status const &status) noexcept {}
-
-void BlockBall::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
 
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;

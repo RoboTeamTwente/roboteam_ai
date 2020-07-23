@@ -6,22 +6,20 @@
 #define RTT_FREEDOMOFROBOTSINVARIANT_H
 
 #include <NFParam/Param.h>
+
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
 
 class FreedomOfRobotsInvariant : public BaseInvariant {
-public:
+   public:
     FreedomOfRobotsInvariant() noexcept;
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-    const char* getName() override
-    {
-        return "FreedomOfRobots";
-    }
-	
-private:
+    const char* getName() override { return "FreedomOfRobots"; }
+
+   private:
     /**
      * Calculates the actual metric value using the piecewise linear function member
      * @param x the x of the function
@@ -34,7 +32,6 @@ private:
      */
     std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
-
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_FREEDOMOFROBOTSINVARIANT_H
+#endif  // RTT_FREEDOMOFROBOTSINVARIANT_H

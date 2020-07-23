@@ -11,9 +11,9 @@
 namespace rtt::ai::stp::role {
 
 class Keeper : public Role {
-public:
+   public:
     /**
-     * Ctor that sets the name of the role and creates a statemachine of tactics
+     * Ctor that sets the name of the role and creates a state machine of tactics
      * @param name name of the role
      */
     explicit Keeper(std::string name);
@@ -23,9 +23,9 @@ public:
      * @param info TacticInfo to be passed to update()
      * @return The status that the current tactic returns
      */
-    [[nodiscard]] Status update(StpInfo const &info) noexcept override;
+    [[nodiscard]] Status update(StpInfo const& info) noexcept override;
 
-private:
+   private:
     /**
      * Checks if ball is in our defense area and still
      * @param field Field
@@ -42,7 +42,6 @@ private:
      */
     [[nodiscard]] bool shouldRoleReset(bool isBallInOurDefenseAreaAndStill) noexcept;
 };
+}  // namespace rtt::ai::stp::role
 
-} // namespace rtt::ai::stp::role
-
-#endif //RTT_KEEPER_H
+#endif  // RTT_KEEPER_H

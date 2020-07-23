@@ -14,17 +14,6 @@ TestTactic::TestTactic() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::GoToPos(), skill::GoToPos(), skill::GoToPos(), skill::GoToPos()};
 }
 
-void TestTactic::onInitialize() noexcept {}
-
-void TestTactic::onUpdate(Status const &status) noexcept {}
-
-void TestTactic::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
     if(!skillStpInfo.getField()) return std::nullopt;

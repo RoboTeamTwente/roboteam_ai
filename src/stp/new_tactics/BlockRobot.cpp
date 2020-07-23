@@ -12,17 +12,6 @@ BlockRobot::BlockRobot() {
     skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
 }
 
-void BlockRobot::onInitialize() noexcept {}
-
-void BlockRobot::onUpdate(Status const &status) noexcept {}
-
-void BlockRobot::onTerminate() noexcept {
-    // Call terminate on all skills
-    for (auto &x : skills) {
-        x->terminate();
-    }
-}
-
 std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
@@ -53,11 +42,8 @@ bool BlockRobot::isEndTactic() noexcept { return true; }
 bool BlockRobot::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
 bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
-    // Reset if the robot is too far from its desired location
-    auto desiredRobotPosition = calculateDesiredRobotPosition(info.getBlockDistance(), info.getEnemyRobot().value(), info.getPositionToDefend().value());
-    auto currentRobotPosition = info.getRobot().value()->getPos();
-    auto cond = (desiredRobotPosition - currentRobotPosition).length() > errorMargin;
-    return cond;
+  double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
+  return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
 }
 
 const char *BlockRobot::getName() {

@@ -75,12 +75,10 @@ void Attack::calculateInfoForRoles() noexcept {
     // Attacker
     auto goalTarget = calculateGoalTarget();
     stpInfos["attacker"].setPositionToShootAt(goalTarget);
-    stpInfos["attacker"].setKickChipType(MAX);
+    stpInfos["attacker"].setShotType(ShotType::MAX);
 
     // Offenders
-
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));
-
     stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, -field.getFieldWidth() / 4));
 
     // Midfielders

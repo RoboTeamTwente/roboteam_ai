@@ -10,14 +10,13 @@
 namespace rtt::ai::stp::role {
 
 class BallGetter : public Role {
-public:
+   public:
     /**
-     * Ctor that sets the name of the role and creates a statemachine of tactics
+     * Ctor that sets the name of the role and creates a state machine of tactics
      * @param name name of the role
      */
     BallGetter(std::string name);
 };
+}  // namespace rtt::ai::stp::role
 
-} // namespace rtt::ai::stp::role
-
-#endif //RTT_BALLGETTER_H
+#endif  // RTT_BALLGETTER_H
