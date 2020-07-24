@@ -10,11 +10,11 @@
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/new_roles/BallReflector.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
-#include "stp/new_roles/Passer.h"
+#include "stp/roles/BallReflector.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
+#include "stp/roles/Passer.h"
 
 namespace rtt::ai::stp::play {
 

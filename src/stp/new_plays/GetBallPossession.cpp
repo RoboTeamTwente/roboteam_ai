@@ -7,10 +7,10 @@
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
-#include "stp/new_roles/BallGetter.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/BallGetter.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

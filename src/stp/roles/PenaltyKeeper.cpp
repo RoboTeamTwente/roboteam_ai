@@ -1,32 +1,35 @@
 //
 // Created by jordi on 08-04-20.
+// Modified by timovdk on 4/29/20.
 //
 
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/PenaltyKeeper.h"
 
+#include <roboteam_utils/Print.h>
+
+#include "stp/tactics/Formation.h"
 #include "stp/tactics/GetBall.h"
-#include "stp/tactics/KeeperBlockBall.h"
 #include "stp/tactics/KickAtPos.h"
 #include "world/FieldComputations.h"
-#include "roboteam_utils/Print.h"
 
 namespace rtt::ai::stp::role {
 
-Keeper::Keeper(std::string name) : Role(std::move(name)) {
+PenaltyKeeper::PenaltyKeeper(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::KeeperBlockBall(), tactic::GetBall(), tactic::KickAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Formation(), tactic::GetBall(), tactic::KickAtPos()};
 }
 
-Status Keeper::update(StpInfo const& info) noexcept {
+Status PenaltyKeeper::update(StpInfo const& info) noexcept {
     // Failure if the required data is not present
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
         RTT_WARNING("Required information missing in the tactic info")
         return Status::Failure;
     }
 
-    // Stop blocking when ball is in defense area and still, start getting the ball and pass
-    bool stopBlockBall = isBallInOurDefenseAreaAndStill(info.getField().value(), info.getBall().value()->getPos(), info.getBall().value()->getVelocity());
-    if (stopBlockBall && robotTactics.current_num() == 0) forceNextTactic();
+    // Stop Formation tactic when ball is moving, start getting the ball and pass
+    if (info.getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+        forceNextTactic();
+    }
 
     currentRobot = info.getRobot();
     // Update the current tactic with the new tacticInfo
@@ -39,7 +42,7 @@ Status Keeper::update(StpInfo const& info) noexcept {
     }
 
     // Reset the tactic state machine if a tactic failed and the state machine is not yet finished
-    if ((status == Status::Failure && !robotTactics.finished()) || shouldRoleReset(stopBlockBall)) {
+    if ((status == Status::Failure && !robotTactics.finished())) {
         RTT_INFO("State Machine reset for current role for ID = ", info.getRobot()->get()->getId())
         // Reset all the Skills state machines
         for (auto& tactic : robotTactics) {
@@ -61,14 +64,4 @@ Status Keeper::update(StpInfo const& info) noexcept {
     // Return running by default
     return Status::Running;
 }
-
-bool Keeper::isBallInOurDefenseAreaAndStill(const world::Field& field, const Vector2& ballPos, const Vector2& ballVel) noexcept {
-    bool pointIsInDefenseArea = FieldComputations::pointIsInDefenseArea(field, ballPos, true);
-    bool ballIsLayingStill = ballVel.length() < control_constants::BALL_IS_MOVING_SLOW_LIMIT;
-
-    return pointIsInDefenseArea && ballIsLayingStill;
-}
-
-bool Keeper::shouldRoleReset(bool isBallInOurDefenseAreaAndStill) noexcept { return robotTactics.current_num() != 0 && !isBallInOurDefenseAreaAndStill; }
-
 }  // namespace rtt::ai::stp::role
