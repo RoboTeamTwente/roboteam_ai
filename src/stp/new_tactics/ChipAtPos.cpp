@@ -5,8 +5,8 @@
 #include "stp/new_tactics/ChipAtPos.h"
 
 #include <control/ControlUtils.h>
-#include <stp/new_skills/Chip.h>
-#include <stp/new_skills/Rotate.h>
+#include <stp/skills/Chip.h>
+#include <stp/skills/Rotate.h>
 
 namespace rtt::ai::stp::tactic {
 

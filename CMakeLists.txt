@@ -58,11 +58,11 @@ set(MANUAL_SOURCES
 
 set(NEW_SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Kick.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Chip.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Rotate.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/GoToPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_skills/Shoot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/Kick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/Chip.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/Rotate.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/GoToPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
         )
 
 set(NEW_TACTICS_SOURCES

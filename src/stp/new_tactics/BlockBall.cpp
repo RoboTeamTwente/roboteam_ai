@@ -5,7 +5,7 @@
 #include "stp/new_tactics/BlockBall.h"
 
 #include "control/ControlUtils.h"
-#include "stp/new_skills/GoToPos.h"
+#include "stp/skills/GoToPos.h"
 
 #include "roboteam_utils/Circle.h"
 

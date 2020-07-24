@@ -3,8 +3,8 @@
 //
 
 #include "include/roboteam_ai/stp/new_tactics/BlockRobot.h"
-#include <include/roboteam_ai/stp/new_skills/GoToPos.h>
-#include <include/roboteam_ai/stp/new_skills/Rotate.h>
+#include <include/roboteam_ai/stp/skills/GoToPos.h>
+#include <include/roboteam_ai/stp/skills/Rotate.h>
 
 namespace rtt::ai::stp::tactic {
 
