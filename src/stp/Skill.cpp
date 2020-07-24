@@ -72,8 +72,8 @@ void Skill::limitVel() noexcept {
         limitedVel = control::ControlUtils::velocityLimiter(limitedVel, control_constants::MAX_VEL_WHEN_HAS_BALL, 0.0, false);
     }
 
-    command.mutable_vel()->set_x(limitedVel.x);
-    command.mutable_vel()->set_y(limitedVel.y);
+    command.mutable_vel()->set_x(static_cast<float>(limitedVel.x));
+    command.mutable_vel()->set_y(static_cast<float>(limitedVel.y));
 }
 
 void Skill::limitAngularVel() noexcept {
@@ -88,7 +88,7 @@ void Skill::limitAngularVel() noexcept {
             // Direction of rotation is the shortest distance
             int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
             // Set the angle command to the current robot angle + the angle rate
-            command.set_w(robotAngle + Angle(direction * control_constants::ANGLE_RATE));
+            command.set_w(static_cast<float>(robotAngle + Angle(direction * control_constants::ANGLE_RATE)));
         }
     }
 }

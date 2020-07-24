@@ -12,7 +12,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
     if (!FieldComputations::pointIsInField(info.getField().value(), targetPos)) {
-        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId());
+        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId())
         targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
     }
 
@@ -28,7 +28,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));
     command.mutable_vel()->set_y(static_cast<float>(targetVelocity.y));
 
-    command.set_w(info.getAngle());
+    command.set_w(static_cast<float>(info.getAngle()));
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
