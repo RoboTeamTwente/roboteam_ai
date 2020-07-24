@@ -29,7 +29,7 @@ PenaltyThem::PenaltyThem() : Play() {
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_9"))};
 }
 
-uint8_t PenaltyThem::score(world_new::World *world) noexcept { return 100; }
+uint8_t PenaltyThem::score(world::World *world) noexcept { return 100; }
 
 Dealer::FlagMap PenaltyThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

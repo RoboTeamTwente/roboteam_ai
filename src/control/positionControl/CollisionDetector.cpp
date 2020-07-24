@@ -52,7 +52,7 @@ std::vector<Vector2> CollisionDetector::getRobotPositions() {
     return robotPositions;
 }
 
-void CollisionDetector::setField(const world::Field& field) { this->field = &field; }
+void CollisionDetector::setField(const rtt::world::Field& field) { this->field = &field; }
 
 void CollisionDetector::setRobotPositions(std::vector<Vector2> &robotPositions) { this->robotPositions = robotPositions; }
 

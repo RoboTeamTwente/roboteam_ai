@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp::invariant{
 
-uint8_t BallShotOrCloseToThemInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept {
+uint8_t BallShotOrCloseToThemInvariant::metricCheck(world::view::WorldDataView world, const world::Field *field) const noexcept {
     auto ballShotOrCloseToThem = BallGotShotInvariant().checkInvariant(world, field) ||
             BallCloseToThemInvariant().checkInvariant(world, field);
     return ballShotOrCloseToThem ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;

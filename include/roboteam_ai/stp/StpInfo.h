@@ -6,11 +6,11 @@
 #define RTT_STPINFO_H
 
 #include "world/Field.h"
-#include "world_new/views/BallView.hpp"
-#include "world_new/views/RobotView.hpp"
+#include "world/views/BallView.hpp"
+#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::stp {
-
+namespace world = ::rtt::world;
 /**
  * BlockDistance: The distance the robot should block at with the last value being the amount of distances
  * KickOrChip: Whether the robot should kick or chip in a certain situation
@@ -36,17 +36,17 @@ constexpr int blockEnumSize = 3;
  */
 struct StpInfo {
    public:
-    const std::optional<world_new::view::RobotView>& getRobot() const { return robot; }
-    void setRobot(const std::optional<world_new::view::RobotView>& robot) { this->robot = robot; }
+    const std::optional<world::view::RobotView>& getRobot() const { return robot; }
+    void setRobot(const std::optional<world::view::RobotView>& robot) { this->robot = robot; }
 
-    const std::optional<world_new::view::RobotView>& getEnemyRobot() const { return enemyRobot; }
-    void setEnemyRobot(const std::optional<world_new::view::RobotView>& enemyRobot) { this->enemyRobot = enemyRobot; }
+    const std::optional<world::view::RobotView>& getEnemyRobot() const { return enemyRobot; }
+    void setEnemyRobot(const std::optional<world::view::RobotView>& enemyRobot) { this->enemyRobot = enemyRobot; }
 
     const std::optional<world::Field>& getField() const { return field; }
     void setField(const std::optional<world::Field>& field) { this->field = field; }
 
-    const std::optional<world_new::view::BallView>& getBall() const { return ball; }
-    void setBall(const std::optional<world_new::view::BallView>& ball) { this->ball = ball; }
+    const std::optional<world::view::BallView>& getBall() const { return ball; }
+    void setBall(const std::optional<world::view::BallView>& ball) { this->ball = ball; }
 
     const std::optional<Vector2>& getPositionToMoveTo() const { return positionToMoveTo; }
     void setPositionToMoveTo(const std::optional<Vector2>& position) { this->positionToMoveTo = position; }
@@ -75,9 +75,9 @@ struct StpInfo {
     const std::optional<KickOrChip>& getKickOrChip() const { return kickOrChip; }
     void setKickOrChip(const std::optional<KickOrChip>& kickOrChip) { StpInfo::kickOrChip = kickOrChip; }
 
-    world_new::World* getCurrentWorld() const { return currentWorld; }
+    world::World* getCurrentWorld() const { return currentWorld; }
     /// This function is used in a lambda, [[maybe_unused]] is to suppress 'unused' warnings
-    [[maybe_unused]] void setCurrentWorld(world_new::World* world) { currentWorld = world; }
+    [[maybe_unused]] void setCurrentWorld(world::World* world) { currentWorld = world; }
 
     const std::optional<PIDType>& getPidType() const { return PidType; }
     void setPidType(const std::optional<PIDType>& pidType) { PidType = pidType; }
@@ -86,17 +86,17 @@ struct StpInfo {
     /**
      * Current world pointer
      */
-    world_new::World* currentWorld;
+    world::World* currentWorld;
 
     /**
      * Robot this tactic applies to
      */
-    std::optional<world_new::view::RobotView> robot;
+    std::optional<world::view::RobotView> robot;
 
     /**
      * EnemyRobot this tactic applies to
      */
-    std::optional<world_new::view::RobotView> enemyRobot;
+    std::optional<world::view::RobotView> enemyRobot;
 
     /**
      * Field
@@ -106,7 +106,7 @@ struct StpInfo {
     /**
      * View to the ball in the world this tactic executes on
      */
-    std::optional<world_new::view::BallView> ball;
+    std::optional<world::view::BallView> ball;
 
     /**
      * Position to move to

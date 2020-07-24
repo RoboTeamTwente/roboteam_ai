@@ -4,11 +4,11 @@
 #define RUNNING_TEST
 
 #include <gtest/gtest.h>
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 #include <test/helpers/WorldHelper.h>
 
-TEST(World_newTest, GenericWorldRemoval) {
-    namespace w_n = rtt::world_new;
+TEST(worldTest, GenericWorldRemoval) {
+    namespace w_n = rtt::world;
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
@@ -23,8 +23,8 @@ TEST(World_newTest, GenericWorldRemoval) {
     ASSERT_FALSE(world->getWorld().has_value());
 }
 
-TEST(World_newTest, HistorySizeTest) {
-    namespace w_n = rtt::world_new;
+TEST(worldTest, HistorySizeTest) {
+    namespace w_n = rtt::world;
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
@@ -39,8 +39,8 @@ TEST(World_newTest, HistorySizeTest) {
     ASSERT_EQ(world->getHistorySize(), 0);
 }
 
-TEST(World_newTest, ResetWorldTest) {
-    namespace w_n = rtt::world_new;
+TEST(worldTest, ResetWorldTest) {
+    namespace w_n = rtt::world;
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);

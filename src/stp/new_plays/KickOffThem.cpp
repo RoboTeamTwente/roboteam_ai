@@ -24,13 +24,13 @@ KickOffThem::KickOffThem() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_8")),     std::make_unique<role::Halt>(role::Halt("halt_9"))};
 }
 
-uint8_t KickOffThem::score(world_new::World* world) noexcept { return 100; }
+uint8_t KickOffThem::score(world::World* world) noexcept { return 100; }
 
 void KickOffThem::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 }
 
 bool KickOffThem::shouldRoleSkipEndTactic() { return false; }

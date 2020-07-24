@@ -8,7 +8,7 @@
 #include <mutex>
 #include "roboteam_proto/RobotCommand.pb.h"
 
-namespace rtt::world_new {
+namespace rtt::world {
 class World;
 }
 
@@ -26,7 +26,7 @@ class Pause {
    public:
     Pause();
     bool getPause();
-    void haltRobots(rtt::world_new::World const* data);
+    void haltRobots(rtt::world::World const* data);
     void setPause(bool set);
 };
 }  // namespace rtt::ai

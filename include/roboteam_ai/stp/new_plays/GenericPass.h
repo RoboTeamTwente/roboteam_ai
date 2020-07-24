@@ -24,10 +24,10 @@ class GenericPass : public Play {
      * On the contrary to isValidPlay() this checks how good the play actually is
      * return in range of 0 - 100
      *
-     * @param world World to get the score for (world_new::World::instance())
+     * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world_new::World* world) noexcept override;
+    uint8_t score(world::World* world) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -44,7 +44,7 @@ class GenericPass : public Play {
      */
     const char* getName() override;
 
-    [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept override;
+    [[nodiscard]] bool isValidPlayToKeep(world::World* world) noexcept override;
 
    protected:
     /**

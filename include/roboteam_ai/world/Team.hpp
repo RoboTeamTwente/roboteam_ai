@@ -5,7 +5,7 @@
 #ifndef RTT_TEAM_HPP
 #define RTT_TEAM_HPP
 
-namespace rtt::world_new {
+namespace rtt::world {
 /**
  * Enum used for indicating team
  */
@@ -19,6 +19,6 @@ enum Team : short {
      */
     both
 };
-}  // namespace rtt::world_new
+}  // namespace rtt::world
 
 #endif  // RTT_TEAM_HPP

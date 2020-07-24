@@ -52,7 +52,7 @@ bool Role::finished() const noexcept { return robotTactics.finished(); }
 
 void Role::forceNextTactic() noexcept { robotTactics.skip_n(1); }
 
-std::optional<world_new::view::RobotView> const& Role::getCurrentRobot() const { return currentRobot; }
+std::optional<world::view::RobotView> const& Role::getCurrentRobot() const { return currentRobot; }
 
 Tactic* Role::getCurrentTactic() { return robotTactics.get_current(); }
 

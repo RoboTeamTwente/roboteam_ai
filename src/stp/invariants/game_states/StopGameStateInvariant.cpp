@@ -7,7 +7,7 @@
 
 namespace rtt::ai::stp::invariant {
 
-uint8_t StopGameStateInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept {
+uint8_t StopGameStateInvariant::metricCheck(world::view::WorldDataView world, const world::Field *field) const noexcept {
     return GameStateManager::getCurrentGameState().getStrategyName() == "stop" ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
 }
 

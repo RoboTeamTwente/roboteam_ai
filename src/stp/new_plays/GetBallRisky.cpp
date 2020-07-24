@@ -43,11 +43,11 @@ GetBallRisky::GetBallRisky() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("midfielder_2"))};
 }
 
-uint8_t GetBallRisky::score(world_new::World* world) noexcept { return 120; }
+uint8_t GetBallRisky::score(world::World* world) noexcept { return 120; }
 
 void GetBallRisky::calculateInfoForRoles() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
 
     if (enemyRobots.empty()) {
         RTT_ERROR("There are no enemy robots, which are necessary for this play!")
@@ -59,7 +59,7 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
 
     auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
 
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // TODO: determine better future receive positions
     stpInfos["receiver_0"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));

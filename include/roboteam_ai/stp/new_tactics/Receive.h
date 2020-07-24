@@ -58,7 +58,7 @@ class Receive : public Tactic {
      * @param ball
      * @return Angle the robot should take
      */
-    double calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball);
+    double calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball);
 };
 }  // namespace rtt::ai::stp::tactic
 

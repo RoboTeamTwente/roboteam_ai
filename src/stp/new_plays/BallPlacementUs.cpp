@@ -25,7 +25,7 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::BallAvoider>(role::BallAvoider("keeper"))};
     }
 
-    uint8_t BallPlacementUs::score(world_new::World* world) noexcept { return 100; }
+    uint8_t BallPlacementUs::score(world::World* world) noexcept { return 100; }
 
     void BallPlacementUs::calculateInfoForRoles() noexcept {
         stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));

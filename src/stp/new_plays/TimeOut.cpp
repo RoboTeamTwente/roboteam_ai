@@ -25,7 +25,7 @@ TimeOut::TimeOut() : Play() {
         std::make_unique<role::Formation>(role::Formation("time_out_11"))};
 }
 
-uint8_t TimeOut::score(world_new::World* world) noexcept { return 100; }
+uint8_t TimeOut::score(world::World* world) noexcept { return 100; }
 
 void TimeOut::calculateInfoForRoles() noexcept {
     const auto xPosition = -4 * control_constants::ROBOT_RADIUS;

@@ -7,9 +7,10 @@
 #include <roboteam_utils/Grid.h>
 
 #include <utilities/GameStateManager.hpp>
+#include <include/roboteam_ai/world/Field.h>
 
 #include "stp/StpInfo.h"
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::control {
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.
@@ -75,7 +76,7 @@ bool ControlUtils::objectVelocityAimedToPoint(const Vector2 &objectPosition, con
 
 /// Returns point in field closest to a given point.
 /// If the point is already in the field it returns the same as the input.
-Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Vector2 position, double margin) {
+Vector2 ControlUtils::projectPositionToWithinField(const rtt::world::Field &field, Vector2 position, double margin) {
     double hFieldLength = field.getFieldLength() / 2;
     position.x = std::min(position.x, hFieldLength - margin);
     position.x = std::max(position.x, -hFieldLength + margin);
@@ -88,7 +89,7 @@ Vector2 ControlUtils::projectPositionToWithinField(const world::Field &field, Ve
 }
 
 /// Projects the position outside the defense area
-Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin) {
+Vector2 ControlUtils::projectPositionToOutsideDefenseArea(const rtt::world::Field &field, Vector2 position, double margin) {
     if (FieldComputations::pointIsInDefenseArea(field, position, true, margin)) {
         position.x = std::max(position.x, field.getLeftPenaltyX() + margin);
         return position;
@@ -152,7 +153,7 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
     return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
 }
 
-Vector2 ControlUtils::determineMidfielderPosition(const Grid& searchGrid, const Field& field, world_new::World *world) {
+Vector2 ControlUtils::determineMidfielderPosition(const Grid& searchGrid, const rtt::world::Field& field, rtt::world::World *world) {
     auto fieldWidth = field.getFieldWidth();
     auto fieldLength = field.getFieldLength();
 
@@ -169,7 +170,7 @@ Vector2 ControlUtils::determineMidfielderPosition(const Grid& searchGrid, const 
                 auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
 
                 // Search closest bot to this point and get that distance
-                auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
+                auto theirClosestBot = w.getRobotClosestToPoint(trial, rtt::world::Team::them);
                 auto theirClosestBotDistance{1.0};
                 if (theirClosestBot) {
                     theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;

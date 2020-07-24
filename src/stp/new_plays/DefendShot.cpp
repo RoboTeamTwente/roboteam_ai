@@ -36,7 +36,7 @@ DefendShot::DefendShot() : Play() {
                                                                                        std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendShot::score(world_new::World *world) noexcept { return 100; }
+uint8_t DefendShot::score(world::World *world) noexcept { return 100; }
 
 Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -72,7 +72,7 @@ void DefendShot::calculateInfoForRoles() noexcept {
 void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
 
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
 
     if (enemyRobots.empty()) {
         RTT_ERROR("There are no enemy robots, which are necessary for this play!")
@@ -113,8 +113,8 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     stpInfos["defender_5"].setBlockDistance(BlockDistance::HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
-    auto closestBotUs = world->getWorld()->getRobotClosestToBall(world_new::us);
-    auto closestBotThem = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto closestBotUs = world->getWorld()->getRobotClosestToBall(world::us);
+    auto closestBotThem = world->getWorld()->getRobotClosestToBall(world::them);
     for (auto &role : roles) {
         auto roleName = role->getName();
         if (closestBotUs && closestBotThem && roleName.find("defender") != std::string::npos) {
@@ -131,10 +131,10 @@ void DefendShot::calculateInfoForDefenders() noexcept {
     }
 }
 
-void DefendShot::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them)); }
+void DefendShot::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them)); }
 
 void DefendShot::calculateInfoForKeeper() noexcept {
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 

@@ -34,7 +34,7 @@ DefendPass::DefendPass() : Play() {
         std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendPass::score(world_new::World *world) noexcept { return 100; }
+uint8_t DefendPass::score(world::World *world) noexcept { return 100; }
 
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -68,7 +68,7 @@ void DefendPass::calculateInfoForRoles() noexcept {
 }
 
 void DefendPass::calculateInfoForDefenders() noexcept {
-    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyClosestToBall = world->getWorld()->getRobotClosestToBall(world::them);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
@@ -79,8 +79,8 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     // When the ball moves, one defender tries to intercept the ball
-    auto closestBotUs = world->getWorld()->getRobotClosestToBall(world_new::us);
-    auto closestBotThem = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto closestBotUs = world->getWorld()->getRobotClosestToBall(world::us);
+    auto closestBotThem = world->getWorld()->getRobotClosestToBall(world::them);
     for (auto &role : roles) {
         auto roleName = role->getName();
         if (closestBotUs && closestBotThem && roleName.find("defender") != std::string::npos) {
@@ -99,7 +99,7 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 
 void DefendPass::calculateInfoForBlockers() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
-    auto enemyPasser = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyPasser = world->getWorld()->getRobotClosestToBall(world::them);
 
     if (enemyRobots.empty()) {
         RTT_ERROR("There are no enemy robots, which are necessary for this play!")
@@ -131,7 +131,7 @@ void DefendPass::calculateInfoForBlockers() noexcept {
             } else {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
             }
         }
@@ -139,11 +139,11 @@ void DefendPass::calculateInfoForBlockers() noexcept {
 }
 
 void DefendPass::calculateInfoForKeeper() noexcept {
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
-void DefendPass::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them)); }
+void DefendPass::calculateInfoForHarassers() noexcept { stpInfos["harasser"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them)); }
 
 void DefendPass::calculateInfoForOffenders() noexcept {
     auto length = field.getFieldLength();

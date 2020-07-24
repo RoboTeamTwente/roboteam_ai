@@ -24,7 +24,7 @@ FreedomOfRobotsInvariant::FreedomOfRobotsInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t FreedomOfRobotsInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     std::vector<uint8_t> distanceMetrics{};
     distanceMetrics.reserve(2*us.size());
@@ -37,7 +37,7 @@ uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView wor
     for (auto robot : us) {
         auto robotPosition = robot.get()->getPos();
         auto distance{0.0};
-        auto closestRobot = world.getRobotClosestToPoint(robotPosition, world_new::them);
+        auto closestRobot = world.getRobotClosestToPoint(robotPosition, world::them);
         if(closestRobot.has_value() && closestRobot.value()) {
             distance = (closestRobot.value()->getPos() - robotPosition).length();
         }

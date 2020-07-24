@@ -41,10 +41,10 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(world_new::World *world) noexcept {
-    auto closestBot = world->getWorld()->getRobotClosestToBall(world_new::us);
+uint8_t ReflectKick::score(world::World *world) noexcept {
+    auto closestBot = world->getWorld()->getRobotClosestToBall(world::us);
     auto sum = 0;
-    std::vector<world_new::view::RobotView> potentialBots = {};
+    std::vector<world::view::RobotView> potentialBots = {};
     for (auto robot : world->getWorld()->getUs()) {
         if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 4) {
             potentialBots.push_back(robot);
@@ -129,19 +129,19 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Defenders
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
+    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
+    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
     stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
 
     // Keeper
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 

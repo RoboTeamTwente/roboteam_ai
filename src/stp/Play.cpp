@@ -15,7 +15,7 @@ void Play::initialize() noexcept {
   onInitialize();
 }
 
-void Play::updateWorld(world_new::World* world) noexcept {
+void Play::updateWorld(world::World* world) noexcept {
   this->world = world;
   this->field = world->getField().value();
 }
@@ -115,7 +115,7 @@ void Play::distributeRoles() noexcept {
 
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
 
-bool Play::isValidPlayToKeep(world_new::World* world) noexcept {
+bool Play::isValidPlayToKeep(world::World* world) noexcept {
   if (!interface::MainControlsWidget::ignoreInvariants) {
     world::Field field = world->getField().value();
     return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
@@ -124,7 +124,7 @@ bool Play::isValidPlayToKeep(world_new::World* world) noexcept {
   }
 }
 
-bool Play::isValidPlayToStart(world_new::World* world) const noexcept {
+bool Play::isValidPlayToStart(world::World* world) const noexcept {
   if (!interface::MainControlsWidget::ignoreInvariants) {
     world::Field field = world->getField().value();
     return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });

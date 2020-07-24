@@ -27,7 +27,7 @@ FreeKickThem::FreeKickThem() : Play() {
         std::make_unique<role::Formation>("offender")};
 }
 
-uint8_t FreeKickThem::score(world_new::World *world) noexcept { return 100; }
+uint8_t FreeKickThem::score(world::World *world) noexcept { return 100; }
 
 void FreeKickThem::calculateInfoForRoles() noexcept {
     calculateInfoForKeeper();
@@ -37,7 +37,7 @@ void FreeKickThem::calculateInfoForRoles() noexcept {
 }
 
 void FreeKickThem::calculateInfoForKeeper() noexcept {
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 }
 
@@ -73,12 +73,12 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
                     stpInfos[roleName].setPositionToDefend(enemyToDefend.value()->getPos());
                 else
                     stpInfos[roleName].setPositionToDefend(std::nullopt);
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
                 stpInfos[roleName].setBlockDistance(BlockDistance::FAR);
             } else {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
-                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
             }
         }
@@ -87,15 +87,15 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
 
 void FreeKickThem::calculateInfoForDefenders() noexcept {
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 

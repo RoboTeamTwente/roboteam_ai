@@ -43,7 +43,7 @@ private:
      * @param _world the current world state
      * @param field the current field state
      */
-    void decidePlay(world_new::World* _world);
+    void decidePlay(world::World* _world);
 
    public:
     void start();

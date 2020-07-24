@@ -3,7 +3,7 @@
 //
 
 #include <include/roboteam_ai/world/Field.h>
-namespace rtt::ai::world {
+namespace rtt::world {
 
 Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {
     initFieldLines(sslFieldSize);
@@ -377,4 +377,4 @@ Field::Field(double fieldWidth, double fieldLength, double goalWidth, double goa
         *this = old;
     }
 
-}  // namespace rtt::ai::world
+}  // namespace rtt::world

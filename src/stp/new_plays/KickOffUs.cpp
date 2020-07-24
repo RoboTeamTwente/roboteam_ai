@@ -25,13 +25,13 @@ KickOffUs::KickOffUs() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_7")),     std::make_unique<role::Halt>(role::Halt("halt_8"))};
 }
 
-uint8_t KickOffUs::score(world_new::World* world) noexcept { return 100; }
+uint8_t KickOffUs::score(world::World* world) noexcept { return 100; }
 
 void KickOffUs::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     // Kicker
     stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});

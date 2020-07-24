@@ -25,7 +25,7 @@ KickOffThemPrepare::KickOffThemPrepare() : Play() {
         std::make_unique<role::Formation>(role::Formation("formation_9"))};
 }
 
-uint8_t KickOffThemPrepare::score(world_new::World* world) noexcept { return 100; }
+uint8_t KickOffThemPrepare::score(world::World* world) noexcept { return 100; }
 
 void KickOffThemPrepare::calculateInfoForRoles() noexcept {
     auto width = field.getFieldWidth();

@@ -46,7 +46,7 @@ bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept {
 
 const char *BlockBall::getName() { return "Block Ball"; }
 
-Vector2 BlockBall::calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept {
+Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, const world::Field &field, const world::view::RobotView &enemyRobot) noexcept {
     Vector2 targetPosition{};
 
     // Opponent is close to ball

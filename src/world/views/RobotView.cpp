@@ -2,12 +2,12 @@
 // Created by john on 1/14/20.
 //
 
-#include "world_new/views/RobotView.hpp"
+#include "world/views/RobotView.hpp"
 
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
-namespace rtt::world_new::view {
-RobotView::RobotView(const rtt::world_new::robot::Robot *const _ptr) noexcept : robotPtr{_ptr} {}
+namespace rtt::world::view {
+RobotView::RobotView(const rtt::world::robot::Robot *const _ptr) noexcept : robotPtr{_ptr} {}
 
 robot::Robot const *RobotView::get() const noexcept { return robotPtr; }
 
@@ -34,4 +34,4 @@ bool RobotView::hasBallAccordingToVision(double maxDist, double maxAngle) const 
     return dist < maxDist && angle < maxAngle * M_PI;
 }
 
-}  // namespace rtt::world_new::view
+}  // namespace rtt::world::view

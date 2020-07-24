@@ -25,7 +25,7 @@ PenaltyThemPrepare::PenaltyThemPrepare() : Play() {
         std::make_unique<role::Formation>(role::Formation("formation_9"))};
 }
 
-uint8_t PenaltyThemPrepare::score(world_new::World* world) noexcept { return 100; }
+uint8_t PenaltyThemPrepare::score(world::World* world) noexcept { return 100; }
 
 void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     auto width = field.getFieldWidth();

@@ -2,10 +2,10 @@
 // Created by john on 1/22/20.
 //
 #include <gtest/gtest.h>
-#include "world_new/Robot.hpp"
-#include "world_new/views/RobotView.hpp"
+#include "include/roboteam_ai/world/Robot.hpp"
+#include "world/views/RobotView.hpp"
 
-namespace rtt::world_new::robot {
+namespace rtt::world::robot {
 proto::Vector2f *getVec(float x, float y) {
     auto *data = new proto::Vector2f{};
     data->set_x(x);
@@ -40,4 +40,4 @@ TEST(RobotAndView, test_getters) {
 
     ASSERT_EQ(view::RobotView{&data}.get(), &data);
 }
-}  // namespace rtt::world_new::robot
+}  // namespace rtt::world::robot

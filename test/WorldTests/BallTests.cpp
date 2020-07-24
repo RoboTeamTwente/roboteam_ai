@@ -2,11 +2,11 @@
 // Created by john on 1/22/20.
 //
 #include <gtest/gtest.h>
-#include "world_new/Ball.hpp"
-#include "world_new/views/BallView.hpp"
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/Ball.hpp"
+#include "world/views/BallView.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
-namespace rtt::world_new::ball {
+namespace rtt::world::ball {
 proto::Vector2f *getVec(float x, float y) {
     auto *data = new proto::Vector2f{};
     data->set_x(x);
@@ -19,7 +19,7 @@ TEST(BallAndView, test_getters) {
     protoData.set_allocated_pos(getVec(10.0, 3.0));
     protoData.set_allocated_vel(getVec(10.0, 3.0));
     protoData.set_visible(true);
-    auto const& [_, world] = rtt::world_new::World::instance();
+    auto const& [_, world] = rtt::world::World::instance();
     Ball data{protoData, world};
 
     EXPECT_EQ(data.getVelocity(), Vector2(10.0, 3.0));
@@ -35,4 +35,4 @@ TEST(BallAndView, test_getters) {
     EXPECT_EQ((bool)_view, true);
     EXPECT_EQ(_view.get(), &data);
 }
-}  // namespace rtt::world_new::ball
+}  // namespace rtt::world::ball
