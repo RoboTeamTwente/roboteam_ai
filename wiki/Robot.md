@@ -4,7 +4,7 @@
 The structure that represents a robot, it represents the team it's on, and some constants. POD.
 
 ## Team ##
-The enum Team in [team.hpp](https://github.com/RoboTeamTwente/roboteam_ai/blob/development/include/roboteam_ai/world/Team.hpp) is fairly simple. A robot is either `us`, meaning it belongs to us, `them`, meaning it belongs to them or `both`, which is invalid. 
+The enum Team in [team.hpp](https://github.com/RoboTeamTwente/roboteam_ai/blob/development/include/roboteam_ai/world_new/Team.hpp) is fairly simple. A robot is either `us`, meaning it belongs to us, `them`, meaning it belongs to them or `both`, which is invalid. 
 
 ## Members ##
 `id` -> The ID of the robot (between 1 and 11, 0 is invalid iirc)
