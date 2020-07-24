@@ -26,8 +26,10 @@ BallCloseToThemInvariant::BallCloseToThemInvariant() noexcept {
 
 uint8_t BallCloseToThemInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
     auto robot = world.getRobotClosestToBall(world_new::them);
-    if(robot) return calculateMetric(robot.value()->getDistanceToBall());
-    else return 0;
+    if (robot)
+        return calculateMetric(robot.value()->getDistanceToBall());
+    else
+        return 0;
 }
 
 uint8_t BallCloseToThemInvariant::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }

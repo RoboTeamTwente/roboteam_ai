@@ -3,7 +3,8 @@
 //
 
 #include "stp/invariants/game_states/BallPlacementUsGameStateInvariant.h"
-#include <utilities/GameStateManager.hpp>
+
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::invariant {
 uint8_t BallPlacementUsGameStateInvariant::metricCheck(world_new::view::WorldDataView, const world::Field *) const noexcept {
