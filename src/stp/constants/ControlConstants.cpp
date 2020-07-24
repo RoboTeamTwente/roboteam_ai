@@ -2,7 +2,7 @@
 // Created by jessevw on 25.03.20.
 //
 
-#include "stp/new_constants/ControlConstants.h"
+#include "stp/constants/ControlConstants.h"
 
 #include <math.h>
 

@@ -84,7 +84,7 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/AvoidBall.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
 
-        ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         )
 
 set(NEW_ROLES_SOURCES
