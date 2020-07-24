@@ -4,16 +4,16 @@
 
 #include "stp/new_plays/GetBallRisky.h"
 
-#include <stp/new_roles/Defender.h>
-#include <stp/new_roles/Halt.h>
-#include <stp/new_roles/PassReceiver.h>
+#include <stp/roles/Defender.h>
+#include <stp/roles/Halt.h>
+#include <stp/roles/PassReceiver.h>
 
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
-#include "stp/new_roles/BallGetter.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/BallGetter.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

@@ -5,7 +5,7 @@
 #include "stp/new_plays/KickOffUsPrepare.h"
 
 #include "stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Formation.h"
 
 namespace rtt::ai::stp::play {
 

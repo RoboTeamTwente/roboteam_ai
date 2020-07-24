@@ -2,7 +2,7 @@
 // Created by jessevw on 17.03.20.
 //
 
-#include "stp/new_roles/Passer.h"
+#include "stp/roles/Passer.h"
 
 #include "stp/tactics/GetBall.h"
 #include "stp/tactics/ShootAtPos.h"

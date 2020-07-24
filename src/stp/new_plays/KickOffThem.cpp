@@ -5,8 +5,8 @@
 #include "stp/new_plays/KickOffThem.h"
 
 #include "stp/invariants/game_states/KickOffThemGameStateInvariant.h"
-#include "stp/new_roles/Halt.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Halt.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

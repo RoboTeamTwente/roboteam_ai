@@ -4,10 +4,10 @@
 
 #include <stp/invariants/game_states/PenaltyUsGameStateInvariant.h>
 #include <stp/new_plays/PenaltyUs.h>
-#include <stp/new_roles/Halt.h>
-#include <stp/new_roles/PenaltyKeeper.h>
+#include <stp/roles/Halt.h>
+#include <stp/roles/PenaltyKeeper.h>
 
-#include "stp/new_roles/Attacker.h"
+#include "stp/roles/Attacker.h"
 
 namespace rtt::ai::stp::play {
 

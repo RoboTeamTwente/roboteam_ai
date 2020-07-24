@@ -5,9 +5,9 @@
 #include "stp/new_plays/KickOffUs.h"
 
 #include "stp/invariants/game_states/KickOffUsGameStateInvariant.h"
-#include "stp/new_roles/Attacker.h"
-#include "stp/new_roles/Halt.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Attacker.h"
+#include "stp/roles/Halt.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

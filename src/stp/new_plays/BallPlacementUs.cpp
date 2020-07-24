@@ -2,8 +2,8 @@
 // Created by jessevw on 24.03.20.
 //
 #include "stp/invariants/game_states/BallPlacementUsGameStateInvariant.h"
-#include "stp/new_roles/BallPlacer.h"
-#include "stp/new_roles/BallAvoider.h"
+#include "stp/roles/BallPlacer.h"
+#include "stp/roles/BallAvoider.h"
 #include "stp/new_plays/BallPlacementUs.h"
 #include "utilities/GameStateManager.hpp"
 

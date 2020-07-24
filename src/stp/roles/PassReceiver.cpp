@@ -2,9 +2,9 @@
 // Created by jessevw on 17.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_roles/PassReceiver.h"
+#include "stp/roles/PassReceiver.h"
 
-#include <include/roboteam_ai/stp/tactics/Receive.h>
+#include "stp/tactics/Receive.h"
 
 namespace rtt::ai::stp::role {
 
