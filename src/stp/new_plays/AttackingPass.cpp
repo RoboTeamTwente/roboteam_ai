@@ -4,9 +4,9 @@
 
 #include "stp/new_plays/AttackingPass.h"
 
-#include <stp/new_roles/Formation.h>
-#include <stp/new_roles/Halt.h>
-#include <stp/new_roles/Keeper.h>
+#include <stp/roles/Formation.h>
+#include <stp/roles/Halt.h>
+#include <stp/roles/Keeper.h>
 
 #include "roboteam_utils/Grid.h"
 #include "roboteam_utils/Tube.h"
@@ -14,8 +14,8 @@
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/NoGoalVisionFromBallInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
-#include "stp/new_roles/PassReceiver.h"
-#include "stp/new_roles/Passer.h"
+#include "stp/roles/PassReceiver.h"
+#include "stp/roles/Passer.h"
 
 namespace rtt::ai::stp::play {
 

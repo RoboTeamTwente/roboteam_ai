@@ -5,7 +5,7 @@
 #include "stp/new_plays/PenaltyThemPrepare.h"
 
 #include "stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Formation.h"
 
 namespace rtt::ai::stp::play {
 

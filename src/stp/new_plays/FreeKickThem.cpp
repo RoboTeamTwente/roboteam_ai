@@ -5,9 +5,9 @@
 #include "stp/new_plays/FreeKickThem.h"
 
 #include "stp/invariants/game_states/FreeKickThemGameStateInvariant.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

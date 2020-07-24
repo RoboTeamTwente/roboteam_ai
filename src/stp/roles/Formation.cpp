@@ -2,9 +2,9 @@
 // Created by timovdk on 3/27/20.
 //
 
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Formation.h"
 
-#include <stp/tactics/Formation.h>
+#include "stp/tactics/Formation.h"
 
 namespace rtt::ai::stp::role {
 

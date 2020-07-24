@@ -8,10 +8,10 @@
 #include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Harasser.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Harasser.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

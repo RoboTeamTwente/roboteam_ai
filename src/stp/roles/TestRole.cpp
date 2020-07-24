@@ -2,9 +2,9 @@
 // Created by timovdk on 3/10/20.
 //
 
-#include <roboteam_utils/Print.h>
-#include <stp/new_roles/TestRole.h>
-#include <stp/tactics/TestTactic.h>
+#include "stp/roles/TestRole.h"
+
+#include "stp/tactics/TestTactic.h"
 
 namespace rtt::ai::stp {
 

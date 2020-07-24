@@ -2,7 +2,7 @@
 // Created by timovdk on 3/27/20.
 //
 
-#include "stp/new_roles/Harasser.h"
+#include "stp/roles/Harasser.h"
 
 #include "stp/tactics/BlockBall.h"
 #include "stp/tactics/Intercept.h"

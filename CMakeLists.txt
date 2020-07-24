@@ -29,13 +29,13 @@ if (APPLE)
             /usr/local/lib/libgmock.a
             /usr/local/lib/libgmock_main.a
             )
-else(NOT APPLE)
+else (NOT APPLE)
     SET(Qt5Widgets_DIR "/usr/include/x86_64-linux-gnu/qt5/QtWidgets")
     SET(Qt5Charts_DIR "/usr/include/x86_64-linux-gnu/qt5/QtCharts")
     set(GTEST_LIB
             PRIVATE gtest
             PRIVATE gmock)
-endif()
+endif ()
 
 find_package(Qt5Charts REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -87,22 +87,22 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         )
 
-set(NEW_ROLES_SOURCES
+set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/TestRole.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Attacker.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PassReceiver.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Passer.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Defender.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Harasser.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/Keeper.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallPlacer.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallAvoider.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/PenaltyKeeper.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallGetter.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_roles/BallReflector.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/TestRole.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Attacker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/PassReceiver.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Passer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Defender.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Harasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/Keeper.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallPlacer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallAvoider.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallGetter.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallReflector.cpp
         )
 
 set(NEW_PLAYS_SOURCES
@@ -259,7 +259,7 @@ set(AI_SOURCES
         ${UTILS_SOURCES}
         ${SKILLS_SOURCES}
         ${TACTICS_SOURCES}
-        ${NEW_ROLES_SOURCES}
+        ${ROLES_SOURCES}
         ${NEW_PLAYS_SOURCES}
         ${INVARIANTS_SOURCES}
         ${CONTROL_SOURCES}
