@@ -5,7 +5,7 @@
 #ifndef RTT_GETBALLRISKY_H
 #define RTT_GETBALLRISKY_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -46,4 +46,5 @@ class GetBallRisky : public Play {
     bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp::play
+
 #endif  // RTT_GETBALLRISKY_H

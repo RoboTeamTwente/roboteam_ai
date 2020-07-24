@@ -5,7 +5,7 @@
 #ifndef RTT_DEFENDPASS_H
 #define RTT_DEFENDPASS_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -15,7 +15,7 @@ namespace rtt::ai::stp::play {
  * be passed to.
  */
 class DefendPass : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -47,7 +47,7 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 
     /**
@@ -75,7 +75,6 @@ protected:
      */
     void calculateInfoForOffenders() noexcept;
 };
+}  // namespace rtt::ai::stp::play
 
-} // namespace rtt::ai::stp::play
-
-#endif // RTT_DEFENDPASS_H
+#endif  // RTT_DEFENDPASS_H

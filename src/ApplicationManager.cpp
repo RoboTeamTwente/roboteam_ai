@@ -149,17 +149,19 @@ void ApplicationManager::runOneLoopCycle() {
 void ApplicationManager::decidePlay(world_new::World *_world) {
     playChecker.update(_world);
 
-    // A new play will be chosen if the current play is not valid to keep, or the roles are all finished, in which case the
-    // play is considered finished
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world) || currentPlay->arePlayRolesFinished()) {
+    // A new play will be chosen if the current play is not valid to keep
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            // TODO: maybe we want to assign some default play (halt?) when there are no valid plays. Don't forget to cal initialize when we do!
-            currentPlay = nullptr;
-            return;
+            currentPlay = playChecker.getPlayForName("Defend Shot");
+            if(!currentPlay) {
+                return;
+            }
         }
-        currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        else {
+            currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        }
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
     }

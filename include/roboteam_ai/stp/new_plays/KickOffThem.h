@@ -5,7 +5,7 @@
 #ifndef RTT_KICKOFFTHEM_H
 #define RTT_KICKOFFTHEM_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 

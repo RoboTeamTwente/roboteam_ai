@@ -5,7 +5,7 @@
 #ifndef RTT_DEFENDSHOT_H
 #define RTT_DEFENDSHOT_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -15,7 +15,7 @@ namespace rtt::ai::stp::play {
  * robots and the goal. Other defenders block other enemy robots to avoid passes to them.
  */
 class DefendShot : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -47,7 +47,7 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 
     /**
@@ -75,7 +75,6 @@ protected:
      */
     void calculateInfoForOffenders() noexcept;
 };
+}  // namespace rtt::ai::stp::play
 
-} // namespace rtt::ai::stp::play
-
-#endif // RTT_DEFENDSHOT_H
+#endif  // RTT_DEFENDSHOT_H

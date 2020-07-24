@@ -67,11 +67,11 @@ void JoystickHandler::changeRobotID() {
 void JoystickHandler::doKick() {
     if (joystickState.A) {
         command.set_kicker(true);
-        command.set_chip_kick_vel(4.0);
+        command.set_chip_kick_vel(1.0);
         joystickState.A = false;
     } else if (joystickState.B) {
         command.set_kicker(true);
-        command.set_chip_kick_vel(8.0);
+        command.set_chip_kick_vel(6.5);
         joystickState.B = false;
     } else {
         command.set_kicker(false);
@@ -81,11 +81,11 @@ void JoystickHandler::doKick() {
 void JoystickHandler::doChip() {
     if (joystickState.Y) {
         command.set_chipper(true);
-        command.set_chip_kick_vel(4.0);
+        command.set_chip_kick_vel(1.0);
         joystickState.Y = false;
     } else if (joystickState.X) {
         command.set_chipper(true);
-        command.set_chip_kick_vel(8.0);
+        command.set_chip_kick_vel(4);
         joystickState.X = false;
     } else {
         command.set_chipper(false);

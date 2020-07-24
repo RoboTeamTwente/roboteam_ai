@@ -10,11 +10,7 @@ using namespace rtt::ai::stp;
 
 class TestSkill : public Skill {
    protected:
-    void onTerminate() noexcept override {}
-
     Status onUpdate(StpInfo const &info) noexcept override { return Status::Failure; }
-
-    void onInitialize() noexcept override {}
 
     const char *getName() override { return "Test Skill"; }
 };
@@ -30,12 +26,6 @@ class MockTactic : public Tactic {
     }
 
     std::optional<StpInfo> calculateInfoForSkill(const StpInfo &info) noexcept override { return StpInfo(); }
-
-    void onInitialize() noexcept override {}
-
-    void onUpdate(const Status &status) noexcept override {}
-
-    void onTerminate() noexcept override {}
 
     MOCK_METHOD1(isTacticFailingMock, bool(const StpInfo &));
 

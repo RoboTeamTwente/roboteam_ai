@@ -5,7 +5,7 @@
 #ifndef RTT_PENALTYTHEMPREPARE_H
 #define RTT_PENALTYTHEMPREPARE_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 

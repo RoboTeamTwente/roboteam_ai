@@ -5,7 +5,7 @@
 #include "stp/new_plays/TimeOut.h"
 
 #include "stp/invariants/game_states/TimeOutGameStateInvariant.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Formation.h"
 
 namespace rtt::ai::stp::play {
 
@@ -29,7 +29,7 @@ uint8_t TimeOut::score(world_new::World* world) noexcept { return 100; }
 
 void TimeOut::calculateInfoForRoles() noexcept {
     const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
-    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2 : -field.getFieldWidth() / 2;
+    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2.2 : -field.getFieldWidth() / 2.2;
 
     stpInfos["time_out_1"].setPositionToMoveTo(Vector2(xPosition, yPosition));
     stpInfos["time_out_2"].setPositionToMoveTo(Vector2(xPosition - 4 * control_constants::ROBOT_RADIUS, yPosition));

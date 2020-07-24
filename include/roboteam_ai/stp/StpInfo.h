@@ -5,78 +5,35 @@
 #ifndef RTT_STPINFO_H
 #define RTT_STPINFO_H
 
-#include <roboteam_utils/Circle.h>
-#include <roboteam_utils/Rectangle.h>
-#include <world/Field.h>
-
+#include "world/Field.h"
 #include "world_new/views/BallView.hpp"
 #include "world_new/views/RobotView.hpp"
 
 namespace rtt::ai::stp {
 
 /**
- * Enum class used for status updates
+ * BlockDistance: The distance the robot should block at with the last value being the amount of distances
+ * KickOrChip: Whether the robot should kick or chip in a certain situation
+ * PIDType: The PID type the robot needs to use at a certain time
+ * ShotType: The type of the shot
+ * Status: The states STP can return
  */
-enum class Status {
-    /**
-     * Waiting for something
-     */
-    Waiting,
-    /**
-     * Skill / tactic has finalized running
-     */
-    Success,
-    /**
-     * Skill has failed
-     */
-    Failure,
-    /**
-     * Skill is executing
-     */
-    Running
-};
-/**
- * Enum class used for status updates
- */
-static std::ostream& operator<<(std::ostream& os, Status status) {
-    switch (status) {
-        case Status::Waiting:
-            return os << "Status::Waiting";
-        case Status::Success:
-            return os << "Status::Success";
-        case Status::Failure:
-            return os << "Status::Failure";
-        case Status::Running:
-            return os << "Status::Running";
-        default:
-            return os << "INVALID STATUS";
-    }
-}
+enum class BlockDistance { CLOSE = 1, HALFWAY, FAR };
+enum class KickOrChip { KICK, CHIP };
+enum class PIDType { DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT };
+enum class ShotType { PASS, TARGET, MAX };
+enum class Status { Waiting, Success, Failure, Running };
 
 /**
- * Class used for the Areas to avoid in TacticInfo
- * @tparam T Type of the shape for the areas to avoid
+ * BlockEnumSize is the size of the BlockDistance enum
+ * This is used for some calculations (thanks Jesse) on the actual distance in meters
  */
-template <typename T>
-struct Areas {
-    std::vector<T> areasToAvoid;
+constexpr int blockEnumSize = 3;
 
-    /**
-     * Checks whether the Robot is or would be in any of the shapes
-     * @param pos Center of the robot
-     * @return any(robot in shape for shape in areas)
-     */
-    [[nodiscard]] bool isInAny(Vector2 const& pos) const noexcept {
-        Circle circle{pos, stp::control_constants::ROBOT_RADIUS};
-        return std::any_of(areasToAvoid.begin(), areasToAvoid.end(), [&](auto const& area) { return area.intersects(circle); });
-    }
-};
-
-const int blockLength = 3; // The number of elements in the blockdistance enum
-enum BlockDistance { CLOSE = 1, HALFWAY, FAR }; // If you change this be sure to change blocklength also
-enum KickChipType { PASS, TARGET, MAX };
-enum KickChip {KICK, CHIP};
-
+/**
+ * StpInfo bundles all info a robot could need in one struct
+ * This data propagates all the way from plays down to skills
+ */
 struct StpInfo {
    public:
     const std::optional<world_new::view::RobotView>& getRobot() const { return robot; }
@@ -112,28 +69,24 @@ struct StpInfo {
     BlockDistance getBlockDistance() const { return blockDistance; }
     void setBlockDistance(BlockDistance blockDistance) { this->blockDistance = blockDistance; }
 
-    KickChipType getKickChipType() const { return kickChipType; }
-    void setKickChipType(KickChipType kickChipType) { this->kickChipType = kickChipType; }
+    ShotType getShotType() const { return shotType; }
+    void setShotType(ShotType shotType) { this->shotType = shotType; }
 
-    const std::optional<double> &getAvoidBallDistance() const { return avoidBallDistance; }
-    void setAvoidBallDistance(const std::optional<double> &avoidBallDistance) { this->avoidBallDistance = avoidBallDistance; }
+    const std::optional<KickOrChip>& getKickOrChip() const { return kickOrChip; }
+    void setKickOrChip(const std::optional<KickOrChip>& kickOrChip) { StpInfo::kickOrChip = kickOrChip; }
 
-    const std::optional<KickChip> &getShootType() const { return shootType; }
-    void setShootType(const std::optional<KickChip> &shootType) { StpInfo::shootType = shootType; }
+    world_new::World* getCurrentWorld() const { return currentWorld; }
+    /// This function is used in a lambda, [[maybe_unused]] is to suppress 'unused' warnings
+    [[maybe_unused]] void setCurrentWorld(world_new::World* world) { currentWorld = world; }
 
-    world_new::World* getCurrentWorld() const {
-        return currentWorld;
-    }
+    const std::optional<PIDType>& getPidType() const { return PidType; }
+    void setPidType(const std::optional<PIDType>& pidType) { PidType = pidType; }
 
-    void setCurrentWorld(world_new::World* world) {
-        currentWorld = world;
-    }
-    
    private:
     /**
      * Current world pointer
      */
-     world_new::World* currentWorld;
+    world_new::World* currentWorld;
 
     /**
      * Robot this tactic applies to
@@ -178,7 +131,7 @@ struct StpInfo {
     /**
      * Type of the kick/chip
      */
-    KickChipType kickChipType{};
+    ShotType shotType{};
 
     /**
      * Reference angle of the robot
@@ -191,21 +144,39 @@ struct StpInfo {
     int dribblerSpeed = 0;
 
     /**
-     * When blocking off a position, the robot is on line between a targetposition to block, and the enemy robot.
+     * When blocking off a position, the robot is on line between a targetPosition to block, and the enemy robot.
      * Used to decide how close this robot should be to enemy robot
      */
     BlockDistance blockDistance;
 
     /**
-     * When avoiding the ball, the robot will try to keep this distance (in meters) between the ball and the robot)
-     */
-    std::optional<double> avoidBallDistance;
-
-    /**
      * Set the shot to be a kick or chip
      */
-    std::optional<KickChip> shootType;
+    std::optional<KickOrChip> kickOrChip;
+
+    /**
+     * Enum for deciding which PID should be chosen
+     */
+    std::optional<PIDType> PidType{PIDType::DEFAULT};
 };
+
+/**
+ * Util operator<< that allows us to print the status enum
+ */
+static std::ostream& operator<<(std::ostream& os, Status status) {
+    switch (status) {
+        case Status::Waiting:
+            return os << "Status::Waiting";
+        case Status::Success:
+            return os << "Status::Success";
+        case Status::Failure:
+            return os << "Status::Failure";
+        case Status::Running:
+            return os << "Status::Running";
+        default:
+            return os << "INVALID STATUS";
+    }
+}
 }  // namespace rtt::ai::stp
 
 #endif  // RTT_STPINFO_H

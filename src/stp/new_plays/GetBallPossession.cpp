@@ -2,14 +2,15 @@
 // Created by jordi on 11-05-20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/GetBallPossession.h"
+#include "stp/new_plays/GetBallPossession.h"
 
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
-#include "stp/new_roles/Keeper.h"
-#include "stp/new_roles/BallGetter.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/roles/BallGetter.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -17,24 +18,24 @@ GetBallPossession::GetBallPossession() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
-    // TODO: Add first arrival to ball invariant
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
+    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-            std::make_unique<role::Keeper>(role::Keeper("keeper")),
-            std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
-            std::make_unique<role::Defender>(role::Defender("defender_0")),
-            std::make_unique<role::Defender>(role::Defender("defender_1")),
-            std::make_unique<role::Defender>(role::Defender("defender_2")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_0")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-            std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-            std::make_unique<role::Formation>(role::Formation("offender_0")),
-            std::make_unique<role::Formation>(role::Formation("offender_1")),
-            std::make_unique<role::Formation>(role::Formation("offender_2"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                 std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
 uint8_t GetBallPossession::score(world_new::World* world) noexcept { return 80; }
@@ -43,17 +44,19 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
+    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
+
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
-    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();

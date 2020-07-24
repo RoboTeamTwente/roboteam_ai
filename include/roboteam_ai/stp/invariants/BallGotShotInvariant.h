@@ -6,6 +6,7 @@
 #define RTT_BALLGOTSHOTINVARIANT_H
 
 #include <NFParam/Param.h>
+
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
@@ -15,10 +16,7 @@ class BallGotShotInvariant : public BaseInvariant {
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-    const char* getName() override
-    {
-        return "BallGotShot";
-    }
+    const char* getName() override { return "BallGotShot"; }
 
    private:
     /**

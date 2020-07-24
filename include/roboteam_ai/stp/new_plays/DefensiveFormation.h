@@ -5,7 +5,7 @@
 #ifndef RTT_DEFENSIVEFORMATION_H
 #define RTT_DEFENSIVEFORMATION_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 

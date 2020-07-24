@@ -5,21 +5,19 @@
 #include "stp/new_plays/Attack.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/GoalVisionFromBallInvariant.h"
-#include "stp/invariants/WeHaveBallInvariant.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/new_roles/Attacker.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Attacker.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
 Attack::Attack() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::GoalVisionFromBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
@@ -38,7 +36,12 @@ Attack::Attack() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t Attack::score(world_new::World *world) noexcept { return 80; }
+uint8_t Attack::score(world_new::World *world) noexcept {
+    if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 2) {
+        return 150;
+    } else
+        return 60;
+}
 
 Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -56,8 +59,8 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_2", {not_important}});
     flagMap.insert({"midfielder_3", {not_important}});
     flagMap.insert({"midfielder_4", {not_important}});
-    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
+    flagMap.insert({"defender_1", {not_important}});
+    flagMap.insert({"defender_2", {not_important}});
     flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
@@ -72,12 +75,10 @@ void Attack::calculateInfoForRoles() noexcept {
     // Attacker
     auto goalTarget = calculateGoalTarget();
     stpInfos["attacker"].setPositionToShootAt(goalTarget);
-    stpInfos["attacker"].setKickChipType(MAX);
+    stpInfos["attacker"].setShotType(ShotType::MAX);
 
     // Offenders
-
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));
-
     stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, -field.getFieldWidth() / 4));
 
     // Midfielders

@@ -5,12 +5,12 @@
 #ifndef RTT_KICKOFFUSPREPARE_H
 #define RTT_KICKOFFUSPREPARE_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
 class KickOffUsPrepare : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -42,10 +42,9 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 };
-
 }  // namespace rtt::ai::stp::play
 
-#endif //RTT_KICKOFFUSPREPARE_H
+#endif  // RTT_KICKOFFUSPREPARE_H
