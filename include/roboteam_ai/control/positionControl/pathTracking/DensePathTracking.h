@@ -36,7 +36,8 @@ class DensePathTracking : public PathTrackingAlgorithm {
      * @param angle the desired orientation angle of the robot - if omitted, the robot will face its velocity
      * @return a structure containing the tracking velocity and the orientation angle
      */
-    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle) override;
+    Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints,
+            int robotId, double angle, stp::PIDType pidType) override;
 };
 
 }  // namespace rtt::ai::control

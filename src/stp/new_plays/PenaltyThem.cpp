@@ -4,8 +4,8 @@
 
 #include <stp/invariants/game_states/PenaltyThemGameStateInvariant.h>
 #include <stp/new_plays/PenaltyThem.h>
-#include <stp/new_roles/Halt.h>
-#include <stp/new_roles/PenaltyKeeper.h>
+#include <stp/roles/Halt.h>
+#include <stp/roles/PenaltyKeeper.h>
 
 namespace rtt::ai::stp::play {
 

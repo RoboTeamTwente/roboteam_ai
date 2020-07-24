@@ -2,18 +2,19 @@
 // Created by jordi on 19-05-20.
 //
 
-#include "include/roboteam_ai/stp/new_plays/ReflectKick.h"
+#include "stp/new_plays/ReflectKick.h"
 
 #include <roboteam_utils/HalfLine.h>
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/new_roles/BallReflector.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
-#include "stp/new_roles/Passer.h"
+#include "stp/roles/BallReflector.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
+#include "stp/roles/Passer.h"
 
 namespace rtt::ai::stp::play {
 
@@ -21,6 +22,7 @@ ReflectKick::ReflectKick() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     startPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveBallInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
@@ -39,7 +41,22 @@ ReflectKick::ReflectKick() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t ReflectKick::score(world_new::World *world) noexcept { return 70; }
+uint8_t ReflectKick::score(world_new::World *world) noexcept {
+    auto closestBot = world->getWorld()->getRobotClosestToBall(world_new::us);
+    auto sum = 0;
+    std::vector<world_new::view::RobotView> potentialBots = {};
+    for (auto robot : world->getWorld()->getUs()) {
+        if (robot->getPos().x < closestBot->get()->getPos().x && robot->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 4) {
+            potentialBots.push_back(robot);
+            sum += 30;
+        }
+    }
+    for (auto robot : potentialBots) {
+        auto robotToGoal = field.getTheirGoalCenter() - robot->getPos();
+    }
+
+    return sum;
+}
 
 Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -66,7 +83,8 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
 
 void ReflectKick::calculateInfoForRoles() noexcept {
     // TODO: Change this
-    auto passPosition = Vector2();
+    // TODO: Leave play when reflect kick fails
+    auto passPosition = Vector2(field.getFieldLength() / 4, -field.getFieldWidth() / 4);
 
     auto ball = world->getWorld()->getBall().value();
     std::optional<Vector2> intersection;
@@ -86,12 +104,12 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     // Reflector
     stpInfos["reflector"].setPositionToMoveTo(reflectPosition);
     stpInfos["reflector"].setPositionToShootAt(field.getTheirGoalCenter());
-    stpInfos["reflector"].setKickChipType(MAX);
+    stpInfos["reflector"].setShotType(ShotType::MAX);
 
     for (auto &role : roles) {
         if (role->getName() == "reflector") {
-            if (strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 && stpInfos["reflecter"].getRobot().has_value() &&
-                stpInfos["reflector"].getRobot().value().hasBall() /*getDistanceToBall() <= control_constants::BALL_IS_CLOSE*/) {
+            if (!role->finished() && strcmp(role->getCurrentTactic()->getName(), "Position And Aim") == 0 && stpInfos["reflector"].getRobot().has_value() &&
+                stpInfos["reflector"].getRobot().value()->getDistanceToBall() <= control_constants::BALL_IS_CLOSE) {
                 role->forceNextTactic();
             }
         }
@@ -99,8 +117,8 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);
-    stpInfos["passer"].setKickChipType(TARGET);
-    stpInfos["passer"].setShootType(KICK);
+    stpInfos["passer"].setShotType(ShotType::TARGET);
+    stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
     // Offenders
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));

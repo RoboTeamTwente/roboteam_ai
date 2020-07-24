@@ -5,7 +5,7 @@
 #ifndef RTT_TESTPLAY_H
 #define RTT_TESTPLAY_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp {
 
@@ -25,13 +25,16 @@ class TestPlay : public Play {
      * @param world World to get the score for (world_new::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world_new::World *world) noexcept override;
+    uint8_t score(world_new::World* world) noexcept override;
 
     /**
      * Assigns robots to roles of this play
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
+    /**
+     * Calculates info for the roles
+     */
     void calculateInfoForRoles() noexcept override;
 
     bool shouldRoleSkipEndTactic() override;

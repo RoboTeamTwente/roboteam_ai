@@ -6,28 +6,29 @@
 #define RTT_SKILL_H
 
 #include <roboteam_proto/RobotCommand.pb.h>
-#include <world_new/views/RobotView.hpp>
+
 #include "stp/StpInfo.h"
-#include "stp/new_constants/ControlConstants.h"
+#include "world_new/views/RobotView.hpp"
 
 namespace rtt::ai::stp {
+
 /**
  * Base skill class, inherit from it for making your own skill
  */
 class Skill {
    protected:
     /**
-     * Current status of the last time update() was called
+     * Status of the last time update() was called
      */
     Status currentStatus;
 
     /**
-     * Robot command that will be used for operations, such as publishing
+     * Robot command that will eventually be sent to the robot
      */
     proto::RobotCommand command;
 
     /**
-     * Robot view, which should be set from the SkillInfo
+     * Robot this skill controls
      */
     std::optional<world_new::view::RobotView> robot;
 
@@ -62,28 +63,11 @@ class Skill {
     virtual void limitAngularVel() noexcept;
 
     /**
-     * Terminates the skill
-     * @return Status of termination
-     */
-    virtual void onTerminate() noexcept = 0;
-
-    /**
      * Function that's called when the skill gets updated (every tick)
-     * @param info SkillInfo structure that provides data to the skill
+     * @param info StpInfo structure that provides data to the skill
      * @return Status according to its current execution
      */
     virtual Status onUpdate(StpInfo const& info) noexcept = 0;
-
-    /**
-     * Initializes the skill
-     * @return Status of initialization
-     */
-    virtual void onInitialize() noexcept = 0;
-
-    /**
-     * Resets all the robot controllers in the RobotController struct
-     */
-    void refreshRobotPositionControllers() const noexcept;
 
    public:
     /**
@@ -100,7 +84,7 @@ class Skill {
 
     /**
      * Function that's called when the skill gets updated (every tick)
-     * @param info SkillInfo structure that provides data to the skill
+     * @param info StpInfo structure that provides data to the skill
      * @return Status according to its current execution
      */
     virtual Status update(StpInfo const& info) noexcept;

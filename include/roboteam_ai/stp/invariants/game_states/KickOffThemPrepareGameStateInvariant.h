@@ -12,16 +12,12 @@ namespace rtt::ai::stp::invariant {
 /**
  * Invariant for the game state kick off them prepare
  */
-    class KickOffThemPrepareGameStateInvariant : public BaseInvariant {
-    public:
-        [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
+class KickOffThemPrepareGameStateInvariant : public BaseInvariant {
+   public:
+    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-        const char* getName() override
-        {
-            return "gs::KickOffThem";
-        }
-    };
-
+    const char* getName() override { return "gs::KickOffThem"; }
+};
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_KICKOFFUSPREPAREGAMESTATEINVARIANT_H
+#endif  // RTT_KICKOFFUSPREPAREGAMESTATEINVARIANT_H

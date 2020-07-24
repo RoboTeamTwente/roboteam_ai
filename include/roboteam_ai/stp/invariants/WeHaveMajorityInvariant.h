@@ -8,15 +8,12 @@
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
-    class WeHaveMajorityInvariant : public BaseInvariant {
-    public:
-        [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept override;
+class WeHaveMajorityInvariant : public BaseInvariant {
+   public:
+    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-        const char* getName() override
-        {
-            return "WeHaveMajority";
-        }
-    };
-}   // namespace rtt::ai::stp::invariant
+    const char* getName() override { return "WeHaveMajority"; }
+};
+}  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_WEHAVEMAJORITYINVARIANT_H
+#endif  // RTT_WEHAVEMAJORITYINVARIANT_H

@@ -139,7 +139,7 @@ Polygon FieldComputations::getFieldEdge(const rtt_world::Field &field, double ma
 }
 
 std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
-                                                                        std::vector<world_new::view::RobotView> robots, int id, bool ourTeam) {
+                                                                        const std::vector<world_new::view::RobotView> &robots, int id, bool ourTeam) {
     std::vector<LineSegment> blockades = {};
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
     LineSegment goalSide = getGoalSides(field, ourGoal);

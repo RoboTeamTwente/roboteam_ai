@@ -188,7 +188,8 @@ class FieldComputations {
      * blockades).
      * @return All the parts of the goal that are blocked.
      */
-    static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, std::vector<world_new::view::RobotView> robots,
+    static std::vector<LineSegment> getBlockadesMappedToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<
+            world_new::view::RobotView> &robots,
                                                              int id = -1, bool ourTeam = false);
 
     /**

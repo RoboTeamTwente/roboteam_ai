@@ -5,9 +5,9 @@
 #include "stp/new_plays/FreeKickThem.h"
 
 #include "stp/invariants/game_states/FreeKickThemGameStateInvariant.h"
-#include "stp/new_roles/Keeper.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -19,20 +19,15 @@ FreeKickThem::FreeKickThem() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::FreeKickThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-            std::make_unique<role::Keeper>(role::Keeper("keeper")),
-            std::make_unique<role::Defender>(role::Defender("defender_0")),
-            std::make_unique<role::Defender>(role::Defender("defender_1")),
-            std::make_unique<role::Defender>(role::Defender("defender_2")),
-            std::make_unique<role::Defender>(role::Defender("blocker_0")),
-            std::make_unique<role::Defender>(role::Defender("blocker_1")),
-            std::make_unique<role::Defender>(role::Defender("blocker_2")),
-            std::make_unique<role::Defender>(role::Defender("blocker_3")),
-            std::make_unique<role::Defender>(role::Defender("blocker_4")),
-            std::make_unique<role::Defender>(role::Defender("blocker_5")),
-            std::make_unique<role::Formation>(role::Formation("offender"))};
+        std::make_unique<role::Keeper>("keeper"),         std::make_unique<role::Defender>("defender_0"),
+        std::make_unique<role::Defender>("defender_1"), std::make_unique<role::Defender>("defender_2"),
+        std::make_unique<role::Defender>("blocker_0"),  std::make_unique<role::Defender>("blocker_1"),
+        std::make_unique<role::Defender>("blocker_2"),  std::make_unique<role::Defender>("blocker_3"),
+        std::make_unique<role::Defender>("blocker_4"),  std::make_unique<role::Defender>("blocker_5"),
+        std::make_unique<role::Formation>("offender")};
 }
 
-uint8_t FreeKickThem::score(world_new::World* world) noexcept { return 100; }
+uint8_t FreeKickThem::score(world_new::World *world) noexcept { return 100; }
 
 void FreeKickThem::calculateInfoForRoles() noexcept {
     calculateInfoForKeeper();
@@ -53,14 +48,15 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
 
     auto enemyRobots = world->getWorld()->getThem();
 
-    if(enemyRobots.empty()) {
-      RTT_ERROR("There are no enemy robots, which are necessary for this play!")
-      return;
+    if (enemyRobots.empty()) {
+        RTT_ERROR("There are no enemy robots, which are necessary for this play!")
+        return;
     }
     // We cannot block enemy robots that are too close to the ball
-    enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(), [&] (const auto enemyRobot) -> bool {
-        return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE;
-    }), enemyRobots.end());
+    enemyRobots.erase(
+        std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                       [&](const auto enemyRobot) -> bool { return enemyRobot->getDistanceToBall() <= AVOID_BALL_DISTANCE_FACTOR * control_constants::AVOID_BALL_DISTANCE; }),
+        enemyRobots.end());
 
     for (auto &stpInfo : stpInfos) {
         if (stpInfo.first.find("blocker") != std::string::npos) {
@@ -68,22 +64,22 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
 
             if (!enemyRobots.empty()) {
                 // If there are enemy robots available, block the closest robot to the ball
-                auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(
-                        world->getWorld()->getBall().value()->getPos(), enemyRobots);
+                auto enemyToDefend = world->getWorld()->getRobotClosestToPoint(world->getWorld()->getBall().value()->getPos(), enemyRobots);
 
                 enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-                        [&](const auto enemyRobot) -> bool { return enemyToDefend && enemyRobot->getId() == enemyToDefend.value()->getId(); }));
+                                                 [&](const auto enemyRobot) -> bool { return enemyToDefend && enemyRobot->getId() == enemyToDefend.value()->getId(); }));
 
-                if(enemyToDefend) stpInfos[roleName].setPositionToDefend(enemyToDefend.value()->getPos());
-                else stpInfos[roleName].setPositionToDefend(std::nullopt);
+                if (enemyToDefend)
+                    stpInfos[roleName].setPositionToDefend(enemyToDefend.value()->getPos());
+                else
+                    stpInfos[roleName].setPositionToDefend(std::nullopt);
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-                stpInfos[roleName].setBlockDistance(FAR);
+                stpInfos[roleName].setBlockDistance(BlockDistance::FAR);
             } else {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
-                stpInfos[roleName].setEnemyRobot(
-                        world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
-                stpInfos[roleName].setBlockDistance(HALFWAY);
+                stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+                stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
             }
         }
     }
@@ -92,20 +88,18 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
 void FreeKickThem::calculateInfoForDefenders() noexcept {
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
-void FreeKickThem::calculateInfoForOffenders() noexcept {
-    stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0));
-}
+void FreeKickThem::calculateInfoForOffenders() noexcept { stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0)); }
 
 bool FreeKickThem::shouldRoleSkipEndTactic() { return false; }
 

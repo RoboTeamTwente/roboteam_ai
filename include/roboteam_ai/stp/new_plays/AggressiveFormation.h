@@ -5,7 +5,7 @@
 #ifndef RTT_AGGRESSIVEFORMATION_H
 #define RTT_AGGRESSIVEFORMATION_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -28,7 +28,8 @@ class AggressiveFormation : public Play {
     uint8_t score(world_new::World* world) noexcept override;
 
     /**
-     * Assigns robots to roles of this play
+     * Decides the input for the robot dealer. The result will be used to distribute the roles
+     * @return a mapping between roles and robot flags, used by the robot dealer to assign roles
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
@@ -43,6 +44,11 @@ class AggressiveFormation : public Play {
     const char* getName() override;
 
    protected:
+    /**
+     * This function is used to determine if -- when a role is in an endTactic -- the endTactic should be skipped.
+     * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
+     * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
+     */
     bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp::play

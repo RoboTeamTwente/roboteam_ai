@@ -10,7 +10,7 @@
 namespace rtt::ai::stp::play {
 
 class ReflectKick : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -42,10 +42,9 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 };
+}  // namespace rtt::ai::stp::play
 
-} // namespace rtt::ai::stp::play
-
-#endif // RTT_REFLECTKICK_H
+#endif  // RTT_REFLECTKICK_H

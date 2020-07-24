@@ -5,7 +5,7 @@
 #include "stp/new_plays/KickOffUsPrepare.h"
 
 #include "stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Formation.h"
 
 namespace rtt::ai::stp::play {
 
@@ -38,7 +38,7 @@ void KickOffUsPrepare::calculateInfoForRoles() noexcept {
 
     // Positions of the kick off us formation which will be dealt to the Formation roles in order
     // Formation_0 will go to the ball
-    stpInfos["formation_0"].setPositionToMoveTo(Vector2(-0.25, 0.0));
+    stpInfos["formation_0"].setPositionToMoveTo(Vector2(0.25, 0.0));
     stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
     stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
     stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, width / 4));

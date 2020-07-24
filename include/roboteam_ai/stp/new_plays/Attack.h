@@ -10,7 +10,7 @@
 namespace rtt::ai::stp::play {
 
 class Attack : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -25,7 +25,7 @@ public:
      * @param world World to get the score for (world_new::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world_new::World* world) noexcept override;
+    uint8_t score(world_new::World *world) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -40,12 +40,17 @@ public:
     /**
      * Gets the play name
      */
-    const char* getName() override;
+    const char *getName() override;
 
-protected:
+   protected:
+    /**
+     * This function is used to determine if -- when a role is in an endTactic -- the endTactic should be skipped.
+     * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
+     * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
+     */
     bool shouldRoleSkipEndTactic() override;
 
-private:
+   private:
     /**
      * Calculate point in goal to aim for
      * @return Target point
@@ -68,6 +73,6 @@ private:
     const LineSegment &getLongestSegment(const std::vector<LineSegment> &openSegments);
 };
 
-} // namespace rtt::ai::stp::play
+}  // namespace rtt::ai::stp::play
 
-#endif //RTT_ATTACK_H
+#endif  // RTT_ATTACK_H

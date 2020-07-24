@@ -4,7 +4,7 @@
 #include "stp/new_plays/PenaltyUsPrepare.h"
 
 #include "stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.h"
-#include "stp/new_roles/Formation.h"
+#include "stp/roles/Formation.h"
 
 namespace rtt::ai::stp::play {
 
