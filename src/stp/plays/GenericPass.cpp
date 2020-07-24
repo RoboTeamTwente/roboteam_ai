@@ -146,13 +146,13 @@ void GenericPass::calculateInfoForPass(const world_new::ball::Ball* ball) noexce
     auto allBots = world->getWorld()->getRobotsNonOwning();
     // For all bots except passer and receivers, check if they are on the pass line, aka robot should chip
     if (std::any_of(allBots.begin(), allBots.end(), [&](const auto& bot) {
-      if ((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId()) ||
-          (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId()) ||
-          (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
-          return false;
-      }
-      return passLine.contains(bot->getPos());
-    })) {
+            if ((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId()) ||
+                (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId()) ||
+                (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
+                return false;
+            }
+            return passLine.contains(bot->getPos());
+        })) {
         stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
     } else {
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
