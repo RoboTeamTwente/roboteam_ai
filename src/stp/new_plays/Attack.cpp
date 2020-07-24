@@ -7,10 +7,10 @@
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/new_roles/Attacker.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Attacker.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -75,12 +75,10 @@ void Attack::calculateInfoForRoles() noexcept {
     // Attacker
     auto goalTarget = calculateGoalTarget();
     stpInfos["attacker"].setPositionToShootAt(goalTarget);
-    stpInfos["attacker"].setKickChipType(MAX);
+    stpInfos["attacker"].setShotType(ShotType::MAX);
 
     // Offenders
-
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));
-
     stpInfos["offender_2"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, -field.getFieldWidth() / 4));
 
     // Midfielders

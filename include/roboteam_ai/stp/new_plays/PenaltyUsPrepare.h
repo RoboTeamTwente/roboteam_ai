@@ -5,7 +5,7 @@
 #ifndef RTT_PENALTYUSPREPARE_H
 #define RTT_PENALTYUSPREPARE_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 

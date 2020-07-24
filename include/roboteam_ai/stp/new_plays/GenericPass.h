@@ -7,7 +7,7 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -40,15 +40,6 @@ class GenericPass : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
-     * Calculates n defensive positions for the roles to defend
-     * @param numberOfDefenders
-     * @param world
-     * @param enemyRobots
-     * @return A vector of defend positions
-     */
-    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
-
-    /**
      * Gets the play name
      */
     const char* getName() override;
@@ -70,12 +61,12 @@ class GenericPass : public Play {
     std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
 
    private:
-   /**
-    * Checks if the pass is finished so the play knows whether it should
-    * keep this play or move to another play
-    * @return true: when ONE of the receivers is closer than 0.08m to the ball
-    *         false: when NONE of the receivers is closer than 0.08m to the ball
-    */
+    /**
+     * Checks if the pass is finished so the play knows whether it should
+     * keep this play or move to another play
+     * @return true: when ONE of the receivers is closer than 0.08m to the ball
+     *         false: when NONE of the receivers is closer than 0.08m to the ball
+     */
     [[nodiscard]] bool passFinished() noexcept;
 
     /**

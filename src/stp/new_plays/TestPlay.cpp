@@ -3,7 +3,7 @@
 //
 
 #include <stp/new_plays/TestPlay.h>
-#include <stp/new_roles/TestRole.h>
+#include <stp/roles/TestRole.h>
 
 namespace rtt::ai::stp {
 

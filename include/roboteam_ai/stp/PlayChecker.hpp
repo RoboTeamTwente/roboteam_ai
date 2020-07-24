@@ -10,8 +10,9 @@
 #include "Play.hpp"
 
 namespace rtt::ai::stp {
+
 /**
- * Class that gets all the viable plays
+ * Class that gets all the viable plays for a tick
  */
 class PlayChecker {
    public:
@@ -38,11 +39,11 @@ class PlayChecker {
      * @param playName The name of the play we want to return
      * @return The play with the name of the argument
      */
-    Play* getPlayForName(const std::string& playName) const noexcept;
+    [[nodiscard]] Play* getPlayForName(const std::string& playName) const noexcept;
 
    private:
     /**
-     * An array of all the plays
+     * A vector of all the plays
      */
     std::vector<std::unique_ptr<Play>>* allPlays{};
 
@@ -51,7 +52,6 @@ class PlayChecker {
      */
     world_new::World* world{};
 };
-
 }  // namespace rtt::ai::stp
 
 #endif  // RTT_PLAYCHECKER_HPP

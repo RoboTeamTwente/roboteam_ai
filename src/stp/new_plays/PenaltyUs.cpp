@@ -4,10 +4,10 @@
 
 #include <stp/invariants/game_states/PenaltyUsGameStateInvariant.h>
 #include <stp/new_plays/PenaltyUs.h>
-#include <stp/new_roles/Halt.h>
-#include <stp/new_roles/PenaltyKeeper.h>
+#include <stp/roles/Halt.h>
+#include <stp/roles/PenaltyKeeper.h>
 
-#include "stp/new_roles/Attacker.h"
+#include "stp/roles/Attacker.h"
 
 namespace rtt::ai::stp::play {
 
@@ -62,7 +62,7 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
 
     // TODO: the shoot position might need to change
     stpInfos["kicker"].setPositionToShootAt(field.getTheirGoalCenter() + Vector2{1.0, 0.5});
-    stpInfos["kicker"].setKickChipType(KickChipType::MAX);
+    stpInfos["kicker"].setShotType(ShotType::MAX);
 }
 
 bool PenaltyUs::shouldRoleSkipEndTactic() { return false; }

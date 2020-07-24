@@ -7,10 +7,10 @@
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
-#include "stp/new_roles/BallGetter.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/BallGetter.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -48,15 +48,15 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
-    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();

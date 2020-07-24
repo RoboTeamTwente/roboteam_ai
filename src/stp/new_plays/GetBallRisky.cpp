@@ -4,16 +4,16 @@
 
 #include "stp/new_plays/GetBallRisky.h"
 
-#include <stp/new_roles/Defender.h>
-#include <stp/new_roles/Halt.h>
-#include <stp/new_roles/PassReceiver.h>
+#include <stp/roles/Defender.h>
+#include <stp/roles/Halt.h>
+#include <stp/roles/PassReceiver.h>
 
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
-#include "stp/new_roles/BallGetter.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/BallGetter.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -68,33 +68,33 @@ void GetBallRisky::calculateInfoForRoles() noexcept {
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToGoal);
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     if (enemyClosestToGoal)
         stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
     else
         stpInfos["defender_2"].setPositionToDefend(field.getTheirGoalCenter() + Vector2{1, 1});
     stpInfos["defender_2"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["midfielder_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["midfielder_0"].setEnemyRobot(enemyAttacker);
-    stpInfos["midfielder_0"].setBlockDistance(CLOSE);
+    stpInfos["midfielder_0"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["midfielder_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["midfielder_1"].setEnemyRobot(enemyClosestToGoal);
-    stpInfos["midfielder_1"].setBlockDistance(CLOSE);
+    stpInfos["midfielder_1"].setBlockDistance(BlockDistance::CLOSE);
 
     if (enemyClosestToGoal)
         stpInfos["midfielder_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
     else
         stpInfos["midfielder_2"].setPositionToDefend(field.getTheirGoalCenter() + Vector2{1, 1});
     stpInfos["midfielder_2"].setEnemyRobot(enemyAttacker);
-    stpInfos["midfielder_2"].setBlockDistance(CLOSE);
+    stpInfos["midfielder_2"].setBlockDistance(BlockDistance::CLOSE);
 }
 
 bool GetBallRisky::shouldRoleSkipEndTactic() { return false; }

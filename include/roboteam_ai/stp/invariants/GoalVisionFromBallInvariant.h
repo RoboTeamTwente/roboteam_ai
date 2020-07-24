@@ -14,17 +14,14 @@ namespace rtt::ai::stp::invariant {
     Calculates goal vision percentage based on the position of the ball
 **/
 class GoalVisionFromBallInvariant : public BaseInvariant {
-public:
+   public:
     GoalVisionFromBallInvariant() noexcept;
 
     [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-    const char* getName() override
-    {
-        return "GoalVisionFromBall";
-    }
+    const char* getName() override { return "GoalVisionFromBall"; }
 
-private:
+   private:
     /**
      * Calculates the actual metric value using the piecewise linear function member
      * @param x the x of the function
@@ -37,7 +34,6 @@ private:
      */
     std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
-
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_GOALVISIONFROMBALLINVARIANT_H
+#endif  // RTT_GOALVISIONFROMBALLINVARIANT_H

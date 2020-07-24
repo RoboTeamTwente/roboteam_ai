@@ -5,7 +5,7 @@
 #ifndef RTT_PENALTYTHEM_H
 #define RTT_PENALTYTHEM_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -32,6 +32,9 @@ class PenaltyThem : public Play {
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
+    /**
+     * Calculates info for the roles
+     */
     void calculateInfoForRoles() noexcept override;
 
     bool shouldRoleSkipEndTactic() override;

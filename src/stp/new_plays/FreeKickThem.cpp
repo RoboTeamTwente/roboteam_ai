@@ -5,9 +5,9 @@
 #include "stp/new_plays/FreeKickThem.h"
 
 #include "stp/invariants/game_states/FreeKickThemGameStateInvariant.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -74,12 +74,12 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
                 else
                     stpInfos[roleName].setPositionToDefend(std::nullopt);
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-                stpInfos[roleName].setBlockDistance(FAR);
+                stpInfos[roleName].setBlockDistance(BlockDistance::FAR);
             } else {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
-                stpInfos[roleName].setBlockDistance(HALFWAY);
+                stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
             }
         }
     }
@@ -88,15 +88,15 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
 void FreeKickThem::calculateInfoForDefenders() noexcept {
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["defender_0"].setBlockDistance(HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["defender_1"].setBlockDistance(HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
-    stpInfos["defender_2"].setBlockDistance(HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 void FreeKickThem::calculateInfoForOffenders() noexcept { stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0)); }

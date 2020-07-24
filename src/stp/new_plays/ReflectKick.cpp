@@ -10,11 +10,11 @@
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/new_roles/BallReflector.h"
-#include "stp/new_roles/Defender.h"
-#include "stp/new_roles/Formation.h"
-#include "stp/new_roles/Keeper.h"
-#include "stp/new_roles/Passer.h"
+#include "stp/roles/BallReflector.h"
+#include "stp/roles/Defender.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Keeper.h"
+#include "stp/roles/Passer.h"
 
 namespace rtt::ai::stp::play {
 
@@ -102,7 +102,7 @@ void ReflectKick::calculateInfoForRoles() noexcept {
     // Reflector
     stpInfos["reflector"].setPositionToMoveTo(reflectPosition);
     stpInfos["reflector"].setPositionToShootAt(field.getTheirGoalCenter());
-    stpInfos["reflector"].setKickChipType(MAX);
+    stpInfos["reflector"].setShotType(ShotType::MAX);
 
     for (auto &role : roles) {
         if (role->getName() == "reflector") {
@@ -115,8 +115,8 @@ void ReflectKick::calculateInfoForRoles() noexcept {
 
     // Passer
     stpInfos["passer"].setPositionToShootAt(passPosition);
-    stpInfos["passer"].setKickChipType(TARGET);
-    stpInfos["passer"].setShootType(KICK);
+    stpInfos["passer"].setShotType(ShotType::TARGET);
+    stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
     // Offenders
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, field.getFieldWidth() / 4));

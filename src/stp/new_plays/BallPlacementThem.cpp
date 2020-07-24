@@ -5,7 +5,7 @@
 #include "stp/new_plays/BallPlacementThem.h"
 
 #include "stp/invariants/game_states/BallPlacementThemGameStateInvariant.h"
-#include "stp/new_roles/BallAvoider.h"
+#include "stp/roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
 

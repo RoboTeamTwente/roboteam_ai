@@ -17,7 +17,8 @@ class BaseInvariant {
      * @param cutOff the cutoff number, if the truth value is higher than this number the invariant returns true
      * @return returns true when greater than cutoff and false when smaller than cutoff
      */
-    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const world::Field *field, const uint8_t cutOff = stp::control_constants::FUZZY_DEFAULT_CUTOFF) const noexcept;
+    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const world::Field *field,
+                                      const uint8_t cutOff = stp::control_constants::FUZZY_DEFAULT_CUTOFF) const noexcept;
 
     /**
      * Calculates the 'true-ness' of the invariant between 0 and 255. 0 == false, 255 == true
@@ -32,7 +33,7 @@ class BaseInvariant {
      */
     virtual ~BaseInvariant() = default;
 
-    virtual const char* getName() = 0;
+    virtual const char *getName() = 0;
 };
 }  // namespace rtt::ai::stp::invariant
 

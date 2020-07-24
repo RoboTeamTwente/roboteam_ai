@@ -4,9 +4,15 @@
 
 #include "stp/Tactic.h"
 
+#include <roboteam_utils/Print.h>
+
 namespace rtt::ai::stp {
 
-void Tactic::initialize() noexcept { onInitialize(); }
+void Tactic::initialize() noexcept {
+    for (auto &x : skills) {
+        x->initialize();
+    }
+}
 
 Status Tactic::update(StpInfo const &info) noexcept {
     if (!info.getBall() || !info.getRobot() || !info.getField()) {
@@ -22,8 +28,7 @@ Status Tactic::update(StpInfo const &info) noexcept {
         // Update the current skill with the new SkillInfo
         auto status = skills.update(skill_info.value());
 
-        // Call onUpdate on a skill for specific behaviour
-        onUpdate(status);
+        (void)status;  // return of update is never used, but it is marked [[no-discard]] in the state machine. This cast suppresses that warning.
     } else {
         RTT_ERROR("Not all data was present, bad update!")
     }
@@ -55,7 +60,11 @@ Status Tactic::update(StpInfo const &info) noexcept {
     return Status::Running;
 }
 
-void Tactic::terminate() noexcept { onTerminate(); }
+void Tactic::terminate() noexcept {
+    for (auto &x : skills) {
+        x->terminate();
+    }
+}
 
 void Tactic::reset() noexcept { skills.reset(); }
 

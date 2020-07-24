@@ -7,7 +7,7 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
@@ -53,6 +53,11 @@ class AttackingPass : public Play {
      */
     const char* getName() override;
 
+    /**
+     * Checks if this is a valid play to keep
+     * @param world
+     * @return true if we can keep this play, false if we cannot
+     */
     [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept override;
 
    protected:

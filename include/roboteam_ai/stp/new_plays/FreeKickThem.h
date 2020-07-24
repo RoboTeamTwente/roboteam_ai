@@ -5,12 +5,12 @@
 #ifndef RTT_FREEKICKTHEM_H
 #define RTT_FREEKICKTHEM_H
 
-#include <stp/Play.hpp>
+#include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
 class FreeKickThem : public Play {
-public:
+   public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
@@ -42,10 +42,10 @@ public:
      */
     const char* getName() override;
 
-protected:
+   protected:
     bool shouldRoleSkipEndTactic() override;
 
-private:
+   private:
     /**
      * Calculates info for the keeper
      */
@@ -66,7 +66,6 @@ private:
      */
     void calculateInfoForOffenders() noexcept;
 };
-
 }  // namespace rtt::ai::stp::play
 
-#endif //RTT_FREEKICKTHEM_H
+#endif  // RTT_FREEKICKTHEM_H
