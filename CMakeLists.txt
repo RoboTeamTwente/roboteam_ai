@@ -56,7 +56,7 @@ set(MANUAL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/manual/JoystickHandler.cpp
         )
 
-set(NEW_SKILLS_SOURCES
+set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Skill.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Kick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Chip.cpp
@@ -256,7 +256,7 @@ set(WORLD_SOURCES
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
-        ${NEW_SKILLS_SOURCES}
+        ${SKILLS_SOURCES}
         ${NEW_TACTICS_SOURCES}
         ${NEW_ROLES_SOURCES}
         ${NEW_PLAYS_SOURCES}
