@@ -3,8 +3,8 @@
 //
 
 #include <roboteam_utils/Print.h>
-#include <stp/new_skills/GoToPos.h>
-#include <stp/new_skills/Rotate.h>
+#include <stp/skills/GoToPos.h>
+#include <stp/skills/Rotate.h>
 #include <stp/new_tactics/DriveWithBall.h>
 
 namespace rtt::ai::stp::tactic {

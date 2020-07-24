@@ -2,23 +2,17 @@
 // Created by jordi on 09-03-20.
 //
 
-#include "stp/new_skills/GoToPos.h"
+#include "stp/skills/GoToPos.h"
 
 #include "world_new/World.hpp"
 
 namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
-    auto targetPosOpt = info.getPositionToMoveTo();
-
-    if (!targetPosOpt) {
-        return Status::Running;
-    }
-
-    Vector2 targetPos = targetPosOpt.value();
+    Vector2 targetPos = info.getPositionToMoveTo().value();
 
     if (!FieldComputations::pointIsInField(info.getField().value(), targetPos)) {
-        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId());
+        RTT_WARNING("Target point not in field for robot ID ", info.getRobot().value()->getId())
         targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
     }
 
@@ -31,21 +25,19 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
-    command.mutable_vel()->set_x(targetVelocity.x);
-    command.mutable_vel()->set_y(targetVelocity.y);
+    command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));
+    command.mutable_vel()->set_y(static_cast<float>(targetVelocity.y));
 
-    if (info.getAngle())
-        command.set_w(info.getAngle());
-    else
-        command.set_w(robotCommand.angle);
+    command.set_w(static_cast<float>(info.getAngle()));
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
-    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
+    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
 
+    // publish the generated command
     publishRobotCommand(info.getCurrentWorld());
 
     // Check if successful

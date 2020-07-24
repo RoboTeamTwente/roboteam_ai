@@ -5,8 +5,8 @@
 #include "stp/new_tactics/KickAtPos.h"
 
 #include <control/ControlUtils.h>
-#include <stp/new_skills/Kick.h>
-#include <stp/new_skills/Rotate.h>
+#include <stp/skills/Kick.h>
+#include <stp/skills/Rotate.h>
 
 namespace rtt::ai::stp::tactic {
 

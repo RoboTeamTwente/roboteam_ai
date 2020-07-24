@@ -5,8 +5,8 @@
 #include "stp/new_tactics/ShootAtPos.h"
 
 #include <control/ControlUtils.h>
-#include <stp/new_skills/Rotate.h>
-#include <stp/new_skills/Shoot.h>
+#include <stp/skills/Rotate.h>
+#include <stp/skills/Shoot.h>
 
 #include "stp/new_tactics/KickAtPos.h"
 

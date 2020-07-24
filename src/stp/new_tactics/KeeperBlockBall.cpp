@@ -5,8 +5,8 @@
 #include "stp/new_tactics/KeeperBlockBall.h"
 
 #include "control/ControlUtils.h"
-#include "stp/new_skills/GoToPos.h"
-#include "stp/new_skills/Rotate.h"
+#include "stp/skills/GoToPos.h"
+#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
