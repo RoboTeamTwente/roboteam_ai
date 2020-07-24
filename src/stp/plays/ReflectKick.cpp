@@ -49,10 +49,6 @@ uint8_t ReflectKick::score(world_new::World *world) noexcept {
             sum += 30;
         }
     }
-    for (auto robot : potentialBots) {
-        auto robotToGoal = field.getTheirGoalCenter() - robot->getPos();
-    }
-
     return sum;
 }
 
@@ -62,16 +58,16 @@ Dealer::FlagMap ReflectKick::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"reflector", {closeToTheirGoalFlag}});
     flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"offender_1", {not_important}});
-    flagMap.insert({"offender_2", {not_important}});
-    flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"midfielder_3", {not_important}});
+    flagMap.insert({"offender_1", {notImportant}});
+    flagMap.insert({"offender_2", {notImportant}});
+    flagMap.insert({"midfielder_1", {notImportant}});
+    flagMap.insert({"midfielder_2", {notImportant}});
+    flagMap.insert({"midfielder_3", {notImportant}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"defender_3", {closeToOurGoalFlag}});

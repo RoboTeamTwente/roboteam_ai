@@ -56,12 +56,59 @@ uint8_t GenericPass::score(world_new::World* world) noexcept { return 130; }
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
 
+    /// Keeper
+    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+
+    /// Passer and receivers
+    // calculate all info necessary to execute a pass
+    calculateInfoForPass(ball);
+
+    /// Defender
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+    stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+
+    /// Midfielder
+    if (stpInfos["midfielder_1"].getRobot()) {
+        stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
+    }
+    auto fieldWidth = field.getFieldWidth();
+    auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
+    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGrid, field, world));
+}
+
+bool GenericPass::shouldRoleSkipEndTactic() { return false; }
+
+Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
+    Dealer::FlagMap flagMap;
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+    Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
+
+    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"passer", {closeToBallFlag}});
+    flagMap.insert({"receiver_left", {receiverFlag}});
+    flagMap.insert({"receiver_right", {notImportant}});
+    flagMap.insert({"midfielder_1", {notImportant}});
+    flagMap.insert({"defender_1", {notImportant}});
+    flagMap.insert({"halt_3", {notImportant}});
+    flagMap.insert({"halt_4", {notImportant}});
+    flagMap.insert({"halt_5", {notImportant}});
+    flagMap.insert({"halt_6", {notImportant}});
+    flagMap.insert({"halt_7", {notImportant}});
+
+    return flagMap;
+}
+
+const char* GenericPass::getName() { return "Generic Pass"; }
+
+void GenericPass::calculateInfoForPass(const world_new::ball::Ball* ball) noexcept {
     if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }
-    // Keeper
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
 
     bool passLeft{};
     Vector2 otherPos{};
@@ -99,13 +146,13 @@ void GenericPass::calculateInfoForRoles() noexcept {
     auto allBots = world->getWorld()->getRobotsNonOwning();
     // For all bots except passer and receivers, check if they are on the pass line, aka robot should chip
     if (std::any_of(allBots.begin(), allBots.end(), [&](const auto& bot) {
-            if ((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId()) ||
-                (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId()) ||
-                (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
-                return false;
-            }
-            return passLine.contains(bot->getPos());
-        })) {
+      if ((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId()) ||
+          (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId()) ||
+          (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
+          return false;
+      }
+      return passLine.contains(bot->getPos());
+    })) {
         stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
     } else {
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
@@ -113,47 +160,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
     stpInfos["passer"].setShotType(ShotType::PASS);
-
-    // Defender
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
-    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
-
-    // Midfielder
-    if (stpInfos["midfielder_1"].getRobot()) {
-        stpInfos["midfielder_1"].setAngle((ball->getPos() - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
-    }
-    auto fieldWidth = field.getFieldWidth();
-    auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGrid, field, world));
 }
-
-bool GenericPass::shouldRoleSkipEndTactic() { return false; }
-
-Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
-    Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
-    Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
-    Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
-
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"receiver_left", {receiverFlag}});
-    flagMap.insert({"receiver_right", {not_important}});
-    flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
-    flagMap.insert({"halt_3", {not_important}});
-    flagMap.insert({"halt_4", {not_important}});
-    flagMap.insert({"halt_5", {not_important}});
-    flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"halt_7", {not_important}});
-
-    return flagMap;
-}
-
-const char* GenericPass::getName() { return "Generic Pass"; }
 
 std::pair<Vector2, double> GenericPass::calculatePassLocation(Grid searchGrid) noexcept {
     double bestScore{};
@@ -214,7 +221,7 @@ bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
 }
 
 bool GenericPass::passFinished() noexcept {
-    // TODO: fix this condition
+    // TODO: improve this condition
     // Pass is done when one of the receivers is really close to the ball
     return (stpInfos["receiver_left"].getRobot() && stpInfos["receiver_left"].getRobot()->get()->getDistanceToBall() < 0.08) ||
            (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);

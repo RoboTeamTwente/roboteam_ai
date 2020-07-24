@@ -49,20 +49,20 @@ bool BallPlacementThem::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap BallPlacementThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeper(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeper}});
-    flagMap.insert({"ball_avoider_0", {not_important}});
-    flagMap.insert({"ball_avoider_1", {not_important}});
-    flagMap.insert({"ball_avoider_2", {not_important}});
-    flagMap.insert({"ball_avoider_3", {not_important}});
-    flagMap.insert({"ball_avoider_4", {not_important}});
-    flagMap.insert({"ball_avoider_5", {not_important}});
-    flagMap.insert({"ball_avoider_6", {not_important}});
-    flagMap.insert({"ball_avoider_7", {not_important}});
-    flagMap.insert({"ball_avoider_8", {not_important}});
-    flagMap.insert({"ball_avoider_9", {not_important}});
+    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"ball_avoider_0", {notImportant}});
+    flagMap.insert({"ball_avoider_1", {notImportant}});
+    flagMap.insert({"ball_avoider_2", {notImportant}});
+    flagMap.insert({"ball_avoider_3", {notImportant}});
+    flagMap.insert({"ball_avoider_4", {notImportant}});
+    flagMap.insert({"ball_avoider_5", {notImportant}});
+    flagMap.insert({"ball_avoider_6", {notImportant}});
+    flagMap.insert({"ball_avoider_7", {notImportant}});
+    flagMap.insert({"ball_avoider_8", {notImportant}});
+    flagMap.insert({"ball_avoider_9", {notImportant}});
 
     return flagMap;
 }

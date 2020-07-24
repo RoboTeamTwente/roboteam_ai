@@ -34,7 +34,6 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
 
-    // TODO: Improve positions
     // regular bots
     stpInfos["formation_0"].setPositionToMoveTo(Vector2(-length / 4 + 2, width / 8));
     stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 8));
@@ -53,19 +52,19 @@ bool PenaltyThemPrepare::shouldRoleSkipEndTactic() { return false; }
 Dealer::FlagMap PenaltyThemPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"formation_0", {not_important}});
-    flagMap.insert({"formation_1", {not_important}});
-    flagMap.insert({"formation_2", {not_important}});
-    flagMap.insert({"formation_3", {not_important}});
-    flagMap.insert({"formation_4", {not_important}});
-    flagMap.insert({"formation_5", {not_important}});
-    flagMap.insert({"formation_6", {not_important}});
-    flagMap.insert({"formation_7", {not_important}});
-    flagMap.insert({"formation_8", {not_important}});
-    flagMap.insert({"formation_9", {not_important}});
+    flagMap.insert({"formation_0", {notImportant}});
+    flagMap.insert({"formation_1", {notImportant}});
+    flagMap.insert({"formation_2", {notImportant}});
+    flagMap.insert({"formation_3", {notImportant}});
+    flagMap.insert({"formation_4", {notImportant}});
+    flagMap.insert({"formation_5", {notImportant}});
+    flagMap.insert({"formation_6", {notImportant}});
+    flagMap.insert({"formation_7", {notImportant}});
+    flagMap.insert({"formation_8", {notImportant}});
+    flagMap.insert({"formation_9", {notImportant}});
     return flagMap;
 }
 

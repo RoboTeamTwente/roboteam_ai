@@ -1,9 +1,10 @@
-#include <ApplicationManager.h>
-#include <include/roboteam_ai/utilities/IOManager.h>
+#include "ApplicationManager.h"
+
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 
-#include <utilities/GameStateManager.hpp>
+#include "utilities/GameStateManager.hpp"
+#include "utilities/IOManager.h"
 
 /**
  * Plays are included here
@@ -49,7 +50,7 @@ void ApplicationManager::start() {
 
     /// This play is only used for testing purposes, when needed uncomment this play!
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-  
+
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
@@ -115,7 +116,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
-        auto const& [_, world] = world_new::World::instance();
+        auto const &[_, world] = world_new::World::instance();
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {
@@ -155,11 +156,10 @@ void ApplicationManager::decidePlay(world_new::World *_world) {
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
             currentPlay = playChecker.getPlayForName("Defend Shot");
-            if(!currentPlay) {
+            if (!currentPlay) {
                 return;
             }
-        }
-        else {
+        } else {
             currentPlay = playDecider.decideBestPlay(_world, validPlays);
         }
         currentPlay->updateWorld(_world);

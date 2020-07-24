@@ -6,16 +6,16 @@
 
 namespace rtt::ai::stp {
 std::vector<Play*> PlayChecker::getValidPlays() noexcept {
-  std::vector<Play*> validPlays;
+    std::vector<Play*> validPlays;
 
-  // Only add plays that are valid
-  for (auto& each : *allPlays) {
-    if (each->isValidPlayToStart(world)) {
-      validPlays.push_back(each.get());
+    // Only add plays that are valid
+    for (auto& each : *allPlays) {
+        if (each->isValidPlayToStart(world)) {
+            validPlays.push_back(each.get());
+        }
     }
-  }
 
-  return validPlays;
+    return validPlays;
 }
 
 void PlayChecker::update(world_new::World* world) noexcept { this->world = world; }
@@ -23,11 +23,11 @@ void PlayChecker::update(world_new::World* world) noexcept { this->world = world
 void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept { this->allPlays = &plays; }
 
 Play* PlayChecker::getPlayForName(const std::string& playName) const noexcept {
-  // Find play for playName param
-  auto found = std::find_if(allPlays->begin(), allPlays->end(), [&](auto& play) { return play->getName() == playName; });
-  if (found == allPlays->end()) {
-    return nullptr;
-  } else
-    return found->get();
+    // Find play for playName param
+    auto found = std::find_if(allPlays->begin(), allPlays->end(), [&](auto& play) { return play->getName() == playName; });
+    if (found == allPlays->end()) {
+        return nullptr;
+    } else
+        return found->get();
 }
 }  // namespace rtt::ai::stp

@@ -42,16 +42,16 @@ Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"defender_1", {closeToOurGoalFlag}});
     flagMap.insert({"defender_2", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_1", {closeToOurGoalFlag}});
     flagMap.insert({"blocker_2", {closeToOurGoalFlag}});
-    flagMap.insert({"blocker_3", {not_important}});
-    flagMap.insert({"blocker_4", {not_important}});
-    flagMap.insert({"blocker_5", {not_important}});
+    flagMap.insert({"blocker_3", {notImportant}});
+    flagMap.insert({"blocker_4", {notImportant}});
+    flagMap.insert({"blocker_5", {notImportant}});
     flagMap.insert({"harasser", {closeToBallFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
