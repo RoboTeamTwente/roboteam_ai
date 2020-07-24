@@ -4,7 +4,7 @@
 
 #include "stp/new_roles/Halt.h"
 
-#include <stp/new_tactics/Halt.h>
+#include <stp/tactics/Halt.h>
 
 namespace rtt::ai::stp::role {
 

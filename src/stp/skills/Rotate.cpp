@@ -2,25 +2,26 @@
 // Created by jordi on 06-03-20.
 //
 
-#include "stp/new_skills/Rotate.h"
+#include "stp/skills/Rotate.h"
 
-#include <control/ControlUtils.h>
+#include "control/ControlUtils.h"
 
 namespace rtt::ai::stp::skill {
 
 Status Rotate::onUpdate(const StpInfo &info) noexcept {
     auto targetAngle = info.getAngle();
 
+    // Set angle command
+    command.set_w(static_cast<float>(targetAngle));
+
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 30);
-    int targetDribblerSpeed = targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD;
-
-    // Set angle command
-    command.set_w(targetAngle);
+    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
 
+    // publish the generated command
     publishRobotCommand(info.getCurrentWorld());
 
     // Check if successful

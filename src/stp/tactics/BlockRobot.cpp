@@ -2,20 +2,19 @@
 // Created by jessevw on 12.03.20.
 //
 
-#include "include/roboteam_ai/stp/new_tactics/BlockRobot.h"
-#include <include/roboteam_ai/stp/new_skills/GoToPos.h>
-#include <include/roboteam_ai/stp/new_skills/Rotate.h>
+#include "stp/tactics/BlockRobot.h"
+
+#include "stp/skills/GoToPos.h"
+#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
-BlockRobot::BlockRobot() {
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()};
-}
+BlockRobot::BlockRobot() { skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::Rotate()}; }
 
 std::optional<StpInfo> BlockRobot::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getEnemyRobot() || !skillStpInfo.getPositionToDefend()) return std::nullopt;
+    if (!skillStpInfo.getEnemyRobot() || !skillStpInfo.getPositionToDefend()) return std::nullopt;
 
     skillStpInfo.setAngle(calculateAngle(info.getEnemyRobot().value(), info.getPositionToDefend().value()));
 
@@ -42,12 +41,10 @@ bool BlockRobot::isEndTactic() noexcept { return true; }
 bool BlockRobot::isTacticFailing(const StpInfo &info) noexcept { return false; }
 
 bool BlockRobot::shouldTacticReset(const StpInfo &info) noexcept {
-  double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
-  return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
+    double errorMargin = control_constants::GO_TO_POS_ERROR_MARGIN;
+    return (info.getRobot().value()->getPos() - info.getPositionToMoveTo().value()).length() > errorMargin;
 }
 
-const char *BlockRobot::getName() {
-    return "Block Robot";
-}
+const char *BlockRobot::getName() { return "Block Robot"; }
 
 }  // namespace rtt::ai::stp::tactic

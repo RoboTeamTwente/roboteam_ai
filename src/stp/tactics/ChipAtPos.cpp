@@ -2,11 +2,11 @@
 // Created by timovdk on 3/13/20.
 //
 
-#include "stp/new_tactics/ChipAtPos.h"
+#include "stp/tactics/ChipAtPos.h"
 
-#include <control/ControlUtils.h>
-#include <stp/new_skills/Chip.h>
-#include <stp/new_skills/Rotate.h>
+#include "control/ControlUtils.h"
+#include "stp/skills/Chip.h"
+#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -30,7 +30,7 @@ std::optional<StpInfo> ChipAtPos::calculateInfoForSkill(StpInfo const &info) noe
 
     // When rotating, we need to dribble to keep the ball, but when chipping we don't
     if (skills.current_num() == 0) {
-        skillStpInfo.setDribblerSpeed(30);
+        skillStpInfo.setDribblerSpeed(100);
     }
 
     return skillStpInfo;

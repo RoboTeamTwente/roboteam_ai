@@ -5,9 +5,9 @@
 
 #include "stp/new_roles/PenaltyKeeper.h"
 
-#include "stp/new_tactics/Formation.h"
-#include "stp/new_tactics/GetBall.h"
-#include "stp/new_tactics/KickAtPos.h"
+#include "stp/tactics/Formation.h"
+#include "stp/tactics/GetBall.h"
+#include "stp/tactics/KickAtPos.h"
 #include "world/FieldComputations.h"
 #include "roboteam_utils/Print.h"
 

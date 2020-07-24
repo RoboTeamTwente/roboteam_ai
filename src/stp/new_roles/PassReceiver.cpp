@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/new_roles/PassReceiver.h"
 
-#include <include/roboteam_ai/stp/new_tactics/Receive.h>
+#include <include/roboteam_ai/stp/tactics/Receive.h>
 
 namespace rtt::ai::stp::role {
 

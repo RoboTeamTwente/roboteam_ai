@@ -6,8 +6,8 @@
 #define RTT_ROBOT_VIEW_HPP
 
 #include <roboteam_utils/Vector2.h>
-#include <stp/new_constants/ControlConstants.h>
-#include <include/roboteam_ai/world/Robot.hpp>
+#include <stp/constants/ControlConstants.h>
+#include <world/Robot.hpp>
 
 namespace rtt::world::view {
 

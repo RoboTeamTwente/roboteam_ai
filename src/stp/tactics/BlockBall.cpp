@@ -2,12 +2,12 @@
 // Created by timovdk on 5/12/20.
 //
 
-#include "stp/new_tactics/BlockBall.h"
+#include "stp/tactics/BlockBall.h"
+
+#include <roboteam_utils/Circle.h>
 
 #include "control/ControlUtils.h"
-#include "stp/new_skills/GoToPos.h"
-
-#include "roboteam_utils/Circle.h"
+#include "stp/skills/GoToPos.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -16,7 +16,7 @@ BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status,
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();

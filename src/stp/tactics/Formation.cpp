@@ -2,10 +2,10 @@
 // Created by timovdk on 3/27/20.
 //
 
-#include "stp/new_tactics/Formation.h"
+#include "stp/tactics/Formation.h"
 
-#include "stp/new_skills/GoToPos.h"
-#include "stp/new_skills/Rotate.h"
+#include "stp/skills/GoToPos.h"
+#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 

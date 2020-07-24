@@ -2,10 +2,10 @@
 // Created by jordi on 20-05-20.
 //
 
-#include "stp/new_tactics/PositionAndAim.h"
+#include "stp/tactics/PositionAndAim.h"
 
-#include "stp/new_skills/GoToPos.h"
-#include "stp/new_skills/Rotate.h"
+#include "stp/skills/GoToPos.h"
+#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -40,8 +40,6 @@ bool PositionAndAim::isEndTactic() noexcept {
     return true;
 }
 
-const char *PositionAndAim::getName() {
-    return "Position And Aim";
-}
+const char *PositionAndAim::getName() { return "Position And Aim"; }
 
 }  // namespace rtt::ai::stp::tactic
