@@ -22,7 +22,7 @@ Status Kick::onUpdate(const StpInfo &info) noexcept {
     command.set_dribbler(targetDribblerSpeed);
 
     // Set angle command
-    command.set_w(info.getRobot().value()->getAngle());
+    command.set_w(static_cast<float>(info.getRobot().value()->getAngle()));
 
     // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
     if (kickAttempts > control_constants::MAX_KICK_ATTEMPTS) {

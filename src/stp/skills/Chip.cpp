@@ -8,7 +8,7 @@ namespace rtt::ai::stp::skill {
 
 Status Chip::onUpdate(const StpInfo &info) noexcept {
     // Clamp and set chip velocity
-    float chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_KICK_POWER);
+    float chipVelocity = std::clamp(info.getKickChipVelocity(), 0.0, stp::control_constants::MAX_CHIP_POWER);
 
     // Set chip command
     command.set_chipper(true);
@@ -22,7 +22,7 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
     command.set_dribbler(targetDribblerSpeed);
 
     // Set angle command
-    command.set_w(info.getRobot().value()->getAngle());
+    command.set_w(static_cast<float>(info.getRobot().value()->getAngle()));
 
     // Set chip_kick_forced if we can chip but did not chip for MAX_CHIP_ATTEMPTS amount of ticks
     if (chipAttempts > control_constants::MAX_CHIP_ATTEMPTS) {
