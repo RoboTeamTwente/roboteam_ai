@@ -1,11 +1,11 @@
 //
-// Created by timo on 3/30/20.
+// Created by timovdk on 3/30/20.
 //
 
 #include "stp/new_plays/AggressiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
-#include "stp/new_roles/BallAvoider.h"
+#include "stp/roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
 
