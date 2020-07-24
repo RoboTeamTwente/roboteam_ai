@@ -4,8 +4,8 @@
 
 #include "stp/new_roles/Passer.h"
 
-#include "stp/new_tactics/GetBall.h"
-#include "stp/new_tactics/ShootAtPos.h"
+#include "stp/tactics/GetBall.h"
+#include "stp/tactics/ShootAtPos.h"
 
 namespace rtt::ai::stp::role {
 

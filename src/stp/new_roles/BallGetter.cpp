@@ -4,7 +4,7 @@
 
 #include "stp/new_roles/BallGetter.h"
 
-#include "stp/new_tactics/GetBall.h"
+#include "stp/tactics/GetBall.h"
 
 namespace rtt::ai::stp::role {
 

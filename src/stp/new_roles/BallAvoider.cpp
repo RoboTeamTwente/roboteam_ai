@@ -3,7 +3,7 @@
 //
 
 #include "stp/new_roles/BallAvoider.h"
-#include "stp/new_tactics/AvoidBall.h"
+#include "stp/tactics/AvoidBall.h"
 namespace rtt::ai::stp::role {
 
     BallAvoider::BallAvoider(std::string name) : Role(std::move(name)) {

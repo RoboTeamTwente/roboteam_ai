@@ -4,8 +4,8 @@
 
 #include "stp/new_roles/BallReflector.h"
 
-#include "stp/new_tactics/KickAtPos.h"
-#include "stp/new_tactics/PositionAndAim.h"
+#include "stp/tactics/KickAtPos.h"
+#include "stp/tactics/PositionAndAim.h"
 
 namespace rtt::ai::stp::role {
 

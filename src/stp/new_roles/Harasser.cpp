@@ -4,8 +4,8 @@
 
 #include "stp/new_roles/Harasser.h"
 
-#include "stp/new_tactics/BlockBall.h"
-#include "stp/new_tactics/Intercept.h"
+#include "stp/tactics/BlockBall.h"
+#include "stp/tactics/Intercept.h"
 
 namespace rtt::ai::stp::role {
 
