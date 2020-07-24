@@ -9,61 +9,61 @@
 namespace rtt::ai::stp {
 
 void Tactic::initialize() noexcept {
-  for (auto &x : skills) {
-    x->initialize();
-  }
+    for (auto &x : skills) {
+        x->initialize();
+    }
 }
 
 Status Tactic::update(StpInfo const &info) noexcept {
-  if (!info.getBall() || !info.getRobot() || !info.getField()) {
-    RTT_WARNING("Required information missing in the tactic info")
-    currentStatus = Status::Failure;
-    return Status::Failure;
-  }
-
-  // Update skill info
-  auto skill_info = calculateInfoForSkill(info);
-
-  if (skill_info) {
-    // Update the current skill with the new SkillInfo
-    auto status = skills.update(skill_info.value());
-
-    (void)status; // return of update is never used, but it is marked [[no-discard]] in the state machine. This cast to void uses up the return to suppress the compile warning.
-  } else {
-    RTT_ERROR("Not all data was present, bad update!")
-  }
-
-  // the tactic will not be reset if it's the first skill
-  if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
-    reset();
-  }
-
-  // Check if the skills are all finished
-  if (skills.finished() || forceTacticSuccess(skill_info.value())) {
-    if (!isEndTactic()) {
-      currentStatus = Status::Success;
-      return Status::Success;
+    if (!info.getBall() || !info.getRobot() || !info.getField()) {
+        RTT_WARNING("Required information missing in the tactic info")
+        currentStatus = Status::Failure;
+        return Status::Failure;
     }
-    // Make sure we keep executing the last tactic since it is an end tactic
-    skills.reset();
-    currentStatus = Status::Waiting;
-    return Status::Waiting;
-  }
 
-  // if the failing condition is true, the current tactic will fail
-  if (skill_info && isTacticFailing(skill_info.value())) {
-    currentStatus = Status::Failure;
-    return Status::Failure;
-  }
+    // Update skill info
+    auto skill_info = calculateInfoForSkill(info);
 
-  currentStatus = Status::Running;
-  return Status::Running;
+    if (skill_info) {
+        // Update the current skill with the new SkillInfo
+        auto status = skills.update(skill_info.value());
+
+        (void)status;  // return of update is never used, but it is marked [[no-discard]] in the state machine. This cast suppresses that warning.
+    } else {
+        RTT_ERROR("Not all data was present, bad update!")
+    }
+
+    // the tactic will not be reset if it's the first skill
+    if (skills.current_num() != 0 && shouldTacticReset(skill_info.value())) {
+        reset();
+    }
+
+    // Check if the skills are all finished
+    if (skills.finished() || forceTacticSuccess(skill_info.value())) {
+        if (!isEndTactic()) {
+            currentStatus = Status::Success;
+            return Status::Success;
+        }
+        // Make sure we keep executing the last tactic since it is an end tactic
+        skills.reset();
+        currentStatus = Status::Waiting;
+        return Status::Waiting;
+    }
+
+    // if the failing condition is true, the current tactic will fail
+    if (skill_info && isTacticFailing(skill_info.value())) {
+        currentStatus = Status::Failure;
+        return Status::Failure;
+    }
+
+    currentStatus = Status::Running;
+    return Status::Running;
 }
 
 void Tactic::terminate() noexcept {
-  for (auto &x : skills) {
-    x->terminate();
-  }
+    for (auto &x : skills) {
+        x->terminate();
+    }
 }
 
 void Tactic::reset() noexcept { skills.reset(); }

@@ -2,7 +2,7 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "stp/new_tactics/Halt.h"
+#include "stp/tactics/Halt.h"
 
 #include "stp/skills/Rotate.h"
 

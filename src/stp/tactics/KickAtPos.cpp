@@ -2,11 +2,11 @@
 // Created by timovdk on 3/12/20.
 //
 
-#include "stp/new_tactics/KickAtPos.h"
+#include "stp/tactics/KickAtPos.h"
 
-#include <control/ControlUtils.h>
-#include <stp/skills/Kick.h>
-#include <stp/skills/Rotate.h>
+#include "control/ControlUtils.h"
+#include "stp/skills/Kick.h"
+#include "stp/skills/Rotate.h"
 
 namespace rtt::ai::stp::tactic {
 

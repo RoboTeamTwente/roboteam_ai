@@ -2,15 +2,13 @@
 // Created by Jesse on 23-06-20.
 //
 
-#include "stp/new_tactics/ShootAtPos.h"
+#include "stp/tactics/ShootAtPos.h"
 
-#include <control/ControlUtils.h>
-#include <stp/skills/Rotate.h>
-#include <stp/skills/Shoot.h>
+#include <roboteam_utils/Print.h>
 
-#include "stp/new_tactics/KickAtPos.h"
-
-#include "roboteam_utils/Print.h"
+#include "control/ControlUtils.h"
+#include "stp/skills/Rotate.h"
+#include "stp/skills/Shoot.h"
 
 namespace rtt::ai::stp::tactic {
 
@@ -43,8 +41,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForKick(StpInfo const &info) noe
     double distanceBallToTarget = (info.getBall()->get()->getPos() - info.getPositionToShootAt().value()).length();
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
-    // When the angle is not within the margin, dribble so we don't lose the ball while rotating
-    double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
+    // Set the dribblerSpeed
     skillStpInfo.setDribblerSpeed(50);
 
     return skillStpInfo;
@@ -79,8 +76,6 @@ bool ShootAtPos::isEndTactic() noexcept {
 bool ShootAtPos::isTacticFailing(const StpInfo &info) noexcept {
     // Fail tactic if:
     // robot doesn't have the ball or if there is no shootTarget
-    auto ballDistance = info.getRobot()->get()->getDistanceToBall() < control_constants::HAS_BALL_DISTANCE_ERROR_MARGIN * 3;
-
     return (!info.getRobot()->hasBall() && info.getBall()->get()->getFilteredVelocity().length() < control_constants::BALL_STILL_VEL) || !info.getPositionToShootAt();
 }
 

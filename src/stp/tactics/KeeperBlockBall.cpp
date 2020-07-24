@@ -2,7 +2,7 @@
 // Created by jordi on 08-04-20.
 //
 
-#include "stp/new_tactics/KeeperBlockBall.h"
+#include "stp/tactics/KeeperBlockBall.h"
 
 #include "control/ControlUtils.h"
 #include "stp/skills/GoToPos.h"

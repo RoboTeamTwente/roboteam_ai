@@ -65,25 +65,26 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
         )
 
-set(NEW_TACTICS_SOURCES
+set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/TestTactic.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/DriveWithBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KickAtPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockRobot.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Receive.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/ChipAtPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/ShootAtPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Intercept.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_constants/ControlConstants.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/GetBallInDirection.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/BlockBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/KeeperBlockBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/AvoidBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_tactics/PositionAndAim.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/TestTactic.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/DriveWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/KickAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/BlockRobot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Receive.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/ChipAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/ShootAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/BlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
+
+        ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         )
 
 set(NEW_ROLES_SOURCES
@@ -257,7 +258,7 @@ set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         ${UTILS_SOURCES}
         ${SKILLS_SOURCES}
-        ${NEW_TACTICS_SOURCES}
+        ${TACTICS_SOURCES}
         ${NEW_ROLES_SOURCES}
         ${NEW_PLAYS_SOURCES}
         ${INVARIANTS_SOURCES}

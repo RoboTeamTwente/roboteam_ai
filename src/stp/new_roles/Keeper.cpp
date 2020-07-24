@@ -4,9 +4,9 @@
 
 #include "stp/new_roles/Keeper.h"
 
-#include "stp/new_tactics/GetBall.h"
-#include "stp/new_tactics/KeeperBlockBall.h"
-#include "stp/new_tactics/KickAtPos.h"
+#include "stp/tactics/GetBall.h"
+#include "stp/tactics/KeeperBlockBall.h"
+#include "stp/tactics/KickAtPos.h"
 #include "world/FieldComputations.h"
 #include "roboteam_utils/Print.h"
 

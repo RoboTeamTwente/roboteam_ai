@@ -2,7 +2,7 @@
 // Created by timovdk on 3/18/20.
 //
 
-#include "stp/new_tactics/Intercept.h"
+#include "stp/tactics/Intercept.h"
 
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"
@@ -22,7 +22,7 @@ bool Intercept::isEndTactic() noexcept {
 std::optional<StpInfo> Intercept::calculateInfoForSkill(const StpInfo& info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if(!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
+    if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     // Rotate robot towards the ball
     skillStpInfo.setAngle(calculateAngle(info.getRobot().value(), info.getBall().value()));
@@ -50,8 +50,6 @@ int Intercept::determineDribblerSpeed(const world_new::view::RobotView& robot) {
     return robot->getDistanceToBall() < turnOnDribblerDistance ? 100 : 0;
 }
 
-const char *Intercept::getName() {
-    return "Intercept";
-}
+const char* Intercept::getName() { return "Intercept"; }
 
 }  // namespace rtt::ai::stp::tactic

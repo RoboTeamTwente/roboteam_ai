@@ -4,7 +4,7 @@
 
 #include "stp/new_roles/Formation.h"
 
-#include <stp/new_tactics/Formation.h>
+#include <stp/tactics/Formation.h>
 
 namespace rtt::ai::stp::role {
 
