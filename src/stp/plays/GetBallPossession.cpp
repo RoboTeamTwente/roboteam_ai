@@ -2,7 +2,7 @@
 // Created by jordi on 11-05-20.
 //
 
-#include "stp/new_plays/GetBallPossession.h"
+#include "stp/plays/GetBallPossession.h"
 
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"

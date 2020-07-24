@@ -2,9 +2,7 @@
 // Created by jordi on 19-05-20.
 //
 
-#include "stp/new_plays/ReflectKick.h"
-
-#include <roboteam_utils/HalfLine.h>
+#include "stp/plays/ReflectKick.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallClosestToUsInvariant.h"

@@ -2,7 +2,7 @@
 // Created by jordi on 14-05-20.
 //
 
-#include "stp/new_plays/DefendPass.h"
+#include "stp/plays/DefendPass.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
 #include "stp/invariants/BallOnOurSideInvariant.h"

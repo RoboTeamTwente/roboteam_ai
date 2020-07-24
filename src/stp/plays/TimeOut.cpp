@@ -2,7 +2,7 @@
 // Created by jordi on 01-05-20.
 //
 
-#include "stp/new_plays/TimeOut.h"
+#include "stp/plays/TimeOut.h"
 
 #include "stp/invariants/game_states/TimeOutGameStateInvariant.h"
 #include "stp/roles/Formation.h"

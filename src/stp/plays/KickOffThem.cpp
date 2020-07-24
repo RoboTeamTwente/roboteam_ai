@@ -2,7 +2,7 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include "stp/new_plays/KickOffThem.h"
+#include "stp/plays/KickOffThem.h"
 
 #include "stp/invariants/game_states/KickOffThemGameStateInvariant.h"
 #include "stp/roles/Halt.h"

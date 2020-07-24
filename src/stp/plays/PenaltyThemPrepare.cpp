@@ -2,7 +2,7 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include "stp/new_plays/PenaltyThemPrepare.h"
+#include "stp/plays/PenaltyThemPrepare.h"
 
 #include "stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.h"
 #include "stp/roles/Formation.h"

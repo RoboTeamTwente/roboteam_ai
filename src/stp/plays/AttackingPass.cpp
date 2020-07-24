@@ -2,18 +2,17 @@
 // Created by jessevw on 17.03.20.
 //
 
-#include "stp/new_plays/AttackingPass.h"
+#include "stp/plays/AttackingPass.h"
 
-#include <stp/roles/Formation.h>
-#include <stp/roles/Halt.h>
-#include <stp/roles/Keeper.h>
+#include <roboteam_utils/Tube.h>
 
-#include "roboteam_utils/Grid.h"
-#include "roboteam_utils/Tube.h"
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/NoGoalVisionFromBallInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/roles/Formation.h"
+#include "stp/roles/Halt.h"
+#include "stp/roles/Keeper.h"
 #include "stp/roles/PassReceiver.h"
 #include "stp/roles/Passer.h"
 
@@ -241,7 +240,7 @@ bool AttackingPass::isValidPlayToKeep(world_new::World* world) noexcept {
         if (closestToBall && closestToBall->get()->getTeam() == world_new::us) {
             return true;
         } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-                return true;
+            return true;
         }
     }
     return false;

@@ -2,7 +2,7 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "stp/new_plays/Halt.h"
+#include "stp/plays/Halt.h"
 
 #include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/roles/Halt.h"

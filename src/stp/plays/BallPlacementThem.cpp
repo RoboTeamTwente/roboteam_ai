@@ -2,7 +2,7 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "stp/new_plays/BallPlacementThem.h"
+#include "stp/plays/BallPlacementThem.h"
 
 #include "stp/invariants/game_states/BallPlacementThemGameStateInvariant.h"
 #include "stp/roles/BallAvoider.h"

@@ -2,18 +2,16 @@
 // Created by timovdk on 5/15/20.
 //
 
-#include "stp/new_plays/GetBallRisky.h"
-
-#include <stp/roles/Defender.h>
-#include <stp/roles/Halt.h>
-#include <stp/roles/PassReceiver.h>
+#include "stp/plays/GetBallRisky.h"
 
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/roles/BallGetter.h"
+#include "stp/roles/Defender.h"
 #include "stp/roles/Keeper.h"
+#include "stp/roles/PassReceiver.h"
 
 namespace rtt::ai::stp::play {
 

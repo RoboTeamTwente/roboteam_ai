@@ -2,7 +2,7 @@
 // Created by jordi on 24-03-20.
 //
 
-#include "stp/new_plays/Attack.h"
+#include "stp/plays/Attack.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallClosestToUsInvariant.h"

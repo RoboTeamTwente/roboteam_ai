@@ -2,7 +2,7 @@
 // Created by timo on 3/27/20.
 //
 
-#include "stp/new_plays/DefensiveFormation.h"
+#include "stp/plays/DefensiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/roles/BallAvoider.h"

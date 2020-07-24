@@ -2,7 +2,7 @@
 // Created by jordi on 27-03-20.
 //
 
-#include "stp/new_plays/DefendShot.h"
+#include "stp/plays/DefendShot.h"
 
 #include "stp/invariants/BallCloseToThemInvariant.h"
 #include "stp/invariants/BallShotOrCloseToThemInvariant.h"

@@ -2,7 +2,7 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include "stp/new_plays/KickOffUs.h"
+#include "stp/plays/KickOffUs.h"
 
 #include "stp/invariants/game_states/KickOffUsGameStateInvariant.h"
 #include "stp/roles/Attacker.h"

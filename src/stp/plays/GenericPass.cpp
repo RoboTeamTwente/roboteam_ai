@@ -2,16 +2,15 @@
 // Created by timovdk on 5/20/20.
 //
 
-#include "stp/new_plays/GenericPass.h"
+#include "stp/plays/GenericPass.h"
 
-#include <roboteam_utils/Grid.h>
 #include <roboteam_utils/Tube.h>
-#include <stp/roles/Formation.h>
 
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/invariants/FreedomOfRobotsInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/roles/Formation.h"
 #include "stp/roles/Halt.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/PassReceiver.h"
@@ -208,7 +207,7 @@ bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
         if (closestToBall && closestToBall->get()->getTeam() == world_new::us) {
             return true;
         } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-                return true;
+            return true;
         }
     }
     return false;

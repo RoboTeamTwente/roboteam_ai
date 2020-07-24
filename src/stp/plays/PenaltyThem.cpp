@@ -2,10 +2,11 @@
 // Created by timovdk on 4/28/20.
 //
 
-#include <stp/invariants/game_states/PenaltyThemGameStateInvariant.h>
-#include <stp/new_plays/PenaltyThem.h>
-#include <stp/roles/Halt.h>
-#include <stp/roles/PenaltyKeeper.h>
+#include "stp/plays/PenaltyThem.h"
+
+#include "stp/invariants/game_states/PenaltyThemGameStateInvariant.h"
+#include "stp/roles/Halt.h"
+#include "stp/roles/PenaltyKeeper.h"
 
 namespace rtt::ai::stp::play {
 

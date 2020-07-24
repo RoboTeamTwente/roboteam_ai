@@ -2,7 +2,7 @@
 // Created by jordi on 30-04-20.
 //
 
-#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/plays/KickOffThemPrepare.h"
 
 #include "stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.h"
 #include "stp/roles/Formation.h"
