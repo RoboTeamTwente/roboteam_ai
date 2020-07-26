@@ -81,7 +81,17 @@ The pros of this solution is that it is a quite simple design. Furthermore you c
 ![Pass by Interface method (using Class as parameter)](InterfaceMethodClass.png)
 
 The advantage of this is that the class parameter could partially deal with the missing values, however a clear disadvantage is that this makes everything more complex than necessary. 
+
 #### Pass by constructor
+Pass by Constructor is a quite common practice within the software community, which is a technique where you pass information to the class using its constructor, so when the class is created. In case of the Chip class you will pass the zSpeed as information when the Chip class is created. In a class diagram this solution looks like:
+
+
+
+And from a caller perspective it looks like:
+```
+Skill chip = Chip(5.0)
+chip.execute()
+```
 #### Pass by additional method
 #### Pass by constant
 #### Pass by static
