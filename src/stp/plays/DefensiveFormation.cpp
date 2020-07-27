@@ -2,7 +2,7 @@
 // Created by timo on 3/27/20.
 //
 
-#include "stp/new_plays/DefensiveFormation.h"
+#include "stp/plays/DefensiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/roles/BallAvoider.h"
@@ -28,7 +28,6 @@ DefensiveFormation::DefensiveFormation() : Play() {
 uint8_t DefensiveFormation::score(world::World* world) noexcept { return 20; }
 
 void DefensiveFormation::calculateInfoForRoles() noexcept {
-    // TODO: TUNE these positions could probably be a bit better once we decide how we want to play
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
@@ -50,21 +49,22 @@ bool DefensiveFormation::shouldRoleSkipEndTactic() { return false; }
 Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"defender_0", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
-    flagMap.insert({"defender_2", {not_important}});
-    flagMap.insert({"defender_3", {not_important}});
-    flagMap.insert({"mid_field_0", {not_important}});
-    flagMap.insert({"mid_field_1", {not_important}});
-    flagMap.insert({"mid_field_2", {not_important}});
-    flagMap.insert({"offender_0", {not_important}});
-    flagMap.insert({"offender_1", {not_important}});
-    flagMap.insert({"offender_2", {not_important}});
+    flagMap.insert({"defender_0", {notImportant}});
+    flagMap.insert({"defender_1", {notImportant}});
+    flagMap.insert({"defender_2", {notImportant}});
+    flagMap.insert({"defender_3", {notImportant}});
+    flagMap.insert({"mid_field_0", {notImportant}});
+    flagMap.insert({"mid_field_1", {notImportant}});
+    flagMap.insert({"mid_field_2", {notImportant}});
+    flagMap.insert({"offender_0", {notImportant}});
+    flagMap.insert({"offender_1", {notImportant}});
+    flagMap.insert({"offender_2", {notImportant}});
 
     return flagMap;
 }
+
 const char* DefensiveFormation::getName() { return "Defensive Formation"; }
 }  // namespace rtt::ai::stp::play

@@ -105,34 +105,34 @@ set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/roles/BallReflector.cpp
         )
 
-set(NEW_PLAYS_SOURCES
+set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TestPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AttackingPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Attack.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendShot.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefendPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/DefensiveFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/AggressiveFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacementUs.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/BallPlacementThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/TimeOut.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThemPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/PenaltyUs.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThemPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/KickOffUs.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallPossession.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/FreeKickThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GetBallRisky.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/ReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/new_plays/GenericPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/AttackingPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/Attack.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefendShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefendPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefensiveFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/AggressiveFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/BallPlacementUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/BallPlacementThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/TimeOut.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/GetBallPossession.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/FreeKickThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/GetBallRisky.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/GenericPass.cpp
         )
 
 set(INVARIANTS_SOURCES
@@ -260,7 +260,7 @@ set(AI_SOURCES
         ${SKILLS_SOURCES}
         ${TACTICS_SOURCES}
         ${ROLES_SOURCES}
-        ${NEW_PLAYS_SOURCES}
+        ${PLAYS_SOURCES}
         ${INVARIANTS_SOURCES}
         ${CONTROL_SOURCES}
         ${INTERFACE_SOURCES}

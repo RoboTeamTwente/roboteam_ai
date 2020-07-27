@@ -37,9 +37,9 @@ uint8_t BallCloseToUsInvariant::metricCheck(world::view::WorldDataView world, co
     for (auto robot : us) {
         distances.emplace_back(robot.get()->getPos().dist(ballPos));
     }
-  
+
     // If there are no distances, ball is not close to us
-    if(distances.empty()) {
+    if (distances.empty()) {
         return control_constants::FUZZY_FALSE;
     }
     return calculateMetric(*std::min_element(distances.begin(), distances.end()));

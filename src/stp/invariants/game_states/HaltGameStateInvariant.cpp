@@ -3,7 +3,8 @@
 //
 
 #include "stp/invariants/game_states/HaltGameStateInvariant.h"
-#include <utilities/GameStateManager.hpp>
+
+#include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::invariant {
 uint8_t HaltGameStateInvariant::metricCheck(world::view::WorldDataView world, const world::Field *field) const noexcept {

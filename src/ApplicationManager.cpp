@@ -1,37 +1,38 @@
-#include <ApplicationManager.h>
-#include <include/roboteam_ai/utilities/IOManager.h>
+#include "ApplicationManager.h"
+
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 
-#include <utilities/GameStateManager.hpp>
+#include "utilities/GameStateManager.hpp"
+#include "utilities/IOManager.h"
 
 /**
  * Plays are included here
  */
-#include "stp/new_plays/AggressiveFormation.h"
-#include "stp/new_plays/Attack.h"
-#include "stp/new_plays/AttackingPass.h"
-#include "stp/new_plays/BallPlacementThem.h"
-#include "stp/new_plays/BallPlacementUs.h"
-#include "stp/new_plays/DefendPass.h"
-#include "stp/new_plays/DefendShot.h"
-#include "stp/new_plays/DefensiveFormation.h"
-#include "stp/new_plays/FreeKickThem.h"
-#include "stp/new_plays/GenericPass.h"
-#include "stp/new_plays/GetBallPossession.h"
-#include "stp/new_plays/GetBallRisky.h"
-#include "stp/new_plays/Halt.h"
-#include "stp/new_plays/KickOffThem.h"
-#include "stp/new_plays/KickOffThemPrepare.h"
-#include "stp/new_plays/KickOffUs.h"
-#include "stp/new_plays/KickOffUsPrepare.h"
-#include "stp/new_plays/PenaltyThem.h"
-#include "stp/new_plays/PenaltyThemPrepare.h"
-#include "stp/new_plays/PenaltyUs.h"
-#include "stp/new_plays/PenaltyUsPrepare.h"
-#include "stp/new_plays/ReflectKick.h"
-#include "stp/new_plays/TestPlay.h"
-#include "stp/new_plays/TimeOut.h"
+#include "stp/plays/AggressiveFormation.h"
+#include "stp/plays/Attack.h"
+#include "stp/plays/AttackingPass.h"
+#include "stp/plays/BallPlacementThem.h"
+#include "stp/plays/BallPlacementUs.h"
+#include "stp/plays/DefendPass.h"
+#include "stp/plays/DefendShot.h"
+#include "stp/plays/DefensiveFormation.h"
+#include "stp/plays/FreeKickThem.h"
+#include "stp/plays/GenericPass.h"
+#include "stp/plays/GetBallPossession.h"
+#include "stp/plays/GetBallRisky.h"
+#include "stp/plays/Halt.h"
+#include "stp/plays/KickOffThem.h"
+#include "stp/plays/KickOffThemPrepare.h"
+#include "stp/plays/KickOffUs.h"
+#include "stp/plays/KickOffUsPrepare.h"
+#include "stp/plays/PenaltyThem.h"
+#include "stp/plays/PenaltyThemPrepare.h"
+#include "stp/plays/PenaltyUs.h"
+#include "stp/plays/PenaltyUsPrepare.h"
+#include "stp/plays/ReflectKick.h"
+#include "stp/plays/TestPlay.h"
+#include "stp/plays/TimeOut.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -49,7 +50,7 @@ void ApplicationManager::start() {
 
     /// This play is only used for testing purposes, when needed uncomment this play!
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
-  
+
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
@@ -115,7 +116,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
-        auto const& [_, world] = world::World::instance();
+        auto const &[_, world] = world::World::instance();
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {
@@ -155,11 +156,10 @@ void ApplicationManager::decidePlay(world::World *_world) {
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
             currentPlay = playChecker.getPlayForName("Defend Shot");
-            if(!currentPlay) {
+            if (!currentPlay) {
                 return;
             }
-        }
-        else {
+        } else {
             currentPlay = playDecider.decideBestPlay(_world, validPlays);
         }
         currentPlay->updateWorld(_world);

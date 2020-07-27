@@ -2,7 +2,7 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "stp/new_plays/Halt.h"
+#include "stp/plays/Halt.h"
 
 #include "stp/invariants/game_states/HaltGameStateInvariant.h"
 #include "stp/roles/Halt.h"
@@ -31,19 +31,19 @@ bool Halt::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap Halt::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"halt_0", {not_important}});
-    flagMap.insert({"halt_1", {not_important}});
-    flagMap.insert({"halt_2", {not_important}});
-    flagMap.insert({"halt_3", {not_important}});
-    flagMap.insert({"halt_4", {not_important}});
-    flagMap.insert({"halt_5", {not_important}});
-    flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"halt_7", {not_important}});
-    flagMap.insert({"halt_8", {not_important}});
-    flagMap.insert({"halt_9", {not_important}});
-    flagMap.insert({"halt_10", {not_important}});
+    flagMap.insert({"halt_0", {notImportant}});
+    flagMap.insert({"halt_1", {notImportant}});
+    flagMap.insert({"halt_2", {notImportant}});
+    flagMap.insert({"halt_3", {notImportant}});
+    flagMap.insert({"halt_4", {notImportant}});
+    flagMap.insert({"halt_5", {notImportant}});
+    flagMap.insert({"halt_6", {notImportant}});
+    flagMap.insert({"halt_7", {notImportant}});
+    flagMap.insert({"halt_8", {notImportant}});
+    flagMap.insert({"halt_9", {notImportant}});
+    flagMap.insert({"halt_10", {notImportant}});
     return flagMap;
 }
 

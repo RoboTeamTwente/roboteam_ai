@@ -2,7 +2,7 @@
 // Created by jordi on 01-05-20.
 //
 
-#include "stp/new_plays/TimeOut.h"
+#include "stp/plays/TimeOut.h"
 
 #include "stp/invariants/game_states/TimeOutGameStateInvariant.h"
 #include "stp/roles/Formation.h"
@@ -48,19 +48,19 @@ bool TimeOut::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap TimeOut::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"time_out_1", {not_important}});
-    flagMap.insert({"time_out_2", {not_important}});
-    flagMap.insert({"time_out_3", {not_important}});
-    flagMap.insert({"time_out_4", {not_important}});
-    flagMap.insert({"time_out_5", {not_important}});
-    flagMap.insert({"time_out_6", {not_important}});
-    flagMap.insert({"time_out_7", {not_important}});
-    flagMap.insert({"time_out_8", {not_important}});
-    flagMap.insert({"time_out_9", {not_important}});
-    flagMap.insert({"time_out_10", {not_important}});
-    flagMap.insert({"time_out_11", {not_important}});
+    flagMap.insert({"time_out_1", {notImportant}});
+    flagMap.insert({"time_out_2", {notImportant}});
+    flagMap.insert({"time_out_3", {notImportant}});
+    flagMap.insert({"time_out_4", {notImportant}});
+    flagMap.insert({"time_out_5", {notImportant}});
+    flagMap.insert({"time_out_6", {notImportant}});
+    flagMap.insert({"time_out_7", {notImportant}});
+    flagMap.insert({"time_out_8", {notImportant}});
+    flagMap.insert({"time_out_9", {notImportant}});
+    flagMap.insert({"time_out_10", {notImportant}});
+    flagMap.insert({"time_out_11", {notImportant}});
 
     return flagMap;
 }

@@ -2,10 +2,11 @@
 // Created by timovdk on 4/28/20.
 //
 
-#include <stp/invariants/game_states/PenaltyThemGameStateInvariant.h>
-#include <stp/new_plays/PenaltyThem.h>
-#include <stp/roles/Halt.h>
-#include <stp/roles/PenaltyKeeper.h>
+#include "stp/plays/PenaltyThem.h"
+
+#include "stp/invariants/game_states/PenaltyThemGameStateInvariant.h"
+#include "stp/roles/Halt.h"
+#include "stp/roles/PenaltyKeeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -34,19 +35,19 @@ uint8_t PenaltyThem::score(world::World *world) noexcept { return 100; }
 Dealer::FlagMap PenaltyThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"halt_0", {not_important}});
-    flagMap.insert({"halt_1", {not_important}});
-    flagMap.insert({"halt_2", {not_important}});
-    flagMap.insert({"halt_3", {not_important}});
-    flagMap.insert({"halt_4", {not_important}});
-    flagMap.insert({"halt_5", {not_important}});
-    flagMap.insert({"halt_6", {not_important}});
-    flagMap.insert({"halt_7", {not_important}});
-    flagMap.insert({"halt_8", {not_important}});
-    flagMap.insert({"halt_9", {not_important}});
+    flagMap.insert({"halt_0", {notImportant}});
+    flagMap.insert({"halt_1", {notImportant}});
+    flagMap.insert({"halt_2", {notImportant}});
+    flagMap.insert({"halt_3", {notImportant}});
+    flagMap.insert({"halt_4", {notImportant}});
+    flagMap.insert({"halt_5", {notImportant}});
+    flagMap.insert({"halt_6", {notImportant}});
+    flagMap.insert({"halt_7", {notImportant}});
+    flagMap.insert({"halt_8", {notImportant}});
+    flagMap.insert({"halt_9", {notImportant}});
 
     return flagMap;
 }

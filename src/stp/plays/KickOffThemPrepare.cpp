@@ -2,7 +2,7 @@
 // Created by jordi on 30-04-20.
 //
 
-#include "stp/new_plays/KickOffThemPrepare.h"
+#include "stp/plays/KickOffThemPrepare.h"
 
 #include "stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.h"
 #include "stp/roles/Formation.h"
@@ -52,19 +52,19 @@ bool KickOffThemPrepare::shouldRoleSkipEndTactic() { return false; }
 Dealer::FlagMap KickOffThemPrepare::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"formation_0", {not_important}});
-    flagMap.insert({"formation_1", {not_important}});
-    flagMap.insert({"formation_2", {not_important}});
-    flagMap.insert({"formation_3", {not_important}});
-    flagMap.insert({"formation_4", {not_important}});
-    flagMap.insert({"formation_5", {not_important}});
-    flagMap.insert({"formation_6", {not_important}});
-    flagMap.insert({"formation_7", {not_important}});
-    flagMap.insert({"formation_8", {not_important}});
-    flagMap.insert({"formation_9", {not_important}});
+    flagMap.insert({"formation_0", {notImportant}});
+    flagMap.insert({"formation_1", {notImportant}});
+    flagMap.insert({"formation_2", {notImportant}});
+    flagMap.insert({"formation_3", {notImportant}});
+    flagMap.insert({"formation_4", {notImportant}});
+    flagMap.insert({"formation_5", {notImportant}});
+    flagMap.insert({"formation_6", {notImportant}});
+    flagMap.insert({"formation_7", {notImportant}});
+    flagMap.insert({"formation_8", {notImportant}});
+    flagMap.insert({"formation_9", {notImportant}});
 
     return flagMap;
 }
