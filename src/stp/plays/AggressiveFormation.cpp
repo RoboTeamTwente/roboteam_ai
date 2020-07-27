@@ -2,7 +2,7 @@
 // Created by timovdk on 3/30/20.
 //
 
-#include "stp/new_plays/AggressiveFormation.h"
+#include "stp/plays/AggressiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
 #include "stp/roles/BallAvoider.h"
@@ -45,20 +45,20 @@ bool AggressiveFormation::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap AggressiveFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeper_flag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeper_flag}});
-    flagMap.insert({"defender_0", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
-    flagMap.insert({"defender_2", {not_important}});
-    flagMap.insert({"mid_field_0", {not_important}});
-    flagMap.insert({"mid_field_1", {not_important}});
-    flagMap.insert({"mid_field_2", {not_important}});
-    flagMap.insert({"offender_0", {not_important}});
-    flagMap.insert({"offender_1", {not_important}});
-    flagMap.insert({"offender_2", {not_important}});
-    flagMap.insert({"offender_3", {not_important}});
+    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"defender_0", {notImportant}});
+    flagMap.insert({"defender_1", {notImportant}});
+    flagMap.insert({"defender_2", {notImportant}});
+    flagMap.insert({"mid_field_0", {notImportant}});
+    flagMap.insert({"mid_field_1", {notImportant}});
+    flagMap.insert({"mid_field_2", {notImportant}});
+    flagMap.insert({"offender_0", {notImportant}});
+    flagMap.insert({"offender_1", {notImportant}});
+    flagMap.insert({"offender_2", {notImportant}});
+    flagMap.insert({"offender_3", {notImportant}});
 
     return flagMap;
 }

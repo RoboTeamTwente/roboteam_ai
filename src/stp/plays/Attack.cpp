@@ -2,7 +2,7 @@
 // Created by jordi on 24-03-20.
 //
 
-#include "stp/new_plays/Attack.h"
+#include "stp/plays/Attack.h"
 
 #include "stp/invariants/BallCloseToUsInvariant.h"
 #include "stp/invariants/BallClosestToUsInvariant.h"
@@ -49,18 +49,18 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     Dealer::DealerFlag attackerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
     flagMap.insert({"attacker", {attackerFlag}});
     flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
     flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
-    flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
-    flagMap.insert({"midfielder_3", {not_important}});
-    flagMap.insert({"midfielder_4", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
-    flagMap.insert({"defender_2", {not_important}});
+    flagMap.insert({"midfielder_1", {notImportant}});
+    flagMap.insert({"midfielder_2", {notImportant}});
+    flagMap.insert({"midfielder_3", {notImportant}});
+    flagMap.insert({"midfielder_4", {notImportant}});
+    flagMap.insert({"defender_1", {notImportant}});
+    flagMap.insert({"defender_2", {notImportant}});
     flagMap.insert({"defender_3", {closeToOurGoalFlag}});
 
     return flagMap;
@@ -71,7 +71,6 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
-    // TODO: Improve roles
     // Attacker
     auto goalTarget = calculateGoalTarget();
     stpInfos["attacker"].setPositionToShootAt(goalTarget);

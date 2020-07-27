@@ -60,6 +60,14 @@ class AttackingPass : public Play {
      */
     [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept override;
 
+    /**
+     * Calculates all info that is necessary for a correct pass
+     * The passer will get a position to pass to
+     * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
+     * @param ball
+     */
+    void calculateInfoForPass(const world_new::ball::Ball* ball) noexcept;
+
    protected:
     /**
      * Checks whether this role should skip the end tactic in its state machine

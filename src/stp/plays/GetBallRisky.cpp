@@ -2,18 +2,16 @@
 // Created by timovdk on 5/15/20.
 //
 
-#include "stp/new_plays/GetBallRisky.h"
-
-#include <stp/roles/Defender.h>
-#include <stp/roles/Halt.h>
-#include <stp/roles/PassReceiver.h>
+#include "stp/plays/GetBallRisky.h"
 
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/WeHaveMajorityInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "stp/roles/BallGetter.h"
+#include "stp/roles/Defender.h"
 #include "stp/roles/Keeper.h"
+#include "stp/roles/PassReceiver.h"
 
 namespace rtt::ai::stp::play {
 
@@ -101,21 +99,21 @@ bool GetBallRisky::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap GetBallRisky::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeper(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
-    Dealer::DealerFlag ball_getter(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag not_important(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag ballGetter(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeper}});
-    flagMap.insert({"ball_getter", {ball_getter}});
-    flagMap.insert({"receiver_0", {not_important}});
-    flagMap.insert({"receiver_1", {not_important}});
-    flagMap.insert({"receiver_2", {not_important}});
-    flagMap.insert({"defender_0", {not_important}});
-    flagMap.insert({"defender_1", {not_important}});
-    flagMap.insert({"defender_2", {not_important}});
-    flagMap.insert({"midfielder_0", {not_important}});
-    flagMap.insert({"midfielder_1", {not_important}});
-    flagMap.insert({"midfielder_2", {not_important}});
+    flagMap.insert({"keeper", {keeperFlag}});
+    flagMap.insert({"ball_getter", {ballGetter}});
+    flagMap.insert({"receiver_0", {notImportant}});
+    flagMap.insert({"receiver_1", {notImportant}});
+    flagMap.insert({"receiver_2", {notImportant}});
+    flagMap.insert({"defender_0", {notImportant}});
+    flagMap.insert({"defender_1", {notImportant}});
+    flagMap.insert({"defender_2", {notImportant}});
+    flagMap.insert({"midfielder_0", {notImportant}});
+    flagMap.insert({"midfielder_1", {notImportant}});
+    flagMap.insert({"midfielder_2", {notImportant}});
     return flagMap;
 }
 
