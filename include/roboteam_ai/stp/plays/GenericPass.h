@@ -60,6 +60,14 @@ class GenericPass : public Play {
      */
     std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
 
+    /**
+     * Calculates all info that is necessary for a correct pass
+     * The passer will get a position to pass to
+     * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
+     * @param ball
+     */
+    void calculateInfoForPass(const world_new::ball::Ball* ball) noexcept;
+
    private:
     /**
      * Checks if the pass is finished so the play knows whether it should
