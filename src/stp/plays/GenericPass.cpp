@@ -65,7 +65,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     calculateInfoForPass(ball);
 
     /// Defender
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
@@ -105,7 +105,7 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
 
 const char* GenericPass::getName() { return "Generic Pass"; }
 
-void GenericPass::calculateInfoForPass(const world_new::ball::Ball* ball) noexcept {
+void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }

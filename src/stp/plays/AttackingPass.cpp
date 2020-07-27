@@ -79,7 +79,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
 
     /// Keeper
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
     /// Passer and receivers
@@ -114,7 +114,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
 }
 
-std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
+std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots) {
     std::vector<Vector2> positions = {};
 
     // 3 robots will defend goal
@@ -133,7 +133,7 @@ bool AttackingPass::shouldRoleSkipEndTactic() { return false; }
 
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
-void AttackingPass::calculateInfoForPass(const world_new::ball::Ball* ball) noexcept {
+void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }

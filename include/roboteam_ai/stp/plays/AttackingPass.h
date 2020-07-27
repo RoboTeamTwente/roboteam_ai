@@ -66,7 +66,7 @@ class AttackingPass : public Play {
      * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
      * @param ball
      */
-    void calculateInfoForPass(const world_new::ball::Ball* ball) noexcept;
+    void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
    protected:
     /**
