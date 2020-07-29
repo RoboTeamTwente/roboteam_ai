@@ -116,8 +116,8 @@ class AirSkillAdapter implements Skill {
 }
 ```
 
-#### Pass by Additional Method
-If the previous solutions were not appropriate then this solution probably is. For example in situations where the information is only available at runtime and you do not want to enforce other classes to use arguments they do not need. With Pass by Additional Method you create a separate setter function for the corresponding class in which you set the additional parameters. In a class diagram this solution looks like:
+#### Pass by Additional Method (Setter)
+The third solution is to Pass Information by Additional Method. This additional method is called a setter, which you can create per parameter that needs to be passed or you can have 1 setter function that sets all parameters at once. In a class diagram this solution looks like:
 
 ![Pass by Additional Method](PassByAdditionalMethod.png)
 
@@ -128,7 +128,7 @@ chip.setParams(5.0)
 chip.execute()
 ```
 
-The pros of this solution is that you can pass the information at runtime rather than at the initialization of the class. Furthermore the same class can be used multiple times and you are not enforced to pass parameters to classes that do not need it. The con of this solution however is that it is much more complicated and it is not enforced to pass zSpeed now as parameter before calling execute as method, which also needs to have some exception handling for these cases. Therefore it is not advised to use this solution if either Pass by Interface Method or Pass by Constructor is already an appropriate solution. 
+The pros of this solution is that you can pass the information at anytime rather than at the initialization of the class. Furthermore the same class can be used multiple times and you are not enforced to pass parameters to classes that do not need it. The con of this solution however is that it is much more complicated and it is not enforced to pass zSpeed now as parameter before calling execute as method, which also needs to have some exception handling for these cases. Therefore it is not advised to use this solution if either Pass by Interface Method or Pass by Constructor is already an appropriate solution. However in some cases you could combine it with Pass by Constructor to have more flexibility in changing the parameter at anytime, whereas you never have an undefined parameter value.
 
 #### Pass by constant
 #### Pass by static
