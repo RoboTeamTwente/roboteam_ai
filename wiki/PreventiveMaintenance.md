@@ -102,8 +102,8 @@ The advantage of this is that the class parameter could partially deal with the 
 Where the implementation of the adapter class looks like:
 ```
 class AirSkillAdapter implements Skill {
-  private final AirSkill skill;
-  private final float zSpeed;
+  private final AirSkill skill
+  private final float zSpeed
   
   AirSkillAdapter(AirSkill skill, float zSpeed) {
     this.skill = skill
