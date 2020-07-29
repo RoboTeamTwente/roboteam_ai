@@ -64,23 +64,7 @@ Before introducing new features you should discuss with your fellow software dev
 A good place to start when inexperienced with code design is design patterns. Design patterns are quite useful to know as software developers and are applicable to almost any programming language. Design patterns tell you in general how to deal with common types of problems in code design, which can be re-used or guide you in finding a proper design for your situation. A list of all design patterns can be found at https://sourcemaking.com/design_patterns. The most important design patterns to know are: Factory Method, Singleton (although should only be used in a few case), Adapter, Composite, Decorator, Facade, Command, Iterator, Observer, State, Strategy, Template Method. 
 
 ### Passing Information
-A problem that is quite common in programming is how to pass your information from classes to other classes. There are a lot of different approaches for this and you should be familiar with these approaches and select the right approach for your situation. To better illustrate these approaches we use as example the chip skill (chipping is shooting the ball through air). For this skill we need to know with which speed in z-direction the ball should be launched when executing this skill. We will show how data is passed for the chip skill with each of these approaches. 
-
-#### Pass by Interface Method
-Pass by Interface Method means that you pass the information by the method inherited from a commonly used interface. In this example we know that the Chip class inherits from the Skill interface. So to pass zSpeed as information, we need to adjust the execute method in the Skill class such that it uses zSpeed as parameter. In a class diagram this solution looks like:
-
-![Pass by Interface method](InterfaceMethod.png)
-
-And from a caller perspective it looks like:
-```
-Skill chip = Chip()
-chip.execute(5.0)
-```
-The pros of this solution is that it is a quite simple design. Furthermore you can use the same class multiple times and you pass the information at runtime. The con of this solution is that all classes inheriting from this interface are enforced to use the same parameter even if they do not need it. For example Kick is a Skill where the ball is passed over the ground, so there is no need for passing zSpeed as parameter to this class. But with this solution you are enforced to still pass this value to the Kick class. Thus you should avoid this solution if most child classes do not need this information. But if you still decide to use this solution in cases where child classes do not need this information, then you could use optionals or null values instead. Also you could pass a class as parameter that encapsulates the necessary data needed for skills, which looks like:
-
-![Pass by Interface method (using Class as parameter)](InterfaceMethodClass.png)
-
-The advantage of this is that the class parameter could partially deal with the missing values, however a clear disadvantage is that this makes everything more complex than necessary. 
+A problem that is quite common in programming is how to pass your information from classes to other classes. There are a lot of different approaches for this and you should be familiar with these approaches and select the right approach for your situation. To better illustrate these approaches, we use as example the Chip skill (chipping is shooting the ball through air). The Chip skill inherits from the Skill interface and for the Chip skill we need to know with which zSpeed the ball should be launched. We will show how data is passed for the Chip skill with each of these approaches. 
 
 #### Pass by Constructor
 Pass by Constructor is a quite common practice within the software community, which is a technique where you pass information to the class using its constructor, so when the class is created. In case of the Chip class you will pass the zSpeed as information when the Chip class is created. In a class diagram this solution looks like:
@@ -94,8 +78,46 @@ chip.execute()
 ```
 The pros of this solution is that you enforce that all information that is needed is passed before the corresponding method is called. Furthermore no other class is enforced to use the same parameters if they do not need it. However a clear disadvantage is that information has to be passed when the class is created (which is not always possible) and often the created class can only be used once. For example if we want to Chip with a different zSpeed then we need to create a new Chip class. Although this sound quite complicated, it is a quite common practice to create classes that are only used once.
 
+#### Pass by Interface Method
+Pass by Interface Method means that you pass the information by the method inherited from a commonly used interface. In this example we know that the Chip class inherits from the Skill interface. So to pass zSpeed as information, we need to adjust the execute method in the Skill interface such that it uses zSpeed as parameter. In a class diagram this solution looks like:
+
+![Pass by Interface method](InterfaceMethod.png)
+
+And from a caller perspective it looks like:
+```
+Skill chip = Chip()
+chip.execute(5.0)
+```
+The pros of this solution is that it is a quite simple design. Furthermore you can use the same class multiple times and you pass the information when the corresponding method is executed. The con of this solution is that all classes inheriting from this interface are enforced to use the same parameter even if they do not need it. For example Kick is a Skill where the ball is passed over the ground, so there is no need for passing zSpeed as parameter to this class. But with this solution you are enforced to still pass this value to the Kick class. 
+
+#### Pass by Interface Method (Advanced)
+With the Pass by Interface Method technique you can also do more advanced stuff, like using optional arguments (https://en.cppreference.com/w/cpp/utility/optional) or using null values in case some information is not needed. Also you could pass a class as parameter that encapsulates the necessary data needed for skills, which looks like:
+
+![Pass by Interface method (using Class as parameter)](InterfaceMethodClass.png)
+
+The advantage of this is that the class parameter could partially deal with the missing values, however a clear disadvantage is that this makes everything more complex than necessary. However if child classes are too different then they should not share the same interface. For example if there is a subgroup of classes that uses different parameters than other classes, they should inherit from a seperate interface. With an adapter pattern you can now substitute the new interface in the old interface, which in case of the Chipping example gives the following class diagram:
+
+![Pass by Interface method (with Adapter)](InterfaceMethodAdapter.png)
+
+Where the implementation of the adapter class looks like:
+```
+class AirSkillAdapter implements Skill {
+  private final AirSkill skill;
+  private final float zSpeed;
+  
+  AirSkillAdapter(AirSkill skill, float zSpeed) {
+    this.skill = skill
+    this.zSpeed = zSpeed
+  }
+  
+  void execute() {
+    skill.execute(zSpeed)
+  }
+}
+```
+
 #### Pass by Additional Method
-If both previous solutions were not appropriate then this solution probably is. For example in situations where the information is only available at runtime and you do not want to enforce other classes to use arguments they do not need. With Pass by Additional Method you create a separate setter function for the corresponding class in which you set the additional parameters. In a class diagram this solution looks like:
+If the previous solutions were not appropriate then this solution probably is. For example in situations where the information is only available at runtime and you do not want to enforce other classes to use arguments they do not need. With Pass by Additional Method you create a separate setter function for the corresponding class in which you set the additional parameters. In a class diagram this solution looks like:
 
 ![Pass by Additional Method](PassByAdditionalMethod.png)
 
