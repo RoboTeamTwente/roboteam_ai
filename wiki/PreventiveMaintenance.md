@@ -66,7 +66,7 @@ A good place to start when inexperienced with code design is design patterns. De
 ### Passing Information
 A problem that is quite common in programming is how to pass your information from classes to other classes. There are a lot of different approaches for this and you should be familiar with these approaches and select the right approach for your situation. To better illustrate these approaches we use as example the chip skill (chipping is shooting the ball through air). For this skill we need to know with which speed in z-direction the ball should be launched when executing this skill. We will show how data is passed for the chip skill with each of these approaches. 
 
-#### Pass by Interface method
+#### Pass by Interface Method
 Pass by Interface Method means that you pass the information by the method inherited from a commonly used interface. In this example we know that the Chip class inherits from the Skill interface. So to pass zSpeed as information, we need to adjust the execute method in the Skill class such that it uses zSpeed as parameter. In a class diagram this solution looks like:
 
 ![Pass by Interface method](InterfaceMethod.png)
@@ -82,17 +82,32 @@ The pros of this solution is that it is a quite simple design. Furthermore you c
 
 The advantage of this is that the class parameter could partially deal with the missing values, however a clear disadvantage is that this makes everything more complex than necessary. 
 
-#### Pass by constructor
+#### Pass by Constructor
 Pass by Constructor is a quite common practice within the software community, which is a technique where you pass information to the class using its constructor, so when the class is created. In case of the Chip class you will pass the zSpeed as information when the Chip class is created. In a class diagram this solution looks like:
 
-
+![Pass by Constructor](PassByConstructor.png)
 
 And from a caller perspective it looks like:
 ```
 Skill chip = Chip(5.0)
 chip.execute()
 ```
-#### Pass by additional method
+The pros of this solution is that you enforce that all information that is needed is passed before the corresponding method is called. Furthermore no other class is enforced to use the same parameters if they do not need it. However a clear disadvantage is that information has to be passed when the class is created (which is not always possible) and often the created class can only be used once. For example if we want to Chip with a different zSpeed then we need to create a new Chip class. Although this sound quite complicated, it is a quite common practice to create classes that are only used once.
+
+#### Pass by Additional Method
+If both previous solutions were not appropriate then this solution probably is. For example in situations where the information is only available at runtime and you do not want to enforce other classes to use arguments they do not need. With Pass by Additional Method you create a separate setter function for the corresponding class in which you set the additional parameters. In a class diagram this solution looks like:
+
+![Pass by Additional Method](PassByAdditionalMethod.png)
+
+And from a caller perspective it looks like:
+```
+Skill chip = Chip()
+chip.setParams(5.0)
+chip.execute()
+```
+
+The pros of this solution is that you can pass the information at runtime rather than at the initialization of the class. Furthermore the same class can be used multiple times and you are not enforced to pass parameters to classes that do not need it. The con of this solution however is that it is much more complicated and it is not enforced to pass zSpeed now as parameter before calling execute as method, which also needs to have some exception handling for these cases. Therefore it is not advised to use this solution if either Pass by Interface Method or Pass by Constructor is already an appropriate solution. 
+
 #### Pass by constant
 #### Pass by static
 
