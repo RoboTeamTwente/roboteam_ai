@@ -37,6 +37,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
 
+    // set command ID
+    command.set_id(info.getRobot().value()->getId());
+
     // publish the generated command
     publishRobotCommand(info.getCurrentWorld());
 

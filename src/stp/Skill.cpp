@@ -20,6 +20,7 @@ void Skill::rotateRobotCommand() noexcept {
 }
 
 void Skill::publishRobotCommand(world_new::World const* data) noexcept {
+    // Limit the command when necessary
     limitRobotCommand();
 
     // If we are not left, commands should be rotated (because we play as right)
@@ -27,18 +28,8 @@ void Skill::publishRobotCommand(world_new::World const* data) noexcept {
         rotateRobotCommand();
     }
 
-    if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
-        RTT_ERROR("x or y vel in command is NaN in skill" + std::string{getName()} + "!\nRobot: " + std::to_string(robot.value()->getId()))
-    }
-
-    if (command.id() == -1) {
-        if (robot && robot.value()->getId() != -1) {
-            command.set_id(robot.value()->getId());
-            io::io.publishRobotCommand(command, data);
-        }
-    } else {
-        io::io.publishRobotCommand(command, data);
-    }
+    // Publish the command
+    io::io.publishRobotCommand(command, data);
 
     // refresh the robot command after it has been sent
     refreshRobotCommand();

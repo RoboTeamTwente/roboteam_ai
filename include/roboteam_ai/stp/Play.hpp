@@ -157,6 +157,12 @@ class Play {
     void distributeRoles() noexcept;
 
     /**
+     * Re-calculates info for roles and reassigns robots.
+     * This function is only used when the amount of robots in the field changed compared to the previous tick
+     */
+    void reassignRobots() noexcept;
+
+    /**
      * The previous amount of robots
      * This is used to check if we need to redeal (if a robot disappears for example)
      */

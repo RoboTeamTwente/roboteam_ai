@@ -25,21 +25,13 @@ void Play::update() noexcept {
     roleStatuses.clear();
     RTT_INFO("Play executing: ", getName())
 
+    // Check if the amount of robots changed
+    // If so, we will re deal the roles
     auto currentRobotNum{world->getWorld()->getRobotsNonOwning().size()};
 
     if (currentRobotNum != previousRobotNum) {
         RTT_INFO("Reassigning bots")
-
-        // Make sure we don't re assign with too many robots
-        if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
-            RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
-            // Make sure the stpInfos is cleared to trigger a reassign whenever
-            // the robots don't exceed ROBOT_COUNT anymore
-            stpInfos = std::unordered_map<std::string, StpInfo>{};
-            return;
-        }
-        calculateInfoForRoles();
-        distributeRoles();
+        reassignRobots();
         previousRobotNum = currentRobotNum;
     }
 
@@ -66,6 +58,19 @@ void Play::update() noexcept {
             RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
+}
+
+void Play::reassignRobots() noexcept {
+    // Make sure we don't reassign when there are more robots than MAX_ROBOT_COUNT
+    if (world->getWorld()->getUs().size() > stp::control_constants::MAX_ROBOT_COUNT) {
+        RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
+        // Make sure the stpInfos is cleared to trigger a reassign whenever
+        // the robots don't exceed ROBOT_COUNT anymore
+        stpInfos = std::unordered_map<std::string, StpInfo>{};
+        return;
+    }
+    calculateInfoForRoles();
+    distributeRoles();
 }
 
 void Play::refreshData() noexcept {
