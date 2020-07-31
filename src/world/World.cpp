@@ -2,9 +2,9 @@
 // Created by john on 12/16/19.
 //
 
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
-namespace rtt::world_new {
+namespace rtt::world {
     WorldData const &World::setWorld(WorldData &newWorld) noexcept {
         if (currentWorld) {
             toHistory(currentWorld.value());
@@ -39,7 +39,7 @@ namespace rtt::world_new {
          }
     }
 
-    std::optional<ai::world::Field> World::getField() const noexcept {
+    std::optional<world::Field> World::getField() const noexcept {
         if (currentField) {
             return currentField;
         } else {
@@ -67,11 +67,11 @@ namespace rtt::world_new {
     }
 
     void World::updateField(proto::SSL_GeometryFieldSize &protoField) {
-        ai::world::Field field(protoField);
+        world::Field field(protoField);
         this->currentField = field;
     }
 
-    void World::updateField(rtt::ai::world::Field &protoField) {
+    void World::updateField(rtt::world::Field &protoField) {
         this->currentField = protoField;
     }
 
@@ -111,4 +111,4 @@ namespace rtt::world_new {
 
     size_t World::getHistorySize() const noexcept { return history.size(); }
 
-}  // namespace rtt::world_new
+}  // namespace rtt::world

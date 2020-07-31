@@ -22,7 +22,7 @@ AggressiveFormation::AggressiveFormation() : Play() {
              std::make_unique<role::BallAvoider>("offender_2"),  std::make_unique<role::BallAvoider>("offender_3")};
 }
 
-uint8_t AggressiveFormation::score(world_new::World* world) noexcept { return 100; }
+uint8_t AggressiveFormation::score(world::World* world) noexcept { return 100; }
 
 void AggressiveFormation::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();

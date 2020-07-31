@@ -6,7 +6,7 @@
 #define RTT_WORLD_DATA_HPP
 
 #include <vector>
-#include <include/roboteam_ai/world_new/views/RobotView.hpp>
+#include <include/roboteam_ai/world/views/RobotView.hpp>
 
 #include "roboteam_proto/RobotFeedback.pb.h"
 #include "roboteam_proto/Setting.pb.h"
@@ -14,7 +14,7 @@
 
 #include "include/roboteam_ai/utilities/Settings.h"
 
-namespace rtt::world_new {
+namespace rtt::world {
 class World;
 
 namespace robot {
@@ -46,27 +46,27 @@ class WorldData {
     /**
      * Owning container of robots
      */
-    std::vector<rtt::world_new::robot::Robot> robots;
+    std::vector<rtt::world::robot::Robot> robots;
 
     /**
      * Non owning vector of views
      */
-    std::vector<world_new::view::RobotView> robotsNonOwning = {};
+    std::vector<world::view::RobotView> robotsNonOwning = {};
 
     /**
      * Non-owning container of Robot const* const's (aka RobotView) for our team
      */
-    std::vector<world_new::view::RobotView> us = {};
+    std::vector<world::view::RobotView> us = {};
 
     /**
      * Non-owning container of RobotViews of the enemy team
      */
-    std::vector<world_new::view::RobotView> them = {};
+    std::vector<world::view::RobotView> them = {};
 
     /**
      * Optional ball, None variant if not visible
      */
-    std::optional<rtt::world_new::ball::Ball> ball;
+    std::optional<rtt::world::ball::Ball> ball;
 
     /**
      * Timestamp identical to the protobuf message's time()
@@ -121,7 +121,7 @@ class WorldData {
      *
      * Modifying either: the container, the contained values -> introduces in dataraces and undefined behavior
      */
-    [[nodiscard]] std::vector<rtt::world_new::robot::Robot> const &getRobots() const noexcept;
+    [[nodiscard]] std::vector<rtt::world::robot::Robot> const &getRobots() const noexcept;
 
     /**
      * Gets a Some or None non-owning variant of a Ball, aka a BallView
@@ -147,6 +147,6 @@ class WorldData {
      */
     [[nodiscard]] uint64_t getTime() const noexcept;
 };
-}  // namespace rtt::world_new
+}  // namespace rtt::world
 
 #endif  // RTT_WORLD_DATA_HPP

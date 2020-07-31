@@ -32,7 +32,7 @@ class PlayChecker {
      * Sets this->world
      * @param world World to update against
      */
-    void update(world_new::World* world) noexcept;
+    void update(world::World* world) noexcept;
 
     /**
      * Returns the default play
@@ -50,7 +50,7 @@ class PlayChecker {
     /**
      * Current world, do not use before update()
      */
-    world_new::World* world{};
+    world::World* world{};
 };
 }  // namespace rtt::ai::stp
 

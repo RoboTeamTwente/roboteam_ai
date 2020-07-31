@@ -2,9 +2,9 @@
 // Created by john on 12/16/19.
 //
 
-#include "world_new/WorldData.hpp"
+#include "include/roboteam_ai/world/WorldData.hpp"
 
-namespace rtt::world_new {
+namespace rtt::world {
     WorldData::WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {
         auto &ours = settings.isYellow() ? protoMsg.yellow() : protoMsg.blue();
         auto &others = settings.isYellow() ? protoMsg.blue() : protoMsg.yellow();
@@ -36,7 +36,7 @@ namespace rtt::world_new {
 
     std::vector<view::RobotView> const &WorldData::getThem() const noexcept { return them; }
 
-    std::vector<rtt::world_new::robot::Robot> const &WorldData::getRobots() const noexcept { return robots; }
+    std::vector<rtt::world::robot::Robot> const &WorldData::getRobots() const noexcept { return robots; }
 
     std::optional<view::BallView> WorldData::getBall() const noexcept {
         if (ball.has_value()) {
@@ -86,4 +86,4 @@ namespace rtt::world_new {
             matchingVector.emplace_back(&each);
         }
     }
-}  // namespace rtt::world_new
+}  // namespace rtt::world

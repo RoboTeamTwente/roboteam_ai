@@ -24,10 +24,10 @@ class AttackingPass : public Play {
      * On the contrary to isValidPlay() this checks how good the play actually is
      * return in range of 0 - 100
      *
-     * @param world World to get the score for (world_new::World::instance())
+     * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world_new::World* world) noexcept override;
+    uint8_t score(world::World* world) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -46,7 +46,7 @@ class AttackingPass : public Play {
      * @param enemyRobots
      * @return A vector of defend positions
      */
-    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots);
+    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots);
 
     /**
      * Gets the play name
@@ -58,7 +58,7 @@ class AttackingPass : public Play {
      * @param world
      * @return true if we can keep this play, false if we cannot
      */
-    [[nodiscard]] bool isValidPlayToKeep(world_new::World* world) noexcept override;
+    [[nodiscard]] bool isValidPlayToKeep(world::World* world) noexcept override;
 
     /**
      * Calculates all info that is necessary for a correct pass
@@ -66,7 +66,7 @@ class AttackingPass : public Play {
      * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
      * @param ball
      */
-    void calculateInfoForPass(const world_new::ball::Ball* ball) noexcept;
+    void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
    protected:
     /**

@@ -2,14 +2,14 @@
 // Created by john on 12/18/19.
 //
 
-#include "world_new/Ball.hpp"
+#include "include/roboteam_ai/world/Ball.hpp"
 
 #include <include/roboteam_ai/interface/api/Input.h>
 #include <include/roboteam_ai/utilities/Constants.h>
 
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
-namespace rtt::world_new::ball {
+namespace rtt::world::ball {
 
 Ball::Ball(const proto::WorldBall &copy, const World* data) : position{copy.pos()}, velocity{copy.vel()}, visible{copy.visible()} { initializeCalculations(data); }
 
@@ -23,14 +23,14 @@ const Vector2 &Ball::getExpectedEndPosition() const noexcept { return expectedEn
 
 const Vector2 &Ball::getFilteredVelocity() const noexcept { return filteredVelocity; }
 
-void Ball::initializeCalculations(const world_new::World* data) noexcept {
+void Ball::initializeCalculations(const world::World* data) noexcept {
     initBallAtRobotPosition(data);
     filterBallVelocity(data);
     updateExpectedBallEndPosition(data);
     updateBallAtRobotPosition(data);
 }
 
-void Ball::initBallAtRobotPosition(const world_new::World* data) noexcept {
+void Ball::initBallAtRobotPosition(const world::World* data) noexcept {
     std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
 
     if (!previousWorld) {
@@ -56,7 +56,7 @@ void Ball::initBallAtRobotPosition(const world_new::World* data) noexcept {
     }
 }
 
-void Ball::filterBallVelocity(const world_new::World* data) noexcept {
+void Ball::filterBallVelocity(const world::World* data) noexcept {
     std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
 
     if (!previousWorld) {
@@ -85,7 +85,7 @@ void Ball::filterBallVelocity(const world_new::World* data) noexcept {
     }
 }
 
-void Ball::updateExpectedBallEndPosition(const world_new::World* data) noexcept {
+void Ball::updateExpectedBallEndPosition(const world::World* data) noexcept {
     std::optional<view::WorldDataView> previousWorld = data->getHistoryWorld(1);
 
     if (!previousWorld) {
@@ -111,7 +111,7 @@ void Ball::updateExpectedBallEndPosition(const world_new::World* data) noexcept 
                                    ai::interface::Drawing::LINES_CONNECTED);
 }
 
-void Ball::updateBallAtRobotPosition(const world_new::World* data) noexcept {
+void Ball::updateBallAtRobotPosition(const world::World* data) noexcept {
     if (isVisible()) {
         return;
     }
@@ -120,7 +120,7 @@ void Ball::updateBallAtRobotPosition(const world_new::World* data) noexcept {
 
     if (!world.has_value()) return;
 
-    std::optional<rtt::world_new::view::RobotView> robotWithBall = world->whichRobotHasBall();
+    std::optional<rtt::world::view::RobotView> robotWithBall = world->whichRobotHasBall();
     if (!robotWithBall.has_value()) {
         return;
     }
@@ -140,4 +140,4 @@ void Ball::updateBallAtRobotPosition(const world_new::World* data) noexcept {
     position = newRobotWithBall->getPos() + newRobotWithBall->getAngle().toVector2(distanceInFrontOfRobot);
 }
 
-}  // namespace rtt::world_new::ball
+}  // namespace rtt::world::ball

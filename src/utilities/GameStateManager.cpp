@@ -2,7 +2,7 @@
 
 #include <include/roboteam_ai/utilities/Settings.h>
 #include <roboteam_utils/Print.h>
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
 namespace rtt::ai {
 
@@ -15,7 +15,7 @@ proto::SSL_Referee GameStateManager::getRefereeData() {
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const world_new::World* data) {
+void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world::World* data) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
     RefCommand cmd;
@@ -174,7 +174,7 @@ GameState GameStateManager::getCurrentGameState() {
     return newGameState;
 }
 
-void GameStateManager::forceNewGameState(RefCommand cmd, std::optional<world_new::view::BallView> ball) {
+void GameStateManager::forceNewGameState(RefCommand cmd, std::optional<rtt_world::view::BallView> ball) {
     RTT_INFO("Forcing new refstate!")
 
     // overwrite both the interface and the strategy manager.

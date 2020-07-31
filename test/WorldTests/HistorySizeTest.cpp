@@ -5,15 +5,15 @@
 //#include <gtest/gtest.h>
 //#include <test/helpers/FieldHelper.h>
 //#include <test/helpers/WorldHelper.h>
-//#include <include/roboteam_ai/world_new/World.hpp>
+//#include <include/roboteam_ai/world/World.hpp>
 //
-//TEST(World_newTest, HistorySizeTest) {
+//TEST(worldTest, HistorySizeTest) {
 //    /* Note, this test only works if the history of worlds is still empty. Since its a static, make
 //     * sure that this test is always the first to run for anything that uses or modifies this history! */
 //    proto::World world;
 //
 //    // Get the worldInstance
-//    rtt::world_new::World* worldInstance = rtt::world_new::World::instance();
+//    rtt::world::World* worldInstance = rtt::world::World::instance();
 //
 //    // There should currently not be a world in the worldInstance
 //    EXPECT_FALSE(worldInstance->getWorld().has_value());
@@ -35,10 +35,10 @@
 //    EXPECT_EQ(worldInstance->getHistorySize(), 1);
 //
 //    // Fill up the worldInstance with twice the amount of maximum worlds
-//    for (int i = 0; i < 2 * rtt::world_new::World::HISTORY_SIZE; i++) worldInstance->updateWorld(world);
+//    for (int i = 0; i < 2 * rtt::world::World::HISTORY_SIZE; i++) worldInstance->updateWorld(world);
 //
 //    // There should still be a world in the worldInstance
 //    EXPECT_TRUE(worldInstance->getWorld().has_value());
 //    // The history should contain exactly the amount of maximum worlds
-//    EXPECT_EQ(worldInstance->getHistorySize(), rtt::world_new::World::HISTORY_SIZE);
+//    EXPECT_EQ(worldInstance->getHistorySize(), rtt::world::World::HISTORY_SIZE);
 //}

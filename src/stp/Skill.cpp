@@ -9,7 +9,7 @@
 #include "control/ControlUtils.h"
 #include "utilities/IOManager.h"
 #include "utilities/Settings.h"
-#include "world_new/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp {
 
@@ -19,8 +19,7 @@ void Skill::rotateRobotCommand() noexcept {
     command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
 }
 
-void Skill::publishRobotCommand(world_new::World const* data) noexcept {
-    // Limit the command when necessary
+void Skill::publishRobotCommand(world::World const* data) noexcept {
     limitRobotCommand();
 
     // If we are not left, commands should be rotated (because we play as right)

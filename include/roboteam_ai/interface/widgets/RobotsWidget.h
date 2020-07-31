@@ -14,14 +14,14 @@ namespace rtt::ai::interface {
 class RobotsWidget : public QWidget {
     Q_OBJECT
    private:
-    QVBoxLayout *createRobotGroupItem(const rtt::ai::world::Field &field, rtt::world_new::view::RobotView robot);
+    QVBoxLayout *createRobotGroupItem(const rtt::world::Field &field, rtt::world::view::RobotView robot);
     int amountOfSelectedRobots = 0;
     QVBoxLayout *VLayout;
 
    public:
     explicit RobotsWidget(QWidget *parent);
    public slots:
-    void updateContents(Visualizer *visualizer, rtt::world_new::view::WorldDataView world);
+    void updateContents(Visualizer *visualizer, rtt::world::view::WorldDataView world);
 };
 
 }  // namespace rtt::ai::interface

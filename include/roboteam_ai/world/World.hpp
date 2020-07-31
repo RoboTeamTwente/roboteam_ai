@@ -8,10 +8,10 @@
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
 #include "roboteam_proto/RobotFeedback.pb.h"
-#include "views/WorldDataView.hpp"
+#include "include/roboteam_ai/world/views/WorldDataView.hpp"
 #include <roboteam_utils/Print.h>
 
-namespace rtt::world_new {
+namespace rtt::world {
 
 /**
  * Structure that represents the world and history of the world.
@@ -113,7 +113,7 @@ public:
     */
     void updateField(proto::SSL_GeometryFieldSize &protoField);
 
-    void updateField(ai::world::Field &protoField);
+    void updateField(world::Field &protoField);
 
     /**
      * Update the position control using the new robot position
@@ -130,7 +130,7 @@ public:
      * Gets the current field
      * @return std::nullopt if there is no currentField, otherwise Some with the value
      */
-    [[nodiscard]] std::optional<ai::world::Field> getField() const noexcept;
+    [[nodiscard]] std::optional<world::Field> getField() const noexcept;
 
     /**
      * Gets a certain world from history
@@ -219,7 +219,7 @@ public:
     /**
      * History of the world, this is where old world data is pushed to
      */
-    std::vector<rtt::world_new::WorldData> history;
+    std::vector<rtt::world::WorldData> history;
 
     /**
      * Current index into the ringbuffer that's the world history
@@ -235,7 +235,7 @@ public:
     std::optional<WorldData> currentWorld;
 
 
-    std::optional<ai::world::Field> currentField;
+    std::optional<world::Field> currentField;
 
     /**
      * Timestamp of the last tick
@@ -252,6 +252,6 @@ public:
      */
     ai::control::PositionControl positionControl;
 };
-}  // namespace rtt::world_new
+}  // namespace rtt::world
 
 #endif  // RTT_WORLD_HPP
