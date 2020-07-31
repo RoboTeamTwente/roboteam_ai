@@ -36,7 +36,7 @@ Attack::Attack() : Play() {
                                                                                  std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
-uint8_t Attack::score(world_new::World *world) noexcept {
+uint8_t Attack::score(world::World *world) noexcept {
     if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 2) {
         return 150;
     } else
@@ -68,7 +68,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
 
 void Attack::calculateInfoForRoles() noexcept {
     // Keeper
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
     // Attacker
@@ -88,15 +88,15 @@ void Attack::calculateInfoForRoles() noexcept {
 
     // Defenders
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world_new::them));
+    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world_new::them));
+    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world_new::them));
+    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
     stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
 }
 

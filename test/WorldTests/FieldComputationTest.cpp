@@ -7,7 +7,7 @@
 #include <include/roboteam_ai/world/FieldComputations.h>
 
 namespace rtt {
-using namespace rtt::ai::world;
+using namespace rtt::world;
 using namespace rtt::ai;
 
 double MAXIMUM_DIFFERENCE = 0.000001;

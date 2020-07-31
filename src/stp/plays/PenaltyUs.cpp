@@ -31,7 +31,7 @@ PenaltyUs::PenaltyUs() : Play() {
                                                                                        std::make_unique<role::Halt>(role::Halt("halt_8"))};
 }
 
-uint8_t PenaltyUs::score(world_new::World *world) noexcept { return 100; }
+uint8_t PenaltyUs::score(world::World *world) noexcept { return 100; }
 
 Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

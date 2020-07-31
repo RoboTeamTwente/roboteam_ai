@@ -7,7 +7,7 @@
 #include "roboteam_proto/FieldLineSegment.pb.h"
 #include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
 
-namespace rtt::ai::world {
+namespace rtt::world {
 
 struct FieldLineSegment {
     Vector2 begin;
@@ -409,5 +409,5 @@ class Field {
     void initFieldOthers();
 };
 
-}  // namespace rtt::ai::world
+}  // namespace rtt::world
 #endif  // RTT_FIELD_H

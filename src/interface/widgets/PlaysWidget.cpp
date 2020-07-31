@@ -8,11 +8,11 @@
 namespace rtt::ai::interface {
     inline QString formatPlay(stp::Play* play)
     {
-        std::optional<world_new::view::WorldDataView> world;
-        std::optional<world::Field> field;
+        std::optional<rtt::world::view::WorldDataView> world;
+        std::optional<rtt::world::Field> field;
 
         {
-            auto const&[_, worldOwner] = world_new::World::instance();
+            auto const&[_, worldOwner] = rtt::world::World::instance();
             field = worldOwner->getField();
             world = worldOwner->getWorld();
         }
@@ -27,7 +27,7 @@ namespace rtt::ai::interface {
             return "World is null";
         }
 
-        world_new::WorldData data = *world.value();
+        rtt::world::WorldData data = *world.value();
 
         QString ss = "";
         ss += play->getName();
@@ -37,7 +37,7 @@ namespace rtt::ai::interface {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
             ss += each->getName();
             ss += ":&nbsp;";
-            ss += (each->checkInvariant(world_new::view::WorldDataView{ &data }, &*field) ? "true" : "false");
+            ss += (each->checkInvariant(rtt::world::view::WorldDataView{ &data }, &*field) ? "true" : "false");
             ss += "<br>";
         }
 

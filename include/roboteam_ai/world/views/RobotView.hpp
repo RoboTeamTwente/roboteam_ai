@@ -7,9 +7,9 @@
 
 #include <roboteam_utils/Vector2.h>
 #include <stp/constants/ControlConstants.h>
-#include <world_new/Robot.hpp>
+#include <world/Robot.hpp>
 
-namespace rtt::world_new::view {
+namespace rtt::world::view {
 
 /**
  * Class that offers a read-only memory view of the Robots
@@ -92,6 +92,6 @@ class RobotView {
     [[nodiscard]] Vector2 getKicker() const noexcept;
 };
 
-}  // namespace rtt::world_new::view
+}  // namespace rtt::world::view
 
 #endif  // RTT_ROBOT_VIEW_HPP

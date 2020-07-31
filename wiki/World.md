@@ -9,6 +9,7 @@ The world structure simply represents the current world and the history.
 It keeps track of past worlds, and creates new worlds from [protobuf messages](https://developers.google.com/protocol-buffers).
 
 The incoming protobuf messages are pushed back to the history through usage of the [updateWorld](https://github.com/RoboTeamTwente/roboteam_ai/blob/development/include/roboteam_ai/world_new/World.hpp#L108) method.
+
 updateWorld itself does **not** lock the world itself, that's the task of the caller.
 In a recent refactor I refactored the world to a way where it could not be used without acquiring a mutex, 
 and therefore temporarily acquiring the only write and read access, which is something very important.
@@ -16,6 +17,7 @@ Not doing so would result in data races.
 
 The way the caller is forced to lock the world is through a static function called [instance](https://github.com/RoboTeamTwente/roboteam_ai/blob/development/include/roboteam_ai/world_new/World.hpp#L65). 
 This function returns a structure of type [AcquireInfo](https://github.com/RoboTeamTwente/roboteam_ai/blob/development/include/roboteam_ai/world_new/World.hpp#L52). 
+
 This structure heavily relies on the principle of [RAII](https://en.cppreference.com/w/cpp/language/raii), which is essentially `clean up after yourself`.
 It creates a scoped lock, which locks the mutex inside world, and until the `AcquireInfo` goes out of scope, it shall
 stay locked. The way this is done in code is the following.

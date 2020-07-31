@@ -16,7 +16,7 @@
 #include "utilities/Constants.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
-#include "world_new/views/WorldDataView.hpp"
+#include "world/views/WorldDataView.hpp"
 
 using Vector2 = rtt::Vector2;
 using Angle = rtt::Angle;
@@ -29,7 +29,7 @@ namespace rtt::ai {
     }  // namespace world
 
     namespace control {
-        using namespace rtt::ai::world;
+        namespace rtt_world = rtt::world;
 
         class ControlUtils {
         public:
@@ -50,9 +50,9 @@ namespace rtt::ai {
             objectVelocityAimedToPoint(const Vector2 &objectPosition, const Vector2 &velocity, const Vector2 &point,
                                        double maxDifference = 0.3);
 
-            static Vector2 projectPositionToWithinField(const world::Field &field, Vector2 position, double margin);
+            static Vector2 projectPositionToWithinField(const rtt_world::Field &field, Vector2 position, double margin);
 
-            static Vector2 projectPositionToOutsideDefenseArea(const world::Field &field, Vector2 position, double margin);
+            static Vector2 projectPositionToOutsideDefenseArea(const rtt_world::Field &field, Vector2 position, double margin);
 
             /**
              * Determines the chip force based on the distance and the type of chip
@@ -77,7 +77,7 @@ namespace rtt::ai {
              * @param world
              * @return a midfielder position
              */
-            static Vector2 determineMidfielderPosition(const Grid& searchGrid, const Field& field, world_new::World* world);
+            static Vector2 determineMidfielderPosition(const Grid& searchGrid, const rtt_world::Field& field, rtt_world::World* world);
         };
 
     }  // namespace control

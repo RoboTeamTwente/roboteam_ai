@@ -25,7 +25,7 @@ BallPlacementThem::BallPlacementThem() : Play() {
         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9"))};
 }
 
-uint8_t BallPlacementThem::score(world_new::World* world) noexcept { return 0; }
+uint8_t BallPlacementThem::score(world::World* world) noexcept { return 0; }
 
 void BallPlacementThem::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));

@@ -4,7 +4,7 @@
 
 #include <interface/api/Output.h>
 #include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 #include <test/helpers/WorldHelper.h>
 #include <test/helpers/FieldHelper.h>
 
@@ -13,7 +13,7 @@
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
     auto world = testhelpers::WorldHelper::getWorldMsg(11, 11, true, testhelpers::FieldHelper::generateField());
-    auto const& [_, worldPtr] = rtt::world_new::World::instance();
+    auto const& [_, worldPtr] = rtt::world::World::instance();
     worldPtr->updateWorld(world);
     proto::SSL_Referee refereeData;
     refereeData.set_command(proto::SSL_Referee_Command_PREPARE_KICKOFF_BLUE);

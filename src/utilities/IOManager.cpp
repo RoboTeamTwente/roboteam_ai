@@ -6,7 +6,7 @@
 #include "interface/api/Input.h"
 #include "roboteam_utils/normalize.h"
 #include "utilities/Pause.h"
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::io {
 
@@ -73,7 +73,7 @@ void IOManager::handleReferee(proto::SSL_Referee &refData) {
     }
 
     SETTINGS.setLeft(!(refData.blue_team_on_positive_half() ^ SETTINGS.isYellow()));
-    auto const& [_, data] = world_new::World::instance();
+    auto const& [_, data] = World::instance();
     ai::GameStateManager::setRefereeData(refData, data);
 }
 
@@ -103,7 +103,7 @@ std::unordered_map<uint8_t, proto::RobotFeedback> IOManager::getFeedbackDataMap(
     return feedbackMap;
 }
 
-void IOManager::publishRobotCommand(proto::RobotCommand cmd, world_new::World const* world) {
+void IOManager::publishRobotCommand(proto::RobotCommand cmd, rtt::world::World const* world) {
     if (!pause->getPause()) {
         if (world->getWorld()) {
             // the geneva cannot be received from world, so we set it when it gets sent.

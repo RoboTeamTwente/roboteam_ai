@@ -2,7 +2,7 @@
 // Created by baris on 15-2-19.
 //
 
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 #include "include/roboteam_ai/utilities/IOManager.h"
 
 namespace rtt::ai {
@@ -14,7 +14,7 @@ bool Pause::getPause() {
     std::lock_guard<std::mutex> lock(pauseLock);
     return pause;
 }
-void Pause::haltRobots(rtt::world_new::World const* data) {
+void Pause::haltRobots(rtt::world::World const* data) {
     auto us = data->getWorld()->getUs();
     for (const auto &robot : us) {
         proto::RobotCommand cmd;

@@ -47,7 +47,7 @@ bool Receive::isEndTactic() noexcept {
     return true;
 }
 
-double Receive::calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball) {
+double Receive::calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball) {
     if (robot->getDistanceToBall() <= 0.8) {
         return robot->getAngle();
     } else {

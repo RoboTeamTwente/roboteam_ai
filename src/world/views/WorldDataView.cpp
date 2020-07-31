@@ -2,10 +2,10 @@
 // Created by john on 1/6/20.
 //
 
-#include "world_new/views/WorldDataView.hpp"
-#include "world_new/WorldData.hpp"
+#include "world/views/WorldDataView.hpp"
+#include "include/roboteam_ai/world/WorldData.hpp"
 
-namespace rtt::world_new::view {
+namespace rtt::world::view {
 
 std::vector<view::RobotView> const &WorldDataView::getUs() const noexcept { return data->getUs(); }
 
@@ -58,7 +58,7 @@ RobotView WorldDataView::getRobotClosestToPoint(const Vector2 &point, std::set<u
     return closestBot;
 }
 
-rtt::world_new::view::WorldDataView::operator bool() const noexcept { return get() != nullptr; }
+rtt::world::view::WorldDataView::operator bool() const noexcept { return get() != nullptr; }
 
 std::optional<RobotView> WorldDataView::getRobotClosestToPoint(const Vector2 &point, Team team) const noexcept {
     std::vector<RobotView> robots{};
@@ -132,4 +132,4 @@ const std::vector<RobotView> &WorldDataView::getRobotsNonOwning() const noexcept
 
 WorldDataView::WorldDataView(WorldData const *_ptr) noexcept : data{_ptr} {}
 
-}  // namespace rtt::world_new::view
+}  // namespace rtt::world::view

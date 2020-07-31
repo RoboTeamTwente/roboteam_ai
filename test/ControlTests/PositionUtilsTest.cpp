@@ -11,7 +11,7 @@
 
 #include "roboteam_ai/test/helpers/WorldHelper.h"
 
-namespace w = rtt::ai::world;
+namespace w = rtt::world;
 
 TEST(CoachTest, get_position_behind_ball) {
     roboteam_msgs::GeometryFieldSize field;
