@@ -10,7 +10,7 @@
 #include "Role.hpp"
 #include "stp/invariants/BaseInvariant.h"
 #include "utilities/Dealer.h"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp {
 
