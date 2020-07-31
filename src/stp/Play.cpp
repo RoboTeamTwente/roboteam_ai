@@ -66,7 +66,7 @@ void Play::reassignRobots() noexcept {
         RTT_ERROR("More robots than ROBOT_COUNT(), aborting update on Play")
         // Make sure the stpInfos is cleared to trigger a reassign whenever
         // the robots don't exceed ROBOT_COUNT anymore
-        stpInfos = std::unordered_map<std::string, StpInfo>{};
+        stpInfos.clear();
         return;
     }
     calculateInfoForRoles();
