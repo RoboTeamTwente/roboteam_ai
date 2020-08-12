@@ -10,7 +10,7 @@
 #include "Role.hpp"
 #include "stp/invariants/BaseInvariant.h"
 #include "utilities/Dealer.h"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp {
 
@@ -155,6 +155,12 @@ class Play {
      * Assigns robots to roles
      */
     void distributeRoles() noexcept;
+
+    /**
+     * Re-calculates info for roles and reassigns robots.
+     * This function is only used when the amount of robots in the field changed compared to the previous tick
+     */
+    void reassignRobots() noexcept;
 
     /**
      * The previous amount of robots

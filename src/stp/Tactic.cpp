@@ -15,12 +15,6 @@ void Tactic::initialize() noexcept {
 }
 
 Status Tactic::update(StpInfo const &info) noexcept {
-    if (!info.getBall() || !info.getRobot() || !info.getField()) {
-        RTT_WARNING("Required information missing in the tactic info")
-        currentStatus = Status::Failure;
-        return Status::Failure;
-    }
-
     // Update skill info
     auto skill_info = calculateInfoForSkill(info);
 

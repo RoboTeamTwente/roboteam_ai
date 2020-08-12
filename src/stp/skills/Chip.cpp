@@ -29,6 +29,9 @@ Status Chip::onUpdate(const StpInfo &info) noexcept {
         command.set_chip_kick_forced(true);
         chipAttempts = 0;
     }
+    // set command ID
+    command.set_id(info.getRobot().value()->getId());
+
     // publish the generated command
     publishRobotCommand(info.getCurrentWorld());
 

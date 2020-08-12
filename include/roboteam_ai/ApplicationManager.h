@@ -6,20 +6,20 @@
 #define ROBOTEAM_AI_APPLICATIONMANAGER_H
 
 #include <gtest/gtest_prod.h>
-#include <stp/PlayChecker.hpp>
-#include <stp/PlayDecider.hpp>
-#include <interface/widgets/mainWindow.h>
+
+#include "interface/widgets/mainWindow.h"
+#include "stp/PlayChecker.hpp"
+#include "stp/PlayDecider.hpp"
 
 namespace rtt {
 
 class ApplicationManager {
-public:
+   public:
     explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
 
-private:
+   private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
 
-    int ticksFree = 0;
     void runOneLoopCycle();
     bool fieldInitialized = false;
     bool robotsInitialized = false;
