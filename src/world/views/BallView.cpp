@@ -2,10 +2,10 @@
 // Created by john on 1/13/20.
 //
 
-#include "world_new/views/BallView.hpp"
+#include "world/views/BallView.hpp"
 
-namespace rtt::world_new::view {
-BallView::BallView(const rtt::world_new::ball::Ball *const _ptr) noexcept : _ptr{_ptr} {}
+namespace rtt::world::view {
+BallView::BallView(const rtt::world::ball::Ball *const _ptr) noexcept : _ptr{_ptr} {}
 
 const ball::Ball *BallView::get() const noexcept { return _ptr; }
 
@@ -28,5 +28,5 @@ BallView &BallView::operator=(BallView &&other) noexcept {
 }
 
 BallView::BallView(BallView &&other) noexcept : _ptr{other._ptr} {}
-}  // namespace rtt::world_new::view
-rtt::world_new::view::BallView::operator bool() const noexcept { return get() != nullptr; }
+}  // namespace rtt::world::view
+rtt::world::view::BallView::operator bool() const noexcept { return get() != nullptr; }

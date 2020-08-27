@@ -51,7 +51,7 @@ AttackingPass::AttackingPass() : Play() {
                                                                                        std::make_unique<role::Halt>(role::Halt("test_role_9"))};
 }
 
-uint8_t AttackingPass::score(world_new::World* world) noexcept { return 50; }
+uint8_t AttackingPass::score(world::World* world) noexcept { return 50; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -79,7 +79,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
 
     /// Keeper
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
     /// Passer and receivers
@@ -114,7 +114,7 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
 }
 
-std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world_new::World* world, std::vector<world_new::view::RobotView> enemyRobots) {
+std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots) {
     std::vector<Vector2> positions = {};
 
     // 3 robots will defend goal
@@ -133,7 +133,7 @@ bool AttackingPass::shouldRoleSkipEndTactic() { return false; }
 
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
-void AttackingPass::calculateInfoForPass(const world_new::ball::Ball* ball) noexcept {
+void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }
@@ -218,7 +218,7 @@ std::pair<Vector2, double> AttackingPass::calculatePassLocation(Grid searchGrid)
                 auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - trial).angle()) / M_PI_2;
 
                 // Search closest bot to this point and get that distance
-                auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
+                auto theirClosestBot = w.getRobotClosestToPoint(trial, world::Team::them);
                 auto theirClosestBotDistance{1.0};
                 if (theirClosestBot) {
                     theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
@@ -238,13 +238,13 @@ std::pair<Vector2, double> AttackingPass::calculatePassLocation(Grid searchGrid)
     return std::make_pair(bestPosition, bestScore);
 }
 
-bool AttackingPass::isValidPlayToKeep(world_new::World* world) noexcept {
+bool AttackingPass::isValidPlayToKeep(world::World* world) noexcept {
     world::Field field = world->getField().value();
     auto closestToBall = world->getWorld()->getRobotClosestToBall();
     auto canKeep = std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
                    !passFinished();
     if (canKeep) {
-        if (closestToBall && closestToBall->get()->getTeam() == world_new::us) {
+        if (closestToBall && closestToBall->get()->getTeam() == world::us) {
             return true;
         } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             return true;

@@ -9,15 +9,15 @@
 #include "BallView.hpp"
 #include "RobotView.hpp"
 #include "utilities/Constants.h"
-#include "world_new/Ball.hpp"
-#include "world_new/Team.hpp"
-#include "world_new/Robot.hpp"
+#include "include/roboteam_ai/world/Ball.hpp"
+#include "include/roboteam_ai/world/Team.hpp"
+#include "include/roboteam_ai/world/Robot.hpp"
 
-namespace rtt::world_new {
+namespace rtt::world {
 class WorldData;
 }
 
-namespace rtt::world_new::view {
+namespace rtt::world::view {
 /**
  * A non-owning view of WorldData, with the utility functions that roboteam uses
  * Taking ownership of anything that this provides will result in
@@ -72,7 +72,7 @@ class WorldDataView {
      * Gets all the robots in the owning container
      * @return data->getRobots();
      */
-    [[nodiscard]] std::vector<rtt::world_new::robot::Robot> const &getRobots() const noexcept;
+    [[nodiscard]] std::vector<rtt::world::robot::Robot> const &getRobots() const noexcept;
 
     /**
      * Gets the optional ball
@@ -196,6 +196,6 @@ class WorldDataView {
      */
     WorldData const *data;
 };
-}  // namespace rtt::world_new::view
+}  // namespace rtt::world::view
 
 #endif  // RTT_WORLD_DATA_VIEW_HPP

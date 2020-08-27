@@ -6,7 +6,7 @@
 
 namespace rtt::ai::stp::invariant {
 
-uint8_t BallIsFreeInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t BallIsFreeInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& robots = world.getRobotsNonOwning();
 
     // If there are no robots, ball is free

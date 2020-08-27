@@ -6,9 +6,9 @@
 #define RTT_BALL_VIEW_HPP
 
 #include "roboteam_utils/Vector2.h"
-#include "world_new/Ball.hpp"
+#include "include/roboteam_ai/world/Ball.hpp"
 
-namespace rtt::world_new::view {
+namespace rtt::world::view {
 
 /**
  * Ball view class, provides the Ball interface with uility functions that don't belong on a POD type
@@ -75,6 +75,6 @@ class BallView {
      */
     const ball::Ball *operator->() const noexcept;
 };
-}  // namespace rtt::world_new::view
+}  // namespace rtt::world::view
 
 #endif  // RTT_BALL_VIEW_HPP

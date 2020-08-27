@@ -5,7 +5,7 @@
 #include "stp/PlayDecider.hpp"
 
 namespace rtt::ai::stp {
-Play *PlayDecider::decideBestPlay(world_new::World *pWorld, std::vector<Play *> plays) noexcept {
+Play *PlayDecider::decideBestPlay(world::World *pWorld, std::vector<Play *> plays) noexcept {
     if (lockedPlay) {
         return lockedPlay;
     }

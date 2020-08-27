@@ -25,7 +25,7 @@ GoalVisionInvariant::GoalVisionInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 100);
 }
 
-uint8_t GoalVisionInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t GoalVisionInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     std::vector<double> visibilities{};
     visibilities.reserve(control_constants::MAX_ROBOT_COUNT);

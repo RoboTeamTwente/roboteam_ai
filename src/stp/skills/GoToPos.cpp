@@ -4,7 +4,7 @@
 
 #include "stp/skills/GoToPos.h"
 
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::stp::skill {
 
@@ -36,6 +36,9 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
+
+    // set command ID
+    command.set_id(info.getRobot().value()->getId());
 
     // publish the generated command
     publishRobotCommand(info.getCurrentWorld());

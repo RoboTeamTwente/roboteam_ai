@@ -22,7 +22,7 @@ TestPlay::TestPlay() : Play() {
         std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
-uint8_t TestPlay::score(world_new::World *world) noexcept { return 0; }
+uint8_t TestPlay::score(world::World *world) noexcept { return 0; }
 
 Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;

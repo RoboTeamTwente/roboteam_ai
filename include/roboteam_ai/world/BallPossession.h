@@ -1,7 +1,7 @@
 #ifndef ROBOTEAM_AI_BALLPOSSESSION_H
 #define ROBOTEAM_AI_BALLPOSSESSION_H
 
-#include <include/roboteam_ai/world_new/views/WorldDataView.hpp>
+#include <include/roboteam_ai/world/views/WorldDataView.hpp>
 #include "Field.h"
 #include "gtest/gtest_prod.h"
 
@@ -50,7 +50,7 @@ class BallPossession {
     /**
      * Runs every tick to update which team possess the ball (can also be both/no team).
      */
-    void update(world_new::view::WorldDataView world, const world::Field &field);
+    void update(world::view::WorldDataView world, const world::Field &field);
 
     /**
      * Check which team possess the ball (can also be both/no team).
@@ -70,24 +70,24 @@ class BallPossession {
      * Updates all close and far away times (for how many seconds uninterrupted each team has remained close/far from
      * the ball).
      */
-    void updateCloseAndFarTimes(world_new::view::WorldDataView world);
+    void updateCloseAndFarTimes(world::view::WorldDataView world);
 
     /**
      * Checks if a team is currently (at this moment) relatively close to the ball. Returns true if that team is close
      * to the ball, returns false if that team is not close to the ball.
      */
-    bool teamCloseToBall(world_new::view::WorldDataView world, bool ourTeam);
+    bool teamCloseToBall(world::view::WorldDataView world, bool ourTeam);
 
     /**
      * Checks if a team is currently (at this moment) relatively far from the ball. Returns true if that team is far
      * away from the ball, returns false if that team is not far away from the ball.
      */
-    bool teamFarFromBall(world_new::view::WorldDataView world, bool ourTeam);
+    bool teamFarFromBall(world::view::WorldDataView world, bool ourTeam);
 
     /**
      * Recompute which team possess the ball (can also be both/no team).
      */
-    void recomputeState(world_new::view::WorldDataView world, const world::Field &field);
+    void recomputeState(world::view::WorldDataView world, const world::Field &field);
 };
 
 extern BallPossession ballPossession;

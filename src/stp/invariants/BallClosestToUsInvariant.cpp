@@ -6,9 +6,9 @@
 
 namespace rtt::ai::stp::invariant {
 
-uint8_t BallClosestToUsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t BallClosestToUsInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto closestBall = world.getRobotClosestToBall();
-    if (closestBall && closestBall->get()->getTeam() == world_new::us) {
+    if (closestBall && closestBall->get()->getTeam() == world::us) {
         return control_constants::FUZZY_TRUE;
     } else
         return control_constants::FUZZY_FALSE;

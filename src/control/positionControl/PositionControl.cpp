@@ -8,7 +8,7 @@
 #include "stp/StpInfo.h"
 
 namespace rtt::ai::control {
-RobotCommand PositionControl::computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
+RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
                                                   const Vector2 &targetPosition, stp::PIDType pidType) {
     collisionDetector.setField(field);
     // if the target position is outside of the field (i.e. bug in AI), do nothing

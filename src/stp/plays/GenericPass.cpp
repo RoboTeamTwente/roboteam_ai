@@ -51,21 +51,21 @@ GenericPass::GenericPass() : Play() {
                                                                                  std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(world_new::World* world) noexcept { return 130; }
+uint8_t GenericPass::score(world::World* world) noexcept { return 130; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
 
     /// Keeper
     stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world_new::them));
+    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
     /// Passer and receivers
     // calculate all info necessary to execute a pass
     calculateInfoForPass(ball);
 
     /// Defender
-    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world_new::them);
+    auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
@@ -105,7 +105,7 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
 
 const char* GenericPass::getName() { return "Generic Pass"; }
 
-void GenericPass::calculateInfoForPass(const world_new::ball::Ball* ball) noexcept {
+void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
         passerShot = true;
     }
@@ -178,7 +178,7 @@ std::pair<Vector2, double> GenericPass::calculatePassLocation(Grid searchGrid) n
             // Make sure we only check valid points
             if (!FieldComputations::pointIsInDefenseArea(field, trial, false) && trial.dist(ballPos) > 2) {
                 // Search closest bot to this point and get that distance
-                auto theirClosestBot = w.getRobotClosestToPoint(trial, world_new::Team::them);
+                auto theirClosestBot = w.getRobotClosestToPoint(trial, world::Team::them);
                 auto theirClosestBotDistance{1.0};
                 if (theirClosestBot) {
                     theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
@@ -205,13 +205,13 @@ std::pair<Vector2, double> GenericPass::calculatePassLocation(Grid searchGrid) n
     return std::make_pair(bestPosition, bestScore);
 }
 
-bool GenericPass::isValidPlayToKeep(world_new::World* world) noexcept {
+bool GenericPass::isValidPlayToKeep(world::World* world) noexcept {
     world::Field field = world->getField().value();
     auto closestToBall = world->getWorld()->getRobotClosestToBall();
     auto canKeep = std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
                    !passFinished();
     if (canKeep) {
-        if (closestToBall && closestToBall->get()->getTeam() == world_new::us) {
+        if (closestToBall && closestToBall->get()->getTeam() == world::us) {
             return true;
         } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             return true;

@@ -12,7 +12,7 @@
 
 namespace rtt::ai {
 
-Dealer::Dealer(v::WorldDataView world, world::Field *field) : world(world), field(field) {}
+Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), field(field) {}
 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
 
@@ -145,7 +145,7 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());
         case DealerFlagTitle::NOT_IMPORTANT:
-            return costForProperty(true);
+            return costForProperty(false);
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {

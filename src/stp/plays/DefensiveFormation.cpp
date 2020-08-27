@@ -25,7 +25,7 @@ DefensiveFormation::DefensiveFormation() : Play() {
         std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
 }
 
-uint8_t DefensiveFormation::score(world_new::World* world) noexcept { return 20; }
+uint8_t DefensiveFormation::score(world::World* world) noexcept { return 20; }
 
 void DefensiveFormation::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();

@@ -59,7 +59,7 @@ class BlockBall : public Tactic {
      * @param enemyRobot Enemy robot closest to ball
      * @return Target position for the blocker
      */
-    static Vector2 calculateTargetPosition(const world_new::view::BallView &ball, const world::Field &field, const world_new::view::RobotView &enemyRobot) noexcept;
+    static Vector2 calculateTargetPosition(const world::view::BallView &ball, const world::Field &field, const world::view::RobotView &enemyRobot) noexcept;
 };
 }  // namespace rtt::ai::stp::tactic
 
