@@ -11,7 +11,7 @@
 
 namespace rtt::ai::stp {
 /**
- * Role class used in STP
+ * Role class used in STP bla bla bla
  * Every robot needs to have a role
  * A role is essentially a state machine of Tactics
  */
