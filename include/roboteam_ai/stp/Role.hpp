@@ -45,7 +45,7 @@ class Role {
      * Gets the current robot
      * @return view to the robot this role belongs to, optional.
      */
-    [[nodiscard]] std::optional<world_new::view::RobotView> const& getCurrentRobot() const;
+    [[nodiscard]] std::optional<world::view::RobotView> const& getCurrentRobot() const;
 
     /**
      * Gets the tactic whose turn it is
@@ -82,7 +82,7 @@ class Role {
     /**
      * Robot to which this role is currently assigned
      */
-    std::optional<world_new::view::RobotView> currentRobot;
+    std::optional<world::view::RobotView> currentRobot;
 
     /**
      * Name of the role

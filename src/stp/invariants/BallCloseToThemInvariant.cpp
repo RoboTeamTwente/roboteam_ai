@@ -24,8 +24,8 @@ BallCloseToThemInvariant::BallCloseToThemInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t BallCloseToThemInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
-    auto robot = world.getRobotClosestToBall(world_new::them);
+uint8_t BallCloseToThemInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
+    auto robot = world.getRobotClosestToBall(world::them);
     if (robot)
         return calculateMetric(robot.value()->getDistanceToBall());
     else

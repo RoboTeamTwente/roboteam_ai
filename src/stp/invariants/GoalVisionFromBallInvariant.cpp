@@ -25,7 +25,7 @@ GoalVisionFromBallInvariant::GoalVisionFromBallInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 100);
 }
 
-uint8_t GoalVisionFromBallInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t GoalVisionFromBallInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     return calculateMetric(FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, world.getBall().value()->getPos(), world, -1, true));
 }
 

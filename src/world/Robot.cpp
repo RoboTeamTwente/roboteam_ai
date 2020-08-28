@@ -2,13 +2,13 @@
 // Created by john on 12/16/19.
 //
 
-#include "world_new/Robot.hpp"
+#include "include/roboteam_ai/world/Robot.hpp"
 
 #include "utilities/Constants.h"
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
-namespace rtt::world_new::robot {
-Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world_new::Team team, std::optional<view::BallView> ball,
+namespace rtt::world::robot {
+Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world::Team team, std::optional<view::BallView> ball,
              unsigned char dribblerState, unsigned long worldNumber)
     : team{team},
       distanceToBall{-1.0},
@@ -115,4 +115,4 @@ void Robot::updateFromFeedback(proto::RobotFeedback &feedback) noexcept {
         setBallPosBallSensor(feedback.ballpos());
     }
 }
-}  // namespace rtt::world_new::robot
+}  // namespace rtt::world::robot

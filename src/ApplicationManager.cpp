@@ -116,7 +116,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
-        auto const &[_, world] = world_new::World::instance();
+        auto const &[_, world] = world::World::instance();
         world->updateWorld(worldMessage);
 
         if (!world->getWorld()->getUs().empty()) {
@@ -147,7 +147,7 @@ void ApplicationManager::runOneLoopCycle() {
     }
 }
 
-void ApplicationManager::decidePlay(world_new::World *_world) {
+void ApplicationManager::decidePlay(world::World *_world) {
     playChecker.update(_world);
 
     // A new play will be chosen if the current play is not valid to keep

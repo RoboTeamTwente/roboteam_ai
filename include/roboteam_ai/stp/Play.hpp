@@ -10,7 +10,7 @@
 #include "Role.hpp"
 #include "stp/invariants/BaseInvariant.h"
 #include "utilities/Dealer.h"
-#include "world_new/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp {
 
@@ -45,7 +45,7 @@ class Play {
      * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
      * @param pointer to World
      */
-    void updateWorld(world_new::World* world) noexcept;
+    void updateWorld(world::World* world) noexcept;
 
     /**
      * Updates (or ticks) all the roles that have robots assigned to them
@@ -63,7 +63,7 @@ class Play {
      * @param world World to get the score for
      * @return The score, 0 - 255
      */
-    [[nodiscard]] virtual uint8_t score(world_new::World* world) noexcept = 0;
+    [[nodiscard]] virtual uint8_t score(world::World* world) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -84,13 +84,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(world_new::World* world) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart(world::World* world) const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(world_new::World* world) noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(world::World* world) noexcept;
 
     /**
      * Getter for the role -> status mapping
@@ -124,12 +124,12 @@ class Play {
     /**
      * The world pointer
      */
-    rtt::world_new::World* world{};
+    rtt::world::World* world{};
 
     /**
      * The Field
      */
-    rtt::ai::world::Field field;
+    rtt::world::Field field;
 
     /**
      * Decides the input for the robot dealer. The result will be used to distribute the roles
@@ -155,6 +155,12 @@ class Play {
      * Assigns robots to roles
      */
     void distributeRoles() noexcept;
+
+    /**
+     * Re-calculates info for roles and reassigns robots.
+     * This function is only used when the amount of robots in the field changed compared to the previous tick
+     */
+    void reassignRobots() noexcept;
 
     /**
      * The previous amount of robots

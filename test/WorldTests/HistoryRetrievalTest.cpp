@@ -5,9 +5,9 @@
 #include <gtest/gtest.h>
 #include <test/helpers/FieldHelper.h>
 #include <test/helpers/WorldHelper.h>
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
-TEST(World_newTest, HistoryRetrievalTest) {
+TEST(worldTest, HistoryRetrievalTest) {
     /* This test class assumes DEFAULT settings for the world! Meaning : isLeft = false, isYellow = false */
 
     /** WORLD 1 - Yellow / Them - ID 1**/
@@ -40,8 +40,8 @@ TEST(World_newTest, HistoryRetrievalTest) {
 
     /** Test the WorldInstance / WorldManager **/
     // By default, the settings for a world are that we are blue, meaning us = blue
-    auto const& [_, worldInstance] = rtt::world_new::World::instance();
-    std::optional<rtt::world_new::view::WorldDataView> view;
+    auto const& [_, worldInstance] = rtt::world::World::instance();
+    std::optional<rtt::world::view::WorldDataView> view;
 
     // Insert the world with a yellow robot, and check that the size of getThem() == 1 and getId() == 1
     worldInstance->updateWorld(msg1);
@@ -72,7 +72,7 @@ TEST(World_newTest, HistoryRetrievalTest) {
 
     // Lets keep pushing back worlds, and follow our worlds with our robot through the history
     // The Yellow world should be the oldest (them) with the Blue world following behind that (us)
-    for (int index = 2; index <= rtt::world_new::World::HISTORY_SIZE; index++) {
+    for (int index = 2; index <= rtt::world::World::HISTORY_SIZE; index++) {
         worldInstance->updateWorld(msg2);
         EXPECT_EQ(worldInstance->getHistoryWorld(index)->getThem().at(0)->getId(), 1);
         EXPECT_EQ(worldInstance->getHistoryWorld(index - 1)->getUs().at(0)->getId(), 2);

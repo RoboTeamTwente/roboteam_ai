@@ -42,6 +42,9 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
         command.set_chip_kick_forced(true);
         shootAttempts = 0;
     }
+    // set command ID
+    command.set_id(info.getRobot().value()->getId());
+
     // publish the generated command
     publishRobotCommand(info.getCurrentWorld());
 
@@ -76,6 +79,9 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
         command.set_chip_kick_forced(true);
         shootAttempts = 0;
     }
+    // set command ID
+    command.set_id(info.getRobot().value()->getId());
+
     // publish the generated command
     publishRobotCommand(info.getCurrentWorld());
 

@@ -198,10 +198,10 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistorySizeTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/World_newTests/HistoryRetrievalTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/World_newTests/WhichRobotHasBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/World_newTests/WorldResetTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/worldTests/HistorySizeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/worldTests/HistoryRetrievalTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/worldTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/worldTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
@@ -244,13 +244,13 @@ set(INTERFACE_SOURCES
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/Ball.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/Robot.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/World.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/WorldData.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/views/WorldDataView.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/views/RobotView.cpp
-        ${PROJECT_SOURCE_DIR}/src/world_new/views/BallView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/Ball.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/Robot.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/World.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/WorldData.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/views/WorldDataView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/views/RobotView.cpp
+        ${PROJECT_SOURCE_DIR}/src/world/views/BallView.cpp
         )
 
 # Putting it all together so we can use it in both the main executable and the test executable

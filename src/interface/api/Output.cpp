@@ -4,7 +4,7 @@
 
 #include "interface/api/Output.h"
 
-#include <include/roboteam_ai/world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 
 namespace rtt::ai::interface {
 
@@ -28,7 +28,7 @@ GameState Output::interfaceGameState("halt_strategy", "default");
 
 void Output::sendHaltCommand() {
     rtt::ai::Pause pause;
-    auto const &[_, world] = world_new::World::instance();
+    auto const &[_, world] = rtt::world::World::instance();
     // TODO: This check prevents a segfault when we don't have a world (roobthub_world is off), but it should be checked earlier I think
     if (world->getWorld().has_value()) {
         if (pause.getPause()) {

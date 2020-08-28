@@ -57,7 +57,7 @@ class Intercept : public Tactic {
      * @param ball Ball
      * @return Angle between robot and ball
      */
-    double calculateAngle(const world_new::view::RobotView &robot, const world_new::view::BallView &ball);
+    double calculateAngle(const world::view::RobotView &robot, const world::view::BallView &ball);
 
     /**
      * Determine the dribbler speed
@@ -65,7 +65,7 @@ class Intercept : public Tactic {
      * @param robot Robot
      * @return Dribbler speed in %
      */
-    int determineDribblerSpeed(const world_new::view::RobotView &robot);
+    int determineDribblerSpeed(const world::view::RobotView &robot);
 };
 }  // namespace rtt::ai::stp::tactic
 

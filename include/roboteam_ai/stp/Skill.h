@@ -8,7 +8,7 @@
 #include <roboteam_proto/RobotCommand.pb.h>
 
 #include "stp/StpInfo.h"
-#include "world_new/views/RobotView.hpp"
+#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::stp {
 
@@ -30,12 +30,12 @@ class Skill {
     /**
      * Robot this skill controls
      */
-    std::optional<world_new::view::RobotView> robot;
+    std::optional<world::view::RobotView> robot;
 
     /**
      * Publishes the current robot command, limits it and refreshes it
      */
-    virtual void publishRobotCommand(world_new::World const* data) noexcept;
+    virtual void publishRobotCommand(world::World const* data) noexcept;
 
     /**
      * Rotates the robot command to the other side of the field
