@@ -5,7 +5,7 @@
 #ifndef RTT_BASEINVARIANT_H
 #define RTT_BASEINVARIANT_H
 
-#include "world_new/World.hpp"
+#include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::stp::invariant {
 class BaseInvariant {
@@ -17,7 +17,8 @@ class BaseInvariant {
      * @param cutOff the cutoff number, if the truth value is higher than this number the invariant returns true
      * @return returns true when greater than cutoff and false when smaller than cutoff
      */
-    [[nodiscard]] bool checkInvariant(world_new::view::WorldDataView world, const world::Field *field, const uint8_t cutOff = stp::control_constants::FUZZY_DEFAULT_CUTOFF) const noexcept;
+    [[nodiscard]] bool checkInvariant(world::view::WorldDataView world, const world::Field *field,
+                                      const uint8_t cutOff = stp::control_constants::FUZZY_DEFAULT_CUTOFF) const noexcept;
 
     /**
      * Calculates the 'true-ness' of the invariant between 0 and 255. 0 == false, 255 == true
@@ -25,14 +26,14 @@ class BaseInvariant {
      * @param field the field
      * @return the 'true-ness' of this invariant during this tick
      */
-    [[nodiscard]] virtual uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field *field) const noexcept = 0;
+    [[nodiscard]] virtual uint8_t metricCheck(world::view::WorldDataView world, const world::Field *field) const noexcept = 0;
 
     /**
      * dtor
      */
     virtual ~BaseInvariant() = default;
 
-    virtual const char* getName() = 0;
+    virtual const char *getName() = 0;
 };
 }  // namespace rtt::ai::stp::invariant
 

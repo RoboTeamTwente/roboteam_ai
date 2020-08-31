@@ -15,12 +15,12 @@ namespace rtt::ai {
 
 class GameStateManager {
    public:
-    static void setRefereeData(proto::SSL_Referee refMsg, const world_new::World* data);
+    static void setRefereeData(proto::SSL_Referee refMsg, const rtt::world::World* data);
     static proto::SSL_Referee getRefereeData();
     static GameState getCurrentGameState();
     static bool canEnterDefenseArea(int robotId);
     static bool canMoveOutsideField(int robotId);
-    static void forceNewGameState(RefCommand cmd, std::optional<world_new::view::BallView> ball);
+    static void forceNewGameState(RefCommand cmd, std::optional<rtt::world::view::BallView> ball);
     static Vector2 getRefereeDesignatedPosition();
 
    private:

@@ -82,7 +82,7 @@ TEST(ShotControllerTest, it_locates_robots_properly) {
     ball.pos.y = 0;
     world.ball = ball;
 
-    rtt::ai::world::world->updateWorld(world);
+    rtt::world::world->updateWorld(world);
     ShotController shotController;
 
     // check if the correct positions behind the ball are found
@@ -132,7 +132,7 @@ TEST(ShotControllerTest, it_sends_proper_shoot_commands) {
     ball.pos.y = 0;
     world.ball = ball;
 
-    rtt::ai::world::world->updateWorld(world);
+    rtt::world::world->updateWorld(world);
 
     ShotController shotController;
     RobotCommand shotdata;
@@ -167,7 +167,7 @@ TEST(ShotControllerTest, getshotdata_test) {
     robotWithBall->setGenevaState(3);
     robotWithBall->setWorkingGeneva(true);
     robotWithBall->setTimeToChangeOneGenevaState(-1);
-    rtt::ai::world::world->updateWorld(worldRobotPair.first);
+    rtt::world::world->updateWorld(worldRobotPair.first);
     Vector2 shotVector = world::world->getBall()->pos - robotWithBall->pos;
     Vector2 simulatedShotTarget = world::world->getBall()->pos + shotVector.stretchToLength(1.0);
 
@@ -197,7 +197,7 @@ TEST(ShotControllerTest, getshotdata_test) {
      */
     for (int i = 0; i < 100; i++) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
-        rtt::ai::world::world->updateWorld(world);
+        rtt::world::world->updateWorld(world);
         auto robot = world::world->getUs().at(0);
         robot->setGenevaState(3);
         robot->setWorkingGeneva(true);
@@ -214,7 +214,7 @@ TEST(ShotControllerTest, getshotdata_test) {
      */
     for (int i = 0; i < 100; i++) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
-        rtt::ai::world::world->updateWorld(world);
+        rtt::world::world->updateWorld(world);
         auto robot = world::world->getUs().at(0);
         robot->setGenevaState(3);
         robot->setWorkingGeneva(true);
@@ -230,7 +230,7 @@ TEST(ShotControllerTest, getshotdata_test) {
      */
     for (int i = 0; i < 100; i++) {
         auto world = testhelpers::WorldHelper::getWorldMsg(1, 0, true, field);
-        rtt::ai::world::world->updateWorld(world);
+        rtt::world::world->updateWorld(world);
         auto robot = world::world->getUs().at(0);
         robot->setGenevaState(4);
         robot->setWorkingGeneva(false);

@@ -65,13 +65,10 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
     playsWidget = new PlaysWidget(this);
 
-//    invariantsWidget = new InvariantsWidget(this);
-
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
     DataTabWidget->addTab(playsWidget, "Plays");
-//    DataTabWidget->addTab(invariantsWidget, "Invariants");
     DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
@@ -124,7 +121,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
     connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
     connect(this, &MainWindow::updateStpWidgets, playsWidget, &PlaysWidget::updatePlays);
-//    connect(this, &MainWindow::updateStpWidgets, invariantsWidget, &InvariantsWidget::updateInvariants);
 }
 
 /// Set up a checkbox and add it to the layout
@@ -161,9 +157,9 @@ void MainWindow::clearLayout(QLayout *layout) {
 
 // when updating the robotswidget it needs the current visualizer state
 void MainWindow::updateRobotsWidget() {
-    std::optional<world_new::view::WorldDataView> currentWorld;
+    std::optional<rtt::world::view::WorldDataView> currentWorld;
     {
-        auto const &[_, world] = world_new::World::instance();
+        auto const &[_, world] = rtt::world::World::instance();
         if (!world) {
             std::cerr << "World is nullptr" << std::endl;
             return;

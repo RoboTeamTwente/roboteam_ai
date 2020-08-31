@@ -16,10 +16,10 @@ namespace rtt::ai::interface {
         QPainter painter(this);
         painter.setRenderHint(QPainter::Antialiasing, true);
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
-        std::optional<rtt::world_new::view::WorldDataView> world;
-        std::optional<world::Field> field;
+        std::optional<rtt::world::view::WorldDataView> world;
+        std::optional<rtt::world::Field> field;
         {
-            auto const&[_, worldPtr] = world_new::World::instance();
+            auto const&[_, worldPtr] = rtt::world::World::instance();
             world = worldPtr->getWorld();
             field = worldPtr->getField();
         }
@@ -143,7 +143,7 @@ namespace rtt::ai::interface {
     }
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
-void Visualizer::calculateFieldSizeFactor(const world::Field &field) {
+void Visualizer::calculateFieldSizeFactor(const rtt::world::Field &field) {
     fieldmargin = static_cast<int>(Constants::WINDOW_FIELD_MARGIN() + field.getBoundaryWidth());
 
         float widthFactor = this->size().width() / field.getFieldLength() - (2 * fieldmargin);
@@ -158,7 +158,7 @@ void Visualizer::calculateFieldSizeFactor(const world::Field &field) {
     }
 
 // draws the field lines
-void Visualizer::drawFieldLines(const world::Field &field, QPainter &painter) {
+void Visualizer::drawFieldLines(const rtt::world::Field &field, QPainter &painter) {
     painter.setPen(Constants::FIELD_LINE_COLOR());
     painter.setBrush(Qt::transparent);
     // draw lines
@@ -230,7 +230,7 @@ void Visualizer::drawFieldLines(const world::Field &field, QPainter &painter) {
         painter.drawLine(theirLineUpper.x, theirLineUpper.y, theirLineLower.x, theirLineLower.y);
     }
 
-void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
+void Visualizer::drawFieldHints(const rtt::world::Field &field, QPainter &painter) {
     QPen pen;
 
         // draw the position where robots would be for timeout
@@ -248,7 +248,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
     }
 
 // draw the ball on the screen
-    void Visualizer::drawBall(QPainter &painter, rtt::world_new::view::BallView ball) {
+    void Visualizer::drawBall(QPainter &painter, rtt::world::view::BallView ball) {
         rtt::Vector2 ballPosition = toScreenPosition(ball->getPos());
         QPointF qballPosition(ballPosition.x, ballPosition.y);
 
@@ -264,7 +264,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
     }
 
 // draw the robots
-    void Visualizer::drawRobots(QPainter &painter, rtt::world_new::view::WorldDataView world) {
+    void Visualizer::drawRobots(QPainter &painter, rtt::world::view::WorldDataView world) {
         // draw us
         for (auto const &robot : world->getUs()) {
             std::string role{};
@@ -299,7 +299,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
 
 // draw a single robot
     void
-    Visualizer::drawRobot(QPainter &painter, rtt::world_new::view::RobotView robot, bool ourTeam, std::string role) {
+    Visualizer::drawRobot(QPainter &painter, rtt::world::view::RobotView robot, bool ourTeam, std::string role) {
         Vector2 robotpos = toScreenPosition(robot->getPos());
 
         // update the we are yellow
@@ -421,9 +421,9 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
         pos.y = event->pos().y();
 
 
-        std::optional<rtt::world_new::view::WorldDataView> world;
+        std::optional<rtt::world::view::WorldDataView> world;
         {
-            auto const& [_, worldPtr] = world_new::World::instance();
+            auto const& [_, worldPtr] = rtt::world::World::instance();
             world = worldPtr->getWorld();
         }
 
@@ -438,7 +438,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
         }
     }
 
-    void Visualizer::drawTacticColorForRobot(QPainter &painter, rtt::world_new::view::RobotView robot) {
+    void Visualizer::drawTacticColorForRobot(QPainter &painter, rtt::world::view::RobotView robot) {
         Vector2 robotpos = toScreenPosition(robot->getPos());
         QPointF qrobotPosition(robotpos.x, robotpos.y);
         std::string tacticName = getTacticNameForRobot(robot);
@@ -465,11 +465,11 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
                             Constants::TACTIC_COLOR_DRAWING_SIZE());
     }
 
-    std::string Visualizer::getTacticNameForRobot(rtt::world_new::view::RobotView robot) {
+    std::string Visualizer::getTacticNameForRobot(rtt::world::view::RobotView robot) {
         return tacticsForRobots[robot->getId()];
     }
 
-    std::string Visualizer::getRoleNameForRobot(rtt::world_new::view::RobotView robot) {
+    std::string Visualizer::getRoleNameForRobot(rtt::world::view::RobotView robot) {
         return this->rolesForRobots[robot->getId()];
     }
 
@@ -479,7 +479,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
 
     void Visualizer::setShowTacticColors(bool showTacticColors) { Visualizer::showTacticColors = showTacticColors; }
 
-    const std::unordered_map<int, rtt::world_new::view::RobotView> &
+    const std::unordered_map<int, rtt::world::view::RobotView> &
     Visualizer::getSelectedRobots() const { return selectedRobots; }
 
     void Visualizer::setShowAngles(bool showAngles) { Visualizer::showAngles = showAngles; }
@@ -488,7 +488,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
 
     void Visualizer::setShowRobotInvalids(bool show) { Visualizer::showRobotInvalids = show; }
 
-    void Visualizer::toggleSelectedRobot(rtt::world_new::view::RobotView robot) {
+    void Visualizer::toggleSelectedRobot(rtt::world::view::RobotView robot) {
         bool robotSelected = (selectedRobots.find(robot->getId()) != selectedRobots.end());
 
         if (robotSelected) {
@@ -498,7 +498,7 @@ void Visualizer::drawFieldHints(const world::Field &field, QPainter &painter) {
         }
     }
 
-    bool Visualizer::robotIsSelected(rtt::world_new::view::RobotView robot) {
+    bool Visualizer::robotIsSelected(rtt::world::view::RobotView robot) {
         return (selectedRobots.find(robot->getId()) != selectedRobots.end());
     }
 

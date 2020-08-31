@@ -24,7 +24,7 @@ BallCloseToUsInvariant::BallCloseToUsInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t BallCloseToUsInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     auto ballPos = world.getBall()->get()->getPos();
     std::vector<double> distances{};
@@ -37,9 +37,9 @@ uint8_t BallCloseToUsInvariant::metricCheck(world_new::view::WorldDataView world
     for (auto robot : us) {
         distances.emplace_back(robot.get()->getPos().dist(ballPos));
     }
-  
+
     // If there are no distances, ball is not close to us
-    if(distances.empty()) {
+    if (distances.empty()) {
         return control_constants::FUZZY_FALSE;
     }
     return calculateMetric(*std::min_element(distances.begin(), distances.end()));

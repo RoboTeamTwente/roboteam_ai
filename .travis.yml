@@ -32,6 +32,8 @@ cache:
   directories:
     - ~/.ccache
 
-  # after_success:
-  # Lets not do coverage yet
-  # - bash <(curl -s https://codecov.io/bash) -f roboteam_ai_coverage.info.cleaned || echo "Codecov did not collect coverage reports"
+after_success:
+  - curl https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh | /bin/bash -s success $WEBHOOK_URL
+
+after_failure:
+  - curl https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh | /bin/bash -s failure $WEBHOOK_URL

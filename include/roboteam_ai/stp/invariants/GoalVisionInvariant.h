@@ -11,19 +11,16 @@
 
 namespace rtt::ai::stp::invariant {
 /**
-    Calculates goal vision percentage based on the positions of all our robots
-**/
+ * Calculates goal vision percentage based on the positions of all our robots
+ */
 class GoalVisionInvariant : public BaseInvariant {
    public:
     GoalVisionInvariant() noexcept;
 
-    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
+    [[nodiscard]] uint8_t metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-    const char* getName() override
-    {
-        return "GoalVisionInvariant";
-    }
-	
+    const char* getName() override { return "GoalVisionInvariant"; }
+
    private:
     /**
      * Calculates the actual metric value using the piecewise linear function member
@@ -37,7 +34,6 @@ class GoalVisionInvariant : public BaseInvariant {
      */
     std::unique_ptr<nativeformat::param::Param> piecewiseLinearFunction;
 };
-
 }  // namespace rtt::ai::stp::invariant
 
 #endif  // RTT_GOALVISIONINVARIANT_H

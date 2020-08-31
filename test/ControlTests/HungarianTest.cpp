@@ -66,7 +66,7 @@ TEST(HungarianTest, it_works_properly) {
 //    world.us.push_back(robot1);
 //    world.us.push_back(robot2);
 //    world.us.push_back(robot3);
-//    rtt::ai::world::world->updateWorld(world);
+//    rtt::world::world->updateWorld(world);
 //
 //
 //    std::vector<int> robotIds = {1,2,3};

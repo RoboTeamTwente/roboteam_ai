@@ -1,6 +1,6 @@
 #include <utilities/IOManager.h>
 #include <roboteam_utils/Print.h>
-#include <world_new/World.hpp>
+#include <include/roboteam_ai/world/World.hpp>
 #include "ApplicationManager.h"
 
 namespace ui = rtt::ai::interface;

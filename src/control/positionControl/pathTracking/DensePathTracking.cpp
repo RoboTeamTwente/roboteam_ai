@@ -4,9 +4,12 @@
 
 #include "control/positionControl/pathTracking/DensePathTracking.h"
 
+#include <stp/StpInfo.h>
+
 namespace rtt::ai::control {
 
-Position DensePathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle) {
+Position DensePathTracking::trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints, int robotId, double angle,
+                                      stp::PIDType pidType) {
     int lookAhead = std::min(pathPoints.size(), STEPS_AHEAD);
     Vector2 currentTarget = *std::next(pathPoints.begin(), lookAhead - 1);
     if (pathPoints.size() > 1 && PositionControlUtils::isTargetReached(currentTarget, currentPosition)) {
@@ -15,6 +18,6 @@ Position DensePathTracking::trackPath(const Vector2 &currentPosition, const Vect
     }
 
     std::vector<Vector2> tempPath{currentTarget};
-    return pidTracking.trackPath(currentPosition, currentVelocity, tempPath, robotId, angle);
+    return pidTracking.trackPath(currentPosition, currentVelocity, tempPath, robotId, angle, pidType);
 }
 }  // namespace rtt::ai::control

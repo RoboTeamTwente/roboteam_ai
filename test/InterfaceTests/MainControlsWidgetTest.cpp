@@ -9,7 +9,7 @@
 
 #include <QtWidgets/QApplication>
 
-namespace w = rtt::ai::world;
+namespace w = rtt::world;
 
 namespace rtt {
 namespace ai {

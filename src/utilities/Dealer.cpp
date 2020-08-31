@@ -12,7 +12,7 @@
 
 namespace rtt::ai {
 
-Dealer::Dealer(v::WorldDataView world, world::Field *field) : world(world), field(field) {}
+Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), field(field) {}
 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
 
@@ -115,11 +115,11 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
 double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
     switch (flag.priority) {
         case DealerFlagPriority::LOW_PRIORITY:
-            return 3.0;
+            return 30;
         case DealerFlagPriority::MEDIUM_PRIORITY:
-            return 2.0;
+            return 20;
         case DealerFlagPriority::HIGH_PRIORITY:
-            return 1.0;
+            return 10;
         case DealerFlagPriority::REQUIRED:
             return 0.1;
         case DealerFlagPriority::KEEPER:
@@ -144,10 +144,8 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         }
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());
-        case DealerFlagTitle::ROBOT_TYPE_50W:
-            return costForProperty(robot->isFiftyWatt());
-        case DealerFlagTitle::ROBOT_TYPE_30W:
-            return costForProperty(robot->isThirtyWatt());
+        case DealerFlagTitle::NOT_IMPORTANT:
+            return costForProperty(false);
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {

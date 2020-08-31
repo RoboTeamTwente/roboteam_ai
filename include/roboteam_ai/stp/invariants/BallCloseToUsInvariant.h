@@ -6,6 +6,7 @@
 #define RTT_BALLCLOSETOUSINVARIANT_H
 
 #include <NFParam/Param.h>
+
 #include "BaseInvariant.h"
 
 namespace rtt::ai::stp::invariant {
@@ -13,12 +14,9 @@ class BallCloseToUsInvariant : public BaseInvariant {
    public:
     BallCloseToUsInvariant() noexcept;
 
-    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
+    [[nodiscard]] uint8_t metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-    const char* getName() override
-    {
-        return "BallCloseToUs";
-    }
+    const char* getName() override { return "BallCloseToUs"; }
 
    private:
     /**

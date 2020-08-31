@@ -9,7 +9,7 @@
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
-#include "world_new/views/RobotView.hpp"
+#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
 
@@ -39,9 +39,11 @@ class PositionControl {
      * @param currentPosition the current position of the aforementioned robot
      * @param currentVelocity its velocity
      * @param targetPosition the desired position that the robot has to reach
+     * @param pidType The desired PID type (intercept, regular, keeper etc.)
      * @return a RobotCommand, which can be fed directly in the output
      */
-    RobotCommand computeAndTrackPath(const world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, const Vector2 &targetPosition);
+    RobotCommand computeAndTrackPath(const rtt_world::Field &field, int robotId, const Vector2 &currentPosition,
+            const Vector2 &currentVelocity, const Vector2 &targetPosition, stp::PIDType pidType);
 
     /**
      * Updates the robot view vector
