@@ -29,14 +29,14 @@
 //
 //    // teams close to ball
 //    auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field);
-//    rtt::ai::world::world->updateWorld(worldmsg.first);
+//    rtt::world::world->updateWorld(worldmsg.first);
 //
 //    EXPECT_TRUE(bp.teamCloseToBall(world::world->getWorld(), true));
 //    EXPECT_FALSE(bp.teamFarFromBall(world::world->getWorld(), true));
 //    EXPECT_FALSE(bp.teamCloseToBall(world::world->getWorld(), false));
 //
 //    worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(0, 3, false, field);
-//    rtt::ai::world::world->updateWorld(worldmsg.first);
+//    rtt::world::world->updateWorld(worldmsg.first);
 //    EXPECT_FALSE(bp.teamCloseToBall(world::world->getWorld(), true));
 //    EXPECT_FALSE(bp.teamFarFromBall(world::world->getWorld(), false));
 //    EXPECT_TRUE(bp.teamCloseToBall(world::world->getWorld(), false));
@@ -45,7 +45,7 @@
 //    // both teams should be far from the ball
 //    worldmsg.first.ball.pos.x = 100;
 //    worldmsg.first.ball.pos.y = 100;
-//    rtt::ai::world::world->updateWorld(worldmsg.first);
+//    rtt::world::world->updateWorld(worldmsg.first);
 //
 //    // both are far from the ball
 //    EXPECT_TRUE(bp.teamFarFromBall(world::world->getWorld(), false));
@@ -61,14 +61,14 @@
 //    roboteam_msgs::GeometryFieldSize field;
 //    field.field_width = 8;
 //    field.field_length = 12;
-//    rtt::ai::world::field->set_field(field);
+//    rtt::world::Field->set_field(field);
 //    auto worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field).first;
 //    worldmsg.time = 0.0;
-//    rtt::ai::world::world->updateWorld(worldmsg);
+//    rtt::world::world->updateWorld(worldmsg);
 //
 //    worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(3, 0, true, field).first;
 //    worldmsg.time = 1.0;
-//    rtt::ai::world::world->updateWorld(worldmsg);
+//    rtt::world::world->updateWorld(worldmsg);
 //
 //    bp.update();
 //    EXPECT_EQ(bp.closeToUsTime, 1.0);
@@ -78,7 +78,7 @@
 //
 //    worldmsg = testhelpers::WorldHelper::getWorldMsgWhereRobotHasBall(0, 3, false, field).first;
 //    worldmsg.time = 2.0;
-//    rtt::ai::world::world->updateWorld(worldmsg);
+//    rtt::world::world->updateWorld(worldmsg);
 //
 //    bp.update();
 //    EXPECT_EQ(bp.closeToUsTime, 0.0);

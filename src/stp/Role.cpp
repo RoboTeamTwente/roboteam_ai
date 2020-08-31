@@ -2,7 +2,9 @@
 // Created by john on 3/9/20.
 //
 
-#include "include/roboteam_ai/stp/Role.hpp"
+#include "stp/Role.hpp"
+
+#include <roboteam_utils/Print.h>
 
 namespace rtt::ai::stp {
 Status Role::update(StpInfo const& info) noexcept {
@@ -48,17 +50,11 @@ Status Role::update(StpInfo const& info) noexcept {
 
 bool Role::finished() const noexcept { return robotTactics.finished(); }
 
-void Role::forceNextTactic() noexcept {
-    robotTactics.skip_n(1);
-}
+void Role::forceNextTactic() noexcept { robotTactics.skip_n(1); }
 
-std::optional<world_new::view::RobotView> const&Role::getCurrentRobot() const {
-    return currentRobot;
-}
+std::optional<world::view::RobotView> const& Role::getCurrentRobot() const { return currentRobot; }
 
-Tactic * Role::getCurrentTactic() {
-    return robotTactics.get_current();
-}
+Tactic* Role::getCurrentTactic() { return robotTactics.get_current(); }
 
 void Role::reset() noexcept {
     currentRobot.reset();

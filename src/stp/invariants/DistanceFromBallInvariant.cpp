@@ -22,14 +22,14 @@ DistanceFromBallInvariant::DistanceFromBallInvariant() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t DistanceFromBallInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t DistanceFromBallInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     auto ballPos = world.getBall()->get()->getPos();
     std::vector<double> distances{};
     distances.reserve(control_constants::MAX_ROBOT_COUNT);
 
     // If there are no bots, ball is not close to us
-    if(us.empty()) {
+    if (us.empty()) {
         return control_constants::FUZZY_FALSE;
     }
     std::transform(us.begin(), us.end(), std::back_inserter(distances), [&](auto& robot) { return robot.get()->getPos().dist(ballPos); });

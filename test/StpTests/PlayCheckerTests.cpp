@@ -8,7 +8,7 @@
 #include <stp/PlayChecker.hpp>
 
 class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 255; }
+    uint8_t metricCheck(rtt::world::view::WorldDataView world, const rtt::world::Field *field) const noexcept override { return 255; }
 
 	const char* getName() override
     {
@@ -17,7 +17,7 @@ class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
 };
 
 class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
-    uint8_t metricCheck(rtt::world_new::view::WorldDataView world, const rtt::ai::world::Field *field) const noexcept override { return 0; }
+    uint8_t metricCheck(rtt::world::view::WorldDataView world, const rtt::world::Field *field) const noexcept override { return 0; }
 
     const char* getName() override
     {
@@ -31,7 +31,7 @@ class AlwaysValid : public rtt::ai::stp::Play {
         startPlayInvariants.emplace_back(std::make_unique<trueInvariant>());
     }
 
-    uint8_t score(rtt::world_new::World *world) noexcept override { return 100; }
+    uint8_t score(rtt::world::World *world) noexcept override { return 100; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
@@ -47,7 +47,7 @@ class AlwaysFalse : public rtt::ai::stp::Play {
     AlwaysFalse() : Play() {
         startPlayInvariants.emplace_back(std::make_unique<falseInvariant>());
     }
-    uint8_t score(rtt::world_new::World *world) noexcept override { return 0; }
+    uint8_t score(rtt::world::World *world) noexcept override { return 0; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
@@ -83,13 +83,13 @@ TEST(PlayCheckerTests, testValidCount) {
     plays.emplace_back(std::make_unique<AlwaysFalse>());
     plays.emplace_back(std::make_unique<AnotherAlwaysTrue>());
 
-    auto const& [_, instance] = rtt::world_new::World::instance();
+    auto const& [_, instance] = rtt::world::World::instance();
 
     proto::GeometryFieldSize size {};
     size.set_field_length(250);
 
     auto world_msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
-    rtt::ai::world::Field field{};
+    rtt::world::Field field{};
 
     instance->updateWorld(world_msg);
     instance->updateField(field);

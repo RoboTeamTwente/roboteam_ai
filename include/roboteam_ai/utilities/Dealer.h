@@ -16,12 +16,12 @@
 
 #include "gtest/gtest_prod.h"
 #include "world/Field.h"
-#include "world_new/views/RobotView.hpp"
-#include "world_new/views/WorldDataView.hpp"
+#include "world/views/RobotView.hpp"
+#include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai {
 
-namespace v = rtt::world_new::view;
+namespace v = rtt::world::view;
 
 // Set up a struct for dealerflags. Set up a struct for dealerflags.
 enum class DealerFlagTitle {
@@ -30,8 +30,7 @@ enum class DealerFlagTitle {
     CLOSE_TO_BALL,
     WITH_WORKING_BALL_SENSOR,
     WITH_WORKING_DRIBBLER,
-    ROBOT_TYPE_50W,
-    ROBOT_TYPE_30W,
+    NOT_IMPORTANT,
     READY_TO_INTERCEPT_GOAL_SHOT,
     KEEPER
 };
@@ -49,7 +48,7 @@ class Dealer {
         explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
     };
     using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
-    Dealer(v::WorldDataView world, world::Field *field);
+    Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
     // Create a distribution of robots
     std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
@@ -62,7 +61,7 @@ class Dealer {
 
    private:
     v::WorldDataView world;
-    world::Field *field;
+    rtt::world::Field *field;
 
     /**
      * Calculates the score for a flag by multiplying the factor and score

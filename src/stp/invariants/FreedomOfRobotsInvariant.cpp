@@ -17,35 +17,35 @@ FreedomOfRobotsInvariant::FreedomOfRobotsInvariant() noexcept {
      *   (0,0)  |XXXXXX---------
      *              (Distance to closest enemy robot)
      */
-    piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "distanceToClosestEnemyRobot");
+    piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "freedomOfRobots");
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, 0.0);
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::DISTANCE_TO_ROBOT_CLOSE + stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_TRUE, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, stp::control_constants::DISTANCE_TO_ROBOT_FAR - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t FreedomOfRobotsInvariant::metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept {
+uint8_t FreedomOfRobotsInvariant::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
     auto& us = world.getUs();
     std::vector<uint8_t> distanceMetrics{};
-    distanceMetrics.reserve(2*us.size());
+    distanceMetrics.reserve(2 * us.size());
 
     // If there are no bots, ball is not close to us
-    if(us.empty()) {
+    if (us.empty()) {
         return control_constants::FUZZY_FALSE;
     }
 
     for (auto robot : us) {
         auto robotPosition = robot.get()->getPos();
         auto distance{0.0};
-        auto closestRobot = world.getRobotClosestToPoint(robotPosition, world_new::them);
-        if(closestRobot.has_value() && closestRobot.value()) {
+        auto closestRobot = world.getRobotClosestToPoint(robotPosition, world::them);
+        if (closestRobot.has_value() && closestRobot.value()) {
             distance = (closestRobot.value()->getPos() - robotPosition).length();
         }
         auto m = calculateMetric(distance);
         distanceMetrics.emplace_back(m);
     }
 
-    if(distanceMetrics.empty()) {
+    if (distanceMetrics.empty()) {
         return control_constants::FUZZY_FALSE;
     }
     return std::accumulate(distanceMetrics.begin(), distanceMetrics.end(), 0) / distanceMetrics.size();

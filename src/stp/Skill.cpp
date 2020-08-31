@@ -2,14 +2,14 @@
 // Created by john on 3/2/20.
 //
 
-#include "include/roboteam_ai/stp/Skill.h"
+#include "stp/Skill.h"
 
 #include <roboteam_utils/Print.h>
 
 #include "control/ControlUtils.h"
 #include "utilities/IOManager.h"
 #include "utilities/Settings.h"
-#include "world_new/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp {
 
@@ -19,25 +19,16 @@ void Skill::rotateRobotCommand() noexcept {
     command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
 }
 
-void Skill::publishRobotCommand(world_new::World const* data) noexcept {
+void Skill::publishRobotCommand(world::World const* data) noexcept {
     limitRobotCommand();
 
+    // If we are not left, commands should be rotated (because we play as right)
     if (!SETTINGS.isLeft()) {
         rotateRobotCommand();
     }
 
-    if (std::isnan(command.vel().x()) || std::isnan(command.vel().y())) {
-        RTT_ERROR("x or y vel in command is NaN in skill" + std::string{getName()} + "!\nRobot: " + std::to_string(robot.value()->getId()))
-    }
-
-    if (command.id() == -1) {
-        if (robot && robot.value()->getId() != -1) {
-            command.set_id(robot.value()->getId());
-            io::io.publishRobotCommand(command, data);  // We default to our robots being on the left if parameter is not set
-        }
-    } else {
-        io::io.publishRobotCommand(command, data);  // We default to our robots being on the left if parameter is not set
-    }
+    // Publish the command
+    io::io.publishRobotCommand(command, data);
 
     // refresh the robot command after it has been sent
     refreshRobotCommand();
@@ -65,19 +56,14 @@ void Skill::limitVel() noexcept {
         RTT_ERROR("Robot will have NAN: " + std::string{getName()} + "!\nrobot: " + std::to_string(robot.value()->getId()))
     }
 
-    /* Limit the velocity when the robot has the ball
-     * TODO: Test if it is necessary to limit the velocity when the robot has the ball
-     * Might not be necessary because the robot is only allowed to move a small distance with the ball
-     */
-    double maxVel = 3.0; // Maximum velocity of the robot with ball TODO: TUNE
-
-    if (robot->hasBall() && limitedVel.length() > maxVel) {
+    // Limit robot velocity when the robot has the ball
+    if (robot->hasBall() && limitedVel.length() > control_constants::MAX_VEL_WHEN_HAS_BALL) {
         // Clamp velocity
-        limitedVel = control::ControlUtils::velocityLimiter(limitedVel, maxVel, 0.0, false);
+        limitedVel = control::ControlUtils::velocityLimiter(limitedVel, control_constants::MAX_VEL_WHEN_HAS_BALL, 0.0, false);
     }
 
-    command.mutable_vel()->set_x(limitedVel.x);
-    command.mutable_vel()->set_y(limitedVel.y);
+    command.mutable_vel()->set_x(static_cast<float>(limitedVel.x));
+    command.mutable_vel()->set_y(static_cast<float>(limitedVel.y));
 }
 
 void Skill::limitAngularVel() noexcept {
@@ -92,12 +78,12 @@ void Skill::limitAngularVel() noexcept {
             // Direction of rotation is the shortest distance
             int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
             // Set the angle command to the current robot angle + the angle rate
-            command.set_w(robotAngle + Angle(direction * control_constants::ANGLE_RATE));
+            command.set_w(static_cast<float>(robotAngle + Angle(direction * control_constants::ANGLE_RATE)));
         }
     }
 }
 
-void Skill::terminate() noexcept { onTerminate(); }
+void Skill::terminate() noexcept {}
 
 Status Skill::update(StpInfo const& info) noexcept {
     robot = info.getRobot();
@@ -106,10 +92,8 @@ Status Skill::update(StpInfo const& info) noexcept {
     return result;
 }
 
-void Skill::initialize() noexcept { onInitialize(); }
+void Skill::initialize() noexcept {}
 
-[[nodiscard]] Status Skill::getStatus() const {
-    return currentStatus;
-}
+[[nodiscard]] Status Skill::getStatus() const { return currentStatus; }
 
 }  // namespace rtt::ai::stp

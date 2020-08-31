@@ -13,15 +13,11 @@ namespace rtt::ai::stp::invariant {
  * Invariant for the game state free kick them prepare
  */
 class FreeKickThemGameStateInvariant : public BaseInvariant {
-public:
-    [[nodiscard]] uint8_t metricCheck(world_new::view::WorldDataView world, const world::Field* field) const noexcept override;
+   public:
+    [[nodiscard]] uint8_t metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept override;
 
-	const char* getName() override
-	{
-		return "gs::FreeKickThem";
-	}
+    const char* getName() override { return "gs::FreeKickThem"; }
 };
-
 }  // namespace rtt::ai::stp::invariant
 
-#endif //RTT_FREEKICKTHEMGAMESTATEINVARIANT_H
+#endif  // RTT_FREEKICKTHEMGAMESTATEINVARIANT_H
