@@ -14,7 +14,7 @@ Keep in mind that documentation is different than comments. Comments are placed 
 * What does the code compute? What is the meaning of the output? What are the postconditions on the output? What is the meaning of the input arguments? Which preconditions should hold on the input arguments? Which requirements should be satisfied before using the code? Etc.
 * Is there some known bug/strange behavior in the code which hasn't been solved yet? How does the code respond in case of an exception? What happens when preconditions/requirements have been violated? Etc.
 * What is the meaning of abbreviations used inside the code? Is there a website which explains (partially) the meaning of the code? From which source has this code been copied? Etc.
-* In case of class documentation: Who has written/maintained this code? At which date has this code been written?
+* In case of class documentation: Who has written/maintained this code? At which date has this code been written? It's important to know who your point of contact should be in case something isn't sure.
 * Less important, but could be included as well: Why does this code work? Why is this code efficient? Why did you choose this type of design? What other solutions have you tried out for this code? What major decisions have been made regarding this code? 
 
 ## Good Example
