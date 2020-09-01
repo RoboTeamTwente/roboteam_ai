@@ -63,14 +63,14 @@ class Attack : public Play {
      * @param fromPoint Position to shoot from
      * @return Line between the two aim points
      */
-    Line getAimPoints(const world::Field &field, const Vector2 &fromPoint);
+    LineSegment getAimPoints(const world::Field &field, const Vector2 &fromPoint);
 
     /**
      * Returns the longest line from openSegments
      * @param openSegments Vector of lines
      * @return Longest line from openSegments
      */
-    const Line &getLongestSegment(const std::vector<Line> &openSegments);
+    const LineSegment &getLongestSegment(const std::vector<LineSegment> &openSegments);
 };
 
 }  // namespace rtt::ai::stp::play
