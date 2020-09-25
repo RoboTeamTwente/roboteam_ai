@@ -211,10 +211,9 @@ void MainControlsWidget::updateContents() {
 
 void MainControlsWidget::updatePlays() {
     select_play->clear();
-    // TODO: re add this
-    /*        for (auto const &each : manager->plays) {
-                select_play->addItem(each->getName());
-            }*/
+    for (auto const &each : manager->plays) {
+        select_play->addItem(each->getName());
+    }
 }
 
 void MainControlsWidget::setIgnoreInvariants(bool ignore) {

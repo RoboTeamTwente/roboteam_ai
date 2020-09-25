@@ -25,6 +25,7 @@ class PlayDecider {
      * @param play Play to lock to
      */
     static void lockPlay(Play *play);
+    static bool change;
 
     /**
      * This function checks if there is a locked play. If there is, pick that play.
