@@ -163,7 +163,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so playing against yourself doesnt deadlock
+            currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
             if (!currentPlay) {
                 return;
             }

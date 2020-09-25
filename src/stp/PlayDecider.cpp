@@ -7,7 +7,10 @@
 namespace rtt::ai::stp {
 
     Play *PlayDecider::decideBestPlay(world::World *pWorld, std::vector<Play *> plays) noexcept {
-        return interfacePlay ? interfacePlay : *std::max_element(plays.begin(), plays.end(), [&](auto &largest, auto &play) { return largest->score(pWorld) < play->score(pWorld); });
+        if (interfacePlay) {
+            return interfacePlay;
+        }
+        return *std::max_element(plays.begin(), plays.end(), [&](auto &largest, auto &play) { return largest->score(pWorld) < play->score(pWorld); });
     }
 
     // This is only used by the interface to force new plays
