@@ -39,7 +39,6 @@ class PlayDecider {
     Play *getInterfacePlay() {
         return interfacePlay;
     }
-
 };
 }  // namespace rtt::ai::stp
 
