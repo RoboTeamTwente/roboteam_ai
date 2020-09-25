@@ -151,12 +151,11 @@ void ApplicationManager::decidePlay(world::World *_world) {
     playChecker.update(_world);
 
     // Here for manual change with the interface
-    if(rtt::ai::stp::PlayDecider::change) {
+    if(playDecider.getInterfacePlay()) {
         auto validPlays = playChecker.getValidPlays();
         currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
-        rtt::ai::stp::PlayDecider::change = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep
@@ -164,7 +163,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            currentPlay = playChecker.getPlayForName("Defend Shot");
+            currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so playing against yourself doesnt deadlock
             if (!currentPlay) {
                 return;
             }
