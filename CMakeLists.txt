@@ -205,7 +205,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
-        )
+        test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp)
 
 
 set(INTERFACE_SOURCES
@@ -297,5 +297,5 @@ target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
 add_executable(ai_tests ${TEST_SOURCES})
-target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
+target_link_libraries(ai_tests  ${GTEST_LIB} ai_lib)
 target_include_directories(ai_tests ${AI_INCLUDES})
