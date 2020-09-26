@@ -266,7 +266,10 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        )
+        include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory1D.h
+        src/control/positionControl/BBTrajectories/BBTrajectory1D.cpp
+        include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory2D.h
+        src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
