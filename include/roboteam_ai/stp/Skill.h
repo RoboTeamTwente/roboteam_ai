@@ -5,7 +5,7 @@
 #ifndef RTT_SKILL_H
 #define RTT_SKILL_H
 
-#include <networking/RobotCommand.pb.h>
+#include <roboteam_proto/RobotCommand.pb.h>
 
 #include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
