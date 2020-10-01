@@ -12,7 +12,7 @@
 #include <include/roboteam_ai/world/views/WorldDataView.hpp>
 #include "Constants.h"
 #include "RefGameState.h"
-#include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
+#include <networking/messages_robocup_ssl_referee.pb.h>
 
 namespace rtt::ai {
 
