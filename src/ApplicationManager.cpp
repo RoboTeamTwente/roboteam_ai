@@ -150,12 +150,20 @@ void ApplicationManager::runOneLoopCycle() {
 void ApplicationManager::decidePlay(world::World *_world) {
     playChecker.update(_world);
 
+    // Here for manual change with the interface
+    if(playDecider.getInterfacePlay()) {
+        auto validPlays = playChecker.getValidPlays();
+        currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize();
+    }
+
     // A new play will be chosen if the current play is not valid to keep
     if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
-            currentPlay = playChecker.getPlayForName("Defend Shot");
+            currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
             if (!currentPlay) {
                 return;
             }
