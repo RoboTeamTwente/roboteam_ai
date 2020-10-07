@@ -23,7 +23,6 @@ Below is an example how you should document your code:
 /**
  * Get the intersection between two (finite) LineSegment. Note that this function knows how to deal with LineSegments that are points and how to deal with
  * parallel LineSegments. Moreover this function guarantees to return an intersection point if the LineSegments intersects. In case:
- * - There is no intersection then std:nullopt is returned.
  * - There is a single intersection point then that intersection point is returned.
  * - There are multiple intersection points (infinitely many) which happens when the LineSegments overlap then it prefers to returns 1: start, 2: end, 3: 
  *  line.start of which the first most option is selected that lies on both LineSegments. Note that if none of these points lie on both LineSegments and if both 
