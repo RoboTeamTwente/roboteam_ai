@@ -1,3 +1,4 @@
+#include <roboteam_utils/Shadow.h>
 #include "world/FieldComputations.h"
 
 namespace rtt {
@@ -20,7 +21,7 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
 }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
-    Line goal = getGoalSides(field, ourGoal);
+    LineSegment goal = getGoalSides(field, ourGoal);
     Angle angleLeft = Angle(goal.start - point);
     Angle angleRight = Angle(goal.end - point);
     return angleLeft.shortestAngleDiff(angleRight);
@@ -36,18 +37,18 @@ double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::F
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
 }
 
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView &world) {
+std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView &world) {
     return getVisiblePartsOfGoal(field, ourGoal, point, world.getUs());
 }
 
-std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
+std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point,
                                                             const std::vector<rtt::world::view::RobotView> &robots) {
     std::vector<LineSegment> blockades = getBlockadesMappedToGoal(field, ourGoal, point, robots);
-    Line goalSide = getGoalSides(field, ourGoal);
+    LineSegment goalSide = getGoalSides(field, ourGoal);
     double goalX = goalSide.start.x;  // The x-coordinate of the entire goal line (all vectors on this line have the same x-coordinate).
     double upperGoalY = goalSide.end.y;
     double lowerY = goalSide.start.y;
-    std::vector<Line> visibleParts = {};
+    std::vector<LineSegment> visibleParts = {};
 
     // The obstacles are sorted on their smallest y value. We start from the lowest goal side at the start as lowerY value and everytime we add a vector from the lowest goalside to
     // the lowest part of the obstacle and we remember the upper part of the obstacle. That upper part is stored as the lowerY value again and we can repeat the same process.
@@ -57,29 +58,28 @@ std::vector<Line> FieldComputations::getVisiblePartsOfGoal(const rtt_world::Fiel
         // If the lowerbound is the same as the lowerY value then the visible part has a length of 0 and we don't care about it. Originally used to be != but floating point errors
         // are tears, i.e. rounding of floating points might turn two same float values to different values.
         if (fabs(lowerbound - lowerY) > NEGLIGIBLE_LENGTH) {
-            visibleParts.emplace_back(Line(Vector2(goalX, lowerY), Vector2(goalX, lowerbound)));
+            visibleParts.emplace_back(LineSegment(Vector2(goalX, lowerY), Vector2(goalX, lowerbound)));
         }
         lowerY = blockade.end.y;
     }
 
     // If the last lowerY value is the same as the upper goal side then the last visible part has a length of 0 and we don't care about it.
     if (fabs(lowerY - upperGoalY) > NEGLIGIBLE_LENGTH) {
-        visibleParts.emplace_back(Line(Vector2(goalX, lowerY), Vector2(goalX, upperGoalY)));
+        visibleParts.emplace_back(LineSegment(Vector2(goalX, lowerY), Vector2(goalX, upperGoalY)));
     }
     return visibleParts;
 }
 
-Line FieldComputations::getGoalSides(const rtt_world::Field &field, bool ourGoal) {
+LineSegment FieldComputations::getGoalSides(const rtt_world::Field &field, bool ourGoal) {
     if (ourGoal) {
-        return Line(field.getOurBottomGoalSide(), field.getOurTopGoalSide());
+        return LineSegment(field.getOurBottomGoalSide(), field.getOurTopGoalSide());
     } else {
-        return Line(field.getTheirBottomGoalSide(), field.getTheirTopGoalSide());
+        return LineSegment(field.getTheirBottomGoalSide(), field.getTheirTopGoalSide());
     }
 }
 
 double FieldComputations::getDistanceToGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
-    auto sides = getGoalSides(field, ourGoal);
-    return LineSegment(sides.start, sides.end).distanceToLine(point);
+    return getGoalSides(field, ourGoal).distanceToLine(point);
 }
 
 Vector2 FieldComputations::getPenaltyPoint(const rtt_world::Field &field, bool ourGoal) {
@@ -142,9 +142,9 @@ std::vector<LineSegment> FieldComputations::getBlockadesMappedToGoal(const rtt_w
                                                                         const std::vector<rtt::world::view::RobotView> &robots, int id, bool ourTeam) {
     std::vector<LineSegment> blockades = {};
     const double robotRadius = Constants::ROBOT_RADIUS() + Constants::BALL_RADIUS();
-    auto goalSide = getGoalSides(field, ourGoal);
+    LineSegment goalSide = getGoalSides(field, ourGoal);
     for (auto const &robot : robots) {
-        std::optional<LineSegment> blockade = robotBlockade(ourGoal, point, id, ourTeam, robot, robotRadius, LineSegment(goalSide));
+        std::optional<LineSegment> blockade = robotBlockade(ourGoal, point, id, ourTeam, robot, robotRadius, goalSide);
         if (blockade.has_value()) {
             blockades.emplace_back(blockade.value());
         }
@@ -168,7 +168,7 @@ std::optional<LineSegment> FieldComputations::robotBlockade(bool ourGoal, const 
     double length = sqrt(lenToBot * lenToBot - robotRadius * robotRadius);
     Vector2 lowerSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() - theta);
     Vector2 upperSideOfRobot = point + Vector2(length, 0).rotate((Vector2(robot->getPos()) - point).angle() + theta);
-    return goalSide.shadow(point, LineSegment(lowerSideOfRobot, upperSideOfRobot), NEGLIGIBLE_LENGTH);
+    return Shadow::shadow(point, LineSegment(lowerSideOfRobot, upperSideOfRobot), goalSide, NEGLIGIBLE_LENGTH);
 }
 
 std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegment> blockades) {

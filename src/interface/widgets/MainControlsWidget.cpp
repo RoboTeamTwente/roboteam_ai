@@ -101,7 +101,7 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
             return;
         }
         // simply manager->plays[index] because they're inserted in-order
-        stp::PlayDecider::lockPlay(manager->plays[index].get());
+        stp::PlayDecider::lockInterfacePlay(manager->plays[index].get());
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
@@ -211,10 +211,9 @@ void MainControlsWidget::updateContents() {
 
 void MainControlsWidget::updatePlays() {
     select_play->clear();
-    // TODO: re add this
-    /*        for (auto const &each : manager->plays) {
-                select_play->addItem(each->getName());
-            }*/
+    for (auto const &each : manager->plays) {
+        select_play->addItem(each->getName());
+    }
 }
 
 void MainControlsWidget::setIgnoreInvariants(bool ignore) {

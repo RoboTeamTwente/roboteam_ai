@@ -6,8 +6,8 @@
 #include <mutex>
 #include "control/ControlUtils.h"
 #include "interface/api/Input.h"
-#include "roboteam_proto/GeometryFieldSize.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
+#include <roboteam_proto/GeometryFieldSize.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 #include "world/Field.h"
 
 namespace rtt::world::view {
@@ -82,7 +82,7 @@ class FieldComputations {
      * @param world Data about the world used to determine the locations of all robots.
      * @return All LineSegments on the goal which represents all the visible goal points.
      */
-    static std::vector<Line> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt_world::view::WorldDataView &world);
+    static std::vector<LineSegment> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt_world::view::WorldDataView &world);
 
     /**
      * Look at the overloaded function getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world::view::WorldDataView &world) for the corresponding
@@ -91,7 +91,7 @@ class FieldComputations {
      * @param robots A list of all robots that could possibly block the goal.
      * @cite getVisiblePartsOfGoal(const Field &field, bool ourGoal, const Vector2 &point, world::view::WorldDataView &world)
      */
-    static std::vector<Line> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<rtt_world::view::RobotView> &robots);
+    static std::vector<LineSegment> getVisiblePartsOfGoal(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const std::vector<rtt_world::view::RobotView> &robots);
 
     /**
      * Get the goal side (the line segment regarding the goal line) of either our goal or the opponents goal.
@@ -100,7 +100,7 @@ class FieldComputations {
      * @return The LineSegment which represents the goal side (the first part is always the bottom part of the goal, i.e. the part with the lowest y-coordinate, the second part
      * is always the top part of the goal, i.e. the part with the highest y-coordinate).
      */
-    static Line getGoalSides(const rtt_world::Field &field, bool ourGoal);
+    static LineSegment getGoalSides(const rtt_world::Field &field, bool ourGoal);
 
     /**
      * Compute the Euclidean distance from a given point to the closest point on the goal.

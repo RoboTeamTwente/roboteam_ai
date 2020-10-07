@@ -8,9 +8,9 @@
 #include <vector>
 #include <include/roboteam_ai/world/views/RobotView.hpp>
 
-#include "roboteam_proto/RobotFeedback.pb.h"
-#include "roboteam_proto/Setting.pb.h"
-#include "roboteam_proto/World.pb.h"
+#include <roboteam_proto/RobotFeedback.pb.h>
+#include <roboteam_proto/Setting.pb.h>
+#include <roboteam_proto/World.pb.h>
 
 #include "include/roboteam_ai/utilities/Settings.h"
 
