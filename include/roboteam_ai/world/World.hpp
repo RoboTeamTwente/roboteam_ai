@@ -7,7 +7,7 @@
 #include <vector>
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
-#include "roboteam_proto/RobotFeedback.pb.h"
+#include <roboteam_proto/RobotFeedback.pb.h>
 #include "include/roboteam_ai/world/views/WorldDataView.hpp"
 #include <roboteam_utils/Print.h>
 
