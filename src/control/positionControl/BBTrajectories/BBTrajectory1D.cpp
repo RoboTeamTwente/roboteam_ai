@@ -10,20 +10,11 @@ namespace rtt::BB {
         double t = -vel / acc; // (inverted) time needed to break to zero velocity
         return pos + 0.5 * vel * t; // position after breaking
     }
-
     double BBTrajectory1D::accelerateBrakePos(double pos0, double vel0, double vel1, double accMax) {
-        double acc1;
-        double acc2;
-        if (vel1 >= vel0) {
-            acc1 = accMax;
-            acc2 = -accMax;
-        } else {
-            acc1 = -accMax;
-            acc2 = accMax;
-        }
-        double t1 = (vel1 - vel0) / acc1; // time to reach vel1
+        double acc = vel1>=vel0 ? accMax: -accMax;
+        double t1 = (vel1 - vel0) / acc; // time to reach vel1
         double pos1 = pos0 + (0.5 * (vel0 + vel1) * t1); //position at which we reach vel1
-        double t2 = -vel1 / acc2; // time to max break from vel1 to 0
+        double t2 = vel1 / acc; // time to max break from vel1 to 0
         return pos1 + (0.5 * vel1 * t2); // position we stop at after initiating maximal break at pos1
     }
 
@@ -74,6 +65,8 @@ namespace rtt::BB {
         maxVel = maximumVel;
         maxAcc = maximumAcc;
 
+        //For speed the following code may be written with one branch instead of two consecutive ones (it's possible)
+        //But for now, this is definitely easier to read
         double brakePos = fullBrakePos(startPos, startVel, maximumAcc);
         if (brakePos <= endPos) {
             //Check if we need triangular profile or trapezoidal:
