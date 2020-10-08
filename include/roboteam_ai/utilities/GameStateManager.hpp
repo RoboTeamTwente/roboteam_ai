@@ -9,7 +9,7 @@
 
 #include "RefGameState.h"
 #include "StrategyManager.h"
-#include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 
 namespace rtt::ai {
 

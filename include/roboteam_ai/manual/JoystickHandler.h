@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "JoystickState.h"
-#include "roboteam_proto/RobotCommand.pb.h"
+#include <roboteam_proto/RobotCommand.pb.h>
 
 namespace rtt::input {
 

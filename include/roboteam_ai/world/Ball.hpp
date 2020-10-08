@@ -5,7 +5,7 @@
 #ifndef RTT_BALL_HPP
 #define RTT_BALL_HPP
 
-#include "roboteam_proto/WorldBall.pb.h"
+#include <roboteam_proto/WorldBall.pb.h>
 #include "roboteam_utils/Vector2.h"
 
 namespace rtt::world {

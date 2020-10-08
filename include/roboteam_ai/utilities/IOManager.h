@@ -4,17 +4,17 @@
 #include <iostream>
 #include <mutex>
 
-#include "roboteam_proto/DemoRobot.pb.h"
-#include "roboteam_proto/GeometryData.pb.h"
-#include "roboteam_proto/Publisher.h"
-#include "roboteam_proto/Referee.pb.h"
-#include "roboteam_proto/RobotCommand.pb.h"
-#include "roboteam_proto/RobotFeedback.pb.h"
-#include "roboteam_proto/Setting.pb.h"
-#include "roboteam_proto/Subscriber.h"
-#include "roboteam_proto/World.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_geometry.pb.h"
-#include "roboteam_proto/messages_robocup_ssl_referee.pb.h"
+#include <roboteam_proto/DemoRobot.pb.h>
+#include <roboteam_proto/GeometryData.pb.h>
+#include <roboteam_proto/Referee.pb.h>
+#include <roboteam_proto/RobotCommand.pb.h>
+#include <roboteam_proto/RobotFeedback.pb.h>
+#include <roboteam_proto/Setting.pb.h>
+#include <roboteam_proto/World.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
+#include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
+#include <Subscriber.h>
+#include <Publisher.h>
 
 #include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"

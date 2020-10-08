@@ -6,8 +6,8 @@
 #define RTT_ROBOT_HPP
 
 #include <roboteam_proto/RobotFeedback.pb.h>
+#include <roboteam_proto/WorldRobot.pb.h>
 
-#include "roboteam_proto/WorldRobot.pb.h"
 #include "roboteam_utils/Angle.h"
 #include "Team.hpp"
 #include "include/roboteam_ai/world/views/BallView.hpp"

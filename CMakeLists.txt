@@ -3,7 +3,7 @@ project(roboteam_ai)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O3")
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
 add_subdirectory(src)
@@ -198,10 +198,10 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/WorldTests/BallTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/RobotTests.cpp
         ${PROJECT_SOURCE_DIR}/test/WorldTests/FieldComputationTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/worldTests/HistorySizeTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/worldTests/HistoryRetrievalTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/worldTests/WhichRobotHasBallTest.cpp
-        ${PROJECT_SOURCE_DIR}/test/worldTests/WorldResetTests.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistorySizeTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/HistoryRetrievalTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/WhichRobotHasBallTest.cpp
+        ${PROJECT_SOURCE_DIR}/test/WorldTests/WorldResetTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
@@ -276,7 +276,6 @@ set(AI_LIBS
         PRIVATE Qt5::Gui
         PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
-        PRIVATE roboteam_proto
         PRIVATE NFParam
         PRIVATE SDL2
         )
@@ -297,5 +296,5 @@ target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
 add_executable(ai_tests ${TEST_SOURCES})
-target_link_libraries(ai_tests  ${GTEST_LIB} ai_lib)
-target_include_directories(ai_tests ${AI_INCLUDES})
+target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
+target_include_directories(ai_tests ${AI_INCLUDES} test)
