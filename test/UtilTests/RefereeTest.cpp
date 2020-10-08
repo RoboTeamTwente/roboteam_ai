@@ -5,10 +5,10 @@
 #include <interface/api/Output.h>
 #include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
 #include <include/roboteam_ai/world/World.hpp>
-#include <test/helpers/WorldHelper.h>
-#include <test/helpers/FieldHelper.h>
+#include "helpers/WorldHelper.h"
+#include "helpers/FieldHelper.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "utilities/GameStateManager.hpp"
 
 TEST(RefereeTest, it_gets_and_sets_the_ref) {
