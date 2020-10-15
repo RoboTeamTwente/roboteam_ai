@@ -7,6 +7,7 @@
 
 #include <roboteam_proto/RobotCommand.pb.h>
 
+#include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
 
 namespace rtt::ai::control {
@@ -44,6 +45,10 @@ namespace rtt::ai::control {
          */
         virtual void limitAngularVel() noexcept;
 
+        /**
+         * Publishes the current robot command, limits it and refreshes it
+         */
+        virtual void publishRobotCommand(world::World const* data) noexcept;
     };
 }  // namespace rtt::ai::control
 
