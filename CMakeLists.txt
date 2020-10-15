@@ -173,8 +173,8 @@ set(INVARIANTS_SOURCES
         )
 
 set(CONTROL_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/control/ControlModule.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp
@@ -266,7 +266,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        src/control/ControlModule.cpp include/roboteam_ai/control/ControlModule.h)
+        )
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
