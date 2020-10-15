@@ -266,7 +266,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
-        )
+        src/control/ControlModule.cpp include/roboteam_ai/control/ControlModule.h)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
