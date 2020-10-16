@@ -66,20 +66,16 @@ namespace rtt::ai::control {
     }
 
     void ControlModule::publishRobotCommand(std::optional<::rtt::world::view::RobotView> robot_, const proto::RobotCommand& command_, const rtt::world::World *data) noexcept {
+        robot = robot_;
+        command = command_;
+
         // If we are not left, commands should be rotated (because we play as right)
         if (!SETTINGS.isLeft()) {
             rotateRobotCommand();
         }
 
-        setRobotAndCommand(robot_, command_);
-
         limitRobotCommand();
 
         io::io.publishRobotCommand(command, data);
-    }
-
-    void ControlModule::setRobotAndCommand(std::optional<::rtt::world::view::RobotView> robot_, const proto::RobotCommand& skillCommand) noexcept {
-        robot = robot_;
-        command = skillCommand;
     }
 }  // namespace rtt::ai::stp
