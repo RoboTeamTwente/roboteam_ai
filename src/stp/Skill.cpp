@@ -4,11 +4,7 @@
 
 #include "stp/Skill.h"
 
-#include <roboteam_utils/Print.h>
-
-#include "control/ControlUtils.h"
 #include "control/ControlModule.h"
-#include "utilities/Settings.h"
 #include "world/World.hpp"
 
 namespace rtt::ai::stp {
