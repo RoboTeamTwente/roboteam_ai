@@ -6,6 +6,8 @@
 
 #include <roboteam_utils/Print.h>
 
+#include <utility>
+
 #include "control/ControlUtils.h"
 #include "utilities/IOManager.h"
 #include "utilities/Settings.h"
@@ -13,6 +15,11 @@
 
 namespace rtt::ai::control {
 
+    void ControlModule::rotateRobotCommand() noexcept {
+        command.mutable_vel()->set_x(-command.vel().x());
+        command.mutable_vel()->set_y(-command.vel().y());
+        command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
+    }
 
     void ControlModule::limitRobotCommand() noexcept {
         limitVel();
@@ -58,7 +65,21 @@ namespace rtt::ai::control {
         }
     }
 
-    void ControlModule::publishRobotCommand(const rtt::world::World *data) noexcept {
+    void ControlModule::publishRobotCommand(std::optional<::rtt::world::view::RobotView> robot_, const proto::RobotCommand& command_, const rtt::world::World *data) noexcept {
+        // If we are not left, commands should be rotated (because we play as right)
+        if (!SETTINGS.isLeft()) {
+            rotateRobotCommand();
+        }
+
+        setRobotAndCommand(robot_, command_);
+
         limitRobotCommand();
+
+        io::io.publishRobotCommand(command, data);
+    }
+
+    void ControlModule::setRobotAndCommand(std::optional<::rtt::world::view::RobotView> robot_, const proto::RobotCommand& skillCommand) noexcept {
+        robot = robot_;
+        command = skillCommand;
     }
 }  // namespace rtt::ai::stp

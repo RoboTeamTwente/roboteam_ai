@@ -23,32 +23,43 @@ namespace rtt::ai::control {
         /**
          * Robot command that will eventually be sent to the robot
          */
-        proto::RobotCommand command;
+        static proto::RobotCommand command;
 
         /**
-         * Robot this skill controls
+         * Robot forwarded by the skill
          */
-        std::optional<world::view::RobotView> robot;
+        static std::optional<world::view::RobotView> robot;
 
         /**
          * Applies constraints to the internal robot command
          */
-        virtual void limitRobotCommand() noexcept;
+        static void limitRobotCommand() noexcept;
 
         /**
-         * Limits the velocity
+         * Limits the velocity with a control_constants value
          */
         virtual void limitVel() noexcept;
 
         /**
-         * Limits the angular velocity
+         * Limits the angular velocity with a control_constants value
          */
         virtual void limitAngularVel() noexcept;
 
         /**
-         * Publishes the current robot command, limits it and refreshes it
+         * Rotates the robot command to the other side of the field
          */
-        virtual void publishRobotCommand(world::World const* data) noexcept;
+        static void rotateRobotCommand() noexcept;
+
+        static void setRobotAndCommand(std::optional<world::view::RobotView> robot, const proto::RobotCommand&) noexcept;
+
+    public:
+
+        /**
+         * Limits the current robot command and publishes it
+         */
+        static void publishRobotCommand(std::optional<world::view::RobotView> robot, const proto::RobotCommand& command, world::World const* data) noexcept;
+
+
     };
 }  // namespace rtt::ai::control
 
