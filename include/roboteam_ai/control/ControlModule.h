@@ -19,7 +19,7 @@ namespace rtt::ai::control {
  * And it checks if the command that was sent makes sense (e.g., no kicking and chipping at the same time.
  */
     class ControlModule {
-    private:
+    protected:
         /**
          * Robot command that will eventually be sent to the robot
          */
@@ -49,8 +49,6 @@ namespace rtt::ai::control {
          * Rotates the robot command to the other side of the field
          */
         static void rotateRobotCommand() noexcept;
-
-        static void setRobotAndCommand(std::optional<world::view::RobotView> robot, const proto::RobotCommand&) noexcept;
 
     public:
 
