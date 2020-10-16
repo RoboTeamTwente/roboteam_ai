@@ -33,7 +33,7 @@ namespace rtt::ai::control {
         /**
          * Applies constraints to the internal robot command
          */
-        virtual void limitRobotCommand() noexcept;
+        static void limitRobotCommand() noexcept;
 
         /**
          * Limits the velocity with a control_constants value
@@ -43,7 +43,7 @@ namespace rtt::ai::control {
         /**
          * Limits the angular velocity with a control_constants value
          */
-        virtual void limitAngularVel() noexcept;
+        static void limitAngularVel() noexcept;
 
         /**
          * Rotates the robot command to the other side of the field
