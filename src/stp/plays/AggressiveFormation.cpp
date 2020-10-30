@@ -5,6 +5,7 @@
 #include "stp/plays/AggressiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
+#include "stp/invariants/BallOnTheirSideInvariant.h"
 #include "stp/roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
@@ -12,6 +13,7 @@ namespace rtt::ai::stp::play {
 AggressiveFormation::AggressiveFormation() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnTheirSideInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());

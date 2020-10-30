@@ -5,6 +5,7 @@
 #include "stp/plays/DefensiveFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
+#include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
@@ -12,6 +13,7 @@ namespace rtt::ai::stp::play {
 DefensiveFormation::DefensiveFormation() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
@@ -25,7 +27,7 @@ DefensiveFormation::DefensiveFormation() : Play() {
         std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
 }
 
-uint8_t DefensiveFormation::score(world::World* world) noexcept { return 20; }
+uint8_t DefensiveFormation::score(world::World* world) noexcept { return 100; }
 
 void DefensiveFormation::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();
