@@ -36,7 +36,6 @@ class IOManager {
     proto::SSL_GeometryData geometryMsg;
     proto::RobotFeedback robotFeedbackMsg;
     proto::SSL_Referee refDataMsg;
-    proto::DemoRobot demoInfoMsg;
 
     std::unordered_map<uint8_t, proto::RobotFeedback> feedbackMap;
 
@@ -68,13 +67,11 @@ class IOManager {
     std::unordered_map<uint8_t, proto::RobotFeedback> getFeedbackDataMap();
 
     proto::SSL_Referee getRefereeData();
-    const proto::DemoRobot &getDemoInfo();
 
     static std::mutex worldStateMutex;
     static std::mutex geometryMutex;
     static std::mutex robotFeedbackMutex;
     static std::mutex refereeMutex;
-    static std::mutex demoMutex;
 
     bool hasReceivedGeom = false;
 };

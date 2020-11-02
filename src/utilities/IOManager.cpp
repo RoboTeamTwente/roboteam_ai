@@ -14,7 +14,6 @@ std::mutex IOManager::worldStateMutex;
 std::mutex IOManager::geometryMutex;
 std::mutex IOManager::robotFeedbackMutex;
 std::mutex IOManager::refereeMutex;
-std::mutex IOManager::demoMutex;
 
 IOManager io;
 
@@ -127,11 +126,6 @@ void IOManager::publishRobotCommand(proto::RobotCommand cmd, rtt::world::World c
             robotCommandPublisher->send(cmd);
         }
     }
-}
-
-const proto::DemoRobot &IOManager::getDemoInfo() {
-    std::lock_guard<std::mutex> lock(demoMutex);
-    return this->demoInfoMsg;
 }
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
