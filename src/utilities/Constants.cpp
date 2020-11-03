@@ -165,28 +165,6 @@ bool Constants::STD_USE_REFEREE() { return true; }
 
 bool Constants::STD_TIMEOUT_TO_TOP() { return false; }
 
-std::map<int, bool> Constants::ROBOTS_WITH_WORKING_GENEVA() {
-    static std::map<int, bool> workingGenevaRobots;
-    workingGenevaRobots[0] = true;
-    workingGenevaRobots[1] = true;
-    workingGenevaRobots[2] = true;
-    workingGenevaRobots[3] = true;
-    workingGenevaRobots[4] = true;
-    workingGenevaRobots[5] = true;
-    workingGenevaRobots[6] = true;
-    workingGenevaRobots[7] = true;
-    workingGenevaRobots[8] = false;
-    workingGenevaRobots[9] = true;
-    workingGenevaRobots[10] = true;
-    workingGenevaRobots[11] = true;
-    workingGenevaRobots[12] = true;
-    workingGenevaRobots[13] = true;
-    workingGenevaRobots[14] = true;
-    workingGenevaRobots[15] = true;
-
-    return workingGenevaRobots;
-}
-
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
     static std::map<int, bool> workingDribblerRobots;
     workingDribblerRobots[0] = true;
@@ -208,7 +186,6 @@ std::map<int, bool> Constants::ROBOTS_WITH_WORKING_DRIBBLER() {
 
     return workingDribblerRobots;
 }
-bool Constants::ROBOT_HAS_WORKING_GENEVA(int id) { return ROBOTS_WITH_WORKING_GENEVA()[id]; }
 
 std::map<int, bool> Constants::ROBOTS_WITH_WORKING_BALL_SENSOR() {
     static std::map<int, bool> workingBallSensorRobots;

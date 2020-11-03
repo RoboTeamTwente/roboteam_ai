@@ -16,7 +16,6 @@ TEST(RobotCommandTest, it_converts_to_ros_command) {
         rc.angle = testhelpers::WorldHelper::getRandomValue(0, 9.0);
         rc.kicker = (int)testhelpers::WorldHelper::getRandomValue(0, 2);
         rc.chipper = (int)testhelpers::WorldHelper::getRandomValue(0, 1);
-        rc.geneva = (int)testhelpers::WorldHelper::getRandomValue(0, 5);
         rc.kickerVel = testhelpers::WorldHelper::getRandomValue(0, 6);
         rc.dribbler = (int)testhelpers::WorldHelper::getRandomValue(0, 32);
         auto cmd = rc.makeROSCommand();
@@ -29,7 +28,6 @@ TEST(RobotCommandTest, it_converts_to_ros_command) {
         EXPECT_EQ(cmd.kicker_forced, rc.kickerForced);
         EXPECT_EQ(cmd.chipper, rc.chipper);
         EXPECT_EQ(cmd.chipper_forced, rc.chipperForced);
-        EXPECT_EQ(cmd.geneva_state, rc.geneva);
         EXPECT_FLOAT_EQ(cmd.kicker_vel, rc.kickerVel);
         EXPECT_EQ(cmd.dribbler, rc.dribbler);
     }
