@@ -124,11 +124,9 @@ typedef std::tuple<double, double, double> pidVals;
     static bool STD_USE_REFEREE();
     static bool STD_TIMEOUT_TO_TOP();
 
-    static std::map<int, bool> ROBOTS_WITH_WORKING_GENEVA();
     static std::map<int, bool> ROBOTS_WITH_WORKING_DRIBBLER();
     static std::map<int, bool> ROBOTS_WITH_WORKING_BALL_SENSOR();
 
-    static bool ROBOT_HAS_WORKING_GENEVA(int id);
     static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
     static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
 
