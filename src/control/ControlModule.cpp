@@ -15,8 +15,8 @@
 
 namespace rtt::ai::control {
 
-    proto::RobotCommand command;
-    std::optional<::rtt::world::view::RobotView> robot;
+    proto::RobotCommand ControlModule::command;
+    std::optional<::rtt::world::view::RobotView> ControlModule::robot;
 
     void ControlModule::rotateRobotCommand() noexcept {
         command.mutable_vel()->set_x(-command.vel().x());
