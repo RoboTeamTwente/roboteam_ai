@@ -21,7 +21,6 @@ void Skill::refreshRobotCommand() noexcept {
     proto::RobotCommand emptyCmd;
     emptyCmd.set_use_angle(true);
     emptyCmd.set_id(robot ? robot.value()->getId() : -1);
-    emptyCmd.set_geneva_state(0);
     command = emptyCmd;
 }
 

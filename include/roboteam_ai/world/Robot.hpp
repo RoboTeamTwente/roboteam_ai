@@ -15,8 +15,6 @@
 namespace rtt::world::robot {
 
 /**
- * Geneva driver gone
- *
  * robot still changes:
  *  battery
  *  spinner speed
