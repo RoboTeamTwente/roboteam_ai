@@ -51,13 +51,10 @@ namespace rtt::ai::control {
         static void rotateRobotCommand() noexcept;
 
     public:
-
         /**
          * Limits the current robot command and publishes it
          */
         static void publishRobotCommand(std::optional<world::view::RobotView> robot, const proto::RobotCommand& command, world::World const* data) noexcept;
-
-
     };
 }  // namespace rtt::ai::control
 
