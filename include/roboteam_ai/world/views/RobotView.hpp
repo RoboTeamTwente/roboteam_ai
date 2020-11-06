@@ -48,7 +48,7 @@ class RobotView {
     robot::Robot const &operator*() const noexcept;
 
     /**
-     * Gives std::unique_ptr (std::unique_ptr<Robot>()->genevaDriver) style access into member funcntions
+     * Gives std::unique_ptr (std::unique_ptr<Robot>()->...) style access into member functions
      * @return Returns get()
      */
     robot::Robot const *operator->() const noexcept;
