@@ -3,11 +3,7 @@
 //
 
 #include "control/ControlModule.h"
-
 #include <roboteam_utils/Print.h>
-
-#include <utility>
-
 #include "control/ControlUtils.h"
 #include "utilities/IOManager.h"
 #include "utilities/Settings.h"
@@ -35,9 +31,7 @@ namespace rtt::ai::control {
         limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
 
         if (std::isnan(limitedVel.x) || std::isnan(limitedVel.y)) {
-            // TODO: Pass on the skill name to Control Module as well, so this error can be given correctly
-            //RTT_ERROR("Robot will have NAN: " + std::string{stp::getName()} + "!\nrobot: " +
-            //          std::to_string(robot.value()->getId()))
+            RTT_ERROR("A certain Skill has produced a NaN error. \nRobot: " + std::to_string(robot.value()->getId()))
         }
 
         // Limit robot velocity when the robot has the ball
