@@ -13,6 +13,7 @@ namespace rtt::ai::control {
 
     proto::RobotCommand ControlModule::command;
     std::optional<::rtt::world::view::RobotView> ControlModule::robot;
+    std::vector<proto::RobotCommand> ControlModule::robotCommands;
 
     void ControlModule::rotateRobotCommand() noexcept {
         command.mutable_vel()->set_x(-command.vel().x());
@@ -72,6 +73,9 @@ namespace rtt::ai::control {
         }
 
         limitRobotCommand();
+
+        std::cout << robot->get()->getId();
+        robotCommands.emplace_back(command);
 
         io::io.publishRobotCommand(command, data);
     }

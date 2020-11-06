@@ -32,6 +32,11 @@ namespace rtt::ai::control {
         static std::optional<world::view::RobotView> robot;
 
         /**
+         *
+         */
+        static std::vector<proto::RobotCommand> robotCommands;
+
+        /**
          * Applies constraints to the internal robot command
          */
         static void limitRobotCommand() noexcept;

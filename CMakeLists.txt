@@ -115,8 +115,8 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/DefendShot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/DefendPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefensiveFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/AggressiveFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefensiveStopFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/AggressiveStopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/BallPlacementUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/BallPlacementThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/TimeOut.cpp
