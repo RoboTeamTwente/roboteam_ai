@@ -8,11 +8,13 @@
 #include "utilities/IOManager.h"
 #include "utilities/Settings.h"
 #include "world/World.hpp"
+#include "iostream"
 
 namespace rtt::ai::control {
 
     proto::RobotCommand ControlModule::command;
     std::optional<::rtt::world::view::RobotView> ControlModule::robot;
+    std::vector<proto::RobotCommand> ControlModule::robotCommands;
 
     void ControlModule::rotateRobotCommand() noexcept {
         command.mutable_vel()->set_x(-command.vel().x());
@@ -73,6 +75,14 @@ namespace rtt::ai::control {
 
         limitRobotCommand();
 
-        io::io.publishRobotCommand(command, data);
+        RTT_INFO("RobotID: ")
+        RTT_INFO(robot->get()->getId())
+        robotCommands.emplace_back(command);
+        RTT_INFO(robotCommands.size())
+
+        if(robotCommands.size() >= 8) { //TODO: We should have a value indicating the amount of robots we're using, GRSim maybe? Use that instead of this value
+            io::io.publishAllRobotCommands(robotCommands, data); //TODO: Create a new function in IOManager to send a vector of RobotCommands
+            robotCommands.clear();
+        }
     }
 }  // namespace rtt::ai::stp
