@@ -33,8 +33,9 @@ PenaltyUsPrepare::PenaltyUsPrepare() : Play() {
 uint8_t PenaltyUsPrepare::score(world::World* world) noexcept { return 100; }
 
 void PenaltyUsPrepare::calculateInfoForRoles() noexcept {
-    const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
-    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2.2 : -field.getFieldWidth() / 2.2;
+    const double xPosition = -4 * control_constants::ROBOT_RADIUS;
+    const double distanceToCenterLine = field.getFieldWidth() / 2 - 2*control_constants::ROBOT_RADIUS;
+    const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine: -distanceToCenterLine;
 
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
