@@ -109,9 +109,8 @@ void ApplicationManager::runOneLoopCycle() {
         if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
         fieldInitialized = true;
 
-        auto fieldMessage = io::io.getGeometryData().field();
-        auto worldMessage = io::io.getWorldState();
-        auto feedbackMap = io::io.getFeedbackDataMap();
+        auto state = io::io.getState();
+        auto worldMessage = state.last_seen_world();
 
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
