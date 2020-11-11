@@ -40,6 +40,20 @@ void IOManager::init(int teamId) {
 void IOManager::handleState(proto::State &stateMsg) {
     std::lock_guard<std::mutex> lock(stateMutex);
     this->state.CopyFrom(stateMsg);
+    if(state.has_referee()){
+        roboteam_utils::rotate(state.mutable_referee());
+        // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
+        std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
+        if (state.referee().yellow().name() == ROBOTEAM_TWENTE) {
+            SETTINGS.setYellow(true);
+        } else if (state.referee().blue().name() == ROBOTEAM_TWENTE) {
+            SETTINGS.setYellow(false);
+        }
+        SETTINGS.setLeft(!(state.referee().blue_team_on_positive_half() ^ SETTINGS.isYellow()));
+        auto const& [_, data] = World::instance();
+        ai::GameStateManager::setRefereeData(state.referee(), data);
+
+    }
 }
 
 

@@ -48,7 +48,6 @@ class IOManager {
 
     static std::mutex stateMutex;
 
-    bool hasReceivedGeom = false;
 };
 
 extern IOManager io;

@@ -110,6 +110,7 @@ void ApplicationManager::runOneLoopCycle() {
         if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
         fieldInitialized = true;
 
+        //Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
         auto worldMessage = state.last_seen_world();
         auto fieldMessage = state.field().field();
         if (!SETTINGS.isLeft()) {
