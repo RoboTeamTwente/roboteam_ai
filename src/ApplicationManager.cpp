@@ -105,13 +105,13 @@ void ApplicationManager::start() {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
-    if (io::io.hasReceivedGeom) {
+    auto state = io::io.getState();
+    if (state.has_field()) {
         if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
         fieldInitialized = true;
 
-        auto state = io::io.getState();
         auto worldMessage = state.last_seen_world();
-
+        auto fieldMessage = state.field().field();
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
@@ -124,9 +124,10 @@ void ApplicationManager::runOneLoopCycle() {
             }
             robotsInitialized = true;
 
+
             world->updateField(fieldMessage);
             world->updatePositionControl();
-            world->updateFeedback(feedbackMap);
+            //world->updateFeedback(feedbackMap);
 
             decidePlay(world);
 
