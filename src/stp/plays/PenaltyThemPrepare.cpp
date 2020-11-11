@@ -36,16 +36,10 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
 
     // regular bots
-    stpInfos["formation_0"].setPositionToMoveTo(Vector2(xPosition, yPosition));
-    stpInfos["formation_1"].setPositionToMoveTo(Vector2(xPosition - 4 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_2"].setPositionToMoveTo(Vector2(xPosition - 8 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_3"].setPositionToMoveTo(Vector2(xPosition - 12 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_4"].setPositionToMoveTo(Vector2(xPosition - 16 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_5"].setPositionToMoveTo(Vector2(xPosition - 20 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_6"].setPositionToMoveTo(Vector2(xPosition - 24 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_7"].setPositionToMoveTo(Vector2(xPosition - 28 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_8"].setPositionToMoveTo(Vector2(xPosition - 32 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["formation_9"].setPositionToMoveTo(Vector2(xPosition - 36 * control_constants::ROBOT_RADIUS, yPosition));
+    const std::string formation = "formation_";
+    for(int i = 1; i <= 10; i++) {
+        stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
+    }
 }
 
 bool PenaltyThemPrepare::shouldRoleSkipEndTactic() { return false; }

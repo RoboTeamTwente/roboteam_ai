@@ -29,19 +29,14 @@ uint8_t TimeOut::score(world::World* world) noexcept { return 100; }
 
 void TimeOut::calculateInfoForRoles() noexcept {
     const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
-    const auto yPosition = Constants::STD_TIMEOUT_TO_TOP() ? field.getFieldWidth() / 2.2 : -field.getFieldWidth() / 2.2;
+    const double distanceToCenterLine = field.getFieldWidth() / 2 - 2*control_constants::ROBOT_RADIUS;
+    const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine: -distanceToCenterLine;
 
-    stpInfos["time_out_1"].setPositionToMoveTo(Vector2(xPosition, yPosition));
-    stpInfos["time_out_2"].setPositionToMoveTo(Vector2(xPosition - 4 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_3"].setPositionToMoveTo(Vector2(xPosition - 8 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_4"].setPositionToMoveTo(Vector2(xPosition - 12 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_5"].setPositionToMoveTo(Vector2(xPosition - 16 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_6"].setPositionToMoveTo(Vector2(xPosition - 20 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_7"].setPositionToMoveTo(Vector2(xPosition - 24 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_8"].setPositionToMoveTo(Vector2(xPosition - 28 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_9"].setPositionToMoveTo(Vector2(xPosition - 32 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_10"].setPositionToMoveTo(Vector2(xPosition - 36 * control_constants::ROBOT_RADIUS, yPosition));
-    stpInfos["time_out_11"].setPositionToMoveTo(Vector2(xPosition - 40 * control_constants::ROBOT_RADIUS, yPosition));
+    const std::string formation = "time_out_";
+    for(int i = 1; i <= 11; i++) {
+        stpInfos[formation + std::to_string(i)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
+    }
+
 }
 
 bool TimeOut::shouldRoleSkipEndTactic() { return false; }
