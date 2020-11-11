@@ -36,7 +36,6 @@ void TimeOut::calculateInfoForRoles() noexcept {
     for(int i = 1; i <= 11; i++) {
         stpInfos[formation + std::to_string(i)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
     }
-
 }
 
 bool TimeOut::shouldRoleSkipEndTactic() { return false; }
