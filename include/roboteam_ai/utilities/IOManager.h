@@ -61,6 +61,7 @@ class IOManager {
     ~IOManager();
     explicit IOManager() = default;
     void publishRobotCommand(proto::RobotCommand cmd, rtt::world::World const* world);
+    void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector, const World *pWorld);
     void publishSettings(proto::Setting setting);
     void init(int teamId);
     proto::World getWorldState();

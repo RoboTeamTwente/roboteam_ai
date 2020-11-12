@@ -75,13 +75,20 @@ namespace rtt::ai::control {
 
         limitRobotCommand();
 
-        RTT_INFO("RobotID: ")
-        RTT_INFO(robot->get()->getId())
-        robotCommands.emplace_back(command);
-        RTT_INFO(robotCommands.size())
+        bool doubleCommand = false;
+        for (const proto::RobotCommand &robotCommand: robotCommands) {
+            if (command.id() == robotCommand.id()) { // Check if there is already a command with this robotID in the vector
+                doubleCommand = true;
+                break;
+            }
+        }
+
+        if (!doubleCommand) { // Only add commands with a robotID that is not in the vector yet
+            robotCommands.emplace_back(command);
+        }
 
         if(robotCommands.size() >= 8) { //TODO: We should have a value indicating the amount of robots we're using, GRSim maybe? Use that instead of this value
-            io::io.publishAllRobotCommands(robotCommands, data); //TODO: Create a new function in IOManager to send a vector of RobotCommands
+            io::io.publishAllRobotCommands(robotCommands, data); // When vector has all commands, send in one go
             robotCommands.clear();
         }
     }
