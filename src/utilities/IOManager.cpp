@@ -135,7 +135,5 @@ const proto::DemoRobot &IOManager::getDemoInfo() {
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands_, const World *pWorld) {
-
-}
+void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands_, const World *pWorld) {}
 }  // namespace rtt::ai::io
