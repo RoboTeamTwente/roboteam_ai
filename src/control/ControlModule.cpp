@@ -83,12 +83,13 @@ namespace rtt::ai::control {
             }
         }
 
-        if (!doubleCommand) { // Only add commands with a robotID that is not in the vector yet
+        // Only add commands with a robotID that is not in the vector yet
+        if (!doubleCommand && (command.id() >= 0 && command.id() < 16)) {
             robotCommands.emplace_back(command);
         }
 
         if(robotCommands.size() >= 8) { //TODO: We should have a value indicating the amount of robots we're using, GRSim maybe? Use that instead of this value
-            io::io.publishAllRobotCommands(robotCommands, data); // When vector has all commands, send in one go
+            io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
             robotCommands.clear();
         }
     }

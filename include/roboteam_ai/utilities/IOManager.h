@@ -53,6 +53,7 @@ class IOManager {
     void handleFeedback(proto::RobotFeedback &feedback);
 
     proto::Publisher<proto::RobotCommand> *robotCommandPublisher;
+    proto::Publisher<std::vector<proto::RobotCommand>> *robotVectorPublisher;
     proto::Publisher<proto::Setting> *settingsPublisher;
 
     rtt::ai::Pause *pause;
@@ -61,7 +62,7 @@ class IOManager {
     ~IOManager();
     explicit IOManager() = default;
     void publishRobotCommand(proto::RobotCommand cmd, rtt::world::World const* world);
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector, const World *pWorld);
+    void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector);
     void publishSettings(proto::Setting setting);
     void init(int teamId);
     proto::World getWorldState();

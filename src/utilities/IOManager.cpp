@@ -24,6 +24,7 @@ IOManager::~IOManager() {
     delete refSubscriber;
     delete feedbackSubscriber;
     delete robotCommandPublisher;
+    delete robotVectorPublisher;
     delete settingsPublisher;
 }
 
@@ -37,10 +38,12 @@ void IOManager::init(int teamId) {
     if (teamId == 1) {
         feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_SECONDARY_CHANNEL, &IOManager::handleFeedback, this);
         robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
+        robotVectorPublisher = new proto::Publisher<std::vector<proto::RobotCommand>>(proto::ROBOT_COMMANDS_SECONDARY_CHANNEL);
         settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_SECONDARY_CHANNEL);
     } else {
         feedbackSubscriber = new proto::Subscriber<proto::RobotFeedback>(proto::FEEDBACK_PRIMARY_CHANNEL, &IOManager::handleFeedback, this);
         robotCommandPublisher = new proto::Publisher<proto::RobotCommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
+        robotVectorPublisher = new proto::Publisher<std::vector<proto::RobotCommand>>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
         settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
     }
 }
@@ -135,5 +138,9 @@ const proto::DemoRobot &IOManager::getDemoInfo() {
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands_, const World *pWorld) {}
+void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
+    if(!pause->getPause()) {
+        robotVectorPublisher->send(robotCommands);
+    }
+}
 }  // namespace rtt::ai::io
