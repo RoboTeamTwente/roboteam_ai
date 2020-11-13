@@ -2,16 +2,18 @@
 // Created by timovdk on 3/30/20.
 //
 
-#include "stp/plays/AggressiveFormation.h"
+#include "stp/plays/AggressiveStopFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
+#include "stp/invariants/BallOnTheirSideInvariant.h"
 #include "stp/roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
 
-AggressiveFormation::AggressiveFormation() : Play() {
+AggressiveStopFormation::AggressiveStopFormation() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnTheirSideInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
@@ -22,9 +24,9 @@ AggressiveFormation::AggressiveFormation() : Play() {
              std::make_unique<role::BallAvoider>("offender_2"),  std::make_unique<role::BallAvoider>("offender_3")};
 }
 
-uint8_t AggressiveFormation::score(world::World* world) noexcept { return 100; }
+uint8_t AggressiveStopFormation::score(world::World* world) noexcept { return 100; }
 
-void AggressiveFormation::calculateInfoForRoles() noexcept {
+void AggressiveStopFormation::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
@@ -41,9 +43,9 @@ void AggressiveFormation::calculateInfoForRoles() noexcept {
     stpInfos["offender_3"].setPositionToMoveTo(Vector2{length / 3, 0.0});
 }
 
-bool AggressiveFormation::shouldRoleSkipEndTactic() { return false; }
+bool AggressiveStopFormation::shouldRoleSkipEndTactic() { return false; }
 
-Dealer::FlagMap AggressiveFormation::decideRoleFlags() const noexcept {
+Dealer::FlagMap AggressiveStopFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
@@ -63,5 +65,5 @@ Dealer::FlagMap AggressiveFormation::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char* AggressiveFormation::getName() { return "Aggressive Formation"; }
+const char* AggressiveStopFormation::getName() { return "Aggressive Formation"; }
 }  // namespace rtt::ai::stp::play

@@ -2,19 +2,19 @@
 // Created by timo on 3/27/20.
 //
 
-#ifndef RTT_DEFENSIVEFORMATION_H
-#define RTT_DEFENSIVEFORMATION_H
+#ifndef RTT_DEFENSIVESTOPFORMATION_H
+#define RTT_DEFENSIVESTOPFORMATION_H
 
 #include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
-class DefensiveFormation : public Play {
+class DefensiveStopFormation : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    DefensiveFormation();
+    DefensiveStopFormation();
 
     /**
      * Gets the score for the current play
@@ -47,4 +47,4 @@ class DefensiveFormation : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_DEFENSIVEFORMATION_H
+#endif  // RTT_DEFENSIVESTOPFORMATION_H
