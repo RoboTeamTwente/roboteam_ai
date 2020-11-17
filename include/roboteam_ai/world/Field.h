@@ -3,8 +3,6 @@
 
 #include <roboteam_utils/Vector2.h>
 #include "gtest/gtest_prod.h"
-#include <roboteam_proto/FieldCircularArc.pb.h>
-#include <roboteam_proto/FieldLineSegment.pb.h>
 #include <roboteam_proto/messages_robocup_ssl_geometry.pb.h>
 
 namespace rtt::world {

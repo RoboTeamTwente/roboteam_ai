@@ -8,7 +8,6 @@
 #include <include/roboteam_ai/interface/api/Toggles.h>
 #include <QWidget>
 #include <thread>
-
 namespace rtt {
 namespace input {
 class JoystickManager;

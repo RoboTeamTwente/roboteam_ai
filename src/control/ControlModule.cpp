@@ -12,22 +12,21 @@
 
 namespace rtt::ai::control {
 
-    proto::RobotCommand ControlModule::command;
-    std::optional<::rtt::world::view::RobotView> ControlModule::robot;
+
     std::vector<proto::RobotCommand> ControlModule::robotCommands;
 
-    void ControlModule::rotateRobotCommand() noexcept {
+    void ControlModule::rotateRobotCommand(proto::RobotCommand& command){
         command.mutable_vel()->set_x(-command.vel().x());
         command.mutable_vel()->set_y(-command.vel().y());
         command.set_w(static_cast<float>(Angle(command.w() + M_PI)));
     }
 
-    void ControlModule::limitRobotCommand() noexcept {
-        limitVel();
-        limitAngularVel();
+    void ControlModule::limitRobotCommand(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
+        limitVel(command,robot);
+        limitAngularVel(command,robot);
     }
 
-    void ControlModule::limitVel() noexcept {
+    void ControlModule::limitVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         auto limitedVel = Vector2(command.vel().x(), command.vel().y());
 
         limitedVel = control::ControlUtils::velocityLimiter(limitedVel);
@@ -47,7 +46,7 @@ namespace rtt::ai::control {
         command.mutable_vel()->set_y(static_cast<float>(limitedVel.y));
     }
 
-    void ControlModule::limitAngularVel() noexcept {
+    void ControlModule::limitAngularVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
         // Might want to limit on the robot itself
         if (robot->hasBall() && command.use_angle()) {
@@ -64,33 +63,24 @@ namespace rtt::ai::control {
         }
     }
 
-    void ControlModule::publishRobotCommand(std::optional<::rtt::world::view::RobotView> robot_, const proto::RobotCommand& command_, const rtt::world::World *data) noexcept {
-        robot = robot_;
-        command = command_;
-
+    void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept {
+        proto::RobotCommand robot_command=command;
         // If we are not left, commands should be rotated (because we play as right)
         if (!SETTINGS.isLeft()) {
-            rotateRobotCommand();
+            rotateRobotCommand(robot_command);
         }
 
-        limitRobotCommand();
-
-        bool doubleCommand = false;
-        for (const proto::RobotCommand &robotCommand: robotCommands) {
-            if (command.id() == robotCommand.id()) { // Check if there is already a command with this robotID in the vector
-                doubleCommand = true;
-                break;
-            }
-        }
-
+        limitRobotCommand(robot_command, robot);
         // Only add commands with a robotID that is not in the vector yet
-        if (!doubleCommand && (command.id() >= 0 && command.id() < 16)) {
-            robotCommands.emplace_back(command);
+        if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
+          robotCommands.emplace_back(robot_command);
         }
 
-        if(robotCommands.size() >= 8) { //TODO: We should have a value indicating the amount of robots we're using, GRSim maybe? Use that instead of this value
-            io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
-            robotCommands.clear();
-        }
+
     }
+void ControlModule::sendAllCommands() {
+      //TODO: check for double commands
+      io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
+      robotCommands.clear();
+}
 }  // namespace rtt::ai::stp

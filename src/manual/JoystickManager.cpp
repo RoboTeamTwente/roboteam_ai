@@ -1,12 +1,13 @@
 #include "manual/JoystickManager.h"
 #include <roboteam_utils/Print.h>
 #include "include/roboteam_ai/world/World.hpp"
+#include "world/views/RobotView.hpp"
 
 using namespace std::chrono;
 
 namespace rtt::input {
 
-JoystickManager::JoystickManager(ai::io::IOManager *ioManager) : ioManager(ioManager) { }
+JoystickManager::JoystickManager() { }
 
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {
@@ -119,8 +120,10 @@ void JoystickManager::tickJoystickHandlers() {
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
         auto const& [_, world] = world::World::instance();
-        ioManager->publishRobotCommand(joystickHandler.second->getCommand(), world);
+      auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id());
+      rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
     }
+
 }
 
 /** Handles events and forwards them if needed */

@@ -22,16 +22,6 @@ namespace rtt::ai::control {
     class ControlModule {
     protected:
         /**
-         * Robot command that will eventually be sent to the robot
-         */
-        static proto::RobotCommand command;
-
-        /**
-         * Robot forwarded by the skill
-         */
-        static std::optional<world::view::RobotView> robot;
-
-        /**
          *
          */
          static std::vector<proto::RobotCommand> robotCommands;
@@ -39,28 +29,32 @@ namespace rtt::ai::control {
         /**
          * Applies constraints to the internal robot command
          */
-        static void limitRobotCommand() noexcept;
+        static void limitRobotCommand(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot);
 
         /**
          * Limits the velocity with a control_constants value
          */
-        static void limitVel() noexcept;
+        static void limitVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot);
 
         /**
          * Limits the angular velocity with a control_constants value
          */
-        static void limitAngularVel() noexcept;
+        static void limitAngularVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot);
 
         /**
          * Rotates the robot command to the other side of the field
          */
-        static void rotateRobotCommand() noexcept;
+        static void rotateRobotCommand(proto::RobotCommand& command);
 
     public:
         /**
-         * Limits the current robot command and publishes it
+         * Limits the current robot command and adds it to the list of commands to be sent
          */
-        static void publishRobotCommand(std::optional<world::view::RobotView> robot, const proto::RobotCommand& command, world::World const* data) noexcept;
+        static void addRobotCommand(std::optional<rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept;
+        /**
+         *
+         */
+        static void sendAllCommands();
     };
 }  // namespace rtt::ai::control
 

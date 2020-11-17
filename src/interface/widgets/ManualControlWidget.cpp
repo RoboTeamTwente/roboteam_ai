@@ -12,7 +12,7 @@ ManualControlWidget::ManualControlWidget(QWidget *parent) : QWidget(parent) {
     allowCheckBox->setText("Allow Manual takeover");
     allowCheckBox->setChecked(false);
     layout->addWidget(allowCheckBox);
-    manager = new rtt::input::JoystickManager(&rtt::ai::io::io);
+    manager = new rtt::input::JoystickManager();
 
     joyThread = std::thread(&rtt::input::JoystickManager::run, manager);
 
