@@ -75,12 +75,11 @@ namespace rtt::ai::control {
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
         }
-
-
     }
-void ControlModule::sendAllCommands() {
-      //TODO: check for double commands
-      io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
-      robotCommands.clear();
-}
+
+    void ControlModule::sendAllCommands() {
+          //TODO: check for double commands
+          io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
+          robotCommands.clear();
+    }
 }  // namespace rtt::ai::stp

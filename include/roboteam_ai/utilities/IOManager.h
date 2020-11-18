@@ -47,10 +47,9 @@ class IOManager {
     proto::State getState() const;
 
     static std::mutex stateMutex;
-
 };
 
-extern IOManager io;
+    extern IOManager io;
 
 }  // namespace io
 }  // namespace rtt::ai

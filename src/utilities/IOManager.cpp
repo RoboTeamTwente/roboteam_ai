@@ -52,10 +52,8 @@ void IOManager::handleState(proto::State &stateMsg) {
         SETTINGS.setLeft(!(state.referee().blue_team_on_positive_half() ^ SETTINGS.isYellow()));
         auto const& [_, data] = World::instance();
         ai::GameStateManager::setRefereeData(state.referee(), data);
-
     }
 }
-
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
