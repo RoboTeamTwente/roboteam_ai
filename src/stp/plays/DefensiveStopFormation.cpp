@@ -2,16 +2,18 @@
 // Created by timo on 3/27/20.
 //
 
-#include "stp/plays/DefensiveFormation.h"
+#include "stp/plays/DefensiveStopFormation.h"
 
 #include "stp/invariants/game_states/StopGameStateInvariant.h"
+#include "stp/invariants/BallOnOurSideInvariant.h"
 #include "stp/roles/BallAvoider.h"
 
 namespace rtt::ai::stp::play {
 
-DefensiveFormation::DefensiveFormation() : Play() {
+DefensiveStopFormation::DefensiveStopFormation() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
+    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
 
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
@@ -25,9 +27,9 @@ DefensiveFormation::DefensiveFormation() : Play() {
         std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
 }
 
-uint8_t DefensiveFormation::score(world::World* world) noexcept { return 20; }
+uint8_t DefensiveStopFormation::score(world::World* world) noexcept { return 100; }
 
-void DefensiveFormation::calculateInfoForRoles() noexcept {
+void DefensiveStopFormation::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
@@ -44,9 +46,9 @@ void DefensiveFormation::calculateInfoForRoles() noexcept {
     stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
 }
 
-bool DefensiveFormation::shouldRoleSkipEndTactic() { return false; }
+bool DefensiveStopFormation::shouldRoleSkipEndTactic() { return false; }
 
-Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
+Dealer::FlagMap DefensiveStopFormation::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
@@ -66,5 +68,5 @@ Dealer::FlagMap DefensiveFormation::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
-const char* DefensiveFormation::getName() { return "Defensive Formation"; }
+const char* DefensiveStopFormation::getName() { return "Defensive Formation"; }
 }  // namespace rtt::ai::stp::play
