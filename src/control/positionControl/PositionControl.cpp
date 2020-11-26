@@ -6,6 +6,7 @@
 
 #include "roboteam_utils/Print.h"
 #include "stp/StpInfo.h"
+#include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 
 namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
@@ -27,9 +28,15 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
         computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
     }
 
+    BB::BBTrajectory2D test = BB::BBTrajectory2D(currentPosition,currentVelocity,targetPosition,ai::Constants::MAX_VEL(),ai::Constants::MAX_ACC_UPPER());
+    std::vector<Vector2> points;
+    points = test.getPathApproach(0.05);
+
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
+
+    interface::Input::drawData(interface::Visual::PATHFINDING,points,Qt::white,robotId,interface::Drawing::DOTS);
 
     RobotCommand command = RobotCommand();
     command.pos = computedPaths[robotId].front();
@@ -46,4 +53,9 @@ bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, cons
 }
 
 void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { collisionDetector.setRobotPositions(robotPositions); }
-}  // namespace rtt::ai::control
+
+void PositionControl::setBall(rtt::world::ball::Ball ball) {
+    worldObjects.setBall(ball);
+}
+}  // namespace rtt::ai// ::control
+

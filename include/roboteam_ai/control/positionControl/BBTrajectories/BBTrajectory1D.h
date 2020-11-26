@@ -77,6 +77,21 @@ namespace rtt::BB {
         [[nodiscard]] double getTotalTime() const;
 
         /**
+         * @brief Gets the end time of the current time
+         * @return End time of current part
+         */
+        [[nodiscard]] double getTimeCurrentPart1D() const;
+
+        /**
+         * @brief Computes the position where we would end up if we use maximum deceleration
+         * @param pos Current position
+         * @param vel Current velocity
+         * @param maxAcc Maximum allowed acceleration/deceleration
+         * @return final position (with zero velocity)
+         */
+        static double fullBrakePos(double pos, double vel, double accMax);
+
+        /**
          * Checks if time is in the last (decelerating to 0) part of the trajectory
          * @param t
          * @return true if t is in the last part of the trajectory
@@ -99,14 +114,7 @@ namespace rtt::BB {
         BBTrajectory1D() = default;
 
     private:
-        /**
-         * @brief Computes the position where we would end if we would initiate a maximal break given current state
-         * @param pos Current position
-         * @param vel Current velocity
-         * @param maxAcc Maximum allowed acceleration/deceleration
-         * @return final position (with zero velocity)
-         */
-        static double fullBrakePos(double pos, double vel, double accMax);
+
 
         /**
          * Computes the position where we would end if we first accelerate to a target velocity and then immediately decelerate to 0

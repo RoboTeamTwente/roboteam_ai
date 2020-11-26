@@ -132,6 +132,10 @@ namespace rtt::BB {
         return parts[numParts - 1].tEnd;
     }
 
+    double BBTrajectory1D::getTimeCurrentPart1D() const {
+        return parts[0].tEnd;
+    }
+
     double BBTrajectory1D::getAcceleration(double t) const {
         double trajTime = fmax(0, t);
         if (trajTime >= getTotalTime()) {

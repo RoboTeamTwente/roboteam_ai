@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include <include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory2D.h>
-
+#include <include/roboteam_ai/utilities/Constants.h>
 namespace rtt::BB {
 
     BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,
@@ -67,5 +67,32 @@ namespace rtt::BB {
             points.push_back(getPosition(timeStep*i));
         }
         return points;
+    }
+
+    std::vector<Vector2> BBTrajectory2D::getPathApproach(double timeStep) const {
+        std::vector<Vector2> points;
+        auto totalTime = fmax(x.getTotalTime(),y.getTotalTime());
+        //auto radius = rtt::ai::Constants::ROBOT_RADIUS();
+        //auto vMax = rtt::ai::Constants::MAX_VEL();
+        //auto aMax = rtt::ai::Constants::MAX_ACC_UPPER();
+
+        //double minTimeStep = 2*radius/vMax; // 2 times the robotradius divided by maximum velocity
+        //double maxTimeStep = 2*sqrt(radius/aMax); // sqrt(2* radius / (0.5* maximum acceleration) )
+        double time = 0;
+
+        while(time<totalTime){
+            //timeStep = std::clamp(2*radius/getVelocity(time).length(),minTimeStep,maxTimeStep);
+            time += timeStep;
+            points.push_back(getPosition(time));
+        }
+        return points;
+    }
+
+    double BBTrajectory2D::getTotalTime() const {
+        return std::max(x.getTotalTime(),y.getTotalTime());
+    }
+
+    Vector2 BBTrajectory2D::getBrakePos(Vector2 pos, Vector2 vel, double accMax) const {
+        return Vector2(x.fullBrakePos(pos.x,vel.x,accMax),y.fullBrakePos(pos.y,vel.y,accMax));
     }
 }

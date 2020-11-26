@@ -162,6 +162,8 @@ public:
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
+    void forwardBall(const ball::Ball* ball);
+
 #ifdef RUNNING_TEST
     /**
      * Resets the world

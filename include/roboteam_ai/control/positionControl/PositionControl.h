@@ -6,6 +6,7 @@
 #define RTT_POSITIONCONTROL_H
 
 #include "CollisionDetector.h"
+#include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include "control/RobotCommand.h"
 #include "control/positionControl/pathPlanning/NumTreesPlanning.h"
 #include "control/positionControl/pathTracking/PidTracking.h"
@@ -24,6 +25,7 @@ class PositionControl {
     static constexpr double FINAL_AVOIDANCE_DISTANCE = 4 * Constants::ROBOT_RADIUS();
 
     CollisionDetector collisionDetector;
+    rtt::BB::WorldObjects worldObjects;
     NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
     PidTracking pathTrackingAlgorithm;
 
@@ -50,6 +52,8 @@ class PositionControl {
      * @param robotPositions the position vector of the robots
      */
     void setRobotPositions(std::vector<Vector2> &robotPositions);
+
+    void setBall(rtt::world::ball::Ball ball);
 
     /**
      * The computed path should be recalculated if: <br>

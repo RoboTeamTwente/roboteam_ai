@@ -185,7 +185,7 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
-        )
+        src/control/positionControl/BBTrajectories/WorldObjects.cpp include/roboteam_ai/control/positionControl/BBTrajectories/WorldObjects.h)
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
@@ -269,7 +269,7 @@ set(AI_SOURCES
         include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory1D.h
         src/control/positionControl/BBTrajectories/BBTrajectory1D.cpp
         include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory2D.h
-        src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp)
+        src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp src/control/positionControl/BBTrajectories/WorldObjects.cpp include/roboteam_ai/control/positionControl/BBTrajectories/WorldObjects.h src/control/positionControl/BBTrajectories/WorldObjects.cpp include/roboteam_ai/control/positionControl/BBTrajectories/WorldObjects.h src/control/positionControl/BBTrajectories/WorldObjects.cpp include/roboteam_ai/control/positionControl/BBTrajectories/WorldObjects.h)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

@@ -90,6 +90,15 @@ namespace rtt::BB {
          */
         [[nodiscard]] std::vector<Vector2> getStraightLines(unsigned int N) const;
 
+        [[nodiscard]] std::vector<Vector2> getPathApproach(double timeStep) const;
+
+        /**
+         * @brief Gets tEnd of the current part
+         */
+        [[nodiscard]] double getTotalTime() const;
+
+        [[nodiscard]] Vector2 getBrakePos(Vector2 pos, Vector2 vel, double accMax) const;
+
     private:
         /**
             * @brief  Computes a bang bang trajectory with a given alpha value.
