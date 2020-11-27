@@ -2,12 +2,14 @@
 // Created by floris on 15-11-20.
 //
 #include <include/roboteam_ai/world/WorldData.hpp>
+#include <utility>
 #include "include/roboteam_ai/world/World.hpp"
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 
 namespace rtt::BB {
 
     rtt::world::ball::Ball WorldObjects::ball_;
+    std::vector<rtt::world::view::RobotView> WorldObjects::robots;
 
     WorldObjects::WorldObjects() {
         auto ruleset = gameState.getRuleSet();
@@ -67,6 +69,9 @@ namespace rtt::BB {
             }
         }
 
+        //auto robots[0]->getPos()
+
+
         return collisions;
     }
 
@@ -89,4 +94,9 @@ namespace rtt::BB {
     void WorldObjects::setBall(rtt::world::ball::Ball ball) {
         ball_ = ball;
     }
+
+    void WorldObjects::setRobotPositions(std::vector<rtt::world::view::RobotView> robots_){
+        robots = std::move(robots_);
+    }
+
 }

@@ -22,6 +22,7 @@ namespace rtt::BB {
         rtt::ai::GameState gameState = rtt::ai::GameStateManager::getCurrentGameState();
         rtt::ai::RuleSet ruleset = gameState.getRuleSet();
         static rtt::world::ball::Ball ball_;
+        static std::vector<rtt::world::view::RobotView> robots;
 
     public:
         WorldObjects();
@@ -39,6 +40,8 @@ namespace rtt::BB {
 
         bool canEnterDefenseArea(int robotId);
         bool canMoveOutsideField(int robotId);
+
+        static void setRobotPositions(std::vector<rtt::world::view::RobotView> robots_);
     };
 }
 

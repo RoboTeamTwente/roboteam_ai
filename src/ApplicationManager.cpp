@@ -129,6 +129,7 @@ void ApplicationManager::runOneLoopCycle() {
             world->updatePositionControl();
             world->updateFeedback(feedbackMap);
             world->forwardBall(world->getWorld()->getBall()->get());
+            world->forwardRobots(world->getWorld()->getRobotsNonOwning());
             decidePlay(world);
 
         } else {

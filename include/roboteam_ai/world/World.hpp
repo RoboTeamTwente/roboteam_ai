@@ -164,6 +164,8 @@ public:
 
     void forwardBall(const ball::Ball* ball);
 
+    void forwardRobots(std::vector<view::RobotView> robots);
+
 #ifdef RUNNING_TEST
     /**
      * Resets the world
