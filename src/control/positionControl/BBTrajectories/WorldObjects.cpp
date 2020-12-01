@@ -19,14 +19,15 @@ namespace rtt::BB {
         // You should be able to break before hitting the obstacle if the obstacle is 1.65 seconds away
         // max velocity (8.192) divided by max acceleration (5) is 1.6382 so 1.65s should be safe
         // no collision has to be checked after 1.65s
-        double timeStep = 0.05;
-        auto points = BBTrajectory.getPathApproach(timeStep);
+        double timeStep = 0.1;
+        double maxTime = 2;
+        auto pathPoints = BBTrajectory.getPathApproach(timeStep);
         std::vector<Vector2> collisions;
         std::vector<double> collisionTimes;
 
         if (canMoveOutsideField(robotId)) {
             int i = 0;
-            for (Vector2 p : points) {
+            for (Vector2 p : pathPoints) {
                 if (rtt::ai::FieldComputations::pointIsInField(*field, p, rtt::ai::Constants::ROBOT_RADIUS())) {
                     collisions.emplace_back(p);
                     collisionTimes.emplace_back(i*timeStep);
@@ -37,7 +38,7 @@ namespace rtt::BB {
 
         if (!canEnterDefenseArea(robotId)) {
             int i = 0;
-            for (Vector2 p : points) {
+            for (Vector2 p : pathPoints) {
                 if (rtt::ai::FieldComputations::pointIsInDefenseArea(*field, p, true, 0) ||
                     rtt::ai::FieldComputations::pointIsInDefenseArea(*field, p, false,
                                                                      0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
@@ -56,19 +57,21 @@ namespace rtt::BB {
             //TODO: improve ball trajectory approximation
             //Current approximation just assume it continues on the same path with the same velocity
             double time = 0;
-            while (points.size()*timeStep > time){
+            while (pathPoints.size()*timeStep > time || time > maxTime){
                 ballTrajectory.emplace_back(startPositionBall + VelocityBall*time);
                 time += timeStep;
             }
 
-            for (int i = 0; i < points.size(); i++) {
-                if (ruleset.minDistanceToBall > (points[i]-ballTrajectory[i]).length()){
-                    collisions.emplace_back(points[i]);
+            for (int i = 0; i < ballTrajectory.size(); i++) {
+                if (ruleset.minDistanceToBall > (pathPoints[i]-ballTrajectory[i]).length()){
+                    collisions.emplace_back(pathPoints[i]);
                     collisionTimes.emplace_back(i*timeStep);
                 }
             }
         }
 
+
+        //rtt::ai::Constants::ROBOT_RADIUS()
         //auto robots[0]->getPos()
 
 

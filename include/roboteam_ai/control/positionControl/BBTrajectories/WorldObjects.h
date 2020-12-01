@@ -28,10 +28,6 @@ namespace rtt::BB {
         WorldObjects();
         //WorldObjects(rtt::ai::GameState gameState);
 
-        bool robotObjectsBool = true;
-        bool sideLineBool = true;
-        bool goalBool = true;
-
         // Returns true if there is a collision
         std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory,int robotId);
 
