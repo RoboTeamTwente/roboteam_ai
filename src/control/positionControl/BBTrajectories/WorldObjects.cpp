@@ -13,22 +13,20 @@ namespace rtt::BB {
 
     WorldObjects::WorldObjects() {
         auto ruleset = gameState.getRuleSet();
-    };
+    }
 
     std::vector<Vector2> WorldObjects::collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory, int robotId) {
-        // You should be able to break before hitting the obstacle if the obstacle is 1.65 seconds away
-        // max velocity (8.192) divided by max acceleration (5) is 1.6382 so 1.65s should be safe
-        // no collision has to be checked after 1.65s
         double timeStep = 0.1;
-        double maxTime = 2;
+        double ballAvoidanceTime = 1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
         std::vector<Vector2> collisions;
         std::vector<double> collisionTimes;
 
-        if (canMoveOutsideField(robotId)) {
+        // If the robot can not move outside the field, check if its path goes outside the field
+        if (!canMoveOutsideField(robotId)) {
             int i = 0;
             for (Vector2 p : pathPoints) {
-                if (rtt::ai::FieldComputations::pointIsInField(*field, p, rtt::ai::Constants::ROBOT_RADIUS())) {
+                if (!rtt::ai::FieldComputations::pointIsInField(*field, p, rtt::ai::Constants::ROBOT_RADIUS())) {
                     collisions.emplace_back(p);
                     collisionTimes.emplace_back(i*timeStep);
                 }
@@ -36,6 +34,7 @@ namespace rtt::BB {
             }
         }
 
+        // If the robot can not move into defense area, check if its path goes into either defense area
         if (!canEnterDefenseArea(robotId)) {
             int i = 0;
             for (Vector2 p : pathPoints) {
@@ -49,32 +48,34 @@ namespace rtt::BB {
             }
         }
 
+        // Check if robot is closer to the ball than it is allowed to be
         if (ruleset.minDistanceToBall > 0) {
             auto startPositionBall = ball_.getPos();
             auto VelocityBall = ball_.getFilteredVelocity();
             std::vector<Vector2> ballTrajectory;
 
             //TODO: improve ball trajectory approximation
-            //Current approximation just assume it continues on the same path with the same velocity
+            //Current approximation assumes it continues on the same path with the same velocity, and we check 1 second deep
             double time = 0;
-            while (pathPoints.size()*timeStep > time || time > maxTime){
+            while (pathPoints.size()*timeStep > time || time < ballAvoidanceTime){
                 ballTrajectory.emplace_back(startPositionBall + VelocityBall*time);
                 time += timeStep;
             }
 
+            // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
+            auto ballTube = LineSegment(startPositionBall,rtt::ai::GameStateManager::getRefereeDesignatedPosition());
             for (int i = 0; i < ballTrajectory.size(); i++) {
-                if (ruleset.minDistanceToBall > (pathPoints[i]-ballTrajectory[i]).length()){
+                if (ruleset.minDistanceToBall > (pathPoints[i]-ballTrajectory[i]).length()
+                    || (gameState.getStrategyName() == "ball_placement_them"
+                        && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i]))){
                     collisions.emplace_back(pathPoints[i]);
                     collisionTimes.emplace_back(i*timeStep);
                 }
             }
         }
-
-
-        //rtt::ai::Constants::ROBOT_RADIUS()
-        //auto robots[0]->getPos()
-
-
+        if(!collisions.empty()) {
+            std::cout << "There is at least 1 collision" << std::endl;
+        }
         return collisions;
     }
 

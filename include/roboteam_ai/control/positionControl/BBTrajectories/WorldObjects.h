@@ -28,7 +28,8 @@ namespace rtt::BB {
         WorldObjects();
         //WorldObjects(rtt::ai::GameState gameState);
 
-        // Returns true if there is a collision
+        // Takes a calculated path of a robot, and checks each point along that path for (non-)stationary collisions.
+        // Returns either an empty Vector or a Vector with each collision along the path.
         std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory,int robotId);
 
         void setField(const rtt::ai::rtt_world::Field& field);
