@@ -8,14 +8,17 @@
 
 namespace rtt::BB {
 
-    rtt::world::ball::Ball WorldObjects::ball_;
+    rtt::world::ball::Ball *WorldObjects::ball_;
     std::vector<rtt::world::view::RobotView> WorldObjects::robots;
 
     WorldObjects::WorldObjects() {
-        auto ruleset = gameState.getRuleSet();
+
     }
 
     std::vector<Vector2> WorldObjects::collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory, int robotId) {
+        gameState = rtt::ai::GameStateManager::getCurrentGameState();
+        ruleset = gameState.getRuleSet();
+
         double timeStep = 0.1;
         double ballAvoidanceTime = 1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
@@ -50,8 +53,8 @@ namespace rtt::BB {
 
         // Check if robot is closer to the ball than it is allowed to be
         if (ruleset.minDistanceToBall > 0) {
-            auto startPositionBall = ball_.getPos();
-            auto VelocityBall = ball_.getFilteredVelocity();
+            auto startPositionBall = ball_->getPos();
+            auto VelocityBall = ball_->getFilteredVelocity();
             std::vector<Vector2> ballTrajectory;
 
             //TODO: improve ball trajectory approximation
@@ -63,7 +66,7 @@ namespace rtt::BB {
             }
 
             // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
-            auto ballTube = LineSegment(startPositionBall,rtt::ai::GameStateManager::getRefereeDesignatedPosition());
+            auto ballTube = LineSegment(startPositionBall,Vector2(0,0));//rtt::ai::GameStateManager::getRefereeDesignatedPosition());
             for (int i = 0; i < ballTrajectory.size(); i++) {
                 if (ruleset.minDistanceToBall > (pathPoints[i]-ballTrajectory[i]).length()
                     || (gameState.getStrategyName() == "ball_placement_them"
@@ -95,7 +98,7 @@ namespace rtt::BB {
         return true;
     }
 
-    void WorldObjects::setBall(rtt::world::ball::Ball ball) {
+    void WorldObjects::setBall(rtt::world::ball::Ball *ball) {
         ball_ = ball;
     }
 

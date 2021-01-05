@@ -12,6 +12,7 @@ namespace rtt::ai::control {
 RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity,
                                                   const Vector2 &targetPosition, stp::PIDType pidType) {
     collisionDetector.setField(field);
+    worldObjects.setField(field);
     // if the target position is outside of the field (i.e. bug in AI), do nothing
     if (!collisionDetector.isPointInsideField(targetPosition)) {
         RTT_WARNING("Target point not in field for robot ID ", robotId)
@@ -31,9 +32,7 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
     BB::BBTrajectory2D test = BB::BBTrajectory2D(currentPosition,currentVelocity,targetPosition,ai::Constants::MAX_VEL(),ai::Constants::MAX_ACC_UPPER());
     std::vector<Vector2> points;
     points = test.getPathApproach(0.1);
-    rtt::BB::WorldObjects worldObjects;
-    auto collisions = worldObjects.collisionChecker(test,0);
-    //std::cout << "Collision: " << collisions[0] << std::endl;
+    auto collisions = worldObjects.collisionChecker(test,1);
 
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
@@ -41,7 +40,10 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
 
     interface::Input::drawData(interface::Visual::PATHFINDING,points,Qt::white,robotId,interface::Drawing::DOTS);
 
-    interface::Input::drawData(interface::Visual::PATHFINDING,collisions,Qt::red,robotId,interface::Drawing::CROSSES);
+    if(!collisions.empty()) {
+        interface::Input::drawData(interface::Visual::PATHFINDING, collisions, Qt::red, robotId,
+                                   interface::Drawing::CROSSES);
+    }
 
     RobotCommand command = RobotCommand();
     command.pos = computedPaths[robotId].front();
@@ -59,8 +61,5 @@ bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, cons
 
 void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) { collisionDetector.setRobotPositions(robotPositions); }
 
-void PositionControl::setBall(rtt::world::ball::Ball ball) {
-    worldObjects.setBall(ball);
-}
 }  // namespace rtt::ai// ::control
 

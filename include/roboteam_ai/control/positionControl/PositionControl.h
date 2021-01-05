@@ -53,7 +53,6 @@ class PositionControl {
      */
     void setRobotPositions(std::vector<Vector2> &robotPositions);
 
-    void setBall(rtt::world::ball::Ball ball);
 
     /**
      * The computed path should be recalculated if: <br>

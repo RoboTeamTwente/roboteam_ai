@@ -162,7 +162,7 @@ public:
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
-    void forwardBall(const ball::Ball* ball);
+    void forwardBall(rtt::world::ball::Ball *ball);
 
     void forwardRobots(std::vector<view::RobotView> robots);
 

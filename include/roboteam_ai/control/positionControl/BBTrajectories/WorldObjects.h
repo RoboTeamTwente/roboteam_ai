@@ -19,9 +19,9 @@ namespace rtt::BB {
         const rtt::ai::rtt_world::Field* field = nullptr;
         rtt::ai::GameStateManager gameStateManager;
 
-        rtt::ai::GameState gameState = rtt::ai::GameStateManager::getCurrentGameState();
-        rtt::ai::RuleSet ruleset = gameState.getRuleSet();
-        static rtt::world::ball::Ball ball_;
+        rtt::ai::GameState gameState;
+        rtt::ai::RuleSet ruleset;
+        static rtt::world::ball::Ball *ball_;
         static std::vector<rtt::world::view::RobotView> robots;
 
     public:
@@ -33,7 +33,7 @@ namespace rtt::BB {
         std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory,int robotId);
 
         void setField(const rtt::ai::rtt_world::Field& field);
-        static void setBall(rtt::world::ball::Ball ball);
+        static void setBall(world::ball::Ball *ball);
 
         bool canEnterDefenseArea(int robotId);
         bool canMoveOutsideField(int robotId);
