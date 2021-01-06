@@ -38,7 +38,7 @@ namespace rtt::BB {
         bool canEnterDefenseArea(int robotId);
         bool canMoveOutsideField(int robotId);
 
-        static void setRobotPositions(std::vector<rtt::world::view::RobotView> robots_);
+        static void setRobots(std::vector<rtt::world::view::RobotView> robots_);
     };
 }
 

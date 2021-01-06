@@ -72,16 +72,9 @@ namespace rtt::BB {
     std::vector<Vector2> BBTrajectory2D::getPathApproach(double timeStep) const {
         std::vector<Vector2> points;
         auto totalTime = fmax(x.getTotalTime(),y.getTotalTime());
-        //auto radius = rtt::ai::Constants::ROBOT_RADIUS();
-        //auto vMax = rtt::ai::Constants::MAX_VEL();
-        //auto aMax = rtt::ai::Constants::MAX_ACC_UPPER();
-
-        //double minTimeStep = 2*radius/vMax; // 2 times the robotradius divided by maximum velocity
-        //double maxTimeStep = 2*sqrt(radius/aMax); // sqrt(2* radius / (0.5* maximum acceleration) )
         double time = 0;
 
         while(time<totalTime){
-            //timeStep = std::clamp(2*radius/getVelocity(time).length(),minTimeStep,maxTimeStep);
             time += timeStep;
             points.push_back(getPosition(time));
         }
