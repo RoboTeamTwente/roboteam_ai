@@ -8,8 +8,7 @@
 
 namespace rtt::BB {
 
-    rtt::world::ball::Ball *WorldObjects::ball_;
-    std::vector<rtt::world::view::RobotView> WorldObjects::robots;
+    world::World *WorldObjects::world;
 
     WorldObjects::WorldObjects() {
 
@@ -20,12 +19,26 @@ namespace rtt::BB {
         ruleset = gameState.getRuleSet();
 
         double timeStep = 0.1;
-        double ballAvoidanceTime = 1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
         std::vector<Vector2> collisions;
         std::vector<double> collisionTimes;
 
         // If the robot can not move outside the field, check if its path goes outside the field
+        this->calculateFieldCollisions(collisions, collisionTimes, pathPoints, robotId, timeStep);
+
+        // If the robot can not move into defense area, check if its path goes into either defense area
+        this->calculateDefenseAreaCollisions(collisions, collisionTimes, pathPoints, robotId, timeStep);
+
+        // Check if robot is closer to the ball than it is allowed to be
+        this->calculateBallCollisions(collisions, collisionTimes, pathPoints, timeStep);
+
+        this->calculateEnemyRobotCollisions(BBTrajectory, collisions, collisionTimes, pathPoints, timeStep);
+
+        return collisions;
+    }
+
+    void WorldObjects::calculateFieldCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                                const std::vector<Vector2> &pathPoints, int robotId, double timeStep) {
         if (!canMoveOutsideField(robotId)) {
             int i = 0;
             for (Vector2 p : pathPoints) {
@@ -36,8 +49,11 @@ namespace rtt::BB {
                 i++;
             }
         }
+    }
 
-        // If the robot can not move into defense area, check if its path goes into either defense area
+    void
+    WorldObjects::calculateDefenseAreaCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                                 const std::vector<Vector2> &pathPoints, int robotId, double timeStep) {
         if (!canEnterDefenseArea(robotId)) {
             int i = 0;
             for (Vector2 p : pathPoints) {
@@ -50,24 +66,26 @@ namespace rtt::BB {
                 i++;
             }
         }
+    }
 
-        // Check if robot is closer to the ball than it is allowed to be
+    void WorldObjects::calculateBallCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                               std::vector<Vector2> pathPoints, double timeStep) {
         if (ruleset.minDistanceToBall > 0) {
-            auto startPositionBall = ball_->getPos();
-            auto VelocityBall = ball_->getFilteredVelocity();
+            auto startPositionBall = world->getWorld()->getBall()->get()->getPos();
+            auto VelocityBall = world->getWorld()->getBall()->get()->getFilteredVelocity();
             std::vector<Vector2> ballTrajectory;
 
             //TODO: improve ball trajectory approximation
             //Current approximation assumes it continues on the same path with the same velocity, and we check 1 second deep
             double time = 0;
+            double ballAvoidanceTime = 1;
             while (pathPoints.size() * timeStep > time || time < ballAvoidanceTime) {
                 ballTrajectory.emplace_back(startPositionBall + VelocityBall * time);
                 time += timeStep;
             }
 
             // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
-            auto ballTube = LineSegment(startPositionBall,
-                                        Vector2(0, 0));//rtt::ai::GameStateManager::getRefereeDesignatedPosition());
+            auto ballTube = LineSegment(startPositionBall, rtt::ai::GameStateManager::getRefereeDesignatedPosition());
             for (int i = 0; i < ballTrajectory.size(); i++) {
                 if (ruleset.minDistanceToBall > (pathPoints[i] - ballTrajectory[i]).length()
                     || (gameState.getStrategyName() == "ball_placement_them"
@@ -77,38 +95,34 @@ namespace rtt::BB {
                 }
             }
         }
-        std::vector<rtt::world::view::RobotView> ourRobots;
-        std::vector<rtt::world::view::RobotView> theirRobots;
-        for (auto index : robots) {
-            if (index->getTeam() == world::us) {
-                ourRobots.emplace_back(index);
-            } else if (index->getTeam() == world::them) {
-                theirRobots.emplace_back(index);
-            } else {
-                RTT_INFO("A robot has an invalid team, this shouldn't happen.")
-            }
-        }
+    }
 
-        for (int i = 0; i < theirRobots.size()-1; i++) {
-            for (int j = 0; j<pathPoints.size()-1; j++) {
-                double currentTime = j*timeStep;
+    void WorldObjects::calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                                     std::vector<Vector2> pathPoints, double timeStep) {
+        auto theirRobots = world->getWorld()->getThem();
+        auto ourRobots = world->getWorld()->getUs();
+
+        for (int i = 0; i < theirRobots.size() - 1; i++) {
+            for (int j = 0; j < pathPoints.size() - 1; j++) {
+                double currentTime = j * timeStep;
                 double maxCollisionCheckTime = 0.5;
-                if(currentTime <= maxCollisionCheckTime) {
-                    auto posDif = BBTrajectory.getPosition(currentTime) - theirRobots[i]->getPos(); //TODO: Change theirRobot position, depending on their velocity. So add their velocity to the position, depending on how far in time you are looking.
-                    auto velDif = BBTrajectory.getVelocity(currentTime) - theirRobots[i]->getVel();
-                    if (velDif.project2(posDif).length() > 1.5) {
-                        if (posDif.length() <= 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
-                            //TODO: Make every one of these checks a separate function (like Rolf said yesterday).
+                if (currentTime <= maxCollisionCheckTime) {
+                    Vector2 posDif = BBTrajectory.getPosition(currentTime) - (theirRobots[i]->getPos() +
+                                                                              theirRobots[i]->getVel() *
+                                                                              currentTime); //Is currentTime defined the same way as the time from the BBTrajectory time?
+                    if (posDif.length() <3 /*<-- kawaiii*/ * ai::Constants::ROBOT_RADIUS_MAX()) {
+                        Vector2 ourVel = BBTrajectory.getVelocity(currentTime);
+                        Vector2 theirVel = theirRobots[i]->getVel();
+                        Vector2 velDif = ourVel - theirVel;
+                        double projectLength = velDif.dot(posDif) / sqrt(posDif.dot(posDif));
+                        if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
+                            collisions.emplace_back(pathPoints[i]);
+                            collisionTimes.emplace_back(currentTime);
                         }
                     }
                 }
             }
         }
-
-        if (!collisions.empty()) {
-            std::cout << "There is at least 1 collision" << std::endl;
-        }
-        return collisions;
     }
 
     void WorldObjects::setField(const rtt::ai::rtt_world::Field &field_) { this->field = &field_; }
@@ -127,12 +141,7 @@ namespace rtt::BB {
         return true;
     }
 
-    void WorldObjects::setBall(rtt::world::ball::Ball *ball) {
-        ball_ = ball;
+    void WorldObjects::setWorld(world::World *world_) {
+        world = world_;
     }
-
-    void WorldObjects::setRobots(std::vector<rtt::world::view::RobotView> robots_) {
-        robots = std::move(robots_);
-    }
-
 }

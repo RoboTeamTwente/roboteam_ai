@@ -16,13 +16,13 @@ namespace rtt::BB {
 
     class WorldObjects {
     private:
-        const rtt::ai::rtt_world::Field* field = nullptr;
-        rtt::ai::GameStateManager gameStateManager;
+        const rtt::ai::rtt_world::Field *field = nullptr;
 
+        rtt::ai::GameStateManager gameStateManager;
         rtt::ai::GameState gameState;
         rtt::ai::RuleSet ruleset;
-        static rtt::world::ball::Ball *ball_;
-        static std::vector<rtt::world::view::RobotView> robots;
+
+        static world::World *world;
 
     public:
         WorldObjects();
@@ -30,15 +30,29 @@ namespace rtt::BB {
 
         // Takes a calculated path of a robot, and checks each point along that path for (non-)stationary collisions.
         // Returns either an empty Vector or a Vector with each collision along the path.
-        std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory,int robotId);
+        std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory, int robotId);
 
-        void setField(const rtt::ai::rtt_world::Field& field);
-        static void setBall(world::ball::Ball *ball);
+        void calculateFieldCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                      const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
+
+        void calculateDefenseAreaCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                            const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
+
+        void calculateBallCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                     std::vector<Vector2> pathPoints, double timeStep);
+
+        void
+        calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+                                      std::vector<Vector2> pathPoints, double timeStep);
+
+        void setField(const rtt::ai::rtt_world::Field &field);
 
         bool canEnterDefenseArea(int robotId);
+
         bool canMoveOutsideField(int robotId);
 
-        static void setRobots(std::vector<rtt::world::view::RobotView> robots_);
+        static void setWorld(world::World *world_);
+
     };
 }
 

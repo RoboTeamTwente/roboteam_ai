@@ -128,8 +128,7 @@ void ApplicationManager::runOneLoopCycle() {
             world->updateField(fieldMessage);
             world->updatePositionControl();
             world->updateFeedback(feedbackMap);
-            world->forwardBall(const_cast<world::ball::Ball *>(world->getWorld()->getBall()->get()));
-            world->forwardRobots(world->getWorld()->getRobotsNonOwning());
+            world->forwardWorldToBB();
             decidePlay(world);
 
         } else {

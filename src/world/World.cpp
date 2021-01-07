@@ -111,13 +111,13 @@ namespace rtt::world {
 
     size_t World::getHistorySize() const noexcept { return history.size(); }
 
-    void World::forwardBall(rtt::world::ball::Ball *ball) {
-        BB::WorldObjects::setBall( ball);
+    void World::forwardWorldToBB() {
+        BB::WorldObjects::setWorld(this);
     }
 
-    void World::forwardRobots(std::vector<view::RobotView> robots){
-        std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robots.begin(), [](const auto& robot) -> rtt::world::view::RobotView { return (robot); });
-        BB::WorldObjects::setRobots(robots);
-    }
+//    void World::forwardRobots(std::vector<view::RobotView> robots){
+//        std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robots.begin(), [](const auto& robot) -> rtt::world::view::RobotView { return (robot); });
+//        BB::WorldObjects::setRobots(robots);
+//    }
 
 }  // namespace rtt::world

@@ -162,9 +162,7 @@ public:
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
-    void forwardBall(rtt::world::ball::Ball *ball);
-
-    void forwardRobots(std::vector<view::RobotView> robots);
+    void forwardWorldToBB();
 
 #ifdef RUNNING_TEST
     /**
@@ -255,7 +253,8 @@ public:
      * The position controller, initially null
      */
     ai::control::PositionControl positionControl;
-};
+
+    };
 }  // namespace rtt::world
 
 #endif  // RTT_WORLD_HPP
