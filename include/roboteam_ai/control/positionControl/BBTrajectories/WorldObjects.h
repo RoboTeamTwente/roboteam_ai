@@ -32,18 +32,23 @@ namespace rtt::BB {
         // Returns either an empty Vector or a Vector with each collision along the path.
         std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory, int robotId);
 
-        void calculateFieldCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+        void calculateFieldCollisions(std::vector<Vector2> *collisions, std::vector<double> *collisionTimes,
                                       const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
-        void calculateDefenseAreaCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+        void calculateDefenseAreaCollisions(std::vector<Vector2> *collisions, std::vector<double> *collisionTimes,
                                             const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
-        void calculateBallCollisions(std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+        void calculateBallCollisions(std::vector<Vector2> *collisions, std::vector<double> *collisionTimes,
                                      std::vector<Vector2> pathPoints, double timeStep);
 
         void
-        calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> collisions, std::vector<double> collisionTimes,
+        calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> *collisions,
+                                      std::vector<double> *collisionTimes,
                                       std::vector<Vector2> pathPoints, double timeStep);
+
+        void calculateOurRobotCollisions(BBTrajectory2D BBTrajectory, std::vector<Vector2> *collisions,
+                                         std::vector<double> *collisionTimes, const std::vector<Vector2>& pathPoints,
+                                         double timeStep);
 
         void setField(const rtt::ai::rtt_world::Field &field);
 
@@ -52,7 +57,6 @@ namespace rtt::BB {
         bool canMoveOutsideField(int robotId);
 
         static void setWorld(world::World *world_);
-
     };
 }
 

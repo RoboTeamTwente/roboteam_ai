@@ -32,14 +32,20 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
     BB::BBTrajectory2D test = BB::BBTrajectory2D(currentPosition,currentVelocity,targetPosition,ai::Constants::MAX_VEL(),ai::Constants::MAX_ACC_UPPER());
     std::vector<Vector2> points;
     points = test.getPathApproach(0.1);
-    auto collisions = worldObjects.collisionChecker(test,1);
+    std::vector<Vector2> collisions;
+    do {
+        collisions = worldObjects.collisionChecker(test, robotId);
+        if(!collisions.empty()) {
+            std::cout << "My soul is not empty babyyy" << std::endl;
+            BB::BBTrajectory2D newPath = test.getNewPath(collisions);
+        }
+    } while (!collisions.empty());
 
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId, interface::Drawing::DOTS);
 
     interface::Input::drawData(interface::Visual::PATHFINDING,points,Qt::white,robotId,interface::Drawing::DOTS);
-
     if(!collisions.empty()) {
         interface::Input::drawData(interface::Visual::PATHFINDING, collisions, Qt::red, robotId,
                                    interface::Drawing::CROSSES);
