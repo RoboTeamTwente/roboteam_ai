@@ -32,17 +32,30 @@ namespace rtt::BB {
         // Returns either an empty Vector or a Vector with each collision along the path.
         std::vector<Vector2> collisionChecker(rtt::BB::BBTrajectory2D BBTrajectory, int robotId);
 
+        // Takes a calculated path of a robot and checks points along the path if they are outside the fieldlines if
+        // the robot is not allowed to be there.
+        // Adds these points and the time at which they happen to collisions and collisionTimes
         void calculateFieldCollisions(std::vector<Vector2> *collisions, std::vector<double> *collisionTimes,
                                       const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
+        // Takes a calculated path of a robot and checks points along the path if they are inside the defensearea if
+        // the robot is not allowed to be there.
+        // Adds these points and the time at which they happen to collisions and collisionTimes
         void calculateDefenseAreaCollisions(std::vector<Vector2> *collisions, std::vector<double> *collisionTimes,
                                             const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
+        // Takes a calculated path of a robot and checks points along the path if they are too close to an approximation
+        // of the ball trajectory. If the play is "ball_placement_them" also checks for the path being inside the
+        // balltube.
+        // Adds these points and the time at which they happen to collisions and collisionTimes
         void calculateBallCollisions(std::vector<Vector2> *collisions, std::vector<double> *collisionTimes,
                                      std::vector<Vector2> pathPoints, double timeStep);
 
-        void
-        calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> *collisions,
+        // Takes a calculated path of a robot and checks points along the path if they are too close to an approximation
+        // of the enemy robot paths.
+        // Adds these points and the time at which they happen to collisions and collisionTimes if the difference in
+        // velocity between the two robots is more than 1.5 m/s and we are driving faster
+        void calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> *collisions,
                                       std::vector<double> *collisionTimes,
                                       std::vector<Vector2> pathPoints, double timeStep);
 
