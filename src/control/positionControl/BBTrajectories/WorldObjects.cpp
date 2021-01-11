@@ -20,7 +20,7 @@ namespace rtt::BB {
 
         double timeStep = 0.1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
-        BBTrajectory2D calculatedPaths[world->getWorld()->getUs().size()];
+
         std::vector<Vector2> collisions;
         std::vector<Vector2> *collisionsPtr = &collisions;
         std::vector<double> collisionTimes;
