@@ -33,14 +33,15 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
     std::vector<Vector2> points;
     points = test.getPathApproach(0.1);
     std::vector<Vector2> collisions;
-    BB::BBTrajectory2D calculatedPaths[11];
+    std::vector<Vector2> calculatedPaths[11];
     do {
+        worldObjects.getPath();
         collisions = worldObjects.collisionChecker(test, robotId);
         if(!collisions.empty()) {
             std::cout << "My soul is not empty babyyy" << std::endl;
-            BB::BBTrajectory2D newPath = test.getNewPath(collisions);
+            BB::BBTrajectory2D newPath = test.getPath(collisions);
         }
-        calculatedPaths->(points);
+        calculatedPaths[robotId] = points;
     } while (!collisions.empty());
 
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
