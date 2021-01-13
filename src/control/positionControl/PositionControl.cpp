@@ -31,17 +31,17 @@ RobotCommand PositionControl::computeAndTrackPath(const rtt::world::Field &field
 
     BB::BBTrajectory2D test = BB::BBTrajectory2D(currentPosition,currentVelocity,targetPosition,ai::Constants::MAX_VEL(),ai::Constants::MAX_ACC_UPPER());
     std::vector<Vector2> points;
+    std::vector<Vector2>* pointsPtr = &points;
     points = test.getPathApproach(0.1);
     std::vector<Vector2> collisions;
-    std::vector<Vector2> calculatedPaths[11];
     do {
-        worldObjects.getPath();
+        //worldObjects.getPath();
         collisions = worldObjects.collisionChecker(test, robotId);
         if(!collisions.empty()) {
             std::cout << "My soul is not empty babyyy" << std::endl;
-            BB::BBTrajectory2D newPath = test.getPath(collisions);
+            //BB::BBTrajectory2D newPath = test.getPath(collisions);
         }
-        calculatedPaths[robotId] = points;
+        worldObjects.storeCalculatedPath(pointsPtr,robotId);
     } while (!collisions.empty());
 
     interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
