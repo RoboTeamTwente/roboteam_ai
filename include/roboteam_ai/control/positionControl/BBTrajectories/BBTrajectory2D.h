@@ -99,8 +99,6 @@ namespace rtt::BB {
 
         [[nodiscard]] Vector2 getBrakePos(Vector2 pos, Vector2 vel, double accMax) const;
 
-        BB::BBTrajectory2D getNewPath(std::vector<Vector2> vector);
-
     private:
         /**
             * @brief  Computes a bang bang trajectory with a given alpha value.

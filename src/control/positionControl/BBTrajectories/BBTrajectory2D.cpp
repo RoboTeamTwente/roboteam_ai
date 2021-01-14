@@ -88,8 +88,4 @@ namespace rtt::BB {
     Vector2 BBTrajectory2D::getBrakePos(Vector2 pos, Vector2 vel, double accMax) const {
         return Vector2(x.fullBrakePos(pos.x,vel.x,accMax),y.fullBrakePos(pos.y,vel.y,accMax));
     }
-
-    BBTrajectory2D BBTrajectory2D::getNewPath(std::vector<Vector2> collisions) {
-        return BB::BBTrajectory2D();
-    }
 }

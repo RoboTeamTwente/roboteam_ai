@@ -65,6 +65,8 @@ class PositionControl {
      */
     bool shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
                                const Vector2 &currentVelocity, int robotId);
+
+    BB::BBTrajectory2D getNewPath(BB::BBTrajectory2D trajectory2D, Vector2& vector);
 };
 
 }  // namespace rtt::ai::control
