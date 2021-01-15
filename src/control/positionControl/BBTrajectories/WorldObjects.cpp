@@ -14,7 +14,11 @@ namespace rtt::BB {
 
     }
 
-    std::vector<Vector2> WorldObjects::getFirstCollision(rtt::BB::BBTrajectory2D BBTrajectory, int robotId) {
+
+
+    std::optional<CollisionData> WorldObjects::getFirstCollision(rtt::BB::BBTrajectory2D BBTrajectory, int robotId) {
+        //TODO: write a struct to with collision and drivingdirection
+
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
         ruleset = gameState.getRuleSet();
 
@@ -40,13 +44,17 @@ namespace rtt::BB {
         // For each path already calculated, check if this path collides with those paths
         this->calculateOurRobotCollisions(collisions, collisionTimes, drivingDirection, pathPoints, robotId, timeStep);
 
+        //collisions.emplace_back(Vector2(0,0));
+        //collisionTimes.emplace_back(0.1);
+        //drivingDirection = pathPoints[3]-pathPoints[2];
+
         if(!collisionTimes.empty()) {
             double timeOfCollision = *min_element(collisionTimes.begin(), collisionTimes.end());
             auto iterator = find(collisionTimes.begin(), collisionTimes.end(), timeOfCollision);
             int indexOfCollision = iterator - collisionTimes.begin();
 
-            return {collisions[indexOfCollision], drivingDirection};
-        } else { return {{0,0}, {20,20}}; }
+            return CollisionData{.collisionPosition = collisions[indexOfCollision],.drivingDirection = drivingDirection.normalize()};
+        } else { return std::nullopt; }
     }
 
     void WorldObjects::calculateFieldCollisions(std::vector<Vector2> &collisions, std::vector<double> &collisionTimes, Vector2 &drivingDirection,
@@ -121,7 +129,7 @@ namespace rtt::BB {
         for (int j = 0; j < pathPoints.size(); j++) {
             for (int i = 0; i < theirRobots.size() - 1; i++) {
                 double currentTime = j * timeStep;
-                double maxCollisionCheckTime = 0.5;
+                double maxCollisionCheckTime = 2;
                 if (currentTime <= maxCollisionCheckTime) {
                     // TODO: Currently enemy position in future is calculated with simple model (x = x + v*t), maybe improve?
                     Vector2 theirVel = theirRobots[i]->getVel();
@@ -135,7 +143,7 @@ namespace rtt::BB {
                         if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
                             collisions.emplace_back(theirPos);
                             collisionTimes.emplace_back(currentTime);
-                            drivingDirection = pathPoints[i] - pathPoints[i-1];
+                            drivingDirection = pathPoints[j] - pathPoints[j-1];
                             return;
                         }
                     }
@@ -157,7 +165,7 @@ namespace rtt::BB {
                         j * timeStep < 1) {
                         collisions.emplace_back(calculatedPaths[i][j]);
                         collisionTimes.emplace_back(j * timeStep);
-                        drivingDirection = pathPoints[i] - pathPoints[i-1];
+                        drivingDirection = pathPoints[j] - pathPoints[j-1];
                         return;
                     }
                 }
@@ -165,8 +173,8 @@ namespace rtt::BB {
         }
     }
 
-    void WorldObjects::storeCalculatedPath(std::vector<Vector2> *points, int robotId) {
-        calculatedPaths[robotId] = *points;
+    void WorldObjects::storeCalculatedPath(std::vector<Vector2> points, int robotId) {
+        calculatedPaths[robotId] = points;
     }
 
     void WorldObjects::setField(const rtt::ai::rtt_world::Field &field_) { this->field = &field_; }

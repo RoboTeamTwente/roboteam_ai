@@ -13,6 +13,10 @@
 
 namespace rtt::BB {
 
+    struct CollisionData {
+        Vector2 collisionPosition;
+        Vector2 drivingDirection;
+    };
 
     class WorldObjects {
     private:
@@ -31,7 +35,7 @@ namespace rtt::BB {
 
         // Takes a calculated path of a robot, and checks each point along that path for (non-)stationary collisions.
         // Returns either an empty Vector or a Vector with each collision along the path.
-        std::vector<Vector2> getFirstCollision(rtt::BB::BBTrajectory2D BBTrajectory, int robotId);
+        std::optional<CollisionData> getFirstCollision(rtt::BB::BBTrajectory2D BBTrajectory, int robotId);
 
         // Takes a calculated path of a robot and checks points along the path if they are outside the fieldlines if
         // the robot is not allowed to be there.
@@ -70,7 +74,7 @@ namespace rtt::BB {
                                          Vector2 &drivingDirection, const std::vector<Vector2> &pathPoints, int robotId,
                                          double timeStep);
 
-        void storeCalculatedPath(std::vector<Vector2> *points, int robotId);
+        void storeCalculatedPath(std::vector<Vector2> points, int robotId);
 
         void setField(const rtt::ai::rtt_world::Field &field);
 
