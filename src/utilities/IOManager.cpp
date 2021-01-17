@@ -38,7 +38,7 @@ void IOManager::init(int teamId) {
 /// PROTO HANDLERS ///
 //////////////////////
 void IOManager::handleState(proto::State &stateMsg) {
-    std::lock_guard<std::mutex> lock(stateMutex);
+    std::unique_lock<std::shared_mutex> lock(stateMutex); //write lock
     this->state.CopyFrom(stateMsg);
     if(state.has_referee()){
         roboteam_utils::rotate(state.mutable_referee());
@@ -88,16 +88,17 @@ void IOManager::handleCentralServerConnection(){
   }
   //TODO: actually change settings at the relevant places within our AI
   //then, send the current state once
+  //TODO: make sure to write/add relevant debug information/visualizations (strategy debug, etc.)
+  proto::ModuleState module_state;
   {
-    std::lock_guard<std::mutex> lock(stateMutex);
-    proto::ModuleState module_state;
+    std::shared_lock<std::shared_mutex> lock(stateMutex); //read lock
     module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
-    //TODO: add options here
-    central_server_connection->write(module_state);
   }
+    central_server_connection->write(module_state,true);
 }
 proto::State IOManager::getState(){
-        std::lock_guard<std::mutex> lock(stateMutex);
-        return state;
-    }
+  std::shared_lock<std::shared_mutex> lock(stateMutex);//read lock
+  proto::State copy = state;
+  return copy;
+}
 }  // namespace rtt::ai::io

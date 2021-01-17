@@ -2,7 +2,7 @@
 #define ROBOTEAM_AI_IO_MANAGERRRR_H
 
 #include <iostream>
-#include <mutex>
+#include <shared_mutex>
 
 #include <roboteam_proto/State.pb.h>
 #include <roboteam_proto/AICommand.pb.h>
@@ -47,7 +47,7 @@ class IOManager {
     void init(int teamId);
     proto::State getState();
 
-    std::mutex stateMutex;
+    mutable std::shared_mutex stateMutex;
 };
 
     extern IOManager io;
