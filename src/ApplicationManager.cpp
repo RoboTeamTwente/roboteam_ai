@@ -148,6 +148,7 @@ void ApplicationManager::runOneLoopCycle() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     rtt::ai::control::ControlModule::sendAllCommands();
+    io::io.handleCentralServerConnection();
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {

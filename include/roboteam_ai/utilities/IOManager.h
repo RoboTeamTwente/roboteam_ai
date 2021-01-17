@@ -13,6 +13,7 @@
 
 #include "include/roboteam_ai/world/Field.h"
 #include "utilities/Constants.h"
+#include <roboteam_utils/networking/include/Pair.hpp>
 
 namespace rtt::world {
 class World;
@@ -28,25 +29,25 @@ using namespace rtt::world;
 class IOManager {
    private:
     proto::State state;
-
     proto::Subscriber<proto::State> *worldSubscriber;
     void handleState(proto::State &state);
-
 
     proto::Publisher<proto::AICommand> *robotCommandPublisher;
     proto::Publisher<proto::Setting> *settingsPublisher;
 
     rtt::ai::Pause *pause;
 
+    rtt::networking::PairReceiver<16970> *  central_server_connection;
    public:
     ~IOManager();
     explicit IOManager() = default;
     void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector);
     void publishSettings(proto::Setting setting);
+    void handleCentralServerConnection();
     void init(int teamId);
-    proto::State getState() const;
+    proto::State getState();
 
-    static std::mutex stateMutex;
+    std::mutex stateMutex;
 };
 
     extern IOManager io;

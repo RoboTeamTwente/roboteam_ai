@@ -10,7 +10,6 @@
 
 namespace rtt::ai::io {
 
-std::mutex IOManager::stateMutex;
 
 IOManager io;
 
@@ -32,6 +31,7 @@ void IOManager::init(int teamId) {
         robotCommandPublisher = new proto::Publisher<proto::AICommand>(proto::ROBOT_COMMANDS_PRIMARY_CHANNEL);
         settingsPublisher = new proto::Publisher<proto::Setting>(proto::SETTINGS_PRIMARY_CHANNEL);
     }
+    central_server_connection = new networking::PairReceiver<16970>();
 }
 
 //////////////////////
@@ -68,7 +68,35 @@ void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& 
         robotCommandPublisher->send(command);
     }
 }
-proto::State IOManager::getState() const {
+void IOManager::handleCentralServerConnection(){
+  //first receive any setting changes
+  bool received = true;
+  int numReceivedMessages = 0;
+  while(received){
+    auto receivedUIOptions = central_server_connection->read_next<proto::UiSettings>();
+    if (receivedUIOptions.is_ok()){
+      //TODO: process value
+      receivedUIOptions.value().PrintDebugString();
+      numReceivedMessages ++;
+    }else{
+      received = false;
+      //we don't print the errors as they mark there are no more messages
+    }
+  }
+  if(numReceivedMessages>0){
+    std::cout<<"received " << numReceivedMessages <<" packets from central server"<<std::endl;
+  }
+  //TODO: actually change settings at the relevant places within our AI
+  //then, send the current state once
+  {
+    std::lock_guard<std::mutex> lock(stateMutex);
+    proto::ModuleState module_state;
+    module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
+    //TODO: add options here
+    central_server_connection->write(module_state);
+  }
+}
+proto::State IOManager::getState(){
         std::lock_guard<std::mutex> lock(stateMutex);
         return state;
     }
