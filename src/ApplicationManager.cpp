@@ -9,14 +9,14 @@
 /**
  * Plays are included here
  */
-#include "stp/plays/AggressiveFormation.h"
+#include "stp/plays/AggressiveStopFormation.h"
 #include "stp/plays/Attack.h"
 #include "stp/plays/AttackingPass.h"
 #include "stp/plays/BallPlacementThem.h"
 #include "stp/plays/BallPlacementUs.h"
 #include "stp/plays/DefendPass.h"
 #include "stp/plays/DefendShot.h"
-#include "stp/plays/DefensiveFormation.h"
+#include "stp/plays/DefensiveStopFormation.h"
 #include "stp/plays/FreeKickThem.h"
 #include "stp/plays/GenericPass.h"
 #include "stp/plays/GetBallPossession.h"
@@ -56,8 +56,8 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
@@ -151,11 +151,12 @@ void ApplicationManager::decidePlay(world::World *_world) {
     playChecker.update(_world);
 
     // Here for manual change with the interface
-    if(playDecider.getInterfacePlay()) {
+    if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
         currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
+        rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep

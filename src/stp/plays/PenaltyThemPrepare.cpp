@@ -28,23 +28,18 @@ PenaltyThemPrepare::PenaltyThemPrepare() : Play() {
 uint8_t PenaltyThemPrepare::score(world::World* world) noexcept { return 100; }
 
 void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
-    auto width = field.getFieldWidth();
-    auto length = field.getFieldLength();
+    const double xPosition = -4 * control_constants::ROBOT_RADIUS;
+    const double distanceToCenterLine = field.getFieldWidth() / 2 - 2*control_constants::ROBOT_RADIUS;
+    const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine: -distanceToCenterLine;
 
     // Keeper
     stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
 
     // regular bots
-    stpInfos["formation_0"].setPositionToMoveTo(Vector2(-length / 4 + 2, width / 8));
-    stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 8));
-    stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 8 + 2, width / 4));
-    stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8 + 2, -width / 4));
-    stpInfos["formation_4"].setPositionToMoveTo(Vector2(-length * 3 / 8 + 2, 0.0));
-    stpInfos["formation_5"].setPositionToMoveTo(Vector2(-length * 3 / 8 + 2, width / 5));
-    stpInfos["formation_6"].setPositionToMoveTo(Vector2(-length * 3 / 8 + 2, -width / 5));
-    stpInfos["formation_7"].setPositionToMoveTo(Vector2(-length / 4 + 2, width / 3));
-    stpInfos["formation_8"].setPositionToMoveTo(Vector2(-length / 4 + 2, -width / 3));
-    stpInfos["formation_9"].setPositionToMoveTo(Vector2(-length / 8 + 2, 0.0));
+    const std::string formation = "formation_";
+    for(int i = 1; i <= 10; i++) {
+        stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
+    }
 }
 
 bool PenaltyThemPrepare::shouldRoleSkipEndTactic() { return false; }

@@ -26,6 +26,8 @@ class PlayDecider {
      */
     static void lockInterfacePlay(Play *play);
 
+    static bool interfacePlayChanged;
+
     /**
      * This function checks if there is a locked play. If there is, pick that play.
      * If there isn't, pick the play with the highest score
@@ -35,10 +37,6 @@ class PlayDecider {
      * (either a locked play through the interface or just the highest scored play)
      */
     Play *decideBestPlay(world::World *pWorld, std::vector<Play *> plays) noexcept;
-
-    Play *getInterfacePlay() {
-        return interfacePlay;
-    }
 };
 }  // namespace rtt::ai::stp
 

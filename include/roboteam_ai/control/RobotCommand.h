@@ -18,7 +18,6 @@ class RobotCommand {
     Vector2 vel = Vector2();
     Angle angle = Angle();
     int dribbler = 0;
-    int geneva = 3;
     bool kicker = false;
     double kickerVel = 0;
     bool kickerForced = false;
@@ -38,7 +37,6 @@ class RobotCommand {
         message.set_use_angle(true);
         message.set_w(angle);
         message.set_dribbler(dribbler);
-        message.set_geneva_state(geneva);
         message.set_kicker(kicker);
         message.set_chipper(chipper);
         message.set_chip_kick_vel(std::max(kickerVel, chipperVel));

@@ -2,19 +2,19 @@
 // Created by timo on 3/30/20.
 //
 
-#ifndef RTT_AGGRESSIVEFORMATION_H
-#define RTT_AGGRESSIVEFORMATION_H
+#ifndef RTT_AGGRESSIVESTOPFORMATION_H
+#define RTT_AGGRESSIVESTOPFORMATION_H
 
 #include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
-class AggressiveFormation : public Play {
+class AggressiveStopFormation : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
      */
-    AggressiveFormation();
+    AggressiveStopFormation();
 
     /**
      * Gets the score for the current play
@@ -53,4 +53,4 @@ class AggressiveFormation : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_AGGRESSIVEFORMATION_H
+#endif  // RTT_AGGRESSIVESTOPFORMATION_H
