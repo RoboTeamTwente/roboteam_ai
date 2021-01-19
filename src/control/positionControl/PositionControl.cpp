@@ -79,6 +79,40 @@ namespace rtt::ai::control {
         collisionDetector.setRobotPositions(robotPositions);
     }
 
+
+    //TODO: Use pseudocode below, for creating non-recursive way of finding best path without collisions
+//    using std::priority_queue<PointsToCalculate> pqueue;
+//
+//    BBTrajectory2D computeBBPath(Vector2{2,-2), Vector2{1,0}, Vector2{3,2), robotId) {
+//
+//            double angleBetweenIntermediatePoints = M_PI_4/2;
+//            Vector2 drivingDirection = Vector2(drivingDirection);
+//
+//            BBTPath = generatePath(Vector2{2,-2), Vector2{1,0}, Vector2{2,0});
+//                getFirstCollision();
+//
+//                if(noCollission) {
+//                    return path;
+//                } else {
+//                    //createIntermediatePoints returns 8 points left and right of collision
+//                    pqueue.add(createIntermediatePoints());
+//
+//                    Vector2 bestIntPoint = pqueue.top();
+//
+//                    BBTrajectory2D intPath = generatePath(currentPos, currentVel, bestIntPoint);
+//
+//                    //Only create redCrosses up to point where we dont decelerate yet
+//                    auto listOfRedCrosses = intPath.createRedCrosses(timeStep);
+//                    BBTrajectory2D listOfRedCrossPaths[listOfRedCrosses.size()];
+//
+//                    for(auto i : listOfRedCrosses) {
+//                        listOfRedCrossPaths = generatePath(currentPos, currentVel, listOfRedCrosses[i]);
+//                    }
+//
+//                    return listOfRedCrossPaths.selectBest();
+//                }
+//            }
+
     BB::BBTrajectory2D
     PositionControl::computeBBTPath(Vector2 currentPosition, Vector2 currentVelocity, Vector2 targetPosition,
                                     int robotId, bool originalPath) {
@@ -89,34 +123,32 @@ namespace rtt::ai::control {
         std::optional<BB::BBTrajectory2D> newPath;
         BB::BBTrajectory2D BBTPath;
         std::vector<Vector2> points;
-        if(originalPath) {
+        if (originalPath) {
             //TODO: make sure this is executed once and after that recursively do the while loop below
             BBTPath = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
-                                                            ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
-            points = BBTPath.getPathApproach(timeStep);
+                                         ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
         }
-            do {
-                firstCollision = worldObjects.getFirstCollision(BBTPath, robotId);
-                if (firstCollision.has_value()) {
-                    std::cout << "My soul is not empty babyyy" << std::endl;
-                    Vector2 leftIntermediatePos = (firstCollision->collisionPosition +
-                                                   Vector2(firstCollision->drivingDirection.y,
-                                                           firstCollision->drivingDirection.x * -1).stretchToLength(
-                                                           4 * FINAL_AVOIDANCE_DISTANCE)).rotateAroundPoint(
-                            M_PI_4 / 2, firstCollision->collisionPosition);
-                    Vector2 rightIntermediatePos = (firstCollision->collisionPosition +
-                                                    Vector2(firstCollision->drivingDirection.y,
-                                                            firstCollision->drivingDirection.x * -1).stretchToLength(
-                                                            -4 * FINAL_AVOIDANCE_DISTANCE)).rotateAroundPoint(
-                            -1 * M_PI_4 / 2, firstCollision->collisionPosition);
-                    //vectorsToDraw = {firstCollision, leftIntermediatePos, rightIntermediatePos};
+        do {
+            firstCollision = worldObjects.getFirstCollision(BBTPath, robotId);
+            if (firstCollision.has_value()) {
+                Vector2 leftIntermediatePos = (firstCollision->collisionPosition +
+                                               Vector2(firstCollision->drivingDirection.y,
+                                                       firstCollision->drivingDirection.x * -1).stretchToLength(
+                                                       4 * FINAL_AVOIDANCE_DISTANCE)).rotateAroundPoint(
+                        M_PI_4 / 2, firstCollision->collisionPosition);
+                Vector2 rightIntermediatePos = (firstCollision->collisionPosition +
+                                                Vector2(firstCollision->drivingDirection.y,
+                                                        firstCollision->drivingDirection.x * -1).stretchToLength(
+                                                        -4 * FINAL_AVOIDANCE_DISTANCE)).rotateAroundPoint(
+                        -1 * M_PI_4 / 2, firstCollision->collisionPosition);
+                //vectorsToDraw = {firstCollision, leftIntermediatePos, rightIntermediatePos};
 
-                    newPath = getNewPath(currentPosition, currentVelocity, leftIntermediatePos, rightIntermediatePos);
+                newPath = getNewPath(currentPosition, currentVelocity, leftIntermediatePos, rightIntermediatePos);
 
-                    BBTPath = newPath.value();
-                }
-                worldObjects.storeCalculatedPath(BBTPath.getPathApproach(timeStep), robotId);
-            } while (firstCollision.has_value());
+                BBTPath = newPath.value();
+            }
+            worldObjects.storeCalculatedPath(BBTPath.getPathApproach(timeStep), robotId);
+        } while (firstCollision.has_value());
 
         //1. Kies het punt wat het dichtsbij het huidige pad zit, maak een pad en bereken daarvoor opnieuw collisions uit.              SOON TM
         //2. Als daar collisions in zitten, voer vanuit dit nieuwe pad stap 1 en 2 opnieuw uit, totdat er een pad is zonder collisions. SOON TM

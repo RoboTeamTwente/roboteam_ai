@@ -62,7 +62,7 @@ namespace rtt::BB {
         // of the enemy robot paths.
         // Adds these points and the time at which they happen to collisions and collisionTimes if the difference in
         // velocity between the two robots is more than 1.5 m/s and we are driving faster
-        void calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> &collisions,
+        static void calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> &collisions,
                                            std::vector<double> &collisionTimes, Vector2 &drivingDirection,
                                            const std::vector<Vector2> &pathPoints,
                                            double timeStep);

@@ -10,9 +10,7 @@ namespace rtt::BB {
 
     world::World *WorldObjects::world;
 
-    WorldObjects::WorldObjects() {
-
-    }
+    WorldObjects::WorldObjects() = default;
 
 
 
@@ -39,7 +37,7 @@ namespace rtt::BB {
         this->calculateBallCollisions(collisions, collisionTimes, drivingDirection, pathPoints, timeStep);
 
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
-        this->calculateEnemyRobotCollisions(BBTrajectory, collisions, collisionTimes, drivingDirection, pathPoints, timeStep);
+        WorldObjects::calculateEnemyRobotCollisions(BBTrajectory, collisions, collisionTimes, drivingDirection, pathPoints, timeStep);
 
         // For each path already calculated, check if this path collides with those paths
         this->calculateOurRobotCollisions(collisions, collisionTimes, drivingDirection, pathPoints, robotId, timeStep);
@@ -174,7 +172,7 @@ namespace rtt::BB {
     }
 
     void WorldObjects::storeCalculatedPath(std::vector<Vector2> points, int robotId) {
-        calculatedPaths[robotId] = points;
+        calculatedPaths[robotId] = std::move(points);
     }
 
     void WorldObjects::setField(const rtt::ai::rtt_world::Field &field_) { this->field = &field_; }
