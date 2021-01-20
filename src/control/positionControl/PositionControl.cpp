@@ -44,15 +44,7 @@ namespace rtt::ai::control {
 
 
 
-        std::vector<Vector2> greenCrosses;
-
-
-
-        interface::Input::drawData(interface::Visual::PATHFINDING, greenCrosses, Qt::white, robotId,
-                                   interface::Drawing::DOTS);
-
-
-        this->computeBBTPath(Vector2{0,0}, Vector2{0,0}, Vector2{0,0}, 1, true);
+        this->computeBBTPath(currentPosition, Vector2(2,2), targetPosition, 1, true);
         /*
         //Draw all BB pathPoints
         interface::Input::drawData(interface::Visual::PATHFINDING, points, Qt::white, robotId,
@@ -129,17 +121,17 @@ namespace rtt::ai::control {
     PositionControl::computeBBTPath(Vector2 currentPosition, Vector2 currentVelocity, Vector2 targetPosition,
                                     int robotId, bool originalPath) {
         double timeStep = 0.1;
-        targetPosition = Vector2{3,-3};
+        //targetPosition = Vector2{3,-3};
 
-        std::optional<BB::CollisionData> firstCollision = BB::CollisionData{Vector2{1,0}, Vector2{0,0} };
+        std::optional<BB::CollisionData> firstCollision = BB::CollisionData{Vector2{0,2.5}, Vector2{2,0} };
         //std::vector<Vector2> vectorsToDraw;
         std::optional<BB::BBTrajectory2D> newPath;
         BB::BBTrajectory2D BBTPath;
         std::vector<Vector2> points;
         if (originalPath) {
             //TODO: make sure this is executed once and after that recursively do the while loop below
-            //BBTPath = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
-            //                             ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+            BBTPath = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
+                                         ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
         }
 //        do {
             //firstCollision = worldObjects.getFirstCollision(BBTPath, robotId);
@@ -147,7 +139,7 @@ namespace rtt::ai::control {
             double angleBetweenIntermediatePoints = M_PI_4 / 2;
 
             Vector2 pointToDrawFrom = firstCollision->collisionPosition +
-                                      (firstCollision->collisionPosition - targetPosition).normalize() * 3;
+                                      (firstCollision->collisionPosition - targetPosition).normalize() * 1;
 
             std::vector<Vector2> greenCrosses;
 
@@ -160,11 +152,30 @@ namespace rtt::ai::control {
             }
             interface::Input::drawData(interface::Visual::PATHFINDING, greenCrosses, Qt::green, robotId,
                                        interface::Drawing::CROSSES);
+            interface::Input::drawData(interface::Visual::PATHFINDING, BBTPath.getPathApproach(timeStep), Qt::magenta, robotId,
+                                       interface::Drawing::DOTS);
 
-
+            std::vector<double> greenCrossScore;
+            BB::BBTrajectory2D BBTPathcrosses;
             for (auto i : greenCrosses) {
-                std::vector<double> greenCrossScore = (i-targetPosition).length() + (i-currentPosition).length() + (i.angle() - currentVelocity.angle());
+                double targetWeight = 0.35;
+                double positionWeight = 0.35;
+                double velocityWeight = 0.3;
+
+                auto crossAngle = i.angle() > M_1_PI ? i.angle() - M_1_PI : i.angle();
+                auto test1 = i.angle();
+                auto test2 = currentVelocity.angle();
+                auto test3 =  ((i.angle() - currentVelocity.angle())    /M_1_PI )*velocityWeight;
+                greenCrossScore.emplace_back( ((i-targetPosition).length()    /12 )*targetWeight +
+                                                      ((i-currentPosition).length()    /12 )*positionWeight +
+                                                      ((i.angle() - currentVelocity.angle())    /M_1_PI )*velocityWeight );
+
+                BBTPathcrosses = BB::BBTrajectory2D(currentPosition, currentVelocity, i,
+                                                    ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+                interface::Input::drawData(interface::Visual::PATHFINDING, BBTPathcrosses.getPathApproach(timeStep), Qt::white, robotId,
+                                           interface::Drawing::LINES_CONNECTED);
             }
+
         }
 
 

@@ -24,7 +24,7 @@ std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) no
     // This switch will let a robot drive in a square
     switch (skills.current_num()) {
         case 0:
-            skillStpInfo.setPositionToMoveTo(Vector2(-2, -2));
+            skillStpInfo.setPositionToMoveTo(Vector2(2, 2));
             break;
         case 1:
             skillStpInfo.setPositionToMoveTo(Vector2(2, 2));
