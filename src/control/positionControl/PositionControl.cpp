@@ -155,17 +155,23 @@ namespace rtt::ai::control {
                                        robotId,
                                        interface::Drawing::DOTS);
 
-            std::vector<double> greenCrossScore;
+            double greenCrossScore;
+            std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>> greenCrossesSorted;
             BB::BBTrajectory2D BBTPathcrosses;
             for (auto i : greenCrosses) {
-                double targetWeight = 0.3;
-                double positionWeight = 0.3;
-                double velocityWeight = 0.4;
+                float targetWeight = 0.3;
+                float positionWeight = 0.3;
+                float velocityWeight = 0.4;
 
                 auto angleDif = acos((i.dot(currentVelocity)) / (i.length() * currentVelocity.length()));
-                greenCrossScore.emplace_back(((i - targetPosition).length() / 12) * targetWeight +
-                                             ((i - currentPosition).length() / 12) * positionWeight +
-                                             (angleDif / M_PI) * velocityWeight);
+
+                greenCrossScore = ((i - targetPosition).length() / 12) * targetWeight +
+                                  ((i - currentPosition).length() / 12) * positionWeight +
+                                  (angleDif / M_PI) * velocityWeight;
+
+                std::pair<double, Vector2> p = {greenCrossScore, i};
+
+                greenCrossesSorted.push(p);
 
                 BBTPathcrosses = BB::BBTrajectory2D(currentPosition, currentVelocity, i,
                                                     ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
@@ -173,20 +179,11 @@ namespace rtt::ai::control {
                                            Qt::white, robotId,
                                            interface::Drawing::LINES_CONNECTED);
             }
-
+            while(!greenCrossesSorted.empty()) {
+                std::cout << "Score of greenCross: " << greenCrossesSorted.top().first << std::endl;
+                greenCrossesSorted.pop();
+            }
         }
-
-
-//                Vector2 leftIntermediatePos = (firstCollision->collisionPosition +
-//                                               Vector2(firstCollision->drivingDirection.y,
-//                                                       firstCollision->drivingDirection.x * -1).stretchToLength(
-//                                                       4 * FINAL_AVOIDANCE_DISTANCE)).rotateAroundPoint(
-//                        M_PI_4 / 2, firstCollision->collisionPosition);
-//                Vector2 rightIntermediatePos = (firstCollision->collisionPosition +
-//                                                Vector2(firstCollision->drivingDirection.y,
-//                                                        firstCollision->drivingDirection.x * -1).stretchToLength(
-//                                                        -4 * FINAL_AVOIDANCE_DISTANCE)).rotateAroundPoint(
-//                        -1 * M_PI_4 / 2, firstCollision->collisionPosition);
 //                //vectorsToDraw = {firstCollision, leftIntermediatePos, rightIntermediatePos};
 //
 //                newPath = getNewPath(currentPosition, currentVelocity, leftIntermediatePos, rightIntermediatePos);
@@ -215,4 +212,3 @@ namespace rtt::ai::control {
     }
 
 }  // namespace rtt::ai// ::control
-
