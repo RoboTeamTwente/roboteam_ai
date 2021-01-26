@@ -14,8 +14,8 @@
 namespace rtt::BB {
 
     struct CollisionData {
+        Vector2 obstaclePosition;
         Vector2 collisionPosition;
-        Vector2 drivingDirection;
     };
 
     class WorldObjects {
@@ -40,39 +40,35 @@ namespace rtt::BB {
         // Takes a calculated path of a robot and checks points along the path if they are outside the fieldlines if
         // the robot is not allowed to be there.
         // Adds these points and the time at which they happen to collisions and collisionTimes
-        void calculateFieldCollisions(std::vector<Vector2> &collisions, std::vector<double> &collisionTimes,
-                                      Vector2 &drivingDirection, const std::vector<Vector2> &pathPoints, int robotId,
-                                      double timeStep);
+        void calculateFieldCollisions(std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
+                                      const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
         // Takes a calculated path of a robot and checks points along the path if they are inside the defensearea if
         // the robot is not allowed to be there.
         // Adds these points and the time at which they happen to collisions and collisionTimes
-        void calculateDefenseAreaCollisions(std::vector<Vector2> &collisions, std::vector<double> &collisionTimes,
-                                            Vector2 &drivingDirection, const std::vector<Vector2> &pathPoints,
-                                            int robotId, double timeStep);
+        void calculateDefenseAreaCollisions(std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
+                                            const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
         // Takes a calculated path of a robot and checks points along the path if they are too close to an approximation
         // of the ball trajectory. If the play is "ball_placement_them" also checks for the path being inside the
         // balltube.
         // Adds these points and the time at which they happen to collisions and collisionTimes
-        void calculateBallCollisions(std::vector<Vector2> &collisions, std::vector<double> &collisionTimes,
-                                     Vector2 &drivingDirection, std::vector<Vector2> pathPoints, double timeStep);
+        void calculateBallCollisions(std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
+                                     std::vector<Vector2> pathPoints, double timeStep);
 
         // Takes a calculated path of a robot and checks points along the path if they are too close to an approximation
         // of the enemy robot paths.
         // Adds these points and the time at which they happen to collisions and collisionTimes if the difference in
         // velocity between the two robots is more than 1.5 m/s and we are driving faster
-        static void calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<Vector2> &collisions,
-                                           std::vector<double> &collisionTimes, Vector2 &drivingDirection,
-                                           const std::vector<Vector2> &pathPoints,
+        static void calculateEnemyRobotCollisions(rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
+                                           std::vector<double> &collisionTimes, const std::vector<Vector2> &pathPoints,
                                            double timeStep);
 
         // Takes a path from the array of stored paths and checks points along the path if they are too close to where
         // our robots' are calculated to be at that point in time.
         // Adds these points and the time at which they happen to collisions and collisionTimes
-        void calculateOurRobotCollisions(std::vector<Vector2> &collisions, std::vector<double> &collisionTimes,
-                                         Vector2 &drivingDirection, const std::vector<Vector2> &pathPoints, int robotId,
-                                         double timeStep);
+        void calculateOurRobotCollisions(std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
+                                         const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
 
         void storeCalculatedPath(std::vector<Vector2> points, int robotId);
 
