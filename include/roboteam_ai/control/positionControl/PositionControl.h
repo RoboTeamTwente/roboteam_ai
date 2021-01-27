@@ -67,7 +67,13 @@ namespace rtt::ai::control {
         bool shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
                                    const Vector2 &currentVelocity, int robotId);
 
-        BB::BBTrajectory2D computeBBTPath(Vector2 currentPosition, Vector2 currentVelocity, Vector2 targetPosition, int robotId);
+        BB::BBTrajectory2D
+        computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
+                       Vector2 targetPosition, int robotId);
+
+        std::optional<BB::BBTrajectory2D>
+        findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity, std::optional<BB::CollisionData> &firstCollision,
+                    Vector2 &targetPosition, const rtt::world::Field &field, int robotId, double timeStep);
     };
 
 }  // namespace rtt::ai::control

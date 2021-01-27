@@ -21,7 +21,6 @@ namespace rtt::BB {
         double timeStep = 0.01;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
 
-        Vector2 obstaclePosition;
         std::vector<CollisionData> collisionDatas;
         std::vector<double> collisionTimes;
 
@@ -89,7 +88,7 @@ namespace rtt::BB {
             //Current approximation assumes it continues on the same path with the same velocity, and we check 1 second deep
             double time = 0;
             double ballAvoidanceTime = 1;
-            while (pathPoints.size() * timeStep > time || time < ballAvoidanceTime) {
+            while (pathPoints.size() * timeStep > time && time < ballAvoidanceTime) {
                 ballTrajectory.emplace_back(startPositionBall + VelocityBall * time);
                 time += timeStep;
             }
