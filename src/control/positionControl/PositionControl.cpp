@@ -43,7 +43,8 @@ namespace rtt::ai::control {
                                    interface::Drawing::DOTS);
 
 
-        this->computePath(field, currentPosition, currentVelocity, targetPosition, robotId);
+        //this->computePath(field, currentPosition, currentVelocity, targetPosition, robotId);
+        computedPaths[1] = this->computePath(field, currentPosition, currentVelocity, targetPosition, robotId).getPathApproach(0.3);
 
         RobotCommand command = RobotCommand();
         command.pos = computedPaths[robotId].front();
@@ -71,11 +72,14 @@ namespace rtt::ai::control {
     BB::BBTrajectory2D
     PositionControl::computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
                                  Vector2 targetPosition, int robotId) {
-        double timeStep = 0.1;
+        double timeStep = 0.07;
 
         //Create path to original target
         BB::BBTrajectory2D originalPath = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
                                                              ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+
+        interface::Input::drawData(interface::Visual::PATHFINDING, originalPath.getPathApproach(timeStep),
+                                   Qt::magenta, robotId, interface::Drawing::DOTS);
 
         //Check path to original target for collisions
         std::optional<BB::CollisionData> firstCollision = worldObjects.getFirstCollision(originalPath, robotId);
@@ -184,7 +188,8 @@ namespace rtt::ai::control {
                                                Vector2 &targetPosition, int robotId, double timeStep) {
         BB::BBTrajectory2D intermediateToTarget;
         if (!intermediatePathCollision.has_value()) {
-            for (int i = 0; i < floor(pathToIntermediatePoint.getTotalTime() / (timeStep)); i++) {
+            timeStep *= 2;
+            for (int i = 0; i < floor(pathToIntermediatePoint.getTotalTime() / timeStep); i++) {
                 //TODO: Only create newStart's up to point where we dont decelerate yet
                 Vector2 newStart = pathToIntermediatePoint.getPosition(i * timeStep);
                 Vector2 newVelocity = pathToIntermediatePoint.getVelocity(i * timeStep);
