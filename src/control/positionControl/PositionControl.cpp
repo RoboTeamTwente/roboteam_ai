@@ -70,20 +70,21 @@ namespace rtt::ai::control {
 
     BB::BBTrajectory2D
     PositionControl::computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
-                                    Vector2 targetPosition, int robotId) {
+                                 Vector2 targetPosition, int robotId) {
         double timeStep = 0.1;
 
         //Create path to original target
         BB::BBTrajectory2D originalPath = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
-                                     ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+                                                             ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
         //Check path to original target for collisions
         std::optional<BB::CollisionData> firstCollision = worldObjects.getFirstCollision(originalPath, robotId);
 
         if (firstCollision.has_value()) {
             //Create intermediate points, return a collision-free path originating from the best option of these points
-            auto newPath = findNewPath(currentPosition, currentVelocity, firstCollision, targetPosition, field, robotId, timeStep);
-            if(newPath.has_value()) {
+            auto newPath = findNewPath(currentPosition, currentVelocity, firstCollision, targetPosition, field, robotId,
+                                       timeStep);
+            if (newPath.has_value()) {
                 return newPath.value();
             }
         }
@@ -91,8 +92,49 @@ namespace rtt::ai::control {
     }
 
     std::optional<BB::BBTrajectory2D>
-    PositionControl::findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity, std::optional<BB::CollisionData> &firstCollision,
-                                 Vector2 &targetPosition, const rtt::world::Field &field, int robotId, double timeStep) {
+    PositionControl::findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity,
+                                 std::optional<BB::CollisionData> &firstCollision,
+                                 Vector2 &targetPosition, const rtt::world::Field &field, int robotId,
+                                 double timeStep) {
+
+        auto intermediatePoints = createIntermediatePoints(firstCollision, targetPosition, field, robotId);
+        auto intermediatePointsSorted = sortIntermediatePoints(intermediatePoints, firstCollision);
+
+        BB::BBTrajectory2D pathToIntermediatePoint;
+        while (!intermediatePointsSorted.empty()) {
+            //TODO: Make sure that when a robot drives towards this intermediate point, it doesnt reach vel = 0.
+            // So maybe instead of using the intermediatePoint as its target, use the last two points of the path towards
+            // the point, calculate a drivingDirection, and extend the target beyond the point in this direction.
+            pathToIntermediatePoint = BB::BBTrajectory2D(currentPosition, currentVelocity,
+                                                         intermediatePointsSorted.top().second,
+                                                         ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+
+            auto intermediatePathCollision = worldObjects.getFirstCollision(pathToIntermediatePoint, robotId);
+            auto intermediateToTarget = calculatePathFromNewStart(intermediatePathCollision, pathToIntermediatePoint,
+                                                                  targetPosition, robotId, timeStep);
+            if (intermediateToTarget.has_value()) {
+                interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId,
+                                           interface::Drawing::CROSSES);
+                interface::Input::drawData(interface::Visual::PATHFINDING, {firstCollision->collisionPosition},
+                                           Qt::red, robotId, interface::Drawing::CROSSES);
+
+                interface::Input::drawData(interface::Visual::PATHFINDING,
+                                           pathToIntermediatePoint.getPathApproach(timeStep),
+                                           Qt::white, robotId,
+                                           interface::Drawing::LINES_CONNECTED);
+                interface::Input::drawData(interface::Visual::PATHFINDING,
+                                           intermediateToTarget.value().getPathApproach(timeStep),
+                                           Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
+                return intermediateToTarget.value();
+            }
+            intermediatePointsSorted.pop();
+        }
+        return std::nullopt;
+    }
+
+    std::vector<Vector2>
+    PositionControl::createIntermediatePoints(std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,
+                                              const rtt::world::Field &field, int robotId) {
         double angleBetweenIntermediatePoints = M_PI_4 / 2;
 
         Vector2 pointToDrawFrom = firstCollision->obstaclePosition +
@@ -107,70 +149,57 @@ namespace rtt::ai::control {
                         pointToDrawFrom);
 
                 //If not in a defense area (only checked if robot is not allowed in defense area)
-                if (worldObjects.canEnterDefenseArea(robotId) || (!rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, true, 0) &&
-                                                                  !rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, false,
-                                                                                                                    0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
+                if (worldObjects.canEnterDefenseArea(robotId) ||
+                    (!rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, true, 0) &&
+                     !rtt::ai::FieldComputations::pointIsInDefenseArea(field, intermediatePoint, false,
+                                                                       0.2 + rtt::ai::Constants::ROBOT_RADIUS()))) {
                     //.. and inside the field (only checked if the robot is not allowed outside the field), add this cross to the list
-                    if(worldObjects.canMoveOutsideField(robotId) || rtt::ai::FieldComputations::pointIsInField(field, intermediatePoint, rtt::ai::Constants::ROBOT_RADIUS())) {
+                    if (worldObjects.canMoveOutsideField(robotId) ||
+                        rtt::ai::FieldComputations::pointIsInField(field, intermediatePoint,
+                                                                   rtt::ai::Constants::ROBOT_RADIUS())) {
                         intermediatePoints.emplace_back(intermediatePoint);
                     }
                 }
             }
         }
-        interface::Input::drawData(interface::Visual::PATHFINDING, intermediatePoints, Qt::green, robotId,
-                                   interface::Drawing::CROSSES);
+        return intermediatePoints;
+    }
 
+    std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>>
+    PositionControl::sortIntermediatePoints(std::vector<Vector2> &intermediatePoints,
+                                            std::optional<BB::CollisionData> &firstCollision) {
         double intermediatePointScore;
         std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>> intermediatePointsSorted;
-        BB::BBTrajectory2D pathToIntermediatePoint;
-        BB::BBTrajectory2D intermediateToTarget;
-        std::vector<Vector2> collisionPoint = {firstCollision->collisionPosition};
-        interface::Input::drawData(interface::Visual::PATHFINDING, collisionPoint,
-                                   Qt::red, robotId, interface::Drawing::CROSSES);
         for (auto i : intermediatePoints) {
             intermediatePointScore = (i - firstCollision->collisionPosition).length();
             std::pair<double, Vector2> p = {intermediatePointScore, i};
             intermediatePointsSorted.push(p);
         }
-        while (!intermediatePointsSorted.empty()) {
-            //TODO: Make sure that when a robot drives towards this intermediate point, it doesnt reach vel = 0.
-            // So maybe instead of using the intermediatePoint as its target, use the last two points of the path towards
-            // the point, calculate a drivingDirection, and extend the target beyond the point in this direction.
-            pathToIntermediatePoint = BB::BBTrajectory2D(currentPosition, currentVelocity,
-                                                         intermediatePointsSorted.top().second,
-                                                         ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+        return intermediatePointsSorted;
+    }
 
-            auto intermediatePathCollision = worldObjects.getFirstCollision(pathToIntermediatePoint, robotId);
+    std::optional<BB::BBTrajectory2D>
+    PositionControl::calculatePathFromNewStart(std::optional<BB::CollisionData> intermediatePathCollision,
+                                               BB::BBTrajectory2D pathToIntermediatePoint,
+                                               Vector2 &targetPosition, int robotId, double timeStep) {
+        BB::BBTrajectory2D intermediateToTarget;
+        if (!intermediatePathCollision.has_value()) {
+            for (int i = 0; i < floor(pathToIntermediatePoint.getTotalTime() / (timeStep)); i++) {
+                //TODO: Only create newStart's up to point where we dont decelerate yet
+                Vector2 newStart = pathToIntermediatePoint.getPosition(i * timeStep);
+                Vector2 newVelocity = pathToIntermediatePoint.getVelocity(i * timeStep);
 
-            //If no collision on path to intermediatePoint, create new points along this path in timeStep increments.
-            //Then loop through these new points, generate paths from these to the original target and check for collisions.
-            //Return the first path without collisions, or pop() this point and start checking the next one.
-            if (!intermediatePathCollision.has_value()) {
-                for (int i = 0; i < floor(pathToIntermediatePoint.getTotalTime() / (timeStep)); i++) {
-                    //TODO: Only create newStart's up to point where we dont decelerate yet
-                    Vector2 newStart = pathToIntermediatePoint.getPosition(i * timeStep);
-                    Vector2 newVelocity = pathToIntermediatePoint.getVelocity(i * timeStep);
+                intermediateToTarget = BB::BBTrajectory2D(newStart, newVelocity, targetPosition,
+                                                          ai::Constants::MAX_VEL(),
+                                                          ai::Constants::MAX_ACC_UPPER());
+                auto newStartCollisions = worldObjects.getFirstCollision(intermediateToTarget, robotId);
 
-                    intermediateToTarget = BB::BBTrajectory2D(newStart, newVelocity, targetPosition,
-                                                              ai::Constants::MAX_VEL(),
-                                                              ai::Constants::MAX_ACC_UPPER());
-                    auto newStartCollisions = worldObjects.getFirstCollision(intermediateToTarget, robotId);
-
-                    if (newStartCollisions.has_value()) {
-                        continue;
-                    } else {
-                        interface::Input::drawData(interface::Visual::PATHFINDING,
-                                                   pathToIntermediatePoint.getPathApproach(timeStep),
-                                                   Qt::white, robotId,
-                                                   interface::Drawing::LINES_CONNECTED);
-                        interface::Input::drawData(interface::Visual::PATHFINDING,
-                                                   intermediateToTarget.getPathApproach(timeStep),
-                                                   Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
-                        return intermediateToTarget;
-                    }
+                if (newStartCollisions.has_value()) {
+                    continue;
+                } else {
+                    return intermediateToTarget;
                 }
             }
-            intermediatePointsSorted.pop();
         }
         return std::nullopt;
     }

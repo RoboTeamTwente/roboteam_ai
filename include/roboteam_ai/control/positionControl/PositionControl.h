@@ -69,11 +69,28 @@ namespace rtt::ai::control {
 
         BB::BBTrajectory2D
         computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
-                       Vector2 targetPosition, int robotId);
+                    Vector2 targetPosition, int robotId);
 
         std::optional<BB::BBTrajectory2D>
-        findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity, std::optional<BB::CollisionData> &firstCollision,
+        findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity,
+                    std::optional<BB::CollisionData> &firstCollision,
                     Vector2 &targetPosition, const rtt::world::Field &field, int robotId, double timeStep);
+
+        std::vector<Vector2>
+        createIntermediatePoints(std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,
+                                 const rtt::world::Field &field, int robotId);
+
+        std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>>
+        sortIntermediatePoints(std::vector<Vector2> &intermediatePoints,
+                               std::optional<BB::CollisionData> &firstCollision);
+
+        //If no collision on path to intermediatePoint, create new points along this path in timeStep increments.
+        //Then loop through these new points, generate paths from these to the original target and check for collisions.
+        //Return the first path without collisions, or pop() this point and start checking the next one.
+        std::optional<BB::BBTrajectory2D>
+        calculatePathFromNewStart(std::optional<BB::CollisionData> intermediatePathCollision,
+                                  BB::BBTrajectory2D pathToIntermediatePoint, Vector2 &targetPosition, int robotId,
+                                  double timeStep);
     };
 
 }  // namespace rtt::ai::control
