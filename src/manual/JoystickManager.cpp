@@ -123,7 +123,6 @@ void JoystickManager::tickJoystickHandlers() {
       auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id());
       rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
     }
-
 }
 
 /** Handles events and forwards them if needed */
