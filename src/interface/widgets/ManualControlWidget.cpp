@@ -1,5 +1,4 @@
 #include "include/roboteam_ai/interface/widgets/ManualControlWidget.h"
-#include <include/roboteam_ai/manual/JoystickManager.h>
 #include <QCheckBox>
 #include <QVBoxLayout>
 
@@ -12,15 +11,14 @@ ManualControlWidget::ManualControlWidget(QWidget *parent) : QWidget(parent) {
     allowCheckBox->setText("Allow Manual takeover");
     allowCheckBox->setChecked(false);
     layout->addWidget(allowCheckBox);
-    manager = new rtt::input::JoystickManager();
 
-    joyThread = std::thread(&rtt::input::JoystickManager::run, manager);
+    joyThread = std::thread(&rtt::input::JoystickManager::run, &manager);
 
     connect(allowCheckBox, &QCheckBox::toggled, [this](bool checked) {
         if (checked) {
-            manager->activate();
+            manager.activate();
         } else {
-            manager->deactivate();
+            manager.deactivate();
         }
     });
 }

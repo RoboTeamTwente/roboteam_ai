@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 namespace rtt::input {
 
-JoystickManager::JoystickManager() { }
+JoystickManager::JoystickManager() = default;
 
 /** Calls the initialization and starts the loop */
 bool JoystickManager::run() {

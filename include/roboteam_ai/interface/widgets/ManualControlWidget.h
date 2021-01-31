@@ -8,22 +8,17 @@
 #include <include/roboteam_ai/interface/api/Toggles.h>
 #include <QWidget>
 #include <thread>
-namespace rtt {
-namespace input {
-class JoystickManager;
-}
-namespace ai {
-namespace interface {
+#include <include/roboteam_ai/manual/JoystickManager.h>
+
+namespace rtt::ai::interface {
 class ManualControlWidget : public QWidget {
    public:
     ManualControlWidget(QWidget *parent);
 
    private:
     std::thread joyThread;
-    rtt::input::JoystickManager *manager;
+    rtt::input::JoystickManager manager;
     Toggle RobotSelector;
 };
-}  // namespace interface
-}  // namespace ai
 }  // namespace rtt
 #endif  // RTT_MANUALCONTROLWIDGET_H

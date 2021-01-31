@@ -17,6 +17,7 @@ IOManager::~IOManager() {
     delete worldSubscriber;
     delete robotCommandPublisher;
     delete settingsPublisher;
+    delete central_server_connection;
 }
 
 void IOManager::init(int teamId) {
@@ -38,7 +39,7 @@ void IOManager::init(int teamId) {
 /// PROTO HANDLERS ///
 //////////////////////
 void IOManager::handleState(proto::State &stateMsg) {
-    std::unique_lock<std::shared_mutex> lock(stateMutex); //write lock
+    std::unique_lock<std::mutex> lock(stateMutex); //write lock
     this->state.CopyFrom(stateMsg);
     if(state.has_referee()){
         roboteam_utils::rotate(state.mutable_referee());
@@ -87,17 +88,17 @@ void IOManager::handleCentralServerConnection(){
     std::cout<<"received " << numReceivedMessages <<" packets from central server"<<std::endl;
   }
   //TODO: actually change settings at the relevant places within our AI
-  //then, send the current state once
   //TODO: make sure to write/add relevant debug information/visualizations (strategy debug, etc.)
+  //then, send the current state once
   proto::ModuleState module_state;
   {
-    std::shared_lock<std::shared_mutex> lock(stateMutex); //read lock
+    std::lock_guard<std::mutex> lock(stateMutex); //read lock
     module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
   }
     central_server_connection->write(module_state,true);
 }
 proto::State IOManager::getState(){
-  std::shared_lock<std::shared_mutex> lock(stateMutex);//read lock
+  std::lock_guard<std::mutex> lock(stateMutex);//read lock
   proto::State copy = state;
   return copy;
 }
