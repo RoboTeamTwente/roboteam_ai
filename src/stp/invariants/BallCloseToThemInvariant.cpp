@@ -1,5 +1,8 @@
 //
 // Created by jordi on 06-05-20.
+/// Fuzzy Invariant how close the closest ENEMY is to the BALL
+/// Range [0->BALL_IS_CLOSE, BALL_IS_CLOSE*2]
+// TODO-Max check the distance values to be logical
 //
 
 #include "stp/invariants/BallCloseToThemInvariant.h"

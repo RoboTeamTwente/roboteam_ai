@@ -1,5 +1,7 @@
 //
 // Created by jordi on 21-04-20.
+/// Fuzzy Invariant based on the average distance of the CLOSEST ENEMY to EACH FRIENDLY
+/// Range [0->DISTANCE_TO_ROBOT_CLOSE, DISTANCE_TO_ROBOT_FAR]
 //
 
 #include "stp/invariants/FreedomOfRobotsInvariant.h"

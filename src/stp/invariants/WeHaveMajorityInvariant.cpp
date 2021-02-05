@@ -1,5 +1,6 @@
 //
 // Created by luukkn on 21-04-20.
+/// T/F Invariant if size of TEAM FRIENDLY > TEAM ENEMY
 //
 
 #include "stp/invariants/WeHaveMajorityInvariant.h"

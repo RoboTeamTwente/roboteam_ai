@@ -1,5 +1,7 @@
 //
 // Created by jordi on 28-04-20.
+/// T/F Invariant if a ROBOT has the BALL
+// TODO check if this works, else change to distance to ball limit
 //
 
 #include "stp/invariants/BallIsFreeInvariant.h"

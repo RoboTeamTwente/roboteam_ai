@@ -1,5 +1,7 @@
 //
 // Created by timovdk on 4/14/20.
+/// T/F Invariant if the ball is on FRIENDLY side
+// TODO-Max make this fuzzy based on how far from middle the ball is
 //
 
 #include "stp/invariants/BallOnOurSideInvariant.h"
