@@ -28,42 +28,45 @@ namespace rtt::ai::control {
             return {};
         }
 
-        if (shouldRecalculatePath(currentPosition, targetPosition, currentVelocity, robotId)) {
-            computedPaths[robotId] = pathPlanningAlgorithm.computePath(currentPosition, targetPosition);
+        //TODO: let the robot follow the BBT
+        //currently the robot remains driving in the same direction as at the start of the BBT
+        //this is caused by how the data is send to control
+        if(!computedPaths.contains(robotId) ||
+        (targetPosition - computedPaths[robotId].getPosition(computedPaths[robotId].getTotalTime())).length() > 0.01 ||
+        worldObjects.getFirstCollision(computedPaths[robotId],robotId).has_value()){
+            computedPaths[robotId] = this->computePath(field, currentPosition, currentVelocity, targetPosition, robotId);
         }
 
-
+        auto pathApproach = computedPaths[robotId].getPathApproach(0.1);
 
         //Draw current path planning points
-        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId,
-                                   interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition},
-                                   Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
-        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::blue, robotId,
+//        interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::green, robotId,
+//                                   interface::Drawing::LINES_CONNECTED);
+//        interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition},
+//                                   Qt::green, robotId, interface::Drawing::LINES_CONNECTED);
+        interface::Input::drawData(interface::Visual::PATHFINDING, pathApproach, Qt::blue, robotId,
                                    interface::Drawing::DOTS);
 
 
-        //this->computePath(field, currentPosition, currentVelocity, targetPosition, robotId);
-        computedPaths[1] = this->computePath(field, currentPosition, currentVelocity, targetPosition, robotId).getPathApproach(0.3);
 
         RobotCommand command = RobotCommand();
-        command.pos = computedPaths[robotId].front();
+        command.pos = pathApproach.front();
         Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,
-                                                                                computedPaths[robotId], robotId,
+                                                                                pathApproach, robotId,
                                                                                 pidType);
-        command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
+        command.vel = computedPaths[robotId].getVelocity(0.1);
         command.angle = trackingVelocity.rot;
 
         return command;
     }
 
-    bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
-                                                const Vector2 &currentVelocity, int robotId) {
-        return computedPaths[robotId].empty() ||
-               PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
-               (currentVelocity != Vector2(0, 0) &&
-                collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
-    }
+//    bool PositionControl::shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
+//                                                const Vector2 &currentVelocity, int robotId) {
+//        return computedPaths[robotId].empty() ||
+//               PositionControlUtils::isTargetChanged(targetPos, computedPaths[robotId].back()) ||
+//               (currentVelocity != Vector2(0, 0) &&
+//                collisionDetector.isCollisionBetweenPoints(currentPosition, computedPaths[robotId].front()));
+//    }
 
     void PositionControl::setRobotPositions(std::vector<Vector2> &robotPositions) {
         collisionDetector.setRobotPositions(robotPositions);
@@ -72,13 +75,14 @@ namespace rtt::ai::control {
     BB::BBTrajectory2D
     PositionControl::computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
                                  Vector2 targetPosition, int robotId) {
-        double timeStep = 0.07;
+        //TODO: find a good value for the timeStep
+        double timeStep = 0.1;
 
         //Create path to original target
         BB::BBTrajectory2D originalPath = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
                                                              ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
-        interface::Input::drawData(interface::Visual::PATHFINDING, originalPath.getPathApproach(timeStep),
+        interface::Input::drawData(interface::Visual::PATHFINDING, originalPath.getPathApproach(0.3),
                                    Qt::magenta, robotId, interface::Drawing::DOTS);
 
         //Check path to original target for collisions

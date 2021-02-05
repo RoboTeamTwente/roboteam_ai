@@ -18,7 +18,8 @@ namespace rtt::BB {
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
         ruleset = gameState.getRuleSet();
 
-        double timeStep = 0.01;
+        //TODO: find a good value for the timeStep
+        double timeStep = 0.1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
 
         std::vector<CollisionData> collisionDatas;

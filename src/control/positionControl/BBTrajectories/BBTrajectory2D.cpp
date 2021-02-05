@@ -71,7 +71,7 @@ namespace rtt::BB {
 
     std::vector<Vector2> BBTrajectory2D::getPathApproach(double timeStep) const {
         std::vector<Vector2> points;
-        auto totalTime = fmax(x.getTotalTime(),y.getTotalTime());
+        auto totalTime = getTotalTime();
         double time = 0;
 
         while(time<totalTime){

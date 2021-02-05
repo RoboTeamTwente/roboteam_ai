@@ -29,7 +29,7 @@ namespace rtt::ai::control {
         NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
         PidTracking pathTrackingAlgorithm;
 
-        std::unordered_map<int, std::vector<Vector2>> computedPaths;
+        std::unordered_map<int, BB::BBTrajectory2D> computedPaths;
 
     public:
         /**
