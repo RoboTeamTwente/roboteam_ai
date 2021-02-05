@@ -150,7 +150,6 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallShotOrCloseToThemInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/NoGoalVisionFromBallInvariant.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallClosestToUsInvariant.cpp
