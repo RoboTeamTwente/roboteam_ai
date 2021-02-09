@@ -8,11 +8,11 @@
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/WeHaveBallInvariant.h"
 #include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
-#include "stp/roles/BallReflector.h"
-#include "stp/roles/Defender.h"
-#include "stp/roles/Formation.h"
+#include "include/roboteam_ai/stp/roles/active/BallReflector.h"
+#include "include/roboteam_ai/stp/roles/passive/Defender.h"
+#include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
-#include "stp/roles/Passer.h"
+#include "include/roboteam_ai/stp/roles/active/Passer.h"
 
 namespace rtt::ai::stp::play {
 
