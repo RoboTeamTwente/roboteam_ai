@@ -1,5 +1,10 @@
 //
 // Created by Jesse on 23-06-20.
+/// Rotates (with dribbler) the robot if needed to target angle then calculates the power to SHOOT the BALL with.
+// TODO-Max compare to ChipAtPos
+
+/// ACTIVE
+//
 //
 
 #include "stp/tactics/ShootAtPos.h"

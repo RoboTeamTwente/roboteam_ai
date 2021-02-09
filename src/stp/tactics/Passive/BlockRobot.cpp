@@ -1,5 +1,9 @@
 //
 // Created by jessevw on 12.03.20.
+/// Places a robot between a given TARGET and a given ENEMY at a distance from the the ENEMY
+/// TODO-Max de-hardcode the distance (with speed of the enemy? Standstill is block really close?)
+
+/// PASSIVE
 //
 
 #include "stp/tactics/BlockRobot.h"

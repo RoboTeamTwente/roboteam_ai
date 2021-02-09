@@ -1,5 +1,8 @@
 //
 // Created by jesse on 30-04-20.
+/// Draws a circle around the ball, Robot will stay out of the circle (getting pushed back). Angle is forced on 0 degrees
+
+/// PASSIVE
 //
 
 #include "stp/tactics/AvoidBall.h"

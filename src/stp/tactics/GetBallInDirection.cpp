@@ -1,5 +1,6 @@
 //
 // Created by jordi on 06-04-20.
+/// TODO-Max simplify to get behind as T:GetBall goes towards ball.
 //
 
 #include "stp/tactics/GetBallInDirection.h"

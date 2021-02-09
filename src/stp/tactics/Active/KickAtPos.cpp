@@ -1,5 +1,9 @@
 //
 // Created by timovdk on 3/12/20.
+/// Rotates (with dribbler) the robot if needed to target angle then calculates the power to KICK the BALL with.
+// TODO-Max compare to ChipAtPos
+
+/// ACTIVE
 //
 
 #include "stp/tactics/KickAtPos.h"

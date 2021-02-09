@@ -1,5 +1,11 @@
 //
 // Created by timovdk on 5/12/20.
+/// Will position the Robot between the BALL and either:
+/// - The shot line of the ENEMY with the ball, if ENEMY has ball
+/// - Our goal, if no-one has the ball
+/// TODO-Max Split this.
+
+/// PASSIVE
 //
 
 #include "stp/tactics/BlockBall.h"
