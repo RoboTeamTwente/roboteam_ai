@@ -67,7 +67,6 @@ void FieldHelper::addCenterArc(proto::SSL_GeometryFieldSize &field, double radiu
   center_circle.set_a2(2 * M_PI);
   center_circle.set_type(proto::CenterCircle);
   field.add_field_arcs()->CopyFrom(center_circle);
-
 }
 void FieldHelper::addLine(proto::SSL_GeometryFieldSize &field, Vector2 begin,
                           Vector2 end, proto::SSL_FieldShapeType type) {
