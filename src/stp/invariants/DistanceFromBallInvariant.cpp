@@ -1,5 +1,8 @@
 //
 // Created by timovdk on 4/21/20.
+/// Fuzzy Invariant how close the closest FRIENDLY is to the BALL
+/// Range [0, BALL_IS_CLOSE*4]
+// TODO-Max check the distance values to be logical
 //
 
 #include "stp/invariants/DistanceFromBallInvariant.h"

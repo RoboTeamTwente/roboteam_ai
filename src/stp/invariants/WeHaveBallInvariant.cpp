@@ -1,5 +1,6 @@
 //
 // Created by ratoone on 27-03-20.
+/// T/F Invariant if FRIENDLY has BALL
 //
 
 #include "stp/invariants/WeHaveBallInvariant.h"

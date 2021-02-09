@@ -1,5 +1,6 @@
 //
 // Created by roboteam on 23/6/20.
+/// T/F Invariant if FRIENDLY is closest to BALL
 //
 
 #include "stp/invariants/BallClosestToUsInvariant.h"

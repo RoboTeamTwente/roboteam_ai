@@ -1,5 +1,8 @@
 //
 // Created by timovdk on 4/24/20.
+/// Fuzzy Invariant based on the minimal openis of the GOAL from all FRIENDLY
+/// Range [0% , 100%]
+// TODO-Max improve this, makes no sense.
 //
 
 #include "stp/invariants/GoalVisionInvariant.h"

@@ -1,5 +1,7 @@
 //
 // Created by timovdk on 4/3/20.
+/// Fuzzy Invariant based on the current speed of the ball
+/// Range [0->BALL_IS_MOVING_SLOW_LIMIT, BALL_GOT_SHOT_LIMIT]
 //
 
 #include "stp/invariants/BallMovesSlowInvariant.h"

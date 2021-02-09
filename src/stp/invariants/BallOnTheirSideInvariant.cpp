@@ -1,5 +1,7 @@
 //
 // Created by jaro on 30-10-20.
+/// T/F Invariant if the ball is on ENEMY side
+// TODO-Max make this fuzzy based on how far from middle the ball is
 //
 
 #include "include/roboteam_ai/stp/invariants/BallOnTheirSideInvariant.h"
