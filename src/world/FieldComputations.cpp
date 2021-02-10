@@ -1,4 +1,5 @@
 #include <roboteam_utils/Shadow.h>
+#include <roboteam_utils/Tube.h>
 #include "world/FieldComputations.h"
 
 namespace rtt {
@@ -19,6 +20,18 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
     return (point.x <= field.getRightmostX() + margin && point.x >= field.getLeftmostX() - margin && point.y <= field.getTopmostY() + margin &&
             point.y >= field.getBottommostY() - margin);
 }
+
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin){
+    return (!pointIsInDefenseArea(field, point, true, margin) && !pointIsInDefenseArea(field, point, false, margin) && pointIsInField(field, point, margin));
+}
+
+bool FieldComputations::pathHasAnyRobots(Tube passLine, std::vector<rtt_world::view::RobotView> robots) {
+        if (std::any_of(robots.begin(), robots.end(),
+                        [&](const auto &bot) { return passLine.contains(bot->getPos()); })) {
+            return true;
+        }
+        return false;
+    }
 
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     LineSegment goal = getGoalSides(field, ourGoal);

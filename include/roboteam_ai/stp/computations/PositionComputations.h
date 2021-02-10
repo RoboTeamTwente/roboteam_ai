@@ -33,6 +33,15 @@ namespace rtt::ai::stp::computations {
          * @return a midfielder position
          */
         static Vector2 determineMidfielderPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
+
+        /**
+         * Determine the best position for a midfielder
+         * @param searchGrid the grid you want to choose a position from
+         * @param field
+         * @param world
+         * @return a midfielder position
+         */
+        static Vector2 determineOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world, bool claerPath = false,  double shotMargin = control_constants::ROBOT_CLOSE_TO_POINT);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H
