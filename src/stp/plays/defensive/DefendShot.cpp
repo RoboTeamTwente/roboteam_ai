@@ -11,6 +11,7 @@
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Harasser.h"
 #include "stp/roles/Keeper.h"
+#include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -149,8 +150,8 @@ void DefendShot::calculateInfoForMidfielders() noexcept {
     auto searchGridLeft = Grid(0, 0, 1.5, 1.5, 3, 3);
     auto searchGridRight = Grid(0, -1.5, 1.5, 1.5, 3, 3);
 
-    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridRight, field, world));
-    stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGridRight, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGridLeft, field, world));
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {

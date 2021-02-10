@@ -15,6 +15,7 @@
 #include "stp/roles/Keeper.h"
 #include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
 #include "include/roboteam_ai/stp/roles/active/Passer.h"
+#include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -76,7 +77,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     }
     auto fieldWidth = field.getFieldWidth();
     auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGrid, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGrid, field, world));
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }

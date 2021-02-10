@@ -15,6 +15,7 @@
 #include "stp/roles/Keeper.h"
 #include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
 #include "include/roboteam_ai/stp/roles/active/Passer.h"
+#include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -110,8 +111,8 @@ void AttackingPass::calculateInfoForRoles() noexcept {
 
     auto searchGridLeft = Grid(-0.15 * fieldWidth, 0, 0.25 * fieldWidth, 1.5, 3, 3);
     auto searchGridRight = Grid(-0.25 * fieldWidth, -1.5, 0.25 * fieldWidth, 1.5, 3, 3);
-    stpInfos["midfielder_1"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridRight, field, world));
-    stpInfos["midfielder_2"].setPositionToMoveTo(control::ControlUtils::determineMidfielderPosition(searchGridLeft, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGridRight, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGridLeft, field, world));
 }
 
 std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots) {

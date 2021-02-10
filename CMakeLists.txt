@@ -182,6 +182,10 @@ set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/TimeOutGameStateInvariant.cpp
         )
 
+set(COMPUTATION_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionComputations.cpp
+        )
+
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
 
@@ -276,6 +280,7 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        ${COMPUTATION_SOURCES}
         )
 
 set(AI_LIBS
