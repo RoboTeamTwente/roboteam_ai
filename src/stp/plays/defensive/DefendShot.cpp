@@ -70,6 +70,7 @@ void DefendShot::calculateInfoForRoles() noexcept {
     calculateInfoForOffenders();
 }
 
+// TODO-Max move to Tactics
 void DefendShot::calculateInfoForDefenders() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
 

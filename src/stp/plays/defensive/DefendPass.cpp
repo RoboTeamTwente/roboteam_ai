@@ -97,6 +97,7 @@ void DefendPass::calculateInfoForDefenders() noexcept {
     }
 }
 
+// TODO-Max move to tactics
 void DefendPass::calculateInfoForBlockers() noexcept {
     auto enemyRobots = world->getWorld()->getThem();
     auto enemyPasser = world->getWorld()->getRobotClosestToBall(world::them);

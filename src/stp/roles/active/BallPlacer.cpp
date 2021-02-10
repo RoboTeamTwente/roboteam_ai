@@ -1,5 +1,6 @@
 //
 // Created by jesse on 07-04-20.
+/// TODO-Max check if T:AvoidBall() can be done otherwise (end of play?)
 //
 
 #include "include/roboteam_ai/stp/roles/active/BallPlacer.h"

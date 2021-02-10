@@ -1,5 +1,6 @@
 //
 // Created by jordi on 17-03-20.
+/// TODO-Max change to ShooterGoal
 //
 
 #include "include/roboteam_ai/stp/roles/active/Attacker.h"

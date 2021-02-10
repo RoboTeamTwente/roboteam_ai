@@ -1,5 +1,6 @@
 //
 // Created by jessevw on 17.03.20.
+/// TODO-Max require GoToPos from previous play somehow (AbstractLayer to communicate between plays?)
 //
 
 #include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
