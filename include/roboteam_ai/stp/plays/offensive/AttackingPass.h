@@ -75,13 +75,6 @@ class AttackingPass : public Play {
      */
     bool shouldRoleSkipEndTactic() override;
 
-    /**
-     * Calculates the pass location
-     * @return a pair of the pass location and the score of that location
-     * The score is used to decide to which pass location to pass when there are more receivers
-     */
-    std::pair<Vector2, double> calculatePassLocation(Grid searchGrid) noexcept;
-
    private:
     /**
      * Checks if the pass is finished so the play knows whether it should

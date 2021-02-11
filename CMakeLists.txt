@@ -184,7 +184,7 @@ set(INVARIANTS_SOURCES
 
 set(COMPUTATION_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionComputations.cpp
-        )
+        src/stp/computations/GoalComputations.cpp src/stp/computations/PassComputations.cpp)
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp

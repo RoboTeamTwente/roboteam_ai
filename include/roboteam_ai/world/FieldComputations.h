@@ -70,14 +70,6 @@ class FieldComputations {
     static bool pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin = 0.0);
 
     /**
-     * Checks if there are given bots within the given tube
-     * @param passLine Tube area within to check
-     * @param robots Vector of RobotViews which needs to be checked
-     * @return True if any of the given robots are inside the given Tube
-     */
-    static bool pathHasAnyRobots(Tube passLine, std::vector<rtt_world::view::RobotView> robots);
-
-    /**
      * Get the percentage of goal visible from a given point, i.e. how much of the goal can be reached by directly shooting a ball over the ground from a given point without
      * hitting any robot from a given team.
      * @param field The field class used to determine where the goals are.

@@ -25,14 +25,6 @@ bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, cons
     return (!pointIsInDefenseArea(field, point, true, margin) && !pointIsInDefenseArea(field, point, false, margin) && pointIsInField(field, point, margin));
 }
 
-bool FieldComputations::pathHasAnyRobots(Tube passLine, std::vector<rtt_world::view::RobotView> robots) {
-        if (std::any_of(robots.begin(), robots.end(),
-                        [&](const auto &bot) { return passLine.contains(bot->getPos()); })) {
-            return true;
-        }
-        return false;
-    }
-
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     LineSegment goal = getGoalSides(field, ourGoal);
     Angle angleLeft = Angle(goal.start - point);

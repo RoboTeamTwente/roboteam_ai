@@ -49,28 +49,6 @@ class Attack : public Play {
      * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
      */
     bool shouldRoleSkipEndTactic() override;
-
-   private:
-    /**
-     * Calculate point in goal to aim for
-     * @return Target point
-     */
-    Vector2 calculateGoalTarget() noexcept;
-
-    /**
-     * Calculate points we want to aim for
-     * @param field Field
-     * @param fromPoint Position to shoot from
-     * @return Line between the two aim points
-     */
-    LineSegment getAimPoints(const world::Field &field, const Vector2 &fromPoint);
-
-    /**
-     * Returns the longest line from openSegments
-     * @param openSegments Vector of lines
-     * @return Longest line from openSegments
-     */
-    const LineSegment &getLongestSegment(const std::vector<LineSegment> &openSegments);
 };
 
 }  // namespace rtt::ai::stp::play

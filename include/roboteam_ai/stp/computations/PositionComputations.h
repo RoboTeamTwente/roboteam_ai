@@ -5,7 +5,6 @@
 #ifndef RTT_POSITIONCOMPUTATIONS_H
 #define RTT_POSITIONCOMPUTATIONS_H
 
-#include <stp/StpInfo.h>
 #include <roboteam_utils/Arc.h>
 #include <roboteam_utils/Line.h>
 
@@ -41,7 +40,14 @@ namespace rtt::ai::stp::computations {
          * @param world
          * @return a midfielder position
          */
-        static Vector2 determineOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world, bool claerPath = false,  double shotMargin = control_constants::ROBOT_CLOSE_TO_POINT);
+        static Vector2 determineOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world, bool clearPath = false,  double shotMargin = control_constants::ROBOT_CLOSE_TO_POINT);
+
+        /**
+         * Calculates the pass location
+         * @return a pair of the pass location and the score of that location
+         * The score is used to decide to which pass location to pass when there are more receivers
+         */
+        static std::pair<Vector2, double> determineGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H
