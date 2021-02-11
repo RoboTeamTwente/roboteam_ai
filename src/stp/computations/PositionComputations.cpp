@@ -14,7 +14,6 @@
 namespace rtt::ai::stp::computations {
     std::pair<Vector2, double> PositionComputations::determineBestOpenPosition(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                rtt::world::World *world) {
-        auto w = world->getWorld().value();
         double bestScore = 0;
         Vector2 bestPosition{};
 
@@ -36,11 +35,10 @@ namespace rtt::ai::stp::computations {
             }
         }
         return std::make_pair(bestPosition, bestScore);
-    };
+    }
 
     std::pair<Vector2, double> PositionComputations::determineBestLineOfSightPosition(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                       rtt::world::World *world) {
-        auto w = world->getWorld().value();
         double bestScore = 0;
         Vector2 bestPosition{};
 
@@ -48,8 +46,8 @@ namespace rtt::ai::stp::computations {
         for (const auto &nestedPoints : searchGrid.getPoints()) {
             for (const auto &trial : nestedPoints) {
                 // Make sure we only check valid points
-                if (FieldComputations::pointIsValidPosition(field,trial)) {
-                    auto pointScore = determineLineOfSightScore(trial,world);
+                if (FieldComputations::pointIsValidPosition(field, trial)) {
+                    auto pointScore = determineLineOfSightScore(trial, world);
                     // Check for best score
                     if (pointScore > bestScore) {
                         bestScore = pointScore;
@@ -59,13 +57,10 @@ namespace rtt::ai::stp::computations {
             }
         }
         return std::make_pair(bestPosition, bestScore);
-    };
+    }
 
     std::pair<Vector2, double> PositionComputations::determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                    rtt::world::World *world) {
-        auto fieldWidth = field.getFieldWidth();
-        auto fieldLength = field.getFieldLength();
-
         double bestScore = 0;
         Vector2 bestPosition{};
 
@@ -91,7 +86,6 @@ namespace rtt::ai::stp::computations {
 
     std::pair<Vector2, double> PositionComputations::determineBestLocation(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                    rtt::world::World *world, int factorOpen, int factorLineOfSight, int factorVisionGoal) {
-        auto w = world->getWorld().value();
         double bestScore = 0;
         Vector2 bestPosition{};
 
@@ -99,15 +93,19 @@ namespace rtt::ai::stp::computations {
         for (const auto &nestedPoints : searchGrid.getPoints()) {
             for (const auto &trial : nestedPoints) {
                 // Make sure we only check valid points
-                double trialScore = 0;
+                double pointScore = 0;
                 if (FieldComputations::pointIsValidPosition(field, trial)) {
-                    trialScore += determineOpenScore(trial,world) * factorOpen;
-                    trialScore += determineLineOfSightScore(trial,world) * factorLineOfSight;
-                    trialScore += determineGoalShotScore(trial,field,world) * VisionGoal;
+                    pointScore += determineOpenScore(trial,world) * factorOpen;
+                    pointScore += determineLineOfSightScore(trial,world) * factorLineOfSight;
+                    pointScore += determineGoalShotScore(trial,field,world) * factorVisionGoal;
                 }
-
+                if (pointScore > bestScore) {
+                    bestScore = pointScore;
+                    bestPosition = trial;
+                }
             }
         }
+        return std::make_pair(bestPosition, bestScore);
     }
 
     double PositionComputations::determineOpenScore(Vector2 point, rtt::world::World *world) {
@@ -136,7 +134,7 @@ namespace rtt::ai::stp::computations {
         return score;
     }
 
-    double PositionComputations::determineGoalShotScore(Vector2 point, rtt::world::Field &field, rtt::world::World *world) {
+    double PositionComputations::determineGoalShotScore(Vector2 point, const rtt::world::Field &field, rtt::world::World *world) {
         auto fieldWidth = field.getFieldWidth();
         auto fieldLength = field.getFieldLength();
         auto w = world->getWorld().value();
@@ -157,4 +155,4 @@ namespace rtt::ai::stp::computations {
         double score = (goalDistance + visibility + trialToGoalAngle);
         return score;
     }
-}; //namespace computations
+} //namespace computations

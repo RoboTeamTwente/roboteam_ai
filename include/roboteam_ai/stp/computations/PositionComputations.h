@@ -86,7 +86,7 @@ namespace rtt::ai::stp::computations {
          * @param world
          * @return score value
          */
-        static double determineGoalShotScore(Vector2 point, world::Field &field, world::World *world);
+        static double determineGoalShotScore(Vector2 point, const world::Field &field, world::World *world);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H
