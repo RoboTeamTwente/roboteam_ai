@@ -7,25 +7,24 @@
 
 #include "SDL.h"
 #include "SDL_joystick.h"
-#include <utilities/IOManager.h>
 #include <unistd.h>
 #include <map>
 #include <memory>
 #include <mutex>
 #include "JoystickHandler.h"
+#include "control/ControlModule.h"
 
 namespace rtt::input {
 
 class JoystickManager {
    public:
-    JoystickManager(ai::io::IOManager *ioManager);
+    JoystickManager();
     bool run();
     void activate();
     void deactivate();
     void stop();
 
    private:
-    ai::io::IOManager *ioManager = nullptr;
     const int TICK_INTERVAL = 20;
     std::map<int, JoystickHandler *> joystickHandlers;
 

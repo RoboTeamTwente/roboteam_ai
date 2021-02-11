@@ -75,7 +75,7 @@ TEST(PlayCheckerTests, testHighestScore) {
 
     auto const& [_, instance] = rtt::world::World::instance();
 
-    proto::GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size {};
     size.set_field_length(250);
 
     auto world_msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);

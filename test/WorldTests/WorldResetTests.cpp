@@ -9,7 +9,7 @@
 
 TEST(worldTest, GenericWorldRemoval) {
     namespace w_n = rtt::world;
-    proto::GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size {};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
@@ -25,7 +25,7 @@ TEST(worldTest, GenericWorldRemoval) {
 
 TEST(worldTest, HistorySizeTest) {
     namespace w_n = rtt::world;
-    proto::GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size {};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;
@@ -41,7 +41,7 @@ TEST(worldTest, HistorySizeTest) {
 
 TEST(worldTest, ResetWorldTest) {
     namespace w_n = rtt::world;
-    proto::GeometryFieldSize size {};
+    proto::SSL_GeometryFieldSize size {};
     size.set_field_length(250);
     auto msg = testhelpers::WorldHelper::getWorldMsg(5, 7, true, size);
     auto second = msg;

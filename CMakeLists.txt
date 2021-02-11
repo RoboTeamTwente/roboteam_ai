@@ -1,19 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(roboteam_ai)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -Werror -g -O3")
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
-
 add_subdirectory(src)
 # QT settings
 set(CMAKE_INCLUDE_CURRENT_DIR ON) #Find includes in corresponding build directories
 set(CMAKE_AUTOMOC ON) #Instruct CMake to run moc automatically when needed
 set(CMAKE_AUTOUIC OFF) #Create code from a list of Qt designer ui files
-
-include(cotire)
-include(ccache)
 
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
@@ -187,8 +179,8 @@ set(COMPUTATION_SOURCES
         src/stp/computations/GoalComputations.cpp src/stp/computations/PassComputations.cpp)
 
 set(CONTROL_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/control/ControlModule.cpp
         ${PROJECT_SOURCE_DIR}/src/control/ControlUtils.cpp
-
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/NumTreesPlanning.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/CollisionDetector.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControl.cpp

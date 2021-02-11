@@ -36,7 +36,7 @@ void Field::initFieldLines(const proto::SSL_GeometryFieldSize &sslFieldSize) {
 }
 
 void Field::initFieldArcs(const proto::SSL_GeometryFieldSize &sslFieldSize) {
-    for (const proto::SSL_FieldCicularArc &arc : sslFieldSize.field_arcs()) {
+    for (const auto &arc : sslFieldSize.field_arcs()) {
         FieldArc newArc;
         if (NAME_MAP.find(arc.name()) != NAME_MAP.end()) {
             newArc.name = std::string(NAME_MAP[arc.name()]);
