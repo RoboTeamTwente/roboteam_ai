@@ -78,7 +78,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     }
     auto fieldWidth = field.getFieldWidth();
     auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGrid, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGrid, field, world).first);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -119,8 +119,8 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot) {
         /// For the receive locations, divide the field up into grids where the passers should stand,
         /// and find the best locations in those grids
-        receiverPositionRight = calculatePassLocation(gridRight);
-        receiverPositionLeft = calculatePassLocation(gridLeft);
+        receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
+        receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
 
         /// From the available receivers, select the best
         if (receiverPositionLeft.second > receiverPositionRight.second) {
@@ -162,49 +162,6 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     // Passer
     stpInfos["passer"].setPositionToShootAt(passingPosition);
     stpInfos["passer"].setShotType(ShotType::PASS);
-}
-
-std::pair<Vector2, double> GenericPass::calculatePassLocation(Grid searchGrid) noexcept {
-    double bestScore{};
-    Vector2 bestPosition{};
-
-    auto w = world->getWorld().value();
-    auto fieldWidth = field.getFieldWidth();
-    auto fieldLength = field.getFieldLength();
-    auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
-
-    auto ballPos = world->getWorld()->getBall()->get()->getPos();
-
-    for (const auto& nestedPoints : searchGrid.getPoints()) {
-        for (const auto& trial : nestedPoints) {
-            // Make sure we only check valid points
-            if (!FieldComputations::pointIsInDefenseArea(field, trial, false) && trial.dist(ballPos) > 2) {
-                // Search closest bot to this point and get that distance
-                auto theirClosestBot = w.getRobotClosestToPoint(trial, world::Team::them);
-                auto theirClosestBotDistance{1.0};
-                if (theirClosestBot) {
-                    theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
-                }
-                // Calculate total score for this point
-                auto pointScore = 0.5 * theirClosestBotDistance;
-
-                // Check for best score
-                if (pointScore > bestScore) {
-                    bestScore = pointScore;
-                    bestPosition = trial;
-                }
-            }
-        }
-    }
-    /// If we can't reach target using kick, use chip
-    auto passLine = Tube(w->getBall()->get()->getPos(), bestPosition, control_constants::ROBOT_CLOSE_TO_POINT / 2);
-    auto enemyBots = w.getThem();
-    if (std::any_of(enemyBots.begin(), enemyBots.end(), [&](const auto& bot) { return passLine.contains(bot->getPos()); })) {
-        stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
-    } else {
-        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
-    }
-    return std::make_pair(bestPosition, bestScore);
 }
 
 bool GenericPass::isValidPlayToKeep(world::World* world) noexcept {

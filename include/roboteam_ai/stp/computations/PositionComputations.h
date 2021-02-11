@@ -31,7 +31,7 @@ namespace rtt::ai::stp::computations {
          * @param world
          * @return a midfielder position
          */
-        static Vector2 determineMidfielderPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
+        static std::pair<Vector2, double> determineBestOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
 
         /**
          * Determine the best position for a midfielder
@@ -40,14 +40,14 @@ namespace rtt::ai::stp::computations {
          * @param world
          * @return a midfielder position
          */
-        static Vector2 determineOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world, bool clearPath = false,  double shotMargin = control_constants::ROBOT_CLOSE_TO_POINT);
+        static std::pair<Vector2, double> determineBestLineOfSightPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
 
         /**
          * Calculates the pass location
          * @return a pair of the pass location and the score of that location
          * The score is used to decide to which pass location to pass when there are more receivers
          */
-        static std::pair<Vector2, double> determineGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
+        static std::pair<Vector2, double> determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H

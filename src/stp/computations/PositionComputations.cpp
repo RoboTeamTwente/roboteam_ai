@@ -13,7 +13,7 @@
 #include "include/roboteam_ai/world/views/WorldDataView.hpp"
 
 namespace rtt::ai::stp::computations {
-    Vector2 PositionComputations::determineMidfielderPosition(const Grid &searchGrid, const rtt::world::Field &field,
+    std::pair<Vector2, double> PositionComputations::determineBestOpenPosition(const Grid &searchGrid, const rtt::world::Field &field,
                                                               rtt::world::World *world) {
         auto w = world->getWorld().value();
         double bestScore = 0;
@@ -43,11 +43,11 @@ namespace rtt::ai::stp::computations {
                 }
             }
         }
-        return bestPosition;
+        return std::make_pair(bestPosition, bestScore);
     };
 
-    Vector2 PositionComputations::determineOpenPosition(const Grid &searchGrid, const rtt::world::Field &field,
-                                                              rtt::world::World *world, bool clearPath, double shotMargin) {
+    std::pair<Vector2, double> PositionComputations::determineBestLineOfSightPosition(const Grid &searchGrid, const rtt::world::Field &field,
+                                                              rtt::world::World *world) {
         auto w = world->getWorld().value();
         double bestScore = 0;
         Vector2 bestPosition{};
@@ -58,10 +58,10 @@ namespace rtt::ai::stp::computations {
                 // Make sure we only check valid points
                 if (FieldComputations::pointIsValidPosition(field,trial)) {
                     // If path to the point has to be clear, then skip if a point is not
-                    if (clearPath) {
-                        auto passLine = Tube(w->getBall()->get()->getPos(), bestPosition, shotMargin);
-                        if (computations::PassComputations::pathHasAnyRobots(passLine, world->getWorld()->getRobotsNonOwning())) continue;
-                    }
+                    /// TODO-Max make triangle
+                    /// TODO-Max have score be determined with the distance to the path
+                    auto passLine = Tube(w->getBall()->get()->getPos(), bestPosition, control_constants::ROBOT_CLOSE_TO_POINT);
+                    if (computations::PassComputations::pathHasAnyRobots(passLine, world->getWorld()->getRobotsNonOwning())) continue;
                     // Search closest bot to this point and get that distance
                     auto theirClosestBot = w.getRobotClosestToPoint(trial, rtt::world::Team::them);
                     auto theirClosestBotDistance{1.0};
@@ -80,61 +80,10 @@ namespace rtt::ai::stp::computations {
                 }
             }
         }
-        return bestPosition;
+        return std::make_pair(bestPosition, bestScore);
     };
 
-//    void PositionComputations::determineGoalShootLocation(const world::ball::Ball* ball) noexcept {
-//        bool passLeft{};
-//        Vector2 otherPos{};
-//
-//        /// Recalculate pass positions if we did not shoot yet
-//            /// For the receive locations, divide the field up into grids where the passers should stand,
-//            /// and find the best locations in those grids
-//            receiverPositionRight = calculatePassLocation(gridRight);
-//            receiverPositionLeft = calculatePassLocation(gridLeft);
-//
-//            /// From the available receivers, select the best
-//            if (receiverPositionLeft.second > receiverPositionRight.second) {
-//                passingPosition = receiverPositionLeft.first;
-//                otherPos = receiverPositionRight.first;
-//                passLeft = true;
-//            } else {
-//                passingPosition = receiverPositionRight.first;
-//                otherPos = receiverPositionLeft.first;
-//                passLeft = false;
-//            }
-//        /// Receiver should intercept when constraints are met
-//        if (passLeft && ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-//            receiverPositionLeft.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
-//        } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-//            receiverPositionRight.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
-//        }
-//        // Receiver
-//        stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.first);
-//        stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.first);
-//
-//        // decide kick or chip
-//        auto passLine = Tube(ball->getPos(), passingPosition, control_constants::ROBOT_CLOSE_TO_POINT / 2);
-//        auto allBots = world->getWorld()->getRobotsNonOwning();
-//        // For all bots except passer and receivers, check if they are on the pass line, aka robot should chip
-//        if (std::any_of(allBots.begin(), allBots.end(), [&](const auto& bot) {
-//            if ((stpInfos["passer"].getRobot() && bot->getId() == stpInfos["passer"].getRobot()->get()->getId()) ||
-//                (stpInfos["receiver_left"].getRobot() && bot->getId() == stpInfos["receiver_left"].getRobot()->get()->getId()) ||
-//                (stpInfos["receiver_right"].getRobot() && bot->getId() == stpInfos["receiver_right"].getRobot()->get()->getId())) {
-//                return false;
-//            }
-//            return passLine.contains(bot->getPos());
-//        })) {
-//            stpInfos["passer"].setKickOrChip(KickOrChip::CHIP);
-//        } else {
-//            stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
-//        }
-//        // Passer
-//        stpInfos["passer"].setPositionToShootAt(passingPosition);
-//        stpInfos["passer"].setShotType(ShotType::TARGET);
-//    }
-
-    std::pair<Vector2, double> PositionComputations::determineGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field,
+    std::pair<Vector2, double> PositionComputations::determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field,
                                                                            rtt::world::World *world) {
         auto fieldWidth = field.getFieldWidth();
         auto fieldLength = field.getFieldLength();

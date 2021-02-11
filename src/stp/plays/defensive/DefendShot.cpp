@@ -151,8 +151,8 @@ void DefendShot::calculateInfoForMidfielders() noexcept {
     auto searchGridLeft = Grid(0, 0, 1.5, 1.5, 3, 3);
     auto searchGridRight = Grid(0, -1.5, 1.5, 1.5, 3, 3);
 
-    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGridRight, field, world));
-    stpInfos["midfielder_2"].setPositionToMoveTo(computations::PositionComputations::determineMidfielderPosition(searchGridLeft, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGridRight, field, world).first);
+    stpInfos["midfielder_2"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGridLeft, field, world).first);
 }
 
 void DefendShot::calculateInfoForOffenders() noexcept {
