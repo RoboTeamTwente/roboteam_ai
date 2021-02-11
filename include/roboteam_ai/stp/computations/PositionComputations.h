@@ -48,6 +48,45 @@ namespace rtt::ai::stp::computations {
          * The score is used to decide to which pass location to pass when there are more receivers
          */
         static std::pair<Vector2, double> determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
+
+        /**
+         * Determine best position using specification of contribution of factors
+         * @param search Gridthe grid you want to choose a position from
+         * @param field
+         * @param world
+         * @param factorOpen Factor at which Open specification should count (higher is more important)
+         * @param factorLineOfSight Factor at which Line of Sight to the ball specification should count (higher is more important)
+         * @param factorVisionGoal Factor at which Visibility of ENEMY goal specification should count (higher is more important)
+         * @return Best location with given specifications, Vector2 in first and the score in second
+         */
+        static std::pair<Vector2, double>
+        determineBestLocation(const Grid &searchGrid, const world::Field &field, world::World *world, int factorOpen,
+                              int factorLineOfSight, int factorVisionGoal);
+
+        /**
+         * Determine score for the Open at given position
+         * @param point Position to calculate from
+         * @param world
+         * @return score value
+         */
+        static double determineOpenScore(Vector2 point, world::World *world);
+
+        /**
+         * Determine score for the Line of Sight to the ball at given position
+         * @param point Position to calculate from
+         * @param world
+         * @return score value
+         */
+        static double determineLineOfSightScore(Vector2 point, world::World *world);
+
+        /**
+         * Determine score for the Visibility of the goal at given position
+         * @param point Position to calculate from
+         * @param field
+         * @param world
+         * @return score value
+         */
+        static double determineGoalShotScore(Vector2 point, world::Field &field, world::World *world);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H

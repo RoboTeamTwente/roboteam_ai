@@ -22,16 +22,6 @@
 
 namespace rtt::ai::stp::play {
 
-void AttackingPass::onInitialize() noexcept {
-    // Make sure we reset the passerShot flag
-    passerShot = false;
-
-    // Make sure we calculate pass positions at least once
-    //receiverPositionLeft = computations::PositionComputations::determineOpenPosition(gridLeft, field, world);
-    //receiverPositionRight = calculatePassLocation(gridRight);
-    passingPosition = receiverPositionRight.first;
-}
-
 AttackingPass::AttackingPass() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
@@ -138,33 +128,17 @@ bool AttackingPass::shouldRoleSkipEndTactic() { return false; }
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
 void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
-    if (!passerShot && ball->getFilteredVelocity().length() > control_constants::BALL_STILL_VEL * 10) {
-        passerShot = true;
-    }
-
-    bool passLeft{};
-    Vector2 otherPos{};
-
     /// Recalculate pass positions if we did not shoot yet
-    if (!passerShot) {
         /// For the receive locations, divide the field up into grids where the passers should stand,
         /// and find the best locations in those grids
         receiverPositionRight = computations::PositionComputations::determineBestGoalShotLocation(gridRight, field, world);
         receiverPositionLeft = computations::PositionComputations::determineBestGoalShotLocation(gridLeft, field, world);
+        std::vector<std::pair<Vector2,double>> positions = {receiverPositionLeft,receiverPositionRight};
 
-        /// From the available receivers, select the best
-        if (receiverPositionLeft.second > receiverPositionRight.second) {
-            passingPosition = receiverPositionLeft.first;
-            otherPos = receiverPositionRight.first;
-            passLeft = true;
-        } else {
-            passingPosition = receiverPositionRight.first;
-            otherPos = receiverPositionLeft.first;
-            passLeft = false;
-        }
-    }
+        Vector2 passLocation = computations::PassComputations::determineBestPosForPass(positions);
+
     /// Receiver should intercept when constraints are met
-    if (passLeft && ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
+    if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
         receiverPositionLeft.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
         receiverPositionRight.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);

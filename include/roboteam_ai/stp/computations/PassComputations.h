@@ -23,8 +23,14 @@ namespace rtt::ai::stp::computations {
          * @param robots Vector of RobotViews which needs to be checked
          * @return True if any of the given robots are inside the given Tube
          */
-        static bool pathHasAnyRobots(Tube passLine, std::vector<rtt_world::view::RobotView> robots);
+        static bool pathHasAnyRobots(Line passLine, std::vector<rtt_world::view::RobotView> robots);
 
+        /**
+         * Loop through all given positions and returns the position with the highest score
+         * @param positions std::pair of the Vector2 in first and the given score in second
+         * @return Vector2 with highest scoring score.
+         */
+        static Vector2 determineBestPosForPass(const std::vector<std::pair<Vector2, double>>& positions);
     };
 }// namespace rtt::ai::stp::computations
 #endif //RTT_PASSCOMPUTATIONS_H
