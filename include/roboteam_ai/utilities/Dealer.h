@@ -48,7 +48,7 @@ class Dealer {
         DealerFlagPriority priority;
         explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
     };
-    using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
+    using FlagMap = std::map<std::string, std::pair<DealerFlagPriority, std::vector<DealerFlag>>>;
     Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
     // Create a distribution of robots
@@ -71,7 +71,7 @@ class Dealer {
      * @param flag
      * @return Score for a flag
      */
-    double getScoreForFlag(v::RobotView robot, DealerFlag flag);
+    std::pair <double, double> getScoreForFlag(v::RobotView robot, DealerFlag flag);
 
     /**
      * Calculates the score for a distance between a point and a robot
@@ -96,7 +96,7 @@ class Dealer {
      * @param flag
      * @return priority factor
      */
-    static double getFactorForPriority(const DealerFlag &flag);
+    static double getFactorForPriority(const DealerFlagPriority &flagPriority);
 
     /**
      * Calculates the cost of travelling a certain distance
@@ -120,7 +120,7 @@ class Dealer {
      * @param robot
      * @return the score of all flags combined
      */
-    double scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+    std::pair <double, double> scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
 
     /**
      * Makes a mapping from roleName to a robot using the result of the hungarian

@@ -75,23 +75,22 @@ bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
     Dealer::DealerFlag ballGetterFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"ball_getter", {ballGetterFlag}});
-    flagMap.insert({"defender_0", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    flagMap.insert({"midfielder_0", {notImportant}});
-    flagMap.insert({"midfielder_1", {notImportant}});
-    flagMap.insert({"midfielder_2", {notImportant}});
-    flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {ballGetterFlag}}});
+    flagMap.insert({"defender_0", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+    flagMap.insert({"midfielder_0", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"offender_0", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
     return flagMap;
 }
 
