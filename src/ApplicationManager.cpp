@@ -54,23 +54,23 @@ void ApplicationManager::start() {
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
@@ -157,6 +157,10 @@ void ApplicationManager::decidePlay(world::World *_world) {
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
+        /*  TODO: To make the higher abstraction layer, code below to save necessary info of the previous Play:
+         *  auto STPInfoPreviousPlay = currentPlay.STPInfo;
+         *  And then forward this STPInfo: currentPlay->initialize(STPInfoPreviousPlay)
+         */
         currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();

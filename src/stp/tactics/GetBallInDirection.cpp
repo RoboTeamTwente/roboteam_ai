@@ -14,11 +14,18 @@ GetBallInDirection::GetBallInDirection() { skills = collections::state_machine<S
 std::optional<StpInfo> GetBallInDirection::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getRobot() || !skillStpInfo.getBall() || !skillStpInfo.getPositionToShootAt()) return std::nullopt;
+    if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
 
     Vector2 robotPosition = info.getRobot().value()->getPos();
     Vector2 ballPosition = info.getBall().value()->getPos();
-    Vector2 targetPosition = info.getPositionToShootAt().value();
+    Vector2 targetPosition;
+
+    //If we want to shoot somewhere, aim that way. Otherwise, aim at their goal.
+    if(skillStpInfo.getPositionToShootAt().has_value()) {
+        targetPosition = info.getPositionToShootAt().value();
+    } else {
+        targetPosition = info.getField()->getTheirGoalCenter();
+    }
 
     // The robot will go to the position of the ball
     double ballDistance = (ballPosition - robotPosition).length();
@@ -33,11 +40,6 @@ std::optional<StpInfo> GetBallInDirection::calculateInfoForSkill(StpInfo const &
 
         // Rotate towards ball
         skillStpInfo.setAngle((ballPosition - robotPosition).angle());
-    }
-
-    // Turn on dribbler when close to ball
-    if (ballDistance < control_constants::TURN_ON_DRIBBLER_DISTANCE) {
-        skillStpInfo.setDribblerSpeed(100);
     }
 
     skillStpInfo.setPositionToMoveTo(newRobotPosition);

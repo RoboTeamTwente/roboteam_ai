@@ -44,6 +44,7 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
+    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
     stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
