@@ -73,7 +73,7 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
 
             // The better the flags, the lower the score
             flagScore = scoreForFlags(dealerFlags, robot);
-            row.push_back(distanceScore + flagScore);
+            row.push_back((distanceScore + flagScore)/(dealerFlags.size()+1));
         }
         scores.push_back(row);
     }
@@ -139,9 +139,10 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return costForDistance(FieldComputations::getDistanceToGoal(*field, false, robot->getPos()), fieldWidth, fieldLength);
         case DealerFlagTitle::CLOSE_TO_OUR_GOAL:
             return costForDistance(FieldComputations::getDistanceToGoal(*field, true, robot->getPos()), fieldWidth, fieldLength);
-        case DealerFlagTitle::CLOSE_TO_BALL: {
-            return robot->getDistanceToBall();
-        }
+        case DealerFlagTitle::CLOSE_TO_BALL:
+            return costForDistance(robot->getDistanceToBall(), fieldWidth, fieldLength);
+        case DealerFlagTitle::CLOSE_TO_POSITIONING:
+            return costForProperty(true);
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());
         case DealerFlagTitle::NOT_IMPORTANT:
