@@ -22,6 +22,16 @@
 
 namespace rtt::ai::stp::play {
 
+    void AttackingPass::onInitialize() noexcept {
+        // Make sure we reset the passerShot flag
+        passerShot = false;
+
+        // Make sure we calculate pass positions at least once
+        receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
+        receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
+        passingPosition = receiverPositionRight.first;
+    }
+
 AttackingPass::AttackingPass() : Play() {
     startPlayInvariants.clear();
     startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());

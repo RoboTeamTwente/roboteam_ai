@@ -25,8 +25,8 @@ void GenericPass::onInitialize() noexcept {
     passerShot = false;
 
     // Make sure we calculate pass positions at least once
-    receiverPositionLeft = calculatePassLocation(gridLeft);
-    receiverPositionRight = calculatePassLocation(gridRight);
+    receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
+    receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
     passingPosition = receiverPositionRight.first;
 }
 
