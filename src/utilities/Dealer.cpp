@@ -72,7 +72,7 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
 
             // The better the flags, the lower the score
             auto flagScore = scoreForFlags(dealerFlags.second, robot);
-            row.push_back(getFactorForPriority(dealerFlags.first)*(distanceScore + flagScore.first)/(flagScore.second+1));
+            row.push_back((distanceScore + flagScore.first)/(flagScore.second+1));
         }
         scores.push_back(row);
     }
@@ -116,16 +116,16 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
 // TODO these values need to be tuned.
 double Dealer::getFactorForPriority(const DealerFlagPriority &flagPriority) {
     switch (flagPriority) {
+        case DealerFlagPriority::KEEPER:
+            return 0.01;
         case DealerFlagPriority::LOW_PRIORITY:
-            return 10;
+            return 0.1;
         case DealerFlagPriority::MEDIUM_PRIORITY:
             return 1;
         case DealerFlagPriority::HIGH_PRIORITY:
-            return 0.1;
+            return 10;
         case DealerFlagPriority::REQUIRED:
-            return 0.01;
-        case DealerFlagPriority::KEEPER:
-            return 1000;
+            return 100;
         default:
             RTT_WARNING("Unhandled dealerflag!")
             return 0;
