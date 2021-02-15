@@ -64,7 +64,6 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
         // Calculate the score for each robot for a role; the row
         for (auto robot : allRobots) {
             double distanceScore{};
-            double flagScore{};
 
             if (stpInfoMap.find(roleName) != stpInfoMap.end()) {
                 // The shorter the distance, the lower the distance score
@@ -72,8 +71,8 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
             }
 
             // The better the flags, the lower the score
-            flagScore = scoreForFlags(dealerFlags, robot);
-            row.push_back((distanceScore + flagScore)/(dealerFlags.size()+1));
+            auto flagScore = scoreForFlags(dealerFlags, robot);
+            row.push_back((distanceScore + flagScore.first)/(flagScore.second+1));
         }
         scores.push_back(row);
     }
@@ -81,18 +80,21 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
 }
 
 // Calculate the score for all flags for a role for one robot
-double Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
+std::pair <double, double> Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
     double robotScore = 0;
+    double totalFactor = 0;
     for (auto flag : dealerFlags) {
-        robotScore += getScoreForFlag(robot, flag);
+        auto ScoreForFlag = getScoreForFlag(robot, flag);
+        robotScore += ScoreForFlag.first;
+        totalFactor += ScoreForFlag.second;
     }
-    return robotScore;
-}
+    return std::make_pair(robotScore,totalFactor);
+    }
 
 // Get the score of one flag for a role for one robot
-double Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
-    double factor = getFactorForPriority(flag);
-    return factor * getDefaultFlagScores(robot, flag);
+std::pair <double, double> Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
+    double factor = 1/getFactorForPriority(flag);
+    return std::make_pair(factor * getDefaultFlagScores(robot, flag),factor);
 }
 
 // Get the distance score for a robot to a position when there is a position that role needs to go to
@@ -122,8 +124,8 @@ double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
             return 10;
         case DealerFlagPriority::REQUIRED:
             return 0.1;
-        case DealerFlagPriority::KEEPER:
-            return 100;
+        case DealerFlagPriority::UNIQUE:
+            return 0.01;
         default:
             RTT_WARNING("Unhandled dealerflag!")
             return 0;
@@ -157,6 +159,8 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
         }
         case DealerFlagTitle::KEEPER:
             return costForProperty(robot->getId() == GameStateManager::getCurrentGameState().keeperId);
+        case DealerFlagTitle::CLOSEST_TO_BALL:
+            return costForProperty(robot->getId() == world.getRobotClosestToBall(w::us)->get()->getId());
     }
     RTT_WARNING("Unhandled dealerflag!")
     return 0;

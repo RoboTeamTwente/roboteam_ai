@@ -20,7 +20,7 @@
 #include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai {
-
+namespace w = rtt::world;
 namespace v = rtt::world::view;
 
 // Set up a struct for dealerflags. Set up a struct for dealerflags.
@@ -33,10 +33,11 @@ enum class DealerFlagTitle {
     WITH_WORKING_DRIBBLER,
     NOT_IMPORTANT,
     READY_TO_INTERCEPT_GOAL_SHOT,
-    KEEPER
+    KEEPER,
+    CLOSEST_TO_BALL
 };
 
-enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
+enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, UNIQUE };
 
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
@@ -71,7 +72,7 @@ class Dealer {
      * @param flag
      * @return Score for a flag
      */
-    double getScoreForFlag(v::RobotView robot, DealerFlag flag);
+    std::pair <double, double> getScoreForFlag(v::RobotView robot, DealerFlag flag);
 
     /**
      * Calculates the score for a distance between a point and a robot
@@ -120,7 +121,7 @@ class Dealer {
      * @param robot
      * @return the score of all flags combined
      */
-    double scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+    std::pair <double, double> scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
 
     /**
      * Makes a mapping from roleName to a robot using the result of the hungarian
