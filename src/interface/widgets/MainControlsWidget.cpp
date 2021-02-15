@@ -101,7 +101,7 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
             return;
         }
         // simply manager->plays[index] because they're inserted in-order
-        stp::PlayDecider::lockInterfacePlay(manager->plays[index].get());
+        stp::PlayDecider::lockInterfacePlay(manager->plays[index].get()); //TODO: make button in new interface
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {

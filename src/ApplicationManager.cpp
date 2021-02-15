@@ -155,12 +155,12 @@ void ApplicationManager::decidePlay(world::World *_world) {
     playChecker.update(_world);
 
     // Here for manual change with the interface
-    if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
+    if(playDecider.interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
         currentPlay = playDecider.decideBestPlay(_world, validPlays);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
-        rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
+        playDecider.interfacePlayChanged = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep

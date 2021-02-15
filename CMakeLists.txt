@@ -249,6 +249,8 @@ set(WORLD_SOURCES
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
+        src/AI.cpp
+        src/UIListener.cpp
         ${UTILS_SOURCES}
         ${SKILLS_SOURCES}
         ${TACTICS_SOURCES}
