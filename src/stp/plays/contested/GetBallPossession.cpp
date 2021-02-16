@@ -2,8 +2,9 @@
 // Created by jordi on 11-05-20.
 //
 
+#include <stp/roles/passive/Waller.h>
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
-
+#include "include/roboteam_ai/stp/computations/PositionComputations.h"
 #include "stp/invariants/BallClosestToUsInvariant.h"
 #include "stp/invariants/BallIsFreeInvariant.h"
 #include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
@@ -33,12 +34,12 @@ GetBallPossession::GetBallPossession() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
+                                                                                 std::make_unique<role::Waller>(role::Waller("waller_0")),
+                                                                                 std::make_unique<role::Waller>(role::Waller("waller_1")),
+                                                                                 std::make_unique<role::Waller>(role::Waller("waller_2"))};
 }
 
-uint8_t GetBallPossession::score(world::World* world) noexcept { return 80; }
+uint8_t GetBallPossession::score(world::World* world) noexcept { return 10; }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
@@ -48,15 +49,18 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
+    stpInfos["defender_0"].setEnemyRobot(
+            world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
     stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
+    stpInfos["defender_1"].setEnemyRobot(
+            world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
+    stpInfos["defender_2"].setEnemyRobot(
+            world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     auto length = field.getFieldLength();
@@ -66,9 +70,18 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, -width / 4));
     stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
 
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2(length / 4, width / 6));
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2(length / 4, -width / 6));
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2(length / 4, 0.0));
+    int amountDefenders = 3;
+    std::vector<Vector2> wallPositions = {};
+    if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos())) wallPositions = computations::PositionComputations::determineWallPositions(field,world,amountDefenders);
+    if (!wallPositions.empty()) {
+        stpInfos["waller_0"].setPositionToMoveTo(wallPositions.at(0));
+        stpInfos["waller_1"].setPositionToMoveTo(wallPositions.at(1));
+        stpInfos["waller_2"].setPositionToMoveTo(wallPositions.at(2));
+    } else {
+        stpInfos["waller_0"].setPositionToMoveTo(Vector2(0,0));
+        stpInfos["waller_1"].setPositionToMoveTo(Vector2(0,0.2));
+        stpInfos["waller_2"].setPositionToMoveTo(Vector2(0,-0.2));
+    }
 }
 
 bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }
@@ -78,7 +91,6 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
     Dealer::DealerFlag ballGetterFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::UNIQUE);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
-    Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {keeperFlag}});
@@ -89,9 +101,9 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_0", {notImportant}});
     flagMap.insert({"midfielder_1", {notImportant}});
     flagMap.insert({"midfielder_2", {notImportant}});
-    flagMap.insert({"offender_0", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"waller_0", {closeToOurGoalFlag}});
+    flagMap.insert({"waller_1", {closeToOurGoalFlag}});
+    flagMap.insert({"waller_2", {closeToOurGoalFlag}});
     return flagMap;
 }
 

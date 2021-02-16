@@ -87,6 +87,19 @@ namespace rtt::ai::stp::computations {
          * @return score value
          */
         static double determineGoalShotScore(Vector2 point, const world::Field &field, world::World *world);
+
+        /**
+         * Determines the location for defenders around the defense area
+         * Uses the defence area boundaries and the path from ball to center of goal to find the intersects of circles to
+         * find the various positions.
+         * @param field
+         * @param world
+         * @param amountDefenders to be placed
+         * @return vector with Vector2 positions for each of the defenders
+         */
+        static std::vector<Vector2> determineWallPositions(const world::Field &field, world::World *world, int amountDefenders);
+
+        static std::vector<Vector2> intersectsCircleWithLineSegment(Circle circle, LineSegment line);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H

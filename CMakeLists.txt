@@ -79,7 +79,7 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockRobot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp)
 
 set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
@@ -100,7 +100,7 @@ set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
-        )
+        src/stp/roles/passive/Waller.cpp)
 
 set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
