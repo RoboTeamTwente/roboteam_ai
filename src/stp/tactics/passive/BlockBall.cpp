@@ -1,9 +1,6 @@
 //
 // Created by timovdk on 5/12/20.
-/// Will position the Robot between the BALL and either:
-/// - The shot line of the ENEMY with the ball, if ENEMY has ball
-/// - Our goal, if no-one has the ball
-/// TODO-Max Split this.
+/// Will position the Robot between the BALL and another Robot
 
 /// PASSIVE
 //
@@ -22,16 +19,15 @@ BlockBall::BlockBall() { skills = rtt::collections::state_machine<Skill, Status,
 std::optional<StpInfo> BlockBall::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !skillStpInfo.getEnemyRobot()) return std::nullopt;
+    if (!skillStpInfo.getField() || !skillStpInfo.getBall() || !skillStpInfo.getRobot() || !(skillStpInfo.getEnemyRobot() || skillStpInfo.getPositionToDefend())) return std::nullopt;
 
     auto field = info.getField().value();
     auto ball = info.getBall().value();
     auto robot = info.getRobot().value();
-    auto enemyRobot = info.getEnemyRobot().value();
-
+    auto defendPos = (info.getEnemyRobot()) ? info.getEnemyRobot().value()->getPos() : info.getPositionToDefend().value();
     auto robotToBall = ball->getPos() - robot->getPos();
 
-    auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
+    auto targetPosition = calculateTargetPosition(ball, defendPos);
 
     auto targetAngle = robotToBall.angle();
 
@@ -52,34 +48,14 @@ bool BlockBall::shouldTacticReset(const StpInfo &info) noexcept {
 
 const char *BlockBall::getName() { return "Block Ball"; }
 
-Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, const world::Field &field, const world::view::RobotView &enemyRobot) noexcept {
+Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Vector2 defendPos) noexcept {
     Vector2 targetPosition{};
-
-    // Opponent is close to ball
-    // Block the ball by staying on the shot line of the opponent
-    if (enemyRobot->getDistanceToBall() < control_constants::ENEMY_CLOSE_TO_BALL_DISTANCE) {
-        // TODO: Tune this distance
-        const double BLOCK_DISTANCE(0.5);
-
-        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
-
-        // Project the enemy robot on the circle, and rotate this position with Pi.
-        // This is to stand directly opposite the enemy robot with the ball in the middle.
-        targetPosition = ballCircle.project(enemyRobot->getPos()).rotateAroundPoint(M_PI, ballCircle.center);
-    }
-
-    // Default
-    // Stay between the ball and the center of the goal
-    else {
-        // TODO: Tune this distance
-        const double BLOCK_DISTANCE(0.5);
-
-        auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
-
-        // Project our goal center on the circle to get the position to block
-        targetPosition = ballCircle.project(field.getOurGoalCenter());
-    }
-
+    // Stay between the ball and the defend position
+    // TODO: Tune this distance
+    const double BLOCK_DISTANCE(0.5);
+    auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
+    // Project the defend pos on the circle to get the position to block
+    targetPosition = ballCircle.project(defendPos);
     return targetPosition;
 }
 
