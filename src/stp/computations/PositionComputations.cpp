@@ -1,6 +1,9 @@
 //
 // Created by maxl on 09-02-21.
-//
+// TODO-Max Make profiles for each position/situation that is using in BestLocation.
+    /// IDEA: If more factor are needed, the profile (with the factors of each statement) can be adjusted without comprimising the plays
+    ///       A profile for midfielder could be that the vision of the goal is not important but the line of isght is (for a pass)
+// TODO-Max remove determine..Position functions that are no longer used.
 
 #include "stp/computations/PositionComputations.h"
 #include <stp/computations/PassComputations.h>
@@ -214,7 +217,7 @@ namespace rtt::ai::stp::computations {
             } else {
                 /// EVEN
                 while (positions.size() < amountDefenders) {
-                    auto circle = Circle(lineBorderIntersect, (i++) * (spacingRobots/2));
+                    auto circle = Circle(lineBorderIntersect, (-0.5+i++) * (spacingRobots));
                     for (const LineSegment &line : defenseAreaBorder) {
                         auto intersects = intersectsCircleWithLineSegment(circle, line);
                         for (auto intersect : intersects) {
