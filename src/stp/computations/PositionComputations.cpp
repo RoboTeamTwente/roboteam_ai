@@ -204,10 +204,7 @@ namespace rtt::ai::stp::computations {
                     auto circle = Circle(lineBorderIntersect, (i++) * (spacingRobots));
                     for (const LineSegment &line : defenseAreaBorder) {
                         auto intersects = intersectsCircleWithLineSegment(circle, line);
-                        //RTT_DEBUG("SIZE INTERSECTS " + std::to_string(intersects.size()) + "!...");
                         for (auto intersect : intersects) {
-                            //RTT_DEBUG("HAS INTERSECT AT " + std::to_string(intersect.x) + "," +
-                            //          std::to_string(intersect.y));
                             interface::Input::drawData(interface::Visual::DEBUG, std::vector({intersect}), Qt::yellow,
                                                        -1, interface::Drawing::CIRCLES, 3, 3, 2);
                             positions.push_back(intersect);
