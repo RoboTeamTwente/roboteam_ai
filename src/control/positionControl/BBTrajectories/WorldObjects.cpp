@@ -179,7 +179,7 @@ namespace rtt::BB {
         return true;
     }
 
-    void WorldObjects::setWorld(world::World *world_) {
+    /* void WorldObjects::setWorld(world::World *world_) {
         world = world_;
-    }
+    } */
 }

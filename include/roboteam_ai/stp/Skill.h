@@ -33,34 +33,14 @@ class Skill {
     std::optional<world::view::RobotView> robot;
 
     /**
-     * Publishes the current robot command, limits it and refreshes it
+     * Forwards the current robot command to the ControlModule and refreshes it
      */
-    virtual void publishRobotCommand(world::World const* data) noexcept;
-
-    /**
-     * Rotates the robot command to the other side of the field
-     */
-    virtual void rotateRobotCommand() noexcept;
+    virtual void forwardRobotCommand(world::World const* data) noexcept;
 
     /**
      * Resets the internal robot command
      */
     virtual void refreshRobotCommand() noexcept;
-
-    /**
-     * Applies constraints to the internal robot command
-     */
-    virtual void limitRobotCommand() noexcept;
-
-    /**
-     * Limits the velocity
-     */
-    virtual void limitVel() noexcept;
-
-    /**
-     * Limits the angular velocity
-     */
-    virtual void limitAngularVel() noexcept;
 
     /**
      * Function that's called when the skill gets updated (every tick)

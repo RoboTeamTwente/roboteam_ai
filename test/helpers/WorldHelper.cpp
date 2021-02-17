@@ -19,7 +19,7 @@ double WorldHelper::getRandomValue(double min, double max) {
 /*
  * Generate a random position on a field
  */
-rtt::Vector2 WorldHelper::getRandomFieldPosition(proto::GeometryFieldSize field) {
+rtt::Vector2 WorldHelper::getRandomFieldPosition(proto::SSL_GeometryFieldSize field) {
     auto randomX = getRandomValue(-(field.field_length() / 2), field.field_length() / 2);
     auto randomY = getRandomValue(-(field.field_width() / 2), field.field_width() / 2);
     return {randomX, randomY};
@@ -76,7 +76,7 @@ bool WorldHelper::allPositionsAreValid(const proto::World &worldMsg, bool withBa
 /*
  * Generate a robot on a random position
  */
-proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldSize field) {
+proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::SSL_GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
@@ -94,7 +94,7 @@ proto::WorldRobot WorldHelper::generateRandomRobot(int id, proto::GeometryFieldS
 /*
  * Generate a ball at a random position
  */
-proto::WorldBall *WorldHelper::generateRandomBall(proto::GeometryFieldSize field) {
+proto::WorldBall *WorldHelper::generateRandomBall(proto::SSL_GeometryFieldSize field) {
     auto randomFieldPos = getRandomFieldPosition(std::move(field));
     auto randomVel = getRandomVelocity();
 
@@ -138,7 +138,7 @@ proto::WorldBall WorldHelper::generateBallAtLocation(const rtt::Vector2 &loc) {
 /*
  * Generate a certain amount of robots in a field at random positions
  */
-google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRandomRobots(int amount, const proto::GeometryFieldSize &field) {
+google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRandomRobots(int amount, const proto::SSL_GeometryFieldSize &field) {
     google::protobuf::RepeatedPtrField<proto::WorldRobot> robots;
     for (int i = 0; i < amount; i++) {
         auto randombot = generateRandomRobot(i, field);
@@ -151,7 +151,7 @@ google::protobuf::RepeatedPtrField<proto::WorldRobot> WorldHelper::generateRando
 /*
  * Generate a world message for both teams
  */
-proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool withBall, const proto::GeometryFieldSize &field) {
+proto::World WorldHelper::getWorldMsg(int amountYellow, int amountBlue, bool withBall, const proto::SSL_GeometryFieldSize &field) {
     proto::World msg;
 
     // Generate random robots and a ball and check if none are colliding

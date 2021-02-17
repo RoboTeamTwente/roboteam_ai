@@ -75,6 +75,8 @@ namespace rtt::ai::control {
     BB::BBTrajectory2D
     PositionControl::computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
                                  Vector2 targetPosition, int robotId) {
+        //TODO: Make computePath an optional BBTrajectory2D such that STP can check if a path can be found
+        //TODO: Create a function in WorldObjects which can give the position of the first collision to STP
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 

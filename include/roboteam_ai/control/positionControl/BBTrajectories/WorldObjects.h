@@ -78,7 +78,7 @@ namespace rtt::BB {
 
         bool canMoveOutsideField(int robotId);
 
-        static void setWorld(world::World *world_);
+        //static void setWorld(world::World *world_);
     };
 }
 

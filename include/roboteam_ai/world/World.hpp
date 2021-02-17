@@ -162,7 +162,7 @@ public:
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
-    void forwardWorldToBB();
+    //void forwardWorldToBB();
 
 #ifdef RUNNING_TEST
     /**

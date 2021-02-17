@@ -24,8 +24,8 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
     // set command ID
     command.set_id(info.getRobot().value()->getId());
 
-    // publish the generated command
-    publishRobotCommand(info.getCurrentWorld());
+    // forward the generated command to the ControlModule, for checking and limiting
+    forwardRobotCommand(info.getCurrentWorld());
 
     // Check if successful
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;

@@ -5,6 +5,7 @@
 
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
+#include "control/ControlModule.h"
 
 /**
  * Plays are included here
@@ -105,14 +106,14 @@ void ApplicationManager::start() {
 
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
-    if (io::io.hasReceivedGeom) {
+    auto state = io::io.getState();
+    if (state.has_field()) {
         if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
         fieldInitialized = true;
 
-        auto fieldMessage = io::io.getGeometryData().field();
-        auto worldMessage = io::io.getWorldState();
-        auto feedbackMap = io::io.getFeedbackDataMap();
-
+        //Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
+        auto worldMessage = state.last_seen_world();
+        auto fieldMessage = state.field().field();
         if (!SETTINGS.isLeft()) {
             roboteam_utils::rotate(&worldMessage);
         }
@@ -125,10 +126,16 @@ void ApplicationManager::runOneLoopCycle() {
             }
             robotsInitialized = true;
 
+
             world->updateField(fieldMessage);
             world->updatePositionControl();
-            world->updateFeedback(feedbackMap);
-            world->forwardWorldToBB();
+<<<<<<< HEAD
+            //world->updateFeedback(feedbackMap);
+
+=======
+            //world->updateFeedback(feedbackMap);
+
+>>>>>>> development
             decidePlay(world);
 
         } else {
@@ -145,6 +152,8 @@ void ApplicationManager::runOneLoopCycle() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    rtt::ai::control::ControlModule::sendAllCommands();
+    io::io.handleCentralServerConnection();
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {

@@ -111,9 +111,9 @@ namespace rtt::world {
 
     size_t World::getHistorySize() const noexcept { return history.size(); }
 
-    void World::forwardWorldToBB() {
+    /* void World::forwardWorldToBB() {
         BB::WorldObjects::setWorld(this);
-    }
+    } */
 
 //    void World::forwardRobots(std::vector<view::RobotView> robots){
 //        std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robots.begin(), [](const auto& robot) -> rtt::world::view::RobotView { return (robot); });
