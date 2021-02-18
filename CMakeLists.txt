@@ -61,7 +61,7 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         # /
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBehindBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
