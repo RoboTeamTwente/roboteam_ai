@@ -36,7 +36,7 @@ enum class DealerFlagTitle {
     KEEPER
 };
 
-// Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer.cpp)
+// Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer::distribute() )
 enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
 
 class Dealer {

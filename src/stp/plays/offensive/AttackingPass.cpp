@@ -61,19 +61,18 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
     Dealer::DealerFlag passerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
-    flagMap.insert({"passer", {DealerFlagPriority::KEEPER,{passerFlag}}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{passerFlag}}});
     flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
     flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
-    flagMap.insert({"test_role_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"test_role_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"test_role_7", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"test_role_8", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"test_role_9", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }
