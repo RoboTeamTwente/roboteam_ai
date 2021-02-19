@@ -36,6 +36,7 @@ enum class DealerFlagTitle {
     KEEPER
 };
 
+// Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer.cpp)
 enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
 
 class Dealer {
@@ -88,7 +89,7 @@ class Dealer {
      * @param stpInfoMap
      * @return The score matrix
      */
-    std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+    std::vector<std::pair<std::vector<double>, int>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                     const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
     /**

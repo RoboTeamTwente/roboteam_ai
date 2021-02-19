@@ -19,13 +19,66 @@ Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priorit
 // Create a distribution of robots according to their flags
 std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
-    std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
-    std::vector<int> assignment;
+    RTT_DEBUG("STARTED")
+    std::vector<std::pair<std::vector<double>, int>> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
+    std::vector<int> assignment(allRobots.size(),-1);
+    // Loop through priorities
+    // Delete given roles and robots from score
+        RTT_DEBUG("MADE MATRIX")
+        RTT_DEBUG("SIZE OF NEW ASSIGNMENTS = "+std::to_string(assignment.size()));
+    // Loop through the order of role priorities (column)
+    for (int i = sizeof(DealerFlagPriority); i >= 0; i--){
+        RTT_DEBUG("----")
+        RTT_DEBUG("STARTED ON "+std::to_string(i))
+        std::vector<std::vector<double>> currentScores;
+        std::vector<int> currentRoles;
+        std::vector<int> currentAssignments;
 
-    // solve the matrix and put the results in 'assignment'
-    // The cost function will be minimized
-    rtt::Hungarian::Solve(scores, assignment);
+        // Check if a column has the looked for priorities
+        for (int j = 0; j < scores.size(); j++){
+            // if so, add it to a list and save the index
+            if (scores.at(j).second == i) {
+                currentScores.push_back(scores.at(j).first);
+                currentRoles.push_back(j);
+                RTT_DEBUG("GIVING AWAY ROLE "+std::to_string(j))
+            }
+        }
+        if (currentRoles.size() > 0) {
+            RTT_DEBUG("# ROLES LOOKED AT " + std::to_string(currentRoles.size()))
 
+            // Return best assignment for that roles (column)
+            rtt::Hungarian::Solve(currentScores, currentAssignments);
+            RTT_DEBUG("# ASSIGNMENTS LOOKED AT " + std::to_string(currentAssignments.size()))
+            // find out what robots have been assigned and sort the list (this should be index of row's of score)
+            vector<int> currentRobots;
+            for (int i = 0; i < currentAssignments.size(); i++) {
+                if (currentAssignments[i] != -1) {
+                    currentRobots.push_back(currentAssignments[i]);
+                    RTT_DEBUG("ROLE " + std::to_string(i) + " WAS GIVEN TO " + std::to_string(currentAssignments[i]))
+                }
+            }
+            std::sort(currentRobots.begin(), currentRobots.end());
+            // Delete assigned roles and robots from score
+            for (int j = currentRoles.size() - 1; j >= 0; j--) {
+                RTT_DEBUG("REMOVING ROLE " + std::to_string(currentRoles[j]))
+                scores.erase(scores.begin() + currentRoles[j]);
+            }
+            RTT_DEBUG(" REMOVING ROBOTS FROM THE SCORE VECTORVECTOR")
+            for (int col = 0; col < scores.size(); col++) {
+                RTT_DEBUG(" COL " + std::to_string(col));
+                for (int j = currentRobots.size() - 1; j >= 0; j--) {
+                    scores[col].first.erase(scores[col].first.begin() + currentRobots[j]);
+                }
+            }
+            for (int j = 0; j < assignment.size(); j++) {
+                if (currentAssignments[j] != -1) assignment[j] = currentAssignments[j];
+            }
+        }
+    }
+    RTT_DEBUG("--- DONE ---");
+    for (int i = 0; i < assignment.size(); i++){
+        RTT_DEBUG(std::to_string(i)+ " given to "+std::to_string(assignment[i]))
+    }
     return mapFromAssignments(allRobots, flagMap, assignment);
 }
 
@@ -49,11 +102,10 @@ std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const s
     }
     return result;
 }
-
 // Populate a matrix with scores
-std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
+std::vector<std::pair<std::vector<double>, int>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
                                                    const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
-    vector<vector<double>> scores;
+    std::vector<std::pair<std::vector<double>, int>> scores;
     scores.reserve(flagMap.size());
 
     // Loop through all roles that are in the dealerFlags map
@@ -74,7 +126,7 @@ std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotVie
             auto flagScore = scoreForFlags(dealerFlags.second, robot);
             row.push_back((distanceScore + flagScore.first)/(flagScore.second+1));
         }
-        scores.push_back(row);
+        scores.emplace_back(row, (int) dealerFlags.first);
     }
     return scores;
 }
