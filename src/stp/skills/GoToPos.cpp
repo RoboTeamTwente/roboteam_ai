@@ -17,12 +17,20 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     // Calculate commands from path planning and tracking
-    auto robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
-        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+    // _______Use these for the old pathplanning and tracking_______
+    std::pair<RobotCommand, std::optional<Vector2>> robotCommandCollisionPair;
+    robotCommandCollisionPair.first = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
+//        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+    // _______Use this one for the BBT pathplanning_______
+//    auto robotCommandCollisionPair = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
+//        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
 
+    if (robotCommandCollisionPair.second.has_value()) {
+        return Status::Failure;
+    }
     // Clamp and set velocity
-    double targetVelocityLength = std::clamp(robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
-    Vector2 targetVelocity = robotCommand.vel.stretchToLength(targetVelocityLength);
+    double targetVelocityLength = std::clamp(robotCommandCollisionPair.first.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
+    Vector2 targetVelocity = robotCommandCollisionPair.first.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
     command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));

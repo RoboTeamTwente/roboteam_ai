@@ -29,7 +29,8 @@ namespace rtt::ai::control {
         NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
         PidTracking pathTrackingAlgorithm;
 
-        std::unordered_map<int, BB::BBTrajectory2D> computedPaths;
+        std::unordered_map<int, BB::BBTrajectory2D> computedPathsBB;
+        std::unordered_map<int, std::vector<Vector2>> computedPaths;
 
     public:
         /**
@@ -67,9 +68,9 @@ namespace rtt::ai::control {
         bool shouldRecalculatePath(const Vector2 &currentPosition, const Vector2 &targetPos,
                                    const Vector2 &currentVelocity, int robotId);
 
-        BB::BBTrajectory2D
-        computePath(const rtt::world::Field &field, Vector2 currentPosition, Vector2 currentVelocity,
-                    Vector2 targetPosition, int robotId);
+        std::pair<RobotCommand, std::optional<Vector2>>
+        computeAndTrackPathBBT(const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
+                               Vector2 targetPosition, stp::PIDType pidType);
 
         std::optional<BB::BBTrajectory2D>
         findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity,
