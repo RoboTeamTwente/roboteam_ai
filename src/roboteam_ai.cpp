@@ -2,7 +2,8 @@
 #include <roboteam_utils/Print.h>
 #include <include/roboteam_ai/world/World.hpp>
 #include "ApplicationManager.h"
-
+#include <QStyleFactory>
+#include <QApplication>
 namespace ui = rtt::ai::interface;
 
 ui::MainWindow* window;

@@ -18,7 +18,6 @@
 #include <iostream>
 #include <memory>
 
-#include "GraphWidget.h"
 #include "ManualControlWidget.h"
 #include "PidBox.h"
 #include "QColor"
@@ -73,7 +72,6 @@ class MainWindow : public QMainWindow {
     STPVisualizerWidget *stpWidget;
     STPVisualizerWidget *keeperStpWidget;
     Visualizer *visualizer;
-    GraphWidget *graphWidget;
     PlaysWidget* playsWidget;
 //    InvariantsWidget *invariantsWidget;
 };

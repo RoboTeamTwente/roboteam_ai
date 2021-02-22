@@ -66,7 +66,6 @@ void ApplicationManager::start(int id) {
             int fpsUpdateRate = 5;
             t.limit(
                 [&]() {
-                    ai::interface::Input::setFps(amountOfCycles * fpsUpdateRate);
                     amountOfCycles = 0;
                 },
                 fpsUpdateRate);

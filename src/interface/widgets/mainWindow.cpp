@@ -5,7 +5,8 @@
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/PidsWidget.h"
 #include "interface/widgets/VisualizationSettingsWidget.h"
-
+#include <QMenuBar>
+#include <QSplitter>
 namespace rtt::ai::interface {
 
 MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWindow(parent) {
@@ -61,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     // add the tab widget
     auto tabWidget = new QTabWidget;
 
-    graphWidget = new GraphWidget(this);
 
     playsWidget = new PlaysWidget(this);
 
@@ -69,7 +69,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
     DataTabWidget->addTab(playsWidget, "Plays");
-    DataTabWidget->addTab(graphWidget, tr("Charts"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     DataTabWidget->addTab(refWidget, tr("GameStateManager"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
@@ -115,7 +114,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     robotsTimer->start(500);  // 2fps
 
     auto *graphTimer = new QTimer(this);
-    connect(graphTimer, SIGNAL(timeout()), graphWidget, SLOT(updateContents()));
     graphTimer->start(500);  // 2fps
 
     connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);

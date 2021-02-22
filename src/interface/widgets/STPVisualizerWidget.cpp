@@ -14,6 +14,7 @@
 
 #include "interface/widgets/mainWindow.h"
 #include "stp/Play.hpp"
+#include <QScrollBar>
 
 namespace rtt::ai::interface {
     constexpr static const char *tab = "&nbsp;&nbsp;&nbsp;&nbsp;";

@@ -3,7 +3,6 @@
 
 #include <include/roboteam_ai/utilities/GameStateManager.hpp>
 
-#include "interface/api/Input.h"
 #include "roboteam_utils/normalize.h"
 #include "utilities/Pause.h"
 #include "include/roboteam_ai/world/World.hpp"

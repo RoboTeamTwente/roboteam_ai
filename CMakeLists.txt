@@ -204,7 +204,6 @@ set(TEST_SOURCES
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/STPVisualizerWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RobotsWidget.cpp
@@ -214,7 +213,6 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/GraphWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
