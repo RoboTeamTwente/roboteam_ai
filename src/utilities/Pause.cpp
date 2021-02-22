@@ -27,7 +27,7 @@ void Pause::haltRobots(rtt::world::World const* data) {
         cmd.set_w(static_cast<float>(robot->getAngle()));
         commands.push_back(std::move(cmd));
     }
-    io::io.publishAllRobotCommands(commands);
+    //io::io.publishAllRobotCommands(commands);TODO: replace
 }
 void Pause::setPause(bool set) {
     std::lock_guard<std::mutex> lock(pauseLock);

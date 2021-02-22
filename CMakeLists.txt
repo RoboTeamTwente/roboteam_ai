@@ -250,7 +250,6 @@ set(WORLD_SOURCES
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
         src/AI.cpp
-        src/UIListener.cpp
         ${UTILS_SOURCES}
         ${SKILLS_SOURCES}
         ${TACTICS_SOURCES}

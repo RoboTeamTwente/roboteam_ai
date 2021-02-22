@@ -50,8 +50,6 @@ class IOManager {
     std::mutex stateMutex;
 };
 
-    extern IOManager io;
-
 }  // namespace io
 }  // namespace rtt::ai
 
