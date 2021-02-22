@@ -45,35 +45,6 @@ namespace rtt::ai::interface {
         if (showBallPlacementMarker) drawBallPlacementTarget(painter);
     }
 
-    bool Visualizer::shouldVisualize(Toggle toggle, int robotId) {
-        switch (toggle.showType) {
-            default:
-                return false;
-            case GENERAL: {
-                switch (toggle.generalShowType) {
-                    default:
-                        return false;
-                    case OFF:
-                        return false;
-                    case ON:
-                        return true;
-                }
-                break;
-            }
-            case ROBOT: {
-                switch (toggle.robotShowType) {
-                    default:
-                        return false;
-                    case NO_ROBOTS:
-                        return false;
-                    case SELECTED_ROBOTS:
-                        return robotIsSelected(robotId);
-                    case ALL_ROBOTS:
-                        return true;
-                }
-            }
-        }
-    }
 
 /// Calculates the factor variable which is used for mapping field coordinates with screen coordinates.
 void Visualizer::calculateFieldSizeFactor(const rtt::world::Field &field) {

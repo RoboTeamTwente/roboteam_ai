@@ -4,7 +4,6 @@
 
 #include "interface/widgets/MainControlsWidget.h"
 #include "interface/widgets/PidsWidget.h"
-#include "interface/widgets/VisualizationSettingsWidget.h"
 #include <QMenuBar>
 #include <QSplitter>
 namespace rtt::ai::interface {
@@ -42,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     auto mainControlsWidget = new MainControlsWidget(this, manager);
     vLayout->addWidget(mainControlsWidget);
 
-    auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto settingsWidget = new SettingsWidget(this);
 
     auto pidWidget = new PidsWidget();
@@ -56,7 +54,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
     auto SettingsTabWidget = new QTabWidget;
     SettingsTabWidget->addTab(settingsWidget, tr("General settings"));
-    SettingsTabWidget->addTab(visualizationSettingsWidget, tr("Visualisation Settings"));
     SettingsTabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
     tabWidget->addTab(manualControlWidget, tr("Manual"));

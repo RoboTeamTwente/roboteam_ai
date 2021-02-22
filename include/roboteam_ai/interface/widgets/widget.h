@@ -11,7 +11,6 @@
 #include <QWidget>
 #include <memory>
 
-#include <interface/api/Toggles.h>
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
 #include <world/Field.h>
@@ -66,7 +65,6 @@ class Visualizer : public QWidget {
 
     void drawLines(QPainter &painter, std::vector<Vector2> points);
     void drawArrows(QPainter &painter, std::vector<Vector2> points, double factor, double maxSize, bool closedArrow);
-    bool shouldVisualize(Toggle toggle, int robotId);
 
     // utitlity functions
     std::string getTacticNameForRobot(rtt::world::view::RobotView robot);
