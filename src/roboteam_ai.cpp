@@ -8,7 +8,7 @@ namespace ui = rtt::ai::interface;
 ui::MainWindow* window;
 
 void run_application(int ai_id) {
-    rtt::ApplicationManager app{ window };
+    rtt::ApplicationManager app{};
     app.start(ai_id);
 }
 

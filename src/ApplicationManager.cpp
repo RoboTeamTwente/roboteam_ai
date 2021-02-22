@@ -112,8 +112,4 @@ void ApplicationManager::runOneLoopCycle() {
     rtt::ai::control::ControlModule::sendAllCommands(io);
     io->handleCentralServerConnection();
 }
-
-
-
-ApplicationManager::ApplicationManager(ai::interface::MainWindow *mainWindow) { this->mainWindow = mainWindow; }
 }  // namespace rtt

@@ -14,8 +14,6 @@
 namespace rtt {
 
 class ApplicationManager {
-   public:
-    explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
 
    private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
@@ -23,14 +21,13 @@ class ApplicationManager {
     void runOneLoopCycle();
     bool fieldInitialized = false;
     bool robotsInitialized = false;
-    ai::interface::MainWindow* mainWindow;
     std::unique_ptr<AI> ai;
     std::unique_ptr<rtt::ai::io::IOManager> io;
 
 
    public:
     void start(int ai_id);
-
+    ApplicationManager() = default;
     ApplicationManager(ApplicationManager const&) = delete;
     ApplicationManager& operator=(ApplicationManager const&) = delete;
 };
