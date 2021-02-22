@@ -42,15 +42,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     auto mainControlsWidget = new MainControlsWidget(this, manager);
     vLayout->addWidget(mainControlsWidget);
 
-    auto behaviourTreeWidget = new QWidget(this);
-    auto behaviourTreeWidgetLayout = new QVBoxLayout();
-    // create widgets hidden under tabs
-    stpWidget = new STPVisualizerWidget(this);
-
-    behaviourTreeWidgetLayout->addWidget(stpWidget);
-    behaviourTreeWidget->setLayout(behaviourTreeWidgetLayout);
-
-    keeperStpWidget = new STPVisualizerWidget(this);
     auto visualizationSettingsWidget = new VisualizationSettingsWidget(visualizer, this);
     auto settingsWidget = new SettingsWidget(this);
 
@@ -64,8 +55,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
 
     auto DataTabWidget = new QTabWidget;
-    DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
-    DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
 
@@ -111,8 +100,7 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     auto *graphTimer = new QTimer(this);
     graphTimer->start(500);  // 2fps
 
-    connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
-    connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
+
 }
 
 /// Set up a checkbox and add it to the layout
@@ -163,15 +151,7 @@ void MainWindow::updateRobotsWidget() {
     }
 }
 
-void MainWindow::updatePlay(stp::Play *play) {
-    stpWidget->updateContents(play);
-    updateStpWidgets();
-}
-
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
-
-void MainWindow::setKeeperRole(stp::Role *keeperRole, stp::Status state) { keeperStpWidget->updateKeeperContents(keeperRole, state); }
-
 void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
 
 }  // namespace rtt::ai::interface

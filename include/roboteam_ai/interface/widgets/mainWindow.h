@@ -25,7 +25,6 @@
 #include "QPushButton"
 #include "QTreeWidgetItemIterator"
 #include "RobotsWidget.h"
-#include "STPVisualizerWidget.h"
 #include "widget.h"
 
 namespace rtt {
@@ -49,16 +48,12 @@ class MainWindow : public QMainWindow {
 
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
-    void updatePlay(stp::Play *play);
 
-   signals:
-    void updateStpWidgets();
 
    public slots:
     void updateRobotsWidget();
     void setPlayForRobot(std::string const &str, uint8_t id);
     void setTacticForRobot(std::string const &str, uint8_t id);
-    void setKeeperRole(stp::Role *role, stp::Status state);
 
    private:
     QHBoxLayout *horizontalLayout;
@@ -66,8 +61,7 @@ class MainWindow : public QMainWindow {
     QVBoxLayout *vLayout;
     RobotsWidget *robotsWidget;
     ManualControlWidget *manualControlWidget;
-    STPVisualizerWidget *stpWidget;
-    STPVisualizerWidget *keeperStpWidget;
+
     Visualizer *visualizer;
 //    InvariantsWidget *invariantsWidget;
 };
