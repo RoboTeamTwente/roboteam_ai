@@ -25,7 +25,6 @@
 #include "QPushButton"
 #include "QTreeWidgetItemIterator"
 #include "RobotsWidget.h"
-#include "RuleSetWidget.h"
 #include "STPVisualizerWidget.h"
 #include "widget.h"
 #include "PlaysWidget.hpp"
@@ -67,7 +66,6 @@ class MainWindow : public QMainWindow {
     QVBoxLayout *mainLayout;
     QVBoxLayout *vLayout;
     RobotsWidget *robotsWidget;
-    RuleSetWidget *refWidget;
     ManualControlWidget *manualControlWidget;
     STPVisualizerWidget *stpWidget;
     STPVisualizerWidget *keeperStpWidget;

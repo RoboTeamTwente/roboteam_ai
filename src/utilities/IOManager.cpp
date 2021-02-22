@@ -13,10 +13,10 @@ namespace rtt::ai::io {
 IOManager io;
 
 IOManager::~IOManager() {
-    delete worldSubscriber;
-    delete robotCommandPublisher;
-    delete settingsPublisher;
-    delete central_server_connection;
+  delete central_server_connection;
+  delete settingsPublisher;
+  delete robotCommandPublisher;
+  delete worldSubscriber;
 }
 
 void IOManager::init(int teamId) {

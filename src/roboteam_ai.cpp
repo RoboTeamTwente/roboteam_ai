@@ -1,6 +1,5 @@
 #include <utilities/IOManager.h>
 #include <roboteam_utils/Print.h>
-#include <include/roboteam_ai/world/World.hpp>
 #include "ApplicationManager.h"
 #include <QStyleFactory>
 #include <QApplication>

@@ -50,7 +50,6 @@ void ApplicationManager::start(int id) {
     RTT_INFO("Waiting for field_data and robots...")
     ai = std::make_unique<AI>();
 
-    int amountOfCycles = 0;
     roboteam_utils::Timer t;
     t.loop(
         [&]() {
@@ -59,16 +58,6 @@ void ApplicationManager::start(int id) {
 
             RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
             RTT_WARNING("Time allowed: 16 ms")
-
-            amountOfCycles++;
-
-            // update the measured FPS, but limit this function call to only run 5 times/s at most
-            int fpsUpdateRate = 5;
-            t.limit(
-                [&]() {
-                    amountOfCycles = 0;
-                },
-                fpsUpdateRate);
 
             // publish settings, but limit this function call to only run 1 times/s at most
             t.limit([&]() { io->publishSettings(SETTINGS.toMessage()); }, 1);

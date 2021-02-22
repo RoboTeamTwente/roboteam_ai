@@ -56,7 +56,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
     auto pidWidget = new PidsWidget();
     robotsWidget = new RobotsWidget(this);
-    refWidget = new RuleSetWidget(this);
     manualControlWidget = new ManualControlWidget(this);
 
     // add the tab widget
@@ -70,7 +69,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
     DataTabWidget->addTab(playsWidget, "Plays");
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
-    DataTabWidget->addTab(refWidget, tr("GameStateManager"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
 
     auto SettingsTabWidget = new QTabWidget;
@@ -106,7 +104,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     // start the UI update cycles
     // these are slower than the tick rate
     auto *robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), refWidget, SLOT(updateContents()));
     connect(robotsTimer, SIGNAL(timeout()), this,
             SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
