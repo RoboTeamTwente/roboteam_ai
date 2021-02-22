@@ -62,12 +62,10 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     auto tabWidget = new QTabWidget;
 
 
-    playsWidget = new PlaysWidget(this);
 
     auto DataTabWidget = new QTabWidget;
     DataTabWidget->addTab(behaviourTreeWidget, tr("STP states"));
     DataTabWidget->addTab(keeperStpWidget, tr("Keeper"));
-    DataTabWidget->addTab(playsWidget, "Plays");
     DataTabWidget->addTab(robotsWidget, tr("Robots"));
     tabWidget->addTab(DataTabWidget, tr("Data"));
 
@@ -115,7 +113,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
     connect(this, &MainWindow::updateStpWidgets, stpWidget, &STPVisualizerWidget::outputStpData);
     connect(this, &MainWindow::updateStpWidgets, keeperStpWidget, &STPVisualizerWidget::outputStpData);
-    connect(this, &MainWindow::updateStpWidgets, playsWidget, &PlaysWidget::updatePlays);
 }
 
 /// Set up a checkbox and add it to the layout

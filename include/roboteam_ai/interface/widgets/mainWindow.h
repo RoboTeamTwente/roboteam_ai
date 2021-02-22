@@ -27,7 +27,6 @@
 #include "RobotsWidget.h"
 #include "STPVisualizerWidget.h"
 #include "widget.h"
-#include "PlaysWidget.hpp"
 
 namespace rtt {
 class ApplicationManager;
@@ -70,7 +69,6 @@ class MainWindow : public QMainWindow {
     STPVisualizerWidget *stpWidget;
     STPVisualizerWidget *keeperStpWidget;
     Visualizer *visualizer;
-    PlaysWidget* playsWidget;
 //    InvariantsWidget *invariantsWidget;
 };
 
