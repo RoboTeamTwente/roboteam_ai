@@ -46,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     auto settingsWidget = new SettingsWidget(this);
 
     auto pidWidget = new PidsWidget();
-    robotsWidget = new RobotsWidget(this);
     manualControlWidget = new ManualControlWidget(this);
 
     // add the tab widget
@@ -54,9 +53,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
 
 
-    auto DataTabWidget = new QTabWidget;
-    DataTabWidget->addTab(robotsWidget, tr("Robots"));
-    tabWidget->addTab(DataTabWidget, tr("Data"));
 
     auto SettingsTabWidget = new QTabWidget;
     SettingsTabWidget->addTab(settingsWidget, tr("General settings"));
@@ -91,8 +87,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     // start the UI update cycles
     // these are slower than the tick rate
     auto *robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), this,
-            SLOT(updateRobotsWidget()));  // we need to pass the visualizer so thats why a seperate function is used
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
     connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
     robotsTimer->start(500);  // 2fps
@@ -135,21 +129,6 @@ void MainWindow::clearLayout(QLayout *layout) {
     }
 }
 
-// when updating the robotswidget it needs the current visualizer state
-void MainWindow::updateRobotsWidget() {
-    std::optional<rtt::world::view::WorldDataView> currentWorld;
-    {
-        auto const &[_, world] = rtt::world::World::instance();
-        if (!world) {
-            std::cerr << "World is nullptr" << std::endl;
-            return;
-        }
-        currentWorld = world->getWorld();
-    }
-    if (currentWorld) {
-        robotsWidget->updateContents(visualizer, *currentWorld);
-    }
-}
 
 void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
 void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
