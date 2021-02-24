@@ -19,7 +19,6 @@
 #include <memory>
 
 #include "ManualControlWidget.h"
-#include "PidBox.h"
 #include "QColor"
 #include "QHBoxLayout"
 #include "QPushButton"

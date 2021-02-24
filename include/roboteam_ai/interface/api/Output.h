@@ -17,7 +17,6 @@ typedef std::tuple<double, double, double> pidVals;
 
 class Output {
    private:
-    static pidVals numTreePID;
     static pidVals receivePID;
     static pidVals interceptPID;
     static pidVals keeperPID;
@@ -46,15 +45,9 @@ class Output {
   static bool isTimeOutAtTop();
   static void setTimeOutTop(bool top);
 
-    static const pidVals &getNumTreePid();
-    static void setNumTreePid(const pidVals &numTreePid);
-    static const pidVals &getReceivePid();
     static void setReceivePid(const pidVals &receivePid);
-    static const pidVals &getInterceptPid();
     static void setInterceptPid(const pidVals &interceptPid);
-    static const pidVals &getKeeperPid();
     static void setKeeperPid(const pidVals &keeperPid);
-    static const pidVals &getKeeperInterceptPid();
     static void setKeeperInterceptPid(const pidVals &keeperInterceptPid);
 
     static void setRuleSetName(std::string name);

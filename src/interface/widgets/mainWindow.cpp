@@ -3,7 +3,6 @@
 #include <interface/widgets/SettingsWidget.h>
 
 #include "interface/widgets/MainControlsWidget.h"
-#include "interface/widgets/PidsWidget.h"
 #include <QMenuBar>
 #include <QSplitter>
 namespace rtt::ai::interface {
@@ -29,7 +28,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
     auto settingsWidget = new SettingsWidget(this);
 
-    auto pidWidget = new PidsWidget();
     manualControlWidget = new ManualControlWidget(this);
 
     // add the tab widget
@@ -40,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
     auto SettingsTabWidget = new QTabWidget;
     SettingsTabWidget->addTab(settingsWidget, tr("General settings"));
-    SettingsTabWidget->addTab(pidWidget, tr("PID"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
     tabWidget->addTab(manualControlWidget, tr("Manual"));
 

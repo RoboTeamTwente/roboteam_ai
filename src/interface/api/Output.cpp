@@ -9,7 +9,6 @@
 namespace rtt::ai::interface {
 
 // these values are default initialized here, but will be updated once mainWidget.cpp constructs the PID widget.
-pidVals Output::numTreePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::receivePID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::interceptPID = pidVals(0.0, 0.0, 0.0);
 pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
@@ -85,23 +84,15 @@ void Output::setInterfaceGameState(GameState interfaceGameState) {
     Output::interfaceGameState = interfaceGameState;
 }
 
-const pidVals &Output::getNumTreePid() { return numTreePID; }
-
-void Output::setNumTreePid(const pidVals &numTreePid) { numTreePID = numTreePid; }
-
-const pidVals &Output::getReceivePid() { return receivePID; }
 
 void Output::setReceivePid(const pidVals &receivePid) { receivePID = receivePid; }
 
-const pidVals &Output::getInterceptPid() { return interceptPID; }
 
 void Output::setInterceptPid(const pidVals &interceptPid) { interceptPID = interceptPid; }
 
-const pidVals &Output::getKeeperPid() { return keeperPID; }
 
 void Output::setKeeperPid(const pidVals &keeperPid) { keeperPID = keeperPid; }
 
-const pidVals &Output::getKeeperInterceptPid() { return keeperInterceptPID; }
 
 void Output::setKeeperInterceptPid(const pidVals &keeperInterceptPid) { keeperInterceptPID = keeperInterceptPid; }
 
