@@ -85,15 +85,6 @@ void Output::setInterfaceGameState(GameState interfaceGameState) {
 }
 
 
-void Output::setReceivePid(const pidVals &receivePid) { receivePID = receivePid; }
 
-
-void Output::setInterceptPid(const pidVals &interceptPid) { interceptPID = interceptPid; }
-
-
-void Output::setKeeperPid(const pidVals &keeperPid) { keeperPID = keeperPid; }
-
-
-void Output::setKeeperInterceptPid(const pidVals &keeperInterceptPid) { keeperInterceptPID = keeperInterceptPid; }
 
 }  // namespace rtt::ai::interface

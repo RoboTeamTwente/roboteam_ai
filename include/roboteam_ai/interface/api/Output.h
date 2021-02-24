@@ -45,11 +45,6 @@ class Output {
   static bool isTimeOutAtTop();
   static void setTimeOutTop(bool top);
 
-    static void setReceivePid(const pidVals &receivePid);
-    static void setInterceptPid(const pidVals &interceptPid);
-    static void setKeeperPid(const pidVals &keeperPid);
-    static void setKeeperInterceptPid(const pidVals &keeperInterceptPid);
-
     static void setRuleSetName(std::string name);
     static void setKeeperId(int id);
 };
