@@ -17,10 +17,6 @@ typedef std::tuple<double, double, double> pidVals;
 
 class Output {
    private:
-    static pidVals receivePID;
-    static pidVals interceptPID;
-    static pidVals keeperPID;
-    static pidVals keeperInterceptPID;
 
     static std::mutex markerMutex;
     static std::mutex refMutex;

@@ -8,11 +8,6 @@
 
 namespace rtt::ai::interface {
 
-// these values are default initialized here, but will be updated once mainWidget.cpp constructs the PID widget.
-pidVals Output::receivePID = pidVals(0.0, 0.0, 0.0);
-pidVals Output::interceptPID = pidVals(0.0, 0.0, 0.0);
-pidVals Output::keeperPID = pidVals(0.0, 0.0, 0.0);
-pidVals Output::keeperInterceptPID = pidVals(0.0, 0.0, 0.0);
 
 rtt::Vector2 Output::markerPosition = {0, 0};  // initialize on middle of the field
 bool Output::useRefereeCommands = false;
