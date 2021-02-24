@@ -6,7 +6,7 @@
 #define ROBOTEAM_AI_PIDSWIDGET_H
 
 #include "QLayout"
-#include "widget.h"
+#include <QWidget>
 
 namespace rtt::ai::interface {
 

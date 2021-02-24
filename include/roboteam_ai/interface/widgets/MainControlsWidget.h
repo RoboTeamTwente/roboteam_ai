@@ -13,7 +13,6 @@
 #include <QtWidgets/QShortcut>
 
 #include "QLayout"
-#include "widget.h"
 
 namespace rtt::ai::interface {
 

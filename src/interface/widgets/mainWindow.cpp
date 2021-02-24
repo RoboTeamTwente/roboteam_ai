@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     setMinimumHeight(600);
 
     // layouts
-    visualizer = new Visualizer(this);
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
@@ -22,19 +21,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     this->setMenuBar(menu);
     menu->addMenu(tr("&File"));
     auto viewMenu = menu->addMenu(tr("&Visualization"));
-
-    MainWindow::configureCheckableMenuItem("show rolenames", "show rolenames", viewMenu, visualizer, SLOT(setShowRoles(bool)), Constants::STD_SHOW_ROLES());
-    MainWindow::configureCheckableMenuItem("show tacticnames", "show rolenames", viewMenu, visualizer, SLOT(setShowTactics(bool)), Constants::STD_SHOW_TACTICS());
-    MainWindow::configureCheckableMenuItem("show tacticColors", "show rolenames", viewMenu, visualizer, SLOT(setShowTacticColors(bool)), Constants::STD_SHOW_TACTICS_COLORS());
-    MainWindow::configureCheckableMenuItem("show angles", "show rolenames", viewMenu, visualizer, SLOT(setShowAngles(bool)), Constants::STD_SHOW_ANGLES());
-    MainWindow::configureCheckableMenuItem("show velocities", "show rolenames", viewMenu, visualizer, SLOT(setShowVelocities(bool)), Constants::STD_SHOW_VELOCITIES());
-    MainWindow::configureCheckableMenuItem("show robot shortcomings", "show rolenames", viewMenu, visualizer, SLOT(setShowRobotInvalids(bool)),
-                                           Constants::STD_SHOW_ROBOT_INVALIDS());
-    MainWindow::configureCheckableMenuItem("Show marker for BallPtr Placement", "show rolenames", viewMenu, visualizer, SLOT(setShowBallPlacementMarker(bool)),
-                                           Constants::STD_SHOW_BALL_PLACEMENT_MARKER());
-    MainWindow::configureCheckableMenuItem("show debug values in terminal", "show rolenames", viewMenu, visualizer, SLOT(setShowDebugValueInTerminal(bool)),
-                                           Constants::STD_SHOW_DEBUG_VALUES());
-    MainWindow::configureCheckableMenuItem("Inverse interface", "show rolenames", viewMenu, visualizer, SLOT(setToggleFieldDirection(bool)), false);
 
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
@@ -63,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     // set up the general layout structure
     // visualizer on the left, sidebar (with maincontrols and tabs) on the right.
     auto splitter = new QSplitter();  // the splitter is an horizontal view that allows to be changed by the user
-    splitter->addWidget(visualizer);
     auto sideBarWidget = new QWidget;
     sideBarWidget->setLayout(vLayout);
     splitter->addWidget(sideBarWidget);
@@ -127,7 +112,6 @@ void MainWindow::clearLayout(QLayout *layout) {
 }
 
 
-void MainWindow::setPlayForRobot(std::string const &str, uint8_t id) { visualizer->setPlayForRobot(str, id); }
-void MainWindow::setTacticForRobot(std::string const &str, uint8_t id) { visualizer->setTacticForRobot(str, id); }
+
 
 }  // namespace rtt::ai::interface

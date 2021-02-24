@@ -24,7 +24,6 @@
 #include "QHBoxLayout"
 #include "QPushButton"
 #include "QTreeWidgetItemIterator"
-#include "widget.h"
 
 namespace rtt {
 class ApplicationManager;
@@ -48,18 +47,12 @@ class MainWindow : public QMainWindow {
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
 
-
-   public slots:
-    void setPlayForRobot(std::string const &str, uint8_t id);
-    void setTacticForRobot(std::string const &str, uint8_t id);
-
    private:
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *mainLayout;
     QVBoxLayout *vLayout;
     ManualControlWidget *manualControlWidget;
 
-    Visualizer *visualizer;
 //    InvariantsWidget *invariantsWidget;
 };
 
