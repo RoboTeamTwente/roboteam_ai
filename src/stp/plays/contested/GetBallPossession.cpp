@@ -81,9 +81,9 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"ball_getter", {DealerFlagPriority::REQUIRED, {ballGetterFlag}}});
-    flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+    flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {}}});
     flagMap.insert({"midfielder_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});

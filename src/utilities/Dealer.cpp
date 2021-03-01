@@ -2,6 +2,10 @@
  * The dealer will check for the flags that are set in plays, but also for the distance
  * to a position that a robot might need to travel to. The lower the score of a robot, the better.
  */
+
+// TODO Fix issue where roles get redistributed whilst robots are already in position
+/// This issue occurs when there are multiple roles classes (defender+midfielder) that have the same priority
+
 #include "utilities/Dealer.h"
 
 #include <roboteam_utils/Hungarian.h>
@@ -164,8 +168,6 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
     } else if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
         distance = 0;
-    } else if (stpInfo.getPositionToShootAt().has_value()) {
-        distance = robot->getPos().dist(world.getBall()->get()->getPos());
     } else if (stpInfo.getEnemyRobot().has_value()) {
         distance = robot->getPos().dist(stpInfo.getEnemyRobot().value()->getPos());
     }
@@ -176,8 +178,6 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
 // TODO these values need to be tuned.
 double Dealer::getFactorForPriority(const DealerFlagPriority &flagPriority) {
     switch (flagPriority) {
-        case DealerFlagPriority::KEEPER:
-            return 1000;
         case DealerFlagPriority::LOW_PRIORITY:
             return 0.5;
         case DealerFlagPriority::MEDIUM_PRIORITY:
