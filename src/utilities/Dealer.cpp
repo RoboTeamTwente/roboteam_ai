@@ -35,7 +35,6 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
         roleNames.push_back(roleName);
     }
 
-    std::vector<int> assignment(flagMap.size(),-1);
     // Loop through the order of role priorities (column)
     for (int i = sizeof(DealerFlagPriority); i >= 0; i--){
         std::vector<int> newAssignments;
@@ -61,10 +60,13 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
                 for (int j = 0; j < newAssignments.size(); j++) {
                     if (newAssignments[j] >= 0) {
                         currentIDs.push_back(newAssignments[j]);    // get newly assigned robot from current index
-                        originalIDsIndex.push_back(indexID[currentIDs[j]]);     // get robot number
-                        output.insert({roleNames[originalRolesIndex[j]], allRobots[originalIDsIndex[j]]});
+                        originalIDsIndex.push_back(indexID[currentIDs.back()]);     // get robot number
+                        output.insert({roleNames[originalRolesIndex[j]], allRobots[originalIDsIndex.back()]});
                     }
                 }
+
+                if (output.size() == allRobots.size()) return output; // case if there are less then 11 bots to distribute
+
                 std::sort(currentIDs.begin(), currentIDs.end());
 
                 // Delete assigned roles and robots from score
@@ -85,8 +87,6 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
             }
         }
     }
-    for (int i = 0; i < assignment.size(); i++) RTT_DEBUG("Role " + std::to_string(i) + " " + roleNames[i] + " : " + std::to_string(assignment[i]))
-    for (auto i : output) RTT_DEBUG("Role "+i.first+" : "+std::to_string(i.second->getId()))
     return output;
 }
 
