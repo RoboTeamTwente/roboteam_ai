@@ -20,7 +20,7 @@
 #include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai {
-namespace w = rtt::world;
+
 namespace v = rtt::world::view;
 
 // Set up a struct for dealerflags. Set up a struct for dealerflags.
@@ -33,11 +33,11 @@ enum class DealerFlagTitle {
     WITH_WORKING_DRIBBLER,
     NOT_IMPORTANT,
     READY_TO_INTERCEPT_GOAL_SHOT,
-    KEEPER,
-    CLOSEST_TO_BALL
+    KEEPER
 };
 
-enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, UNIQUE };
+// Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer::distribute() )
+enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
 
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
@@ -49,7 +49,7 @@ class Dealer {
         DealerFlagPriority priority;
         explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
     };
-    using FlagMap = std::map<std::string, std::vector<DealerFlag>>;
+    using FlagMap = std::map<std::string, std::pair<DealerFlagPriority, std::vector<DealerFlag>>>;
     Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
     // Create a distribution of robots
@@ -89,7 +89,7 @@ class Dealer {
      * @param stpInfoMap
      * @return The score matrix
      */
-    std::vector<std::vector<double>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+    std::vector<std::pair<std::vector<double>, int>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                     const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
     /**
@@ -97,7 +97,7 @@ class Dealer {
      * @param flag
      * @return priority factor
      */
-    static double getFactorForPriority(const DealerFlag &flag);
+    static double getFactorForPriority(const DealerFlagPriority &flagPriority);
 
     /**
      * Calculates the cost of travelling a certain distance

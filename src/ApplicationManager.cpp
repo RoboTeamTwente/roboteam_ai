@@ -84,8 +84,8 @@ void ApplicationManager::start() {
             auto start = std::clock();
             runOneLoopCycle();
 
-            RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
-            RTT_WARNING("Time allowed: 16 ms")
+            //RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
+            //RTT_WARNING("Time allowed: 16 ms")
 
             amountOfCycles++;
 
