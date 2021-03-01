@@ -73,7 +73,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
                     indexRoles.erase(indexRoles.begin() + currentRoles[j]);  // remove from index list
                 }
 
-                for (int col = 0; col < scores.size(); col++) {             // go through each score role (row)
+                for (int col = 0; col < scores.back().first.size(); col++) {             // go through each score role (row)
                     for (int j = currentIDs.size() - 1; j >= 0; j--) {
                         scores[col].first.erase(scores[col].first.begin() + currentIDs[j]);     // remove the robot
                     }
@@ -85,6 +85,8 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
             }
         }
     }
+    for (int i = 0; i < assignment.size(); i++) RTT_DEBUG("Role " + std::to_string(i) + " " + roleNames[i] + " : " + std::to_string(assignment[i]))
+    for (auto i : output) RTT_DEBUG("Role "+i.first+" : "+std::to_string(i.second->getId()))
     return output;
 }
 
