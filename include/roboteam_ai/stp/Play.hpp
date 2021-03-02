@@ -103,7 +103,12 @@ class Play {
      */
     virtual const char* getName() = 0;
 
-   protected:
+    /**
+     * Gets the
+     */
+    std::unordered_map<std::string, StpInfo> getStpInfos();
+
+protected:
     /**
      * The roles, constructed in ctor of a play
      */

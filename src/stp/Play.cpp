@@ -137,4 +137,8 @@ bool Play::isValidPlayToStart(world::World* world) const noexcept {
         return true;
     }
 }
+
+    std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
+        return stpInfos;
+    }
 }  // namespace rtt::ai::stp
