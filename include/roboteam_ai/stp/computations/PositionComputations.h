@@ -11,6 +11,7 @@
 #include <cmath>
 #include <optional>
 #include <roboteam_utils/Grid.h>
+#include <roboteam_utils/Circle.h>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"

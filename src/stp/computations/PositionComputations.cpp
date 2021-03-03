@@ -13,7 +13,6 @@
 
 #include <include/roboteam_ai/world/Field.h>
 #include <roboteam_utils/Circle.h>
-#include <ApplicationManager.h>
 #include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::stp::computations {
