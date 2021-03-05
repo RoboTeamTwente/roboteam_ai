@@ -26,7 +26,7 @@ namespace rtt::ai::stp::computations {
         static bool pathHasAnyRobots(Line passLine, std::vector<rtt_world::view::RobotView> robots);
 
         /**
-         * Loop through all given positions and returns the position with the highest score
+         * Return the position (.first) with the highest score (.second) in the positions vector
          * @param positions std::pair of the Vector2 in first and the given score in second
          * @return Vector2 with highest scoring score.
          */
