@@ -20,7 +20,6 @@
 #include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai {
-namespace w = rtt::world;
 namespace v = rtt::world::view;
 
 // Set up a struct for dealerflags. Set up a struct for dealerflags.
@@ -42,6 +41,11 @@ enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, RE
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
     FRIEND_TEST(DealerTest, the_score_factor_increases_with_priority);
+
+    struct ScoreResult{
+        double score;
+        double weight;
+    };
 
    public:
     struct DealerFlag {
@@ -70,9 +74,9 @@ class Dealer {
      * The factor is based on the priority and the score is based on the trueness of a property
      * @param robot
      * @param flag
-     * @return Score for a flag
+     * @return score for a flag and the weight of how much that score should be taken into account
      */
-    std::pair <double, double> getScoreForFlag(v::RobotView robot, DealerFlag flag);
+    ScoreResult getScoreForFlag(v::RobotView robot, DealerFlag flag);
 
     /**
      * Calculates the score for a distance between a point and a robot
@@ -119,9 +123,9 @@ class Dealer {
      * Calculates the score for all flags for a role, for one robot (so will be called 11 times for each role)
      * @param dealerFlags
      * @param robot
-     * @return the score of all flags combined
+     * @return the score of all flags combined and the weight for how much they should be taken into account
      */
-    std::pair <double, double> scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+    ScoreResult scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
 
     /**
      * Makes a mapping from roleName to a robot using the result of the hungarian
