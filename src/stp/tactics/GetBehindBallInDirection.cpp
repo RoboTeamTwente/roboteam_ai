@@ -12,6 +12,7 @@ GetBehindBallInDirection::GetBehindBallInDirection() { skills = collections::sta
 
 std::optional<StpInfo> GetBehindBallInDirection::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
+    double DISTANCE_TO_ROBOT_NEAR = 2.6 * control_constants::ROBOT_RADIUS;
 
     // Don't calculate if some info is missing.
     if (!skillStpInfo.getRobot() || !skillStpInfo.getBall()) return std::nullopt;
@@ -39,8 +40,8 @@ std::optional<StpInfo> GetBehindBallInDirection::calculateInfoForSkill(StpInfo c
         auto drivingDirection = robotPosition - newRobotPosition;
         if(distFromPathToBall < control_constants::ROBOT_RADIUS * 1.3) {
             // Decide which side of the ball to approach on
-            auto posBallLeft = ballPosition + Vector2(drivingDirection.y, -drivingDirection.x).stretchToLength(control_constants::DISTANCE_TO_ROBOT_NEAR);
-            auto posBallRight = ballPosition + Vector2(-drivingDirection.y, drivingDirection.x).stretchToLength(control_constants::DISTANCE_TO_ROBOT_NEAR);
+            auto posBallLeft = ballPosition + Vector2(drivingDirection.y, -drivingDirection.x).stretchToLength(DISTANCE_TO_ROBOT_NEAR);
+            auto posBallRight = ballPosition + Vector2(-drivingDirection.y, drivingDirection.x).stretchToLength(DISTANCE_TO_ROBOT_NEAR);
             newRobotPosition = (posBallLeft.dist(robotPosition) < posBallRight.dist(robotPosition)) ? posBallLeft : posBallRight;
         }
         skillStpInfo.setPositionToMoveTo(newRobotPosition);
