@@ -26,7 +26,6 @@ namespace rtt::ai::stp::computations {
             for (const auto &trial : nestedPoints) {
                 // Make sure we only check valid points
                 if (FieldComputations::pointIsValidPosition(field,trial)) {
-
                     // Calculate total score for this point
                     auto pointScore = determineOpenScore(trial,world);
 

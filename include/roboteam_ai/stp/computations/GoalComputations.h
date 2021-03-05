@@ -32,7 +32,7 @@ namespace rtt::ai::stp::computations {
          * @param openSegments Vector of lines
          * @return Longest line from openSegments
          */
-        static LineSegment &getLongestSegment(const std::vector<LineSegment> &openSegments);
+        static LineSegment &getLongestSegment(std::vector<LineSegment> &openSegments);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_GOALCOMPUTATIONS_H
