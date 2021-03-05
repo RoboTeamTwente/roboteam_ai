@@ -187,20 +187,15 @@ namespace rtt::ai::stp::computations {
             // Always use the first (as there should only be one.
             Vector2 lineBorderIntersect = lineBorderIntersects.front();
 
-            interface::Input::drawData(interface::Visual::DEBUG,std::vector({Vector2(ball2GoalLine.start.x,ball2GoalLine.start.y),Vector2(ball2GoalLine.end.x,ball2GoalLine.end.y)}),Qt::blue,-1,interface::Drawing::LINES_CONNECTED);
-            interface::Input::drawData(interface::Visual::DEBUG,std::vector({lineBorderIntersect}),Qt::red,-1,interface::Drawing::CIRCLES, 3 ,3, 2);
-
-            // DEBUG
             if (lineBorderIntersects.empty() || lineBorderIntersects.size() > 1) {
                 //RTT_DEBUG("determineWallPositions broke. Size is " + std::to_string(lineBorderIntersects.size()) + "!...");
             } else {
-                //RTT_DEBUG("Intersect is at " + std::to_string(lineBorderIntersect.x) + "," +std::to_string(lineBorderIntersect.y));
-                int i = 1;
+                int j = 1;
                 if (amountDefenders % 2) {
                     /// ODD
                     positions.push_back(lineBorderIntersect);
                     while (positions.size() < amountDefenders) {
-                        auto circle = Circle(lineBorderIntersect, (i++) * (spacingRobots));
+                        auto circle = Circle(lineBorderIntersect, (j++) * (spacingRobots));
                         for (const LineSegment &line : defenseAreaBorder) {
                             auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
                             for (auto intersect : intersects) {
@@ -211,7 +206,7 @@ namespace rtt::ai::stp::computations {
                 } else {
                     /// EVEN
                     while (positions.size() < amountDefenders) {
-                        auto circle = Circle(lineBorderIntersect, (-0.5+i++) * (spacingRobots));
+                        auto circle = Circle(lineBorderIntersect, (-0.5+j++) * (spacingRobots));
                         for (const LineSegment &line : defenseAreaBorder) {
                             auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
                             for (auto intersect : intersects) {
