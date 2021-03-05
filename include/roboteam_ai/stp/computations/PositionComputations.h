@@ -99,8 +99,6 @@ namespace rtt::ai::stp::computations {
          * @return vector with Vector2 positions for each of the defenders
          */
         static std::vector<Vector2> determineWallPositions(const world::Field &field, world::World *world, int amountDefenders);
-
-        static std::vector<Vector2> intersectsCircleWithLineSegment(Circle circle, LineSegment line);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H
