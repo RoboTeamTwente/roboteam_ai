@@ -9,11 +9,7 @@
 #include <world/Field.h>
 #include <world/World.hpp>
 
-using Vector2 = rtt::Vector2;
-using Angle = rtt::Angle;
-
 namespace rtt::ai::stp::computations {
-    namespace rtt_world = rtt::world;
 
     class PassComputations {
     public:
