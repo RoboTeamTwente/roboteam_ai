@@ -9,11 +9,9 @@
 namespace rtt::ai::interface {
 
 
-rtt::Vector2 Output::markerPosition = {0, 0};  // initialize on middle of the field
 bool Output::useRefereeCommands = false;
 bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
-std::mutex Output::markerMutex;
 std::mutex Output::refMutex;
 
 GameState Output::interfaceGameState("halt_strategy", "default");
@@ -37,15 +35,6 @@ void Output::sendHaltCommand() {
     }
 }
 
-const Vector2 &Output::getInterfaceMarkerPosition() {
-    std::lock_guard<std::mutex> lock(markerMutex);
-    return markerPosition;
-}
-
-void Output::setMarkerPosition(const Vector2 &ballPlacementTarget) {
-    std::lock_guard<std::mutex> lock(markerMutex);
-    Output::markerPosition = ballPlacementTarget;
-}
 
 bool Output::usesRefereeCommands() {
     std::lock_guard<std::mutex> lock(refMutex);

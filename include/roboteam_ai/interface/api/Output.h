@@ -18,10 +18,8 @@ typedef std::tuple<double, double, double> pidVals;
 class Output {
    private:
 
-    static std::mutex markerMutex;
     static std::mutex refMutex;
 
-    static rtt::Vector2 markerPosition;
     static bool useRefereeCommands;
     static bool timeOutAtTop;
 
@@ -36,8 +34,7 @@ class Output {
 
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
-    static const rtt::Vector2 &getInterfaceMarkerPosition();
-    static void setMarkerPosition(const rtt::Vector2 &ballPlacementTarget);
+
   static bool isTimeOutAtTop();
   static void setTimeOutTop(bool top);
 
