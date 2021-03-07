@@ -16,11 +16,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
 
-    auto menu = new QMenuBar(this);
-    this->setMenuBar(menu);
-    menu->addMenu(tr("&File"));
-    auto viewMenu = menu->addMenu(tr("&Visualization"));
-
     // the main controls widget for the most crucial buttons
     // changing strategies, goalie id, etc.
     auto mainControlsWidget = new MainControlsWidget(this, manager);
