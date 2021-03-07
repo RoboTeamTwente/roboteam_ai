@@ -10,7 +10,6 @@ namespace rtt::ai::interface {
 
 
 bool Output::useRefereeCommands = false;
-bool Output::timeOutAtTop = Constants::STD_TIMEOUT_TO_TOP();
 
 std::mutex Output::refMutex;
 
@@ -45,16 +44,6 @@ void Output::setUseRefereeCommands(bool useRefereeCommands) {
     std::lock_guard<std::mutex> lock(refMutex);
     Output::useRefereeCommands = useRefereeCommands;
 }
-
-
-
-
-
-
-
-void Output::setTimeOutTop(bool top) { timeOutAtTop = top; }
-
-bool Output::isTimeOutAtTop() { return timeOutAtTop; }
 
 void Output::setRuleSetName(std::string name) { Output::interfaceGameState.ruleSetName = std::move(name); }
 

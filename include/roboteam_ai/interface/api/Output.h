@@ -13,7 +13,6 @@
 
 namespace rtt::ai::interface {
 
-typedef std::tuple<double, double, double> pidVals;
 
 class Output {
    private:
@@ -21,7 +20,6 @@ class Output {
     static std::mutex refMutex;
 
     static bool useRefereeCommands;
-    static bool timeOutAtTop;
 
     static GameState interfaceGameState;
 
@@ -35,8 +33,7 @@ class Output {
     static bool usesRefereeCommands();
     static void setUseRefereeCommands(bool useRefereeCommands);
 
-  static bool isTimeOutAtTop();
-  static void setTimeOutTop(bool top);
+
 
     static void setRuleSetName(std::string name);
     static void setKeeperId(int id);
