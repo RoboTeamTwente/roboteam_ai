@@ -133,23 +133,6 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     }
 }
 
-/// toggle the setting 'isYellow'
-void MainControlsWidget::toggleOurColorParam() {
-    SETTINGS.setYellow(!SETTINGS.isYellow());
-    setToggleColorBtnLayout();
-}
-
-/// toggle the the setting 'isLeft'
-void MainControlsWidget::toggleOurSideParam() {
-    SETTINGS.setLeft(!SETTINGS.isLeft());
-    setToggleSideBtnLayout();
-}
-
-/// toggle the the setting 'isSerialMode'
-void MainControlsWidget::toggleSerialParam() {
-    SETTINGS.setSerialMode(!SETTINGS.isSerialMode());
-    setToggleSerialBtnLayout();
-}
 
 /// send a halt signal to stop all trees from executing
 void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
@@ -165,31 +148,6 @@ void MainControlsWidget::updatePause() {
     }
 }
 
-void MainControlsWidget::setToggleColorBtnLayout() const {
-    if (SETTINGS.isYellow()) {
-        toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
-        toggleColorBtn->setText("Playing as Yellow");
-    } else {
-        toggleColorBtn->setStyleSheet("background-color: blue;");
-        toggleColorBtn->setText("Playing as Blue");
-    }
-}
-
-void MainControlsWidget::setToggleSideBtnLayout() const {
-    if (SETTINGS.isLeft()) {
-        toggleSideBtn->setText("◀ Playing as left");
-    } else {
-        toggleSideBtn->setText("Playing as right ▶");
-    }
-}
-
-void MainControlsWidget::setToggleSerialBtnLayout() const {
-    if (SETTINGS.isSerialMode()) {
-        toggleSerialBtn->setText("BaseStation");
-    } else {
-        toggleSerialBtn->setText("GrSim");
-    }
-}
 
 void MainControlsWidget::updateContents() {
     auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);

@@ -12,7 +12,7 @@ SettingsWidget::SettingsWidget(QWidget *parent) {
     this->setLayout(vLayout);
 
     // grsim ip + port settings
-    QGroupBox *grsimSettingsGroup = new QGroupBox("grsim transmission ip + port");
+    QGroupBox *grsimSettingsGroup = new QGroupBox("grsim transmissin ip + port");
     auto grsimSettingsWidgetLayout = new QHBoxLayout();
     grsimIpText = new QLineEdit();
     grsimIpText->setText(QString::fromStdString(SETTINGS.getRobothubSendIp()));

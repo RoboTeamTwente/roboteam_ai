@@ -71,6 +71,5 @@ class Settings {
     proto::Setting toMessage();
 };
 
-extern Settings SETTINGS;
 }  // namespace rtt
 #endif  // RTT_SETTINGS_H

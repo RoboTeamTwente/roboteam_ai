@@ -241,6 +241,8 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        src/AISettings.cpp
+        src/AppSettings.cpp
         )
 
 set(AI_LIBS

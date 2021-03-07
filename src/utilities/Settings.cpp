@@ -5,7 +5,6 @@
 #include "include/roboteam_ai/utilities/Settings.h"
 
 namespace rtt {
-Settings SETTINGS;
 
 void Settings::init(int id) {
     setId(id);

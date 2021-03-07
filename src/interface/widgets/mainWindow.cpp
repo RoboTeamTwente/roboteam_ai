@@ -1,7 +1,5 @@
 #include "interface/widgets/mainWindow.h"
 
-#include <interface/widgets/SettingsWidget.h>
-
 #include "interface/widgets/MainControlsWidget.h"
 #include <QMenuBar>
 #include <QSplitter>
@@ -21,7 +19,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     auto mainControlsWidget = new MainControlsWidget(this, manager);
     vLayout->addWidget(mainControlsWidget);
 
-    auto settingsWidget = new SettingsWidget(this);
 
     manualControlWidget = new ManualControlWidget(this);
 
@@ -32,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
 
     auto SettingsTabWidget = new QTabWidget;
-    SettingsTabWidget->addTab(settingsWidget, tr("General settings"));
     tabWidget->addTab(SettingsTabWidget, tr("Settings"));
     tabWidget->addTab(manualControlWidget, tr("Manual"));
 
@@ -102,8 +98,5 @@ void MainWindow::clearLayout(QLayout *layout) {
         delete item;
     }
 }
-
-
-
 
 }  // namespace rtt::ai::interface

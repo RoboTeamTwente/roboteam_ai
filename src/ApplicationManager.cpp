@@ -15,40 +15,23 @@ namespace rtt {
 
 /// Start running behaviour trees. While doing so, publish settings and log the FPS of the system
 void ApplicationManager::start(int id) {
-    io = std::make_unique<io::IOManager>();
-  rtt::ai::Constants::init();
-  RTT_INFO("This AI is initialized with id ", id)
-  // some default settings for different team ids (saves time while testing)
-  if (id == 1) {
-    // standard blue team on right
-    rtt::SETTINGS.init(id);
-    rtt::SETTINGS.setYellow(false);
-    rtt::SETTINGS.setLeft(false);
-    RTT_INFO("Initially playing as the BLUE team")
-    RTT_INFO("We are playing on the RIGHT side of the field")
-  } else {
-    // standard yellow team on left
-    rtt::SETTINGS.init(id);
-    rtt::SETTINGS.setYellow(true);
-    rtt::SETTINGS.setLeft(true);
-    RTT_INFO("Initially playing as the YELLOW team")
-    RTT_INFO("We are playing on the LEFT side of the field")
-  }
+  io = std::make_unique<io::IOManager>();
 
-  rtt::SETTINGS.setSerialMode(false);
+  rtt::ai::Constants::init();
+
+
   rtt::SETTINGS.setVisionIp("127.0.0.1");
   rtt::SETTINGS.setVisionPort(10006);
   rtt::SETTINGS.setRefereeIp("224.5.23.1");
   rtt::SETTINGS.setRefereePort(10003);
-  rtt::SETTINGS.setRobothubSendIp("127.0.0.1");
-  rtt::SETTINGS.setRobothubSendPort(20011);
-  io->init(rtt::SETTINGS.getId());
+
+  io->init(id);
 
   // make sure we start in halt state for safety
     ai::GameStateManager::forceNewGameState(RefCommand::HALT, std::nullopt);
     RTT_INFO("Start looping")
     RTT_INFO("Waiting for field_data and robots...")
-    ai = std::make_unique<AI>();
+    ai = std::make_unique<AI>(id);
 
     roboteam_utils::Timer t;
     t.loop(

@@ -7,11 +7,12 @@
 
 #include "stp/PlayChecker.hpp"
 #include "stp/PlayDecider.hpp"
+#include "AISettings.h"
 
 namespace rtt {
 class AI {
  public:
-  AI();
+  explicit AI(int id);
 
   void decidePlay(world::World *_world);
 
@@ -29,16 +30,13 @@ class AI {
    * Checks, out of the valid plays, which play is the best to choose
    */
   rtt::ai::stp::PlayDecider playDecider;
-  /**
-   * Function that decides whether to change plays given a world and field.
-   * @param _world the current world state
-   * @param field the current field state
-   */
 
   /**
-  * The vector that contains all plays
-  */
+   * The vector that contains all plays
+   */
   std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
+
+  AISettings settings;
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_AI_H_

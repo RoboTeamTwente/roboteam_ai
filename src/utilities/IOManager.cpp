@@ -40,6 +40,7 @@ void IOManager::init(int teamId) {
 void IOManager::handleState(proto::State &stateMsg) {
     std::unique_lock<std::mutex> lock(stateMutex); //write lock
     this->state.CopyFrom(stateMsg);
+    //TODO: move this to the ai
     if(state.has_referee()){
         roboteam_utils::rotate(state.mutable_referee());
         // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf

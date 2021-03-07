@@ -95,3 +95,6 @@ void rtt::AI::decidePlay(rtt::world::World *_world) {
   currentPlay->update();
   //mainWindow->updatePlay(currentPlay); TODO: send to interface
 }
+rtt::AI::AI(int id) {
+
+}
