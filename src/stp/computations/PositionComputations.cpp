@@ -162,43 +162,45 @@ namespace rtt::ai::stp::computations {
     std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, rtt::world::World *world, int amountDefenders) {
         auto w = world->getWorld().value();
         auto b = w.getBall()->get();
-        double spacingRobots = control_constants::ROBOT_RADIUS*2;
+        double spacingRobots = control_constants::ROBOT_RADIUS * 2;
 
         std::vector<Vector2> positions = {};
-        if (b->getPos().x < field.getOurGoalCenter().x) return positions; ///TODO-Max What happens when it cant wall?
+        Vector2 lineBorderIntersect;
+        std::vector<Vector2> lineBorderIntersects = {};
+
+        /// Find intersect of ball to goal and boundary of defense area
         std::vector<LineSegment> defenseAreaBorder = FieldComputations::getDefenseArea(field, true,
                                                                                        control_constants::ROBOT_RADIUS +
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
         for (auto &i : defenseAreaBorder) {
             LineSegment ball2GoalLine = LineSegment(b->getPos(), field.getOurGoalCenter());
-            std::vector<Vector2> lineBorderIntersects = {};
-            // Vector is made to check if there is only 1 intersect
-            for (const LineSegment &line : defenseAreaBorder) {
+            for (const LineSegment &line : defenseAreaBorder) { // Vector is made to check if there is only 1 intersect
                 if (line.doesIntersect(ball2GoalLine)) {
                     auto intersect = line.intersects(ball2GoalLine);
-                    // check if there is an intersect and that the intersect is not with the goal line
-                    if (intersect.has_value() &&
+                    if (intersect.has_value() && // check if there is an intersect and that the intersect is not with the goal line
                         intersect->x - field.getOurGoalCenter().x > control_constants::ROBOT_RADIUS +
                                                                     control_constants::GO_TO_POS_ERROR_MARGIN)
                         lineBorderIntersects.push_back(intersect.value());
                 }
             }
-            // Always use the first (as there should only be one).
-            Vector2 lineBorderIntersect = lineBorderIntersects.front();
-            int j = 1;
-            double base = 0.5; //Offset if there are even defenders
-            if ((amountDefenders) % 2) { //If odd, place 1 at the interest
-                base = 0.0;
-                positions.push_back(lineBorderIntersect);
-            }
-            while (positions.size() < amountDefenders) {
-                auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
-                for (const LineSegment &line : defenseAreaBorder) {
-                    auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
-                    for (auto intersect : intersects) {
-                        positions.push_back(intersect);
-                    }
+        }
+        if (lineBorderIntersects.empty()) return positions; // If there are no intersects return nothing
+        lineBorderIntersect = lineBorderIntersects.front(); // Always use the first (as there should only be one).
+
+        /// Place robots on around the intersect
+        int j = 1;
+        double base = 0.5; //Offset if there are even defenders
+        if ((amountDefenders) % 2) { //If odd, place 1 at the interest
+            base = 0.0;
+            positions.push_back(lineBorderIntersect);
+        }
+        while (positions.size() < amountDefenders) {
+            auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
+            for (const LineSegment &line : defenseAreaBorder) {
+                auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
+                for (auto intersect : intersects) {
+                    positions.push_back(intersect);
                 }
             }
         }
