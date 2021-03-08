@@ -120,7 +120,6 @@ void ApplicationManager::runOneLoopCycle() {
         auto const &[_, world] = world::World::instance();
         world->updateWorld(worldMessage);
 
-
         if (!world->getWorld()->getUs().empty()) {
             if (!robotsInitialized) {
                 RTT_SUCCESS("Received robots, starting STP!")
@@ -133,6 +132,7 @@ void ApplicationManager::runOneLoopCycle() {
             //world->updateFeedback(feedbackMap);
 
             decidePlay(world);
+
         } else {
             if (robotsInitialized) {
                 RTT_WARNING("No robots found in world. STP is not running")
@@ -155,16 +155,21 @@ void ApplicationManager::decidePlay(world::World *_world) {
     playScorer.clearGlobalScores(); //reset all invariants
     playScorer.update(_world);
     playChecker.update(_world);
+
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
-        /*  TODO: To make the higher abstraction layer, code below to save necessary info of the previous Play:
-         *  auto STPInfoPreviousPlay = currentPlay.STPInfo;
-         *  And then forward this STPInfo: currentPlay->initialize(STPInfoPreviousPlay,futurePlay)
-         */
+
+        //TODO: To make the higher abstraction layer, code below to save necessary info of the previous Play:
+        auto StpInfosPreviousPlay = currentPlay->getStpInfos();
+        //currentPlay->initialize(STPInfoPreviousPlay)
+
         currentPlay = playDecider.decideBestPlay(validPlays, &playScorer);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
+
+        std::cout << (int)currentPlay->score(_world) << std::endl;
+
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
