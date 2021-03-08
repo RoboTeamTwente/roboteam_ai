@@ -70,7 +70,7 @@ class Dealer {
      * The factor is based on the priority and the score is based on the trueness of a property
      * @param robot
      * @param flag
-     * @return Score for a flag
+     * @return Score for a flag. First is score, second is weight (for normalization)
      */
     std::pair <double, double> getScoreForFlag(v::RobotView robot, DealerFlag flag);
 
@@ -122,15 +122,6 @@ class Dealer {
      * @return the score of all flags combined
      */
     std::pair <double, double> scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
-
-    /**
-     * Makes a mapping from roleName to a robot using the result of the hungarian
-     * @param allRobots
-     * @param flagMap
-     * @param assignment
-     * @return Returns the mapping
-     */
-    std::unordered_map<std::string, v::RobotView> mapFromAssignments(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::vector<int> &assignment) const;
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
