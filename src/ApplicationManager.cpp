@@ -168,7 +168,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
 
-        std::cout << (int)currentPlay->score(_world) << std::endl;
+//        std::cout << (int)currentPlay->score(_world) << std::endl;
 
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
