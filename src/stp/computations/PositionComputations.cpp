@@ -165,20 +165,23 @@ namespace rtt::ai::stp::computations {
         double spacingRobots = control_constants::ROBOT_RADIUS*2;
 
         std::vector<Vector2> positions = {};
+        if (b->getPos().x < field.getOurGoalCenter().x) return positions; ///TODO-Max What happens when it cant wall?
         std::vector<LineSegment> defenseAreaBorder = FieldComputations::getDefenseArea(field, true,
                                                                                        control_constants::ROBOT_RADIUS +
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
         for (auto &i : defenseAreaBorder) {
-            if (i.start.x - field.getTopLeftOurDefenceArea().x < 0.01 && abs(i.start.y - field.getTopLeftOurDefenceArea().y) < 0.01 + control_constants::ROBOT_RADIUS +
-                                                                                                                                 control_constants::GO_TO_POS_ERROR_MARGIN){}
             LineSegment ball2GoalLine = LineSegment(b->getPos(), field.getOurGoalCenter());
             std::vector<Vector2> lineBorderIntersects = {};
             // Vector is made to check if there is only 1 intersect
             for (const LineSegment &line : defenseAreaBorder) {
                 if (line.doesIntersect(ball2GoalLine)) {
                     auto intersect = line.intersects(ball2GoalLine);
-                    if (intersect.has_value()) lineBorderIntersects.push_back(intersect.value());
+                    // check if there is an intersect and that the intersect is not with the goal line
+                    if (intersect.has_value() &&
+                        intersect->x - field.getOurGoalCenter().x > control_constants::ROBOT_RADIUS +
+                                                                    control_constants::GO_TO_POS_ERROR_MARGIN)
+                        lineBorderIntersects.push_back(intersect.value());
                 }
             }
             // Always use the first (as there should only be one).
