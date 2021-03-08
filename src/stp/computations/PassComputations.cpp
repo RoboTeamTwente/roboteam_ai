@@ -16,12 +16,14 @@ namespace rtt::ai::stp::computations {
                            [&](const auto &bot) { return passTube.contains(bot->getPos()); });
     }
 
-    Vector2 PassComputations::determineBestPosForPass(const std::vector<std::pair<Vector2, double>> &positions) {
+    Vector2 PassComputations::determineBestPosForPass(
+            std::vector<computations::PositionComputations::PositionEvaluation> &positions) {
         if (!positions.empty()) {
-            return std::max_element(positions.begin(), positions.end(), [](const std::pair<Vector2, double> &left, const std::pair<Vector2, double> &right)
-            {
-                return left.second < right.second;
-            })->first;
+            return std::max_element(positions.begin(), positions.end(),
+                                    [](PositionComputations::PositionEvaluation &left,
+                                       PositionComputations::PositionEvaluation &right) {
+                                        return left.score < right.score;
+                                    })->position;
         } else {
             RTT_DEBUG("There were no possible locations to pass to.");
             return {};

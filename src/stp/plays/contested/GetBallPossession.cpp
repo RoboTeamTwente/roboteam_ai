@@ -72,7 +72,8 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 
     int amountDefenders = 3;
     std::vector<Vector2> wallPositions = {};
-    if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos())) wallPositions = computations::PositionComputations::determineWallPositions(field,world,amountDefenders);
+    if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos()))
+        wallPositions = computations::PositionComputations::determineWallPositions(field,world,amountDefenders);
     if (!wallPositions.empty()) {
         stpInfos["waller_0"].setPositionToMoveTo(wallPositions.at(0));
         stpInfos["waller_1"].setPositionToMoveTo(wallPositions.at(1));

@@ -16,7 +16,7 @@
 #include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::stp::computations {
-    std::pair<Vector2, double> PositionComputations::determineBestOpenPosition(const Grid &searchGrid, const rtt::world::Field &field,
+    PositionComputations::PositionEvaluation PositionComputations::determineBestOpenPosition(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                rtt::world::World *world) {
         double bestScore = 0;
         Vector2 bestPosition{};
@@ -37,10 +37,10 @@ namespace rtt::ai::stp::computations {
                 }
             }
         }
-        return std::make_pair(bestPosition, bestScore);
+        return {bestPosition, bestScore};
     }
 
-    std::pair<Vector2, double> PositionComputations::determineBestLineOfSightPosition(const Grid &searchGrid, const rtt::world::Field &field,
+    PositionComputations::PositionEvaluation PositionComputations::determineBestLineOfSightPosition(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                       rtt::world::World *world) {
         double bestScore = 0;
         Vector2 bestPosition{};
@@ -59,10 +59,10 @@ namespace rtt::ai::stp::computations {
                 }
             }
         }
-        return std::make_pair(bestPosition, bestScore);
+        return {bestPosition, bestScore};
     }
 
-    std::pair<Vector2, double> PositionComputations::determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field,
+    PositionComputations::PositionEvaluation PositionComputations::determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                    rtt::world::World *world) {
         double bestScore = 0;
         Vector2 bestPosition{};
@@ -84,10 +84,10 @@ namespace rtt::ai::stp::computations {
                 }
             }
         }
-        return std::make_pair(bestPosition, bestScore);
+        return {bestPosition, bestScore};
     }
 
-    std::pair<Vector2, double> PositionComputations::determineBestLocation(const Grid &searchGrid, const rtt::world::Field &field,
+    PositionComputations::PositionEvaluation PositionComputations::determineBestLocation(const Grid &searchGrid, const rtt::world::Field &field,
                                                                                    rtt::world::World *world, int factorOpen, int factorLineOfSight, int factorVisionGoal) {
         double bestScore = 0;
         Vector2 bestPosition{};
@@ -108,7 +108,7 @@ namespace rtt::ai::stp::computations {
                 }
             }
         }
-        return std::make_pair(bestPosition, bestScore);
+        return {bestPosition, bestScore};
     }
 
     double PositionComputations::determineOpenScore(Vector2 point, rtt::world::World *world) {

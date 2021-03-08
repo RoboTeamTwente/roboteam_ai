@@ -11,6 +11,7 @@
 #include "stp/invariants/BaseInvariant.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
+#include "computations/PositionComputations.h"
 
 namespace rtt::ai::stp {
 

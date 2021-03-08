@@ -27,7 +27,7 @@ void GenericPass::onInitialize() noexcept {
     // Make sure we calculate pass positions at least once
     receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
     receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
-    passingPosition = receiverPositionRight.first;
+    passingPosition = receiverPositionRight.position;
 }
 
 GenericPass::GenericPass() : Play() {
@@ -78,7 +78,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     }
     auto fieldWidth = field.getFieldWidth();
     auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGrid, field, world).first);
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGrid, field, world).position);
 }
 
 bool GenericPass::shouldRoleSkipEndTactic() { return false; }
@@ -123,25 +123,25 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
         receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
 
         /// From the available receivers, select the best
-        if (receiverPositionLeft.second > receiverPositionRight.second) {
-            passingPosition = receiverPositionLeft.first;
-            otherPos = receiverPositionRight.first;
+        if (receiverPositionLeft.score > receiverPositionRight.score) {
+            passingPosition = receiverPositionLeft.position;
+            otherPos = receiverPositionRight.position;
             passLeft = true;
         } else {
-            passingPosition = receiverPositionRight.first;
-            otherPos = receiverPositionLeft.first;
+            passingPosition = receiverPositionRight.position;
+            otherPos = receiverPositionLeft.position;
             passLeft = false;
         }
     }
     /// Receiver should intercept when constraints are met
     if (passLeft && ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionLeft.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+        receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionRight.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+        receiverPositionRight.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     }
     // Receiver
-    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.first);
-    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.first);
+    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);
+    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.position);
 
     // decide kick or chip
     auto passLine = Tube(ball->getPos(), passingPosition, control_constants::ROBOT_CLOSE_TO_POINT / 2);
