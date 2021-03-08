@@ -61,6 +61,8 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
         double timeStep = 0.1;
 
         worldObjects.setField(field);
+        std::optional<BB::CollisionData> firstCollision;
+        std::pair<RobotCommand, std::optional<Vector2>> robotCommandCollisionPair;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
         if (true || (!computedPathsBB.contains(robotId) ||
             (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
@@ -71,9 +73,10 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
                                                           ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
             //Check path to original target for collisions
-            std::optional<BB::CollisionData> firstCollision = worldObjects.getFirstCollision(computedPathsBB[robotId], robotId);
+            firstCollision = worldObjects.getFirstCollision(computedPathsBB[robotId], robotId);
 
             if (firstCollision.has_value()) {
+                robotCommandCollisionPair.second = firstCollision->collisionPosition;
                 //Create intermediate points, return a collision-free path originating from the best option of these points
                 auto newPath = findNewPath(currentPosition, currentVelocity, firstCollision, targetPosition, field, robotId,
                                            timeStep);
@@ -81,7 +84,7 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
                     computedPathsBB[robotId] = newPath.value();
                 }
             }
-            computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.1);
+            computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
         }
         interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::darkMagenta, robotId, interface::Drawing::LINES_CONNECTED);
@@ -89,13 +92,18 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
 
         // TODO: let the robot properly follow the BBT
         //Current method is very hacky
-        RobotCommand command = RobotCommand();
-        command.pos = computedPaths[robotId].front();
-        Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId,pidType);
-        command.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
-        command.angle = trackingVelocity.rot;
+        // If you are closer to the target than the first point of the approximated path, remove it
+        if((targetPosition - currentPosition).length() < (targetPosition-computedPaths[robotId].front()).length()){
+            computedPaths[robotId].erase(computedPaths[robotId].begin());
+        }
 
-        return {command,computedPaths[robotId].front()};
+        robotCommandCollisionPair.first = RobotCommand();
+        robotCommandCollisionPair.first.pos = computedPaths[robotId].front();
+        Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId,pidType);
+        robotCommandCollisionPair.first.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
+        robotCommandCollisionPair.first.angle = trackingVelocity.rot;
+
+        return robotCommandCollisionPair;
     }
 
     std::optional<BB::BBTrajectory2D>

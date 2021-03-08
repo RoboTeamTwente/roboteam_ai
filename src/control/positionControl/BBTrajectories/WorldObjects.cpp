@@ -17,7 +17,8 @@ namespace rtt::BB {
     std::optional<CollisionData> WorldObjects::getFirstCollision(rtt::BB::BBTrajectory2D BBTrajectory, int robotId) {
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
         ruleset = gameState.getRuleSet();
-
+        //TODO: return the kind of collision
+        //^-Question from Max not high priority
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
@@ -46,7 +47,7 @@ namespace rtt::BB {
             int indexOfCollision = iterator - collisionTimes.begin();
 
             return collisionDatas[indexOfCollision];
-        } else { return std::nullopt; }
+        } else { return {}; }
     }
 
     void WorldObjects::calculateFieldCollisions(std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
