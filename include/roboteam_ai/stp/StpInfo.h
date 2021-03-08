@@ -82,6 +82,9 @@ struct StpInfo {
     const std::optional<PIDType>& getPidType() const { return PidType; }
     void setPidType(const std::optional<PIDType>& pidType) { PidType = pidType; }
 
+    const std::optional<uint8_t>& getRoleScore() const { return roleScore; }
+    void setRoleScore(const std::optional<uint8_t>& RoleScore) { roleScore = RoleScore;}
+
    private:
     /**
      * Current world pointer
@@ -158,6 +161,11 @@ struct StpInfo {
      * Enum for deciding which PID should be chosen
      */
     std::optional<PIDType> PidType{PIDType::DEFAULT};
+
+    /**
+     * Optional roleScore value to be used in play score determination
+     */
+    std::optional<uint8_t> roleScore;
 };
 
 /**

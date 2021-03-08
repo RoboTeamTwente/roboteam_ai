@@ -106,6 +106,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayScorer.cpp
         # /
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
@@ -135,7 +136,7 @@ set(PLAYS_SOURCES
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
-        src/stp/PlayScorer.cpp)
+        )
 
 set(INVARIANTS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp

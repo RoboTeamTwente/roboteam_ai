@@ -36,7 +36,7 @@ class PlayDecider {
      * @return The best play for the current tick
      * (either a locked play through the interface or just the highest scored play)
      */
-    Play *decideBestPlay(world::World *pWorld, std::vector<Play *> plays) noexcept;
+    Play *decideBestPlay(std::vector<Play *> plays, PlayScorer *playScorer) noexcept;
 };
 }  // namespace rtt::ai::stp
 

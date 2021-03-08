@@ -20,12 +20,16 @@ class GetBallPossession : public Play {
      * Gets the score for the current play
      *
      * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
+     * returns a value in range of 0 - 255 based on the factors from in the scoring vector
      *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * To calculate the score of a play, the current situation (Evaluations) and future positions are taken into account.
+     * To reduce computations the calculates for the future positions are saved in an StpInfos map that will be added to
+     *  the play with the initialization.
+     *
+     * @param a StpInfos to store calculated info in
+     * @return The score, 0 - 255
      */
-    uint8_t score(world::World* world) noexcept override;
+    uint8_t score(PlayScorer *playScorer) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -36,6 +40,11 @@ class GetBallPossession : public Play {
      * Calculates info for the roles
      */
     void calculateInfoForRoles() noexcept override;
+
+    /**
+     * Calculate info for the roles that need to be calculated for scoring
+     */
+    void calculateInfoForScoredRoles(world::World* world) noexcept override;
 
     /**
      * Gets the play name

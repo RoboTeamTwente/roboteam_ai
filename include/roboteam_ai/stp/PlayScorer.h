@@ -5,8 +5,7 @@
 #ifndef RTT_PLAYSCORER_H
 #define RTT_PLAYSCORER_H
 
-#include "world/Field.h"
-#include "world/views/WorldDataView.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp{
     enum class GlobalEvaluation{
@@ -28,19 +27,60 @@ namespace rtt::ai::stp{
         WeHaveMajority,
     };
 
-    class Score {
+    class PlayScorer {
     public:
+        /**
+         * Gets the score of a Global Evaluation, if it was not updated yet, update it before.
+         * @param evaluation that needs
+         * @return
+         */
         uint8_t getGlobalEvaluation(GlobalEvaluation evaluation);
+
+        /**
+         * Sets this->world
+         * @param world World to update against
+         */
+        void update(world::World* world) noexcept;
+
+        /**
+         * Gets this world, used when a play is not initialised yet (in between plays)
+         * @return world
+         */
+        world::World* getWorld() noexcept;
+
+        /**
+         * Make all booleans of updatedGlobal to false (they have not been updated yet this tick)
+         */
         void clearGlobalScores();
 
+
     private:
-        rtt::world::view::WorldDataView world;
-        rtt::world::Field *field;
+        /**
+         * Array of all Global Evaluations scores
+         */
+        std::array<uint8_t, sizeof(GlobalEvaluation)> scoresGlobal{};
 
-        std::array<uint8_t, sizeof(GlobalEvaluation)> scoresGlobal;
-        std::array<bool, sizeof(GlobalEvaluation)> updatedGlobal;
+        /**
+         * Array of all Global Evaluations booleans if they have been updated
+         */
+        std::array<bool, sizeof(GlobalEvaluation)> updatedGlobal{};
 
-        uint8_t updateGlobalEvaluation(GlobalEvaluation evaluation);
+        /**
+         * Updates a given Global Evaluation, should only happen if this was not done in this tick yet.
+         * @param index of evaluation that needs to be updated
+         * @return the score of the updated evaluation
+         */
+        uint8_t updateGlobalEvaluation(int index);
+
+        /**
+         * Current world, do not use before update()
+         */
+        world::World* world{};
+
+        /**
+         *  Current field from world
+         */
+        world::Field field;
     };
 
 }

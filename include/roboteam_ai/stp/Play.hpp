@@ -11,6 +11,7 @@
 #include "stp/invariants/BaseInvariant.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
+#include "PlayScorer.h"
 
 namespace rtt::ai::stp {
 
@@ -59,11 +60,16 @@ class Play {
     virtual void calculateInfoForRoles() noexcept = 0;
 
     /**
+     * Calculate info for roles that are used in the scoring of the play.
+     * This is a purely virtual function, so it is implemented in every play.
+     */
+    virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
+
+    /**
      * Gets the score for the current play that is in the range of 0 - 255
-     * @param world World to get the score for
      * @return The score, 0 - 255
      */
-    [[nodiscard]] virtual uint8_t score(world::World* world) noexcept = 0;
+    virtual uint8_t score(PlayScorer *playScorer) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -110,6 +116,11 @@ class Play {
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
 
     /**
+     * The Global evaluations with their weight
+     */
+    std::vector<std::pair<uint8_t, double>> scoring;
+
+    /**
      * Map that keeps track of the status of each role.
      * It's a Role*, because that's hashable and a unique identifier
      */
@@ -143,6 +154,8 @@ class Play {
      * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
+
+    uint8_t calculateScore(std::vector<std::pair<uint8_t, double>> scoring);
 
    private:
     /**

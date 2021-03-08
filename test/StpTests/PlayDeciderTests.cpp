@@ -32,7 +32,7 @@ class AlwaysValid : public rtt::ai::stp::Play {
         startPlayInvariants.emplace_back(std::make_unique<trueInvariant>());
     }
 
-    uint8_t score(rtt::world::World *world) noexcept override { return 100; }
+    uint8_t score() noexcept override { return 100; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
@@ -49,7 +49,7 @@ class AlwaysFalse : public rtt::ai::stp::Play {
         startPlayInvariants.emplace_back(std::make_unique<falseInvariant>());
     }
 
-    uint8_t score(rtt::world::World *world) noexcept override { return 0; }
+    uint8_t score() noexcept override { return 0; }
 
     rtt::ai::Dealer::FlagMap decideRoleFlags() const noexcept override { return {}; }
 
@@ -88,8 +88,8 @@ TEST(PlayCheckerTests, testHighestScore) {
     checker.setPlays(plays);
 
     PlayDecider decider{};
-    auto play = decider.decideBestPlay(instance, checker.getValidPlays());
+    auto play = decider.decideBestPlay(checker.getValidPlays());
 
     ASSERT_TRUE(dynamic_cast<AlwaysValid *>(play));
-    ASSERT_EQ(play->score(instance), 100);
+    ASSERT_EQ(play->score(), 100);
 }

@@ -36,16 +36,33 @@ GetBallPossession::GetBallPossession() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("offender_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("offender_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("offender_2"))};
+
+    // initialize stpInfos
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto &role : roles) {
+        role->reset();
+        auto roleName{role->getName()};
+        stpInfos.emplace(roleName, StpInfo{});
+    }
 }
 
-uint8_t GetBallPossession::score(world::World* world) noexcept { return 80; }
+uint8_t GetBallPossession::score(PlayScorer *playScorer) noexcept {
+    calculateInfoForScoredRoles(playScorer->getWorld());
+    scoring = {std::make_pair(playScorer->getGlobalEvaluation(GlobalEvaluation::BallClosestToUs), 1),
+               std::make_pair(playScorer->getGlobalEvaluation(GlobalEvaluation::BallMovesSlow), 1),
+               std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
+    return calculateScore(scoring);
+}
+
+void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
+    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
+    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
+    stpInfos["ball_getter"].setRoleScore(100);
+}
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
-
-    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
-    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));

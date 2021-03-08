@@ -97,29 +97,36 @@ void Play::refreshData() noexcept {
 
 void Play::distributeRoles() noexcept {
     Dealer dealer{world->getWorld().value(), &field};
-
     auto flagMap = decideRoleFlags();
-
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap, stpInfos);
 
+    // TODO-Max if role exists in oldStpInfos then copy those.
     // Clear the stpInfos for the new role assignment
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
     for (auto& role : roles) {
         role->reset();
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
-
-            stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
         }
     }
-
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto& each) { each.second.setCurrentWorld(world); });
 }
 
-std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
+uint8_t Play::calculateScore(std::vector<std::pair<uint8_t, double>> scoring){
+    double score = 0;
+    double weight = 0;
+    for (auto i : scoring){
+        if (i.first > 255) RTT_ERROR("There is a score element bigger than 255")
+        if (i.first < 0) RTT_ERROR("There is a score element smaller than 0")
+        score += i.first * i.second;
+        weight += i.second;
+    }
+    return score/weight;
+}
 
+std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
+// TODO-Max Make instance
 bool Play::isValidPlayToKeep(world::World* world) noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
         world::Field field = world->getField().value();
