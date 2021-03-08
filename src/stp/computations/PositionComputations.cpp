@@ -169,49 +169,32 @@ namespace rtt::ai::stp::computations {
                                                                                        control_constants::ROBOT_RADIUS +
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
-        defenseAreaBorder.erase(defenseAreaBorder.begin() + 2);       // Ugly but the back boarder is not needed.
         for (auto &i : defenseAreaBorder) {
-            ///RTT_DEBUG(std::to_string(i.start.x) + "," + std::to_string(i.start.y) + " TO " + std::to_string(i.end.x) + "," +std::to_string(i.end.y) + "  .");
-            interface::Input::drawData(interface::Visual::DEBUG,std::vector({Vector2(i.start.x,i.start.y),Vector2(i.end.x,i.end.y)}),Qt::blue,-1,interface::Drawing::LINES_CONNECTED);
+            if (i.start.x - field.getTopLeftOurDefenceArea().x < 0.01 && abs(i.start.y - field.getTopLeftOurDefenceArea().y) < 0.01 + control_constants::ROBOT_RADIUS +
+                                                                                                                                 control_constants::GO_TO_POS_ERROR_MARGIN){}
             LineSegment ball2GoalLine = LineSegment(b->getPos(), field.getOurGoalCenter());
             std::vector<Vector2> lineBorderIntersects = {};
-            /// Vector is made to check if there is only 1 intersect
+            // Vector is made to check if there is only 1 intersect
             for (const LineSegment &line : defenseAreaBorder) {
                 if (line.doesIntersect(ball2GoalLine)) {
                     auto intersect = line.intersects(ball2GoalLine);
                     if (intersect.has_value()) lineBorderIntersects.push_back(intersect.value());
                 }
             }
-
-            // Always use the first (as there should only be one.
+            // Always use the first (as there should only be one).
             Vector2 lineBorderIntersect = lineBorderIntersects.front();
-
-            if (lineBorderIntersects.empty() || lineBorderIntersects.size() > 1) {
-                //RTT_DEBUG("determineWallPositions broke. Size is " + std::to_string(lineBorderIntersects.size()) + "!...");
-            } else {
-                int j = 1;
-                if (amountDefenders % 2) {
-                    /// ODD
-                    positions.push_back(lineBorderIntersect);
-                    while (positions.size() < amountDefenders) {
-                        auto circle = Circle(lineBorderIntersect, (j++) * (spacingRobots));
-                        for (const LineSegment &line : defenseAreaBorder) {
-                            auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
-                            for (auto intersect : intersects) {
-                                positions.push_back(intersect);
-                            }
-                        }
-                    }
-                } else {
-                    /// EVEN
-                    while (positions.size() < amountDefenders) {
-                        auto circle = Circle(lineBorderIntersect, (-0.5+j++) * (spacingRobots));
-                        for (const LineSegment &line : defenseAreaBorder) {
-                            auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
-                            for (auto intersect : intersects) {
-                                positions.push_back(intersect);
-                            }
-                        }
+            int j = 1;
+            double base = 0.5; //Offset if there are even defenders
+            if ((amountDefenders) % 2) { //If odd, place 1 at the interest
+                base = 0.0;
+                positions.push_back(lineBorderIntersect);
+            }
+            while (positions.size() < amountDefenders) {
+                auto circle = Circle(lineBorderIntersect, (base + j++) * (spacingRobots));
+                for (const LineSegment &line : defenseAreaBorder) {
+                    auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
+                    for (auto intersect : intersects) {
+                        positions.push_back(intersect);
                     }
                 }
             }
