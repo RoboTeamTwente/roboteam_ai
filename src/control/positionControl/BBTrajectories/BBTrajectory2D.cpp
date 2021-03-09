@@ -84,8 +84,4 @@ namespace rtt::BB {
     double BBTrajectory2D::getTotalTime() const {
         return std::max(x.getTotalTime(),y.getTotalTime());
     }
-
-    Vector2 BBTrajectory2D::getBrakePos(Vector2 pos, Vector2 vel, double accMax) const {
-        return Vector2(x.fullBrakePos(pos.x,vel.x,accMax),y.fullBrakePos(pos.y,vel.y,accMax));
-    }
 }

@@ -78,7 +78,7 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
             if (firstCollision.has_value()) {
                 robotCommandCollisionPair.second = firstCollision->collisionPosition;
                 //Create intermediate points, return a collision-free path originating from the best option of these points
-                auto newPath = findNewPath(currentPosition, currentVelocity, firstCollision, targetPosition, field, robotId,
+                auto newPath = findNewPath(field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition,
                                            timeStep);
                 if (newPath.has_value()) {
                     computedPathsBB[robotId] = newPath.value();
@@ -107,13 +107,11 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
     }
 
     std::optional<BB::BBTrajectory2D>
-    PositionControl::findNewPath(Vector2 &currentPosition, Vector2 &currentVelocity,
-                                 std::optional<BB::CollisionData> &firstCollision,
-                                 Vector2 &targetPosition, const rtt::world::Field &field, int robotId,
-                                 double timeStep) {
+    PositionControl::findNewPath(const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
+                                 std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, double timeStep) {
 
-        auto intermediatePoints = createIntermediatePoints(firstCollision, targetPosition, field, robotId);
-        auto intermediatePointsSorted = sortIntermediatePoints(intermediatePoints, firstCollision);
+        auto intermediatePoints = createIntermediatePoints(field, robotId, firstCollision, targetPosition);
+        auto intermediatePointsSorted = scoreIntermediatePoints(intermediatePoints, firstCollision);
 
         BB::BBTrajectory2D pathToIntermediatePoint;
         while (!intermediatePointsSorted.empty()) {
@@ -148,20 +146,20 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
     }
 
     std::vector<Vector2>
-    PositionControl::createIntermediatePoints(std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,
-                                              const rtt::world::Field &field, int robotId) {
+    PositionControl::createIntermediatePoints(const rtt::world::Field &field, int robotId, std::optional<BB::CollisionData> &firstCollision,
+                                              Vector2 &targetPosition) {
         double angleBetweenIntermediatePoints = M_PI_4 / 2;
 
+        // PointToDrawFrom is picked by drawing a line from the target position to the obstacle and extending that
+        // line further towards our currentPosition.
         Vector2 pointToDrawFrom = firstCollision->obstaclePosition +
                                   (firstCollision->obstaclePosition - targetPosition).normalize() * 1;
 
         std::vector<Vector2> intermediatePoints;
         for (int i = -4; i < 5; i++) {
             if (i != 0) {
-                //Make half circle of intermediatePoints originating from position of obstacle that caused collision
-                Vector2 intermediatePoint = firstCollision->obstaclePosition.rotateAroundPoint(
-                        i * angleBetweenIntermediatePoints,
-                        pointToDrawFrom);
+                //Make half circle of intermediatePoints pointed towards obstaclePosition, originating from pointToDrawFrom
+                Vector2 intermediatePoint = firstCollision->obstaclePosition.rotateAroundPoint(i * angleBetweenIntermediatePoints, pointToDrawFrom);
 
                 //If not in a defense area (only checked if robot is not allowed in defense area)
                 if (worldObjects.canEnterDefenseArea(robotId) ||
@@ -181,7 +179,7 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
     }
 
     std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>>
-    PositionControl::sortIntermediatePoints(std::vector<Vector2> &intermediatePoints,
+    PositionControl::scoreIntermediatePoints(std::vector<Vector2> &intermediatePoints,
                                             std::optional<BB::CollisionData> &firstCollision) {
         double intermediatePointScore;
         std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>> intermediatePointsSorted;
@@ -217,6 +215,6 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
                 }
             }
         }
-        return std::nullopt;
+        return {};
     }
 }  // namespace rtt::ai// ::control
