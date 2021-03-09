@@ -8,7 +8,7 @@
 #include <array>
 
 #include "Role.hpp"
-#include "stp/invariants/BaseInvariant.h"
+#include "stp/evaluations/BaseEvaluation.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
 #include "PlayEvaluator.h"
@@ -24,12 +24,12 @@ class Play {
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
      */
-    std::vector<GlobalEvaluation> keepPlayInvariants;
+    std::vector<GlobalEvaluation> keepPlayEvaluation;
 
     /**
      * Invariant vector that contains invariants that need to be true to start this play
      */
-    std::vector<GlobalEvaluation> startPlayInvariants;
+    std::vector<GlobalEvaluation> startPlayEvaluation;
 
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
@@ -113,6 +113,13 @@ class Play {
      * Gets the
      */
     std::unordered_map<std::string, StpInfo> getStpInfos();
+
+    /**
+     * If score was calculated, save here
+     */
+    std::optional<uint8_t> lastScore;
+
+    uint8_t getLastScore();
 
 protected:
     /**

@@ -152,7 +152,7 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
-    playEvaluator.clearGlobalScores(); //reset all invariants
+    playEvaluator.clearGlobalScores(); //reset all evaluations
     playEvaluator.update(_world);
     playChecker.update(_world, playEvaluator);
 

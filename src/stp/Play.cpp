@@ -129,7 +129,7 @@ std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return 
 // TODO-Max Make instance
 bool Play::isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [playEvaluator] (auto& x) { return playEvaluator->checkInvariant(x); });
+        return std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator->checkEvaluation(x); });
     } else {
         return true;
     }
@@ -137,7 +137,7 @@ bool Play::isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept {
 
 bool Play::isValidPlayToStart(PlayEvaluator* playEvaluator) const noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [playEvaluator] (auto& x) { return playEvaluator->checkInvariant(x); });
+        return std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator->checkEvaluation(x); });
     } else {
         return true;
     }
@@ -145,6 +145,10 @@ bool Play::isValidPlayToStart(PlayEvaluator* playEvaluator) const noexcept {
 
     std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
         return stpInfos;
+    }
+
+    uint8_t Play::getLastScore() {
+        return lastScore.value_or(0);
     }
 
 }  // namespace rtt::ai::stp

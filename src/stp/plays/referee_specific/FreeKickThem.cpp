@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
 
-#include "stp/invariants/game_states/FreeKickThemGameStateInvariant.h"
+#include "stp/invariants/game_states/FreeKickThemGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"

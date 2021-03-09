@@ -5,113 +5,109 @@
 #include "stp/PlayEvaluator.h"
 #include <ApplicationManager.h>
 
-#include <stp/invariants/game_states/BallPlacementUsGameStateInvariant.h>
-#include <stp/invariants/game_states/BallPlacementThemGameStateInvariant.h>
-#include <stp/invariants/game_states/FreeKickThemGameStateInvariant.h>
-#include <stp/invariants/game_states/FreeKickUsGameStateInvariant.h>
-#include <stp/invariants/game_states/HaltGameStateInvariant.h>
-#include <stp/invariants/game_states/KickOffThemGameStateInvariant.h>
-#include <stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.h>
-#include <stp/invariants/game_states/KickOffUsGameStateInvariant.h>
-#include <stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.h>
-#include <stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h>
-#include <stp/invariants/game_states/NormalPlayGameStateInvariant.h>
-#include <stp/invariants/game_states/PenaltyThemGameStateInvariant.h>
-#include <stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.h>
-#include <stp/invariants/game_states/PenaltyUsGameStateInvariant.h>
-#include <stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.h>
-#include <stp/invariants/game_states/StopGameStateInvariant.h>
-#include <stp/invariants/BallCloseToUsInvariant.h>
-#include <stp/invariants/BallCloseToThemInvariant.h>
-#include <stp/invariants/BallGotShotInvariant.h>
-#include <stp/invariants/BallClosestToUsInvariant.h>
-#include <stp/invariants/BallIsFreeInvariant.h>
-#include <stp/invariants/BallMovesSlowInvariant.h>
-#include <stp/invariants/BallOnOurSideInvariant.h>
-#include <stp/invariants/BallOnTheirSideInvariant.h>
-#include <stp/invariants/BallShotOrCloseToThemInvariant.h>
-#include <stp/invariants/DistanceFromBallInvariant.h>
-#include <stp/invariants/GoalVisionFromBallInvariant.h>
-#include <stp/invariants/FreedomOfRobotsInvariant.h>
-#include <stp/invariants/GoalVisionInvariant.h>
-#include <stp/invariants/NoGoalVisionFromBallInvariant.h>
-#include <stp/invariants/WeHaveBallInvariant.h>
-#include <stp/invariants/WeHaveMajorityInvariant.h>
+#include <stp/evaluations/game_states/BallPlacementUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/BallPlacementThemGameStateEvaluation.h>
+#include <stp/evaluations/game_states/FreeKickThemGameStateEvaluation.h>
+#include <stp/evaluations/game_states/FreeKickUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/HaltGameStateEvaluation.h>
+#include <stp/evaluations/game_states/KickOffThemGameStateEvaluation.h>
+#include <stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.h>
+#include <stp/evaluations/game_states/KickOffUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/KickOffUsPrepareGameStateEvaluation.h>
+#include <stp/evaluations/game_states/NormalOrFreeKickUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/NormalPlayGameStateEvaluation.h>
+#include <stp/evaluations/game_states/PenaltyThemGameStateEvaluation.h>
+#include <stp/evaluations/game_states/PenaltyThemPrepareGameStateEvaluation.h>
+#include <stp/evaluations/game_states/PenaltyUsGameStateEvaluation.h>
+#include <stp/evaluations/game_states/PenaltyUsPrepareGameStateEvaluation.h>
+#include <stp/evaluations/game_states/StopGameStateEvaluation.h>
+#include <stp/evaluations/global/BallCloseToUsGlobalEvaluation.h>
+#include <stp/evaluations/global/BallCloseToThemGlobalEvaluation.h>
+#include <stp/evaluations/global/BallGotShotGlobalEvaluation.h>
+#include <stp/evaluations/global/BallClosestToUsGlobalEvaluation.h>
+#include <stp/evaluations/global/BallIsFreeGlobalEvaluation.h>
+#include <stp/evaluations/global/BallMovesSlowGlobalEvaluation.h>
+#include <stp/evaluations/global/BallOnOurSideGlobalEvaluation.h>
+#include <stp/evaluations/global/BallOnTheirSideGlobalEvaluation.h>
+#include <stp/evaluations/global/DistanceFromBallGlobalEvaluation.h>
+#include <stp/evaluations/global/GoalVisionFromBallGlobalEvaluation.h>
+#include <stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.h>
+#include <stp/evaluations/global/GoalVisionGlobalEvaluation.h>
+#include <stp/evaluations/global/NoGoalVisionFromBallGlobalEvaluation.h>
+#include <stp/evaluations/global/WeHaveBallGlobalEvaluation.h>
+#include <stp/evaluations/global/WeHaveMajorityGlobalEvaluation.h>
 
 namespace rtt::ai::stp{
 
     uint8_t PlayEvaluator::getGlobalEvaluation(GlobalEvaluation evaluation) {
-        return (updatedGlobal.contains(evaluation) ? scoresGlobal.at(evaluation) : scoresGlobal[evaluation] = updateGlobalEvaluation(evaluation));
+        return (scoresGlobal.contains(evaluation) ? scoresGlobal.at(evaluation) : scoresGlobal[evaluation] = updateGlobalEvaluation(evaluation));
     }
 
     uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation evaluation) {
         auto _world = world->getWorld().value();
-
         switch (evaluation) {
             case GlobalEvaluation::BallPlacementThemGameState:
-                return invariant::BallPlacementThemGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::BallPlacementThemGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallPlacementUsGameState:
-                return invariant::BallPlacementUsGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::BallPlacementUsGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::FreeKickThemGameState:
-                return invariant::FreeKickThemGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::FreeKickThemGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::FreeKickUsGameState:
-                return invariant::FreeKickUsGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::FreeKickUsGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::HaltGameState:
-                return invariant::HaltGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::HaltGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::KickOffThemGameState:
-                return invariant::KickOffThemGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::KickOffThemGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::KickOffThemPrepareGameState:
-                return invariant::KickOffThemPrepareGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::KickOffThemPrepareGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::KickOffUsGameState:
-                return invariant::KickOffUsGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::KickOffUsGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::KickOffUsPrepareGameState:
-                return invariant::KickOffUsPrepareGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::KickOffUsPrepareGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::NormalOrFreeKickUsGameState:
-                return invariant::NormalOrFreeKickUsGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::NormalOrFreeKickUsGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::NormalPlayGameState:
-                return invariant::NormalPlayGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::NormalPlayGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::PenaltyThemGameState:
-                return invariant::PenaltyThemGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::PenaltyThemGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::PenaltyThemPrepareGameState:
-                return invariant::PenaltyThemPrepareGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::PenaltyThemPrepareGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::PenaltyUsGameState:
-                return invariant::PenaltyUsGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::PenaltyUsGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::PenaltyUsPrepareGameState:
-                return invariant::PenaltyUsPrepareGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::PenaltyUsPrepareGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::StopGameState:
-                return invariant::StopGameStateInvariant().metricCheck(_world, &field);
+                return evaluation::StopGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallCloseToThem:
-                return invariant::BallCloseToThemInvariant().metricCheck(_world, &field);
+                return evaluation::BallCloseToThemGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallCloseToUs:
-                return invariant::BallCloseToUsInvariant().metricCheck(_world, &field);
+                return evaluation::BallCloseToUsGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallClosestToUs:
-                return invariant::BallClosestToUsInvariant().metricCheck(_world, &field);
+                return evaluation::BallClosestToUsGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallGotShot:
-                return invariant::BallGotShotInvariant().metricCheck(_world, &field);
+                return evaluation::BallGotShotGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallIsFree:
-                return invariant::BallIsFreeInvariant().metricCheck(_world, &field);
+                return evaluation::BallIsFreeGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallMovesSlow:
-                return invariant::BallMovesSlowInvariant().metricCheck(_world, &field);
+                return evaluation::BallMovesSlowGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallOnOurSide:
-                return invariant::BallOnOurSideInvariant().metricCheck(_world, &field);
+                return evaluation::BallOnOurSideGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::BallOnTheirSide:
-                return invariant::BallOnTheirSideInvariant().metricCheck(_world, &field);
-            case GlobalEvaluation::BallShotOrCloseToThem:
-                return invariant::BallShotOrCloseToThemInvariant().metricCheck(_world, &field);
+                return evaluation::BallOnTheirSideGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::DistanceFromBall:
-                return invariant::DistanceFromBallInvariant().metricCheck(_world, &field);
+                return evaluation::DistanceFromBallGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::FreedomOfRobots:
-                return invariant::FreedomOfRobotsInvariant().metricCheck(_world, &field);
+                return evaluation::FreedomOfRobotsGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::GoalVisionFromBall:
-                return invariant::GoalVisionFromBallInvariant().metricCheck(_world, &field);
+                return evaluation::GoalVisionFromBallGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::GoalVision:
-                return invariant::GoalVisionInvariant().metricCheck(_world, &field);
+                return evaluation::GoalVisionGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::NoGoalVisionFromBall:
-                return invariant::NoGoalVisionFromBallInvariant().metricCheck(_world, &field);
+                return evaluation::NoGoalVisionFromBallGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::WeHaveBall:
-                return invariant::WeHaveBallInvariant().metricCheck(_world, &field);
+                return evaluation::WeHaveBallGlobalEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::WeHaveMajority:
-                return invariant::WeHaveMajorityInvariant().metricCheck(_world, &field);
+                return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(_world, &field);
             default:
                 RTT_WARNING("Unhandled ScoreEvaluation!");
                 return 0;
@@ -126,8 +122,10 @@ namespace rtt::ai::stp{
     world::World* PlayEvaluator::getWorld() noexcept { return world; }
 
     void PlayEvaluator::clearGlobalScores() {
-        updatedGlobal.clear();
+        scoresGlobal.clear();
     }
 
-    bool PlayEvaluator::checkInvariant(GlobalEvaluation globalEvaluation, uint8_t cutOff) noexcept { return getGlobalEvaluation(globalEvaluation) >= cutOff; }
+    bool PlayEvaluator::checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff) noexcept { return getGlobalEvaluation(globalEvaluation) >= cutOff; }
+
+
 }

@@ -4,9 +4,6 @@
 
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
 
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/BallIsFreeInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "include/roboteam_ai/stp/roles/active/BallGetter.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
@@ -15,15 +12,15 @@
 namespace rtt::ai::stp::play {
 
 GetBallPossession::GetBallPossession() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    startPlayInvariants.emplace_back(GlobalEvaluation::BallIsFree);
-    startPlayInvariants.emplace_back(GlobalEvaluation::BallClosestToUs);
+    startPlayEvaluation.clear();
+    startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    keepPlayInvariants.emplace_back(GlobalEvaluation::BallIsFree);
-    keepPlayInvariants.emplace_back(GlobalEvaluation::BallClosestToUs);
+    keepPlayEvaluation.clear();
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
@@ -51,7 +48,7 @@ uint8_t GetBallPossession::score(PlayEvaluator *playEvaluator) noexcept {
     scoring = {std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallClosestToUs), 1),
                std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallMovesSlow), 1),
                std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
-    return calculateScore(scoring);
+    return (lastScore = calculateScore(scoring)).value();
 }
 
 void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {

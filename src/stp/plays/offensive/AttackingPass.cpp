@@ -9,10 +9,6 @@
 
 #include <roboteam_utils/Tube.h>
 
-#include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/NoGoalVisionFromBallInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
@@ -33,14 +29,14 @@ namespace rtt::ai::stp::play {
     }
 
 AttackingPass::AttackingPass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    startPlayInvariants.emplace_back(GlobalEvaluation::BallCloseToUs);
-    startPlayInvariants.emplace_back(GlobalEvaluation::NoGoalVisionFromBall);
-    startPlayInvariants.emplace_back(GlobalEvaluation::BallClosestToUs);
+    startPlayEvaluation.clear();
+    startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallCloseToUs);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::NoGoalVisionFromBall);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(GlobalEvaluation::NormalPlayGameState);
+    keepPlayEvaluation.clear();
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
@@ -68,7 +64,7 @@ uint8_t AttackingPass::score(PlayEvaluator *playEvaluator) noexcept {
     scoring = {std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallClosestToUs), 2),
                std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), -1),
                std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
-    return calculateScore(scoring);
+    return (lastScore = calculateScore(scoring)).value();
     }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {

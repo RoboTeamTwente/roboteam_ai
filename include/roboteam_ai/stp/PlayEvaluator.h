@@ -77,21 +77,14 @@ namespace rtt::ai::stp{
          * @param cutOff Bottom bound value of true
          * @return boolean if FUZZY-TRUE is high enough
          */
-        bool checkInvariant(GlobalEvaluation globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
+        bool checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
 
     private:
         /**
-         * Array of all Global Evaluations scores
+         * Map of all loaded Global Evaluations scores
          */
         std::map<GlobalEvaluation, uint8_t> scoresGlobal{};
-//        std::array<uint8_t, sizeof(GlobalEvaluation)> scoresGlobal{};
 
-
-        /**
-         * Array of all Global Evaluations booleans if they have been updated
-         */
-        std::map<GlobalEvaluation, uint8_t> updatedGlobal{};
-//        std::array<bool, sizeof(GlobalEvaluation)> updatedGlobal{};
 
         /**
          * Updates a given Global Evaluation, should only happen if this was not done in this tick yet.

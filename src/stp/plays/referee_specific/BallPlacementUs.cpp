@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementUs.h"
 
-#include "stp/invariants/game_states/BallPlacementUsGameStateInvariant.h"
+#include "stp/invariants/game_states/BallPlacementUsGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
 #include "include/roboteam_ai/stp/roles/active/BallPlacer.h"
 #include "utilities/GameStateManager.hpp"

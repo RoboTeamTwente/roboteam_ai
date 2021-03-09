@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
 
-#include "stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.h"
+#include "stp/invariants/game_states/KickOffUsPrepareGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {

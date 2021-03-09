@@ -8,7 +8,7 @@
 #include <stp/PlayChecker.hpp>
 #include <stp/PlayDecider.hpp>
 
-class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
+class trueInvariant : public rtt::ai::stp::evaluation::BaseEvaluation {
     uint8_t metricCheck(rtt::world::view::WorldDataView world, const rtt::world::Field *field) const noexcept override { return 255; }
 
 	const char* getName() override
@@ -17,7 +17,7 @@ class trueInvariant : public rtt::ai::stp::invariant::BaseInvariant {
     }
 };
 
-class falseInvariant : public rtt::ai::stp::invariant::BaseInvariant {
+class falseInvariant : public rtt::ai::stp::evaluation::BaseEvaluation {
     uint8_t metricCheck(rtt::world::view::WorldDataView world, const rtt::world::Field *field) const noexcept override { return 0; }
 
 	const char* getName() override

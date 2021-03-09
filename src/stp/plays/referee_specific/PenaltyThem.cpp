@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
 
-#include "stp/invariants/game_states/PenaltyThemGameStateInvariant.h"
+#include "stp/invariants/game_states/PenaltyThemGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/PenaltyKeeper.h"
 
