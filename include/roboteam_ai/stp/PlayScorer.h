@@ -58,19 +58,22 @@ namespace rtt::ai::stp{
         /**
          * Array of all Global Evaluations scores
          */
-        std::array<uint8_t, sizeof(GlobalEvaluation)> scoresGlobal{};
+        std::map<GlobalEvaluation, uint8_t> scoresGlobal{};
+//        std::array<uint8_t, sizeof(GlobalEvaluation)> scoresGlobal{};
+
 
         /**
          * Array of all Global Evaluations booleans if they have been updated
          */
-        std::array<bool, sizeof(GlobalEvaluation)> updatedGlobal{};
+        std::map<GlobalEvaluation, uint8_t> updatedGlobal{};
+//        std::array<bool, sizeof(GlobalEvaluation)> updatedGlobal{};
 
         /**
          * Updates a given Global Evaluation, should only happen if this was not done in this tick yet.
          * @param index of evaluation that needs to be updated
          * @return the score of the updated evaluation
          */
-        uint8_t updateGlobalEvaluation(int index);
+        uint8_t updateGlobalEvaluation(GlobalEvaluation evaluation);
 
         /**
          * Current world, do not use before update()

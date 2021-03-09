@@ -25,17 +25,16 @@
 namespace rtt::ai::stp{
 
     uint8_t PlayScorer::getGlobalEvaluation(GlobalEvaluation evaluation) {
-        int index = static_cast<int>(evaluation);
-        return (updatedGlobal[index] ? scoresGlobal[index] : scoresGlobal[index] = updateGlobalEvaluation(index));
+        return (updatedGlobal.contains(evaluation) ? scoresGlobal.at(evaluation) : scoresGlobal[evaluation] = updateGlobalEvaluation(evaluation));
     }
 
-    uint8_t PlayScorer::updateGlobalEvaluation(int index) {
+    uint8_t PlayScorer::updateGlobalEvaluation(GlobalEvaluation evaluation) {
         /// A (B at next function)
         auto _field = world->getField();
         auto field = _field.value(); //Overwriting global field for showing the issue
-        const auto _world = world->getWorld().value();
+        auto _world = world->getWorld().value();
 
-        switch ( GlobalEvaluation(index)) {
+        switch (evaluation) {
             case GlobalEvaluation::BallCloseToThem:
                 return invariant::BallCloseToThemInvariant().metricCheck(_world, &field);
             case GlobalEvaluation::BallCloseToUs:
@@ -83,6 +82,7 @@ namespace rtt::ai::stp{
     world::World* PlayScorer::getWorld() noexcept { return world; }
 
     void PlayScorer::clearGlobalScores() {
-        for (int i = 0; i < sizeof(GlobalEvaluation); i++) updatedGlobal[i] = false;
+        updatedGlobal.clear();
+//        for (int i = 0; i < sizeof(GlobalEvaluation); i++) updatedGlobal[i] = false;
     }
 }
