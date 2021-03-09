@@ -2,13 +2,31 @@
 // Created by maxl on 18-02-21.
 //
 
-#ifndef RTT_PLAYSCORER_H
-#define RTT_PLAYSCORER_H
+#ifndef RTT_PLAYEVALUATOR_H
+#define RTT_PLAYEVALUATOR_H
 
 #include "world/World.hpp"
 
 namespace rtt::ai::stp{
     enum class GlobalEvaluation{
+        // Game States
+        BallPlacementThemGameState,
+        BallPlacementUsGameState,
+        FreeKickThemGameState,
+        FreeKickUsGameState,
+        HaltGameState,
+        KickOffThemGameState,
+        KickOffThemPrepareGameState,
+        KickOffUsGameState,
+        KickOffUsPrepareGameState,
+        NormalOrFreeKickUsGameState,
+        NormalPlayGameState,
+        PenaltyThemGameState,
+        PenaltyThemPrepareGameState,
+        PenaltyUsGameState,
+        PenaltyUsPrepareGameState,
+        StopGameState,
+        // Global Evaluations
         BallCloseToThem,
         BallCloseToUs,
         BallClosestToUs,
@@ -24,10 +42,10 @@ namespace rtt::ai::stp{
         GoalVision,
         NoGoalVisionFromBall,
         WeHaveBall,
-        WeHaveMajority,
+        WeHaveMajority
     };
 
-    class PlayScorer {
+    class PlayEvaluator {
     public:
         /**
          * Gets the score of a Global Evaluation, if it was not updated yet, update it before.
@@ -53,6 +71,13 @@ namespace rtt::ai::stp{
          */
         void clearGlobalScores();
 
+        /**
+         * Checks if FUZZY-TRUE score in uint8-t of global evaluation is above the TRUE threshold
+         * @param globalEvaluation Invariant to be checked
+         * @param cutOff Bottom bound value of true
+         * @return boolean if FUZZY-TRUE is high enough
+         */
+        bool checkInvariant(GlobalEvaluation globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
 
     private:
         /**
@@ -88,4 +113,4 @@ namespace rtt::ai::stp{
 
 }
 
-#endif //RTT_PLAYSCORER_H
+#endif //RTT_PLAYEVALUATOR_H

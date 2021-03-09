@@ -29,10 +29,11 @@ class PlayChecker {
     [[nodiscard]] std::vector<Play*> getValidPlays() noexcept;
 
     /**
-     * Sets this->world
+     * updates world and playscorer
      * @param world World to update against
+     * @param playEvaluator PlayScorer to update against
      */
-    void update(world::World* world) noexcept;
+    void update(world::World* world, PlayEvaluator playEvaluator) noexcept;
 
     /**
      * Returns the default play
@@ -51,6 +52,11 @@ class PlayChecker {
      * Current world, do not use before update()
      */
     world::World* world{};
+
+    /**
+     * playEvaluator to check invariant to start
+     */
+     PlayEvaluator playEvaluator;
 };
 }  // namespace rtt::ai::stp
 

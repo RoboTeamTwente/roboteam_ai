@@ -127,19 +127,17 @@ uint8_t Play::calculateScore(std::vector<std::pair<uint8_t, double>> scoring){
 
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
 // TODO-Max Make instance
-bool Play::isValidPlayToKeep(world::World* world) noexcept {
+bool Play::isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        world::Field field = world->getField().value();
-        return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
+        return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [playEvaluator] (auto& x) { return playEvaluator->checkInvariant(x); });
     } else {
         return true;
     }
 }
 
-bool Play::isValidPlayToStart(world::World* world) const noexcept {
+bool Play::isValidPlayToStart(PlayEvaluator* playEvaluator) const noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        world::Field field = world->getField().value();
-        return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
+        return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [playEvaluator] (auto& x) { return playEvaluator->checkInvariant(x); });
     } else {
         return true;
     }
@@ -148,4 +146,5 @@ bool Play::isValidPlayToStart(world::World* world) const noexcept {
     std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
         return stpInfos;
     }
+
 }  // namespace rtt::ai::stp

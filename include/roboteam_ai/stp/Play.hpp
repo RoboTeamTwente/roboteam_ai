@@ -11,7 +11,7 @@
 #include "stp/invariants/BaseInvariant.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
-#include "PlayScorer.h"
+#include "PlayEvaluator.h"
 
 namespace rtt::ai::stp {
 
@@ -24,12 +24,12 @@ class Play {
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
      */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> keepPlayInvariants;
+    std::vector<GlobalEvaluation> keepPlayInvariants;
 
     /**
      * Invariant vector that contains invariants that need to be true to start this play
      */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> startPlayInvariants;
+    std::vector<GlobalEvaluation> startPlayInvariants;
 
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
@@ -69,7 +69,7 @@ class Play {
      * Gets the score for the current play that is in the range of 0 - 255
      * @return The score, 0 - 255
      */
-    virtual uint8_t score(PlayScorer *playScorer) noexcept = 0;
+    virtual uint8_t score(PlayEvaluator *playEvaluator) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -90,13 +90,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(world::World* world) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator* playEvaluator) const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(world::World* world) noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept;
 
     /**
      * Getter for the role -> status mapping

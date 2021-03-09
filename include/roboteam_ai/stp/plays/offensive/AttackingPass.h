@@ -31,7 +31,7 @@ class AttackingPass : public Play {
      * @param a StpInfos to store calculated info in
      * @return The score, 0 - 255
      */
-    uint8_t score(PlayScorer *playScorer) noexcept override;
+    uint8_t score(PlayEvaluator *playEvaluator) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -61,13 +61,6 @@ class AttackingPass : public Play {
      * Gets the play name
      */
     const char* getName() override;
-
-    /**
-     * Checks if this is a valid play to keep
-     * @param world
-     * @return true if we can keep this play, false if we cannot
-     */
-    [[nodiscard]] bool isValidPlayToKeep(world::World* world) noexcept override;
 
     /**
      * Calculates all info that is necessary for a correct pass

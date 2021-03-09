@@ -152,9 +152,9 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
-    playScorer.clearGlobalScores(); //reset all invariants
-    playScorer.update(_world);
-    playChecker.update(_world);
+    playEvaluator.clearGlobalScores(); //reset all invariants
+    playEvaluator.update(_world);
+    playChecker.update(_world, playEvaluator);
 
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
@@ -164,7 +164,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
         auto StpInfosPreviousPlay = currentPlay->getStpInfos();
         //currentPlay->initialize(STPInfoPreviousPlay)
 
-        currentPlay = playDecider.decideBestPlay(validPlays, &playScorer);
+        currentPlay = playDecider.decideBestPlay(validPlays, &playEvaluator);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
 
@@ -174,7 +174,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
     }
 
     // A new play will be chosen if the current play is not valid to keep
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(&playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
@@ -183,7 +183,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
                 return;
             }
         } else {
-            currentPlay = playDecider.decideBestPlay(validPlays, &playScorer);
+            currentPlay = playDecider.decideBestPlay(validPlays, &playEvaluator);
         }
         currentPlay->updateWorld(_world);
         currentPlay->initialize();

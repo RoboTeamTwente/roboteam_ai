@@ -10,7 +10,7 @@
 #include "interface/widgets/mainWindow.h"
 #include "stp/PlayChecker.hpp"
 #include "stp/PlayDecider.hpp"
-#include "stp/PlayScorer.h"
+#include "stp/PlayEvaluator.h"
 
 namespace rtt {
 
@@ -45,7 +45,7 @@ class ApplicationManager {
     /**
      * Holds values for computed scores, gets reset every tick
      */
-    rtt::ai::stp::PlayScorer playScorer;
+    rtt::ai::stp::PlayEvaluator playEvaluator;
 
     /**
      * Function that decides whether to change plays given a world and field.

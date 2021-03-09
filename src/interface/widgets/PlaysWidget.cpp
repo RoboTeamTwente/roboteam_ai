@@ -35,9 +35,9 @@ namespace rtt::ai::interface {
         for (auto& each : play->keepPlayInvariants)
         {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
-            ss += each->getName();
+            //TODO fix ss += each->getName();
             ss += ":&nbsp;";
-            ss += (each->checkInvariant(rtt::world::view::WorldDataView{ &data }, &*field) ? "true" : "false");
+            //TODO fix ss += (each->checkInvariant(rtt::world::view::WorldDataView{ &data }, &*field) ? "true" : "false");
             ss += "<br>";
         }
 
@@ -45,9 +45,9 @@ namespace rtt::ai::interface {
         for (auto& each : play->startPlayInvariants)
         {
             ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
-            ss += each->getName();
+            //TODO fix ss += each->getName();
             ss += ":&nbsp;";
-            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
+            //TODO fix ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
             ss += "<br>";
         }
         ss += "<br>";

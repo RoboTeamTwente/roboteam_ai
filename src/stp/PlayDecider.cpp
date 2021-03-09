@@ -8,11 +8,11 @@ namespace rtt::ai::stp {
 
     bool PlayDecider::interfacePlayChanged = false;
 
-    Play *PlayDecider::decideBestPlay(std::vector<Play *> plays, PlayScorer *playScorer) noexcept {
+    Play *PlayDecider::decideBestPlay(std::vector<Play *> plays, PlayEvaluator *playEvaluator) noexcept {
         if (interfacePlay) {
             return interfacePlay;
         }
-        return *std::max_element(plays.begin(), plays.end(), [&](auto &largest, auto &play) { return largest->score(playScorer) < play->score(playScorer); });
+        return *std::max_element(plays.begin(), plays.end(), [&](auto &largest, auto &play) { return largest->score(playEvaluator) < play->score(playEvaluator); });
     }
 
     // This is only used by the interface to force new plays
