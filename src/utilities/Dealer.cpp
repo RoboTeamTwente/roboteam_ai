@@ -96,45 +96,46 @@ std::vector<std::pair<std::vector<double>, int>> Dealer::getScoreMatrix(const st
     scores.reserve(flagMap.size());
     // Loop through all roles that are in the dealerFlags map
     for (auto const &[roleName, dealerFlags] : flagMap) {
-        std::vector<double> row;
-        row.reserve(allRobots.size());
+        std::vector<double> role;
+        role.reserve(allRobots.size());
         // Calculate the score for each robot for a role; the row
         for (auto robot : allRobots) {
-            double distanceScore{};
+            double robotDistanceScore{};
             if (stpInfoMap.find(roleName) != stpInfoMap.end()) {
                 // The shorter the distance, the lower the distance score
-                distanceScore = getScoreForDistance(stpInfoMap.find(roleName)->second, robot);
+                robotDistanceScore = getRobotScoreForDistance(stpInfoMap.find(roleName)->second, robot);
             }
             // The better the flags, the lower the score
-            auto flagScore = scoreForFlags(dealerFlags.second, robot);              // [score,sum of weights]
+            /// dealerFlag.first = Priority & .second = Flags
+            auto robotScore = getRobotScoreForRole(dealerFlags.second, robot);
             // Simple normalizer. DistanceScore has weight 1, the other factors can have various weights.
-            row.push_back((distanceScore + flagScore.first)/(flagScore.second+1));  // the +1 is the distanceScore weight
+            role.push_back((robotDistanceScore + robotScore.sumScore) / (robotScore.sumWeights + 1));  // the +1 is the distanceScore weight
         }
-        scores.emplace_back(row, (int) dealerFlags.first);
+        scores.emplace_back(role, (int) dealerFlags.first);
     }
     return scores;
 }
 
 // Calculate the score for all flags for a role for one robot
-std::pair <double, double> Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
+Dealer::RobotRoleScore Dealer::getRobotScoreForRole(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
     double robotScore = 0;
-    double totalFactor = 0;
+    double sumWeights = 0;
     for (auto flag : dealerFlags) {
-        auto ScoreForFlag = getScoreForFlag(robot, flag);
-        robotScore += ScoreForFlag.first;           // score
-        totalFactor += ScoreForFlag.second;         // weight
+        FlagScore ScoreForFlag = getRobotScoreForFlag(robot, flag);
+        robotScore += ScoreForFlag.score;
+        sumWeights += ScoreForFlag.weight;
     }
-    return std::make_pair(robotScore,totalFactor);  // [score,sum of weights]
+    return {robotScore,sumWeights};  // [score,sum of weights]
 }
 
 // Get the score of one flag for a role for one robot
-std::pair <double, double> Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
-    double factor = getFactorForPriority(flag.priority);
-    return std::make_pair(factor * getDefaultFlagScores(robot, flag),factor); // [score,weight]
+Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
+    double factor = getWeightForPriority(flag.priority);
+    return {factor * getDefaultFlagScores(robot, flag),factor}; // [score,weight]
 }
 
 // Get the distance score for a robot to a position when there is a position that role needs to go to
-double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
+double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
     if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
@@ -148,7 +149,7 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
 }
 
 // TODO these values need to be tuned.
-double Dealer::getFactorForPriority(const DealerFlagPriority &flagPriority) {
+double Dealer::getWeightForPriority(const DealerFlagPriority &flagPriority) {
     switch (flagPriority) {
         case DealerFlagPriority::LOW_PRIORITY:
             return 0.5;
