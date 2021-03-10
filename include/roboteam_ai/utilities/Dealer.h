@@ -44,6 +44,16 @@ class Dealer {
     FRIEND_TEST(DealerTest, the_score_factor_increases_with_priority);
 
    public:
+    struct FlagScore {
+        double score;
+        double weight;
+    };
+
+    struct RobotRoleScore {
+        double sumScore;
+        double sumWeights;
+    };
+
     struct DealerFlag {
         DealerFlagTitle title;
         DealerFlagPriority priority;
@@ -70,9 +80,9 @@ class Dealer {
      * The factor is based on the priority and the score is based on the trueness of a property
      * @param robot
      * @param flag
-     * @return Score for a flag
+     * @return Score for a flag. First is score, second is weight (for normalization)
      */
-    std::pair <double, double> getScoreForFlag(v::RobotView robot, DealerFlag flag);
+    FlagScore getRobotScoreForFlag(v::RobotView robot, DealerFlag flag);
 
     /**
      * Calculates the score for a distance between a point and a robot
@@ -80,7 +90,7 @@ class Dealer {
      * @param robot
      * @return Score for distance
      */
-    double getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot);
+    double getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot);
 
     /**
      * Populates the matrix of robots and roles with scores based on flags and distance
@@ -95,9 +105,9 @@ class Dealer {
     /**
      * Translates a priority into a double
      * @param flag
-     * @return priority factor
+     * @return priority weight
      */
-    static double getFactorForPriority(const DealerFlagPriority &flagPriority);
+    static double getWeightForPriority(const DealerFlagPriority &flagPriority);
 
     /**
      * Calculates the cost of travelling a certain distance
@@ -121,16 +131,7 @@ class Dealer {
      * @param robot
      * @return the score of all flags combined
      */
-    std::pair <double, double> scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
-
-    /**
-     * Makes a mapping from roleName to a robot using the result of the hungarian
-     * @param allRobots
-     * @param flagMap
-     * @param assignment
-     * @return Returns the mapping
-     */
-    std::unordered_map<std::string, v::RobotView> mapFromAssignments(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap, const std::vector<int> &assignment) const;
+    RobotRoleScore getRobotScoreForRole(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
