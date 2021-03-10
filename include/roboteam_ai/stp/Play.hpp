@@ -119,6 +119,10 @@ class Play {
      */
     std::optional<uint8_t> lastScore;
 
+    /**
+     * Get score
+     * @return score if no value -> 0
+     */
     uint8_t getLastScore();
 
 protected:
