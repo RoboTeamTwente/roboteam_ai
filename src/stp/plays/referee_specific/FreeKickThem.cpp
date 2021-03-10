@@ -2,8 +2,7 @@
 // Created by jordi on 07-05-20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
-
+#include "stp/plays/referee_specific/FreeKickThem.h"
 #include "stp/invariants/game_states/FreeKickThemGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
@@ -104,7 +103,7 @@ bool FreeKickThem::shouldRoleSkipEndTactic() { return false; }
 Dealer::FlagMap FreeKickThem::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
 

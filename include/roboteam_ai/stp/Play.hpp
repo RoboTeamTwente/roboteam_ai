@@ -12,6 +12,7 @@
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
 #include "PlayEvaluator.h"
+#include "computations/PositionComputations.h"
 
 namespace rtt::ai::stp {
 

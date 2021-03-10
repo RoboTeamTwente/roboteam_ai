@@ -25,7 +25,7 @@ namespace rtt::ai::stp::play {
         // Make sure we calculate pass positions at least once
         receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
         receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
-        passingPosition = receiverPositionRight.first;
+        passingPosition = receiverPositionRight.position;
     }
 
 AttackingPass::AttackingPass() : Play() {
@@ -139,8 +139,8 @@ void AttackingPass::calculateInfoForRoles() noexcept {
 
     auto searchGridLeft = Grid(-0.15 * fieldWidth, 0, 0.25 * fieldWidth, 1.5, 3, 3);
     auto searchGridRight = Grid(-0.25 * fieldWidth, -1.5, 0.25 * fieldWidth, 1.5, 3, 3);
-    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGridRight, field, world).first);
-    stpInfos["midfielder_2"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGridLeft, field, world).first);
+    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGridRight, field, world).position);
+    stpInfos["midfielder_2"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGridLeft, field, world).position);
 }
 
 std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots) {
@@ -163,14 +163,24 @@ bool AttackingPass::shouldRoleSkipEndTactic() { return false; }
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
 void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
+    /// Recalculate pass positions if we did not shoot yet
+        /// For the receive locations, divide the field up into grids where the passers should stand,
+        /// and find the best locations in those grids
+        receiverPositionRight = computations::PositionComputations::determineBestGoalShotLocation(gridRight, field, world);
+        receiverPositionLeft = computations::PositionComputations::determineBestGoalShotLocation(gridLeft, field, world);
+        std::vector<computations::PositionComputations::PositionEvaluation> positions = {receiverPositionLeft,receiverPositionRight};
+
+        Vector2 passLocation = computations::PassComputations::determineBestPosForPass(positions);
     /// Receiver should intercept when constraints are met
     if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionLeft.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+        receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
-        receiverPositionRight.first = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
+        receiverPositionRight.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     }
-
-        passingPosition = computations::PassComputations::determineBestPosForPass({receiverPositionLeft,receiverPositionRight});
+  
+    // Receiver
+    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);
+    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.position);
 
     // decide kick or chip
     auto passLine = Tube(ball->getPos(), passingPosition, control_constants::ROBOT_CLOSE_TO_POINT / 2);

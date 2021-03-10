@@ -8,12 +8,9 @@
 #include <roboteam_utils/LineSegment.h>
 #include <world/Field.h>
 #include <world/World.hpp>
-
-using Vector2 = rtt::Vector2;
-using Angle = rtt::Angle;
+#include "PositionComputations.h"
 
 namespace rtt::ai::stp::computations {
-    namespace rtt_world = rtt::world;
 
     class PassComputations {
     public:
@@ -26,11 +23,11 @@ namespace rtt::ai::stp::computations {
         static bool pathHasAnyRobots(Line passLine, std::vector<rtt_world::view::RobotView> robots);
 
         /**
-         * Loop through all given positions and returns the position with the highest score
+         * Return the position (.first) with the highest score (.second) in the positions vector
          * @param positions std::pair of the Vector2 in first and the given score in second
          * @return Vector2 with highest scoring score.
          */
-        static Vector2 determineBestPosForPass(const std::vector<std::pair<Vector2, double>>& positions);
+        static Vector2 determineBestPosForPass(std::vector<PositionComputations::PositionEvaluation>& positions);
     };
 }// namespace rtt::ai::stp::computations
 #endif //RTT_PASSCOMPUTATIONS_H

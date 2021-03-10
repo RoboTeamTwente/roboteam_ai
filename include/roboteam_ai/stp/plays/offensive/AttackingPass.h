@@ -106,8 +106,8 @@ class AttackingPass : public Play {
      * Two receive locations with their scores.
      * The passer will shoot to the highest scoring position
      */
-    std::pair<Vector2, double> receiverPositionLeft{};
-    std::pair<Vector2, double> receiverPositionRight{};
+    computations::PositionComputations::PositionEvaluation receiverPositionLeft{};
+    computations::PositionComputations::PositionEvaluation receiverPositionRight{};
 
     /**
      * The two grids that are used to calculate pass locations within it.

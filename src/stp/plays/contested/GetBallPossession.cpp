@@ -61,6 +61,9 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
+    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
+    stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
+
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
     stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
@@ -80,9 +83,19 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, -width / 4));
     stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
 
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2(length / 4, width / 6));
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2(length / 4, -width / 6));
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2(length / 4, 0.0));
+    int amountDefenders = 3;
+    std::vector<Vector2> wallPositions = {};
+    if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos()))
+        wallPositions = computations::PositionComputations::determineWallPositions(field,world,amountDefenders);
+    if (!wallPositions.empty()) {
+        stpInfos["waller_0"].setPositionToMoveTo(wallPositions.at(0));
+        stpInfos["waller_1"].setPositionToMoveTo(wallPositions.at(1));
+        stpInfos["waller_2"].setPositionToMoveTo(wallPositions.at(2));
+    } else {
+        stpInfos["waller_0"].setPositionToMoveTo(Vector2(0,0));
+        stpInfos["waller_1"].setPositionToMoveTo(Vector2(0,0.2));
+        stpInfos["waller_2"].setPositionToMoveTo(Vector2(0,-0.2));
+    }
 }
 
 bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }
