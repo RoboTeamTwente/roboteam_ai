@@ -63,10 +63,10 @@ AttackingPass::AttackingPass() : Play() {
 
 uint8_t AttackingPass::score(PlayEvaluator *playEvaluator) noexcept {
     calculateInfoForScoredRoles(playEvaluator->getWorld());
-    scoring = {std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1)};
+    scoring = {{playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
                //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), 1)};
                //std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
-    return (lastScore = calculateScore(scoring)).value();
+    return (lastScore = playEvaluator->calculateScore(scoring)).value();
     }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
@@ -193,6 +193,7 @@ void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept
     stpInfos["passer"].setShotType(ShotType::TARGET);
 }
 
+/// To be reimplemented
 //bool AttackingPass::isValidPlayToStart(PlayEvaluator* playEvaluator) noexcept {
 //    auto closestToBall = world->getWorld()->getRobotClosestToBall();
 //    auto canKeep = std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&

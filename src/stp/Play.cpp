@@ -113,18 +113,6 @@ void Play::distributeRoles() noexcept {
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto& each) { each.second.setCurrentWorld(world); });
 }
 
-uint8_t Play::calculateScore(std::vector<std::pair<uint8_t, double>> scoring){
-    double score = 0;
-    double weight = 0;
-    for (auto i : scoring){
-        if (i.first > 255) RTT_ERROR("There is a score element bigger than 255")
-        if (i.first < 0) RTT_ERROR("There is a score element smaller than 0")
-        score += i.first * i.second;
-        weight += i.second;
-    }
-    return score/weight;
-}
-
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
 // TODO-Max Make instance
 bool Play::isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept {

@@ -66,8 +66,11 @@ class Play {
     virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
 
     /**
-     * Gets the score for the current play that is in the range of 0 - 255
-     * @return The score, 0 - 255
+     * Function  for inbetween plays calculation of score through the PlayEvaluator.
+     * Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered
+     * can be defined for scoring a play.
+     * @param playEvaluator with the world
+     * @return a final score for the play
      */
     virtual uint8_t score(PlayEvaluator *playEvaluator) noexcept = 0;
 
@@ -132,9 +135,9 @@ protected:
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
 
     /**
-     * The Global evaluations with their weight
+     * The evaluations with their weight
      */
-    std::vector<std::pair<uint8_t, double>> scoring;
+    std::vector<PlayEvaluator::PlayScoring> scoring;
 
     /**
      * Map that keeps track of the status of each role.
@@ -170,8 +173,6 @@ protected:
      * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
-
-    uint8_t calculateScore(std::vector<std::pair<uint8_t, double>> scoring);
 
    private:
     /**

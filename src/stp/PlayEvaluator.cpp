@@ -127,5 +127,16 @@ namespace rtt::ai::stp{
 
     bool PlayEvaluator::checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff) noexcept { return getGlobalEvaluation(globalEvaluation) >= cutOff; }
 
+    uint8_t PlayEvaluator::calculateScore(std::vector<PlayScoring> scoring){
+        double score = 0;
+        double weight = 0;
+        for (auto i : scoring){
+            if (i.evaluationScore > 255) RTT_ERROR("There is a score element bigger than 255")
+            if (i.evaluationScore < 0) RTT_ERROR("There is a score element smaller than 0")
+            score += i.evaluationScore * i.weight;
+            weight += i.weight;
+        }
+        return score/weight;
+    }
 
 }

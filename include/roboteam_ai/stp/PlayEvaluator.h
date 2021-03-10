@@ -9,7 +9,7 @@
 
 namespace rtt::ai::stp{
     enum class GlobalEvaluation{
-        // Game States
+        /// Game States
         BallPlacementThemGameState,
         BallPlacementUsGameState,
         FreeKickThemGameState,
@@ -26,7 +26,7 @@ namespace rtt::ai::stp{
         PenaltyUsGameState,
         PenaltyUsPrepareGameState,
         StopGameState,
-        // Global Evaluations
+        /// Global Evaluations
         BallCloseToThem,
         BallCloseToUs,
         BallClosestToUs,
@@ -47,6 +47,11 @@ namespace rtt::ai::stp{
 
     class PlayEvaluator {
     public:
+        struct PlayScoring {
+            uint8_t evaluationScore;
+            double weight;
+        };
+
         /**
          * Gets the score of a Global Evaluation, if it was not updated yet, update it before.
          * @param evaluation that needs
@@ -78,6 +83,13 @@ namespace rtt::ai::stp{
          * @return boolean if FUZZY-TRUE is high enough
          */
         bool checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
+
+        /**
+         * Calcalute score with the given vector of scores
+         * @param scoring vector withto be considered Evaluations
+         * @return final score
+         */
+        uint8_t calculateScore(std::vector<PlayScoring> scoring);
 
     private:
         /**

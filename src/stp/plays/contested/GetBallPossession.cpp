@@ -45,10 +45,10 @@ GetBallPossession::GetBallPossession() : Play() {
 
 uint8_t GetBallPossession::score(PlayEvaluator *playEvaluator) noexcept {
     calculateInfoForScoredRoles(playEvaluator->getWorld());
-    scoring = {std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1)};
+    scoring = {{playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallCloseToUs),1.0}};
                //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallIsFree), 1)};
                //std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
-    return (lastScore = calculateScore(scoring)).value();
+    return (lastScore = playEvaluator->calculateScore(scoring)).value();
 }
 
 void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
