@@ -11,27 +11,25 @@
 #include <cmath>
 #include <optional>
 #include <roboteam_utils/Grid.h>
+#include <roboteam_utils/Circle.h>
 
 #include "utilities/Constants.h"
 #include "world/Field.h"
 #include "world/FieldComputations.h"
 #include "world/views/WorldDataView.hpp"
 
-using Vector2 = rtt::Vector2;
-using Angle = rtt::Angle;
 
 namespace rtt::ai::stp::computations {
-        namespace rtt_world = rtt::world;
+
     class PositionComputations {
     public:
         /**
-         * Determine the best position for a midfielder
-         * @param searchGrid the grid you want to choose a position from
-         * @param field
-         * @param world
-         * @return a midfielder position
+         * Struct that is used to store computations made with this module
          */
-        static std::pair<Vector2, double> determineBestOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
+        struct PositionEvaluation {
+            Vector2 position;
+            double score;
+        };
 
         /**
          * Determine the best position for a midfielder
@@ -40,14 +38,23 @@ namespace rtt::ai::stp::computations {
          * @param world
          * @return a midfielder position
          */
-        static std::pair<Vector2, double> determineBestLineOfSightPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
+        static PositionEvaluation determineBestOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
+
+        /**
+         * Determine the best position for a midfielder
+         * @param searchGrid the grid you want to choose a position from
+         * @param field
+         * @param world
+         * @return a midfielder position
+         */
+        static PositionEvaluation determineBestLineOfSightPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
 
         /**
          * Calculates the pass location
          * @return a pair of the pass location and the score of that location
          * The score is used to decide to which pass location to pass when there are more receivers
          */
-        static std::pair<Vector2, double> determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
+        static PositionEvaluation determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
 
         /**
          * Determine best position using specification of contribution of factors
@@ -59,7 +66,7 @@ namespace rtt::ai::stp::computations {
          * @param factorVisionGoal Factor at which Visibility of ENEMY goal specification should count (higher is more important)
          * @return Best location with given specifications, Vector2 in first and the score in second
          */
-        static std::pair<Vector2, double>
+        static PositionEvaluation
         determineBestLocation(const Grid &searchGrid, const world::Field &field, world::World *world, int factorOpen,
                               int factorLineOfSight, int factorVisionGoal);
 
@@ -87,6 +94,17 @@ namespace rtt::ai::stp::computations {
          * @return score value
          */
         static double determineGoalShotScore(Vector2 point, const world::Field &field, world::World *world);
+
+        /**
+         * Determines the location for defenders around the defense area
+         * Uses the defence area boundaries and the path from ball to center of goal to find the intersects of circles to
+         * find the various positions.
+         * @param field
+         * @param world
+         * @param amountDefenders to be placed
+         * @return vector with Vector2 positions for each of the defenders
+         */
+        static std::vector<Vector2> determineWallPositions(const world::Field &field, world::World *world, int amountDefenders);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H

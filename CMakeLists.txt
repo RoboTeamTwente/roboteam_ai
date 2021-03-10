@@ -61,7 +61,7 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
         # /
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBehindBallInDirection.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
@@ -79,7 +79,7 @@ set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockRobot.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp)
 
 set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
@@ -100,7 +100,7 @@ set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Formation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp)
 
 set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
@@ -176,7 +176,9 @@ set(INVARIANTS_SOURCES
 
 set(COMPUTATION_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionComputations.cpp
-        src/stp/computations/GoalComputations.cpp src/stp/computations/PassComputations.cpp)
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/GoalComputations.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/PassComputations.cpp
+        )
 
 set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/ControlModule.cpp

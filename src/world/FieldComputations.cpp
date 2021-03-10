@@ -1,5 +1,4 @@
 #include <roboteam_utils/Shadow.h>
-#include <roboteam_utils/Tube.h>
 #include "world/FieldComputations.h"
 
 namespace rtt {
