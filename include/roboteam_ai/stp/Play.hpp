@@ -34,7 +34,7 @@ class Play {
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
      */
-    void initialize() noexcept;
+    void initialize(std::unordered_map<std::basic_string<char>, StpInfo>) noexcept;
 
     /**
      * Virtual function that is called in initialize().
@@ -103,6 +103,11 @@ class Play {
      * Gets the current play name
      */
     virtual const char* getName() = 0;
+
+    /**
+     * Gets the current StpInfos
+     */
+    std::unordered_map<std::string, StpInfo> getStpInfos();
 
    protected:
     /**

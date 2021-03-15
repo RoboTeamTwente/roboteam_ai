@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp {
 
-void Play::initialize() noexcept {
+void Play::initialize(std::unordered_map<std::basic_string<char>, StpInfo>) noexcept {
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -137,4 +137,8 @@ bool Play::isValidPlayToStart(world::World* world) const noexcept {
         return true;
     }
 }
+
+    std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
+        return stpInfos;
+    }
 }  // namespace rtt::ai::stp
