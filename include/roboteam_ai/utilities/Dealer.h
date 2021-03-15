@@ -20,7 +20,6 @@
 #include "world/views/WorldDataView.hpp"
 
 namespace rtt::ai {
-
 namespace v = rtt::world::view;
 
 // Set up a struct for dealerflags. Set up a struct for dealerflags.
@@ -33,15 +32,22 @@ enum class DealerFlagTitle {
     WITH_WORKING_DRIBBLER,
     NOT_IMPORTANT,
     READY_TO_INTERCEPT_GOAL_SHOT,
-    KEEPER
+    KEEPER,
+    CLOSEST_TO_BALL
 };
 
 // Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer::distribute() )
 enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
 
+
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
     FRIEND_TEST(DealerTest, the_score_factor_increases_with_priority);
+
+    struct ScoreResult{
+        double score;
+        double weight;
+    };
 
    public:
     struct FlagScore {
@@ -94,7 +100,6 @@ class Dealer {
      * @return Score for a flag. First is score, second is weight (for normalization)
      */
     FlagScore getRobotScoreForFlag(v::RobotView robot, DealerFlag flag);
-
     /**
      * Calculates the score for a distance between a point and a robot
      * @param stpInfo
@@ -140,7 +145,7 @@ class Dealer {
      * Calculates the score for all flags for a role, for one robot (so will be called 11 times for each role)
      * @param dealerFlags
      * @param robot
-     * @return the score of all flags combined
+     * @return the score of all flags combined and the weight for how much they should be taken into account
      */
     RobotRoleScore getRobotScoreForRole(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
 };

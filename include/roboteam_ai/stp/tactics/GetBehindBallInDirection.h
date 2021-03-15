@@ -2,8 +2,8 @@
 // Created by jordi on 06-04-20.
 //
 
-#ifndef RTT_GETBALLINDIRECTION_H
-#define RTT_GETBALLINDIRECTION_H
+#ifndef RTT_GETBEHINDBALLINDIRECTION_H
+#define RTT_GETBEHINDBALLINDIRECTION_H
 
 #include "stp/Tactic.h"
 
@@ -13,12 +13,12 @@ namespace rtt::ai::stp::tactic {
  * It fails when there is no target to point towards and does not reset.
  * It's not an end tactic, therefore it can succeed.
  */
-class GetBallInDirection : public Tactic {
+class GetBehindBallInDirection : public Tactic {
    public:
     /**
      * Constructor for the tactic, it constructs the state machine of skills
      */
-    GetBallInDirection();
+    GetBehindBallInDirection();
 
    private:
     /**
@@ -58,4 +58,4 @@ class GetBallInDirection : public Tactic {
 };
 }  // namespace rtt::ai::stp::tactic
 
-#endif  // RTT_GETBALLINDIRECTION_H
+#endif  // RTT_GETBEHINDBALLINDIRECTION_H
