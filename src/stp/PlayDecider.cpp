@@ -8,7 +8,7 @@ namespace rtt::ai::stp {
 
     bool PlayDecider::interfacePlayChanged = false;
 
-    Play *PlayDecider::decideBestPlay(std::vector<Play *> plays, PlayEvaluator *playEvaluator) noexcept {
+    Play *PlayDecider::decideBestPlay(std::vector<Play *> plays, PlayEvaluator& playEvaluator) noexcept {
         if (interfacePlay) {
             return interfacePlay;
         }

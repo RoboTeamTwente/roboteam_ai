@@ -61,12 +61,12 @@ AttackingPass::AttackingPass() : Play() {
     }
 }
 
-uint8_t AttackingPass::score(PlayEvaluator *playEvaluator) noexcept {
-    calculateInfoForScoredRoles(playEvaluator->getWorld());
-    scoring = {{playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
+uint8_t AttackingPass::score(PlayEvaluator& playEvaluator) noexcept {
+    calculateInfoForScoredRoles(playEvaluator.getWorld());
+    scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
                //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), 1)};
                //std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
-    return (lastScore = playEvaluator->calculateScore(scoring)).value();
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();
     }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {

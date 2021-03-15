@@ -33,7 +33,7 @@ class PlayChecker {
      * @param world World to update against
      * @param playEvaluator PlayScorer to update against
      */
-    void update(world::World* world, PlayEvaluator playEvaluator) noexcept;
+    void update(world::World* world, PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Returns the default play

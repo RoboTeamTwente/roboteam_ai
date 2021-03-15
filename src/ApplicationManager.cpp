@@ -164,7 +164,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
         auto StpInfosPreviousPlay = currentPlay->getStpInfos();
         //currentPlay->initialize(STPInfoPreviousPlay)
 
-        currentPlay = playDecider.decideBestPlay(validPlays, &playEvaluator);
+        currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
         currentPlay->initialize();
 
@@ -174,7 +174,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
     }
 
     // A new play will be chosen if the current play is not valid to keep
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(&playEvaluator)) {
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
@@ -183,7 +183,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
                 return;
             }
         } else {
-            currentPlay = playDecider.decideBestPlay(validPlays, &playEvaluator);
+            currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         }
         currentPlay->updateWorld(_world);
         currentPlay->initialize();

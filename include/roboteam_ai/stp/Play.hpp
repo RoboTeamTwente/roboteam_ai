@@ -73,7 +73,7 @@ class Play {
      * @param playEvaluator with the world
      * @return a final score for the play
      */
-    virtual uint8_t score(PlayEvaluator *playEvaluator) noexcept = 0;
+    virtual uint8_t score(PlayEvaluator& playEvaluator) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -94,13 +94,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator* playEvaluator) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Getter for the role -> status mapping

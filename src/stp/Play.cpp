@@ -114,8 +114,8 @@ void Play::distributeRoles() noexcept {
 }
 
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
-// TODO-Max Make instance
-bool Play::isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept {
+
+bool Play::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
         return std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator->checkEvaluation(x); });
     } else {
@@ -123,7 +123,7 @@ bool Play::isValidPlayToKeep(PlayEvaluator* playEvaluator) noexcept {
     }
 }
 
-bool Play::isValidPlayToStart(PlayEvaluator* playEvaluator) const noexcept {
+bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
         return std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator->checkEvaluation(x); });
     } else {
