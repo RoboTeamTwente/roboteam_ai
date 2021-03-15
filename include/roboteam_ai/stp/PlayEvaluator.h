@@ -95,7 +95,7 @@ namespace rtt::ai::stp{
         /**
          * Map of all loaded Global Evaluations scores
          */
-        std::map<GlobalEvaluation, uint8_t> scoresGlobal{};
+        std::unordered_map<GlobalEvaluation, uint8_t> scoresGlobal{};
 
 
         /**
