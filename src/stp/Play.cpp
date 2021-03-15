@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp {
 
-void Play::initialize() noexcept {
+void Play::initialize(std::unordered_map<std::basic_string<char>, StpInfo>) noexcept {
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -138,5 +138,6 @@ bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     uint8_t Play::getLastScore() {
         return lastScore.value_or(0);
     }
+
 
 }  // namespace rtt::ai::stp
