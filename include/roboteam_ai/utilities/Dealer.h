@@ -59,7 +59,18 @@ class Dealer {
         DealerFlagPriority priority;
         explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
     };
-    using FlagMap = std::map<std::string, std::pair<DealerFlagPriority, std::vector<DealerFlag>>>;
+
+    struct RoleInfo {
+        DealerFlagPriority priority;
+        std::vector<DealerFlag> flags;
+    };
+
+    struct RoleScores {
+        std::vector<double> robotScores;
+        int priority;
+    };
+
+    using FlagMap = std::map<std::string, RoleInfo>;
     Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
     // Create a distribution of robots
@@ -99,7 +110,7 @@ class Dealer {
      * @param stpInfoMap
      * @return The score matrix
      */
-    std::vector<std::pair<std::vector<double>, int>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+    std::vector<RoleScores> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                     const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
     /**
