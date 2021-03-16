@@ -2,8 +2,12 @@
 // Created by jordi on 11-05-20.
 //
 
+#include <stp/roles/passive/Waller.h>
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
-
+#include "include/roboteam_ai/stp/computations/PositionComputations.h"
+#include "stp/invariants/BallClosestToUsInvariant.h"
+#include "stp/invariants/BallIsFreeInvariant.h"
+#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "include/roboteam_ai/stp/roles/active/BallGetter.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
@@ -102,6 +106,7 @@ bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
+
     Dealer::DealerFlag ballGetterFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::MEDIUM_PRIORITY);
@@ -114,9 +119,10 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"offender_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+
     return flagMap;
 }
 

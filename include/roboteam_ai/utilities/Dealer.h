@@ -32,38 +32,34 @@ enum class DealerFlagTitle {
     WITH_WORKING_DRIBBLER,
     NOT_IMPORTANT,
     READY_TO_INTERCEPT_GOAL_SHOT,
-    KEEPER
+    KEEPER,
+    CLOSEST_TO_BALL
 };
 
-// Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer::distribute() )
 enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
+static std::vector<DealerFlagPriority> PriorityOrder { DealerFlagPriority::KEEPER,
+                                                       DealerFlagPriority::REQUIRED,
+                                                       DealerFlagPriority::HIGH_PRIORITY,
+                                                       DealerFlagPriority::MEDIUM_PRIORITY,
+                                                       DealerFlagPriority::LOW_PRIORITY };
 
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
     FRIEND_TEST(DealerTest, the_score_factor_increases_with_priority);
 
-    struct ScoreResult{
-        double score;
-        double weight;
-    };
-
    public:
-    struct FlagScore {
-        double score;
-        double weight;
-    };
-
-    struct RobotRoleScore {
-        double sumScore;
-        double sumWeights;
-    };
-
     struct DealerFlag {
         DealerFlagTitle title;
         DealerFlagPriority priority;
         explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
     };
-    using FlagMap = std::map<std::string, std::pair<DealerFlagPriority, std::vector<DealerFlag>>>;
+
+    struct RoleInfo {
+        DealerFlagPriority priority;
+        std::vector<DealerFlag> flags;
+    };
+
+    using FlagMap = std::map<std::string, RoleInfo>;
     Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
     // Create a distribution of robots
@@ -79,6 +75,30 @@ class Dealer {
     v::WorldDataView world;
     rtt::world::Field *field;
 
+    struct FlagScore {
+        double score;
+        double weight;
+    };
+
+    struct RobotRoleScore {
+        double sumScore;
+        double sumWeights;
+    };
+
+    struct RoleScores {
+        std::vector<double> robotScores;
+        DealerFlagPriority priority;
+    };
+
+    struct DealerDistribute {
+        std::vector<std::vector<double>> currentScores; // Scores to be distributed (highest Priority)
+        std::vector<int> newAssignments;                // Assignments from these scores
+        std::vector<int> currentRoles;                  // Index of roles inside Score (role column)
+        std::vector<int> originalRolesIndex;            // Index of roles from original index (role number)
+        std::vector<int> currentIDs;                    // Index of ID's inside Score (robot row)
+        std::vector<int> originalIDsIndex;              // Index of ID's from original index (robot id)
+    };
+
     /**
      * Calculates the score for a flag by multiplying the factor and score
      * The factor is based on the priority and the score is based on the trueness of a property
@@ -87,7 +107,6 @@ class Dealer {
      * @return Score for a flag. First is score, second is weight (for normalization)
      */
     FlagScore getRobotScoreForFlag(v::RobotView robot, DealerFlag flag);
-
     /**
      * Calculates the score for a distance between a point and a robot
      * @param stpInfo
@@ -103,7 +122,7 @@ class Dealer {
      * @param stpInfoMap
      * @return The score matrix
      */
-    std::vector<std::pair<std::vector<double>, int>> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+    std::vector<RoleScores> getScoreMatrix(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                     const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
     /**
@@ -136,6 +155,27 @@ class Dealer {
      * @return the score of all flags combined and the weight for how much they should be taken into account
      */
     RobotRoleScore getRobotScoreForRole(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot);
+
+    /**
+     * Initializes the reference of the variables to shorten function size.
+     * Reserves the vectors and fills them with the required info.
+     * @param indexRoles vector with Role numbering
+     * @param indexID vector with ID numbering
+     * @param roleNames vector with roleNames (order matters)
+     * @param flagMap has info for the other parameters
+     */
+    void distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames,
+                         const FlagMap &flagMap);
+
+    /**
+     * Removes the occurrence of a role and robot from all fields that involve them.
+     * @param current struct with the current loop link to a unique priority
+     * @param indexRoles vector with Role numbering
+     * @param indexID vector with ID numbering
+     * @param scores vector with all Scores for Robots for each role and its priority
+     */
+    void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID,
+                           std::vector<RoleScores> &scores);
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
