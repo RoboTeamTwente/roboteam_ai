@@ -5,9 +5,6 @@
 #include <stp/roles/passive/Waller.h>
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
 #include "include/roboteam_ai/stp/computations/PositionComputations.h"
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/BallIsFreeInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "include/roboteam_ai/stp/roles/active/BallGetter.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
