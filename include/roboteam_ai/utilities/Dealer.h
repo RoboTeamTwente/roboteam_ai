@@ -36,9 +36,12 @@ enum class DealerFlagTitle {
     CLOSEST_TO_BALL
 };
 
-// Lowest to Highest Priority ordering. UNIQUE Classes are the Highest. (Order using in Dealer::distribute() )
 enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
-
+static std::vector<DealerFlagPriority> PriorityOrder { DealerFlagPriority::KEEPER,
+                                                       DealerFlagPriority::REQUIRED,
+                                                       DealerFlagPriority::HIGH_PRIORITY,
+                                                       DealerFlagPriority::MEDIUM_PRIORITY,
+                                                       DealerFlagPriority::LOW_PRIORITY };
 
 class Dealer {
     FRIEND_TEST(DealerTest, it_properly_distributes_robots);
@@ -84,7 +87,7 @@ class Dealer {
 
     struct RoleScores {
         std::vector<double> robotScores;
-        int priority;
+        DealerFlagPriority priority;
     };
 
     struct DealerDistribute {

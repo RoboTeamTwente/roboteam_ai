@@ -31,23 +31,23 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     std::vector<std::string> roleNames;
     distribute_init(indexRoles,indexID,roleNames,flagMap);
 
-            // Loop through the order of role priorities (column)
-    for (int i = sizeof(DealerFlagPriority); i >= 0; i--){
+    // Loop through the order of role priorities (column)
+    for (const auto currentPriority : PriorityOrder){
         DealerDistribute current{};
         // Check if a column has the looked for priorities
-        for (int j = 0; j < scores.size(); j++){
+        for (std::size_t j = 0; j < scores.size(); j++){
             // if so, add it to a list and save the index
-            if (scores.at(j).priority == i) {
+            if (scores[j].priority == currentPriority) {
                 current.currentScores.push_back(scores.at(j).robotScores);    // get the score column
                 current.currentRoles.push_back(j);                      // get the current index
                 current.originalRolesIndex.push_back(indexRoles[j]);    // get the role number
             }
         }
-        if (current.currentRoles.size() > 0) {
+        if (!current.currentRoles.empty()) {
             // Return best assignment for those roles (column)
             rtt::Hungarian::Solve(current.currentScores, current.newAssignments);
-            if (current.newAssignments.size() > 0) {
-                for (int j = 0; j < current.newAssignments.size(); j++) {
+            if (!current.newAssignments.empty()) {
+                for (std::size_t j = 0; j < current.newAssignments.size(); j++) {
                     if (current.newAssignments[j] >= 0) {
                         current.currentIDs.push_back(current.newAssignments[j]);                    // get newly assigned robot from current index
                         current.originalIDsIndex.push_back(indexID[current.currentIDs.back()]);     // get robot number
@@ -66,7 +66,7 @@ void Dealer::distribute_init(std::vector<int>& indexRoles, std::vector<int>& ind
     indexRoles.reserve(flagMap.size());
     indexID.reserve(flagMap.size());
     roleNames.reserve(flagMap.size());
-    for (int i = 0; i < flagMap.size(); i++) {
+    for (std::size_t i = 0; i < flagMap.size(); i++) {
         indexRoles.push_back(i);
         indexID.push_back(i);
     }
@@ -75,20 +75,21 @@ void Dealer::distribute_init(std::vector<int>& indexRoles, std::vector<int>& ind
     }
 }
 
+// Delete assigned roles and robots from score
 void Dealer::distribute_remove(DealerDistribute& current, std::vector<int>& indexRoles, std::vector<int>& indexID, std::vector<RoleScores>& scores){
     std::sort(current.currentIDs.begin(), current.currentIDs.end());                    // Sort to delete from back to front
-    // Delete assigned roles and robots from score
-    for (int j = current.currentRoles.size() - 1; j >= 0; j--) {
-        scores.erase(scores.begin() + current.currentRoles[j]);                 // remove role from score (col)
-        indexRoles.erase(indexRoles.begin() + current.currentRoles[j]);         // remove from index list
+
+    for (auto i = current.currentRoles.rbegin(); i != current.currentRoles.rend(); ++i) {
+        scores.erase(scores.begin() + *i);                 // remove role from score (col)
+        indexRoles.erase(indexRoles.begin() + *i);         // remove from index list
     }
-    for (int col = 0; col < scores.back().robotScores.size(); col++) {        // go through each score role (row)
-        for (int j = current.currentIDs.size() - 1; j >= 0; j--) {
-            scores[col].robotScores.erase(scores[col].robotScores.begin() + current.currentIDs[j]);     // remove the robot
+    for (auto &i : scores) {        // go through each score role (row)
+        for (auto j = current.currentIDs.rbegin(); j != current.currentIDs.rend(); ++j) {
+            i.robotScores.erase(i.robotScores.begin() + *j);     // remove the robot
         }
     }
-    for (int j = current.currentIDs.size() - 1; j >= 0; j--) {
-        indexID.erase(indexID.begin() + current.currentIDs[j]);                 // remove from index list
+    for (auto i = current.currentIDs.rbegin(); i != current.currentIDs.rend(); ++i) {
+        indexID.erase(indexID.begin() + *i);                 // remove from index list
     }
 }
 
@@ -113,7 +114,7 @@ std::vector<Dealer::RoleScores> Dealer::getScoreMatrix(const std::vector<v::Robo
             // Simple normalizer. DistanceScore has weight 1, the other factors can have various weights.
             role.push_back((robotDistanceScore + robotScore.sumScore) / (robotScore.sumWeights + 1));  // the +1 is the distanceScore weight
         }
-        scores.push_back({role, static_cast<int>(dealerFlags.priority)});
+        scores.push_back({role, dealerFlags.priority});
     }
     return scores;
 }

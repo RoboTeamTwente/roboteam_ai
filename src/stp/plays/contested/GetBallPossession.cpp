@@ -102,9 +102,9 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-    flagMap.insert({"offender_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+    flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
 
     return flagMap;
 }
