@@ -59,22 +59,20 @@ uint8_t AttackingPass::score(world::World* world) noexcept { return 50; }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
-    Dealer::DealerFlag passerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::UNIQUE);
+    Dealer::DealerFlag passerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"passer", {passerFlag}});
-    flagMap.insert({"receiver_left", {receiverFlag}});
-    flagMap.insert({"receiver_right", {receiverFlag}});
-    flagMap.insert({"midfielder_1", {notImportant}});
-    flagMap.insert({"midfielder_2", {notImportant}});
-    flagMap.insert({"test_role_5", {notImportant}});
-    flagMap.insert({"test_role_6", {notImportant}});
-    flagMap.insert({"test_role_7", {notImportant}});
-    flagMap.insert({"test_role_8", {notImportant}});
-    flagMap.insert({"test_role_9", {notImportant}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{passerFlag}}});
+    flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
+    flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"test_role_9", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
     return flagMap;
 }

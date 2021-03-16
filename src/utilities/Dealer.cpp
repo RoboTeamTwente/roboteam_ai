@@ -2,6 +2,10 @@
  * The dealer will check for the flags that are set in plays, but also for the distance
  * to a position that a robot might need to travel to. The lower the score of a robot, the better.
  */
+
+// TODO Fix issue where roles get redistributed whilst robots are already in position
+/// This issue occurs when there are multiple roles classes (defender+midfielder) that have the same priority
+
 #include "utilities/Dealer.h"
 
 #include <roboteam_utils/Hungarian.h>
@@ -19,93 +23,127 @@ Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priorit
 // Create a distribution of robots according to their flags
 std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
-    std::vector<std::vector<double>> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
-    std::vector<int> assignment;
+    std::unordered_map<std::string, v::RobotView> output;
+    std::vector<RoleScores> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
+    // Make index of roles and ID to keep track which are the original indexes of each and get roleNames
+    std::vector<int> indexRoles;
+    std::vector<int> indexID;
+    std::vector<std::string> roleNames;
+    distribute_init(indexRoles,indexID,roleNames,flagMap);
 
-    // solve the matrix and put the results in 'assignment'
-    // The cost function will be minimized
-    rtt::Hungarian::Solve(scores, assignment);
-
-    return mapFromAssignments(allRobots, flagMap, assignment);
-}
-
-/* assignment now has the robot index in allRobots (not id) at the role index, and is ordered according to the roleNames
- * for example: assignment[0] = 2 // index
- * and roleNames[0] = role_1
- * robot_id = allRobots[index]
- * --> we can therefore make a map of <rolename, robot_id>
- */
-std::unordered_map<std::string, v::RobotView> Dealer::mapFromAssignments(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
-                                                                         const std::vector<int> &assignment) const {
-    vector<string> orderedRoleNames;
-    for (auto const &[roleName, dealerFlags] : flagMap) {
-        orderedRoleNames.push_back(roleName);
-    }
-    unordered_map<string, v::RobotView> result;
-    for (int i = 0; i < orderedRoleNames.size(); i++) {
-        if (assignment[i] != -1) {
-            result.insert({orderedRoleNames[i], allRobots[assignment[i]]});
+    // Loop through the order of role priorities (column)
+    for (const auto currentPriority : PriorityOrder){
+        DealerDistribute current{};
+        // Check if a column has the looked for priorities
+        for (std::size_t j = 0; j < scores.size(); j++){
+            // if so, add it to a list and save the index
+            if (scores[j].priority == currentPriority) {
+                current.currentScores.push_back(scores.at(j).robotScores);    // get the score column
+                current.currentRoles.push_back(j);                      // get the current index
+                current.originalRolesIndex.push_back(indexRoles[j]);    // get the role number
+            }
+        }
+        if (!current.currentRoles.empty()) {
+            // Return best assignment for those roles (column)
+            rtt::Hungarian::Solve(current.currentScores, current.newAssignments);
+            if (!current.newAssignments.empty()) {
+                for (std::size_t j = 0; j < current.newAssignments.size(); j++) {
+                    if (current.newAssignments[j] >= 0) {
+                        current.currentIDs.push_back(current.newAssignments[j]);                    // get newly assigned robot from current index
+                        current.originalIDsIndex.push_back(indexID[current.currentIDs.back()]);     // get robot number
+                        output.insert({roleNames[current.originalRolesIndex[j]], allRobots[current.originalIDsIndex.back()]});
+                    }
+                }
+                if (output.size() == allRobots.size()) return output;               // case if there are less then 11 bots to distribute
+                distribute_remove(current,indexRoles,indexID,scores);
+            }
         }
     }
-    return result;
+    return output;
+}
+
+void Dealer::distribute_init(std::vector<int>& indexRoles, std::vector<int>& indexID, std::vector<std::string>& roleNames, const Dealer::FlagMap &flagMap) {
+    indexRoles.reserve(flagMap.size());
+    indexID.reserve(flagMap.size());
+    roleNames.reserve(flagMap.size());
+    for (std::size_t i = 0; i < flagMap.size(); i++) {
+        indexRoles.push_back(i);
+        indexID.push_back(i);
+    }
+    for (auto const &[roleName, dealerFlags] : flagMap) {
+        roleNames.push_back(roleName);
+    }
+}
+
+// Delete assigned roles and robots from score
+void Dealer::distribute_remove(DealerDistribute& current, std::vector<int>& indexRoles, std::vector<int>& indexID, std::vector<RoleScores>& scores){
+    std::sort(current.currentIDs.begin(), current.currentIDs.end());                    // Sort to delete from back to front
+
+    for (auto i = current.currentRoles.rbegin(); i != current.currentRoles.rend(); ++i) {
+        scores.erase(scores.begin() + *i);                 // remove role from score (col)
+        indexRoles.erase(indexRoles.begin() + *i);         // remove from index list
+    }
+    for (auto &i : scores) {        // go through each score role (row)
+        for (auto j = current.currentIDs.rbegin(); j != current.currentIDs.rend(); ++j) {
+            i.robotScores.erase(i.robotScores.begin() + *j);     // remove the robot
+        }
+    }
+    for (auto i = current.currentIDs.rbegin(); i != current.currentIDs.rend(); ++i) {
+        indexID.erase(indexID.begin() + *i);                 // remove from index list
+    }
 }
 
 // Populate a matrix with scores
-std::vector<vector<double>> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
+std::vector<Dealer::RoleScores> Dealer::getScoreMatrix(const std::vector<v::RobotView> &allRobots, const Dealer::FlagMap &flagMap,
                                                    const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
-    vector<vector<double>> scores;
-    scores.reserve(flagMap.size());
-
+    std::vector<RoleScores> scores;
+    for (auto i : scores) i.robotScores.reserve(flagMap.size());
     // Loop through all roles that are in the dealerFlags map
     for (auto const &[roleName, dealerFlags] : flagMap) {
-        std::vector<double> row;
-        row.reserve(allRobots.size());
-
+        std::vector<double> role;
+        role.reserve(allRobots.size());
         // Calculate the score for each robot for a role; the row
         for (auto robot : allRobots) {
-            double distanceScore{};
-
+            double robotDistanceScore{};
             if (stpInfoMap.find(roleName) != stpInfoMap.end()) {
                 // The shorter the distance, the lower the distance score
-                distanceScore = getScoreForDistance(stpInfoMap.find(roleName)->second, robot);
+                robotDistanceScore = getRobotScoreForDistance(stpInfoMap.find(roleName)->second, robot);
             }
-
             // The better the flags, the lower the score
-            ScoreResult flagScore = scoreForFlags(dealerFlags, robot);
-            row.push_back((distanceScore + flagScore.score)/(flagScore.weight+1));
+            auto robotScore = getRobotScoreForRole(dealerFlags.flags, robot);
+            // Simple normalizer. DistanceScore has weight 1, the other factors can have various weights.
+            role.push_back((robotDistanceScore + robotScore.sumScore) / (robotScore.sumWeights + 1));  // the +1 is the distanceScore weight
         }
-        scores.push_back(row);
+        scores.push_back({role, dealerFlags.priority});
     }
     return scores;
 }
 
 // Calculate the score for all flags for a role for one robot
-    Dealer::ScoreResult Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
-        double robotScore = 0;
-        double totalFactor = 0;
-        for (auto flag : dealerFlags) {
-            auto ScoreForFlag = getScoreForFlag(robot, flag);
-            robotScore += ScoreForFlag.score;
-            totalFactor += ScoreForFlag.weight;
-        }
-        return {.score = robotScore, .weight = totalFactor};
+Dealer::RobotRoleScore Dealer::getRobotScoreForRole(const std::vector<Dealer::DealerFlag> &dealerFlags, const v::RobotView &robot) {
+    double robotScore = 0;
+    double sumWeights = 0;
+    for (auto flag : dealerFlags) {
+        FlagScore ScoreForFlag = getRobotScoreForFlag(robot, flag);
+        robotScore += ScoreForFlag.score;
+        sumWeights += ScoreForFlag.weight;
     }
+    return {robotScore,sumWeights};  // [score,sum of weights]
+}
 
 // Get the score of one flag for a role for one robot
-    Dealer::ScoreResult Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
-        double factor = 1/getFactorForPriority(flag);
-        return {.score = factor * getDefaultFlagScores(robot, flag), .weight = factor};
-    }
+Dealer::FlagScore Dealer::getRobotScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
+    double factor = getWeightForPriority(flag.priority);
+    return {factor * getDefaultFlagScores(robot, flag),factor}; // [score,weight]
+}
 
 // Get the distance score for a robot to a position when there is a position that role needs to go to
-double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
+double Dealer::getRobotScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotView &robot) {
     double distance{};
     if (stpInfo.getPositionToMoveTo().has_value()) {
         distance = robot->getPos().dist(stpInfo.getPositionToMoveTo().value());
     } else if (robot->getId() == GameStateManager::getCurrentGameState().keeperId) {
         distance = 0;
-    } else if (stpInfo.getPositionToShootAt().has_value()) {
-        distance = robot->getPos().dist(world.getBall()->get()->getPos());
     } else if (stpInfo.getEnemyRobot().has_value()) {
         distance = robot->getPos().dist(stpInfo.getEnemyRobot().value()->getPos());
     }
@@ -114,18 +152,16 @@ double Dealer::getScoreForDistance(const stp::StpInfo &stpInfo, const v::RobotVi
 }
 
 // TODO these values need to be tuned.
-double Dealer::getFactorForPriority(const Dealer::DealerFlag &flag) {
-    switch (flag.priority) {
+double Dealer::getWeightForPriority(const DealerFlagPriority &flagPriority) {
+    switch (flagPriority) {
         case DealerFlagPriority::LOW_PRIORITY:
-            return 30;
+            return 0.5;
         case DealerFlagPriority::MEDIUM_PRIORITY:
-            return 20;
+            return 1;
         case DealerFlagPriority::HIGH_PRIORITY:
-            return 10;
+            return 5;
         case DealerFlagPriority::REQUIRED:
-            return 0.1;
-        case DealerFlagPriority::UNIQUE:
-            return 0.01;
+            return 100;
         default:
             RTT_WARNING("Unhandled dealerflag!")
             return 0;
@@ -147,8 +183,6 @@ double Dealer::getDefaultFlagScores(const v::RobotView &robot, const Dealer::Dea
             return costForProperty(true);
         case DealerFlagTitle::WITH_WORKING_BALL_SENSOR:
             return costForProperty(robot->isWorkingBallSensor());
-        case DealerFlagTitle::NOT_IMPORTANT:
-            return costForProperty(false);
         case DealerFlagTitle::WITH_WORKING_DRIBBLER:
             return costForProperty(robot->isWorkingDribbler());
         case DealerFlagTitle::READY_TO_INTERCEPT_GOAL_SHOT: {
