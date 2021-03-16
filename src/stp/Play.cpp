@@ -134,10 +134,7 @@ bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
         return stpInfos;
     }
-
     uint8_t Play::getLastScore() {
         return lastScore.value_or(0);
     }
-
-
 }  // namespace rtt::ai::stp

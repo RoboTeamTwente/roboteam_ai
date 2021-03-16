@@ -159,14 +159,13 @@ void ApplicationManager::decidePlay(world::World *_world) {
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
-
         //TODO: To make the higher abstraction layer, code below to save necessary info of the previous Play:
         auto StpInfosPreviousPlay = currentPlay->getStpInfos();
         //currentPlay->initialize(STPInfoPreviousPlay)
 
         currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(currentPlay->getStpInfos());
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
@@ -183,7 +182,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
             currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         }
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(currentPlay->getStpInfos());
     }
 
     currentPlay->update();

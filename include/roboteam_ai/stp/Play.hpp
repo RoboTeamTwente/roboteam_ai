@@ -114,6 +114,7 @@ class Play {
     virtual const char* getName() = 0;
 
     /**
+
      * Gets the
      */
     std::unordered_map<std::string, StpInfo> getStpInfos();
