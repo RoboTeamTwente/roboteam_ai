@@ -114,8 +114,8 @@ class Play {
     virtual const char* getName() = 0;
 
     /**
-
-     * Gets the
+     *
+     * Gets the current StpInfos from a Play
      */
     std::unordered_map<std::string, StpInfo> getStpInfos();
 
@@ -129,6 +129,12 @@ class Play {
      * @return score if no value -> 0
      */
     uint8_t getLastScore();
+
+    /**
+     * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
+     * @return List of all the necessary information
+     */
+    std::unordered_map<int, StpInfo> finalizePlay();
 
 protected:
     /**
