@@ -71,6 +71,7 @@ namespace rtt::ai::control {
         /**
          * @brief Generates a path and tracks it with the old PID control (hacky). Returns also possibly
          * the location of a collision on the path if no correct path can be found
+         * @param world a pointer to the current world
          * @param field the field object, used onwards by the collision detector
          * @param robotId the ID of the robot for which the path is calculated
          * @param currentPosition the current position of the aforementioned robot
@@ -80,7 +81,7 @@ namespace rtt::ai::control {
          * @return A RobotCommand and optional with the location of the first collision on the path
          */
         std::pair<RobotCommand, std::optional<Vector2>>
-        computeAndTrackPathBBT(const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
+        computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                Vector2 targetPosition, stp::PIDType pidType);
 
         /**

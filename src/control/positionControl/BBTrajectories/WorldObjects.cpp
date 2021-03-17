@@ -27,19 +27,19 @@ namespace rtt::BB {
         std::vector<double> collisionTimes;
 
         // If the robot can not move outside the field, check if its path goes outside the field
-        this->calculateFieldCollisions(collisionDatas, collisionTimes, pathPoints, robotId, timeStep);
+        calculateFieldCollisions(collisionDatas, collisionTimes, pathPoints, robotId, timeStep);
 
         // If the robot can not move into defense area, check if its path goes into either defense area
-        this->calculateDefenseAreaCollisions(collisionDatas, collisionTimes, pathPoints, robotId, timeStep);
+        calculateDefenseAreaCollisions(collisionDatas, collisionTimes, pathPoints, robotId, timeStep);
 
         // Check if robot is closer to the ball than it is allowed to be
-        this->calculateBallCollisions(collisionDatas, collisionTimes, pathPoints, timeStep);
+        calculateBallCollisions(collisionDatas, collisionTimes, pathPoints, timeStep);
 
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
-        this->calculateEnemyRobotCollisions(BBTrajectory, collisionDatas, collisionTimes, pathPoints, timeStep);
+        calculateEnemyRobotCollisions(BBTrajectory, collisionDatas, collisionTimes, pathPoints, timeStep);
 
         // For each path already calculated, check if this path collides with those paths
-        this->calculateOurRobotCollisions(collisionDatas, collisionTimes, pathPoints, robotId, timeStep);
+        calculateOurRobotCollisions(collisionDatas, collisionTimes, pathPoints, robotId, timeStep);
 
         if(!collisionTimes.empty()) {
             double timeOfCollision = *min_element(collisionTimes.begin(), collisionTimes.end());
@@ -47,7 +47,7 @@ namespace rtt::BB {
             int indexOfCollision = iterator - collisionTimes.begin();
 
             return collisionDatas[indexOfCollision];
-        } else { return {}; }
+        } else { return std::nullopt; }
     }
 
     void WorldObjects::calculateFieldCollisions(std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
@@ -115,22 +115,21 @@ namespace rtt::BB {
                                                 double timeStep) {
         auto theirRobots = world->getWorld()->getThem();
 
-        for (int j = 0; j < pathPoints.size(); j++) {
-            for (int i = 0; i < theirRobots.size() - 1; i++) {
-                double currentTime = j * timeStep;
+        for (int i = 0; i < pathPoints.size(); i++) {
+            for (int j = 0; j < theirRobots.size() - 1; j++) {
+                double currentTime = i * timeStep;
                 double maxCollisionCheckTime = 2;
                 if (currentTime <= maxCollisionCheckTime) {
-                    // TODO: Currently enemy position in future is calculated with simple model (x = x + v*t), maybe improve?
-                    Vector2 theirVel = theirRobots[i]->getVel();
-                    Vector2 theirPos = theirRobots[i]->getPos() /*+ theirVel * currentTime*/;
-                    Vector2 posDif = BBTrajectory.getPosition(currentTime) -
-                                     theirPos; //TODO: Is currentTime defined the same way as the time from the BBTrajectory time?
-                    if (posDif.length() < 3 /*<-- kawaiii*/ * ai::Constants::ROBOT_RADIUS_MAX()) {
+                    // TODO: Improve enemy position in future, currently is calculated with simple model (x = x + v*t)
+                    Vector2 theirVel = theirRobots[j]->getVel();
+                    Vector2 theirPos = theirRobots[j]->getPos() /*+ theirVel * currentTime*/;
+                    Vector2 posDif = BBTrajectory.getPosition(currentTime) - theirPos;
+                    if (posDif.length() < 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
                         Vector2 ourVel = BBTrajectory.getVelocity(currentTime);
                         Vector2 velDif = ourVel - theirVel;
                         double projectLength = velDif.dot(posDif) / sqrt(posDif.dot(posDif));
                         if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
-                            collisionDatas.emplace_back(CollisionData{theirPos, pathPoints[j]});
+                            collisionDatas.emplace_back(CollisionData{theirPos, pathPoints[i]});
                             collisionTimes.emplace_back(currentTime);
                             return;
                         }
@@ -146,13 +145,13 @@ namespace rtt::BB {
 
         int ourRobotAmount = world->getWorld()->getUs().size();
 
-        for (int j = 0; j < pathPoints.size(); j++) {
-            for (int i = 0; i < ourRobotAmount; i++) {
-                if (robotId != i && !calculatedPaths[i].empty()) {
-                    if ((pathPoints[j] - calculatedPaths[i][j]).length() < ai::Constants::ROBOT_RADIUS() * 1.5 &&
-                        j * timeStep < 1) {
-                        collisionDatas.emplace_back(CollisionData{calculatedPaths[i][j], pathPoints[j]});
-                        collisionTimes.emplace_back(j * timeStep);
+        for (int i = 0; i < pathPoints.size(); i++) {
+            for (int j = 0; j < ourRobotAmount; j++) {
+                if (robotId != j && !calculatedPaths[j].empty()) {
+                    if ((pathPoints[i] - calculatedPaths[j][i]).length() < ai::Constants::ROBOT_RADIUS() * 1.5 &&
+                        i * timeStep < 1) {
+                        collisionDatas.emplace_back(CollisionData{calculatedPaths[j][i], pathPoints[i]});
+                        collisionTimes.emplace_back(i * timeStep);
                         return;
                     }
                 }

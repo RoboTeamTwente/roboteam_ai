@@ -54,9 +54,8 @@ namespace rtt::ai::control {
         collisionDetector.setRobotPositions(robotPositions);
     }
 
-std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrackPathBBT(const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
+std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                  Vector2 targetPosition, stp::PIDType pidType) {
-        //TODO: Create a function in WorldObjects which can give the position of the first collision to STP
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 
@@ -64,6 +63,7 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
         std::optional<BB::CollisionData> firstCollision;
         std::pair<RobotCommand, std::optional<Vector2>> robotCommandCollisionPair;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
+        // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
         if (true || (!computedPathsBB.contains(robotId) ||
             (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
             worldObjects.getFirstCollision(computedPathsBB[robotId], robotId).has_value())) {
@@ -76,12 +76,13 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
             firstCollision = worldObjects.getFirstCollision(computedPathsBB[robotId], robotId);
 
             if (firstCollision.has_value()) {
-                robotCommandCollisionPair.second = firstCollision->collisionPosition;
                 //Create intermediate points, return a collision-free path originating from the best option of these points
                 auto newPath = findNewPath(field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition,
                                            timeStep);
                 if (newPath.has_value()) {
                     computedPathsBB[robotId] = newPath.value();
+                } else {
+                    robotCommandCollisionPair.second = firstCollision->collisionPosition;
                 }
             }
             computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
@@ -151,15 +152,18 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
         double angleBetweenIntermediatePoints = M_PI_4 / 2;
 
         // PointToDrawFrom is picked by drawing a line from the target position to the obstacle and extending that
-        // line further towards our currentPosition.
+        // line further towards our currentPosition by extension meters.
+        float pointExtension = 0.5;  // How far the pointToDrawFrom has to be from the obstaclePosition
         Vector2 pointToDrawFrom = firstCollision->obstaclePosition +
-                                  (firstCollision->obstaclePosition - targetPosition).normalize() * 1;
+                                  (firstCollision->obstaclePosition - targetPosition).normalize() * pointExtension;
 
         std::vector<Vector2> intermediatePoints;
         for (int i = -4; i < 5; i++) {
             if (i != 0) {
-                //Make half circle of intermediatePoints pointed towards obstaclePosition, originating from pointToDrawFrom
-                Vector2 intermediatePoint = firstCollision->obstaclePosition.rotateAroundPoint(i * angleBetweenIntermediatePoints, pointToDrawFrom);
+                //Make half circle of intermediatePoints pointed towards obstaclePosition, originating from pointToDrawFrom, by rotating pointToRotate with a radius intermediatePointRadius
+                float intermediatePointRadius = 2; // Radius of the half circle
+                Vector2 pointToRotate = pointToDrawFrom + (targetPosition - firstCollision->obstaclePosition).normalize() * intermediatePointRadius;
+                Vector2 intermediatePoint = pointToRotate.rotateAroundPoint(i * angleBetweenIntermediatePoints, pointToDrawFrom);
 
                 //If not in a defense area (only checked if robot is not allowed in defense area)
                 if (worldObjects.canEnterDefenseArea(robotId) ||
@@ -183,7 +187,7 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
                                             std::optional<BB::CollisionData> &firstCollision) {
         double intermediatePointScore;
         std::priority_queue<std::pair<double, Vector2>, std::vector<std::pair<double, Vector2>>, std::greater<>> intermediatePointsSorted;
-        for (auto i : intermediatePoints) {
+        for (const auto& i : intermediatePoints) {
             intermediatePointScore = (i - firstCollision->collisionPosition).length();
             std::pair<double, Vector2> p = {intermediatePointScore, i};
             intermediatePointsSorted.push(p);
@@ -198,7 +202,8 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
         BB::BBTrajectory2D intermediateToTarget;
         if (!intermediatePathCollision.has_value()) {
             timeStep *= 2;
-            for (int i = 0; i < floor(pathToIntermediatePoint.getTotalTime() / timeStep); i++) {
+            int numberOfTimeSteps = floor(pathToIntermediatePoint.getTotalTime() / timeStep);
+            for (int i = 0; i < numberOfTimeSteps; i++) {
                 //TODO: Only create newStart's up to point where we dont decelerate yet
                 Vector2 newStart = pathToIntermediatePoint.getPosition(i * timeStep);
                 Vector2 newVelocity = pathToIntermediatePoint.getVelocity(i * timeStep);
@@ -215,6 +220,6 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
                 }
             }
         }
-        return {};
+        return std::nullopt;
     }
 }  // namespace rtt::ai// ::control

@@ -115,9 +115,4 @@ namespace rtt::world {
         BB::WorldObjects::setWorld(this);
     }
 
-//    void World::forwardRobots(std::vector<view::RobotView> robots){
-//        std::transform(getWorld()->getRobotsNonOwning().begin(), getWorld()->getRobotsNonOwning().end(), robots.begin(), [](const auto& robot) -> rtt::world::view::RobotView { return (robot); });
-//        BB::WorldObjects::setRobots(robots);
-//    }
-
 }  // namespace rtt::world

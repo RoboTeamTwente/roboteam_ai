@@ -16,14 +16,19 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
     }
 
+    bool useOldPathPlanning = false;
     std::pair<RobotCommand, std::optional<Vector2>> robotCommandCollisionPair;
-    // Calculate commands from path planning and tracking
-    // _______Use this for the old pathplanning and tracking_______
-//    robotCommandCollisionPair.first = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
-//        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
-    // _______Use this one for the BBT pathplanning_______
-    robotCommandCollisionPair = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
-        info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+
+    if(useOldPathPlanning) {
+        // Calculate commands from path planning and tracking
+        robotCommandCollisionPair.first = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
+            info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+    } else {
+        // _______Use this one for the BBT pathplanning and tracking_______
+        robotCommandCollisionPair = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
+            info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
+            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+    }
 
     if (robotCommandCollisionPair.second.has_value()) {
         return Status::Failure;
