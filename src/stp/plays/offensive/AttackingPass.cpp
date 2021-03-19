@@ -79,14 +79,10 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
 
 void AttackingPass::calculateInfoForScoredRoles(world::World* world) noexcept {
     rtt::world::Field field = world->getField().value();
-    PositionComputations::ScoredPosition receiverPositionRight = PositionComputations::getPosition(PositionComputations::gridRightBot, PositionComputations::GoalShootPosition, field, world);
-    PositionComputations::ScoredPosition receiverPositionLeft = PositionComputations::getPosition(PositionComputations::gridRightTop, PositionComputations::GoalShootPosition, field, world);
 
     // Receiver
-    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);
-    stpInfos["receiver_left"].setRoleScore(receiverPositionLeft.score);
-    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.position);
-    stpInfos["receiver_right"].setRoleScore(receiverPositionRight.score);
+    stpInfos["receiver_left"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridRightBot, gen::GoalShootPosition, field, world));
+    stpInfos["receiver_right"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridRightTop, gen::GoalShootPosition, field, world));
     }
 
 void AttackingPass::calculateInfoForRoles() noexcept {
@@ -116,8 +112,8 @@ void AttackingPass::calculateInfoForRoles() noexcept {
     }
 
     /// Midfielders
-    stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(PositionComputations::gridMidFieldBot, PositionComputations::SafePosition, field, world).position);
-    stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(PositionComputations::gridMidFieldTop, PositionComputations::SafePosition, field, world).position);
+    stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldBot, gen::SafePosition, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldTop, gen::SafePosition, field, world));
 }
 
 std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots) {

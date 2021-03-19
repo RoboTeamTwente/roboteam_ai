@@ -80,9 +80,9 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
-    stpInfos["midfielder_0"].setPositionToMoveTo(Vector2(0.0, width / 4));
-    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, -width / 4));
-    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
+    stpInfos["midfielder_0"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldBot, gen::SafePosition, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldMid, gen::SafePosition, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldTop, gen::SafePosition, field, world));
 
     int amountDefenders = 3;
     std::vector<Vector2> wallPositions = {};

@@ -14,12 +14,12 @@
 
 namespace rtt::ai::stp {
 
-    PositionComputations::ScoredPosition PositionComputations::getPosition(const Grid &searchGrid, ScoreProfile profile,const rtt::world::Field &field,
+    gen::ScoredPosition PositionComputations::getPosition(const Grid &searchGrid, gen::ScoreProfile profile,const rtt::world::Field &field,
                                                                          rtt::world::World *world) {
-        ScoredPosition bestPosition = {{0,0},0};
+        gen::ScoredPosition bestPosition = {{0,0},0};
         for (const auto &nestedPoints : searchGrid.getPoints()) {
             for (const auto &position : nestedPoints) {
-                PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position) : calculatedScores[position];
+                gen::PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position) : calculatedScores[position];
                 uint8_t positionScore = getScoreOfPosition(profile, position, scores, world, field);
                 if (positionScore > bestPosition.score) bestPosition = {position,positionScore};
                 }
@@ -28,7 +28,7 @@ namespace rtt::ai::stp {
         return bestPosition;
     }
 
-    uint8_t PositionComputations::getScoreOfPosition(ScoreProfile &profile, Vector2 position, PositionScores &scores, rtt::world::World *world, const rtt::world::Field &field){
+    uint8_t PositionComputations::getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, rtt::world::World *world, const rtt::world::Field &field){
         double scoreTotal = 0;
         double weightTotal = 0;
         if (profile.weightGoalShot > 0){
@@ -46,7 +46,7 @@ namespace rtt::ai::stp {
         return static_cast<uint8_t>(scoreTotal/weightTotal);
     }
 
-    double PositionComputations::determineOpenScore(Vector2 &point, rtt::world::World *world, PositionScores &scores) {
+    double PositionComputations::determineOpenScore(Vector2 &point, rtt::world::World *world, gen::PositionScores &scores) {
         /// TODO-Max determine with all robots within a circle around
         /// TODO-Max maybe have a cone that aims at the ball (behind does not really matter?)
         double score = 0;
@@ -57,7 +57,7 @@ namespace rtt::ai::stp {
         return (scores.scoreOpen = score).value();
     }
 
-    double PositionComputations::determineLineOfSightScore(Vector2 &point, rtt::world::World *world, PositionScores &scores) {
+    double PositionComputations::determineLineOfSightScore(Vector2 &point, rtt::world::World *world, gen::PositionScores &scores) {
         /// TODO-Max make triangle
         auto passLine = Line(world->getWorld().value()->getBall()->get()->getPos(), point);
         double score = 0;
@@ -72,7 +72,7 @@ namespace rtt::ai::stp {
         return (scores.scoreOpen = score).value();
     }
 
-    double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field, rtt::world::World *world, PositionScores &scores) {
+    double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field, rtt::world::World *world, gen::PositionScores &scores) {
         auto fieldWidth = field.getFieldWidth();
         auto fieldLength = field.getFieldLength();
         auto w = world->getWorld().value();

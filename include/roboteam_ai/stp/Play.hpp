@@ -13,6 +13,7 @@
 #include "world/World.hpp"
 #include "PlayEvaluator.h"
 #include "computations/PositionComputations.h"
+#include "constants/GeneralizationConstants.h"
 
 namespace rtt::ai::stp {
 
