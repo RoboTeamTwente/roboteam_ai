@@ -111,8 +111,4 @@ namespace rtt::world {
 
     size_t World::getHistorySize() const noexcept { return history.size(); }
 
-     void World::forwardWorldToBB() {
-        BB::WorldObjects::setWorld(this);
-    }
-
 }  // namespace rtt::world

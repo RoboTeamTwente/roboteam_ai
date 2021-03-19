@@ -162,8 +162,6 @@ public:
      */
     [[nodiscard]] ai::control::PositionControl *getRobotPositionController() noexcept;
 
-    void forwardWorldToBB();
-
 #ifdef RUNNING_TEST
     /**
      * Resets the world

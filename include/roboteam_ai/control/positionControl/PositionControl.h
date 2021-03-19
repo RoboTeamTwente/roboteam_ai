@@ -88,6 +88,7 @@ namespace rtt::ai::control {
          * @brief Tries to find a new path when the current path has a collision on it. It tries this by
          * looking for paths which go to intermediate points in the area of the collision and from these
          * paths again to the target. Also draws the intermediate point and path in the interface
+         * @param world the world object
          * @param field the field object, used onwards by the collision detector
          * @param robotId the ID of the robot for which the path is calculated
          * @param currentPosition the current position of the aforementioned robot
@@ -98,7 +99,7 @@ namespace rtt::ai::control {
          * @return An optional with a new path
          */
         std::optional<BB::BBTrajectory2D>
-        findNewPath(const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
+        findNewPath(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
                     std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition,  double timeStep);
 
         /**
@@ -131,6 +132,8 @@ namespace rtt::ai::control {
         /**
          * @brief Calculates a path to the targetPosition from a point on the path to an intermediate path and
          * return it if there are no collisions
+         * @param world the world object
+         * @param field the field object, used onwards by the collision detector
          * @param intermediatePathCollision if intermediatePathCollision has no value, return {}
          * @param pathToIntermediatePoint used for getting new start points of the BBT to the targetPosition
          * @param targetPosition the desired position that the robot has to reach
@@ -139,9 +142,9 @@ namespace rtt::ai::control {
          * @return optional BangBangTrajectory if a new path was found
          */
         std::optional<BB::BBTrajectory2D>
-        calculatePathFromNewStart(std::optional<BB::CollisionData> intermediatePathCollision,
-                                  BB::BBTrajectory2D pathToIntermediatePoint, Vector2 &targetPosition, int robotId,
-                                  double timeStep);
+        calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field,
+                                  std::optional<BB::CollisionData> intermediatePathCollision, BB::BBTrajectory2D pathToIntermediatePoint,
+                                  Vector2 &targetPosition, int robotId, double timeStep);
     };
 
 }  // namespace rtt::ai::control

@@ -131,7 +131,6 @@ void ApplicationManager::runOneLoopCycle() {
             world->updatePositionControl();
 
             //world->updateFeedback(feedbackMap);
-            world->forwardWorldToBB();
             decidePlay(world);
 
         } else {
