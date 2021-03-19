@@ -31,9 +31,9 @@ GetBallPossession::GetBallPossession() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
+                                                                                 std::make_unique<role::Formation>(role::Formation("waller_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("waller_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("waller_2"))};
 
     // initialize stpInfos
     stpInfos = std::unordered_map<std::string, StpInfo>{};
@@ -87,7 +87,7 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     int amountDefenders = 3;
     std::vector<Vector2> wallPositions = {};
     if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos()))
-        wallPositions = computations::PositionComputations::determineWallPositions(field,world,amountDefenders);
+        wallPositions = PositionComputations::determineWallPositions(field,world,amountDefenders);
     if (!wallPositions.empty()) {
         stpInfos["waller_0"].setPositionToMoveTo(wallPositions.at(0));
         stpInfos["waller_1"].setPositionToMoveTo(wallPositions.at(1));

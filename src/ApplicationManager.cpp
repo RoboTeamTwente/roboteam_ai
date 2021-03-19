@@ -155,6 +155,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
     playEvaluator.clearGlobalScores(); //reset all evaluations
     playEvaluator.update(_world);
     playChecker.update(_world, playEvaluator);
+    ai::stp::PositionComputations::calculatedScores.clear();
 
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
@@ -166,7 +167,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
 
         currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(currentPlay->getStpInfos());
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
@@ -183,7 +184,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
             currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         }
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(currentPlay->getStpInfos());
     }
 
     currentPlay->update();
