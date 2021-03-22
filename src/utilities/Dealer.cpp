@@ -91,10 +91,6 @@ double Dealer::scoreForFlags(const std::vector<Dealer::DealerFlag> &dealerFlags,
 
 // Get the score of one flag for a role for one robot
 double Dealer::getScoreForFlag(v::RobotView robot, Dealer::DealerFlag flag) {
-    std::cout << "RobotId: " << robot->getId() << std::endl;
-    std::cout << "Priority: " << static_cast<int>(flag.priority) << endl;
-    //TODO: Make sure we eventually use priorities when creating different BBTrajectories
-
     double factor = getFactorForPriority(flag);
     return factor * getDefaultFlagScores(robot, flag);
 }
