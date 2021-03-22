@@ -172,4 +172,4 @@ namespace rtt::BB {
         }
         return true;
     }
-}
+}  // namespace rtt::BB

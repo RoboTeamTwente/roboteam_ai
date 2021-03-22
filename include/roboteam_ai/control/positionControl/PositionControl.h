@@ -80,7 +80,7 @@ namespace rtt::ai::control {
          * @param pidType The desired PID type (intercept, regular, keeper etc.)
          * @return A RobotCommand and optional with the location of the first collision on the path
          */
-        std::pair<RobotCommand, std::optional<Vector2>>
+        rtt::BB::CommandCollision
         computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                Vector2 targetPosition, stp::PIDType pidType);
 

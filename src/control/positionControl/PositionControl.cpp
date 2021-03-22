@@ -54,13 +54,13 @@ namespace rtt::ai::control {
         collisionDetector.setRobotPositions(robotPositions);
     }
 
-std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
+    rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                  Vector2 targetPosition, stp::PIDType pidType) {
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 
         std::optional<BB::CollisionData> firstCollision;
-        std::pair<RobotCommand, std::optional<Vector2>> robotCommandCollisionPair;
+        rtt::BB::CommandCollision commandCollision;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
         // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
         if (true || (!computedPathsBB.contains(robotId) ||
@@ -81,7 +81,7 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
                 if (newPath.has_value()) {
                     computedPathsBB[robotId] = newPath.value();
                 } else {
-                    robotCommandCollisionPair.second = firstCollision->collisionPosition;
+                    commandCollision.collisionPosition = firstCollision->collisionPosition;
                 }
             }
             computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
@@ -97,13 +97,13 @@ std::pair<RobotCommand, std::optional<Vector2>> PositionControl::computeAndTrack
             computedPaths[robotId].erase(computedPaths[robotId].begin());
         }
 
-        robotCommandCollisionPair.first = RobotCommand();
-        robotCommandCollisionPair.first.pos = computedPaths[robotId].front();
+        commandCollision.robotCommand = RobotCommand();
+        commandCollision.robotCommand.pos = computedPaths[robotId].front();
         Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId,pidType);
-        robotCommandCollisionPair.first.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
-        robotCommandCollisionPair.first.angle = trackingVelocity.rot;
+        commandCollision.robotCommand.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
+        commandCollision.robotCommand.angle = trackingVelocity.rot;
 
-        return robotCommandCollisionPair;
+        return commandCollision;
     }
 
     std::optional<BB::BBTrajectory2D>

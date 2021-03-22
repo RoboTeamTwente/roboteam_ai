@@ -17,25 +17,25 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
     }
 
     bool useOldPathPlanning = false;
-    std::pair<RobotCommand, std::optional<Vector2>> robotCommandCollisionPair;
+    rtt::BB::CommandCollision commandCollision;
 
     if(useOldPathPlanning) {
         // Calculate commands from path planning and tracking
-        robotCommandCollisionPair.first = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
+        commandCollision.robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
             info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        robotCommandCollisionPair = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
             info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
             info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     }
 
-    if (robotCommandCollisionPair.second.has_value()) {
+    if (commandCollision.collisionPosition.has_value()) {
         return Status::Failure;
     }
     // Clamp and set velocity
-    double targetVelocityLength = std::clamp(robotCommandCollisionPair.first.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
-    Vector2 targetVelocity = robotCommandCollisionPair.first.vel.stretchToLength(targetVelocityLength);
+    double targetVelocityLength = std::clamp(commandCollision.robotCommand.vel.length(), 0.0, stp::control_constants::MAX_VEL_CMD);
+    Vector2 targetVelocity = commandCollision.robotCommand.vel.stretchToLength(targetVelocityLength);
 
     // Set velocity and angle commands
     command.mutable_vel()->set_x(static_cast<float>(targetVelocity.x));

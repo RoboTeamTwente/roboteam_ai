@@ -9,6 +9,7 @@
 #include "world/FieldComputations.h"
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
 #include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include "control/RobotCommand.h"
 
 
 namespace rtt::BB {
@@ -20,6 +21,17 @@ namespace rtt::BB {
     struct CollisionData {
         Vector2 obstaclePosition;
         Vector2 collisionPosition;
+    };
+
+    /**
+     * @brief struct used for returning a command for pathtracking and
+     * information about a collision which can be used STP
+     * @memberof robotCommand
+     * @memberof collision
+     */
+    struct CommandCollision {
+        rtt::RobotCommand robotCommand;
+        std::optional<Vector2> collisionPosition;
     };
 
     class WorldObjects {
