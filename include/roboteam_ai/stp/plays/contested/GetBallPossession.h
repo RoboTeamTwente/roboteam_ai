@@ -53,6 +53,8 @@ class GetBallPossession : public Play {
 
    protected:
     bool shouldRoleSkipEndTactic() override;
+
+    std::vector<std::string> getScoredRoles() override;
 };
 }  // namespace rtt::ai::stp::play
 

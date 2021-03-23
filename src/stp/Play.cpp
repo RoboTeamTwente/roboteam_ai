@@ -3,12 +3,11 @@
 //
 
 #include "stp/Play.hpp"
-
 #include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
 
-void Play::initialize(std::unordered_map<std::basic_string<char>, StpInfo>) noexcept {
+void Play::initialize(const std::unordered_map<std::string, StpInfo>&) noexcept {
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -139,7 +138,15 @@ bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
         return lastScore.value_or(0);
     }
 
-    std::unordered_map<int, StpInfo> finalizePlay() {
-        return {};
+    int Play::getRobotIdForRole(const std::string& roleName) {
+        return stpInfos[roleName].getRobot()->get()->getId();
+    }
+
+    Play::PlayInfo Play::finalizePlay() {
+        PlayInfo playInfo;
+        std::vector<std::string> allScoredRoles = getScoredRoles();
+            for(const std::string& roleName : allScoredRoles) {
+                 playInfo.emplace(getRobotIdForRole(roleName), stpInfos[roleName]);
+            }
     }
 }  // namespace rtt::ai::stp

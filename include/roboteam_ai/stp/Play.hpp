@@ -35,7 +35,7 @@ class Play {
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
      */
-    void initialize(std::unordered_map<std::basic_string<char>, StpInfo>) noexcept;
+    void initialize(const std::unordered_map<std::string, StpInfo>&) noexcept;
 
     /**
      * Virtual function that is called in initialize().
@@ -130,11 +130,14 @@ class Play {
      */
     uint8_t getLastScore();
 
+    /// Place to store info in that is needed between Plays
+    using PlayInfo = std::unordered_map<int, StpInfo>;
+
     /**
      * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
      * @return List of all the necessary information
      */
-    std::unordered_map<int, StpInfo> finalizePlay();
+    PlayInfo finalizePlay();
 
 protected:
     /**
@@ -182,6 +185,13 @@ protected:
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
 
+    /**
+     * Virtual function that returns all Roles necessary for scoring a Play.
+     * This will be used to loop through these Roles, saving all necessary information for each of them in a struct
+     * @return vector with names of scored Roles in a Play
+     */
+    virtual std::vector<std::string> getScoredRoles() = 0;
+
    private:
     /**
      * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
@@ -205,6 +215,8 @@ protected:
      * This is used to check if we need to redeal (if a robot disappears for example)
      */
     int previousRobotNum{};
+
+    int getRobotIdForRole(const std::string& roleName);
 };
 }  // namespace rtt::ai::stp
 

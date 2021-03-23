@@ -125,4 +125,7 @@ Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
 
 const char* GetBallPossession::getName() { return "Get Ball Possession"; }
 
+    std::vector<std::string> GetBallPossession::getScoredRoles() {
+        return {"ball_getter"};
+    }
 }  // namespace rtt::ai::stp::play

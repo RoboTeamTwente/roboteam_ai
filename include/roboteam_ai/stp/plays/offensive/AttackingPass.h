@@ -115,6 +115,8 @@ class AttackingPass : public Play {
      */
     Grid gridLeft = Grid(0.15 * field.getFieldWidth(), 0, 3, 2.5, 5, 5);
     Grid gridRight = Grid(0.15 * field.getFieldWidth(), -2.5, 3, 2.5, 5, 5);
+
+    std::vector<std::string> getScoredRoles() override;
 };
 }  // namespace rtt::ai::stp::play
 
