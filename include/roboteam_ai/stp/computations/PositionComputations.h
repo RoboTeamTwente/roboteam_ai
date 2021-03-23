@@ -74,6 +74,11 @@ namespace rtt::ai::stp {
         inline static std::unordered_map<Vector2,gen::PositionScores> calculatedScores{};
 
         /**
+         * vector of determined wall positions
+         */
+        inline static std::vector<Vector2> calculatedWallPositions{};
+
+        /**
          * Determines the location for defenders around the defense area
          * Uses the defence area boundaries and the path from ball to center of goal to find the intersects of circles to
          * find the various positions.
@@ -93,6 +98,16 @@ namespace rtt::ai::stp {
          * @return the best position within that grid with its score
          */
         static gen::ScoredPosition getPosition(const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field, world::World *world);
+
+        /**
+         * Makes a wall if not ready done, saves it in calculatedWallPositions and deals the index
+         * @param index Index of the wall position (do unique positions)
+         * @param amountDefenders Amount of defenders the wall is made of
+         * @param field
+         * @param world
+         * @return Vector2 position of that index in the wall
+         */
+        static Vector2 getWallPosition(int index, int amountDefenders, const world::Field &field, world::World *world);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H

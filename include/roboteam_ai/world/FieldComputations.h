@@ -189,7 +189,7 @@ class FieldComputations {
      * @param point that needs to be inside field
      * @return point inside field
      */
-    Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
+    static Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
 
    private:
     /**

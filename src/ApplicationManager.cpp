@@ -152,10 +152,13 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
+    //TODO make a clear function
     playEvaluator.clearGlobalScores(); //reset all evaluations
+    ai::stp::PositionComputations::calculatedScores.clear();
+    ai::stp::PositionComputations::calculatedWallPositions.clear();
+
     playEvaluator.update(_world);
     playChecker.update(_world, playEvaluator);
-    ai::stp::PositionComputations::calculatedScores.clear();
 
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {

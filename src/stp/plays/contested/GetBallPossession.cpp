@@ -77,26 +77,14 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
-    auto length = field.getFieldLength();
-    auto width = field.getFieldWidth();
-
     stpInfos["midfielder_0"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldBot, gen::SafePosition, field, world));
     stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldMid, gen::SafePosition, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(gen::gridMidFieldTop, gen::SafePosition, field, world));
 
-    int amountDefenders = 3;
-    std::vector<Vector2> wallPositions = {};
-    if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos()))
-        wallPositions = PositionComputations::determineWallPositions(field,world,amountDefenders);
-    if (!wallPositions.empty()) {
-        stpInfos["waller_0"].setPositionToMoveTo(wallPositions.at(0));
-        stpInfos["waller_1"].setPositionToMoveTo(wallPositions.at(1));
-        stpInfos["waller_2"].setPositionToMoveTo(wallPositions.at(2));
-    } else {
-        stpInfos["waller_0"].setPositionToMoveTo(Vector2(0,0));
-        stpInfos["waller_1"].setPositionToMoveTo(Vector2(0,0.2));
-        stpInfos["waller_2"].setPositionToMoveTo(Vector2(0,-0.2));
-    }
+    stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0,3,field,world));
+    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1,3,field,world));
+    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2,3,field,world));
+
 }
 
 bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }

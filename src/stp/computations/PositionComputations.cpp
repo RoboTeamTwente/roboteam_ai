@@ -79,9 +79,14 @@ namespace rtt::ai::stp {
         return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility,goalDistance,trialToGoalAngle)).value();
     }
 
+    Vector2 PositionComputations::getWallPosition(int index, int amountDefenders, const rtt::world::Field &field, rtt::world::World *world){
+        if(calculatedWallPositions.empty()) calculatedWallPositions = determineWallPositions(field,world,amountDefenders);
+        return calculatedWallPositions[index];
+    }
+
     std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, rtt::world::World *world, int amountDefenders) {
         auto w = world->getWorld().value();
-        auto b = w.getBall()->get();
+        Vector2 ballPos = FieldComputations::placePointInField(field,w.getBall()->get()->getPos());
         double spacingRobots = control_constants::ROBOT_RADIUS * 2;
 
         std::vector<Vector2> positions = {};
@@ -94,7 +99,7 @@ namespace rtt::ai::stp {
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
         for (auto &i : defenseAreaBorder) {
-            LineSegment ball2GoalLine = LineSegment(b->getPos(), field.getOurGoalCenter());
+            LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
             for (const LineSegment &line : defenseAreaBorder) { // Vector is made to check if there is only 1 intersect
                 if (line.doesIntersect(ball2GoalLine)) {
                     auto intersect = line.intersects(ball2GoalLine);
