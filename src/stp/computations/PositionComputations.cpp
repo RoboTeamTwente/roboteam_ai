@@ -21,6 +21,7 @@ namespace rtt::ai::stp {
         gen::ScoredPosition bestPosition = {{0,0},0};
         for (const auto &nestedPoints : searchGrid.getPoints()) {
             for (const auto &position : nestedPoints) {
+                if (!FieldComputations::pointIsValidPosition(field,position)) continue;
                 gen::PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position) : calculatedScores[position];
                 uint8_t positionScore = getScoreOfPosition(profile, position, scores, world, field);
                 if (positionScore > bestPosition.score) bestPosition = {position,positionScore};

@@ -14,6 +14,11 @@ namespace rtt::ai::stp::evaluation {
     public:
         OpennessEvaluation() noexcept;
 
+        /**
+         * Returns a uint8_t score linked to a position for its openness taken in account all enemy bots
+         * @param enemyDistances Vector of all enemy distances from the point
+         * @return uint8_t score
+         */
         [[nodiscard]] uint8_t metricCheck(std::vector<double>& enemyDistances) const noexcept;
 
         const char* getName() { return "PositionOpenness"; }

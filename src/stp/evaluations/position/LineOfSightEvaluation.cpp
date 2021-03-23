@@ -4,7 +4,6 @@
 
 #include <cmath>
 #include "include/roboteam_ai/stp/evaluations/position/LineOfSightEvaluation.h"
-#include <iostream>
 
 namespace rtt::ai::stp::evaluation {
     LineOfSightEvaluation::LineOfSightEvaluation() noexcept {

@@ -14,9 +14,16 @@ namespace rtt::ai::stp::evaluation {
     public:
         LineOfSightEvaluation() noexcept;
 
-        [[nodiscard]] uint8_t metricCheck(double pDist, std::vector<double>& eDists, std::vector<double>& eAngles) const noexcept;
+        /**
+         * Returns a uint8_t score linked to a position for each enemy robot on the line to the position from the ball
+         * @param receiverDistance Receiver distance from ball
+         * @param enemyDistances Vector of all enemy distances from ball
+         * @param enemyAngles Vector of all enemy angels from ball compared to Receiver angle (= 0 degrees)
+         * @return uint8_t score
+         */
+        [[nodiscard]] uint8_t metricCheck(double receiverDistance, std::vector<double>& enemyDistances, std::vector<double>& enemyAngles) const noexcept;
 
-        const char* getName() { return "PositionOpenness"; }
+        const char* getName() { return "PositionLineOfSight"; }
 
     private:
         /**

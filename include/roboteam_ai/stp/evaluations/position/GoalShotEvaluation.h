@@ -13,10 +13,16 @@ namespace rtt::ai::stp::evaluation {
     class GoalShotEvaluation {
     public:
         GoalShotEvaluation() noexcept;
+        /**
+         * Returns a uint8_t score linked to a position for its possibility to score a goal from it
+         * @param goalVisibility % visibility of the goal (taking in account other robots)
+         * @param goalDistance distance from point to goal
+         * @param goalAngle angle from point to goal (0 is straight in front the middle)
+         * @return uint8_t score
+         */
+        [[nodiscard]] uint8_t metricCheck(double goalVisibility, double goalDistance, double goalAngle) const noexcept;
 
-        [[nodiscard]] uint8_t metricCheck(double vis, double dist, double angle) const noexcept;
-
-        const char* getName() { return "PositionOpenness"; }
+        const char* getName() { return "PositionGoalShot"; }
 
     private:
         /**
