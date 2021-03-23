@@ -52,6 +52,7 @@ namespace rtt::ai::stp {
          */
         static double determineGoalShotScore(Vector2 &point, const world::Field &field, world::World *world, gen::PositionScores &scores);
 
+    public:
         /**
          * Score a position using the given weights weights for a profile.
          * Will check if the position already has a pre-calculated score (from this tick) then throws the weight over it
@@ -66,8 +67,6 @@ namespace rtt::ai::stp {
         static uint8_t getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, world::World *world,
                                           const world::Field &field);
 
-
-    public:
         /**
          * unordered map of calculated scores of this tick.
          * must be cleared at start of tick
@@ -85,6 +84,14 @@ namespace rtt::ai::stp {
          */
         static std::vector<Vector2> determineWallPositions(const world::Field &field, world::World *world, int amountDefenders);
 
+        /**
+         * Returns the best scored position from a grid with a profile
+         * @param searchGrid the area (with points) that should be searched
+         * @param profile combination of weights for different factors that should be scored
+         * @param field
+         * @param world
+         * @return the best position within that grid with its score
+         */
         static gen::ScoredPosition getPosition(const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field, world::World *world);
     };
 } // namespace rtt::ai::stp::computations

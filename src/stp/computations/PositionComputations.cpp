@@ -3,14 +3,16 @@
 //
 
 #include "stp/computations/PositionComputations.h"
-#include <stp/computations/PassComputations.h>
 #include "stp/StpInfo.h"
 
 #include <roboteam_utils/Grid.h>
 
 #include <include/roboteam_ai/world/Field.h>
-#include <roboteam_utils/Circle.h>
 #include "include/roboteam_ai/world/World.hpp"
+
+#include "stp/evaluations/position/OpennessEvaluation.h"
+#include "stp/evaluations/position/LineOfSightEvaluation.h"
+#include "stp/evaluations/position/GoalShotEvaluation.h"
 
 namespace rtt::ai::stp {
 
@@ -47,51 +49,33 @@ namespace rtt::ai::stp {
     }
 
     double PositionComputations::determineOpenScore(Vector2 &point, rtt::world::World *world, gen::PositionScores &scores) {
-        /// TODO-Max determine with all robots within a circle around
-        /// TODO-Max maybe have a cone that aims at the ball (behind does not really matter?)
-        double score = 0;
-        auto theirClosestBot = world->getWorld().value().getRobotClosestToPoint(point, rtt::world::Team::them);
-        if (theirClosestBot) {
-            score = theirClosestBot.value()->getPos().dist(point);
+        std::vector<double> enemyDistances;
+        for (auto& enemyRobot : world->getWorld()->getThem()){
+            enemyDistances.push_back(point.dist(enemyRobot->getPos()));
         }
-        return (scores.scoreOpen = score).value();
+        return (scores.scoreOpen = stp::evaluation::OpennessEvaluation().metricCheck(enemyDistances)).value();
     }
 
     double PositionComputations::determineLineOfSightScore(Vector2 &point, rtt::world::World *world, gen::PositionScores &scores) {
-        /// TODO-Max make triangle
-        auto passLine = Line(world->getWorld().value()->getBall()->get()->getPos(), point);
-        double score = 0;
-        // If there is a robot in the way, return 0
-        if (computations::PassComputations::pathHasAnyRobots(passLine, world->getWorld()->getRobotsNonOwning())) return score;
-        /// TODO-Max make it this better, now takes center of line
-        // Search closest bot to this point and get that distance
-        auto theirClosestBot = world->getWorld().value().getRobotClosestToPoint((passLine.v1+passLine.v2)/2, rtt::world::Team::them);
-        if (theirClosestBot) {
-            score = theirClosestBot.value()->getPos().dist(point);
+        Vector2 ballPos = world->getWorld().value()->getBall()->get()->getPos();
+        double pointDistance = ballPos.dist(point);
+        double pointAngle = (ballPos-point).angle();
+        std::vector<double> enemyDistancesToBall;
+        std::vector<double> enemyAnglesToBallvsPoint;
+        for (auto& enemyRobot : world->getWorld()->getThem()){
+            enemyDistancesToBall.push_back(ballPos.dist(enemyRobot->getPos()));
+            double x = (ballPos-enemyRobot->getPos()).angle()-pointAngle;
+            enemyAnglesToBallvsPoint.push_back(x);
         }
-        return (scores.scoreOpen = score).value();
+        return (scores.scoreLineOfSight = stp::evaluation::LineOfSightEvaluation().metricCheck(pointDistance,enemyDistancesToBall,enemyAnglesToBallvsPoint)).value();
     }
 
     double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field, rtt::world::World *world, gen::PositionScores &scores) {
-        auto fieldWidth = field.getFieldWidth();
-        auto fieldLength = field.getFieldLength();
         auto w = world->getWorld().value();
-        auto visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, w) / 100;
-
-        // Normalize distance, and then subtract 1
-        // This inverts the score, so if the distance is really large,
-        // the score for the distance will be close to 0
-        auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
-        auto goalDistance = 1 - (FieldComputations::getDistanceToGoal(field, false, point) / fieldDiagonalLength);
-
-        // Make sure the angle to shoot at the goal with is okay
-        auto trialToGoalAngle = 1 - fabs((field.getTheirGoalCenter() - point).angle()) / M_PI_2;
-
-        // Calculate total score for this point
-        // TODO-Max check score factors to be logical
-        // TODO-Max add difference between chip and kick
-        double score = (goalDistance + visibility + trialToGoalAngle);
-        return (scores.scoreOpen = score).value();
+        double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, w) / 100;
+        double goalDistance = FieldComputations::getDistanceToGoal(field, false, point);
+        double trialToGoalAngle = fabs((field.getTheirGoalCenter() - point).angle());
+        return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility,goalDistance,trialToGoalAngle)).value();
     }
 
     std::vector<Vector2> PositionComputations::determineWallPositions(const rtt::world::Field &field, rtt::world::World *world, int amountDefenders) {
