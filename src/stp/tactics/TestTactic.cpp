@@ -10,7 +10,7 @@ namespace rtt::ai::stp {
 
 TestTactic::TestTactic() {
     // Create state machine of skills and initialize first skill
-    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::GoToPos()};
+    skills = rtt::collections::state_machine<Skill, Status, StpInfo>{skill::GoToPos(), skill::GoToPos(), skill::GoToPos(), skill::GoToPos(), skill::GoToPos()};
 }
 
 std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) noexcept {
@@ -24,10 +24,20 @@ std::optional<StpInfo> TestTactic::calculateInfoForSkill(StpInfo const &info) no
     // This switch will let a robot drive in a square
     switch (skills.current_num()) {
         case 0:
-            skillStpInfo.setPositionToMoveTo(Vector2(2, 2));
+            skillStpInfo.setPositionToMoveTo(Vector2(length / 8, width / 8));
             break;
         case 1:
-            skillStpInfo.setPositionToMoveTo(Vector2(2, 2));
+            skillStpInfo.setPositionToMoveTo(Vector2(length / 8, -width / 8));
+            break;
+        case 2:
+            skillStpInfo.setPositionToMoveTo(Vector2(-length / 8, -width / 8));
+            break;
+        case 3:
+            skillStpInfo.setPositionToMoveTo(Vector2(-length / 8, width / 8));
+            break;
+        case 4:
+            skillStpInfo.setPositionToMoveTo(Vector2(length / 8, width / 8));
+            skills.reset();
             break;
     }
 
