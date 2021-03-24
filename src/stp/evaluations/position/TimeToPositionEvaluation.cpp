@@ -27,9 +27,9 @@ namespace rtt::ai::stp::evaluation {
         if (!robot1.has_value()) return 0;
         if (!robot2.has_value()) return 255;
         //TODO when new path-planning is implemented use integrated functions
-        double ourTimeEst = (point-robot1.value()->getPos()).length();
-        double theirTimeEst = (point-robot2.value()->getPos()).length();
-        return calculateMetric(theirTimeEst/ourTimeEst);
+        double r1TimeEst = (point-robot1.value()->getPos()).length();
+        double r2TimeEst = (point-robot2.value()->getPos()).length();
+        return calculateMetric(r2TimeEst/r1TimeEst);
     }
 
     uint8_t TimeToPositionEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }
