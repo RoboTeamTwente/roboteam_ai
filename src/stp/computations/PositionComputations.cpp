@@ -16,19 +16,24 @@
 
 namespace rtt::ai::stp {
 
-    gen::ScoredPosition PositionComputations::getPosition(const Grid &searchGrid, gen::ScoreProfile profile,const rtt::world::Field &field,
-                                                                         rtt::world::World *world) {
-        gen::ScoredPosition bestPosition = {{0,0},0};
+    gen::ScoredPosition PositionComputations::getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field, world::World *world) {
+        gen::ScoredPosition bestPosition;
+        (currentPosition.has_value()) ? bestPosition = scorePosition(currentPosition.value(), profile, field, world, 2) : bestPosition = {{0,0},0};
         for (const auto &nestedPoints : searchGrid.getPoints()) {
-            for (const auto &position : nestedPoints) {
+            for (const Vector2 &position : nestedPoints) {
                 if (!FieldComputations::pointIsValidPosition(field,position)) continue;
-                gen::PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position) : calculatedScores[position];
-                uint8_t positionScore = getScoreOfPosition(profile, position, scores, world, field);
-                if (positionScore > bestPosition.score) bestPosition = {position,positionScore};
+                gen::ScoredPosition consideredPosition = scorePosition(position, profile, field, world);
+                if (consideredPosition.score > bestPosition.score) bestPosition = consideredPosition;
                 }
             }
-        RTT_DEBUG("SIZE OF calculatedScores is: " + std::to_string(calculatedScores.size()));
         return bestPosition;
+    }
+
+    gen::ScoredPosition PositionComputations::scorePosition(const Vector2& position, gen::ScoreProfile& profile, const world::Field &field, world::World *world, uint8_t bias){
+        gen::PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position) : calculatedScores[position];
+        uint8_t positionScore = getScoreOfPosition(profile, position, scores, world, field);
+        if (bias) positionScore = (positionScore+bias > bias) ? positionScore+bias : std::numeric_limits<uint8_t>::max(); //stop overflow of uint8_t (254+2 = 1)
+        return {position,positionScore};
     }
 
     uint8_t PositionComputations::getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, rtt::world::World *world, const rtt::world::Field &field){

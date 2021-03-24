@@ -52,6 +52,19 @@ namespace rtt::ai::stp {
          */
         static double determineGoalShotScore(Vector2 &point, const world::Field &field, world::World *world, gen::PositionScores &scores);
 
+        /**
+         * Get score of a position, used in getPosition
+         * @param position Vector2 that needs to be scored
+         * @param profile combination of weights for different factors that should be scored
+         * @param field
+         * @param world
+         * @param bias value added to score
+         * @return Position with score
+         */
+        static gen::ScoredPosition scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field,
+                      world::World *world, uint8_t bias = 0);
+
+
     public:
         /**
          * Score a position using the given weights weights for a profile.
@@ -91,13 +104,14 @@ namespace rtt::ai::stp {
 
         /**
          * Returns the best scored position from a grid with a profile
+         * @param currentPosition The position the robot it currently going to (small biased) if it exists
          * @param searchGrid the area (with points) that should be searched
          * @param profile combination of weights for different factors that should be scored
          * @param field
          * @param world
          * @return the best position within that grid with its score
          */
-        static gen::ScoredPosition getPosition(const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field, world::World *world);
+        static gen::ScoredPosition getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field, world::World *world);
 
         /**
          * Makes a wall if not ready done, saves it in calculatedWallPositions and deals the index
