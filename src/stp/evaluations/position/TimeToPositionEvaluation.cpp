@@ -26,7 +26,7 @@ namespace rtt::ai::stp::evaluation {
     uint8_t TimeToPositionEvaluation::metricCheck(std::optional<world::view::RobotView> robot1, std::optional<world::view::RobotView> robot2, Vector2 point) const noexcept {
         if (!robot1.has_value()) return 0;
         if (!robot2.has_value()) return 255;
-        //TODO when new path-planning is implemented use integrated functions
+        //TODO when new path-planning is implemented use integrated functions, for now stupid, later path-planning
         double r1TimeEst = (point-robot1.value()->getPos()).length();
         double r2TimeEst = (point-robot2.value()->getPos()).length();
         return calculateMetric(r2TimeEst/r1TimeEst);
