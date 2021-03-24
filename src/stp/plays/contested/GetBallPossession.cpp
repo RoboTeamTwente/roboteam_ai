@@ -9,6 +9,7 @@
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
+#include "include/roboteam_ai/stp/evaluations/position/TimeToPositionEvaluation.h"
 
 namespace rtt::ai::stp::play {
 
@@ -55,7 +56,9 @@ uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
 void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
     //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
     stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
-    stpInfos["ball_getter"].setRoleScore(100);
+    stpInfos["ball_getter"].setRoleScore(evaluation::TimeToPositionEvaluation().metricCheck(world->getWorld()->getRobotClosestToBall(world::us),
+                                                                                            world->getWorld()->getRobotClosestToBall(world::them),
+                                                                                            world->getWorld()->getBall().value()->getPos()));
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
