@@ -9,6 +9,7 @@ namespace rtt::ai::stp {
 
 void Play::initialize(PlayInfos& _previousPlayInfos) noexcept {
     previousPlayInfos = _previousPlayInfos;
+    if (!previousPlayInfos->empty()) RTT_DEBUG(std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -134,4 +135,6 @@ bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     uint8_t Play::getLastScore() {
         return lastScore.value_or(0);
     }
+
+    void Play::storePlayInfo(Play::PlayInfos& previousPlayInfo) noexcept {}
 }  // namespace rtt::ai::stp

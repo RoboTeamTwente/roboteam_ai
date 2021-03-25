@@ -160,7 +160,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
         rtt::ai::stp::Play::PlayInfos previousPlayInfo{};
-        if(currentPlay) previousPlayInfo = currentPlay->storePlayInfo();
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
 
         //Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
         currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
@@ -173,7 +173,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
     if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
         rtt::ai::stp::Play::PlayInfos previousPlayInfo{};
-        if(currentPlay) previousPlayInfo = currentPlay->storePlayInfo();
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
 
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")

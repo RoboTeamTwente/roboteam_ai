@@ -225,13 +225,10 @@ bool AttackingPass::passFinished() noexcept {
            (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);
 }
 
-    Play::PlayInfos AttackingPass::storePlayInfo() noexcept {
+   void AttackingPass::storePlayInfo(PlayInfos& info) noexcept {
         StoreInfo passer;
         passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
         passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
-
-        PlayInfos info{};
         info.insert({KeyInfo::isPasser,passer});
-        return info;
     }
 }  // namespace rtt::ai::stp::play

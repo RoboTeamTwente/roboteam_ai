@@ -33,6 +33,7 @@ class Play {
 
     struct StoreInfo {
         std::optional<int> robotID;
+        std::optional<Vector2> robotPosition;
         std::optional<Vector2> moveToPosition;
         std::optional<Vector2> defendPosition;
         std::optional<Vector2> shootAtPosition;
@@ -50,7 +51,7 @@ class Play {
      * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
      * @return Map of all the necessary information
      */
-    virtual PlayInfos storePlayInfo() noexcept = 0;
+    virtual void storePlayInfo(PlayInfos& previousPlayInfo) noexcept;
 
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
@@ -200,6 +201,11 @@ protected:
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
 
+    /**
+     * Map that holds info from the previous play
+     */
+    std::optional<PlayInfos> previousPlayInfos;
+
 private:
     /**
      * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
@@ -223,11 +229,6 @@ private:
      * This is used to check if we need to redeal (if a robot disappears for example)
      */
     int previousRobotNum{};
-
-    /**
-     * Map that holds info from the previous play
-     */
-    std::optional<PlayInfos> previousPlayInfos;
 
 };
 }  // namespace rtt::ai::stp
