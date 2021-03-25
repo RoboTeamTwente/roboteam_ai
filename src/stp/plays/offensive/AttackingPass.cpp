@@ -63,8 +63,8 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
-    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{passerFlag}}});
-    flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{passerFlag},5}});
+    flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}, 6}});
     flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});

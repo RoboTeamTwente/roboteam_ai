@@ -7,6 +7,7 @@
 /// This issue occurs when there are multiple roles classes (defender+midfielder) that have the same priority
 
 #include "utilities/Dealer.h"
+#include <iterator>
 
 #include <roboteam_utils/Hungarian.h>
 #include <roboteam_utils/Print.h>
@@ -24,6 +25,8 @@ Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priorit
 std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
     std::unordered_map<std::string, v::RobotView> output;
+    distribute_forcedIDs(allRobots,flagMap,output);
+
     std::vector<RoleScores> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
     // Make index of roles and ID to keep track which are the original indexes of each and get roleNames
     std::vector<int> indexRoles;
@@ -60,6 +63,20 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
         }
     }
     return output;
+}
+
+void Dealer::distribute_forcedIDs(const std::vector<v::RobotView>& _allRobots, const FlagMap& _flagMap, std::unordered_map<std::string, v::RobotView>& output){
+    FlagMap flagMap = _flagMap;
+    std::vector<v::RobotView> allRobots = _allRobots;
+    for (auto role = flagMap.begin(); role != flagMap.end(); ++role) {
+        if (role->second.forcedID != -1){
+            output.insert({role->first,allRobots[role->second.forcedID]});
+            allRobots.erase(std::remove(allRobots.begin(), allRobots.end(), allRobots[role->second.forcedID]));
+            flagMap.erase(role--);
+        }
+    }
+    _flagMap = flagMap;
+    _allRobots = allRobots;
 }
 
 void Dealer::distribute_init(std::vector<int>& indexRoles, std::vector<int>& indexID, std::vector<std::string>& roleNames, const Dealer::FlagMap &flagMap) {

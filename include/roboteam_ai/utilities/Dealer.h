@@ -57,6 +57,7 @@ class Dealer {
     struct RoleInfo {
         DealerFlagPriority priority;
         std::vector<DealerFlag> flags;
+        int forcedID = -1;
     };
 
     using FlagMap = std::map<std::string, RoleInfo>;
@@ -176,6 +177,9 @@ class Dealer {
      */
     void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID,
                            std::vector<RoleScores> &scores);
+
+    void distribute_forcedIDs(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+                              std::unordered_map<std::string, v::RobotView> &output);
 };
 }  // namespace rtt::ai
 #endif  // RTT_ROBOTEAM_AI_SRC_UTILITIES_DEALER_H_
