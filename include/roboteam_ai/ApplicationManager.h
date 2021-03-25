@@ -32,11 +32,6 @@ class ApplicationManager {
     ai::stp::Play* currentPlay{nullptr};
 
     /**
-     * The last play that was picked
-     */
-    ai::stp::Play* lastPlay;
-
-    /**
      * Checks which plays are valid out of all the plays
      */
 

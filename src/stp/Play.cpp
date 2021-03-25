@@ -7,7 +7,8 @@
 
 namespace rtt::ai::stp {
 
-void Play::initialize(const std::unordered_map<std::string, StpInfo>&) noexcept {
+void Play::initialize(PlayInfos& _previousPlayInfos) noexcept {
+    previousPlayInfos = _previousPlayInfos;
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -130,23 +131,7 @@ bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     }
 }
 
-    std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
-        return stpInfos;
-    }
-
     uint8_t Play::getLastScore() {
         return lastScore.value_or(0);
-    }
-
-    int Play::getRobotIdForRole(const std::string& roleName) {
-        return stpInfos[roleName].getRobot()->get()->getId();
-    }
-
-    Play::PlayInfos Play::storePlayInfo() {
-        PlayInfos playInfo;
-        std::vector<std::string> allScoredRoles = getScoredRoles();
-            for(const std::string& roleName : allScoredRoles) {
-                 playInfo.emplace(getRobotIdForRole(roleName), stpInfos[roleName]);
-            }
     }
 }  // namespace rtt::ai::stp

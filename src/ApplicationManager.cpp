@@ -159,24 +159,22 @@ void ApplicationManager::decidePlay(world::World *_world) {
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
+        rtt::ai::stp::Play::PlayInfos previousPlayInfo{};
+        if(currentPlay) previousPlayInfo = currentPlay->storePlayInfo();
 
         //Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
-        if(lastPlay) {
-            auto betweenPlayInfo = lastPlay->storePlayInfo();
-        }
         currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
-        currentPlay->initialize(currentPlay->getStpInfos());
-        lastPlay = currentPlay;
+        currentPlay->initialize(previousPlayInfo);
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep
     if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
-        if(lastPlay) {
-            //auto betweenPlayInfo = lastPlay->storePlayInfo();
-        }
+        rtt::ai::stp::Play::PlayInfos previousPlayInfo{};
+        if(currentPlay) previousPlayInfo = currentPlay->storePlayInfo();
+
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
             currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
@@ -187,10 +185,8 @@ void ApplicationManager::decidePlay(world::World *_world) {
             currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         }
         currentPlay->updateWorld(_world);
-        currentPlay->initialize(currentPlay->getStpInfos());
-        lastPlay = currentPlay;
+        currentPlay->initialize(previousPlayInfo);
     }
-
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }

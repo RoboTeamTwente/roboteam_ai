@@ -22,6 +22,36 @@ namespace rtt::ai::stp {
  */
 class Play {
    public:
+
+    //TODO move to gen cpp
+    enum class KeyInfo{
+        isPasser = 0,
+        isReceiver,
+        isShooter,
+        hasBall
+    };
+
+    struct StoreInfo {
+        std::optional<int> robotID;
+        std::optional<Vector2> moveToPosition;
+        std::optional<Vector2> defendPosition;
+        std::optional<Vector2> shootAtPosition;
+        std::optional<Vector2> passToRobot;
+    };
+
+    /**
+     * Place to store info in that is needed between Plays.
+     */
+    using PlayInfos = std::unordered_map<KeyInfo, StoreInfo>;
+
+     //// -------
+
+    /**
+     * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
+     * @return Map of all the necessary information
+     */
+    virtual PlayInfos storePlayInfo() noexcept = 0;
+
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
      */
@@ -35,7 +65,7 @@ class Play {
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
      */
-    void initialize(const std::unordered_map<std::string, StpInfo>&) noexcept;
+    void initialize(PlayInfos& previousPlayInfo) noexcept;
 
     /**
      * Virtual function that is called in initialize().
@@ -114,12 +144,6 @@ class Play {
     virtual const char* getName() = 0;
 
     /**
-     *
-     * Gets the current StpInfos from a Play
-     */
-    std::unordered_map<std::string, StpInfo> getStpInfos();
-
-    /**
      * If score was calculated, save here
      */
     std::optional<uint8_t> lastScore;
@@ -129,22 +153,6 @@ class Play {
      * @return score if no value -> 0
      */
     uint8_t getLastScore();
-
-    struct PlayInfo {
-
-    };
-
-    /**
-     * Place to store info in that is needed between Plays.
-     * E
-     */
-    using PlayInfos = std::unordered_map<int, StpInfo>;
-
-    /**
-     * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
-     * @return List of all the necessary information
-     */
-    PlayInfos storePlayInfo();
 
 protected:
     /**
@@ -192,14 +200,7 @@ protected:
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
 
-    /**
-     * Virtual function that returns all Roles necessary for scoring a Play.
-     * This will be used to loop through these Roles, saving all necessary information for each of them in a struct
-     * @return vector with names of scored Roles in a Play
-     */
-    virtual std::vector<std::string> getScoredRoles() = 0;
-
-   private:
+private:
     /**
      * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
      * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
@@ -223,7 +224,11 @@ protected:
      */
     int previousRobotNum{};
 
-    int getRobotIdForRole(const std::string& roleName);
+    /**
+     * Map that holds info from the previous play
+     */
+    std::optional<PlayInfos> previousPlayInfos;
+
 };
 }  // namespace rtt::ai::stp
 

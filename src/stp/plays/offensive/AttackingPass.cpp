@@ -225,7 +225,13 @@ bool AttackingPass::passFinished() noexcept {
            (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);
 }
 
-std::vector<std::string> AttackingPass::getScoredRoles() {
-        return {"receiver_left", "receiver_right"};
+    Play::PlayInfos AttackingPass::storePlayInfo() noexcept {
+        StoreInfo passer;
+        passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
+        passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
+
+        PlayInfos info{};
+        info.insert({KeyInfo::isPasser,passer});
+        return info;
     }
 }  // namespace rtt::ai::stp::play
