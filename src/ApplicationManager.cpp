@@ -161,16 +161,22 @@ void ApplicationManager::decidePlay(world::World *_world) {
         auto validPlays = playChecker.getValidPlays();
 
         //Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
-        auto betweenPlayInfo = currentPlay->finalizePlay();
+        if(lastPlay) {
+            auto betweenPlayInfo = lastPlay->storePlayInfo();
+        }
         currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
         currentPlay->initialize(currentPlay->getStpInfos());
+        lastPlay = currentPlay;
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep
     if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
+        if(lastPlay) {
+            //auto betweenPlayInfo = lastPlay->storePlayInfo();
+        }
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
             currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
@@ -182,6 +188,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
         }
         currentPlay->updateWorld(_world);
         currentPlay->initialize(currentPlay->getStpInfos());
+        lastPlay = currentPlay;
     }
 
     currentPlay->update();

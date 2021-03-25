@@ -116,7 +116,7 @@ std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return 
 
 bool Play::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        return std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
+        return std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
     } else {
         return true;
     }
@@ -124,7 +124,7 @@ bool Play::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
 
 bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        return std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
+        return std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [&playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
     } else {
         return true;
     }
@@ -142,8 +142,8 @@ bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
         return stpInfos[roleName].getRobot()->get()->getId();
     }
 
-    Play::PlayInfo Play::finalizePlay() {
-        PlayInfo playInfo;
+    Play::PlayInfos Play::storePlayInfo() {
+        PlayInfos playInfo;
         std::vector<std::string> allScoredRoles = getScoredRoles();
             for(const std::string& roleName : allScoredRoles) {
                  playInfo.emplace(getRobotIdForRole(roleName), stpInfos[roleName]);

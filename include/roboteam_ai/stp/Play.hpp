@@ -130,14 +130,21 @@ class Play {
      */
     uint8_t getLastScore();
 
-    /// Place to store info in that is needed between Plays
-    using PlayInfo = std::unordered_map<int, StpInfo>;
+    struct PlayInfo {
+
+    };
+
+    /**
+     * Place to store info in that is needed between Plays.
+     * E
+     */
+    using PlayInfos = std::unordered_map<int, StpInfo>;
 
     /**
      * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
      * @return List of all the necessary information
      */
-    PlayInfo finalizePlay();
+    PlayInfos storePlayInfo();
 
 protected:
     /**
