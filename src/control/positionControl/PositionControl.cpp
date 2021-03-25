@@ -54,8 +54,8 @@ namespace rtt::ai::control {
         collisionDetector.setRobotPositions(robotPositions);
     }
 
-    rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
-                                 Vector2 targetPosition, stp::PIDType pidType) {
+    rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
+                                                                      Vector2 currentVelocity,Vector2 targetPosition, stp::PIDType pidType) {
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 
@@ -68,20 +68,18 @@ namespace rtt::ai::control {
             worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId).has_value())) {
 
             //Create path to original target
-            computedPathsBB[robotId] = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,
-                                                          ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
+            computedPathsBB[robotId] = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
             //Check path to original target for collisions
             firstCollision = worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId);
 
             if (firstCollision.has_value()) {
                 //Create intermediate points, return a collision-free path originating from the best option of these points
-                auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition,
-                                           timeStep);
+                auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition,timeStep);
                 if (newPath.has_value()) {
                     computedPathsBB[robotId] = newPath.value();
                 } else {
-                    commandCollision.collisionPosition = firstCollision->collisionPosition;
+                    commandCollision.collisionData = firstCollision;
                 }
             }
             computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);

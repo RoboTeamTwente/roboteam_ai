@@ -30,7 +30,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
     }
 
-    if (commandCollision.collisionPosition.has_value()) {
+    if (commandCollision.collisionData.has_value()) {
         return Status::Failure;
     }
     // Clamp and set velocity

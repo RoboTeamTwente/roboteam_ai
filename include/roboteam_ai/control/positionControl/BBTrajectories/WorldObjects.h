@@ -15,12 +15,16 @@
 namespace rtt::BB {
 
     /**
-     * @memberof obstaclePosition, position of the obstacle
-     * @memberof collisionPosition, position robot shouldn't come
+     * @memberof obstaclePosition position of the obstacle
+     * @memberof collisionPosition position robot shouldn't come
+     * @memberof collisionTime number of seconds from now that the collision will occur
+     * @memberof collisionName the name of what causes the collision
      */
     struct CollisionData {
         Vector2 obstaclePosition;
         Vector2 collisionPosition;
+        double collisionTime;
+        std::string collisionName;
     };
 
     /**
@@ -30,8 +34,8 @@ namespace rtt::BB {
      * @memberof collision
      */
     struct CommandCollision {
-        rtt::RobotCommand robotCommand;
-        std::optional<Vector2> collisionPosition;
+        RobotCommand robotCommand;
+        std::optional<CollisionData> collisionData;
     };
 
     class WorldObjects {
@@ -61,26 +65,24 @@ namespace rtt::BB {
          * fieldlines if not allowed there. Adds these points and the time to collisionDatas and collisionTimes
          * @param field Used for information about the field
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
-         * @param collisionTimes, std::vector which times can be added to
          * @param pathPoints, std::vector with path points
          * @param robotId
          * @param timeStep in seconds
          */
-        void calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
-                                      const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
+        void calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
+                                      int robotId, double timeStep);
 
         /**
          * @brief Takes a calculated path and checks points along the path if they are inside the defensearea if
          * the robot is not allowed to be there. Adds these points and the time to collisionDatas and collisionTimes
          * @param field Used for information about the field
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
-         * @param collisionTimes, std::vector which times can be added to
          * @param pathPoints, std::vector with path points
          * @param robotId
          * @param timeStep in seconds
          */
-        void calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
-                                            const std::vector<Vector2> &pathPoints, int robotId, double timeStep);
+        void calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
+                                            int robotId, double timeStep);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an
@@ -88,12 +90,10 @@ namespace rtt::BB {
          * being inside the balltube. Adds these points and the time to collisionDatas and collisionTimes
          * @param world Used for information about the ball
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
-         * @param collisionTimes, std::vector which times can be added to
          * @param pathPoints, std::vector with path points
          * @param timeStep in seconds
          */
-        void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
-                                     std::vector<Vector2> pathPoints, double timeStep);
+        void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints, double timeStep);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an
@@ -102,13 +102,11 @@ namespace rtt::BB {
          * @param world Used for information about the enemy robots
          * @param BBTrajectory BBTrajectory which is used for getting the velocity of the robot
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
-         * @param collisionTimes, std::vector which times can be added to
          * @param pathPoints, std::vector with path points
          * @param timeStep in seconds
          */
         void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
-                                           std::vector<double> &collisionTimes, const std::vector<Vector2> &pathPoints,
-                                           double timeStep);
+                                           const std::vector<Vector2> &pathPoints, double timeStep);
 
         /**
          * @brief Takes a path from the array of stored paths and checks points along the path if they are too close to
@@ -116,14 +114,13 @@ namespace rtt::BB {
          * and collisionTimes
          * @param world Used for information about our robots
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
-         * @param collisionTimes, std::vector which times can be added to
          * @param pathPoints, std::vector with path points
          * @param computedPaths The paths of our own robots
          * @param robotId
          * @param timeStep in seconds
          */
-        void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, std::vector<double> &collisionTimes,
-                                         const std::vector<Vector2> &pathPoints, const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
+        void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
+                                         const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
 
         // Checks if a specified robot can enter the defense area
         bool canEnterDefenseArea(int robotId);
