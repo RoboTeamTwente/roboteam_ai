@@ -122,7 +122,7 @@ namespace rtt::BB {
                 // TODO: fine tune avoidance distance
                 if (posDif.length() < 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
                     Vector2 velDif = ourVel - theirVel;
-                    double projectLength = velDif.dot(posDif) / sqrt(posDif.dot(posDif));
+                    double projectLength = velDif.dot(posDif) / posDif.length();
                     // TODO: fine tune allowed speed difference
                     if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
                         insertCollisionData(collisionDatas,CollisionData{theirPos, pathPoints[i], i * timeStep, "EnemyRobotCollision"});
