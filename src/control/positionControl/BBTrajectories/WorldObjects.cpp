@@ -52,14 +52,7 @@ namespace rtt::BB {
         if (!canMoveOutsideField(robotId)) {
             for (int i = 0; i<pathPoints.size(); i++) {
                 if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
-                    CollisionData to_insert{ pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision" };
-
-                    collisionDatas.insert(
-                        std::upper_bound(collisionDatas.begin(), collisionDatas.end(), to_insert, [](CollisionData const& ex, CollisionData const& compare) {
-                                           return ex.collisionTime < compare.collisionTime;
-                                         }),
-                                         to_insert
-                        );
+                    insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
                     return;
                 }
             }
@@ -74,14 +67,7 @@ namespace rtt::BB {
                 if (rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], true, 0) ||
                     rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], false,
                                                                      0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
-                    CollisionData to_insert{ pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision" };
-
-                    collisionDatas.insert(
-                        std::upper_bound(collisionDatas.begin(), collisionDatas.end(), to_insert, [](CollisionData const& ex, CollisionData const& compare) {
-                          return ex.collisionTime < compare.collisionTime;
-                        }),
-                        to_insert
-                    );
+                    insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
                     return;
                 }
             }
@@ -109,14 +95,7 @@ namespace rtt::BB {
                 if (ruleset.minDistanceToBall > (pathPoints[i] - ballTrajectory[i]).length()
                     || (gameState.getStrategyName() == "ball_placement_them"
                         && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i]))) {
-                    CollisionData to_insert{ ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision" };
-
-                    collisionDatas.insert(
-                        std::upper_bound(collisionDatas.begin(), collisionDatas.end(), to_insert, [](CollisionData const& ex, CollisionData const& compare) {
-                          return ex.collisionTime < compare.collisionTime;
-                        }),
-                        to_insert
-                    );
+                    insertCollisionData(collisionDatas,CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});
                     return;
                 }
             }
@@ -146,14 +125,7 @@ namespace rtt::BB {
                     double projectLength = velDif.dot(posDif) / sqrt(posDif.dot(posDif));
                     // TODO: fine tune allowed speed difference
                     if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
-                        CollisionData to_insert{ theirPos, pathPoints[i], i * timeStep, "EnemyRobotCollision" };
-
-                        collisionDatas.insert(
-                            std::upper_bound(collisionDatas.begin(), collisionDatas.end(), to_insert, [](CollisionData const& ex, CollisionData const& compare) {
-                              return ex.collisionTime < compare.collisionTime;
-                            }),
-                            to_insert
-                        );
+                        insertCollisionData(collisionDatas,CollisionData{theirPos, pathPoints[i], i * timeStep, "EnemyRobotCollision"});
                         return;
                     }
                 }
@@ -171,16 +143,8 @@ namespace rtt::BB {
         for (int i = 0; i < pathPoints.size(); i++) {
             for (int j = 0; j < ourRobotAmount; j++) {
                 if (robotId != j && computedPaths.find(j) != computedPaths.end()) {
-                    if ((pathPoints[i] - computedPaths.at(j)[i]).length() < ai::Constants::ROBOT_RADIUS() * 1.5 &&
-                        i * timeStep < 1) {
-                        CollisionData to_insert{ computedPaths.at(j)[i], pathPoints[i], i * timeStep, "OurRobotCollision" };
-
-                        collisionDatas.insert(
-                            std::upper_bound(collisionDatas.begin(), collisionDatas.end(), to_insert, [](CollisionData const& ex, CollisionData const& compare) {
-                              return ex.collisionTime < compare.collisionTime;
-                            }),
-                            to_insert
-                        );
+                    if ((pathPoints[i] - computedPaths.at(j)[i]).length() < ai::Constants::ROBOT_RADIUS() * 1.5 && i * timeStep < 1) {
+                        insertCollisionData(collisionDatas,CollisionData{computedPaths.at(j)[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
                         return;
                     }
                 }
@@ -200,5 +164,14 @@ namespace rtt::BB {
             return gameState.getRuleSet().robotsCanGoOutOfField;
         }
         return true;
+    }
+
+    void WorldObjects::insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData) {
+        collisionDatas.insert(
+            std::upper_bound(collisionDatas.begin(), collisionDatas.end(), collisionData, [](CollisionData const& data, CollisionData const& compare) {
+              return data.collisionTime < compare.collisionTime;
+            }),
+            collisionData
+        );
     }
 }  // namespace rtt::BB

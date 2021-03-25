@@ -127,6 +127,9 @@ namespace rtt::BB {
 
         // Checks if a specified robot can move out of the field
         bool canMoveOutsideField(int robotId);
+
+        // Inserts collisionData in the vector collisionDatas such that they are ordered from lowest collisionTime to highest
+        void insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData);
     };
 }
 
