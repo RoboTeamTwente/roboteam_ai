@@ -56,6 +56,7 @@ namespace rtt::ai::control {
 
     rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
                                                                       Vector2 currentVelocity,Vector2 targetPosition, stp::PIDType pidType) {
+        //TODO: split this function in a compute and a track part
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 
@@ -63,7 +64,7 @@ namespace rtt::ai::control {
         rtt::BB::CommandCollision commandCollision;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
         // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
-        if (true || (!computedPathsBB.contains(robotId) ||
+        if (false || (!computedPathsBB.contains(robotId) ||
             (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
             worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId).has_value())) {
             //Create path to original target
