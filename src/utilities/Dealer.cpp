@@ -22,9 +22,10 @@ Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &_allRobots, FlagMap &flagMap,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
     std::unordered_map<std::string, v::RobotView> output;
+    std::vector<v::RobotView> allRobots = _allRobots;           //copy to bypass the const of allRobots, needed in the next function
     distribute_forcedIDs(allRobots,flagMap,output);
 
     std::vector<RoleScores> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
@@ -65,18 +66,14 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
     return output;
 }
 
-void Dealer::distribute_forcedIDs(const std::vector<v::RobotView>& _allRobots, const FlagMap& _flagMap, std::unordered_map<std::string, v::RobotView>& output){
-    FlagMap flagMap = _flagMap;
-    std::vector<v::RobotView> allRobots = _allRobots;
+void Dealer::distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap& flagMap, std::unordered_map<std::string, v::RobotView>& output){
     for (auto role = flagMap.begin(); role != flagMap.end(); ++role) {
         if (role->second.forcedID != -1){
             output.insert({role->first,allRobots[role->second.forcedID]});
-            allRobots.erase(std::remove(allRobots.begin(), allRobots.end(), allRobots[role->second.forcedID]));
+            allRobots.erase(allRobots.begin() + role->second.forcedID);
             flagMap.erase(role--);
         }
     }
-    _flagMap = flagMap;
-    _allRobots = allRobots;
 }
 
 void Dealer::distribute_init(std::vector<int>& indexRoles, std::vector<int>& indexID, std::vector<std::string>& roleNames, const Dealer::FlagMap &flagMap) {

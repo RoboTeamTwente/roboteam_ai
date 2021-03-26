@@ -64,7 +64,7 @@ class Dealer {
     Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
     // Create a distribution of robots
-    std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+    std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &_allRobots, FlagMap &flagMap,
                                                              const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
    protected:
@@ -165,7 +165,7 @@ class Dealer {
      * @param roleNames vector with roleNames (order matters)
      * @param flagMap has info for the other parameters
      */
-    void distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames,
+    static void distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames,
                          const FlagMap &flagMap);
 
     /**
@@ -175,10 +175,16 @@ class Dealer {
      * @param indexID vector with ID numbering
      * @param scores vector with all Scores for Robots for each role and its priority
      */
-    void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID,
+    static void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID,
                            std::vector<RoleScores> &scores);
 
-    void distribute_forcedIDs(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+    /**
+     * Distributes the forced roles first, so that other rest of the function does not need to compute extra information
+     * @param allRobots a copy of all our robots, where in the robots will be removed
+     * @param flagMap wherein the roles will be removed
+     * @param output
+     */
+    static void distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap,
                               std::unordered_map<std::string, v::RobotView> &output);
 };
 }  // namespace rtt::ai
