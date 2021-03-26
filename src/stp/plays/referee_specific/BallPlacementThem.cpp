@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementThem.h"
 
-#include "stp/invariants/game_states/BallPlacementThemGameStateInvariant.h"
+#include "stp/invariants/game_states/BallPlacementThemGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
 
 namespace rtt::ai::stp::play {

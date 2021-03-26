@@ -97,42 +97,35 @@ void Play::refreshData() noexcept {
 
 void Play::distributeRoles() noexcept {
     Dealer dealer{world->getWorld().value(), &field};
-
     auto flagMap = decideRoleFlags();
-
     auto distribution = dealer.distribute(world->getWorld()->getUs(), flagMap, stpInfos);
 
+    // TODO-Max if role exists in oldStpInfos then copy those.
     // Clear the stpInfos for the new role assignment
-    stpInfos = std::unordered_map<std::string, StpInfo>{};
     for (auto& role : roles) {
         role->reset();
         auto roleName{role->getName()};
         if (distribution.find(roleName) != distribution.end()) {
             auto robot = distribution.find(role->getName())->second;
-
-            stpInfos.emplace(roleName, StpInfo{});
             stpInfos[roleName].setRobot(robot);
         }
     }
-
     std::for_each(stpInfos.begin(), stpInfos.end(), [this](auto& each) { each.second.setCurrentWorld(world); });
 }
 
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
 
-bool Play::isValidPlayToKeep(world::World* world) noexcept {
+bool Play::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        world::Field field = world->getField().value();
-        return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
+        return std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
     } else {
         return true;
     }
 }
 
-bool Play::isValidPlayToStart(world::World* world) const noexcept {
+bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
     if (!interface::MainControlsWidget::ignoreInvariants) {
-        world::Field field = world->getField().value();
-        return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
+        return std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
     } else {
         return true;
     }
@@ -140,5 +133,8 @@ bool Play::isValidPlayToStart(world::World* world) const noexcept {
 
     std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
         return stpInfos;
+    }
+    uint8_t Play::getLastScore() {
+        return lastScore.value_or(0);
     }
 }  // namespace rtt::ai::stp

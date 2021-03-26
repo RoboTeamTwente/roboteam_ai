@@ -4,10 +4,10 @@
 
 #include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
 
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/BallIsFreeInvariant.h"
-#include "stp/invariants/WeHaveMajorityInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/BallClosestToUsGlobalEvaluation.h"
+#include "stp/invariants/BallIsFreeGlobalEvaluation.h"
+#include "stp/invariants/WeHaveMajorityGlobalEvaluation.h"
+#include "stp/invariants/game_states/NormalPlayGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/active/BallGetter.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "stp/roles/Keeper.h"

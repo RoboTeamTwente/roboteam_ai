@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
 
-#include "stp/invariants/game_states/TimeOutGameStateInvariant.h"
+#include "stp/invariants/game_states/TimeOutGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {

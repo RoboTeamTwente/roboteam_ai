@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
 
-#include "stp/invariants/game_states/KickOffThemGameStateInvariant.h"
+#include "stp/invariants/game_states/KickOffThemGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
 

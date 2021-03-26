@@ -10,7 +10,7 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
 
     // Only add plays that are valid
     for (auto& each : *allPlays) {
-        if (each->isValidPlayToStart(world)) {
+        if (each->isValidPlayToStart(playEvaluator)) {
             validPlays.push_back(each.get());
         }
     }
@@ -18,10 +18,14 @@ std::vector<Play*> PlayChecker::getValidPlays() noexcept {
     return validPlays;
 }
 
-void PlayChecker::update(world::World* world) noexcept { this->world = world; }
+void PlayChecker::update(world::World* _world, PlayEvaluator& _playEvaluator) noexcept {
+    this->world = _world;
+    this->playEvaluator = _playEvaluator;
+}
 
 void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept { this->allPlays = &plays; }
 
+// TODO This function should not exist, it is the result of a non working AI. Only used in ApplicationManager to hardcode a play.
 Play* PlayChecker::getPlayForName(const std::string& playName) const noexcept {
     // Find play for playName param
     auto found = std::find_if(allPlays->begin(), allPlays->end(), [&](auto& play) { return play->getName() == playName; });

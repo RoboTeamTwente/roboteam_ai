@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
 
-#include "stp/invariants/game_states/HaltGameStateInvariant.h"
+#include "stp/evaluations/game_states/HaltGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 
 namespace rtt::ai::stp::play {

@@ -4,9 +4,9 @@
 
 #include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
 
-#include "stp/invariants/BallCloseToThemInvariant.h"
-#include "stp/invariants/BallShotOrCloseToThemInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/BallCloseToThemGlobalEvaluation.h"
+#include "stp/invariants/BallShotOrCloseToThemGlobalEvaluation.h"
+#include "stp/invariants/game_states/NormalPlayGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Harasser.h"

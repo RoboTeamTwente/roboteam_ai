@@ -7,10 +7,10 @@
 
 #include <roboteam_utils/Tube.h>
 
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/BallOnOurSideInvariant.h"
-#include "stp/invariants/FreedomOfRobotsInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
+#include "stp/invariants/BallClosestToUsGlobalEvaluation.h"
+#include "stp/invariants/BallOnOurSideGlobalEvaluation.h"
+#include "stp/invariants/FreedomOfRobotsGlobalEvaluation.h"
+#include "stp/invariants/game_states/NormalPlayGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"

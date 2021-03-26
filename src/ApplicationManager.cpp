@@ -10,30 +10,30 @@
 /**
  * Plays are included here
  */
-#include "include/roboteam_ai/stp/plays/referee_specific/AggressiveStopFormation.h"
-#include "include/roboteam_ai/stp/plays/offensive/Attack.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/AggressiveStopFormation.h"
+//#include "include/roboteam_ai/stp/plays/offensive/Attack.h"
 #include "include/roboteam_ai/stp/plays/offensive/AttackingPass.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementThem.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementUs.h"
-#include "include/roboteam_ai/stp/plays/defensive/DefendPass.h"
-#include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
-#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementThem.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementUs.h"
+//#include "include/roboteam_ai/stp/plays/defensive/DefendPass.h"
+//#include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
+//#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
-#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThemPrepare.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThemPrepare.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUs.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUsPrepare.h"
-#include "stp/plays/ReflectKick.h"
-#include "stp/plays/TestPlay.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
+//#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThemPrepare.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThemPrepare.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUs.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUsPrepare.h"
+//#include "stp/plays/ReflectKick.h"
+//#include "stp/plays/TestPlay.h"
+//#include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -53,8 +53,8 @@ void ApplicationManager::start() {
     // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
@@ -152,20 +152,25 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
-    playChecker.update(_world);
+    playEvaluator.clearGlobalScores(); //reset all evaluations
+    playEvaluator.update(_world);
+    playChecker.update(_world, playEvaluator);
 
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
+        //TODO: To make the higher abstraction layer, code below to save necessary info of the previous Play:
+        auto StpInfosPreviousPlay = currentPlay->getStpInfos();
+        //currentPlay->initialize(STPInfoPreviousPlay)
 
-        currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
         currentPlay->initialize(currentPlay->getStpInfos());
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
@@ -174,7 +179,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
                 return;
             }
         } else {
-            currentPlay = playDecider.decideBestPlay(_world, validPlays);
+            currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         }
         currentPlay->updateWorld(_world);
         currentPlay->initialize(currentPlay->getStpInfos());

@@ -8,9 +8,10 @@
 #include <array>
 
 #include "Role.hpp"
-#include "stp/invariants/BaseInvariant.h"
+#include "stp/evaluations/BaseEvaluation.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
+#include "PlayEvaluator.h"
 #include "computations/PositionComputations.h"
 
 namespace rtt::ai::stp {
@@ -24,12 +25,12 @@ class Play {
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
      */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> keepPlayInvariants;
+    std::vector<GlobalEvaluation> keepPlayEvaluation;
 
     /**
      * Invariant vector that contains invariants that need to be true to start this play
      */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> startPlayInvariants;
+    std::vector<GlobalEvaluation> startPlayEvaluation;
 
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
@@ -60,11 +61,19 @@ class Play {
     virtual void calculateInfoForRoles() noexcept = 0;
 
     /**
-     * Gets the score for the current play that is in the range of 0 - 255
-     * @param world World to get the score for
-     * @return The score, 0 - 255
+     * Calculate info for roles that are used in the scoring of the play.
+     * This is a purely virtual function, so it is implemented in every play.
      */
-    [[nodiscard]] virtual uint8_t score(world::World* world) noexcept = 0;
+    virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
+
+    /**
+     * Function  for inbetween plays calculation of score through the PlayEvaluator.
+     * Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered
+     * can be defined for scoring a play.
+     * @param playEvaluator with the world
+     * @return a final score for the play
+     */
+    virtual uint8_t score(PlayEvaluator& playEvaluator) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -85,13 +94,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(world::World* world) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(world::World* world) noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Getter for the role -> status mapping
@@ -105,15 +114,32 @@ class Play {
     virtual const char* getName() = 0;
 
     /**
-     * Gets the current StpInfos
+
+     * Gets the
      */
     std::unordered_map<std::string, StpInfo> getStpInfos();
 
-   protected:
+    /**
+     * If score was calculated, save here
+     */
+    std::optional<uint8_t> lastScore;
+
+    /**
+     * Get score
+     * @return score if no value -> 0
+     */
+    uint8_t getLastScore();
+
+protected:
     /**
      * The roles, constructed in ctor of a play
      */
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
+
+    /**
+     * The evaluations with their weight
+     */
+    std::vector<PlayEvaluator::PlayScoring> scoring;
 
     /**
      * Map that keeps track of the status of each role.

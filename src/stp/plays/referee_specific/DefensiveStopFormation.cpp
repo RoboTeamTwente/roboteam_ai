@@ -4,8 +4,8 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
 
-#include "stp/invariants/game_states/StopGameStateInvariant.h"
-#include "stp/invariants/BallOnOurSideInvariant.h"
+#include "stp/invariants/game_states/StopGameStateEvaluation.h"
+#include "stp/invariants/BallOnOurSideGlobalEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
 
 namespace rtt::ai::stp::play {

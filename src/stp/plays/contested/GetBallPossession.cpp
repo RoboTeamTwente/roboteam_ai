@@ -5,9 +5,6 @@
 #include <stp/roles/passive/Waller.h>
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
 #include "include/roboteam_ai/stp/computations/PositionComputations.h"
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/BallIsFreeInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "include/roboteam_ai/stp/roles/active/BallGetter.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
@@ -16,15 +13,15 @@
 namespace rtt::ai::stp::play {
 
 GetBallPossession::GetBallPossession() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+    startPlayEvaluation.clear();
+    startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+    keepPlayEvaluation.clear();
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallOnOurSide);
+//    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
@@ -34,12 +31,32 @@ GetBallPossession::GetBallPossession() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                 std::make_unique<role::Waller>(role::Waller("waller_0")),
-                                                                                 std::make_unique<role::Waller>(role::Waller("waller_1")),
-                                                                                 std::make_unique<role::Waller>(role::Waller("waller_2"))};
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
+
+    // initialize stpInfos
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto &role : roles) {
+        role->reset();
+        auto roleName{role->getName()};
+        stpInfos.emplace(roleName, StpInfo{});
+    }
 }
 
-uint8_t GetBallPossession::score(world::World* world) noexcept { return 10; }
+uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
+    calculateInfoForScoredRoles(playEvaluator.getWorld());
+    scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs),1.0}};
+               //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallIsFree), 1)};
+               //std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();
+}
+
+void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
+    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
+    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
+    stpInfos["ball_getter"].setRoleScore(100);
+}
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
@@ -49,18 +66,15 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_0"].setEnemyRobot(
-            world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
+    stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
     stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_1"].setEnemyRobot(
-            world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
+    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(
-            world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
+    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
     auto length = field.getFieldLength();

@@ -4,10 +4,10 @@
 
 #include "stp/plays/ReflectKick.h"
 
-#include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/WeHaveBallInvariant.h"
-#include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
+#include "stp/evaluations/global/BallCloseToUsGlobalEvaluation.h"
+#include "stp/evaluations/global/BallClosestToUsGlobalEvaluation.h"
+#include "stp/evaluations/global/WeHaveBallGlobalEvaluation.h"
+#include "stp/evaluations/game_states/NormalOrFreeKickUsGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/active/BallReflector.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"

@@ -5,9 +5,9 @@
 
 #include "include/roboteam_ai/stp/plays/offensive/Attack.h"
 #include "include/roboteam_ai/stp/computations/GoalComputations.h"
-#include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.h"
+#include "stp/invariants/BallCloseToUsGlobalEvaluation.h"
+#include "stp/invariants/BallClosestToUsGlobalEvaluation.h"
+#include "stp/invariants/game_states/NormalOrFreeKickUsGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/active/Attacker.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"

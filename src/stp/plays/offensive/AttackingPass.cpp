@@ -9,10 +9,6 @@
 
 #include <roboteam_utils/Tube.h>
 
-#include "stp/invariants/BallCloseToUsInvariant.h"
-#include "stp/invariants/BallClosestToUsInvariant.h"
-#include "stp/invariants/NoGoalVisionFromBallInvariant.h"
-#include "stp/invariants/game_states/NormalPlayGameStateInvariant.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
@@ -33,14 +29,16 @@ namespace rtt::ai::stp::play {
     }
 
 AttackingPass::AttackingPass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NoGoalVisionFromBallInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+    startPlayEvaluation.clear();
+    startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallCloseToUs);
+//    startPlayEvaluation.emplace_back(GlobalEvaluation::NoGoalVisionFromBall);
+//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
+    keepPlayEvaluation.clear();
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallOnOurSide);
+
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                        std::make_unique<role::Passer>(role::Passer("passer")),
@@ -53,9 +51,23 @@ AttackingPass::AttackingPass() : Play() {
                                                                                        std::make_unique<role::Halt>(role::Halt("test_role_7")),
                                                                                        std::make_unique<role::Halt>(role::Halt("test_role_8")),
                                                                                        std::make_unique<role::Halt>(role::Halt("test_role_9"))};
+
+    // initialize stpInfos
+    stpInfos = std::unordered_map<std::string, StpInfo>{};
+    for (auto &role : roles) {
+        role->reset();
+        auto roleName{role->getName()};
+        stpInfos.emplace(roleName, StpInfo{});
+    }
 }
 
-uint8_t AttackingPass::score(world::World* world) noexcept { return 50; }
+uint8_t AttackingPass::score(PlayEvaluator& playEvaluator) noexcept {
+    calculateInfoForScoredRoles(playEvaluator.getWorld());
+    scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
+               //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), 1)};
+               //std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
+    return (lastScore = playEvaluator.calculateScore(scoring)).value();
+    }
 
 Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -77,9 +89,24 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     return flagMap;
 }
 
+void AttackingPass::calculateInfoForScoredRoles(world::World* world) noexcept {
+    rtt::world::Field field = world->getField().value();
+    /// Recalculate pass positions if we did not shoot yet
+    /// For the receive locations, divide the field up into grids where the passers should stand,
+    /// and find the best locations in those grids
+    receiverPositionRight = computations::PositionComputations::determineBestGoalShotLocation(gridRight, field, world);
+    receiverPositionLeft = computations::PositionComputations::determineBestGoalShotLocation(gridLeft, field, world);
+
+    // Receiver
+    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.first);
+    stpInfos["receiver_left"].setRoleScore(receiverPositionLeft.second);
+    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.first);
+    stpInfos["receiver_right"].setRoleScore(receiverPositionRight.second);
+    }
+
 void AttackingPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
-
+    calculateInfoForScoredRoles(world);
     /// Keeper
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
@@ -144,13 +171,13 @@ void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept
         std::vector<computations::PositionComputations::PositionEvaluation> positions = {receiverPositionLeft,receiverPositionRight};
 
         Vector2 passLocation = computations::PassComputations::determineBestPosForPass(positions);
-
     /// Receiver should intercept when constraints are met
     if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
         receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     } else if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
         receiverPositionRight.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(passingPosition);
     }
+  
     // Receiver
     stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);
     stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.position);
@@ -176,20 +203,20 @@ void AttackingPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept
     stpInfos["passer"].setShotType(ShotType::TARGET);
 }
 
-bool AttackingPass::isValidPlayToKeep(world::World* world) noexcept {
-    world::Field field = world->getField().value();
-    auto closestToBall = world->getWorld()->getRobotClosestToBall();
-    auto canKeep = std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
-                   !passFinished();
-    if (canKeep) {
-        if (closestToBall && closestToBall->get()->getTeam() == world::us) {
-            return true;
-        } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
-            return true;
-        }
-    }
-    return false;
-}
+/// To be reimplemented
+//bool AttackingPass::isValidPlayToStart(PlayEvaluator* playEvaluator) noexcept {
+//    auto closestToBall = world->getWorld()->getRobotClosestToBall();
+//    auto canKeep = std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
+//                   !passFinished();
+//    if (canKeep) {
+//        if (closestToBall && closestToBall->get()->getTeam() == world::us) {
+//            return true;
+//        } else if (world->getWorld()->getBall().value()->getVelocity().length() > control_constants::BALL_STILL_VEL) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
 
 bool AttackingPass::passFinished() noexcept {
     // TODO: improve this condition

@@ -4,7 +4,7 @@
 
 #include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUsPrepare.h"
 
-#include "stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.h"
+#include "stp/invariants/game_states/PenaltyUsPrepareGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
