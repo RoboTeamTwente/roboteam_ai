@@ -22,7 +22,7 @@
 namespace rtt::ai {
 namespace v = rtt::world::view;
 
-// Set up a struct for dealerflags. Set up a struct for dealerflags.
+/// Set up a struct for dealerFlags. Set up a struct for dealerFlags.
 enum class DealerFlagTitle {
     CLOSE_TO_THEIR_GOAL,
     CLOSE_TO_OUR_GOAL,
@@ -36,7 +36,10 @@ enum class DealerFlagTitle {
     CLOSEST_TO_BALL
 };
 
+/// Generalization for Priority of a role
 enum class DealerFlagPriority { LOW_PRIORITY, MEDIUM_PRIORITY, HIGH_PRIORITY, REQUIRED, KEEPER };
+
+/// The order at which the Priority will be dealt (Keeper first, Low last).
 static std::vector<DealerFlagPriority> PriorityOrder { DealerFlagPriority::KEEPER,
                                                        DealerFlagPriority::REQUIRED,
                                                        DealerFlagPriority::HIGH_PRIORITY,
@@ -48,23 +51,36 @@ class Dealer {
     FRIEND_TEST(DealerTest, the_score_factor_increases_with_priority);
 
    public:
+    /// Definition of a factor (title) that should influence the distribution with its impact (priority)
     struct DealerFlag {
         DealerFlagTitle title;
         DealerFlagPriority priority;
         explicit DealerFlag(DealerFlagTitle title, DealerFlagPriority priority);
     };
 
+    /// The priority of the role with the falgs that need to be considered.
+    // Forced ID should be ONLY be used in situations where it would bypass the inefficiency of the world to ai communication
+        // i.e. ball position and velocity when passing another robot in the previous play.
     struct RoleInfo {
         DealerFlagPriority priority;
         std::vector<DealerFlag> flags;
-        int forcedID = -1;
+        int forcedID = -1;  //-1 when this should not be considered
     };
 
+    /// Map with the roleName and the RoleInfo (priority, flags and forcedID)
     using FlagMap = std::map<std::string, RoleInfo>;
     Dealer(v::WorldDataView world, rtt::world::Field *field);
     virtual ~Dealer() = default;  // needed for test
-    // Create a distribution of robots
-    std::unordered_map<std::string, v::RobotView> distribute(const std::vector<v::RobotView> &_allRobots, FlagMap &flagMap,
+
+    /**
+     * Distributes the role between the friendly robots considering all information given in the flagMap
+     * !!! allRobots and flagMap are copies as they are modified to reduce computations after the forcedID's.
+     * @param allRobots vector containing all friendly robots
+     * @param flagMap information map with all information for each role (with key -> roleName)
+     * @param stpInfoMap
+     * @return a vector with the roleName and the Robot that should get the role
+     */
+    std::unordered_map<std::string, v::RobotView> distribute(std::vector<v::RobotView> allRobots, FlagMap flagMap,
                                                              const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap);
 
    protected:
@@ -76,21 +92,25 @@ class Dealer {
     v::WorldDataView world;
     rtt::world::Field *field;
 
+    /// Score of a certain flag (/factor) with its weight that it was multiplied with (to be used in normalization)
     struct FlagScore {
         double score;
         double weight;
     };
 
+    /// Final score a specific robot with its sum of score and sum of weights (to be used in normalization)
     struct RobotRoleScore {
         double sumScore;
         double sumWeights;
     };
 
+    /// The individual robot scores for every robot for a specific Role and the Roles priority
     struct RoleScores {
         std::vector<double> robotScores;
         DealerFlagPriority priority;
     };
 
+    /// Used in Dealer that is re-used for each priority to save the information for that loop
     struct DealerDistribute {
         std::vector<std::vector<double>> currentScores; // Scores to be distributed (highest Priority)
         std::vector<int> newAssignments;                // Assignments from these scores
@@ -165,7 +185,7 @@ class Dealer {
      * @param roleNames vector with roleNames (order matters)
      * @param flagMap has info for the other parameters
      */
-    static void distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames,
+    void distribute_init(std::vector<int> &indexRoles, std::vector<int> &indexID, std::vector<std::string> &roleNames,
                          const FlagMap &flagMap);
 
     /**
@@ -175,7 +195,7 @@ class Dealer {
      * @param indexID vector with ID numbering
      * @param scores vector with all Scores for Robots for each role and its priority
      */
-    static void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID,
+    void distribute_remove(DealerDistribute &current, std::vector<int> &indexRoles, std::vector<int> &indexID,
                            std::vector<RoleScores> &scores);
 
     /**
@@ -184,7 +204,7 @@ class Dealer {
      * @param flagMap wherein the roles will be removed
      * @param output
      */
-    static void distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap,
+    void distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap &flagMap,
                               std::unordered_map<std::string, v::RobotView> &output);
 };
 }  // namespace rtt::ai

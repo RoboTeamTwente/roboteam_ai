@@ -22,10 +22,10 @@ Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &_allRobots, FlagMap &flagMap,
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::RobotView> allRobots, FlagMap flagMap,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
     std::unordered_map<std::string, v::RobotView> output;
-    std::vector<v::RobotView> allRobots = _allRobots;           //copy to bypass the const of allRobots, needed in the next function
+    // Remove all forcedID's before continuing computations
     distribute_forcedIDs(allRobots,flagMap,output);
 
     std::vector<RoleScores> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
@@ -68,10 +68,18 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
 
 void Dealer::distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap& flagMap, std::unordered_map<std::string, v::RobotView>& output){
     for (auto role = flagMap.begin(); role != flagMap.end(); ++role) {
-        if (role->second.forcedID != -1){
-            output.insert({role->first,allRobots[role->second.forcedID]});
-            allRobots.erase(allRobots.begin() + role->second.forcedID);
-            flagMap.erase(role--);
+        int ID = role->second.forcedID;
+        if (ID != -1){
+            // Check if that ID is a friendly ID
+            if (!std::any_of(allRobots.begin(),allRobots.end(),[ID](v::RobotView& x){
+                return x->getId() == ID;
+            }) ) {
+                RTT_ERROR("ID " + std::to_string(ID) + " is not a VALID ID. The force ID will be IGNORED.")
+                continue;
+            }
+            output.insert({role->first,allRobots[ID]}); // Assign role to ID
+            allRobots.erase(allRobots.begin() + ID);    // Remove the robot to reduce future computations
+            flagMap.erase(role--);              // Remove role to reduce future computations
         }
     }
 }
