@@ -9,7 +9,15 @@
 
 namespace rtt::ai::stp::gen {
     /**
-     * Struct that is used to store computations made with this module
+     * Struct that is used to store computations made with this module.
+     * Save computations here that are usable for each robot for a position.
+     *       DO NOT save values specific to a robot in here (like TimeToPosition).
+     * If a position's score for a specific evaluation already had been computed in the tick, it will
+     * use that value instead of recomputing it. If it was not computed yet, it will compute and save it.
+     *
+     * @parm scoreOpen : uint8_t score for the Openness of a position -> evaluations/position/OpennessEvaluation
+     * @parm scoreLineOfSight : uint8_t score for the LineOfSight to a position from a position -> ../LineOfSightEvaluation
+     * @parm scoreGoalShot : uint8_t score for the Goal Shot opportunity for a position -> ../GoalShotEvaluation
      */
     struct PositionScores {
         std::optional<double> scoreOpen;
@@ -18,7 +26,13 @@ namespace rtt::ai::stp::gen {
     };
 
     /**
-     * Struct of a position profile
+     * Combination of weights for each of the scores.
+     * This will be used to determine the final score for a robot for a position.
+     * All weights will be multiplied with the corresponding score and then normalized.
+     *
+     * @parm weightOpen for scoreOpen
+     * @parm weightLineOfSight for scoreLineOfSight
+     * @parm weightGoalShot for scoreGoalShot
      */
     struct ScoreProfile{
         double weightOpen;
@@ -28,6 +42,8 @@ namespace rtt::ai::stp::gen {
 
     /**
      * Structure with a position and its score
+     * @parm position Vector2 coordinates of a position
+     * @parm score The score for said position
      */
     struct ScoredPosition{
         Vector2 position;
@@ -35,14 +51,17 @@ namespace rtt::ai::stp::gen {
     };
 
     /**
-     * Generalized Position Profiles
+     * Generalized Position Profiles to be used in plays.
+     * They consist of a generalized weight combination.
      */
-    inline static ScoreProfile SafePosition = {1,1,0};
-    inline static ScoreProfile OffensivePosition = {1,0.5,0.5};
-    inline static ScoreProfile GoalShootPosition = {0, 0.5,1};
+    constexpr ScoreProfile SafePosition = {1,1,0};
+    constexpr ScoreProfile OffensivePosition = {1,0.5,0.5};
+    constexpr ScoreProfile GoalShootPosition = {0, 0.5,1};
 
     /**
-     * Generalized Grids
+     * Generalized Grids to be used in plays
+     * These positions are meant to be used across plays to lower computations when computing which
+     * play is best by reducing the amount of unique position that need to be evaluated.
      */
     inline static Grid gridRightTop = Grid(3, 0, 2.5, 2.2, 5, 5);
     inline static Grid gridRightMid = Grid(3, -1.5, 2.5, 3, 5, 5);

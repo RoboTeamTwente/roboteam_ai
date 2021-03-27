@@ -30,17 +30,11 @@ namespace rtt::ai::stp::evaluation {
          * -> Linear from 0% to 70%, after 70% max score.
          */
         double evalScore = std::max(std::min(0.7,vis)/0.7,0.0)
-                /**
-                 * Distance, Linear-Factor -> Favor closer
-                 * Closer is better, caps at far distances
-                 * -> Max score till 2 meters, linear from 2 to 7 meters.
-                 */
+                    /// Distance, Linear-Factor -> Favor closer
+                    //Closer is better, caps at far distances -> Max score till 2 meters, linear from 2 to 7 meters.
                  * std::max(std::min(5.0,(7-dist))/5,0.0)
-                 /**
-                  * Angle, Linear -> Favor in front
-                  * In front in better
-                  * -> Max score till 30 degrees, linear from 30 to 90.
-                  */
+                    ///Angle, Linear -> Favor in front
+                    // In front in better -> Max score till 30 degrees, linear from 30 to 90.
                   * std::max(std::min(M_PI_2-angle,M_PI/6)/M_PI/6,0.0);
         return calculateMetric(evalScore);
     }
