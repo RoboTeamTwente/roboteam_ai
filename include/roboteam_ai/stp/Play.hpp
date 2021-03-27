@@ -24,13 +24,21 @@ class Play {
    public:
 
     //TODO move to gen cpp
+    /**
+     * Generalized Keys for passing information form the old play to the new.
+     * Usage in the storePlayInfo where KeyInfo is the key for the elements in the map.
+     */
     enum class KeyInfo{
-        isPasser = 0,
-        isReceiver,
-        isShooter,
-        hasBall
+        isPasser = 0,   // Robot that passes the ball last play
+        isReceiver,     // Robot that should receive the ball (as passer shot to there)
+        isShooter,      // Robot that Shot the ball last play
+        hasBall         // Robot that had the ball last play
     };
 
+    /**
+     * Generalized information structure for the map of storePlayInfo.
+     * Allows for saving specific information from the old play to the new.
+     */
     struct StoreInfo {
         std::optional<int> robotID;
         std::optional<Vector2> robotPosition;
@@ -41,7 +49,7 @@ class Play {
     };
 
     /**
-     * Place to store info in that is needed between Plays.
+     * Place to store info in that is needed between Plays. Used in storePlayInfo.
      */
     using PlayInfos = std::unordered_map<KeyInfo, StoreInfo>;
 
