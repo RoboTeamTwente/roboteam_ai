@@ -101,6 +101,11 @@ namespace rtt::ai::stp::play {
         stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2,3,field,world));
     }
 
+    /// OPTIONAL -> place to compute extra evaluations to end a play
+    bool PlayTemplate::shouldEndPlay() noexcept {
+        return false;
+    }
+
     /// OPTIONAL -> place to save information for next play
     void PlayTemplate::storePlayInfo(PlayInfos& info) noexcept {
         StoreInfo role_0;

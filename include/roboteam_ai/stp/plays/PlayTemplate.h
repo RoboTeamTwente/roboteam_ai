@@ -58,8 +58,7 @@ namespace rtt::ai::stp::play {
          */
         void storePlayInfo(PlayInfos& info) noexcept override;
 
-    protected:
-        bool shouldRoleSkipEndTactic() override;
+        bool shouldEndPlay() noexcept override;
     };
 }  // namespace rtt::ai::stp::play
 

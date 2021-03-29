@@ -207,7 +207,7 @@ private:
     bool shouldEndPlay() noexcept;
 
     /**
-     * Function to initalize roles and make stpInfos map
+     * Function to initialize roles and make stpInfos map
      */
     void initRoles() noexcept;
 };
