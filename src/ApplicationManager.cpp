@@ -1,7 +1,6 @@
 #include "ApplicationManager.h"
 
 #include <roboteam_utils/Timer.h>
-#include <roboteam_utils/normalize.h>
 
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
@@ -20,10 +19,10 @@ void ApplicationManager::start(int id) {
   rtt::ai::Constants::init();
 
 
-  rtt::SETTINGS.setVisionIp("127.0.0.1");
-  rtt::SETTINGS.setVisionPort(10006);
-  rtt::SETTINGS.setRefereeIp("224.5.23.1");
-  rtt::SETTINGS.setRefereePort(10003);
+  settings.setVisionIp("127.0.0.1");
+  settings.setVisionPort(10006);
+  settings.setRefereeIp("224.5.23.1");
+  settings.setRefereePort(10003);
 
   io->init(id);
 
@@ -51,46 +50,8 @@ void ApplicationManager::start(int id) {
 /// Run everything with regard to behaviour trees
 void ApplicationManager::runOneLoopCycle() {
     auto state = io->getState();
-    if (state.has_field()) {
-        if (!fieldInitialized) RTT_SUCCESS("Received first field message!")
-        fieldInitialized = true;
-
-        //Note these calls Assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
-        auto worldMessage = state.last_seen_world();
-        auto fieldMessage = state.field().field();
-        if (!SETTINGS.isLeft()) {
-            roboteam_utils::rotate(&worldMessage);
-        }
-        auto const &[_, world] = world::World::instance();
-        world->updateWorld(worldMessage);
-
-        if (!world->getWorld()->getUs().empty()) {
-            if (!robotsInitialized) {
-                RTT_SUCCESS("Received robots, starting STP!")
-            }
-            robotsInitialized = true;
-
-
-            world->updateField(fieldMessage);
-            world->updatePositionControl();
-            //world->updateFeedback(feedbackMap);
-
-            ai->decidePlay(world);
-
-        } else {
-            if (robotsInitialized) {
-                RTT_WARNING("No robots found in world. STP is not running")
-                robotsInitialized = false;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
-    } else {
-        if (fieldInitialized) {
-            RTT_WARNING("No field data present!")
-            fieldInitialized = false;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    ai->updateState(state);
+    ai->decidePlay();
 
     rtt::ai::control::ControlModule::sendAllCommands(io);
     io->handleCentralServerConnection();

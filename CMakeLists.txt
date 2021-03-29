@@ -35,11 +35,9 @@ find_package(Qt5Widgets REQUIRED)
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         )
 
@@ -205,13 +203,11 @@ set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/MainControlsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
 
         #QT wants to know about these headers
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
         )
 

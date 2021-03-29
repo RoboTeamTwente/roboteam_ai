@@ -3,17 +3,18 @@
 //
 
 #include "AISettings.h"
+namespace rtt {
 AISettings::AISettings(int initial_id) :
-id{initial_id},
-mode{GRSIM},
-robothub_send_ip{"127.0.0.1"}, //local host
-robothub_send_port{20011} //grsim default
-{
+    id{initial_id},
+    mode{GRSIM},
+    robothub_send_ip{"127.0.0.1"}, //local host
+    robothub_send_port{20011},//grsim default
+    is_paused(true) {
   //these settings are for testing and convenience, basically
-  if(initial_id == 1){
+  if (initial_id == 1) {
     is_yellow = false;
     is_left = false;
-  }else{
+  } else {
     is_yellow = true;
     is_left = true;
   }
@@ -56,5 +57,10 @@ int AISettings::getRobothubSendPort() const {
 void AISettings::setRobothubSendPort(int port) {
   robothub_send_port = port;
 }
-
-
+void AISettings::setPause(bool paused) {
+  is_paused = paused; //TODO: when the AI is just paused, send a halt command to all robots
+}
+bool AISettings::isPaused() const {
+  return is_paused;
+}
+}

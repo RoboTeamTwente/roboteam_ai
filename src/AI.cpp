@@ -3,6 +3,8 @@
 //
 
 #include "AI.h"
+#include <roboteam_utils/normalize.h>
+#include "utilities/GameStateManager.hpp"
 
 /**
  * Plays are included here
@@ -32,7 +34,7 @@
 #include "stp/plays/TestPlay.h"
 #include "stp/plays/TimeOut.h"
 
-rtt::AI::AI() {
+rtt::AI::AI(int id) : settings(id) {
   plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
   /// This play is only used for testing purposes, when needed uncomment this play!
@@ -63,18 +65,22 @@ rtt::AI::AI() {
   plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
   playChecker.setPlays(plays);
 
+  world = std::make_unique<world::World>(settings.isYellow());
 }
-void rtt::AI::decidePlay(rtt::world::World *_world) {
+proto::AICommand rtt::AI::decidePlay() {
+  //TODO: collect commands in ControlModule
+
+  world::World * _world = world.get();//TODO: fix ownership, why are we handing out a raw pointer? Maybe const& to unique_ptr makes more sense
   playChecker.update(_world);
 
   // Here for manual change with the interface
-  if(playDecider.interfacePlayChanged) {
-    auto validPlays = playChecker.getValidPlays();
-    currentPlay = playDecider.decideBestPlay(_world, validPlays);
-    currentPlay->updateWorld(_world);
-    currentPlay->initialize();
-    playDecider.interfacePlayChanged = false;
-  }
+//  if(playDecider.interfacePlayChanged) { //TODO: is this still relevant? We need to write interface handler anyways
+//    auto validPlays = playChecker.getValidPlays();
+//    currentPlay = playDecider.decideBestPlay(_world, validPlays);
+//    currentPlay->updateWorld(_world);
+//    currentPlay->initialize();
+//    playDecider.interfacePlayChanged = false;
+//  }
 
   // A new play will be chosen if the current play is not valid to keep
   if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
@@ -95,6 +101,57 @@ void rtt::AI::decidePlay(rtt::world::World *_world) {
   currentPlay->update();
   //mainWindow->updatePlay(currentPlay); TODO: send to interface
 }
-rtt::AI::AI(int id) {
+void rtt::AI::updateState(const proto::State& state) {
 
+
+  updateSettingsReferee(state);
+
+  //state has to be rotated to our perspective.
+
+  //TODO: safety checks
+
+  //Note these calls assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
+  auto worldMessage = state.last_seen_world();
+  auto fieldMessage = state.field().field();
+  if (!settings.isLeft()) {
+    roboteam_utils::rotate(&worldMessage);
+  }
+  world->updateWorld(worldMessage);
+  world->updateField(fieldMessage);
+  world->updatePositionControl();
+  //world->updateFeedback(feedbackMap); TODO fix feedback
+}
+void rtt::AI::updateSettingsReferee(const proto::State& state) {
+
+  if(state.has_referee()){
+    auto referee = state.referee();
+
+    roboteam_utils::rotate(&referee); //this only rotates the ball placement marker.
+
+    //TODO: put the following block in an if statement that checks whether we want to automatically listen to the referee or not
+    //TODO: put the AI name into the settings
+    {
+      // Our name as specified by ssl-game-controller : https://github.com/RoboCup-SSL/ssl-game-controller/blob/master/config/engine.yaml
+      //make sure this matches exactly!
+      std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
+      bool color_changed = false;
+      if (referee.yellow().name() == ROBOTEAM_TWENTE && !settings.isYellow()) {
+        settings.setYellow(true);
+        color_changed = true;
+      } else if (referee.blue().name() == ROBOTEAM_TWENTE && settings.isYellow()) {
+        settings.setYellow(false);
+        color_changed = true;
+      }
+      bool we_are_left = !(referee.blue_team_on_positive_half() ^ settings.isYellow());
+      //if we changed color or if we are playing on the wrong side, update sides
+      if (color_changed || we_are_left != settings.isLeft()) {
+        settings.setLeft(we_are_left);
+        onSideOrColorChanged();
+      }
+    }
+    ai::GameStateManager::setRefereeData(referee, world.get(),settings); //TODO: fix world *
+  }
+}
+void rtt::AI::onSideOrColorChanged() {
+  //TODO: reinitialize world, field, referee, and stop play
 }

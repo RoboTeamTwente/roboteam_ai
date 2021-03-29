@@ -33,7 +33,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
     toggleSerialBtn = new QPushButton("Serial");
     QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
     refHorizontalLayout->addWidget(toggleSerialBtn);
-    setToggleSerialBtnLayout();
 
     vLayout->addLayout(refHorizontalLayout);
 
@@ -78,7 +77,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
         QString::fromUtf8("QPushButton:disabled"
                           "{ color: gray }"));
 
-    setToggleColorBtnLayout();
 
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
@@ -87,7 +85,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
         QString::fromUtf8("QPushButton:disabled"
                           "{ color: gray }"));
 
-    setToggleSideBtnLayout();
 
     gameStateLayout->addLayout(settingsButtonsLayout);
 
@@ -135,18 +132,7 @@ void MainControlsWidget::setUseReferee(bool useRef) {
 
 
 /// send a halt signal to stop all trees from executing
-void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
 
-void MainControlsWidget::updatePause() {
-    rtt::ai::Pause pause;
-    if (pause.getPause()) {
-        pauseBtn->setText("Resume");
-        pauseBtn->setStyleSheet("background-color: #00b200;");
-    } else {
-        pauseBtn->setText("Stop");
-        pauseBtn->setStyleSheet("background-color: #cc0000;");
-    }
-}
 
 
 void MainControlsWidget::updateContents() {

@@ -3,6 +3,8 @@
 //
 
 #include "AppSettings.h"
+#include <roboteam_proto/ObserverSettings.pb.h>
+
 const std::string &AppSettings::getRefereeIp() const {
   return referee_ip;
 }
@@ -26,6 +28,13 @@ int AppSettings::getVisionPort() const {
 }
 void AppSettings::setVisionPort(int port) {
   vision_port = port;
+}
+proto::ObserverSettings AppSettings::toMessage() const{
+  proto::ObserverSettings settings;
+
+  //TODO: initialize values
+
+  return settings;
 }
 
 

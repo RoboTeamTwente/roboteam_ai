@@ -62,7 +62,7 @@ namespace rtt::world {
     }
 
     void World::updateWorld(proto::World &protoWorld) {
-        WorldData data{this, protoWorld, *settings, updateMap};
+        WorldData data{this, protoWorld,we_are_yellow, updateMap};
         setWorld(data);
     }
 
@@ -75,7 +75,7 @@ namespace rtt::world {
         this->currentField = protoField;
     }
 
-    World::World(Settings *settings) : settings{settings}, currentWorld{std::nullopt}, lastTick{0} {
+    World::World(bool is_yellow) : we_are_yellow{is_yellow}, currentWorld{std::nullopt}, lastTick{0} {
         history.reserve(HISTORY_SIZE);
     }
 

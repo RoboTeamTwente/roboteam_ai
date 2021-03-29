@@ -15,25 +15,6 @@ std::mutex Output::refMutex;
 
 GameState Output::interfaceGameState("halt_strategy", "default");
 
-void Output::sendHaltCommand() {
-    rtt::ai::Pause pause;
-    auto const &[_, world] = rtt::world::World::instance();
-    // TODO: This check prevents a segfault when we don't have a world (roobthub_world is off), but it should be checked earlier I think
-    if (world->getWorld().has_value()) {
-        if (pause.getPause()) {
-            // Already halted so unhalt
-            pause.setPause(false);
-        } else {
-            pause.setPause(true);
-            pause.haltRobots(world);
-        }
-    }
-
-    else {
-        RTT_WARNING("Cannot pause robots, there is no world! Check roboteam_world")
-    }
-}
-
 
 bool Output::usesRefereeCommands() {
     std::lock_guard<std::mutex> lock(refMutex);

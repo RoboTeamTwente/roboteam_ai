@@ -10,6 +10,7 @@
 #include "interface/widgets/mainWindow.h"
 #include "AI.h"
 #include "utilities/IOManager.h"
+#include "AppSettings.h"
 
 namespace rtt {
 
@@ -21,6 +22,8 @@ class ApplicationManager {
     void runOneLoopCycle();
     bool fieldInitialized = false;
     bool robotsInitialized = false;
+
+    AppSettings settings;
     std::unique_ptr<AI> ai;
     std::unique_ptr<rtt::ai::io::IOManager> io;
 

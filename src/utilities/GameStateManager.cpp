@@ -1,6 +1,5 @@
 #include "utilities/GameStateManager.hpp"
 
-#include <include/roboteam_ai/utilities/Settings.h>
 #include <roboteam_utils/Print.h>
 #include <include/roboteam_ai/world/World.hpp>
 
@@ -15,12 +14,18 @@ proto::SSL_Referee GameStateManager::getRefereeData() {
     return GameStateManager::refMsg;
 }
 
-void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world::World* data) {
+void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world::World* data,
+                                      const AISettings& settings) {
     std::lock_guard<std::mutex> lock(refMsgLock);
     GameStateManager::refMsg = refMsg;
     RefCommand cmd;
+    if (settings.isYellow()) {
+      keeperID = refMsg.yellow().goalkeeper();
+    } else {
+      keeperID = refMsg.blue().goalkeeper();
+    }
     // COLOR DEPENDENT STATES
-    if (SETTINGS.isYellow()) {
+    if (settings.isYellow()) {
         switch (refMsg.command()) {
             case proto::SSL_Referee_Command_HALT:
                 cmd = RefCommand::HALT;
@@ -151,6 +156,7 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
     if (world.has_value()) {
         strategymanager.setCurrentRefGameState(cmd, stage, world->getBall());
     }
+
 }
 
 // Initialize static variables
@@ -159,11 +165,8 @@ GameState GameStateManager::getCurrentGameState() {
     if (interface::Output::usesRefereeCommands()) {
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
-        if (SETTINGS.isYellow()) {
-            newGameState.keeperId = getRefereeData().yellow().goalkeeper();
-        } else {
-            newGameState.keeperId = getRefereeData().blue().goalkeeper();
-        }
+        newGameState.keeperId = keeperID;
+
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.
