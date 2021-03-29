@@ -125,11 +125,14 @@ namespace rtt::ai::stp{
         scoresGlobal.clear();
     }
 
-    bool PlayEvaluator::checkEvaluation(GlobalEvaluation& globalEvaluation, uint8_t cutOff) noexcept { return getGlobalEvaluation(globalEvaluation) >= cutOff; }
+    bool PlayEvaluator::checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff) noexcept { return getGlobalEvaluation(globalEvaluation) >= cutOff; }
 
     uint8_t PlayEvaluator::calculateScore(std::vector<PlayScoring>& scoring){
-        double scoreTotal = std::accumulate(scoring.begin()->evaluationScore,scoring.end()->evaluationScore, 0);
-        double weightTotal = std::accumulate(scoring.begin()->weight,scoring.end()->weight, 0);
+        double scoreTotal,weightTotal = 0;
+        for (auto& factor : scoring){
+            scoreTotal += factor.evaluationScore;
+            weightTotal += factor.weight;
+        }
         return scoreTotal/weightTotal;
     }
 

@@ -82,7 +82,7 @@ namespace rtt::ai::stp{
          * @param cutOff Bottom bound value of true
          * @return boolean if FUZZY-TRUE is high enough
          */
-        bool checkEvaluation(GlobalEvaluation& globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
+        bool checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
 
         /**
          * Calcalute score with the given vector of scores
