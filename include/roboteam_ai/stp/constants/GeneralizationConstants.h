@@ -69,5 +69,34 @@ namespace rtt::ai::stp::gen {
     inline static Grid gridMidFieldTop = Grid(-1, 0, 2, 2.2, 5, 5);
     inline static Grid gridMidFieldMid = Grid(-1, -1.5, 2, 3, 5, 5);
     inline static Grid gridMidFieldBot = Grid(-1, -2.5, 2, 2.2, 5, 5);
+
+    /**
+     * Generalized Keys for passing information form the old play to the new.
+     * Usage in the storePlayInfo where KeyInfo is the key for the elements in the map.
+     */
+    enum class KeyInfo{
+        isPasser = 0,   // Robot that passes the ball last play
+        isReceiver,     // Robot that should receive the ball (as passer shot to there)
+        isShooter,      // Robot that Shot the ball last play
+        hasBall         // Robot that had the ball last play
+    };
+
+    /**
+     * Generalized information structure for the map of storePlayInfo.
+     * Allows for saving specific information from the old play to the new.
+     */
+    struct StoreInfo {
+        std::optional<int> robotID;
+        std::optional<Vector2> robotPosition;
+        std::optional<Vector2> moveToPosition;
+        std::optional<Vector2> defendPosition;
+        std::optional<Vector2> shootAtPosition;
+        std::optional<Vector2> passToRobot;
+    };
+
+    /**
+     * Place to store info in that is needed between Plays. Used in storePlayInfo.
+     */
+    using PlayInfos = std::unordered_map<KeyInfo, StoreInfo>;
 }
 #endif //RTT_GENERALIZATIONCONSTANTS_H

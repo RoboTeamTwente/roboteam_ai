@@ -23,44 +23,11 @@ namespace rtt::ai::stp {
  */
 class Play {
    public:
-
-    //TODO move to gen cpp
-    /**
-     * Generalized Keys for passing information form the old play to the new.
-     * Usage in the storePlayInfo where KeyInfo is the key for the elements in the map.
-     */
-    enum class KeyInfo{
-        isPasser = 0,   // Robot that passes the ball last play
-        isReceiver,     // Robot that should receive the ball (as passer shot to there)
-        isShooter,      // Robot that Shot the ball last play
-        hasBall         // Robot that had the ball last play
-    };
-
-    /**
-     * Generalized information structure for the map of storePlayInfo.
-     * Allows for saving specific information from the old play to the new.
-     */
-    struct StoreInfo {
-        std::optional<int> robotID;
-        std::optional<Vector2> robotPosition;
-        std::optional<Vector2> moveToPosition;
-        std::optional<Vector2> defendPosition;
-        std::optional<Vector2> shootAtPosition;
-        std::optional<Vector2> passToRobot;
-    };
-
-    /**
-     * Place to store info in that is needed between Plays. Used in storePlayInfo.
-     */
-    using PlayInfos = std::unordered_map<KeyInfo, StoreInfo>;
-
-     //// -------
-
     /**
      * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
      * @return Map of all the necessary information
      */
-    virtual void storePlayInfo(PlayInfos& previousPlayInfo) noexcept;
+    virtual void storePlayInfo(gen::PlayInfos& previousPlayInfo) noexcept;
 
     /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
@@ -75,13 +42,7 @@ class Play {
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
      */
-    void initialize(PlayInfos& previousPlayInfo) noexcept;
-
-    /**
-     * Virtual function that is called in initialize().
-     * This function should contain all play-specific init code
-     */
-    virtual void onInitialize() noexcept {};
+    void initialize(gen::PlayInfos& previousPlayInfo) noexcept;
 
     /**
      * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
@@ -213,7 +174,7 @@ protected:
     /**
      * Map that holds info from the previous play
      */
-    std::optional<PlayInfos> previousPlayInfos;
+    std::optional<gen::PlayInfos> previousPlayInfos;
 
 private:
     /**
@@ -239,6 +200,16 @@ private:
      */
     int previousRobotNum{};
 
+    /**
+     * Optional function to force end plays
+     * @return True if play should end this tick
+     */
+    bool shouldEndPlay() noexcept;
+
+    /**
+     * Function to initalize roles and make stpInfos map
+     */
+    void initRoles() noexcept;
 };
 }  // namespace rtt::ai::stp
 
