@@ -9,6 +9,7 @@
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
+#include "include/roboteam_ai/stp/evaluations/position/TimeToPositionEvaluation.h"
 
 namespace rtt::ai::stp::play {
 
@@ -31,9 +32,9 @@ GetBallPossession::GetBallPossession() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
+                                                                                 std::make_unique<role::Formation>(role::Formation("waller_0")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("waller_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("waller_2"))};
 
     // initialize stpInfos
     stpInfos = std::unordered_map<std::string, StpInfo>{};
@@ -55,7 +56,9 @@ uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
 void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
     //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
     stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
-    stpInfos["ball_getter"].setRoleScore(100);
+    stpInfos["ball_getter"].setRoleScore(evaluation::TimeToPositionEvaluation().metricCheck(world->getWorld()->getRobotClosestToBall(world::us),
+                                                                                            world->getWorld()->getRobotClosestToBall(world::them),
+                                                                                            world->getWorld()->getBall().value()->getPos()));
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
@@ -77,26 +80,14 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
-    auto length = field.getFieldLength();
-    auto width = field.getFieldWidth();
+    stpInfos["midfielder_0"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(),gen::gridMidFieldBot, gen::SafePosition, field, world));
+    stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),gen::gridMidFieldMid, gen::SafePosition, field, world));
+    stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(),gen::gridMidFieldTop, gen::SafePosition, field, world));
 
-    stpInfos["midfielder_0"].setPositionToMoveTo(Vector2(0.0, width / 4));
-    stpInfos["midfielder_1"].setPositionToMoveTo(Vector2(0.0, -width / 4));
-    stpInfos["midfielder_2"].setPositionToMoveTo(Vector2(-length / 8, 0.0));
+    stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0,3,field,world));
+    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1,3,field,world));
+    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2,3,field,world));
 
-    int amountDefenders = 3;
-    std::vector<Vector2> wallPositions = {};
-    if(FieldComputations::pointIsValidPosition(field, world->getWorld().value().getBall().value()->getPos()))
-        wallPositions = computations::PositionComputations::determineWallPositions(field,world,amountDefenders);
-    if (!wallPositions.empty()) {
-        stpInfos["waller_0"].setPositionToMoveTo(wallPositions.at(0));
-        stpInfos["waller_1"].setPositionToMoveTo(wallPositions.at(1));
-        stpInfos["waller_2"].setPositionToMoveTo(wallPositions.at(2));
-    } else {
-        stpInfos["waller_0"].setPositionToMoveTo(Vector2(0,0));
-        stpInfos["waller_1"].setPositionToMoveTo(Vector2(0,0.2));
-        stpInfos["waller_2"].setPositionToMoveTo(Vector2(0,-0.2));
-    }
 }
 
 bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }

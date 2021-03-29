@@ -152,7 +152,11 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
+    //TODO make a clear function
     playEvaluator.clearGlobalScores(); //reset all evaluations
+    ai::stp::PositionComputations::calculatedScores.clear();
+    ai::stp::PositionComputations::calculatedWallPositions.clear();
+
     playEvaluator.update(_world);
     playChecker.update(_world, playEvaluator);
 

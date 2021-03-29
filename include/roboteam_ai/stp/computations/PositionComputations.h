@@ -17,83 +17,79 @@
 #include "world/Field.h"
 #include "world/FieldComputations.h"
 #include "world/views/WorldDataView.hpp"
+#include "stp/constants/GeneralizationConstants.h"
 
 
-namespace rtt::ai::stp::computations {
+namespace rtt::ai::stp {
 
     class PositionComputations {
-    public:
-        /**
-         * Struct that is used to store computations made with this module
-         */
-        struct PositionEvaluation {
-            Vector2 position;
-            double score;
-        };
-
-        /**
-         * Determine the best position for a midfielder
-         * @param searchGrid the grid you want to choose a position from
-         * @param field
-         * @param world
-         * @return a midfielder position
-         */
-        static PositionEvaluation determineBestOpenPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
-
-        /**
-         * Determine the best position for a midfielder
-         * @param searchGrid the grid you want to choose a position from
-         * @param field
-         * @param world
-         * @return a midfielder position
-         */
-        static PositionEvaluation determineBestLineOfSightPosition(const Grid &searchGrid, const rtt_world::Field &field, rtt_world::World *world);
-
-        /**
-         * Calculates the pass location
-         * @return a pair of the pass location and the score of that location
-         * The score is used to decide to which pass location to pass when there are more receivers
-         */
-        static PositionEvaluation determineBestGoalShotLocation(const Grid &searchGrid, const rtt::world::Field &field, rtt::world::World *world);
-
-        /**
-         * Determine best position using specification of contribution of factors
-         * @param search Gridthe grid you want to choose a position from
-         * @param field
-         * @param world
-         * @param factorOpen Factor at which Open specification should count (higher is more important)
-         * @param factorLineOfSight Factor at which Line of Sight to the ball specification should count (higher is more important)
-         * @param factorVisionGoal Factor at which Visibility of ENEMY goal specification should count (higher is more important)
-         * @return Best location with given specifications, Vector2 in first and the score in second
-         */
-        static PositionEvaluation
-        determineBestLocation(const Grid &searchGrid, const world::Field &field, world::World *world, int factorOpen,
-                              int factorLineOfSight, int factorVisionGoal);
-
+    private:
         /**
          * Determine score for the Open at given position
          * @param point Position to calculate from
          * @param world
+         * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineOpenScore(Vector2 point, world::World *world);
+        static double determineOpenScore(Vector2 &point, world::World *world, gen::PositionScores &scores);
 
         /**
          * Determine score for the Line of Sight to the ball at given position
          * @param point Position to calculate from
          * @param world
+         * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineLineOfSightScore(Vector2 point, world::World *world);
+        static double determineLineOfSightScore(Vector2 &point, world::World *world, gen::PositionScores &scores);
 
         /**
          * Determine score for the Visibility of the goal at given position
          * @param point Position to calculate from
          * @param field
          * @param world
+         * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineGoalShotScore(Vector2 point, const world::Field &field, world::World *world);
+        static double determineGoalShotScore(Vector2 &point, const world::Field &field, world::World *world, gen::PositionScores &scores);
+
+        /**
+         * Get score of a position, used in getPosition
+         * @param position Vector2 that needs to be scored
+         * @param profile combination of weights for different factors that should be scored
+         * @param field
+         * @param world
+         * @param bias value added to score
+         * @return Position with score
+         */
+        static gen::ScoredPosition scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field,
+                      world::World *world, uint8_t bias = 0);
+
+
+    public:
+        /**
+         * Score a position using the given weights weights for a profile.
+         * Will check if the position already has a pre-calculated score (from this tick) then throws the weight over it
+         * and sums the scores, resulting in a position scored a particular set of weights.
+         * @param profile set of weights of the different factors that determine the score
+         * @param position x,y coordinates
+         * @param scores reference to scores of said position in map
+         * @param world
+         * @param field
+         * @return score of position including the weights
+         */
+        static uint8_t getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, world::World *world,
+                                          const world::Field &field);
+
+        /**
+         * unordered map of calculated scores of this tick.
+         * must be cleared at start of tick
+         */
+        inline static std::unordered_map<Vector2,gen::PositionScores> calculatedScores{};
+
+        /**
+         * vector of determined wall positions
+         */
+        inline static std::vector<Vector2> calculatedWallPositions{};
 
         /**
          * Determines the location for defenders around the defense area
@@ -105,6 +101,27 @@ namespace rtt::ai::stp::computations {
          * @return vector with Vector2 positions for each of the defenders
          */
         static std::vector<Vector2> determineWallPositions(const world::Field &field, world::World *world, int amountDefenders);
+
+        /**
+         * Returns the best scored position from a grid with a profile
+         * @param currentPosition The position the robot it currently going to (small biased) if it exists
+         * @param searchGrid the area (with points) that should be searched
+         * @param profile combination of weights for different factors that should be scored
+         * @param field
+         * @param world
+         * @return the best position within that grid with its score
+         */
+        static gen::ScoredPosition getPosition(std::optional<rtt::Vector2> currentPosition, const Grid &searchGrid, gen::ScoreProfile profile, const world::Field &field, world::World *world);
+
+        /**
+         * Makes a wall if not ready done, saves it in calculatedWallPositions and deals the index
+         * @param index Index of the wall position (do unique positions)
+         * @param amountDefenders Amount of defenders the wall is made of
+         * @param field
+         * @param world
+         * @return Vector2 position of that index in the wall
+         */
+        static Vector2 getWallPosition(int index, int amountDefenders, const world::Field &field, world::World *world);
     };
 } // namespace rtt::ai::stp::computations
 #endif //RTT_POSITIONCOMPUTATIONS_H

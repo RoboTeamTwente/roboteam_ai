@@ -68,7 +68,7 @@ class AttackingPass : public Play {
      * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
      * @param ball
      */
-    void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
+    //NEW PLAY -> void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
    protected:
     /**
@@ -87,12 +87,6 @@ class AttackingPass : public Play {
     [[nodiscard]] bool passFinished() noexcept;
 
     /**
-     * Called every time the .initialize() is called on a play,
-     * runs exactly once at the start of this play when this play is picked to be executed
-     */
-    void onInitialize() noexcept override;
-
-    /**
      * Position that the passer will pass to
      */
     Vector2 passingPosition;
@@ -101,20 +95,6 @@ class AttackingPass : public Play {
      * Did the passer shoot or not
      */
     bool passerShot{false};
-
-    /**
-     * Two receive locations with their scores.
-     * The passer will shoot to the highest scoring position
-     */
-    computations::PositionComputations::PositionEvaluation receiverPositionLeft{};
-    computations::PositionComputations::PositionEvaluation receiverPositionRight{};
-
-    /**
-     * The two grids that are used to calculate pass locations within it.
-     * In this case the grids are on their side, one on the left and one on the right
-     */
-    Grid gridLeft = Grid(0.15 * field.getFieldWidth(), 0, 3, 2.5, 5, 5);
-    Grid gridRight = Grid(0.15 * field.getFieldWidth(), -2.5, 3, 2.5, 5, 5);
 };
 }  // namespace rtt::ai::stp::play
 

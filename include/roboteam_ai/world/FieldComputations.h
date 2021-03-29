@@ -183,6 +183,14 @@ class FieldComputations {
      */
     static Polygon getFieldEdge(const rtt_world::Field &field, double margin = 0.0);
 
+    /**
+     * Returns a point that is inside the field, clips the given point to the boarders of the field (RIGHT: x=6.2 becomes x=6)
+     * @param field
+     * @param point that needs to be inside field
+     * @return point inside field
+     */
+    static Vector2 placePointInField(const rtt_world::Field &field, const Vector2 &point);
+
    private:
     /**
      * Check which part of the goal are blocked by robots, i.e. to which parts of the goal the ball can be shoot over the ground from a given point without hitting any robot
