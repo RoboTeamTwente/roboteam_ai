@@ -10,7 +10,7 @@
 namespace rtt::ai::stp{
     enum class GlobalEvaluation{
         /// Game States
-        BallPlacementThemGameState,
+        BallPlacementThemGameState = 0,
         BallPlacementUsGameState,
         FreeKickThemGameState,
         FreeKickUsGameState,
@@ -57,7 +57,7 @@ namespace rtt::ai::stp{
          * @param evaluation that needs
          * @return
          */
-        uint8_t getGlobalEvaluation(GlobalEvaluation& evaluation);
+        uint8_t getGlobalEvaluation(GlobalEvaluation evaluation);
 
         /**
          * Sets this->world

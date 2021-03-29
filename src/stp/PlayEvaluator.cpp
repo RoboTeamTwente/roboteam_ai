@@ -39,7 +39,7 @@
 
 namespace rtt::ai::stp{
 
-    uint8_t PlayEvaluator::getGlobalEvaluation(GlobalEvaluation& evaluation) {
+    uint8_t PlayEvaluator::getGlobalEvaluation(GlobalEvaluation evaluation) {
         return (scoresGlobal.contains(evaluation) ? scoresGlobal.at(evaluation) : scoresGlobal[evaluation] = updateGlobalEvaluation(evaluation));
     }
 

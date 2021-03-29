@@ -95,6 +95,8 @@ class AttackingPass : public Play {
      * Did the passer shoot or not
      */
     bool passerShot{false};
+
+    void storePlayInfo(PlayInfos& info) noexcept override;
 };
 }  // namespace rtt::ai::stp::play
 
