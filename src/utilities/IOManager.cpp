@@ -1,23 +1,18 @@
 #include <utilities/IOManager.h>
-#include <utilities/Settings.h>
 
 #include <include/roboteam_ai/utilities/GameStateManager.hpp>
 
-#include "interface/api/Input.h"
 #include "roboteam_utils/normalize.h"
-#include "utilities/Pause.h"
 #include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt::ai::io {
 
 
-IOManager io;
-
 IOManager::~IOManager() {
-    delete worldSubscriber;
-    delete robotCommandPublisher;
-    delete settingsPublisher;
-    delete central_server_connection;
+  delete central_server_connection;
+  delete settingsPublisher;
+  delete robotCommandPublisher;
+  delete worldSubscriber;
 }
 
 void IOManager::init(int teamId) {
@@ -41,25 +36,12 @@ void IOManager::init(int teamId) {
 void IOManager::handleState(proto::State &stateMsg) {
     std::unique_lock<std::mutex> lock(stateMutex); //write lock
     this->state.CopyFrom(stateMsg);
-    if(state.has_referee()){
-        roboteam_utils::rotate(state.mutable_referee());
-        // Our name as specified by ssl-refbox : https://github.com/RoboCup-SSL/ssl-refbox/blob/master/referee.conf
-        std::string ROBOTEAM_TWENTE = "RoboTeam Twente";
-        if (state.referee().yellow().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(true);
-        } else if (state.referee().blue().name() == ROBOTEAM_TWENTE) {
-            SETTINGS.setYellow(false);
-        }
-        SETTINGS.setLeft(!(state.referee().blue_team_on_positive_half() ^ SETTINGS.isYellow()));
-        auto const& [_, data] = World::instance();
-        ai::GameStateManager::setRefereeData(state.referee(), data);
-    }
+    //TODO: move this to the ai
 }
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
 void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
-    if(!pause->getPause()) {
         proto::AICommand command;
         for(const auto& robotCommand : robotCommands){
           proto::RobotCommand * protoCommand = command.mutable_commands()->Add();
@@ -67,7 +49,6 @@ void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& 
         }
         command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
         robotCommandPublisher->send(command);
-    }
 }
 void IOManager::handleCentralServerConnection(){
   //first receive any setting changes

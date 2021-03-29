@@ -4,6 +4,7 @@
 
 #ifndef RTT_WORLD_HPP
 #define RTT_WORLD_HPP
+
 #include <vector>
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
@@ -34,41 +35,11 @@ namespace rtt::world {
  * one of the only ways to keep a project datarace-free
  */
 class World {
-    /**
-     * Structure that provides structured binding support for the world.
-     * @tparam T Type of data to lock (a pointer to!)
-     *
-     * AcquireInfo<int> get_int() {
-     *     static std::mutex mtx;
-     *     static int value;
-     *     return AcquireInfo{ mtx, &value };
-     * }
-     *
-     * auto const& [_, t_obj] = something::instance();
-     * // _ is a lock guard
-     * // t_obj is a pointer to T
-     */
-    template <typename T>
-    struct AcquireInfo {
-        std::lock_guard<std::mutex> mtx;
-        T* data;
-    };
 
 public:
-    /**
-     * Global singleton for World, scott-meyers style
-     * @param[in] resetWorld Boolean that marks whether to reset the world before returning
-     * if set to true, world.clear() is called
-     * if set to false, worldInstance is simply reset
-     * @return A pointer to a static World
-     */
-    inline static AcquireInfo<World> instance() {
-        static World worldInstance{&rtt::SETTINGS};
-        return { std::lock_guard(worldInstance.updateMutex), &worldInstance };
-    }
 
     /**
-     * Not copyable, movable or assignable, global state
+     * Not copyable, movable or assignable, global state (this prevents many stupid mistakes)
      */
     World(World const &) = delete;
     World &operator=(World &) = delete;
@@ -90,7 +61,7 @@ public:
      * Usage of settings before construction of the applicationmanager will result in undefined
      * behavior due to uninitialized memory
      */
-    explicit World(Settings *settings);
+    explicit World(bool we_are_yellow);
 
     /**
      * Updates feedback for a specific robot
@@ -200,10 +171,7 @@ public:
      */
     void toHistory(WorldData &world) noexcept;
 
-    /**
-     * Pointer to GUI settings
-     */
-    Settings *settings;
+    bool we_are_yellow;
 
     /**
      * Mutex used when constructing robots to prevent updating of updateMap without wanting it

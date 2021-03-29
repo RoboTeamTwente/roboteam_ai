@@ -5,7 +5,6 @@
 #ifndef RTT_MANUALCONTROLWIDGET_H
 #define RTT_MANUALCONTROLWIDGET_H
 
-#include <include/roboteam_ai/interface/api/Toggles.h>
 #include <QWidget>
 #include <thread>
 #include <include/roboteam_ai/manual/JoystickManager.h>
@@ -18,7 +17,6 @@ class ManualControlWidget : public QWidget {
    private:
     std::thread joyThread;
     rtt::input::JoystickManager manager;
-    Toggle RobotSelector;
 };
 }  // namespace rtt
 #endif  // RTT_MANUALCONTROLWIDGET_H

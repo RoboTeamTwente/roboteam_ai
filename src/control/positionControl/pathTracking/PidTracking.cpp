@@ -24,7 +24,7 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
 }
 
 void PidTracking::updatePidValuesFromInterface(bool isKeeper) {
-    auto newPid = isKeeper ? interface::Output::getKeeperPid() : interface::Output::getNumTreePid();
+    auto newPid = isKeeper ? Constants::standardKeeperPID() : Constants::standardNumTreePID();
     for (auto pid : pidMapping) {
         pidMapping[pid.first].first.setPID(newPid);
         pidMapping[pid.first].second.setPID(newPid);
@@ -36,22 +36,22 @@ void PidTracking::updatePIDValues(stp::PIDType pidType, int robotID) {
 
     switch (pidType) {
       case stp::PIDType::DEFAULT: {
-            newPID = interface::Output::getNumTreePid();
+            newPID = Constants::standardNumTreePID();
             break;
         }
         case stp::PIDType::RECEIVE: {
-            newPID = interface::Output::getReceivePid();
+            newPID = Constants::standardReceivePID();
             break;
         }
         case stp::PIDType::INTERCEPT: {
-            newPID = interface::Output::getInterceptPid();
+            newPID = Constants::standardInterceptPID();
         }
         case stp::PIDType::KEEPER: {
-            newPID = interface::Output::getKeeperPid();
+            newPID = Constants::standardKeeperPID();
             break;
         }
         case stp::PIDType::KEEPER_INTERCEPT: {
-            newPID = interface::Output::getKeeperInterceptPid();
+            newPID = Constants::standardKeeperInterceptPID();
             break;
         }
     }

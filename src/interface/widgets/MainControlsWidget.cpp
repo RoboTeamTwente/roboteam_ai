@@ -33,7 +33,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
     toggleSerialBtn = new QPushButton("Serial");
     QObject::connect(toggleSerialBtn, SIGNAL(clicked()), this, SLOT(toggleSerialParam()));
     refHorizontalLayout->addWidget(toggleSerialBtn);
-    setToggleSerialBtnLayout();
 
     vLayout->addLayout(refHorizontalLayout);
 
@@ -78,7 +77,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
         QString::fromUtf8("QPushButton:disabled"
                           "{ color: gray }"));
 
-    setToggleColorBtnLayout();
 
     toggleSideBtn = new QPushButton("Side");
     QObject::connect(toggleSideBtn, SIGNAL(clicked()), this, SLOT(toggleOurSideParam()));
@@ -87,7 +85,6 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
         QString::fromUtf8("QPushButton:disabled"
                           "{ color: gray }"));
 
-    setToggleSideBtnLayout();
 
     gameStateLayout->addLayout(settingsButtonsLayout);
 
@@ -101,7 +98,8 @@ MainControlsWidget::MainControlsWidget(QWidget *parent, ApplicationManager *appM
             return;
         }
         // simply manager->plays[index] because they're inserted in-order
-        stp::PlayDecider::lockInterfacePlay(manager->plays[index].get());
+
+        //stp::PlayDecider::lockInterfacePlay(manager->plays[index].get()); //TODO: make button in new interface
     });
 
     QObject::connect(select_goalie, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), [=](const QString &goalieId) {
@@ -132,63 +130,10 @@ void MainControlsWidget::setUseReferee(bool useRef) {
     }
 }
 
-/// toggle the setting 'isYellow'
-void MainControlsWidget::toggleOurColorParam() {
-    SETTINGS.setYellow(!SETTINGS.isYellow());
-    setToggleColorBtnLayout();
-}
-
-/// toggle the the setting 'isLeft'
-void MainControlsWidget::toggleOurSideParam() {
-    SETTINGS.setLeft(!SETTINGS.isLeft());
-    setToggleSideBtnLayout();
-}
-
-/// toggle the the setting 'isSerialMode'
-void MainControlsWidget::toggleSerialParam() {
-    SETTINGS.setSerialMode(!SETTINGS.isSerialMode());
-    setToggleSerialBtnLayout();
-}
 
 /// send a halt signal to stop all trees from executing
-void MainControlsWidget::sendPauseSignal() { Output::sendHaltCommand(); }
 
-void MainControlsWidget::updatePause() {
-    rtt::ai::Pause pause;
-    if (pause.getPause()) {
-        pauseBtn->setText("Resume");
-        pauseBtn->setStyleSheet("background-color: #00b200;");
-    } else {
-        pauseBtn->setText("Stop");
-        pauseBtn->setStyleSheet("background-color: #cc0000;");
-    }
-}
 
-void MainControlsWidget::setToggleColorBtnLayout() const {
-    if (SETTINGS.isYellow()) {
-        toggleColorBtn->setStyleSheet("background-color: orange;");  // orange is more readable
-        toggleColorBtn->setText("Playing as Yellow");
-    } else {
-        toggleColorBtn->setStyleSheet("background-color: blue;");
-        toggleColorBtn->setText("Playing as Blue");
-    }
-}
-
-void MainControlsWidget::setToggleSideBtnLayout() const {
-    if (SETTINGS.isLeft()) {
-        toggleSideBtn->setText("◀ Playing as left");
-    } else {
-        toggleSideBtn->setText("Playing as right ▶");
-    }
-}
-
-void MainControlsWidget::setToggleSerialBtnLayout() const {
-    if (SETTINGS.isSerialMode()) {
-        toggleSerialBtn->setText("BaseStation");
-    } else {
-        toggleSerialBtn->setText("GrSim");
-    }
-}
 
 void MainControlsWidget::updateContents() {
     auto ruleSetText = QString::fromStdString(GameStateManager::getCurrentGameState().ruleSetName);
@@ -210,10 +155,7 @@ void MainControlsWidget::updateContents() {
 }
 
 void MainControlsWidget::updatePlays() {
-    select_play->clear();
-    for (auto const &each : manager->plays) {
-        select_play->addItem(each->getName());
-    }
+
 }
 
 void MainControlsWidget::setIgnoreInvariants(bool ignore) {

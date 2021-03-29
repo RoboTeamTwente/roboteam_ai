@@ -17,16 +17,16 @@ class PlayDecider {
     /**
      * play that's set from the interface in case it's overridden
      */
-    static inline Play *interfacePlay;
+    Play *interfacePlay;
 
    public:
     /**
      * Sets the locked play, read variable above
      * @param play Play to lock to
      */
-    static void lockInterfacePlay(Play *play);
+    void lockInterfacePlay(Play *play);
 
-    static bool interfacePlayChanged;
+    bool interfacePlayChanged = false;
 
     /**
      * This function checks if there is a locked play. If there is, pick that play.

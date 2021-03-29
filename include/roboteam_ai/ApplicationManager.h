@@ -8,14 +8,13 @@
 #include <gtest/gtest_prod.h>
 
 #include "interface/widgets/mainWindow.h"
-#include "stp/PlayChecker.hpp"
-#include "stp/PlayDecider.hpp"
+#include "AI.h"
+#include "utilities/IOManager.h"
+#include "AppSettings.h"
 
 namespace rtt {
 
 class ApplicationManager {
-   public:
-    explicit ApplicationManager(ai::interface::MainWindow* mainWindow);
 
    private:
     FRIEND_TEST(ApplicationManagerTest, it_handles_ROS_data);
@@ -23,36 +22,15 @@ class ApplicationManager {
     void runOneLoopCycle();
     bool fieldInitialized = false;
     bool robotsInitialized = false;
-    ai::interface::MainWindow* mainWindow;
 
-    /**
-     * Current best play as picked by checker + decider
-     */
-    ai::stp::Play* currentPlay{nullptr};
+    AppSettings settings;
+    std::unique_ptr<AI> ai;
+    std::unique_ptr<rtt::ai::io::IOManager> io;
 
-    /**
-     * Checks which plays are valid out of all the plays
-     */
-    rtt::ai::stp::PlayChecker playChecker;
-    /**
-     * Checks, out of the valid plays, which play is the best to choose
-     */
-    rtt::ai::stp::PlayDecider playDecider;
-    /**
-     * Function that decides whether to change plays given a world and field.
-     * @param _world the current world state
-     * @param field the current field state
-     */
-    void decidePlay(world::World* _world);
 
    public:
-    void start();
-
-    /**
-     * The vector that contains all plays
-     */
-    static inline std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
-
+    void start(int ai_id);
+    ApplicationManager() = default;
     ApplicationManager(ApplicationManager const&) = delete;
     ApplicationManager& operator=(ApplicationManager const&) = delete;
 };

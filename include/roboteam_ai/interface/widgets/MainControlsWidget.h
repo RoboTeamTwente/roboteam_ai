@@ -13,7 +13,6 @@
 #include <QtWidgets/QShortcut>
 
 #include "QLayout"
-#include "widget.h"
 
 namespace rtt::ai::interface {
 
@@ -40,14 +39,9 @@ public:
 
     ApplicationManager *manager;
 
-    void setToggleColorBtnLayout() const;
-    void setToggleSideBtnLayout() const;
-    void setToggleSerialBtnLayout() const;
+
 
    public slots:
-    void toggleOurColorParam();
-    void toggleOurSideParam();
-    void toggleSerialParam();
     void sendPauseSignal();
     void updatePause();
     void setUseReferee(bool useRef);

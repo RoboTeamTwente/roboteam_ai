@@ -77,9 +77,9 @@ namespace rtt::ai::control {
         }
     }
 
-    void ControlModule::sendAllCommands() {
+    void ControlModule::sendAllCommands(std::unique_ptr<ai::io::IOManager>&io) {
           //TODO: check for double commands
-          io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
+          io->publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
           robotCommands.clear();
     }
 }  // namespace rtt::ai::stp

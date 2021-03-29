@@ -12,8 +12,6 @@
 #include <roboteam_proto/Setting.pb.h>
 #include <roboteam_proto/World.pb.h>
 
-#include "include/roboteam_ai/utilities/Settings.h"
-
 namespace rtt::world {
 class World;
 
@@ -41,7 +39,7 @@ class WorldData {
      *
      * Ownership is taken of protoMsg
      */
-    WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
+    WorldData(const World* data, proto::World &protoMsg, bool we_are_yellow, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept;
 
     /**
      * Owning container of robots

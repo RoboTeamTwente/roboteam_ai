@@ -18,18 +18,11 @@
 #include <iostream>
 #include <memory>
 
-#include "GraphWidget.h"
 #include "ManualControlWidget.h"
-#include "PidBox.h"
 #include "QColor"
 #include "QHBoxLayout"
 #include "QPushButton"
 #include "QTreeWidgetItemIterator"
-#include "RobotsWidget.h"
-#include "RuleSetWidget.h"
-#include "STPVisualizerWidget.h"
-#include "widget.h"
-#include "PlaysWidget.hpp"
 
 namespace rtt {
 class ApplicationManager;
@@ -52,29 +45,13 @@ class MainWindow : public QMainWindow {
 
     static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
     static void clearLayout(QLayout *layout);
-    void updatePlay(stp::Play *play);
-
-   signals:
-    void updateStpWidgets();
-
-   public slots:
-    void updateRobotsWidget();
-    void setPlayForRobot(std::string const &str, uint8_t id);
-    void setTacticForRobot(std::string const &str, uint8_t id);
-    void setKeeperRole(stp::Role *role, stp::Status state);
 
    private:
     QHBoxLayout *horizontalLayout;
     QVBoxLayout *mainLayout;
     QVBoxLayout *vLayout;
-    RobotsWidget *robotsWidget;
-    RuleSetWidget *refWidget;
     ManualControlWidget *manualControlWidget;
-    STPVisualizerWidget *stpWidget;
-    STPVisualizerWidget *keeperStpWidget;
-    Visualizer *visualizer;
-    GraphWidget *graphWidget;
-    PlaysWidget* playsWidget;
+
 //    InvariantsWidget *invariantsWidget;
 };
 

@@ -35,11 +35,9 @@ find_package(Qt5Widgets REQUIRED)
 set(UTILS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/utilities/GameStateManager.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Constants.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Pause.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/RefGameState.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/Dealer.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/IOManager.cpp
-        ${PROJECT_SOURCE_DIR}/src/utilities/Settings.cpp
         ${PROJECT_SOURCE_DIR}/src/utilities/StrategyManager.cpp
         )
 
@@ -203,35 +201,14 @@ set(TEST_SOURCES
 
 set(INTERFACE_SOURCES
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/widget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/api/Input.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/api/Output.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/STPVisualizerWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RobotsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidBox.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PidsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/MainControlsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/VisualizationSettingsWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/api/Toggles.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/RuleSetWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/GraphWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/SettingsWidget.cpp
         ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/PlaysWidget.cpp
 
         #QT wants to know about these headers
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidBox.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PidsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/MainControlsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RobotsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/RuleSetWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/STPVisualizerWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/VisualizationSettingsWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/widget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/SettingsWidget.h
         ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/PlaysWidget.hpp
         )
 
 set(WORLD_SOURCES
@@ -249,6 +226,7 @@ set(WORLD_SOURCES
 # Putting it all together so we can use it in both the main executable and the test executable
 set(AI_SOURCES
         ${PROJECT_SOURCE_DIR}/src/ApplicationManager.cpp
+        src/AI.cpp
         ${UTILS_SOURCES}
         ${SKILLS_SOURCES}
         ${TACTICS_SOURCES}
@@ -259,6 +237,8 @@ set(AI_SOURCES
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
+        src/AISettings.cpp
+        src/AppSettings.cpp
         )
 
 set(AI_LIBS
