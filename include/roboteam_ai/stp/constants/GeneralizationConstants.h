@@ -15,9 +15,9 @@ namespace rtt::ai::stp::gen {
      * If a position's score for a specific evaluation already had been computed in the tick, it will
      * use that value instead of recomputing it. If it was not computed yet, it will compute and save it.
      *
-     * @parm scoreOpen : uint8_t score for the Openness of a position -> evaluations/position/OpennessEvaluation
-     * @parm scoreLineOfSight : uint8_t score for the LineOfSight to a position from a position -> ../LineOfSightEvaluation
-     * @parm scoreGoalShot : uint8_t score for the Goal Shot opportunity for a position -> ../GoalShotEvaluation
+     * @memberof scoreOpen : uint8_t score for the Openness of a position -> evaluations/position/OpennessEvaluation
+     * @memberof scoreLineOfSight : uint8_t score for the LineOfSight to a position from a position -> ../LineOfSightEvaluation
+     * @memberof scoreGoalShot : uint8_t score for the Goal Shot opportunity for a position -> ../GoalShotEvaluation
      */
     struct PositionScores {
         std::optional<double> scoreOpen;
@@ -30,9 +30,9 @@ namespace rtt::ai::stp::gen {
      * This will be used to determine the final score for a robot for a position.
      * All weights will be multiplied with the corresponding score and then normalized.
      *
-     * @parm weightOpen for scoreOpen
-     * @parm weightLineOfSight for scoreLineOfSight
-     * @parm weightGoalShot for scoreGoalShot
+     * @memberof weightOpen for scoreOpen
+     * @memberof weightLineOfSight for scoreLineOfSight
+     * @memberof weightGoalShot for scoreGoalShot
      */
     struct ScoreProfile{
         double weightOpen;
@@ -42,8 +42,8 @@ namespace rtt::ai::stp::gen {
 
     /**
      * Structure with a position and its score
-     * @parm position Vector2 coordinates of a position
-     * @parm score The score for said position
+     * @memberof position Vector2 coordinates of a position
+     * @memberof score The score for said position
      */
     struct ScoredPosition{
         Vector2 position;
