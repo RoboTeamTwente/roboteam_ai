@@ -121,7 +121,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
         # referee_specific/
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementUs.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/DefensiveStopFormation.cpp
@@ -175,6 +175,7 @@ set(EVALUATION_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/LineOfSightEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/GoalShotEvaluation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/TimeToPositionEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/BlockingEvaluation.cpp
         )
 
 set(COMPUTATION_SOURCES
@@ -278,7 +279,7 @@ set(AI_SOURCES
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
         ${COMPUTATION_SOURCES}
-        )
+        src/stp/evaluations/position/BlockingEvaluation.cpp include/roboteam_ai/stp/evaluations/position/BlockingEvaluation.h)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

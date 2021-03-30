@@ -16,12 +16,15 @@
 #include "constants/GeneralizationConstants.h"
 
 namespace rtt::ai::stp {
+using pos = PositionComputations;
+using eval = GlobalEvaluation;
 
 /**
  * Play class that's used in the STP model
  * on update traverses every Role, and updates it.
  */
 class Play {
+
    public:
     /**
      * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
@@ -169,12 +172,17 @@ protected:
      * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
      * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
      */
-    virtual bool shouldRoleSkipEndTactic() = 0;
+    //virtual bool shouldRoleSkipEndTactic() = 0;
 
     /**
      * Map that holds info from the previous play
      */
     std::optional<gen::PlayInfos> previousPlayInfos;
+
+/**
+ * Function to initialize roles and make stpInfos map
+ */
+void initRoles() noexcept;
 
 private:
     /**
@@ -206,10 +214,6 @@ private:
      */
     bool shouldEndPlay() noexcept;
 
-    /**
-     * Function to initialize roles and make stpInfos map
-     */
-    void initRoles() noexcept;
 };
 }  // namespace rtt::ai::stp
 

@@ -30,7 +30,7 @@ namespace rtt::ai::stp::play {
          * @param a StpInfos to store calculated info in
          * @return The score, 0 - 255
          */
-        uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
+        uint8_t score(PlayEvaluator &playEvaluator) noexcept override;
 
         /**
          * Assigns robots to roles of this play
@@ -45,19 +45,23 @@ namespace rtt::ai::stp::play {
         /**
          * Calculate info for the roles that need to be calculated for scoring
          */
-        void calculateInfoForScoredRoles(world::World* world) noexcept override;
+        void calculateInfoForScoredRoles(world::World *world) noexcept override;
 
         /**
          * Gets the play name
          */
-        const char* getName() override;
+        const char *getName() override;
 
         /**
          * Optional function to save information for the next play
          * @param info Map-Struct to save info in
          */
-        void storePlayInfo(PlayInfos& info) noexcept override;
+        void storePlayInfo(gen::PlayInfos &info) noexcept override;
 
+        /**
+         * Optional function to force end a play
+         * @return is play should end
+         */
         bool shouldEndPlay() noexcept override;
     };
 }  // namespace rtt::ai::stp::play

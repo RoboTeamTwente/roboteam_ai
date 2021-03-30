@@ -20,16 +20,19 @@ class AggressiveStopFormation : public Play {
      * Gets the score for the current play
      *
      * On the contrary to isValidPlay() this checks how good the play actually is
-     * return in range of 0 - 100
+     * returns a value in range of 0 - 255 based on the factors from in the scoring vector
      *
-     * @param world World to get the score for (world::World::instance())
-     * @return The score, 0 - 100
+     * To calculate the score of a play, the current situation (Evaluations) and future positions are taken into account.
+     * To reduce computations the calculates for the future positions are saved in an StpInfos map that will be added to
+     *  the play with the initialization.
+     *
+     * @param a StpInfos to store calculated info in
+     * @return The score, 0 - 255
      */
-    uint8_t score(world::World* world) noexcept override;
+    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
 
     /**
-     * Decides the input for the robot dealer. The result will be used to distribute the roles
-     * @return a mapping between roles and robot flags, used by the robot dealer to assign roles
+     * Assigns robots to roles of this play
      */
     Dealer::FlagMap decideRoleFlags() const noexcept override;
 
@@ -39,17 +42,22 @@ class AggressiveStopFormation : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculate info for the roles that need to be calculated for scoring
+     */
+    void calculateInfoForScoredRoles(world::World* world) noexcept override {};
+
+    /**
      * Gets the play name
      */
     const char* getName() override;
 
-   protected:
     /**
-     * This function is used to determine if -- when a role is in an endTactic -- the endTactic should be skipped.
-     * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
-     * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
+     * Optional function to save information for the next play
+     * @param info Map-Struct to save info in
      */
-    bool shouldRoleSkipEndTactic() override;
+    void storePlayInfo(gen::PlayInfos& info) noexcept override {};
+
+    uint8_t score(world::World *world);
 };
 }  // namespace rtt::ai::stp::play
 

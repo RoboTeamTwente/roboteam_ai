@@ -18,11 +18,13 @@ namespace rtt::ai::stp::gen {
      * @memberof scoreOpen : uint8_t score for the Openness of a position -> evaluations/position/OpennessEvaluation
      * @memberof scoreLineOfSight : uint8_t score for the LineOfSight to a position from a position -> ../LineOfSightEvaluation
      * @memberof scoreGoalShot : uint8_t score for the Goal Shot opportunity for a position -> ../GoalShotEvaluation
+     * @memberof scoreBlocking : uint8_t score for the potential to block from a position -> ../BlockingEvaluation
      */
     struct PositionScores {
         std::optional<double> scoreOpen;
         std::optional<double> scoreLineOfSight;
         std::optional<double> scoreGoalShot;
+        std::optional<double> scoreBlocking;
     };
 
     /**
@@ -38,6 +40,7 @@ namespace rtt::ai::stp::gen {
         double weightOpen;
         double weightLineOfSight;
         double weightGoalShot;
+        double weightBlocking;
     };
 
     /**
@@ -54,9 +57,10 @@ namespace rtt::ai::stp::gen {
      * Generalized Position Profiles to be used in plays.
      * They consist of a generalized weight combination.
      */
-    constexpr ScoreProfile SafePosition = {1,1,0};
-    constexpr ScoreProfile OffensivePosition = {1,0.5,0.5};
-    constexpr ScoreProfile GoalShootPosition = {0, 0.5,1};
+    constexpr ScoreProfile SafePosition = {1,1,0,0.5};
+    constexpr ScoreProfile OffensivePosition = {1,0.5,0.5,0};
+    constexpr ScoreProfile GoalShootPosition = {0, 0.5,1,0};
+    constexpr ScoreProfile BlockingPosition = {0, 0.5,0,1};
 
     /**
      * Generalized Grids to be used in plays
@@ -69,6 +73,10 @@ namespace rtt::ai::stp::gen {
     inline static Grid gridMidFieldTop = Grid(-1, 0, 2, 2.2, 5, 5);
     inline static Grid gridMidFieldMid = Grid(-1, -1.5, 2, 3, 5, 5);
     inline static Grid gridMidFieldBot = Grid(-1, -2.5, 2, 2.2, 5, 5);
+    inline static Grid gridLeftTop = Grid(-5, -0, 2.5, 2.2, 5, 5);
+    inline static Grid gridLeftMid = Grid(-5, -1.5, 2.5, 3, 5, 5);
+    inline static Grid gridLeftBot = Grid(-5, -2.5, 2.5, 2.2, 5, 5);
+
 
     /**
      * Generalized Keys for passing information form the old play to the new.

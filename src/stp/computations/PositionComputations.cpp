@@ -13,6 +13,7 @@
 #include "stp/evaluations/position/OpennessEvaluation.h"
 #include "stp/evaluations/position/LineOfSightEvaluation.h"
 #include "stp/evaluations/position/GoalShotEvaluation.h"
+#include "stp/evaluations/position/BlockingEvaluation.h"
 
 namespace rtt::ai::stp {
 
@@ -51,6 +52,10 @@ namespace rtt::ai::stp {
             scoreTotal += scores.scoreOpen.value_or(determineOpenScore(position, world,scores)) * profile.weightOpen;
             weightTotal += profile.weightOpen;
         }
+        if (profile.weightBlocking){
+            scoreTotal += scores.scoreBlocking.value_or(determineBlockingScore(position, world,scores)) * profile.weightBlocking;
+            weightTotal += profile.weightBlocking;
+        }
         return static_cast<uint8_t>(scoreTotal/weightTotal);
     }
 
@@ -70,8 +75,7 @@ namespace rtt::ai::stp {
         std::vector<double> enemyAnglesToBallvsPoint;
         for (auto& enemyRobot : world->getWorld()->getThem()){
             enemyDistancesToBall.push_back(ballPos.dist(enemyRobot->getPos()));
-            double x = (ballPos-enemyRobot->getPos()).angle()-pointAngle;
-            enemyAnglesToBallvsPoint.push_back(x);
+            enemyAnglesToBallvsPoint.push_back((ballPos-enemyRobot->getPos()).angle()-pointAngle);
         }
         return (scores.scoreLineOfSight = stp::evaluation::LineOfSightEvaluation().metricCheck(pointDistance,enemyDistancesToBall,enemyAnglesToBallvsPoint)).value();
     }
@@ -82,6 +86,19 @@ namespace rtt::ai::stp {
         double goalDistance = FieldComputations::getDistanceToGoal(field, false, point);
         double trialToGoalAngle = fabs((field.getTheirGoalCenter() - point).angle());
         return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility,goalDistance,trialToGoalAngle)).value();
+    }
+
+    double PositionComputations::determineBlockingScore(Vector2 &point, rtt::world::World *world, gen::PositionScores &scores){
+        Vector2 ballPos = world->getWorld().value()->getBall()->get()->getPos();
+        double pointDistance = ballPos.dist(point);
+        double pointAngle = (point-ballPos).angle();
+        std::vector<double> enemyDistances;
+        std::vector<double> enemyAnglesToBallvsPoint;
+        for (auto& enemyRobot : world->getWorld()->getThem()){
+            enemyDistances.push_back(point.dist(enemyRobot->getPos()));
+            enemyAnglesToBallvsPoint.push_back((enemyRobot->getPos()-ballPos).angle()-pointAngle);
+        }
+        return (scores.scoreBlocking = stp::evaluation::BlockingEvaluation().metricCheck(pointDistance, enemyDistances, enemyAnglesToBallvsPoint)).value();
     }
 
     Vector2 PositionComputations::getWallPosition(int index, int amountDefenders, const rtt::world::Field &field, rtt::world::World *world){

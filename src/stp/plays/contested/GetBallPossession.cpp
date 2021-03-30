@@ -90,8 +90,6 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 
 }
 
-bool GetBallPossession::shouldRoleSkipEndTactic() { return false; }
-
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
 

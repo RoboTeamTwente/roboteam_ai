@@ -70,13 +70,6 @@ class AttackingPass : public Play {
      */
     //NEW PLAY -> void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
-   protected:
-    /**
-     * Checks whether this role should skip the end tactic in its state machine
-     * @return whether to skip the end tactic
-     */
-    bool shouldRoleSkipEndTactic() override;
-
    private:
     /**
      * Checks if the pass is finished so the play knows whether it should

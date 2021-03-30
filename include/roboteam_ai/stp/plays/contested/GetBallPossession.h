@@ -52,8 +52,6 @@ class GetBallPossession : public Play {
     const char* getName() override;
 
    protected:
-    bool shouldRoleSkipEndTactic() override;
-
     void storePlayInfo(gen::PlayInfos& info) noexcept override;
 };
 }  // namespace rtt::ai::stp::play

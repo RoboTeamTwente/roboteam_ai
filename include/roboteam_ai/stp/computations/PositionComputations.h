@@ -53,6 +53,15 @@ namespace rtt::ai::stp {
         static double determineGoalShotScore(Vector2 &point, const world::Field &field, world::World *world, gen::PositionScores &scores);
 
         /**
+         * Determine score for blocking potential of a position
+         * @param point Position to calculate from
+         * @param world
+         * @param scores ref to struct linked to that pos
+         * @return score value
+         */
+        static double determineBlockingScore(Vector2 &point, world::World *world, gen::PositionScores &scores);
+
+        /**
          * Get score of a position, used in getPosition
          * @param position Vector2 that needs to be scored
          * @param profile combination of weights for different factors that should be scored

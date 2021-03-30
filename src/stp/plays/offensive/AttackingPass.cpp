@@ -131,8 +131,6 @@ std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefe
     return positions;
 }
 
-bool AttackingPass::shouldRoleSkipEndTactic() { return false; }
-
 const char* AttackingPass::getName() { return "AttackingPass"; }
 
 /// Should become new play that receives ball

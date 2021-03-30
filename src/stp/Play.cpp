@@ -53,9 +53,9 @@ namespace rtt::ai::stp {
                 if (roleStatus == Status::Waiting) {
                     // Should role skip end tactic?
                     // TODO Is this still used/usable?
-                    if (shouldRoleSkipEndTactic()) {
-                        role->forceNextTactic();
-                    }
+//                    if (shouldRoleSkipEndTactic()) {
+//                        role->forceNextTactic();
+//                    }
                 }
             } else {
                 RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
@@ -141,7 +141,7 @@ namespace rtt::ai::stp {
 
     void Play::storePlayInfo(gen::PlayInfos &previousPlayInfo) noexcept {}
 
-    bool Play::shouldRoleSkipEndTactic() { return false; }
+    //bool Play::shouldRoleSkipEndTactic() { return false; }
 
     bool Play::shouldEndPlay() noexcept { return false; }
 
