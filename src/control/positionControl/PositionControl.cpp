@@ -91,9 +91,7 @@ namespace rtt::ai::control {
         // TODO: let the robot properly follow the BBT
         //Current method is very hacky
         // If you are closer to the target than the first point of the approximated path, remove it
-        if((targetPosition - currentPosition).length() < (targetPosition-computedPaths[robotId].front()).length()){
-            computedPaths[robotId].erase(computedPaths[robotId].begin());
-        }
+        PositionControlUtils::removeFirstIfReached(computedPaths[robotId],currentPosition);
 
         commandCollision.robotCommand = RobotCommand();
         commandCollision.robotCommand.pos = computedPaths[robotId].front();

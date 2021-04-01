@@ -17,8 +17,7 @@ namespace rtt::BB {
                                                                  const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId) {
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
         ruleset = gameState.getRuleSet();
-        //TODO: return the kind of collision
-        //^-Question from Max not high priority
+
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
         auto pathPoints = BBTrajectory.getPathApproach(timeStep);
@@ -136,15 +135,14 @@ namespace rtt::BB {
     void
     WorldObjects::calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
                                               const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
-        int ourRobotAmount = world->getWorld()->getUs().size();
-        //TODO: For loop has to be adjusted such that all ID's are checked and not the ID's until ourRobotAmount. Other functions also need to be checked
-        //The current for loops do not check all present robots. For instance if you have 3 robots it will check ID 0 1 and 2 but this does not correspond
-        // with the ID's the robots could have
+        const std::vector<world::view::RobotView> ourRobots = world->getWorld()->getUs();
+
         for (int i = 0; i < pathPoints.size(); i++) {
-            for (int j = 0; j < ourRobotAmount; j++) {
-                if (robotId != j && computedPaths.find(j) != computedPaths.end()) {
-                    if ((pathPoints[i] - computedPaths.at(j)[i]).length() < ai::Constants::ROBOT_RADIUS() * 1.5 && i * timeStep < 1) {
-                        insertCollisionData(collisionDatas,CollisionData{computedPaths.at(j)[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
+            for (const auto &ourRobot : ourRobots) {
+                if (robotId != ourRobot->getId() && computedPaths.find(ourRobot->getId()) != computedPaths.end()) {
+                    Vector2 computedPathsPositionToCheck = computedPaths.at(ourRobot->getId()).size() > i ? computedPaths.at(ourRobot->getId())[i] : computedPaths.at(ourRobot->getId()).back();
+                    if ((pathPoints[i] - computedPathsPositionToCheck).length() < ai::Constants::ROBOT_RADIUS() * 1.5 && i * timeStep < 1) {
+                        insertCollisionData(collisionDatas,CollisionData{computedPaths.at(ourRobot->getId())[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
                         return;
                     }
                 }
