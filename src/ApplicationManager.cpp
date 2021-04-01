@@ -50,7 +50,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
@@ -129,8 +129,8 @@ void ApplicationManager::runOneLoopCycle() {
 
             world->updateField(fieldMessage);
             world->updatePositionControl();
-            //world->updateFeedback(feedbackMap);
 
+            //world->updateFeedback(feedbackMap);
             decidePlay(world);
 
         } else {
