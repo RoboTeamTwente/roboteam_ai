@@ -10,6 +10,7 @@
 #include <stp/evaluations/game_states/FreeKickThemGameStateEvaluation.h>
 #include <stp/evaluations/game_states/FreeKickUsGameStateEvaluation.h>
 #include <stp/evaluations/game_states/HaltGameStateEvaluation.h>
+#include <stp/evaluations/game_states/TimeOutGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffThemGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.h>
 #include <stp/evaluations/game_states/KickOffUsGameStateEvaluation.h>
@@ -56,6 +57,8 @@ namespace rtt::ai::stp{
                 return evaluation::FreeKickUsGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::HaltGameState:
                 return evaluation::HaltGameStateEvaluation().metricCheck(_world, &field);
+            case GlobalEvaluation::TimeOutGameState:
+                return evaluation::TimeOutGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::KickOffThemGameState:
                 return evaluation::KickOffThemGameStateEvaluation().metricCheck(_world, &field);
             case GlobalEvaluation::KickOffThemPrepareGameState:
