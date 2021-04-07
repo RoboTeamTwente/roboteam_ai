@@ -40,11 +40,7 @@ class MainWindow : public QMainWindow {
    public:
     explicit MainWindow(QWidget *parent = nullptr, rtt::ApplicationManager *manager = nullptr);
 
-    // this function is useful everywhere
-    static void configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState = false);
-
-    static void configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState);
-    static void clearLayout(QLayout *layout);
+     static void clearLayout(QLayout *layout);
 
    private:
     QHBoxLayout *horizontalLayout;

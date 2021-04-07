@@ -35,6 +35,9 @@ namespace rtt {
 
     [[nodiscard]] bool isPaused() const;
     void setPause(bool paused);
+
+    [[nodiscard]] bool getListenToReferee() const;
+    void setListenToReferee(bool listen);
    private:
     int id;
     bool is_yellow;
@@ -43,6 +46,7 @@ namespace rtt {
     std::string robothub_send_ip;
     int robothub_send_port;
     bool is_paused;
+    bool listenToReferee;
 
   };
 }

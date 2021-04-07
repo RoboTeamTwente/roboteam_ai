@@ -9,7 +9,7 @@ proto::SSL_Referee GameStateManager::refMsg;
 StrategyManager GameStateManager::strategymanager;
 std::mutex GameStateManager::refMsgLock;
 int GameStateManager::keeperID;
-
+GameState GameStateManager::interface_gamestate("halt_strategy", "default");
 proto::SSL_Referee GameStateManager::getRefereeData() {
     std::lock_guard<std::mutex> lock(refMsgLock);
     return GameStateManager::refMsg;
@@ -163,7 +163,9 @@ void GameStateManager::setRefereeData(proto::SSL_Referee refMsg, const rtt_world
 // Initialize static variables
 GameState GameStateManager::getCurrentGameState() {
     GameState newGameState;
-    if (interface::Output::usesRefereeCommands()) {
+
+    bool uses_referee_commands = true; //TODO: make setting/listen to settings
+    if (uses_referee_commands) { //TODO: no more static and clean up distinction between strategymanager/interface state
         newGameState = static_cast<GameState>(strategymanager.getCurrentRefGameState());
 
         newGameState.keeperId = keeperID;
@@ -171,9 +173,9 @@ GameState GameStateManager::getCurrentGameState() {
         // if there is a ref we set the interface gamestate to these values as well
         // this makes sure that when we stop using the referee we don't return to an unknown state,
         // // so now we keep the same.
-        interface::Output::setInterfaceGameState(newGameState);
+       interface_gamestate=newGameState;
     } else {
-        newGameState = interface::Output::getInterfaceGameState();
+        newGameState = interface_gamestate;
     }
     return newGameState;
 }
@@ -182,7 +184,7 @@ void GameStateManager::forceNewGameState(RefCommand cmd, std::optional<rtt_world
     RTT_INFO("Forcing new refstate!")
 
     // overwrite both the interface and the strategy manager.
-    interface::Output::setInterfaceGameState(strategymanager.getRefGameStateForRefCommand(cmd));
+    interface_gamestate = strategymanager.getRefGameStateForRefCommand(cmd);
 
     strategymanager.forceCurrentRefGameState(cmd, ball);
 }

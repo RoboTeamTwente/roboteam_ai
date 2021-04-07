@@ -1,6 +1,5 @@
 #include "interface/widgets/mainWindow.h"
 
-#include "interface/widgets/MainControlsWidget.h"
 #include <QMenuBar>
 #include <QSplitter>
 namespace rtt::ai::interface {
@@ -13,12 +12,6 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     mainLayout = new QVBoxLayout();
     horizontalLayout = new QHBoxLayout();
     vLayout = new QVBoxLayout();
-
-    // the main controls widget for the most crucial buttons
-    // changing strategies, goalie id, etc.
-    auto mainControlsWidget = new MainControlsWidget(this, manager);
-    vLayout->addWidget(mainControlsWidget);
-
 
     manualControlWidget = new ManualControlWidget(this);
 
@@ -57,8 +50,7 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
     // start the UI update cycles
     // these are slower than the tick rate
     auto *robotsTimer = new QTimer(this);
-    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updatePause()));
-    connect(robotsTimer, SIGNAL(timeout()), mainControlsWidget, SLOT(updateContents()));
+
     robotsTimer->start(500);  // 2fps
 
     auto *graphTimer = new QTimer(this);
@@ -67,22 +59,7 @@ MainWindow::MainWindow(QWidget *parent, ApplicationManager *manager) : QMainWind
 
 }
 
-/// Set up a checkbox and add it to the layout
-void MainWindow::configureCheckBox(const QString &title, QLayout *layout, const QObject *receiver, const char *method, bool defaultState) {
-    auto checkbox = new QCheckBox(title);
-    checkbox->setChecked(defaultState);
-    layout->addWidget(checkbox);
-    QObject::connect(checkbox, SIGNAL(clicked(bool)), receiver, method);
-}
 
-void MainWindow::configureCheckableMenuItem(QString title, const QString &hint, QMenu *menu, const QObject *receiver, const char *method, bool defaultState) {
-    QAction *action = new QAction(title, menu);
-    action->setStatusTip(hint);
-    action->setCheckable(true);
-    action->setChecked(defaultState);
-    QObject::connect(action, SIGNAL(triggered(bool)), receiver, method);
-    menu->addAction(action);
-}
 
 /// delete a layout and its children
 void MainWindow::clearLayout(QLayout *layout) {

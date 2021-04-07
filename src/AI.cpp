@@ -69,7 +69,7 @@ rtt::AI::AI(int id) : settings(id) {
 
 }
 proto::AICommand rtt::AI::decidePlay() {
-  if(!world->getField().has_value()){
+  if(!world->getField().has_value() || settings.isPaused()){ //TODO: check if we *just* paused, and if so, send a stop signal to all ID's
     return proto::AICommand();
   }
   world::World * _world = world.get();//TODO: fix ownership, why are we handing out a raw pointer? Maybe const& to unique_ptr makes more sense

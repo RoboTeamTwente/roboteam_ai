@@ -9,7 +9,8 @@ AISettings::AISettings(int initial_id) :
     mode{GRSIM},
     robothub_send_ip{"127.0.0.1"}, //local host
     robothub_send_port{20011},//grsim default
-    is_paused(true) {
+    is_paused(true),
+    listenToReferee(false){
   //these settings are for testing and convenience, basically
   if (initial_id == 1) {
     is_yellow = false;
@@ -62,5 +63,11 @@ void AISettings::setPause(bool paused) {
 }
 bool AISettings::isPaused() const {
   return is_paused;
+}
+bool AISettings::getListenToReferee() const {
+  return listenToReferee;
+}
+void AISettings::setListenToReferee(bool listen) {
+  listenToReferee = listen;
 }
 }

@@ -4,7 +4,6 @@
 
 #include "stp/Play.hpp"
 
-#include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
 
@@ -121,7 +120,7 @@ void Play::distributeRoles() noexcept {
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
 
 bool Play::isValidPlayToKeep(world::World* world) noexcept {
-    if (!interface::MainControlsWidget::ignoreInvariants) {
+    if (!ignore_invariants()) {
         world::Field field = world->getField().value();
         return std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
     } else {
@@ -130,7 +129,7 @@ bool Play::isValidPlayToKeep(world::World* world) noexcept {
 }
 
 bool Play::isValidPlayToStart(world::World* world) const noexcept {
-    if (!interface::MainControlsWidget::ignoreInvariants) {
+    if (!ignore_invariants()) {
         world::Field field = world->getField().value();
         return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
     } else {

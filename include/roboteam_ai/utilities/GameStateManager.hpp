@@ -28,6 +28,7 @@ class GameStateManager {
     static proto::SSL_Referee refMsg;
     static int keeperID;
     static StrategyManager strategymanager;
+    static GameState interface_gamestate; //TODO: port/refactor
     static std::mutex refMsgLock;
 };
 

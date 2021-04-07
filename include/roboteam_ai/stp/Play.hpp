@@ -144,6 +144,9 @@ class Play {
      */
     virtual bool shouldRoleSkipEndTactic() = 0;
 
+    static bool ignore_invariants(){ //TODO: make a proper settting
+      return false;
+    }
    private:
     /**
      * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
