@@ -66,10 +66,12 @@ rtt::AI::AI(int id) : settings(id) {
   playChecker.setPlays(plays);
 
   world = std::make_unique<world::World>(settings.isYellow());
+
 }
 proto::AICommand rtt::AI::decidePlay() {
-  //TODO: collect commands in ControlModule
-
+  if(!world->getField().has_value()){
+    return proto::AICommand();
+  }
   world::World * _world = world.get();//TODO: fix ownership, why are we handing out a raw pointer? Maybe const& to unique_ptr makes more sense
   playChecker.update(_world);
 
@@ -89,7 +91,7 @@ proto::AICommand rtt::AI::decidePlay() {
       RTT_ERROR("No valid plays")
       currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
       if (!currentPlay) {
-        return;
+        return proto::AICommand();
       }
     } else {
       currentPlay = playDecider.decideBestPlay(_world, validPlays);
@@ -99,6 +101,13 @@ proto::AICommand rtt::AI::decidePlay() {
   }
 
   currentPlay->update();
+  auto commands = ai::control::ControlModule::sendAllCommands(settings); //TODO: no more statics
+  proto::AICommand ai_command;
+  for(const auto& command : commands){
+    proto::RobotCommand * protoCommand = ai_command.mutable_commands()->Add();
+    protoCommand->CopyFrom(command);
+  }
+  return ai_command;
   //mainWindow->updatePlay(currentPlay); TODO: send to interface
 }
 void rtt::AI::updateState(const proto::State& state) {
@@ -111,13 +120,22 @@ void rtt::AI::updateState(const proto::State& state) {
   //TODO: safety checks
 
   //Note these calls assume the proto field exist. Otherwise, all fields and subfields are initialized as empty!!
-  auto worldMessage = state.last_seen_world();
-  auto fieldMessage = state.field().field();
-  if (!settings.isLeft()) {
-    roboteam_utils::rotate(&worldMessage);
+  if(state.has_last_seen_world()){
+    auto worldMessage = state.last_seen_world();
+    if (!settings.isLeft()) {
+      roboteam_utils::rotate(&worldMessage);
+    }
+    world->updateWorld(worldMessage);
   }
-  world->updateWorld(worldMessage);
-  world->updateField(fieldMessage);
+
+  if(state.has_field()){
+    auto fieldMessage = state.field().field();
+    if (!settings.isLeft()) {
+      roboteam_utils::rotate(&fieldMessage);
+    }
+    world->updateField(fieldMessage);
+  }
+
   world->updatePositionControl();
   //world->updateFeedback(feedbackMap); TODO fix feedback
 }

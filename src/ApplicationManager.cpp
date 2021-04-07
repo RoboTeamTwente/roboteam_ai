@@ -4,7 +4,6 @@
 
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
-#include "control/ControlModule.h"
 
 
 namespace io = rtt::ai::io;
@@ -42,7 +41,7 @@ void ApplicationManager::start(int id) {
             RTT_WARNING("Time allowed: 16 ms")
 
             // publish settings, but limit this function call to only run 1 times/s at most
-            t.limit([&]() { io->publishSettings(SETTINGS.toMessage()); }, 1);
+            t.limit([&]() { io->publishSettings(settings.toMessage()); }, 1);
         },
         ai::Constants::TICK_RATE());
 }
@@ -51,9 +50,10 @@ void ApplicationManager::start(int id) {
 void ApplicationManager::runOneLoopCycle() {
     auto state = io->getState();
     ai->updateState(state);
-    ai->decidePlay();
 
-    rtt::ai::control::ControlModule::sendAllCommands(io);
+    proto::AICommand command = ai->decidePlay();
+
+    io->publishAICommand(command);
     io->handleCentralServerConnection();
 }
 }  // namespace rtt

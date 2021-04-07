@@ -10,6 +10,7 @@
 #include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
 #include "utilities/IOManager.h"
+#include <AISettings.h>
 
 namespace rtt::ai::control {
 
@@ -55,7 +56,7 @@ namespace rtt::ai::control {
         /**
          *
          */
-        static void sendAllCommands(std::unique_ptr<ai::io::IOManager>& io);
+        static std::vector<proto::RobotCommand> sendAllCommands(const AISettings& settings);
     };
 }  // namespace rtt::ai::control
 

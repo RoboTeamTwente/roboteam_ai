@@ -119,9 +119,9 @@ void JoystickManager::loop() {
 void JoystickManager::tickJoystickHandlers() {
     for (const auto &joystickHandler : joystickHandlers) {
         joystickHandler.second->tick();
-        auto const& [_, world] = world::World::instance();
-      auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id());
-      rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
+//        auto const& [_, world] = world::World::instance();
+//      auto robot = world->getWorld()->getRobotForId(joystickHandler.second->getCommand().id());
+//      rtt::ai::control::ControlModule::addRobotCommand(robot, joystickHandler.second->getCommand(), world);
     }
 }
 

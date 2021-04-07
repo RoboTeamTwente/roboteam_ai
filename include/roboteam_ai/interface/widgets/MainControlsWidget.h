@@ -42,8 +42,6 @@ public:
 
 
    public slots:
-    void sendPauseSignal();
-    void updatePause();
     void setUseReferee(bool useRef);
     void setIgnoreInvariants(bool ignore);
     void updateContents();

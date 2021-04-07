@@ -41,7 +41,7 @@ class IOManager {
    public:
     ~IOManager();
     explicit IOManager() = default;
-    void publishAllRobotCommands(const std::vector<proto::RobotCommand>& vector);
+    void publishAICommand(const proto::AICommand& ai_command);
     void publishSettings(proto::Setting setting);
     void handleCentralServerConnection();
     void init(int teamId);

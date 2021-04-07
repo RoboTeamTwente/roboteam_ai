@@ -5,8 +5,6 @@
 #include "control/ControlModule.h"
 #include <roboteam_utils/Print.h>
 #include "control/ControlUtils.h"
-#include "utilities/IOManager.h"
-#include "utilities/Settings.h"
 #include "world/World.hpp"
 #include "iostream"
 
@@ -65,10 +63,7 @@ namespace rtt::ai::control {
 
     void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept {
         proto::RobotCommand robot_command=command;
-        // If we are not left, commands should be rotated (because we play as right)
-        if (!SETTINGS.isLeft()) {
-            rotateRobotCommand(robot_command);
-        }
+      //TODO: check for double commands
 
         limitRobotCommand(robot_command, robot);
         // Only add commands with a robotID that is not in the vector yet
@@ -77,9 +72,15 @@ namespace rtt::ai::control {
         }
     }
 
-    void ControlModule::sendAllCommands(std::unique_ptr<ai::io::IOManager>&io) {
-          //TODO: check for double commands
-          io->publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
+    std::vector<proto::RobotCommand> ControlModule::sendAllCommands(const AISettings& settings) {
+      // If we are not left, commands should be rotated (because we play as right)
+      std::vector<proto::RobotCommand> commands = robotCommands;
+          if(!settings.isLeft()){
+            for(auto& command : commands){
+              rotateRobotCommand(command);
+            }
+          }
           robotCommands.clear();
+          return commands;
     }
 }  // namespace rtt::ai::stp

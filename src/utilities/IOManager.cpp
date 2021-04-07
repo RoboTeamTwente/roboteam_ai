@@ -41,15 +41,6 @@ void IOManager::handleState(proto::State &stateMsg) {
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::publishAllRobotCommands(const std::vector<proto::RobotCommand>& robotCommands) {
-        proto::AICommand command;
-        for(const auto& robotCommand : robotCommands){
-          proto::RobotCommand * protoCommand = command.mutable_commands()->Add();
-          protoCommand->CopyFrom(robotCommand);
-        }
-        command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world());
-        robotCommandPublisher->send(command);
-}
 void IOManager::handleCentralServerConnection(){
   //first receive any setting changes
   bool received = true;
@@ -82,5 +73,11 @@ proto::State IOManager::getState(){
   std::lock_guard<std::mutex> lock(stateMutex);//read lock
   proto::State copy = state;
   return copy;
+}
+void IOManager::publishAICommand(const proto::AICommand& command) {
+  proto::AICommand ai_command;
+  ai_command.CopyFrom(command);
+  ai_command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world()); //TODO: move this responsibility to the AI
+  robotCommandPublisher->send(command);
 }
 }  // namespace rtt::ai::io

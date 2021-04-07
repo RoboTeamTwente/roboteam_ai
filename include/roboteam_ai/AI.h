@@ -11,6 +11,7 @@
 #include "world/World.hpp"
 #include <roboteam_proto/State.pb.h>
 #include <roboteam_proto/AICommand.pb.h>
+#include "control/ControlModule.h"
 
 namespace rtt {
 class AI {
@@ -46,6 +47,8 @@ class AI {
   std::vector<std::unique_ptr<rtt::ai::stp::Play>> plays;
 
   AISettings settings;
+
+  //std::unique_ptr<ai::control::ControlModule> control_module; TODO: fix staticness
 };
 }
 #endif //RTT_ROBOTEAM_AI_SRC_AI_H_

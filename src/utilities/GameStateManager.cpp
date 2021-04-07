@@ -8,6 +8,7 @@ namespace rtt::ai {
 proto::SSL_Referee GameStateManager::refMsg;
 StrategyManager GameStateManager::strategymanager;
 std::mutex GameStateManager::refMsgLock;
+int GameStateManager::keeperID;
 
 proto::SSL_Referee GameStateManager::getRefereeData() {
     std::lock_guard<std::mutex> lock(refMsgLock);

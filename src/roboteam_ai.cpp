@@ -66,5 +66,5 @@ int main(int argc, char* argv[]) {
 
     window->show();
     bool result = a.exec();
-    return result;
+    return result; //TODO: join app_thread
 }
