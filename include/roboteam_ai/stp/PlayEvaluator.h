@@ -15,6 +15,7 @@ namespace rtt::ai::stp{
         FreeKickThemGameState,
         FreeKickUsGameState,
         HaltGameState,
+        TimeOutGameState,
         KickOffThemGameState,
         KickOffThemPrepareGameState,
         KickOffUsGameState,
