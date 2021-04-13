@@ -2,6 +2,7 @@
 
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
+#include <stp/plays/referee_specific/TimeOut.h>
 
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
@@ -22,7 +23,8 @@
 //#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
 //#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
+#include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
+#include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThemPrepare.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
@@ -33,7 +35,6 @@
 //#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUsPrepare.h"
 //#include "stp/plays/ReflectKick.h"
 //#include "stp/plays/TestPlay.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -54,14 +55,14 @@ void ApplicationManager::start() {
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());

@@ -84,10 +84,12 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),gen::gridMidFieldMid, gen::SafePosition, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(),gen::gridMidFieldTop, gen::SafePosition, field, world));
 
-    stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0,3,field,world));
-    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1,3,field,world));
-    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2,3,field,world));
-
+    //getWallPosition can only be called when ball is inside field
+    if(FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos())) {
+        stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
+        stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
+        stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 3, field, world));
+    }
 }
 
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {
