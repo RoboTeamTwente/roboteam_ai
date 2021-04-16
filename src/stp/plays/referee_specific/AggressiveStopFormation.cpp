@@ -67,14 +67,12 @@ namespace rtt::ai::stp::play {
 
 void AggressiveStopFormation::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(field.getTheirGoalCenter());
+    //If keeper has ball, shoot at one of our robots thats closest to our goal
+    stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
 
-    //getWallPosition can only be called when ball is inside field
-    if(FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos())) {
-        stpInfos["defender_0"].setPositionToMoveTo(pos::getWallPosition(0, 3, field, world));
-        stpInfos["defender_1"].setPositionToMoveTo(pos::getWallPosition(1, 3, field, world));
-        stpInfos["defender_2"].setPositionToMoveTo(pos::getWallPosition(2, 3, field, world));
-    }
+    stpInfos["defender_0"].setPositionToMoveTo(pos::getWallPosition(0, 3, field, world));
+    stpInfos["defender_1"].setPositionToMoveTo(pos::getWallPosition(1, 3, field, world));
+    stpInfos["defender_2"].setPositionToMoveTo(pos::getWallPosition(2, 3, field, world));
 
     stpInfos["mid_field_0"].setPositionToMoveTo(pos::getPosition(stpInfos["mid_field_0"].getPositionToMoveTo(),gen::gridLeftMid, gen::BlockingPosition, field, world));
     stpInfos["mid_field_1"].setPositionToMoveTo(pos::getPosition(stpInfos["mid_field_1"].getPositionToMoveTo(),gen::gridMidFieldTop, gen::OffensivePosition, field, world));

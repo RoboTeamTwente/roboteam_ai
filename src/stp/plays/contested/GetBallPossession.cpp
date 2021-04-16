@@ -63,7 +63,8 @@ void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcep
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-    stpInfos["keeper"].setPositionToShootAt(Vector2());
+    //If keeper has ball, shoot at one of our robots thats closest to our goal
+    stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
 
     //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
     stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
@@ -85,11 +86,11 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(),gen::gridMidFieldTop, gen::SafePosition, field, world));
 
     //getWallPosition can only be called when ball is inside field
-    if(FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos())) {
+    //if(FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos())) {
         stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
         stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
         stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 3, field, world));
-    }
+    //}
 }
 
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {

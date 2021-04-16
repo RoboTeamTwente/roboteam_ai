@@ -199,10 +199,11 @@ std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegme
 Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, const Vector2 &point){
     if (pointIsValidPosition(field,point)) return point;
     Vector2 fixedPoint = point;
-    if (point.y > field.getTopLeftCorner().y) fixedPoint.y = field.getTopLeftCorner().y; //Top
-    if (point.x > field.getBottomRightCorner().x) fixedPoint.x =field.getBottomRightCorner().x; //Right
-    if (point.y > field.getBottomRightCorner().y) fixedPoint.y = field.getBottomRightCorner().y; //Bot
-    if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x; //Left
+    double margin = 0.005;
+    if (point.y > field.getTopLeftCorner().y) fixedPoint.y = field.getTopLeftCorner().y + margin; //Top
+    if (point.x > field.getBottomRightCorner().x) fixedPoint.x =field.getBottomRightCorner().x - margin; //Right
+    if (point.y > field.getBottomRightCorner().y) fixedPoint.y = field.getBottomRightCorner().y - margin; //Bot
+    if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin; //Left
     return fixedPoint;
 }
 
