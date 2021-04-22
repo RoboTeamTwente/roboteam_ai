@@ -17,12 +17,6 @@ void ApplicationManager::start(int id) {
 
   rtt::ai::Constants::init();
 
-
-  settings.setVisionIp("127.0.0.1");
-  settings.setVisionPort(10006);
-  settings.setRefereeIp("224.5.23.1");
-  settings.setRefereePort(10003);
-
   io->init(id);
 
   // make sure we start in halt state for safety
@@ -54,6 +48,7 @@ void ApplicationManager::runOneLoopCycle() {
     proto::AICommand command = ai->decidePlay();
 
     io->publishAICommand(command);
-    io->handleCentralServerConnection();
+    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations()}; //TODO: only send declarations when
+    io->handleCentralServerConnection(handshakes);
 }
 }  // namespace rtt

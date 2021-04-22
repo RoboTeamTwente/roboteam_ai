@@ -8,13 +8,16 @@
 #include <roboteam_proto/Setting.pb.h>
 #include <roboteam_proto/ObserverSettings.pb.h>
 #include <roboteam_proto/RobotHubSettings.pb.h>
+#include <roboteam_proto/Handshake.pb.h>
 enum class SerialMode{
   GRSIM = 0,
   SERIAL = 1
 };
+
+static std::string serialModeName(SerialMode type);
 class AppSettings {
  public:
-
+  AppSettings();
   [[nodiscard]] const std::string& getRefereeIp() const;
   void setRefereeIp(const std::string& refereeIp);
 
@@ -27,9 +30,9 @@ class AppSettings {
   [[nodiscard]] int getVisionPort() const;
   void setVisionPort(int port);
 
+  [[nodiscard]] proto::Handshake getButtonDeclarations() const;
   [[nodiscard]] proto::Setting toMessage() const;
   [[nodiscard]] proto::ObserverSettings obsMessage() const;
-
   [[nodiscard]] proto::RobotHubSettings rhMessage() const;
  private:
   std::string referee_ip;

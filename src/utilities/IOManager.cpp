@@ -41,12 +41,12 @@ void IOManager::handleState(proto::State &stateMsg) {
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::handleCentralServerConnection(){
+void IOManager::handleCentralServerConnection(std::vector<proto::Handshake> handshakes){
   //first receive any setting changes
   bool received = true;
   int numReceivedMessages = 0;
   while(received){
-    auto receivedUIOptions = central_server_connection->read_next<proto::UiSettings>();
+    auto receivedUIOptions = central_server_connection->read_next<proto::UiValues>();
     if (receivedUIOptions.is_ok()){
       //TODO: process value
       receivedUIOptions.value().PrintDebugString();
@@ -65,9 +65,12 @@ void IOManager::handleCentralServerConnection(){
   proto::ModuleState module_state;
   {
     std::lock_guard<std::mutex> lock(stateMutex); //read lock
-    module_state.mutable_system_state()->mutable_state()->CopyFrom(state);
+    module_state.mutable_system_state()->CopyFrom(state);
   }
-    central_server_connection->write(module_state,true);
+  for(const auto& handshake : handshakes){
+    module_state.mutable_handshakes()->Add()->CopyFrom(handshake);
+  }
+  central_server_connection->write(module_state,true);
 }
 proto::State IOManager::getState(){
   std::lock_guard<std::mutex> lock(stateMutex);//read lock
