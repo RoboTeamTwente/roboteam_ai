@@ -54,20 +54,16 @@ uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
 }
 
 void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcept {
-    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
-    stpInfos["ball_getter"].setPositionToShootAt(Vector2{0, 0});
+    //TODO-Jaro: When futureSTPInfo is a thing, make posToShootAt the receiver of a pass if that will be the next Play
+    stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
     stpInfos["ball_getter"].setRoleScore(evaluation::TimeToPositionEvaluation().metricCheck(world->getWorld()->getRobotClosestToBall(world::us),
-                                                                                            world->getWorld()->getRobotClosestToBall(world::them),
-                                                                                            world->getWorld()->getBall().value()->getPos()));
+                                              world->getWorld()->getRobotClosestToBall(world::them), world->getWorld()->getBall().value()->getPos()));
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     //If keeper has ball, shoot at one of our robots thats closest to our goal
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
-
-    //TODO-Jaro: Find out why GetBallPossession has a shootPos, and remove/improve if necessary
-    stpInfos["ball_getter"].setPositionToShootAt(field.getTheirGoalCenter());
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
@@ -85,12 +81,9 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),gen::gridMidFieldMid, gen::SafePosition, field, world));
     stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(),gen::gridMidFieldTop, gen::SafePosition, field, world));
 
-    //getWallPosition can only be called when ball is inside field
-    //if(FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos())) {
-        stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
-        stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
-        stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 3, field, world));
-    //}
+    stpInfos["waller_0"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
+    stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
+    stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 3, field, world));
 }
 
 Dealer::FlagMap GetBallPossession::decideRoleFlags() const noexcept {

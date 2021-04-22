@@ -44,7 +44,7 @@ class AggressiveStopFormation : public Play {
     /**
      * Calculate info for the roles that need to be calculated for scoring
      */
-    void calculateInfoForScoredRoles(world::World* world) noexcept override {};
+    void calculateInfoForScoredRoles(world::World*) noexcept override {};
 
     /**
      * Gets the play name
@@ -56,8 +56,6 @@ class AggressiveStopFormation : public Play {
      * @param info Map-Struct to save info in
      */
     void storePlayInfo(gen::PlayInfos& info) noexcept override {};
-
-    uint8_t score(world::World *world);
 };
 }  // namespace rtt::ai::stp::play
 

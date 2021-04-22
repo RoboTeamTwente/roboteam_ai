@@ -53,8 +53,8 @@ extern const double GO_TO_POS_ERROR_MARGIN;
 extern const double GO_TO_POS_ANGLE_ERROR_MARGIN;
 
 // Invariant constants
-extern const double FUZZY_TRUE;
-extern const double FUZZY_FALSE;
+extern const uint8_t FUZZY_TRUE;
+extern const uint8_t FUZZY_FALSE;
 extern const double FUZZY_MARGIN;
 extern const double FUZZY_DEFAULT_CUTOFF;
 

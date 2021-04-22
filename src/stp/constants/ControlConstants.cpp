@@ -59,8 +59,8 @@ constexpr double GO_TO_POS_ERROR_MARGIN = 0.08;
 constexpr double GO_TO_POS_ANGLE_ERROR_MARGIN = 0.009;
 
 /// Invariant constants
-constexpr double FUZZY_TRUE = 255;
-constexpr double FUZZY_FALSE = 0;
+constexpr uint8_t FUZZY_TRUE = 255;
+constexpr uint8_t FUZZY_FALSE = 0;
 constexpr double FUZZY_MARGIN = 0.1;
 constexpr double FUZZY_DEFAULT_CUTOFF = 127;
 

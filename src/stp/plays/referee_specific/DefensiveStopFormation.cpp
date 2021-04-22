@@ -3,70 +3,80 @@
 //
 
 #include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
-
-#include "stp/invariants/game_states/StopGameStateEvaluation.h"
-#include "stp/invariants/BallOnOurSideGlobalEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
+#include "include/roboteam_ai/stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
-DefensiveStopFormation::DefensiveStopFormation() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+    DefensiveStopFormation::DefensiveStopFormation() : Play() {
+        /// Evaluations that have to be true to be considered when changing plays.
+        startPlayEvaluation.clear(); // DONT TOUCH.
+        startPlayEvaluation.emplace_back(eval::StopGameState);
+        startPlayEvaluation.emplace_back(eval::BallOnOurSide);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
+        /// Evaluations that have to be true to allow the play to continue, otherwise the play will change. Plays can also end using the shouldEndPlay().
+        keepPlayEvaluation.clear(); // DONT TOUCH.
+        keepPlayEvaluation.emplace_back(eval::StopGameState);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),      std::make_unique<role::BallAvoider>(role::BallAvoider("defender_0")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("defender_1")),  std::make_unique<role::BallAvoider>(role::BallAvoider("defender_2")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("defender_3")),  std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_0")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_1")), std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_2")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("offender_0")),  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
-}
+        roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+                std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("defender_0")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("defender_1")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("defender_2")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("defender_3")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_0")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_1")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_2")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("offender_0")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),
+                std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
+    }
 
-uint8_t DefensiveStopFormation::score(world::World* world) noexcept { return 100; }
+    uint8_t DefensiveStopFormation::score(PlayEvaluator &playEvaluator) noexcept {
+        /// List of all factors that combined results in an evaluation how good the play is.
+        scoring = {{playEvaluator.getGlobalEvaluation(eval::BallOnOurSide), 1.0}};
+        return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
+    }
 
-void DefensiveStopFormation::calculateInfoForRoles() noexcept {
-    auto length = field.getFieldLength();
-    auto width = field.getFieldWidth();
+    void DefensiveStopFormation::calculateInfoForRoles() noexcept {
+        stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2{0.5, 0.0});
+        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter() + Vector2{0.5, 0.0});
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2{-length / 5, width / 3});
-    stpInfos["defender_1"].setPositionToMoveTo(Vector2{-length / 5, -width / 3});
-    stpInfos["defender_2"].setPositionToMoveTo(Vector2{-length / 5, width / 6});
-    stpInfos["defender_3"].setPositionToMoveTo(Vector2{-length / 5, -width / 6});
-    stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
-    stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
-    stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 4, 0.0});
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 4, width / 4});
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
-}
+        auto length = field.getFieldLength();
+        auto width = field.getFieldWidth();
 
-bool DefensiveStopFormation::shouldRoleSkipEndTactic() { return false; }
+        stpInfos["defender_0"].setPositionToMoveTo(pos::getWallPosition(0, 4, field, world));
+        stpInfos["defender_1"].setPositionToMoveTo(pos::getWallPosition(1, 4, field, world));
+        stpInfos["defender_2"].setPositionToMoveTo(pos::getWallPosition(2, 4, field, world));
+        stpInfos["defender_3"].setPositionToMoveTo(pos::getWallPosition(3, 4, field, world));
 
-Dealer::FlagMap DefensiveStopFormation::decideRoleFlags() const noexcept {
-    Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+        stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
+        stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
+        stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
 
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"defender_0", {notImportant}});
-    flagMap.insert({"defender_1", {notImportant}});
-    flagMap.insert({"defender_2", {notImportant}});
-    flagMap.insert({"defender_3", {notImportant}});
-    flagMap.insert({"mid_field_0", {notImportant}});
-    flagMap.insert({"mid_field_1", {notImportant}});
-    flagMap.insert({"mid_field_2", {notImportant}});
-    flagMap.insert({"offender_0", {notImportant}});
-    flagMap.insert({"offender_1", {notImportant}});
-    flagMap.insert({"offender_2", {notImportant}});
+        stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 4, 0.0});
+        stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 4, width / 4});
+        stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
+    }
 
-    return flagMap;
-}
+    Dealer::FlagMap DefensiveStopFormation::decideRoleFlags() const noexcept {
+        Dealer::FlagMap flagMap;
 
-const char* DefensiveStopFormation::getName() { return "Defensive Formation"; }
+        /// Creation flagMap. Linking roles to role-priority and the above created flags, can also force ID {roleName, {priority, flags, forceID}}
+        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+        flagMap.insert({"defender_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"mid_field_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
+        flagMap.insert({"mid_field_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"mid_field_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"offender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+
+        return flagMap;
+    }
+
+    const char *DefensiveStopFormation::getName() { return "Defensive Stop Formation"; }
 }  // namespace rtt::ai::stp::play
