@@ -55,6 +55,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
         )
 
 set(TACTICS_SOURCES
