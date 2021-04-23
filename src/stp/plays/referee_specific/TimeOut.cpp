@@ -31,7 +31,7 @@ namespace rtt::ai::stp::play {
     }
 
     uint8_t TimeOut::score(PlayEvaluator &playEvaluator) noexcept {
-        return playEvaluator.getGlobalEvaluation(GlobalEvaluation::TimeOutGameState);
+        return playEvaluator.getGlobalEvaluation(eval::TimeOutGameState);
     }
 
     void TimeOut::calculateInfoForScoredRoles(world::World *) noexcept {}

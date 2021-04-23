@@ -14,7 +14,7 @@
 #include "include/roboteam_ai/stp/plays/referee_specific/AggressiveStopFormation.h"
 //#include "include/roboteam_ai/stp/plays/offensive/Attack.h"
 #include "include/roboteam_ai/stp/plays/offensive/AttackingPass.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementThem.h"
+#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementThem.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementUs.h"
 //#include "include/roboteam_ai/stp/plays/defensive/DefendPass.h"
 //#include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
@@ -61,7 +61,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementUs>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::BallPlacementThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::TimeOut>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
