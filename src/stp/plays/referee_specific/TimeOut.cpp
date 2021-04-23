@@ -31,7 +31,9 @@ namespace rtt::ai::stp::play {
     }
 
     uint8_t TimeOut::score(PlayEvaluator &playEvaluator) noexcept {
-        return playEvaluator.getGlobalEvaluation(eval::TimeOutGameState);
+        /// List of all factors that combined results in an evaluation how good the play is.
+        scoring = {{playEvaluator.getGlobalEvaluation(eval::TimeOutGameState), 1.0}};
+        return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
     }
 
     void TimeOut::calculateInfoForScoredRoles(world::World *) noexcept {}

@@ -31,10 +31,10 @@ namespace rtt::ai::stp::play {
     }
 
     uint8_t Halt::score(PlayEvaluator &playEvaluator) noexcept {
-        return playEvaluator.getGlobalEvaluation(GlobalEvaluation::HaltGameState);
+        /// List of all factors that combined results in an evaluation how good the play is.
+        scoring = {{playEvaluator.getGlobalEvaluation(eval::HaltGameState), 1.0}};
+        return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
     }
-
-    bool Halt::shouldRoleSkipEndTactic() { return false; }
 
     Dealer::FlagMap Halt::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
