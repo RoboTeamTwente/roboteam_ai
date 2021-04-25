@@ -20,7 +20,7 @@ class AI {
 
   void updateState(const proto::State& state);
   proto::AICommand decidePlay();
-
+  [[nodiscard]] proto::Handshake getButtonDeclarations() const;
  private:
   //updates referee-related information to the game state manager, and makes sure things such as rotation, color etc. are correct
   void updateSettingsReferee(const proto::State& state);

@@ -173,3 +173,6 @@ void rtt::AI::updateSettingsReferee(const proto::State& state) {
 void rtt::AI::onSideOrColorChanged() {
   //TODO: reinitialize world, field, referee, and stop play
 }
+proto::Handshake rtt::AI::getButtonDeclarations() const {
+  return settings.getButtonDeclarations();
+}
