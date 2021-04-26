@@ -3,64 +3,71 @@
 //
 
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
-
-#include "stp/invariants/game_states/KickOffUsGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/active/Attacker.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
-KickOffUs::KickOffUs() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::KickOffUsGameStateInvariant>());
+    KickOffUs::KickOffUs() : Play() {
+        startPlayEvaluation.clear();
+        startPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::KickOffUsGameStateInvariant>());
+        keepPlayEvaluation.clear();
+        keepPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Attacker>(role::Attacker("kicker")), std::make_unique<role::Halt>(role::Halt("halt_0")),
-        std::make_unique<role::Halt>(role::Halt("halt_1")),     std::make_unique<role::Halt>(role::Halt("halt_2")),         std::make_unique<role::Halt>(role::Halt("halt_3")),
-        std::make_unique<role::Halt>(role::Halt("halt_4")),     std::make_unique<role::Halt>(role::Halt("halt_5")),         std::make_unique<role::Halt>(role::Halt("halt_6")),
-        std::make_unique<role::Halt>(role::Halt("halt_7")),     std::make_unique<role::Halt>(role::Halt("halt_8"))};
-}
+        roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+                std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                std::make_unique<role::Attacker>(role::Attacker("kicker")),
+                std::make_unique<role::Halt>(role::Halt("halt_0")),
+                std::make_unique<role::Halt>(role::Halt("halt_1")),
+                std::make_unique<role::Halt>(role::Halt("halt_2")),
+                std::make_unique<role::Halt>(role::Halt("halt_3")),
+                std::make_unique<role::Halt>(role::Halt("halt_4")),
+                std::make_unique<role::Halt>(role::Halt("halt_5")),
+                std::make_unique<role::Halt>(role::Halt("halt_6")),
+                std::make_unique<role::Halt>(role::Halt("halt_7")),
+                std::make_unique<role::Halt>(role::Halt("halt_8"))};
+    }
 
-uint8_t KickOffUs::score(world::World* world) noexcept { return 100; }
+    uint8_t KickOffUs::score(PlayEvaluator &playEvaluator) noexcept {
+        /// List of all factors that combined results in an evaluation how good the play is.
+        scoring = {{playEvaluator.getGlobalEvaluation(eval::KickOffUsGameState), 1.0}};
+        return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
+    }
 
-void KickOffUs::calculateInfoForRoles() noexcept {
-    // Keeper
-    stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
-    stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
-    stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
+    void KickOffUs::calculateInfoForRoles() noexcept {
+        // Keeper
+        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter()));
+        stpInfos["keeper"].setPositionToShootAt(Vector2{0.0, 0.0});
+        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
-    // Kicker
-    stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});
-    stpInfos["kicker"].setShotType(ShotType::PASS);
-}
+        // Kicker
+        stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});
+        stpInfos["kicker"].setShotType(ShotType::PASS);
+    }
 
-bool KickOffUs::shouldRoleSkipEndTactic() { return false; }
+    Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
+        Dealer::FlagMap flagMap;
+        Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::KEEPER);
+        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
-    Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
-    Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
-    Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
+        flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+        flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
+        flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"halt_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"kicker", {kickerFlag}});
-    flagMap.insert({"halt_0", {notImportant}});
-    flagMap.insert({"halt_1", {notImportant}});
-    flagMap.insert({"halt_2", {notImportant}});
-    flagMap.insert({"halt_3", {notImportant}});
-    flagMap.insert({"halt_4", {notImportant}});
-    flagMap.insert({"halt_5", {notImportant}});
-    flagMap.insert({"halt_6", {notImportant}});
-    flagMap.insert({"halt_7", {notImportant}});
-    flagMap.insert({"halt_8", {notImportant}});
+        return flagMap;
+    }
 
-    return flagMap;
-}
-
-const char* KickOffUs::getName() { return "Kick Off Us"; }
+    const char *KickOffUs::getName() { return "Kick Off Us"; }
 
 }  // namespace rtt::ai::stp::play
