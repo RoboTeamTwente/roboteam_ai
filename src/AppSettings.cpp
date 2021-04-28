@@ -3,6 +3,7 @@
 //
 
 #include "AppSettings.h"
+#include <roboteam_utils/Print.h>
 
 static std::string serialModeName(SerialMode mode){
   switch (mode) {
@@ -105,6 +106,60 @@ proto::Handshake AppSettings::getButtonDeclarations() const {
   message.set_module_name("application");
   message.mutable_declarations()->CopyFrom(declarations);
   return message;
+}
+proto::Handshake AppSettings::getValues() const {
+
+  proto::UiValue ref_ip;
+  ref_ip.set_text_value(referee_ip);
+
+  proto::UiValue ref_port;
+  ref_port.set_text_value(std::to_string(referee_port));
+
+  proto::UiValue serial_mode;
+  serial_mode.set_integer_value(static_cast<long>(mode));
+  proto::UiValues values;
+  (*values.mutable_ui_values())["referee_ip"] = ref_ip;
+  (*values.mutable_ui_values())["referee_port"] = ref_port;
+  (*values.mutable_ui_values())["serial_mode"] = serial_mode;
+
+  proto::Handshake message;
+  message.set_module_name("application");
+  message.mutable_values()->CopyFrom(values);
+
+  return message;
+}
+void AppSettings::updateValuesFromInterface(const proto::UiValues &values) {
+   if(values.ui_values().contains("referee_ip")){
+     proto::UiValue value = values.ui_values().at("referee_ip");
+     if(value.value_case() == proto::UiValue::kTextValue){
+       referee_ip = value.text_value();
+     }else{
+       RTT_ERROR("\"referee_ip\" did not have the correct type of \"text\" in received message from interface");
+     }
+   }
+
+  if(values.ui_values().contains("referee_port")){
+    proto::UiValue value = values.ui_values().at("referee_port");
+    if(value.value_case() == proto::UiValue::kTextValue){
+      try {
+        int found = std::stoi(value.text_value());
+        referee_port = found;
+      }catch (...){
+        RTT_ERROR("Could not convert referee_port string to integer");
+      }
+    }else{
+      RTT_ERROR("\"referee_port\" did not have the correct type of \"text\" in received message from interface");
+    }
+  }
+
+  if(values.ui_values().contains("serial_mode")){
+    proto::UiValue value = values.ui_values().at("serial_mode");
+    if(value.value_case() == proto::UiValue::kIntegerValue){
+       mode = static_cast<SerialMode>(value.integer_value()); //TODO: check if cast is valid
+    }else{
+      RTT_ERROR("\"serial_mode\" did not have the correct type of \"integer\" in received message from interface");
+    }
+  }
 }
 
 

@@ -48,7 +48,8 @@ void ApplicationManager::runOneLoopCycle() {
     proto::AICommand command = ai->decidePlay();
 
     io->publishAICommand(command);
-    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations(),ai->getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
+    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations(),
+                                                ai->getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
     io->handleCentralServerConnection(handshakes);
 }
 }  // namespace rtt

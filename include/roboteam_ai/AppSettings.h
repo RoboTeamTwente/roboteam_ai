@@ -31,6 +31,8 @@ class AppSettings {
   void setVisionPort(int port);
 
   [[nodiscard]] proto::Handshake getButtonDeclarations() const;
+  [[nodiscard]] proto::Handshake getValues() const;
+  void updateValuesFromInterface(const proto::UiValues& values);
   [[nodiscard]] proto::Setting toMessage() const;
   [[nodiscard]] proto::ObserverSettings obsMessage() const;
   [[nodiscard]] proto::RobotHubSettings rhMessage() const;
