@@ -28,6 +28,8 @@ namespace rtt {
     void setListenToReferee(bool listen);
 
     [[nodiscard]] proto::Handshake getButtonDeclarations() const;
+    [[nodiscard]] proto::Handshake getValues() const;
+    void updateValuesFromInterface(const proto::UiValues& values);
    private:
     [[nodiscard]] std::string name() const;
 

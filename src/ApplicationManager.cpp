@@ -45,11 +45,20 @@ void ApplicationManager::runOneLoopCycle() {
     auto state = io->getState();
     ai->updateState(state);
 
+    auto received_values = io->centralServerReceive();
+    if(received_values.has_value()){
+      settings.updateValuesFromInterface(received_values.value());
+      ai->updateSettings(received_values.value());
+    }
+    std::vector<proto::Handshake> handshakes = {settings.getValues(),ai->getSettingValues(),
+                                                settings.getButtonDeclarations(),ai->getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
+    io->centralServerSend(handshakes);
+
     proto::AICommand command = ai->decidePlay();
 
     io->publishAICommand(command);
-    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations(),
-                                                ai->getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
-    io->handleCentralServerConnection(handshakes);
+
+
+
 }
 }  // namespace rtt

@@ -3,6 +3,8 @@
 //
 
 #include "AISettings.h"
+#include <roboteam_utils/Print.h>
+
 namespace rtt {
 AISettings::AISettings(int initial_id) :
     id{initial_id},
@@ -80,7 +82,7 @@ proto::Handshake AISettings::getButtonDeclarations() const{
   side_button.mutable_checkbox()->CopyFrom(side_box);
 
   proto::UiOptionDeclaration color_button;
-  color_button.set_name("side_button");
+  color_button.set_name("color_button");
   color_button.set_is_mutable(true);
   proto::Checkbox color_box;
   color_box.set_text("We are the yellow team");
@@ -100,4 +102,68 @@ proto::Handshake AISettings::getButtonDeclarations() const{
 
   return message;
 }
+void AISettings::updateValuesFromInterface(const proto::UiValues& values) {
+  if(values.ui_values().contains("pause_button")){
+    proto::UiValue value = values.ui_values().at("pause_button");
+    if(value.value_case() == proto::UiValue::kBoolValue){
+      is_paused = value.bool_value();
+    }else{
+      RTT_ERROR("\"pause_button\" did not have the correct type of \"bool\" in received message from interface");
+    }
+  }
+
+  if(values.ui_values().contains("listen_to_referee_button")){
+    proto::UiValue value = values.ui_values().at("listen_to_referee_button");
+    if(value.value_case() == proto::UiValue::kBoolValue){
+      listenToReferee = value.bool_value();
+    }else{
+      RTT_ERROR("\"listen_to_referee_button\" did not have the correct type of \"bool\" in received message from interface");
+    }
+  }
+
+  if(!listenToReferee) {
+    if (values.ui_values().contains("side_button")) {
+      proto::UiValue value = values.ui_values().at("side_button");
+      if (value.value_case() == proto::UiValue::kBoolValue) {
+        is_left = value.bool_value();
+      } else {
+        RTT_ERROR("\"side_button\" did not have the correct type of \"bool\" in received message from interface");
+      }
+    }
+    if (values.ui_values().contains("color_button")) {
+      proto::UiValue value = values.ui_values().at("color_button");
+      if (value.value_case() == proto::UiValue::kBoolValue) {
+        is_yellow = value.bool_value();
+      } else {
+        RTT_ERROR("\"color_button\" did not have the correct type of \"bool\" in received message from interface");
+      }
+    }
+  }
+}
+proto::Handshake AISettings::getValues() const {
+  proto::Handshake handshake;
+
+  proto::UiValues values;
+
+  proto::UiValue pause_value;
+  pause_value.set_bool_value(is_paused);
+  (*values.mutable_ui_values())["pause_button"] = pause_value;
+
+  proto::UiValue listen_to_ref_value;
+  listen_to_ref_value.set_bool_value(listenToReferee);
+  (*values.mutable_ui_values())["listen_to_referee_button"] = listen_to_ref_value;
+
+  proto::UiValue left_value;
+  left_value.set_bool_value(is_left);
+  (*values.mutable_ui_values())["side_button"] = left_value;
+
+  proto::UiValue color_value;
+  color_value.set_bool_value(is_yellow);
+  (*values.mutable_ui_values())["color_button"] = color_value;
+
+  handshake.set_module_name(name());
+  handshake.mutable_values()->CopyFrom(values);
+  return handshake;
+}
+
 }

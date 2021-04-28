@@ -176,3 +176,9 @@ void rtt::AI::onSideOrColorChanged() {
 proto::Handshake rtt::AI::getButtonDeclarations() const {
   return settings.getButtonDeclarations();
 }
+proto::Handshake rtt::AI::getSettingValues() const {
+  return settings.getValues();
+}
+void rtt::AI::updateSettings(const proto::UiValues& values){
+  return settings.updateValuesFromInterface(values);
+}

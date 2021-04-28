@@ -41,15 +41,15 @@ void IOManager::handleState(proto::State &stateMsg) {
 
 void IOManager::publishSettings(proto::Setting setting) { settingsPublisher->send(setting); }
 
-void IOManager::handleCentralServerConnection(std::vector<proto::Handshake> handshakes){
+std::optional<proto::UiValues> IOManager::centralServerReceive(){
   //first receive any setting changes
   bool received = true;
   int numReceivedMessages = 0;
+  stx::Result<proto::UiValues, std::string> last_message = stx::Err(std::string(""));
   while(received){
-    auto receivedUIOptions = central_server_connection->read_next<proto::UiValues>();
-    if (receivedUIOptions.is_ok()){
-      //TODO: process value
-      receivedUIOptions.value().PrintDebugString();
+    last_message = central_server_connection->read_next<proto::UiValues>();
+    if (last_message.is_ok()){
+      last_message.value().PrintDebugString();
       numReceivedMessages ++;
     }else{
       received = false;
@@ -59,18 +59,10 @@ void IOManager::handleCentralServerConnection(std::vector<proto::Handshake> hand
   if(numReceivedMessages>0){
     std::cout<<"received " << numReceivedMessages <<" packets from central server"<<std::endl;
   }
-  //TODO: actually change settings at the relevant places within our AI
-  //TODO: make sure to write/add relevant debug information/visualizations (strategy debug, etc.)
-  //then, send the current state once
-  proto::ModuleState module_state;
-  {
-    std::lock_guard<std::mutex> lock(stateMutex); //read lock
-    module_state.mutable_system_state()->CopyFrom(state);
+  if(last_message.is_ok()){
+    return last_message.value();
   }
-  for(const auto& handshake : handshakes){
-    module_state.mutable_handshakes()->Add()->CopyFrom(handshake);
-  }
-  central_server_connection->write(module_state,true);
+  return std::nullopt;
 }
 proto::State IOManager::getState(){
   std::lock_guard<std::mutex> lock(stateMutex);//read lock
@@ -82,5 +74,18 @@ void IOManager::publishAICommand(const proto::AICommand& command) {
   ai_command.CopyFrom(command);
   ai_command.mutable_extrapolatedworld()->CopyFrom(getState().command_extrapolated_world()); //TODO: move this responsibility to the AI
   robotCommandPublisher->send(command);
+}
+
+void IOManager::centralServerSend(std::vector<proto::Handshake> handshakes) {
+  //then, send the current state once
+  proto::ModuleState module_state;
+  {
+    std::lock_guard<std::mutex> lock(stateMutex); //read lock
+    module_state.mutable_system_state()->CopyFrom(state);
+  }
+  for(const auto& handshake : handshakes){
+    module_state.mutable_handshakes()->Add()->CopyFrom(handshake);
+  }
+  central_server_connection->write(module_state,true);
 }
 }  // namespace rtt::ai::io
