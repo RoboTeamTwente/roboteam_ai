@@ -25,7 +25,7 @@
 //#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
+#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThemPrepare.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
@@ -71,7 +71,7 @@ void ApplicationManager::start() {
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
