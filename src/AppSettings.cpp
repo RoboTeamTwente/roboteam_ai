@@ -155,7 +155,17 @@ void AppSettings::updateValuesFromInterface(const proto::UiValues &values) {
   if(values.ui_values().contains("serial_mode")){
     proto::UiValue value = values.ui_values().at("serial_mode");
     if(value.value_case() == proto::UiValue::kIntegerValue){
-       mode = static_cast<SerialMode>(value.integer_value()); //TODO: check if cast is valid
+      SerialMode new_mode = static_cast<SerialMode>(value.integer_value());
+      bool valid = true;
+      switch(new_mode){
+        case SerialMode::GRSIM:
+        case SerialMode::SERIAL:
+          break;
+        default: RTT_ERROR("Wrong integer conversion for serial mode!"); valid = false;
+      }
+      if(valid){
+        mode = new_mode;
+      }
     }else{
       RTT_ERROR("\"serial_mode\" did not have the correct type of \"integer\" in received message from interface");
     }
