@@ -50,8 +50,7 @@ void ApplicationManager::runOneLoopCycle() {
       settings.updateValuesFromInterface(received_values.value());
       ai->updateSettings(received_values.value());
     }
-    std::vector<proto::Handshake> handshakes = {settings.getValues(),ai->getSettingValues(),
-                                                settings.getButtonDeclarations(),ai->getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
+    std::vector<proto::Handshake> handshakes = {settings.getButtonDeclarations()}; //TODO: only send declarations when central server is reconnected
     io->centralServerSend(handshakes);
 
     proto::AICommand command = ai->decidePlay();
