@@ -45,7 +45,7 @@ namespace rtt::ai::stp::play {
         /**
          * Calculate info for the roles that need to be calculated for scoring
          */
-        void calculateInfoForScoredRoles(world::World *world) noexcept override;
+        void calculateInfoForScoredRoles(world::World*) noexcept override {};
 
         /**
          * Gets the play name

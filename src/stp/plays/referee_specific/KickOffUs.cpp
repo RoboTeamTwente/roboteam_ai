@@ -2,6 +2,7 @@
 // Created by timovdk on 5/1/20.
 //
 
+#include <stp/roles/active/PassReceiver.h>
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
 #include "include/roboteam_ai/stp/roles/active/Attacker.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
@@ -19,6 +20,7 @@ namespace rtt::ai::stp::play {
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Keeper>(role::Keeper("keeper")),
                 std::make_unique<role::Attacker>(role::Attacker("kicker")),
+                std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
                 std::make_unique<role::Halt>(role::Halt("halt_0")),
                 std::make_unique<role::Halt>(role::Halt("halt_1")),
                 std::make_unique<role::Halt>(role::Halt("halt_2")),
@@ -26,8 +28,7 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::Halt>(role::Halt("halt_4")),
                 std::make_unique<role::Halt>(role::Halt("halt_5")),
                 std::make_unique<role::Halt>(role::Halt("halt_6")),
-                std::make_unique<role::Halt>(role::Halt("halt_7")),
-                std::make_unique<role::Halt>(role::Halt("halt_8"))};
+                std::make_unique<role::Halt>(role::Halt("halt_7"))};
     }
 
     uint8_t KickOffUs::score(PlayEvaluator &playEvaluator) noexcept {
@@ -45,14 +46,19 @@ namespace rtt::ai::stp::play {
         // Kicker
         stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});
         stpInfos["kicker"].setShotType(ShotType::PASS);
+
+        // Receiver
+        stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 0.0});
     }
 
     Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
         flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
         flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
+        flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
         flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -61,7 +67,6 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_8", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }
