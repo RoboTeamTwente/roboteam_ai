@@ -36,8 +36,6 @@ namespace rtt::ai::stp::play {
         return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
     }
 
-    void TimeOut::calculateInfoForScoredRoles(world::World *) noexcept {}
-
     void TimeOut::calculateInfoForRoles() noexcept {
         const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
         const double distanceToCenterLine = field.getFieldWidth() / 2 - 2 * control_constants::ROBOT_RADIUS;
