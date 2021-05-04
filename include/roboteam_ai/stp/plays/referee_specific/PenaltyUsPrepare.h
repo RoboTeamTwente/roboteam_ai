@@ -25,7 +25,7 @@ class PenaltyUsPrepare : public Play {
      * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world::World* world) noexcept override;
+    uint8_t score(PlayEvaluator &playEvaluator) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -38,12 +38,14 @@ class PenaltyUsPrepare : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Info that should be calculated for scoring of the play
+     */
+    void calculateInfoForScoredRoles(world::World*) noexcept override {};
+
+    /**
      * Gets the play name
      */
     const char* getName() override;
-
-   protected:
-    bool shouldRoleSkipEndTactic() override;
 };
 }  // namespace rtt::ai::stp::play
 

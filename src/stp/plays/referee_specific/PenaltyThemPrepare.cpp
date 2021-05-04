@@ -9,10 +9,10 @@ namespace rtt::ai::stp::play {
 
     PenaltyThemPrepare::PenaltyThemPrepare() : Play() {
         startPlayEvaluation.clear();
-        startPlayEvaluation.emplace_back(eval::KickOffUsPrepareGameState);
+        startPlayEvaluation.emplace_back(eval::PenaltyThemPrepareGameState);
 
         keepPlayEvaluation.clear();
-        keepPlayEvaluation.emplace_back(eval::KickOffUsPrepareGameState);
+        keepPlayEvaluation.emplace_back(eval::PenaltyThemPrepareGameState);
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Formation>(role::Formation("keeper")),
