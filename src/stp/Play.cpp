@@ -9,7 +9,8 @@ namespace rtt::ai::stp {
 
 void Play::initialize(PlayInfos& _previousPlayInfos) noexcept {
     previousPlayInfos = _previousPlayInfos;
-    if (!previousPlayInfos->empty()) RTT_DEBUG(std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
+    if (!previousPlayInfos->empty()) 
+        RTT_DEBUG(std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
