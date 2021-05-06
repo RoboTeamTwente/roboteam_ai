@@ -98,10 +98,10 @@ void AttackingPass::calculateInfoForScoredRoles(world::World* world) noexcept {
     receiverPositionLeft = computations::PositionComputations::determineBestGoalShotLocation(gridLeft, field, world);
 
     // Receiver
-    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.first);
-    stpInfos["receiver_left"].setRoleScore(receiverPositionLeft.second);
-    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.first);
-    stpInfos["receiver_right"].setRoleScore(receiverPositionRight.second);
+    stpInfos["receiver_left"].setPositionToMoveTo(receiverPositionLeft.position);
+    stpInfos["receiver_left"].setRoleScore(receiverPositionLeft.score);
+    stpInfos["receiver_right"].setPositionToMoveTo(receiverPositionRight.position);
+    stpInfos["receiver_right"].setRoleScore(receiverPositionRight.score);
     }
 
 void AttackingPass::calculateInfoForRoles() noexcept {
@@ -224,4 +224,11 @@ bool AttackingPass::passFinished() noexcept {
     return (stpInfos["receiver_left"].getRobot() && stpInfos["receiver_left"].getRobot()->get()->getDistanceToBall() < 0.08) ||
            (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);
 }
+
+   void AttackingPass::storePlayInfo(PlayInfos& info) noexcept {
+        StoreInfo passer;
+        passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
+        passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
+        info.insert({KeyInfo::isPasser,passer});
+    }
 }  // namespace rtt::ai::stp::play
