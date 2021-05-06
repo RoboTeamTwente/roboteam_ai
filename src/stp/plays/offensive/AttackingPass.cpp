@@ -63,8 +63,8 @@ Dealer::FlagMap AttackingPass::decideRoleFlags() const noexcept {
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
-    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{passerFlag}}});
-    flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{passerFlag},5}});
+    flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}, 6}});
     flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
     flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
     flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
@@ -198,4 +198,11 @@ bool AttackingPass::passFinished() noexcept {
     return (stpInfos["receiver_left"].getRobot() && stpInfos["receiver_left"].getRobot()->get()->getDistanceToBall() < 0.08) ||
            (stpInfos["receiver_right"].getRobot() && stpInfos["receiver_right"].getRobot()->get()->getDistanceToBall() < 0.08);
 }
+
+   void AttackingPass::storePlayInfo(PlayInfos& info) noexcept {
+        StoreInfo passer;
+        passer.robotID = stpInfos["passer"].getRobot()->get()->getId();
+        passer.passToRobot = stpInfos["passer"].getPositionToShootAt();
+        info.insert({KeyInfo::isPasser,passer});
+    }
 }  // namespace rtt::ai::stp::play

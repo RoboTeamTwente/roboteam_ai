@@ -1,6 +1,6 @@
 //
 // Created by jordi on 12-05-20.
-/// Fuzzy Invariant based on the openis of the ENEMY GOAL from BALL
+/// Fuzzy Invariant based on the openness of the ENEMY GOAL from BALL
 /// Range [0% , 100%]
 // TODO-Max specify US or THEM
 //

@@ -25,6 +25,7 @@ void PlayChecker::update(world::World* _world, PlayEvaluator& _playEvaluator) no
 
 void PlayChecker::setPlays(std::vector<std::unique_ptr<Play>>& plays) noexcept { this->allPlays = &plays; }
 
+// TODO This function should not exist, it is the result of a non working AI. Only used in ApplicationManager to hardcode a play.
 Play* PlayChecker::getPlayForName(const std::string& playName) const noexcept {
     // Find play for playName param
     auto found = std::find_if(allPlays->begin(), allPlays->end(), [&](auto& play) { return play->getName() == playName; });

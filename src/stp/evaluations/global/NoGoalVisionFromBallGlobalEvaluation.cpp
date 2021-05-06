@@ -1,6 +1,6 @@
 //
 // Created by timovdk on 5/27/20.
-/// Fuzzy Invariant based on the opennessv of the ENEMY GOAL from BALL
+/// Fuzzy Invariant based on the openness of the ENEMY GOAL from BALL
 /// Range [100% , 0%]
 // TODO-Max check usability, as invertion of GoalVisionFromBall
 //

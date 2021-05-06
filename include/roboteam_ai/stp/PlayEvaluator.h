@@ -57,7 +57,7 @@ namespace rtt::ai::stp{
          * @param evaluation that needs
          * @return
          */
-        uint8_t getGlobalEvaluation(GlobalEvaluation evaluation);
+        uint8_t getGlobalEvaluation(GlobalEvaluation& evaluation);
 
         /**
          * Sets this->world
@@ -82,14 +82,14 @@ namespace rtt::ai::stp{
          * @param cutOff Bottom bound value of true
          * @return boolean if FUZZY-TRUE is high enough
          */
-        bool checkEvaluation(GlobalEvaluation globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
+        bool checkEvaluation(GlobalEvaluation& globalEvaluation, uint8_t cutOff = control_constants::FUZZY_DEFAULT_CUTOFF) noexcept;
 
         /**
          * Calcalute score with the given vector of scores
          * @param scoring vector withto be considered Evaluations
          * @return final score
          */
-        uint8_t calculateScore(std::vector<PlayScoring> scoring);
+        uint8_t calculateScore(std::vector<PlayScoring>& scoring);
 
     private:
         /**
@@ -103,7 +103,7 @@ namespace rtt::ai::stp{
          * @param index of evaluation that needs to be updated
          * @return the score of the updated evaluation
          */
-        uint8_t updateGlobalEvaluation(GlobalEvaluation evaluation);
+        uint8_t updateGlobalEvaluation(GlobalEvaluation& evaluation);
 
         /**
          * Current world, do not use before update()

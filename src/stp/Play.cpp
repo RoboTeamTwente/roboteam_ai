@@ -3,12 +3,14 @@
 //
 
 #include "stp/Play.hpp"
-
 #include "interface/widgets/MainControlsWidget.h"
 
 namespace rtt::ai::stp {
 
-void Play::initialize(std::unordered_map<std::basic_string<char>, StpInfo>) noexcept {
+void Play::initialize(PlayInfos& _previousPlayInfos) noexcept {
+    previousPlayInfos = _previousPlayInfos;
+    if (!previousPlayInfos->empty()) 
+        RTT_DEBUG(std::to_string(previousPlayInfos->begin()->second.robotID.value_or(-1)));
     calculateInfoForRoles();
     distributeRoles();
     previousRobotNum = world->getWorld()->getRobotsNonOwning().size();
@@ -116,28 +118,23 @@ void Play::distributeRoles() noexcept {
 std::unordered_map<Role*, Status> const& Play::getRoleStatuses() const { return roleStatuses; }
 
 bool Play::isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept {
-    if (!interface::MainControlsWidget::ignoreInvariants) {
-        return std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
-    } else {
-        return true;
-    }
+    return (interface::MainControlsWidget::ignoreInvariants 
+            || std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator] (auto& x) {
+        return playEvaluator.checkEvaluation(x);
+    }));
 }
 
 bool Play::isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept {
-    if (!interface::MainControlsWidget::ignoreInvariants) {
-        return std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [&playEvaluator] (auto& x) { return playEvaluator.checkEvaluation(x); });
-    } else {
-        return true;
-    }
-}
+    return (interface::MainControlsWidget::ignoreInvariants 
+            || std::all_of(startPlayEvaluation.begin(), startPlayEvaluation.end(), [&playEvaluator] (auto& x) {
+        return playEvaluator.checkEvaluation(x);
+    }));
 
-    std::unordered_map<std::string, StpInfo> Play::getStpInfos() {
-        return stpInfos;
-    }
+}
 
     uint8_t Play::getLastScore() {
         return lastScore.value_or(0);
     }
 
-
+    void Play::storePlayInfo(Play::PlayInfos& previousPlayInfo) noexcept {}
 }  // namespace rtt::ai::stp
