@@ -7,6 +7,7 @@
 /// This issue occurs when there are multiple roles classes (defender+midfielder) that have the same priority
 
 #include "utilities/Dealer.h"
+#include <iterator>
 
 #include <roboteam_utils/Hungarian.h>
 #include <roboteam_utils/Print.h>
@@ -21,9 +22,12 @@ Dealer::Dealer(v::WorldDataView world, rtt_world::Field *field) : world(world), 
 Dealer::DealerFlag::DealerFlag(DealerFlagTitle title, DealerFlagPriority priority) : title(title), priority(priority) {}
 
 // Create a distribution of robots according to their flags
-std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vector<v::RobotView> &allRobots, const FlagMap &flagMap,
+std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::RobotView> allRobots, FlagMap flagMap,
                                                                  const std::unordered_map<std::string, stp::StpInfo> &stpInfoMap) {
     std::unordered_map<std::string, v::RobotView> output;
+    // Remove all forcedID's before continuing computations
+    distribute_forcedIDs(allRobots,flagMap,output);
+
     std::vector<RoleScores> scores = getScoreMatrix(allRobots, flagMap, stpInfoMap);
     // Make index of roles and ID to keep track which are the original indexes of each and get roleNames
     std::vector<int> indexRoles;
@@ -60,6 +64,24 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(const std::vect
         }
     }
     return output;
+}
+
+void Dealer::distribute_forcedIDs(std::vector<v::RobotView> &allRobots, FlagMap& flagMap, std::unordered_map<std::string, v::RobotView>& output){
+    for (auto role = flagMap.begin(); role != flagMap.end(); ++role) {
+        int ID = role->second.forcedID;
+        if (ID != -1){
+            // Check if that ID is a friendly ID
+            if (!std::any_of(allRobots.begin(),allRobots.end(),[ID](v::RobotView& x){
+                return x->getId() == ID;
+            }) ) {
+                RTT_ERROR("ID " + std::to_string(ID) + " is not a VALID ID. The force ID will be IGNORED.")
+                continue;
+            }
+            output.insert({role->first,allRobots[ID]}); // Assign role to ID
+            allRobots.erase(allRobots.begin() + ID);    // Remove the robot to reduce future computations
+            flagMap.erase(role--);              // Remove role to reduce future computations
+        }
+    }
 }
 
 void Dealer::distribute_init(std::vector<int>& indexRoles, std::vector<int>& indexID, std::vector<std::string>& roleNames, const Dealer::FlagMap &flagMap) {
