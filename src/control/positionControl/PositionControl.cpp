@@ -54,9 +54,8 @@ namespace rtt::ai::control {
         collisionDetector.setRobotPositions(robotPositions);
     }
 
-    rtt::BB::CommandCollision PositionControl::computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
+    rtt::BB::CommandCollision PositionControl::computePathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
                                                                       Vector2 currentVelocity,Vector2 targetPosition, stp::PIDType pidType) {
-        //TODO: split this function in a compute and a track part
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 
@@ -64,6 +63,7 @@ namespace rtt::ai::control {
         rtt::BB::CommandCollision commandCollision;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
         // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
+        //TODO: change these checks such that it also includes a change in game state
         if (false || (!computedPathsBB.contains(robotId) ||
             (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
             worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId).has_value())) {
@@ -82,24 +82,36 @@ namespace rtt::ai::control {
                     commandCollision.collisionData = firstCollision;
                 }
             }
-            computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.2);
+            computedPaths[robotId] = computedPathsBB[robotId].getPathApproach(0.05);
+            computedVelocities[robotId] = computedPathsBB[robotId].getVelocityApproach(1.0/60.0);
         }
         interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::yellow, robotId, interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, {computedPaths[robotId].front(), currentPosition}, Qt::darkMagenta, robotId, interface::Drawing::LINES_CONNECTED);
         interface::Input::drawData(interface::Visual::PATHFINDING, computedPaths[robotId], Qt::magenta, robotId, interface::Drawing::DOTS);
 
-        // TODO: let the robot properly follow the BBT
+        // TODO: let the robot properly follow the BBT, make PID controller for calculated velocities from BBT
         //Current method is very hacky
         // If you are closer to the target than the first point of the approximated path, remove it
+        // TODO: Too many points are removed from computedPaths, fix this
         PositionControlUtils::removeFirstIfReached(computedPaths[robotId],currentPosition);
 
         commandCollision.robotCommand = RobotCommand();
         commandCollision.robotCommand.pos = computedPaths[robotId].front();
-        Position trackingVelocity = pathTrackingAlgorithm.trackPathDefaultAngle(currentPosition, currentVelocity,computedPaths[robotId], robotId,pidType);
-        commandCollision.robotCommand.vel = Vector2(trackingVelocity.x, trackingVelocity.y);
-        commandCollision.robotCommand.angle = trackingVelocity.rot;
 
         return commandCollision;
+    }
+
+    void PositionControl::trackPathBBT(int robotId, Vector2 currentPosition, Vector2 currentVelocity, rtt::BB::CommandCollision &commandCollision){
+        if (!computedVelocities[robotId].empty()) {
+            if(robotId == 1){ std::cout << std::fixed << std::setprecision(3) << "robot1 calcvel = [" << computedVelocities[robotId].front().x << "," << computedVelocities[robotId].front().x << "] , angle = " << computedVelocities[robotId].front().angle() << std::endl; }
+            Position trackingVelocity = pathTrackingAlgorithm.trackVelocity(currentVelocity,computedVelocities[robotId],robotId,stp::PIDType::BBT);
+            commandCollision.robotCommand.vel = Vector2(trackingVelocity.x,trackingVelocity.y);
+            commandCollision.robotCommand.angle = trackingVelocity.rot;
+            if(robotId == 1){ std::cout << std::fixed << std::setprecision(3) << "robot1 trackvel = [" << trackingVelocity.x << "," << trackingVelocity.y << "] , angle = " << trackingVelocity.rot << std::endl; }
+        } else {
+            commandCollision.robotCommand.vel = Vector2(0,0);
+            commandCollision.robotCommand.angle = 0;
+        }
     }
 
     std::optional<BB::BBTrajectory2D>

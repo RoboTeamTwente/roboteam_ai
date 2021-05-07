@@ -98,6 +98,13 @@ namespace rtt::BB {
         [[nodiscard]] std::vector<Vector2> getPathApproach(double timeStep) const;
 
         /**
+         * @brief Approaches the BangBangTrajectory velocities by getting the velocity over time separated by timeStep seconds
+         * @param timeStep time between velocities
+         * @return
+         */
+        [[nodiscard]] std::vector<Vector2> getVelocityApproach(double timeStep) const;
+
+        /**
          * @brief Gets tEnd of the current part
          */
         [[nodiscard]] double getTotalTime() const;

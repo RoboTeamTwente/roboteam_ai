@@ -44,6 +44,18 @@ class PidTracking : public PathTrackingAlgorithm {
      */
     Position trackPath(const Vector2 &currentPosition, const Vector2 &currentVelocity, std::vector<Vector2> &pathPoints,
             int robotId, double angle, stp::PIDType pidType) override;
+
+    /**
+     * Generates an output velocity and angle according to the implemented algorithm.4
+     * After reaching a certain velocity closest to the first velocity it will go to the next one.
+     * @param currentVelocity
+     * @param velocityPoints the wanted velocities
+     * @param robotId
+     * @param pidType
+     * @return a structure containing the tracking velocity and the orientation angle
+     */
+    Position trackVelocity(const Vector2 &currentVelocity, std::vector<Vector2> &velocityPoints,
+                       int robotId, stp::PIDType pidType);
     /**
      * Update the PID values for a specific robot
      * @param pidType The desired PID type (intercept, regular, keeper etc.)

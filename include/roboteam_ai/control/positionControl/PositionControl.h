@@ -31,6 +31,7 @@ namespace rtt::ai::control {
 
         std::unordered_map<int, BB::BBTrajectory2D> computedPathsBB;
         std::unordered_map<int, std::vector<Vector2>> computedPaths;
+        std::unordered_map<int, std::vector<Vector2>> computedVelocities;
 
     public:
         /**
@@ -81,8 +82,18 @@ namespace rtt::ai::control {
          * @return A RobotCommand and optional with the location of the first collision on the path
          */
         rtt::BB::CommandCollision
-        computeAndTrackPathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
+        computePathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                Vector2 targetPosition, stp::PIDType pidType);
+        /**
+         * @brief Calculates the velocities for tracking the path. Adjusts the velocity in the
+         * commandCollision structure which is passed as a reference.
+         *
+         * @param robotId
+         * @param currentPosition
+         * @param currentVelocity
+         * @param commandCollision
+         */
+        void trackPathBBT(int robotId, Vector2 currentPosition, Vector2 currentVelocity, rtt::BB::CommandCollision &commandCollision);
 
         /**
          * @brief Tries to find a new path when the current path has a collision on it. It tries this by

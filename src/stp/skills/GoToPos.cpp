@@ -16,19 +16,21 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
         targetPos = control::ControlUtils::projectPositionToWithinField(info.getField().value(), targetPos, control_constants::ROBOT_RADIUS);
     }
 
-    bool useOldPathPlanning = false;
+    bool useOldPathPlanning = true;
     rtt::BB::CommandCollision commandCollision;
 
     if(useOldPathPlanning) {
         // Calculate commands from path planning and tracking
         commandCollision.robotCommand = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPath(
-            info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
+            info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(), info.getRobot().value()->getPidPreviousVel(), targetPos, info.getPidType().value());
     } else {
         // _______Use this one for the BBT pathplanning and tracking_______
-        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computeAndTrackPathBBT(
+        commandCollision = info.getCurrentWorld()->getRobotPositionController()->computePathBBT(
             info.getCurrentWorld(), info.getField().value(), info.getRobot().value()->getId(), info.getRobot().value()->getPos(),
-            info.getRobot().value()->getVel(), targetPos, info.getPidType().value());
-    }
+            info.getRobot().value()->getPidPreviousVel(), targetPos, info.getPidType().value());
+        info.getCurrentWorld()->getRobotPositionController()->trackPathBBT(
+            info.getRobot().value()->getId(), info.getRobot().value()->getPos(),info.getRobot().value()->getPidPreviousVel(),commandCollision);
+        }
 
     if (commandCollision.collisionData.has_value()) {
         return Status::Failure;

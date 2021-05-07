@@ -20,7 +20,7 @@ namespace world = ::rtt::world;
  */
 enum class BlockDistance { CLOSE = 1, HALFWAY, FAR };
 enum class KickOrChip { KICK, CHIP };
-enum class PIDType { DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT };
+enum class PIDType { DEFAULT, RECEIVE, INTERCEPT, KEEPER, KEEPER_INTERCEPT, BBT };
 enum class ShotType { PASS, TARGET, MAX };
 enum class Status { Waiting, Success, Failure, Running };
 

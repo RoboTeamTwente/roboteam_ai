@@ -74,10 +74,23 @@ namespace rtt::BB {
         auto totalTime = getTotalTime();
         double time = 0;
 
-        while(time<totalTime){
+        while(time <= totalTime){
             time += timeStep;
             points.push_back(getPosition(time));
         }
+        return points;
+    }
+
+    std::vector<Vector2> BBTrajectory2D::getVelocityApproach(double timeStep) const {
+        std::vector<Vector2> points;
+        auto totalTime = getTotalTime();
+        double time = 0;
+
+        while(time<totalTime){
+            time += timeStep;
+            points.push_back(getVelocity(time));
+        }
+        points.push_back(Vector2(0,0));
         return points;
     }
 

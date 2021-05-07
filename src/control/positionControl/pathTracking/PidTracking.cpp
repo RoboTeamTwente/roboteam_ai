@@ -23,6 +23,45 @@ Position PidTracking::trackPath(const Vector2 &currentPosition, const Vector2 &c
     return {velocity, angle};
 }
 
+Position PidTracking::trackVelocity(const Vector2 &currentVelocity, std::vector<Vector2> &velocityPoints, int robotId, stp::PIDType pidType) {
+    bool newBool = true;
+    //TODO: fine tune MIN_DISTANCE_VELOCITY_REACHED
+    double MIN_DISTANCE_VELOCITY_REACHED = 0.01;
+    while(newBool && velocityPoints.size() > 1) { // while loop that erases all velocities that have already been passed
+        // if true, you want to accelerate and velocityPoints.front() is already lower than current velocity
+        if(velocityPoints.at(2).length() > velocityPoints.at(1).length() &&
+            currentVelocity.length() > velocityPoints.at(1).length()) {
+            velocityPoints.erase(velocityPoints.begin());
+        }
+        // if true, you want to decelerate and velocityPoints.front() is already higher than current velocity
+        else if(velocityPoints.at(2).length() < velocityPoints.at(1).length() &&
+                 currentVelocity.length() < velocityPoints.at(1).length()) {
+            velocityPoints.erase(velocityPoints.begin());
+        }
+        // if true, velocity remains the same so only remove velocityPoints.front() and stop the while loop
+        else if (velocityPoints.at(2).length() == velocityPoints.at(1).length() &&
+                 abs(currentVelocity.length() - velocityPoints.at(1).length()) < MIN_DISTANCE_VELOCITY_REACHED) {
+            velocityPoints.erase(velocityPoints.begin());
+            newBool = false;
+        }
+        // else, velocityPoint.front() has not been reached yet so don't remove a velocityPoint and stop the while loop
+        else { newBool = false; }
+    }
+    if (pidMapping.find(robotId) == pidMapping.end()) {
+        pidMapping[robotId] = std::make_pair(PID(), PID());
+        pidMapping[robotId].first.setMaxIOutput(MAX_VELOCITY);
+        pidMapping[robotId].second.setMaxIOutput(MAX_VELOCITY);
+    }
+
+    updatePIDValues(pidType, robotId);
+
+    Vector2 velocity{};
+    velocity.x = pidMapping[robotId].first.getOutput(currentVelocity.x, velocityPoints.front().x);
+    velocity.y = pidMapping[robotId].second.getOutput(currentVelocity.y, velocityPoints.front().y);
+
+    return {velocity, velocity.angle()};
+}
+
 void PidTracking::updatePidValuesFromInterface(bool isKeeper) {
     auto newPid = isKeeper ? interface::Output::getKeeperPid() : interface::Output::getNumTreePid();
     for (auto pid : pidMapping) {
@@ -52,6 +91,11 @@ void PidTracking::updatePIDValues(stp::PIDType pidType, int robotID) {
         }
         case stp::PIDType::KEEPER_INTERCEPT: {
             newPID = interface::Output::getKeeperInterceptPid();
+            break;
+        }
+        case stp::PIDType::BBT: {
+            //TODO: fine tune PID variables
+            newPID = pidVals(6.0, 0.0, 1.0);
             break;
         }
     }
