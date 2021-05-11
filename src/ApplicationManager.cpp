@@ -30,7 +30,7 @@
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThemPrepare.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUs.h"
+#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUs.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUsPrepare.h"
 //#include "stp/plays/ReflectKick.h"
 //#include "stp/plays/TestPlay.h"
@@ -65,7 +65,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
