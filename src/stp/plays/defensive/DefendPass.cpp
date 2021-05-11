@@ -155,8 +155,6 @@ void DefendPass::calculateInfoForOffenders() noexcept {
     stpInfos["offender_2"].setPositionToMoveTo(Vector2(length / 4, -width / 6));
 }
 
-bool DefendPass::shouldRoleSkipEndTactic() { return false; }
-
 const char *DefendPass::getName() { return "Defend Pass"; }
 
 }  // namespace rtt::ai::stp::play
