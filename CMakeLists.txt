@@ -119,7 +119,7 @@ set(PLAYS_SOURCES
         # offensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
+#        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
         # referee_specific/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp

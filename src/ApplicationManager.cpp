@@ -20,7 +20,7 @@
 //#include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
 //#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
-#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
+//#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
 //#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
@@ -74,7 +74,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
