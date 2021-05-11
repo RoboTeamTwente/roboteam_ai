@@ -6,11 +6,6 @@
 #include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
 
 #include <roboteam_utils/Tube.h>
-
-#include "stp/invariants/BallClosestToUsGlobalEvaluation.h"
-#include "stp/invariants/BallOnOurSideGlobalEvaluation.h"
-#include "stp/invariants/FreedomOfRobotsGlobalEvaluation.h"
-#include "stp/invariants/game_states/NormalPlayGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
@@ -25,35 +20,36 @@ void GenericPass::onInitialize() noexcept {
     passerShot = false;
 
     // Make sure we calculate pass positions at least once
-    receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
-    receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
+    receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightBot, gen::GoalShootPosition, field, world);
+    receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(),gen::gridRightTop, gen::GoalShootPosition, field, world);
     passingPosition = receiverPositionRight.position;
 }
 
 GenericPass::GenericPass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
+    startPlayEvaluation.clear();
+    startPlayEvaluation.emplace_back(eval::NormalPlayGameState);
+    startPlayEvaluation.emplace_back(eval::BallOnOurSide);
+    startPlayEvaluation.emplace_back(eval::BallClosestToUs);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
+    keepPlayEvaluation.clear();
+    keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
+    keepPlayEvaluation.emplace_back(eval::FreedomOfRobots);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::Passer>(role::Passer("passer")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("defender_1")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_3")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_4")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_5")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_6")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_7"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Keeper>(role::Keeper("keeper")),
+        std::make_unique<role::Passer>(role::Passer("passer")),
+        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
+        std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
+        std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+        std::make_unique<role::Formation>(role::Formation("defender_1")),
+        std::make_unique<role::Halt>(role::Halt("halt_3")),
+        std::make_unique<role::Halt>(role::Halt("halt_4")),
+        std::make_unique<role::Halt>(role::Halt("halt_5")),
+        std::make_unique<role::Halt>(role::Halt("halt_6")),
+        std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(world::World* world) noexcept { return 130; }
+uint8_t GenericPass::score(PlayEvaluator &playEvaluator) noexcept { return 130; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
@@ -85,22 +81,22 @@ bool GenericPass::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
+
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);
 
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"passer", {closeToBallFlag}});
-    flagMap.insert({"receiver_left", {receiverFlag}});
-    flagMap.insert({"receiver_right", {notImportant}});
-    flagMap.insert({"midfielder_1", {notImportant}});
-    flagMap.insert({"defender_1", {notImportant}});
-    flagMap.insert({"halt_3", {notImportant}});
-    flagMap.insert({"halt_4", {notImportant}});
-    flagMap.insert({"halt_5", {notImportant}});
-    flagMap.insert({"halt_6", {notImportant}});
-    flagMap.insert({"halt_7", {notImportant}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
+    flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{closeToBallFlag}}});
+    flagMap.insert({"receiver_left", {DealerFlagPriority::REQUIRED,{receiverFlag}}});
+    flagMap.insert({"receiver_right", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_6", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"halt_7", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
 
     return flagMap;
 }
