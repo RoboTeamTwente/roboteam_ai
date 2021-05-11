@@ -46,7 +46,6 @@ GetBallPossession::GetBallPossession() : Play() {
 }
 
 uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
-    calculateInfoForScoredRoles(playEvaluator.getWorld());
     scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs),1.0}};
                //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallIsFree), 1)};
                //std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
@@ -61,6 +60,8 @@ void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcep
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
+    calculateInfoForScoredRoles(world);
+
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     //If keeper has ball, shoot at one of our robots thats closest to our goal
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
