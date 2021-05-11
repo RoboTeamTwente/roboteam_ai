@@ -53,8 +53,6 @@ class DefendPass : public Play {
     const char* getName() override;
 
    protected:
-    bool shouldRoleSkipEndTactic();
-
     /**
      * Calculates info for the defenders
      */
