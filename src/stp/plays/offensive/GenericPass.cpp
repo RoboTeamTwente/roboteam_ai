@@ -20,7 +20,7 @@ void GenericPass::onInitialize() noexcept {
     passerShot = false;
 
     // Make sure we calculate pass positions at least once
-    receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightBot, gen::GoalShootPosition, field, world);
+    receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridLeftTop, gen::GoalShootPosition, field, world);
     receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(),gen::gridRightTop, gen::GoalShootPosition, field, world);
     passingPosition = receiverPositionRight.position;
 }
@@ -74,10 +74,9 @@ void GenericPass::calculateInfoForRoles() noexcept {
     }
     auto fieldWidth = field.getFieldWidth();
     auto searchGrid = Grid(-0.15 * fieldWidth, -2, 0.10 * fieldWidth, 4, 4, 4);
-    stpInfos["midfielder_1"].setPositionToMoveTo(computations::PositionComputations::determineBestOpenPosition(searchGrid, field, world).position);
+    //TODO: check if SafePosition is the right profile to use
+    stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),gen::gridMidFieldMid, gen::SafePosition, field, world));
 }
-
-bool GenericPass::shouldRoleSkipEndTactic() { return false; }
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
@@ -115,8 +114,8 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     if (!passerShot) {
         /// For the receive locations, divide the field up into grids where the passers should stand,
         /// and find the best locations in those grids
-        receiverPositionRight = computations::PositionComputations::determineBestLineOfSightPosition(gridRight, field, world);
-        receiverPositionLeft = computations::PositionComputations::determineBestLineOfSightPosition(gridLeft, field, world);
+        receiverPositionLeft = PositionComputations::getPosition(stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridLeftTop, gen::GoalShootPosition, field, world);
+        receiverPositionRight = PositionComputations::getPosition(stpInfos["receiver_right"].getPositionToMoveTo(),gen::gridRightTop, gen::GoalShootPosition, field, world);
 
         /// From the available receivers, select the best
         if (receiverPositionLeft.score > receiverPositionRight.score) {
@@ -160,11 +159,12 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
     stpInfos["passer"].setShotType(ShotType::PASS);
 }
 
-bool GenericPass::isValidPlayToKeep(world::World* world) noexcept {
+bool GenericPass::isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept {
     world::Field field = world->getField().value();
     auto closestToBall = world->getWorld()->getRobotClosestToBall();
-    auto canKeep = std::all_of(keepPlayInvariants.begin(), keepPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
-                   !passFinished();
+
+    auto canKeep = std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(), [&playEvaluator](auto& x) {
+        return playEvaluator.checkEvaluation(x);}) && !passFinished();
     if (canKeep) {
         if (closestToBall && closestToBall->get()->getTeam() == world::us) {
             return true;
