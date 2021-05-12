@@ -22,7 +22,7 @@
 //#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
 //#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
 #include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
-//#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
+#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
 #include "include/roboteam_ai/stp/plays/referee_specific/KickOffThemPrepare.h"
@@ -72,7 +72,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
