@@ -68,7 +68,7 @@ class AttackingPass : public Play {
      * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
      * @param ball
      */
-    //NEW PLAY -> void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
+    void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
     bool isValidPlayToStart(PlayEvaluator *playEvaluator) noexcept;
 
@@ -80,11 +80,6 @@ class AttackingPass : public Play {
      *         false: when NONE of the receivers is closer than 0.08m to the ball
      */
     [[nodiscard]] bool passFinished() noexcept;
-
-    /**
-     * Position that the passer will pass to
-     */
-    Vector2 passingPosition;
 
     /**
      * Did the passer shoot or not
