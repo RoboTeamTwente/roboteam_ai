@@ -64,13 +64,15 @@ namespace rtt::ai::control {
     }
 
     void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept {
-        proto::RobotCommand robot_command=command;
+        proto::RobotCommand robot_command = command;
         // If we are not left, commands should be rotated (because we play as right)
         if (!SETTINGS.isLeft()) {
             rotateRobotCommand(robot_command);
         }
 
-        limitRobotCommand(robot_command, robot);
+        if(robot)
+            limitRobotCommand(robot_command, robot);
+
         // Only add commands with a robotID that is not in the vector yet
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
