@@ -42,7 +42,7 @@ void JoystickHandler::handleEvent(SDL_Event &event) {
 
 void JoystickHandler::changeRobotID() {
     if (joystickState.back) {
-        if (joystickState.bumperLeft) {
+        if (joystickState.dpadLeft) {
             if (0 < robotId) {
                 joystickState.dpadLeft = false;
                 robotId--;
@@ -51,7 +51,7 @@ void JoystickHandler::changeRobotID() {
             } else
                 std::cout << "[JoystickHandler][changeRobotId] No robots with lower ID available" << std::endl;
         }
-        if (joystickState.bumperRight) {
+        if (joystickState.dpadRight) {
             if (robotId < 16) {
                 joystickState.dpadRight = false;
                 robotId++;
