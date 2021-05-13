@@ -70,6 +70,8 @@ class AttackingPass : public Play {
      */
     //NEW PLAY -> void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
 
+    bool isValidPlayToStart(PlayEvaluator *playEvaluator) noexcept;
+
    private:
     /**
      * Checks if the pass is finished so the play knows whether it should
@@ -90,6 +92,7 @@ class AttackingPass : public Play {
     bool passerShot{false};
 
     void storePlayInfo(gen::PlayInfos& info) noexcept override;
+
 };
 }  // namespace rtt::ai::stp::play
 
