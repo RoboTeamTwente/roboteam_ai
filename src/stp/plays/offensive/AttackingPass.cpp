@@ -51,7 +51,10 @@ namespace rtt::ai::stp::play {
     }
 
     uint8_t AttackingPass::score(PlayEvaluator &playEvaluator) noexcept {
-        calculateInfoForScoredRoles(playEvaluator.getWorld());
+        //TODO: Uncomment this (and actually implement the scoring) when you want to score this play based on
+        // how good the attacking pass will be
+        //calculateInfoForScoredRoles(playEvaluator.getWorld());
+
         scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs), 1}};
         //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::GoalVisionFromBall), 1)};
         //std::make_pair(std::max({stpInfos["receiver_left"].getRoleScore().value(),stpInfos["receiver_right"].getRoleScore().value()}),1)};
@@ -92,7 +95,7 @@ namespace rtt::ai::stp::play {
 
     void AttackingPass::calculateInfoForRoles() noexcept {
         auto ball = world->getWorld()->getBall()->get();
-        calculateInfoForScoredRoles(world);
+//        calculateInfoForScoredRoles(world);
         /// Keeper
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
         stpInfos["keeper"].setPositionToShootAt(Vector2());
@@ -157,6 +160,12 @@ namespace rtt::ai::stp::play {
         std::vector<gen::ScoredPosition> positions = {receiverPositionLeft, receiverPositionRight};
         Vector2 passLocation = computations::PassComputations::determineBestPosForPass(positions);
 
+        /// If no good pass found, pass to closest robot
+        if (passLocation == Vector2{0, 0}) {
+            passLocation = world->getWorld()->getRobotClosestToPoint(stpInfos["passer"].getPositionToMoveTo().value(),
+                                                                     world::us)->get()->getPos();
+        }
+
         /// Receiver should intercept when constraints are met
         if (ball->getVelocity().length() > control_constants::HAS_KICKED_ERROR_MARGIN) {
             receiverPositionLeft.position = Line(ball->getPos(), ball->getPos() + ball->getFilteredVelocity()).project(
@@ -198,7 +207,7 @@ namespace rtt::ai::stp::play {
         auto closestToBall = world->getWorld()->getRobotClosestToBall();
 
         auto canKeep = std::all_of(keepPlayEvaluation.begin(), keepPlayEvaluation.end(),
-                                   [this](auto &x) { return x->checkInvariant(world->getWorld().value(), &field); }) &&
+                                   [playEvaluator](auto &x) { return playEvaluator->checkEvaluation(x); }) &&
                        !passFinished();
 
         if (canKeep) {
