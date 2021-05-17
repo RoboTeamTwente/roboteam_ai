@@ -8,6 +8,7 @@ namespace input {
 
 JoystickHandler::JoystickHandler() {
     std::cout << "[JoystickHandler] New JoystickHandler" << std::endl;
+    id_switched_timestamp = std::chrono::steady_clock::now();
     command.set_chip_kick_forced(true);
 }
 
@@ -26,14 +27,17 @@ void JoystickHandler::tick() {
  * */
 void JoystickHandler::handleEvent(SDL_Event &event) {
     switch (event.type) {
-        case SDL_JOYAXISMOTION: /* Handle Axis motion*/
+        case SDL_JOYAXISMOTION: /* Handle Axis motion */
             handleJoystickMotion(event);
             break;
-        case SDL_JOYBUTTONUP: /* Handle Button unpressing*/
+        case SDL_JOYBUTTONUP: /* Handle Button unpressing */
             handleJoystickButton(event);
             break;
-        case SDL_JOYBUTTONDOWN: /* Handle Button pressing*/
+        case SDL_JOYBUTTONDOWN: /* Handle Button pressing */
             handleJoystickButton(event);
+            break;
+        case SDL_JOYHATMOTION: /* Handle dpad (un)pressing */
+            handleJoystickHat(event);
             break;
         default:
             break;
@@ -42,6 +46,12 @@ void JoystickHandler::handleEvent(SDL_Event &event) {
 
 void JoystickHandler::changeRobotID() {
     if (joystickState.back) {
+
+        /* Add minimal delay of 100ms between id switching to deal with button bouncing */
+        int msFromPreviousSwitch = (int)duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - id_switched_timestamp).count();
+        if(msFromPreviousSwitch < 100)
+            return;
+
         if (joystickState.dpadLeft) {
             if (0 < robotId) {
                 joystickState.dpadLeft = false;
@@ -60,7 +70,9 @@ void JoystickHandler::changeRobotID() {
             } else
                 std::cout << "[JoystickHandler][changeRobotId] No robots with higher ID available" << std::endl;
         }
+
         command.set_id(robotId);
+        id_switched_timestamp = std::chrono::steady_clock::now();
     }
 }
 
@@ -105,7 +117,7 @@ void JoystickHandler::toggleDribbler() {
 void JoystickHandler::updateOrientation() {
     /* Robot angle */
     command.set_use_angle(true);
-    float dAngle = -joystickState.stickRight.x / 32768.0;
+    float dAngle = -joystickState.stickRight.x / 7500.0;
     robotAngle += dAngle * 0.1;
     while (M_PI < robotAngle) robotAngle -= 2 * M_PI;
     while (robotAngle < -M_PI) robotAngle += 2 * M_PI;
@@ -115,7 +127,7 @@ void JoystickHandler::updateOrientation() {
 void JoystickHandler::updateVelocity() {
     /* Robot velocity, value 1 for mutable vel is achieved by dividing by 32768 instead of 22000*/
 
-    rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle) / 30000;
+    rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle) / 7500;
     command.mutable_vel()->set_y(-driveVector.x);
     command.mutable_vel()->set_x(-driveVector.y);
 }
@@ -153,6 +165,7 @@ void JoystickHandler::handleJoystickMotion(SDL_Event &event) {
 /* Maps buttons*/
 void JoystickHandler::handleJoystickButton(SDL_Event &event) {
     bool button_State = (int)event.jbutton.state == 1;
+
     switch (event.jbutton.button) {
         case 0:
             joystickState.A = button_State;
@@ -187,21 +200,23 @@ void JoystickHandler::handleJoystickButton(SDL_Event &event) {
         case 10:
             joystickState.stickRightBtn = button_State;
             break;
-        case 11:
-            joystickState.dpadLeft = button_State;
-            break;
-        case 12:
-            joystickState.dpadRight = button_State;
-            break;
-        case 13:
-            joystickState.dpadUp = button_State;
-            break;
-        case 14:
-            joystickState.dpadDown = button_State;
-            break;
         default:
             break;
     }
+}
+
+void JoystickHandler::handleJoystickHat(SDL_Event &event) {
+    /* This function deals with the dpad of the joystick, which is apparently a Hat event
+     * event.jhat.value indicates the directions(s) that are pressed on the dpad.
+     * 1 = up, 2 = right, 4 = down, 8 = left. Also, 3 = up+right, 12 = down+left, etc. It's stuff with bits.
+     */
+
+    uint32_t value = event.jhat.value;
+
+    joystickState.dpadUp    = (value & 1) > 0;
+    joystickState.dpadRight = (value & 2) > 0;
+    joystickState.dpadDown  = (value & 4) > 0;
+    joystickState.dpadLeft  = (value & 8) > 0;
 }
 
 /* Sets dribber speed */
