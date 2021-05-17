@@ -30,7 +30,7 @@ class DefendPass : public Play {
      * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world::World* world) noexcept override;
+    uint8_t score(PlayEvaluator &playEvaluator) noexcept;
 
     /**
      * Assigns robots to roles of this play
@@ -43,13 +43,16 @@ class DefendPass : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+    * Calculate info for the roles that need to be calculated for scoring
+    */
+    void calculateInfoForScoredRoles(world::World*) noexcept override {};
+
+    /**
      * Gets the play name
      */
     const char* getName() override;
 
    protected:
-    bool shouldRoleSkipEndTactic() override;
-
     /**
      * Calculates info for the defenders
      */

@@ -4,10 +4,6 @@
 
 #include "include/roboteam_ai/stp/plays/defensive/DefendPass.h"
 
-#include "stp/invariants/BallCloseToThemGlobalEvaluation.h"
-#include "stp/invariants/BallOnOurSideGlobalEvaluation.h"
-#include "stp/invariants/BallShotOrCloseToThemGlobalEvaluation.h"
-#include "stp/invariants/game_states/NormalPlayGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Harasser.h"
@@ -16,45 +12,50 @@
 namespace rtt::ai::stp::play {
 
 DefendPass::DefendPass() : Play() {
-    startPlayInvariants.clear();
-    startPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToThemInvariant>());
-    startPlayInvariants.emplace_back(std::make_unique<invariant::BallOnOurSideInvariant>());
+    startPlayEvaluation.clear();
+    startPlayEvaluation.emplace_back(eval::NormalPlayGameState);
+    startPlayEvaluation.emplace_back(eval::BallCloseToThem);
+    startPlayEvaluation.emplace_back(eval::BallOnOurSide);
 
-    keepPlayInvariants.clear();
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
-    keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
+    keepPlayEvaluation.clear();
+    keepPlayEvaluation.emplace_back(eval::NormalPlayGameState);
+    keepPlayEvaluation.emplace_back(eval::BallShotOrCloseToThem);
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),          std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")),  std::make_unique<role::Defender>(role::Defender("blocker_1")),
-        std::make_unique<role::Defender>(role::Defender("blocker_2")),   std::make_unique<role::Defender>(role::Defender("blocker_3")),
-        std::make_unique<role::Defender>(role::Defender("blocker_4")),   std::make_unique<role::Defender>(role::Defender("blocker_5")),
-        std::make_unique<role::Harasser>(role::Harasser("harasser")),    std::make_unique<role::Formation>(role::Formation("offender_1")),
+        std::make_unique<role::Keeper>(role::Keeper("keeper")),
+        std::make_unique<role::Defender>(role::Defender("defender_1")),
+        std::make_unique<role::Defender>(role::Defender("defender_2")),
+        std::make_unique<role::Defender>(role::Defender("blocker_1")),
+        std::make_unique<role::Defender>(role::Defender("blocker_2")),
+        std::make_unique<role::Defender>(role::Defender("blocker_3")),
+        std::make_unique<role::Defender>(role::Defender("blocker_4")),
+        std::make_unique<role::Defender>(role::Defender("blocker_5")),
+        std::make_unique<role::Harasser>(role::Harasser("harasser")),
+        std::make_unique<role::Formation>(role::Formation("offender_1")),
         std::make_unique<role::Formation>(role::Formation("offender_2"))};
 }
 
-uint8_t DefendPass::score(world::World *world) noexcept { return 100; }
+uint8_t DefendPass::score(PlayEvaluator &playEvaluator) noexcept { return 100; }
 
 Dealer::FlagMap DefendPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
+
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
-    flagMap.insert({"keeper", {keeperFlag}});
-    flagMap.insert({"defender_1", {closeToOurGoalFlag}});
-    flagMap.insert({"defender_2", {closeToOurGoalFlag}});
-    flagMap.insert({"blocker_1", {closeToOurGoalFlag}});
-    flagMap.insert({"blocker_2", {closeToOurGoalFlag}});
-    flagMap.insert({"blocker_3", {notImportant}});
-    flagMap.insert({"blocker_4", {notImportant}});
-    flagMap.insert({"blocker_5", {notImportant}});
-    flagMap.insert({"harasser", {closeToBallFlag}});
-    flagMap.insert({"offender_1", {closeToTheirGoalFlag}});
-    flagMap.insert({"offender_2", {closeToTheirGoalFlag}});
+    flagMap.insert({"keeper", {DealerFlagPriority::KEEPER,{}}});
+    flagMap.insert({"defender_1", {DealerFlagPriority::REQUIRED,{closeToOurGoalFlag}}});
+    flagMap.insert({"defender_2", {DealerFlagPriority::REQUIRED,{closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_1", {DealerFlagPriority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_2", {DealerFlagPriority::HIGH_PRIORITY,{closeToOurGoalFlag}}});
+    flagMap.insert({"blocker_3", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"blocker_4", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"blocker_5", {DealerFlagPriority::LOW_PRIORITY,{notImportant}}});
+    flagMap.insert({"harasser", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
+    flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
+    flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToTheirGoalFlag}}});
 
     return flagMap;
 }
@@ -153,8 +154,6 @@ void DefendPass::calculateInfoForOffenders() noexcept {
     stpInfos["offender_1"].setPositionToMoveTo(Vector2(length / 4, width / 6));
     stpInfos["offender_2"].setPositionToMoveTo(Vector2(length / 4, -width / 6));
 }
-
-bool DefendPass::shouldRoleSkipEndTactic() { return false; }
 
 const char *DefendPass::getName() { return "Defend Pass"; }
 

@@ -25,7 +25,7 @@ class Attack : public Play {
      * @param world World to get the score for (world::World::instance())
      * @return The score, 0 - 100
      */
-    uint8_t score(world::World *world) noexcept override;
+    uint8_t score(PlayEvaluator& playEvaluator) noexcept override;
 
     /**
      * Assigns robots to roles of this play
@@ -38,17 +38,14 @@ class Attack : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculate info for the roles that need to be calculated for scoring
+     */
+    void calculateInfoForScoredRoles(world::World*) noexcept override {};
+
+    /**
      * Gets the play name
      */
     const char *getName() override;
-
-   protected:
-    /**
-     * This function is used to determine if -- when a role is in an endTactic -- the endTactic should be skipped.
-     * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
-     * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
-     */
-    bool shouldRoleSkipEndTactic() override;
 };
 
 }  // namespace rtt::ai::stp::play

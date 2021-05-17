@@ -56,6 +56,7 @@ Vector2 BlockBall::calculateTargetPosition(const world::view::BallView &ball, Ve
     auto ballCircle = Circle(ball->getPos(), BLOCK_DISTANCE);
     // Project the defend pos on the circle to get the position to block
     targetPosition = ballCircle.project(defendPos);
+    targetPosition = ball->getPos().scale(2)-targetPosition;
     return targetPosition;
 }
 
