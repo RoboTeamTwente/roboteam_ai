@@ -117,8 +117,8 @@ void JoystickHandler::toggleDribbler() {
 void JoystickHandler::updateOrientation() {
     /* Robot angle */
     command.set_use_angle(true);
-    float dAngle = -joystickState.stickRight.x / 7500.0;
-    robotAngle += dAngle * 0.1;
+    float dAngle = -joystickState.stickRight.x / 32768.0;
+    robotAngle += dAngle * 0.05;
     while (M_PI < robotAngle) robotAngle -= 2 * M_PI;
     while (robotAngle < -M_PI) robotAngle += 2 * M_PI;
     command.set_w(robotAngle);
@@ -127,7 +127,7 @@ void JoystickHandler::updateOrientation() {
 void JoystickHandler::updateVelocity() {
     /* Robot velocity, value 1 for mutable vel is achieved by dividing by 32768 instead of 22000*/
 
-    rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle) / 7500;
+    rtt::Vector2 driveVector = joystickState.stickLeft.rotate(-robotAngle) / 32768.0;
     command.mutable_vel()->set_y(-driveVector.x);
     command.mutable_vel()->set_x(-driveVector.y);
 }
@@ -135,7 +135,7 @@ void JoystickHandler::updateVelocity() {
 /* Processes the joystick motion */
 void JoystickHandler::handleJoystickMotion(SDL_Event &event) {
     /* Check if values are outside of the deadzone */
-    if (-6000 < event.jaxis.value && event.jaxis.value < 6000) {
+    if (-10000 < event.jaxis.value && event.jaxis.value < 10000) {
         event.jaxis.value = 0;
     }
     switch (event.jaxis.axis) {
