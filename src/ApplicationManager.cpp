@@ -34,6 +34,7 @@
 #include "stp/plays/ReflectKick.h"
 #include "stp/plays/TestPlay.h"
 #include "stp/plays/TimeOut.h"
+#include "stp/plays/PenaltyDemo.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -75,6 +76,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyDemo>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;
@@ -84,8 +86,8 @@ void ApplicationManager::start() {
             auto start = std::clock();
             runOneLoopCycle();
 
-            RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
-            RTT_WARNING("Time allowed: 16 ms")
+//            RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
+//            RTT_WARNING("Time allowed: 16 ms")
 
             amountOfCycles++;
 

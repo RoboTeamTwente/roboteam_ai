@@ -17,14 +17,9 @@ Formation::Formation() {
 std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noexcept {
     StpInfo skillStpInfo = info;
 
-    // Be 100% sure the angle is 0 during the formation
-    if (info.getAngle() == Angle()) {
-        skillStpInfo.setAngle(0.0001);
-    } else {
-        skillStpInfo.setAngle(info.getAngle());
-    }
+    skillStpInfo.setAngle(0.0001);
 
-    // Be 100% sure the dribbler is of during the formation
+    // Be 100% sure the dribbler is off during the formation
     skillStpInfo.setDribblerSpeed(0);
 
     return skillStpInfo;
@@ -43,7 +38,7 @@ bool Formation::shouldTacticReset(const StpInfo &info) noexcept {
 
 bool Formation::isEndTactic() noexcept {
     // Formation tactic is an end tactic
-    return true;
+    return false;
 }
 
 const char *Formation::getName() { return "Formation"; }

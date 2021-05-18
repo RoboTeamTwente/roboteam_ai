@@ -95,6 +95,7 @@ set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/BallReflector.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/DemoKeeper.cpp
         )
 
 set(PLAYS_SOURCES
@@ -125,6 +126,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/GetBallRisky.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/GenericPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyDemo.cpp
         )
 
 set(INVARIANTS_SOURCES
@@ -263,7 +265,7 @@ set(AI_SOURCES
         ${CONTROL_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        ${MANUAL_SOURCES})
+        ${MANUAL_SOURCES} src/stp/roles/DemoKeeper.cpp include/roboteam_ai/stp/roles/DemoKeeper.h)
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

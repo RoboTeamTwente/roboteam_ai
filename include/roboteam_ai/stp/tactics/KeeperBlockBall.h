@@ -60,8 +60,7 @@ class KeeperBlockBall : public Tactic {
      * @return Target position for the keeper and the corresponding PID type
      * PID type is different for intercepting and kicking (coarse and fast or fine and slower control)
      */
-    static std::pair<Vector2, stp::PIDType> calculateTargetPosition(const world::view::BallView &ball, const world::Field &field,
-                                                                    const world::view::RobotView &enemyRobot) noexcept;
+    static std::pair<Vector2, stp::PIDType> calculateTargetPosition(const world::view::BallView &ball, const world::Field &field) noexcept;
 };
 }  // namespace rtt::ai::stp::tactic
 
