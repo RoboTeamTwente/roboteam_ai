@@ -23,7 +23,7 @@ void Play::updateWorld(world::World* world) noexcept {
 void Play::update() noexcept {
     // clear roleStatuses so it only contains the current tick's statuses
     roleStatuses.clear();
-    RTT_INFO("Play executing: ", getName())
+//    RTT_INFO("Play executing: ", getName())
 
     // Check if the amount of robots changed
     // If so, we will re deal the roles
@@ -55,7 +55,7 @@ void Play::update() noexcept {
                 }
             }
         } else {
-            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
+//            RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
         }
     }
 }

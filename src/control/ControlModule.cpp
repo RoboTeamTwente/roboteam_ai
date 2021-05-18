@@ -70,9 +70,9 @@ namespace rtt::ai::control {
             rotateRobotCommand(robot_command);
         }
 
-        if(robot)
+        if (robot) {
             limitRobotCommand(robot_command, robot);
-
+        }
         // Only add commands with a robotID that is not in the vector yet
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
