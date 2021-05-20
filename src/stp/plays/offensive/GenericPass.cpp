@@ -11,6 +11,7 @@
 #include "stp/roles/Keeper.h"
 #include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
 #include "include/roboteam_ai/stp/roles/active/Passer.h"
+#include "include/roboteam_ai/stp/roles/passive/Defender.h"
 #include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {
@@ -41,7 +42,7 @@ GenericPass::GenericPass() : Play() {
         std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
         std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
         std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-        std::make_unique<role::Formation>(role::Formation("defender_1")),
+        std::make_unique<role::Defender>(role::Defender("defender_1")),
         std::make_unique<role::Halt>(role::Halt("halt_3")),
         std::make_unique<role::Halt>(role::Halt("halt_4")),
         std::make_unique<role::Halt>(role::Halt("halt_5")),
@@ -88,9 +89,9 @@ Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
     flagMap.insert({"passer", {DealerFlagPriority::REQUIRED,{closeToBallFlag}}});
     flagMap.insert({"receiver_left", {DealerFlagPriority::REQUIRED,{receiverFlag}}});
-    flagMap.insert({"receiver_right", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
+    flagMap.insert({"receiver_right", {DealerFlagPriority::REQUIRED, {receiverFlag}}});
+    flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
+    flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {notImportant}}});
     flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
