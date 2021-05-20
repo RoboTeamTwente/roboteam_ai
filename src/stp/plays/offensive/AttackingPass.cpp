@@ -3,17 +3,17 @@
 /// TODO-Max change to fowardPass
 //
 
-#include "include/roboteam_ai/stp/plays/offensive/AttackingPass.h"
-#include "include/roboteam_ai/stp/computations/PositionComputations.h"
-#include "include/roboteam_ai/stp/computations/PassComputations.h"
-
 #include <roboteam_utils/Tube.h>
 
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/plays/offensive/AttackingPass.h"
+#include "stp/computations/PositionComputations.h"
+#include "stp/computations/PassComputations.h"
+
+#include <stp/roles/passive/Defender.h>
+#include "stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
-#include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
-#include "include/roboteam_ai/stp/roles/active/Passer.h"
+#include "stp/roles/active/PassReceiver.h"
+#include "stp/roles/active/Passer.h"
 
 namespace rtt::ai::stp::play {
     AttackingPass::AttackingPass() : Play() {
@@ -35,11 +35,11 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                std::make_unique<role::Halt>(role::Halt("halt_0")),
-                std::make_unique<role::Halt>(role::Halt("halt_1")),
-                std::make_unique<role::Halt>(role::Halt("halt_2")),
-                std::make_unique<role::Halt>(role::Halt("halt_3")),
-                std::make_unique<role::Halt>(role::Halt("halt_4"))};
+                std::make_unique<role::Formation>(role::Formation("waller_0")),
+                std::make_unique<role::Formation>(role::Formation("waller_1")),
+                std::make_unique<role::Defender>(role::Defender("defender_0")),
+                std::make_unique<role::Defender>(role::Defender("defender_1")),
+                std::make_unique<role::Defender>(role::Defender("defender_2"))};
 
         // initialize stpInfos
         stpInfos = std::unordered_map<std::string, StpInfo>{};
@@ -72,11 +72,11 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
         flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"defender_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
 
         return flagMap;
     }
@@ -105,40 +105,52 @@ namespace rtt::ai::stp::play {
         calculateInfoForPass(ball);
 
         /// Defenders
-        // Calculate most important positions to defend
+        // Find 3 enemy robots to defend
         // You know you have n defenders, because the play assigned it that way
         auto enemyRobots = world->getWorld()->getThem();
-        const int numberOfDefenders = 1;
-        auto defensivePositions = calculateDefensivePositions(numberOfDefenders, world, enemyRobots);
+        //const int numberOfDefenders = 3;
+        //auto defensivePositions = calculateDefensivePositions(numberOfDefenders, enemyRobots);
 
-        for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
-            std::string defenderName = "defender" + std::to_string(defenderIndex + 1);
+        stpInfos["defender_0"].setPositionToDefend(enemyRobots[0].get()->getPos());
+        stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
+        stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
 
-            if (stpInfos.find(defenderName) != stpInfos.end()) {
-                stpInfos[defenderName].setPositionToMoveTo(defensivePositions[defenderIndex]);
-            }
-        }
+        stpInfos["defender_1"].setPositionToDefend(enemyRobots[1].get()->getPos());
+        stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
+        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
 
-        /// Midfielders
+        stpInfos["defender_2"].setPositionToDefend(enemyRobots[2].get()->getPos());
+        stpInfos["defender_2"].setEnemyRobot(enemyRobots[2]);
+        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+
+//        for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
+//            std::string defenderName = "defender_" + std::to_string(defenderIndex + 1);
+//
+//            stpInfos[defenderName].setPositionToDefend(enemyRobots[defenderIndex].get()->getPos());
+//            stpInfos[defenderName].setEnemyRobot(enemyRobots[defenderIndex]);
+//            stpInfos[defenderName].setBlockDistance(BlockDistance::HALFWAY);
+//        }
+
+        /// Wallers that will block the line from the ball to the goal
+        stpInfos["waller_0"].setPositionToMoveTo(pos::getWallPosition(0, 2, field, world));
+        stpInfos["waller_1"].setPositionToMoveTo(pos::getWallPosition(1, 2, field, world));
+
+        /// Slightly aggressive midfielders
         stpInfos["midfielder_1"].setPositionToMoveTo(
                 PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),
-                                                  gen::gridMidFieldBot, gen::SafePosition, field, world));
+                                                  gen::gridMidFieldBot, gen::OffensivePosition, field, world));
         stpInfos["midfielder_2"].setPositionToMoveTo(
                 PositionComputations::getPosition(stpInfos["midfielder_2"].getPositionToMoveTo(),
-                                                  gen::gridMidFieldTop, gen::SafePosition, field, world));
+                                                  gen::gridMidFieldTop, gen::OffensivePosition, field, world));
     }
 
-    std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders, world::World *world,
+    std::vector<Vector2> AttackingPass::calculateDefensivePositions(int numberOfDefenders,
                                                                     std::vector<world::view::RobotView> enemyRobots) {
         std::vector<Vector2> positions = {};
+        positions.reserve(numberOfDefenders);
 
-        // 3 robots will defend goal
         for (int i = 0; i < numberOfDefenders; i++) {
-            if (i < 3) {
-                positions.push_back(world->getField()->getOurGoalCenter());
-            } else {
-                positions.push_back(enemyRobots[i].get()->getPos());
-            }
+            positions.push_back(enemyRobots[i].get()->getPos());
         }
         return positions;
     }

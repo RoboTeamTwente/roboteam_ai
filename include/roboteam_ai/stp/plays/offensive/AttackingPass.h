@@ -55,7 +55,7 @@ class AttackingPass : public Play {
      * @param enemyRobots
      * @return A vector of defend positions
      */
-    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots);
+    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, std::vector<world::view::RobotView> enemyRobots);
 
     /**
      * Gets the play name
