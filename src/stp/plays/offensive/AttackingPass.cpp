@@ -33,13 +33,13 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::Passer>(role::Passer("passer")),
                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
+                std::make_unique<role::Formation>(role::Formation("midfielder_0")),
                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
                 std::make_unique<role::Formation>(role::Formation("waller_0")),
                 std::make_unique<role::Formation>(role::Formation("waller_1")),
                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                std::make_unique<role::Defender>(role::Defender("defender_1")),
-                std::make_unique<role::Defender>(role::Defender("defender_2"))};
+                std::make_unique<role::Defender>(role::Defender("defender_1"))};
 
         // initialize stpInfos
         stpInfos = std::unordered_map<std::string, StpInfo>{};
@@ -70,13 +70,13 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {passerFlag}}});
         flagMap.insert({"receiver_left", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
         flagMap.insert({"receiver_right", {DealerFlagPriority::HIGH_PRIORITY, {receiverFlag}}});
-        flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"midfielder_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"midfielder_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"midfielder_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
         flagMap.insert({"waller_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
         flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"defender_0", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"defender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"defender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
+        flagMap.insert({"defender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
         return flagMap;
     }
@@ -105,37 +105,25 @@ namespace rtt::ai::stp::play {
         calculateInfoForPass(ball);
 
         /// Defenders
-        // Find 3 enemy robots to defend
-        // You know you have n defenders, because the play assigned it that way
         auto enemyRobots = world->getWorld()->getThem();
-        //const int numberOfDefenders = 3;
-        //auto defensivePositions = calculateDefensivePositions(numberOfDefenders, enemyRobots);
 
-        stpInfos["defender_0"].setPositionToDefend(enemyRobots[0].get()->getPos());
+        stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
         stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
+        //(stpInfos.find("defender_0")->second.getRobot()->get()->getPos()-enemyRobots[0].get()->getPos()).length()/2
 
-        stpInfos["defender_1"].setPositionToDefend(enemyRobots[1].get()->getPos());
+        stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
         stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
         stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
-
-        stpInfos["defender_2"].setPositionToDefend(enemyRobots[2].get()->getPos());
-        stpInfos["defender_2"].setEnemyRobot(enemyRobots[2]);
-        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
-
-//        for (int defenderIndex = 0; defenderIndex < numberOfDefenders; defenderIndex++) {
-//            std::string defenderName = "defender_" + std::to_string(defenderIndex + 1);
-//
-//            stpInfos[defenderName].setPositionToDefend(enemyRobots[defenderIndex].get()->getPos());
-//            stpInfos[defenderName].setEnemyRobot(enemyRobots[defenderIndex]);
-//            stpInfos[defenderName].setBlockDistance(BlockDistance::HALFWAY);
-//        }
 
         /// Wallers that will block the line from the ball to the goal
         stpInfos["waller_0"].setPositionToMoveTo(pos::getWallPosition(0, 2, field, world));
         stpInfos["waller_1"].setPositionToMoveTo(pos::getWallPosition(1, 2, field, world));
 
         /// Slightly aggressive midfielders
+        stpInfos["midfielder_0"].setPositionToMoveTo(
+                PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(),
+                                                  gen::gridMidFieldMid, gen::OffensivePosition, field, world));
         stpInfos["midfielder_1"].setPositionToMoveTo(
                 PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),
                                                   gen::gridMidFieldBot, gen::OffensivePosition, field, world));
