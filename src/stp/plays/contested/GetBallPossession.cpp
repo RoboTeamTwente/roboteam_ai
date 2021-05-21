@@ -16,13 +16,13 @@ namespace rtt::ai::stp::play {
 GetBallPossession::GetBallPossession() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
-//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallOnOurSide);
-//    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
