@@ -25,7 +25,8 @@ namespace rtt::ai::stp::play {
 
         keepPlayEvaluation.clear();
         keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-        keepPlayEvaluation.emplace_back(GlobalEvaluation::BallOnOurSide);
+        keepPlayEvaluation.emplace_back(GlobalEvaluation::NoGoalVisionFromBall);
+        keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
 
         roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
