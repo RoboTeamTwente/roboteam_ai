@@ -99,7 +99,8 @@ namespace rtt::ai::stp::play {
 //        calculateInfoForScoredRoles(world);
         /// Keeper
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
-        stpInfos["keeper"].setPositionToShootAt(Vector2());
+        stpInfos["keeper"].setPositionToShootAt(
+                world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
 
         /// Passer and receivers
         // calculate all info necessary to execute a pass
