@@ -86,7 +86,6 @@ void ApplicationManager::start() {
 
     t.loop(
         [&]() {
-
             std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
             std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
