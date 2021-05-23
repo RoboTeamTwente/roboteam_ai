@@ -1,5 +1,7 @@
 #include "ApplicationManager.h"
 
+#include <chrono>
+
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 
@@ -79,12 +81,19 @@ void ApplicationManager::start() {
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
+
+
+
     t.loop(
         [&]() {
-            auto start = std::clock();
-            runOneLoopCycle();
 
-            RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
+            std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
+            runOneLoopCycle();
+            std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
+
+            int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+
+            RTT_WARNING("Time : ", loopcycleDuration, " ms")
             RTT_WARNING("Time allowed: 16 ms")
 
             amountOfCycles++;
@@ -138,14 +147,14 @@ void ApplicationManager::runOneLoopCycle() {
                 RTT_WARNING("No robots found in world. STP is not running")
                 robotsInitialized = false;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     } else {
         if (fieldInitialized) {
             RTT_WARNING("No field data present!")
             fieldInitialized = false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     rtt::ai::control::ControlModule::sendAllCommands();
     io::io.handleCentralServerConnection();
