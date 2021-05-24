@@ -19,7 +19,7 @@
 #include "stp/plays/defensive/DefendPass.h"
 //#include "stp/plays/defensive/DefendShot.h"
 #include "stp/plays/referee_specific/DefensiveStopFormation.h"
-//#include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/referee_specific/FreeKickThem.h"
 #include "stp/plays/offensive/GenericPass.h"
 #include "stp/plays/contested/GetBallPossession.h"
 #include "stp/plays/contested/GetBallRisky.h"
@@ -68,7 +68,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
