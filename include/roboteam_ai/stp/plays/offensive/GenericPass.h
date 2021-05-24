@@ -40,18 +40,18 @@ class GenericPass : public Play {
     void calculateInfoForRoles() noexcept override;
 
     /**
+     * Calculate info for the roles that need to be calculated for scoring
+     */
+    void calculateInfoForScoredRoles(world::World*) noexcept override {};
+
+    /**
      * Gets the play name
      */
     const char* getName() override;
 
-    [[nodiscard]] bool isValidPlayToKeep(world::World* world) noexcept override;
+    [[nodiscard]] bool isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept override;
 
    protected:
-    /**
-     * Checks whether this role should skip the end tactic in its state machine
-     * @return whether to skip the end tactic
-     */
-    bool shouldRoleSkipEndTactic() override;
 
     /**
      * Calculates the pass location
@@ -81,7 +81,7 @@ class GenericPass : public Play {
      * Called every time the .initialize() is called on a play,
      * runs exactly once at the start of this play when this play is picked to be executed
      */
-    void onInitialize() noexcept override;
+    void onInitialize() noexcept;
 
     /**
      * Position that the passer will pass to
@@ -97,8 +97,8 @@ class GenericPass : public Play {
      * Two receive locations with their scores.
      * The passer will shoot to the highest scoring position
      */
-    computations::PositionComputations::PositionEvaluation receiverPositionLeft{};
-    computations::PositionComputations::PositionEvaluation receiverPositionRight{};
+    gen::ScoredPosition receiverPositionLeft{};
+    gen::ScoredPosition receiverPositionRight{};
 
     /**
      * The two grids that are used to calculate pass locations within it.
