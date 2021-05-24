@@ -17,7 +17,7 @@
 #include "stp/plays/referee_specific/BallPlacementThem.h"
 #include "stp/plays/referee_specific/BallPlacementUs.h"
 #include "stp/plays/defensive/DefendPass.h"
-//#include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/defensive/DefendShot.h"
 #include "stp/plays/referee_specific/DefensiveStopFormation.h"
 #include "stp/plays/referee_specific/FreeKickThem.h"
 #include "stp/plays/offensive/GenericPass.h"
@@ -55,7 +55,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
