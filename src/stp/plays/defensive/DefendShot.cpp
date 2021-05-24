@@ -25,9 +25,9 @@ namespace rtt::ai::stp::play {
                 std::make_unique<role::Keeper>(role::Keeper("keeper")),
                 std::make_unique<role::Defender>(role::Defender("defender_1")),
                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                std::make_unique<role::Defender>(role::Defender("defender_3")),
-                std::make_unique<role::Defender>(role::Defender("defender_4")),
-                std::make_unique<role::Defender>(role::Defender("defender_5")),
+                std::make_unique<role::Formation>(role::Formation("waller_1")),
+                std::make_unique<role::Formation>(role::Formation("waller_2")),
+                std::make_unique<role::Formation>(role::Formation("waller_3")),
                 std::make_unique<role::Harasser>(role::Harasser("harasser")),
                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
@@ -40,22 +40,23 @@ namespace rtt::ai::stp::play {
     Dealer::FlagMap DefendShot::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
 
+        Dealer::DealerFlag closestToBallFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
+        Dealer::DealerFlag closeToBallFlag1(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::MEDIUM_PRIORITY);
         Dealer::DealerFlag closeToOurGoalFlag(DealerFlagTitle::CLOSE_TO_OUR_GOAL, DealerFlagPriority::HIGH_PRIORITY);
         Dealer::DealerFlag closeToTheirGoalFlag(DealerFlagTitle::CLOSE_TO_THEIR_GOAL, DealerFlagPriority::LOW_PRIORITY);
-        Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
 
         flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"harasser", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
-        flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-        flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-        flagMap.insert({"defender_3", {DealerFlagPriority::HIGH_PRIORITY, {closeToOurGoalFlag}}});
-        flagMap.insert({"defender_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-        flagMap.insert({"defender_5", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-        flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-        flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-        flagMap.insert({"offender_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
-        flagMap.insert({"offender_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToTheirGoalFlag}}});
+        flagMap.insert({"harasser", {DealerFlagPriority::REQUIRED, {closestToBallFlag}}});
+        flagMap.insert({"defender_1", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag}}});
+        flagMap.insert({"defender_2", {DealerFlagPriority::HIGH_PRIORITY, {closeToBallFlag1}}});
+        flagMap.insert({"waller_1", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+        flagMap.insert({"waller_2", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+        flagMap.insert({"waller_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
+        flagMap.insert({"midfielder_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"midfielder_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {closeToTheirGoalFlag}}});
+        flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {closeToTheirGoalFlag}}});
 
         return flagMap;
     }
@@ -70,77 +71,37 @@ namespace rtt::ai::stp::play {
 
 // TODO-Max move to Tactics
     void DefendShot::calculateInfoForDefenders() noexcept {
-        /// Defenders
+        /// Defending positions
         auto enemyRobots = world->getWorld()->getThem();
 
-        stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
-        stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
-        stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
+        if (enemyRobots.empty()) {
+            RTT_ERROR("There are no enemy robots, which are necessary for the defenders in this play!")
+            return;
+        }
 
-        stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
-        stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
-        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+        auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
 
-        stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
-        stpInfos["defender_2"].setEnemyRobot(enemyRobots[2]);
+        enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
+                                         [&](const auto enemyRobot) -> bool {
+                                             return enemyAttacker && enemyRobot->getId() ==
+                                                                     enemyAttacker.value()->getId();
+                                         }));
+
+        auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
+
+        stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+        stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
+        stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
+
+        stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
+        stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
         stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
 
-        stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
-        stpInfos["defender_3"].setEnemyRobot(enemyRobots[3]);
-        stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
+        stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));
+        stpInfos["waller_3"].setPositionToMoveTo(PositionComputations::getWallPosition(2, 3, field, world));
 
-        stpInfos["defender_4"].setPositionToDefend(field.getOurBottomGoalSide());
-        stpInfos["defender_4"].setEnemyRobot(enemyRobots[4]);
-        stpInfos["defender_4"].setBlockDistance(BlockDistance::HALFWAY);
-
-        stpInfos["defender_5"].setPositionToDefend(field.getOurBottomGoalSide());
-        stpInfos["defender_5"].setEnemyRobot(enemyRobots[5]);
-        stpInfos["defender_5"].setBlockDistance(BlockDistance::HALFWAY);
-
-//        auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
-//
-//        if (enemyRobots.empty()) {
-//            RTT_ERROR("There are no enemy robots, which are necessary for this play!")
-//            return;
-//        }
-//
-//        enemyRobots.erase(std::remove_if(enemyRobots.begin(), enemyRobots.end(),
-//                                         [&](const auto enemyRobot) -> bool {
-//                                             return enemyAttacker && enemyRobot->getId() ==
-//                                                                     enemyAttacker.value()->getId();
-//                                         }));
-//
-//        auto enemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), enemyRobots);
-//
-//        auto secondEnemyClosestToGoal = world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(),
-//                                                                                  enemyRobots);
-//
-//        stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-//        stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
-//        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
-//
-//        stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
-//        stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
-//        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
-//
-//        if (enemyClosestToGoal)
-//            stpInfos["defender_3"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
-//        else
-//            stpInfos["defender_3"].setPositionToDefend(std::nullopt);
-//        stpInfos["defender_3"].setEnemyRobot(enemyAttacker);
-//        stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
-//
-//        stpInfos["defender_4"].setPositionToDefend(field.getOurGoalCenter());
-//        stpInfos["defender_4"].setEnemyRobot(secondEnemyClosestToGoal);
-//        stpInfos["defender_4"].setBlockDistance(BlockDistance::HALFWAY);
-//
-//        if (enemyClosestToGoal)
-//            stpInfos["defender_5"].setPositionToDefend(secondEnemyClosestToGoal.value()->getPos());
-//        else
-//            stpInfos["defender_5"].setPositionToDefend(std::nullopt);
-//        stpInfos["defender_5"].setEnemyRobot(enemyAttacker);
-//        stpInfos["defender_5"].setBlockDistance(BlockDistance::HALFWAY);
-
+        ///Intercepting ball
         // When the ball moves, one defender tries to intercept the ball
         auto closestBotUs = world->getWorld()->getRobotClosestToBall(world::us);
         auto closestBotThem = world->getWorld()->getRobotClosestToBall(world::them);
@@ -172,13 +133,9 @@ namespace rtt::ai::stp::play {
     }
 
     void DefendShot::calculateInfoForMidfielders() noexcept {
-        auto ballPos = world->getWorld()->getBall().value()->getPos();
-
-        stpInfos["midfielder_1"].setAngle((ballPos - stpInfos["midfielder_1"].getRobot()->get()->getPos()).angle());
         stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(
                 stpInfos["midfielder_1"].getPositionToMoveTo(), gen::gridMidFieldBot, gen::SafePosition, field, world));
 
-        stpInfos["midfielder_2"].setAngle((ballPos - stpInfos["midfielder_2"].getRobot()->get()->getPos()).angle());
         stpInfos["midfielder_2"].setPositionToMoveTo(PositionComputations::getPosition(
                 stpInfos["midfielder_2"].getPositionToMoveTo(), gen::gridMidFieldTop, gen::SafePosition, field, world));
     }
