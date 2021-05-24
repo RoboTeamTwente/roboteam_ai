@@ -109,17 +109,17 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/PlayEvaluator.cpp
         # /
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
         # defensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
         # offensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
+#        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
         # referee_specific/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
@@ -133,7 +133,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThemPrepare.cpp
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
         )

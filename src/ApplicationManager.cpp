@@ -11,28 +11,28 @@
 /**
  * Plays are included here
  */
-#include "include/roboteam_ai/stp/plays/referee_specific/AggressiveStopFormation.h"
-#include "include/roboteam_ai/stp/plays/offensive/Attack.h"
-#include "include/roboteam_ai/stp/plays/offensive/AttackingPass.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementThem.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementUs.h"
-#include "include/roboteam_ai/stp/plays/defensive/DefendPass.h"
-//#include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
-#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
-#include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
-//#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThemPrepare.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThemPrepare.h"
-//#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUs.h"
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUsPrepare.h"
-//#include "stp/plays/ReflectKick.h"
+#include "stp/plays/referee_specific/AggressiveStopFormation.h"
+#include "stp/plays/offensive/Attack.h"
+#include "stp/plays/offensive/AttackingPass.h"
+#include "stp/plays/referee_specific/BallPlacementThem.h"
+#include "stp/plays/referee_specific/BallPlacementUs.h"
+#include "stp/plays/defensive/DefendPass.h"
+//#include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/referee_specific/DefensiveStopFormation.h"
+//#include "stp/plays/referee_specific/FreeKickThem.h"
+//#include "stp/plays/offensive/GenericPass.h"
+#include "stp/plays/contested/GetBallPossession.h"
+#include "stp/plays/contested/GetBallRisky.h"
+#include "stp/plays/referee_specific/Halt.h"
+#include "stp/plays/referee_specific/KickOffThem.h"
+#include "stp/plays/referee_specific/KickOffThemPrepare.h"
+#include "stp/plays/referee_specific/KickOffUs.h"
+#include "stp/plays/referee_specific/KickOffUsPrepare.h"
+#include "stp/plays/referee_specific/PenaltyThem.h"
+#include "stp/plays/referee_specific/PenaltyThemPrepare.h"
+#include "/stp/plays/referee_specific/PenaltyUs.h"
+#include "stp/plays/referee_specific/PenaltyUsPrepare.h"
+#include "stp/plays/ReflectKick.h"
 //#include "stp/plays/TestPlay.h"
 
 namespace io = rtt::ai::io;
@@ -65,16 +65,16 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThemPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyThem>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
 //    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
-    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallRisky>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::ReflectKick>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::GenericPass>());
     playChecker.setPlays(plays);
 
     int amountOfCycles = 0;

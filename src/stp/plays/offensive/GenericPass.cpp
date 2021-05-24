@@ -6,6 +6,11 @@
 #include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
 
 #include <roboteam_utils/Tube.h>
+
+#include "stp/invariants/BallClosestToUsGlobalEvaluation.h"
+#include "stp/invariants/BallOnOurSideGlobalEvaluation.h"
+#include "stp/invariants/FreedomOfRobotsGlobalEvaluation.h"
+#include "stp/invariants/game_states/NormalPlayGameStateEvaluation.h"
 #include "include/roboteam_ai/stp/roles/passive/Formation.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
@@ -50,7 +55,7 @@ GenericPass::GenericPass() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_7"))};
 }
 
-uint8_t GenericPass::score(PlayEvaluator &playEvaluator) noexcept { return 130; }
+uint8_t GenericPass::score(world::World* world) noexcept { return 130; }
 
 void GenericPass::calculateInfoForRoles() noexcept {
     auto ball = world->getWorld()->getBall()->get();
@@ -81,7 +86,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
 
 Dealer::FlagMap GenericPass::decideRoleFlags() const noexcept {
     Dealer::FlagMap flagMap;
-
+    Dealer::DealerFlag keeperFlag(DealerFlagTitle::KEEPER, DealerFlagPriority::UNIQUE);
     Dealer::DealerFlag notImportant(DealerFlagTitle::NOT_IMPORTANT, DealerFlagPriority::LOW_PRIORITY);
     Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
     Dealer::DealerFlag receiverFlag(DealerFlagTitle::WITH_WORKING_DRIBBLER, DealerFlagPriority::REQUIRED);

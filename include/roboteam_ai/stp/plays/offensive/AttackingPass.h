@@ -55,7 +55,7 @@ class AttackingPass : public Play {
      * @param enemyRobots
      * @return A vector of defend positions
      */
-    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, world::World* world, std::vector<world::view::RobotView> enemyRobots);
+    std::vector<Vector2> calculateDefensivePositions(int numberOfDefenders, std::vector<world::view::RobotView> enemyRobots);
 
     /**
      * Gets the play name
@@ -68,7 +68,9 @@ class AttackingPass : public Play {
      * Receivers will get positions to receive at, of which one will actually intercept the ball once it is close enough
      * @param ball
      */
-    //NEW PLAY -> void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
+    void calculateInfoForPass(const world::ball::Ball* ball) noexcept;
+
+    bool isValidPlayToStart(PlayEvaluator *playEvaluator) noexcept;
 
    private:
     /**
@@ -80,16 +82,12 @@ class AttackingPass : public Play {
     [[nodiscard]] bool passFinished() noexcept;
 
     /**
-     * Position that the passer will pass to
-     */
-    Vector2 passingPosition;
-
-    /**
      * Did the passer shoot or not
      */
     bool passerShot{false};
 
     void storePlayInfo(gen::PlayInfos& info) noexcept override;
+
 };
 }  // namespace rtt::ai::stp::play
 

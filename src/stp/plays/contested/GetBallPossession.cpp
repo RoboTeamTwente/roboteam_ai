@@ -16,13 +16,13 @@ namespace rtt::ai::stp::play {
 GetBallPossession::GetBallPossession() : Play() {
     startPlayEvaluation.clear();
     startPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
-//    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+    startPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
     keepPlayEvaluation.clear();
     keepPlayEvaluation.emplace_back(GlobalEvaluation::NormalPlayGameState);
-    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallOnOurSide);
-//    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallIsFree);
+    keepPlayEvaluation.emplace_back(GlobalEvaluation::BallClosestToUs);
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
                                                                                  std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
@@ -46,7 +46,6 @@ GetBallPossession::GetBallPossession() : Play() {
 }
 
 uint8_t GetBallPossession::score(PlayEvaluator& playEvaluator) noexcept {
-    calculateInfoForScoredRoles(playEvaluator.getWorld());
     scoring = {{playEvaluator.getGlobalEvaluation(GlobalEvaluation::BallCloseToUs),1.0}};
                //std::make_pair(playEvaluator->getGlobalEvaluation(GlobalEvaluation::BallIsFree), 1)};
                //std::make_pair(stpInfos["ball_getter"].getRoleScore().value(),1)};
@@ -61,6 +60,8 @@ void GetBallPossession::calculateInfoForScoredRoles(world::World* world) noexcep
 }
 
 void GetBallPossession::calculateInfoForRoles() noexcept {
+    calculateInfoForScoredRoles(world);
+
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     //If keeper has ball, shoot at one of our robots thats closest to our goal
     stpInfos["keeper"].setPositionToShootAt(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
