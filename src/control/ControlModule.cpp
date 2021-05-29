@@ -12,9 +12,6 @@
 
 namespace rtt::ai::control {
 
-
-    std::vector<proto::RobotCommand> ControlModule::robotCommands;
-
     void ControlModule::rotateRobotCommand(proto::RobotCommand& command){
         command.mutable_vel()->set_x(-command.vel().x());
         command.mutable_vel()->set_y(-command.vel().y());
@@ -74,6 +71,8 @@ namespace rtt::ai::control {
             limitRobotCommand(robot_command, robot);
 
         // Only add commands with a robotID that is not in the vector yet
+        // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
+        std::lock_guard<std::mutex> guard(robotCommandsMutex);
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
         }
@@ -81,6 +80,9 @@ namespace rtt::ai::control {
 
     void ControlModule::sendAllCommands() {
           //TODO: check for double commands
+
+          // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
+          std::lock_guard<std::mutex> guard(robotCommandsMutex);
           io::io.publishAllRobotCommands(robotCommands); // When vector has all commands, send in one go
           robotCommands.clear();
     }
