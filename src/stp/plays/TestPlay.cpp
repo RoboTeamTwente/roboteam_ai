@@ -16,10 +16,17 @@ TestPlay::TestPlay() : Play() {
     // keepPlayInvariants.emplace_back();
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<TestRole>(TestRole("test_role_0")), std::make_unique<TestRole>(TestRole("test_role_1")), std::make_unique<TestRole>(TestRole("test_role_2")),
-        std::make_unique<TestRole>(TestRole("test_role_3")), std::make_unique<TestRole>(TestRole("test_role_4")), std::make_unique<TestRole>(TestRole("test_role_5")),
-        std::make_unique<TestRole>(TestRole("test_role_6")), std::make_unique<TestRole>(TestRole("test_role_7")), std::make_unique<TestRole>(TestRole("test_role_8")),
-        std::make_unique<TestRole>(TestRole("test_role_9")), std::make_unique<TestRole>(TestRole("test_role_10"))};
+        std::make_unique<TestRole>(TestRole("test_role_0")),
+        std::make_unique<TestRole>(TestRole("test_role_1")),
+        std::make_unique<TestRole>(TestRole("test_role_2")),
+        std::make_unique<TestRole>(TestRole("test_role_3")),
+        std::make_unique<TestRole>(TestRole("test_role_4")),
+        std::make_unique<TestRole>(TestRole("test_role_5")),
+        std::make_unique<TestRole>(TestRole("test_role_6")),
+        std::make_unique<TestRole>(TestRole("test_role_7")),
+        std::make_unique<TestRole>(TestRole("test_role_8")),
+        std::make_unique<TestRole>(TestRole("test_role_9")),
+        std::make_unique<TestRole>(TestRole("test_role_10"))};
 }
 
 uint8_t TestPlay::score(world::World *world) noexcept { return 0; }

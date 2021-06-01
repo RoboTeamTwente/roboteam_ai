@@ -25,7 +25,7 @@ class JoystickManager {
     void stop();
 
    private:
-    const int TICK_INTERVAL = 20;
+    const int TICK_INTERVAL = 10;
     std::map<int, JoystickHandler *> joystickHandlers;
 
     std::mutex runningLock;
