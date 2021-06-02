@@ -133,8 +133,7 @@ namespace rtt::ai::stp {
     std::vector<Vector2>
     PositionComputations::determineWallPositions(const rtt::world::Field &field, rtt::world::World *world,
                                                  int amountDefenders) {
-        auto w = world->getWorld().value();
-        Vector2 ballPos = FieldComputations::placePointInField(field, w.getBall()->get()->getPos());
+        Vector2 ballPos = FieldComputations::placePointInField(field, world->getWorld().value().getBall()->get()->getPos());
         double radius = control_constants::ROBOT_RADIUS;
         double spacingRobots = radius * 2;
 
@@ -147,9 +146,8 @@ namespace rtt::ai::stp {
                                                                                        radius +
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
-
+        LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
         for (auto &i : defenseAreaBorder) {
-            LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
             for (const LineSegment &line : defenseAreaBorder) { // Vector is made to check if there is only 1 intersect
                 if (line.doesIntersect(ball2GoalLine)) {
                     auto intersect = line.intersects(ball2GoalLine);
@@ -166,7 +164,8 @@ namespace rtt::ai::stp {
             if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5,
                                                         1) ||
                 !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
-                auto posX = field.getOurGoalCenter().x < 0 ? -4.3 : 4.3;
+                double wallPosX = 0.4*field.getFieldLength() - 0.05*field.getFieldLength(); //No fk clue m8
+                auto posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
                 for (int i = 0; i < amountDefenders; i++) {
                     positions.emplace_back(
                             Vector2{posX, field.getBottomLeftOurDefenceArea().y +

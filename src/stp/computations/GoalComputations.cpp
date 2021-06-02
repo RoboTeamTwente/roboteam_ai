@@ -61,8 +61,8 @@ namespace rtt::ai::stp::computations {
         return LineSegment(leftPoint, rightPoint);
     }
 
-    LineSegment &GoalComputations::getLongestSegment(std::vector<LineSegment> &openSegments) {
-        return *std::max_element(openSegments.begin(), openSegments.end(), [](LineSegment &left, LineSegment &right) {
+    const LineSegment &GoalComputations::getLongestSegment(const std::vector<LineSegment> &openSegments) {
+        return *std::max_element(openSegments.begin(), openSegments.end(), [](const LineSegment &left,const LineSegment &right) {
             return fabs(left.start.y - left.end.y) < fabs(right.start.y - right.end.y);
         });
     }
