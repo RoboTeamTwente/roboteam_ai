@@ -8,7 +8,7 @@
 
 namespace rtt::ai::stp::evaluation {
 
-uint8_t FreeKickUsGameStateEvaluation::metricCheck(world::view::WorldDataView, const world::Field *) const noexcept {
+uint8_t FreeKickUsGameStateEvaluation::metricCheck(const world::World*, const world::Field *) const noexcept {
     return GameStateManager::getCurrentGameState().getStrategyName() == "free_kick_us" ? stp::control_constants::FUZZY_TRUE : stp::control_constants::FUZZY_FALSE;
 }
 }  // namespace rtt::ai::stp::evaluation

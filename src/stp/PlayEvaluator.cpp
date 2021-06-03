@@ -45,72 +45,71 @@ namespace rtt::ai::stp{
     }
 
     uint8_t PlayEvaluator::updateGlobalEvaluation(GlobalEvaluation& evaluation) {
-        auto _world = world->getWorld().value();
         switch (evaluation) {
             case GlobalEvaluation::BallPlacementThemGameState:
-                return evaluation::BallPlacementThemGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::BallPlacementThemGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallPlacementUsGameState:
-                return evaluation::BallPlacementUsGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::BallPlacementUsGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::FreeKickThemGameState:
-                return evaluation::FreeKickThemGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::FreeKickThemGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::FreeKickUsGameState:
-                return evaluation::FreeKickUsGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::FreeKickUsGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::HaltGameState:
-                return evaluation::HaltGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::HaltGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::TimeOutGameState:
-                return evaluation::TimeOutGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::TimeOutGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::KickOffThemGameState:
-                return evaluation::KickOffThemGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::KickOffThemGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::KickOffThemPrepareGameState:
-                return evaluation::KickOffThemPrepareGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::KickOffThemPrepareGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::KickOffUsGameState:
-                return evaluation::KickOffUsGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::KickOffUsGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::KickOffUsPrepareGameState:
-                return evaluation::KickOffUsPrepareGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::KickOffUsPrepareGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::NormalOrFreeKickUsGameState:
-                return evaluation::NormalOrFreeKickUsGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::NormalOrFreeKickUsGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::NormalPlayGameState:
-                return evaluation::NormalPlayGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::NormalPlayGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::PenaltyThemGameState:
-                return evaluation::PenaltyThemGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::PenaltyThemGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::PenaltyThemPrepareGameState:
-                return evaluation::PenaltyThemPrepareGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::PenaltyThemPrepareGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::PenaltyUsGameState:
-                return evaluation::PenaltyUsGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::PenaltyUsGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::PenaltyUsPrepareGameState:
-                return evaluation::PenaltyUsPrepareGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::PenaltyUsPrepareGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::StopGameState:
-                return evaluation::StopGameStateEvaluation().metricCheck(_world, &field);
+                return evaluation::StopGameStateEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallCloseToThem:
-                return evaluation::BallCloseToThemGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallCloseToThemGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallCloseToUs:
-                return evaluation::BallCloseToUsGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallCloseToUsGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallClosestToUs:
-                return evaluation::BallClosestToUsGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallClosestToUsGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallGotShot:
-                return evaluation::BallGotShotGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallGotShotGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallIsFree:
-                return evaluation::BallIsFreeGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallIsFreeGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallMovesSlow:
-                return evaluation::BallMovesSlowGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallMovesSlowGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallOnOurSide:
-                return evaluation::BallOnOurSideGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallOnOurSideGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::BallOnTheirSide:
-                return evaluation::BallOnTheirSideGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::BallOnTheirSideGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::DistanceFromBall:
-                return evaluation::DistanceFromBallGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::DistanceFromBallGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::FreedomOfRobots:
-                return evaluation::FreedomOfRobotsGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::FreedomOfRobotsGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::GoalVisionFromBall:
-                return evaluation::GoalVisionFromBallGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::GoalVisionFromBallGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::GoalVision:
-                return evaluation::GoalVisionGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::GoalVisionGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::NoGoalVisionFromBall:
-                return evaluation::NoGoalVisionFromBallGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::NoGoalVisionFromBallGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::WeHaveBall:
-                return evaluation::WeHaveBallGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::WeHaveBallGlobalEvaluation().metricCheck(world, &field);
             case GlobalEvaluation::WeHaveMajority:
-                return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(_world, &field);
+                return evaluation::WeHaveMajorityGlobalEvaluation().metricCheck(world, &field);
             default:
                 RTT_WARNING("Unhandled ScoreEvaluation!");
                 return 0;
@@ -118,8 +117,8 @@ namespace rtt::ai::stp{
     }
 
     void PlayEvaluator::update(world::World* _world) noexcept {
-        this->world = _world;
-        this->field = _world->getField().value();
+        world = _world;
+        field = _world->getField().value();
     }
 
     world::World* PlayEvaluator::getWorld() noexcept { return world; }

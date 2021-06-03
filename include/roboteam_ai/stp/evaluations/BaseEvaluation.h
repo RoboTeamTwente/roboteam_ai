@@ -16,7 +16,7 @@ class BaseEvaluation {
      * @param field the field
      * @return the 'true-ness' of this invariant during this tick
      */
-    [[nodiscard]] virtual uint8_t metricCheck(world::view::WorldDataView world, const world::Field *field) const noexcept = 0;
+    [[nodiscard]] virtual uint8_t metricCheck(const world::World* world, const world::Field *field) const noexcept = 0;
 
     /**
      * dtor

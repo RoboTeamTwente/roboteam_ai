@@ -31,7 +31,7 @@ double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool 
     return angleLeft.shortestAngleDiff(angleRight);
 }
 
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView &world, int id,
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView world, int id,
                                                                 bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;

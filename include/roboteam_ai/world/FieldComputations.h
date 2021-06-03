@@ -79,7 +79,7 @@ class FieldComputations {
      * blockades).
      * @return The percentage of the goal visible, which is a double value between 0.0 and 100.0 including both 0.0 and 100.0.
      */
-    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt_world::view::WorldDataView &world, int id = -1,
+    static double getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt_world::view::WorldDataView world, int id = -1,
                                                       bool ourTeam = false);
 
     /**
