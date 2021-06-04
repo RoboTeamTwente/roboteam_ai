@@ -50,7 +50,7 @@ namespace rtt::ai::stp {
          * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineGoalShotScore(Vector2 &point, const world::Field &field, world::World *world, gen::PositionScores &scores);
+        static double determineGoalShotScore(Vector2 &point, const world::Field &field, const world::World *world, gen::PositionScores &scores);
 
         /**
          * Determine score for blocking potential of a position

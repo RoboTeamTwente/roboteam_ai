@@ -98,10 +98,8 @@ namespace rtt::ai::stp {
     }
 
     double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field,
-                                                        rtt::world::World *world, gen::PositionScores &scores) {
-        //TODO remove the world copy and adjust getPercentageOfGoalVisibleFromPoint such that it takes a world pointer
-        auto w = world->getWorld().value();
-        double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, w) / 100;
+                                                        const rtt::world::World *world, gen::PositionScores &scores) {
+        double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world) / 100;
         double goalDistance = FieldComputations::getDistanceToGoal(field, false, point);
         double trialToGoalAngle = fabs((field.getTheirGoalCenter() - point).angle());
         return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility, goalDistance,

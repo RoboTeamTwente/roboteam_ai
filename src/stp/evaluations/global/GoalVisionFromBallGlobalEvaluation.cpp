@@ -33,7 +33,7 @@ uint8_t GoalVisionFromBallGlobalEvaluation::metricCheck(const world::World* worl
         FieldComputations::getPercentageOfGoalVisibleFromPoint(
             *field, false,
             world->getWorld()->getBall().value()->getPos(),
-            world->getWorld().value(),
+            world,
             -1, true));
 }
 
