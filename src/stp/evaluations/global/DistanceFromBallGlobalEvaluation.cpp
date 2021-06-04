@@ -25,9 +25,9 @@ DistanceFromBallGlobalEvaluation::DistanceFromBallGlobalEvaluation() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 4 + stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t DistanceFromBallGlobalEvaluation::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
-    auto& us = world.getUs();
-    auto ballPos = world.getBall()->get()->getPos();
+uint8_t DistanceFromBallGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
+    auto& us = world->getWorld()->getUs();
+    auto ballPos = world->getWorld()->getBall()->get()->getPos();
     std::vector<double> distances{};
     distances.reserve(control_constants::MAX_ROBOT_COUNT);
 

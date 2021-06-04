@@ -25,9 +25,8 @@ BallGotShotGlobalEvaluation::BallGotShotGlobalEvaluation() noexcept {
     piecewiseLinearFunction->setYAtX(255, stp::control_constants::BALL_GOT_SHOT_LIMIT - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t BallGotShotGlobalEvaluation::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
-    auto ballSpeed = world->getBall()->get()->getVelocity().length();
-    return calculateMetric(ballSpeed);
+uint8_t BallGotShotGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
+    return calculateMetric(world->getWorld()->getBall()->get()->getVelocity().length());
 }
 
 uint8_t BallGotShotGlobalEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }

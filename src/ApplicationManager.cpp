@@ -1,5 +1,7 @@
 #include "ApplicationManager.h"
 
+#include <chrono>
+
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
 #include <stp/plays/referee_specific/TimeOut.h>
@@ -17,9 +19,9 @@
 #include "stp/plays/referee_specific/BallPlacementThem.h"
 #include "stp/plays/referee_specific/BallPlacementUs.h"
 #include "stp/plays/defensive/DefendPass.h"
-//#include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/defensive/DefendShot.h"
 #include "stp/plays/referee_specific/DefensiveStopFormation.h"
-//#include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/referee_specific/FreeKickThem.h"
 #include "stp/plays/offensive/GenericPass.h"
 #include "stp/plays/contested/GetBallPossession.h"
 #include "stp/plays/contested/GetBallRisky.h"
@@ -50,12 +52,12 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    // plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AggressiveStopFormation>());
@@ -68,7 +70,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::PenaltyUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUsPrepare>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThemPrepare>());
-//    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::FreeKickThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffUs>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::KickOffThem>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::GetBallPossession>());
@@ -79,13 +81,19 @@ void ApplicationManager::start() {
 
     int amountOfCycles = 0;
     roboteam_utils::Timer t;
+
+
+
     t.loop(
         [&]() {
-            auto start = std::clock();
+            std::chrono::steady_clock::time_point tStart = std::chrono::steady_clock::now();
             runOneLoopCycle();
+            std::chrono::steady_clock::time_point tStop = std::chrono::steady_clock::now();
 
-            //RTT_WARNING("Time: ", (std::clock() - start) / (double)(CLOCKS_PER_SEC / 1000), " ms")
-            //RTT_WARNING("Time allowed: 16 ms")
+            int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
+
+            RTT_WARNING("Time : ", loopcycleDuration, " ms")
+            RTT_WARNING("Time allowed: 16 ms")
 
             amountOfCycles++;
 
@@ -129,8 +137,8 @@ void ApplicationManager::runOneLoopCycle() {
 
             world->updateField(fieldMessage);
             world->updatePositionControl();
-            //world->updateFeedback(feedbackMap);
 
+            //world->updateFeedback(feedbackMap);
             decidePlay(world);
 
         } else {
@@ -138,14 +146,14 @@ void ApplicationManager::runOneLoopCycle() {
                 RTT_WARNING("No robots found in world. STP is not running")
                 robotsInitialized = false;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     } else {
         if (fieldInitialized) {
             RTT_WARNING("No field data present!")
             fieldInitialized = false;
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     rtt::ai::control::ControlModule::sendAllCommands();
     io::io.handleCentralServerConnection();

@@ -27,9 +27,9 @@ BallCloseToUsGlobalEvaluation::BallCloseToUsGlobalEvaluation() noexcept {
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_FALSE, stp::control_constants::BALL_IS_CLOSE * 2 - stp::control_constants::FUZZY_MARGIN);
 }
 
-uint8_t BallCloseToUsGlobalEvaluation::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
-    auto& us = world.getUs();
-    auto ballPos = world.getBall()->get()->getPos();
+uint8_t BallCloseToUsGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
+    auto& us = world->getWorld()->getUs();
+    auto ballPos = world->getWorld()->getBall()->get()->getPos();
     std::vector<double> distances{};
 
     if (us.empty()) {

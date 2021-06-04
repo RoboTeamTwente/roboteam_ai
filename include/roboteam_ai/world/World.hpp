@@ -251,7 +251,8 @@ public:
      * The position controller, initially null
      */
     ai::control::PositionControl positionControl;
-};
+
+    };
 }  // namespace rtt::world
 
 #endif  // RTT_WORLD_HPP

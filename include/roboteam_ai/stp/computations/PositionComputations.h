@@ -31,7 +31,7 @@ namespace rtt::ai::stp {
          * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineOpenScore(Vector2 &point, world::World *world, gen::PositionScores &scores);
+        static double determineOpenScore(Vector2 &point, const world::World *world, gen::PositionScores &scores);
 
         /**
          * Determine score for the Line of Sight to the ball at given position
@@ -40,7 +40,7 @@ namespace rtt::ai::stp {
          * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineLineOfSightScore(Vector2 &point, world::World *world, gen::PositionScores &scores);
+        static double determineLineOfSightScore(Vector2 &point, const world::World *world, gen::PositionScores &scores);
 
         /**
          * Determine score for the Visibility of the goal at given position
@@ -50,7 +50,7 @@ namespace rtt::ai::stp {
          * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineGoalShotScore(Vector2 &point, const world::Field &field, world::World *world, gen::PositionScores &scores);
+        static double determineGoalShotScore(Vector2 &point, const world::Field &field, const world::World *world, gen::PositionScores &scores);
 
         /**
          * Determine score for blocking potential of a position
@@ -59,7 +59,7 @@ namespace rtt::ai::stp {
          * @param scores ref to struct linked to that pos
          * @return score value
          */
-        static double determineBlockingScore(Vector2 &point, world::World *world, gen::PositionScores &scores);
+        static double determineBlockingScore(Vector2 &point, const world::World *world, gen::PositionScores &scores);
 
         /**
          * Get score of a position, used in getPosition
@@ -71,7 +71,7 @@ namespace rtt::ai::stp {
          * @return Position with score
          */
         static gen::ScoredPosition scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field,
-                      world::World *world, uint8_t bias = 0);
+                      const world::World *world, uint8_t bias = 0);
 
 
     public:
@@ -86,8 +86,8 @@ namespace rtt::ai::stp {
          * @param field
          * @return score of position including the weights
          */
-        static uint8_t getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, world::World *world,
-                                          const world::Field &field);
+        static uint8_t getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores, const world::Field &field,
+                                          const world::World *world);
 
         /**
          * unordered map of calculated scores of this tick.
@@ -109,7 +109,7 @@ namespace rtt::ai::stp {
          * @param amountDefenders to be placed
          * @return vector with Vector2 positions for each of the defenders
          */
-        static std::vector<Vector2> determineWallPositions(const world::Field &field, world::World *world, int amountDefenders);
+        static std::vector<Vector2> determineWallPositions(const world::Field &field, const world::World *world, int amountDefenders);
 
         /**
          * Returns the best scored position from a grid with a profile

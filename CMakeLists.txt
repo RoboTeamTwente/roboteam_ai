@@ -55,6 +55,7 @@ set(SKILLS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Rotate.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/GoToPos.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/skills/Shoot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/skills/Orbit.cpp
         )
 
 set(TACTICS_SOURCES
@@ -115,7 +116,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
         # defensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
         # offensive/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
@@ -125,7 +126,7 @@ set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementUs.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/DefensiveStopFormation.cpp
-#        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/FreeKickThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/FreeKickThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/Halt.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffThem.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffThemPrepare.cpp
@@ -197,7 +198,12 @@ set(CONTROL_SOURCES
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathPlanning/PathPlanningAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/pathTracking/PathTrackingAlgorithm.cpp
         ${PROJECT_SOURCE_DIR}/src/control/positionControl/PositionControlUtils.cpp
-        )
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory1D.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/BBTrajectory2D.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp
+        ${PROJECT_SOURCE_DIR}/src/control/positionControl/BBTrajectories/WorldObjects.cpp)
 
 set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/main.cpp
@@ -217,7 +223,7 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayCheckerTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/PlayDeciderTests.cpp
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
-        )
+        test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp)
 
 
 set(INTERFACE_SOURCES
@@ -279,7 +285,7 @@ set(AI_SOURCES
         ${WORLD_SOURCES}
         ${MANUAL_SOURCES}
         ${COMPUTATION_SOURCES}
-        src/stp/evaluations/position/BlockingEvaluation.cpp include/roboteam_ai/stp/evaluations/position/BlockingEvaluation.h)
+        )
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets
@@ -306,5 +312,7 @@ target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
 add_executable(ai_tests ${TEST_SOURCES})
+
 target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
 target_include_directories(ai_tests ${AI_INCLUDES} test)
+

@@ -5,6 +5,8 @@
 #ifndef RTT_CONTROLMODULE_H
 #define RTT_CONTROLMODULE_H
 
+#include <mutex>
+
 #include <roboteam_proto/RobotCommand.pb.h>
 
 #include "stp/StpInfo.h"
@@ -24,7 +26,8 @@ namespace rtt::ai::control {
         /**
          *
          */
-         static std::vector<proto::RobotCommand> robotCommands;
+         static inline std::mutex robotCommandsMutex;
+         static inline std::vector<proto::RobotCommand> robotCommands;
 
         /**
          * Applies constraints to the internal robot command

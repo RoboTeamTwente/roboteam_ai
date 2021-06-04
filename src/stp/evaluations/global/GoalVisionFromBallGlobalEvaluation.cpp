@@ -28,8 +28,13 @@ GoalVisionFromBallGlobalEvaluation::GoalVisionFromBallGlobalEvaluation() noexcep
     piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 100);
 }
 
-uint8_t GoalVisionFromBallGlobalEvaluation::metricCheck(world::view::WorldDataView world, const world::Field* field) const noexcept {
-    return calculateMetric(FieldComputations::getPercentageOfGoalVisibleFromPoint(*field, false, world.getBall().value()->getPos(), world, -1, true));
+uint8_t GoalVisionFromBallGlobalEvaluation::metricCheck(const world::World* world, const world::Field* field) const noexcept {
+    return calculateMetric(
+        FieldComputations::getPercentageOfGoalVisibleFromPoint(
+            *field, false,
+            world->getWorld()->getBall().value()->getPos(),
+            world,
+            -1, true));
 }
 
 uint8_t GoalVisionFromBallGlobalEvaluation::calculateMetric(const double& x) const noexcept { return piecewiseLinearFunction->yForX(x); }

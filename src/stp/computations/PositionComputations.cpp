@@ -35,10 +35,10 @@ namespace rtt::ai::stp {
 
     gen::ScoredPosition
     PositionComputations::scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field,
-                                        world::World *world, uint8_t bias) {
+                                        const world::World *world, uint8_t bias) {
         gen::PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position)
                                                                             : calculatedScores[position];
-        uint8_t positionScore = getScoreOfPosition(profile, position, scores, world, field);
+        uint8_t positionScore = getScoreOfPosition(profile, position, scores, field, world);
         if (bias)
             positionScore = (positionScore + bias > bias) ? positionScore + bias
                                                           : std::numeric_limits<uint8_t>::max(); //stop overflow of uint8_t (254+2 = 1)
@@ -47,7 +47,7 @@ namespace rtt::ai::stp {
 
     uint8_t
     PositionComputations::getScoreOfPosition(gen::ScoreProfile &profile, Vector2 position, gen::PositionScores &scores,
-                                             rtt::world::World *world, const rtt::world::Field &field) {
+                                             const rtt::world::Field &field, const rtt::world::World *world) {
         double scoreTotal = 0;
         double weightTotal = 0;
         if (profile.weightGoalShot > 0) {
@@ -73,7 +73,7 @@ namespace rtt::ai::stp {
     }
 
     double
-    PositionComputations::determineOpenScore(Vector2 &point, rtt::world::World *world, gen::PositionScores &scores) {
+    PositionComputations::determineOpenScore(Vector2 &point, const rtt::world::World *world, gen::PositionScores &scores) {
         std::vector<double> enemyDistances;
         for (auto &enemyRobot : world->getWorld()->getThem()) {
             enemyDistances.push_back(point.dist(enemyRobot->getPos()));
@@ -81,7 +81,7 @@ namespace rtt::ai::stp {
         return (scores.scoreOpen = stp::evaluation::OpennessEvaluation().metricCheck(enemyDistances)).value();
     }
 
-    double PositionComputations::determineLineOfSightScore(Vector2 &point, rtt::world::World *world,
+    double PositionComputations::determineLineOfSightScore(Vector2 &point, const rtt::world::World *world,
                                                            gen::PositionScores &scores) {
         Vector2 ballPos = world->getWorld().value()->getBall()->get()->getPos();
         double pointDistance = ballPos.dist(point);
@@ -98,16 +98,15 @@ namespace rtt::ai::stp {
     }
 
     double PositionComputations::determineGoalShotScore(Vector2 &point, const rtt::world::Field &field,
-                                                        rtt::world::World *world, gen::PositionScores &scores) {
-        auto w = world->getWorld().value();
-        double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, w) / 100;
+                                                        const rtt::world::World *world, gen::PositionScores &scores) {
+        double visibility = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, point, world) / 100;
         double goalDistance = FieldComputations::getDistanceToGoal(field, false, point);
         double trialToGoalAngle = fabs((field.getTheirGoalCenter() - point).angle());
         return (scores.scoreGoalShot = stp::evaluation::GoalShotEvaluation().metricCheck(visibility, goalDistance,
                                                                                          trialToGoalAngle)).value();
     }
 
-    double PositionComputations::determineBlockingScore(Vector2 &point, rtt::world::World *world,
+    double PositionComputations::determineBlockingScore(Vector2 &point, const rtt::world::World *world,
                                                         gen::PositionScores &scores) {
         Vector2 ballPos = world->getWorld().value()->getBall()->get()->getPos();
         double pointDistance = ballPos.dist(point);
@@ -131,10 +130,9 @@ namespace rtt::ai::stp {
     }
 
     std::vector<Vector2>
-    PositionComputations::determineWallPositions(const rtt::world::Field &field, rtt::world::World *world,
+    PositionComputations::determineWallPositions(const rtt::world::Field &field, const rtt::world::World *world,
                                                  int amountDefenders) {
-        auto w = world->getWorld().value();
-        Vector2 ballPos = FieldComputations::placePointInField(field, w.getBall()->get()->getPos());
+        Vector2 ballPos = FieldComputations::placePointInField(field, world->getWorld().value().getBall()->get()->getPos());
         double radius = control_constants::ROBOT_RADIUS;
         double spacingRobots = radius * 2;
 
@@ -147,9 +145,8 @@ namespace rtt::ai::stp {
                                                                                        radius +
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
-
+        LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
         for (auto &i : defenseAreaBorder) {
-            LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
             for (const LineSegment &line : defenseAreaBorder) { // Vector is made to check if there is only 1 intersect
                 if (line.doesIntersect(ball2GoalLine)) {
                     auto intersect = line.intersects(ball2GoalLine);
@@ -166,7 +163,8 @@ namespace rtt::ai::stp {
             if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5,
                                                         1) ||
                 !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
-                auto posX = field.getOurGoalCenter().x < 0 ? -4.3 : 4.3;
+                double wallPosX = 0.4*field.getFieldLength() - 0.05*field.getFieldLength(); //No fk clue m8
+                auto posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
                 for (int i = 0; i < amountDefenders; i++) {
                     positions.emplace_back(
                             Vector2{posX, field.getBottomLeftOurDefenceArea().y +

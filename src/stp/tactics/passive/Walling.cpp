@@ -22,7 +22,7 @@ namespace rtt::ai::stp::tactic {
         skillStpInfo.setAngle(0.00001);
         // Be 100% sure the dribbler is off during the wall
         skillStpInfo.setDribblerSpeed(0);
-        skillStpInfo.setPidType(PIDType::KEEPER_INTERCEPT);
+        skillStpInfo.setPidType(PIDType::INTERCEPT);
         return skillStpInfo;
     }
 
