@@ -2,15 +2,15 @@
 // Created by floris on 08-06-21.
 //
 
-#ifndef RTT_HARDWARECHALLENGE1_PLAY_H
-#define RTT_HARDWARECHALLENGE1_PLAY_H
+#ifndef RTT_HARDWARECHALLENGE1_H
+#define RTT_HARDWARECHALLENGE1_H
 
 
 #include "stp/Play.hpp"
 
 namespace rtt::ai::stp::play {
 
-class Halt : public Play {
+class HardwareChallenge1 : public Play {
    public:
     /**
      * Constructor that initializes roles with roles that are necessary for this play
@@ -53,4 +53,4 @@ class Halt : public Play {
 };
 }  // namespace rtt::ai::stp::play
 
-#endif  // RTT_HARDWARECHALLENGE1_PLAY_H
+#endif  // RTT_HARDWARECHALLENGE1_H

@@ -58,7 +58,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
-    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::>());
+    plays.emplace_back(std::make_unique<rtt::ai::stp::play::HardwareChallenge1>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());
