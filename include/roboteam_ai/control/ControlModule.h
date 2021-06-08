@@ -11,6 +11,7 @@
 
 #include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
+#include "control/AnglePID.h"
 
 namespace rtt::ai::control {
 
@@ -28,6 +29,7 @@ namespace rtt::ai::control {
          */
          static inline std::mutex robotCommandsMutex;
          static inline std::vector<proto::RobotCommand> robotCommands;
+         static inline std::map<unsigned int,AnglePID> simulatorAnglePIDmap;
 
         /**
          * Applies constraints to the internal robot command
@@ -58,6 +60,9 @@ namespace rtt::ai::control {
          *
          */
         static void sendAllCommands();
+
+        static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+                                              proto::RobotCommand &robot_command);
     };
 }  // namespace rtt::ai::control
 
