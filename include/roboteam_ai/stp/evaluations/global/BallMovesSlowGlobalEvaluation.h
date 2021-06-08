@@ -1,4 +1,4 @@
-//world::view::WorldDataView
+//
 // Created by timovdk on 4/3/20.
 //
 
