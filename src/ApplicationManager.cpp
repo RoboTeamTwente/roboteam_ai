@@ -26,6 +26,7 @@
 #include "stp/plays/contested/GetBallPossession.h"
 #include "stp/plays/contested/GetBallRisky.h"
 #include "stp/plays/referee_specific/Halt.h"
+#include "stp/plays/HardwareChallenge1.h"
 #include "stp/plays/referee_specific/KickOffThem.h"
 #include "stp/plays/referee_specific/KickOffThemPrepare.h"
 #include "stp/plays/referee_specific/KickOffUs.h"
@@ -57,6 +58,7 @@ void ApplicationManager::start() {
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Halt>());
+    //plays.emplace_back(std::make_unique<rtt::ai::stp::play::>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendShot>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefendPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::DefensiveStopFormation>());

@@ -93,6 +93,7 @@ set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/HardwareChallenge1.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Passer.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PassReceiver.cpp
         # passive
@@ -111,6 +112,7 @@ set(PLAYS_SOURCES
         # /
 #        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/HardwareChallenge1.cpp
         # contested/
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
