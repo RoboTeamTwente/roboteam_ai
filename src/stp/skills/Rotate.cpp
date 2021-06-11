@@ -9,10 +9,8 @@
 namespace rtt::ai::stp::skill {
 
 Status Rotate::onUpdate(const StpInfo &info) noexcept {
-    auto targetAngle = info.getAngle();
-
     // Set angle command
-    command.set_w(static_cast<float>(targetAngle));
+    command.set_w(static_cast<float>(info.getAngle()));
 
     // Clamp and set dribbler speed
     int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 30);
@@ -29,7 +27,7 @@ Status Rotate::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     double errorMargin = stp::control_constants::GO_TO_POS_ANGLE_ERROR_MARGIN * M_PI;
-    if (info.getRobot().value()->getAngle().shortestAngleDiff(targetAngle) < errorMargin) {
+    if (info.getRobot().value()->getAngle().shortestAngleDiff(info.getAngle()) < errorMargin) {
         return Status::Success;
     } else {
         return Status::Running;

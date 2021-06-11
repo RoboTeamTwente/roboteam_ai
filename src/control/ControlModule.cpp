@@ -55,7 +55,7 @@ namespace rtt::ai::control {
                 // Direction of rotation is the shortest distance
                 int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
                 // Set the angle command to the current robot angle + the angle rate
-                command.set_w(static_cast<float>(robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE)));
+//                command.set_w(static_cast<float>(robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE)));
             }
         }
     }

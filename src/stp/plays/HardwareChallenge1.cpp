@@ -8,7 +8,9 @@
 #include "stp/roles/HardwareChallenge1.h"
 #include "stp/roles/passive/Halt.h"
 
-#include "include/roboteam_ai/stp/computations/GoalComputations.h"
+#include "stp/computations/GoalComputations.h"
+#include "stp/computations/PositionComputations.h"
+#include "stp/computations/PassComputations.h"
 
 namespace rtt::ai::stp::play {
 
@@ -46,7 +48,7 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"HardwareChallenge1_0", {DealerFlagPriority::REQUIRED, {}}});
         const std::string roleName = "halt_";
         for (int i = 1; i <= 9; i++) {
-            flagMap.insert({roleName + std::to_string(i), {DealerFlagPriority::REQUIRED, {}}});
+            flagMap.insert({roleName + std::to_string(i), {DealerFlagPriority::LOW_PRIORITY, {}}});
         }
 
         return flagMap;
@@ -55,9 +57,9 @@ namespace rtt::ai::stp::play {
     void HardwareChallenge1::calculateInfoForRoles() noexcept {
         auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
         stpInfos["HardwareChallenge1_0"].setPositionToShootAt(goalTarget);
-        //stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(Vector2(1.8,0)); // a test to see if this is enough info
+        stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(Vector2(1.8,0)); // a test to see if this is enough info
         stpInfos["HardwareChallenge1_0"].setShotType(ShotType::MAX);
-        //TODO: Give a location to drive to with the ball
+        //TODO: Calculate a location to drive to with the ball
         //TODO: If we know a location to drive to, make sure the robot positions itself on the best side with GetBehindBallInDirection
     }
 
