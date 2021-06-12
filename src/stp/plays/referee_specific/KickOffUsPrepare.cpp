@@ -47,7 +47,7 @@ namespace rtt::ai::stp::play {
         // Positions of the KickOffUs formation which will be dealt to the Formation roles in order
         // The "kicker" will go to the ball
         stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
-        stpInfos["formation_1"].setPositionToMoveTo(Vector2(-length / 4, width / 8));
+        stpInfos["formation_1"].setPositionToMoveTo(Vector2(-1, 0));
         stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
         stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, width / 4));
         stpInfos["formation_4"].setPositionToMoveTo(Vector2(-length / 8, -width / 4));
@@ -60,11 +60,12 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap KickOffUsPrepare::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag kickerFlag(DealerFlagTitle::CLOSEST_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
         flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
         flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
-        flagMap.insert({"formation_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"formation_1", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
         flagMap.insert({"formation_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"formation_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"formation_4", {DealerFlagPriority::LOW_PRIORITY, {}}});

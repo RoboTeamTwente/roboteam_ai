@@ -20,7 +20,7 @@ namespace rtt::ai::control {
 
     void ControlModule::limitRobotCommand(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         limitVel(command,robot);
-        limitAngularVel(command,robot);
+//        limitAngularVel(command,robot);
     }
 
     void ControlModule::limitVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
