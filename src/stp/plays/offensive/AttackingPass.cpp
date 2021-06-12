@@ -159,6 +159,8 @@ namespace rtt::ai::stp::play {
                 stpInfos["receiver_left"].getPositionToMoveTo(), gen::gridRightTop, gen::GoalShootPosition, field,
                 world);
 
+        stpInfos["passer"].setPositionToMoveTo(world->getWorld()->getBall()->get()->getPos());
+
         std::vector<gen::ScoredPosition> positions = {receiverPositionLeft, receiverPositionRight};
         Vector2 passLocation = computations::PassComputations::determineBestPosForPass(positions);
 

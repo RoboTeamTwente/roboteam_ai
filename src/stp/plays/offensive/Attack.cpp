@@ -36,7 +36,7 @@ Attack::Attack() : Play() {
 }
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
-    if (world->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 2) {
+    if (playEvaluator.getWorld()->getWorld()->getBall().value()->getPos().dist(field.getTheirGoalCenter()) < field.getFieldLength() / 2) {
         return 150;
     } else
         return 60;
