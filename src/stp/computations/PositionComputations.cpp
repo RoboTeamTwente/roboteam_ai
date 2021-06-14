@@ -163,7 +163,7 @@ namespace rtt::ai::stp {
             if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5,
                                                         1) ||
                 !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
-                double wallPosX = 0.4*field.getFieldLength() - 0.05*field.getFieldLength(); //No fk clue m8
+                double wallPosX = 0.4*field.getFieldLength() - 0.05*field.getFieldLength();
                 auto posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
                 for (int i = 0; i < amountDefenders; i++) {
                     positions.emplace_back(
@@ -191,6 +191,7 @@ namespace rtt::ai::stp {
                 }
             }
         }
+        std::sort(std::begin(positions),std::end(positions),[](Vector2 a, Vector2 b) {return a.length() > b.length(); });
         return positions;
     }
 } //namespace computations

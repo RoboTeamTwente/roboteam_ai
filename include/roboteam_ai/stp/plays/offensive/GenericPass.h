@@ -52,7 +52,6 @@ class GenericPass : public Play {
     [[nodiscard]] bool isValidPlayToKeep(PlayEvaluator &playEvaluator) noexcept override;
 
    protected:
-
     /**
      * Calculates the pass location
      * @return a pair of the pass location and the score of that location

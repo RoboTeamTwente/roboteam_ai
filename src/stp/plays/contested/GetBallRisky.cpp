@@ -44,7 +44,6 @@ namespace rtt::ai::stp::play {
     }
 
     void GetBallRisky::calculateInfoForRoles() noexcept {
-
         calculateInfoForScoredRoles(world);
 
         auto enemyRobots = world->getWorld()->getThem();

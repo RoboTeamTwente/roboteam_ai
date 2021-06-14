@@ -3,9 +3,9 @@
 //
 
 #include <stp/roles/active/PassReceiver.h>
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUs.h"
-#include "include/roboteam_ai/stp/roles/active/Attacker.h"
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/plays/referee_specific/KickOffUs.h"
+#include "stp/roles/active/Passer.h"
+#include "stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
@@ -18,17 +18,17 @@ namespace rtt::ai::stp::play {
         keepPlayEvaluation.emplace_back(eval::KickOffUsGameState);
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                std::make_unique<role::Attacker>(role::Attacker("kicker")),
-                std::make_unique<role::PassReceiver>(role::PassReceiver("receiver")),
-                std::make_unique<role::Halt>(role::Halt("halt_0")),
-                std::make_unique<role::Halt>(role::Halt("halt_1")),
-                std::make_unique<role::Halt>(role::Halt("halt_2")),
-                std::make_unique<role::Halt>(role::Halt("halt_3")),
-                std::make_unique<role::Halt>(role::Halt("halt_4")),
-                std::make_unique<role::Halt>(role::Halt("halt_5")),
-                std::make_unique<role::Halt>(role::Halt("halt_6")),
-                std::make_unique<role::Halt>(role::Halt("halt_7"))};
+                std::make_unique<role::Keeper>("keeper"),
+                std::make_unique<role::Passer>("passer"),
+                std::make_unique<role::PassReceiver>("receiver"),
+                std::make_unique<role::Halt>("halt_0"),
+                std::make_unique<role::Halt>("halt_1"),
+                std::make_unique<role::Halt>("halt_2"),
+                std::make_unique<role::Halt>("halt_3"),
+                std::make_unique<role::Halt>("halt_4"),
+                std::make_unique<role::Halt>("halt_5"),
+                std::make_unique<role::Halt>("halt_6"),
+                std::make_unique<role::Halt>("halt_7")};
     }
 
     uint8_t KickOffUs::score(PlayEvaluator &playEvaluator) noexcept {
@@ -44,8 +44,8 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
         // Kicker
-        stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});
-        stpInfos["kicker"].setShotType(ShotType::PASS);
+        stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 0.0});
+        stpInfos["passer"].setShotType(ShotType::PASS);
 
         // Receiver
         stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 0.0});
@@ -57,7 +57,7 @@ namespace rtt::ai::stp::play {
         Dealer::DealerFlag closeToBallFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::HIGH_PRIORITY);
 
         flagMap.insert({"keeper", {DealerFlagPriority::KEEPER, {}}});
-        flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
+        flagMap.insert({"passer", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
         flagMap.insert({"receiver", {DealerFlagPriority::REQUIRED, {closeToBallFlag}}});
         flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
