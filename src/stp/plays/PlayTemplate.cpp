@@ -30,17 +30,17 @@ namespace rtt::ai::stp::play {
 
         /// Role creation, the names should be unique. The names are used in the stpInfos-map.
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                std::make_unique<role::Formation>(role::Formation("role_0")),
-                std::make_unique<role::Formation>(role::Formation("role_1")),
-                std::make_unique<role::Formation>(role::Formation("role_2")),
-                std::make_unique<role::Formation>(role::Formation("role_3")),
-                std::make_unique<role::Formation>(role::Formation("role_4")),
-                std::make_unique<role::Formation>(role::Formation("role_5")),
-                std::make_unique<role::Formation>(role::Formation("role_6")),
-                std::make_unique<role::Waller>(role::Waller("waller_0")),
-                std::make_unique<role::Waller>(role::Waller("waller_1")),
-                std::make_unique<role::Waller>(role::Waller("waller_2"))};
+                std::make_unique<role::Keeper>("keeper"),
+                std::make_unique<role::Formation>("role_0"),
+                std::make_unique<role::Formation>("role_1"),
+                std::make_unique<role::Formation>("role_2"),
+                std::make_unique<role::Formation>("role_3"),
+                std::make_unique<role::Formation>("role_4"),
+                std::make_unique<role::Formation>("role_5"),
+                std::make_unique<role::Formation>("role_6"),
+                std::make_unique<role::Waller>("waller_0"),
+                std::make_unique<role::Waller>("waller_1"),
+                std::make_unique<role::Waller>("waller_2")};
         initRoles(); // DONT TOUCH.
     }
 
