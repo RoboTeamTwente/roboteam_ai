@@ -7,7 +7,7 @@
 
 #include <NFParam/Param.h>
 
-#include "include/roboteam_ai/stp/evaluations/BaseEvaluation.h"
+#include "stp/evaluations/BaseEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
 class BallMovesSlowGlobalEvaluation : public BaseEvaluation {

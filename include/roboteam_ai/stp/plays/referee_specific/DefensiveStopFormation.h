@@ -46,9 +46,6 @@ class DefensiveStopFormation : public Play {
      * Gets the play name
      */
     const char* getName() override;
-
-   protected:
-    bool shouldRoleSkipEndTactic();
 };
 }  // namespace rtt::ai::stp::play
 

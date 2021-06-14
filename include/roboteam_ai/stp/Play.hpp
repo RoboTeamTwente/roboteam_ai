@@ -70,7 +70,7 @@ class Play {
     virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
 
     /**
-     * Function  for inbetween plays calculation of score through the PlayEvaluator.
+     * Function  for in between plays calculation of score through the PlayEvaluator.
      * Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered
      * can be defined for scoring a play.
      * @param playEvaluator with the world
@@ -125,7 +125,7 @@ class Play {
      * Get score
      * @return score if no value -> 0
      */
-    uint8_t getLastScore();
+    uint8_t getLastScore() const;
 
 protected:
     /**
@@ -178,10 +178,10 @@ protected:
      */
     std::optional<gen::PlayInfos> previousPlayInfos;
 
-/**
- * Function to initialize roles and make stpInfos map
- */
-void initRoles() noexcept;
+    /**
+     * Function to initialize roles and make stpInfos map
+     */
+    void initRoles() noexcept;
 
 private:
     /**
@@ -203,7 +203,7 @@ private:
 
     /**
      * The previous amount of robots
-     * This is used to check if we need to redeal (if a robot disappears for example)
+     * This is used to check if we need to re-deal (if a robot disappears for example)
      */
     int previousRobotNum{};
 

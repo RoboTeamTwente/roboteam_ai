@@ -46,9 +46,6 @@ namespace rtt::ai::stp::play {
          * Gets the play name
          */
         const char *getName() override;
-
-    protected:
-        bool shouldRoleSkipEndTactic();
     };
 }  // namespace rtt::ai::stp::play
 

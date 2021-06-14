@@ -36,8 +36,7 @@ namespace rtt::ai::stp {
     gen::ScoredPosition
     PositionComputations::scorePosition(const Vector2 &position, gen::ScoreProfile &profile, const world::Field &field,
                                         const world::World *world, uint8_t bias) {
-        gen::PositionScores &scores = (calculatedScores.contains(position)) ? calculatedScores.at(position)
-                                                                            : calculatedScores[position];
+        gen::PositionScores &scores = calculatedScores[position];
         uint8_t positionScore = getScoreOfPosition(profile, position, scores, field, world);
         if (bias)
             positionScore = (positionScore + bias > bias) ? positionScore + bias
@@ -75,7 +74,9 @@ namespace rtt::ai::stp {
     double
     PositionComputations::determineOpenScore(Vector2 &point, const rtt::world::World *world, gen::PositionScores &scores) {
         std::vector<double> enemyDistances;
-        for (auto &enemyRobot : world->getWorld()->getThem()) {
+        auto& them = world->getWorld()->getThem();
+        enemyDistances.reserve(them.size());
+        for (auto &enemyRobot : them) {
             enemyDistances.push_back(point.dist(enemyRobot->getPos()));
         }
         return (scores.scoreOpen = stp::evaluation::OpennessEvaluation().metricCheck(enemyDistances)).value();
@@ -88,7 +89,10 @@ namespace rtt::ai::stp {
         double pointAngle = (ballPos - point).angle();
         std::vector<double> enemyDistancesToBall;
         std::vector<double> enemyAnglesToBallvsPoint;
-        for (auto &enemyRobot : world->getWorld()->getThem()) {
+        auto& them = world->getWorld()->getThem();
+        enemyDistancesToBall.reserve(them.size());
+        enemyAnglesToBallvsPoint.reserve(them.size());
+        for (auto &enemyRobot : them) {
             enemyDistancesToBall.push_back(ballPos.dist(enemyRobot->getPos()));
             enemyAnglesToBallvsPoint.push_back((ballPos - enemyRobot->getPos()).angle() - pointAngle);
         }
@@ -113,7 +117,10 @@ namespace rtt::ai::stp {
         double pointAngle = (point - ballPos).angle();
         std::vector<double> enemyDistances;
         std::vector<double> enemyAnglesToBallvsPoint;
-        for (auto &enemyRobot : world->getWorld()->getThem()) {
+        auto& them = world->getWorld()->getThem();
+        enemyDistances.reserve(them.size());
+        enemyAnglesToBallvsPoint.reserve(them.size());
+        for (auto &enemyRobot : them) {
             enemyDistances.push_back(point.dist(enemyRobot->getPos()));
             enemyAnglesToBallvsPoint.push_back((enemyRobot->getPos() - ballPos).angle() - pointAngle);
         }
@@ -165,6 +172,7 @@ namespace rtt::ai::stp {
                 !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
                 double wallPosX = 0.4*field.getFieldLength() - 0.05*field.getFieldLength();
                 auto posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
+                positions.reserve(amountDefenders);
                 for (int i = 0; i < amountDefenders; i++) {
                     positions.emplace_back(
                             Vector2{posX, field.getBottomLeftOurDefenceArea().y +

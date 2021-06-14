@@ -21,18 +21,17 @@ Attack::Attack() : Play() {
     keepPlayEvaluation.emplace_back(eval::NormalOrFreeKickUsGameState);
     keepPlayEvaluation.emplace_back(eval::BallCloseToUs);
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),
-        std::make_unique<role::Attacker>(role::Attacker("attacker")),
-        std::make_unique<role::Formation>(role::Formation("offender_1")),
-        std::make_unique<role::Formation>(role::Formation("offender_2")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-        std::make_unique<role::Formation>(role::Formation("midfielder_4")),
-        std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")),
-        std::make_unique<role::Defender>(role::Defender("defender_3"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
+                                                                                 std::make_unique<role::Attacker>(role::Attacker("attacker")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_3")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_4")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
+                                                                                 std::make_unique<role::Defender>(role::Defender("defender_3"))};
 }
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
@@ -60,7 +59,7 @@ Dealer::FlagMap Attack::decideRoleFlags() const noexcept {
     flagMap.insert({"midfielder_4", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"defender_1", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
     flagMap.insert({"defender_2", {DealerFlagPriority::LOW_PRIORITY, {notImportant}}});
-    flagMap.insert({"defender_3", {DealerFlagPriority::MEDIUM_PRIORITY,{closeToOurGoalFlag}}});
+    flagMap.insert({"defender_3", {DealerFlagPriority::MEDIUM_PRIORITY, {closeToOurGoalFlag}}});
 
     return flagMap;
 }

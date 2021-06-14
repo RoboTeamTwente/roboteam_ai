@@ -5,7 +5,7 @@
 #ifndef RTT_BALLCLOSESTTOUSGLOBALEVALUATION_H
 #define RTT_BALLCLOSESTTOUSGLOBALEVALUATION_H
 
-#include "include/roboteam_ai/stp/evaluations/BaseEvaluation.h"
+#include "stp/evaluations/BaseEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
 class BallClosestToUsGlobalEvaluation : public BaseEvaluation {

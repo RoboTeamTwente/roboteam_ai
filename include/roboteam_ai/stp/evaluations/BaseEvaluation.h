@@ -5,7 +5,7 @@
 #ifndef RTT_BASEEVALUATION_H
 #define RTT_BASEEVALUATION_H
 
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp::evaluation {
 class BaseEvaluation {

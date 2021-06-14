@@ -9,6 +9,10 @@
 
 namespace rtt::ai::stp::role {
 
+    /**
+     * This class is supposed to be used in combination with the getWallPosition() in PositionComputations::getWallPosition()
+     * It is meant to be used in combination with other Waller roles and the above function to form a wall right in front of our defense area.
+     */
     class Waller : public Role {
     public:
         /**

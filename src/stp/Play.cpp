@@ -51,14 +51,6 @@ namespace rtt::ai::stp {
                 // Update and store the returned status
                 auto roleStatus = role->update(stpInfos[role->getName()]);
                 roleStatuses[role.get()] = roleStatus;
-
-                if (roleStatus == Status::Waiting) {
-                    // Should role skip end tactic?
-                    // TODO Is this still used/usable?
-//                    if (shouldRoleSkipEndTactic()) {
-//                        role->forceNextTactic();
-//                    }
-                }
             } else {
                 RTT_DEBUG("Trying to update role [", role->getName(), "] which is not in STPInfos!")
             }
@@ -137,13 +129,11 @@ namespace rtt::ai::stp {
 
     void Play::calculateInfoForScoredRoles(world::World* _world) noexcept {}
 
-    uint8_t Play::getLastScore() {
+    uint8_t Play::getLastScore() const {
         return lastScore.value_or(0);
     }
 
     void Play::storePlayInfo(gen::PlayInfos &previousPlayInfo) noexcept {}
-
-    //bool Play::shouldRoleSkipEndTactic() { return false; }
 
     bool Play::shouldEndPlay() noexcept { return false; }
 

@@ -7,7 +7,7 @@
 
 #include <NFParam/Param.h>
 #include "stp/constants/ControlConstants.h"
-#include "include/roboteam_ai/world/views/RobotView.hpp"
+#include "world/views/RobotView.hpp"
 
 namespace rtt::ai::stp::evaluation {
 

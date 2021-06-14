@@ -29,11 +29,10 @@ class PlayChecker {
     [[nodiscard]] std::vector<Play*> getValidPlays() noexcept;
 
     /**
-     * updates world and playscorer
-     * @param world World to update against
+     * updates PlayEvaluator which contains world
      * @param playEvaluator PlayScorer to update against
      */
-    void update(world::World* world, PlayEvaluator& playEvaluator) noexcept;
+    void update(PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Returns the default play
@@ -47,11 +46,6 @@ class PlayChecker {
      * A vector of all the plays
      */
     std::vector<std::unique_ptr<Play>>* allPlays{};
-
-    /**
-     * Current world, do not use before update()
-     */
-    world::World* world{};
 
     /**
      * playEvaluator to check invariant to start

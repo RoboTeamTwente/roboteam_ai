@@ -166,7 +166,7 @@ void ApplicationManager::decidePlay(world::World *_world) {
     ai::stp::PositionComputations::calculatedWallPositions.clear();
 
     playEvaluator.update(_world);
-    playChecker.update(_world, playEvaluator);
+    playChecker.update(playEvaluator);
 
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {

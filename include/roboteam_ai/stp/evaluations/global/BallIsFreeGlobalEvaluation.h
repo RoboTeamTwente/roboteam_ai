@@ -5,7 +5,7 @@
 #ifndef RTT_BALLISFREEGLOBALEVALUATION_H
 #define RTT_BALLISFREEGLOBALEVALUATION_H
 
-#include "include/roboteam_ai/stp/evaluations/BaseEvaluation.h"
+#include "stp/evaluations/BaseEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
 /**
