@@ -6,9 +6,9 @@
 
 #include <roboteam_utils/Print.h>
 
-#include "include/roboteam_ai/stp/tactics/active/GetBall.h"
+#include "stp/tactics/active/GetBall.h"
 #include "stp/tactics/KeeperBlockBall.h"
-#include "include/roboteam_ai/stp/tactics/active/KickAtPos.h"
+#include "stp/tactics/active/KickAtPos.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::role {
