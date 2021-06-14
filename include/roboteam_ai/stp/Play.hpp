@@ -8,11 +8,16 @@
 #include <array>
 
 #include "Role.hpp"
-#include "stp/invariants/BaseInvariant.h"
+#include "stp/evaluations/BaseEvaluation.h"
 #include "utilities/Dealer.h"
 #include "world/World.hpp"
+#include "PlayEvaluator.h"
+#include "computations/PositionComputations.h"
+#include "constants/GeneralizationConstants.h"
 
 namespace rtt::ai::stp {
+using pos = PositionComputations;
+using eval = GlobalEvaluation;
 
 /**
  * Play class that's used in the STP model
@@ -21,25 +26,25 @@ namespace rtt::ai::stp {
 class Play {
    public:
     /**
+     * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
+     * @return Map of all the necessary information
+     */
+    virtual void storePlayInfo(gen::PlayInfos& previousPlayInfo) noexcept;
+
+    /**
      * Invariant vector that contains invariants that need to be true to continue execution of this play
      */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> keepPlayInvariants;
+    std::vector<GlobalEvaluation> keepPlayEvaluation;
 
     /**
      * Invariant vector that contains invariants that need to be true to start this play
      */
-    std::vector<std::unique_ptr<invariant::BaseInvariant>> startPlayInvariants;
+    std::vector<GlobalEvaluation> startPlayEvaluation;
 
     /**
      * Initializes stpInfos struct, distributes roles, sets the previousRobotNum variable and calls onInitialize()
      */
-    void initialize() noexcept;
-
-    /**
-     * Virtual function that is called in initialize().
-     * This function should contain all play-specific init code
-     */
-    virtual void onInitialize() noexcept {};
+    void initialize(gen::PlayInfos& previousPlayInfo) noexcept;
 
     /**
      * Updates the stored world pointer and after that, updates the field instance using the updated world pointer
@@ -59,11 +64,19 @@ class Play {
     virtual void calculateInfoForRoles() noexcept = 0;
 
     /**
-     * Gets the score for the current play that is in the range of 0 - 255
-     * @param world World to get the score for
-     * @return The score, 0 - 255
+     * Calculate info for roles that are used in the scoring of the play.
+     * This is a purely virtual function, so it is implemented in every play.
      */
-    [[nodiscard]] virtual uint8_t score(world::World* world) noexcept = 0;
+    virtual void calculateInfoForScoredRoles(world::World* world) noexcept = 0;
+
+    /**
+     * Function  for in between plays calculation of score through the PlayEvaluator.
+     * Using the struct PlayEvaluator::PlayScoring(uint8_t score, double weight) the factors the be considered
+     * can be defined for scoring a play.
+     * @param playEvaluator with the world
+     * @return a final score for the play
+     */
+    virtual uint8_t score(PlayEvaluator& playEvaluator) noexcept = 0;
 
     /**
      * Virtual default dtor, ensures proper destruction of derived plays
@@ -84,13 +97,13 @@ class Play {
      * Check if the preconditions of this play are true
      * @return true if the play is allowed to be started, else false
      */
-    [[nodiscard]] bool isValidPlayToStart(world::World* world) const noexcept;
+    [[nodiscard]] bool isValidPlayToStart(PlayEvaluator& playEvaluator) const noexcept;
 
     /**
      * Check if the invariants necessary to keep this play are true
      * @return true if the play is valid to keep, else false
      */
-    [[nodiscard]] virtual bool isValidPlayToKeep(world::World* world) noexcept;
+    [[nodiscard]] virtual bool isValidPlayToKeep(PlayEvaluator& playEvaluator) noexcept;
 
     /**
      * Getter for the role -> status mapping
@@ -103,11 +116,27 @@ class Play {
      */
     virtual const char* getName() = 0;
 
-   protected:
+    /**
+     * If score was calculated, save here
+     */
+    std::optional<uint8_t> lastScore;
+
+    /**
+     * Get score
+     * @return score if no value -> 0
+     */
+    uint8_t getLastScore() const;
+
+protected:
     /**
      * The roles, constructed in ctor of a play
      */
     std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()> roles;
+
+    /**
+     * The evaluations with their weight
+     */
+    std::vector<PlayEvaluator::PlayScoring> scoring;
 
     /**
      * Map that keeps track of the status of each role.
@@ -142,9 +171,19 @@ class Play {
      * An example could be BlockRobot and Intercept. You block a robot (endTactic) until a ball is shot and then the robot
      * closest to the ball should try to intercept (skip the BlockRobot tactic to execute Intercept)
      */
-    virtual bool shouldRoleSkipEndTactic() = 0;
+    //virtual bool shouldRoleSkipEndTactic() = 0;
 
-   private:
+    /**
+     * Map that holds info from the previous play
+     */
+    std::optional<gen::PlayInfos> previousPlayInfos;
+
+    /**
+     * Function to initialize roles and make stpInfos map
+     */
+    void initRoles() noexcept;
+
+private:
     /**
      * This function refreshes the RobotViews, the BallViews and the Fields for all stpInfos.
      * This is necessary because the views are stored for a limited time; not refreshing will lead to UB
@@ -164,9 +203,15 @@ class Play {
 
     /**
      * The previous amount of robots
-     * This is used to check if we need to redeal (if a robot disappears for example)
+     * This is used to check if we need to re-deal (if a robot disappears for example)
      */
     int previousRobotNum{};
+
+    /**
+     * Optional function to force end plays
+     * @return True if play should end this tick
+     */
+    bool shouldEndPlay() noexcept;
 };
 }  // namespace rtt::ai::stp
 

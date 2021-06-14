@@ -1,5 +1,6 @@
 #include <roboteam_utils/Shadow.h>
 #include "world/FieldComputations.h"
+#include "include/roboteam_ai/world/World.hpp"
 
 namespace rtt {
 namespace ai {
@@ -20,6 +21,10 @@ bool FieldComputations::pointIsInField(const rtt_world::Field &field, const Vect
             point.y >= field.getBottommostY() - margin);
 }
 
+bool FieldComputations::pointIsValidPosition(const rtt_world::Field &field, const Vector2 &point, double margin){
+    return (!pointIsInDefenseArea(field, point, true, margin) && !pointIsInDefenseArea(field, point, false, margin) && pointIsInField(field, point, margin));
+}
+
 double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool ourGoal, const Vector2 &point) {
     LineSegment goal = getGoalSides(field, ourGoal);
     Angle angleLeft = Angle(goal.start - point);
@@ -27,11 +32,11 @@ double FieldComputations::getTotalGoalAngle(const rtt_world::Field &field, bool 
     return angleLeft.shortestAngleDiff(angleRight);
 }
 
-double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, rtt::world::view::WorldDataView &world, int id,
+double FieldComputations::getPercentageOfGoalVisibleFromPoint(const rtt_world::Field &field, bool ourGoal, const Vector2 &point, const rtt_world::World* world, int id,
                                                                 bool ourTeam) {
     double goalWidth = field.getGoalWidth();
     double blockadeLength = 0;
-    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world.getRobotsNonOwning(), id, ourTeam)) {
+    for (auto const &blockade : getBlockadesMappedToGoal(field, ourGoal, point, world->getWorld()->getRobotsNonOwning(), id, ourTeam)) {
         blockadeLength += blockade.start.dist(blockade.end);
     }
     return fmax(100 - blockadeLength / goalWidth * 100, 0.0);
@@ -190,6 +195,17 @@ std::vector<LineSegment> FieldComputations::mergeBlockades(std::vector<LineSegme
         }
     }
     return blockades;
+}
+
+Vector2 FieldComputations::placePointInField(const rtt_world::Field &field, const Vector2 &point){
+    if (pointIsValidPosition(field,point)) return point;
+    Vector2 fixedPoint = point;
+    double margin = 0.005;
+    if (point.y > field.getTopLeftCorner().y) fixedPoint.y = field.getTopLeftCorner().y + margin; //Top
+    if (point.x > field.getBottomRightCorner().x) fixedPoint.x =field.getBottomRightCorner().x - margin; //Right
+    if (point.y > field.getBottomRightCorner().y) fixedPoint.y = field.getBottomRightCorner().y - margin; //Bot
+    if (point.x < field.getTopLeftCorner().x) fixedPoint.x = field.getTopLeftCorner().x + margin; //Left
+    return fixedPoint;
 }
 
 }  // namespace ai

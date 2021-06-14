@@ -31,25 +31,8 @@ namespace rtt::ai::interface {
 
         QString ss = "";
         ss += play->getName();
-        ss += ":<br>&nbsp;&nbsp;keep:<br>";
-        for (auto& each : play->keepPlayInvariants)
-        {
-            ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
-            ss += each->getName();
-            ss += ":&nbsp;";
-            ss += (each->checkInvariant(rtt::world::view::WorldDataView{ &data }, &*field) ? "true" : "false");
-            ss += "<br>";
-        }
-
-        ss += "&nbsp;&nbsp;start:<br>";
-        for (auto& each : play->startPlayInvariants)
-        {
-            ss += "&nbsp;&nbsp;&nbsp;&nbsp;";
-            ss += each->getName();
-            ss += ":&nbsp;";
-            ss += (each->checkInvariant(world.value(), &*field) ? "true" : "false");
-            ss += "<br>";
-        }
+        ss += ":<br>&nbsp;&nbsp;score: ";
+        ss += QString::number(play->getLastScore());
         ss += "<br>";
         return ss;
     }

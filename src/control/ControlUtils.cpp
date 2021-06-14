@@ -131,8 +131,12 @@ double ControlUtils::determineChipForce(const double distance, stp::ShotType sho
 double ControlUtils::determineKickForce(const double distance, stp::ShotType shotType) noexcept {
     // TODO: Needs further tuning
     constexpr double TARGET_FACTOR{0.5};
-    constexpr double PASS_FACTOR{0.745};
-
+    double PASS_FACTOR = 0;
+    if(distance > 2) {
+        PASS_FACTOR = 1.745;
+    } else {
+        PASS_FACTOR = 2.745;
+    }
     if (shotType == stp::ShotType::MAX) return stp::control_constants::MAX_KICK_POWER;
 
     double limitingFactor{};
@@ -151,43 +155,6 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
 
     // Make sure velocity is always between MIN_KICK_POWER and MAX_KICK_POWER
     return std::clamp(velocity, stp::control_constants::MIN_KICK_POWER, stp::control_constants::MAX_KICK_POWER);
-}
-
-Vector2 ControlUtils::determineMidfielderPosition(const Grid& searchGrid, const rtt::world::Field& field, rtt::world::World *world) {
-    auto fieldWidth = field.getFieldWidth();
-    auto fieldLength = field.getFieldLength();
-
-    auto w = world->getWorld().value();
-
-    double bestScore = 0;
-    Vector2 bestPosition{};
-
-    // Make a grid with all potentially good points
-    for (const auto &nestedPoints : searchGrid.getPoints()) {
-        for (const auto &trial : nestedPoints) {
-            // Make sure we only check valid points
-            if (!FieldComputations::pointIsInDefenseArea(field, trial, false)) {
-                auto fieldDiagonalLength = sqrt(fieldWidth * fieldWidth + fieldLength * fieldLength);
-
-                // Search closest bot to this point and get that distance
-                auto theirClosestBot = w.getRobotClosestToPoint(trial, rtt::world::Team::them);
-                auto theirClosestBotDistance{1.0};
-                if (theirClosestBot) {
-                    theirClosestBotDistance = theirClosestBot.value()->getPos().dist(trial) / fieldDiagonalLength;
-                }
-
-                // Calculate total score for this point
-                auto pointScore = theirClosestBotDistance;
-
-                // Check for best score
-                if (pointScore > bestScore) {
-                    bestScore = pointScore;
-                    bestPosition = trial;
-                }
-            }
-        }
-    }
-    return bestPosition;
 }
 
 }  // namespace rtt::ai::control

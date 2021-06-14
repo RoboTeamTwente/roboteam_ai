@@ -60,110 +60,129 @@ set(SKILLS_SOURCES
 
 set(TACTICS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Tactic.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/TestTactic.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/DriveWithBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/KickAtPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/BlockRobot.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Receive.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/ChipAtPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/ShootAtPos.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBallInDirection.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/BlockBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/AvoidBall.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
-
         ${PROJECT_SOURCE_DIR}/src/stp/constants/ControlConstants.cpp
-        )
+        # /
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/GetBehindBallInDirection.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/Intercept.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/PositionAndAim.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/KeeperBlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/TestTactic.cpp
+        # active/
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ChipAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/DriveWithBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/GetBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/KickAtPos.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/Receive.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/active/ShootAtPos.cpp
+        # passive/
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/AvoidBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockBall.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/BlockRobot.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/tactics/passive/Walling.cpp)
 
 set(ROLES_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Role.cpp
+        # /
         ${PROJECT_SOURCE_DIR}/src/stp/roles/TestRole.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/Attacker.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/PassReceiver.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/Passer.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/Defender.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/Formation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/Harasser.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/Keeper.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallPlacer.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallAvoider.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/roles/PenaltyKeeper.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallGetter.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/roles/BallReflector.cpp
-        )
+        # active
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Attacker.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallGetter.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallPlacer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/BallReflector.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/Passer.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/active/PassReceiver.cpp
+        # passive
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/BallAvoider.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Defender.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Formation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Harasser.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/roles/passive/Waller.cpp)
 
 set(PLAYS_SOURCES
         ${PROJECT_SOURCE_DIR}/src/stp/Play.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayChecker.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/PlayDecider.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/AttackingPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/Attack.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/Halt.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefendShot.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefendPass.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/DefensiveStopFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/AggressiveStopFormation.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/BallPlacementUs.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/BallPlacementThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/TimeOut.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyThemPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/PenaltyUs.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffUsPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffThemPrepare.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/KickOffUs.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/GetBallPossession.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/FreeKickThem.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/GetBallRisky.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/PlayEvaluator.cpp
+        # /
+#        ${PROJECT_SOURCE_DIR}/src/stp/plays/TestPlay.cpp
         ${PROJECT_SOURCE_DIR}/src/stp/plays/ReflectKick.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/plays/GenericPass.cpp
+        # contested/
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallPossession.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/contested/GetBallRisky.cpp
+        # defensive/
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/defensive/DefendShot.cpp
+        # offensive/
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/Attack.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/AttackingPass.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/offensive/GenericPass.cpp
+        # referee_specific/
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/AggressiveStopFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/BallPlacementUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/DefensiveStopFormation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/FreeKickThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/Halt.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/KickOffUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThem.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyThemPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUs.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/PenaltyUsPrepare.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/plays/referee_specific/TimeOut.cpp
         )
 
-set(INVARIANTS_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BaseInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallGotShotInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallMovesSlowInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnOurSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallOnTheirSideInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/FreedomOfRobotsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallCloseToThemInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/DistanceFromBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/WeHaveMajorityInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/GoalVisionFromBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallIsFreeInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/FirstArrivalToBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallShotOrCloseToThemInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/NoGoalVisionFromBallInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/BallClosestToUsInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/BallPlacementThemGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/HaltGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffUsPrepareGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/KickOffThemPrepareGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/FreeKickThemGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/NormalOrFreeKickUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyUsPrepareGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/PenaltyThemPrepareGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/NormalPlayGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/StopGameStateInvariant.cpp
-        ${PROJECT_SOURCE_DIR}/src/stp/invariants/game_states/TimeOutGameStateInvariant.cpp
+set(EVALUATION_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/WeHaveBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallGotShotGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallMovesSlowGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallOnOurSideGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallOnTheirSideGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/FreedomOfRobotsGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallCloseToUsGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallCloseToThemGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/DistanceFromBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/WeHaveMajorityGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/GoalVisionGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/GoalVisionFromBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallIsFreeGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/NoGoalVisionFromBallGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/global/BallClosestToUsGlobalEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/BallPlacementThemGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/HaltGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffUsPrepareGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/KickOffThemPrepareGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/FreeKickUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/FreeKickThemGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/NormalOrFreeKickUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/PenaltyUsGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/PenaltyThemGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/PenaltyUsPrepareGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/PenaltyThemPrepareGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/NormalPlayGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/StopGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/game_states/TimeOutGameStateEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/OpennessEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/LineOfSightEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/GoalShotEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/TimeToPositionEvaluation.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/evaluations/position/BlockingEvaluation.cpp
+        )
+
+set(COMPUTATION_SOURCES
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/PositionComputations.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/GoalComputations.cpp
+        ${PROJECT_SOURCE_DIR}/src/stp/computations/PassComputations.cpp
         )
 
 set(CONTROL_SOURCES
@@ -260,11 +279,13 @@ set(AI_SOURCES
         ${TACTICS_SOURCES}
         ${ROLES_SOURCES}
         ${PLAYS_SOURCES}
-        ${INVARIANTS_SOURCES}
+        ${EVALUATION_SOURCES}
         ${CONTROL_SOURCES}
         ${INTERFACE_SOURCES}
         ${WORLD_SOURCES}
-        ${MANUAL_SOURCES})
+        ${MANUAL_SOURCES}
+        ${COMPUTATION_SOURCES}
+        )
 
 set(AI_LIBS
         PRIVATE Qt5::Widgets

@@ -8,6 +8,7 @@
 #include "world/Field.h"
 #include "world/views/BallView.hpp"
 #include "world/views/RobotView.hpp"
+#include "constants/GeneralizationConstants.h"
 
 namespace rtt::ai::stp {
 namespace world = ::rtt::world;
@@ -50,6 +51,7 @@ struct StpInfo {
 
     const std::optional<Vector2>& getPositionToMoveTo() const { return positionToMoveTo; }
     void setPositionToMoveTo(const std::optional<Vector2>& position) { this->positionToMoveTo = position; }
+    void setPositionToMoveTo(const std::optional<gen::ScoredPosition>& scoredPosition) { setRoleScore(scoredPosition->score); setPositionToMoveTo(scoredPosition->position);}
 
     const std::optional<Vector2>& getPositionToShootAt() const { return positionToShootAt; }
     void setPositionToShootAt(const std::optional<Vector2>& position) { this->positionToShootAt = position; }
@@ -81,6 +83,9 @@ struct StpInfo {
 
     const std::optional<PIDType>& getPidType() const { return PidType; }
     void setPidType(const std::optional<PIDType>& pidType) { PidType = pidType; }
+
+    const std::optional<uint8_t>& getRoleScore() const { return roleScore; }
+    void setRoleScore(const std::optional<uint8_t>& RoleScore) { roleScore = RoleScore;}
 
    private:
     /**
@@ -158,6 +163,11 @@ struct StpInfo {
      * Enum for deciding which PID should be chosen
      */
     std::optional<PIDType> PidType{PIDType::DEFAULT};
+
+    /**
+     * Optional roleScore value to be used in play score determination
+     */
+    std::optional<uint8_t> roleScore;
 };
 
 /**
