@@ -24,7 +24,6 @@ using eval = GlobalEvaluation;
  * on update traverses every Role, and updates it.
  */
 class Play {
-
    public:
     /**
      * Saves all necessary information (that is needed for a potential next Play), when this Play will be finished
@@ -213,7 +212,6 @@ private:
      * @return True if play should end this tick
      */
     bool shouldEndPlay() noexcept;
-
 };
 }  // namespace rtt::ai::stp
 
