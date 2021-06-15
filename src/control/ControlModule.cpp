@@ -107,7 +107,9 @@ namespace rtt::ai::control {
                 simulatorAnglePIDmap.insert({robot->get()->getId(), pid});
             }
         }
+        ang_velocity_out = std::clamp(ang_velocity_out,-7*2*M_PI, 7*2*M_PI);
         robot_command.set_w(static_cast<float>(ang_velocity_out));
+        robot_command.set_use_angle(false);
     }
 
     void ControlModule::sendAllCommands() {
