@@ -102,15 +102,19 @@ void Dealer::distribute_remove(DealerDistribute& current, std::vector<int>& inde
     std::sort(current.currentIDs.begin(), current.currentIDs.end());                    // Sort to delete from back to front
 
     for (auto i = current.currentRoles.rbegin(); i != current.currentRoles.rend(); ++i) {
+        assert(*i < scores.size());
+        assert(*i < indexRoles.size());
         scores.erase(scores.begin() + *i);                 // remove role from score (col)
         indexRoles.erase(indexRoles.begin() + *i);         // remove from index list
     }
     for (auto &i : scores) {        // go through each score role (row)
         for (auto j = current.currentIDs.rbegin(); j != current.currentIDs.rend(); ++j) {
+            assert(*j < i.robotScores.size());
             i.robotScores.erase(i.robotScores.begin() + *j);     // remove the robot
         }
     }
     for (auto i = current.currentIDs.rbegin(); i != current.currentIDs.rend(); ++i) {
+        assert(*i < indexID.size());
         indexID.erase(indexID.begin() + *i);                 // remove from index list
     }
 }
