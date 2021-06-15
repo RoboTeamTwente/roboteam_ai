@@ -1,5 +1,6 @@
 //
 // Created by timovdk on 3/18/20.
+/// TODO-Max the position should be determined within the tactic to Specify the tactic.
 //
 
 #include "stp/tactics/Intercept.h"

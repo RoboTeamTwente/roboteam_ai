@@ -37,8 +37,6 @@ class TestPlay : public Play {
      */
     void calculateInfoForRoles() noexcept override;
 
-    bool shouldRoleSkipEndTactic() override;
-
     /**
      * Gets the play name
      */

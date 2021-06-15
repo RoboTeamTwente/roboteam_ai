@@ -53,8 +53,6 @@ Dealer::FlagMap TestPlay::decideRoleFlags() const noexcept {
 
 void TestPlay::calculateInfoForRoles() noexcept {}
 
-bool TestPlay::shouldRoleSkipEndTactic() { return false; }
-
 const char *TestPlay::getName() { return "Test Play"; }
 
 }  // namespace rtt::ai::stp

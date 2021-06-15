@@ -53,8 +53,8 @@ extern const double GO_TO_POS_ERROR_MARGIN;
 extern const double GO_TO_POS_ANGLE_ERROR_MARGIN;
 
 // Invariant constants
-extern const double FUZZY_TRUE;
-extern const double FUZZY_FALSE;
+extern const uint8_t FUZZY_TRUE;
+extern const uint8_t FUZZY_FALSE;
 extern const double FUZZY_MARGIN;
 extern const double FUZZY_DEFAULT_CUTOFF;
 
@@ -62,6 +62,7 @@ extern const double FUZZY_DEFAULT_CUTOFF;
 extern const double DISTANCE_TO_ROBOT_CLOSE;
 extern const double DISTANCE_TO_ROBOT_FAR;
 extern const double ROBOT_CLOSE_TO_POINT;
+extern const double DISTANCE_TO_ROBOT_NEAR;
 
 // Keeper constants
 extern const double DISTANCE_FROM_GOAL_CLOSE;

@@ -50,7 +50,8 @@ namespace rtt::ai::interface {
             updateContent << "None<br>";
             return;
         }
-        updateContent << currentPlay->getName() << "<br>" << tab;
+        updateContent << currentPlay->getName() << tab;
+        updateContent << "||" << tab << "Play Score: " << std::to_string(currentPlay->getLastScore()) << "<br>" << tab;
         std::vector<std::pair<stp::Role*, stp::Status>> states = { currentPlay->getRoleStatuses().begin(), currentPlay->getRoleStatuses().end() };
         // lhs and rhs are std::pair<stp::Role*, stp::Status>>, this function returns true if lhs < rhs (the robot id)
         std::sort(states.begin(), states.end(), [](auto const& lhs, auto const& rhs) {

@@ -69,15 +69,6 @@ namespace rtt::ai {
              * @return a kick speed between min and max kick speed
              */
             static double determineKickForce(const double distance, stp::ShotType shotType) noexcept;
-
-            /**
-             * Determine the best position for a midfielder
-             * @param searchGrid the grid you want to choose a position from
-             * @param field
-             * @param world
-             * @return a midfielder position
-             */
-            static Vector2 determineMidfielderPosition(const Grid& searchGrid, const rtt_world::Field& field, rtt_world::World* world);
         };
 
     }  // namespace control

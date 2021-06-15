@@ -4,6 +4,7 @@
 
 #include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
+#include <stp/plays/referee_specific/TimeOut.h>
 
 #include "utilities/GameStateManager.hpp"
 #include "utilities/IOManager.h"
@@ -12,30 +13,29 @@
 /**
  * Plays are included here
  */
-#include "stp/plays/AggressiveStopFormation.h"
-#include "stp/plays/Attack.h"
-#include "stp/plays/AttackingPass.h"
-#include "stp/plays/BallPlacementThem.h"
-#include "stp/plays/BallPlacementUs.h"
-#include "stp/plays/DefendPass.h"
-#include "stp/plays/DefendShot.h"
-#include "stp/plays/DefensiveStopFormation.h"
-#include "stp/plays/FreeKickThem.h"
-#include "stp/plays/GenericPass.h"
-#include "stp/plays/GetBallPossession.h"
-#include "stp/plays/GetBallRisky.h"
-#include "stp/plays/Halt.h"
-#include "stp/plays/KickOffThem.h"
-#include "stp/plays/KickOffThemPrepare.h"
-#include "stp/plays/KickOffUs.h"
-#include "stp/plays/KickOffUsPrepare.h"
-#include "stp/plays/PenaltyThem.h"
-#include "stp/plays/PenaltyThemPrepare.h"
-#include "stp/plays/PenaltyUs.h"
-#include "stp/plays/PenaltyUsPrepare.h"
+#include "stp/plays/referee_specific/AggressiveStopFormation.h"
+#include "stp/plays/offensive/Attack.h"
+#include "stp/plays/offensive/AttackingPass.h"
+#include "stp/plays/referee_specific/BallPlacementThem.h"
+#include "stp/plays/referee_specific/BallPlacementUs.h"
+#include "stp/plays/defensive/DefendPass.h"
+#include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/referee_specific/DefensiveStopFormation.h"
+#include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/offensive/GenericPass.h"
+#include "stp/plays/contested/GetBallPossession.h"
+#include "stp/plays/contested/GetBallRisky.h"
+#include "stp/plays/referee_specific/Halt.h"
+#include "stp/plays/referee_specific/KickOffThem.h"
+#include "stp/plays/referee_specific/KickOffThemPrepare.h"
+#include "stp/plays/referee_specific/KickOffUs.h"
+#include "stp/plays/referee_specific/KickOffUsPrepare.h"
+#include "stp/plays/referee_specific/PenaltyThem.h"
+#include "stp/plays/referee_specific/PenaltyThemPrepare.h"
+#include "stp/plays/referee_specific/PenaltyUs.h"
+#include "stp/plays/referee_specific/PenaltyUsPrepare.h"
 #include "stp/plays/ReflectKick.h"
-#include "stp/plays/TestPlay.h"
-#include "stp/plays/TimeOut.h"
+//#include "stp/plays/TestPlay.h"
 
 namespace io = rtt::ai::io;
 namespace ai = rtt::ai;
@@ -52,7 +52,7 @@ void ApplicationManager::start() {
     plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
 
     /// This play is only used for testing purposes, when needed uncomment this play!
-    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
+//    plays.emplace_back(std::make_unique<rtt::ai::stp::TestPlay>());
 
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::AttackingPass>());
     plays.emplace_back(std::make_unique<rtt::ai::stp::play::Attack>());
@@ -160,20 +160,33 @@ void ApplicationManager::runOneLoopCycle() {
 }
 
 void ApplicationManager::decidePlay(world::World *_world) {
-    playChecker.update(_world);
+    //TODO make a clear function
+    playEvaluator.clearGlobalScores(); //reset all evaluations
+    ai::stp::PositionComputations::calculatedScores.clear();
+    ai::stp::PositionComputations::calculatedWallPositions.clear();
+
+    playEvaluator.update(_world);
+    playChecker.update(playEvaluator);
 
     // Here for manual change with the interface
     if(rtt::ai::stp::PlayDecider::interfacePlayChanged) {
         auto validPlays = playChecker.getValidPlays();
-        currentPlay = playDecider.decideBestPlay(_world, validPlays);
+        ai::stp::gen::PlayInfos previousPlayInfo{};
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+
+        //Before a new play is possibly chosen: save all info of current Play that is necessary for a next Play
+        currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(previousPlayInfo);
         rtt::ai::stp::PlayDecider::interfacePlayChanged = false;
     }
 
     // A new play will be chosen if the current play is not valid to keep
-    if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
         auto validPlays = playChecker.getValidPlays();
+        ai::stp::gen::PlayInfos previousPlayInfo{};
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+
         if (validPlays.empty()) {
             RTT_ERROR("No valid plays")
             currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
@@ -181,12 +194,11 @@ void ApplicationManager::decidePlay(world::World *_world) {
                 return;
             }
         } else {
-            currentPlay = playDecider.decideBestPlay(_world, validPlays);
+            currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
         }
         currentPlay->updateWorld(_world);
-        currentPlay->initialize();
+        currentPlay->initialize(previousPlayInfo);
     }
-
     currentPlay->update();
     mainWindow->updatePlay(currentPlay);
 }
