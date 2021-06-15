@@ -96,9 +96,9 @@ namespace rtt::ai::control {
             } else {
                 //initialize PID controller for robot
                 //TODO: below need to be tuned
-                double P = 1.0;
+                double P = 5.0;
                 double I = 0.0;
-                double D = 0.0;
+                double D = 1.0;
                 double max_ang_vel = 10.0; //rad/s
                 double dt = 1. / double(Constants::TICK_RATE());
 
