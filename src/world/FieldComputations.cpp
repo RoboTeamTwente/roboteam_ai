@@ -58,12 +58,12 @@ std::vector<LineSegment> FieldComputations::getVisiblePartsOfGoal(const rtt_worl
     // The obstacles are sorted on their smallest y value. We start from the lowest goal side at the start as lowerY value and everytime we add a vector from the lowest goalside to
     // the lowest part of the obstacle and we remember the upper part of the obstacle. That upper part is stored as the lowerY value again and we can repeat the same process.
     for (auto const &blockade : blockades) {
-        auto lowerbound = blockade.start.y;
+        auto lowerBound = blockade.start.y;
 
-        // If the lowerbound is the same as the lowerY value then the visible part has a length of 0 and we don't care about it. Originally used to be != but floating point errors
+        // If the lowerBound is the same as the lowerY value then the visible part has a length of 0 and we don't care about it. Originally used to be != but floating point errors
         // are tears, i.e. rounding of floating points might turn two same float values to different values.
-        if (fabs(lowerbound - lowerY) > NEGLIGIBLE_LENGTH) {
-            visibleParts.emplace_back(LineSegment(Vector2(goalX, lowerY), Vector2(goalX, lowerbound)));
+        if (fabs(lowerBound - lowerY) > NEGLIGIBLE_LENGTH) {
+            visibleParts.emplace_back(LineSegment(Vector2(goalX, lowerY), Vector2(goalX, lowerBound)));
         }
         lowerY = blockade.end.y;
     }

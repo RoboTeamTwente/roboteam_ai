@@ -13,6 +13,6 @@ namespace rtt::ai::stp::role {
 
 HardwareChallenge1::HardwareChallenge1(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBehindBallInDirection(),tactic::GetBall(),tactic::DriveWithBall(), tactic::ShootAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::GetBall(),tactic::DriveWithBall(), tactic::ShootAtPos()};
 }
 }  // namespace rtt::ai::stp::role

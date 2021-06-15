@@ -43,9 +43,9 @@ namespace rtt::ai::stp::play {
 
     Dealer::FlagMap HardwareChallenge1::decideRoleFlags() const noexcept {
         Dealer::FlagMap flagMap;
-        //Dealer::DealerFlag attackerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
+        Dealer::DealerFlag attackerFlag(DealerFlagTitle::CLOSE_TO_BALL, DealerFlagPriority::REQUIRED);
 
-        flagMap.insert({"HardwareChallenge1_0", {DealerFlagPriority::REQUIRED, {}}});
+        flagMap.insert({"HardwareChallenge1_0", {DealerFlagPriority::REQUIRED, {attackerFlag}}});
         const std::string roleName = "halt_";
         for (int i = 1; i <= 9; i++) {
             flagMap.insert({roleName + std::to_string(i), {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -57,7 +57,7 @@ namespace rtt::ai::stp::play {
     void HardwareChallenge1::calculateInfoForRoles() noexcept {
         auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
         stpInfos["HardwareChallenge1_0"].setPositionToShootAt(goalTarget);
-        stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(Vector2(1.8,0)); // a test to see if this is enough info
+        stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(pos::getPosition(stpInfos["HardwareChallenge1_0"].getPositionToMoveTo(),gen::gridRightMid, gen::GoalShootPosition, field, world));
         stpInfos["HardwareChallenge1_0"].setShotType(ShotType::MAX);
         //TODO: Calculate a location to drive to with the ball
         //TODO: If we know a location to drive to, make sure the robot positions itself on the best side with GetBehindBallInDirection

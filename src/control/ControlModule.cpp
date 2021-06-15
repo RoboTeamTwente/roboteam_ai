@@ -20,7 +20,8 @@ namespace rtt::ai::control {
 
     void ControlModule::limitRobotCommand(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         limitVel(command,robot);
-//        limitAngularVel(command,robot);
+
+        limitAngularVel(command,robot);
     }
 
     void ControlModule::limitVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
@@ -55,7 +56,8 @@ namespace rtt::ai::control {
                 // Direction of rotation is the shortest distance
                 int direction = Angle(robotAngle).rotateDirection(targetAngle) ? 1 : -1;
                 // Set the angle command to the current robot angle + the angle rate
-//                command.set_w(static_cast<float>(robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE)));
+                RTT_DEBUG("wCorrection: ",command.w() - static_cast<float>(robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE)));
+                command.set_w(static_cast<float>(robotAngle + Angle(direction * stp::control_constants::ANGLE_RATE)));
             }
         }
     }
