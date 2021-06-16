@@ -24,6 +24,8 @@ ShootAtPos::ShootAtPos() {
 
 std::optional<StpInfo> ShootAtPos::calculateInfoForSkill(StpInfo const &info) noexcept {
     if (info.getKickOrChip() == stp::KickOrChip::KICK) {
+        std::cout << "[DEBUG][ShootAtPos] currentPos: " << info.getRobot()->get()->getPos() << ", Angle: " << info.getRobot()->get()->getAngle()*180/M_PI << std::endl;
+        std::cout << "[DEBUG][ShootAtPos] newPos: " << info.getPositionToMoveTo().value() << ", newAngle: " << info.getAngle()*180/M_PI << std::endl;
         return calculateInfoForKick(info);
     } else if (info.getKickOrChip() == stp::KickOrChip::CHIP) {
         return calculateInfoForChip(info);

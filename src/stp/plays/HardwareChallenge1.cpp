@@ -59,6 +59,16 @@ namespace rtt::ai::stp::play {
         stpInfos["HardwareChallenge1_0"].setPositionToShootAt(goalTarget);
         stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(pos::getPosition(stpInfos["HardwareChallenge1_0"].getPositionToMoveTo(),gen::gridRightMid, gen::GoalShootPosition, field, world));
         stpInfos["HardwareChallenge1_0"].setShotType(ShotType::MAX);
+        stpInfos["HardwareChallenge1_0"].setKickOrChip(stp::KickOrChip::KICK);
+        double ballPosShotScore = 0;
+        if(stpInfos["HardwareChallenge1_0"].getRobot().has_value()) {
+            ballPosShotScore = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, world->getWorld()->getBall()->get()->getPos(), world,
+                                                                                             stpInfos["HardwareChallenge1_0"].getRobot()->get()->getId(), true);
+        }
+        if(ballPosShotScore > 50 && roles.at(0)->getCurrentTactic() != nullptr && strcmp(roles.at(0)->getCurrentTactic()->getName(), "Shoot At Pos") != 0){
+//            roles.at(0)->getCurrentTactic();
+            roles.at(0)->forceNextTactic();
+        }
         //TODO: Calculate a location to drive to with the ball
         //TODO: If we know a location to drive to, make sure the robot positions itself on the best side with GetBehindBallInDirection
     }

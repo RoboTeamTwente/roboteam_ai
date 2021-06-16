@@ -28,7 +28,7 @@ Status Shoot::onUpdateKick(const StpInfo &info) noexcept {
     command.set_chip_kick_vel(kickVelocity);
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
     int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
 
     // Set dribbler speed command
@@ -65,8 +65,8 @@ Status Shoot::onUpdateChip(const StpInfo &info) noexcept {
     command.set_chip_kick_vel(chipVelocity);
 
     // Clamp and set dribbler speed
-    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 10);
-    int targetDribblerSpeed = static_cast<int>(targetDribblerPercentage / 100.0 * stp::control_constants::MAX_DRIBBLER_CMD);
+    int targetDribblerPercentage = std::clamp(info.getDribblerSpeed(), 0, 100);
+    int targetDribblerSpeed = static_cast<int>(1 * stp::control_constants::MAX_DRIBBLER_CMD);
 
     // Set dribbler speed command
     command.set_dribbler(targetDribblerSpeed);
