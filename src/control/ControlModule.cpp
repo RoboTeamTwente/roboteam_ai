@@ -9,6 +9,7 @@
 #include "utilities/Settings.h"
 #include "world/World.hpp"
 #include "iostream"
+#include "utilities/Constants.h"
 
 namespace rtt::ai::control {
 
@@ -70,12 +71,43 @@ namespace rtt::ai::control {
         if(robot)
             limitRobotCommand(robot_command, robot);
 
+        //if we are in simulation; adjust w() to be angular velocity)
+        if(!SETTINGS.isSerialMode()){
+            simulator_angular_control(robot, robot_command);
+        }
         // Only add commands with a robotID that is not in the vector yet
         // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
         std::lock_guard<std::mutex> guard(robotCommandsMutex);
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
         }
+    }
+
+    void ControlModule::simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+                                                  proto::RobotCommand &robot_command) {
+        double ang_velocity_out = 0.0;//in case there is no robot visible, we just adjust the command to not have any angular velocity
+        if(robot) {
+            Angle current_angle = robot->get()->getAngle();
+            Angle target_angle(robot_command.w());
+            //get relevant PID controller
+            if (simulatorAnglePIDmap.contains(robot->get()->getId())) {
+                ang_velocity_out = simulatorAnglePIDmap.at(robot->get()->getId()).getOutput(target_angle,
+                                                                                            current_angle);
+            } else {
+                //initialize PID controller for robot
+                //TODO: below need to be tuned
+                double P = 5.0;
+                double I = 0.0;
+                double D = 1.0;
+                double max_ang_vel = 10.0; //rad/s
+                double dt = 1. / double(Constants::TICK_RATE());
+
+                AnglePID pid(P, I, D, max_ang_vel, dt);
+                ang_velocity_out = pid.getOutput(target_angle, current_angle);
+                simulatorAnglePIDmap.insert({robot->get()->getId(), pid});
+            }
+        }
+        robot_command.set_w(static_cast<float>(ang_velocity_out));
     }
 
     void ControlModule::sendAllCommands() {
