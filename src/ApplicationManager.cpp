@@ -92,8 +92,8 @@ void ApplicationManager::start() {
 
             int loopcycleDuration = std::chrono::duration_cast<std::chrono::milliseconds>((tStop - tStart)).count();
 
-            RTT_WARNING("Time : ", loopcycleDuration, " ms")
-            RTT_WARNING("Time allowed: 16 ms")
+//            RTT_WARNING("Time : ", loopcycleDuration, " ms")
+//            RTT_WARNING("Time allowed: 16 ms")
 
             amountOfCycles++;
 
