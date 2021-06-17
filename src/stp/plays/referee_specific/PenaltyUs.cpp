@@ -51,6 +51,7 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
     flagMap.insert({"kicker", {DealerFlagPriority::REQUIRED, {kickerFlag}}});
     flagMap.insert({"halt_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
+    flagMap.insert({"halt_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_4", {DealerFlagPriority::LOW_PRIORITY, {}}});
     flagMap.insert({"halt_5", {DealerFlagPriority::LOW_PRIORITY, {}}});
@@ -62,7 +63,6 @@ Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
 }
 
 uint8_t PenaltyUs::score(PlayEvaluator& playEvaluator) noexcept {
-    calculateInfoForScoredRoles(playEvaluator.getWorld()); /// DISABLE IF NOT USED
     /// List of all factors that combined results in an evaluation how good the play is.
     scoring = {{playEvaluator.getGlobalEvaluation(eval::PenaltyUsGameState),1.0}};
     return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
@@ -70,7 +70,6 @@ uint8_t PenaltyUs::score(PlayEvaluator& playEvaluator) noexcept {
 
 void PenaltyUs::calculateInfoForRoles() noexcept {
     /// Function where are roles get their information, make sure not to compute roles twice.
-    calculateInfoForScoredRoles(world); // DONT TOUCH.
 
     stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
