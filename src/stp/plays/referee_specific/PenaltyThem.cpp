@@ -57,6 +57,7 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
         stpInfos["keeper"].setPositionToShootAt(
                 world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
+        stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     }
 
     const char *PenaltyThem::getName() { return "Penalty Them"; }

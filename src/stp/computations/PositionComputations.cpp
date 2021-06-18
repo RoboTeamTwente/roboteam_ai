@@ -142,6 +142,7 @@ namespace rtt::ai::stp {
         Vector2 ballPos = FieldComputations::placePointInField(field, world->getWorld().value().getBall()->get()->getPos());
         double radius = control_constants::ROBOT_RADIUS;
         double spacingRobots = radius * 2;
+        double spaceBetweenDefenseArea = field.getFieldLength() / 30; //Because path planning is weird about being right next to a defense area
 
         std::vector<Vector2> positions = {};
         Vector2 lineBorderIntersect;
@@ -170,7 +171,7 @@ namespace rtt::ai::stp {
             if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5,
                                                         1) ||
                 !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
-                double wallPosX = 0.4*field.getFieldLength() - 0.05*field.getFieldLength();
+                double wallPosX = 0.4*field.getFieldLength();
                 auto posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
                 positions.reserve(amountDefenders);
                 for (int i = 0; i < amountDefenders; i++) {
@@ -195,7 +196,8 @@ namespace rtt::ai::stp {
             for (const LineSegment &line : defenseAreaBorder) {
                 auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
                 for (auto intersect : intersects) {
-                    positions.push_back(intersect);
+                    auto spaceBetweenDefenseAreas = intersect.x < 0 ? spaceBetweenDefenseArea : -spaceBetweenDefenseArea; //Because path planning is weird about being right next to a defense area
+                    positions.push_back(intersect + Vector2{spaceBetweenDefenseAreas, 0});
                 }
             }
         }

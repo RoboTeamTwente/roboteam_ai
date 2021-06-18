@@ -54,10 +54,10 @@ void AggressiveStopFormation::calculateInfoForRoles() noexcept {
     stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
     stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
 
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 4, 0.0});
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 4, width / 4});
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
-    stpInfos["offender_3"].setPositionToMoveTo(Vector2{length / 3, 0.0});
+    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 5, width / 8});
+    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 5, width / 4});
+    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 5, -width / 4});
+    stpInfos["offender_3"].setPositionToMoveTo(Vector2{length / 5, -width / 8});
 
     /// Using the positions below is better, but right now the pos::getPosition() is so slow it crashes the interface
 //    stpInfos["defender_0"].setPositionToMoveTo(pos::getWallPosition(0, 3, field, world));

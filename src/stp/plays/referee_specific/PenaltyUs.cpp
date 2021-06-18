@@ -37,7 +37,7 @@ PenaltyUs::PenaltyUs() : Play() {
         std::make_unique<role::Halt>(role::Halt("halt_7")),
         std::make_unique<role::Halt>(role::Halt("halt_8")),
     };
-    initRoles(); // DONT TOUCH.
+//    initRoles(); // DONT TOUCH.
 }
 
 Dealer::FlagMap PenaltyUs::decideRoleFlags() const noexcept {
