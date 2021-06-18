@@ -15,9 +15,12 @@ namespace rtt::ai::stp::computations {
         // Position of the ball from which the goal target is determined
         auto sourcePoint = world->getWorld().value().getBall().value()->getPos();
 
+        // Make a vector with all robotViews to see if one of the robots is in front of the goal
+        std::vector<world::view::RobotView> allRobotsVec = world->getWorld().value().getUs();
+        std::vector<world::view::RobotView> allRobotsVec2 = world->getWorld().value().getThem();
+        std::copy(allRobotsVec2.begin(),allRobotsVec2.end(),std::back_inserter(allRobotsVec));
         // Get the longest line section on the visible part of the goal
-        std::vector<LineSegment> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, world->getWorld().value().getUs());
-
+        std::vector<LineSegment> openSegments = FieldComputations::getVisiblePartsOfGoal(field, false, sourcePoint, allRobotsVec);
         // If there is no empty location to shoot at, just shoot at the center of the goal
         /// TODO-Max communicate this to the play
         if (openSegments.empty()) return field.getTheirGoalCenter();

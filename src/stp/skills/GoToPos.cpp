@@ -58,7 +58,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
 
     // Check if successful
     // Changed from a constant to 0.4 to ensure AI recognizes the robot is at their location
-    if ((info.getRobot().value()->getPos() - targetPos).length() <= 0.4) {
+    if ((info.getRobot().value()->getPos() - targetPos).length() <= stp::control_constants::GO_TO_POS_ERROR_MARGIN) {
         return Status::Success;
     } else {
         return Status::Running;
