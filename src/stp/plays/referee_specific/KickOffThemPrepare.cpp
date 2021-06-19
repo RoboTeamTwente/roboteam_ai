@@ -55,7 +55,7 @@ namespace rtt::ai::stp::play {
         stpInfos["formation_6"].setPositionToMoveTo(Vector2(defense_line_x, -width / 5));
         stpInfos["formation_7"].setPositionToMoveTo(Vector2(-length / 4, width / 3));
         stpInfos["formation_8"].setPositionToMoveTo(Vector2(-length / 4, -width / 3));
-        stpInfos["formation_9"].setPositionToMoveTo(Vector2(-length * 3.0 / 16.0, 0.0);
+        stpInfos["formation_9"].setPositionToMoveTo(Vector2(-length * 3.0 / 16.0, 0.0));
     }
 
     Dealer::FlagMap KickOffThemPrepare::decideRoleFlags() const noexcept {
