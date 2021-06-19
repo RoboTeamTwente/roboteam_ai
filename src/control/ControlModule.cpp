@@ -63,6 +63,7 @@ namespace rtt::ai::control {
 
     void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept {
         proto::RobotCommand robot_command = command;
+
         // If we are not left, commands should be rotated (because we play as right)
         if (!SETTINGS.isLeft()) {
             rotateRobotCommand(robot_command);
@@ -75,6 +76,7 @@ namespace rtt::ai::control {
         if(!SETTINGS.isSerialMode()){
             simulator_angular_control(robot, robot_command);
         }
+
         // Only add commands with a robotID that is not in the vector yet
         // This mutex is required because robotCommands is accessed from both the main thread and joystick thread
         std::lock_guard<std::mutex> guard(robotCommandsMutex);
@@ -88,6 +90,9 @@ namespace rtt::ai::control {
         double ang_velocity_out = 0.0;//in case there is no robot visible, we just adjust the command to not have any angular velocity
         if(robot) {
             Angle current_angle = robot->get()->getAngle();
+            if(!SETTINGS.isLeft()){
+                current_angle+=M_PI;
+            }
             Angle target_angle(robot_command.w());
             //get relevant PID controller
             if (simulatorAnglePIDmap.contains(robot->get()->getId())) {
@@ -107,6 +112,8 @@ namespace rtt::ai::control {
                 simulatorAnglePIDmap.insert({robot->get()->getId(), pid});
             }
         }
+        robot_command.set_use_angle(false);
+        ang_velocity_out = std::clamp(ang_velocity_out,-8.0*M_PI,8.0*M_PI);
         robot_command.set_w(static_cast<float>(ang_velocity_out));
     }
 
