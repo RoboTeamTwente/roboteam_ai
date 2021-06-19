@@ -44,6 +44,8 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter() + Vector2(0.5, 0.0)));
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
+        double defense_line_x = field.getLeftPenaltyX()+0.15;
+
         // Positions of the KickOffUs formation which will be dealt to the Formation roles in order
         // The "kicker" will go to the ball
         stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
@@ -51,9 +53,9 @@ namespace rtt::ai::stp::play {
         stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
         stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, width / 4));
         stpInfos["formation_4"].setPositionToMoveTo(Vector2(-length / 8, -width / 4));
-        stpInfos["formation_5"].setPositionToMoveTo(Vector2(-length * 3 / 8, 0.0));
-        stpInfos["formation_6"].setPositionToMoveTo(Vector2(-length * 3 / 8, width / 5));
-        stpInfos["formation_7"].setPositionToMoveTo(Vector2(-length * 3 / 8, -width / 5));
+        stpInfos["formation_5"].setPositionToMoveTo(Vector2(defense_line_x, 0.0));
+        stpInfos["formation_6"].setPositionToMoveTo(Vector2(defense_line_x, width / 5));
+        stpInfos["formation_7"].setPositionToMoveTo(Vector2(defense_line_x, -width / 5));
         stpInfos["formation_8"].setPositionToMoveTo(Vector2(-length / 4, width / 3));
         stpInfos["formation_9"].setPositionToMoveTo(Vector2(-length / 4, -width / 3));
     }
