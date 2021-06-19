@@ -18,11 +18,9 @@ namespace rtt::ai::interface {
         painter.setRenderHint(QPainter::HighQualityAntialiasing, true);
         std::optional<rtt::world::view::WorldDataView> world;
         std::optional<rtt::world::Field> field;
-        {
-            auto const&[_, worldPtr] = rtt::world::World::instance();
-            world = worldPtr->getWorld();
-            field = worldPtr->getField();
-        }
+        auto const&[_, worldPtr] = rtt::world::World::instance();
+        world = worldPtr->getWorld();
+        field = worldPtr->getField();
 
         if (!world.has_value() || !world.value()->weHaveRobots()) {
             painter.drawText(24, 24, "Waiting for incoming world state");
