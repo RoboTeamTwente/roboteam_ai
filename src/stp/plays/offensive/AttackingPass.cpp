@@ -203,7 +203,7 @@ namespace rtt::ai::stp::play {
         }
         // Passer
         stpInfos["passer"].setPositionToShootAt(passLocation);
-        stpInfos["passer"].setShotType(ShotType::TARGET);
+        stpInfos["passer"].setShotType(ShotType::PASS);
     }
 
 /// To be reimplemented, removed as the implementation of the default isValidPlayToStart is changing

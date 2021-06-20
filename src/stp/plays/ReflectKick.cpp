@@ -118,7 +118,7 @@ namespace rtt::ai::stp::play {
 
         // Passer
         stpInfos["passer"].setPositionToShootAt(passPosition);
-        stpInfos["passer"].setShotType(ShotType::TARGET);
+        stpInfos["passer"].setShotType(ShotType::PASS);
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
         // Offenders
