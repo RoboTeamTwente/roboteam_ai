@@ -313,8 +313,8 @@ target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib)
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
-add_executable(ai_tests ${TEST_SOURCES})
+#add_executable(ai_tests ${TEST_SOURCES})
 
-target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
-target_include_directories(ai_tests ${AI_INCLUDES} test)
+#target_link_libraries(ai_tests ${AI_LIBS} ${GTEST_LIB} ai_lib)
+#target_include_directories(ai_tests ${AI_INCLUDES} test)
 
