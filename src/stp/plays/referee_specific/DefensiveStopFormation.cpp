@@ -45,10 +45,10 @@ namespace rtt::ai::stp::play {
         auto length = field.getFieldLength();
         auto width = field.getFieldWidth();
 
-        stpInfos["defender_0"].setPositionToMoveTo(Vector2(-length / 3, width/8));
-        stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 3, -width/8));
-        stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 3 + 1.5, width/3));
-        stpInfos["defender_3"].setPositionToMoveTo(Vector2(-length / 3 + 1.5, -width/3));
+        stpInfos["defender_0"].setPositionToMoveTo(Vector2(-length / 4, width/8));
+        stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, -width/8));
+        stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4.5, width/3));
+        stpInfos["defender_3"].setPositionToMoveTo(Vector2(-length / 4.5, -width/3));
 
         stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
         stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
