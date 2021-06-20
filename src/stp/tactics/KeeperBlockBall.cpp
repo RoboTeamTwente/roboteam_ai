@@ -58,7 +58,7 @@ std::pair<Vector2, stp::PIDType> KeeperBlockBall::calculateTargetPosition(const 
         // Intercept ball when it is moving towards the goal
         if (ball->getVelocity().length() > control_constants::BALL_STILL_VEL) {
             auto start = ball->getPos();
-            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.5);
+            auto end = start + ball->getVelocity().stretchToLength(field.getFieldLength() * 0.2);
             auto startGoal = field.getOurTopGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
             auto endGoal = field.getOurBottomGoalSide() + Vector2(control_constants::DISTANCE_FROM_GOAL_CLOSE, 0);
 
