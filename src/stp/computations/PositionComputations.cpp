@@ -148,11 +148,13 @@ namespace rtt::ai::stp {
         Vector2 lineBorderIntersect;
         std::vector<Vector2> lineBorderIntersects = {};
 
-        /// Find intersect of ball to goal and boundary of defense area
+        /// Get defense area border geometry
         std::vector<LineSegment> defenseAreaBorder = FieldComputations::getDefenseArea(field, true,
                                                                                        radius +
                                                                                        control_constants::GO_TO_POS_ERROR_MARGIN,
                                                                                        0).getBoundary();
+
+        /// Find intersect of ball to goal on the border of the defense area
         LineSegment ball2GoalLine = LineSegment(ballPos, field.getOurGoalCenter());
         for (auto &i : defenseAreaBorder) {
             for (const LineSegment &line : defenseAreaBorder) { // Vector is made to check if there is only 1 intersect
@@ -167,24 +169,12 @@ namespace rtt::ai::stp {
             }
         }
 
-        if (lineBorderIntersects.empty()) { // If there are no intersects, the ball should be outside the field
-            if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5,
-                                                        1) ||
-                !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
-                double wallPosX = 0.4*field.getFieldLength();
-                auto posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
-                positions.reserve(amountDefenders);
-                for (int i = 0; i < amountDefenders; i++) {
-                    positions.emplace_back(
-                            Vector2{posX, field.getBottomLeftOurDefenceArea().y +
-                                          i * control_constants::ROBOT_RADIUS * 3});
-                }
-            }
-            return positions;
+        if (!lineBorderIntersects.empty()) {
+            lineBorderIntersect = lineBorderIntersects.front();  // Always use the first (as there should only be one).
         }
-        lineBorderIntersect = lineBorderIntersects.front(); // Always use the first (as there should only be one).
 
-        /// Place robots on around the intersect
+        /// Intersect found with defense area:
+        /// Place robots around the intersect in front of defense area
         int j = 1;
         double base = 0.5; //Offset if there are even defenders
         if ((amountDefenders) % 2) { //If odd, place 1 at the interest
@@ -196,11 +186,29 @@ namespace rtt::ai::stp {
             for (const LineSegment &line : defenseAreaBorder) {
                 auto intersects = circle.intersectsCircleWithLineSegment(circle, line);
                 for (auto intersect : intersects) {
-                    auto spaceBetweenDefenseAreas = intersect.x < 0 ? spaceBetweenDefenseArea : -spaceBetweenDefenseArea; //Because path planning is weird about being right next to a defense area
+                    double spaceBetweenDefenseAreas = intersect.x < 0 ? spaceBetweenDefenseArea : -spaceBetweenDefenseArea; //Because path planning is weird about being right next to a defense area
                     positions.push_back(intersect + Vector2{spaceBetweenDefenseAreas, 0});
                 }
             }
         }
+
+        /// No intersects with defense area: The ball should be outside the field if this happens.
+        /// Place robots in the same spot everytime when this happens, if no positions it segfaults.
+        if (lineBorderIntersects.empty()) {
+            if (FieldComputations::pointIsInDefenseArea(field, world->getWorld()->getBall()->get()->getPos(), true, 0.5,
+                                                        1) ||
+                !FieldComputations::pointIsInField(field, world->getWorld()->getBall()->get()->getPos(), 0)) {
+                double wallPosX = 0.4*field.getFieldLength();
+                double posX = field.getOurGoalCenter().x < 0 ? -wallPosX : wallPosX;
+                positions.reserve(amountDefenders);
+                for (int i = 0; i < amountDefenders; i++) {
+                    positions.emplace_back(
+                        Vector2{posX, field.getBottomLeftOurDefenceArea().y +
+                                      i * control_constants::ROBOT_RADIUS * 3});
+                }
+            }
+        }
+
         std::sort(std::begin(positions),std::end(positions),[](Vector2 a, Vector2 b) {return a.length() > b.length(); });
         return positions;
     }

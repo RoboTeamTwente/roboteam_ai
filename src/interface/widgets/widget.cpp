@@ -37,7 +37,7 @@ namespace rtt::ai::interface {
         auto s = QString::fromStdString("We have " + std::to_string(world->getUs().size()) + " robots");
         painter.drawText(24, 48, s.fromStdString("We have " + std::to_string(world->getUs().size()) + " robots"));
 
-        drawRobots(painter, world.value());
+//        drawRobots(painter, world.value());
         if (world->getBall().has_value()) drawBall(painter, world->getBall().value());
 
         // draw the drawings from the input
