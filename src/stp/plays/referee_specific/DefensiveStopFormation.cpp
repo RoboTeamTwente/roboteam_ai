@@ -54,9 +54,9 @@ namespace rtt::ai::stp::play {
         stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
         stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
 
-        stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 4, 0.0});
-        stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 4, width / 4});
-        stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 4, -width / 4});
+        stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 12, width / 10}); // This robot is put here because BallAvoider doesnt work correctly for KickOffUs
+        stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 8, width / 4});
+        stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 8, -width / 4});
     }
 
     Dealer::FlagMap DefensiveStopFormation::decideRoleFlags() const noexcept {
@@ -71,7 +71,7 @@ namespace rtt::ai::stp::play {
         flagMap.insert({"mid_field_0", {DealerFlagPriority::HIGH_PRIORITY, {}}});
         flagMap.insert({"mid_field_1", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
         flagMap.insert({"mid_field_2", {DealerFlagPriority::MEDIUM_PRIORITY, {}}});
-        flagMap.insert({"offender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_0", {DealerFlagPriority::REQUIRED, {}}});
         flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
 
