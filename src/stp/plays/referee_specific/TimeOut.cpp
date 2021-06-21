@@ -2,10 +2,11 @@
 // Created by jordi on 01-05-20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/TimeOut.h"
+#include "stp/plays/referee_specific/TimeOut.h"
 
 #include "stp/evaluations/game_states/TimeOutGameStateEvaluation.h"
-#include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
+#include "stp/roles/passive/BallAvoider.h"
+#include  "stp/roles/PenaltyKeeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -17,7 +18,7 @@ namespace rtt::ai::stp::play {
         keepPlayEvaluation.emplace_back(GlobalEvaluation::TimeOutGameState);
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-                std::make_unique<role::BallAvoider>(role::BallAvoider("time_out_0")),
+                std::make_unique<role::PenaltyKeeper>("PenaltyKeeper"),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("time_out_1")),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("time_out_2")),
                 std::make_unique<role::BallAvoider>(role::BallAvoider("time_out_3")),
@@ -42,7 +43,9 @@ namespace rtt::ai::stp::play {
         const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine : -distanceToCenterLine;
 
         const std::string roleName = "time_out_";
-        for (int i = 0; i <= 10; i++) {
+        stpInfos["PenaltyKeeper"].setPositionToMoveTo(field.getOurGoalCenter());
+
+        for (int i = 1; i <= 10; i++) {
             stpInfos[roleName + std::to_string(i)].setPositionToMoveTo(Vector2((i+2) * xPosition, yPosition));
         }
     }
@@ -51,7 +54,8 @@ namespace rtt::ai::stp::play {
         Dealer::FlagMap flagMap;
 
         const std::string roleName = "time_out_";
-        for (int i = 0; i <= 10; i++) {
+        flagMap.insert({"PenaltyKeeper", {DealerFlagPriority::KEEPER, {}}});
+        for (int i = 1; i <= 10; i++) {
             flagMap.insert({roleName + std::to_string(i), {DealerFlagPriority::LOW_PRIORITY, {}}});
         }
 

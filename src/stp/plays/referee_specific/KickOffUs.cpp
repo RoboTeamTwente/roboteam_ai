@@ -45,6 +45,7 @@ namespace rtt::ai::stp::play {
 
         // Kicker
         stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 0.0});
+        stpInfos["passer"].setPositionToMoveTo(Vector2(0.05,0));
         stpInfos["passer"].setShotType(ShotType::PASS);
 
         // Receiver
