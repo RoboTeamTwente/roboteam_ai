@@ -48,7 +48,19 @@ namespace rtt::ai::stp::play {
 
         // Positions of the KickOffUs formation which will be dealt to the Formation roles in order
         // The "kicker" will go to the ball
-        stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
+        if(stpInfos["kicker"].getRobot() && stpInfos["kicker"].getRobot()->get()->getPos().x < 0){
+            Vector2 robotPos = stpInfos["kicker"].getRobot()->get()->getPos();
+            Vector2 ballPos = world->getWorld()->getBall()->get()->getPos();
+            if((robotPos-ballPos).length() < 0.3){
+                stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
+            } else if (robotPos.y > 0) {
+                stpInfos["kicker"].setPositionToMoveTo(Vector2(0.0, 0.25));
+            } else {
+                stpInfos["kicker"].setPositionToMoveTo(Vector2(0.0, -0.25));
+            }
+        } else {
+            stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
+        }
         stpInfos["formation_1"].setPositionToMoveTo(Vector2(-1, 0));
         stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
         stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, width / 4));
