@@ -232,7 +232,7 @@ public:
      * None if no world has been constructed yet
      * Some if a world is valid
      */
-    std::optional<WorldData> currentWorld;
+    std::optional<WorldData> currentWorld = std::nullopt;
 
 
     std::optional<world::Field> currentField;

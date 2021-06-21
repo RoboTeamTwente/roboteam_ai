@@ -21,7 +21,7 @@ namespace rtt::ai::control {
 
     void ControlModule::limitRobotCommand(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         limitVel(command,robot);
-//        limitAngularVel(command,robot);
+        limitAngularVel(command,robot);
     }
 
     void ControlModule::limitVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
@@ -64,6 +64,10 @@ namespace rtt::ai::control {
     void ControlModule::addRobotCommand(std::optional<::rtt::world::view::RobotView> robot, const proto::RobotCommand& command, const rtt::world::World *data) noexcept {
         proto::RobotCommand robot_command = command;
 
+        if(robot && robot->get()){
+            Angle target(robot_command.w());
+            interface::Input::drawData(interface::Visual::PATHFINDING,{robot->get()->getPos(),robot->get()->getPos() + Vector2(target)},Qt::red,robot->get()->getId(),interface::Drawing::LINES_CONNECTED);
+        }
         // If we are not left, commands should be rotated (because we play as right)
         if (!SETTINGS.isLeft()) {
             rotateRobotCommand(robot_command);
@@ -100,11 +104,11 @@ namespace rtt::ai::control {
                                                                                             current_angle);
             } else {
                 //initialize PID controller for robot
-                //TODO: below need to be tuned
-                double P = 5.0;
+                //below tuning only works ish for erforce, is completely useless in grsim
+                double P = 4.0;
                 double I = 0.0;
-                double D = 1.0;
-                double max_ang_vel = 10.0; //rad/s
+                double D = 0.01;
+                double max_ang_vel = 5.0; //rad/s
                 double dt = 1. / double(Constants::TICK_RATE());
 
                 AnglePID pid(P, I, D, max_ang_vel, dt);
