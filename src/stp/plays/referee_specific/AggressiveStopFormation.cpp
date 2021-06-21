@@ -46,32 +46,18 @@ void AggressiveStopFormation::calculateInfoForRoles() noexcept {
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
 
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2{-length / 5, 0.0});
-    stpInfos["defender_1"].setPositionToMoveTo(Vector2{-length / 5, width / 6});
-    stpInfos["defender_2"].setPositionToMoveTo(Vector2{-length / 5, -width / 6});
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2{-length / 3.5, 0.0});
+    stpInfos["defender_1"].setPositionToMoveTo(Vector2{-length / 3.5, width / 6});
+    stpInfos["defender_2"].setPositionToMoveTo(Vector2{-length / 3.5, -width / 6});
 
     stpInfos["mid_field_0"].setPositionToMoveTo(Vector2{-length / 8, 0.0});
     stpInfos["mid_field_1"].setPositionToMoveTo(Vector2{-length / 9, -width / 4});
     stpInfos["mid_field_2"].setPositionToMoveTo(Vector2{-length / 9, width / 4});
 
-    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 5, width / 8});
-    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 5, width / 4});
-    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 5, -width / 4});
-    stpInfos["offender_3"].setPositionToMoveTo(Vector2{length / 5, -width / 8});
-
-    /// Using the positions below is better, but right now the pos::getPosition() is so slow it crashes the interface
-//    stpInfos["defender_0"].setPositionToMoveTo(pos::getWallPosition(0, 3, field, world));
-//    stpInfos["defender_1"].setPositionToMoveTo(pos::getWallPosition(1, 3, field, world));
-//    stpInfos["defender_2"].setPositionToMoveTo(pos::getWallPosition(2, 3, field, world));
-//
-//    stpInfos["mid_field_0"].setPositionToMoveTo(pos::getPosition(stpInfos["mid_field_0"].getPositionToMoveTo(),gen::gridLeftMid, gen::BlockingPosition, field, world));
-//    stpInfos["mid_field_1"].setPositionToMoveTo(pos::getPosition(stpInfos["mid_field_1"].getPositionToMoveTo(),gen::gridMidFieldTop, gen::OffensivePosition, field, world));
-//    stpInfos["mid_field_2"].setPositionToMoveTo(pos::getPosition(stpInfos["mid_field_2"].getPositionToMoveTo(),gen::gridMidFieldBot, gen::BlockingPosition, field, world));
-//
-//    stpInfos["offender_0"].setPositionToMoveTo(pos::getPosition(stpInfos["offender_0"].getPositionToMoveTo(),gen::gridRightMid, gen::OffensivePosition, field, world));
-//    stpInfos["offender_1"].setPositionToMoveTo(pos::getPosition(stpInfos["offender_1"].getPositionToMoveTo(),gen::gridRightMid, gen::OffensivePosition, field, world));
-//    stpInfos["offender_2"].setPositionToMoveTo(pos::getPosition(stpInfos["offender_2"].getPositionToMoveTo(),gen::gridRightTop, gen::GoalShootPosition, field, world));
-//    stpInfos["offender_3"].setPositionToMoveTo(pos::getPosition(stpInfos["offender_3"].getPositionToMoveTo(),gen::gridRightBot, gen::GoalShootPosition, field, world));
+    stpInfos["offender_0"].setPositionToMoveTo(Vector2{length / 8, width / 8});
+    stpInfos["offender_1"].setPositionToMoveTo(Vector2{length / 8, width / 4});
+    stpInfos["offender_2"].setPositionToMoveTo(Vector2{length / 8, -width / 4});
+    stpInfos["offender_3"].setPositionToMoveTo(Vector2{length / 12, -width / 10}); // This robot is put here because BallAvoider doesnt work correctly for KickOffUs
 }
 
     Dealer::FlagMap AggressiveStopFormation::decideRoleFlags() const noexcept {
@@ -88,7 +74,7 @@ void AggressiveStopFormation::calculateInfoForRoles() noexcept {
         flagMap.insert({"offender_0", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"offender_1", {DealerFlagPriority::LOW_PRIORITY, {}}});
         flagMap.insert({"offender_2", {DealerFlagPriority::LOW_PRIORITY, {}}});
-        flagMap.insert({"offender_3", {DealerFlagPriority::LOW_PRIORITY, {}}});
+        flagMap.insert({"offender_3", {DealerFlagPriority::REQUIRED, {}}});
 
         return flagMap; // DONT TOUCH.
     }

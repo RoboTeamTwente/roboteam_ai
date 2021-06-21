@@ -48,8 +48,14 @@ namespace rtt::ai::stp::play {
 
         // regular bots
         const std::string formation = "formation_";
-        for (int i = 1; i <= 9; i++) {
-            stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
+        /// 1st row of 5 robots
+        for (int i = 1; i <= 5; i++) {
+            stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2((i + 10) * xPosition, yPosition));
+        }
+
+        /// 2nd row of 4 robots
+        for (int i = 6; i <= 9; i++) {
+            stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2((i + 5) * xPosition, yPosition + (2 * control_constants::ROBOT_RADIUS)));
         }
     }
 

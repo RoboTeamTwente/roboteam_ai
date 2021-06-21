@@ -45,8 +45,14 @@ namespace rtt::ai::stp::play {
         const std::string roleName = "time_out_";
         stpInfos["PenaltyKeeper"].setPositionToMoveTo(field.getOurGoalCenter());
 
-        for (int i = 1; i <= 10; i++) {
-            stpInfos[roleName + std::to_string(i)].setPositionToMoveTo(Vector2((i+2) * xPosition, yPosition));
+        /// 1st row of 5 robots
+        for (int i = 1; i <= 5; i++) {
+            stpInfos[roleName + std::to_string(i)].setPositionToMoveTo(Vector2((i + 10) * xPosition, yPosition));
+        }
+
+        /// 2nd row of 5 robots
+        for (int i = 6; i <= 10; i++) {
+            stpInfos[roleName + std::to_string(i)].setPositionToMoveTo(Vector2((i + 5) * xPosition, yPosition + (2 * control_constants::ROBOT_RADIUS)));
         }
     }
 
