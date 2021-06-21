@@ -67,15 +67,19 @@ namespace rtt::ai::stp::gen {
      * These positions are meant to be used across plays to lower computations when computing which
      * play is best by reducing the amount of unique position that need to be evaluated.
      */
-    inline static Grid gridRightTop = Grid(3, 3, 2.5, 2.2, 3, 3);
-    inline static Grid gridRightMid = Grid(3, 0, 2.5, 3, 3, 3);
-    inline static Grid gridRightBot = Grid(3, -3, 2.5, 2.2, 3, 3);
-    inline static Grid gridMidFieldTop = Grid(-1, 3, 2, 2.2, 3, 3);
-    inline static Grid gridMidFieldMid = Grid(-1, 0, 2, 3, 3, 3);
-    inline static Grid gridMidFieldBot = Grid(-1, -3, 2, 2.2, 3, 3);
-    inline static Grid gridLeftTop = Grid(-5, 3, 2.5, 2.2, 3, 3);
-    inline static Grid gridLeftMid = Grid(-5, 0, 2.5, 3, 3, 3);
-    inline static Grid gridLeftBot = Grid(-5, -3, 2.5, 2.2, 3, 3);
+    //Scaling for B-Division
+    double scaleX = 0.75;
+    double scaleY = 0.66;
+
+    inline static Grid gridRightTop = Grid(3*scaleX, 3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
+    inline static Grid gridRightMid = Grid(3*scaleX, 0*scaleY, 2.5*scaleX, 3*scaleY, 3, 3);
+    inline static Grid gridRightBot = Grid(3*scaleX, -3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
+    inline static Grid gridMidFieldTop = Grid(-1*scaleX, 3*scaleY, 2*scaleX, 2.2*scaleY, 3, 3);
+    inline static Grid gridMidFieldMid = Grid(-1*scaleX, -1.5*scaleY, 2*scaleX, 3*scaleY, 3, 3);
+    inline static Grid gridMidFieldBot = Grid(-1*scaleX, -3*scaleY, 2*scaleX, 2.2*scaleY, 3, 3);
+    inline static Grid gridLeftTop = Grid(-5*scaleX, 3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
+    inline static Grid gridLeftMid = Grid(-5*scaleX, -1.5*scaleY, 2.5*scaleX, 3*scaleY, 3, 3);
+    inline static Grid gridLeftBot = Grid(-5*scaleX, -3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
 
 
     /**
