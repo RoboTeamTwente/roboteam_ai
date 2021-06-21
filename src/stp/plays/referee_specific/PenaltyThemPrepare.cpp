@@ -35,7 +35,7 @@ namespace rtt::ai::stp::play {
     }
 
     void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
-        const double xPosition = -4 * control_constants::ROBOT_RADIUS;
+        const double xPosition = 4 * control_constants::ROBOT_RADIUS;
         const double distanceToCenterLine = field.getFieldWidth() / 2 - 2 * control_constants::ROBOT_RADIUS;
         const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine : -distanceToCenterLine;
 

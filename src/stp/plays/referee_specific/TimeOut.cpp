@@ -37,13 +37,13 @@ namespace rtt::ai::stp::play {
     }
 
     void TimeOut::calculateInfoForRoles() noexcept {
-        const auto xPosition = -4 * control_constants::ROBOT_RADIUS;
+        const auto xPosition = 4 * control_constants::ROBOT_RADIUS;
         const double distanceToCenterLine = field.getFieldWidth() / 2 - 2 * control_constants::ROBOT_RADIUS;
         const double yPosition = Constants::STD_TIMEOUT_TO_TOP() ? distanceToCenterLine : -distanceToCenterLine;
 
         const std::string roleName = "time_out_";
         for (int i = 0; i <= 10; i++) {
-            stpInfos[roleName + std::to_string(i)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
+            stpInfos[roleName + std::to_string(i)].setPositionToMoveTo(Vector2((i+2) * xPosition, yPosition));
         }
     }
 
