@@ -68,18 +68,18 @@ namespace rtt::ai::stp::gen {
      * play is best by reducing the amount of unique position that need to be evaluated.
      */
     //Scaling for B-Division
-    double scaleX = 0.75;
-    double scaleY = 0.66;
+//    double 0.75 = 0.75;
+//    double 0.66 = 0.66;
 
-    inline static Grid gridRightTop = Grid(3*scaleX, 3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
-    inline static Grid gridRightMid = Grid(3*scaleX, 0*scaleY, 2.5*scaleX, 3*scaleY, 3, 3);
-    inline static Grid gridRightBot = Grid(3*scaleX, -3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
-    inline static Grid gridMidFieldTop = Grid(-1*scaleX, 3*scaleY, 2*scaleX, 2.2*scaleY, 3, 3);
-    inline static Grid gridMidFieldMid = Grid(-1*scaleX, -1.5*scaleY, 2*scaleX, 3*scaleY, 3, 3);
-    inline static Grid gridMidFieldBot = Grid(-1*scaleX, -3*scaleY, 2*scaleX, 2.2*scaleY, 3, 3);
-    inline static Grid gridLeftTop = Grid(-5*scaleX, 3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
-    inline static Grid gridLeftMid = Grid(-5*scaleX, -1.5*scaleY, 2.5*scaleX, 3*scaleY, 3, 3);
-    inline static Grid gridLeftBot = Grid(-5*scaleX, -3*scaleY, 2.5*scaleX, 2.2*scaleY, 3, 3);
+    inline static Grid gridRightTop = Grid(3*0.75, 3*0.66, 2.5*0.75, 2.2*0.66, 3, 3);
+    inline static Grid gridRightMid = Grid(3*0.75, 0*0.66, 2.5*0.75, 3*0.66, 3, 3);
+    inline static Grid gridRightBot = Grid(3*0.75, -3*0.66, 2.5*0.75, 2.2*0.66, 3, 3);
+    inline static Grid gridMidFieldTop = Grid(-1*0.75, 3*0.66, 2*0.75, 2.2*0.66, 3, 3);
+    inline static Grid gridMidFieldMid = Grid(-1*0.75, -1.5*0.66, 2*0.75, 3*0.66, 3, 3);
+    inline static Grid gridMidFieldBot = Grid(-1*0.75, -3*0.66, 2*0.75, 2.2*0.66, 3, 3);
+    inline static Grid gridLeftTop = Grid(-5*0.75, 3*0.66, 2.5*0.75, 2.2*0.66, 3, 3);
+    inline static Grid gridLeftMid = Grid(-5*0.75, -1.5*0.66, 2.5*0.75, 3*0.66, 3, 3);
+    inline static Grid gridLeftBot = Grid(-5*0.75, -3*0.66, 2.5*0.75, 2.2*0.66, 3, 3);
 
 
     /**
