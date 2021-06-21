@@ -108,7 +108,7 @@ namespace rtt::ai::stp::play {
         // Reflector
         stpInfos["reflector"].setPositionToMoveTo(reflectPosition);
         stpInfos["reflector"].setPositionToShootAt(field.getTheirGoalCenter());
-        stpInfos["reflector"].setShotType(ShotType::MAX);
+        stpInfos["reflector"].setShotType(ShotType::PASS);
 
         for (auto &role : roles) {
             if (role->getName() == "reflector") {

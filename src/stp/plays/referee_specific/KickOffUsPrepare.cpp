@@ -52,14 +52,14 @@ namespace rtt::ai::stp::play {
             Vector2 robotPos = stpInfos["kicker"].getRobot()->get()->getPos();
             Vector2 ballPos = world->getWorld()->getBall()->get()->getPos();
             if((robotPos-ballPos).length() < 0.7){
-                stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.0));
+                stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
             } else if (robotPos.y > 0) {
                 stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.6));
             } else {
                 stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, -0.6));
             }
         } else {
-            stpInfos["kicker"].setPositionToMoveTo(Vector2(6, 0.0));
+            stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
         }
         stpInfos["kicker"].setPositionToShootAt(Vector2(4.5, 0));
         stpInfos["formation_1"].setPositionToMoveTo(Vector2(-1, 0));
