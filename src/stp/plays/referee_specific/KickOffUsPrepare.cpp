@@ -51,12 +51,12 @@ namespace rtt::ai::stp::play {
         if(stpInfos["kicker"].getRobot() && stpInfos["kicker"].getRobot()->get()->getPos().x < 0){
             Vector2 robotPos = stpInfos["kicker"].getRobot()->get()->getPos();
             Vector2 ballPos = world->getWorld()->getBall()->get()->getPos();
-            if((robotPos-ballPos).length() < 0.5){
+            if((robotPos-ballPos).length() < 0.7){
                 stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
             } else if (robotPos.y > 0) {
-                stpInfos["kicker"].setPositionToMoveTo(Vector2(0.0, 0.4));
+                stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, 0.6));
             } else {
-                stpInfos["kicker"].setPositionToMoveTo(Vector2(0.0, -0.4));
+                stpInfos["kicker"].setPositionToMoveTo(Vector2(-0.25, -0.6));
             }
         } else {
             stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
