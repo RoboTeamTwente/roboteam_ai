@@ -88,9 +88,10 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength() / 8, 0.0));
 
     // Defenders
-    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-length / 4, width/8));
-    stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, -width/8));
-    stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4.5, width/3));
+    stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, width/8));
+    stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4, -width/8));
+    stpInfos["defender_3"].setPositionToMoveTo(Vector2(-length / 4.5, width/3));
+
 //    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
 //    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
 //    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
