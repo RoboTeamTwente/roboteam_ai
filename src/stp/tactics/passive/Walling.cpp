@@ -21,7 +21,7 @@ namespace rtt::ai::stp::tactic {
         //skillStpInfo.setAngle((info.getBall()->get()->getPos()-info.getRobot().value()->getPos()).angle());
         skillStpInfo.setAngle(0.00001);
         // Be 100% sure the dribbler is off during the wall
-        skillStpInfo.setDribblerSpeed(0);
+        skillStpInfo.setDribblerSpeed(100);
         skillStpInfo.setPidType(PIDType::INTERCEPT);
         return skillStpInfo;
     }

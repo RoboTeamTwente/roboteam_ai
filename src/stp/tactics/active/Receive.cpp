@@ -27,9 +27,7 @@ std::optional<StpInfo> Receive::calculateInfoForSkill(StpInfo const &info) noexc
     skillStpInfo.setPidType(PIDType::RECEIVE);
 
     // If ball is close to robot, turn on dribbler
-    if (skillStpInfo.getRobot()->get()->getDistanceToBall() <= control_constants::TURN_ON_DRIBBLER_DISTANCE) {
-        skillStpInfo.setDribblerSpeed(100);
-    }
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }

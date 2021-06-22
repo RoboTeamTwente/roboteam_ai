@@ -29,7 +29,7 @@ std::optional<StpInfo> Formation::calculateInfoForSkill(StpInfo const &info) noe
     }
 
     // Be 100% sure the dribbler is off during the formation
-    skillStpInfo.setDribblerSpeed(0);
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }
