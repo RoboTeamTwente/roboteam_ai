@@ -156,7 +156,7 @@ void GenericPass::calculateInfoForPass(const world::ball::Ball* ball) noexcept {
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
     }
     // Passer
-    stpInfos["passer"].setPositionToShootAt(Vector2(field.getTheirGoalCenter()));
+    stpInfos["passer"].setPositionToShootAt(passingPosition);
     stpInfos["passer"].setShotType(ShotType::PASS);
 }
 

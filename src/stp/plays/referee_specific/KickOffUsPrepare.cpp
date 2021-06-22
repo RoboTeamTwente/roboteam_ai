@@ -61,8 +61,8 @@ namespace rtt::ai::stp::play {
         } else {
             stpInfos["kicker"].setPositionToMoveTo(Vector2(0.25, 0.0));
         }
-        stpInfos["kicker"].setPositionToShootAt(Vector2(4.5, 0));
-        stpInfos["formation_1"].setPositionToMoveTo(Vector2(-1, 0));
+//        stpInfos["kicker"].setPositionToShootAt(Vector2(4.5, 0));
+        stpInfos["formation_1"].setPositionToMoveTo(Vector2(-1, 1));
         stpInfos["formation_2"].setPositionToMoveTo(Vector2(-length / 4, -width / 8));
         stpInfos["formation_3"].setPositionToMoveTo(Vector2(-length / 8, width / 4));
         stpInfos["formation_4"].setPositionToMoveTo(Vector2(-length / 8, -width / 4));

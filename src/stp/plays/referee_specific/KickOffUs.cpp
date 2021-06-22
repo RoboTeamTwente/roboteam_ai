@@ -44,12 +44,12 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
         // Kicker
-        stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
+        stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 1.0});
         stpInfos["passer"].setPositionToMoveTo(Vector2(0.05,0));
         stpInfos["passer"].setShotType(ShotType::PASS);
 
         // Receiver
-        stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 0.0});
+        stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
     }
 
     Dealer::FlagMap KickOffUs::decideRoleFlags() const noexcept {
