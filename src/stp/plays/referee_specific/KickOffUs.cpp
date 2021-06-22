@@ -2,11 +2,14 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include <stp/roles/active/PassReceiver.h>
 #include "stp/plays/referee_specific/KickOffUs.h"
+
+#include <include/roboteam_ai/stp/roles/passive/Formation.h>
+#include <stp/roles/active/PassReceiver.h>
+
+#include "stp/roles/Keeper.h"
 #include "stp/roles/active/Passer.h"
 #include "stp/roles/passive/Halt.h"
-#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -19,7 +22,7 @@ namespace rtt::ai::stp::play {
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
                 std::make_unique<role::Keeper>("keeper"),
-                std::make_unique<role::Passer>("passer"),
+                std::make_unique<role::Formation>("passer"),
                 std::make_unique<role::PassReceiver>("receiver"),
                 std::make_unique<role::Halt>("halt_0"),
                 std::make_unique<role::Halt>("halt_1"),
@@ -44,10 +47,10 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
         // Kicker
-        stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 1.0});
-        stpInfos["passer"].setPositionToMoveTo(Vector2(0.05,0));
-        stpInfos["passer"].setShotType(ShotType::PASS);
-        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
+//        stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 1.0});
+        stpInfos["passer"].setPositionToMoveTo(Vector2(-1.0,0));
+//        stpInfos["passer"].setShotType(ShotType::PASS);
+//        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
         // Receiver
         stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
