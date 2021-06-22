@@ -54,7 +54,7 @@ namespace rtt::ai::stp::play {
     }
 
     void PenaltyThem::calculateInfoForRoles() noexcept {
-        stpInfos["keeper"].setPositionToMoveTo(field.getOurGoalCenter());
+        stpInfos["keeper"].setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,world->getWorld()->getBall()->get()->getPos().y));
         stpInfos["keeper"].setPositionToShootAt(
                 world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
