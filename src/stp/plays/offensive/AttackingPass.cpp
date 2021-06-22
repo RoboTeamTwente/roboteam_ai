@@ -101,6 +101,7 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
         stpInfos["keeper"].setPositionToShootAt(
                 world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::us).value()->getPos());
+        stpInfos["keeper"].setKickOrChip(KickOrChip::CHIP);
 
         /// Passer and receivers
         // calculate all info necessary to execute a pass
