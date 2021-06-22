@@ -112,12 +112,12 @@ namespace rtt::ai::stp::play {
 
         stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_0"].setEnemyRobot(enemyRobots[0]);
-        stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_0"].setBlockDistance(BlockDistance::CLOSE);
         //(stpInfos.find("defender_0")->second.getRobot()->get()->getPos()-enemyRobots[0].get()->getPos()).length()/2
 
         stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
         stpInfos["defender_1"].setEnemyRobot(enemyRobots[1]);
-        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
         /// Wallers that will block the line from the ball to the goal
         stpInfos["waller_0"].setPositionToMoveTo(pos::getWallPosition(0, 2, field, world));

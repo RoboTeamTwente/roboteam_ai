@@ -95,7 +95,7 @@ namespace rtt::ai::stp::play {
 
         stpInfos["defender_2"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_2"].setEnemyRobot(enemyClosestToGoal);
-        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
         stpInfos["waller_1"].setPositionToMoveTo(PositionComputations::getWallPosition(0, 3, field, world));
         stpInfos["waller_2"].setPositionToMoveTo(PositionComputations::getWallPosition(1, 3, field, world));

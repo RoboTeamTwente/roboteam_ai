@@ -138,17 +138,17 @@ namespace rtt::ai::stp::play {
         stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_1"].setEnemyRobot(
                 world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
-        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
         stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
         stpInfos["defender_2"].setEnemyRobot(
                 world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
-        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
         stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
         stpInfos["defender_3"].setEnemyRobot(
                 world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
-        stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_3"].setBlockDistance(BlockDistance::CLOSE);
 
         // Keeper
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));

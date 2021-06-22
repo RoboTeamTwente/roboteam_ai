@@ -68,7 +68,7 @@ void GenericPass::calculateInfoForRoles() noexcept {
     auto enemyAttacker = world->getWorld()->getRobotClosestToBall(world::them);
     stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_1"].setEnemyRobot(enemyAttacker);
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
     /// Midfielder
     if (stpInfos["midfielder_1"].getRobot()) {

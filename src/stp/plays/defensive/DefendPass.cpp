@@ -73,11 +73,11 @@ void DefendPass::calculateInfoForDefenders() noexcept {
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(enemyClosestToBall);
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setEnemyRobot(enemyClosestToBall);
-    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
     // When the ball moves, one defender tries to intercept the ball
     auto closestBotUs = world->getWorld()->getRobotClosestToBall(world::us);
@@ -134,7 +134,7 @@ void DefendPass::calculateInfoForBlockers() noexcept {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
-                stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
+                stpInfos[roleName].setBlockDistance(BlockDistance::CLOSE);
             }
         }
     }

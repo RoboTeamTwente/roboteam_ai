@@ -71,11 +71,11 @@ namespace rtt::ai::stp::play {
 
         stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_0"].setEnemyRobot(enemyAttacker);
-        stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_0"].setBlockDistance(BlockDistance::CLOSE);
 
         stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["defender_1"].setEnemyRobot(enemyClosestToGoal);
-        stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
         if (enemyClosestToGoal) {
             stpInfos["defender_2"].setPositionToDefend(enemyClosestToGoal.value()->getPos());
@@ -84,7 +84,7 @@ namespace rtt::ai::stp::play {
         }
 
         stpInfos["defender_2"].setEnemyRobot(enemyAttacker);
-        stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+        stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
         stpInfos["midfielder_0"].setPositionToDefend(field.getOurGoalCenter());
         stpInfos["midfielder_0"].setEnemyRobot(enemyAttacker);

@@ -68,15 +68,15 @@ void GetBallPossession::calculateInfoForRoles() noexcept {
 
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
-    stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_0"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_1"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
-    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_2"].setBlockDistance(BlockDistance::CLOSE);
 
     stpInfos["midfielder_0"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_0"].getPositionToMoveTo(),gen::gridMidFieldBot, gen::SafePosition, field, world));
     stpInfos["midfielder_1"].setPositionToMoveTo(PositionComputations::getPosition(stpInfos["midfielder_1"].getPositionToMoveTo(),gen::gridMidFieldMid, gen::SafePosition, field, world));
