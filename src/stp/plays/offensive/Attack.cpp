@@ -29,9 +29,9 @@ Attack::Attack() : Play() {
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_2")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_3")),
                                                                                  std::make_unique<role::Formation>(role::Formation("midfielder_4")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_3"))};
+                                                                                 std::make_unique<role::Formation>(role::Formation("defender_1")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("defender_2")),
+                                                                                 std::make_unique<role::Formation>(role::Formation("defender_3"))};
 }
 
 uint8_t Attack::score(PlayEvaluator& playEvaluator) noexcept {
@@ -69,6 +69,9 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["keeper"].setPositionToShootAt(Vector2());
 
+    auto length = field.getFieldLength();
+    auto width = field.getFieldWidth();
+
     // Attacker
     auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
     stpInfos["attacker"].setPositionToShootAt(goalTarget);
@@ -85,17 +88,20 @@ void Attack::calculateInfoForRoles() noexcept {
     stpInfos["midfielder_4"].setPositionToMoveTo(Vector2(-field.getFieldLength() / 8, 0.0));
 
     // Defenders
-    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
-    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
-    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
-
-    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
-    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
-    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
-
-    stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
-    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
-    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_0"].setPositionToMoveTo(Vector2(-length / 4, width/8));
+    stpInfos["defender_1"].setPositionToMoveTo(Vector2(-length / 4, -width/8));
+    stpInfos["defender_2"].setPositionToMoveTo(Vector2(-length / 4.5, width/3));
+//    stpInfos["defender_1"].setPositionToDefend(field.getOurGoalCenter());
+//    stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
+//    stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+//
+//    stpInfos["defender_2"].setPositionToDefend(field.getOurTopGoalSide());
+//    stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurTopGoalSide(), world::them));
+//    stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+//
+//    stpInfos["defender_3"].setPositionToDefend(field.getOurBottomGoalSide());
+//    stpInfos["defender_3"].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurBottomGoalSide(), world::them));
+//    stpInfos["defender_3"].setBlockDistance(BlockDistance::HALFWAY);
 }
 
 const char *Attack::getName() { return "Attack"; }
