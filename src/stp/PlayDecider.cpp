@@ -20,7 +20,10 @@ namespace rtt::ai::stp {
             playsWithScores.emplace_back(std::make_pair(play, play->score(playEvaluator)));
         }
 
-        std::sort(playsWithScores.begin(), playsWithScores.end(), [](auto &a, auto &b) {return a.second > b.second; });
+        std::sort(playsWithScores.begin(), playsWithScores.end(), [](auto &a, auto &b) {
+            std::cout << a.first << ": " << a.second << std::endl;
+            return a.second > b.second;
+        });
         return playsWithScores.begin()->first;
     }
 
