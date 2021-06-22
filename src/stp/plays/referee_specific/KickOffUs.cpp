@@ -47,6 +47,7 @@ namespace rtt::ai::stp::play {
         stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 1.0});
         stpInfos["passer"].setPositionToMoveTo(Vector2(0.05,0));
         stpInfos["passer"].setShotType(ShotType::PASS);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
         // Receiver
         stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
