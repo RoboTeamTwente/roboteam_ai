@@ -52,7 +52,7 @@ std::unordered_map<std::string, v::RobotView> Dealer::distribute(std::vector<v::
             rtt::Hungarian::Solve(current.currentScores, current.newAssignments);
             if (!current.newAssignments.empty()) {
                 for (std::size_t j = 0; j < current.newAssignments.size(); j++) {
-                    if (current.newAssignments[j] >= 0) {
+                    if (current.newAssignments[j] >= 0 && current.newAssignments.size() != allRobots.size()) {
                         current.currentIDs.push_back(current.newAssignments[j]);                    // get newly assigned robot from current index
                         current.originalIDsIndex.push_back(indexID[current.currentIDs.back()]);     // get robot number
                         output.insert({roleNames[current.originalRolesIndex[j]], allRobots[current.originalIDsIndex.back()]});
