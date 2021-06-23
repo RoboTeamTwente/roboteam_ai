@@ -36,7 +36,7 @@ double BlockRobot::calculateAngle(const world::view::RobotView enemy, const Vect
 Vector2 BlockRobot::calculateDesiredRobotPosition(BlockDistance blockDistance, const world::view::RobotView enemy, const Vector2 &targetLocation) {
     Vector2 lineEnemyToTarget = targetLocation - enemy->getPos();
     double proportion = 0.55;  // adding 1 results in 0.25, 0.5, 0.75
-    auto movePosition = (lineEnemyToTarget * proportion).stretchToLength(0.55);
+    auto movePosition = (lineEnemyToTarget * proportion).stretchToLength(0.75);
     return movePosition + enemy->getPos();
 }
 
