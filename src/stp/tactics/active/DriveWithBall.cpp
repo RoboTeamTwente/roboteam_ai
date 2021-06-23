@@ -31,8 +31,8 @@ std::optional<StpInfo> DriveWithBall::calculateInfoForSkill(StpInfo const& info)
     // When driving with ball, we need to activate the dribbler
     // For now, this means full power, but this might change later
     // TODO: TUNE better way to determine dribblerspeed
-    skillStpInfo.setDribblerSpeed((info.getRobot()->get()->getPos() - info.getPositionToMoveTo().value()).length()/16.00*100.00);
-    std::cout << "dribbler: " << (info.getRobot()->get()->getPos() - info.getPositionToMoveTo().value()).length()/16.00*100.00 << std::endl;
+    skillStpInfo.setDribblerSpeed(/*(info.getRobot()->get()->getPos() - info.getPositionToMoveTo().value()).length()/16.00*/100.00);
+    std::cout << "[DEBUG][DriveWithBall] dribbler: " << (info.getRobot()->get()->getPos() - info.getPositionToMoveTo().value()).length()/16.00*100.00 << std::endl;
     std::cout << "[DEBUG][DriveWithBall] currentPos: " << skillStpInfo.getRobot()->get()->getPos() << ", Angle: " << skillStpInfo.getRobot()->get()->getAngle()*180/M_PI << std::endl;
     std::cout << "[DEBUG][DriveWithBall] newPos: " << skillStpInfo.getPositionToMoveTo().value() << ", newAngle: " << skillStpInfo.getAngle()*180/M_PI << std::endl;
     return skillStpInfo;

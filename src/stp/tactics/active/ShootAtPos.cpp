@@ -49,7 +49,7 @@ std::optional<StpInfo> ShootAtPos::calculateInfoForKick(StpInfo const &info) noe
     skillStpInfo.setKickChipVelocity(control::ControlUtils::determineKickForce(distanceBallToTarget, skillStpInfo.getShotType()));
 
     // Set the dribblerSpeed
-    skillStpInfo.setDribblerSpeed(50);
+    skillStpInfo.setDribblerSpeed(100);
 
     return skillStpInfo;
 }

@@ -65,7 +65,7 @@ namespace rtt::ai::stp::play {
             ballPosShotScore = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, world->getWorld()->getBall()->get()->getPos(), world,
                                                                                              stpInfos["HardwareChallenge1_0"].getRobot()->get()->getId(), true);
         }
-        if(ballPosShotScore > 50 &&
+        if(ballPosShotScore > 55 &&
             roles.at(0)->getCurrentTactic() != nullptr && strcmp(roles.at(0)->getCurrentTactic()->getName(), "Shoot At Pos") != 0 &&
             (world->getWorld()->getBall()->get()->getPos() - stpInfos["HardwareChallenge1_0"].getRobot()->get()->getPos()).length() < 1.5){
 //            roles.at(0)->getCurrentTactic();

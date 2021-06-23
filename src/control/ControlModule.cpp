@@ -47,7 +47,7 @@ namespace rtt::ai::control {
     void ControlModule::limitAngularVel(proto::RobotCommand& command,std::optional<rtt::world::view::RobotView> robot) {
         // Limit the angular velocity when the robot has the ball by setting the target angle in small steps
         // Might want to limit on the robot itself
-        if (robot->hasBall() && command.use_angle()) {
+        if (/*robot->hasBall() && */command.use_angle()) {
             auto targetAngle = command.w();
             auto robotAngle = robot.value()->getAngle();
 
