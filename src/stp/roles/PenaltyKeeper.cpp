@@ -11,13 +11,14 @@
 #include "include/roboteam_ai/stp/tactics/active/GetBall.h"
 #include "include/roboteam_ai/stp/tactics/active/KickAtPos.h"
 #include "include/roboteam_ai/stp/tactics/active/ChipAtPos.h"
+#include "stp/tactics/KeeperBlockBall.h"
 #include "world/FieldComputations.h"
 
 namespace rtt::ai::stp::role {
 
 PenaltyKeeper::PenaltyKeeper(std::string name) : Role(std::move(name)) {
     // create state machine and initializes the first state
-    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Formation(), tactic::GetBall(), tactic::ChipAtPos()};
+    robotTactics = collections::state_machine<Tactic, Status, StpInfo>{tactic::Formation(), tactic::KeeperBlockBall(), tactic::GetBall(), tactic::ChipAtPos()};
 }
 
 Status PenaltyKeeper::update(StpInfo const& info) noexcept {
