@@ -79,7 +79,7 @@ void PenaltyUs::calculateInfoForRoles() noexcept {
 
     // TODO: the shoot position might need to change
     stpInfos["kicker"].setPositionToShootAt(field.getTheirGoalCenter() + Vector2{1.0, 0.5});
-    stpInfos["kicker"].setShotType(ShotType::MAX);
+    stpInfos["kicker"].setShotType(ShotType::PASS);
 }
 
 }  // namespace rtt::ai::stp::play

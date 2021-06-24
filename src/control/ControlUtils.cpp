@@ -135,7 +135,7 @@ double ControlUtils::determineKickForce(const double distance, stp::ShotType sho
     if(distance > 2) {
         PASS_FACTOR = 1.445;
     } else {
-        PASS_FACTOR = 2.045;
+        PASS_FACTOR = 1.745;
     }
     if (shotType == stp::ShotType::MAX) return stp::control_constants::MAX_KICK_POWER;
 
