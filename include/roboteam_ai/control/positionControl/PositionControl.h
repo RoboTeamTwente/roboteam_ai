@@ -46,7 +46,7 @@ namespace rtt::ai::control {
          * @return a RobotCommand, which can be fed directly in the output
          */
         RobotCommand computeAndTrackPath(const rtt_world::Field &field, int robotId, const Vector2 &currentPosition,
-                                         const Vector2 &currentVelocity, const Vector2 &targetPosition,
+                                         const Vector2 &currentVelocity, Vector2 &targetPosition,
                                          stp::PIDType pidType);
 
         /**

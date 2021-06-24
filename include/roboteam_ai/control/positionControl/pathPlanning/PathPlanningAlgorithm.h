@@ -30,7 +30,7 @@ public:
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    virtual std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) = 0;
+    virtual std::vector<Vector2> computePath(const Vector2 &robotPosition, Vector2 &targetPosition) = 0;
 };
 }
 

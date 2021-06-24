@@ -10,7 +10,7 @@
 
 namespace rtt::ai::control {
     RobotCommand
-    PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, const Vector2 &targetPosition,
+    PositionControl::computeAndTrackPath(const rtt::world::Field &field, int robotId, const Vector2 &currentPosition, const Vector2 &currentVelocity, Vector2 &targetPosition,
                                      stp::PIDType pidType) {
         collisionDetector.setField(field);
 

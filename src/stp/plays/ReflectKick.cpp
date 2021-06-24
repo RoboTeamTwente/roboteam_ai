@@ -121,7 +121,7 @@ namespace rtt::ai::stp::play {
         }
 
         // Passer
-        stpInfos["passer"].setPositionToShootAt(passPosition);
+        stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
         stpInfos["passer"].setShotType(ShotType::PASS);
         stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 

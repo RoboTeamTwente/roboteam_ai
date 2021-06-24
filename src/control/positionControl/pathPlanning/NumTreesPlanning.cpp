@@ -7,7 +7,7 @@
 namespace rtt::ai::control {
 NumTreesPlanning::NumTreesPlanning(CollisionDetector &collisionDetector) : PathPlanningAlgorithm(collisionDetector) {}
 
-std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) {
+std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition, Vector2 &targetPosition) {
     auto root = PathPointNode(robotPosition);
     std::queue<PathPointNode> pointQueue;
     pointQueue.push(root);
@@ -70,7 +70,11 @@ std::vector<Vector2> NumTreesPlanning::computePath(const Vector2 &robotPosition,
     return path;
 }
 
-std::vector<PathPointNode> NumTreesPlanning::branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, const Vector2 &destination) const {
+std::vector<PathPointNode> NumTreesPlanning::branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, Vector2 &destination) const {
+    //const rtt_world::Field &field, const Vector2 &point, bool isOurDefenceArea, double margin, double backMargin
+    if (collisionPosition.x > 1.9 && abs(collisionPosition.y) < 1.1) {
+        destination = (destination - Vector2(4,0)).stretchToLength(0.5) + destination;
+    }
     Vector2 deltaPosition = collisionPosition - parentPoint.getPosition();
 
     Vector2 leftTargetPosition = collisionPosition + Vector2(deltaPosition.y, -deltaPosition.x).stretchToLength(AVOIDANCE_DISTANCE);

@@ -47,8 +47,8 @@ namespace rtt::ai::stp::play {
         stpInfos["keeper"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
 
         // Kicker
-//        stpInfos["passer"].setPositionToShootAt(Vector2{-1.0, 1.0});
-        stpInfos["passer"].setPositionToMoveTo(Vector2(-1.0,0));
+        stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
+        stpInfos["passer"].setPositionToMoveTo(Vector2(0.25,0));
 //        stpInfos["passer"].setShotType(ShotType::PASS);
 //        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
