@@ -43,6 +43,11 @@ namespace rtt::ai::stp::play {
         auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
         stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
 
+        if(stpInfos["ball_placer"].getRobot()->get() && ballTarget.length() > 0 && (stpInfos["ball_placer"].getRobot()->get()->getPos() - ballTarget).length() < 0.55) {
+            stpInfos["ball_placer"].setDribblerSpeed(0);
+            stpInfos["ball_placer"].setPositionToMoveTo(stpInfos["ball_placer"].getRobot()->get()->getPos());
+        }
+
         auto length = field.getFieldLength();
         auto width = field.getFieldWidth();
 
