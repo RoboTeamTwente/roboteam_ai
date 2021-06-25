@@ -16,10 +16,10 @@ namespace rtt::ai::stp::play {
 
     HardwareChallenge1::HardwareChallenge1() : Play() {
         startPlayEvaluation.clear();
-        startPlayEvaluation.emplace_back(GlobalEvaluation::HaltGameState);
+        startPlayEvaluation.emplace_back(GlobalEvaluation::FreeKickUsGameState);
 
         keepPlayEvaluation.clear();
-        keepPlayEvaluation.emplace_back(GlobalEvaluation::HaltGameState);
+        keepPlayEvaluation.emplace_back(GlobalEvaluation::FreeKickUsGameState);
 
         roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
             std::make_unique<role::HardwareChallenge1>("HardwareChallenge1_0"),
@@ -37,7 +37,7 @@ namespace rtt::ai::stp::play {
 
     uint8_t HardwareChallenge1::score(PlayEvaluator &playEvaluator) noexcept {
         /// List of all factors that combined results in an evaluation how good the play is.
-        scoring = {{playEvaluator.getGlobalEvaluation(eval::HaltGameState), 1.0}};
+        scoring = {{playEvaluator.getGlobalEvaluation(eval::FreeKickUsGameState), 1.0}};
         return (lastScore = playEvaluator.calculateScore(scoring)).value(); // DONT TOUCH.
     }
 
@@ -56,20 +56,28 @@ namespace rtt::ai::stp::play {
 
     void HardwareChallenge1::calculateInfoForRoles() noexcept {
         auto goalTarget = computations::GoalComputations::calculateGoalTarget(world, field);
+        auto posToMove = pos::getPosition(stpInfos["HardwareChallenge1_0"].getPositionToMoveTo(),gen::gridRightMid, gen::GoalShootPosition, field, world);
         stpInfos["HardwareChallenge1_0"].setPositionToShootAt(goalTarget);
-        stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(pos::getPosition(stpInfos["HardwareChallenge1_0"].getPositionToMoveTo(),gen::gridRightMid, gen::GoalShootPosition, field, world));
+        stpInfos["HardwareChallenge1_0"].setPositionToMoveTo(posToMove.position);
         stpInfos["HardwareChallenge1_0"].setShotType(ShotType::MAX);
         stpInfos["HardwareChallenge1_0"].setKickOrChip(stp::KickOrChip::KICK);
         double ballPosShotScore = 0;
         if(stpInfos["HardwareChallenge1_0"].getRobot().has_value()) {
-            ballPosShotScore = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, world->getWorld()->getBall()->get()->getPos(), world,
+            //TODO: pass robotpos instead of ballpos, robotcenter + robotradius
+            ballPosShotScore = FieldComputations::getPercentageOfGoalVisibleFromPoint(field, false, stpInfos["HardwareChallenge1_0"].getRobot().value()->getPos(), world,
                                                                                              stpInfos["HardwareChallenge1_0"].getRobot()->get()->getId(), true);
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] robotPos: " << stpInfos["HardwareChallenge1_0"].getRobot().value()->getPos() << std::endl;
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] robotAngle: " << stpInfos["HardwareChallenge1_0"].getRobot().value()->getAngle() << std::endl;
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] goaltarget: " << goalTarget << std::endl;
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] posToMove: " << posToMove.position << std::endl;
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] ballPosShotScore: " << ballPosShotScore << std::endl;
         }
-        if(ballPosShotScore > 55 &&
+        if(ballPosShotScore > 55 && (posToMove.position - stpInfos["HardwareChallenge1_0"].getPositionToMoveTo().value()).length() < control_constants::GO_TO_POS_ERROR_MARGIN &&
             roles.at(0)->getCurrentTactic() != nullptr && strcmp(roles.at(0)->getCurrentTactic()->getName(), "Shoot At Pos") != 0 &&
-            (world->getWorld()->getBall()->get()->getPos() - stpInfos["HardwareChallenge1_0"].getRobot()->get()->getPos()).length() < 1.5){
-//            roles.at(0)->getCurrentTactic();
+            (world->getWorld()->getBall()->get()->getPos() - stpInfos["HardwareChallenge1_0"].getRobot()->get()->getPos()).length() < 0.1){
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] currentRole: " << roles.at(0)->getCurrentTactic()->getName() << std::endl;
             roles.at(0)->forceNextTactic();
+            std::cout << "[DEBUG][HardwareChallenge1::calculateInfoForRoles] forcing next tactic" << std::endl;
         }
         //TODO: Calculate a location to drive to with the ball
         //TODO: If we know a location to drive to, make sure the robot positions itself on the best side with GetBehindBallInDirection
