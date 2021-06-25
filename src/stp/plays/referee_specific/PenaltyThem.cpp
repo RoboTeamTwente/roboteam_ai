@@ -5,6 +5,7 @@
 #include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
 #include "include/roboteam_ai/stp/roles/passive/Halt.h"
 #include "stp/roles/PenaltyKeeper.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 
@@ -16,7 +17,7 @@ namespace rtt::ai::stp::play {
         keepPlayEvaluation.emplace_back(GlobalEvaluation::PenaltyThemGameState);
 
         roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-                std::make_unique<role::PenaltyKeeper>(role::PenaltyKeeper("keeper")),
+                std::make_unique<role::Keeper>(role::Keeper("keeper")),
                 std::make_unique<role::Halt>(role::Halt("halt_0")),
                 std::make_unique<role::Halt>(role::Halt("halt_1")),
                 std::make_unique<role::Halt>(role::Halt("halt_2")),

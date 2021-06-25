@@ -27,8 +27,7 @@ std::optional<StpInfo> KeeperBlockBall::calculateInfoForSkill(StpInfo const &inf
     auto targetPosition = calculateTargetPosition(ball, field, enemyRobot);
 
     auto targetAngle = keeperToBall.angle();
-
-    skillStpInfo.setPositionToMoveTo(targetPosition.first);
+    skillStpInfo.setPositionToMoveTo(Vector2(field.getOurGoalCenter().x,targetPosition.first.y));
     skillStpInfo.setPidType(targetPosition.second);
     skillStpInfo.setAngle(targetAngle);
 
