@@ -202,6 +202,6 @@ bool GameStateManager::canMoveOutsideField(int robotId) {
 
 Vector2 GameStateManager::getRefereeDesignatedPosition() {
     auto designatedPos = rtt::ai::GameStateManager::getRefereeData().designated_position();
-    return Vector2(designatedPos.x() / 1000, designatedPos.y() / 1000);
+    return Vector2(-designatedPos.x() / 1000, -designatedPos.y() / 1000);
 }
 }  // namespace rtt::ai
