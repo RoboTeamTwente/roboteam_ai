@@ -49,8 +49,8 @@ namespace rtt::ai::stp::play {
         // Kicker
         stpInfos["passer"].setPositionToShootAt(field.getTheirGoalCenter());
         stpInfos["passer"].setPositionToMoveTo(Vector2(-0.25,0));
-//        stpInfos["passer"].setShotType(ShotType::PASS);
-//        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
+        stpInfos["passer"].setShotType(ShotType::PASS);
+        stpInfos["passer"].setKickOrChip(KickOrChip::KICK);
 
         // Receiver
         stpInfos["receiver"].setPositionToMoveTo(Vector2{-1.0, 1.0});
