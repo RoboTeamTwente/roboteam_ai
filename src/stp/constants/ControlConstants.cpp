@@ -74,5 +74,5 @@ constexpr double DISTANCE_TO_ROBOT_NEAR = 2.2 * ROBOT_RADIUS;
 constexpr double DISTANCE_FROM_GOAL_CLOSE = 2 * control_constants::ROBOT_RADIUS;
 
 /// GameState constants
-constexpr double AVOID_BALL_DISTANCE = 0.55;
+constexpr double AVOID_BALL_DISTANCE = 0.6;
 }  // namespace rtt::ai::stp::control_constants
