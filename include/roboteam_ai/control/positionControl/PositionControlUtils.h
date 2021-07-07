@@ -15,7 +15,7 @@ class PositionControlUtils {
     static constexpr double MAX_TARGET_DEVIATION = 0.05;
 
     // minimum distance needed to consider the current target reached
-    static constexpr double MIN_DISTANCE_TARGET_REACHED = 2 * Constants::ROBOT_RADIUS();
+    static constexpr double MIN_DISTANCE_TARGET_REACHED = 1 * Constants::ROBOT_RADIUS();
 
    public:
     /**

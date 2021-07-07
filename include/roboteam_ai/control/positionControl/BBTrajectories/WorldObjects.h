@@ -42,9 +42,10 @@ namespace rtt::BB {
     private:
         rtt::ai::GameStateManager gameStateManager;
         rtt::ai::GameState gameState;
-        rtt::ai::RuleSet ruleset;
 
     public:
+        rtt::ai::RuleSet ruleset;
+
         WorldObjects();
 
         /**

@@ -55,7 +55,7 @@ namespace rtt::ai::control {
     }
 
     rtt::BB::CommandCollision PositionControl::computePathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition,
-                                                                      Vector2 currentVelocity,Vector2 targetPosition, stp::PIDType pidType) {
+                                                                      Vector2 currentVelocity, Vector2 targetPosition, stp::PIDType pidType) {
         //TODO: find a good value for the timeStep
         double timeStep = 0.1;
 
@@ -63,10 +63,8 @@ namespace rtt::ai::control {
         rtt::BB::CommandCollision commandCollision;
         // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
         // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
-        //TODO: change these checks such that it also includes a change in game state
-        if (false || (!computedPathsBB.contains(robotId) ||
-            (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
-            worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId).has_value())) {
+        if (false || shouldRecalculateBBTPath(world, field, currentPosition, targetPosition, robotId)) {
+
             //Create path to original target
             computedPathsBB[robotId] = BB::BBTrajectory2D(currentPosition, currentVelocity, targetPosition,ai::Constants::MAX_VEL(), ai::Constants::MAX_ACC_UPPER());
 
@@ -99,6 +97,28 @@ namespace rtt::ai::control {
         commandCollision.robotCommand.pos = computedPaths[robotId].front();
 
         return commandCollision;
+    }
+
+    bool PositionControl::shouldRecalculateBBTPath(const rtt::world::World *world, const rtt::world::Field &field,
+                                                   const Vector2 &currentPosition, const Vector2 &targetPosition, int robotId) {
+        ai::GameState gameState = rtt::ai::GameStateManager::getCurrentGameState();
+        ai::RuleSet ruleSet = gameState.getRuleSet();
+        
+        return
+            //Check if there already has been a path calculated for the robot
+            (!computedPathsBB.contains(robotId) ||
+
+             //Check if the targetPosition differs by a certain margin from the end of the calculated path
+             (targetPosition - computedPathsBB[robotId].getPosition(computedPathsBB[robotId].getTotalTime())).length() > stp::control_constants::GO_TO_POS_ERROR_MARGIN ||
+
+             //Check if currentPosition differs by a certain margin from the start of the calculated path
+             (currentPosition - computedPaths[robotId].front()).length() > 3 * Constants::ROBOT_RADIUS() ||
+
+             //Check if the calculated path has a collision on it
+             worldObjects.getFirstCollision(world, field, computedPathsBB[robotId], computedPaths, robotId).has_value() ||
+
+             //Check if the ruleSet has changed
+             worldObjects.ruleset.title != ruleSet.title);
     }
 
     void PositionControl::trackPathBBT(int robotId, Vector2 currentPosition, Vector2 currentVelocity, rtt::BB::CommandCollision &commandCollision){

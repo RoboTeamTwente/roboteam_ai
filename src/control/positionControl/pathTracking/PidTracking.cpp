@@ -29,18 +29,18 @@ Position PidTracking::trackVelocity(const Vector2 &currentVelocity, std::vector<
     double MIN_DISTANCE_VELOCITY_REACHED = 0.01;
     while(newBool && velocityPoints.size() > 1) { // while loop that erases all velocities that have already been passed
         // if true, you want to accelerate and velocityPoints.front() is already lower than current velocity
-        if(velocityPoints.at(2).length() > velocityPoints.at(1).length() &&
-            currentVelocity.length() > velocityPoints.at(1).length()) {
+        if(velocityPoints.at(1).length() > velocityPoints.at(0).length() &&
+            currentVelocity.length() > velocityPoints.at(0).length()) {
             velocityPoints.erase(velocityPoints.begin());
         }
         // if true, you want to decelerate and velocityPoints.front() is already higher than current velocity
-        else if(velocityPoints.at(2).length() < velocityPoints.at(1).length() &&
-                 currentVelocity.length() < velocityPoints.at(1).length()) {
+        else if(velocityPoints.at(1).length() < velocityPoints.at(0).length() &&
+                 currentVelocity.length() < velocityPoints.at(0).length()) {
             velocityPoints.erase(velocityPoints.begin());
         }
         // if true, velocity remains the same so only remove velocityPoints.front() and stop the while loop
-        else if (velocityPoints.at(2).length() == velocityPoints.at(1).length() &&
-                 abs(currentVelocity.length() - velocityPoints.at(1).length()) < MIN_DISTANCE_VELOCITY_REACHED) {
+        else if (velocityPoints.at(1).length() == velocityPoints.at(0).length() &&
+                 abs(currentVelocity.length() - velocityPoints.at(0).length()) < MIN_DISTANCE_VELOCITY_REACHED) {
             velocityPoints.erase(velocityPoints.begin());
             newBool = false;
         }

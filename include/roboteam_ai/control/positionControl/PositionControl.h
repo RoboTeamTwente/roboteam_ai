@@ -84,6 +84,19 @@ namespace rtt::ai::control {
         rtt::BB::CommandCollision
         computePathBBT(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 currentPosition, Vector2 currentVelocity,
                                Vector2 targetPosition, stp::PIDType pidType);
+
+        /**
+         *
+         * @param world a pointer to the current world
+         * @param field the field object, used onwards by the collision detector
+         * @param currentPosition the current position of the aforementioned robot
+         * @param targetPosition the desired position that the robot has to reach
+         * @param robotId the ID of the robot for which the path is calculated
+         * @return A bool which is true if the path needs to calculated again
+         */
+        bool shouldRecalculateBBTPath(const rtt::world::World *world, const rtt::world::Field &field,
+                                      const Vector2 &currentPosition, const Vector2 &targetPosition, int robotId);
+
         /**
          * @brief Calculates the velocities for tracking the path. Adjusts the velocity in the
          * commandCollision structure which is passed as a reference.
