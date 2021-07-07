@@ -14,7 +14,7 @@ namespace rtt::BB {
 
 
     std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
-                                                                 const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId) {
+                                                                 const std::unordered_map<int, std::vector<Vector2>> &computedPaths, std::optional<double> ballAvoidanceDistance, int robotId) {
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
         ruleset = gameState.getRuleSet();
 
@@ -31,7 +31,7 @@ namespace rtt::BB {
         calculateDefenseAreaCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
 
         // Check if robot is closer to the ball than it is allowed to be
-        calculateBallCollisions(world, collisionDatas, pathPoints, timeStep);
+        calculateBallCollisions(world, collisionDatas, pathPoints, ballAvoidanceDistance, timeStep);
 
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
         calculateEnemyRobotCollisions(world, BBTrajectory, collisionDatas, pathPoints, timeStep);
@@ -73,8 +73,9 @@ namespace rtt::BB {
         }
     }
 
-    void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints, double timeStep) {
-        if (ruleset.minDistanceToBall > 0) {
+    void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints,
+                                               std::optional<double> ballAvoidanceDistance, double timeStep) {
+        if ((!ballAvoidanceDistance.has_value() && ruleset.minDistanceToBall > 0.001) || (ballAvoidanceDistance.has_value() && ballAvoidanceDistance.value() > 0.001)) {
             auto startPositionBall = world->getWorld()->getBall()->get()->getPos();
             auto VelocityBall = world->getWorld()->getBall()->get()->getFilteredVelocity();
             std::vector<Vector2> ballTrajectory;
@@ -91,9 +92,13 @@ namespace rtt::BB {
             // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
             auto ballTube = LineSegment(startPositionBall, rtt::ai::GameStateManager::getRefereeDesignatedPosition());
             for (int i = 0; i < ballTrajectory.size(); i++) {
-                if (ruleset.minDistanceToBall > (pathPoints[i] - ballTrajectory[i]).length()
-                    || (gameState.getStrategyName() == "ball_placement_them"
-                        && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i]))) {
+                //TODO: Update documentation
+                double pathDistance = (pathPoints[i] - ballTrajectory[i]).length();
+                //TODO-floris: check the math when i'm less tired again, seems to be problem when ruleset sets something and distance is set
+                if ((gameState.getStrategyName() == "ball_placement_them" &&
+                     ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i])) ||
+                    (!ballAvoidanceDistance.has_value() && ruleset.minDistanceToBall > pathDistance) ||
+                    (ballAvoidanceDistance.has_value() && ballAvoidanceDistance.value() > pathDistance)) {
                     insertCollisionData(collisionDatas,CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});
                     return;
                 }

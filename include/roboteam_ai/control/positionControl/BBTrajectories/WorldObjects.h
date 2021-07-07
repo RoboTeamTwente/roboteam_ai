@@ -58,8 +58,10 @@ namespace rtt::BB {
          * @param robotId
          * @return optional with rtt::BB::CollisionData
          */
-        std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field,
-                                                       const BBTrajectory2D &BBTrajectory, const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId);
+         //TODO: Update documentation
+        std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
+                                                       const std::unordered_map<int, std::vector<Vector2>> &computedPaths,
+                                                       std::optional<double> ballAvoidanceDistance, int robotId);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are outside the
@@ -94,7 +96,9 @@ namespace rtt::BB {
          * @param pathPoints, std::vector with path points
          * @param timeStep in seconds
          */
-        void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints, double timeStep);
+        //TODO: Update documentation
+        void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints,
+                                     std::optional<double> ballAvoidanceDistance, double timeStep);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an

@@ -32,6 +32,7 @@ Status GoToPos::onUpdate(const StpInfo &info) noexcept {
             info.getRobot().value()->getPos(),
             info.getRobot().value()->getPidPreviousVel(),
             targetPos,
+            info.getBallAvoidanceDistance(),
             info.getPidType().value());
 
         info.getCurrentWorld()->getRobotPositionController()->trackPathBBT(

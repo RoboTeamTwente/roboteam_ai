@@ -82,6 +82,9 @@ struct StpInfo {
     const std::optional<PIDType>& getPidType() const { return PidType; }
     void setPidType(const std::optional<PIDType>& pidType) { PidType = pidType; }
 
+    const std::optional<double>& getBallAvoidanceDistance() const { return ballAvoidanceDistance; }
+    void setBallAvoidanceDistance(const std::optional<double>& ballAvoidanceDistance) { this->ballAvoidanceDistance = ballAvoidanceDistance; }
+
    private:
     /**
      * Current world pointer
@@ -158,6 +161,11 @@ struct StpInfo {
      * Enum for deciding which PID should be chosen
      */
     std::optional<PIDType> PidType{PIDType::DEFAULT};
+
+    /**
+     * Distance the robot has to avoid the ball by,
+     */
+    std::optional<double> ballAvoidanceDistance;
 };
 
 /**
