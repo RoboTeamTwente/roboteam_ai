@@ -94,9 +94,7 @@ namespace rtt::BB {
             for (int i = 0; i < ballTrajectory.size(); i++) {
                 //TODO: Update documentation
                 double pathDistance = (pathPoints[i] - ballTrajectory[i]).length();
-                //TODO-floris: check the math when i'm less tired again, seems to be problem when ruleset sets something and distance is set
-                if ((gameState.getStrategyName() == "ball_placement_them" &&
-                     ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i])) ||
+                if ((gameState.getStrategyName() == "ball_placement_them" && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i])) ||
                     (!ballAvoidanceDistance.has_value() && ruleset.minDistanceToBall > pathDistance) ||
                     (ballAvoidanceDistance.has_value() && ballAvoidanceDistance.value() > pathDistance)) {
                     insertCollisionData(collisionDatas,CollisionData{ballTrajectory[i], pathPoints[i], i * timeStep, "BallCollision"});

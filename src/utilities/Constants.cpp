@@ -242,7 +242,7 @@ std::vector<RuleSet> Constants::ruleSets() {
             {"halt", 0.0, 0.0, 0.0, -1, true},
             {"stop", 1.5, 0.0, 0.8, -1, false},
             {"ballplacement_them", 1.5, 6.5, 0.8, -1, true},
-            {"ballplacement_us", 0.75 /*2.5*/, 6.5, 0.0, -1, true},
+            {"ballplacement_us", 0.75 /*2.5*/, 6.5, 0.8, -1, true},
             {"kickoff", 1.5, 6.5, 0.5, 0.0, true}};
 }
 
