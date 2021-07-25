@@ -2,9 +2,9 @@
 // Created by jesse on 30-04-20.
 //
 
-#include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
+#include "stp/roles/passive/BallAvoider.h"
 
-#include "include/roboteam_ai/stp/tactics/passive/AvoidBall.h"
+#include "stp/tactics/passive/AvoidBall.h"
 
 namespace rtt::ai::stp::role {
 

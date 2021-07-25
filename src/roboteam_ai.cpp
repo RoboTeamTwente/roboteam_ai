@@ -1,6 +1,6 @@
-#include <utilities/IOManager.h>
+#include "utilities/IOManager.h"
 #include <roboteam_utils/Print.h>
-#include <include/roboteam_ai/world/World.hpp>
+#include "world/World.hpp"
 #include "ApplicationManager.h"
 
 namespace ui = rtt::ai::interface;
@@ -80,9 +80,9 @@ int main(int argc, char* argv[]) {
 
     rtt::ai::io::io.init(rtt::SETTINGS.getId());
 
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     // initialize the interface
     QApplication a(argc, argv);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     setDarkTheme();
 
     // Todo make this a not-global-static thingy

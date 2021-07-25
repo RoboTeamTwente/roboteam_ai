@@ -2,9 +2,9 @@
 // Created by timovdk on 3/27/20.
 //
 
-#include "include/roboteam_ai/stp/roles/passive/Harasser.h"
+#include "stp/roles/passive/Harasser.h"
 
-#include "include/roboteam_ai/stp/tactics/passive/BlockBall.h"
+#include "stp/tactics/passive/BlockBall.h"
 #include "stp/tactics/Intercept.h"
 
 namespace rtt::ai::stp::role {

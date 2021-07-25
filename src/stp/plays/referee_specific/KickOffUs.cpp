@@ -4,8 +4,8 @@
 
 #include "stp/plays/referee_specific/KickOffUs.h"
 
-#include <include/roboteam_ai/stp/roles/passive/Formation.h>
-#include <stp/roles/active/PassReceiver.h>
+#include "stp/roles/passive/Formation.h"
+#include "stp/roles/active/PassReceiver.h"
 
 #include "stp/roles/Keeper.h"
 #include "stp/roles/active/Passer.h"

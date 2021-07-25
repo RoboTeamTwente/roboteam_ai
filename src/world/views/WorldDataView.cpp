@@ -3,7 +3,7 @@
 //
 
 #include "world/views/WorldDataView.hpp"
-#include "include/roboteam_ai/world/WorldData.hpp"
+#include "world/WorldData.hpp"
 
 namespace rtt::world::view {
 

@@ -3,9 +3,9 @@
 /// TODO-Max require GoToPos from previous play somehow (AbstractLayer to communicate between plays?)
 //
 
-#include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
+#include "stp/roles/active/PassReceiver.h"
 
-#include "include/roboteam_ai/stp/tactics/active/Receive.h"
+#include "stp/tactics/active/Receive.h"
 
 namespace rtt::ai::stp::role {
 

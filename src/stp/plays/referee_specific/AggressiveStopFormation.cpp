@@ -2,9 +2,9 @@
 // Created by timovdk on 3/30/20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/AggressiveStopFormation.h"
-#include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
-#include "include/roboteam_ai/stp/roles/Keeper.h"
+#include "stp/plays/referee_specific/AggressiveStopFormation.h"
+#include "stp/roles/passive/BallAvoider.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
     AggressiveStopFormation::AggressiveStopFormation() : Play() {

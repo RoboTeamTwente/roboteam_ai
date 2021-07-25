@@ -2,8 +2,8 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThemPrepare.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
+#include "stp/plays/referee_specific/PenaltyThemPrepare.h"
+#include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
 

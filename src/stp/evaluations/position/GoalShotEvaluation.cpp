@@ -2,8 +2,9 @@
 // Created by maxl on 23-03-21.
 //
 
-#include "include/roboteam_ai/stp/evaluations/position/GoalShotEvaluation.h"
+#include "stp/evaluations/position/GoalShotEvaluation.h"
 #include <cmath>
+#include <string>
 
 namespace rtt::ai::stp::evaluation {
     GoalShotEvaluation::GoalShotEvaluation() noexcept {

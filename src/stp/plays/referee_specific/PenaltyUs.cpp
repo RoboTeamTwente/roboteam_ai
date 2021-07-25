@@ -2,14 +2,14 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyUs.h"
+#include "stp/plays/referee_specific/PenaltyUs.h"
 
-#include <stp/roles/Keeper.h>
-#include <stp/roles/PenaltyKeeper.h>
-#include <stp/roles/active/Attacker.h>
-#include <stp/roles/passive/Halt.h>
+#include "stp/roles/Keeper.h"
+#include "stp/roles/PenaltyKeeper.h"
+#include "stp/roles/active/Attacker.h"
+#include "stp/roles/passive/Halt.h"
 
-#include "include/roboteam_ai/stp/computations/PositionComputations.h"
+#include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {
 const char* PenaltyUs::getName() { return "Penalty Us"; }

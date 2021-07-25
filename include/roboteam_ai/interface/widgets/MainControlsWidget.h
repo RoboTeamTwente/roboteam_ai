@@ -5,14 +5,14 @@
 #ifndef ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 #define ROBOTEAM_AI_MAINCONTROLSWIDGET_H
 
-#include <include/roboteam_ai/ApplicationManager.h>
+#include "ApplicationManager.h"
 
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QShortcut>
 
-#include "QLayout"
+#include <QLayout>
 #include "widget.h"
 
 namespace rtt::ai::interface {

@@ -2,14 +2,14 @@
 // Created by jordi on 11-05-20.
 //
 
-#include <stp/roles/passive/Waller.h>
-#include "include/roboteam_ai/stp/plays/contested/GetBallPossession.h"
-#include "include/roboteam_ai/stp/computations/PositionComputations.h"
-#include "include/roboteam_ai/stp/roles/active/BallGetter.h"
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
+#include "stp/roles/passive/Waller.h"
+#include "stp/plays/contested/GetBallPossession.h"
+#include "stp/computations/PositionComputations.h"
+#include "stp/roles/active/BallGetter.h"
+#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
-#include "include/roboteam_ai/stp/evaluations/position/TimeToPositionEvaluation.h"
+#include "stp/evaluations/position/TimeToPositionEvaluation.h"
 
 namespace rtt::ai::stp::play {
 

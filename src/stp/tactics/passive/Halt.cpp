@@ -3,7 +3,7 @@
 /// ROTATES robot to face forwards
 //
 
-#include "include/roboteam_ai/stp/tactics/passive/Halt.h"
+#include "stp/tactics/passive/Halt.h"
 
 #include "stp/skills/Rotate.h"
 

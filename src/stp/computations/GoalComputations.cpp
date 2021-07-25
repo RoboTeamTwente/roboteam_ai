@@ -7,8 +7,8 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/Field.h"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp::computations {
       Vector2 GoalComputations::calculateGoalTarget(rtt_world::World *world, const rtt_world::Field &field) {

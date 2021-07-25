@@ -7,8 +7,8 @@
 
 #include <roboteam_utils/Grid.h>
 
-#include <include/roboteam_ai/world/Field.h>
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/Field.h"
+#include "world/World.hpp"
 
 #include "stp/evaluations/position/OpennessEvaluation.h"
 #include "stp/evaluations/position/LineOfSightEvaluation.h"

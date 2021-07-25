@@ -2,8 +2,9 @@
 // Created by maxl on 19-03-21.
 //
 
+#include <string>
 #include <cmath>
-#include "include/roboteam_ai/stp/evaluations/position/LineOfSightEvaluation.h"
+#include "stp/evaluations/position/LineOfSightEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
     LineOfSightEvaluation::LineOfSightEvaluation() noexcept {
@@ -17,6 +18,7 @@ namespace rtt::ai::stp::evaluation {
          *   (0,0)  |------------XXX
          *                 (evalScore)
          */
+
         piecewiseLinearFunction = nativeformat::param::createParam(control_constants::FUZZY_FALSE, control_constants::FUZZY_TRUE, control_constants::FUZZY_FALSE, "positionLineOfSight");
         piecewiseLinearFunction->setYAtX(control_constants::FUZZY_TRUE, 0.0);
         piecewiseLinearFunction->linearRampToYAtX(control_constants::FUZZY_FALSE, 50.0);

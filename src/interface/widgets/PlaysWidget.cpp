@@ -2,8 +2,8 @@
 // Created by john on 4/30/20.
 //
 
-#include <include/roboteam_ai/ApplicationManager.h>
-#include "include/roboteam_ai/interface/widgets/PlaysWidget.hpp"
+#include "ApplicationManager.h"
+#include "interface/widgets/PlaysWidget.hpp"
 
 namespace rtt::ai::interface {
     inline QString formatPlay(stp::Play* play)

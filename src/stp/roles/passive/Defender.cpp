@@ -3,9 +3,9 @@
 /// TODO-Max Fix Intercept usage in play (mimics "Oppertunic Behavior")
 //
 
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
+#include "stp/roles/passive/Defender.h"
 
-#include "include/roboteam_ai/stp/tactics/passive/BlockRobot.h"
+#include "stp/tactics/passive/BlockRobot.h"
 #include "stp/tactics/Intercept.h"
 
 namespace rtt::ai::stp::role {

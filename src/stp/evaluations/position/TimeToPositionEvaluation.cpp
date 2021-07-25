@@ -2,7 +2,7 @@
 // Created by maxl on 24-03-21.
 //
 
-#include "include/roboteam_ai/stp/evaluations/position/TimeToPositionEvaluation.h"
+#include "stp/evaluations/position/TimeToPositionEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
     TimeToPositionEvaluation::TimeToPositionEvaluation() noexcept {

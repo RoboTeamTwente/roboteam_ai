@@ -1,6 +1,6 @@
 #include "manual/JoystickManager.h"
 #include <roboteam_utils/Print.h>
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 #include "world/views/RobotView.hpp"
 
 using namespace std::chrono;

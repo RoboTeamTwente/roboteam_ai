@@ -11,11 +11,11 @@
 #include <QWidget>
 #include <memory>
 
-#include <interface/api/Toggles.h>
+#include "interface/api/Toggles.h"
 #include <roboteam_utils/Line.h>
 #include <roboteam_utils/Vector2.h>
-#include <world/Field.h>
-#include <include/roboteam_ai/world/World.hpp>
+#include "world/Field.h"
+#include "world/World.hpp"
 
 namespace rtt::ai::interface {
 

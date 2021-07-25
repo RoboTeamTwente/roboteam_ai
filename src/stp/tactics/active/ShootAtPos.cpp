@@ -7,7 +7,7 @@
 //
 //
 
-#include "include/roboteam_ai/stp/tactics/active/ShootAtPos.h"
+#include "stp/tactics/active/ShootAtPos.h"
 
 #include <roboteam_utils/Print.h>
 

@@ -2,9 +2,9 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/roles/passive/Halt.h"
 
-#include "include/roboteam_ai/stp/tactics/passive/Halt.h"
+#include "stp/tactics/passive/Halt.h"
 
 namespace rtt::ai::stp::role {
 

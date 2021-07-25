@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_PIDBOX_H
 #define ROBOTEAM_AI_PIDBOX_H
 
-#include <interface/api/Output.h>
+#include "interface/api/Output.h"
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>

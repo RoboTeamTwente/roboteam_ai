@@ -1,7 +1,7 @@
 //
 // Created by rolf on 26-09-20.
 //
-#include <include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory1D.h>
+#include "control/positionControl/BBTrajectories/BBTrajectory1D.h"
 #include <cmath>
 
 namespace rtt::BB {

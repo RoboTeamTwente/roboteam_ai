@@ -2,7 +2,8 @@
 // Created by Lukas Bos on 30/08/2019.
 //
 
-#include <include/roboteam_ai/world/Field.h>
+#include "world/Field.h"
+
 namespace rtt::world {
 
 Field::Field(proto::SSL_GeometryFieldSize sslFieldSize) {

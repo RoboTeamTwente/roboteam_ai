@@ -2,7 +2,8 @@
 // Created by maxl on 19-03-21.
 //
 
-#include "include/roboteam_ai/stp/evaluations/position/OpennessEvaluation.h"
+#include <string>
+#include "stp/evaluations/position/OpennessEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
 OpennessEvaluation::OpennessEvaluation() noexcept {

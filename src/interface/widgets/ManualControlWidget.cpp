@@ -1,4 +1,4 @@
-#include "include/roboteam_ai/interface/widgets/ManualControlWidget.h"
+#include "interface/widgets/ManualControlWidget.h"
 #include <QCheckBox>
 #include <QVBoxLayout>
 

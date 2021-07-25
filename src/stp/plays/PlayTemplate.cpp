@@ -10,11 +10,11 @@
 /// 3. Follow the instructions of each comment
 /// 4. Remove the unused optional functions
 
-#include "include/roboteam_ai/stp/plays/PlayTemplate.h"
-#include "include/roboteam_ai/stp/roles/Keeper.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
-#include "include/roboteam_ai/stp/roles/passive/Waller.h"
-#include "include/roboteam_ai/stp/computations/PositionComputations.h"
+#include "stp/plays/PlayTemplate.h"
+#include "stp/roles/Keeper.h"
+#include "stp/roles/passive/Formation.h"
+#include "stp/roles/passive/Waller.h"
+#include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {
     const char* PlayTemplate::getName() { return "Play Template"; }

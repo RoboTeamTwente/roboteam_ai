@@ -5,7 +5,7 @@
 /// PASSIVE
 //
 
-#include "include/roboteam_ai/stp/tactics/passive/AvoidBall.h"
+#include "stp/tactics/passive/AvoidBall.h"
 
 #include <roboteam_utils/Circle.h>
 #include <roboteam_utils/Tube.h>

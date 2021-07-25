@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include <roboteam_utils/Vector2.h>
-#include "include/roboteam_ai/stp/evaluations/position/BlockingEvaluation.h"
+#include "stp/evaluations/position/BlockingEvaluation.h"
 
 namespace rtt::ai::stp::evaluation {
 BlockingEvaluation::BlockingEvaluation() noexcept {

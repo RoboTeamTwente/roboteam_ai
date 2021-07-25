@@ -6,7 +6,7 @@
 /// ACTIVE
 //
 
-#include "include/roboteam_ai/stp/tactics/active/KickAtPos.h"
+#include "stp/tactics/active/KickAtPos.h"
 
 #include "control/ControlUtils.h"
 #include "stp/skills/Kick.h"

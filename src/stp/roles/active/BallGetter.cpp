@@ -2,10 +2,10 @@
 // Created by jordi on 11-05-20.
 //
 
-#include <stp/tactics/GetBehindBallInDirection.h>
-#include "include/roboteam_ai/stp/roles/active/BallGetter.h"
+#include "stp/tactics/GetBehindBallInDirection.h"
+#include "stp/roles/active/BallGetter.h"
 
-#include "include/roboteam_ai/stp/tactics/active/GetBall.h"
+#include "stp/tactics/active/GetBall.h"
 
 namespace rtt::ai::stp::role {
 

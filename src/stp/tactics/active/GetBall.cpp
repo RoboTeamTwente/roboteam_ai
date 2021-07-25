@@ -5,7 +5,7 @@
 /// ACTIVE
 //
 
-#include "include/roboteam_ai/stp/tactics/active/GetBall.h"
+#include "stp/tactics/active/GetBall.h"
 
 #include "control/ControlUtils.h"
 #include "stp/skills/GoToPos.h"
