@@ -1,9 +1,8 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(roboteam_ai)
 
 add_subdirectory(src)
 
-include(LocateQt5)
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_AUTOUIC OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
