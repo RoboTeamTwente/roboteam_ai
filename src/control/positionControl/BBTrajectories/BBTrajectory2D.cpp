@@ -3,8 +3,8 @@
 //
 
 #include <cmath>
-#include <include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory2D.h>
-#include <include/roboteam_ai/utilities/Constants.h>
+#include <control/positionControl/BBTrajectories/BBTrajectory2D.h>
+#include <utilities/Constants.h>
 namespace rtt::BB {
 
     BBTrajectory2D::BBTrajectory2D(const Vector2 &initialPos, const Vector2 &initialVel, const Vector2 &finalPos,

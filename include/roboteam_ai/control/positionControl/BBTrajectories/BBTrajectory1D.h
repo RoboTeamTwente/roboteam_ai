@@ -77,12 +77,6 @@ namespace rtt::BB {
         [[nodiscard]] double getTotalTime() const;
 
         /**
-         * @brief Gets the end time of the current time
-         * @return End time of current part
-         */
-        [[nodiscard]] double getTimeCurrentPart1D() const;
-
-        /**
          * @brief Computes the position where we would end up if we use maximum deceleration
          * @param pos Current position
          * @param vel Current velocity

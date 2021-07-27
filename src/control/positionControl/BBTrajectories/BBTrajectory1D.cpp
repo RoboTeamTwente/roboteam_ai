@@ -1,7 +1,7 @@
 //
 // Created by rolf on 26-09-20.
 //
-#include <include/roboteam_ai/control/positionControl/BBTrajectories/BBTrajectory1D.h>
+#include <control/positionControl/BBTrajectories/BBTrajectory1D.h>
 #include <cmath>
 
 namespace rtt::BB {
@@ -130,10 +130,6 @@ namespace rtt::BB {
 
     double BBTrajectory1D::getTotalTime() const {
         return parts[numParts - 1].tEnd;
-    }
-
-    double BBTrajectory1D::getTimeCurrentPart1D() const {
-        return parts[0].tEnd;
     }
 
     double BBTrajectory1D::getAcceleration(double t) const {
