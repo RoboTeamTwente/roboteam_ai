@@ -46,7 +46,7 @@ class PidTracking : public PathTrackingAlgorithm {
             int robotId, double angle, stp::PIDType pidType) override;
 
     /**
-     * Generates an output velocity and angle according to the implemented algorithm.4
+     * Generates an output velocity and angle according to the implemented algorithm.
      * After reaching a certain velocity closest to the first velocity it will go to the next one.
      * @param currentVelocity
      * @param velocityPoints the wanted velocities

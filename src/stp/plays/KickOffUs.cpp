@@ -36,7 +36,7 @@ void KickOffUs::calculateInfoForRoles() noexcept {
     // Kicker
     stpInfos["kicker"].setPositionToShootAt(Vector2{-1.0, 0.0});
     stpInfos["kicker"].setShotType(ShotType::PASS);
-    stpInfos["kicker"].setBallAvoidanceDistance(0.0);
+    stpInfos["kicker"].setBallAvoidanceDistance(0.0); // Make sure the kicker can touch the ball
 }
 
 bool KickOffUs::shouldRoleSkipEndTactic() { return false; }

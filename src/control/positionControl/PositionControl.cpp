@@ -61,8 +61,7 @@ namespace rtt::ai::control {
 
         std::optional<BB::CollisionData> firstCollision;
         rtt::BB::CommandCollision commandCollision;
-        // Currently calculate all paths again on each tick because the way the path is used in control is not made for the BBT
-        // When the path tracking is fixed the true in the if statement can be removed such that it only calculates the path again when it needs to
+        // Check if the path needs to be recalculated
         if (shouldRecalculateBBTPath(world, field, currentPosition, targetPosition, ballAvoidanceDistance, robotId)) {
 
             //Create path to original target
@@ -75,8 +74,10 @@ namespace rtt::ai::control {
                 //Create intermediate points, return a collision-free path originating from the best option of these points
                 auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, ballAvoidanceDistance, timeStep);
                 if (newPath.has_value()) {
+                    //If a new path is found update computedPathsBB
                     computedPathsBB[robotId] = newPath.value();
                 } else {
+                    //Else update the collisionData. In GoToPos there is a check to see if collisionData is empty and will return Status Failure if not empty
                     commandCollision.collisionData = firstCollision;
                 }
             }
