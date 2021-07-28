@@ -9,6 +9,11 @@
 namespace rtt::ai::stp::skill {
 
 Status GoToPos::onUpdate(const StpInfo &info) noexcept {
+    if(!info.getRobot().has_value() || !info.getPositionToMoveTo().has_value()){
+        RTT_WARNING("Robot or PositionToMoveTo not present in GoToPos")
+        return Status::Failure;
+    }
+
     Vector2 targetPos = info.getPositionToMoveTo().value();
 
     if (!FieldComputations::pointIsInField(info.getField().value(), targetPos)) {
