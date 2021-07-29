@@ -163,7 +163,8 @@ struct StpInfo {
     std::optional<PIDType> PidType{PIDType::DEFAULT};
 
     /**
-     * Distance the robot has to avoid the ball by,
+     * Distance the robot has to avoid the ball by used only in the BBT pathplanning
+     * if no value is given, the minDistanceToBall from the ruleset is used
      */
     std::optional<double> ballAvoidanceDistance;
 };

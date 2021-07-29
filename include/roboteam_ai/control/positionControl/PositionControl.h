@@ -100,7 +100,7 @@ namespace rtt::ai::control {
                                       const Vector2 &currentPosition, const Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId);
 
         /**
-         * @brief !HACKY! Calculates the velocities for tracking the path. Edits the velocity in the
+         * @brief Calculates the velocities for tracking the path. Edits the velocity in the
          * commandCollision structure which is passed as a reference.
          *
          * @param robotId the ID of the robot for which the path is calculated
@@ -123,7 +123,7 @@ namespace rtt::ai::control {
          * @param targetPosition the desired position that the robot has to reach
          * @param ballAvoidanceDistance the distance the robot should keep from the ball
          * @param timeStep the time between path points when approaching the path
-         * @return An optional with a new path
+         * @return An optional with a new bang bang trajectory
          */
         std::optional<BB::BBTrajectory2D>
         findNewPath(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
@@ -153,13 +153,10 @@ namespace rtt::ai::control {
         scoreIntermediatePoints(std::vector<Vector2> &intermediatePoints,
                                std::optional<BB::CollisionData> &firstCollision);
 
-        //If no collision on path to intermediatePoint, create new points along this path in timeStep increments.
-        //Then loop through these new points, generate paths from these to the original target and check for collisions.
-        //Return the first path without collisions, or pop() this point and start checking the next one.
         /**
-         * @brief Calculates a path to the targetPosition from a point on the path to an intermediate path and
-         * returns it if there are no collisions. If there is a collision it will try the next point where all points are
-         * located on the path towards the newStart point
+         * @brief Create points on the intermediate path in timeStep increments. Then loop through these points, generate paths
+         * from these to the original target and check for collisions. Return the first path that is found without collisions,
+         * otherwise return nothing.
          * @param world the world object
          * @param field the field object, used onwards by the collision detector
          * @param intermediatePathCollision if intermediatePathCollision has no value returns std::nullopt
@@ -171,8 +168,7 @@ namespace rtt::ai::control {
          * @return optional BangBangTrajectory if a new path was found
          */
         std::optional<BB::BBTrajectory2D>
-        calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field,
-                                  std::optional<BB::CollisionData> &intermediatePathCollision, BB::BBTrajectory2D pathToIntermediatePoint,
+        calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field, BB::BBTrajectory2D pathToIntermediatePoint,
                                   Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId, double timeStep);
     };
 
