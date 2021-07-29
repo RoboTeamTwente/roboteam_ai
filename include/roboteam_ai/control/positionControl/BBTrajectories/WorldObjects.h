@@ -5,10 +5,10 @@
 #ifndef RTT_WORLDOBJECTS_H
 #define RTT_WORLDOBJECTS_H
 
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include <control/ControlUtils.h>
 #include "world/FieldComputations.h"
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include <utilities/GameStateManager.hpp>
 #include "control/RobotCommand.h"
 
 
@@ -38,6 +38,11 @@ namespace rtt::BB {
         std::optional<CollisionData> collisionData;
     };
 
+    /**
+     * @author Jaro Kuiken & Floris Hoek
+     * @brief class that checks if a bang bang trajectory has collisions on it by taking into account:
+     * current ruleset, predicted ball path, predicted enemy robot path and already calculated robot paths
+     */
     class WorldObjects {
     private:
         rtt::ai::GameStateManager gameStateManager;
@@ -55,10 +60,10 @@ namespace rtt::BB {
          * @param field used for checking collisions with the field
          * @param BBTrajectory the trajectory to check for collisions
          * @param computedPaths the paths of our robots
+         * @param ballAvoidanceDistance the distance the robot should keep from the ball
          * @param robotId
          * @return optional with rtt::BB::CollisionData
          */
-         //TODO: Update documentation
         std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
                                                        const std::unordered_map<int, std::vector<Vector2>> &computedPaths,
                                                        std::optional<double> ballAvoidanceDistance, int robotId);
@@ -90,13 +95,14 @@ namespace rtt::BB {
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are too close to an
          * approximation of the ball trajactory. If the play is "ball_placement_them" also checks for the path
-         * being inside the balltube. Adds these points and the time to collisionDatas and collisionTimes
+         * being inside the balltube. If a ballAvoidanceDistance is passed it will overwrite the distance from the ruleset.
+         * Adds these points and the time to collisionDatas and collisionTimes
          * @param world Used for information about the ball
          * @param collisionDatas, std::vector which rtt::BB::CollisionData can be added to
          * @param pathPoints, std::vector with path points
+         * @param ballAvoidanceDistance the distance the robot should keep from the ball
          * @param timeStep in seconds
          */
-        //TODO: Update documentation
         void calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints,
                                      std::optional<double> ballAvoidanceDistance, double timeStep);
 
@@ -127,13 +133,25 @@ namespace rtt::BB {
         void calculateOurRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,const std::vector<Vector2> &pathPoints,
                                          const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep);
 
-        // Checks if a specified robot can enter the defense area
+        /**
+         * @brief returns true if robotId is equal to the keeperId and otherwise checks the ruleSet if the robot is allowed to enter the defense area
+         * @param robotId
+         * @return
+         */
         bool canEnterDefenseArea(int robotId);
 
-        // Checks if a specified robot can move out of the field
+        /**
+         * @brief returns true if robotId is equal to the keeperId and otherwise checks the ruleSet if the robot is allowed to go out of the field
+         * @param robotId
+         * @return
+         */
         bool canMoveOutsideField(int robotId);
 
-        // Inserts collisionData in the vector collisionDatas such that they are ordered from lowest collisionTime to highest
+        /**
+         * @brief inserts the data in collisionDatas such that it is ordered from lowest to highest collionTime
+         * @param collisionDatas the vector in which collisionData needs to be inserted
+         * @param collisionData the to be inserted data
+         */
         void insertCollisionData(std::vector<CollisionData> &collisionDatas, const CollisionData &collisionData);
     };
 }

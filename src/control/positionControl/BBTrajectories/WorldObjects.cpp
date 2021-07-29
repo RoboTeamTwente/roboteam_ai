@@ -1,9 +1,8 @@
 //
 // Created by floris on 15-11-20.
 //
-#include <include/roboteam_ai/world/WorldData.hpp>
-#include <utility>
-#include "include/roboteam_ai/world/World.hpp"
+#include <world/WorldData.hpp>
+#include "world/World.hpp"
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include <algorithm>
 
@@ -49,8 +48,10 @@ namespace rtt::BB {
     void WorldObjects::calculateFieldCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                                 int robotId, double timeStep) {
         if (!canMoveOutsideField(robotId)) {
+            // Loop through all pathPoints and check if the point is outside the field
             for (int i = 0; i<pathPoints.size(); i++) {
                 if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
+                    // The obstaclePosition and collisionPosition are saved as the same location
                     insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
                     return;
                 }
@@ -62,10 +63,12 @@ namespace rtt::BB {
     WorldObjects::calculateDefenseAreaCollisions(const rtt::world::Field &field, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
                                                  int robotId, double timeStep) {
         if (!canEnterDefenseArea(robotId)) {
+            // Loop through all pathPoints and check if the point is inside our or their defense area
             for (int i = 0; i<pathPoints.size(); i++) {
                 if (rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], true, 0) ||
                     rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], false,
                                                                      0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
+                    // The obstaclePosition and collisionPosition are saved as the same location
                     insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "DefenseAreaCollision"});
                     return;
                 }
@@ -75,13 +78,16 @@ namespace rtt::BB {
 
     void WorldObjects::calculateBallCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas,std::vector<Vector2> pathPoints,
                                                std::optional<double> ballAvoidanceDistance, double timeStep) {
+        // The ball should be avoided when ballAvoidanceDistance has no value and the ruleset minDistanceToBall is larger than 0 or
+        // when the ballAvoidanceDistance has a value and is larger than 0
+        // The ballAvoidanceDistance thus overwrites the ruleset minDistanceToBall!
         if ((!ballAvoidanceDistance.has_value() && ruleset.minDistanceToBall > 0.001) || (ballAvoidanceDistance.has_value() && ballAvoidanceDistance.value() > 0.001)) {
             auto startPositionBall = world->getWorld()->getBall()->get()->getPos();
             auto VelocityBall = world->getWorld()->getBall()->get()->getFilteredVelocity();
             std::vector<Vector2> ballTrajectory;
 
             //TODO: improve ball trajectory approximation
-            //Current approximation assumes it continues on the same path with the same velocity, and we check 1 second deep
+            //Current approximation assumes it continues on the same path with the same velocity, and we check for 1 second
             double time = 0;
             double ballAvoidanceTime = 1;
             while (pathPoints.size() * timeStep > time && time < ballAvoidanceTime) {
@@ -92,8 +98,10 @@ namespace rtt::BB {
             // Check each timeStep for a collision with the ball, or during ball placement if its too close to the 'ballTube'
             auto ballTube = LineSegment(startPositionBall, rtt::ai::GameStateManager::getRefereeDesignatedPosition());
             for (int i = 0; i < ballTrajectory.size(); i++) {
-                //TODO: Update documentation
                 double pathDistance = (pathPoints[i] - ballTrajectory[i]).length();
+                // The first statement is to check if there is a balltube that we can't go into
+                // The second and third check if the path is too close close according to the ruleset or ballAvoidanceDistance depending on
+                // if ballAvoidanceDistance has a value
                 if ((gameState.getStrategyName() == "ball_placement_them" && ruleset.minDistanceToBall > ballTube.distanceToLine(pathPoints[i])) ||
                     (!ballAvoidanceDistance.has_value() && ruleset.minDistanceToBall > pathDistance) ||
                     (ballAvoidanceDistance.has_value() && ballAvoidanceDistance.value() > pathDistance)) {
@@ -109,6 +117,7 @@ namespace rtt::BB {
                                                 const std::vector<Vector2> &pathPoints, double timeStep) {
         const std::vector<world::view::RobotView> theirRobots = world->getWorld()->getThem();
 
+        // Loop through all pathPoints
         for (int i = 0; i < pathPoints.size(); i++) {
 
             double currentTime = i * timeStep;
@@ -116,13 +125,22 @@ namespace rtt::BB {
             // TODO: fine tune maximum collision check time
             if (currentTime <= 2) break;
             Vector2 ourVel = BBTrajectory.getVelocity(currentTime);
+
+            // Loop through all enemy robots
             for (const auto &theirRobot : theirRobots) {
                 Vector2 theirVel = theirRobot->getVel();
+
+                // Calculate enemy robot prediction
                 // TODO: improve position prediction. Current model uses x + v*t
                 Vector2 theirPos = theirRobot->getPos() + theirVel * currentTime;
                 Vector2 posDif = BBTrajectory.getPosition(currentTime) - theirPos;
+
                 // TODO: fine tune avoidance distance
                 if (posDif.length() < 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
+                    // Official crashing rules:
+                    // At the moment of collision of two robots of different teams, the difference of the speed vectors of both robots is taken and projected
+                    // onto the line that is defined by the position of both robots. If the length of this projection is greater than 1.5 meters per second,
+                    // the faster robot committed a foul. If the absolute robot speed difference is less than 0.3 meters per second, both conduct a foul.
                     Vector2 velDif = ourVel - theirVel;
                     double projectLength = velDif.dot(posDif) / posDif.length();
                     // TODO: fine tune allowed speed difference
@@ -140,9 +158,13 @@ namespace rtt::BB {
                                               const std::unordered_map<int, std::vector<Vector2>> &computedPaths, int robotId, double timeStep) {
         const std::vector<world::view::RobotView> ourRobots = world->getWorld()->getUs();
 
+        // Loop through path points
         for (int i = 0; i < pathPoints.size(); i++) {
+            // Loop through our robots
             for (const auto &ourRobot : ourRobots) {
+                // Check the paths for collisions that were already calculated except for the path of the current robot
                 if (robotId != ourRobot->getId() && computedPaths.find(ourRobot->getId()) != computedPaths.end()) {
+                    // Check if the path to check has less points than current i and if so only checks the final position of that robot
                     Vector2 computedPathsPositionToCheck = computedPaths.at(ourRobot->getId()).size() > i ? computedPaths.at(ourRobot->getId())[i] : computedPaths.at(ourRobot->getId()).back();
                     if ((pathPoints[i] - computedPathsPositionToCheck).length() < ai::Constants::ROBOT_RADIUS() * 1.5 && i * timeStep < 1) {
                         insertCollisionData(collisionDatas,CollisionData{computedPaths.at(ourRobot->getId())[i], pathPoints[i], i * timeStep, "OurRobotCollision"});
