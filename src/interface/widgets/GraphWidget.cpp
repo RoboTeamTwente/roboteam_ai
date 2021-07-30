@@ -66,4 +66,4 @@ void GraphWidget::updateContents() {
 }  // namespace rtt::ai::interface
 
 // QT performance improvement
-#include "include/roboteam_ai/interface/widgets/moc_GraphWidget.cpp"
+#include "interface/widgets/moc_GraphWidget.cpp"

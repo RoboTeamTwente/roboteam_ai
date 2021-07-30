@@ -2,7 +2,7 @@
 // Created by jaro on 30-10-20.
 //
 
-#include "include/roboteam_ai/stp/invariants/BallOnTheirSideInvariant.h"
+#include "stp/invariants/BallOnTheirSideInvariant.h"
 
 namespace rtt::ai::stp::invariant {
     uint8_t BallOnTheirSideInvariant::metricCheck(world::view::WorldDataView world, const world::Field *field) const noexcept {

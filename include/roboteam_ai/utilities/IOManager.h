@@ -11,7 +11,7 @@
 #include <Subscriber.h>
 #include <Publisher.h>
 
-#include "include/roboteam_ai/world/Field.h"
+#include "world/Field.h"
 #include "utilities/Constants.h"
 #include <roboteam_utils/networking/include/Pair.hpp>
 

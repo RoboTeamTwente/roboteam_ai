@@ -5,7 +5,7 @@
 #ifndef RTT_BASEINVARIANT_H
 #define RTT_BASEINVARIANT_H
 
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp::invariant {
 class BaseInvariant {

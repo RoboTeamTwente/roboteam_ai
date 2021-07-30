@@ -7,7 +7,7 @@
 //#include <roboteam_ai/test/helpers/WorldHelper.h>
 //#include <world/Field.h>
 //#include <coach/PassCoach.h>
-//#include "include/roboteam_ai/world/BallPossession.h"
+//#include "world/BallPossession.h"
 //
 // namespace rtt {
 // namespace ai {

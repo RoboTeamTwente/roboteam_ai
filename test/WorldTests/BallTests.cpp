@@ -2,9 +2,9 @@
 // Created by john on 1/22/20.
 //
 #include <gtest/gtest.h>
-#include "include/roboteam_ai/world/Ball.hpp"
+#include "world/Ball.hpp"
 #include "world/views/BallView.hpp"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::world::ball {
 proto::Vector2f *getVec(float x, float y) {

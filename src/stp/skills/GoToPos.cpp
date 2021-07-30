@@ -4,7 +4,7 @@
 
 #include "stp/skills/GoToPos.h"
 
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::stp::skill {
 

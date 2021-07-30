@@ -7,10 +7,10 @@
 #include <roboteam_utils/Grid.h>
 
 #include <utilities/GameStateManager.hpp>
-#include <include/roboteam_ai/world/Field.h>
+#include <world/Field.h>
 
 #include "stp/StpInfo.h"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::control {
 /// Limits velocity to maximum velocity. it defaults to the max velocity stored in Referee.

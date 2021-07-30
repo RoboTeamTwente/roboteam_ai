@@ -1,7 +1,7 @@
 //
 // Created by luukkn on 23-10-19.
 //
-#include "include/roboteam_ai/manual/JoystickHandler.h"
+#include "manual/JoystickHandler.h"
 
 namespace rtt {
 namespace input {

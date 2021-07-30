@@ -1,12 +1,12 @@
 #include <utilities/IOManager.h>
 #include <utilities/Settings.h>
 
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include <utilities/GameStateManager.hpp>
 
 #include "interface/api/Input.h"
 #include "roboteam_utils/normalize.h"
 #include "utilities/Pause.h"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::ai::io {
 
