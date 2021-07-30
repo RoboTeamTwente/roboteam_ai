@@ -80,11 +80,13 @@ void FreeKickThem::calculateInfoForBlockers() noexcept {
                     stpInfos[roleName].setPositionToDefend(std::nullopt);
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
                 stpInfos[roleName].setBlockDistance(BlockDistance::FAR);
+                stpInfos[roleName].setBallAvoidanceDistance(0.6);
             } else {
                 // TODO: Improve default behaviour when there are no enemy robots to block
                 stpInfos[roleName].setPositionToDefend(field.getOurGoalCenter());
                 stpInfos[roleName].setEnemyRobot(world->getWorld()->getRobotClosestToPoint(field.getOurGoalCenter(), world::them));
                 stpInfos[roleName].setBlockDistance(BlockDistance::HALFWAY);
+                stpInfos[roleName].setBallAvoidanceDistance(0.6);
             }
         }
     }
@@ -94,17 +96,23 @@ void FreeKickThem::calculateInfoForDefenders() noexcept {
     stpInfos["defender_0"].setPositionToDefend(field.getOurGoalCenter());
     stpInfos["defender_0"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["defender_0"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_0"].setBallAvoidanceDistance(0.6);
 
     stpInfos["defender_1"].setPositionToDefend(field.getOurTopGoalSide());
     stpInfos["defender_1"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["defender_1"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_1"].setBallAvoidanceDistance(0.6);
 
     stpInfos["defender_2"].setPositionToDefend(field.getOurBottomGoalSide());
     stpInfos["defender_2"].setEnemyRobot(world->getWorld()->getRobotClosestToBall(world::them));
     stpInfos["defender_2"].setBlockDistance(BlockDistance::HALFWAY);
+    stpInfos["defender_2"].setBallAvoidanceDistance(0.6);
 }
 
-void FreeKickThem::calculateInfoForOffenders() noexcept { stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0)); }
+void FreeKickThem::calculateInfoForOffenders() noexcept {
+    stpInfos["offender"].setPositionToMoveTo(Vector2(field.getFieldLength() / 4, 0.0));
+    stpInfos["offender"].setBallAvoidanceDistance(0.6);
+}
 
 bool FreeKickThem::shouldRoleSkipEndTactic() { return false; }
 

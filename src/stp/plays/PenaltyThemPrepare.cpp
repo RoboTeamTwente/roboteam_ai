@@ -44,6 +44,7 @@ void PenaltyThemPrepare::calculateInfoForRoles() noexcept {
     const std::string formation = "formation_";
     for(int i = 1; i <= 10; i++) {
         stpInfos[formation + std::to_string(i - 1)].setPositionToMoveTo(Vector2(i * xPosition, yPosition));
+        stpInfos[formation + std::to_string(i - 1)].setBallAvoidanceDistance(0.6);
     }
 }
 

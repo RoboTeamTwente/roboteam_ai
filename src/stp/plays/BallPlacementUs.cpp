@@ -39,6 +39,7 @@ void BallPlacementUs::calculateInfoForRoles() noexcept {
 
     auto ballTarget = rtt::ai::GameStateManager::getRefereeDesignatedPosition();
     stpInfos["ball_placer"].setPositionToMoveTo(ballTarget);
+    stpInfos["ball_placer"].setBallAvoidanceDistance(0);
 
     auto length = field.getFieldLength();
     auto width = field.getFieldWidth();
