@@ -17,12 +17,17 @@ TimeOut::TimeOut() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::TimeOutGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Formation>(role::Formation("time_out_1")), std::make_unique<role::Formation>(role::Formation("time_out_2")),
-        std::make_unique<role::Formation>(role::Formation("time_out_3")), std::make_unique<role::Formation>(role::Formation("time_out_4")),
-        std::make_unique<role::Formation>(role::Formation("time_out_5")), std::make_unique<role::Formation>(role::Formation("time_out_6")),
-        std::make_unique<role::Formation>(role::Formation("time_out_7")), std::make_unique<role::Formation>(role::Formation("time_out_8")),
-        std::make_unique<role::Formation>(role::Formation("time_out_9")), std::make_unique<role::Formation>(role::Formation("time_out_10")),
-        std::make_unique<role::Formation>(role::Formation("time_out_11"))};
+        std::make_unique<role::Formation>("time_out_1"),
+        std::make_unique<role::Formation>("time_out_2"),
+        std::make_unique<role::Formation>("time_out_3"),
+        std::make_unique<role::Formation>("time_out_4"),
+        std::make_unique<role::Formation>("time_out_5"),
+        std::make_unique<role::Formation>("time_out_6"),
+        std::make_unique<role::Formation>("time_out_7"),
+        std::make_unique<role::Formation>("time_out_8"),
+        std::make_unique<role::Formation>("time_out_9"),
+        std::make_unique<role::Formation>("time_out_10"),
+        std::make_unique<role::Formation>("time_out_11")};
 }
 
 uint8_t TimeOut::score(world::World* world) noexcept { return 100; }

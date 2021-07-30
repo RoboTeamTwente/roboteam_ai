@@ -19,10 +19,17 @@ FreeKickThem::FreeKickThem() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::FreeKickThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>("keeper"),       std::make_unique<role::Defender>("defender_0"), std::make_unique<role::Defender>("defender_1"),
-        std::make_unique<role::Defender>("defender_2"), std::make_unique<role::Defender>("blocker_0"),  std::make_unique<role::Defender>("blocker_1"),
-        std::make_unique<role::Defender>("blocker_2"),  std::make_unique<role::Defender>("blocker_3"),  std::make_unique<role::Defender>("blocker_4"),
-        std::make_unique<role::Defender>("blocker_5"),  std::make_unique<role::Formation>("offender")};
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Defender>("defender_0"),
+        std::make_unique<role::Defender>("defender_1"),
+        std::make_unique<role::Defender>("defender_2"),
+        std::make_unique<role::Defender>("blocker_0"),
+        std::make_unique<role::Defender>("blocker_1"),
+        std::make_unique<role::Defender>("blocker_2"),
+        std::make_unique<role::Defender>("blocker_3"),
+        std::make_unique<role::Defender>("blocker_4"),
+        std::make_unique<role::Defender>("blocker_5"),
+       std::make_unique<role::Formation>("offender")};
 }
 
 uint8_t FreeKickThem::score(world::World *world) noexcept { return 100; }

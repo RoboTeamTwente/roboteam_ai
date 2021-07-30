@@ -17,12 +17,17 @@ BallPlacementThem::BallPlacementThem() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallPlacementThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),         std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_0")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_1")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_2")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_3")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_4")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_5")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_6")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_7")), std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_8")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("ball_avoider_9"))};
+        std::make_unique<role::BallAvoider>("keeper"),
+        std::make_unique<role::BallAvoider>("ball_avoider_0"),
+        std::make_unique<role::BallAvoider>("ball_avoider_1"),
+        std::make_unique<role::BallAvoider>("ball_avoider_2"),
+        std::make_unique<role::BallAvoider>("ball_avoider_3"),
+        std::make_unique<role::BallAvoider>("ball_avoider_4"),
+        std::make_unique<role::BallAvoider>("ball_avoider_5"),
+        std::make_unique<role::BallAvoider>("ball_avoider_6"),
+        std::make_unique<role::BallAvoider>("ball_avoider_7"),
+        std::make_unique<role::BallAvoider>("ball_avoider_8"),
+       std::make_unique<role::BallAvoider>("ball_avoider_9")};
 }
 
 uint8_t BallPlacementThem::score(world::World* world) noexcept { return 0; }

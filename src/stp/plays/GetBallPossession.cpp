@@ -25,17 +25,18 @@ GetBallPossession::GetBallPossession() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallIsFreeInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_0")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_0")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::BallGetter>("ball_getter"),
+        std::make_unique<role::Defender>("defender_0"),
+        std::make_unique<role::Defender>("defender_1"),
+        std::make_unique<role::Defender>("defender_2"),
+        std::make_unique<role::Formation>("midfielder_0"),
+        std::make_unique<role::Formation>("midfielder_1"),
+        std::make_unique<role::Formation>("midfielder_2"),
+        std::make_unique<role::Formation>("offender_0"),
+        std::make_unique<role::Formation>("offender_1"),
+       std::make_unique<role::Formation>("offender_2")};
 }
 
 uint8_t GetBallPossession::score(world::World* world) noexcept { return 80; }

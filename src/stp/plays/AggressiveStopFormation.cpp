@@ -18,10 +18,17 @@ AggressiveStopFormation::AggressiveStopFormation() : Play() {
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
 
-    roles = {std::make_unique<role::BallAvoider>("keeper"),      std::make_unique<role::BallAvoider>("defender_0"),  std::make_unique<role::BallAvoider>("defender_1"),
-             std::make_unique<role::BallAvoider>("defender_2"),  std::make_unique<role::BallAvoider>("mid_field_0"), std::make_unique<role::BallAvoider>("mid_field_1"),
-             std::make_unique<role::BallAvoider>("mid_field_2"), std::make_unique<role::BallAvoider>("offender_0"),  std::make_unique<role::BallAvoider>("offender_1"),
-             std::make_unique<role::BallAvoider>("offender_2"),  std::make_unique<role::BallAvoider>("offender_3")};
+    roles = {std::make_unique<role::BallAvoider>("keeper"),
+             std::make_unique<role::BallAvoider>("defender_0"),
+             std::make_unique<role::BallAvoider>("defender_1"),
+             std::make_unique<role::BallAvoider>("defender_2"),
+             std::make_unique<role::BallAvoider>("mid_field_0"),
+             std::make_unique<role::BallAvoider>("mid_field_1"),
+             std::make_unique<role::BallAvoider>("mid_field_2"),
+             std::make_unique<role::BallAvoider>("offender_0"),
+             std::make_unique<role::BallAvoider>("offender_1"),
+             std::make_unique<role::BallAvoider>("offender_2"),
+            std::make_unique<role::BallAvoider>("offender_3")};
 }
 
 uint8_t AggressiveStopFormation::score(world::World* world) noexcept { return 100; }

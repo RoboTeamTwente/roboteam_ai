@@ -26,12 +26,17 @@ DefendPass::DefendPass() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallShotOrCloseToThemInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")),          std::make_unique<role::Defender>(role::Defender("defender_1")),
-        std::make_unique<role::Defender>(role::Defender("defender_2")),  std::make_unique<role::Defender>(role::Defender("blocker_1")),
-        std::make_unique<role::Defender>(role::Defender("blocker_2")),   std::make_unique<role::Defender>(role::Defender("blocker_3")),
-        std::make_unique<role::Defender>(role::Defender("blocker_4")),   std::make_unique<role::Defender>(role::Defender("blocker_5")),
-        std::make_unique<role::Harasser>(role::Harasser("harasser")),    std::make_unique<role::Formation>(role::Formation("offender_1")),
-        std::make_unique<role::Formation>(role::Formation("offender_2"))};
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Defender>("defender_1"),
+        std::make_unique<role::Defender>("defender_2"),
+        std::make_unique<role::Defender>("blocker_1"),
+        std::make_unique<role::Defender>("blocker_2"),
+        std::make_unique<role::Defender>("blocker_3"),
+        std::make_unique<role::Defender>("blocker_4"),
+        std::make_unique<role::Defender>("blocker_5"),
+        std::make_unique<role::Harasser>("harasser"),
+        std::make_unique<role::Formation>("offender_1"),
+       std::make_unique<role::Formation>("offender_2")};
 }
 
 uint8_t DefendPass::score(world::World *world) noexcept { return 100; }

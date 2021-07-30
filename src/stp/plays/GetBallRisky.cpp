@@ -28,17 +28,18 @@ GetBallRisky::GetBallRisky() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::WeHaveMajorityInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallClosestToUsInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::BallGetter>(role::BallGetter("ball_getter")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_0")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_1")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_0")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("midfielder_2"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::BallGetter>("ball_getter"),
+        std::make_unique<role::PassReceiver>("receiver_0"),
+        std::make_unique<role::PassReceiver>("receiver_1"),
+        std::make_unique<role::PassReceiver>("receiver_2"),
+        std::make_unique<role::Defender>("defender_0"),
+        std::make_unique<role::Defender>("defender_1"),
+        std::make_unique<role::Defender>("defender_2"),
+        std::make_unique<role::Defender>("midfielder_0"),
+        std::make_unique<role::Defender>("midfielder_1"),
+       std::make_unique<role::Defender>("midfielder_2")};
 }
 
 uint8_t GetBallRisky::score(world::World* world) noexcept { return 120; }

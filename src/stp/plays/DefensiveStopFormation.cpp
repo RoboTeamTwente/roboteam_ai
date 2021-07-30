@@ -19,12 +19,17 @@ DefensiveStopFormation::DefensiveStopFormation() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::StopGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::BallAvoider>(role::BallAvoider("keeper")),      std::make_unique<role::BallAvoider>(role::BallAvoider("defender_0")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("defender_1")),  std::make_unique<role::BallAvoider>(role::BallAvoider("defender_2")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("defender_3")),  std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_0")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_1")), std::make_unique<role::BallAvoider>(role::BallAvoider("mid_field_2")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("offender_0")),  std::make_unique<role::BallAvoider>(role::BallAvoider("offender_1")),
-        std::make_unique<role::BallAvoider>(role::BallAvoider("offender_2"))};
+        std::make_unique<role::BallAvoider>("keeper"),
+        std::make_unique<role::BallAvoider>("defender_0"),
+        std::make_unique<role::BallAvoider>("defender_1"),
+        std::make_unique<role::BallAvoider>("defender_2"),
+        std::make_unique<role::BallAvoider>("defender_3"),
+        std::make_unique<role::BallAvoider>("mid_field_0"),
+        std::make_unique<role::BallAvoider>("mid_field_1"),
+        std::make_unique<role::BallAvoider>("mid_field_2"),
+        std::make_unique<role::BallAvoider>("offender_0"),
+        std::make_unique<role::BallAvoider>("offender_1"),
+       std::make_unique<role::BallAvoider>("offender_2")};
 }
 
 uint8_t DefensiveStopFormation::score(world::World* world) noexcept { return 100; }

@@ -18,10 +18,17 @@ KickOffThem::KickOffThem() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::KickOffThemGameStateInvariant>());
 
     roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
-        std::make_unique<role::Keeper>(role::Keeper("keeper")), std::make_unique<role::Halt>(role::Halt("halt_0")), std::make_unique<role::Halt>(role::Halt("halt_1")),
-        std::make_unique<role::Halt>(role::Halt("halt_2")),     std::make_unique<role::Halt>(role::Halt("halt_3")), std::make_unique<role::Halt>(role::Halt("halt_4")),
-        std::make_unique<role::Halt>(role::Halt("halt_5")),     std::make_unique<role::Halt>(role::Halt("halt_6")), std::make_unique<role::Halt>(role::Halt("halt_7")),
-        std::make_unique<role::Halt>(role::Halt("halt_8")),     std::make_unique<role::Halt>(role::Halt("halt_9"))};
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Halt>("halt_0"),
+        std::make_unique<role::Halt>("halt_1"),
+        std::make_unique<role::Halt>("halt_2"),
+        std::make_unique<role::Halt>("halt_3"),
+        std::make_unique<role::Halt>("halt_4"),
+        std::make_unique<role::Halt>("halt_5"),
+        std::make_unique<role::Halt>("halt_6"),
+        std::make_unique<role::Halt>("halt_7"),
+        std::make_unique<role::Halt>("halt_8"),
+       std::make_unique<role::Halt>("halt_9")};
 }
 
 uint8_t KickOffThem::score(world::World* world) noexcept { return 100; }

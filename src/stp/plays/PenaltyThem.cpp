@@ -17,17 +17,18 @@ PenaltyThem::PenaltyThem() : Play() {
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::PenaltyThemGameStateInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::PenaltyKeeper>(role::PenaltyKeeper("keeper")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_0")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_1")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_2")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_3")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_4")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_5")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_6")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_7")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_8")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("halt_9"))};
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
+        std::make_unique<role::PenaltyKeeper>("keeper"),
+        std::make_unique<role::Halt>("halt_0"),
+        std::make_unique<role::Halt>("halt_1"),
+        std::make_unique<role::Halt>("halt_2"),
+        std::make_unique<role::Halt>("halt_3"),
+        std::make_unique<role::Halt>("halt_4"),
+        std::make_unique<role::Halt>("halt_5"),
+        std::make_unique<role::Halt>("halt_6"),
+        std::make_unique<role::Halt>("halt_7"),
+        std::make_unique<role::Halt>("halt_8"),
+       std::make_unique<role::Halt>("halt_9")};
 }
 
 uint8_t PenaltyThem::score(world::World *world) noexcept { return 100; }

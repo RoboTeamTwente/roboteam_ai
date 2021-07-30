@@ -23,17 +23,18 @@ Attack::Attack() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalOrFreeKickUsGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::BallCloseToUsInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::Attacker>(role::Attacker("attacker")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("offender_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_3")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_4")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_1")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_2")),
-                                                                                 std::make_unique<role::Defender>(role::Defender("defender_3"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Attacker>("attacker"),
+        std::make_unique<role::Formation>("offender_1"),
+        std::make_unique<role::Formation>("offender_2"),
+        std::make_unique<role::Formation>("midfielder_1"),
+        std::make_unique<role::Formation>("midfielder_2"),
+        std::make_unique<role::Formation>("midfielder_3"),
+        std::make_unique<role::Formation>("midfielder_4"),
+        std::make_unique<role::Defender>("defender_1"),
+        std::make_unique<role::Defender>("defender_2"),
+       std::make_unique<role::Defender>("defender_3")};
 }
 
 uint8_t Attack::score(world::World *world) noexcept {

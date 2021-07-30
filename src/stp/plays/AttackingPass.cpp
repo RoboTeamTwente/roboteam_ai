@@ -38,17 +38,18 @@ AttackingPass::AttackingPass() : Play() {
     keepPlayInvariants.clear();
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                       std::make_unique<role::Passer>(role::Passer("passer")),
-                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
-                                                                                       std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                       std::make_unique<role::Formation>(role::Formation("midfielder_2")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_5")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_6")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_7")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_8")),
-                                                                                       std::make_unique<role::Halt>(role::Halt("test_role_9"))};
+    roles = std::array<std::unique_ptr<Role>, stp::control_constants::MAX_ROBOT_COUNT>{
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Passer>("passer"),
+        std::make_unique<role::PassReceiver>("receiver_left"),
+        std::make_unique<role::PassReceiver>("receiver_right"),
+        std::make_unique<role::Formation>("midfielder_1"),
+        std::make_unique<role::Formation>("midfielder_2"),
+        std::make_unique<role::Halt>("test_role_5"),
+        std::make_unique<role::Halt>("test_role_6"),
+        std::make_unique<role::Halt>("test_role_7"),
+        std::make_unique<role::Halt>("test_role_8"),
+       std::make_unique<role::Halt>("test_role_9")};
 }
 
 uint8_t AttackingPass::score(world::World* world) noexcept { return 50; }

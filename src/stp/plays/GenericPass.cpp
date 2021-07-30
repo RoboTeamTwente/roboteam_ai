@@ -38,17 +38,18 @@ GenericPass::GenericPass() : Play() {
     keepPlayInvariants.emplace_back(std::make_unique<invariant::NormalPlayGameStateInvariant>());
     keepPlayInvariants.emplace_back(std::make_unique<invariant::FreedomOfRobotsInvariant>());
 
-    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{std::make_unique<role::Keeper>(role::Keeper("keeper")),
-                                                                                 std::make_unique<role::Passer>(role::Passer("passer")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_left")),
-                                                                                 std::make_unique<role::PassReceiver>(role::PassReceiver("receiver_right")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("midfielder_1")),
-                                                                                 std::make_unique<role::Formation>(role::Formation("defender_1")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_3")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_4")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_5")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_6")),
-                                                                                 std::make_unique<role::Halt>(role::Halt("halt_7"))};
+    roles = std::array<std::unique_ptr<Role>, rtt::ai::Constants::ROBOT_COUNT()>{
+        std::make_unique<role::Keeper>("keeper"),
+        std::make_unique<role::Passer>("passer"),
+        std::make_unique<role::PassReceiver>("receiver_left"),
+        std::make_unique<role::PassReceiver>("receiver_right"),
+        std::make_unique<role::Formation>("midfielder_1"),
+        std::make_unique<role::Formation>("defender_1"),
+        std::make_unique<role::Halt>("halt_3"),
+        std::make_unique<role::Halt>("halt_4"),
+        std::make_unique<role::Halt>("halt_5"),
+        std::make_unique<role::Halt>("halt_6"),
+       std::make_unique<role::Halt>("halt_7")};
 }
 
 uint8_t GenericPass::score(world::World* world) noexcept { return 130; }
