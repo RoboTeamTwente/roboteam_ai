@@ -2,7 +2,7 @@
 // Created by john on 12/16/19.
 //
 
-#include "include/roboteam_ai/world/WorldData.hpp"
+#include "world/WorldData.hpp"
 
 namespace rtt::world {
     WorldData::WorldData(const World* data, proto::World &protoMsg, rtt::Settings const &settings, std::unordered_map<uint8_t, proto::RobotFeedback> &feedback) noexcept : time{protoMsg.time()} {

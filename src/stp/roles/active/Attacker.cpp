@@ -3,10 +3,10 @@
 /// TODO-Max change to ShooterGoal
 //
 
-#include "include/roboteam_ai/stp/roles/active/Attacker.h"
+#include "stp/roles/active/Attacker.h"
 
-#include "include/roboteam_ai/stp/tactics/active/GetBall.h"
-#include "include/roboteam_ai/stp/tactics/active/KickAtPos.h"
+#include "stp/tactics/active/GetBall.h"
+#include "stp/tactics/active/KickAtPos.h"
 
 namespace rtt::ai::stp::role {
 

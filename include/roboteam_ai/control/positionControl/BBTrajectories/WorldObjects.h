@@ -5,10 +5,10 @@
 #ifndef RTT_WORLDOBJECTS_H
 #define RTT_WORLDOBJECTS_H
 
-#include <include/roboteam_ai/control/ControlUtils.h>
+#include "control/ControlUtils.h"
 #include "world/FieldComputations.h"
 #include "control/positionControl/BBTrajectories/BBTrajectory2D.h"
-#include <include/roboteam_ai/utilities/GameStateManager.hpp>
+#include "utilities/GameStateManager.hpp"
 #include "control/RobotCommand.h"
 
 

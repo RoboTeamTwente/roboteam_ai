@@ -6,7 +6,7 @@
 #define RTT_BALL_VIEW_HPP
 
 #include "roboteam_utils/Vector2.h"
-#include "include/roboteam_ai/world/Ball.hpp"
+#include "world/Ball.hpp"
 
 namespace rtt::world::view {
 

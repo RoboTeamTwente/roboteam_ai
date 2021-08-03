@@ -2,9 +2,9 @@
 // Created by timo on 3/27/20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/DefensiveStopFormation.h"
-#include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
-#include "include/roboteam_ai/stp/roles/Keeper.h"
+#include "stp/plays/referee_specific/DefensiveStopFormation.h"
+#include "stp/roles/passive/BallAvoider.h"
+#include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {
 

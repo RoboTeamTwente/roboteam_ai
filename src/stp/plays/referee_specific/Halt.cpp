@@ -2,10 +2,10 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/Halt.h"
+#include "stp/plays/referee_specific/Halt.h"
 
 #include "stp/evaluations/game_states/HaltGameStateEvaluation.h"
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/roles/passive/Halt.h"
 
 namespace rtt::ai::stp::play {
 

@@ -6,7 +6,7 @@
 /// PASSIVE
 //
 
-#include "include/roboteam_ai/stp/tactics/passive/BlockRobot.h"
+#include "stp/tactics/passive/BlockRobot.h"
 
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"

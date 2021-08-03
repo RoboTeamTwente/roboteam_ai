@@ -3,7 +3,8 @@
 //
 
 #include "interface/widgets/widget.h"
-#include <utilities/GameStateManager.hpp>
+#include "utilities/GameStateManager.hpp"
+#include <QPainterPath>
 
 namespace io = rtt::ai::io;
 namespace rtt::ai::interface {

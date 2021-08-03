@@ -2,8 +2,8 @@
 // Created by baris on 15-2-19.
 //
 
-#include <include/roboteam_ai/world/World.hpp>
-#include "include/roboteam_ai/utilities/IOManager.h"
+#include "world/World.hpp"
+#include "utilities/IOManager.h"
 
 namespace rtt::ai {
 

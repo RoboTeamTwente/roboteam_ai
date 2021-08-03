@@ -1,6 +1,6 @@
 #include <roboteam_utils/Shadow.h>
 #include "world/FieldComputations.h"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt {
 namespace ai {

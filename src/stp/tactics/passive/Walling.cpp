@@ -4,7 +4,7 @@
 /// PASSIVE
 //
 
-#include "include/roboteam_ai/stp/tactics/passive/Walling.h"
+#include "stp/tactics/passive/Walling.h"
 
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"

@@ -1,7 +1,7 @@
 
 #include "interface/widgets/SettingsWidget.h"
 
-#include <include/roboteam_ai/utilities/Settings.h>
+#include "utilities/Settings.h"
 
 #include "interface/widgets/mainWindow.h"
 

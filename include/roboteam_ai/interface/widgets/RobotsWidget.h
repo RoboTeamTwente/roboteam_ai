@@ -5,7 +5,7 @@
 #ifndef ROBOTEAM_AI_ROBOTSWIDGET_H
 #define ROBOTEAM_AI_ROBOTSWIDGET_H
 
-#include "QLayout"
+#include <QLayout>
 #include "widget.h"
 #include "world/Field.h"
 

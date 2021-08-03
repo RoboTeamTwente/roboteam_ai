@@ -2,9 +2,9 @@
 // Created by timovdk on 3/27/20.
 //
 
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
+#include "stp/roles/passive/Formation.h"
 
-#include "include/roboteam_ai/stp/tactics/passive/Formation.h"
+#include "stp/tactics/passive/Formation.h"
 
 namespace rtt::ai::stp::role {
 

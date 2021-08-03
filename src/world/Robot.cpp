@@ -2,10 +2,10 @@
 // Created by john on 12/16/19.
 //
 
-#include "include/roboteam_ai/world/Robot.hpp"
+#include "world/Robot.hpp"
 
 #include "utilities/Constants.h"
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::world::robot {
 Robot::Robot(std::unordered_map<uint8_t, proto::RobotFeedback> &feedback, const proto::WorldRobot &copy, rtt::world::Team team, std::optional<view::BallView> ball,

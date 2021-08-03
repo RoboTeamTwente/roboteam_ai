@@ -2,11 +2,11 @@
 // Created by jordi on 07-05-20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/FreeKickThem.h"
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
-#include "include/roboteam_ai/stp/computations/PositionComputations.h"
-#include "include/roboteam_ai/stp/roles/Keeper.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
+#include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/roles/passive/Defender.h"
+#include "stp/computations/PositionComputations.h"
+#include "stp/roles/Keeper.h"
+#include "stp/roles/passive/Formation.h"
 
 namespace rtt::ai::stp::play {
 const char* FreeKickThem::getName() { return "Free Kick Them"; }

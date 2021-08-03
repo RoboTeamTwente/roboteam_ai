@@ -2,11 +2,11 @@
 // Created by timovdk on 5/15/20.
 //
 
-#include "include/roboteam_ai/stp/plays/contested/GetBallRisky.h"
-#include "include/roboteam_ai/stp/roles/active/BallGetter.h"
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
+#include "stp/plays/contested/GetBallRisky.h"
+#include "stp/roles/active/BallGetter.h"
+#include "stp/roles/passive/Defender.h"
 #include "stp/roles/Keeper.h"
-#include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
+#include "stp/roles/active/PassReceiver.h"
 
 namespace rtt::ai::stp::play {
 

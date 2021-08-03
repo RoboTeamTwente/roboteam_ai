@@ -3,11 +3,11 @@
 /// TODO-Max change to take ShootAtGoal
 //
 
-#include "include/roboteam_ai/stp/plays/offensive/Attack.h"
-#include "include/roboteam_ai/stp/computations/GoalComputations.h"
-#include "include/roboteam_ai/stp/roles/active/Attacker.h"
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
+#include "stp/plays/offensive/Attack.h"
+#include "stp/computations/GoalComputations.h"
+#include "stp/roles/active/Attacker.h"
+#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {

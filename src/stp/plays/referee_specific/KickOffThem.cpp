@@ -2,8 +2,8 @@
 // Created by timovdk on 5/1/20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffThem.h"
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/plays/referee_specific/KickOffThem.h"
+#include "stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
 
 namespace rtt::ai::stp::play {

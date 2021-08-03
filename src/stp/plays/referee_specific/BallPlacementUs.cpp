@@ -2,9 +2,9 @@
 // Created by jessevw on 24.03.20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/BallPlacementUs.h"
-#include "include/roboteam_ai/stp/roles/passive/BallAvoider.h"
-#include "include/roboteam_ai/stp/roles/active/BallPlacer.h"
+#include "stp/plays/referee_specific/BallPlacementUs.h"
+#include "stp/roles/passive/BallAvoider.h"
+#include "stp/roles/active/BallPlacer.h"
 #include "utilities/GameStateManager.hpp"
 
 namespace rtt::ai::stp::play {

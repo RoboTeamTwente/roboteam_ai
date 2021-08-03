@@ -2,7 +2,7 @@
 // Created by rolf on 01-06-21.
 //
 
-#include "include/roboteam_ai/control/AnglePID.h"
+#include "control/AnglePID.h"
 
 double rtt::AnglePID::getOutput(rtt::Angle target_angle, rtt::Angle current_angle) {
     // Calculate error; note that crossing the 'border' between two angles

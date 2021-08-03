@@ -2,11 +2,11 @@
 // Created by jordi on 27-03-20.
 //
 
-#include "include/roboteam_ai/stp/plays/defensive/DefendShot.h"
+#include "stp/plays/defensive/DefendShot.h"
 
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
-#include "include/roboteam_ai/stp/roles/passive/Harasser.h"
+#include "stp/roles/passive/Defender.h"
+#include "stp/roles/passive/Formation.h"
+#include "stp/roles/passive/Harasser.h"
 #include "stp/roles/Keeper.h"
 #include "stp/computations/PositionComputations.h"
 

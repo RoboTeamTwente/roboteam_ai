@@ -5,7 +5,7 @@
 /// ACTIVE
 //
 
-#include "include/roboteam_ai/stp/tactics/active/Receive.h"
+#include "stp/tactics/active/Receive.h"
 
 #include "stp/skills/GoToPos.h"
 #include "stp/skills/Rotate.h"

@@ -4,7 +4,7 @@
 
 #include "interface/api/Output.h"
 
-#include <include/roboteam_ai/world/World.hpp>
+#include "world/World.hpp"
 
 namespace rtt::ai::interface {
 

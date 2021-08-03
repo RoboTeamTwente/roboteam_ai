@@ -2,8 +2,8 @@
 // Created by RobotJesse
 //
 
-#ifndef RTT_ATTACKER_H
-#define RTT_ATTACKER_H
+#ifndef RTT_BALLPLACER_H
+#define RTT_BALLPLACER_H
 
 #include "stp/Role.hpp"
 
@@ -19,4 +19,4 @@ class BallPlacer : public Role {
 };
 }  // namespace rtt::ai::stp::role
 
-#endif  // RTT_ATTACKER_H
+#endif  // RTT_BALLPLACER_H

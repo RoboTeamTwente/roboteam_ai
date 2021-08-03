@@ -1,9 +1,9 @@
 //
 // Created by floris on 15-11-20.
 //
-#include <include/roboteam_ai/world/WorldData.hpp>
+#include "world/WorldData.hpp"
 #include <utility>
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 #include "control/positionControl/BBTrajectories/WorldObjects.h"
 #include <algorithm>
 

@@ -2,8 +2,8 @@
 // Created by timovdk on 4/28/20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/PenaltyThem.h"
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/plays/referee_specific/PenaltyThem.h"
+#include "stp/roles/passive/Halt.h"
 #include "stp/roles/PenaltyKeeper.h"
 #include "stp/roles/Keeper.h"
 

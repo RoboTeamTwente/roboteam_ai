@@ -8,7 +8,7 @@
 #include <sstream>
 
 #include <QtWidgets/QTextEdit>
-#include <include/roboteam_ai/stp/StpInfo.h>
+#include "stp/StpInfo.h"
 
 namespace rtt::ai::stp {
     class Play;

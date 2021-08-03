@@ -3,16 +3,16 @@
 /// TODO-Max specify play (Forward/Backwards/..)
 //
 
-#include "include/roboteam_ai/stp/plays/offensive/GenericPass.h"
+#include "stp/plays/offensive/GenericPass.h"
 
 #include <roboteam_utils/Tube.h>
 
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
-#include "include/roboteam_ai/stp/roles/passive/Halt.h"
+#include "stp/roles/passive/Formation.h"
+#include "stp/roles/passive/Halt.h"
 #include "stp/roles/Keeper.h"
-#include "include/roboteam_ai/stp/roles/active/PassReceiver.h"
-#include "include/roboteam_ai/stp/roles/active/Passer.h"
-#include "include/roboteam_ai/stp/roles/passive/Defender.h"
+#include "stp/roles/active/PassReceiver.h"
+#include "stp/roles/active/Passer.h"
+#include "stp/roles/passive/Defender.h"
 #include "stp/computations/PositionComputations.h"
 
 namespace rtt::ai::stp::play {

@@ -2,8 +2,8 @@
 // Created by jordi on 30-04-20.
 //
 
-#include "include/roboteam_ai/stp/plays/referee_specific/KickOffUsPrepare.h"
-#include "include/roboteam_ai/stp/roles/passive/Formation.h"
+#include "stp/plays/referee_specific/KickOffUsPrepare.h"
+#include "stp/roles/passive/Formation.h"
 #include "stp/roles/Keeper.h"
 #include "stp/roles/passive/BallAvoider.h"
 

@@ -3,9 +3,9 @@
 /// TODO-Max Linked to ReflectKick, check use
 //
 
-#include "include/roboteam_ai/stp/roles/active/BallReflector.h"
+#include "stp/roles/active/BallReflector.h"
 
-#include "include/roboteam_ai/stp/tactics/active/KickAtPos.h"
+#include "stp/tactics/active/KickAtPos.h"
 #include "stp/tactics/PositionAndAim.h"
 
 namespace rtt::ai::stp::role {
