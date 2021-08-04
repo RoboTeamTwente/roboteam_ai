@@ -6,11 +6,13 @@
 #define RTT_WORLD_DATA_HPP
 
 #include <vector>
-#include <include/roboteam_ai/world/views/RobotView.hpp>
+#include "world/views/RobotView.hpp"
 
 #include <roboteam_proto/RobotFeedback.pb.h>
 #include <roboteam_proto/Setting.pb.h>
 #include <roboteam_proto/World.pb.h>
+
+#include "utilities/Settings.h"
 
 namespace rtt::world {
 class World;

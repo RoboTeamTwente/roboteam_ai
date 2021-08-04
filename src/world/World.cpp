@@ -2,7 +2,7 @@
 // Created by john on 12/16/19.
 //
 
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::world {
     WorldData const &World::setWorld(WorldData &newWorld) noexcept {

@@ -10,7 +10,7 @@
 
 #include "roboteam_utils/Angle.h"
 #include "Team.hpp"
-#include "include/roboteam_ai/world/views/BallView.hpp"
+#include "world/views/BallView.hpp"
 
 namespace rtt::world::robot {
 

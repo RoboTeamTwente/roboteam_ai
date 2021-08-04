@@ -9,7 +9,7 @@
 #include "WorldData.hpp"
 #include "control/positionControl/PositionControl.h"
 #include <roboteam_proto/RobotFeedback.pb.h>
-#include "include/roboteam_ai/world/views/WorldDataView.hpp"
+#include "world/views/WorldDataView.hpp"
 #include <roboteam_utils/Print.h>
 
 namespace rtt::world {
@@ -200,7 +200,7 @@ public:
      * None if no world has been constructed yet
      * Some if a world is valid
      */
-    std::optional<WorldData> currentWorld;
+    std::optional<WorldData> currentWorld = std::nullopt;
 
 
     std::optional<world::Field> currentField;
@@ -219,7 +219,8 @@ public:
      * The position controller, initially null
      */
     ai::control::PositionControl positionControl;
-};
+
+    };
 }  // namespace rtt::world
 
 #endif  // RTT_WORLD_HPP

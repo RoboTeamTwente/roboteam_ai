@@ -2,11 +2,12 @@
 // Created by john on 12/18/19.
 //
 
-#include "include/roboteam_ai/world/Ball.hpp"
+#include "world/Ball.hpp"
 
-#include <include/roboteam_ai/utilities/Constants.h>
+#include "interface/api/Input.h"
+#include "utilities/Constants.h"
 
-#include "include/roboteam_ai/world/World.hpp"
+#include "world/World.hpp"
 
 namespace rtt::world::ball {
 

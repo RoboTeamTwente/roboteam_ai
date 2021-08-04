@@ -9,9 +9,9 @@
 #include "BallView.hpp"
 #include "RobotView.hpp"
 #include "utilities/Constants.h"
-#include "include/roboteam_ai/world/Ball.hpp"
-#include "include/roboteam_ai/world/Team.hpp"
-#include "include/roboteam_ai/world/Robot.hpp"
+#include "world/Ball.hpp"
+#include "world/Team.hpp"
+#include "world/Robot.hpp"
 
 namespace rtt::world {
 class WorldData;

@@ -5,12 +5,15 @@
 #ifndef RTT_CONTROLMODULE_H
 #define RTT_CONTROLMODULE_H
 
+#include <mutex>
+
 #include <roboteam_proto/RobotCommand.pb.h>
 
 #include "stp/StpInfo.h"
 #include "world/views/RobotView.hpp"
 #include "utilities/IOManager.h"
 #include <AISettings.h>
+#include "control/AnglePID.h"
 
 namespace rtt::ai::control {
 
@@ -26,7 +29,9 @@ namespace rtt::ai::control {
         /**
          *
          */
-         static std::vector<proto::RobotCommand> robotCommands;
+         static inline std::mutex robotCommandsMutex;
+         static inline std::vector<proto::RobotCommand> robotCommands;
+         static inline std::map<unsigned int,AnglePID> simulatorAnglePIDmap;
 
         /**
          * Applies constraints to the internal robot command
@@ -56,6 +61,10 @@ namespace rtt::ai::control {
         /**
          *
          */
+
+        static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+                                              proto::RobotCommand &robot_command);
+
         static std::vector<proto::RobotCommand> sendAllCommands(const AISettings& settings);
     };
 }  // namespace rtt::ai::control

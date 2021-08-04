@@ -1,9 +1,9 @@
 #ifndef ROBOTEAM_AI_BALLPOSSESSION_H
 #define ROBOTEAM_AI_BALLPOSSESSION_H
 
-#include <include/roboteam_ai/world/views/WorldDataView.hpp>
+#include "world/views/WorldDataView.hpp"
 #include "Field.h"
-#include "gtest/gtest_prod.h"
+#include <gtest/gtest_prod.h>
 
 namespace rtt::ai {
 

@@ -14,7 +14,7 @@
 #include <QtGui>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
-#include <include/roboteam_ai/world/World.hpp>
+#include "world/World.hpp"
 #include <iostream>
 #include <memory>
 

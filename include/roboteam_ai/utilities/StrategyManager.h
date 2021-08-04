@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <map>
-#include <include/roboteam_ai/world/views/WorldDataView.hpp>
+#include "world/views/WorldDataView.hpp"
 #include "Constants.h"
 #include "RefGameState.h"
 #include <roboteam_proto/messages_robocup_ssl_referee.pb.h>
@@ -57,9 +57,15 @@ class StrategyManager {
                      RefCommand::DEFEND_PENALTY),
 
         // These two prepares are 'custom' because the refbox does not have seperate commands even though the rules are different
-        RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "time_out", "default", false, RefCommand::DO_SHOOTOUT),
-        RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "time_out", "default", false,
-                     RefCommand::DEFEND_SHOOTOUT),
+        //TODO: When GameController selects penalty, looks like these RefState's are selected.
+        // Put this back in again when the PREPARE_SHOOT commands are correctly selected.
+//        RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "time_out", "default", false, RefCommand::DO_SHOOTOUT),
+//        RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "time_out", "default", false,
+//                     RefCommand::DEFEND_SHOOTOUT),
+
+        RefGameState(RefCommand::PREPARE_SHOOTOUT_US, "penalty_us_prepare", "default", false, RefCommand::DO_PENALTY),
+        RefGameState(RefCommand::PREPARE_SHOOTOUT_THEM, "penalty_them_prepare", "default", false,RefCommand::DEFEND_SHOOTOUT),
+
         // follow up commands
         // these are custom commands, called when 'normal play' is called after a prepare_ command
         RefGameState(RefCommand::DO_KICKOFF, "kickoff_us", "default", true),

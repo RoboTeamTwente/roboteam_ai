@@ -5,9 +5,10 @@
 #ifndef RTT_MANUALCONTROLWIDGET_H
 #define RTT_MANUALCONTROLWIDGET_H
 
+#include "interface/api/Toggles.h"
 #include <QWidget>
 #include <thread>
-#include <include/roboteam_ai/manual/JoystickManager.h>
+#include "manual/JoystickManager.h"
 
 namespace rtt::ai::interface {
 class ManualControlWidget : public QWidget {

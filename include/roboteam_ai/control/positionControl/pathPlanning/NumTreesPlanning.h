@@ -29,7 +29,7 @@ class NumTreesPlanning : public PathPlanningAlgorithm {
      * @param destination the target position.
      * @return
      */
-    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, const Vector2 &destination) const;
+    std::vector<PathPointNode> branchPath(PathPointNode &parentPoint, const Vector2 &collisionPosition, Vector2 &destination) const;
 
    public:
     /**
@@ -49,7 +49,7 @@ class NumTreesPlanning : public PathPlanningAlgorithm {
      * @param targetPosition the goal position
      * @return a list of points representing the path
      */
-    std::vector<Vector2> computePath(const Vector2 &robotPosition, const Vector2 &targetPosition) override;
+    std::vector<Vector2> computePath(const Vector2 &robotPosition, Vector2 &targetPosition) override;
 };
 }  // namespace rtt::ai::control
 

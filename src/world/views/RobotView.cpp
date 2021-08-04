@@ -4,7 +4,7 @@
 
 #include "world/views/RobotView.hpp"
 
-#include <include/roboteam_ai/world/World.hpp>
+#include "world/World.hpp"
 
 namespace rtt::world::view {
 RobotView::RobotView(const rtt::world::robot::Robot *const _ptr) noexcept : robotPtr{_ptr} {}
