@@ -8,11 +8,9 @@
 #include "world/World.hpp"
 #include "iostream"
 #include "utilities/Constants.h"
+#include "AISettings.h"
 
 namespace rtt::ai::control {
-
-
-    std::vector<proto::RobotCommand> ControlModule::robotCommands;
 
     void ControlModule::rotateRobotCommand(proto::RobotCommand& command){
         command.mutable_vel()->set_x(-command.vel().x());
@@ -66,26 +64,15 @@ namespace rtt::ai::control {
       //TODO: check for double commands
         proto::RobotCommand robot_command = command;
 
-        // If we are not left, commands should be rotated (because we play as right)
-        if (!settings.isLeft()) {
-            rotateRobotCommand(robot_command);
-        }
-
         if(robot)
             limitRobotCommand(robot_command, robot);
-
-//        TODO: Check if is simulator
-        //if we are in simulation; adjust w() to be angular velocity)
-        if(!settings.isSerialMode()){
-            simulator_angular_control(robot, robot_command);
-        }
 
         if ((robot_command.id() >= 0 && robot_command.id() < 16)) {
           robotCommands.emplace_back(robot_command);
         }
     }
 
-    void ControlModule::simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+    void ControlModule::simulator_angular_control(const AISettings& settings, const std::optional<::rtt::world::view::RobotView> &robot,
                                                   proto::RobotCommand &robot_command) {
         double ang_velocity_out = 0.0;//in case there is no robot visible, we just adjust the command to not have any angular velocity
         if(robot) {
@@ -120,7 +107,22 @@ namespace rtt::ai::control {
 
     std::vector<proto::RobotCommand> ControlModule::sendAllCommands(const AISettings& settings) {
       // If we are not left, commands should be rotated (because we play as right)
-      std::vector<proto::RobotCommand> commands = robotCommands;
+
+        std::vector<proto::RobotCommand> commands = robotCommands;
+
+
+
+//        TODO: Check if is simulator
+        //if we are in simulation; adjust w() to be angular velocity)
+//        if(!settings.isSerialMode()){
+//            simulator_angular_control(robot, robot_command);
+//        }
+
+        for(auto& command : commands){
+            if (!settings.isLeft()) {
+                rotateRobotCommand(command);
+            }
+        }
       robotCommands.clear();
       return commands;
     }

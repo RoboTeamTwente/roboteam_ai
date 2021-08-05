@@ -62,7 +62,7 @@ namespace rtt::ai::control {
          *
          */
 
-        static void simulator_angular_control(const std::optional<::rtt::world::view::RobotView> &robot,
+        static void simulator_angular_control(const AISettings& settings, const std::optional<::rtt::world::view::RobotView> &robot,
                                               proto::RobotCommand &robot_command);
 
         static std::vector<proto::RobotCommand> sendAllCommands(const AISettings& settings);

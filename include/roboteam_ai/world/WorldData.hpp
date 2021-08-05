@@ -12,7 +12,6 @@
 #include <roboteam_proto/Setting.pb.h>
 #include <roboteam_proto/World.pb.h>
 
-#include "utilities/Settings.h"
 
 namespace rtt::world {
 class World;

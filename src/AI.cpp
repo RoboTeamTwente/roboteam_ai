@@ -3,36 +3,41 @@
 //
 
 #include "AI.h"
+#include <chrono>
+
+#include <roboteam_utils/Timer.h>
 #include <roboteam_utils/normalize.h>
+#include <stp/plays/referee_specific/TimeOut.h>
+
 #include "utilities/GameStateManager.hpp"
+#include "utilities/IOManager.h"
+#include "control/ControlModule.h"
 
 /**
  * Plays are included here
  */
-#include "stp/plays/AggressiveStopFormation.h"
-#include "stp/plays/Attack.h"
-#include "stp/plays/AttackingPass.h"
-#include "stp/plays/BallPlacementThem.h"
-#include "stp/plays/BallPlacementUs.h"
-#include "stp/plays/DefendPass.h"
-#include "stp/plays/DefendShot.h"
-#include "stp/plays/DefensiveStopFormation.h"
-#include "stp/plays/FreeKickThem.h"
-#include "stp/plays/GenericPass.h"
-#include "stp/plays/GetBallPossession.h"
-#include "stp/plays/GetBallRisky.h"
-#include "stp/plays/Halt.h"
-#include "stp/plays/KickOffThem.h"
-#include "stp/plays/KickOffThemPrepare.h"
-#include "stp/plays/KickOffUs.h"
-#include "stp/plays/KickOffUsPrepare.h"
-#include "stp/plays/PenaltyThem.h"
-#include "stp/plays/PenaltyThemPrepare.h"
-#include "stp/plays/PenaltyUs.h"
-#include "stp/plays/PenaltyUsPrepare.h"
+#include "stp/plays/referee_specific/AggressiveStopFormation.h"
+#include "stp/plays/offensive/Attack.h"
+#include "stp/plays/offensive/AttackingPass.h"
+#include "stp/plays/referee_specific/BallPlacementThem.h"
+#include "stp/plays/referee_specific/BallPlacementUs.h"
+#include "stp/plays/defensive/DefendPass.h"
+#include "stp/plays/defensive/DefendShot.h"
+#include "stp/plays/referee_specific/DefensiveStopFormation.h"
+#include "stp/plays/referee_specific/FreeKickThem.h"
+#include "stp/plays/offensive/GenericPass.h"
+#include "stp/plays/contested/GetBallPossession.h"
+#include "stp/plays/contested/GetBallRisky.h"
+#include "stp/plays/referee_specific/Halt.h"
+#include "stp/plays/referee_specific/KickOffThem.h"
+#include "stp/plays/referee_specific/KickOffThemPrepare.h"
+#include "stp/plays/referee_specific/KickOffUs.h"
+#include "stp/plays/referee_specific/KickOffUsPrepare.h"
+#include "stp/plays/referee_specific/PenaltyThem.h"
+#include "stp/plays/referee_specific/PenaltyThemPrepare.h"
+#include "stp/plays/referee_specific/PenaltyUs.h"
+#include "stp/plays/referee_specific/PenaltyUsPrepare.h"
 #include "stp/plays/ReflectKick.h"
-#include "stp/plays/TestPlay.h"
-#include "stp/plays/TimeOut.h"
 
 rtt::AI::AI(int id) : settings(id) {
   plays = std::vector<std::unique_ptr<rtt::ai::stp::Play>>{};
@@ -73,34 +78,36 @@ proto::AICommand rtt::AI::decidePlay() {
     return proto::AICommand();
   }
   world::World * _world = world.get();//TODO: fix ownership, why are we handing out a raw pointer? Maybe const& to unique_ptr makes more sense
-  playChecker.update(_world);
 
-  // Here for manual change with the interface
-//  if(playDecider.interfacePlayChanged) { //TODO: is this still relevant? We need to write interface handler anyways
-//    auto validPlays = playChecker.getValidPlays();
-//    currentPlay = playDecider.decideBestPlay(_world, validPlays);
-//    currentPlay->updateWorld(_world);
-//    currentPlay->initialize();
-//    playDecider.interfacePlayChanged = false;
-//  }
+  playEvaluator.clearGlobalScores(); //reset all evaluations
+  ai::stp::PositionComputations::calculatedScores.clear();
+  ai::stp::PositionComputations::calculatedWallPositions.clear();
 
-  // A new play will be chosen if the current play is not valid to keep
-  if (!currentPlay || !currentPlay->isValidPlayToKeep(_world)) {
-    auto validPlays = playChecker.getValidPlays();
-    if (validPlays.empty()) {
-      RTT_ERROR("No valid plays")
-      currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
-      if (!currentPlay) {
-        return proto::AICommand();
-      }
-    } else {
-      currentPlay = playDecider.decideBestPlay(_world, validPlays);
+  playEvaluator.update(_world);
+  playChecker.update(playEvaluator);
+
+
+
+// A new play will be chosen if the current play is not valid to keep
+    if (!currentPlay || !currentPlay->isValidPlayToKeep(playEvaluator)) {
+        auto validPlays = playChecker.getValidPlays();
+        ai::stp::gen::PlayInfos previousPlayInfo{};
+        if(currentPlay) currentPlay->storePlayInfo(previousPlayInfo);
+
+        if (validPlays.empty()) {
+            RTT_ERROR("No valid plays")
+            currentPlay = playChecker.getPlayForName("Defend Shot"); //TODO Try out different default plays so both teams dont get stuck in Defend Shot when playing against yourself
+            if (!currentPlay) {
+                return proto::AICommand();
+            }
+        } else {
+            currentPlay = playDecider.decideBestPlay(validPlays, playEvaluator);
+        }
+        currentPlay->updateWorld(_world);
+        currentPlay->initialize(previousPlayInfo);
     }
-    currentPlay->updateWorld(_world);
-    currentPlay->initialize();
-  }
+    currentPlay->update();
 
-  currentPlay->update();
   auto commands = ai::control::ControlModule::sendAllCommands(settings); //TODO: no more statics
   proto::AICommand ai_command;
   for(const auto& command : commands){

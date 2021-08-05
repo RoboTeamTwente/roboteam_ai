@@ -5,7 +5,6 @@
 #ifndef RTT_MANUALCONTROLWIDGET_H
 #define RTT_MANUALCONTROLWIDGET_H
 
-#include "interface/api/Toggles.h"
 #include <QWidget>
 #include <thread>
 #include "manual/JoystickManager.h"

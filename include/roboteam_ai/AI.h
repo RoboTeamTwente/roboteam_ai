@@ -43,6 +43,8 @@ class AI {
    */
   rtt::ai::stp::PlayDecider playDecider;
 
+  rtt::ai::stp::PlayEvaluator playEvaluator;
+
   /**
    * The vector that contains all plays
    */

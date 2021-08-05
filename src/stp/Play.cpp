@@ -131,14 +131,6 @@ namespace rtt::ai::stp {
         return lastScore.value_or(0);
     }
 
-bool Play::isValidPlayToStart(world::World* world) const noexcept {
-    if (!ignore_invariants()) {
-        world::Field field = world->getField().value();
-        return std::all_of(startPlayInvariants.begin(), startPlayInvariants.end(), [world, field](auto& x) { return x->checkInvariant(world->getWorld().value(), &field); });
-    } else {
-        return true;
-    }
-}
     void Play::storePlayInfo(gen::PlayInfos &previousPlayInfo) noexcept {}
 
     bool Play::shouldEndPlay() noexcept { return false; }
