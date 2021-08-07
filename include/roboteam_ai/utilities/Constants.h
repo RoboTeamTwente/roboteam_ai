@@ -2,7 +2,6 @@
 #ifndef ROBOTEAM_AI_CONSTANTS_H
 #define ROBOTEAM_AI_CONSTANTS_H
 
-#include <QColor>
 #include <map>
 #include <vector>
 #include "RuleSet.h"
@@ -129,16 +128,6 @@ typedef std::tuple<double, double, double> pidVals;
 
     static bool ROBOT_HAS_WORKING_DRIBBLER(int id);
     static bool ROBOT_HAS_WORKING_BALL_SENSOR(int id);
-
-    static QColor FIELD_COLOR();
-    static QColor FIELD_LINE_COLOR();
-    static QColor ROBOT_COLOR_BLUE();    // Blue
-    static QColor ROBOT_COLOR_YELLOW();  // Yellow
-    static QColor BALL_COLOR();          // Orange
-    static QColor TEXT_COLOR();
-    static QColor SELECTED_ROBOT_COLOR();
-
-    static std::vector<QColor> TACTIC_COLORS();
 
     // Default PID values for the gotoposses/interface
     static pidVals standardNumTreePID();

@@ -73,14 +73,14 @@ proto::Handshake AppSettings::getButtonDeclarations() const {
   //referee ip
   proto::UiOptionDeclarations declarations;
   proto::UiOptionDeclaration ref_ip_textbox;
-  ref_ip_textbox.set_name("referee_ip");
+  ref_ip_textbox.set_path("referee_ip");
   ref_ip_textbox.set_is_mutable(false);
   proto::TextField ref_ip_text;
   ref_ip_text.set_text(referee_ip);
   ref_ip_textbox.mutable_textfield()->CopyFrom(ref_ip_text);
   //referee port
   proto::UiOptionDeclaration ref_port_textbox;
-  ref_port_textbox.set_name("referee_port");
+  ref_port_textbox.set_path("referee_port");
   ref_port_textbox.set_is_mutable(false);
   proto::TextField ref_port_text;
   ref_port_text.set_text(std::to_string(referee_port));
@@ -88,7 +88,7 @@ proto::Handshake AppSettings::getButtonDeclarations() const {
 
   // serial mode dropdown
   proto::UiOptionDeclaration serial_mode_dropdown;
-  serial_mode_dropdown.set_name("serial_mode");
+  serial_mode_dropdown.set_path("serial_mode");
   serial_mode_dropdown.set_is_mutable(false);
   proto::Dropdown dropdown;
   dropdown.set_text("serial_mode");

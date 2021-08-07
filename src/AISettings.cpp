@@ -58,7 +58,7 @@ std::string AISettings::name() const {
 proto::Handshake AISettings::getButtonDeclarations() const{
 
   proto::UiOptionDeclaration pause_button;
-  pause_button.set_name("pause_button");
+  pause_button.set_path("pause_button");
   pause_button.set_is_mutable(false);
   proto::Checkbox pause_box;
   pause_box.set_text("Pause");
@@ -66,7 +66,7 @@ proto::Handshake AISettings::getButtonDeclarations() const{
   pause_button.mutable_checkbox()->CopyFrom(pause_box);
 
   proto::UiOptionDeclaration listen_to_referee_button;
-  listen_to_referee_button.set_name("listen_to_referee_button");
+  listen_to_referee_button.set_path("listen_to_referee_button");
   listen_to_referee_button.set_is_mutable(false);
   proto::Checkbox referee_box;
   referee_box.set_text("Listen to Referee");
@@ -74,7 +74,7 @@ proto::Handshake AISettings::getButtonDeclarations() const{
   listen_to_referee_button.mutable_checkbox()->CopyFrom(referee_box);
 
   proto::UiOptionDeclaration side_button;
-  side_button.set_name("side_button");
+  side_button.set_path("side_button");
   side_button.set_is_mutable(true);
   proto::Checkbox side_box;
   side_box.set_text("We play left");
@@ -82,7 +82,7 @@ proto::Handshake AISettings::getButtonDeclarations() const{
   side_button.mutable_checkbox()->CopyFrom(side_box);
 
   proto::UiOptionDeclaration color_button;
-  color_button.set_name("color_button");
+  color_button.set_path("color_button");
   color_button.set_is_mutable(true);
   proto::Checkbox color_box;
   color_box.set_text("We are the yellow team");

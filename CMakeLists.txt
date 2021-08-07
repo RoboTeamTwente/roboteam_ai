@@ -3,13 +3,8 @@ project(roboteam_ai)
 
 add_subdirectory(src)
 
-set(CMAKE_AUTORCC OFF)
-set(CMAKE_AUTOUIC OFF)
-set(CMAKE_INCLUDE_CURRENT_DIR OFF) #Find includes in corresponding build directories
-
 #for MacOS X or iOS, watchOS, tvOS(since 3.10.3)
 if (APPLE)
-    set(CMAKE_AUTOMOC OFF)
     set(GTEST_LIB
             /usr/local/lib/libgtest.a
             /usr/local/lib/libgtest_main.a
@@ -17,13 +12,10 @@ if (APPLE)
             /usr/local/lib/libgmock_main.a
             )
 else (NOT APPLE)
-    set(CMAKE_AUTOMOC ON)
     set(GTEST_LIB
             PRIVATE gtest
             PRIVATE gmock)
 endif ()
-
-find_package(Qt5 COMPONENTS Core Widgets Gui Charts REQUIRED)
 
 
 set(UTILS_SOURCES
@@ -220,17 +212,6 @@ set(TEST_SOURCES
         ${PROJECT_SOURCE_DIR}/test/StpTests/TacticTests.cpp
         test/ControlTests/BBTrajectory/BBTrajectory1DTest.cpp)
 
-set(INTERFACE_HEADERS
-        #QT wants to know about these headers
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/mainWindow.h
-        ${PROJECT_SOURCE_DIR}/include/roboteam_ai/interface/widgets/ManualControlWidget.h
-        )
-
-set(INTERFACE_SOURCES
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/mainWindow.cpp
-        ${PROJECT_SOURCE_DIR}/src/interface/widgets/ManualControlWidget.cpp
-        )
-
 set(WORLD_SOURCES
         ${PROJECT_SOURCE_DIR}/src/world/FieldComputations.cpp
         ${PROJECT_SOURCE_DIR}/src/world/Field.cpp
@@ -261,13 +242,9 @@ set(AI_SOURCES
         ${COMPUTATION_SOURCES}
         src/AISettings.cpp
         src/AppSettings.cpp
-        )
+        src/InterfaceSetting.cpp)
 
 set(AI_LIBS
-        PRIVATE Qt5::Core
-        PRIVATE Qt5::Widgets
-        PRIVATE Qt5::Gui
-        PRIVATE Qt5::Charts
         PRIVATE roboteam_utils
         PRIVATE NFParam
         PRIVATE SDL2
@@ -278,18 +255,6 @@ set(AI_INCLUDES
         PRIVATE include/roboteam_ai
         )
 
-# Apple-specific fixes and separate out old interface for performance
-if(APPLE)
-    # AUTOMOC is borked on CMAKE 3.21.0 + moc 5.15.2 + libprotoc 3.17.3
-    # AUTOMOC tries to moc *.pb.h and fails because ./moc dislikes strange enums?
-    QT5_WRAP_CPP(ai_iface_moc ${INTERFACE_HEADERS})
-    add_library(ai_iface ${ai_iface_moc})
-else()
-    add_library(ai_iface ${INTERFACE_HEADERS})
-endif()
-
-target_link_libraries(ai_iface ${AI_LIBS})
-target_include_directories(ai_iface ${AI_INCLUDES})
 
 add_library(ai_lib ${AI_SOURCES})
 target_link_libraries(ai_lib ${AI_LIBS})
@@ -297,7 +262,7 @@ target_include_directories(ai_lib ${AI_INCLUDES})
 
 # Main Executable
 add_executable(roboteam_ai src/roboteam_ai.cpp)
-target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib ai_iface)
+target_link_libraries(roboteam_ai ${AI_LIBS} ai_lib)
 target_include_directories(roboteam_ai ${AI_INCLUDES})
 
 # Testing #
