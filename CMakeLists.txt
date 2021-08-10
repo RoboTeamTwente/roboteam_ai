@@ -242,7 +242,9 @@ set(AI_SOURCES
         ${COMPUTATION_SOURCES}
         src/AISettings.cpp
         src/AppSettings.cpp
-        src/InterfaceSetting.cpp)
+#        src/interface/InterfaceSettings.cpp
+        src/interface/Interface.cpp
+        src/interface/InterfaceValue.cpp src/interface/InterfaceSettings.cpp include/roboteam_ai/interface/InterfaceDeclaration.h src/interface/InterfaceDeclarations.cpp src/interface/InterfaceDeclaration.cpp)
 
 set(AI_LIBS
         PRIVATE roboteam_utils

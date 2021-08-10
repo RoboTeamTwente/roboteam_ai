@@ -62,32 +62,32 @@ proto::Handshake AISettings::getButtonDeclarations() const{
   pause_button.set_is_mutable(false);
   proto::Checkbox pause_box;
   pause_box.set_text("Pause");
-  pause_box.set_default_(is_paused);
-  pause_button.mutable_checkbox()->CopyFrom(pause_box);
+//  pause_box.set_default_(is_paused);
+//  pause_button.mutable_checkbox()->CopyFrom(pause_box);
 
   proto::UiOptionDeclaration listen_to_referee_button;
   listen_to_referee_button.set_path("listen_to_referee_button");
   listen_to_referee_button.set_is_mutable(false);
   proto::Checkbox referee_box;
   referee_box.set_text("Listen to Referee");
-  referee_box.set_default_(listenToReferee);
-  listen_to_referee_button.mutable_checkbox()->CopyFrom(referee_box);
+//  referee_box.set_default_(listenToReferee);
+//  listen_to_referee_button.mutable_checkbox()->CopyFrom(referee_box);
 
   proto::UiOptionDeclaration side_button;
   side_button.set_path("side_button");
   side_button.set_is_mutable(true);
   proto::Checkbox side_box;
   side_box.set_text("We play left");
-  side_box.set_default_(is_left);
-  side_button.mutable_checkbox()->CopyFrom(side_box);
+//  side_box.set_default_(is_left);
+//  side_button.mutable_checkbox()->CopyFrom(side_box);
 
   proto::UiOptionDeclaration color_button;
   color_button.set_path("color_button");
   color_button.set_is_mutable(true);
   proto::Checkbox color_box;
   color_box.set_text("We are the yellow team");
-  color_box.set_default_(is_yellow);
-  color_button.mutable_checkbox()->CopyFrom(color_box);
+//  color_box.set_default_(is_yellow);
+//  color_button.mutable_checkbox()->CopyFrom(color_box);
 
 
   proto::UiOptionDeclarations declarations;
