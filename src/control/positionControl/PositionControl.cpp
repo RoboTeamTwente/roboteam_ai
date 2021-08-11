@@ -71,7 +71,7 @@ namespace rtt::ai::control {
 
             if (firstCollision.has_value()) {
                 //Create intermediate points, return a collision-free path originating from the best option of these points
-                auto newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, ballAvoidanceDistance, timeStep);
+                std::optional<BB::BBTrajectory2D> newPath = findNewPath(world, field, robotId, currentPosition, currentVelocity, firstCollision, targetPosition, ballAvoidanceDistance, timeStep);
                 if (newPath.has_value()) {
                     //If a new path is found update computedPathsBB
                     computedPathsBB[robotId] = newPath.value();

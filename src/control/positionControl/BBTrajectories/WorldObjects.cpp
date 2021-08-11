@@ -123,7 +123,7 @@ namespace rtt::BB {
             double currentTime = i * timeStep;
             // The <= 2 is used for checking for collisions within 2 seconds
             // TODO: fine tune maximum collision check time
-            if (currentTime <= 2) break;
+            if (currentTime >= 2) break;
             Vector2 ourVel = BBTrajectory.getVelocity(currentTime);
 
             // Loop through all enemy robots
