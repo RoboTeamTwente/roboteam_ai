@@ -12,33 +12,30 @@ namespace rtt::BB {
 
 
 
-    std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
-                                                                 const std::unordered_map<int, std::vector<Vector2>> &computedPaths, std::optional<double> ballAvoidanceDistance, int robotId) {
+    std::optional<CollisionData> WorldObjects::getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field,
+                                                                 const std::unordered_map<int, std::vector<Vector2>> &computedPaths,
+                                                                 const std::unordered_map<int, std::vector<Vector2>> &computedVelocities,
+                                                                 std::optional<double> ballAvoidanceDistance,
+                                                                 int robotId, const double pathTimeStep, const double velTimeStep) {
         gameState = rtt::ai::GameStateManager::getCurrentGameState();
         ruleset = gameState.getRuleSet();
-
-        //TODO: find a good value for the timeStep
-        double timeStep = 0.1;
-        auto pathPoints = BBTrajectory.getPathApproach(timeStep);
 
         std::vector<CollisionData> collisionDatas;
 
         // If the robot can not move outside the field, check if its path goes outside the field
-        calculateFieldCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
+        calculateFieldCollisions(field, collisionDatas, computedPaths.at(robotId), robotId, pathTimeStep);
 
         // If the robot can not move into defense area, check if its path goes into either defense area
-        calculateDefenseAreaCollisions(field, collisionDatas, pathPoints, robotId, timeStep);
+        calculateDefenseAreaCollisions(field, collisionDatas, computedPaths.at(robotId), robotId, pathTimeStep);
 
         // Check if robot is closer to the ball than it is allowed to be
-        calculateBallCollisions(world, collisionDatas, pathPoints, ballAvoidanceDistance, timeStep);
+        calculateBallCollisions(world, collisionDatas, computedPaths.at(robotId), ballAvoidanceDistance, pathTimeStep);
 
         // Loop through all pathPoints for each enemy robot, and check if a point in the path will collide with an enemy robot
-        calculateEnemyRobotCollisions(world, BBTrajectory, collisionDatas, pathPoints, timeStep);
+        calculateEnemyRobotCollisions(world, collisionDatas, computedPaths.at(robotId), computedVelocities.at(robotId), pathTimeStep, velTimeStep);
 
         // For each path already calculated, check if this path collides with those paths
-        calculateOurRobotCollisions(world, collisionDatas, pathPoints, computedPaths, robotId, timeStep);
-
-
+        calculateOurRobotCollisions(world, collisionDatas, computedPaths.at(robotId), computedPaths, robotId, pathTimeStep);
 
         if(!collisionDatas.empty()) {
             return collisionDatas[0];
@@ -113,18 +110,18 @@ namespace rtt::BB {
     }
 
     void
-    WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
-                                                const std::vector<Vector2> &pathPoints, double timeStep) {
+    WorldObjects::calculateEnemyRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
+                                                const std::vector<Vector2> &velocityPoints, double pathTimeStep, double velTimeStep) {
         const std::vector<world::view::RobotView> theirRobots = world->getWorld()->getThem();
 
         // Loop through all pathPoints
         for (int i = 0; i < pathPoints.size(); i++) {
 
-            double currentTime = i * timeStep;
-            // The <= 2 is used for checking for collisions within 2 seconds
+            double currentTime = i * pathTimeStep;
+            // The >= 2 is used for checking for collisions within 2 seconds
             // TODO: fine tune maximum collision check time
             if (currentTime >= 2) break;
-            Vector2 ourVel = BBTrajectory.getVelocity(currentTime);
+            Vector2 ourVel = velocityPoints.at((int)((double)i * pathTimeStep / velTimeStep));
 
             // Loop through all enemy robots
             for (const auto &theirRobot : theirRobots) {
@@ -133,7 +130,7 @@ namespace rtt::BB {
                 // Calculate enemy robot prediction
                 // TODO: improve position prediction. Current model uses x + v*t
                 Vector2 theirPos = theirRobot->getPos() + theirVel * currentTime;
-                Vector2 posDif = BBTrajectory.getPosition(currentTime) - theirPos;
+                Vector2 posDif = pathPoints.at(i) - theirPos;
 
                 // TODO: fine tune avoidance distance
                 if (posDif.length() < 3 * ai::Constants::ROBOT_RADIUS_MAX()) {
@@ -145,7 +142,7 @@ namespace rtt::BB {
                     double projectLength = velDif.dot(posDif) / posDif.length();
                     // TODO: fine tune allowed speed difference
                     if (abs(projectLength) > 1.5 && theirVel.length() < ourVel.length()) {
-                        insertCollisionData(collisionDatas,CollisionData{theirPos, pathPoints[i], i * timeStep, "EnemyRobotCollision"});
+                        insertCollisionData(collisionDatas,CollisionData{theirPos, pathPoints[i], i * pathTimeStep, "EnemyRobotCollision"});
                         return;
                     }
                 }

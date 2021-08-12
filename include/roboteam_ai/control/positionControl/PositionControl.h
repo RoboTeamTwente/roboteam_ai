@@ -29,7 +29,7 @@ namespace rtt::ai::control {
         NumTreesPlanning pathPlanningAlgorithm = NumTreesPlanning(collisionDetector);
         PidTracking pathTrackingAlgorithm;
 
-        std::unordered_map<int, BB::BBTrajectory2D> computedPathsBB;
+        std::unordered_map<int, std::pair<std::optional<BB::BBTrajectory2D>,std::optional<BB::BBTrajectory2D>>> computedPathsBB;
         std::unordered_map<int, std::vector<Vector2>> computedPaths;
         std::unordered_map<int, std::vector<Vector2>> computedVelocities;
 
@@ -97,7 +97,8 @@ namespace rtt::ai::control {
          * @return A bool which is true if the path needs to be recalculated
          */
         bool shouldRecalculateBBTPath(const rtt::world::World *world, const rtt::world::Field &field,
-                                      const Vector2 &currentPosition, const Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId);
+                                      const Vector2 &currentPosition, const Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId,
+                                      const double pathTimeStep, const double velTimeStep);
 
         /**
          * @brief Calculates the velocities for tracking the path. Edits the velocity in the
@@ -125,9 +126,9 @@ namespace rtt::ai::control {
          * @param timeStep the time between path points when approaching the path
          * @return An optional with a new bang bang trajectory
          */
-        std::optional<BB::BBTrajectory2D>
+        std::pair<std::optional<BB::BBTrajectory2D>,std::optional<BB::BBTrajectory2D>>
         findNewPath(const rtt::world::World *world, const rtt::world::Field &field, int robotId, Vector2 &currentPosition, Vector2 &currentVelocity,
-                    std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance,  double timeStep);
+                    std::optional<BB::CollisionData> &firstCollision, Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance,  double pathTimeStep, double velTimeStep);
 
         /**
          * Creates intermediate points to make a path to. First, a pointToDrawFrom is picked by drawing a line
@@ -169,7 +170,9 @@ namespace rtt::ai::control {
          */
         std::optional<BB::BBTrajectory2D>
         calculatePathFromNewStart(const rtt::world::World *world, const rtt::world::Field &field, BB::BBTrajectory2D pathToIntermediatePoint,
-                                  Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId, double timeStep);
+                                  Vector2 &targetPosition, std::optional<double> ballAvoidanceDistance, int robotId, double pathTimeStep, double velTimeStep);
+
+        void makeApproaches(int robotId, double pathTimeStep, double velTimeStep);
     };
 
 }  // namespace rtt::ai::control

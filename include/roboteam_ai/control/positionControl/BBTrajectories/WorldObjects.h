@@ -64,9 +64,11 @@ namespace rtt::BB {
          * @param robotId
          * @return optional with rtt::BB::CollisionData
          */
-        std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field, const BBTrajectory2D &BBTrajectory,
+        std::optional<CollisionData> getFirstCollision(const rtt::world::World *world, const rtt::world::Field &field,
                                                        const std::unordered_map<int, std::vector<Vector2>> &computedPaths,
-                                                       std::optional<double> ballAvoidanceDistance, int robotId);
+                                                       const std::unordered_map<int, std::vector<Vector2>> &computedVelocities,
+                                                       std::optional<double> ballAvoidanceDistance,
+                                                       int robotId, const double pathTimeStep, const double velTimeStep);
 
         /**
          * @brief Takes a calculated path of a robot and checks points along the path if they are outside the
@@ -116,8 +118,8 @@ namespace rtt::BB {
          * @param pathPoints, std::vector with path points
          * @param timeStep in seconds
          */
-        void calculateEnemyRobotCollisions(const rtt::world::World *world, rtt::BB::BBTrajectory2D BBTrajectory, std::vector<CollisionData> &collisionDatas,
-                                           const std::vector<Vector2> &pathPoints, double timeStep);
+        void calculateEnemyRobotCollisions(const rtt::world::World *world, std::vector<CollisionData> &collisionDatas, const std::vector<Vector2> &pathPoints,
+                                           const std::vector<Vector2> &velocityPoints, double pathTimeStep, double velTimeStep);
 
         /**
          * @brief Takes a path from the array of stored paths and checks points along the path if they are too close to
