@@ -46,7 +46,7 @@ namespace rtt::BB {
                                                 int robotId, double timeStep) {
         if (!canMoveOutsideField(robotId)) {
             // Loop through all pathPoints and check if the point is outside the field
-            for (int i = 0; i<pathPoints.size(); i++) {
+            for (int i = 0; i < pathPoints.size(); i++) {
                 if (!rtt::ai::FieldComputations::pointIsInField(field, pathPoints[i], rtt::ai::Constants::ROBOT_RADIUS())) {
                     // The obstaclePosition and collisionPosition are saved as the same location
                     insertCollisionData(collisionDatas,CollisionData{pathPoints[i], pathPoints[i], i * timeStep, "FieldCollision"});
@@ -61,7 +61,7 @@ namespace rtt::BB {
                                                  int robotId, double timeStep) {
         if (!canEnterDefenseArea(robotId)) {
             // Loop through all pathPoints and check if the point is inside our or their defense area
-            for (int i = 0; i<pathPoints.size(); i++) {
+            for (int i = 0; i < pathPoints.size(); i++) {
                 if (rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], true, 0) ||
                     rtt::ai::FieldComputations::pointIsInDefenseArea(field, pathPoints[i], false,
                                                                      0.2 + rtt::ai::Constants::ROBOT_RADIUS())) {
